@@ -3,7 +3,7 @@
 /* Top-heading Space */
 
 h3.margin_zero {
-    margin-top: 0px;
+  margin: 15px 12px 0 !important;
   }
   
   h3.dedupe_head {
@@ -269,7 +269,7 @@ h3.margin_zero {
   /* Top-heading Space */
   
   h3.margin_zero {
-    margin-top: 0px;
+    margin: 15px 12px 0 !important;
   }
   
   h3.dedupe_head {
@@ -500,6 +500,10 @@ h3.margin_zero {
 
   .input-upper {
     text-transform: uppercase;
+  }
+
+  input[type="radio"] {
+    cursor: pointer;
   }
   
   /*Mobile View*/

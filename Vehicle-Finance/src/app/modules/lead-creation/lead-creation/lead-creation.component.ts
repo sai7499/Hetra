@@ -75,6 +75,7 @@ export class LeadCreationComponent implements OnInit {
   isSourceCode: boolean = true;
   isDealerCode: boolean;
   sourchingTypeId: string;
+  productCode: string;
 
 
   obj = {};
@@ -293,6 +294,7 @@ export class LeadCreationComponent implements OnInit {
     this.fundingProgramData = [];
     console.log('productChange', event.target.value);
     const productChange = event.target.value;
+    this.productCode = event.target.value;
     this.createLeadService
       .fundingPrograming(productChange)
       .subscribe((res: any) => {
@@ -414,7 +416,7 @@ export class LeadCreationComponent implements OnInit {
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
     this.createLeadService
-      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
+      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
       .subscribe((res: any) => {
         const response = res;
         const appiyoError = response.Error;

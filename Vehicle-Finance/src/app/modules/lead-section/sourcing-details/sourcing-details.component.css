@@ -115,6 +115,10 @@ h3.dedupe_head {
   margin-left: 15px;
 }
 
+.multisteps-form__form .child-loan-label{
+  margin-left: 5px !important;
+}
+
 label.col-form-label {
   width: 50%;
   padding-right: 20px;

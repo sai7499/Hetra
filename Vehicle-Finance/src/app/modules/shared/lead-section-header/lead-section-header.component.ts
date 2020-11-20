@@ -220,7 +220,8 @@ export class LeadSectionHeaderComponent implements OnInit {
             const message = response.ProcessVariables.error.message;
             this.toasterService.showError(message, 'Lead Creation');
           }
-        }
+        },
+        (error) => console.log('Lead Histroy Error', error)
       );
   }
 

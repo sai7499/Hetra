@@ -12,42 +12,171 @@
       <form [formGroup]="childLoanForm">
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="business_division">{{labels.ucicId}}<sub class="star_red_col">*</sub>
-            </label>
-            <app-custom-input
-              formControlName="ucic" 
-              [className]="'form-control mandatory'"
-              [placeholder]="'UCIC'"              
-              [isRequired]="'UCIC mandatory'"              
-              [type]="'number'">
-            </app-custom-input>
-          </div>
-
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">{{labels.loanAccNumber}}
+            <label for="product_type">{{labels?.loanAccNumber}}
               <sub class="star_red_col">*</sub></label>
-              <app-custom-input
+            <app-custom-input 
+              [isDirty]="isDirty"
               formControlName="loanAccountNumber" 
-              [className]="'form-control mandatory'"
-              [placeholder]="'Loan account number'"              
-              [isRequired]="'Loan account number mandatory'"              
-              [type]="'number'">
+              [className]="'form-control mandatory'" 
+              [placeholder]="'Loan account number'"
+              [isRequired]="'Loan account number mandatory'" 
+              [patternCheck]="labels?.validationData?.accountNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.accountNumber?.maxLength"
+              [type]="labels?.validationData?.accountNumber?.type">
             </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">{{labels.registartionNumber}}
+            <label for="product_type">{{labels?.registartionNumber}}
               <sub class="star_red_col">*</sub></label>
-              <app-custom-input
+            <app-custom-input 
+              [isDirty]="isDirty"
               formControlName="vehicleRegistrationNumber" 
               [className]="'form-control mandatory'"
-              [placeholder]="'Vehicle registration number'"              
-              [isRequired]="'Vehicle registration Number mandatory'"              
-              [type]="'text'"
-              [inputClass]="'input-upper'"
+              [placeholder]="'Vehicle registration number'" 
+              [isRequired]="'Vehicle registration Number mandatory'"
+              [type]="labels?.validationData?.vehicleRegNo?.type" 
+              [inputClass]="'text-uppercase'" 
               [minLength]="labels?.validationData?.vehicleRegNo?.minLength"
-              [maxLength]="labels?.validationData?.vehicleRegNo?.maxLength"
+              [maxLength]="labels?.validationData?.vehicleRegNo?.maxLength" 
               [custom]="vehicleRegPattern">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="business_division">{{labels?.ucicId}}<sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="ucic" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'UCIC'"
+              [isRequired]="'UCIC mandatory'" 
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="business_division">{{labels?.aadharnumber}}<sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="aadhaar" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'Aadhaar'"
+              [isRequired]="'Aadhaar Number mandatory'" 
+              [type]="'number'">
+            </app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.pannumber}}
+              <sub class="star_red_col">*</sub></label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="pan" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'Pan'"
+              [isRequired]="'Pan Number mandatory'" 
+              [patternCheck]="labels?.validationData?.panNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.panNumber?.maxLength" 
+              [inputClass]="'text-uppercase'"
+              [type]="labels?.validationData?.panNumber?.type">
+            </app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.drivingLicenseNumber}}
+              <sub class="star_red_col">*</sub></label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="drivingLicense" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'Driving License'"
+              [isRequired]="'Driving License mandatory'" 
+              [patternCheck]="labels?.validationData?.drivingLicense?.patternCheck"
+              [maxLength]="labels?.validationData?.drivingLicense?.maxLength" 
+              [inputClass]="'text-uppercase'"
+              [type]="labels?.validationData?.drivingLicense?.type">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.voterIdNumber}}
+              <sub class="star_red_col">*</sub></label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="voterId" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'Voter Id'"
+              [isRequired]="'Voter Id mandatory'" 
+              [patternCheck]="labels?.validationData?.voterId?.patternCheck"
+              [maxLength]="labels?.validationData?.voterId?.maxLength"
+              [inputClass]="'text-uppercase'"
+              [type]="labels?.validationData?.voterId?.type">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.passportNumber}}
+              <sub class="star_red_col">*</sub></label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="passport" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'Passport Number'"
+              [isRequired]="'Passport Number mandatory'" 
+              [patternCheck]="labels?.validationData?.passportNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.passportNumber?.maxLength" 
+              [inputClass]="'text-uppercase'"
+              [type]="labels?.validationData?.passportNumber?.type">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.cinNumber}}
+              <sub class="star_red_col">*</sub></label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="cin" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'CIN Number'"
+              [isRequired]="'CIN Number mandatory'" 
+              [patternCheck]="labels?.validationData?.cinRegNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.cinRegNumber?.maxLength"
+              [inputClass]="'text-uppercase'"
+              [type]="labels?.validationData?.cinRegNumber?.type">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">Tan Number
+              <sub class="star_red_col">*</sub></label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="tan" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'TAN Number'"
+              [isRequired]="'TAN Number mandatory'" 
+              [patternCheck]="labels?.validationData?.panNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.panNumber?.maxLength"
+              [inputClass]="'text-uppercase'"
+              [type]="labels?.validationData?.panNumber?.type">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.gstNumber}}
+              <sub class="star_red_col">*</sub></label>
+            <app-custom-input 
+              [isDirty]="isDirty"
+              formControlName="gst" 
+              [className]="'form-control mandatory'" 
+              [placeholder]="'GST Number'"
+              [isRequired]="'GST Number mandatory'" 
+              [patternCheck]="labels?.validationData?.gstNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.gstNumber?.maxLength"
+              [inputClass]="'text-uppercase'"
+              [type]="labels?.validationData?.gstNumber?.type">
             </app-custom-input>
           </div>
         </div>
@@ -55,12 +184,13 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">Name<sub class="star_red_col">*</sub>
             </label>
-            <app-custom-input
+            <app-custom-input 
+              [isDirty]="isDirty"
               formControlName="name" 
-              [className]="'form-control mandatory'"
-              [placeholder]="'Name'"              
-              [isRequired]="'Name mandatory'"   
-              [maxLength]="nameLength"            
+              [className]="'form-control mandatory'" 
+              [placeholder]="'Name'"
+              [isRequired]="'Name mandatory'" 
+              [maxLength]="nameLength" 
               [type]="'alpha'">
             </app-custom-input>
           </div>
@@ -68,93 +198,156 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{labels.mobile}}
               <sub class="star_red_col">*</sub></label>
-              <app-custom-input
+            <app-custom-input 
+              [isDirty]="isDirty"
               formControlName="mobile" 
-              [className]="'form-control mandatory'"
-              [placeholder]="'Mobile'"              
-              [isRequired]="'Mobile Number mandatory'"  
-              [maxLength]="mobileLength"     
+              [className]="'form-control mandatory'" 
+              [placeholder]="'Mobile'"
+              [isRequired]="'Mobile Number mandatory'" 
+              [maxLength]="mobileLength" 
               [type]="'number'"
               [patternCheck]="labels.validationData?.mobileNumber.pattern">
             </app-custom-input>
           </div>
 
-        </div>
-        <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="business_division">{{labels.aadharnumber}}<sub class="star_red_col">*</sub>
-            </label>
-            <app-custom-input
-              formControlName="aadhaar"
-              [className]="'form-control mandatory'"
-              [placeholder]="'Aadhaar'"              
-              [isRequired]="'Aadhaar Number mandatory'"              
-              [type]="'number'">
-            </app-custom-input>
+            <label for="dob">{{ labels.dateOfBirth }}
+              <sub class="star_red_col">*</sub>
+            </label>        
+            <kendo-datepicker class="form-control mandatory" 
+              formControlName="dateOfBirth" 
+              [format]="'dd/MM/yyyy'"
+              [min]="minAge"
+              [max]="maxAge" 
+              [placeholder]="'Date of birth'"
+              [activeView]="'decade'">
+            </kendo-datepicker>  
+            <div class="invalid-feedback" >
+              <div *ngIf="isDirty && !childLoanForm.controls.dateOfBirth.value">
+                Date is mandatory
+              </div>
+              <div *ngIf="childLoanForm.controls.dateOfBirth.value && childLoanForm.controls.dateOfBirth.errors">
+                Invalid date
+              </div>
+            </div>            
           </div>
 
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="product_type">{{labels.pannumber}}
-              <sub class="star_red_col">*</sub></label>
-              <app-custom-input
-              formControlName="pan"
-              [className]="'form-control mandatory'"
-              [placeholder]="'Pan'"              
-              [isRequired]="'Pan Number mandatory'"              
-              [type]="'alpha-numeric'">
-            </app-custom-input>
-          </div>
-          <div class="btn-sec clear-both">
-            <div class="col-sm-12 text-right">
-              <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" >
-                Search
-              </button>
-            </div>
+        </div>
+        <div class="row btn-sec clear-both">
+          <div class="col-sm-12 text-right">
+            <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
+              Search
+            </button>
           </div>
         </div>
+
       </form>
     </div>
 
-    <div class="content" *ngIf="isSearched">
-    <div class="container-fluid">
-      <div class="row">
-        <div id="wrapper">
-          <table>
-            <thead>
-              <tr class="table-head-bg">
-                <th>Select <i class="fa fa-sort"></i></th>
-                <th>Applicant Name <i class="fa fa-sort"></i></th>
-                <th>Loan Tenure <i class="fa fa-sort"></i></th>
-                <th>Balance Tenure <i class="fa fa-sort"></i></th>
-                <th>Loan Amount <i class="fa fa-sort"></i></th>
-                <th>Balance Amount <i class="fa fa-sort"></i></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td align="center" [attr.data-label]="'Select'">
-                  <input class="checkbox" type="radio" name="selectLead"/>
-                </td>
-                <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
-                <td [attr.data-label]="'Applicant Name'">Applicant Name</td>
-                <td [attr.data-label]="'Loan Tenure'">24</td>
-                <td [attr.data-label]="'Balance Tenure'">8</td>
-                <td [attr.data-label]="'Loan Amount'">2000000</td>
-                <td [attr.data-label]="'Balance Amount'">650000</td>                
-              </tr>
-            </tbody>
-          </table>
-          <div class="btn-sec clear-both btn-mar-reject">
-            <div class="text-center">
-              <button  class="btn btn-primary js-btn-next mar-right8" id="reject_button"
-                type="button" data-toggle="modal" data-target="#proceedModal_without">
-                Create Child Loan
-              </button>
+    <div class="row" *ngIf="isSearched">
+      <div class="col-md-6">
+        <h3 class="margin_zero">Customer Details</h3>
+      </div>
+      <div class="col-md-6 text-right"></div>
+    </div>
+
+    <div class="content" *ngIf="isSearched">      
+      <div class="container-fluid">        
+        <div class="row">
+          <div id="wrapper">
+            <table>
+              <thead>
+                <tr class="table-head-bg">
+                  <th>Select <i class="fa fa-sort"></i></th>
+                  <th>UCIC <i class="fa fa-sort"></i></th>
+                  <th>Customer Name <i class="fa fa-sort"></i></th>
+                  <th>Phone Number <i class="fa fa-sort"></i></th>
+                  <th>Entity <i class="fa fa-sort"></i></th>
+                  <th>DOB <i class="fa fa-sort"></i></th>
+                  <th>Aadhaar <i class="fa fa-sort"></i></th>
+                  <th>PAN Number<i class="fa fa-sort"></i></th>
+                  <th>GST <i class="fa fa-sort"></i></th>
+                  <th>CIN <i class="fa fa-sort"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td align="center" [attr.data-label]="'Select'">
+                    <input class="checkbox" type="radio" name="selectLead" />
+                  </td>
+                  <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
+                  <td [attr.data-label]="'UCIC'">UCIC</td>
+                  <td [attr.data-label]="'Customer Name'">24</td>
+                  <td [attr.data-label]="'Phone Number'">8</td>
+                  <td [attr.data-label]="'Entity'">2000000</td>
+                  <td [attr.data-label]="'DOB'">650000</td>
+                  <td [attr.data-label]="'Aadhaar'">650000</td>
+                  <td [attr.data-label]="'PAN Number'">650000</td>
+                  <td [attr.data-label]="'GST'">650000</td>
+                  <td [attr.data-label]="'CIN'">650000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isSearched">
+      <div class="col-md-6">
+        <h3 class="margin_zero">Loan Account Details</h3>
+      </div>
+      <div class="col-md-6 text-right"></div>
+    </div>
+
+    <div class="content" *ngIf="isSearched">      
+      <div class="container-fluid">        
+        <div class="row">
+          <div id="wrapper">
+            <table>
+              <thead>
+                <tr class="table-head-bg">
+                  <th>Select <i class="fa fa-sort"></i></th>
+                  <th>Loan Account Number <i class="fa fa-sort"></i></th>
+                  <th>Loan Start Date <i class="fa fa-sort"></i></th>
+                  <th>Loan Amount <i class="fa fa-sort"></i></th>
+                  <th>Number of EMIs <i class="fa fa-sort"></i></th>
+                  <th>Seasoning <i class="fa fa-sort"></i></th>
+                  <th>ROI <i class="fa fa-sort"></i></th>
+                  <th>DPD <i class="fa fa-sort"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td align="center" [attr.data-label]="'Select'">
+                    <input class="checkbox" type="radio" name="selectLead" />
+                  </td>
+                  <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
+                  <td [attr.data-label]="'Loan Account Number'">Loan Account Number</td>
+                  <td [attr.data-label]="'Loan Start Date'">24</td>
+                  <td [attr.data-label]="'Loan Amount'">8</td>
+                  <td [attr.data-label]="'Number of EMIs'">2000000</td>
+                  <td [attr.data-label]="'Seasoning'">650000</td>
+                  <td [attr.data-label]="'ROI'">650000</td>
+                  <td [attr.data-label]="'DPD'">650000</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="btn-sec clear-both btn-mar-reject">
+              <div class="text-right">
+                <button class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"
+                  data-toggle="modal" data-target="#proceedModal_without">
+                  Create Child Loan Lead
+                </button>
+                <button class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"
+                  data-toggle="modal" data-target="#proceedModal_without">
+                  View Loan 360
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 </main>

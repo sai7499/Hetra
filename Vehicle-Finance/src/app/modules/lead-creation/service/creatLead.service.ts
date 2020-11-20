@@ -174,7 +174,7 @@ export class CreateLeadService {
         return this.httpService.post(url, body);
     }
 
-    sourcingCode(sourcingCodeType, sourcingCodeSubType, code) {
+    sourcingCode(sourcingCodeType, sourcingCodeSubType, code, productCode?) {
         const processId = this.apiService.api.sourcingCode.processId;
         const workflowId = this.apiService.api.sourcingCode.workflowId;
         const projectId = this.apiService.api.sourcingCode.projectId;
@@ -184,7 +184,8 @@ export class CreateLeadService {
             ProcessVariables: {
                 'sourcingCodeType': sourcingCodeType,
                 'sourcingCodeSubType': sourcingCodeSubType,
-                'code': code
+                'code': code,
+                'productCode': productCode
             },
             workflowId: workflowId,
             projectId: projectId
