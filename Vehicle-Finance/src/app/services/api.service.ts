@@ -965,6 +965,23 @@ export class ApiService {
       processId: 'fd023ccc281411eb857200505695f93b',
       workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
       projectId: environment.projectIds.camProjectId
+    },
+    getAssetRemarks : {
+      processId: 'b9de5b3828fa11eb97ad00505695f93b',
+      workflowId: 'b995a56e28fa11eb8ead00505695f93b',
+      projectId: environment.projectIds.remarksProjectId
+    },
+    saveAssetRemarks : {
+      processId: '124ed4e228b411eb979100505695f93b',
+      workflowId: '11ffd41428b411eb85f300505695f93b',
+      projectId: environment.projectIds.remarksProjectId
+    },
+    assignCPCMaker : {
+      processId: '8a5609aad32e11eaacee00505695f93b',
+      workflowId: '8a1d1abed32e11eaa96700505695f93b',
+      projectId: environment.projectIds.assignCPCMaker
     }
+
+
   };
 }

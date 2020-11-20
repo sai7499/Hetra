@@ -48,6 +48,8 @@ export class InsuranceDetailsComponent implements OnInit {
   motar = 'yes'; // to default check motor insurance radio button
   creditShieldRequired: boolean;
   motorShieldRequired = true;
+  isDirty;
+  permanantPincode;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
