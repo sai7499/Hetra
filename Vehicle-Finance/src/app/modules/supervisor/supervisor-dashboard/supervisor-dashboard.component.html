@@ -37,7 +37,7 @@
                                                 </thead>
                                                 <tbody>
                                                   <tr *ngFor="let role of rolelist;let i = index">
-                                                    <td *ngIf="!rolelist"> <a (click)="onClick(rolelist[i])">{{rolelist[i].roleName}}</a></td>
+                                                    <td *ngIf="role"> <a (click)="onClick(rolelist[i])">{{rolelist[i].roleName}}</a></td>
                                                   </tr>
                                                 </tbody>
                                               </table>
