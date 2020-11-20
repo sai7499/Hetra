@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CpcRolesService } from '@services/cpc-roles.service';
+import { LoginStoreService } from '@services/login-store.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { ToasterService } from '@services/toaster.service';
 import { promise } from 'protractor';
@@ -20,17 +21,24 @@ export class RemarksComponent implements OnInit {
   formvalue: any;
   showModalApprove : boolean = false;
   showSendCredit : boolean = false;
+  roleType : any;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private cpcService: CpcRolesService,
     private toasterService: ToasterService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private loginStoreService: LoginStoreService,
 
   ) { }
 
   async ngOnInit() {
+
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleType = value.roleType;
+      console.log('role Type', this.roleType);
+    });
     this.initForm();
     this.leadId = (await this.getLeadId()) as number;
     console.log('lead id', this.leadId)
@@ -82,7 +90,10 @@ export class RemarksComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigateByUrl(`pages/cpc-maker/${this.leadId}/check-list`)
+    if(this.roleType=='7'){
+      this.router.navigateByUrl(`pages/cpc-maker/${this.leadId}/check-list`)
+    }
+    
   }
 
   onsave() {
