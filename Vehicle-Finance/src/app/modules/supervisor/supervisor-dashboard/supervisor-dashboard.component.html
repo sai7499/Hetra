@@ -39,7 +39,7 @@
                              </div>
                              <div *ngIf="node.userId==roleUserID" class="child-list"> 
                                <div class="child-container">
-                                   <table class="supervisor-data-table table">
+                                   <table class="supervisor-data-table ">
                                        <thead>
                                          <tr>
                                          </tr>
@@ -66,9 +66,12 @@
                                   </mat-icon>
                                 </button>
                                 <!-- Parent datas -->
-                              <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</span>  
+                              <!-- <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</span>   -->
+
+                              <div (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</div>  
+                                <div style="margin: 20px;"></div>
                               <div *ngIf="node.userId==roleUserID" class="parent-list"> 
-                                <div class="parent-container">
+                                <div class="parent-container" style="margin-left: 5vw;">
                                    <table class="supervisor-data-table">
                                        <thead>
                                          <tr>

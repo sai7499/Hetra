@@ -1,11 +1,11 @@
 <main class="mar-top90">
   <div class="container-fluid">
     <div *ngIf="supervisorName" style="float: left; margin-left: 5px;">
-      <h4>{{supervisorName}} dashboard</h4>
+      <h4>Viewing {{supervisorName}}'s Dashboard</h4>
     </div>
     <div class="pull-right dropdown nav">
       <div class="pull-right dropdown nav">
-        
+
         <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
           class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
@@ -22,9 +22,9 @@
           Initiate Query &nbsp;
           <i class="fa fa-bell cus-bell font-medium-3"></i><span class="notification badge badge-pill badge-danger"
             *ngIf="leadCount && leadCount !== 0">{{leadCount}}</span>
-         
+
         </button>
-         
+
       </div>
 
     </div>
@@ -425,8 +425,8 @@
         *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab">
         <thead>
           <tr class="table-head-bg">
-            <th *ngIf="userName">{{labels?.action}}</th>
-            <th *ngIf="(onReleaseTab || onAssignTab) && !userName">{{labels?.action}}</th>
+            <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
+            <!-- <th *ngIf="(onReleaseTab || onAssignTab) && !userName">{{labels?.action}}</th> -->
             <th>{{labels?.leadID}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
                 (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
             <th>{{labels?.applicantName}} </th>
@@ -465,34 +465,35 @@
                 value="Assign" data-toggle="modal" data-target="#assignModel" />
             </td>
             <!--  -->
-            <td [attr.data-label]="labels?.action" *ngIf="userName && (!onReleaseTab && !onAssignTab)">
-              <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
-                (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
-                value="Release" data-toggle="modal" data-target="#releaseModal"> -->
+            <!-- <td [attr.data-label]="labels?.action" *ngIf="userName && (onReleaseTab || onAssignTab)">
+              
               <input type="button" *ngIf="selfAssign" style="margin-top: 5px;"
-                (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
-              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)"
-                class="btn btn-primary" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
-            </td>
+                (click)="onSelfAssignClick(item.taskId)" data-toggle="modal"
+                data-target="#confirmTaskAssign" class="btn btn-primary" value="Self Assign">
+              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)" class="btn btn-primary"
+                value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+            </td> -->
             <td [attr.data-label]="labels?.action" *ngIf="userName && onReleaseTab">
               <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
                 value="Release" data-toggle="modal" data-target="#releaseModal"> -->
               <input type="button" *ngIf="selfAssign" style="margin-top: 5px;"
-                (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
-              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)"
-                class="btn btn-primary" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+                (click)="onSelfAssignClick(item.taskId)" data-toggle="modal"
+                data-target="#confirmTaskAssign" class="btn btn-primary" value="Self Assign">
+              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)" class="btn btn-primary"
+                value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
             </td>
-            
+
             <!--  -->
             <td [attr.data-label]="labels?.action" *ngIf="userName && onAssignTab">
               <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
                 (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                 value="Assign" data-toggle="modal" data-target="#assignModel" /> -->
               <input type="button" *ngIf="selfAssign" style="margin-top: 5px;"
-                (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
-              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)"
-                class="btn btn-primary" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+                (click)="onSelfAssignClick(item.taskId)" data-toggle="modal"
+                data-target="#confirmTaskAssign" class="btn btn-primary" value="Self Assign">
+              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)" class="btn btn-primary"
+                value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
             </td>
             <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && !onAssignTab">
               <a class="text-underline"
@@ -644,7 +645,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Task Assign</h4>
+          <h4 class="modal-title">Assign task to</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
@@ -655,8 +656,8 @@
           <form [formGroup]="supervisorForm">
             <select formControlName="roles" class="form-control">
               <option value=''>-- select one --</option>
-              <option *ngFor="let role of userData" [value]="role">
-                {{role}}
+              <option *ngFor="let role of userData" [value]="role.key">
+                {{role.value}}
               </option>
             </select>
           </form>
@@ -678,7 +679,8 @@
 
         </div>
         <div class="modal-footer text-center">
-          <button type="button" class="btn btn-success" (click)="onConfirmAssign()" data-toggle="modal" data-target="#confirmTaskAssign">
+          <button type="button" class="btn btn-success" (click)="onConfirmAssign()" data-toggle="modal"
+            data-target="#confirmTaskAssign">
             Submit
           </button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">
@@ -694,15 +696,15 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Task Assign</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Confirmation</h4>
+          <button style="float: right;" type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
           <!-- <select class="form-control" formControlName="product">
             <option value=''>-- select one --</option>
             <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
           </select> -->
-          <p>Are you sure want to assign task</p>
+          <p>Are you sure you want to assign task?</p>
         </div>
         <div class="modal-footer text-center">
           <button type="button" (click)="supervisorReAssign()" class="btn btn-success">
@@ -712,6 +714,35 @@
             No
           </button>
           <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal1> close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="confirmSelfAssign">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirmation</h4>
+          <div class="pull-right dropdown nav">
+          <button  type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <!-- <select class="form-control" formControlName="product">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
+          </select> -->
+          <p>Are you sure you want to assign task to yourself?</p>
+        </div>
+        <div class="modal-footer text-center">
+          <button type="button" (click)="onSupervisorAssign()" class="btn btn-success">
+            Yes
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            No
+          </button>
+          <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal2> close</button>
         </div>
       </div>
     </div>

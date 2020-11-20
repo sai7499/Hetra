@@ -25,7 +25,7 @@
   .parent-container,
   .child-container {
      max-height: 150px !important;
-     overflow-y: scroll;
+     /* overflow-y: scroll; */
   }
   /* .child-list {
     height: 100%;
@@ -50,6 +50,9 @@
   .supervisor-data-table tr:nth-child(odd) {
      background: #f5f5f8;
   }
+  .supervisor-data-table td:nth-child(odd) {
+   background: #f5f5f8;
+}
   .supervisor-tree-icon {
      width: 20px;
      height: 20px;
