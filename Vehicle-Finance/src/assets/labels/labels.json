@@ -1684,6 +1684,9 @@
     "backToFiCumPdList":"Back to FI cum PD List",
     "fiCumPdStatus":"FI cum PD Status",
     "fiCumPdReport":"FI cum PD Report",
+    "borrowerAttributes":" Borrower Attributes",
+    "borrowerAttributeWeightage":"Borrower Weightage",
+    "borrowerAttributeScore":"Borrower Score",
     "validationData": {
         "name": {
             "maxLength": {
