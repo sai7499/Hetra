@@ -140,8 +140,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           this.Product = ProductType['value'];
           this.childLoanCondition = child.childLoan.isRequired[this.Product];
         }
-        this.Product = 'InsuranceLoan'
-        this.childLoanCondition = child.childLoan.isRequired[this.Product];
+        // this.Product = 'InsuranceLoan'
+        // this.childLoanCondition = child.childLoan.isRequired[this.Product];
       }
     })
 
