@@ -4,16 +4,16 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="spoke_code_location" class="asset_type">{{labels?.motorInsuranceRequired}}</label>
                 <div>
-    
+
                     <label class="radio-inline">
                         <!-- <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="1">Yes -->
                         <input type="radio" formControlName="motorInsuranceRequired" name="motorInsuranceRequired"
-                            value="1">Yes
+                        [(ngModel)]="motar" value="yes" (change)="checkOnMotor($event.target.value)">Yes
                     </label>
                     <label class="radio-inline">
                         <!-- <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="0">No -->
                         <input type="radio" formControlName="motorInsuranceRequired" name="motorInsuranceRequired"
-                            value="0">No
+                        [(ngModel)]="motar" value="no" (change)="checkOnMotor($event.target.value)">No
                     </label>
                 </div>
                 <div *ngIf="isDirty">
@@ -27,11 +27,13 @@
                 <div>
                     <label class="radio-inline">
                         <!-- <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="1">Yes -->
-                        <input type="radio" formControlName="creditShieldRequired" name="creditShieldRequired" value="1">Yes
+                        <input type="radio" formControlName="creditShieldRequired" name="creditShieldRequired"
+                        [(ngModel)]="flag" value="yes" (change)="checkOnCredit($event.target.value)" >Yes
                     </label>
                     <label class="radio-inline">
                         <!-- <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="0">No -->
-                        <input type="radio" formControlName="creditShieldRequired" name="creditShieldRequired" value="0">No
+                        <input type="radio" formControlName="creditShieldRequired" name="creditShieldRequired"
+                        [(ngModel)]="flag" value="no" (change)="checkOnCredit($event.target.value)">No
                     </label>
                 </div>
                 <div *ngIf="isDirty">
@@ -42,318 +44,301 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="needForProposedVehicle" class="ellipsify">{{labels?.creditShieldHolderName}}</label>
-                <!--formControlName="ndForProposedVehicle"  -->
-                <app-custom-input id="needForProposedVehicle" formControlName="motorInsuranceRequired"
-                    >
-                </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="routeOfOperation" class="ellipsify">{{labels?.typeOfApplicant}}</label>
-                <!-- formControlName="route" -->
-                <app-custom-input id="routeOfOperation" formControlName="typeOfApplicant"
-                   >
-                </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}}</label>
-                <!-- formControlName="contractDetails" -->
-                <app-custom-input id="contractDetails" formControlName="usedCoverageAmount"
-                    >
-                </app-custom-input>
-            </div>
-        </div>
-    
         <!-- Nominee Details Starts -->
-        <div>
-            <h3>{{labels?.nomineeDetails}}</h3>
+        <div *ngIf="showCreditDetails">
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
-                    <app-custom-input id="needForProposedVehicle" formControlName="nomineeFirstName"
-                       >
+                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.creditShieldHolderName}}</label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <app-custom-input id="needForProposedVehicle" formControlName="nameOfApplicant">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{labels?.middleName}}</label>
-                    <app-custom-input id="routeOfOperation" formControlName="nomineeMiddleName"
-                       >
+                    <label for="routeOfOperation" class="ellipsify">{{labels?.typeOfApplicant}}</label>
+                    <!-- formControlName="route" -->
+                    <app-custom-input id="routeOfOperation" formControlName="typeOfApplicant">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}</label>
-                    <app-custom-input id="contractDetails" formControlName="nomineeLastName"
-                       >
+                    <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}}</label>
+                    <!-- formControlName="contractDetails" -->
+                    <app-custom-input id="contractDetails" formControlName="usedCoverageAmount">
                     </app-custom-input>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
-                    <app-custom-input id="needForProposedVehicle" formControlName="nomineeFullName"
-                        >
-                    </app-custom-input>
+            <div>
+                <h3>{{labels?.nomineeDetails}}</h3>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
+                        <app-custom-input id="needForProposedVehicle" formControlName="nomineeFirstName">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="routeOfOperation" class="ellipsify">{{labels?.middleName}}</label>
+                        <app-custom-input id="routeOfOperation" formControlName="nomineeMiddleName">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}</label>
+                        <app-custom-input id="contractDetails" formControlName="nomineeLastName">
+                        </app-custom-input>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}}</label>
-                    <app-custom-input id="routeOfOperation" formControlName="nomineeDOB"
-                        >
-                    </app-custom-input>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
+                        <app-custom-input id="needForProposedVehicle" formControlName="nomineeFullName">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}}</label>
+                        <app-custom-input id="routeOfOperation" formControlName="nomineeDOB">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="lead_created_by_source" class="ellipsify">{{labels?.age}}</label>
+                        <app-custom-input id="contractDetails" formControlName="nomineeAge">
+                        </app-custom-input>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels?.age}}</label>
-                    <app-custom-input id="contractDetails" formControlName="nomineeAge"
-                       >
-                    </app-custom-input>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.mobileNumber}}</label>
-                    <app-custom-input id="needForProposedVehicle" formControlName="nomineeMobileNumber"
-                        >
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{labels?.relationshipWithApplicant}}</label>
-                    <app-custom-input id="routeOfOperation" formControlName="nomineeRelationWithApp"
-                       >
-                    </app-custom-input>
-                </div>
-            </div>
-        </div>
-        <!-- Nominee details Ends -->
-    
-        <!-- Nominee Address Starts -->
-        <div>
-            <h3>{{labels?.nomineeAddress}}</h3>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
-                    <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
-                    <app-custom-input 
-                         formControlName="nomineeAddLine1" >
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.addressline2 }}</label>
-                    <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
-                    <app-custom-input formControlName="motorInsuranceRequired"
-                        >
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.addressline3 }}</label>
-                    <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
-                    <app-custom-input formControlName="motorInsuranceRequired"
-                        >
-                    </app-custom-input>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="needForProposedVehicle" class="ellipsify">{{labels?.mobileNumber}}</label>
+                        <app-custom-input id="needForProposedVehicle" formControlName="nomineeMobileNumber">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="routeOfOperation" class="ellipsify">{{labels?.relationshipWithApplicant}}</label>
+                        <app-custom-input id="routeOfOperation" formControlName="nomineeRelationWithApp">
+                        </app-custom-input>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
-                    <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
-                    <app-custom-input formControlName="nomineePincode"
-                        id="permanantPincode"></app-custom-input>
+            <!-- Nominee details Ends -->
+
+            <!-- Nominee Address Starts -->
+            <div>
+                <h3>{{labels?.nomineeAddress}}</h3>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
+                        <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
+                        <app-custom-input formControlName="nomineeAddLine1">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.addressline2 }}</label>
+                        <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
+                        <app-custom-input formControlName="nomineeAddLine2">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.addressline3 }}</label>
+                        <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
+                        <app-custom-input formControlName="nomineeAddLine3">
+                        </app-custom-input>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
-                    <!-- <select class="form-control" formControlName="city" id="permanent_address_city">
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
+                        <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
+                        <app-custom-input formControlName="nomineePincode"
+                            (keyup)="getPincode($event.target, 'nominee')" id="permanantPincode"></app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
+                        <!-- <select class="form-control" formControlName="city" id="permanent_address_city">
                                             <option>City 1</option>
                                             <option>City 2</option>
                                             <option>City 3</option>
                                         </select> -->
-                    <app-vf-custom-select formControlName="nomineeCity" [values]="permanantPincode?.city"
-                        (change)="cityChange($event)">
-                    </app-vf-custom-select>
+                        <app-vf-custom-select formControlName="nomineeCity" [values]="nomineeCity"
+                            (change)="cityChange($event)">
+                        </app-vf-custom-select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
+                        
+                        <app-vf-custom-select formControlName="nomineeDistrict" [values]="nomineeDistrict">
+                        </app-vf-custom-select>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
-                    <!-- <select class="form-control" formControlName="district" id="permanent_address_district">
-                                            <option>District 1</option>
-                                            <option>District 2</option>
-                                            <option>District 3</option>
-                                        </select> -->
-                    <app-vf-custom-select formControlName="nomineeDistrict" [values]="permanantPincode?.district"
-                       >
-                    </app-vf-custom-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
-                    <!-- <select class="form-control" formControlName="state" id="permanent_address_state">
-                                            <option>State 1</option>
-                                            <option>State 2</option>
-                                            <option>State 3</option>
-                                        </select> -->
-                    <app-vf-custom-select formControlName="nomineeState" [values]="permanantPincode?.state"
-                       >
-                    </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.country }} <sub class="star_red_col">*</sub></label>
-                    <!-- <select class="form-control" formControlName="country" id="permanent_address_country">
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
+                       
+                        <app-vf-custom-select formControlName="nomineeState" [values]="nomineeState">
+                        </app-vf-custom-select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.country }} <sub class="star_red_col">*</sub></label>
+                        <!-- <select class="form-control combo" formControlName="nomineeCountry" id="nomineeCountry">
                                             <option>Country 1</option>
                                             <option>Country 2</option>
                                             <option>Country 3</option>
                                         </select> -->
-                    <app-vf-custom-select formControlName="nomineeCountry" [values]="permanantPincode?.country"
-                       >
-                    </app-vf-custom-select>
+                        <app-vf-custom-select formControlName="nomineeCountry" [values]="nomineeCountry">
+                        </app-vf-custom-select>
+                    </div>
+
+
                 </div>
-    
-    
+
             </div>
-    
-        </div>
-        <!-- Nominee Address Ends -->
-    
-        <!-- Guardian Details Starts -->
-        <div>
-            <h3>{{labels?.guardianDetails}}</h3>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
-                    <app-custom-input id="needForProposedVehicle" formControlName="guardianFirstName"
-                       >
-                    </app-custom-input>
+            <!-- Nominee Address Ends -->
+
+            <!-- Guardian Details Starts -->
+            <div>
+                <h3>{{labels?.guardianDetails}}</h3>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
+                        <app-custom-input id="needForProposedVehicle" formControlName="guardianFirstName">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="routeOfOperation" class="ellipsify">{{labels?.middleName}}</label>
+                        <app-custom-input id="routeOfOperation" formControlName="guardianMiddleName">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}</label>
+                        <app-custom-input id="contractDetails" formControlName="guardianLastName">
+                        </app-custom-input>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{labels?.middleName}}</label>
-                    <app-custom-input id="routeOfOperation" formControlName="guardianMiddleName"
-                        >
-                    </app-custom-input>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
+                        <app-custom-input id="needForProposedVehicle" formControlName="guardianFullName">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}}</label>
+                        <app-custom-input id="routeOfOperation" formControlName="guardianDOB">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="lead_created_by_source" class="ellipsify">{{labels?.mobileNumber}}</label>
+                        <app-custom-input id="contractDetails" formControlName="guardianMobileNumber">
+                        </app-custom-input>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}</label>
-                    <app-custom-input id="contractDetails" formControlName="guardianLastName"
-                       >
-                    </app-custom-input>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
-                    <app-custom-input id="needForProposedVehicle" formControlName="guardianFullName"
-                        >
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}}</label>
-                    <app-custom-input id="routeOfOperation" formControlName="guardianDOB"
-                       >
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels?.mobileNumber}}</label>
-                    <app-custom-input id="contractDetails" formControlName="guardianMobileNumber"
-                        >
-                    </app-custom-input>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.relationshipWithApplicant}}</label>
-                    <app-custom-input id="needForProposedVehicle" formControlName="guardianRelationWithApp"
-                       >
-                    </app-custom-input>
-                </div>
-                
-            </div>
-        </div>
-        <!-- Guardian Details Ends -->
-    
-        <!-- Gurdian Address Starts -->
-        <div>
-            <h3>{{labels?.guardianAddress}}</h3>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
-                    <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
-                    <app-custom-input formControlName="motorInsuranceRequired"
-                        >
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.addressline2 }}</label>
-                    <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
-                    <app-custom-input formControlName="motorInsuranceRequired"
-                        >
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.addressline3 }}</label>
-                    <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
-                    <app-custom-input formControlName="motorInsuranceRequired"
-                        >
-                    </app-custom-input>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="needForProposedVehicle"
+                            class="ellipsify">{{labels?.relationshipWithApplicant}}</label>
+                        <app-custom-input id="needForProposedVehicle" formControlName="guardianRelationWithApp">
+                        </app-custom-input>
+                    </div>
+
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
-                    <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
-                    <app-custom-input formControlName="motorInsuranceRequired"
-                         id="permanantPincode"></app-custom-input>
+            <!-- Guardian Details Ends -->
+
+            <!-- Gurdian Address Starts -->
+            <div>
+                <h3>{{labels?.guardianAddress}}</h3>
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
+                        <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
+                        <app-custom-input formControlName="guardianAddLine1">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.addressline2 }}</label>
+                        <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
+                        <app-custom-input formControlName="guardianAddLine2">
+                        </app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.addressline3 }}</label>
+                        <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
+                        <app-custom-input formControlName="guardianAddLine3">
+                        </app-custom-input>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
-                    <!-- <select class="form-control" formControlName="city" id="permanent_address_city">
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
+                        <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
+                        <app-custom-input formControlName="guardianPincode" id="permanantPincode"
+                            (keyup)="getPincode($event.target, 'guardian')"></app-custom-input>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
+                        <!-- <select class="form-control" formControlName="city" id="permanent_address_city">
                                             <option>City 1</option>
                                             <option>City 2</option>
                                             <option>City 3</option>
                                         </select> -->
-                    <app-vf-custom-select formControlName="motorInsuranceRequired" [values]="permanantPincode?.city"
-                       (change)="cityChange($event)" >
-                    </app-vf-custom-select>
+                        <app-vf-custom-select formControlName="guardianCity" [values]="gaurdianCity"
+                            >
+                        </app-vf-custom-select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
+                       
+                        <app-vf-custom-select formControlName="guardianCountry" [values]="gaurdianDistrict">
+                        </app-vf-custom-select>
+                    </div>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
-                    <!-- <select class="form-control" formControlName="district" id="permanent_address_district">
-                                            <option>District 1</option>
-                                            <option>District 2</option>
-                                            <option>District 3</option>
-                                        </select> -->
-                    <app-vf-custom-select formControlName="motorInsuranceRequired" [values]="permanantPincode?.district"
-                        >
-                    </app-vf-custom-select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
-                    <!-- <select class="form-control" formControlName="state" id="permanent_address_state">
+                <div class="row">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
+                        <!-- <select class="form-control" formControlName="state" id="permanent_address_state">
                                             <option>State 1</option>
                                             <option>State 2</option>
                                             <option>State 3</option>
                                         </select> -->
-                    <app-vf-custom-select formControlName="motorInsuranceRequired" [values]="permanantPincode?.state"
-                       >
-                    </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="passport">{{ labels?.country }} <sub class="star_red_col">*</sub></label>
-                    <!-- <select class="form-control" formControlName="country" id="permanent_address_country">
+                        <app-vf-custom-select formControlName="guardianState" [values]="gaurdianState">
+                        </app-vf-custom-select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="passport">{{ labels?.country }} <sub class="star_red_col">*</sub></label>
+                        <!-- <select class="form-control" formControlName="country" id="permanent_address_country">
                                             <option>Country 1</option>
                                             <option>Country 2</option>
                                             <option>Country 3</option>
                                         </select> -->
-                    <app-vf-custom-select formControlName="motorInsuranceRequired" [values]="permanantPincode?.country"
-                        >
-                    </app-vf-custom-select>
+                        <app-vf-custom-select formControlName="guardianCountry" [values]="gaurdianCountry">
+                        </app-vf-custom-select>
+                    </div>
+
+
                 </div>
-    
-                
+
             </div>
-            
+            <!-- Guardian Address Ends -->
         </div>
-        <!-- Guardian Address Ends -->
     </form>
-    
+    <!-- <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-lg-7  col-md-7 col-sm-7">
+
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <button type="button" class="btn btn-primary" (click) ="saveUpdateInsurance()">Submit</button>
+        </div>
+    </div> -->
+    <div class="btn-sec clear-both row cst_btm_btns">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary" type="button">
+                {{ labels.back }}
+            </button>
+
+            <button class="btn btn-primary" (click)="saveUpdateInsurance()">
+                {{ labels.save }}
+            </button>
+
+            <button class="btn btn-primary">
+                {{ labels.next }}
+            </button>
+        </div>
+    </div>
 
 </div>
 
