@@ -132,6 +132,9 @@
                 >
                 </app-custom-input>
               </div>
+              
+              <!-- hidden the grid amount and vehicle_available_in_grid due to not avialabiltiy -->
+
               <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vehicle_available_in_grid"
                   >{{ labels.vhAvailInGrid }}
@@ -162,7 +165,25 @@
             <!-- reference details section ends here -->
 
             <!-- inspection details starts -->
+
             <h4 class="title">{{labels.inspectionDetails}}</h4>
+            <div class="row"></div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="valuation_amount"
+                >{{ labels?.valuationAmount }}
+                <sub class="star_red_col">*</sub>
+              </label>
+              <app-custom-input
+                formControlName="valuationAmt"
+                [className]="'form-control mandatory'"
+                [placeholder]="'Valuation Amount'"
+                [maxLength]="labels?.validationData?.amountValue.maxLength"
+                [isRequired]="'Valuation Amount is Required'"
+                [type]="labels?.validationData?.amountValue.type"
+                [isDirty]="isDirty"
+              >
+              </app-custom-input>
+            </div>
             
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
