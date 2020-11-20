@@ -28,12 +28,12 @@
             <td>{{res.score}}</td>
           </tr> -->
         <tr *ngIf="borrowerAttributes">
-            <td class="tab-head" >Borrower Attribute</td>
+            <td class="tab-head" [attr.data-label]="labels?.borrowerAttributes"></td>
             <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
-            <td class="tab-hide" [attr.data-label]="labels?.borrowerAttributes"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
-            <td [attr.data-label]="labels?.borrowerAttributeWeightage"><strong>{{scoreCard.borrowerAttributeWeightage}}</strong></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
+            <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.borrowerAttributeWeightage}}</strong></td>
             <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
-            <td [attr.data-label]="labels?.borrowerAttributeScore"><strong>{{scoreCard.borrowerAttributeScore}}</strong></td>
+            <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.borrowerAttributeScore}}</strong></td>
         </tr> 
 
          <tr *ngFor="let borrowerAttribute of borrowerAttributes; let i = index">
