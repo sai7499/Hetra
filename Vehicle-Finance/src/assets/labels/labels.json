@@ -255,7 +255,7 @@
     "pdReport": "PD Report",
     "flStatus": "Fl Status",
     "flReport": "Fl Report",
-    "vehicleValTitle": "Valuation",
+    "vehicleValTitle": "Vehicle Valuation",
     "valuatorType": "Valuator Type",
     "valuatorCode": "Valuator Code",
     "valuatorName": "Valuator Name",
@@ -1684,6 +1684,7 @@
     "backToFiCumPdList":"Back to FI cum PD List",
     "fiCumPdStatus":"FI cum PD Status",
     "fiCumPdReport":"FI cum PD Report",
+    "inspectionDetails":"Inspection Details",
     "validationData": {
         "name": {
             "maxLength": {
