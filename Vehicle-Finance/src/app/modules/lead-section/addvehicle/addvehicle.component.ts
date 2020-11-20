@@ -87,6 +87,18 @@ export class AddvehicleComponent implements OnInit {
           data.onlineVerification = data.onlineVerification === true ? '1' : '0';
         }
 
+        if (data.insuranceValidity) {
+          data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.accidentDate) {
+          data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.invoiceDate) {
+          data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
+        }
+
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
         }

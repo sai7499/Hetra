@@ -78,6 +78,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isTaxDetails: any;
   isTaxBill: string;
   reqLoanAmt: string;
+  isSpareCost: any;
+  isRepairCost: any;
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
@@ -127,8 +129,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.isChildLoan = this.leadDetails['isChildLoan'] ? this.leadDetails['isChildLoan'] === '1' ? true : false : false;
     let ProductType = {}
 
-    // this.isChildLoan = true;
-
     this.labelsData.getChildLoanConditionData().subscribe((child: any) => {
 
       this.loanTypeArray = child.childLoan.isLoanType;
@@ -136,16 +136,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       if (this.isChildLoan) {
         ProductType = this.loanTypeArray.find((res: any) => res.key === this.assetProductCode)
         if (ProductType) {
-          // this.Product = 'FCLoan'
           this.Product = ProductType['value'];
           this.childLoanCondition = child.childLoan.isRequired[this.Product];
         }
-        // this.Product = 'InsuranceLoan'
-        // this.childLoanCondition = child.childLoan.isRequired[this.Product];
       }
     })
-
-    console.log(ProductType, 'child loan', this.childLoanCondition)
 
     if (this.activedRoute.snapshot.params['eligibleLoanAmount']) {
       this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] === null ? 0 : this.activedRoute.snapshot.params['eligibleLoanAmount'];
@@ -168,6 +163,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.disableSaveBtn = true;
     }
 
+  }
+
+  onGetMarginAmount(value, form) {
+    if (this.reqLoanAmt) {
+      let marginAmount = Number(value) - Number(this.reqLoanAmt)
+      form.get('marginAmount').setValue(marginAmount)
+    } else {
+      form.get('marginAmount').setValue(null)
+    }
   }
 
   validateCustomPattern() {
@@ -279,53 +283,86 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const details = formArray.at(0) as FormGroup;
 
     if (this.isChildLoan) {
-      this.Product === 'FCLoan' ? this.addFCLoanControls(details) : this.Product === 'TopUp' ? this.addTopUpControls(details) :
-        this.Product === 'TyreLoan' ? this.addTyreLoanControls(details) :
-          this.Product === 'AccidentLoan' ? this.addAccidentLoanControls(details) : this.Product === 'InsuranceLoan' ? this.addInsuranceControls(details) : '';
+      // (this.Product === 'FCLoan' || this.Product === 'TaxLoan') ? this.addFCLoanControls(details) : this.Product === 'TopUp' ? this.addTopUpControls(details) :
+      //   this.Product === 'TyreLoan' ? this.addTyreLoanControls(details) : this.Product === 'AccidentLoan' ? this.addAccidentLoanControls(details) :
+      //     (this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan') ? this.addInsuranceControls(details) : '';
+      this.getDynamicFormControls(details)
     }
   }
 
-  addFCLoanControls(form) {
-    form.addControl('fcExpiryDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('fcAmount', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('typeOfPermit', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('taxDetails', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('taxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('totalTaxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+
+  getDynamicFormControls(form) {
+    let keys = Object.keys(this.childLoanCondition);
+    let values = Object.values(this.childLoanCondition);
+
+    let combineArray = [];
+
+    let arrayOfObj = {
+    }
+
+    combineArray = keys.map((control, i) => {
+      values.map((val, j) => {
+        if (i === j) {
+          arrayOfObj = {
+            key: control,
+            value: val
+          }
+        }
+      })
+      return arrayOfObj;
+    })
+
+    combineArray.map((controls, i) => {
+      if (controls.value === true) {
+        let fc = this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required])
+        form.addControl(controls.key, fc)
+      }
+    })
   }
 
-  addInsuranceControls(form) {
-    form.addControl('invoiceNumber', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('invoiceDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  }
+  // addFCLoanControls(form) {
+  //   form.addControl('fcExpiryDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('fcAmount', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('typeOfPermit', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('taxDetails', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('taxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('totalTaxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  // }
 
-  addTopUpControls(form) {
-    form.addControl('fcExpiryDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('onlineVerification', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('taxDetails', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('taxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('totalTaxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  }
+  // addInsuranceControls(form) {
+  //   form.addControl('invoiceNumber', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('invoiceDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  // }
 
-  addTyreLoanControls(form) {
-    form.addControl('tyreDealer', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('tyreManufacturer', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('noOfTyres', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('costPerTyre', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('marginAmount', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('tyreSpecification', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  }
+  // addTopUpControls(form) {
+  //   form.addControl('fcExpiryDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('onlineVerification', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('taxDetails', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('taxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('totalTaxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('insuranceValidity', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  // }
 
-  addAccidentLoanControls(form) {
-    form.addControl('accidentDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('accidentType', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('firFiled', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('repairCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('spareCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('totalCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('isAuthSvcCentre', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-    form.addControl('svcCentreName', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  }
+  // addTyreLoanControls(form) {
+  //   form.addControl('tyreDealer', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('tyreManufacturer', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('noOfTyres', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('costPerTyre', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('invoiceAmount', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('marginAmount', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('tyreSpecification', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  // }
+
+  // addAccidentLoanControls(form) {
+  //   form.addControl('accidentDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('accidentType', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('firFiled', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('repairCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('spareCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('totalCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('isAuthSvcCentre', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  //   form.addControl('svcCentreName', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
+  // }
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
@@ -508,7 +545,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       chasisNumber: VehicleDetail.chasisNumber || null,
       collateralId: VehicleDetail.collateralId || null,
       collateralType: VehicleDetail.collateralType || null,
-      costPerTyre: VehicleDetail.collateralType || null,
+      costPerTyre: VehicleDetail.costPerTyre || null,
       cubicCapacity: VehicleDetail.cubicCapacity || '',
       dealerSubventionPartIRR: VehicleDetail.dealerSubventionPartIRR || '',
       dealerSubventionAmount: VehicleDetail.dealerSubventionAmount || null,
@@ -629,11 +666,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             assetVariant: ''
           })
         } else {
-          this.vehicleLov.assetMake = []
+          this.vehicleLov.assetMake = [];
           this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region')
         }
       } else {
-        this.vehicleLov.assetMake = []
+        this.vehicleLov.assetMake = [];
         this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Region')
       }
       this.uiLoader.stop();
@@ -945,7 +982,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.productCatoryCode === 'NCV' ? this.addNewCVFormControls() : this.productCatoryCode === 'NC' ? this.addNewcarFormControls :
       this.productCatoryCode === 'UCV' ? this.addUserCVFormControls() : this.addUserCarFormControls();
     this.sharedService.getFormValidation(this.basicVehicleForm)
-    console.log(this.basicVehicleForm, 'Form')
   }
 
   addNewCVFormControls() {
@@ -971,9 +1007,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manuFactureSubventionPartIRR: [null],
       manufacturesubventionPartFinCharge: [null],
       grossVehicleWeight: [''],
-      invoiceNumber: [null],
-      invoiceDate: [''],
-      invoiceAmount: [null],
+
       isOrpFunding: [''],
       insurance: [''],
       oneTimeTax: [''],
@@ -991,6 +1025,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId
     });
+
+    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
+    }
+
+    if (this.Product !== 'TyreLoan') {
+      controls.addControl('invoiceAmount', this._fb.control(null))
+    }
+
     formArray.push(controls);
   }
 
@@ -1016,9 +1060,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manufactureSubventionAmount: [null],
       manuFactureSubventionPartIRR: [null],
       manufacturesubventionPartFinCharge: [null],
-      invoiceNumber: [null],
-      invoiceDate: [''],
-      invoiceAmount: [null],
       isOrpFunding: [''],
       insurance: [''],
       amcAmount: [''],
@@ -1037,6 +1078,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId
     })
+    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
+    }
+
+    if (this.Product !== 'TyreLoan') {
+      controls.addControl('invoiceAmount', this._fb.control(null))
+    }
+
     formArray.push(controls);
   }
 
@@ -1081,7 +1131,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       seatingCapacity: [''],
       loanAmount: [0],
       bodyCost: [''],
-      insuranceValidity: [''],
       idv: [''],
       insuranceCopy: [''],
       fsrdFundingReq: [''],
@@ -1091,8 +1140,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId
     })
-    if (!this.isChildLoan) {
+    if (!(this.Product === 'FCLoan' || this.Product === 'TaxLoan')) {
       controls.addControl('typeOfPermit', this._fb.control(''))
+    }
+
+    if (this.Product !== 'TopUp') {
+      controls.addControl('insuranceValidity', this._fb.control(''))
     }
     formArray.push(controls);
 
@@ -1152,7 +1205,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
-      insuranceValidity: '',
       idv: '',
       insuranceCopy: [''],
       fsrdFundingReq: '',
@@ -1162,6 +1214,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId
     })
+    if (this.Product !== 'TopUp') {
+      controls.addControl('insuranceValidity', this._fb.control(''))
+    }
     formArray.push(controls);
   }
 
@@ -1192,6 +1247,26 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       form.get('totalTaxBill').setValue(totalCost)
     } else {
       form.get('totalTaxBill').setValue(null)
+    }
+  }
+
+  onGetTotalCost(value: string, form) {
+    this.isRepairCost = value;
+    if (this.isSpareCost && this.isRepairCost) {
+      let totalCost = Number(this.isSpareCost) + Number(this.isRepairCost);
+      form.get('totalCost').setValue(totalCost)
+    } else {
+      form.get('totalCost').setValue(null)
+    }
+  }
+
+  onGetSpareCost(val: string, form) {
+    this.isSpareCost = val;
+    if (this.isSpareCost && this.isRepairCost) {
+      let totalCost = Number(this.isSpareCost) + Number(this.isRepairCost);
+      form.get('totalCost').setValue(totalCost)
+    } else {
+      form.get('totalCost').setValue(null)
     }
   }
 

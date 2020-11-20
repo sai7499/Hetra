@@ -149,7 +149,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "userId": this.userId,
       "devRuleId": obj.value.devRuleId,
       "statusCode": value + '',
-      "isRevert": false
+      "isRevert": obj.value.statusCode === value ? true : false
     }
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
