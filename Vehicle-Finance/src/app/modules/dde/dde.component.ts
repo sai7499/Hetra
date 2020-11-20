@@ -17,7 +17,7 @@ import { LoanViewService } from '@services/loan-view.service';
 export class DdeComponent implements OnInit, OnChanges {
   locationIndex: number;
   leadId: number;
-  show: boolean;
+  show: number = 1;
   showNav: boolean = false;
   fiCumPdStatusString: any;
   fiCumPdStatus: boolean;
@@ -80,12 +80,12 @@ export class DdeComponent implements OnInit, OnChanges {
       this.sharedService.pslDataNext$.subscribe((val) => {
         if(val === true) {
           // this.onNext();
-          this.show = false;
+          this.show = 2;
           // this.location.onUrlChange((url: string) => {
           //   this.locationIndex = this.getLocationIndex(url);
           // });
         } else {
-          this.show = true;
+          this.show = 1;
         }
       });
       // this.sharedService.vehicleValuationNext$.subscribe((val) => {
@@ -111,9 +111,9 @@ export class DdeComponent implements OnInit, OnChanges {
 
     if (this.locationIndex >= 8) {
 
-      this.show = false;
+      this.show = 2;
     } else {
-      this.show = true;
+      this.show = 1;
     }
 
     if (
@@ -145,10 +145,11 @@ export class DdeComponent implements OnInit, OnChanges {
 
 
   onPrevious() {
-    this.show = true;
-    // if (this.locationIndex > 16) {
-    //   return this.router.navigateByUrl(`/pages/dde/${this.leadId}/deviations`);
-    // }
+    if (this.show > 2 && this.isLoan360) {
+      this.show = 2;
+      return this.router.navigateByUrl(`/pages/dde/${this.leadId}/deviations`);
+    }
+    this.show = 1;
     if (this.productCatCode != 'NCV') {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
     } else if(this.productCatCode == 'NCV') {
@@ -156,11 +157,14 @@ export class DdeComponent implements OnInit, OnChanges {
     }
   }
   onNext() {
-    // if (this.locationIndex >= 9) {
-    //    this.showLoan360Components = true;
-    //   return this.router.navigateByUrl(`/pages/dde/${this.leadId}/negotiation`);
-    // }
-    this.show = false;
+    if (this.show === 2 && this.isLoan360) {
+       this.router.navigateByUrl(`/pages/dde/${this.leadId}/disbursement/${this.leadId}`);
+       this.show = 3;
+       return;
+      //  this.showLoan360Components = true;
+    }
+
+    this.show = 2;
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
   }
 

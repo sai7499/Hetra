@@ -136,10 +136,14 @@
 
   <div class="col-lg-2 col-md-2 col-sm-2 btn-width">
     <div class="row view-pad-top">
-      <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
+      <button *ngIf="!isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
         (click)="saveCurrentUrl()">
         View/Upload Document
       </button>
+      <button  *ngIf="isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
+      (click)="saveCurrentUrl()">
+      View Document
+    </button>
     </div>
 
     <div class="row view-pad-bottom" *ngIf="isEnableInitiateQuery">
