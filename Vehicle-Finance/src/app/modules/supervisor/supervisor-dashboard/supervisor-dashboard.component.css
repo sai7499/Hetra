@@ -35,7 +35,8 @@
      width: 300px;
   }
   .supervisor-data-table td {
-     padding: 5px 10px;
+     /* padding: 5px 10px; */
+     padding-top: 5px;
   }
   .supervisor-data-table td a {
      color: #4a4a4a;

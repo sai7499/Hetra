@@ -1,7 +1,7 @@
 <div class="content">
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="spoke_code_location" class="asset_type">{{labels.confirmedAddress}}</label>
+                <label for="spoke_code_location" class="asset_type">{{labels?.confirmedAddress}}</label>
                 <div>
 
                     <label class="radio-inline">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="sourcing_type" class="asset_type">{{labels.residenceStability}}</label>
+                <label for="sourcing_type" class="asset_type">{{labels?.residenceStability}}</label>
                 <div>
                     <label class="radio-inline">
                         <!-- <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="1">Yes -->
@@ -41,7 +41,7 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="needForProposedVehicle" class="ellipsify">{{labels.creditShieldHolderName}}</label>
+                <label for="needForProposedVehicle" class="ellipsify">{{labels?.creditShieldHolderName}}</label>
                 <!--formControlName="ndForProposedVehicle"  -->
                 <app-custom-input id="needForProposedVehicle" 
                     [maxLength]="validationData?.contractDetails.maxLength"
@@ -50,7 +50,7 @@
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="routeOfOperation" class="ellipsify">{{labels.typeOfApplicant}}</label>
+                <label for="routeOfOperation" class="ellipsify">{{labels?.typeOfApplicant}}</label>
                 <!-- formControlName="route" -->
                 <app-custom-input id="routeOfOperation" 
                     [maxLength]="validationData?.contractDetails.maxLength"
@@ -59,7 +59,7 @@
                 </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="lead_created_by_source" class="ellipsify">{{labels.usedCoverageAmount}}</label>
+                <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}}</label>
                 <!-- formControlName="contractDetails" -->
                 <app-custom-input id="contractDetails" 
                     [maxLength]="validationData?.contractDetails.maxLength"
@@ -71,49 +71,49 @@
 
         <!-- Nominee Details Starts -->
         <div>
-            <h3>{{labels.nomineeDetails}}</h3>
+            <h3>{{labels?.nomineeDetails}}</h3>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{changeLabelsForProposed}}</label>
+                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.changeLabelsForProposed}}</label>
                     <app-custom-input id="needForProposedVehicle" formControlName="ndForProposedVehicle" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Need for proposed vehicle is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{changeLabelsForRoute}}</label>
+                    <label for="routeOfOperation" class="ellipsify">{{labels?.changeLabelsForRoute}}</label>
                     <app-custom-input id="routeOfOperation" formControlName="route" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Route of operation is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
+                    <label for="lead_created_by_source" class="ellipsify">{{labels?.contractDetails}}</label>
                     <app-custom-input id="contractDetails" formControlName="contractDetails" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Contract details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{changeLabelsForProposed}}</label>
+                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.changeLabelsForProposed}}</label>
                     <app-custom-input id="needForProposedVehicle" formControlName="ndForProposedVehicle" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Need for proposed vehicle is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{changeLabelsForRoute}}</label>
+                    <label for="routeOfOperation" class="ellipsify">{{labels?.changeLabelsForRoute}}</label>
                     <app-custom-input id="routeOfOperation" formControlName="route" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Route of operation is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
+                    <label for="lead_created_by_source" class="ellipsify">{{labels?.contractDetails}}</label>
                     <app-custom-input id="contractDetails" formControlName="contractDetails" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Contract details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{changeLabelsForProposed}}</label>
+                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.changeLabelsForProposed}}</label>
                     <app-custom-input id="needForProposedVehicle" formControlName="ndForProposedVehicle" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Need for proposed vehicle is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{changeLabelsForRoute}}</label>
+                    <label for="routeOfOperation" class="ellipsify">{{labels?.changeLabelsForRoute}}</label>
                     <app-custom-input id="routeOfOperation" formControlName="route" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Route of operation is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
@@ -123,23 +123,23 @@
 
         <!-- Nominee Address Starts -->
         <div>
-            <h3>{{labels.nomineeAddress}}</h3>
+            <h3>{{labels?.nomineeAddress}}</h3>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
+                <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
                 <app-custom-input  [maxLength]="validationData?.addressLine?.maxLength"
                   [isRequired]="'Address is required'" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.addressline2 }}</label>
+                <label for="passport">{{ labels?.addressline2 }}</label>
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
                 <app-custom-input  [maxLength]="validationData?.addressLine?.maxLength">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.addressline3 }}</label>
+                <label for="passport">{{ labels?.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
                 <app-custom-input  [maxLength]="validationData?.addressLine?.maxLength">
                 </app-custom-input>
@@ -147,7 +147,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="pincode">{{ labels.code }} <sub class="star_red_col">*</sub></label>
+                <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input  [patternCheck]="validationData?.pincode?.patternCheck"
                   [type]="validationData?.pincode?.type" [maxLength]="validationData?.pincode?.maxLength"
@@ -155,7 +155,7 @@
                   id="permanantPincode"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
+                <label for="passport">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="city" id="permanent_address_city">
                                         <option>City 1</option>
                                         <option>City 2</option>
@@ -167,7 +167,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.district }} <sub class="star_red_col">*</sub></label>
+                <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="district" id="permanent_address_district">
                                         <option>District 1</option>
                                         <option>District 2</option>
@@ -180,7 +180,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.state }} <sub class="star_red_col">*</sub></label>
+                <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="state" id="permanent_address_state">
                                         <option>State 1</option>
                                         <option>State 2</option>
@@ -191,7 +191,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.country }} <sub class="star_red_col">*</sub></label>
+                <label for="passport">{{ labels?.country }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="country" id="permanent_address_country">
                                         <option>Country 1</option>
                                         <option>Country 2</option>
@@ -211,7 +211,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="landline">{{ labels.landLineNumber }}</label>
+                <label for="landline">{{ labels?.landLineNumber }}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="landline" /> -->
                 <app-custom-input 
                   [maxLength]="validationData?.landlineNumber?.maxLength" [type]="validationData?.landlineNumber?.type"
@@ -223,49 +223,49 @@
 
           <!-- Guardian Details Starts -->
           <div>
-            <h3>{{labels.guardianDetails}}</h3>
+            <h3>{{labels?.guardianDetails}}</h3>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{changeLabelsForProposed}}</label>
+                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.changeLabelsForProposed}}</label>
                     <app-custom-input id="needForProposedVehicle" formControlName="ndForProposedVehicle" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Need for proposed vehicle is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{changeLabelsForRoute}}</label>
+                    <label for="routeOfOperation" class="ellipsify">{{labels?.changeLabelsForRoute}}</label>
                     <app-custom-input id="routeOfOperation" formControlName="route" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Route of operation is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
+                    <label for="lead_created_by_source" class="ellipsify">{{labels?.contractDetails}}</label>
                     <app-custom-input id="contractDetails" formControlName="contractDetails" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Contract details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{changeLabelsForProposed}}</label>
+                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.changeLabelsForProposed}}</label>
                     <app-custom-input id="needForProposedVehicle" formControlName="ndForProposedVehicle" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Need for proposed vehicle is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{changeLabelsForRoute}}</label>
+                    <label for="routeOfOperation" class="ellipsify">{{labels?.changeLabelsForRoute}}</label>
                     <app-custom-input id="routeOfOperation" formControlName="route" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Route of operation is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels.contractDetails}}</label>
+                    <label for="lead_created_by_source" class="ellipsify">{{labels?.labels?.contractDetails}}</label>
                     <app-custom-input id="contractDetails" formControlName="contractDetails" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Contract details is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{changeLabelsForProposed}}</label>
+                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.changeLabelsForProposed}}</label>
                     <app-custom-input id="needForProposedVehicle" formControlName="ndForProposedVehicle" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Need for proposed vehicle is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="routeOfOperation" class="ellipsify">{{changeLabelsForRoute}}</label>
+                    <label for="routeOfOperation" class="ellipsify">{{labels?.changeLabelsForRoute}}</label>
                     <app-custom-input id="routeOfOperation" formControlName="route" [maxLength]="validationData?.contractDetails.maxLength" [isRequired]="'Route of operation is required'" [isDirty]="isDirty" [type]="validationData?.contractDetails.type">
                     </app-custom-input>
                 </div>
@@ -275,23 +275,23 @@
 
           <!-- Gurdian Address Starts -->
           <div>
-            <h3>{{labels.guardianAddress}}</h3>
+            <h3>{{labels?.guardianAddress}}</h3>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
+                <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
                 <app-custom-input  [maxLength]="validationData?.addressLine?.maxLength"
                   [isRequired]="'Address is required'" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.addressline2 }}</label>
+                <label for="passport">{{ labels?.addressline2 }}</label>
                 <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
                 <app-custom-input  [maxLength]="validationData?.addressLine?.maxLength">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.addressline3 }}</label>
+                <label for="passport">{{ labels?.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
                 <app-custom-input  [maxLength]="validationData?.addressLine?.maxLength">
                 </app-custom-input>
@@ -299,7 +299,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="pincode">{{ labels.code }} <sub class="star_red_col">*</sub></label>
+                <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input  [patternCheck]="validationData?.pincode?.patternCheck"
                   [type]="validationData?.pincode?.type" [maxLength]="validationData?.pincode?.maxLength"
@@ -307,7 +307,7 @@
                   id="permanantPincode"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.city }} <sub class="star_red_col">*</sub></label>
+                <label for="passport">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="city" id="permanent_address_city">
                                         <option>City 1</option>
                                         <option>City 2</option>
@@ -319,7 +319,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.district }} <sub class="star_red_col">*</sub></label>
+                <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="district" id="permanent_address_district">
                                         <option>District 1</option>
                                         <option>District 2</option>
@@ -332,7 +332,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.state }} <sub class="star_red_col">*</sub></label>
+                <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="state" id="permanent_address_state">
                                         <option>State 1</option>
                                         <option>State 2</option>
@@ -343,7 +343,7 @@
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="passport">{{ labels.country }} <sub class="star_red_col">*</sub></label>
+                <label for="passport">{{ labels?.country }} <sub class="star_red_col">*</sub></label>
                 <!-- <select class="form-control" formControlName="country" id="permanent_address_country">
                                         <option>Country 1</option>
                                         <option>Country 2</option>
@@ -363,7 +363,7 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="landline">{{ labels.landLineNumber }}</label>
+                <label for="landline">{{ labels?.landLineNumber }}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="landline" /> -->
                 <app-custom-input 
                   [maxLength]="validationData?.landlineNumber?.maxLength" [type]="validationData?.landlineNumber?.type"
