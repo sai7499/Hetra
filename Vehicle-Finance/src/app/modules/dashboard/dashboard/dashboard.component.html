@@ -1,10 +1,11 @@
 <main class="mar-top90">
   <div class="container-fluid">
-    <div *ngIf="userName" style="float: left; margin-left: 5px;">
-      <h4>{{userName}} dashboard</h4>
+    <div *ngIf="supervisorName" style="float: left; margin-left: 5px;">
+      <h4>{{supervisorName}} dashboard</h4>
     </div>
     <div class="pull-right dropdown nav">
       <div class="pull-right dropdown nav">
+        
         <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
           class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
           {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
@@ -14,6 +15,9 @@
           </div> -->
 
       <div class="pull-right dropdown nav" style="margin-right: 10px">
+        <button *ngIf="supervisorName" style="margin-right: 10px" (click)="onBack()" class="btn btn-primary">
+          Back
+        </button>
         <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
           Initiate Query &nbsp;
           <i class="fa fa-bell cus-bell font-medium-3"></i><span class="notification badge badge-pill badge-danger"
