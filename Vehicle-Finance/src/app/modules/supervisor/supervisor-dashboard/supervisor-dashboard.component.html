@@ -37,15 +37,15 @@
                              </div>
                              <div *ngIf="node.userId==roleUserID" class="child-list"> 
                                <div class="child-container">
-                                   <table class="supervisor-data-table">
+                                   <table class="supervisor-data-table table">
                                        <thead>
                                          <tr>
                                          </tr>
                                        </thead>
                                        <tbody>
                                          <tr *ngFor="let role of rolelist;let i = index">
-                                           <td *ngIf="role" > <a (click)="onClick(rolelist[i])" >test</a></td>
-                                          <td ><a (click)="onClick(rolelist[i])" >test</a></td>
+                                           <td *ngIf="role" class="td-bg"> <a (click)="onClick(rolelist[i])" class="">test</a></td>
+                                         
                                           </tr>
                                        </tbody>
                                      </table>
