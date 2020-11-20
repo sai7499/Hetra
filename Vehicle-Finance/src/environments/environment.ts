@@ -49,7 +49,8 @@ export const environment = {
   appiyoDrive: '/d/drive/upload/',
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
   isMobile: false,
-  isMaas360Enabled: false
+  isMaas360Enabled: false,
+  lmsSITDate:'2021-09-30'
 
 };
 
