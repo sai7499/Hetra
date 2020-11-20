@@ -889,22 +889,22 @@ export class ApiService {
     sendBackToSales: {
       processId: '7a0640be1a7911eb9ca100505695f93b',
       workflowId: '79d8aae61a7911eb9fe400505695f93b',
-      projectId : environment.projectIds.submitToCredit,
+      projectId: environment.projectIds.submitToCredit,
     },
-    getRcuDetails:{
+    getRcuDetails: {
       processId: '55754d6e1e7311eb857100505695f93b',
       workflowId: 'cb68bc321e5e11ebb8f300505695f93b',
-      projectId : environment.projectIds.camProjectId,
+      projectId: environment.projectIds.camProjectId,
     },
-    assignRcuTask:{
+    assignRcuTask: {
       processId: 'a55088661f5011eb842c00505695f93b',
       workflowId: '403a8a12b79511ea8afff2fa9bec3d63',
-      projectId : environment.projectIds.taskProjectId,
+      projectId: environment.projectIds.taskProjectId,
     },
-    saveUpdateRcuDetails:{
+    saveUpdateRcuDetails: {
       processId: 'cba377141e5e11eb8fb700505695f93b',
       workflowId: 'cb68bc321e5e11ebb8f300505695f93b',
-      projectId : environment.projectIds.camProjectId,
+      projectId: environment.projectIds.camProjectId,
     },
     getQueries: {
       processId: 'bc794b1c18df11eb917900505695f93b',
@@ -940,7 +940,43 @@ export class ApiService {
       processId: 'f0f395d824eb11eb91b100505695f93b',
       workflowId: 'b50e63f4235b11eb937600505695f93b',
       projectId: environment.projectIds.camProjectId
+    },
+    supervisorReporters: {
+      processId: 'b1e4ab40234a11eba48800505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    supervisorGetUsers: {
+      processId: '6b03a16628e211ebbefa00505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    supervisorReAssign: {
+      processId: '416121c228eb11eb9fb000505695f93b',
+      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.taskProjectId
+    },
+    stopRcuTask: {
+      processId: '9383864228a111ebbf3f00505695f93b',
+      workflowId: 'a513d5ce1f5011eba48800505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
+    getAssetRemarks : {
+      processId: 'b9de5b3828fa11eb97ad00505695f93b',
+      workflowId: 'b995a56e28fa11eb8ead00505695f93b',
+      projectId: environment.projectIds.remarksProjectId
+    },
+    saveAssetRemarks : {
+      processId: '124ed4e228b411eb979100505695f93b',
+      workflowId: '11ffd41428b411eb85f300505695f93b',
+      projectId: environment.projectIds.remarksProjectId
+    },
+    assignCPCMaker : {
+      processId: '8a5609aad32e11eaacee00505695f93b',
+      workflowId: '8a1d1abed32e11eaa96700505695f93b',
+      projectId: environment.projectIds.assignCPCMaker
     }
+
 
   };
 }

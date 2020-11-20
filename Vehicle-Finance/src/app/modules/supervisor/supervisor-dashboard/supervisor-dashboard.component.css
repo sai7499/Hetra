@@ -13,8 +13,8 @@
   .child-data-list {
       position: relative;
   }
-  .parent-list,
-  .child-list {
+  .parent-list
+   {
      position: absolute;
      top: 10px;
      left: 0;
@@ -84,6 +84,9 @@
   }
   
 
+  .td-bg {
+   background-color: #ffffff;
+ }
   /* fallback */
 /* @font-face {
    font-family: 'Material Icons';
@@ -106,4 +109,113 @@
    direction: ltr;
    -webkit-font-feature-settings: 'liga';
    -webkit-font-smoothing: antialiased;
+ } */
+
+
+ @media (min-width:525px) and (max-width:767px) {
+
+   .child-list {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      margin-left: 80px;
+      z-index: 100;
+      width:50%;
+      
+   }
+
+   .child-list .supervisor-data-table{
+      width:100%;
+   }
+
+   .parent-list
+   {
+     position: absolute;
+     top: 10px;
+     left: 0;
+     margin-left: 80px;
+     z-index: 100;
+     width:50%;
+     
+  }
+
+ }
+
+ /* @media (min-width:480) and (max-width:524){
+   .child-list {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      margin-left: 70px!important;
+      z-index: 100;
+      width:40%!important;
+      
+   }
+
+   .child-list .supervisor-data-table{
+      width:100%;
+   }
+
+   .parent-list
+   {
+     position: absolute;
+     top: 10px;
+     left: 0;
+     margin-left: 70px;
+     z-index: 100;
+     width:40%;
+     
+  }
+ }
+
+ @media (min-width:441) and (max-width:479){
+   .child-list {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      margin-left: 60px!important;
+      z-index: 100;
+      width:30%!important;
+      
+   }
+   .child-list .supervisor-data-table{
+      width:100%;
+   }
+   .parent-list
+   {
+     position: absolute;
+     top: 10px;
+     left: 0;
+     margin-left: 60px;
+     z-index: 100;
+     width:30%;
+     
+  }
+ }
+
+ @media (min-width:392) and (max-width:440){
+   .child-list {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      margin-left: 50px!important;
+      z-index: 100;
+      width:20%!important;
+      
+   }
+
+   .child-list .supervisor-data-table{
+      width:100%;
+   }
+
+   .parent-list
+   {
+     position: absolute;
+     top: 10px;
+     left: 0;
+     margin-left: 50px;
+     z-index: 100;
+     width:30%;
+     
+  }
  } */

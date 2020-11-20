@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
@@ -19,6 +19,7 @@ import { PollingService } from '@services/polling.service';
 import { timer } from 'rxjs';
 import { LeadHistoryService } from '@services/lead-history.service';
 import { CommonDataService } from '@services/common-data.service';
+import { SupervisorService } from '@modules/supervisor/service/supervisor.service';
 
 export enum DisplayTabs {
   Leads,
@@ -67,7 +68,10 @@ export enum DisplayTabs {
   ReversedLeadsWithBranch,
   RCU,
   RCUWithMe,
-  RCUWithBranch
+  RCUWithBranch,
+  CPCCAD,
+  CPCCADWithMe,
+  CPCCADWithBranch
 }
 
 export enum sortingTables {
@@ -97,7 +101,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   supervisorForm: FormGroup
   filterForm: FormGroup;
   showFilter;
-  roleType;
+  roleType: any;
   labels: any = {};
   validationData;
   isDirty: boolean;
@@ -162,6 +166,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   supervisor: boolean;
   userName: any;
   reAssignData: any;
+  loginId: any;
+  userData: any;
+  supervisorRoleId: any;
+  supervisorRoleType: any;
+  userDetailsRoleType: any;
+  selfAssign: boolean;
+  selfAssignLoginId: any;
+  showModal: boolean;
+  @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
+  @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
+  userDetailsRoleId: any;
+  supervisorUserId: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -181,7 +197,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private pollingService: PollingService,
     private queryModelService: QueryModelService,
     private leadHistoryService: LeadHistoryService,
-    private commonDataService: CommonDataService
+    private commonDataService: CommonDataService,
+    private supervisorService: SupervisorService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -194,6 +211,51 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const thisUrl = this.router.url;
+    console.log(thisUrl);
+
+    this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
+      console.log(value);
+      if (value) {
+        this.userName = value.roleName;
+        this.supervisorRoleId = value.roleId;
+        this.supervisorRoleType = value.roleType;
+      }
+    });
+    this.sharedService.isSupervisorRoleId.subscribe((value: any) => {
+      console.log(value);
+      if (value) {
+        this.supervisorUserId = value;
+      }
+
+    })
+
+
+    this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
+      this.branchId = userDetails.branchId;
+      this.userDetailsRoleId = userDetails.roleId;
+      this.businessDivision = userDetails.businessDivision[0].bizDivId;
+      this.userDetailsRoleType = userDetails.roleType;
+      this.selfAssignLoginId = userDetails.loginId
+    });
+
+
+    if (this.supervisorRoleType == this.userDetailsRoleType) {
+      this.selfAssign = true;
+    } else {
+      this.selfAssign = false;
+    }
+    if (this.userName) {
+      this.roleType = this.supervisorRoleType
+      this.roleId = this.supervisorRoleId
+      this.router.navigate(['/pages/supervisor/dashboard']);
+
+    } else {
+      this.roleType = this.userDetailsRoleType
+      this.roleId = this.userDetailsRoleId
+      this.router.navigate(['/pages/dashboard']);
+    }
+    console.log(this.roleType);
 
     this.supervisorForm = this.fb.group({
       roles: ['']
@@ -205,9 +267,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.supervisor = false;
     }
 
-    this.sharedService.userName$.subscribe((value) => {
-      this.userName = value;
-    })
+
 
     this.userId = localStorage.getItem('userId')
 
@@ -216,12 +276,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     localStorage.removeItem('istermSheet');
     localStorage.removeItem('salesResponse');
     localStorage.removeItem('isFiCumPd');
-    this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
-      this.branchId = userDetails.branchId;
-      this.roleId = userDetails.roleId;
-      this.businessDivision = userDetails.businessDivision[0].bizDivId;
-      this.roleType = userDetails.roleType;
-    });
+
+
     localStorage.setItem('isPreDisbursement', 'false');
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
@@ -229,27 +285,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       this.onTabsLoading(this.subActiveTab);
     } else {
-      if (this.roleType === 1) {
+      if (this.roleType == '1') {
         this.activeTab = 0;
         this.subActiveTab = 3;
         this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType === 2) {
+      } else if (this.roleType == '2') {
         this.activeTab = 18;
         this.subActiveTab = 21;
         this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType === 4) {
+      } else if (this.roleType == '4') {
         this.activeTab = 30;
         this.subActiveTab = 31;
         this.onTabsLoading(this.subActiveTab);
         this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe, 'CPC');
-      } else if (this.roleType === 5) {
+      } else if (this.roleType == '5') {
         this.activeTab = 33;
         this.subActiveTab = 34;
         this.onTabsLoading(this.subActiveTab);
         this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
-      } else if (this.roleType === 6) {
+      } else if (this.roleType == '6') {
         this.activeTab = 44;
         this.subActiveTab = 45;
+        this.onTabsLoading(this.subActiveTab);
+      } else if (this.roleType == '7') {
+        this.activeTab = 47;
+        this.subActiveTab = 48;
         this.onTabsLoading(this.subActiveTab);
       }
     }
@@ -506,12 +566,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -584,6 +644,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
       case 45: case 46:
         this.taskName = 'RCU';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 48: case 49:
+        this.taskName = 'CPC-CAD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       default:
@@ -905,6 +969,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 45: case 46:
         this.router.navigateByUrl(`/pages/dde/${this.leadId}/rcu`);
         break;
+      case 48: case 49:
+        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
+        break;
 
       default:
         break;
@@ -984,7 +1051,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: triple-equals
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
-        this.onRoutingTabs(this.subActiveTab);
+        if (this.userName) {
+          return;
+        } else {
+          this.onRoutingTabs(this.subActiveTab);
+        }
         this.saveTaskLogs();
       } else {
         this.toasterService.showError(response.Error, '');
@@ -992,27 +1063,74 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSupervisorAssign() {
-    this.onAssign();
-  }
-  getReAssignData(item) {
-    this.reAssignData = item;
-    console.log(this.reAssignData);
 
-  }
-  onReAssign() {
+  // Self-Assign Method
+  onSupervisorAssign(taskId, leadId) {
     const data = {
-      // userId: ,
-      taskId: this.reAssignData.taskId,
-      userId: this.supervisorForm.value
-    };
-    console.log(data);
-    this.taskDashboard.releaseTask(data).subscribe((res: any) => {
+      taskId,
+      loginId: this.selfAssignLoginId
+    }
+    this.supervisorService.supervisorReAssign(data).subscribe((res: any) => {
       console.log(res);
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.toasterService.showSuccess('Self Assigned Successfully', 'Self-Assign')
+        this.onClick();
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, 'Self-Assign');
+      }
+
     })
 
-    console.log(this.supervisorForm.value);
+  }
 
+  onReAssignClick(item) {
+    this.reAssignData = item;
+    // console.log(this.reAssignData);
+    this.getSupervisorUserDetails();
+    // console.log(this.supervisorForm);
+  }
+
+  getSupervisorUserDetails() {
+    const data = {
+      leadId: this.reAssignData.leadId,
+      roleId: this.supervisorRoleId,
+      userId: this.supervisorUserId
+    }
+    this.supervisorService.getSupervisorUserDetails(data).subscribe((res: any) => {
+      console.log(res);
+      this.userData = res.ProcessVariables.loginIds;
+      this.loginId = res.ProcessVariables.thisUser;
+
+    })
+  }
+
+  onConfirmAssign() {
+    this.showModal = true;
+  }
+
+  supervisorReAssign() {
+    const data = {
+      taskId: this.reAssignData.taskId,
+      loginId: this.supervisorForm.value.roles
+    }
+    this.supervisorService.supervisorReAssign(data).subscribe((res: any) => {
+      console.log(res);
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.toasterService.showSuccess('Re Assigned Successfully', 'Re-Assign');
+        this.onClick();
+        this.closeModal.nativeElement.click();
+        this.closeModal1.nativeElement.click();
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, 'Re-Assign');
+      }
+
+    })
   }
 
   saveTaskLogs() {

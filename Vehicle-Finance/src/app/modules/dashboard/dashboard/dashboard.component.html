@@ -1,8 +1,8 @@
 <main class="mar-top90">
   <div class="container-fluid">
-    <!-- <div *ngIf="userName" style="float: left; margin-left: 5px;">
+    <div *ngIf="userName" style="float: left; margin-left: 5px;">
       <h4>{{userName}} dashboard</h4>
-    </div> -->
+    </div>
     <div class="pull-right dropdown nav">
       <div class="pull-right dropdown nav">
         <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
@@ -13,13 +13,14 @@
               <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter Applied</button>
           </div> -->
 
-      <div class="pull-right dropdown nav" style="margin: 0 10px 10px 0">
+      <div class="pull-right dropdown nav" style="margin-right: 10px">
         <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
           Initiate Query &nbsp;
           <i class="fa fa-bell cus-bell font-medium-3"></i><span class="notification badge badge-pill badge-danger"
             *ngIf="leadCount && leadCount !== 0">{{leadCount}}</span>
-          <!-- <span class="badge badge-light">{{leadCount}}</span> -->
+         
         </button>
+         
       </div>
 
     </div>
@@ -393,13 +394,35 @@
   </div>
   <!-- RCU Dashboard Ends -->
 
+  <!-- CPCCAD Dashboard Starts -->
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '7'">
+    <ul class="nav nav-pills nav-justified" id="background_white">
+      <li (click)="onLeads(displayTabs?.CPCCAD, displayTabs?.CPCCADWithMe)"
+        [ngClass]="{'active':displayTabs?.CPCCAD === activeTab}" routerLinkActive="active"><a data-toggle="tab">CAD</a>
+      </li>
+    </ul>
+  </div>
+  <div class="container-fluid mar-bottom" *ngIf="roleType == '7'">
+    <ul *ngIf="displayTabs?.CPCCAD === activeTab" class="nav nav-pills nav-justified" id="background_white">
+      <li class="active" (click)="leads(displayTabs?.CPCCADWithMe)"
+        [ngClass]="{'active':displayTabs?.CPCCADWithMe === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab"> CAD Pending with Me</a></li>
+      <li (click)="leads(displayTabs?.CPCCADWithBranch)"
+        [ngClass]="{'active':displayTabs?.CPCCADWithBranch === subActiveTab}" routerLinkActive="active"><a
+          data-toggle="tab">CAD Pending with Branch</a></li>
+    </ul>
+  </div>
+  <!-- CPCCAD
+     Dashboard Ends -->
+
   <div>
     <div class="container-fluid">
       <table
         *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab">
         <thead>
           <tr class="table-head-bg">
-            <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
+            <th *ngIf="userName">{{labels?.action}}</th>
+            <th *ngIf="(onReleaseTab || onAssignTab) && !userName">{{labels?.action}}</th>
             <th>{{labels?.leadID}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
                 (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
             <th>{{labels?.applicantName}} </th>
@@ -426,22 +449,46 @@
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()" value="Release"
                 data-toggle="modal" data-target="#releaseModal">
             </td> -->
-            <!--  -->
-            <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
+
+            <td *ngIf="onReleaseTab && !userName">
               <input type="button" class="btn btn-primary"
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
                 value="Release" data-toggle="modal" data-target="#releaseModal">
-              <!-- <a title="Self-Assign" data-toggle="modal" data-target="#supervisorTaskAssign"><i
-                  class="glyphicon glyphicon-retweet" aria-hidden="true"></i></a> -->
-              <!-- <input type="button" style="margin-top: 5px;" (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
-              <input type="button" style="margin-top: 5px;" (click)="getReAssignData(item)" class="btn btn-primary" value="Re-Assign"
-                data-toggle="modal" data-target="#supervisorTaskAssign"> -->
             </td>
-            <!--  -->
-            <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
+            <td *ngIf="onAssignTab && !userName">
               <input type="button" class="btn btn-primary"
                 (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                 value="Assign" data-toggle="modal" data-target="#assignModel" />
+            </td>
+            <!--  -->
+            <td [attr.data-label]="labels?.action" *ngIf="userName && (!onReleaseTab && !onAssignTab)">
+              <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
+                (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
+                value="Release" data-toggle="modal" data-target="#releaseModal"> -->
+              <input type="button" *ngIf="selfAssign" style="margin-top: 5px;"
+                (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
+              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)"
+                class="btn btn-primary" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+            </td>
+            <td [attr.data-label]="labels?.action" *ngIf="userName && onReleaseTab">
+              <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
+                (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
+                value="Release" data-toggle="modal" data-target="#releaseModal"> -->
+              <input type="button" *ngIf="selfAssign" style="margin-top: 5px;"
+                (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
+              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)"
+                class="btn btn-primary" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+            </td>
+            
+            <!--  -->
+            <td [attr.data-label]="labels?.action" *ngIf="userName && onAssignTab">
+              <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
+                (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
+                value="Assign" data-toggle="modal" data-target="#assignModel" /> -->
+              <input type="button" *ngIf="selfAssign" style="margin-top: 5px;"
+                (click)="onSupervisorAssign(item.taskId, item.leadId)" class="btn btn-primary" value="Self Assign">
+              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)"
+                class="btn btn-primary" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
             </td>
             <td [attr.data-label]="labels?.leadID" *ngIf="!onReleaseTab && !onAssignTab">
               <a class="text-underline"
@@ -468,8 +515,8 @@
             <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
             <td [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
             <td [attr.data-label]="labels?.history">
-              <a data-toggle="modal" data-target="#leadHistoryModal" data-tooltip="Lead History" data-placement="bottom" (click)="onLeadHistory(item.leadId)"> <i
-                  class="fa fa-history"></i></a>
+              <a data-toggle="modal" data-target="#leadHistoryModal" data-tooltip="Lead History" data-placement="bottom"
+                (click)="onLeadHistory(item.leadId)"> <i class="fa fa-history"></i></a>
             </td>
           </tr>
         </tbody>
@@ -604,7 +651,7 @@
           <form [formGroup]="supervisorForm">
             <select formControlName="roles" class="form-control">
               <option value=''>-- select one --</option>
-              <option *ngFor="let role of roleList" [value]="role">
+              <option *ngFor="let role of userData" [value]="role">
                 {{role}}
               </option>
             </select>
@@ -627,12 +674,13 @@
 
         </div>
         <div class="modal-footer text-center">
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmTaskAssign">
+          <button type="button" class="btn btn-success" (click)="onConfirmAssign()" data-toggle="modal" data-target="#confirmTaskAssign">
             Submit
           </button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">
             Close
           </button>
+          <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal> close</button>
         </div>
       </div>
     </div>
@@ -653,12 +701,13 @@
           <p>Are you sure want to assign task</p>
         </div>
         <div class="modal-footer text-center">
-          <button type="button" (click)="onReAssign()" class="btn btn-success">
+          <button type="button" (click)="supervisorReAssign()" class="btn btn-success">
             Yes
           </button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">
             No
           </button>
+          <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal1> close</button>
         </div>
       </div>
     </div>

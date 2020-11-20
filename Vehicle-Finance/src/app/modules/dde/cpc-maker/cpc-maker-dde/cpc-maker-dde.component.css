@@ -273,6 +273,13 @@ select#select_main_button_match {
     max-height: 400px;
     overflow-x: hidden;
 }
+.first-box > .multisteps-form__progress-btn:first-child:after {
+    display: none;
+  }
+  
+  .second-box > .multisteps-form__progress-btn:first-child:after {
+    display: none;
+  }
 
 /* progress bar */
   .multisteps-form__progress-btn {
@@ -289,11 +296,13 @@ select#select_main_button_match {
     outline: none !important;
     cursor: pointer;
   }
-  @media (min-width: 200px) {
+  @media (min-width: 200px)  {
     .multisteps-form__progress-btn {
       text-indent: 0;
     }
+
   }
+  
   .multisteps-form__progress-btn:before {
     position: absolute;
     top: 0;
@@ -415,5 +424,47 @@ select#select_main_button_match {
       margin-top: 4px;
   }
 
+/* Scroll*/
 
-  
+.scrollmenu{
+    visibility: hidden;
+  }
+
+  div.scrollmenu {
+  overflow: auto;
+    white-space: nowrap;
+    width: 80%;
+    margin: auto;
+    padding: 15px 0px 0px 0px;
+}
+
+
+body{ overflow:hidden}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #777;
+}
+
+
+
+  @media (min-width: 200px) and (max-width:767px) {
+    
+    .scrollmenu{
+        visibility:visible!important;
+      }
+    
+      .main-tab{
+        display:none;
+      }
+    
+     
+      
+  }

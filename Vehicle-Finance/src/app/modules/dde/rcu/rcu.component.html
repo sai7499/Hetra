@@ -1,74 +1,72 @@
 <div style="text-align: center;">
-  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails" (click)="showInitiateTask()"
+  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr == true" (click)="showInitiateTask()"
     type="button">{{labels?.initiateRcu}}</button>
 </div>
-<form class="multisteps-form__form" *ngIf="!isRcuDetails" [formGroup]="rcuDetailsForm">
+<form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr == true" [formGroup]="rcuDetailsForm">
   <h3 class="dashboard m-0">{{ labels?.rcu }}</h3>
   <!--progress bar-->
   <div class="content">
-    <div class="form-group">
-      <div class="col-md-3"></div>
-      <div class="col-md-2 rcuStatus"><label>{{ labels?.fileRcuStatus }} :</label></div>
-      <div class="col-md-2 sampled">
-        <input type="radio" name="fileRCUStatus" value="screened" id="screened" formControlName="fileRCUStatus"
-          (click)="testRadio('screened')">
-        <label for="screened"> Screened</label>
-      </div>
-      <div class="col-md-4 ">
-        <input type="radio" name="fileRCUStatus" value="sampled" id="sampled" formControlName="fileRCUStatus"
-          (click)="testRadio('sampled')">
-        <label for="sampled"> Sampled</label>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    
-    
+    <div class="flex-container form-group text-center">
+      <div class="flex-con"></div>
+      <div class="row">
+        <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12"><label>{{ labels?.fileRcuStatus }} :</label></div>
+        <div class="col-lg-3 col-sm-4 col-md-3 col-xs-12">
+          <input type="radio" name="fileRCUStatus" value="screened" id="screened" formControlName="fileRCUStatus"
+            (click)="testRadio('screened')">
+          <label for="screened"> Screened</label>
+        </div>
+        <div class="col-lg-3 col-sm-4 col-md-3 col-xs-12">
+          <input type="radio" name="fileRCUStatus" value="sampled" id="sampled" formControlName="fileRCUStatus"
+            (click)="testRadio('sampled')">
+          <label for="sampled"> Sampled</label>
+        </div>
+      </div>     
+      <div class="flex-con"></div>
+      
+    </div>    
     <div class="clearfix"></div>
     <div class="form-group od-row" >
-      <div class="col-md-2 pl"><label>{{labels?.applicantNameCam}}</label></div>
-      <div class="col-md-2">
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.applicantNameCam}}</label></div>
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <select class="form-control mandatory select2" id="" formControlName="applicantId" name="applicantId"
-          class="form-control text-center" (change)="
-      onRcuApplicantChange($event.target.value, i)
-    ">
+          class="form-control text-center" (change)="onRcuApplicantChange($event.target.value, i) ">
           <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
             {{ applicants.fullName }}
           </option>
         </select>
       </div>
-      <div class="col-md-2 pl"><label>{{labels?.applicantType}}</label></div>
-      <div class="col-md-2">
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.applicantType}}</label></div>
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <app-custom-input [placeholder]="''" formControlName="applicantType" [isDisabled] = 'true'
           [className]="'form-control mandatory'" 
           [isDirty]="isDirty">
         </app-custom-input>
       </div>
-      <div class="col-md-2 pl"><label>{{labels?.loanAmount}}</label></div>
-      <div class="col-md-2">
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.loanAmount}}</label></div>
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <app-custom-input [placeholder]="''" formControlName="loanAmount" [type]="labels?.validationData?.amountValue?.type" [isDisabled] = 'true'
           [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
           [isDirty]="isDirty">
         </app-custom-input>
       </div>
       <div class="clearfix"></div>
-    </div>
-    <div class="form-group od-row" >
-      <div class="col-md-2 pl"><label>{{labels?.vehicleMake}}</label></div>
-      <div class="col-md-2">
+   
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.vehicleMake}}</label></div>
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <app-custom-input [placeholder]="''" formControlName="vehicleMake" [type]="labels?.validationData?.name?.type"
           [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength" [isDisabled] = 'true'
           [isDirty]="isDirty">
         </app-custom-input>
       </div>
-      <div class="col-md-2 pl"><label>{{labels?.vehicleModel}}</label></div>
-      <div class="col-md-2">
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.vehicleModel}}</label></div>
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <app-custom-input [placeholder]="''" formControlName="vehicleModel" [type]="labels?.validationData?.name?.type"
           [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength" [isDisabled] = 'true'
           [isDirty]="isDirty">
         </app-custom-input>
       </div>
-      <div class="col-md-2 pl"><label>{{labels?.vehicleNumber}}</label></div>
-      <div class="col-md-2">
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.vehicleNumber}}</label></div>
+      <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <app-custom-input [placeholder]="''" formControlName="vehicleNo" [type]="labels?.validationData?.receiptNo?.type" 
           [className]="'form-control mandatory textTrans'" [maxLength]="labels?.validationData?.receiptNo?.maxLength" [inputClass]="'input-upper'" [isDisabled] = 'true'
           [isDirty]="isDirty">
@@ -77,26 +75,21 @@
       <div class="clearfix"></div>
     </div>
 
-    <div class="row app-doc">
-      <span class="input-group-btn">
-        <div class="col-md-6 text-right hetra-tabs">
-          
-          <button class="btn btn-primary" type="button" (click)="showDocuments('applicant')"
-            [ngClass]="{'active': tab==='tab1'}" routerLinkActive="active">{{labels?.showApplicantDocuments}}</button>
+
+    <div _ngcontent-kdl-c9="" class="row">
+      <div _ngcontent-kdl-c9="" class="input-group-btn row ">
+        <div _ngcontent-kdl-c9="" class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-right hetra-tabs">
+          <button _ngcontent-kdl-c9="" class="btn btn-primary active" routerlinkactive="active" type="button" ng-reflect-router-link-active="active" ng-reflect-klass="btn btn-primary" ng-reflect-ng-class="[object Object]">Show Applicant Documents</button>
         </div>
-        <div class="col-md-6 hetra-tabs">
-        
-          <button class="btn btn-primary" type="button" (click)="showDocuments('colletral')"
-            [ngClass]="{'active': tab==='tab2'}" routerLinkActive="active">{{labels?.showCollateralDocuments}}</button>
+        <div _ngcontent-kdl-c9="" class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-left hetra-tabs">
+          <button _ngcontent-kdl-c9="" class="btn btn-primary" routerlinkactive="active" type="button" ng-reflect-router-link-active="active" ng-reflect-klass="btn btn-primary" ng-reflect-ng-class="[object Object]">Show Collateral Documents</button>
         </div>
-      </span>
+      </div>
     </div>
-
-
     <!-- <div class="for_space"></div> -->
 
 
-    <div class="table-responsive application mt-3" >
+    <div class="table-responsive application mb-10 main-table" >
       <table id="POITable_other" border="0" class="table">
         <thead>
           <tr class="caption">
@@ -126,62 +119,62 @@
           let item of rcuDetailsForm.controls.applicantDocuments.controls;
           let i = index
         " [formGroupName]="i">
-            <td data-title="Member">
-              {{i+1}}
+            <td [attr.data-label]="labels?.sNo" data-title="Member">
+              1
             </td>
-            <td data-title="Member">
-              <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+            <td [attr.data-label]="labels?.documentName" data-title="Member">
+              <app-custom-input [placeholder]="'Document Name'"  [isDisabled] = 'true'
+                [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentCategory" data-title="Member">
               <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentNumber" data-title="Member">
               <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
-                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [isDisabled] = 'true'
+                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control-ins mandatory'" [isDisabled] = 'true'
                 [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.issueDate" data-title="Member">
              
-              <kendo-datepicker class="form-control" formControlName="issueDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+              <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
+              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.expiryDate" data-title="Member">
               
-              <kendo-datepicker class="form-control" formControlName="expiryDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+              <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
+              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
-            <td data-title="Member">
-              <input name="input" type="text" class="form-control file-input" formControlName="dmsDocumentID" readonly
+            <td [attr.data-label]="labels?.documentId" data-title="Member">
+              <input name="input" type="text" class="form-control form-control-cus file-input box-height" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.sampled" data-title="Member">
               
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="sampled">
+          ]" formControlName="sampled" class="form-control form-control-cus">
               </app-vf-custom-select>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.screened" data-title="Member">
              
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="screened">
+          ]" formControlName="screened" class="form-control form-control-cus">
         </app-vf-custom-select>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.status" data-title="Member">
             
-              <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus">
+              <app-vf-custom-select [values]="rcuLov?.status" class="form-control form-control-cus" formControlName="rcuStatus">
               </app-vf-custom-select>
             </td>
           </tr>
@@ -195,58 +188,58 @@
             <td data-title="Member">
               {{i+1}}
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentName" data-title="Member">
               <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'form-control form-control-cus mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentCategory" data-title="Member">
               <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled] = 'true'
-                [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+                [type]="labels?.validationData?.name?.type" [className]="'form-control form-control-cus mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.documentNumber" data-title="Member">
               <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
-                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'" [isDisabled] = 'true'
+                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control form-control-cus mandatory'" [isDisabled] = 'true'
                 [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.issueDate" data-title="Member">
             
-              <kendo-datepicker class="form-control" formControlName="issueDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+              <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
+              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.expiryDate" data-title="Member">
              
-              <kendo-datepicker class="form-control" formControlName="expiryDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
+              <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
+              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
-            <td data-title="Member">
-              <input name="input" type="text" class="form-control file-input" formControlName="dmsDocumentID" readonly
+            <td [attr.data-label]="labels?.documentId" data-title="Member">
+              <input name="input" type="text" class=" form-control form-control-cus file-input" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.sampled" data-title="Member">
               
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="sampled">
+          ]" formControlName="sampled" class="form-control-cus">
               </app-vf-custom-select>
             </td>
-            <td data-title="Member">
+            <td [attr.data-label]="labels?.screened" data-title="Member">
              
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
-          ]" formControlName="screened">
+          ]" formControlName="screened" class="form-control-cus">
         </app-vf-custom-select>
             </td>
-            <td data-title="Member">
-                 <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus">
+            <td [attr.data-label]="labels?.status" data-title="Member">
+                 <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus" class="form-control-cus">
         </app-vf-custom-select>
 
             </td>
@@ -257,44 +250,69 @@
 
     </div>
     
+
     <div class="form-group od-row">
-      <div class="col-md-2 fitWidth pl-top"><label>{{labels?.rcuReportStatus}}</label></div>
-      <div class="col-md-2">
+      <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12"><label>{{labels?.rcuReportStatus}}</label></div>
+      <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12">
         <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
         </app-vf-custom-select>
-      </div>
-      <div class="col-md-1 fitWidth pl-top"><label class="">{{labels?.rcuUpload}}</label></div>
-      <div class="col-md-1 pl-top"  >
+      </div> 
+      <!-- <div class="col-md-1 fitWidth pl-top" *ngIf="roleType == '6'" ><label class="">{{labels?.rcuUpload}}</label></div>
+      <div class="col-md-1 pl-top" *ngIf="roleType == '6'"  >
         
         <label 
           ><i 
             class="fa fa-upload fa-3 custom-file-label cursor-pointer"
             aria-hidden="true"
-            id="add_more_documents_upload1a" (click)="uploadDoc()"
+            id="add_more_documents_upload1a" (click)="uploadDoc()" 
           ></i></label>
          
         
-      </div>
-      <div class="col-md-1 fitWidth pl-top"><label>{{labels?.rcuDocumentId}}</label></div>
+      </div> -->
+      <!-- <div class="col-md-1 fitWidth pl-top"><label>{{labels?.rcuDocumentId}}</label></div>
       <div class="col-md-1">
         <input name="input" type="text" class="form-control file-input" formControlName="rcuDocumentId" readonly
         (click)="downloadDocs($event.target.value)" />
-      </div>
-      <div class="col-md-2"><label>{{labels?.rcuReportReceivedDateandTime}}</label></div>
-      <div class="col-md-2">
-        <input name="input" type="text" class="form-control" formControlName="rcuReportReceivedDateTime" readonly
-        value="{{today}}" />
-        
-
-      </div>
-      <div class="clearfix"></div>
+      </div> -->
+      <!--<div _ngcontent-uth-c9="" class="form-group  col-lg-2 col-md-3 col-sm-6 col-xs-12">
+        <app-vf-custom-select _ngcontent-uth-c9="" formcontrolname="rcuReportStatus" _nghost-uth-c11="" ng-reflect-values="[object Object],[object Object" ng-reflect-name="rcuReportStatus" class="ng-untouched ng-pristine">
+          <select _ngcontent-uth-c11="" ng-reflect-is-disabled="true" ng-reflect-model="FRDRCMSTS" class="form-control mandatory ng-untouched ng-pristine" disabled="">
+            <option _ngcontent-uth-c11="" value="" ng-reflect-value="" disabled="">-- select one --</option><!--bindings={
+          "ng-reflect-ng-for-of": "[object Object],[object Object"
+        }--><!--<option _ngcontent-uth-c11="" value="UTVRCMSTS" ng-reflect-value="UTVRCMSTS">Failed / Unable to verify</option><option _ngcontent-uth-c11="" value="FRDRCMSTS" ng-reflect-value="FRDRCMSTS">Fraud</option><option _ngcontent-uth-c11="" value="NEGRCMSTS" ng-reflect-value="NEGRCMSTS">Negative</option><option _ngcontent-uth-c11="" value="POSRCMSTS" ng-reflect-value="POSRCMSTS">Positive</option></select><!--bindings={
+          "ng-reflect-ng-if": "false"
+        }</app-vf-custom-select>
+    </div>-->
+    <div _ngcontent-uth-c9=""*ngIf="roleType == '6'"  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+      <label _ngcontent-uth-c9="" class="">RCU Upload</label>
     </div>
-    <div class="form-group od-row">
-      <div class="col-md-1  pl-top"><label>{{labels?.remark}}</label></div>
-      <div class="col-md-11">
+    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+      <label _ngcontent-uth-c9=""><i _ngcontent-uth-c9="" aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer" id="add_more_documents_upload1a"></i></label>
+    </div>
+    <div class="clearfix clearfix-hide"></div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12"  >
+      <label _ngcontent-uth-c9="">RCU Document Id</label>
+    </div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+      <input _ngcontent-uth-c9="" class="form-control file-input ng-untouched ng-pristine" formControlName="rcuDocumentId" readonly
+      (click)="downloadDocs($event.target.value)">
+    </div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+      <label _ngcontent-uth-c9="">RCU Report Received Date/Time</label>
+    </div>
+    <div _ngcontent-uth-c9="" class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+      <input _ngcontent-uth-c9="" class="form-control ng-untouched ng-pristine" formcontrolname="rcuReportReceivedDateTime" name="input" readonly="" type="text" disabled="" ng-reflect-name="rcuReportReceivedDateTime">
+    </div>
+  </div>
+  <div class="clearfix"></div>
+
+
+    <div class="form-group row">
+      <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12"><label>{{labels?.remark}}</label></div>
+      <div class="form-group col-lg-11 col-md-11 col-sm-11 col-xs-12">
         <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="remarks"></textarea>
       </div>
-      <div class="clearfix"></div>
+     
     </div>
   </div>
 </form>
@@ -305,10 +323,13 @@
     <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details"  *ngIf="showBack == true">
       Back
     </button>
-    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSave()"  *ngIf="showSave == true">
       Save
     </button>
-    <button class="btn btn-primary dash_href" type="button" routerLink="../fi-list"  *ngIf="showBack == true">
+    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
+      Submit
+    </button>
+    <button class="btn btn-primary dash_href" type="button" (click)="onNext()"  *ngIf="showBack == true">
       Next
     </button>
   </div>
@@ -319,7 +340,7 @@
     <div id="overlay" *ngIf="isInitiateScreen">
       <div id="text">
         <div class="panel">
-          <div class="panel-body">        
+          <div class="panel-body p-0">        
             <button type="button" class="close" aria-label="Close" (click)="isInitiateScreen = false" >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -327,8 +348,8 @@
               <div class="modal-body" style="text-align:center;">
                 <p>{{errorMessage}}</p>
                 <div class="btn-wrap">
-                  <button class="btn btn-success" (click)="assignRcuTask()">Yes</button>&nbsp;
-                  <button class="btn btn-danger" (click)="isInitiateScreen = false">No</button>
+                  <button class="btn btn-success btn-ok" (click)="assignRcuTask()">Yes</button>&nbsp;
+                  <button class="btn btn-danger btn-ok" (click)="isInitiateScreen = false">No</button>
                 </div>
               </div>
             </div>
@@ -336,3 +357,28 @@
         </div>
       </div>
     </div>
+    <div id="overlay" *ngIf="errorGenerated">
+      <div id="text">
+          <div class="panel">
+              <div class="panel-body">
+                
+                  <div class="modal-dialog">
+                      <div class="modal-body" style="text-align:center;">
+                          <div class="errHead">
+                              <h3 class="m-0">{{labels?.rcu}}</h3>
+                          </div>
+                          <div class="row" >
+                              <div class="col-md-12">
+  
+                                  <div class="errText">{{errMsg}}</div>
+                              </div>
+                          </div>
+                          <div class="btn-wrap">
+                              <button class="btn btn-primary" (click)="errGenerated()">OK</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
