@@ -471,6 +471,7 @@ export class TeleVerificationFormComponent implements OnInit {
     }
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
+
     if (this.teleVerificationForm.valid === true) {
       // console.log('success');
       this.tvrDetails = this.teleVerificationForm.value;

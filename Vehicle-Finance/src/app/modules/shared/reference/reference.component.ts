@@ -387,6 +387,8 @@ export class ReferenceComponent implements OnInit {
           }
          
         }
+
+        this.apiValue = this.referenceForm.getRawValue();
       });
   }
 
@@ -444,8 +446,10 @@ export class ReferenceComponent implements OnInit {
 
             this.refTwofirstName = `${this.responseData[1].firstName}`;
             this.refTwomiddleName = `${(this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName}`;
+            this.refTwolastName = `${(this.responseData[1].lastName == null) ? '' : this.responseData[1].lastName}`;
           }
-            this.apiValue = this.referenceForm.getRawValue();
+          console.log('hello')
+            
           } else {
             const message = response.ProcessVariables.error.message;
             this.toasterService.error(message, 'Reference Details');

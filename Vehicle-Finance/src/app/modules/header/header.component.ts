@@ -16,6 +16,12 @@ export class HeaderComponent implements OnInit {
   buildDate;
   leadHistories: any;
   topBandData: any;
+
+  itemsPerPage: any = '25';
+  currentPage: any;
+  count: any;
+  maxSize: number;
+
   constructor(
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -24,6 +30,14 @@ export class HeaderComponent implements OnInit {
     private commonDataService: CommonDataService
 
   ) {
+    if (environment.isMobile === true) {
+      this.itemsPerPage = '25';
+      this.maxSize = 2;
+    } else {
+      this.itemsPerPage = '100';
+      this.maxSize = 7;
+    }
+
     this.appVersion = environment.version;
     this.buildDate = environment.buildDate;
     const lovData = this.activatedRoute.snapshot.data.getLOV;
@@ -58,8 +72,9 @@ export class HeaderComponent implements OnInit {
       })
   }
 
-  onTest() {
-
+  setPage(event) {
+    console.log("pagenation", event);
+    this.currentPage = event;
   }
 
   goToActivitySearch() {

@@ -64,7 +64,8 @@
                   <div> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
                       data-target="#myModalApplicantImage" title="View Bureau Report"> <strong
                         class="icon">CB</strong></a></div>
-                  <div><a data-toggle="modal" data-target="#myModalApplicanteKYC" title="View applicant eKYC"
+                  <div><a data-toggle="modal" data-target="#myModalApplicanteKYC" 
+                    title="View applicant eKYC"  (click)="geteKYCDetails(item.applicantId)"
                       >
                       <strong class="icon">ER</strong>
                     </a></div>
@@ -207,6 +208,12 @@
     </div>
   </div>
 
+<!--   
+  <div class="modal" id="myModalApplicanteKYC">
+    <div class="modal-dialog  modal-style">
+      <div class="modal-content">
+        <div class="modal-header mod-header"> -->
+
   <div class="modal" id="myModalApplicanteKYC">
     <div class="modal-dialog  modal-style">
       <div class="modal-content">
@@ -221,7 +228,7 @@
               </button>
             </div>
             <main id="ekyc-to-print" class="ekyc-to-print" >
-              <div class="main-table">
+              <div class="content-two">
                 <div class="row">
                   <div class="main-div-contents">
                     <div class="tablewithheading">
@@ -234,8 +241,8 @@
                       </table>
                     </div>
             
-                    <div>
-                      <table class="table table-responsive 0  tab-content">
+                    <div class="tablewithdetails">
+                      <table class="table table-responsive details">
                         <thead>
                           <tr class="table-head text-center">
                             <td class="wid-10">Title</td>
@@ -246,18 +253,18 @@
                         </thead>
                         <tbody>
                           <tr>
-                          <td [attr.data-label]="labels?.title">{{panDetails?.nsdlPanTitle}}</td>
+                            <!-- <td [attr.data-label]="labels?.title">{{panDetails?.nsdlPanTitle}}</td>
                           <td [attr.data-label]="labels?.firstName">{{panDetails?.nsdlFirstName}}</td>
                           <td [attr.data-label]="labels?.middleName">{{panDetails?.nsdlMiddleName}}</td>
-                          <td [attr.data-label]="labels?.lastName">{{panDetails?.nsdlLastName}}</td>
+                          <td [attr.data-label]="labels?.lastName">{{panDetails?.nsdlLastName}}</td> -->
                           </tr>
             
-                          <!-- <tr class=" text-center">
+                          <tr class=" text-center">
                             <td>{{panDetails?.nsdlPanTitle}}</td>
                             <td>{{panDetails?.nsdlFirstName}}</td>
                             <td>{{panDetails?.nsdlMiddleName}}</td>
                             <td>{{panDetails?.nsdlLastName}}</td>
-                          </tr> -->
+                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -274,7 +281,7 @@
                       </table>
                     </div>
             
-                    <div class="tab-content">
+                    <div class="tablewithdetails">
                       <table class="table table-responsive details">
                         <thead>
                           <tr class="table-head text-center">
@@ -312,117 +319,139 @@
             
                     <div class="tab-details">
                       <div class="p-0 row " id="">
-                        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-12 p-0">
+                        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
             
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Name</p>
                             </div>
-                           
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.applicantName}}</p>
+                              <p class="">{{adhaarDetails?.applicantName}}</p>
                             </div>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">DOB</p>
                             </div>
-                           
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.DOB}}</p>
+                              <p class="">{{adhaarDetails?.DOB}}</p>
                             </div>
                           </div>
             
                         </div>
-                        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12 p-0">
+                        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Gender</p>
                             </div>
-                            
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.gender}}</p>
+                              <p class="">{{adhaarDetails?.gender}}</p>
                             </div>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">C/O</p>
                             </div>
-                            
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.careOfPerson}}</p>
+                              <p class="">{{adhaarDetails?.careOfPerson}}</p>
                             </div>
                           </div>
             
                         </div>
-                        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-12 p-0">
+                        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Location</p>
                             </div>
-                           
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.locality}}</p>
+                              <p class="">{{adhaarDetails?.locality}}</p>
                             </div>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Landmark</p>
                             </div>
-                            
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.landmark}}</p>
+                              <p class="">{{adhaarDetails?.landmark}}</p>
                             </div>
                           </div>
                         </div>
-                        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12 p-0">
+                        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">City</p>
                             </div>
-                           
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.VTC}}</p>
+                              <p class="">{{adhaarDetails?.VTC}}</p>
                             </div>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">State</p>
                             </div>
-                            
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.state}}</p>
+                              <p class="">{{adhaarDetails?.state}}</p>
                             </div>
                           </div>
                         </div>
-                        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-12 p-0">
+                        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7 p-0">
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">District</p>
                             </div>
-                           
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.district}}</p>
+                              <p class="">{{adhaarDetails?.district}}</p>
                             </div>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Country</p>
                             </div>
-                            
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.country}}</p>
+                              <p class="">{{adhaarDetails?.country}}</p>
                             </div>
                           </div>
                         </div>
-                        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12 p-0">
+                        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5 p-0">
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Pincode</p>
                             </div>
-                            
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                              <p class="var-lab">:</p>
+                            </div>
                             <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                              <p class="">:{{adhaarDetails?.pincode}}</p>
+                              <p class="">{{adhaarDetails?.pincode}}</p>
                             </div>
                           </div>
                         </div>
@@ -441,7 +470,7 @@
                       </table>
                     </div>
             
-                    <div class="tab-content">
+                    <div class="tablewithdetails">
                       <table class="table table-responsive details">
                         <thead>
                           <tr class="table-head text-center">
@@ -451,7 +480,7 @@
                             <td>Mobile Number</td>
                             <td>PAN</td>
                             <td>Adhaar Ref</td>
-                            <td>PassPort</td>
+                            <td>Passport</td>
                           </tr>
                         </thead>
                         <tbody>
@@ -484,7 +513,7 @@
                       </table>
                     </div>
             
-                    <div class="tab-content">
+                    <div class="tablewithdetails">
                       <table class="table table-responsive details">
                         <thead>
                           <tr class="table-head text-center">
@@ -524,13 +553,13 @@
                       <table class="table table-responsive">
                         <thead>
                           <tr class="table-top-bg">
-                            <td class="text-left">Proable Matches</td>
+                            <td class="text-left">Probable Matches</td>
                           </tr>
                         </thead>
                       </table>
                     </div>
             
-                    <div class="tab-content">
+                    <div class="tablewithdetails">
                       <table class="table table-responsive details">
                         <thead>
                           <tr class="table-head text-center">
@@ -542,7 +571,7 @@
                             <td>Mobile Number</td>
                             <td>PAN</td>
                             <td>Adhaar Ref</td>
-                            <td>PassPort</td>
+                            <td>Passport</td>
                           </tr>
                         </thead>
                         <tbody>
@@ -566,122 +595,84 @@
                     </div>
                   </div>
             
-             <!-- <div class="main-div-contents">
-               
-              <div>
-                <table class="table table-responsive">
-                  <thead>
-                    <tr class="table-top-bg">
-                      <td class="text-left">collateral Vehicle Details</td>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
+                  <div class="main-div-contents">
             
-            
-              <div class="tab-details">
-                <div class="p-0 row " id="">
-                  <div class="col-lg-7 col-sm-7 col-md-7 col-xs-6 p-0">
-            
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <p class="var-lab">{{labels?.productOffered}}</p>
-                      </div>
-                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <p class="var-lab">:</p>
-                      </div>
-                      <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                        <p class="">{{collateralVehicleDetails?.applicantName}}</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <p class="var-lab">{{labels?.productCategory}}</p>
-                      </div>
-                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <p class="var-lab">:</p>
-                      </div>
-                      <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                        <p class="">{{collateralVehicleDetails?.product_cat_name}}</p>
-                      </div>
+                    <div>
+                      <table class="table table-responsive">
+                        <thead>
+                          <tr class="table-top-bg">
+                            <td class="text-left">Initial Eligibility Details</td>
+                          </tr>
+                        </thead>
+                      </table>
                     </div>
             
+            
+                    <div class="tab-details">
+                      <div class="p-0 row " id="">
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+                          <div class="row p-0">
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                              <p class="var-lab">{{labels?.productCategory}}</p> 
+                            </div>               
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                              <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.product_cat_name}}</p>                
+                            </div>
+                          </div> 
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                            <p class="var-lab">{{labels?.requestedAmount}}</p>
+                          </div>
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                            <p class="">:&nbsp;{{collateralVehicleDetails?.req_loan_amt}}</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+                          <div class="row p-0">
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                              <p class="var-lab">{{labels?.loanTenor}}</p> 
+                            </div>               
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                              <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.req_tenure}}</p>                
+                            </div>
+                          </div> 
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                            <p class="var-lab">{{labels?.eligibleLoanAmount}}</p>
+                          </div>
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                            <p class="">:&nbsp;{{collateralVehicleDetails?.eligible_loan_amt}}</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+                          <div class="row p-0">
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                              <p class="var-lab">{{labels?.eligibleLTV}}%</p> 
+                            </div>               
+                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                              <p style="text-align: left;">:&nbsp;{{collateralVehicleDetails?.ltv_as_per_policy}}</p>                
+                            </div>
+                          </div> 
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 p-0">
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                            <p class="var-lab">{{labels?.ageOfCarEndOfTenor}}</p>
+                          </div>
+                          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                            <p class="">:&nbsp;{{collateralVehicleDetails?.age_after_tenure}}</p>
+                          </div>
+                        </div>           
+                        
+            
+                      </div>
+                    </div>
+            
+                    
                   </div>
-            
-                  <div class="col-lg-5 col-sm-5 col-md-5 col-xs-6 p-0">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-                      <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
-                        <p class="var-lab">{{labels?.requestedAmount}}</p>
-                      </div>
-                      <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
-                        <p class="var-lab">:</p>
-                      </div>
-                      <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                        <p class="">{{collateralVehicleDetails?.req_loan_amt}}</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <p class="var-lab">{{labels?.loanTenor}}</p>
-                      </div>
-                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <p class="var-lab">:</p>
-                      </div>
-                      <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                        <p class="">{{collateralVehicleDetails?.req_tenure}}</p>
-                      </div>
-                    </div>
-            
-                  </div>
-            
-                  <div class="col-lg-7 col-sm-7 col-md-7 col-xs-6 p-0">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <p class="var-lab">{{labels?.ageOfCarEndOfTenor}}</p>
-                      </div>
-                      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <p class="var-lab">:</p>
-                      </div>
-                      <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                        <p class="">{{collateralVehicleDetails?.age_after_tenure}}</p>
-                      </div>
-                    </div>
-                    </div>
-            
-            
-                    <div class="col-lg-5 col-sm-5 col-md-5 col-xs-6 p-0">
-                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-                        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
-                          <p class="var-lab">{{labels?.eligibleLoanAmount}}</p>
-                        </div>
-                        <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
-                          <p class="var-lab">:</p>
-                        </div>
-                        <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                          <p class="">{{collateralVehicleDetails?.eligible_loan_amt}}</p>
-                        </div>
-                      </div>
-                    </div>
-            
-                    <div class="col-lg-7 col-sm-7 col-md-7 col-xs-6 p-0">
-                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-                        <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                          <p class="var-lab">{{labels?.eligibleLTV}}%</p>
-                        </div>
-                        <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                          <p class="var-lab">:</p>
-                        </div>
-                        <div class="col-lg-8 col-sm-8 col-md-8 col-xs-8">
-                          <p class="">{{collateralVehicleDetails?.ltv_as_per_policy}}</p>
-                        </div>
-                      </div>
-                      </div>
             
                 </div>
-              </div>
-              </div> -->
-            
-              </div>
               </div>
             </main>
            

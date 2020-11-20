@@ -898,6 +898,10 @@
     "secondChassisNumber": "Second Chassis Number",
     "agricultureProof": "Agriculture Proof",
     "fcExpiryDate": "FC Expiry Date",
+    "fcAmount": "FC Amount",
+    "taxDetails": "Tax Details",
+    "taxBill": "Tax Bill",
+    "totalTaxBill": "Total Tax Bill",
     "vehicleRegDate": "Vehicle Reg.Date",
     "gvw": "GVW",
     "reRegisteredVechicle": "Re-Registered Vehicle",
@@ -1654,7 +1658,7 @@
     "rcuUpload":"RCU Upload",
     "rcuReportReceivedDateandTime":"RCU Report Received Date and Time",
 "rcuDocumentId":"RCU Document Id",
-
+    "documentId":"Document Id",
     
     "landAreaInHectares": "Land Area In Hectares",
     "uRecessionNo": "UDHYAM Registration number",
@@ -2674,7 +2678,7 @@
         },
         "emailPatternPsl": {
             "maxLength": {
-                "rule": 30
+                "rule": 40
             },
             "patternCheck": {
                 "rule": "^\\w+([.-]?\\w+)@\\w+([.-]?\\w+)(\\.\\w{2,10})+$",
@@ -2697,7 +2701,13 @@
             "maxLength": {
                 "rule": 300
             },
-            "type": "special-alpha-numeric"
+            "type":"special-alpha-numeric"
+        },
+        "pslUdhyamregno": {
+            "maxLength":{
+                "rule":20
+            },
+            "type":"alpha-numeric-nospace"
         },
         "speedometerReading": {
             "maxLength": {

@@ -24,7 +24,7 @@
                   Negotiations</button>
                   <button class="multisteps-form__progress-btn "  (click)="onNavigate('disbursement')"
                   [ngClass]="{'js-active': locationIndex >= 4}"
-                     type="button" id="applicant_bank_details" *ngIf="roleType == '4'">
+                     type="button" id="applicant_bank_details" *ngIf="roleType == '4' || roleType == '7' ">
                      Disbursement</button>
 
                   <button  class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 4}"
@@ -37,7 +37,7 @@
                      Disbursement</button>
 
                   <button  class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"
-                    type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" *ngIf="roleType == '4'">
+                    type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" *ngIf="roleType == '4' || roleType == '7'">
                     Check List 
                 </button>
                  
@@ -46,13 +46,13 @@
                 type="button" id="applicant_basic_details" (click)="onNavigate('pdc-details')" 
                 *ngIf="roleType == '4'">
                 PDC Details </button>
-                <!-- <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 7}"
-                  type="button" id="applicant_identity_details" (click)="onNavigate('welomce-letter')" 
-                  *ngIf="roleType == '5'">
-                  Welcome Letter
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 7}"
+                  type="button" id="applicant_identity_details" (click)="onNavigate('remarks')" 
+                  *ngIf="roleType == '7'">
+                  Remarks
               </button>
               
-              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 8}"
+             <!--  <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 8}"
                 type="button" id="applicant_identity_details" (click)="onNavigate('delivery-order')" 
                 *ngIf="roleType == '5' && productCatCode == 'NCV'">
                 Delivery Order

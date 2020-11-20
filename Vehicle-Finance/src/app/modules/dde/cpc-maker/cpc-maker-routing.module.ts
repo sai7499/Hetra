@@ -13,6 +13,7 @@ import { NegotiationComponent } from '@modules/negotiation/negotiation.component
 import { DisbursementFormComponent } from '@modules/disbursement-section/disbursement-form/disbursement-form.component';
 import { WelomceLetterComponent } from './welomce-letter/welomce-letter.component';
 import { DeliveryOrderComponent } from './delivery-order/delivery-order.component';
+import { RemarksComponent } from './remarks/remarks.component';
 
 const routes: Routes = [
   {
@@ -56,10 +57,10 @@ const routes: Routes = [
             path: 'disbursement',
             component: DisbursementFormComponent
         },
-		// {
-        //     path: 'welomce-letter',
-        //     component: WelomceLetterComponent
-        // },
+		{
+            path: 'remarks',
+            component: RemarksComponent
+        },
         // {
         //     path: 'delivery-order',
         //     component: DeliveryOrderComponent
