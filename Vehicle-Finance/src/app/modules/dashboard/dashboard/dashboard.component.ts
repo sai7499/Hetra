@@ -255,6 +255,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     if (this.userName) {
       this.roleType = this.supervisorRoleType
+      this.loginUserId = this.supervisorUserId
       this.roleId = this.supervisorRoleId
       this.loginUserId = this.supervisorUserId
       this.router.navigate(['/pages/supervisor/dashboard']);
@@ -875,11 +876,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getTaskDashboardLeads(perPageCount, pageNumber?) {
+    
     const data = {
-      userId: this.loginUserId,
       taskName: this.taskName,
       branchId: this.branchId,
       roleId: this.roleId,
+      userId: this.loginUserId,
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix

@@ -133,9 +133,9 @@
 
 
          .tab-hide{
-           display:block;
-            background-color: #272264;
-            color: #fff;
+           /* display:block; */
+            /* background-color: #272264; */
+            color: #000;
          }
 
          /*Mobile View*/
@@ -254,6 +254,38 @@
    .tab-hide-space{
      display:none!important;
    }
+
+   .tab-head{
+    margin: 3px;
+    padding: 0;
+    background: #1d1a4b;
+    border: 1px solid #929294;
+    color: #fff;
+   }
+
+   .tab-head:before{
+     content: attr(data-label);
+    /* display: inline-block; */
+    line-height: 1.5;
+    margin-left: -100%;
+    /* margin-right: 12px; */
+    /* width: 70%; */
+    white-space: nowrap;
+    /* background-color: #1d1a4b; */
+    color: white;
+    /* height: 40px; */
+    /* margin: auto; */
+    text-align: center;
+   }
+
+   .tab-head{
+     display:inline-block;
+   }
    
    }
    
+   
+
+   .tab-head{
+     display:none;
+   }
