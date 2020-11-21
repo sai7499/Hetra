@@ -2174,7 +2174,7 @@
 
             <div id="child_loan_start" *ngIf="isChildLoan && Product">
 
-                <h3 class="title cus-title"> {{ label.childLoan }} </h3>
+                <!-- <h3 class="title cus-title"> {{ label.childLoan }} </h3> -->
 
                 <div class="row">
 
@@ -2241,14 +2241,14 @@
                         <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                         <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                            [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                            [min]="onlyFutureDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
                             placeholder="Insurance Validity">
                         </kendo-datepicker>
 
-                        <div class="invalid-feedback"
-                            *ngIf="roleType !==1 && obj.controls['insuranceValidity'].touched &&
-                            (obj.controls['insuranceValidity'].hasError('required') || obj.controls['insuranceValidity'].value < maxDate)">
-                            Invalid Date
+                        <div class="invalid-feedback" *ngIf="roleType !==1 && obj.controls['insuranceValidity'].touched &&
+                            obj.controls['insuranceValidity'].hasError('required') ||
+                            obj.controls['insuranceValidity'].value < onlyFutureDate">
+                            Invalid Date (Future Date Only)
                         </div>
                     </div>
 
@@ -2337,12 +2337,12 @@
                         <label for="accident_date">{{label.accidentDate}}</label>
 
                         <kendo-datepicker class="form-control mandatory" formControlName="accidentDate"
-                            [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'" placeholder="Accident Date">
+                            [format]="'dd/MM/yyyy'" [max]="onlyFutureDate" [activeView]="'decade'" placeholder="Accident Date">
                         </kendo-datepicker>
 
                         <div class="invalid-feedback"
                             *ngIf="roleType !==1 && obj.controls['accidentDate'].touched && 
-                            (obj.controls['accidentDate'].hasError('required') || obj.controls['accidentDate'].value > maxDate)">
+                            obj.controls['accidentDate'].hasError('required') || obj.controls['accidentDate'].value > onlyFutureDate">
                             Invalid Date
                         </div>
 
@@ -2430,7 +2430,7 @@
 
                         <div class="invalid-feedback"
                             *ngIf="roleType !==1 && obj.controls['invoiceDate'].touched && 
-                           (obj.controls['invoiceDate'].hasError('required') || obj.controls['invoiceDate'].value > maxDate)">
+                           obj.controls['invoiceDate'].hasError('required') || obj.controls['invoiceDate'].value > maxDate">
                             Invalid Date
                         </div>
 

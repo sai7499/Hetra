@@ -42,6 +42,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   LOV: any = [];
   public label: any = {};
 
+  public onlyFutureDate= new Date();
+  maxFuteureDate = this.onlyFutureDate.setDate(this.maxDate.getDate() + 1)
+
   public childLoanCondition: any = {};
   public productCatoryCode: string;
   public Product: string;
@@ -138,7 +141,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       if (this.isChildLoan) {
         ProductType = this.loanTypeArray.find((res: any) => res.key === this.assetProductCode)
         if (ProductType) {
-          this.Product = ProductType['value'];
+          // this.Product = ProductType['value'];
+          this.Product = 'AccidentLoan'
           this.childLoanCondition = child.childLoan.isRequired[this.Product];
         }
       }
@@ -485,7 +489,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onPatchArrayValue(formArray, VehicleDetail) {
 
     formArray.controls[0].patchValue({
-      accidentDate: VehicleDetail.accidentDate || '',
+      accidentDate: VehicleDetail.accidentDate ? this.utilityService.getDateFromString(VehicleDetail.accidentDate) : '',
       accidentType: VehicleDetail.accidentType || null,
       ageOfAsset: VehicleDetail.ageOfAsset || null,
       assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
