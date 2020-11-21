@@ -72,6 +72,10 @@ export class ValuationComponent implements OnInit {
     { key: 7, value: 'Seventh Owner' }, { key: 8, value: 'Eigth Owner' },
 
   ];
+  rcBookStatusLOV: any = [
+    { key: 1, value: 'Original' }, { key: 2, value: 'Duplicate' },
+    { key: 3, value: 'Xerox Copy' }, { key: 4, value: 'Not Available' }
+  ];
   leadDetails: any;
   productCatoryCode: any;
 

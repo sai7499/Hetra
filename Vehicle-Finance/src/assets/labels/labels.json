@@ -1727,7 +1727,7 @@
     "originalInvoice":"Original Invoice Value(Ex-show)",
     "anyMajorAccidents":"Any Other Major Repairs till date",
     "currentInvoiceValue":"Current Invoice Value(Ex-Show if in production)",
-    "rcBookStatus ":"RC Book Status",
+    "rcBookStatus":"RC Book Status",
     "recentLast3Valuations":"RECENT LAST 3 VALUATIONS & PRICE OF THE SAME MODEL GIVEN BY THE VALUER",
     "monthOfReport":"Month of the Report",
     "valuation":"Valuation",
@@ -2802,10 +2802,22 @@
             "type":"alpha"
         },
         "hypothecation":{
-            "maxLenght":{
+            "maxLength":{
                 "rule":200
             },
             "type":"alpha-numeric"
+        },
+        "company":{
+            "maxLength":{
+                "rule":105
+            },
+            "type":"alpha"
+        },
+        "policyNumber":{
+            "maxLength":{
+                "rule":20
+            },
+            "type":"special-alpha-numeric"
         }
 
     }
