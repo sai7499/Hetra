@@ -477,10 +477,10 @@
               <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
                 value="Release" data-toggle="modal" data-target="#releaseModal"> -->
-              <input type="button" *ngIf="selfAssign" style="margin-top: 5px;"
+              <input type="button" *ngIf="selfAssign" 
                 (click)="onSelfAssignClick(item.taskId)" data-toggle="modal"
-                data-target="#confirmTaskAssign" class="btn btn-primary" value="Self Assign">
-              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)" class="btn btn-primary"
+                data-target="#confirmTaskAssign" class="btn btn-primary btn-re" value="Self Assign">
+              <input type="button"  (click)="onReAssignClick(item)" class="btn btn-primary btn-re"
                 value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
             </td>
 
@@ -489,10 +489,10 @@
               <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
                 (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                 value="Assign" data-toggle="modal" data-target="#assignModel" /> -->
-              <input type="button" *ngIf="selfAssign" style="margin-top: 5px;"
+              <input type="button" *ngIf="selfAssign" 
                 (click)="onSelfAssignClick(item.taskId)" data-toggle="modal"
-                data-target="#confirmTaskAssign" class="btn btn-primary" value="Self Assign">
-              <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)" class="btn btn-primary"
+                data-target="#confirmTaskAssign" class="btn btn-primary btn-re" value="Self Assign">
+              <input type="button"  (click)="onReAssignClick(item)" class="btn btn-primary btn-re"
                 value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
             </td>
             <td [attr.data-label]="labels?.leadID" *ngIf="(!onReleaseTab && !onAssignTab) && !userName">
