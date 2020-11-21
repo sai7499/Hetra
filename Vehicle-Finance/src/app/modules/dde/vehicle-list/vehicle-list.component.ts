@@ -52,6 +52,14 @@ export class VehicleListComponent {
     onNext() {
         const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
         const product = leadSectioData.leadDetails.productCatCode;
+
+        if (product === 'NCV' || product === 'UCV' || product === 'UC') {
+            const showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
+            if (!showNotCoApplicant) {
+               this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+            }
+          }
+      
     
         if (product === "NCV") {
           const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
