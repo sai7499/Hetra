@@ -182,6 +182,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loginUserId: string;
   supervisorName: any;
   leadTaskId: any;
+  pendingName: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -246,7 +247,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.userDetailsRoleId = userDetails.roleId;
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.userDetailsRoleType = userDetails.roleType;
-      this.selfAssignLoginId = userDetails.loginId
+      this.selfAssignLoginId = userDetails.loginId;
     });
 
 
@@ -256,17 +257,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.selfAssign = false;
     }
     if (this.userName) {
-      this.roleType = this.supervisorRoleType
-      this.loginUserId = this.supervisorUserId
-      this.roleId = this.supervisorRoleId
-      this.loginUserId = this.supervisorUserId
+      this.roleType = this.supervisorRoleType;
+      this.loginUserId = this.supervisorUserId;
+      this.roleId = this.supervisorRoleId;
+      this.loginUserId = this.supervisorUserId;
       this.router.navigate(['/pages/supervisor/dashboard']);
-
+      this.pendingName = this.supervisorName
     } else {
-      this.roleType = this.userDetailsRoleType
-      this.roleId = this.userDetailsRoleId
-      this.loginUserId = localStorage.getItem('userId')
+      this.roleType = this.userDetailsRoleType;
+      this.roleId = this.userDetailsRoleId;
+      this.loginUserId = localStorage.getItem('userId');
       this.router.navigate(['/pages/dashboard']);
+      this.pendingName = 'Me'
     }
     console.log(this.roleType);
 
