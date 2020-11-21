@@ -176,8 +176,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   showModal: boolean;
   @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
   @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
+  @ViewChild('closeModal2', { static: false }) public closeModal2: ElementRef;
   userDetailsRoleId: any;
   supervisorUserId: any;
+  loginUserId: string;
+  supervisorName: any;
+  leadTaskId: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -213,7 +217,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const thisUrl = this.router.url;
     console.log(thisUrl);
-
     this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
       console.log(value);
       if (value) {
@@ -228,6 +231,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.supervisorUserId = value;
       }
 
+    });
+    this.sharedService.isSupervisorName.subscribe((value: any) => {
+      console.log(value);
+      if(value) {
+        this.supervisorName = value;
+      }
+      
     })
 
 
@@ -247,12 +257,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     if (this.userName) {
       this.roleType = this.supervisorRoleType
+      this.loginUserId = this.supervisorUserId
       this.roleId = this.supervisorRoleId
+      this.loginUserId = this.supervisorUserId
       this.router.navigate(['/pages/supervisor/dashboard']);
 
     } else {
       this.roleType = this.userDetailsRoleType
       this.roleId = this.userDetailsRoleId
+      this.loginUserId = localStorage.getItem('userId')
       this.router.navigate(['/pages/dashboard']);
     }
     console.log(this.roleType);
@@ -826,7 +839,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // new leads
   getSalesLeads(perPageCount, pageNumber?) {
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: this.loginUserId,
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
       // tslint:disable-next-line: radix
@@ -865,10 +878,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getTaskDashboardLeads(perPageCount, pageNumber?) {
+    
     const data = {
       taskName: this.taskName,
       branchId: this.branchId,
       roleId: this.roleId,
+      userId: this.loginUserId,
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
@@ -1065,9 +1080,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   // Self-Assign Method
-  onSupervisorAssign(taskId, leadId) {
+  onSelfAssignClick(taskId) {
+    this.leadTaskId = taskId;
+    console.log(this.leadTaskId);
+    
+  }
+  onSupervisorAssign() {
     const data = {
-      taskId,
+      taskId: this.leadTaskId,
       loginId: this.selfAssignLoginId
     }
     this.supervisorService.supervisorReAssign(data).subscribe((res: any) => {
@@ -1076,7 +1096,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
-        this.toasterService.showSuccess('Self Assigned Successfully', 'Self-Assign')
+        this.toasterService.showSuccess('Self Assigned Successfully', 'Self-Assign');
+        this.closeModal2.nativeElement.click();
         this.onClick();
       } else {
         this.toasterService.showError(response.ProcessVariables.error.message, 'Self-Assign');
@@ -1131,6 +1152,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
 
     })
+  }
+
+  onBack() {
+    this.sharedService.getUserName('');
+    this.sharedService.getSupervisorName('');
+    this.sharedService.getUserRoleId('');
+    this.router.navigate(['pages/supervisor']);
   }
 
   saveTaskLogs() {

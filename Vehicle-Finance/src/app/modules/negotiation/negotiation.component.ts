@@ -10,6 +10,7 @@ import { IfStmt } from '@angular/compiler';
 import { LoginStoreService } from '@services/login-store.service';
 import { element } from 'protractor';
 import { variable } from '@angular/compiler/src/output/output_ast';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-negotiation',
   templateUrl: './negotiation.component.html',
@@ -980,10 +981,23 @@ export class NegotiationComponent implements OnInit {
     this.EMICycleDaysLOV = [];
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     var moratoriumDays = parseInt(this.createNegotiationForm.controls.MoratoriumPeriod.value);
+    if (moratoriumDays == 1) {
+      moratoriumDays = 0;
+    } else if (moratoriumDays == 2) {
+      moratoriumDays = 30;
+    } else if (moratoriumDays == 3) {
+      moratoriumDays = 60;
+    } else if (moratoriumDays == 4) {
+      moratoriumDays = 90;
+    }
+
     var disbursementDay = new Date();
+    if (environment.hostingEnvironment == 'DEV' || environment.hostingEnvironment == 'UAT' || environment.hostingEnvironment == 'SIT') {
+      disbursementDay = new Date(environment.lmsSITDate);
+    }
     // Considering today as Negotiation day, 2 days added as buffer for disbursement
-    disbursementDay.setDate(new Date().getDate() + 2);
-    var d = new Date();
+    disbursementDay.setDate(disbursementDay.getDate() + 2);
+    var d = disbursementDay;
     d.setDate(disbursementDay.getDate() + moratoriumDays);
     for (let i = 15; i < 60; i++) {
       if (i == 15)

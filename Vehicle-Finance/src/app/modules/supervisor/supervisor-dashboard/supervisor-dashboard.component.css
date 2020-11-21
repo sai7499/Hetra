@@ -13,8 +13,8 @@
   .child-data-list {
       position: relative;
   }
-  .parent-list
-   {
+  .parent-list,
+  .child-list {
      position: absolute;
      top: 10px;
      left: 0;
@@ -25,7 +25,7 @@
   .parent-container,
   .child-container {
      max-height: 150px !important;
-     overflow-y: scroll;
+     /* overflow-y: scroll; */
   }
   /* .child-list {
     height: 100%;
@@ -35,7 +35,8 @@
      width: 300px;
   }
   .supervisor-data-table td {
-     padding: 5px 10px;
+     /* padding: 5px 10px; */
+     padding-top: 5px;
   }
   .supervisor-data-table td a {
      color: #4a4a4a;
@@ -49,6 +50,9 @@
   .supervisor-data-table tr:nth-child(odd) {
      background: #f5f5f8;
   }
+  .supervisor-data-table td:nth-child(odd) {
+   background: #f5f5f8;
+}
   .supervisor-tree-icon {
      width: 20px;
      height: 20px;
@@ -111,111 +115,20 @@
    -webkit-font-smoothing: antialiased;
  } */
 
-
- @media (min-width:525px) and (max-width:767px) {
+ @media (min-width:200px) and (max-width:767px) {
 
    .child-list {
       position: absolute;
       top: 10px;
       left: 0;
-      margin-left: 80px;
+      margin-left: 90px!important;
       z-index: 100;
-      width:50%;
+      width:60%!important;
       
    }
 
    .child-list .supervisor-data-table{
       width:100%;
    }
-
-   .parent-list
-   {
-     position: absolute;
-     top: 10px;
-     left: 0;
-     margin-left: 80px;
-     z-index: 100;
-     width:50%;
-     
-  }
 
  }
-
- /* @media (min-width:480) and (max-width:524){
-   .child-list {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      margin-left: 70px!important;
-      z-index: 100;
-      width:40%!important;
-      
-   }
-
-   .child-list .supervisor-data-table{
-      width:100%;
-   }
-
-   .parent-list
-   {
-     position: absolute;
-     top: 10px;
-     left: 0;
-     margin-left: 70px;
-     z-index: 100;
-     width:40%;
-     
-  }
- }
-
- @media (min-width:441) and (max-width:479){
-   .child-list {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      margin-left: 60px!important;
-      z-index: 100;
-      width:30%!important;
-      
-   }
-   .child-list .supervisor-data-table{
-      width:100%;
-   }
-   .parent-list
-   {
-     position: absolute;
-     top: 10px;
-     left: 0;
-     margin-left: 60px;
-     z-index: 100;
-     width:30%;
-     
-  }
- }
-
- @media (min-width:392) and (max-width:440){
-   .child-list {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      margin-left: 50px!important;
-      z-index: 100;
-      width:20%!important;
-      
-   }
-
-   .child-list .supervisor-data-table{
-      width:100%;
-   }
-
-   .parent-list
-   {
-     position: absolute;
-     top: 10px;
-     left: 0;
-     margin-left: 50px;
-     z-index: 100;
-     width:30%;
-     
-  }
- } */
