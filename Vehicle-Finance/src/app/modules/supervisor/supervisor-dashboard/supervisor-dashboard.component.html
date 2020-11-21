@@ -13,7 +13,7 @@
                   <div class="col-md-12">
                                <!--  -->
 <!--  -->
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
                       <input class="form-control " #category (keyup)='onkeyup(category.value)' placeholder="search"  />
                                 
                     </div>
@@ -69,9 +69,9 @@
                               <!-- <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</span>   -->
 
                               <div (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</div>  
-                                <div style="margin: 20px;"></div>
+                                <div ></div>
                               <div *ngIf="node.userId==roleUserID" class="parent-list"> 
-                                <div class="parent-container" style="margin-left: 5vw;">
+                                <div class="parent-container" >
                                    <table class="supervisor-data-table">
                                        <thead>
                                          <tr>
