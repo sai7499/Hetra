@@ -2729,6 +2729,12 @@
                 "rule": 7
             },
             "type": "number"
+        },
+        "insuranceDetails": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric-nospace"
         }
     }
 }

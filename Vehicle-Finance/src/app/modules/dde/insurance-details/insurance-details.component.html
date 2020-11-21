@@ -50,13 +50,14 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="needForProposedVehicle" class="ellipsify">{{labels?.creditShieldHolderName}}</label>
                     <!--formControlName="ndForProposedVehicle"  -->
-                    <app-custom-input id="needForProposedVehicle" formControlName="nameOfApplicant">
-                    </app-custom-input>
+                    <app-vf-custom-select id="needForProposedVehicle" formControlName="nameOfApplicant" (change)="selectApplicant($event.target.value)" [values]="applicantList">
+                    
+                </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="routeOfOperation" class="ellipsify">{{labels?.typeOfApplicant}}</label>
                     <!-- formControlName="route" -->
-                    <app-custom-input id="routeOfOperation" formControlName="typeOfApplicant">
+                    <app-custom-input id="routeOfOperation" formControlName="typeOfApplicant" [isDisabled]="true">
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -71,47 +72,105 @@
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
-                        <app-custom-input id="needForProposedVehicle" formControlName="nomineeFirstName">
+                        <app-custom-input id="needForProposedVehicle" 
+                         formControlName="nomineeFirstName"
+                         [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee first name'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter nominee first name'"
+                         [type]="labels?.validationData.insuranceDetails?.type"
+                         [isDirty]="isDirty"
+                         (keyup)="concatNomineeName()"
+                         >
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="routeOfOperation" class="ellipsify">{{labels?.middleName}}</label>
-                        <app-custom-input id="routeOfOperation" formControlName="nomineeMiddleName">
+                        <app-custom-input id="routeOfOperation" 
+                        formControlName="nomineeMiddleName"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee middle name'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength" 
+                         [type]="labels?.validationData.insuranceDetails?.type"
+                         (keyup)="concatNomineeName()"
+                         >
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}</label>
-                        <app-custom-input id="contractDetails" formControlName="nomineeLastName">
+                        <app-custom-input id="contractDetails" 
+                        formControlName="nomineeLastName"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee last name'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter nominee last name'"
+                         [type]="labels?.validationData.insuranceDetails?.type"
+                         [isDirty]="isDirty"
+                         (keyup)="concatNomineeName()"
+                         >
+                         
                         </app-custom-input>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
-                        <app-custom-input id="needForProposedVehicle" formControlName="nomineeFullName">
+                        <app-custom-input id="needForProposedVehicle" 
+                        formControlName="nomineeFullName"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee full name'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         
+                         [type]="labels?.validationData.insuranceDetails?.type"
+                         
+                         [isDisabled]="true">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}}</label>
-                        <app-custom-input id="routeOfOperation" formControlName="nomineeDOB">
-                        </app-custom-input>
+                        <!-- <app-custom-input id="routeOfOperation" formControlName="nomineeDOB">
+                        </app-custom-input> -->
+                        <kendo-datepicker class="form-control" 
+                                          formControlName="nomineeDOB" 
+                                          [format]="'dd/MM/yyyy'"
+                                          [max]="todayDate"
+                                          placeholder="Select DOB of nominee"
+                                          [activeView]="'decade'"
+                                          (valueChange)="ageCalculation($event, 'nominee')"
+                                          
+                                          ></kendo-datepicker>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.age}}</label>
-                        <app-custom-input id="contractDetails" formControlName="nomineeAge">
+                        <app-custom-input id="contractDetails" formControlName="nomineeAge" [isDisabled]="true">
                         </app-custom-input>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.mobileNumber}}</label>
-                        <app-custom-input id="needForProposedVehicle" formControlName="nomineeMobileNumber">
+                        <app-custom-input id="needForProposedVehicle" 
+                        formControlName="nomineeMobileNumber"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee mobile number'"
+                         [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
+                         [isRequired]="'Please enter mobile number'"
+                         [type]="labels?.validationData.mobileNumber?.type"
+                         [patternCheck] ="labels?.validationData?.mobileNumber?.pattern"
+                         [isDirty]="isDirty"
+                         >
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="routeOfOperation" class="ellipsify">{{labels?.relationshipWithApplicant}}</label>
-                        <app-custom-input id="routeOfOperation" formControlName="nomineeRelationWithApp">
-                        </app-custom-input>
+                        <app-vf-custom-select id="routeOfOperation" 
+                        formControlName="nomineeRelationWithApp"
+                        [className]="'form-control mandatory'"
+                         [isRequired]="'Please select relationship With applicant'"
+                         [isDirty]="isDirty"
+                         [values]="applicantRelation"
+                         >
+                        </app-vf-custom-select>
                     </div>
                 </div>
             </div>
@@ -124,19 +183,44 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
-                        <app-custom-input formControlName="nomineeAddLine1">
+                        <app-custom-input 
+                        formControlName="nomineeAddLine1"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee address'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter nominee address'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty"
+                        >
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.addressline2 }}</label>
                         <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
-                        <app-custom-input formControlName="nomineeAddLine2">
+                        <app-custom-input 
+                        formControlName="nomineeAddLine2"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee address'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter nominee address'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.addressline3 }}</label>
                         <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
-                        <app-custom-input formControlName="nomineeAddLine3">
+                        <app-custom-input formControlName="nomineeAddLine3"
+                         [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee address'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter nominee address'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty"
+                         >
                         </app-custom-input>
                     </div>
                 </div>
@@ -145,6 +229,13 @@
                         <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
                         <app-custom-input formControlName="nomineePincode"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter nominee pincode'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter nominee pincode'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty"
                             (keyup)="getPincode($event.target, 'nominee')" id="permanantPincode"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -194,34 +285,86 @@
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
-                        <app-custom-input id="needForProposedVehicle" formControlName="guardianFirstName">
+                        <app-custom-input id="needForProposedVehicle" 
+                        formControlName="guardianFirstName"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian first name'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter guardian first name'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty"
+                         (keyup)="concatguardianName()">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="routeOfOperation" class="ellipsify">{{labels?.middleName}}</label>
-                        <app-custom-input id="routeOfOperation" formControlName="guardianMiddleName">
+                        <app-custom-input id="routeOfOperation" 
+                        formControlName="guardianMiddleName"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian middle name'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         
+                         (keyup)="concatguardianName()">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}</label>
-                        <app-custom-input id="contractDetails" formControlName="guardianLastName">
+                        <app-custom-input id="contractDetails" 
+                        formControlName="guardianLastName" 
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian last name'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter guardian last  name'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty"
+                         (keyup)="concatguardianName()">
                         </app-custom-input>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
-                        <app-custom-input id="needForProposedVehicle" formControlName="guardianFullName">
+                        <app-custom-input id="needForProposedVehicle" 
+                        formControlName="guardianFullName"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian full name'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter guardian full name'"
+                         [isDisabled] ="true"
+                         [patternCheck] =""
+                         [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}}</label>
-                        <app-custom-input id="routeOfOperation" formControlName="guardianDOB">
-                        </app-custom-input>
+                        <!-- <app-custom-input id="routeOfOperation" formControlName="guardianDOB">
+                        </app-custom-input> -->
+                        <kendo-datepicker class="form-control" 
+                                          formControlName="guardianDOB" 
+                                          [format]="'dd/MM/yyyy'"
+                                          [max]="todayDate"
+                                          placeholder="Select guardian DOB"
+                                          [activeView]="'decade'"
+                                          (valueChange)="ageCalculation($event, 'guardian')"
+                                          
+                                          ></kendo-datepicker>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.mobileNumber}}</label>
-                        <app-custom-input id="contractDetails" formControlName="guardianMobileNumber">
+                        <app-custom-input id="contractDetails" 
+                        formControlName="guardianMobileNumber" 
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian mobile number'"
+                         [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
+                         [isRequired]="'Please enter guardian mobile number'"
+                         [type]="labels?.validationData?.mobileNumber?.type"
+                         [patternCheck] ="labels?.validationData?.mobileNumber?.pattern"
+                         [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
                 </div>
@@ -229,8 +372,16 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle"
                             class="ellipsify">{{labels?.relationshipWithApplicant}}</label>
-                        <app-custom-input id="needForProposedVehicle" formControlName="guardianRelationWithApp">
-                        </app-custom-input>
+                        <!-- <app-custom-input id="needForProposedVehicle" formControlName="guardianRelationWithApp">
+                        </app-custom-input> -->
+                        <app-vf-custom-select id="routeOfOperation" 
+                        formControlName="guardianRelationWithApp"
+                        [className]="'form-control mandatory'"
+                         [isRequired]="'Please select relationship With applicant'"
+                         [isDirty]="isDirty"
+                         [values]="applicantRelation"
+                         >
+                        </app-vf-custom-select>
                     </div>
 
                 </div>
@@ -244,19 +395,40 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
-                        <app-custom-input formControlName="guardianAddLine1">
+                        <app-custom-input formControlName="guardianAddLine1" 
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian adddress'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter guardian adddress'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.addressline2 }}</label>
                         <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
-                        <app-custom-input formControlName="guardianAddLine2">
+                        <app-custom-input formControlName="guardianAddLine2"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian adddress'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.addressline3 }}</label>
                         <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
-                        <app-custom-input formControlName="guardianAddLine3">
+                        <app-custom-input formControlName="guardianAddLine3"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian adddress '"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please guardian adddress'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
                 </div>
@@ -264,7 +436,15 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
-                        <app-custom-input formControlName="guardianPincode" id="permanantPincode"
+                        <app-custom-input formControlName="guardianPincode"
+                        [className]="'form-control mandatory'"
+                         [placeholder]="'Enter guardian pincode'"
+                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [isRequired]="'Please enter guardian pincode'"
+                         [type]="labels?.validationData?.insuranceDetails?.type"
+                         [patternCheck] =""
+                         [isDirty]="isDirty"
+                          id="permanantPincode"
                             (keyup)="getPincode($event.target, 'guardian')"></app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">

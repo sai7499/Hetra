@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicantService } from '@services/applicant.service';
 import { InsuranceServiceService } from '@services/insurance-service.service';
@@ -7,7 +7,9 @@ import { LabelsService } from '@services/labels.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service'
+import { CommomLovService } from '@services/commom-lov-service';
+import { UtilityService } from '@services/utility.service';
 @Component({
   selector: 'app-insurance-details',
   templateUrl: './insurance-details.component.html',
@@ -50,6 +52,13 @@ export class InsuranceDetailsComponent implements OnInit {
   motorShieldRequired = true;
   isDirty;
   permanantPincode;
+  leadData: {};
+  applicantList = [];
+  lovData: any;
+  applicantRelation = [];
+  todayDate: Date;
+  nomineeArray = [];
+  guardianArray = []
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -59,10 +68,26 @@ export class InsuranceDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private applicantService: ApplicantService,
-              private toasterService: ToasterService) { }
+              private toasterService: ToasterService,
+              private createLeadService: CreateLeadDataService,
+              private lovService: CommomLovService,
+              private utilityService: UtilityService,
+              ) { }
 
   async ngOnInit() {
-
+    this.todayDate = new Date();
+    this.leadData = this.createLeadService.getLeadSectionData();
+    console.log('lead Data', this.leadData);
+    // tslint:disable-next-line: no-string-literal
+    this.leadData['applicantDetails'].map((element => {
+      const body = {
+        key: element.applicantTypeKey,
+        value: element.fullName,
+        applicantId: element.applicantId,
+        applicantType: element.applicantType
+      };
+      this.applicantList.push(body);
+    }));
     this.labelsData.getLabelsData().subscribe(res => {
       this.labels = res;
       this.validationData = res.validationData;
@@ -71,6 +96,19 @@ export class InsuranceDetailsComponent implements OnInit {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
+    });
+    this.lovService.getLovData().subscribe((res: any) => {
+      this.lovData = res.LOVS;
+      console.log('lov data', this.lovData);
+      this.lovData.relationship.filter(element => {
+       if ( element.key !== '5RELATION') {
+         const body = {
+           key : element.key,
+           value: element.value
+         };
+         this.applicantRelation.push(body);
+       }
+      });
     });
     this.applicantId = (await this.getApplicantId()) as number;
     this.leadId = (await this.getLeadId()) as number;
@@ -108,33 +146,35 @@ export class InsuranceDetailsComponent implements OnInit {
       guardianAddLine1: [''],
       guardianAddLine2: [''],
       guardianAddLine3: [''],
-      guardianCity: Number(['']),
-      guardianCountry: Number(['']),
+      guardianCity: (['']),
+      guardianCountry: (['']),
       guardianDOB: [''],
-      guardianDistrict: Number(['']),
+      guardianDistrict: (['']),
       guardianFirstName: [''],
       guardianFullName: [''],
       guardianLastName: [''],
       guardianMiddleName: [''],
-      guardianMobileNumber: [''],
-      guardianPincode: Number(['']),
+      guardianMobile: [''],
+      guardianPincode: (['']),
       guardianRelationWithApp: [''],
-      guardianState: Number(['']),
+      guardianState: (['']),
+      guardianMobileNumber: [''],
+      nomineeMobileNumber: [''],
       motorInsuranceRequired: [''],
       nomineeAddLine1: [''],
       nomineeAddLine2: [''],
       nomineeAddLine3: [''],
-      nomineeAge: Number(['']),
-      nomineeCity: Number(['']),
-      nomineeCountry: Number(['']),
+      nomineeAge: (['']),
+      nomineeCity: (['']),
+      nomineeCountry: (['']),
       nomineeDOB: [''],
-      nomineeDistrict: Number(['']),
+      nomineeDistrict: (['']),
       nomineeFirstName: [''],
       nomineeFullName: [''],
       nomineeLastName: [''],
       nomineeMiddleName: [''],
-      nomineeMobileNumber: [''],
-      nomineePincode: Number(['']),
+      nomineeMobile: [''],
+      nomineePincode: (['']),
       nomineeRelationWithApp: [''],
       nomineeState: [''],
       typeOfApplicant: [''],
@@ -142,26 +182,33 @@ export class InsuranceDetailsComponent implements OnInit {
     });
   }
 
-  
+
  saveUpdateInsurance() {
-  this.insuranceDetailForm.value.guardianCity =  Number(this.insuranceDetailForm.value.guardianCity);
-  this.insuranceDetailForm.value.guardianCountry =  Number(this.insuranceDetailForm.value.guardianCountry);
-  this.insuranceDetailForm.value.guardianDistrict =  Number(this.insuranceDetailForm.value.guardianDistrict);
-  this.insuranceDetailForm.value.guardianState =  Number(this.insuranceDetailForm.value.guardianState);
-  this.insuranceDetailForm.value.guardianPincode =  Number(this.insuranceDetailForm.value.guardianPincode);
-  this.insuranceDetailForm.value.nomineeAge =  Number(this.insuranceDetailForm.value.nomineeAge);
-  this.insuranceDetailForm.value.nomineeCity =  Number(this.insuranceDetailForm.value.nomineeCity);
-  this.insuranceDetailForm.value.nomineeCountry =  Number(this.insuranceDetailForm.value.nomineeCountry);
-  this.insuranceDetailForm.value.nomineeDistrict =  Number(this.insuranceDetailForm.value.nomineeDistrict);
-  this.insuranceDetailForm.value.nomineePincode =  Number(this.insuranceDetailForm.value.nomineePincode);
-  this.insuranceDetailForm.value.nomineeState =  Number(this.insuranceDetailForm.value.nomineeState);
-  this.insuranceDetailForm.value.nomineeAge =  Number(this.insuranceDetailForm.value.nomineeAge);
-  this.insuranceDetailForm.value.usedCoverageAmount =  Number(this.insuranceDetailForm.value.usedCoverageAmount);
-  this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
-  this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
-  const body  = {
+   this.isDirty = true;
+   if ( this.f.invalid) {
+     this.toasterService.showError('Please enter mandatory fields', '');
+     console.log('form group', this.f);
+     return;
+   }
+   console.log('form group', this.f);
+   this.insuranceDetailForm.value.guardianCity =  Number(this.insuranceDetailForm.value.guardianCity);
+   this.insuranceDetailForm.value.guardianCountry =  Number(this.insuranceDetailForm.value.guardianCountry);
+   this.insuranceDetailForm.value.guardianDistrict =  Number(this.insuranceDetailForm.value.guardianDistrict);
+   this.insuranceDetailForm.value.guardianState =  Number(this.insuranceDetailForm.value.guardianState);
+   this.insuranceDetailForm.value.guardianPincode =  Number(this.insuranceDetailForm.value.guardianPincode);
+   this.insuranceDetailForm.value.nomineeAge =  Number(this.insuranceDetailForm.value.nomineeAge);
+   this.insuranceDetailForm.value.nomineeCity =  Number(this.insuranceDetailForm.value.nomineeCity);
+   this.insuranceDetailForm.value.nomineeCountry =  Number(this.insuranceDetailForm.value.nomineeCountry);
+   this.insuranceDetailForm.value.nomineeDistrict =  Number(this.insuranceDetailForm.value.nomineeDistrict);
+   this.insuranceDetailForm.value.nomineePincode =  Number(this.insuranceDetailForm.value.nomineePincode);
+   this.insuranceDetailForm.value.nomineeState =  Number(this.insuranceDetailForm.value.nomineeState);
+   this.insuranceDetailForm.value.nomineeAge =  Number(this.insuranceDetailForm.value.nomineeAge);
+   this.insuranceDetailForm.value.usedCoverageAmount =  Number(this.insuranceDetailForm.value.usedCoverageAmount);
+   this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
+   this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
+   const body  = {
      leadId: this.leadId,
-     applicantId: 522,
+     applicantId: this.applicantId,
      isMinor: true,
      userId: localStorage.getItem('userId'),
 
@@ -170,7 +217,7 @@ export class InsuranceDetailsComponent implements OnInit {
      }
 
    };
-  this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
+   this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
    console.log('insurance', res);
  });
  }
@@ -182,6 +229,7 @@ export class InsuranceDetailsComponent implements OnInit {
   } else if (event === 'yes') {
     this.showCreditDetails = true;
     this.creditShieldRequired = true;
+    this.addValidations();
   }
  }
  checkOnMotor(event) {
@@ -219,10 +267,10 @@ getPincodeResult(pincodeNumber: number, event: string) {
       console.log('res', value);
       // tslint:disable-next-line: no-string-literal
       if (value['ProcessVariables'].error.code === '0') {
-        console.log('in valid pincode', value['ProcessVariables'].error);
+        console.log('in valid pincode', value.ProcessVariables.error);
         // tslint:disable-next-line: no-string-literal
         this.invalidPincode = false;
-        const values = value['ProcessVariables'].GeoMasterView;
+        const values = value.ProcessVariables.GeoMasterView;
         const state = {
           key: Number(values[0].stateId),
           value: values[0].stateName
@@ -267,7 +315,7 @@ getPincodeResult(pincodeNumber: number, event: string) {
         });
         // tslint:disable-next-line: no-string-literal
       } else if (value['ProcessVariables'].error.code === '1') {
-        if (value['ProcessVariables'].error.message && value['ProcessVariables'].error.message != null) {
+        if (value.ProcessVariables.error.message && value.ProcessVariables.error.message != null) {
           const message = value.ProcessVariables.error.message;
           this.toasterService.showWarning('', message);
           this.invalidPincode = true;
@@ -275,15 +323,93 @@ getPincodeResult(pincodeNumber: number, event: string) {
           this.invalidPincode = true;
 
         }
-        // tslint:disable-next-line: no-string-literal
-        // console.log('in valid pincode', value['ProcessVariables'].error);
-        // const message = value.ProcessVariables.error.message;
-        // this.toasterService.showWarning('', message);
 
       }
     });
 
-
-
 }
+public selectApplicant(event: any) {
+  // this.applicantId = event.id;
+  this.applicantList.filter((element: any) => {
+    const control = this.insuranceDetailForm as FormGroup;
+    if (element.key === event) {
+    this.applicantId = element.applicantId;
+    control.patchValue({
+      typeOfApplicant: element.applicantType
+    });
+  }
+  });
+}
+get f() {
+  return this.insuranceDetailForm as FormGroup;
+}
+public concatNomineeName() {
+this.f.controls.nomineeFullName.reset();
+const nomineeFirstName = this.f.controls.nomineeFirstName.value ? this.f.controls.nomineeFirstName.value + ' ' : '' ;
+const nomineeLastName = this.f.controls.nomineeLastName.value ? this.f.controls.nomineeLastName.value  : '' ;
+const nomineeMiddleName = this.f.controls.nomineeMiddleName.value ? this.f.controls.nomineeMiddleName.value + ' ' : '' ;
+const fullName = nomineeFirstName + '' + nomineeMiddleName + '' + nomineeLastName;
+this.f.patchValue({
+  nomineeFullName: fullName
+});
+}
+public concatguardianName() {
+  this.f.controls.guardianFullName.reset();
+  const guardianFirstName = this.f.controls.guardianFirstName.value ? this.f.controls.guardianFirstName.value + '' : '' ;
+  const guardianLastName = this.f.controls.guardianLastName.value ? this.f.controls.guardianLastName.value + '' : '' ;
+  const guardianMiddleName = this.f.controls.guardianMiddleName.value ? this.f.controls.guardianMiddleName.value + ' ' : '' ;
+  const fullName = guardianFirstName + ' ' + guardianMiddleName + ' ' + guardianLastName;
+  this.f.patchValue({
+    guardianFullName: fullName
+  });
+
+  }
+public ageCalculation(date, relation: string) {
+  const event = this.calculateAgeInYears(this.utilityService.getDateFormat(date));
+  console.log('testing date', event);
+  if ( relation === 'nominee') {
+  this.f.patchValue({
+    nomineeAge: event
+  });
+  }
+}
+  public calculateAgeInYears(date) {
+    const now = new Date();
+    const toDayDate = this.utilityService.getDateFromString(
+      date
+    );
+    // tslint:disable-next-line: variable-name
+    const current_year = now.getFullYear();
+    const yearDiff = current_year - toDayDate.getFullYear();
+    const birthdayThisyear = new Date(current_year, toDayDate.getMonth(), toDayDate.getDate());
+    const age = (now >= birthdayThisyear);
+
+    return age
+        ? yearDiff
+        : yearDiff - 1;
+}
+
+public addValidations() {
+  if ( this.creditShieldRequired === true) {
+    let control = this.f as FormGroup;
+    // tslint:disable-next-line: forin
+    for (const key in control.controls) {
+      // console.log('key validations', key);
+      if (key.includes('nominee')) {
+        this.nomineeArray.push(key);
+      } else if (key.includes('guardian')) {
+        this.guardianArray.push(key);
+      }
+    }
+    console.log('controls array', this.nomineeArray, this.guardianArray);
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.nomineeArray.length; i++) {
+      console.log(this.nomineeArray[i], 'value in nominee array');
+      this.f.controls[this.nomineeArray[i]].setValidators(Validators.required);
+      this.f.controls[this.nomineeArray[i]].updateValueAndValidity();
+    }
+  }
+}
+
+
 }
