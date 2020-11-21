@@ -9,7 +9,9 @@ h3.margin_zero {
   h3.dedupe_head {
     margin-top: 0px;
   }
-  
+ .heading{
+   color: #1d1a4b !important;
+ } 
   
   /* footer */
   

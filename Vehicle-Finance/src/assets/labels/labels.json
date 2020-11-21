@@ -2759,6 +2759,12 @@
                 "rule": 4
             },
             "type": "number"
+        },
+        "ChildLoanAccountNumber": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
         }
     }
 }

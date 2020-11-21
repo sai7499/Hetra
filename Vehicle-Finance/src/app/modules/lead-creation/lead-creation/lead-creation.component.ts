@@ -295,6 +295,13 @@ export class LeadCreationComponent implements OnInit {
     console.log('productChange', event.target.value);
     const productChange = event.target.value;
     this.productCode = event.target.value;
+
+    // const productCategorySelected = this.createLeadForm.controls.productCategory.value;
+    // const isChildLoanCheck = this.productCategoryList.filter(
+    //   (data) => data.productCatCode === productChange && productCategorySelected
+    // )[0].isChildLoan;
+    // console.log('testChildLoan', isChildLoanCheck);
+
     this.createLeadService
       .fundingPrograming(productChange)
       .subscribe((res: any) => {
@@ -451,12 +458,12 @@ export class LeadCreationComponent implements OnInit {
   }
 
   onDealerCodeCleared(event) {
-    if(this.sourchingTypeId === '2SOURTYP'){
+    if (this.sourchingTypeId === '2SOURTYP') {
       this.isDealerCode = true;
     } else {
       this.isDealerCode = false;
     }
-   
+
   }
 
   selectDealerEvent(event) {
