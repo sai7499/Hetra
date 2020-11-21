@@ -69,6 +69,22 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber && this.formValue.value.isVaildFinalAssetCost) {
         let data = this.formValue.value.vehicleFormArray[0];
 
+        if (data && data.fcExpiryDate) {
+          data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
+        }
+
+        if (data.firFiled) {
+          data.firFiled = data.firFiled === true ? '1' : '0';
+        }
+
+        if (data.onlineVerification) {
+          data.onlineVerification = data.onlineVerification === true ? '1' : '0';
+        }
+
+        if (data.accidentDate) {
+          data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
+        }
+
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
@@ -103,7 +119,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
           this.toasterService.showError('Please enter valid pincode', 'Invalid pincode')
         } else if (!(this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber)) {
           this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
-        } else if (!this.formValue.value.isVaildFinalAssetCost)  {
+        } else if (!this.formValue.value.isVaildFinalAssetCost) {
           this.toasterService.showError('Discount should not greater than Ex show room price', 'Invalid Final Asset Cost')
         }
       }
