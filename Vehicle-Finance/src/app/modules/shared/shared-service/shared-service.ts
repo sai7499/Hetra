@@ -94,4 +94,9 @@ export class SharedService {
     getUserRoleId(data) {
         this.userRoleId$.next(data);
     }
+    supervisorName$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isSupervisorName = this.supervisorName$.asObservable();
+    getSupervisorName(data) {
+        this.supervisorName$.next(data)
+    }
 }
