@@ -28,60 +28,61 @@
             <td>{{res.score}}</td>
           </tr> -->
         <tr *ngIf="borrowerAttributes">
+            <td class="tab-head" >Borrower Attribute</td>
             <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
-            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
-            <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.borrowerAttributeWeightage}}</strong></td>
-            <td [attr.data-label]="labels?.inputValue"></td>
-            <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.borrowerAttributeScore}}</strong></td>
+            <td class="tab-hide" [attr.data-label]="labels?.borrowerAttributes"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
+            <td [attr.data-label]="labels?.borrowerAttributeWeightage"><strong>{{scoreCard.borrowerAttributeWeightage}}</strong></td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
+            <td [attr.data-label]="labels?.borrowerAttributeScore"><strong>{{scoreCard.borrowerAttributeScore}}</strong></td>
         </tr> 
 
          <tr *ngFor="let borrowerAttribute of borrowerAttributes; let i = index">
             <td [attr.data-label]="labels?.sNo">{{i+1}}</td>
             <td [attr.data-label]="labels?.parameter">{{borrowerAttribute.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{borrowerAttribute.weightage}}</td>
-            <td [attr.data-label]="labels?.inputValue">{{borrowerAttribute.inputValueDescription}}</td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue">{{borrowerAttribute.inputValueDescription}}</td>
             <td [attr.data-label]="labels?.scoreValue">{{borrowerAttribute.score}}</td>
         </tr>
         <tr *ngIf="borrowerAssessments">
             <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
             <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{borrowerAssessments[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.borrowerAssessmentWeightage}}</strong></td>
-            <td [attr.data-label]="labels?.inputValue"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.borrowerAssessmentScore}}</strong></td>
         </tr>
         <tr *ngFor="let borrowerAssessment of borrowerAssessments; let i = index">
             <td [attr.data-label]="labels?.sNo">{{borrowerAttributesLength + i}}</td>
             <td [attr.data-label]="labels?.parameter">{{borrowerAssessment.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{borrowerAssessment.weightage}}</td>
-            <td [attr.data-label]="labels?.inputValue">{{borrowerAssessment.inputValueDescription}}</td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue">{{borrowerAssessment.inputValueDescription}}</td>
             <td [attr.data-label]="labels?.scoreValue">{{borrowerAssessment.score}}</td>
         </tr>
         <tr *ngIf="fieldVerifications">
             <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
             <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{fieldVerifications[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.fieldVerificationWeightage}}</strong></td>
-            <td [attr.data-label]="labels?.inputValue"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.fieldVerificationScore}}</strong></td>
         </tr>
         <tr *ngFor="let fieldVerification of fieldVerifications; let i = index">
             <td [attr.data-label]="labels?.sNo">{{borrowerAssessmentsLength + i}}</td>
             <td [attr.data-label]="labels?.parameter">{{fieldVerification.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{fieldVerification.weightage}}</td>
-            <td [attr.data-label]="labels?.inputValue">{{fieldVerification.inputValueDescription}}</td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue">{{fieldVerification.inputValueDescription}}</td>
             <td [attr.data-label]="labels?.scoreValue">{{fieldVerification.score}}</td>
         </tr>
         <tr *ngIf="repaymentAssessments">
             <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
             <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{repaymentAssessments[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.repaymentAssessmentWeightage}}</strong></td>
-            <td [attr.data-label]="labels?.inputValue"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.repaymentAssessmentScore}}</strong></td>
         </tr>
         <tr *ngFor="let repaymentAssessment of repaymentAssessments; let i = index">
             <td [attr.data-label]="labels?.sNo">{{fieldVerificationsLength + i}}</td>
             <td [attr.data-label]="labels?.parameter">{{repaymentAssessment.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{repaymentAssessment.weightage}}</td>
-            <td [attr.data-label]="labels?.inputValue">{{repaymentAssessment.inputValueDescription}}</td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue">{{repaymentAssessment.inputValueDescription}}</td>
             <td [attr.data-label]="labels?.scoreValue">{{repaymentAssessment.score}}</td>
         </tr>
         

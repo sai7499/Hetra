@@ -84,6 +84,9 @@
   }
   
 
+  .td-bg {
+   background-color: #ffffff;
+ }
   /* fallback */
 /* @font-face {
    font-family: 'Material Icons';
@@ -107,3 +110,21 @@
    -webkit-font-feature-settings: 'liga';
    -webkit-font-smoothing: antialiased;
  } */
+
+ @media (min-width:200px) and (max-width:767px) {
+
+   .child-list {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      margin-left: 90px!important;
+      z-index: 100;
+      width:60%!important;
+      
+   }
+
+   .child-list .supervisor-data-table{
+      width:100%;
+   }
+
+ }

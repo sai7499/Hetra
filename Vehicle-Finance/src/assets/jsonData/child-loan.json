@@ -2,8 +2,17 @@
     "childLoan": {
         "isRequired": {
             "FCLoan": {
+                "fcExpiryDate": false,
+                "fcAmount": true,
+                "typeOfPermit": false,
+                "taxDetails": true,
+                "taxBill": true,
+                "totalTaxBill": true
+            },
+            "TaxLoan": {
                 "fcExpiryDate": true,
                 "fcAmount": true,
+                "permitType": true,
                 "typeOfPermit": true,
                 "taxDetails": true,
                 "taxBill": true,
@@ -22,7 +31,8 @@
                 "taxDetails": true,
                 "taxBill": true,
                 "totalTaxBill": true,
-                "onlineVerification": true
+                "onlineVerification": true,
+                "insuranceValidity": true
             },
             "AccidentLoan": {
                 "accidentDate": true,
@@ -40,7 +50,8 @@
                 "noOfTyres": true,
                 "costPerTyre": true,
                 "marginAmount": true,
-                "tyreSpecification": true
+                "tyreSpecification": true,
+                "invoiceAmount": true
             }
         },
         "isLoanType": [

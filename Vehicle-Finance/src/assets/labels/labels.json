@@ -281,6 +281,10 @@
     "cinNumber": "CIN Number",
     "gstNumber": "GST Number",
     "leadID": "Lead ID",
+    "stakeholders": "Stakeholders",
+    "documentsShared": "Documents Shared",
+    "queryType": "Query Type",
+    "tagQueryTo": "Tag query To",
     "queue": "Queue",
     "userName": "User Name",
     "password": "Password",
@@ -725,6 +729,8 @@
     "approveDeviations": "Approve Deviation",
     "sendBackToCredit": "Send Back To Credit",
     "sendBackToSales": "Send Back To Sales",
+    "send": "send",
+    "backToLead": "Back to Lead",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
     "roleName": "Role Name",
@@ -1688,6 +1694,19 @@
     "performed_on": "Performed On",
     "speedometerReading": "Speedometer Reading",
     "deleteReference": "Are You Sure Want To Delete Reference Details?",
+    "creditShieldHolderName": "Name of the credit shield policy holder",
+    "typeOfApplicant": "Type of applicant",
+    "usedCoverageAmount": "Used coverage amount",
+    "nomineeDetails": "Nominee Details",
+    "nomineeAddress": "Nominee Address",
+    "guardianDetails": "Guardian Details",
+    "guardianAddress": "Guardian Address",
+    "backToFiCumPdList":"Back to FI cum PD List",
+    "fiCumPdStatus":"FI cum PD Status",
+    "fiCumPdReport":"FI cum PD Report",
+    "borrowerAttributes":" Borrower Attributes",
+    "borrowerAttributeWeightage":"Borrower Weightage",
+    "borrowerAttributeScore":"Borrower Score",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1879,7 +1898,8 @@
         "addressLine": {
             "maxLength": {
                 "rule": 35
-            }
+            },
+            "type": "alpha-numeric"
         },
         "businessName": {
             "maxLength": {

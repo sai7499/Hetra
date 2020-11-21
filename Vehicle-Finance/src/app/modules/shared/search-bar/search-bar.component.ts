@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
 import { Location } from '@angular/common';
 import { SharedService } from '../shared-service/shared-service';
+import { DashboardService } from '@services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -24,6 +25,7 @@ export class SearchBarComponent implements OnInit {
     private sharedService: SharedService,
     private route: Router,
     private loginStoreService: LoginStoreService,
+    private dashboardService: DashboardService,
     private location: Location) { }
 
   ngOnInit() {
@@ -41,7 +43,6 @@ export class SearchBarComponent implements OnInit {
   getvalue(enteredValue: string) {
     this.dropDown = (enteredValue === '') ? false : true;
     const sections = this.activityList;
-
     this.searchLead = sections.filter(e => {
       enteredValue = enteredValue.toLowerCase();
       const eName = e.name.toLowerCase();
@@ -64,11 +65,18 @@ export class SearchBarComponent implements OnInit {
   }
 
   navigateToModule() {
+    this.sharedService.getUserName('');
+    this.dashboardService.routingData = '';
     commonRoutingUrl.map(element => {
       if (element.routeId === this.routingId) {
         this.route.navigateByUrl(element.routeUrl);
       }
     });
+  }
+
+  onSupervisorClick() {
+    this.dashboardService.routingData = '';
+    this.route.navigate(['/pages/supervisor']);
   }
 
   mouseEnter() {

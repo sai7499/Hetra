@@ -292,6 +292,9 @@ export class ApplicantListComponent implements OnInit {
 
     if (product === 'NCV') {
       const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+      console.log("result",result);
+      
+
       if (!result) {
         this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', ''); 
       }
