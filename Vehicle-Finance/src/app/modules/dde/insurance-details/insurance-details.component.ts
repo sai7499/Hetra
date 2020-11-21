@@ -12,17 +12,20 @@ export class InsuranceDetailsComponent implements OnInit {
 
   InsuranceDetailForm: FormGroup;
   LOV: any = {};
+  isDirty: boolean = false;
+  permanantPincode: any;
 
   public label: any = {};
   public labelCreditShield: any = {};
   public labelExistingInsuranceDetails: any = {};
   disableSaveBtn: boolean;
 
+  changeLabelsForProposed: string = '';
+  changeLabelsForRoute: string = '';
+
   insuranceType: string = '0';
   labels: any;
   validationData: any;
-  isDirty;
-  permanantPincode;
 
   constructor(private _fb: FormBuilder, private labelsData: LabelsService, private toggleDdeService: ToggleDdeService) { }
 

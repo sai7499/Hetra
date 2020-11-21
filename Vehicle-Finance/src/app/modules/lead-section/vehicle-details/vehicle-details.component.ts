@@ -77,8 +77,8 @@ export class VehicleDetailComponent implements OnInit {
         const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
         const product = leadSectioData.leadDetails.productCatCode;
         if (product === 'NCV' || product === 'UCV' || product === 'UC') {
-          this.forFindingCoApplicantType()
-          if (this.showNotCoApplicant) {
+          this.showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
+          if (!this.showNotCoApplicant) {
              this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
           }
         }

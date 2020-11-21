@@ -122,6 +122,8 @@ export class SourcingDetailsComponent implements OnInit {
     },
   };
 
+  isChildLoan: string;
+
   amountLength: number;
   tenureMonthLength: number;
   productCategoryLoanAmount: any;
@@ -249,6 +251,27 @@ export class SourcingDetailsComponent implements OnInit {
     this.applicantDataStoreService.setApplicantList(applicantList)
     this.leadData = { ...this.leadSectionData };
     const data = this.leadData;
+
+    this.isChildLoan = data.leadDetails.isChildLoan;
+    if (this.isChildLoan === '0') {
+      this.removeChildLoan();
+    } else {
+      let loanLeadDetails = this.leadData.loanLeadDetails;
+      console.log(this.leadData.loanLeadDetails, 'Loan')
+
+      // const childLoanData = this.leadData.loanLeadDetails;
+      this.sourcingDetailsForm.patchValue({
+        totalLoanAmount: loanLeadDetails.totalLoanAmount,
+        principalPaid: loanLeadDetails.principalPaid,
+        principalOutstanding: loanLeadDetails.principalOutstanding,
+        dpd: loanLeadDetails.dpd,
+        emi: loanLeadDetails.emi,
+        rateOfInterest: loanLeadDetails.rateOfInterest,
+        tenor: loanLeadDetails.tenor,
+        remainingTenor: loanLeadDetails.remainingTenor,
+        seasoning: loanLeadDetails.seasoning
+      });
+    }
 
     const currentUrl = this.location.path();
     if (currentUrl.includes('sales')) {
@@ -615,6 +638,15 @@ export class SourcingDetailsComponent implements OnInit {
       loanType: new FormControl('', Validators.required),
       reqLoanAmt: new FormControl('', Validators.required),
       requestedTenor: new FormControl('', Validators.required),
+      totalLoanAmount: new FormControl('', Validators.required),
+      principalPaid: new FormControl('', Validators.required),
+      principalOutstanding: new FormControl('', Validators.required),
+      dpd: new FormControl('', Validators.required),
+      emi: new FormControl('', Validators.required),
+      rateOfInterest: new FormControl('', Validators.required),
+      tenor: new FormControl('', Validators.required),
+      remainingTenor: new FormControl('', Validators.required),
+      seasoning: new FormControl('', Validators.required),
     });
   }
 
@@ -634,6 +666,19 @@ export class SourcingDetailsComponent implements OnInit {
       },
     ];
     return loanTenure;
+  }
+
+  removeChildLoan() {
+    this.sourcingDetailsForm.removeControl('totalLoanAmount');
+    this.sourcingDetailsForm.removeControl('principalPaid');
+    this.sourcingDetailsForm.removeControl('principalOutstanding');
+    this.sourcingDetailsForm.removeControl('dpd');
+    this.sourcingDetailsForm.removeControl('emi');
+    this.sourcingDetailsForm.removeControl('rateOfInterest');
+    this.sourcingDetailsForm.removeControl('tenor');
+    this.sourcingDetailsForm.removeControl('remainingTenor');
+    this.sourcingDetailsForm.removeControl('seasoning');
+    this.sourcingDetailsForm.updateValueAndValidity();
   }
 
   loanTenureAmount(productCategoryChanged?: string) {
