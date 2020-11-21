@@ -1672,7 +1672,7 @@
     "marketAndFinancierReference": "Market & Financier Reference",
     "performed_by": "Performed By",
     "performed_on": "Performed On",
-    "speedometerReading": "Speedometer Reading",
+    "odometerReading": "Odometer Reading",
     "deleteReference": "Are You Sure Want To Delete Reference Details?",
     "creditShieldHolderName": "Name of the credit shield policy holder",
     "typeOfApplicant": "Type of applicant",
@@ -1693,6 +1693,7 @@
     "engineStarted":"Engine started",
     "vehicleMoved":"Vehilce Moved",
     "vehcileIdentityDetails":"Vehicle Identity Details",
+    "vehicleSegment":"Vehicle Segment",
     "version":"Version",
     "colour":"Colour",
     "estimatedReading":"Estimated Reading",
@@ -1711,7 +1712,8 @@
     "unladenWeight":"Unladen Weight",
     "hypothecation":"Hypothecation if any",
     "permitAndTaxDetails":"Permit and Tax Details",
-    "routeOfperation":"Route of Operation",
+    "fitnessValidity":"Fitness Validity",
+    "routeOfOperationValuation":"Route of Operation",
     "taxPaid":"Tax Paid",
     "taxValidUpto":"Tax valid Up to",
     "insuranceDetails":"Insurance Details",
@@ -2775,11 +2777,36 @@
             },
             "type": "alpha-numeric-nospace"
         },
-        "speedometerReading": {
+        "odometerReading": {
             "maxLength": {
                 "rule": 7
             },
             "type": "number"
+        },
+        "colour":{
+            "maxLenght":{
+                "rule":"20"
+            },
+            "type":"alpha"
+        },
+        "regdOwnerName":{
+            "maxLength":{
+                "rule":105
+            },
+            "type":"alpha"
+        },
+        "valuationAddress":{
+            "maxLength":{
+                "rule":200
+            },
+            "type":"alpha"
+        },
+        "hypothecation":{
+            "maxLenght":{
+                "rule":200
+            },
+            "type":"alpha-numeric"
         }
+
     }
 }

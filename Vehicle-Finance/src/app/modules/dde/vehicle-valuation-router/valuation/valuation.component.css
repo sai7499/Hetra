@@ -37,6 +37,10 @@ input[type=number] {
 kendo-datepicker{
   width: 100%!important;
 }
+.pad-zero{
+  padding-left: 0px!important;
+  padding-right: 0px!important;
+}
 
 #disbursement-memo .title {
 	background: #272264;

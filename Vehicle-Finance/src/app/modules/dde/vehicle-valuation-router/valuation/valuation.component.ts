@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { LabelsService } from "@services/labels.service";
+import { LabelsService } from '@services/labels.service';
 import { ToasterService } from '@services/toaster.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { VehicleValuationService } from '@modules/dde/services/vehicle-valuation.service';
@@ -64,6 +64,13 @@ export class ValuationComponent implements OnInit {
     { key: "June", value: "June" }, { key: "July", value: "July" }, { key: "August", value: "August" },
     { key: "September", value: "September" }, { key: "October", value: "October" },
     { key: "November", value: "November" }, { key: "December", value: "December" },
+  ];
+  ownerSerialNo: any = [
+    { key: 1, value: 'First Owner' }, { key: 2, value: 'Second Owner' },
+    { key: 3, value: 'Third Owner' }, { key: 4, value: 'Fourth Owner' },
+    { key: 5, value: 'Fifth Owner' }, { key: 6, value: 'Sixth Owner' },
+    { key: 7, value: 'Seventh Owner' }, { key: 8, value: 'Eigth Owner' },
+
   ];
   leadDetails: any;
   productCatoryCode: any;
