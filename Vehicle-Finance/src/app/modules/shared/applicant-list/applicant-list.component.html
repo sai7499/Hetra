@@ -54,10 +54,10 @@
                   <div><a [ngClass]="{'pointer_non':isDelete || disableSaveBtn }"
                       data-toggle="modal" data-target="#myModal" (click)="softDeleteApplicant(i, item.applicantId)"
                       title="Delete applicant"><i class="fa fa-trash icon p-0" aria-hidden="true"></i></a></div>
-                  <div> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
+                  <div *ngIf ="locationPath !=='lead-section'"> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
                       data-target="#myModalApplicantImage" title="View Bureau Report"> <strong
                         class="icon">CB</strong></a></div>
-                  <div><a data-toggle="modal" data-target="#myModalApplicanteKYC" 
+                  <div *ngIf ="locationPath !=='lead-section'"><a data-toggle="modal" data-target="#myModalApplicanteKYC" 
                     title="View applicant eKYC"  (click)="geteKYCDetails(item.applicantId)"
                       >
                       <strong class="icon">ER</strong>
@@ -70,10 +70,10 @@
                   [ngClass]="{'pointer_non':isDelete || disableSaveBtn }" data-toggle="modal" data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)" title="Delete applicant"><i
                     class="fa fa-trash icon" aria-hidden="true"></i></a> &nbsp;
-                <a (click)="getApplicantImage(item.applicantId)" class="desktop-hide" data-toggle="modal"
+                <a *ngIf ="locationPath !=='lead-section'" (click)="getApplicantImage(item.applicantId)" class="desktop-hide" data-toggle="modal"
                   data-target="#myModalApplicantImage" title="View Bureau Report"> <strong class="icon">CB</strong></a>
                 &nbsp;
-                <a data-toggle="modal" class="desktop-hide" data-target="#myModalApplicanteKYC"
+                <a *ngIf ="locationPath !=='lead-section'" data-toggle="modal" class="desktop-hide" data-target="#myModalApplicanteKYC"
                   title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)">
                   <strong class="icon">ER</strong>
                 </a>
@@ -158,7 +158,7 @@
         </div>
 
         <div class="modal-body">
-          Are you Sure Want to Delete?
+          Are you sure you want to Delete?
         </div>
 
         <div class="modal-footer text-center">
@@ -655,7 +655,7 @@
 <div class="btn-sec clear-both row cst_btm_btns">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
-    <button class="btn btn-primary " type="button" [routerLink]="['../lead-details']">
+    <button class="btn btn-primary " type="button" (click)="onBack()" >
       Back
     </button>
     <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
