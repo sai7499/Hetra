@@ -30,6 +30,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   maxDate = new Date();
   maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
   initalZeroCheck = [];
+  isNegativeValue = [];
   eligibleLoanAmount: any = 0;
 
   public basicVehicleForm: FormGroup;
@@ -90,6 +91,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+    this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
   }
 
   ngOnInit() {
@@ -319,50 +321,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       }
     })
   }
-
-  // addFCLoanControls(form) {
-  //   form.addControl('fcExpiryDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('fcAmount', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('typeOfPermit', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('taxDetails', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('taxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('totalTaxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  // }
-
-  // addInsuranceControls(form) {
-  //   form.addControl('invoiceNumber', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('invoiceDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  // }
-
-  // addTopUpControls(form) {
-  //   form.addControl('fcExpiryDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('onlineVerification', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('taxDetails', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('taxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('totalTaxBill', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('insuranceValidity', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  // }
-
-  // addTyreLoanControls(form) {
-  //   form.addControl('tyreDealer', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('tyreManufacturer', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('noOfTyres', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('costPerTyre', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('invoiceAmount', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('marginAmount', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('tyreSpecification', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  // }
-
-  // addAccidentLoanControls(form) {
-  //   form.addControl('accidentDate', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('accidentType', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('firFiled', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('repairCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('spareCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('totalCost', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('isAuthSvcCentre', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  //   form.addControl('svcCentreName', this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required]))
-  // }
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {

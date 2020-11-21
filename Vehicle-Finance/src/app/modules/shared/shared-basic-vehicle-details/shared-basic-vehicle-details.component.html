@@ -2280,8 +2280,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.noOfTyres">
                         <label for="no_tyre">{{label.noOfTyres}}</label>
                         <app-custom-input formControlName="noOfTyres" [type]="label.validationData?.noOfTyres.type"
-                            [id]="'no_tyre'" [className]="'form-control mandatory'"
-                            [placeholder]="'No of Tyres'"
+                            [id]="'no_tyre'" [className]="'form-control mandatory'" [placeholder]="'No of Tyres'"
                             [maxLength]="label.validationData?.noOfTyres.maxLength"
                             [isRequired]="roleType === 1 ? '' : 'No of Tyres Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -2313,7 +2312,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.marginAmount">
                         <label for="margin_amount">{{label.marginAmount}}</label>
                         <app-custom-input formControlName="marginAmount" [type]="label.validationData?.amountValue.type"
-                            [id]="'margin_amount'" [className]="'form-control mandatory'"
+                            [id]="'margin_amount'" [className]="'form-control mandatory'" [custom]="isNegativeValue"
                             [placeholder]="'Margin Amount'" [maxLength]="label.validationData?.amountValue.maxLength"
                             [isRequired]="roleType === 1 ? '' : 'Margin Amount Required'" [isDirty]="isDirty">
                             <!--  Invoice Amount - Requested Loan -->
@@ -2411,7 +2410,7 @@
 
                     <!-- Insurance || Saathi Loan -->
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.invoiceNo">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.invoiceNumber">
                         <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
 
                         <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"

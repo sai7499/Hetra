@@ -2,9 +2,9 @@
     "childLoan": {
         "isRequired": {
             "FCLoan": {
-                "fcExpiryDate": false,
+                "fcExpiryDate": true,
                 "fcAmount": true,
-                "typeOfPermit": false,
+                "typeOfPermit": true,
                 "taxDetails": true,
                 "taxBill": true,
                 "totalTaxBill": true
@@ -19,11 +19,11 @@
                 "totalTaxBill": true
             },
             "InsuranceLoan": {
-                "invoiceNo": true,
+                "invoiceNumber": true,
                 "invoiceDate": true
             },
             "SaathiLoan": {
-                "invoiceNo": true,
+                "invoiceNumber": true,
                 "invoiceDate": true
             },
             "TopUp": {

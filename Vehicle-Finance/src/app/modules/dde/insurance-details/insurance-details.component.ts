@@ -26,8 +26,6 @@ export class InsuranceDetailsComponent implements OnInit {
   insuranceType: string = '0';
   labels: any;
   validationData: any;
-  isDirty;
-  permanantPincode;
 
   constructor(private _fb: FormBuilder, private labelsData: LabelsService, private toggleDdeService: ToggleDdeService) { }
 
@@ -75,14 +73,6 @@ export class InsuranceDetailsComponent implements OnInit {
   selectInsuranceType(value) {
     this.insuranceType = value;
     this.createForm();
-  }
-
-  cityChange(event) {
-
-  }
-
-  inputPincode(event) {
-
   }
 
   createForm() {
