@@ -140,11 +140,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     const currentUrl = this.location.path();
 
     setTimeout(() => {
-      console.log(this.intervalId, 'Interval Id')
       if (currentUrl.includes('query-model') && this.isIntervalStart) {
-        // setTimeout(() => {
         this.intervalId = this.getPollLeads(this.getLeadSendObj)
-        // }, 300000)
       } else {
         clearInterval(this.intervalId)
       }
@@ -230,21 +227,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   getLeadSearch(data) {
     this.queryModelService.getLeads(data).subscribe((res: any) => {
 
-      console.log(this.routerId, 'res,', res)
-      // && res.error res.ProcessVariables.error.code === '0'
-
-      if (res.Error === '0') {
+      if (res.Error === '0 '&& res.ProcessVariables.error.code === '0') {
         this.getCommonLeadData(res)
         this.getQueries(this.chatList[0], true)
         this.isIntervalStart = true;
       } else {
-        
-        console.log(this.routerId, 'res,', res)
-
-        this.queryModalForm.patchValue({
-          leadId: Number(this.routerId),
-          searchLeadId: this.routerId
-        })  
         this.chatList = [];
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
       }
@@ -263,7 +250,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     }
     return setInterval(() => {
       this.pollingService.getPollingLeadsCount(data).subscribe((res: any) => {
-        console.log('Polling', res)
+
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getCommonLeadData(res)
           this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
@@ -332,6 +319,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         this.documents = res.ProcessVariables.documents ? res.ProcessVariables.documents : [];
         this.queryModelLov.documents = this.documents;
       } else {
+        this.queryModelLov.queryTo = [];
+        this.documents = []
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
       }
     })
@@ -382,7 +371,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
             if (i%2) {
               val.status = 'ReOpen';
             } else {
-              val.status = 'Resoved'
+              val.status = 'Resolved'
             }
 
 
