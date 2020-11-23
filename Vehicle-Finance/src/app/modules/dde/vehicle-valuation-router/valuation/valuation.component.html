@@ -820,10 +820,9 @@
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
-                  [values]="valuesToYesNo"
+                  [values]="LOV?.vehicleUsage"
                   [isDirty]="isDirty"
                   [isRequired]="'Please Select One Option'"
-                  [isDisabled]="true"
                 >
                 </app-vf-custom-select>
               </div>
@@ -846,10 +845,11 @@
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
-                  [values]="valuesToYesNo"
+                  [values]="LOV?.fuelType"
                   [isDirty]="isDirty"
                   [isRequired]="'Please Select One Option'"
-                  [isDisabled]="true"
+                  formControlName="fuelUsed"
+                  (change)="changedFuelUsed(this.vehicleValuationForm.controls.fuelUsed.value)"
                 >
                 </app-vf-custom-select>
               </div>
@@ -1002,6 +1002,7 @@
                       onVehicleType($event.target.value, vehicleValuationForm)
                     "
                     [isDirty]="isDirty"
+                    [isDisabled]="true"
                   >
                   </app-vf-custom-select>
                 </div>
@@ -1020,6 +1021,7 @@
                       onAssetBodyType($event.target.value, vehicleValuationForm)
                     "
                     [isDirty]="isDirty"
+                    [isDisabled]="true"
                   >
                   </app-vf-custom-select>
                 </div>
@@ -1038,6 +1040,7 @@
                     onAssetMake($event.target.value, vehicleValuationForm)
                   "
                   [isDirty]="isDirty"
+                  [isDisabled]="true"
                 >
                 </app-vf-custom-select>
               </div>
@@ -1138,13 +1141,14 @@
                   >{{ labels.fuelUsed }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select
-                  [values]="valuesToYesNo"
+                <app-custom-input
+                  formControlName="fuelUsedType"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Fuel Used'"
                   [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'"
                   [isDisabled]="true"
                 >
-                </app-vf-custom-select>
+                </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="version"
@@ -1162,8 +1166,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="seating_capacity"
                   >{{ labels.seatingCapacity }}
-                  <sub class="star_red_col">*</sub> </label
-                >d
+                  <sub class="star_red_col">*</sub> </label>
                 <app-custom-input
                   formControlName="seatingCapacity"
                   [className]="'form-control mandatory'"
@@ -1569,10 +1572,9 @@
                       <!-- <td>{{ i + 1 }}</td> -->
                       <td >
                         <app-vf-custom-select
-                          [values]=""
+                          [values]="LOV?.vehicleFinanciers"
                           formControlName="financier"
                           [isRequired]="'Please select alteast one '"
-                          [isDisabled]="true"
                         >
                         </app-vf-custom-select>
                       </td>

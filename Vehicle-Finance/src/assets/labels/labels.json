@@ -1731,7 +1731,7 @@
     "anyMajorAccidents":"Any Other Major Repairs till date",
     "currentInvoiceValue":"Current Invoice Value(Ex-Show if in production)",
     "rcBookStatus":"RC Book Status",
-    "recentLast3Valuations":"RECENT LAST 3 VALUATIONS & PRICE OF THE SAME MODEL GIVEN BY THE VALUER",
+    "recentLast3Valuations":"Recent Last Three Valuation & Price Of The Same Model Given By The Valuer",
     "monthOfReport":"Month of the Report",
     "valuation":"Valuation",
     "assetCondition":"Asset Condition",

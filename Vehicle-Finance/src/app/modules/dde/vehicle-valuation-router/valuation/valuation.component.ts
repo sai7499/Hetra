@@ -10,6 +10,7 @@ import { UtilityService } from '@services/utility.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
+import value from '*.json';
 
 @Component({
   selector: 'app-valuation',
@@ -100,7 +101,7 @@ export class ValuationComponent implements OnInit {
   ];
   accessoriesLov: any = [
     { key: 0, value: 'CD Player' }, { key: 1, value: 'AC' },
-    { key: 2, value: 'FAN' }, { key: 3, value: 'FRIDGE' },
+    { key: 2, value: 'FAN' },
     { key: 4, value: 'PARKING CAMERA' }
 
   ];
@@ -112,6 +113,8 @@ export class ValuationComponent implements OnInit {
     { key: 7, value: '7' }, { key: 0, value: '8' },
     { key: 9, value: '9' }, { key: 10, value: '10' },
   ];
+  fuelUsedType: any;
+  fuelTypeLOV: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -184,6 +187,7 @@ export class ValuationComponent implements OnInit {
       this.LOV = value.LOVS;
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
+      this.fuelTypeLOV = this.LOV.fuelType;
     });
     console.log(' LOV**** --->', this.LOV);
   }
@@ -426,7 +430,21 @@ export class ValuationComponent implements OnInit {
       });
     }
   }
+  changedFuelUsed(key) {
+    console.log('in changed fuel use', key, this.fuelTypeLOV);
+    this.fuelTypeLOV.forEach(element => {
+      if (element.key === key) {
+        // tslint:disable-next-line: no-shadowed-variable
+        const value = element.value;
+        this.fuelUsedType = value;
+      }
+    });
 
+
+    this.vehicleValuationForm.patchValue({
+      fuelUsedType: this.fuelUsedType ? this.fuelUsedType : null
+    });
+  }
 
 
   initForm() {
@@ -473,6 +491,8 @@ export class ValuationComponent implements OnInit {
       cubicCapacity: ["", Validators.required],
       seatingCapacity: ["", Validators.required],
       speedometerReading: ['', Validators.required],
+      fuelUsed: ['', Validators.required],
+      fuelUsedType: [''],
       valuationsList: this.listArray,
       partsConditionList: this.partsArray,
       accessoriesList: this.accessoriesArray
