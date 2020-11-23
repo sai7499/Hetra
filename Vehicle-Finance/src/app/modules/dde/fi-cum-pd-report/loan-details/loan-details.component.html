@@ -478,7 +478,7 @@
           formControlName="fundsUsage"
           placeholder="usage of funds"
           [type]="labels?.validationData?.name?.type"
-          [isRequired]="'usge of funds is required'"
+          [isRequired]="'Usage of funds is required'"
           [maxLength]="labels?.validationData?.name?.maxLength"
           [isDirty]="isDirty"
         >
@@ -599,7 +599,7 @@
           <div
             *ngIf="
               loanDetailsForm.controls['othersRemarks'].touched &&
-              !loanDetailsForm.controls['othersRemarks'].vaild
+              !loanDetailsForm.controls['othersRemarks'].valid
             "
           >
             <div
@@ -1105,7 +1105,7 @@
           class="invalid-feedback"
           *ngIf="
             loanDetailsForm.controls['remarks'].touched &&
-            !loanDetailsForm.controls['remarks'].vaild
+            !loanDetailsForm.controls['remarks'].valid
           "
         >
           <div *ngIf="loanDetailsForm.controls['remarks'].hasError('required')">

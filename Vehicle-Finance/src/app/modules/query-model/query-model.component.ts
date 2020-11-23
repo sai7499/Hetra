@@ -316,7 +316,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   backFromQuery() {
-    const currentUrl = localStorage.getItem('currentUrl');
+    const currentUrl = localStorage.getItem('forQueryUrl');
     this.router.navigateByUrl(currentUrl);
   }
 
