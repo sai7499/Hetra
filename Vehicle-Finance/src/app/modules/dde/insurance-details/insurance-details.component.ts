@@ -145,7 +145,7 @@ export class InsuranceDetailsComponent implements OnInit {
   initForm() {
     this.insuranceDetailForm = this.fb.group({
       nameOfApplicant: [''],
-      creditShieldRequired: [''],
+      creditShieldRequired: ['', Validators.required],
       guardianAddLine1: [''],
       guardianAddLine2: [''],
       guardianAddLine3: [''],
@@ -163,7 +163,7 @@ export class InsuranceDetailsComponent implements OnInit {
       guardianState: (['']),
       guardianMobileNumber: [''],
       nomineeMobileNumber: [''],
-      motorInsuranceRequired: [''],
+      motorInsuranceRequired: ['', Validators.required],
       nomineeAddLine1: [''],
       nomineeAddLine2: [''],
       nomineeAddLine3: [''],
@@ -187,6 +187,7 @@ export class InsuranceDetailsComponent implements OnInit {
 
 
  saveUpdateInsurance() {
+   this.addValidations();
    this.isDirty = true;
    if ( this.f.invalid) {
      this.toasterService.showError('Please enter mandatory fields', '');
@@ -370,13 +371,16 @@ public concatguardianName() {
 
   }
 public ageCalculation(date, relation: string) {
-  const event = this.calculateAgeInYears(this.utilityService.getDateFormat(date));
-  console.log('testing date', event);
-  if ( relation === 'nominee') {
+  setTimeout(() => {
+    const event = this.calculateAgeInYears(this.utilityService.getDateFormat(date));
+    console.log('testing date', event);
+    if ( relation === 'nominee') {
   this.f.patchValue({
     nomineeAge: event
   });
   }
+  }, 2000);
+
 }
   public calculateAgeInYears(date) {
     const now = new Date();
@@ -395,8 +399,11 @@ public ageCalculation(date, relation: string) {
 }
 
 public addValidations() {
+
   if ( this.creditShieldRequired === true) {
     const control = this.f as FormGroup;
+    this.guardianArray = [];
+    this.nomineeArray = [];
     // tslint:disable-next-line: forin
     for (const key in control.controls) {
       // console.log('key validations', key);
@@ -407,26 +414,96 @@ public addValidations() {
       }
     }
     console.log('controls array', this.nomineeArray, this.guardianArray);
+    this.f.controls.nameOfApplicant.setValidators(Validators.required);
+    this.f.controls.nameOfApplicant.updateValueAndValidity();
+    this.f.controls.typeOfApplicant.setValidators(Validators.required);
+    this.f.controls.typeOfApplicant.updateValueAndValidity();
+    this.f.controls.usedCoverageAmount.setValidators(Validators.required);
+    this.f.controls.usedCoverageAmount.updateValueAndValidity();
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.nomineeArray.length; i++) {
       console.log(this.nomineeArray[i], 'value in nominee array');
-      if ( this.nomineeArray[i] !== 'nomineeAddLine2' || this.nomineeArray[i] !== 'nomineeFullName' ||
-      this.nomineeArray[i] !== 'nomineeMiddleName'  ) {
+      const nomineeKey = this.nomineeArray[i];
+      if ( nomineeKey == 'nomineeAddLine2' || nomineeKey == 'nomineeFullName' ||
+      nomineeKey[i] == 'nomineeMiddleName' || nomineeKey == 'nomineeMobileNumber' ) {
+        this.f.controls[nomineeKey[i]].setValidators(Validators.required);
+        this.f.controls[nomineeKey[i]].updateValueAndValidity();
+      } else {
+        this.f.controls[nomineeKey[i]].setValidators(Validators.required);
+        this.f.controls[nomineeKey[i]].updateValueAndValidity();
+      }
+
+    }
+    if (this.f.value.nomineeAge < 18 ) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < this.guardianArray.length; i++) {
+        const guardianKey = this.guardianArray[i];
+        if ( guardianKey == 'guardianAddLine2' || guardianKey == 'guardianFullName' ||
+        guardianKey == 'guardianMiddleName' || guardianKey == 'guardianMobileNumber' ) {
+          console.log(this.guardianArray[i], 'value in nominee array');
+          this.f.controls[guardianKey].clearValidators();
+          this.f.controls[guardianKey].updateValueAndValidity();
+
+        } else {
+          this.f.controls[guardianKey].setValidators(Validators.required);
+          this.f.controls[guardianKey].updateValueAndValidity();
+        }
 
       }
-      this.f.controls[this.nomineeArray[i]].setValidators(Validators.required);
-      this.f.controls[this.nomineeArray[i]].updateValueAndValidity();
     }
+  } else {
+    this.f.clearValidators();
+    this.f.updateValueAndValidity();
   }
 }
 getInsuranceDetails() {
   const body = {
-    applicantId : '522'
+    leadId : this.leadId
   };
   this.insuranceService.getInsuranceDetails(body).subscribe((res: any) => {
   console.log(res, 'res in get');
   if (res && res.ProcessVariables.error.code === '0') {
   this.processVariables = res.ProcessVariables;
+  if (this.processVariables) {
+     this.f.patchValue({
+      nameOfApplicant: this.processVariables.nameOfApplicant,
+      creditShieldRequired: this.processVariables.creditShieldRequired,
+      guardianAddLine1: this.processVariables.guardianAddLine1,
+      guardianAddLine2: this.processVariables.guardianAddLine2,
+      guardianAddLine3: this.processVariables.guardianAddLine3,
+      guardianCity: this.processVariables.guardianCity,
+      guardianCountry: this.processVariables.guardianCountry,
+      guardianDOB: this.processVariables.guardianDOB,
+      guardianDistrict: this.processVariables.guardianDistrict,
+      guardianFirstName: this.processVariables.guardianFirstName,
+      guardianFullName: this.processVariables.guardianFullName,
+      guardianLastName: this.processVariables.guardianLastName,
+      guardianMiddleName: this.processVariables.guardianMiddleName,
+      guardianPincode: this.processVariables.guardianPincode,
+      guardianRelationWithApp: this.processVariables.guardianRelationWithApp,
+      guardianState: this.processVariables.guardianState,
+      guardianMobileNumber: this.processVariables.guardianMobileNumber,
+      nomineeMobileNumber: this.processVariables.nomineeMobileNumber,
+      motorInsuranceRequired: this.processVariables.motorInsuranceRequired,
+      nomineeAddLine1: this.processVariables.nomineeAddLine1,
+      nomineeAddLine2: this.processVariables.nomineeAddLine2,
+      nomineeAddLine3: this.processVariables.nomineeAddLine3,
+      nomineeAge: this.processVariables.nomineeAge,
+      nomineeCity: this.processVariables.nomineeCity,
+      nomineeCountry: this.processVariables.nomineeCountry,
+      nomineeDOB: this.processVariables.nomineeDOB,
+      nomineeDistrict: this.processVariables.nomineeDistrict,
+      nomineeFirstName: this.processVariables.nomineeFirstName,
+      nomineeFullName: this.processVariables.nomineeFullName,
+      nomineeLastName: this.processVariables.nomineeLastName,
+      nomineeMiddleName: this.processVariables.nomineeMiddleName,
+      nomineePincode: this.processVariables.nomineePincode,
+      nomineeRelationWithApp: this.processVariables.nomineeRelationWithApp,
+      nomineeState: this.processVariables.nomineeState,
+      typeOfApplicant: this.processVariables.typeOfApplicant,
+      usedCoverageAmount: this.processVariables.usedCoverageAmount,
+     });
+  }
   }
   });
 }

@@ -63,12 +63,20 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}}</label>
                     <!-- formControlName="contractDetails" -->
-                    <app-custom-input id="contractDetails" formControlName="usedCoverageAmount">
+                    <app-custom-input id="contractDetails" 
+                    formControlName="usedCoverageAmount"
+                    [className]="'form-control mandatory'"
+                         [placeholder]="'Enter used coverage amount'"
+                         [maxLength]="labels?.validationData?.decimalValues?.maxLength"
+                         [isRequired]="'Please enter nominee first name'"
+                         [type]="labels?.validationData.decimalValues?.type"
+                         [isDirty]="isDirty"
+                         [patternCheck]="labels?.validationData.decimalValues?.patternCheck">
                     </app-custom-input>
                 </div>
             </div>
             <div>
-                <h3>{{labels?.nomineeDetails}}</h3>
+                <h3 class="margin">{{labels?.nomineeDetails}}</h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
@@ -178,7 +186,7 @@
 
             <!-- Nominee Address Starts -->
             <div>
-                <h3>{{labels?.nomineeAddress}}</h3>
+                <h3 class="margin">{{labels?.nomineeAddress}}</h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
@@ -231,10 +239,10 @@
                         <app-custom-input formControlName="nomineePincode"
                         [className]="'form-control mandatory'"
                          [placeholder]="'Enter nominee pincode'"
-                         [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
+                         [maxLength]="labels?.validationData?.pincode?.maxLength"
                          [isRequired]="'Please enter nominee pincode'"
-                         [type]="labels?.validationData?.insuranceDetails?.type"
-                         [patternCheck] =""
+                         [type]="labels?.validationData?.pincode?.type"
+                         [patternCheck] ="labels?.validationData?.pincode?.patternCheck"
                          [isDirty]="isDirty"
                             (keyup)="getPincode($event.target, 'nominee')" id="permanantPincode"></app-custom-input>
                     </div>
@@ -281,7 +289,7 @@
 
             <!-- Guardian Details Starts -->
             <div>
-                <h3>{{labels?.guardianDetails}}</h3>
+                <h3 class="margin">{{labels?.guardianDetails}}</h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
@@ -390,7 +398,7 @@
 
             <!-- Gurdian Address Starts -->
             <div>
-                <h3>{{labels?.guardianAddress}}</h3>
+                <h3 class="margin">{{labels?.guardianAddress}}</h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
@@ -461,7 +469,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
                        
-                        <app-vf-custom-select formControlName="guardianCountry" [values]="gaurdianDistrict">
+                        <app-vf-custom-select formControlName="guardianDistrict" [values]="gaurdianDistrict">
                         </app-vf-custom-select>
                     </div>
                 </div>

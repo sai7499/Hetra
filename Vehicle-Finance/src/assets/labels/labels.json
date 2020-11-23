@@ -2734,7 +2734,17 @@
             "maxLength": {
                 "rule": 30
             },
-            "type": "alpha-numeric-nospace"
+            "type": "alpha-numeric" 
+        },
+        "decimalValues": {
+            "maxLength": {
+                "rule": 6
+            },
+            "type": "decimal",
+            "patternCheck":{
+                "rule": "^[0-9]{3}[.]{1}[0-9]{0,2}",
+                "msg":"Please enter as following pattern 654.12"
+            }
         }
     }
 }
