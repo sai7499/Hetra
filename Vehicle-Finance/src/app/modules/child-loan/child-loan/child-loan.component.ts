@@ -22,7 +22,7 @@ export class ChildLoanComponent implements OnInit {
   nameLength: number;
   mobileLength: number;
   isDirty: boolean;
-  accordian: string;
+  accordian: string = '';
 
   name: string = '';
   isMobileErrMsg: boolean;
@@ -33,6 +33,9 @@ export class ChildLoanComponent implements OnInit {
 
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
+
+  customerDetailsData = [];
+  loanDetailsData = [];
 
 
   constructor(
@@ -137,18 +140,18 @@ export class ChildLoanComponent implements OnInit {
       voterId || passport || pan ||
       cin || tan || gst
     ) {
-      this.isSearched = true;
       this.accordian = '#collapseOne';
       this.onSearch();
       console.log('childform1', this.childLoanForm.controls);
     } else if (name && dateOfBirth) {
-      this.isSearched = true;
+      this.accordian = '#collapseOne';
+      this.onSearch();
       console.log('childform2', this.childLoanForm.controls);
     } else if (name && mobile) {
-      this.isSearched = true;
+      this.accordian = '#collapseOne';
+      this.onSearch();
       console.log('childform3', this.childLoanForm.controls);
     } else {
-      // this.isDirty = true;
       this.toasterService.error('Atleast one field must to search Child Loan.', 'Search Loan');
     }
 
@@ -185,7 +188,7 @@ export class ChildLoanComponent implements OnInit {
       if (mobile || dateOfBirth) {
         this.isMobileErrMsg = false;
         this.isDobErrMsg = false;
-        this.accordian = '#collapseOne';
+        // this.accordian = '#collapseOne';
       } else {
         this.isMobileErrMsg = true;
         this.isDobErrMsg = true;
@@ -237,10 +240,27 @@ export class ChildLoanComponent implements OnInit {
 
   onSearch() {
     this.childLoanApiService.searchChildLoanApi('700000372607').subscribe(
-      (data: any) => {
-        console.log('cchild', data);
-      }
-    )
+      (res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        const errorMessage = response.ProcessVariables.error.message;
+
+        if (appiyoError === '0' && apiError === '0') {
+          this.customerDetailsData = response.ProcessVariables.customerDetails;
+          this.loanDetailsData = response.ProcessVariables.loanDetails;
+          if (this.customerDetailsData.length !== 0 || this.loanDetailsData.length !== 0) {
+            this.accordian = '#collapseOne';
+          } else {
+            this.accordian = '';
+          }
+          console.log('cchild', response);
+        } else {
+          this.accordian = '';
+          this.toasterService.error(`${errorMessage}`, 'Search Loan');
+        }
+      })
+
   }
 
 }

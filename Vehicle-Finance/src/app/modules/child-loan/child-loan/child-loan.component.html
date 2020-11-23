@@ -9,15 +9,16 @@
     </div> -->
 
     <div class="content">
-      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel-group" id="accordion" role="tablist" >
         <div class="panel-heading" role="tab" id="headingOne">
           <h4 class="panel-title">
             <a class="heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Create Child Loan <i class="fa fa-sort"></i>
+              Create Child Loan <i class="fa fa-sort-desc"></i>
             </a>
           </h4>
         </div>
-        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div id="collapseOne" class="panel-collapse collapse in" 
+          role="tabpanel" aria-labelledby="headingOne">
           <div class="panel-body">
             <form [formGroup]="childLoanForm">
         <div class="row">
@@ -242,7 +243,7 @@
             <a 
               type="button" 
               data-toggle="collapse" data-parent="#accordion" 
-              aria-expanded="false" aria-controls="collapseOne"
+              aria-expanded="true" aria-controls="collapseOne"
               [href]="accordian"
               class="btn btn-primary" value="submit" (click)="onSubmit()">
               Search
@@ -256,14 +257,14 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="isSearched">
+    <div class="row" *ngIf="customerDetailsData.length != 0">
       <div class="col-md-6">
         <h3 class="margin_zero">Customer Details</h3>
       </div>
       <div class="col-md-6 text-right"></div>
     </div>
 
-    <div class="content" *ngIf="isSearched">      
+    <div class="content" *ngIf="customerDetailsData.length != 0">      
       <div class="container-fluid">        
         <div class="row">
           <div id="wrapper">
@@ -283,20 +284,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr *ngFor="let customerDetail of customerDetailsData">
                   <td align="center" [attr.data-label]="'Select'">
                     <input class="checkbox" type="radio" name="selectLead" />
                   </td>
                   <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
-                  <td [attr.data-label]="'UCIC'">UCIC</td>
-                  <td [attr.data-label]="'Customer Name'">24</td>
-                  <td [attr.data-label]="'Phone Number'">8</td>
-                  <td [attr.data-label]="'Entity'">2000000</td>
-                  <td [attr.data-label]="'DOB'">650000</td>
-                  <td [attr.data-label]="'Aadhaar'">650000</td>
-                  <td [attr.data-label]="'PAN Number'">650000</td>
-                  <td [attr.data-label]="'GST'">650000</td>
-                  <td [attr.data-label]="'CIN'">650000</td>
+                  <td [attr.data-label]="'UCIC'">{{customerDetail.ucic}}</td>
+                  <td [attr.data-label]="'Customer Name'">{{customerDetail.name}}</td>
+                  <td [attr.data-label]="'Phone Number'">{{customerDetail.mobileNumber}}</td>
+                  <td [attr.data-label]="'Entity'"></td>
+                  <td [attr.data-label]="'DOB'"></td>
+                  <td [attr.data-label]="'Aadhaar'">{{customerDetail.aadharNumber}}</td>
+                  <td [attr.data-label]="'PAN Number'"></td>
+                  <td [attr.data-label]="'GST'"></td>
+                  <td [attr.data-label]="'CIN'"></td>
                 </tr>
               </tbody>
             </table>
@@ -305,14 +306,14 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="isSearched">
+    <div class="row" *ngIf="loanDetailsData.length != 0">
       <div class="col-md-6">
         <h3 class="margin_zero">Loan Account Details</h3>
       </div>
       <div class="col-md-6 text-right"></div>
     </div>
 
-    <div class="content" *ngIf="isSearched">      
+    <div class="content" *ngIf="loanDetailsData.length != 0">      
       <div class="container-fluid">        
         <div class="row">
           <div id="wrapper">
@@ -325,34 +326,32 @@
                   <th>Loan Amount <i class="fa fa-sort"></i></th>
                   <th>Number of EMIs <i class="fa fa-sort"></i></th>
                   <th>Seasoning <i class="fa fa-sort"></i></th>
-                  <th>ROI <i class="fa fa-sort"></i></th>
+                  <th>Rate of Interest <i class="fa fa-sort"></i></th>
                   <th>DPD <i class="fa fa-sort"></i></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr *ngFor="let loanDetail of loanDetailsData">
                   <td align="center" [attr.data-label]="'Select'">
                     <input class="checkbox" type="radio" name="selectLead" />
                   </td>
                   <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
-                  <td [attr.data-label]="'Loan Account Number'">Loan Account Number</td>
+                  <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
                   <td [attr.data-label]="'Loan Start Date'">24</td>
-                  <td [attr.data-label]="'Loan Amount'">8</td>
-                  <td [attr.data-label]="'Number of EMIs'">2000000</td>
+                  <td [attr.data-label]="'Loan Amount'">{{loanDetail.totalLoanAmount}}</td>
+                  <td [attr.data-label]="'Number of EMIs'">{{loanDetail.totalEMIs}}</td>
                   <td [attr.data-label]="'Seasoning'">650000</td>
-                  <td [attr.data-label]="'ROI'">650000</td>
-                  <td [attr.data-label]="'DPD'">650000</td>
+                  <td [attr.data-label]="'Rate of Interest'">{{loanDetail.rateOfInterest}}</td>
+                  <td [attr.data-label]="'DPD'">{{loanDetail.dpd}}</td>
                 </tr>
               </tbody>
             </table>
             <div class="btn-sec clear-both btn-mar-reject">
               <div class="text-right">
-                <button class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"
-                  data-toggle="modal" data-target="#proceedModal_without">
+                <button class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button">
                   Create Child Loan Lead
                 </button>
-                <button class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button"
-                  data-toggle="modal" data-target="#proceedModal_without">
+                <button class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button">
                   View Loan 360
                 </button>
               </div>

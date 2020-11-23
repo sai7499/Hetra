@@ -388,7 +388,8 @@ h3.margin_zero {
     border-radius: 8px;
     border: 1px solid #ddd;
     margin:15px;
-    
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
   
   label.col-form-label {
