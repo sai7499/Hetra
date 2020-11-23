@@ -33,7 +33,7 @@
   } */
   .supervisor-data-table {
      background: #fff;
-     width: 300px;
+     width: 200px;
   }
   .supervisor-data-table td {
      /* padding: 5px 10px; */
@@ -149,13 +149,18 @@
       width:100px;
    }
 
-   
-
-
-ul{
-   list-style: none;
-    padding-left: 0;
-}
-
+   ul{
+      list-style: none;
+      padding-left: 0;
+   }
 
  }
+
+ .table{
+   table-layout: fixed;
+   width:100%;
+}
+
+.box-tab{
+   width: fit-content;
+}
