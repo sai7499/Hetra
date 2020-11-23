@@ -426,3 +426,12 @@ th {
     margin:3px!important;
 }
 }
+
+.table{
+    table-layout: fixed;
+    width:100%;
+}
+
+.main-tab{
+    width: fit-content;
+}
