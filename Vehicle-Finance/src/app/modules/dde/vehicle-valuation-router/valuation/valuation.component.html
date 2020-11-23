@@ -1541,7 +1541,7 @@
             <h4 class="title">{{ labels?.recentLast3Valuations }}</h4>
             <div class="row">
               <div id="applicantTable" class="table-responsive application">
-                <table class="table">
+                <table class="table valuation">
                   <thead>
                     <tr class="table-head-bg text-center">
                       <!-- <th>{{ labels.sNo }}</th> -->
@@ -1567,7 +1567,7 @@
                       [formGroupName]="i"
                     >
                       <!-- <td>{{ i + 1 }}</td> -->
-                      <td>
+                      <td >
                         <app-vf-custom-select
                           [values]=""
                           formControlName="financier"
@@ -1609,7 +1609,7 @@
             <h4 class="title">{{ labels?.assetCondition }}</h4>
             <div class="row">
               <div id="applicantTable" class="table-responsive application">
-                <table class="table">
+                <table class="table asset">
                   <thead>
                     <tr class="table-head-bg text-center">
                       <!-- <th>{{ labels.sNo }}</th> -->
@@ -1715,7 +1715,7 @@
             <h4 class="title">{{ labels?.accessoriesFound }}</h4>
             <div class="row">
               <div id="applicantTable" class="table-responsive application">
-                <table class="table">
+                <table class="table part">
                   <thead>
                     <tr class="table-head-bg text-center">
                       <!-- <th>{{ labels.sNo }}</th> -->
