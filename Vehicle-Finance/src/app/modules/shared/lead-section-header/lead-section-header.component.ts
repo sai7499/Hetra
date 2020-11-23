@@ -199,7 +199,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   initinequery() {
     this.isEnableInitiateQuery = false;
     const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);
+    localStorage.setItem('forQueryUrl', currentUrl);
     this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
     // this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
   }

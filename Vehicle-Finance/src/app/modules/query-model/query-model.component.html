@@ -72,6 +72,9 @@
                               <div class="radio"><label><input class="select-user" type="radio" name="radio">
                                   {{stack.value}} <span class="checkmark"></span></label></div>
                             </div>
+                            <div class="empty-list" *ngIf="queryModelLov.queryTo && queryModelLov.queryTo.length === 0">
+                              No stakeholder in the stakeholders list
+                            </div>
                           </div>
                         </form>
                       </div>
@@ -107,7 +110,7 @@
                               </a></p>
                           </div>
                           <div class="empty-list" *ngIf="documents && documents.length === 0">
-                            No documents in the documents list
+                            No document in the documents list
                           </div>
                         </div>
                       </div>
@@ -177,6 +180,9 @@
                             <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
                                   class="checkmark"></span></label></div>
                           </div>
+                          <div class="empty-list" *ngIf="queryModelLov.queryTo && queryModelLov.queryTo.length === 0">
+                            No stakeholder in the stakeholders list
+                          </div>
                         </div>
                       </form>
                     </div>
@@ -234,8 +240,23 @@
               </div>
               <div class="chat-box message-box ">
 
-                <div *ngFor="let message of chatMessages; let j=index;let last=last;">
+                <div *ngFor="let message of chatMessages; let j=index;let last=last;"
+                  (mouseenter)="clickedIndex == j? clickedIndex = null : clickedIndex = j"
+                  (mouseleave)="clickedIndex = null">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
+
+                    <!--  *ngIf="clickedIndex == j"
+                      (click)="openOptions(message, j)" -->
+
+                    <span class="active-dropdown">
+                      <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+
+                    <div class="message-dropdown-content" id="myDropdown">
+                      <a (click)="foo.focus()">Reply</a>
+                      <a href="#">Status</a>
+                    </div>
+
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
                       <div class="logged-user">
                         <span class="cus-name-role"> {{message.nameWithFromRole}}
@@ -367,7 +388,7 @@
 
                 <div class="col-sm-10 col-md-10 col-lg-10 text-box">
                   <div class="form-group col-lg-12 col-xs-12 col-md-12 col-sm-12">
-                    <textarea class="form-control cus-chat" formControlName="query"
+                    <textarea #foo class="form-control cus-chat" formControlName="query"
                       (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
 
                     <div class="invalid-feedback"
