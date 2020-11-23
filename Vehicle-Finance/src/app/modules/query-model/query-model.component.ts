@@ -33,7 +33,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   userId: string = '0';
 
   isShowLeadModal: boolean;
-  clickedIndex: any;
+  clickedIndex: any = null;
+  isClickDropDown: any;
 
   leadSectionData: any;
   leadId: number = 0;
@@ -149,6 +150,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       }
     }, 300000)
 
+  }
+
+  openOptionDropDown(index) {
+    this.isClickDropDown = index;
+    document.getElementById("chat-box").style.overflowY = "hidden";
   }
 
   getLov() {
@@ -778,11 +784,23 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     return blob;
   }
 
-  openOptions(data, index) {
-    console.log(data, 'data', index)
-    this.queryModalForm.patchValue({
-      query: data.query
+  openOptions(data) {
+    let queryTo = this.userId === data.queryFrom ? data.queryTo : data.queryFrom;
+
+    let fileterData = this.queryModelLov.queryTo.find((res: any) => {
+      return res.key === queryTo;
     })
+
+    this.queryModalForm.patchValue({
+      query: data.query,
+      queryType: data.queryType,
+      queryFrom: this.userId,
+      searchText: fileterData.value,
+      queryTo: fileterData.key
+    })
+    this.isClickDropDown = null;
+    document.getElementById("chat-box").style.overflowY = "auto";
+
   }
 
 }

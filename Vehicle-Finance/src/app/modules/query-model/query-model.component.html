@@ -238,21 +238,20 @@
                     {{labels.backToLead}}</button></div>
 
               </div>
-              <div class="chat-box message-box ">
+              <div class="chat-box message-box " id="chat-box">
 
                 <div *ngFor="let message of chatMessages; let j=index;let last=last;"
-                  (mouseenter)="clickedIndex == j? clickedIndex = null : clickedIndex = j"
+                  (mouseenter)="clickedIndex === j? clickedIndex = null : clickedIndex = j"
                   (mouseleave)="clickedIndex = null">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
 
-                    <!--  *ngIf="clickedIndex == j"
-                      (click)="openOptions(message, j)" -->
-
-                    <span class="active-dropdown">
+                    <span class="active-dropdown" *ngIf="clickedIndex === j" (click)="openOptionDropDown(j);">
                       <i class="fa fa-angle-down" aria-hidden="true"></i>
                     </span>
 
-                    <div class="message-dropdown-content" id="myDropdown">
+                    <div class="message-dropdown-content right" id="myDropdown"
+                      [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
+                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">
                       <a (click)="foo.focus()">Reply</a>
                       <a href="#">Status</a>
                     </div>

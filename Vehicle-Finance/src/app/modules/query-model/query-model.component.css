@@ -319,17 +319,28 @@ margin: 0px !important;
 }
 
 .message-dropdown-content {
-    right: 16px;
-    left: auto;
     transform-origin: left bottom 0px;
-    bottom: 375px;
+    /* bottom: 425px; */
     transform: scale(1);
+    height: auto;
     opacity: 1;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 120px;
     box-shadow: 0px 8px 16px 0px rgba(255, 0, 0, 0);
     z-index: 1;
+}
+
+.content-send {
+    right: 16px;
+    top: 76px;
+    left: auto;
+}
+
+.content-receiver {
+    right: 154px;
+    top: 120px;
+    left: auto;
 }
 
 .message-dropdown-content  a {
