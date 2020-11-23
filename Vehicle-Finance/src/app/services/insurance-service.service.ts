@@ -31,4 +31,23 @@ export class InsuranceServiceService {
       const url =  environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
       return this.httpService.post(url, requestEntity);
               }
+   getInsuranceDetails(data) {
+                const processData = data;
+                const processId = this.apiService.api.getInsuranceDetails.processId;
+                const workflowId = this.apiService.api.getInsuranceDetails.workflowId;
+                const projectId = this.apiService.api.getInsuranceDetails.projectId;
+
+                const userId = localStorage.getItem('userId');
+
+                const requestEntity: RequestEntity = {
+                            processId,
+                            ProcessVariables: processData,
+                            workflowId,
+                            projectId
+                          };
+
+                          // tslint:disable-next-line: max-line-length
+                const url =  environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+                return this.httpService.post(url, requestEntity);
+                        }
 }

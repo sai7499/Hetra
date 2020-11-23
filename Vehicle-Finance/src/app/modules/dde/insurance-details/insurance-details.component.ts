@@ -7,7 +7,7 @@ import { LabelsService } from '@services/labels.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service'
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
 @Component({
@@ -58,7 +58,8 @@ export class InsuranceDetailsComponent implements OnInit {
   applicantRelation = [];
   todayDate: Date;
   nomineeArray = [];
-  guardianArray = []
+  guardianArray = [];
+  processVariables: any;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -78,6 +79,7 @@ export class InsuranceDetailsComponent implements OnInit {
     this.todayDate = new Date();
     this.leadData = this.createLeadService.getLeadSectionData();
     console.log('lead Data', this.leadData);
+    this.initForm();
     // tslint:disable-next-line: no-string-literal
     this.leadData['applicantDetails'].map((element => {
       const body = {
@@ -112,9 +114,10 @@ export class InsuranceDetailsComponent implements OnInit {
     });
     this.applicantId = (await this.getApplicantId()) as number;
     this.leadId = (await this.getLeadId()) as number;
-    this.initForm();
+
     this.checkOnCredit(this.flag);
     this.checkOnMotor(this.motar);
+    this.getInsuranceDetails();
 
   }
   getApplicantId() {
@@ -154,7 +157,7 @@ export class InsuranceDetailsComponent implements OnInit {
       guardianFullName: [''],
       guardianLastName: [''],
       guardianMiddleName: [''],
-      guardianMobile: [''],
+      // guardianMobile: [''],
       guardianPincode: (['']),
       guardianRelationWithApp: [''],
       guardianState: (['']),
@@ -173,7 +176,7 @@ export class InsuranceDetailsComponent implements OnInit {
       nomineeFullName: [''],
       nomineeLastName: [''],
       nomineeMiddleName: [''],
-      nomineeMobile: [''],
+      // nomineeMobile: [''],
       nomineePincode: (['']),
       nomineeRelationWithApp: [''],
       nomineeState: [''],
@@ -206,6 +209,8 @@ export class InsuranceDetailsComponent implements OnInit {
    this.insuranceDetailForm.value.usedCoverageAmount =  Number(this.insuranceDetailForm.value.usedCoverageAmount);
    this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
    this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
+   this.insuranceDetailForm.value.nomineeDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.nomineeDOB);
+   this.insuranceDetailForm.value.guardianDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.guardianDOB);
    const body  = {
      leadId: this.leadId,
      applicantId: this.applicantId,
@@ -391,7 +396,7 @@ public ageCalculation(date, relation: string) {
 
 public addValidations() {
   if ( this.creditShieldRequired === true) {
-    let control = this.f as FormGroup;
+    const control = this.f as FormGroup;
     // tslint:disable-next-line: forin
     for (const key in control.controls) {
       // console.log('key validations', key);
@@ -405,10 +410,25 @@ public addValidations() {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.nomineeArray.length; i++) {
       console.log(this.nomineeArray[i], 'value in nominee array');
+      if ( this.nomineeArray[i] !== 'nomineeAddLine2' || this.nomineeArray[i] !== 'nomineeFullName' ||
+      this.nomineeArray[i] !== 'nomineeMiddleName'  ) {
+
+      }
       this.f.controls[this.nomineeArray[i]].setValidators(Validators.required);
       this.f.controls[this.nomineeArray[i]].updateValueAndValidity();
     }
   }
+}
+getInsuranceDetails() {
+  const body = {
+    applicantId : '522'
+  };
+  this.insuranceService.getInsuranceDetails(body).subscribe((res: any) => {
+  console.log(res, 'res in get');
+  if (res && res.ProcessVariables.error.code === '0') {
+  this.processVariables = res.ProcessVariables;
+  }
+  });
 }
 
 

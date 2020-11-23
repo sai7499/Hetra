@@ -980,6 +980,11 @@ export class ApiService {
       processId: '8a5609aad32e11eaacee00505695f93b',
       workflowId: '8a1d1abed32e11eaa96700505695f93b',
       projectId: environment.projectIds.assignCPCMaker
+    },
+    getInsuranceDetails: {
+      processId: 'e7bb8364281411eb9f0f00505695f93b',
+      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      projectId: environment.projectIds.camProjectId
     }
 
 
