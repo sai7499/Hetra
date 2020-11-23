@@ -216,4 +216,13 @@ export class ApplicantDataStoreService {
      return result;
   }
 
+  findCoApplicant(data : any[]) : boolean{
+    const applicantList = data;
+     
+    const result= applicantList.some((value : any)=>{
+     return value.applicantTypeKey == "COAPPAPPRELLEAD"
+    })
+    return result;
+  }
+
 }

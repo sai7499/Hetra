@@ -122,6 +122,8 @@ export class SourcingDetailsComponent implements OnInit {
     },
   };
 
+  isChildLoan: string;
+
   amountLength: number;
   tenureMonthLength: number;
   totalLoanAmountLength: number;
@@ -133,8 +135,6 @@ export class SourcingDetailsComponent implements OnInit {
   applicationNoLength: any;
   isDealerCode: boolean;
   sourchingTypeId: string;
-
-  isChildLoan: string;
 
   saveUpdate: {
     bizDivision: string;
@@ -266,18 +266,21 @@ export class SourcingDetailsComponent implements OnInit {
     if (this.isChildLoan === '0') {
       this.removeChildLoan();
     } else {
-      // const childLoanData = this.leadData?.loanLeadDetails;
-      // this.sourcingDetailsForm.patchValue({
-      //   totalLoanAmount: childLoanData?.totalLoanAmount,
-      //   principalPaid: childLoanData?.principalPaid,
-      //   principalOutstanding: childLoanData?.principalOutstanding,
-      //   dpd: childLoanData?.dpd,
-      //   emi: childLoanData?.emi,
-      //   rateOfInterest: childLoanData?.rateOfInterest,
-      //   tenor: childLoanData?.tenor,
-      //   remainingTenor: childLoanData?.remainingTenor,
-      //   seasoning: childLoanData?.seasoning
-      // });
+      let loanLeadDetails = this.leadData.loanLeadDetails;
+      console.log(this.leadData.loanLeadDetails, 'Loan')
+
+      // const childLoanData = this.leadData.loanLeadDetails;
+      this.sourcingDetailsForm.patchValue({
+        totalLoanAmount: loanLeadDetails.totalLoanAmount,
+        principalPaid: loanLeadDetails.principalPaid,
+        principalOutstanding: loanLeadDetails.principalOutstanding,
+        dpd: loanLeadDetails.dpd,
+        emi: loanLeadDetails.emi,
+        rateOfInterest: loanLeadDetails.rateOfInterest,
+        tenor: loanLeadDetails.tenor,
+        remainingTenor: loanLeadDetails.remainingTenor,
+        seasoning: loanLeadDetails.seasoning
+      });
     }
 
     const currentUrl = this.location.path();

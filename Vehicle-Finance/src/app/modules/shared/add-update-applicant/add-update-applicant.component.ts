@@ -1725,15 +1725,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
       }
     }
-    setTimeout(() => {
-      this.listenerForUnique();
-      this.setDedupeValidators();
-
-      const panFlag = this.applicantDataService.getPanValidate()
+    const panFlag = this.applicantDataService.getPanValidate()
       if (panFlag) {
         this.panValidate = true;
       }
-
+    setTimeout(() => {
+      this.listenerForUnique();
+      this.setDedupeValidators();
 
     });
 
@@ -3510,7 +3508,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.panValidate = true;
           this.applicantDataService.setPanValidate(true);
 
-          this.panValidate = this.applicantDataService.getPanValidate()
+          //this.panValidate = this.applicantDataService.getPanValidate()
           this.toasterService.showError(
             responce['ProcessVariables'].error.message,
             'PAN Validation Error'

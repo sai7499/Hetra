@@ -77,7 +77,6 @@ export class LeadCreationComponent implements OnInit {
   sourchingTypeId: string;
   productCode: string;
 
-
   obj = {};
   test = [];
 

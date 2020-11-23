@@ -174,7 +174,7 @@ export class CreateLeadService {
         return this.httpService.post(url, body);
     }
 
-    sourcingCode(sourcingCodeType, sourcingCodeSubType, code, productCode?) {
+    sourcingCode(sourcingCodeType, sourcingCodeSubType, code, productCode?: any) {
         const processId = this.apiService.api.sourcingCode.processId;
         const workflowId = this.apiService.api.sourcingCode.workflowId;
         const projectId = this.apiService.api.sourcingCode.projectId;
