@@ -253,26 +253,52 @@
                       [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
                       *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">
                       <a (click)="foo.focus()">Reply</a>
-                      <a href="#">Status</a>
+                      <!-- <a href="#">Status</a> -->
                     </div>
 
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
-                      <div class="logged-user">
-                        <span class="cus-name-role"> {{message.nameWithFromRole}}
-                        </span>
-                        <span class="date-time"> <strong>{{labels.queryType}} : </strong> {{message.queryTypeDesc}}
-                        </span>
+                      <div class="logged-user row">
+
+                        <div class="col-md-4">
+                          <span class="cus-name-role"> {{message.nameWithFromRole}}
+                          </span>
+                        </div>
+
+                        <div class="col-md-4">
+                          <span class="text-center"> <strong>Query Id : </strong> {{message.queryId}} </span>
+                        </div>
+
+                        <div class="col-md-4">
+                          <span class="date-time"> <strong>{{labels.queryType}} : </strong> {{message.queryTypeDesc}}
+                          </span>
+                        </div>
 
                       </div>
+
                       <p>{{message.query}}</p>
                       <div *ngIf="message.docId"><a class="text-danger"
                           (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
                           {{message.docName}}</a></div>
                       <br *ngIf="message.docId">
                       <div class="tagged-name">
-                        <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
-                        <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
-                        </span>
+                        <div class="logged-user row">
+
+                          <div class="col-md-4">
+                            <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
+                          </div>
+
+                          <div class="col-md-4">
+                            <span class="text-center" style="margin-left: 119px;"
+                              [ngClass]="j % 2 === 0 ? 'red-Col' : 'green-Col'"> <strong>Status : </strong>
+                              {{message.status}} </span>
+                          </div>
+
+                          <div class="col-md-4">
+                            <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
+                            </span>
+                          </div>
+
+                        </div>
 
                       </div>
                     </div>

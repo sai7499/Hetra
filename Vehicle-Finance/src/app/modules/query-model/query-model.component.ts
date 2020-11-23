@@ -154,6 +154,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   openOptionDropDown(index) {
     this.isClickDropDown = index;
+    this.clickedIndex = index;
     document.getElementById("chat-box").style.overflowY = "hidden";
   }
 
@@ -375,8 +376,17 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           }
           this.getChatsObj = res.ProcessVariables;
           this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
-          this.chatMessages.filter((val) => {
+          this.chatMessages.filter((val, i) => {
             val.time = this.myDateParser(val.createdOn)
+
+            if (i%2) {
+              val.status = 'ReOpen';
+            } else {
+              val.status = 'Resoved'
+            }
+
+
+            val.queryId = i + 1000;
           })
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
@@ -558,14 +568,13 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   onFormSubmit(form) {
 
     if (this.isleadIdshowError || this.isQueryToShowError) {
-      this.toasterService.showError('Please enter all mandatory field', 'Query Model Save/Update')
+      this.toasterService.showError('Please enter all mandatory field', '')
       return;
     }
 
     if (form.valid && form.controls['query'].value.trim().length !== 0) {
 
       let assetQueries = [];
-      // assetQueries.push(form.value)
 
       assetQueries = [
         {
@@ -799,6 +808,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       queryTo: fileterData.key
     })
     this.isClickDropDown = null;
+    this.clickedIndex = null;
     document.getElementById("chat-box").style.overflowY = "auto";
 
   }

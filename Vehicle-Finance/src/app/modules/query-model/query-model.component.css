@@ -343,6 +343,14 @@ margin: 0px !important;
     left: auto;
 }
 
+.red-Col {
+    color: red;
+}
+
+.green-Col {
+    color: green;
+}
+
 .message-dropdown-content  a {
     float: none;
     color: black;
