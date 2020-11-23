@@ -404,7 +404,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   initinequery() {
     const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);
+    localStorage.setItem('forQueryUrl', currentUrl);
     this.router.navigateByUrl(`/pages/query-model`)
   }
 

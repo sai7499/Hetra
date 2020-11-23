@@ -1,4 +1,4 @@
-<main class="mar-top90">
+<main class="mar-top90 main-tab" >
   <div class="container-fluid">
     <div *ngIf="supervisorName" style="float: left; margin-left: 5px;">
       <h4>Viewing {{supervisorName}}'s Dashboard</h4>
@@ -420,7 +420,7 @@
      Dashboard Ends -->
 
   <div>
-    <div class="container-fluid">
+    <div class="container-fluid table-responsive">
       <table
         *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab">
         <thead>
