@@ -1,5 +1,7 @@
 
-
+.mar-top90{
+  scroll-behavior: smooth !important;
+}
 /* Top-heading Space */
 
 h3.margin_zero {
@@ -388,8 +390,6 @@ h3.margin_zero {
     border-radius: 8px;
     border: 1px solid #ddd;
     margin:15px;
-    padding-bottom: 0;
-    margin-bottom: 0;
   }
   
   label.col-form-label {
@@ -508,6 +508,7 @@ h3.margin_zero {
   input[type="radio"] {
     cursor: pointer;
   }
+
   
   /*Mobile View*/
   @media 

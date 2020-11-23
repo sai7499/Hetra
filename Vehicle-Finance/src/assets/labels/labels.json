@@ -2113,8 +2113,8 @@
             },
             "type": "alpha-numeric",
             "patternCheck": {
-                "rule": "[A-Z1-9]{1}",
-                "msg": "Should be Valid"
+                "rule": "[A-Z]{4}[0-9]{5}[A-Z]{1}",
+                "msg": "Invalid format / PDES03028F"
             }
         },
         "pincode": {
@@ -2796,6 +2796,12 @@
         "ChildLoanAccountNumber": {
             "maxLength": {
                 "rule": 12
+            },
+            "type": "number"
+        },
+        "ucicId": {
+            "maxLength": {
+                "rule": 8
             },
             "type": "number"
         }

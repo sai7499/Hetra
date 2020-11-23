@@ -15,6 +15,7 @@ export class ChildLoanApiService {
         private apiService: ApiService
     ) { }
 
+    // searchChildLoanApi(childLoanDatas) {
     searchChildLoanApi(loanAccountNo) {
         const processId = this.apiService.api.childLoanSearch.processId;
         const workflowId = this.apiService.api.childLoanSearch.workflowId;
@@ -23,6 +24,7 @@ export class ChildLoanApiService {
         const requestEntity: RequestEntity = {
             processId,
             ProcessVariables: {
+                // ...childLoanDatas
                 loanAccountNo
             },
             workflowId,

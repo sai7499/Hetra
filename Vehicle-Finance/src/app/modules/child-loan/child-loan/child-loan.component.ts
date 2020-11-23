@@ -3,10 +3,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UpperCasePipe } from '@angular/common';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AgeValidationService } from '@services/age-validation.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
+import { CommonDataService } from '@services/common-data.service';
 
 @Component({
   selector: 'app-child-loan',
@@ -22,6 +23,7 @@ export class ChildLoanComponent implements OnInit {
   nameLength: number;
   mobileLength: number;
   isDirty: boolean;
+  isCreateChild: boolean;
   accordian: string = '';
 
   name: string = '';
@@ -30,6 +32,9 @@ export class ChildLoanComponent implements OnInit {
   isDisableMobDob: boolean = true;
   isDisableMobile: boolean = true;
   isDisableDob: boolean = true;
+  selectedUcicIndex: number;
+  selectedLoanAccNoIndex: number;
+  accountNo: any;
 
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
@@ -37,14 +42,36 @@ export class ChildLoanComponent implements OnInit {
   customerDetailsData = [];
   loanDetailsData = [];
 
+  ucicId: any;
+  test: any;
+
+  childData: {
+    ucic?: any,
+    loanAccountNumber?: any,
+    vehicleRegistrationNumber?: any,
+    aadhaar?: any
+    drivingLicense?: any
+    voterId?: any
+    passport?: any
+    pan?: any
+    cin?: any
+    tan?: any
+    gst?: any
+    name?: any
+    mobile?: any
+    dateOfBirth?: any
+  }
+
 
   constructor(
     private commonLovService: CommomLovService,
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private toasterService: ToastrService,
     private ageValidationService: AgeValidationService,
-    private childLoanApiService: ChildLoanApiService
+    private childLoanApiService: ChildLoanApiService,
+    private commonDataService: CommonDataService
   ) { }
 
   ngOnInit() {
@@ -119,6 +146,7 @@ export class ChildLoanComponent implements OnInit {
   }
 
   onSubmit() {
+    this.test = '#customerDetails_id';
     const ucic = this.childLoanForm.controls.ucic.valid;
     const loanAccountNumber = this.childLoanForm.controls.loanAccountNumber.valid;
     const vehicleRegistrationNumber = this.childLoanForm.controls.vehicleRegistrationNumber.valid;
@@ -188,7 +216,7 @@ export class ChildLoanComponent implements OnInit {
       if (mobile || dateOfBirth) {
         this.isMobileErrMsg = false;
         this.isDobErrMsg = false;
-        // this.accordian = '#collapseOne';
+        this.accordian = '#collapseOne';
       } else {
         this.isMobileErrMsg = true;
         this.isDobErrMsg = true;
@@ -239,6 +267,27 @@ export class ChildLoanComponent implements OnInit {
   }
 
   onSearch() {
+    const formValue = this.childLoanForm.getRawValue();
+    const childLoanDatas: any = { ...formValue };
+
+    this.childData = {
+      ucic: childLoanDatas.ucic,
+      loanAccountNumber: childLoanDatas.loanAccountNumber,
+      vehicleRegistrationNumber: childLoanDatas.vehicleRegistrationNumber,
+      aadhaar: childLoanDatas.aadhaar,
+      drivingLicense: childLoanDatas.drivingLicense,
+      voterId: childLoanDatas.voterId,
+      passport: childLoanDatas.passport,
+      pan: childLoanDatas.pan,
+      cin: childLoanDatas.cin,
+      tan: childLoanDatas.tan,
+      gst: childLoanDatas.gst,
+      name: childLoanDatas.name,
+      mobile: childLoanDatas.mobile,
+      dateOfBirth: childLoanDatas.dateOfBirth
+    }
+    console.log('this.childData', this.childData);
+    this.accordian = '';
     this.childLoanApiService.searchChildLoanApi('700000372607').subscribe(
       (res: any) => {
         const response = res;
@@ -251,8 +300,10 @@ export class ChildLoanComponent implements OnInit {
           this.loanDetailsData = response.ProcessVariables.loanDetails;
           if (this.customerDetailsData.length !== 0 || this.loanDetailsData.length !== 0) {
             this.accordian = '#collapseOne';
+            this.test = '#customerDetails_id';
           } else {
             this.accordian = '';
+            this.test = '';
           }
           console.log('cchild', response);
         } else {
@@ -261,6 +312,98 @@ export class ChildLoanComponent implements OnInit {
         }
       })
 
+  }
+
+  onUcicIdSelect(event, index) {
+    const selectedUcicId = event.target.checked;
+    if (selectedUcicId) {
+      this.ucicId = this.customerDetailsData[index].ucic;
+      this.selectedUcicIndex = index;
+      console.log('this.ucicId', this.ucicId);
+      const data = {
+        ucic: this.ucicId
+      }
+      this.childLoanApiService.searchChildLoanApi(data).subscribe(
+        (res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+          const errorMessage = response.ProcessVariables.error.message;
+
+          if (appiyoError === '0' && apiError === '0') {
+            this.loanDetailsData = response.ProcessVariables.loanDetails;
+          } else {
+            this.toasterService.error(`${errorMessage}`, 'Search Loan');
+          }
+        });
+    }
+  }
+
+  onLoanAccNoSelect(event, index) {
+    const selectedLoanAcc = event.target.checked;
+    if (selectedLoanAcc) {
+      this.accountNo = this.loanDetailsData[index].accountNumber;
+      this.selectedLoanAccNoIndex = index;
+    }
+  }
+
+  onCreateChildLoan() {
+    const customerData = this.customerDetailsData.length;
+    const loanData = this.loanDetailsData.length;
+
+    let childDataObj: {
+      firstName?: any,
+      middleName?: any,
+      lastName?: any,
+      entity?: any,
+      mobile?: any,
+      dobOrDoi?: any
+      loanAccountNumber?: any
+    };
+
+    if (customerData > 1) {
+      childDataObj = {
+        firstName: this.customerDetailsData[this.selectedUcicIndex].firstName,
+        middleName: this.customerDetailsData[this.selectedUcicIndex].middleName,
+        lastName: this.customerDetailsData[this.selectedUcicIndex].lastName,
+        entity: this.customerDetailsData[this.selectedUcicIndex].entityTypeID,
+        mobile: this.customerDetailsData[this.selectedUcicIndex].mobileNumber,
+        dobOrDoi: this.customerDetailsData[this.selectedUcicIndex].dobORdoi,
+        // loanAccountNumber: this.loanDetailsData[this.selectedUcicIndex].accountNumber
+      };
+      // console.log('onCreateChild', childDataObj);
+      // this.commonDataService.shareChildLoanData(data);
+    } else if (customerData === 1) {
+      childDataObj = {
+        firstName: this.customerDetailsData[0].firstName,
+        middleName: this.customerDetailsData[0].middleName,
+        lastName: this.customerDetailsData[0].lastName,
+        entity: this.customerDetailsData[0].entityTypeID,
+        mobile: this.customerDetailsData[0].mobileNumber,
+        dobOrDoi: this.customerDetailsData[0].dobORdoi,
+        // loanAccountNumber: this.loanDetailsData[0].accountNumber
+      };
+      // console.log('onCreateChild', childDataObj);
+      // this.commonDataService.shareChildLoanData(data);
+    }
+    if (loanData > 1) {
+      const childData = {
+        ...childDataObj,
+        loanAccountNumber: this.loanDetailsData[this.selectedLoanAccNoIndex].accountNumber
+      };
+      console.log('onCreateChild', childData);
+      this.commonDataService.shareChildLoanData(childData);
+    } else if (loanData === 1) {
+      const childData = {
+        ...childDataObj,
+        loanAccountNumber: this.loanDetailsData[0].accountNumber
+      };
+      console.log('onCreateChild', childData);
+      this.commonDataService.shareChildLoanData(childData);
+    }
+    // console.log('onCreateChild', childDataObj);
+    // this.commonDataService.shareChildLoanData(childDataObj);
+    this.router.navigateByUrl('pages/lead-creation');
   }
 
 }

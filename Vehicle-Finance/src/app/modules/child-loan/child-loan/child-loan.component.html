@@ -1,26 +1,32 @@
 <main class="mar-top90">
   <div class="container-fluid">
 
-    <!-- <div class="row">
+    <div class="row">
       <div class="col-md-6">
         <h3 class="margin_zero">Create Child Loan</h3>
       </div>
       <div class="col-md-6 text-right"></div>
-    </div> -->
+    </div>
 
     <div class="content">
-      <div class="panel-group" id="accordion" role="tablist" >
-        <div class="panel-heading" role="tab" id="headingOne">
+      <!-- <div class="row">
+        <div class="col-md-6">
+          <h3 class="margin_zero showMore">Create Child Loan</h3>
+        </div>
+        <div class="col-md-6 text-right"></div>
+      </div> -->
+      <!-- <div class="panel-group" id="accordion" role="tablist" > -->
+        <!-- <div class="panel-heading" role="tab" id="headingOne">
           <h4 class="panel-title">
             <a class="heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
               Create Child Loan <i class="fa fa-sort-desc"></i>
             </a>
           </h4>
-        </div>
-        <div id="collapseOne" class="panel-collapse collapse in" 
+        </div> -->
+        <!-- <div id="collapseOne" class="panel-collapse collapse in" 
           role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            <form [formGroup]="childLoanForm">
+          <div class="panel-body"> -->
+            <form [formGroup]="childLoanForm" class="showMore">
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{labels?.loanAccNumber}}
@@ -32,6 +38,7 @@
               [placeholder]="'Loan account number'"
               [isRequired]="'Loan account number mandatory'" 
               [maxLength]="labels?.validationData?.ChildLoanAccountNumber?.maxLength"
+              [minLength]="labels?.validationData?.ChildLoanAccountNumber?.minLength"
               [type]="labels?.validationData?.ChildLoanAccountNumber?.type">
             </app-custom-input>
           </div>
@@ -55,11 +62,11 @@
             <label for="business_division">{{labels?.ucicId}}<sub class="star_blue_col">*</sub>
             </label>
             <app-custom-input 
-
+              [maxLength]="labels?.validationData?.ucicId?.maxLength"
               formControlName="ucic" 
               [className]="'form-control mandatory'" 
               [placeholder]="'UCIC'"
-              [type]="'number'">
+              [type]="labels?.validationData?.ucicId?.type" >
             </app-custom-input>
           </div>
         </div>
@@ -68,11 +75,12 @@
             <label for="business_division">{{labels?.aadharnumber}}<sub class="star_blue_col">*</sub>
             </label>
             <app-custom-input 
-
+              [maxLength]="labels?.validationData?.adhaarNumber?.maxLength"
               formControlName="aadhaar" 
               [className]="'form-control mandatory'" 
               [placeholder]="'Aadhaar'"
-              [type]="'number'">
+              [patternCheck]="labels?.validationData?.adhaarNumber?.patternCheck"
+              [type]="labels?.validationData?.type?.maxLength">
             </app-custom-input>
           </div>
 
@@ -159,10 +167,10 @@
               formControlName="tan" 
               [className]="'form-control mandatory'" 
               [placeholder]="'TAN Number'"
-              [patternCheck]="labels?.validationData?.panNumber?.patternCheck"
-              [maxLength]="labels?.validationData?.panNumber?.maxLength"
+              [patternCheck]="labels?.validationData?.tanNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.tanNumber?.maxLength"
               [inputClass]="'text-uppercase'"
-              [type]="labels?.validationData?.panNumber?.type">
+              [type]="labels?.validationData?.tanNumber?.type">
             </app-custom-input>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -241,23 +249,22 @@
         <div class="row btn-sec clear-both">
           <div class="col-sm-12 text-right">
             <a 
-              type="button" 
               data-toggle="collapse" data-parent="#accordion" 
               aria-expanded="true" aria-controls="collapseOne"
-              [href]="accordian"
-              class="btn btn-primary" value="submit" (click)="onSubmit()">
-              Search
+              type="button" href="#customerDetails_id"
+              class="btn btn-primary" value="Search" (click)="onSubmit()">Search
             </a>
+          
           </div>
         </div>
 
             </form>
-          </div>
-        </div>
-      </div>
+          <!-- </div>
+        </div> -->
+      <!-- </div> -->
     </div>
 
-    <div class="row" *ngIf="customerDetailsData.length != 0">
+    <div id="customerDetails_id" class="row" *ngIf="customerDetailsData.length != 0">
       <div class="col-md-6">
         <h3 class="margin_zero">Customer Details</h3>
       </div>
@@ -284,20 +291,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let customerDetail of customerDetailsData">
+                <tr *ngFor="let customerDetail of customerDetailsData; let i = index">
                   <td align="center" [attr.data-label]="'Select'">
-                    <input class="checkbox" type="radio" name="selectLead" />
+                    <input [disabled]="customerDetailsData.length === 1" class="checkbox" type="radio" name="customerDetails" (click)="onUcicIdSelect($event, i)"/>
                   </td>
                   <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
                   <td [attr.data-label]="'UCIC'">{{customerDetail.ucic}}</td>
-                  <td [attr.data-label]="'Customer Name'">{{customerDetail.name}}</td>
+                  <td [attr.data-label]="'Customer Name'">{{customerDetail.fullName}}</td>
                   <td [attr.data-label]="'Phone Number'">{{customerDetail.mobileNumber}}</td>
-                  <td [attr.data-label]="'Entity'"></td>
-                  <td [attr.data-label]="'DOB'"></td>
+                  <td [attr.data-label]="'Entity'">{{customerDetail.entityTypeDesc}}</td>
+                  <td [attr.data-label]="'DOB / DOI'">{{customerDetail.dobORdoi}}</td>
                   <td [attr.data-label]="'Aadhaar'">{{customerDetail.aadharNumber}}</td>
-                  <td [attr.data-label]="'PAN Number'"></td>
-                  <td [attr.data-label]="'GST'"></td>
-                  <td [attr.data-label]="'CIN'"></td>
+                  <td [attr.data-label]="'PAN Number'">{{customerDetail.panNumber}}</td>
+                  <td [attr.data-label]="'GST'">{{customerDetail.gstNumber}}</td>
+                  <td [attr.data-label]="'CIN'">{{customerDetail.cin}}</td>
                 </tr>
               </tbody>
             </table>
@@ -331,16 +338,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let loanDetail of loanDetailsData">
+                <tr *ngFor="let loanDetail of loanDetailsData; let i = index">
                   <td align="center" [attr.data-label]="'Select'">
-                    <input class="checkbox" type="radio" name="selectLead" />
+                    <input [disabled]="loanDetailsData.length === 1" class="checkbox" type="radio" name="loanDetails" (click)="onLoanAccNoSelect($event, i)" />
                   </td>
                   <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
                   <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
-                  <td [attr.data-label]="'Loan Start Date'">24</td>
+                  <td [attr.data-label]="'Loan Start Date'">{{loanDetail.loanStartDate}}</td>
                   <td [attr.data-label]="'Loan Amount'">{{loanDetail.totalLoanAmount}}</td>
                   <td [attr.data-label]="'Number of EMIs'">{{loanDetail.totalEMIs}}</td>
-                  <td [attr.data-label]="'Seasoning'">650000</td>
+                  <td [attr.data-label]="'Seasoning'">{{loanDetail.seasoning}}</td>
                   <td [attr.data-label]="'Rate of Interest'">{{loanDetail.rateOfInterest}}</td>
                   <td [attr.data-label]="'DPD'">{{loanDetail.dpd}}</td>
                 </tr>
@@ -348,10 +355,14 @@
             </table>
             <div class="btn-sec clear-both btn-mar-reject">
               <div class="text-right">
-                <button class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button">
+                <button 
+                  
+                  class="btn btn-primary js-btn-next mar-right8" 
+                  type="button"
+                  (click)="onCreateChildLoan()">
                   Create Child Loan Lead
                 </button>
-                <button class="btn btn-primary js-btn-next mar-right8" id="reject_button" type="button">
+                <button class="btn btn-primary js-btn-next mar-right8" type="button">
                   View Loan 360
                 </button>
               </div>
