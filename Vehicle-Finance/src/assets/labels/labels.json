@@ -1684,6 +1684,9 @@
     "backToFiCumPdList":"Back to FI cum PD List",
     "fiCumPdStatus":"FI cum PD Status",
     "fiCumPdReport":"FI cum PD Report",
+    "valuationInitiatedDate":"Valuation Initiation Date",
+    "personInitiated":"Person Initiated",
+    "refNo":"Ref No.",
     "inspectionDetails":"Inspection Details",
     "borrowersName":"Borrower's Name",
     "inspectionDate":"Inspection Date",
@@ -1731,7 +1734,7 @@
     "recentLast3Valuations":"RECENT LAST 3 VALUATIONS & PRICE OF THE SAME MODEL GIVEN BY THE VALUER",
     "monthOfReport":"Month of the Report",
     "valuation":"Valuation",
-    "contionsOfAsset":"Conditions of Asset",
+    "assetCondition":"Asset Condition",
     "partName":"Part Name",
     "conditon":"Condition",
     "ratingScale":"Rating Scale",
@@ -1741,7 +1744,7 @@
     "accessories":"Accessories",
     "avaialablity":"Availability",
     "rating":"Rating",
-    "expectedFutureLife":"EXPECTED FUTURE LIFE OF THE VEHICLE (in Years):",
+    "expectedFutureLife":"Expected Future Life Of The Vehicle (in Years):",
     "marketValueAsOnDateOfInspection":"Market Value as on date of Inspection",
     "validationData": {
         "name": {

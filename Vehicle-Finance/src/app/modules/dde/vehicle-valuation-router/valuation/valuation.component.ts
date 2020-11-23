@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { LabelsService } from '@services/labels.service';
@@ -24,11 +24,11 @@ export class ValuationComponent implements OnInit {
   colleteralId;
   public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15));
   maxDate = new Date();
-
+  valuationList: [];
   LOV: any = [];
   labels: any = {};
   vehicleValuationDetails: any = {};
-  isInputField: boolean = false;
+  isInputField = false;
   isDirty: boolean;
   customFutureDate: boolean;
   public toDayDate: Date = new Date();
@@ -44,7 +44,9 @@ export class ValuationComponent implements OnInit {
   assetCostGrid: string;
   disableSaveBtn: boolean;
   leadCreatedDate: any;
-
+  listArray: FormArray;
+  partsArray: FormArray;
+  accessoriesArray: FormArray;
   // lov data
   private vehicleCode: any;
   public vehicleLov: any = {};
@@ -78,6 +80,38 @@ export class ValuationComponent implements OnInit {
   ];
   leadDetails: any;
   productCatoryCode: any;
+  partsLOV: any = [
+    { key: 0, value: 'Engine' }, { key: 1, value: 'Transmission' }, { key: 2, value: 'Battery' },
+    { key: 3, value: 'Electrical parts' }, { key: 4, value: 'Chassis' }, { key: 5, value: 'Body' },
+    { key: 6, value: 'Paint' }, { key: 7, value: 'Suspension' }, { key: 8, value: 'Condition Of Tyres' },
+    { key: 9, value: 'Steering Assy' }, { key: 10, value: 'Upholstery' },
+
+  ];
+  partName: any;
+  conditionLov: any = [
+    { key: 0, value: 'Good' },
+    { key: 1, value: 'Average' },
+    { key: 2, value: 'Poor' },
+  ];
+  ratingScaleLov: any = [
+    { key: 1, value: '1' }, { key: 2, value: '2' }
+    , { key: 3, value: '3' }, { key: 4, value: '4' },
+    { key: 5, value: '5' }
+  ];
+  accessoriesLov: any = [
+    { key: 0, value: 'CD Player' }, { key: 1, value: 'AC' },
+    { key: 2, value: 'FAN' }, { key: 3, value: 'FRIDGE' },
+    { key: 4, value: 'PARKING CAMERA' }
+
+  ];
+  accessoryName: any;
+  remarksRatingScaleLov: any = [
+    { key: 1, value: '1' }, { key: 2, value: '2' },
+    { key: 3, value: '3' }, { key: 4, value: '4' },
+    { key: 5, value: '5' }, { key: 5, value: '6' },
+    { key: 7, value: '7' }, { key: 0, value: '8' },
+    { key: 9, value: '9' }, { key: 10, value: '10' },
+  ];
 
   constructor(
     private labelsData: LabelsService,
@@ -91,7 +125,12 @@ export class ValuationComponent implements OnInit {
     private vehicleDetailService: VehicleDetailService,
     private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService,
-    private toggleDdeService: ToggleDdeService) { }
+    private toggleDdeService: ToggleDdeService,
+    private fb: FormBuilder) {
+    this.listArray = this.fb.array([]);
+    this.partsArray = this.fb.array([]);
+    this.accessoriesArray = this.fb.array([]);
+  }
 
   async ngOnInit() {
     console.log('today date', this.toDayDate);
@@ -102,10 +141,10 @@ export class ValuationComponent implements OnInit {
     this.getLOV();
     this.leadId = (await this.getLeadId()) as number;
     // this.getLeadId();
-    console.log("LEADID::::", this.leadId);
+    console.log('LEADID::::', this.leadId);
     this.colleteralId = (await this.getCollateralId()) as Number;
     // this.getCollateralId();
-    console.log("COLLATERALID::::", this.colleteralId);
+    console.log('COLLATERALID::::', this.colleteralId);
     this.getVehicleValuation();
     this.getLeadSectiondata();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
@@ -172,7 +211,7 @@ export class ValuationComponent implements OnInit {
           } else if (inputValue.length === 9) {
             return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1}[0-9]{4}/).test(inputValue)
           } else {
-            return true
+            return true;
           }
         },
         msg: 'Invalid Vehicle Registration Number, Valid Formats are: TN02AB1234/TN02A1234',
@@ -230,8 +269,6 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationDetails = response.ProcessVariables.vehicleValutionDetails;
       this.vehicleCode = this.vehicleValuationDetails.vehicleCode;
       console.log('vehicle code', this.vehicleCode);
-
-
       console.log('VEHICLE_VALUATION_DETAILS::', this.vehicleValuationDetails);
       this.valuatorType = this.vehicleValuationDetails.valuatorType;
       this.valuatorCode = this.vehicleValuationDetails.valuatorCode;
@@ -241,6 +278,10 @@ export class ValuationComponent implements OnInit {
       this.vehicleAddress = this.vehicleValuationDetails.vehicleAddress;
       this.vehiclePincode = this.vehicleValuationDetails.pincode;
       this.assetCostGrid = this.vehicleValuationDetails.gridAmt;
+      // const lastvaluationsList = this.vehicleValuationDetails.valuationList;
+      const lastvaluationsList = null;
+      const assetsConditionList = null;
+      const accConditionList = null;
 
       // patching lovs for vehicle details
       if (this.vehicleCode != null) {
@@ -265,12 +306,128 @@ export class ValuationComponent implements OnInit {
           key: this.vehicleValuationDetails.vehicleTypeCode,
           value: this.vehicleValuationDetails.vehicleType
         }];
-      };
+      }
+      if (lastvaluationsList !== null) {
+        this.populateData(lastvaluationsList, 'last3Valuations');
+        console.log('in values list');
+      } else if (lastvaluationsList === null) {
+        console.log('in null valuations list');
+        const control = this.vehicleValuationForm.controls.valuationsList as FormArray;
+        for (let j = 0; j < 3; j++) {
+          control.push(this.initRows(null, 'last3Valuations'));
+          console.log('controls', control);
+        }
+      }
+      if (assetsConditionList !== null) {
+        this.populateData(assetsConditionList, 'partsCondition');
+        console.log('in values list');
+      } else if (assetsConditionList === null) {
+        const control = this.vehicleValuationForm.controls.partsConditionList as FormArray;
+        console.log((this.partsLOV.length));
+        for (let k = 0; k < this.partsLOV.length; k++) {
+          this.partName = this.partsLOV[k]['value']
+          control.push(this.initRows(null, 'partsCondition'));
+          // console.log('in parts condition ');
+        }
+      }
+      if (accConditionList !== null) {
+        this.populateData(accConditionList, 'accessoriesCondition');
+        console.log('in values list');
+      } else if (accConditionList === null) {
+        const control = this.vehicleValuationForm.controls.accessoriesList as FormArray;
+        for (let i = 0; i < this.accessoriesLov.length; i++) {
+          this.accessoryName = this.accessoriesLov[i]['value']
+          control.push(this.initRows(null, 'accessoriesCondition'));
+        }
+      }
 
       this.setFormValue();
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
   }
+
+  public populateData(data?: any, type?: any) {
+    if (type === 'last3Valuations') {
+      const valuationList = data;
+      for (let i = 0; i < valuationList.length; i++) {
+        this.addProposedUnit(valuationList[i], type);
+      }
+    } else if (type === 'partsCondition') {
+      const partConditionList = data;
+      for (let i = 0; i < partConditionList.length; i++) {
+        this.addProposedUnit(partConditionList[i], type);
+        console.log('in parts condition ');
+      }
+    } else if (type === 'accessoriesCondition') {
+      const accessoriesConditionList = data;
+      for (let i = 0; i < accessoriesConditionList.length; i++) {
+        this.addProposedUnit(accessoriesConditionList[i], type);
+      }
+
+    }
+  }
+  addProposedUnit(data?: any, type?: any) {
+    if (type === 'last3Valuations') {
+      const control = this.vehicleValuationForm.controls.valuationList as FormArray;
+      control.push(this.populateRowData(data, type));
+    } else if (type === 'partsCodition') {
+      const control = this.vehicleValuationForm.controls.partsConditionList as FormArray;
+      control.push(this.populateRowData(data, type));
+      console.log('in parts condition ');
+    } else if (type === 'accessoriesCondition') {
+      const control = this.vehicleValuationForm.controls.accessoriesCondition as FormArray;
+      control.push(this.populateRowData(data, type));
+    }
+  }
+
+  public populateRowData(rowData, type) {
+    if (type === 'last3Valuations') {
+      console.log('in initRows RowData');
+      return this.fb.group({
+        financier: rowData.financier ? rowData.financier : null,
+        monthOfReport: rowData.monthOfReport ? rowData.monthOfReport : null,
+        valuation: rowData.valuation ? rowData.valuation : null,
+      });
+    } else if (type === 'partsCodition') {
+      console.log('in initRows RowData parts condition');
+      return this.fb.group({
+        partName: rowData.partName ? rowData.partName : null,
+        condition: rowData.condition ? rowData.condition : null,
+        ratingScale: rowData.ratingScale ? rowData.ratingScale : null,
+      });
+    } else if (type === 'accessoriesCondition') {
+      console.log('in initRows RowData');
+      return this.fb.group({
+        accessoryName: rowData.accessoryName ? rowData.accessoryName : null,
+        availability: rowData.availability ? rowData.availability : null,
+      });
+    }
+  }
+  public initRows(index: number, type?: any) {
+    console.log('in initRows no RowData', type);
+    if (type === 'last3Valuations') {
+      return this.fb.group({
+        financier: new FormControl('', [Validators.required]),
+        monthOfReport: new FormControl('', [Validators.required]),
+        valuation: new FormControl('', [Validators.required]),
+      });
+    } else if (type === 'partsCondition') {
+      console.log('in initRows no RowData parts condition');
+      return this.fb.group({
+        partName: this.partName,
+        condition: new FormControl('', [Validators.required]),
+        ratingScale: new FormControl('', [Validators.required]),
+      });
+
+    } else if (type === 'accessoriesCondition') {
+      return this.fb.group({
+        accessoryName: this.accessoryName,
+        availability: new FormControl('', [Validators.required]),
+      });
+    }
+  }
+
+
 
   initForm() {
     this.vehicleValuationForm = this.formBuilder.group({
@@ -315,7 +472,10 @@ export class ValuationComponent implements OnInit {
       duplicateRc: ["", Validators.required],
       cubicCapacity: ["", Validators.required],
       seatingCapacity: ["", Validators.required],
-      speedometerReading: ['', Validators.required]
+      speedometerReading: ['', Validators.required],
+      valuationsList: this.listArray,
+      partsConditionList: this.partsArray,
+      accessoriesList: this.accessoriesArray
       // existingVechicleOwned: [""],
       // noOfVehicles: [""],
       // existingSelfCostAsset: [""],

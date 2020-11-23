@@ -48,26 +48,87 @@ kendo-datepicker{
 	font-size: 16px;
 	color: #fff;
 }
-/* #disbursement-memo .form-horizontal .form-group {
-	margin-right: 0;
-	margin-left: 0;
+
+
+.table {
+  margin-bottom: 0px;
 }
-#disbursement-memo .form-horizontal .form-group  label { 
-    font-weight: 600;
-    font-size: 13px !important;
-    font-family: "Open sans", Helvetica, Arial, sans-serif !important;
+
+
+
+/*#track > tbody > tr > td{padding:10px;}*/
+
+
+/*
+Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
+*/
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+  .table tbody tr td {
+      border-top: 1px solid #e6e6e6;
+      padding: 0px;
+      padding-left: 50%;
+  }
+  /* Force table to not be like tables anymore */
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+      display: block;
+  }
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+  }
+  /*  tr {
+/*margin: 0 0 1rem 0;*/
+  /* } */
+  tr:nth-child(odd) {
+      background: #ccc;
+  }
+  td {
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      padding-left: 50%;
+      height: 40px;
+  }
+  td:before {
+      /* Now like a table header */
+      position: absolute;
+      /* Top/left values mimic padding */
+      top: 0;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+  }
+  /*
+Label the data
+You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+*/
+  td:nth-of-type(1):before {
+      content: "financier";
+  }
+  td:nth-of-type(2):before {
+    content: "monthOfReport";
 }
-#disbursement-memo .col-lg-3 {
-    width: 25%;
+  td:nth-of-type(3):before {
+      content: "valuation";
+  }
 }
-@media (min-width: 768px) {
-	#disbursement-memo .form-horizontal .control-label {
-		text-align: left;
-		padding-left: 20px;
-	}
+
+.font-weight {
+  font-weight: bold;
+  background-color: #efefef;
 }
-@media screen and  (max-width: 767px) {
-    #disbursement-memo .col-lg-3 {
-        width: 100%;
-    }
-} */
+
+
+
+
