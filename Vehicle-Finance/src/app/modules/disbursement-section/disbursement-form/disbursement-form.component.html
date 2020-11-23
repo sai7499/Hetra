@@ -437,11 +437,11 @@
         <div>
           <h4 class="title">Applicant Details</h4>
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryName']" id="appBeneficiaryName" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+              <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryName']" id="appBeneficiaryName" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
               [type]="'text'" [isDirty]="isDirty">
               </app-custom-input>
             </div>
@@ -760,11 +760,11 @@
             <div>
               <h4 class="title coAppTitle">CoApplicant-1</h4>
               <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp1BeneficiaryName" [(ngModel)]="coApplicant1['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  <app-custom-input id="coApp1BeneficiaryName" [(ngModel)]="coApplicant1['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
                   [type]="'text'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
@@ -1060,11 +1060,11 @@
             <div>
               <h4 class="title coAppTitle">CoApplicant-2</h4>
               <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp2BeneficiaryName" [(ngModel)]="coApplicant2['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  <app-custom-input id="coApp2BeneficiaryName" [(ngModel)]="coApplicant2['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
                   [type]="'text'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
@@ -1359,11 +1359,11 @@
             <div>
               <h4 class="title coAppTitle">CoApplicant-3</h4>
               <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp3BeneficiaryName" [(ngModel)]="coApplicant3['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  <app-custom-input id="coApp3BeneficiaryName" [(ngModel)]="coApplicant3['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
                   [type]="'text'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
@@ -1660,7 +1660,7 @@
         <div>
           <h4 class="title">Banker Details</h4>
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.selectBanker}}
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.selectBank}}
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
@@ -1675,7 +1675,7 @@
                   [itemTemplate]="bankerTemplate"
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="bankerId"
-                  [placeHolder]="'Select Banker'"
+                  [placeHolder]="'Select Bank'"
                   [minQueryLength]="3">                                 
                 </ng-autocomplete>               
                 <ng-template #bankerTemplate let-item>
@@ -1688,12 +1688,12 @@
           </div>
 
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="bankerAppName" [(ngModel)]="bankerObjInfo['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'"
-                [placeholder]="'Applicant Name'" [isDirty]="isDirty" [type]="'text'">
+                <app-custom-input id="bankerAppName" [(ngModel)]="bankerObjInfo['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'"
+                [placeholder]="'Beneficiary Name'" [isDirty]="isDirty" [type]="'text'">
               </app-custom-input>
             </div>
           </div>
@@ -1988,12 +1988,12 @@
           </div>
 
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="finBeneficiaryName" [(ngModel)]="financierObjInfo['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
-                [placeholder]="'Applicant Name'" [isDirty]="isDirty" [type]="'text'">
+                <app-custom-input id="finBeneficiaryName" [(ngModel)]="financierObjInfo['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                [placeholder]="'Beneficiary Name'" [isDirty]="isDirty" [type]="'text'">
               </app-custom-input>
             </div>
           </div>
@@ -2302,7 +2302,7 @@
           <sub class="star_red_col">*</sub>
           </label>
           <div class="col-sm-6 col-md-4 col-lg-3">
-            <app-custom-input id="tpBeneficiaryName" [(ngModel)]="thirdPartyObjInfo['beneficiaryName']" [isRequired]="'Third Party is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
+            <app-custom-input id="tpBeneficiaryName" [(ngModel)]="thirdPartyObjInfo['beneficiaryName']" [isRequired]="'Third Party is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Third Party Name'"
               [isDirty]="isDirty" [type]="'text'">
             </app-custom-input>
           </div>

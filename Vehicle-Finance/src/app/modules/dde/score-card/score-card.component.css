@@ -263,8 +263,8 @@
     color: #fff;
    }
 
-   .tab-head td:before{
-    content: attr(data-label);
+   .tab-head:before{
+     content: attr(data-label);
     /* display: inline-block; */
     line-height: 1.5;
     margin-left: -100%;

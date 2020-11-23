@@ -11,7 +11,9 @@
       <div class="container-fluid">
           <div class="row">
                   <div class="col-md-12">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                               <!--  -->
+<!--  -->
+                    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
                       <input class="form-control " #category (keyup)='onkeyup(category.value)' placeholder="search"  />
                                 
                     </div>
@@ -21,7 +23,7 @@
                         <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
                           <li class="mat-tree-node child-data-list">
                            <div> 
-                           <button mat-icon-button (click)="reporterCheck(node)" class="supervisor-tree-icon"
+                           <button *ngIf="node.userId==reporterUserID" mat-icon-button (click)="reporterCheck(node)" class="supervisor-tree-icon"
                             >
                             <mat-icon>add</mat-icon>
                             </button>
@@ -37,15 +39,15 @@
                              </div>
                              <div *ngIf="node.userId==roleUserID" class="child-list"> 
                                <div class="child-container">
-                                   <table class="supervisor-data-table">
+                                   <table class="supervisor-data-table ">
                                        <thead>
                                          <tr>
                                          </tr>
                                        </thead>
                                        <tbody>
                                          <tr *ngFor="let role of rolelist;let i = index">
-                                           <td *ngIf="role" > <a (click)="onClick(rolelist[i])" >test</a></td>
-                                          <td ><a (click)="onClick(rolelist[i])" >test</a></td>
+                                           <td *ngIf="role" class="td-bg"> <a (click)="onClick(rolelist[i])" class="">{{rolelist[i].roleName}}</a></td>
+                                         
                                           </tr>
                                        </tbody>
                                      </table>
@@ -64,9 +66,12 @@
                                   </mat-icon>
                                 </button>
                                 <!-- Parent datas -->
-                              <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</span>  
+                              <!-- <span (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</span>   -->
+
+                              <div (click)="roleCheck(node); (activeNode = node)" [ngClass]="{ 'parent-active': (activeNode === node) && (node.userId==roleUserID)  }" class="user-role-list_{{node.userId}} user-role-list">{{node.firstName}}</div>  
+                                <div ></div>
                               <div *ngIf="node.userId==roleUserID" class="parent-list"> 
-                                <div class="parent-container">
+                                <div class="parent-container" >
                                    <table class="supervisor-data-table">
                                        <thead>
                                          <tr>
@@ -109,5 +114,3 @@
     <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
   </div>
 </footer>
-
-

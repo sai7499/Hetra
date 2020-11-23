@@ -281,6 +281,10 @@
     "cinNumber": "CIN Number",
     "gstNumber": "GST Number",
     "leadID": "Lead ID",
+    "stakeholders": "Stakeholders",
+    "documentsShared": "Documents Shared",
+    "queryType": "Query Type",
+    "tagQueryTo": "Tag query To",
     "queue": "Queue",
     "userName": "User Name",
     "password": "Password",
@@ -725,6 +729,8 @@
     "approveDeviations": "Approve Deviation",
     "sendBackToCredit": "Send Back To Credit",
     "sendBackToSales": "Send Back To Sales",
+    "send": "send",
+    "backToLead": "Back to Lead",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
     "roleName": "Role Name",
@@ -902,7 +908,21 @@
     "taxDetails": "Tax Details",
     "taxBill": "Tax Bill",
     "totalTaxBill": "Total Tax Bill",
+    "tyreDealer": "Tyre Dealer",
+    "tyreManufacturer": "Tyre Manufacturer",
+    "VehcostPerTyre": "Cost per tyre",
+    "marginAmount": "Margin Amount",
+    "tyreSpecification": "Tyre specification/Model description",
+    "onlineVerification": "onlineVerification",
     "vehicleRegDate": "Vehicle Reg.Date",
+    "accidentDate": "Accident Date",
+    "accidentType": "Type of Accident",
+    "firFiled": "FIR Filed",
+    "repairCost": "Cost of Repair",
+    "spareCost": "Cost of Spares",
+    "totalCost": "Total Cost",
+    "isAuthSvcCentre": "Is Authorised Service Centre? ",
+    "svcCentreName": "Service Centre Name",
     "gvw": "GVW",
     "reRegisteredVechicle": "Re-Registered Vehicle",
     "interStateVehicle": "Inter State Vehicle",
@@ -1613,7 +1633,7 @@
     "disbursementDate": "Disbursement Date",
     "appName": "Applicant Name",
     "coAppName": "Co-Applicant Name",
-    "selectBanker": "Select Banker",
+    "selectBank": "Select Bank",
     "selectFinancier": "Select Financier",
     "approvedLoanAmount": "Approved Loan Amount",
     "approvedIRR": "Approved IRR (in %)",
@@ -1637,8 +1657,7 @@
     "equitasEmployee": "Equitas Employee",
     "equitasEmployeesRelative": "Equitas Employees Relative",
     "employeeNo": "Employee Number",
-    "initiate": "Initiate Viability for New Vehicles",
-    "customerDOI": "Customer DOI",
+    "initiate": "Initiate Viability for New Vehicles",    
     "foundnl": "Found in NL",
     "foundnltr": "Found in NLTR",
     "maidenName": "Maiden Name",
@@ -1674,6 +1693,12 @@
     "performed_on": "Performed On",
     "speedometerReading": "Speedometer Reading",
     "deleteReference": "Are You Sure Want To Delete Reference Details?",
+    "principalPaid": "Principal Paid",
+    "principalOutstanding": "Principal Outstanding",
+    "rateOfInterest": "Rate Of Interest",
+    "tenor": "Tenor",
+    "remainingTenor": "Remaining Tenor",
+    "childLoanSeasoning": "Seasoning",
     "creditShieldHolderName": "Name of the credit shield policy holder",
     "typeOfApplicant": "Type of applicant",
     "usedCoverageAmount": "Used coverage amount",
@@ -1681,12 +1706,16 @@
     "nomineeAddress": "Nominee Address",
     "guardianDetails": "Guardian Details",
     "guardianAddress": "Guardian Address",
+    "motorInsuranceRequired?": "Motor insurance required?",
+    "creditShieldRequired": "Credit sheld required?",
     "backToFiCumPdList":"Back to FI cum PD List",
     "fiCumPdStatus":"FI cum PD Status",
     "fiCumPdReport":"FI cum PD Report",
     "borrowerAttributes":" Borrower Attributes",
     "borrowerAttributeWeightage":"Borrower Weightage",
     "borrowerAttributeScore":"Borrower Score",
+    "customerDOI" : "Customer DOI",
+    "bnfName": "Beneficiary Name",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1878,7 +1907,8 @@
         "addressLine": {
             "maxLength": {
                 "rule": 35
-            }
+            },
+            "type": "alpha-numeric"
         },
         "businessName": {
             "maxLength": {
@@ -2232,6 +2262,12 @@
                 "rule": 30
             },
             "type": "alpha-numeric"
+        },
+        "invoiceNumber": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
         },
         "monthOfManuf": {
             "maxLength": {

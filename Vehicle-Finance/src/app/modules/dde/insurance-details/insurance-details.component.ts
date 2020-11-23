@@ -12,11 +12,16 @@ export class InsuranceDetailsComponent implements OnInit {
 
   InsuranceDetailForm: FormGroup;
   LOV: any = {};
+  isDirty: boolean = false;
+  permanantPincode: any;
 
   public label: any = {};
   public labelCreditShield: any = {};
   public labelExistingInsuranceDetails: any = {};
   disableSaveBtn: boolean;
+
+  changeLabelsForProposed: string = '';
+  changeLabelsForRoute: string = '';
 
   insuranceType: string = '0';
   labels: any;
@@ -105,5 +110,10 @@ export class InsuranceDetailsComponent implements OnInit {
     formArray.push(controls);
 
   }
+  inputPincode(event){
 
+  }
+  cityChange(event){
+
+  }
 }
