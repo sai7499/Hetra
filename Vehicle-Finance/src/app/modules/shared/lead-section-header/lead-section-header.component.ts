@@ -38,6 +38,7 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
+  isButtonNameChange : boolean
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -83,6 +84,12 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.productId = val)
 
     const currentUrl = this.location.path();
+
+    if(currentUrl.includes('document-viewupload')){
+      this.isButtonNameChange= true;
+    }else{
+      this.isButtonNameChange= false;
+    }
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
@@ -157,7 +164,14 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   saveCurrentUrl() {
     const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);
+    localStorage.setItem('currentUrl', currentUrl);  
+  }
+
+  onBackDocumentUpload(){
+    
+    const url=  localStorage.getItem('currentUrl');
+    this.router.navigateByUrl(url)
+
   }
 
   viewOrEditDde() {
