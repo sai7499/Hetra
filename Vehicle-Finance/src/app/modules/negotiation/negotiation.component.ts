@@ -1043,6 +1043,7 @@ export class NegotiationComponent implements OnInit {
     else if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {
       this.getLeadId();
       const formData = this.createNegotiationForm.getRawValue();
+      this.Applicants=[];
       this.LeadReferenceDetails.forEach((element) => {
         var obj = {
           ucic: element.UCIC,

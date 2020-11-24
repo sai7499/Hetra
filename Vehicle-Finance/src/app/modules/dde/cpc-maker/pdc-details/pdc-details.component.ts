@@ -3,7 +3,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
-import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, FormGroup, FormControl } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { HttpService } from '@services/http.service';
 import { PdcServiceService } from '@services/pdc-service.service';
@@ -107,7 +107,8 @@ export class PdcDetailsComponent implements OnInit {
     return this.fb.group({
       pdcId: [null],
       // instrType: [null, Validators.required],
-      emiAmount: [{value: this.negotiatedEmi, disabled: true}, Validators.required ],
+      // emiAmount: [{value: this.negotiatedEmi, disabled: true}, Validators.required ],
+      emiAmount:  new FormControl(this.negotiatedEmi,[ Validators.required ]),
       instrNo: [null, Validators.required],
       instrDate: [null, Validators.required],
       instrBankName: [null, Validators.required],
@@ -120,7 +121,7 @@ export class PdcDetailsComponent implements OnInit {
     return this.fb.group({
       pdcId: [null],
       // instrType: [null, Validators.required],
-      emiAmount: [{value: this.negotiatedEmi, disabled: true}],
+      emiAmount:  new FormControl(this.negotiatedEmi,[ Validators.required ]),
       instrNo: [null],
       instrDate: [null],
       instrBankName: [null, Validators.required],
@@ -342,7 +343,7 @@ export class PdcDetailsComponent implements OnInit {
                 : null,
               emiAmount: data.pdcList[i].emiAmount
                 ? data.pdcList[i].emiAmount
-                : null,
+                : this.negotiatedEmi,
               instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : null,
               instrDate: data.pdcList[i].instrDate
                 ? this.utilityService.getDateFromString(
@@ -376,7 +377,7 @@ export class PdcDetailsComponent implements OnInit {
               : null,
             emiAmount: data.pdcList[i].emiAmount
               ? data.pdcList[i].emiAmount
-              : null,
+              : this.negotiatedEmi,
             instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : null,
             instrDate: data.pdcList[i].instrDate
               ? this.utilityService.getDateFromString(data.pdcList[i].instrDate)
@@ -413,7 +414,7 @@ export class PdcDetailsComponent implements OnInit {
                 : null,
               emiAmount: data.spdcList[j].emiAmount
                 ? data.spdcList[j].emiAmount
-                : null,
+                : this.negotiatedEmi,
               instrNo: data.spdcList[j].instrNo
                 ? data.spdcList[j].instrNo
                 : null,
@@ -451,7 +452,7 @@ export class PdcDetailsComponent implements OnInit {
               : null,
             emiAmount: data.spdcList[j].emiAmount
               ? data.spdcList[j].emiAmount
-              : null,
+              : this.negotiatedEmi,
             instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : null,
             instrDate: data.spdcList[j].instrDate
               ? this.utilityService.getDateFromString(
