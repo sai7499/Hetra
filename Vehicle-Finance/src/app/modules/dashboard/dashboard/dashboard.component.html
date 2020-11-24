@@ -143,8 +143,9 @@
             <li (click)="onLeads(displayTabs?.PDD)" [ngClass]="{'active':displayTabs?.PDD === activeTab}" routerLinkActive="active"><a data-toggle="tab">PDD</a></li>
             <li (click)="onLeads(displayTabs?.ChequeTracking)" [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Cheque Tracking</a></li>
             <li (click)="onLeads(displayTabs?.PreDisbursementQueue, displayTabs?.PreDisbursementWithMe)" [ngClass]="{'active':displayTabs?.PreDisbursementQueue === activeTab}" routerLinkActive="active"><a data-toggle="tab">Pre-Disbursement</a></li>
-            <li (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)" [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a data-toggle="tab">Term
-          Sheet</a></li>
+            <li (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)" [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a data-toggle="tab">Term Sheet</a></li>
+            <li (click)="onLeads(displayTabs?.TranchesDisburse, displayTabs?.TrancheDisburseWithBranch)" [ngClass]="{'active':displayTabs?.TranchesDisburse === activeTab}" routerLinkActive="active"><a data-toggle="tab">Tranche Disbursement</a></li>
+
         </ul>
     </div>
 
@@ -187,6 +188,12 @@
         <ul *ngIf="displayTabs?.TermSheet === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li (click)="leads(displayTabs?.TermSheetWithMe)" [ngClass]="{'active':displayTabs?.TermSheetWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Termsheet Pending with {{pendingName}}</a></li>
             <li (click)="leads(displayTabs?.TermSheetWithBranch)" [ngClass]="{'active':displayTabs?.TermSheetWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Termsheet Pending With Branch</a></li>
+        </ul>
+
+        <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li (click)="leads(displayTabs?.TrancheDisburseWithBranch)" [ngClass]="{'active':displayTabs?.TrancheDisburseWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Pending with Branch</a></li>
+            <li (click)="leads(displayTabs?.TrancheDisburseReversedWithBranch)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Pending Curing With Branch</a></li>
+            <li (click)="leads(displayTabs?.TrancheDisburseReversedWithMe)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Pending Curing With Me</a></li>
         </ul>
 
     </div>
@@ -238,12 +245,18 @@
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li (click)="onLeads(displayTabs?.CPCMaker, displayTabs?.CPCMakerWithMe,'CPC')" [ngClass]="{'active':displayTabs?.CPCMaker === activeTab}" routerLinkActive="active"><a data-toggle="tab">CPC
           Maker</a></li>
+            <li (click)="onLeads(displayTabs?.TranchesDisburse, displayTabs?.TrancheDisburseReversedWithMe)" [ngClass]="{'active':displayTabs?.TranchesDisburse === activeTab}" routerLinkActive="active"><a data-toggle="tab">Tranche Disbursement</a></li>
         </ul>
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
         <ul *ngIf="displayTabs?.CPCMaker === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="active" (click)="leads(displayTabs?.CPCMakerWithMe)" [ngClass]="{'active':displayTabs?.CPCMakerWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with {{pendingName}}</a></li>
             <li (click)="leads(displayTabs?.CPCMakerWithBranch)" [ngClass]="{'active':displayTabs?.CPCMakerWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with CPC</a></li>
+        </ul>
+        <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li (click)="leads(displayTabs?.TrancheDisburseReversedWithMe)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab"> Pending With Me</a></li>
+            <li (click)="leads(displayTabs?.TrancheDisburseReversedWithBranch)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab"> Pending With CPC</a></li>
+
         </ul>
     </div>
 
@@ -253,6 +266,7 @@
           Checker</a></li>
             <li (click)="onLeads(displayTabs?.LoanBooking)" [ngClass]="{'active':displayTabs?.LoanBooking === activeTab}" routerLinkActive="active"><a data-toggle="tab">Loan Booking</a></li>
             <li (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)" [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a data-toggle="tab">PDD</a></li>
+            <li (click)="onLeads(displayTabs?.TranchesDisburse, displayTabs?.TrancheDisburseReversedWithMe)" [ngClass]="{'active':displayTabs?.TranchesDisburse === activeTab}" routerLinkActive="active"><a data-toggle="tab">Tranche Disbursement</a></li>
         </ul>
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
@@ -263,6 +277,10 @@
         <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li (click)="leads(displayTabs?.PDDWithMe)" [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with {{pendingName}}</a></li>
             <li (click)="leads(displayTabs?.PDDWithBranch)" [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Leads Pending with Branch</a></li>
+        </ul>
+        <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li (click)="leads(displayTabs?.TrancheDisburseReversedWithMe)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab"> Pending With Me</a></li>
+            <li (click)="leads(displayTabs?.TrancheDisburseReversedWithBranch)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Pending With CPC</a></li>
         </ul>
     </div>
     <!-- CPC Maker and CPC Checker Ends -->
@@ -293,6 +311,11 @@
         <ul *ngIf="displayTabs?.CPCCAD === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="active" (click)="leads(displayTabs?.CPCCADWithMe)" [ngClass]="{'active':displayTabs?.CPCCADWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab"> CAD Pending with {{pendingName}}</a></li>
             <li (click)="leads(displayTabs?.CPCCADWithBranch)" [ngClass]="{'active':displayTabs?.CPCCADWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">CAD Pending with Branch</a></li>
+
+        </ul>
+        <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li (click)="leads(displayTabs?.TrancheDisburseReversedWithMe)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab"> Pending With Me</a></li>
+            <li (click)="leads(displayTabs?.TrancheDisburseReversedWithBranch)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Pending With CPC</a></li>
         </ul>
     </div>
     <!-- CPCCAD
@@ -300,7 +323,7 @@
 
     <div>
         <div class="container-fluid table-responsive">
-            <table *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab">
+            <table *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.TranchesDisburse != activeTab">
                 <thead>
                     <tr class="table-head-bg">
                         <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
@@ -449,6 +472,61 @@
                                 {{item.applicants ? item.applicants : '--'}}</td>
                             <!-- <td *ngIf="displayTabs?.LoanBooking != activeTab" [attr.data-label]="labels?.applicantName">
                 {{item.applicantName ? item.applicantName : '--'}}</td> -->
+                        </tr>
+                    </tbody>
+                </table>
+                <table *ngIf="displayTabs?.TranchesDisburse === activeTab">
+                    <thead>
+                        <tr class="table-head-bg">
+                            <th *ngIf="displayTabs?.TrancheDisburseWithBranch != subActiveTab">{{labels?.action}}</th>
+                            <th>{{labels?.loanNumber}}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                            <th>{{labels?.productName}}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                            <!-- <th>{{labels?.productCategory}}
+                    <i class="fa fa-sort"></i>
+                </th> -->
+                            <th>{{labels?.loanAmount}}
+                                <i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}" (click)="onSort(sortTables?.ByLoanAmt)"></i>
+                            </th>
+                            <th>{{labels?.mainApplicantName}}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                            <th>{{labels?.noOfTrancheDisburse}}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                            <th>{{labels?.alreadyDisbursedAmount}}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                            <th>{{labels?.balanceToBeDisbursed}}
+                                <i class="fa fa-sort"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of trancheDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+                            <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
+                                <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); assignTaskId(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
+                            </td>
+                            <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
+                                <input type="button" class="btn btn-primary" (click)="onAssign(item.taskId, item.leadID);  assignTaskId(item.taskId); onClick(); getLeadId(item);getLoanNumber(item.loanAccountNumber)" value="Assign" data-toggle="modal" data-target="#assignModel" />
+                            </td>
+                            <td [attr.data-label]="labels?.loanNumber" *ngIf="displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab">
+                                <!-- <a (click)="assignTaskId(item.taskId);getLoanNumber(item.loanAccountNumber)" [routerLink]="[ '/pages/disbursement-section', item.leadID,'tranche-disburse' ]">{{item.loanAccountNumber}}</a> -->
+                                {{item.loanAccountNumber}}
+                            </td>
+                            <td [attr.data-label]="labels?.loanNumber" class="text-underline" *ngIf="displayTabs?.TrancheDisburseReversedWithBranch != subActiveTab" (click)="getLoanNumber(item.loanAccountNumber)">
+                                <a (click)="assignTaskId(item.taskId);getLoanNumber(item.loanAccountNumber)" [routerLink]="[ '/pages/disbursement-section', (item.taskId)?(item.leadID+'-'+item.taskId):item.leadID,'tranche-disburse' ]">{{item.loanAccountNumber}}</a>
+                            </td>
+                            <td [attr.data-label]="labels?.productName">{{item.productName ? item.productName : '--'}}</td>
+                            <!-- <td [attr.data-label]="labels?.productCategory">{{item.productCatCode ? item.productCatCode : '--'}}</td> -->
+                            <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                            <td [attr.data-label]="labels?.applicant">{{item.applicantName ? item.applicantName : '--'}}</td>
+                            <td [attr.data-label]="labels?.trancheCount">{{item.trancheCount}}</td>
+                            <td [attr.data-label]="labels?.disbursedAmount">{{item.disbursedAmount}}</td>
+                            <td [attr.data-label]="labels?.balanceAmount">{{item.balanceAmount}}</td>
                         </tr>
                     </tbody>
                 </table>

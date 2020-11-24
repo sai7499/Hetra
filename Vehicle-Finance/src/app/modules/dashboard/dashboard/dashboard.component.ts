@@ -71,8 +71,12 @@ export enum DisplayTabs {
   RCUWithBranch,
   CPCCAD,
   CPCCADWithMe,
-  CPCCADWithBranch
-}
+  CPCCADWithBranch,
+  TranchesDisburse,
+  TrancheDisburseWithBranch,
+  TrancheDisburseReversedWithMe,
+  TrancheDisburseReversedWithBranch
+  }
 
 export enum sortingTables {
   ByLeadId,
@@ -179,6 +183,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('closeModal2', { static: false }) public closeModal2: ElementRef;
   userDetailsRoleId: any;
   supervisorUserId: any;
+  
+  
+  TrancheDisbList: any[];
+  trancheDetails: any[];
+  TrancheDisbTaskList: any[];
   loginUserId: string;
   supervisorName: any;
   leadTaskId: any;
@@ -370,7 +379,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 300000)
+    }, 30000)
 
   }
 
@@ -384,7 +393,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.intervalId)
         }
       })
-    }, 300000)
+    }, 30000)
   }
 
   getCountAcrossLeads(userId) {
@@ -584,12 +593,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -667,6 +676,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 48: case 49:
         this.taskName = 'CPC-CAD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
+       case 51:
+        this.taskName = 'TrancheDisbursement';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);
+        break;  
+      case 52:
+        this.taskName = 'TrancheDisbursementPendingWithMe';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);
+        break; 
+      case 53:
+        this.taskName = 'TrancheDisbursementPendingWithBranch';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);	
+	
         break;
       default:
         break;
@@ -708,7 +729,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.toggleDdeService.clearToggleData();
     }
 
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads || 
+      this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
     } else {
@@ -721,7 +743,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   leads(data) {
     this.sortTab = '';
     this.subActiveTab = data;
-    if (this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
     } else {
@@ -911,6 +933,75 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.responseForCredit(data);
   }
 
+  getTrancheDisburseLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: this.taskName,
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: this.myLeads,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      sortByDate: this.sortByDate,
+      sortByLead: this.sortByLead,
+      sortByLoanAmt: this.sortByLoanAmt,
+      sortByProduct: this.sortByProduct,
+      sortByStage: this.sortByStage
+    };
+    if(data.taskName == 'TrancheDisbursement')
+    this.responseForTrancheDisburse(data);
+    else {
+     this.responseForTaskTrancheDisburse(data) ;
+    }
+  }
+
+  responseForTrancheDisburse(data) {
+    this.dashboardService.getTrancheDisburseDetails(data).subscribe((res: any) => {
+      this.setTrancheDispersePageData(res,1);
+      if (res.ProcessVariables.TrancheDisbList != null) {
+        this.isLoadLead = true;
+      } else {
+        this.trancheDetails = [];
+        this.isLoadLead = false;
+        this.TrancheDisbList = [];
+      }
+    });
+  }
+  // for Dashboard Task Tranche Disburse
+  responseForTaskTrancheDisburse(data) {
+    this.dashboardService.getTaskTrancheDisburseDetails(data).subscribe((res: any) => {
+      this.setTrancheDispersePageData(res,2);
+      if (res.ProcessVariables.TrancheDisbTaskList != null) {
+        this.isLoadLead = true;
+      } else {
+        this.trancheDetails = [];
+        this.isLoadLead = false;
+        this.TrancheDisbTaskList = [];
+      }
+    });
+  }
+  setTrancheDispersePageData(res,val) {
+    this.trancheDetails = [];
+    const response = (val == 1) ? res.ProcessVariables.TrancheDisbList : res.ProcessVariables.TrancheDisbTaskList;
+    this.trancheDetails = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count =
+      Number(res.ProcessVariables.totalPages) *
+      Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
+
   setPage(event) {
     this.onTabsLoading(this.subActiveTab, event);
   }
@@ -959,6 +1050,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
       case 25: case 26:
         localStorage.setItem('istermSheet', 'false');
+      case 53:
+        this.router.navigate([`/pages/disbursement-section/${this.leadId}/tranche-disburse`]);
+        break;
         // tslint:disable-next-line: triple-equals
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
@@ -1200,7 +1294,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   saveTaskLogs() {
     const data = {
       userId: localStorage.getItem('userId'),
-      leadId: this.leadId,
+      leadId: (this.leadId)?parseInt(this.leadId):null,
       isClaim: this.isClaim,
       isRelease: this.isRelease,
       taskName: this.taskName
