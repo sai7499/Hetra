@@ -306,6 +306,9 @@
                   [className]="'form-control mandatory'"
                   [placeholder]="'Ref No. '"
                   formControlName="valuatorRefNo"
+                  [maxLength]="labels?.validationData?.valuationRefNo.maxLength"
+                  [isRequired]="'Reference no is Required'"
+                  [type]="labels?.validationData?.valuationRefNo.type"
                 >
                 </app-custom-input>
               </div>
@@ -408,7 +411,7 @@
                   [activeView]="'decade'"
                   [format]="'dd/MM/yyyy'"
                   placeholder="Valuation Date"
-                  formControlName="inspectedDate"
+                  formControlName="inspectionDate"
                 >
                 </kendo-datepicker>
               </div>
@@ -455,7 +458,7 @@
             </div>
             <!-- inspection details ends here -->
 
-            <!-- vehicl identity details starts from here -->
+            <!-- vehicle identity details starts from here -->
 
             <h4 class="title">{{ labels?.vehcileIdentityDetails }}</h4>
 
@@ -600,6 +603,7 @@
                 <app-custom-input
                   [className]="'form-control mandatory'"
                   [placeholder]="'Colour'"
+                  formControlName="color"
                   [maxLength]="labels?.validationData?.colour.maxLength"
                   [isRequired]="'colour is Required'"
                   [type]="labels?.validationData?.colour.type"
@@ -893,10 +897,6 @@
                 <app-vf-custom-select
                   [values]="vehicleLov?.region"
                   [id]="'vechical_region'"
-                  [isRequired]="'Vehicle Region is Required'"
-                  (change)="
-                    onVehicleRegion($event.target.value, vehicleValuationForm)
-                  "
                   [isDirty]="isDirty"
                 >
                 </app-vf-custom-select>
@@ -910,10 +910,6 @@
                 <app-vf-custom-select
                   [values]="vehicleLov?.assetMake"
                   [id]="'asset_make'"
-                  [isRequired]="'Make is Required'"
-                  (change)="
-                    onAssetMake($event.target.value, vehicleValuationForm)
-                  "
                   [isDirty]="isDirty"
                 >
                 </app-vf-custom-select>
@@ -929,13 +925,9 @@
                 </label>
 
                 <app-vf-custom-select
-                  formControlName="reRegTypeOfBody"
                   [values]="vehicleLov?.vehicleType"
                   [id]="'vechical_type'"
-                  [isRequired]="'Vehicle Type is Required'"
-                  (change)="
-                    onVehicleType($event.target.value, vehicleValuationForm)
-                  "
+                
                   [isDirty]="isDirty"
                 >
                 </app-vf-custom-select>
@@ -951,10 +943,7 @@
                 <app-vf-custom-select
                   [values]="vehicleLov?.assetBodyType"
                   [id]="'asset_body_type'"
-                  [isRequired]="'Vehcile Segment is Required'"
-                  (change)="
-                    onAssetBodyType($event.target.value, vehicleValuationForm)
-                  "
+                  
                   [isDirty]="isDirty"
                 >
                 </app-vf-custom-select>
@@ -967,10 +956,7 @@
                 <app-vf-custom-select
                   [values]="vehicleLov?.assetModel"
                   [id]="'asset_model'"
-                  [isRequired]="'Model is Required'"
-                  (change)="
-                    onAssetModel($event.target.value, vehicleValuationForm)
-                  "
+                 
                   [isDirty]="isDirty"
                 >
                 </app-vf-custom-select>
@@ -983,7 +969,6 @@
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
-                  formControlName="makersClassification"
                   [values]="vehicleLov?.assetVariant"
                   [isDirty]="isDirty"
                 >
@@ -1092,7 +1077,6 @@
                   [values]="LOV?.fuelType"
                   [isDirty]="isDirty"
                   [isRequired]="'Please Select One Option'"
-                  formControlName="fuelUsedType"
                 >
                 </app-vf-custom-select>
               </div>
@@ -1193,11 +1177,10 @@
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
-                  [values]="valuesToYesNo"
+                  [values]="LOV?.vehiclePermitStatus"
                   formControlName="permitStatus"
                   [isDirty]="isDirty"
                   [isRequired]="'Please Select One Option'"
-                  [isDisabled]="true"
                 >
                 </app-vf-custom-select>
               </div>
@@ -1295,6 +1278,7 @@
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
+                  formControlName="insuCompany"
                   [placeholder]="'Company'"
                   [maxLength]="labels?.validationData?.company.maxLength"
                   [isRequired]="'Company Name is Required'"
@@ -1311,6 +1295,7 @@
                 <app-custom-input
                   [className]="'form-control mandatory'"
                   [placeholder]="'Policy Number'"
+                  formControlName="insuPolicyNo"
                   [maxLength]="labels?.validationData?.policyNumber.maxLength"
                   [isRequired]="'Policy Name is Required'"
                   [type]="labels?.validationData?.policyNumber.type"
@@ -1326,6 +1311,7 @@
                 <app-custom-input
                   [className]="'form-control mandatory'"
                   [placeholder]="'Type Of Policy'"
+                  formControlName="typeOfPolicy"
                   [maxLength]="labels?.validationData?.company.maxLength"
                   [isRequired]="'Type of policy is Required'"
                   [type]="labels?.validationData?.company.type"
@@ -1342,6 +1328,7 @@
                 >
                 <kendo-datepicker
                   width="100%"
+                  formControlName="validFrom"
                   class="form-control mandatory"
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
@@ -1356,6 +1343,7 @@
                 >
                 <kendo-datepicker
                   width="100%"
+                  formControlName="validUpto"
                   class="form-control mandatory"
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
@@ -1431,6 +1419,7 @@
                 <app-vf-custom-select
                   [values]="valuesToYesNo"
                   [isDirty]="isDirty"
+                  formControlName="modelUnderProduction"
                   [isRequired]="'Please Select One Option'"
                 >
                 </app-vf-custom-select>
@@ -1443,27 +1432,11 @@
                 <app-vf-custom-select
                   [values]="valuesToYesNo"
                   [isDirty]="isDirty"
+                  formControlName="accidentsInPast"
                   [isRequired]="'Please Select One Option'"
                 >
                 </app-vf-custom-select>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="original_invouice"
-                  >{{ labels?.originalInvoice }}
-                  <sub class="star_red_col">*</sub>
-                </label>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  [placeholder]="'Original Invoice'"
-                  [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="'Original invoice is Required'"
-                  [type]="labels?.validationData?.idv.type"
-                  [isDirty]="isDirty"
-                >
-                </app-custom-input>
-              </div>
-            </div>
-            <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="any_major_accidents"
                   >{{ labels?.anyMajorAccidents }}
@@ -1471,6 +1444,7 @@
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
+                  formControlName="majorRepairTillDate"
                   [placeholder]="'any major accidents'"
                   [maxLength]="labels?.validationData?.company.maxLength"
                   [isRequired]="'any major accidents is Required'"
@@ -1479,6 +1453,26 @@
                 >
                 </app-custom-input>
               </div>
+              
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="original_invouice"
+                  >{{ labels?.originalInvoice }}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Original Invoice'"
+                  formControlName="originalInvoice"
+                  [maxLength]="labels?.validationData?.idv.maxLength"
+                  [isRequired]="'Original invoice is Required'"
+                  [type]="labels?.validationData?.idv.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+              
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.currentInvoiceValue }}
@@ -1486,6 +1480,7 @@
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
+                  formControlName="currInvoiceValue"
                   [placeholder]="'Original Invoice'"
                   [maxLength]="labels?.validationData?.idv.maxLength"
                   [isRequired]="'Original invoice is Required'"
@@ -1505,6 +1500,7 @@
                 </label>
                 <app-vf-custom-select
                   [values]="rcBookStatusLOV"
+                  formControlName="rcBookStatus"
                   [isDirty]="isDirty"
                   [isRequired]="'Please Select One Option'"
                 >

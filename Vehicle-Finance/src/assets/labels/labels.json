@@ -2821,6 +2821,12 @@
                 "rule":20
             },
             "type":"special-alpha-numeric"
+        },
+        "valuationRefNo":{
+            "maxLenght":{
+                "rule":40
+            },
+            "type":"number"
         }
 
     }

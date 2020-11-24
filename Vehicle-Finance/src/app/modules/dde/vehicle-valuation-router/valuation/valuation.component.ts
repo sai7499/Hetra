@@ -473,7 +473,7 @@ export class ValuationComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetBodyType: ['', Validators.required],
       // newUsedAsset: [""],
-      vehiclePrefixNo: ['', Validators.required],
+      // vehiclePrefixNo: ['', Validators.required],
       registrationNo: ['', Validators.required],
       chasisNumber: ['', Validators.required],
       engineNumber: ['', Validators.required],
@@ -484,18 +484,16 @@ export class ValuationComponent implements OnInit {
       secondAsset: [''],
       secondVehiclePrefixNo: [''],
       reRegNumber: [''],
-      regChasisNo: [''],
-      fcExpiryDate: ['', Validators.required],
+      // fcExpiryDate: ['', Validators.required],
       dateofReg: ['', Validators.required],
       gvw: ['', Validators.required],
       preReRegNumber: ['', Validators.required],
       interStateVehicle: ['', Validators.required],
-      duplicateRc: ['', Validators.required],
+      // duplicateRc: ['', Validators.required],
       cubicCapacity: ['', Validators.required],
       seatingCapacity: ['', Validators.required],
-      speedometerReading: ['', Validators.required],
+      // speedometerReading: ['', Validators.required],
       fuelUsed: ['', Validators.required],
-      fuelUsedType: [''],
       valuationInitiatedDate: ['', Validators.required],
       personInitiated: ['', Validators.required],
       valuatorRefNo: ['', Validators.required],
@@ -514,9 +512,10 @@ export class ValuationComponent implements OnInit {
       regdOwnerName: ['', Validators.required],
       regAddress: ['', Validators.required],
       ownerSerialNo: ['', Validators.required],
-      reRegTypeOfBody: ['', Validators.required],
-      makersClassification: ['', Validators.required],
+      // reRegTypeOfBody: ['', Validators.required],
+      // makersClassification: ['', Validators.required],
       regEngineNo: ['', Validators.required],
+      regChasisNo: ['', Validators.required],
       regFuelUsed: ['', Validators.required],
       unladenWeight: ['', Validators.required],
       hypothecation: ['', Validators.required],
@@ -526,21 +525,20 @@ export class ValuationComponent implements OnInit {
       routeOfOperation: ['', Validators.required],
       taxPaid: ['', Validators.required],
       taxValidUpto: ['', Validators.required],
+      insuCompany: ['', Validators.required],
+      insuPolicyNo: ['', Validators.required],
+      typeOfPolicy: ['', Validators.required],
+      validFrom: ['', Validators.required],
+      validUpto: ['', Validators.required],
+      modelUnderProduction: ['', Validators.required],
+      accidentsInPast: ['', Validators.required],
+      majorRepairTillDate: ['', Validators.required],
+      originalInvoice: ['', Validators.required],
+      currInvoiceValue: ['', Validators.required],
+      rcBookStatus: ['', Validators.required],
       valuationsList: this.listArray,
       partsConditionList: this.partsArray,
       accessoriesList: this.accessoriesArray
-      // existingVechicleOwned: [""],
-      // noOfVehicles: [""],
-      // existingSelfCostAsset: [""],
-      // total: [""],
-      // make: [""],
-      // model: [""],
-      // year: [""],
-      // registeredOwner: [""],
-      // registeredOwnerName: [""],
-      // vehiclehNoPrefix: [""],
-      // vehicleNumber: [""],
-      // costOfVehicle: [""]
     });
   }
 
@@ -570,7 +568,7 @@ export class ValuationComponent implements OnInit {
       vehicleType: this.vehicleValuationDetails.vehicleTypeCode || '',
       vehicleCode: this.vehicleValuationDetails.vehicleCode || null,
       // newUsedAsset: this.vehicleValuationDetails.newUsedAsset || '',
-      vehiclePrefixNo: this.vehicleValuationDetails.vehiclePrefixNo || '',
+      // vehiclePrefixNo: this.vehicleValuationDetails.vehiclePrefixNo || '',
       registrationNo: this.vehicleValuationDetails.registrationNo || '',
       chasisNumber: this.vehicleValuationDetails.chasisNumber || '',
       engineNumber: this.vehicleValuationDetails.engineNumber || '',
@@ -581,20 +579,70 @@ export class ValuationComponent implements OnInit {
       sellerShortDesc: this.vehicleValuationDetails.sellerShortDesc || '',
       secondAsset: this.vehicleValuationDetails.secondAsset || '',
       secondVehiclePrefixNo: this.vehicleValuationDetails.secondVehiclePrefixNo || '',
-      reRegNumber: this.vehicleValuationDetails.reRegNumber || '',
-      regChasisNo: this.vehicleValuationDetails.regChasisNo || '',
       // agricultureProof: this.vehicleValuationDetails.agricultureProof || '',
-      fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate ?
-        this.utilityService.getDateFromString(this.vehicleValuationDetails.fcExpiryDate) : '',
+      // fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate ?
+      //   this.utilityService.getDateFromString(this.vehicleValuationDetails.fcExpiryDate) : '',
       dateofReg: this.vehicleValuationDetails.dateofReg ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.dateofReg) : '',
       gvw: this.vehicleValuationDetails.gvw || '',
       preReRegNumber: this.vehicleValuationDetails.preReRegNumber || '',
       interStateVehicle: this.vehicleValuationDetails.interStateVehicle || '',
-      duplicateRc: this.vehicleValuationDetails.duplicateRc || '',
+      // duplicateRc: this.vehicleValuationDetails.duplicateRc || '',
       cubicCapacity: this.vehicleValuationDetails.cubicCapacity || '',
       seatingCapacity: this.vehicleValuationDetails.seatingCapacity || '',
-      speedometerReading: this.vehicleValuationDetails.speedometerReading || ''
+      // speedometerReading: this.vehicleValuationDetails.speedometerReading || '',
+      fuelUsed: this.vehicleValuationDetails.fuelUsed || '',
+      valuationInitiatedDate: this.vehicleValuationDetails.valuationInitiatedDate ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiatedDate) : '',
+      personInitiated: this.vehicleValuationDetails.personInitiated || '',
+      valuatorRefNo: this.vehicleValuationDetails.valuatorRefNo || '',
+      borrowersName: this.vehicleValuationDetails.borrowersName || '',
+      inspectionPlace: this.vehicleValuationDetails.inspectionPlace || '',
+      inspectedBy: this.vehicleValuationDetails.inspectedBy || '',
+      inspectionDate: this.vehicleValuationDetails.inspectionDate ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.inspectionDate) : '',
+      timeOfInspection: this.vehicleValuationDetails.timeOfInspection || '',
+      engineStarted: this.vehicleValuationDetails.engineStarted || '',
+      vehicleMoved: this.vehicleValuationDetails.vehicleMoved || '',
+      color: this.vehicleValuationDetails.color || '',
+      odometerReading: this.vehicleValuationDetails.odometerReading || '',
+      estimatedReading: this.vehicleValuationDetails.estimatedReading || '',
+      vehicleUserFor: this.vehicleValuationDetails.vehicleUserFor || '',
+      reRegNumber: this.vehicleValuationDetails.reRegNumber || '',
+      regdOwnerName: this.vehicleValuationDetails.regdOwnerName || '',
+      regAddress: this.vehicleValuationDetails.regAddress || '',
+      ownerSerialNo: this.vehicleValuationDetails.ownerSerialNo || '',
+      // reRegTypeOfBody: this.vehicleValuationDetails.reRegTypeOfBody || '',
+      // makersClassification: this.vehicleValuationDetails.makersClassification || '',
+      regEngineNo: this.vehicleValuationDetails.regEngineNo || '',
+      regChasisNo: this.vehicleValuationDetails.regChasisNo || '',
+      regFuelUsed: this.vehicleValuationDetails.regFuelUsed || '',
+      unladenWeight: this.vehicleValuationDetails.unladenWeight || '',
+      hypothecation: this.vehicleValuationDetails.hypothecation || '',
+      permitStatus: this.vehicleValuationDetails.permitStatus || '',
+      permitValidUpto: this.vehicleValuationDetails.permitValidUpto ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.permitValidUpto) : '',
+      fitnessValidity: this.vehicleValuationDetails.fitnessValidity ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.fitnessValidity) : '',
+      routeOfOperation: this.vehicleValuationDetails.routeOfOperation || '',
+      taxPaid: this.vehicleValuationDetails.taxPaid || '',
+      taxValidUpto: this.vehicleValuationDetails.taxValidUpto ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.taxValidUpto) : '',
+      insuCompany: this.vehicleValuationDetails.insuCompany || '',
+      insuPolicyNo: this.vehicleValuationDetails.insuPolicyNo || '',
+      typeOfPolicy: this.vehicleValuationDetails.typeOfPolicy || '',
+      validFrom: this.vehicleValuationDetails.validFrom ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.validFrom) : '',
+      validUpto: this.vehicleValuationDetails.validUpto ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.validUpto) : '',
+      modelUnderProduction: this.vehicleValuationDetails.modelUnderProduction || '',
+      accidentsInPast: this.vehicleValuationDetails.accidentsInPast || '',
+      majorRepairTillDate: this.vehicleValuationDetails.majorRepairTillDate || '',
+      originalInvoice: this.vehicleValuationDetails.originalInvoice || '',
+      currInvoiceValue: this.vehicleValuationDetails.currInvoiceValue || '',
+      rcBookStatus: this.vehicleValuationDetails.rcBookStatus || '',
+
+
       // existingVechicleOwned: this.vehicleValuationDetails.existingVechicleOwned || '',
       // noOfVehicles: this.vehicleValuationDetails.noOfVehicles || '',
       // existingSelfCostAsset: this.vehicleValuationDetails.existingSelfCostAsset || '',
@@ -772,18 +820,33 @@ export class ValuationComponent implements OnInit {
   }
 
   saveUpdateVehicleValuation() {
-    const formValues = this.vehicleValuationForm.value;
-    console.log('FORMVALUES::::', formValues);
+    const formValue = this.vehicleValuationForm.getRawValue();
+
+    formValue.valuationDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationDate, 'DD/MM/YYYY');
+    formValue.idvValidityDate = this.utilityService.convertDateTimeTOUTC(formValue.idvValidityDate, 'DD/MM/YYYY');
+    formValue.yearOfManufacturer = this.utilityService.convertDateTimeTOUTC(formValue.yearOfManufacturer, 'DD/MM/YYYY');
+    formValue.dateofReg = this.utilityService.convertDateTimeTOUTC(formValue.dateofReg, 'DD/MM/YYYY');
+    formValue.inspectionDate = this.utilityService.convertDateTimeTOUTC(formValue.inspectionDate, 'DD/MM/YYYY');
+    formValue.permitValidUpto = this.utilityService.convertDateTimeTOUTC(formValue.permitValidUpto, 'DD/MM/YYYY');
+    formValue.fitnessValidity = this.utilityService.convertDateTimeTOUTC(formValue.fitnessValidity, 'DD/MM/YYYY');
+    formValue.taxValidUpto = this.utilityService.convertDateTimeTOUTC(formValue.taxValidUpto, 'DD/MM/YYYY');
+    formValue.validFrom = this.utilityService.convertDateTimeTOUTC(formValue.validFrom, 'DD/MM/YYYY');
+    formValue.validUpto = this.utilityService.convertDateTimeTOUTC(formValue.validUpto, 'DD/MM/YYYY');
+    formValue.valuationInitiatedDate = this.utilityService.convertDateTimeTOUTC(formValue.validUpto, 'DD/MM/YYYY');
+
+    console.log('valuation form :', this.vehicleValuationForm);
+    // const formValues = this.vehicleValuationForm.value;
+    console.log('FORMVALUES::::', formValue);
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
       collateralId: this.colleteralId,
-      ...formValues,
-      valuationDate: this.utilityService.convertDateTimeTOUTC(formValues.valuationDate, 'DD/MM/YYYY'),
-      idvValidityDate: this.utilityService.convertDateTimeTOUTC(formValues.idvValidityDate, 'DD/MM/YYYY'),
-      yearOfManufacturer: this.utilityService.convertDateTimeTOUTC(formValues.yearOfManufacturer, 'DD/MM/YYYY'),
-      fcExpiryDate: this.utilityService.convertDateTimeTOUTC(formValues.fcExpiryDate, 'DD/MM/YYYY'),
-      dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
+      ...formValue,
+      // valuationDate: this.utilityService.convertDateTimeTOUTC(formValues.valuationDate, 'DD/MM/YYYY'),
+      // idvValidityDate: this.utilityService.convertDateTimeTOUTC(formValues.idvValidityDate, 'DD/MM/YYYY'),
+      // yearOfManufacturer: this.utilityService.convertDateTimeTOUTC(formValues.yearOfManufacturer, 'DD/MM/YYYY'),
+      // dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
+
     };
     // console.log("VALUATION DATE****", formValues.valuationDate);
 
