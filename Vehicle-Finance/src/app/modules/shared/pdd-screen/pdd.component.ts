@@ -59,7 +59,7 @@ export class PddComponent implements OnInit {
     isEndorsDateMsg: boolean = false;
     isShowError: boolean = false;
     rtoAgentsList =[];
-
+    maxEndoreseDate = new Date()
 
     constructor(private location: Location,
         private pddDetailsService: PddDetailsService,
@@ -73,6 +73,7 @@ export class PddComponent implements OnInit {
         private labelsData: LabelsService,
         private router: Router,
         private objectComparisonService: ObjectComparisonService) {
+            this.maxEndoreseDate.setDate(this.maxEndoreseDate.getDate()+1)
     }
     ngOnInit() {
         this.getLabels();
