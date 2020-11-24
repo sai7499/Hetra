@@ -273,7 +273,7 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationDetails = response.ProcessVariables.vehicleValutionDetails;
       this.vehicleCode = this.vehicleValuationDetails.vehicleCode;
       console.log('vehicle code', this.vehicleCode);
-      console.log('VEHICLE_VALUATION_DETAILS::', this.vehicleValuationDetails);
+      console.log('valuation details', this.vehicleValuationDetails);
       this.valuatorType = this.vehicleValuationDetails.valuatorType;
       this.valuatorCode = this.vehicleValuationDetails.valuatorCode;
       this.valuatorName = this.vehicleValuationDetails.valuatorName;
@@ -305,6 +305,10 @@ export class ValuationComponent implements OnInit {
             value: this.vehicleValuationDetails.vehicleModel
           }
         ];
+        this.vehicleLov.assetVariant = [{
+          key: this.vehicleValuationDetails.assetVarient,
+          value: this.vehicleValuationDetails.assetVarient
+        }]
 
         this.vehicleLov.vehicleType = [{
           key: this.vehicleValuationDetails.vehicleTypeCode,
@@ -460,39 +464,68 @@ export class ValuationComponent implements OnInit {
       valuationAmt: ['', Validators.required],
       valuationDate: ['', Validators.required],
       idv: ['', Validators.required],
-      idvValidityDate: ["", Validators.required],
-      vehicleAvailGrid: ["", Validators.required],
-      region: ["", Validators.required],
-      vehicleType: ["", Validators.required],
+      idvValidityDate: ['', Validators.required],
+      vehicleAvailGrid: ['', Validators.required],
+      region: ['', Validators.required],
+      vehicleType: ['', Validators.required],
       vehicleCode: 0,
-      assetMake: ["", Validators.required],
-      assetModel: ["", Validators.required],
+      assetMake: ['', Validators.required],
+      assetModel: ['', Validators.required],
       assetBodyType: ['', Validators.required],
       // newUsedAsset: [""],
-      vehiclePrefixNo: ["", Validators.required],
-      registrationNo: ["", Validators.required],
-      chasisNumber: ["", Validators.required],
-      engineNumber: ["", Validators.required],
-      yearOfManufacturer: ["", Validators.required],
+      vehiclePrefixNo: ['', Validators.required],
+      registrationNo: ['', Validators.required],
+      chasisNumber: ['', Validators.required],
+      engineNumber: ['', Validators.required],
+      yearOfManufacturer: ['', Validators.required],
       // monthOfManufacturer: ["", Validators.required],
-      ageOfAsset: ["", Validators.required],
-      sellerShortDesc: [""],
-      secondAsset: [""],
-      secondVehiclePrefixNo: [""],
-      reRegNumber: [""],
-      regChasisNo: [""],
-      // agricultureProof: ["", Validators.required],
-      fcExpiryDate: ["", Validators.required],
-      dateofReg: ["", Validators.required],
-      gvw: ["", Validators.required],
-      preReRegNumber: ["", Validators.required],
-      interStateVehicle: ["", Validators.required],
-      duplicateRc: ["", Validators.required],
-      cubicCapacity: ["", Validators.required],
-      seatingCapacity: ["", Validators.required],
+      ageOfAsset: ['', Validators.required],
+      sellerShortDesc: [''],
+      secondAsset: [''],
+      secondVehiclePrefixNo: [''],
+      reRegNumber: [''],
+      regChasisNo: [''],
+      fcExpiryDate: ['', Validators.required],
+      dateofReg: ['', Validators.required],
+      gvw: ['', Validators.required],
+      preReRegNumber: ['', Validators.required],
+      interStateVehicle: ['', Validators.required],
+      duplicateRc: ['', Validators.required],
+      cubicCapacity: ['', Validators.required],
+      seatingCapacity: ['', Validators.required],
       speedometerReading: ['', Validators.required],
       fuelUsed: ['', Validators.required],
       fuelUsedType: [''],
+      valuationInitiatedDate: ['', Validators.required],
+      personInitiated: ['', Validators.required],
+      valuatorRefNo: ['', Validators.required],
+      borrowersName: ['', Validators.required],
+      inspectionPlace: ['', Validators.required],
+      inspectedBy: ['', Validators.required],
+      inspectionDate: ['', Validators.required],
+      timeOfInspection: ['', Validators.required],
+      engineStarted: ['', Validators.required],
+      vehicleMoved: ['', Validators.required],
+      version: ['', Validators.required],
+      color: ['', Validators.required],
+      odometerReading: ['', Validators.required],
+      estimatedReading: ['', Validators.required],
+      vehicleUserFor: ['', Validators.required],
+      regdOwnerName: ['', Validators.required],
+      regAddress: ['', Validators.required],
+      ownerSerialNo: ['', Validators.required],
+      reRegTypeOfBody: ['', Validators.required],
+      makersClassification: ['', Validators.required],
+      regEngineNo: ['', Validators.required],
+      regFuelUsed: ['', Validators.required],
+      unladenWeight: ['', Validators.required],
+      hypothecation: ['', Validators.required],
+      permitStatus: ['', Validators.required],
+      permitValidUpto: ['', Validators.required],
+      fitnessValidity: ['', Validators.required],
+      routeOfOperation: ['', Validators.required],
+      taxPaid: ['', Validators.required],
+      taxValidUpto: ['', Validators.required],
       valuationsList: this.listArray,
       partsConditionList: this.partsArray,
       accessoriesList: this.accessoriesArray
@@ -531,6 +564,7 @@ export class ValuationComponent implements OnInit {
       // gridAmount: this.vehicleValuationDetails.gridAmount || '',
       assetMake: this.vehicleValuationDetails.vehicleMfrCode || '',
       assetModel: this.vehicleValuationDetails.vehicleModelCode || '',
+      version: this.vehicleValuationDetails.version || '',
       assetBodyType: this.vehicleValuationDetails.vehicleSegCode || '',
       region: this.vehicleValuationDetails.region || '',
       vehicleType: this.vehicleValuationDetails.vehicleTypeCode || '',
@@ -726,13 +760,13 @@ export class ValuationComponent implements OnInit {
     this.vehicleValuationForm.get('vehicleCode').setValue(
       array.length > 0 ? Number(array[0].vehicleCode) : 0);
 
-    // this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
-    //   'vehicleCode', 'vehicleVariant');
+    this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
+      'vehicleCode', 'vehicleVariant');
 
-    // obj.patchValue({
-    //   assetVariant: ''
-    // });
-
+    obj.patchValue({
+      assetVariant: ''
+    });
+    console.log('in version', this.assetVariant);
     console.log('vehicle id :', array[0].vehicleCode);
 
   }
