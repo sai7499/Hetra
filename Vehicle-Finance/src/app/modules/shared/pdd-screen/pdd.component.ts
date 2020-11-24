@@ -58,7 +58,8 @@ export class PddComponent implements OnInit {
     isRtoAgentMsg: boolean = false;
     isEndorsDateMsg: boolean = false;
     isShowError: boolean = false;
-    rtoAgentsList =[]
+    rtoAgentsList =[];
+
 
     constructor(private location: Location,
         private pddDetailsService: PddDetailsService,
@@ -437,7 +438,7 @@ export class PddComponent implements OnInit {
             if (!processForm.orcStatus || !processForm.orcReceivedDate) {
                 return true;
             } else if (controls.get('rtoAgent').invalid ||
-                controls.get('endorsementDate').invalid ||
+           ( processForm.orcStatus=="RECDFRMRTOAGNTPDDDOCS" && !processForm.endorsementDate) ||
                 this.isShowError) {
                 this.isDirty = true;
 
@@ -526,6 +527,7 @@ export class PddComponent implements OnInit {
 
     changeEndorseDate(event) {
         const date = new Date(event);
+        
         //console.log(date,'form', this.pddForm.get('processForm').get('endorsementDate'))
         if (date > this.toDayDate) {
             this.isShowError = true;
