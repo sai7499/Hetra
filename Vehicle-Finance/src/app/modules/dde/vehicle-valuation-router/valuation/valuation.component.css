@@ -89,7 +89,7 @@ Max width before this PARTICULAR table gets nasty. This query will take effect f
 /*margin: 0 0 1rem 0;*/
   /* } */
   tr:nth-child(odd) {
-      background: #ccc;
+      /* background: #ccc; */
   }
   td {
       /* Behave  like a "row" */
@@ -108,9 +108,11 @@ Max width before this PARTICULAR table gets nasty. This query will take effect f
       width: 45%;
       padding-right: 10px;
       white-space: nowrap;
-      /* color:#fff;
+      color:#fff;
       background-color: #272264;
-      text-align: left; */
+      text-align: left;
+      padding:10px;
+      font-weight:500;
 
   }
   /*
@@ -119,34 +121,30 @@ You could also use a data-* attribute and content for this. That way "bloats" th
 */
 
  .valuation td:nth-of-type(1):before {
-      content: "financier";
+      content: "Financier";
 
   }
   .valuation td:nth-of-type(2):before {
-    content: "monthOfReport";
+    content: "Month Of Report";
 }
 .valuation td:nth-of-type(3):before {
-      content: "valuation";
+      content: "Valuation";
   }
   .asset td:nth-of-type(1):before {
-    content: "partName";
+    content: "Part name";
 }
 .asset td:nth-of-type(2):before {
-  content: "condition";
+  content: "Condition";
 }
 .asset td:nth-of-type(3):before {
-    content: "ratingScale";
+    content: "Rating Scale";
 }
 .part td:nth-of-type(1):before {
-  content: "accessoryName";
+  content: "Accessory Name";
 }
 .part td:nth-of-type(2):before {
-    content: "availabilty";
+    content: "Availabilty";
 }
-
-
-  
-
 }
 
 
@@ -155,6 +153,8 @@ You could also use a data-* attribute and content for this. That way "bloats" th
   background-color: #efefef;
 }
 
-
+.content{
+  padding:10px!important;
+}
 
 
