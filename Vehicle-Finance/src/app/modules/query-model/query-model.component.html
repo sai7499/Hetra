@@ -276,10 +276,16 @@
                       </div>
 
                       <p>{{message.query}}</p>
+
+                      <span *ngIf="">
+
+                      </span>
+
                       <div *ngIf="message.docId"><a class="text-danger"
                           (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
                           {{message.docName}}</a></div>
                       <br *ngIf="message.docId">
+
                       <div class="tagged-name">
                         <div class="logged-user row">
 
@@ -287,11 +293,13 @@
                             <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
                           </div>
 
-                          <div class="col-md-4">
-                            <span class="text-center"
-                              [ngClass]="j % 2 ===  0 ? 'red-Col' : 'green-Col'"> <strong style="color: black;">Status : </strong>
-                              {{message.status}} </span>
-                          </div>
+                          <span>
+                            <div class="col-md-4">
+                              <span class="text-center" [ngClass]="j % 2 ===  0 ? 'red-Col' : 'green-Col'"> <strong
+                                  style="color: black;">Status : </strong>
+                                {{message.status}} </span>
+                            </div>
+                          </span>
 
                           <div class="col-md-4">
                             <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
