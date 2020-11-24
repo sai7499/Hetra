@@ -25,7 +25,9 @@ h3.dedupe_head {
 }
 
 /*  style for modal popup*/
-
+.subHeadColor{
+  color: #1d1a4b !important;
+}
 .text-center {
   text-align: center;
 }
