@@ -27,7 +27,8 @@ export const environment = {
     supervisorProId: 'ed58f72ea9a811ea824bf2fa9bec3d63',// supervisorRelated
     retrieveAadharData: 'db2732f4ab4811ea82f8f2fa9bec3d63',
     remarksProjectId : '8bfa8dba945b11eabdcaf2fa9bec3d63',
-    assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63'
+    assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63',
+    trancheProId: 'b73f0180b49111ea8900f2fa9bec3d63'
   },
 
    hostingEnvironment: 'DEV',

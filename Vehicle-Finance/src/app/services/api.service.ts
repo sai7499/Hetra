@@ -975,6 +975,51 @@ export class ApiService {
       processId: '8a5609aad32e11eaacee00505695f93b',
       workflowId: '8a1d1abed32e11eaa96700505695f93b',
       projectId: environment.projectIds.assignCPCMaker
+    },
+    getTDDetails: {
+      processId: '93351a66f71911ea989d00505695f93b',
+      workflowId: '2a7931d8f68d11eab3fb00505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    getTDDetailsByTask: {
+      processId: 'b5585406032f11ebbce000505695f93b',
+      workflowId: 'b5390c54032f11eb99e500505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    viewTDDetails: {
+      processId: '97b6dadef72811ea857c00505695f93b',
+      workflowId: '2a7931d8f68d11eab3fb00505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    submitTDToCKR: {
+      processId: '47d4c4a8f19d11eaa89a00505695f93b',
+      workflowId: '2a7931d8f68d11eab3fb00505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    requestTrancheDisburse: {
+      processId: '2a985d4cf68d11eab5a800505695f93b',
+      workflowId: '2a7931d8f68d11eab3fb00505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    requestTaskTrancheDisburse: {
+      processId: '63d4c01a022111eb91e600505695f93b',
+      workflowId: '63b3926e022111eb9f3b00505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    submitTDToMaker: {
+      processId: '0a97611efe3a11eab06200505695f93b',
+      workflowId: '0a78b9d0fe3a11eaaac100505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    reverseTDToMaker: {
+      processId: '9c6fae38030e11ebad1a00505695f93b',
+      workflowId: '9c567ef4030e11ebabf700505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    tdApprove: {
+      processId: 'f007931203cc11eba91300505695f93b',
+      workflowId: '767be23a08a611eb827600505695f93b',
+      projectId: environment.projectIds.trancheProId
     }
 
 
