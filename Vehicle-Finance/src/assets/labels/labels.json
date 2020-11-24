@@ -1706,7 +1706,7 @@
     "nomineeAddress": "Nominee Address",
     "guardianDetails": "Guardian Details",
     "guardianAddress": "Guardian Address",
-    "motorInsuranceRequired?": "Motor insurance required?",
+    "motorInsuranceRequired": "Motor insurance required?",
     "creditShieldRequired": "Credit sheld required?",
     "backToFiCumPdList":"Back to FI cum PD List",
     "fiCumPdStatus":"FI cum PD Status",
@@ -2785,6 +2785,28 @@
                 "rule": 7
             },
             "type": "number"
+        },
+        "insuranceDetails": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric" 
+        },
+        "decimalValues": {
+            "maxLength": {
+                "rule": 6
+            },
+            "type": "decimal",
+            "patternCheck":{
+                "rule": "^[0-9]{3}[.]{1}[0-9]{0,2}",
+                "msg":"Please enter as following pattern 654.12"
+            }
+        },
+        "insuranceAddress": {
+            "maxLength": {
+                "rule": 35
+            },
+            "type": "alpha-numeric"
         },
         "totalLoanAmount": {
             "maxLength": {
