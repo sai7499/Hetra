@@ -183,6 +183,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   supervisorName: any;
   leadTaskId: any;
   pendingName: any;
+  dataToReassign: any;
+  selfAssignData: any;
+  selfAssignLeadId: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -262,19 +265,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.roleId = this.supervisorRoleId;
       this.loginUserId = this.supervisorUserId;
       this.router.navigate(['/pages/supervisor/dashboard']);
-      this.pendingName = this.supervisorName
+      this.pendingName = this.supervisorName;
     } else {
       this.roleType = this.userDetailsRoleType;
       this.roleId = this.userDetailsRoleId;
       this.loginUserId = localStorage.getItem('userId');
       this.router.navigate(['/pages/dashboard']);
-      this.pendingName = 'Me'
+      this.pendingName = 'Me';
     }
     console.log(this.roleType);
 
     this.supervisorForm = this.fb.group({
-      roles: ['']
-    })
+      roles: ['', Validators.required]
+    });
 
     if (this.router.url === "/pages/supervisor/dashboard") {
       this.supervisor = true;
@@ -1082,17 +1085,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   // Self-Assign Method
-  onSelfAssignClick(taskId) {
+  onSelfAssignClick(taskId, leadId) {
     this.leadTaskId = taskId;
-    console.log(this.leadTaskId);
-    
+    this.selfAssignLeadId = leadId;
+    console.log('on self assign click', this.selfAssignData);
   }
   onSupervisorAssign() {
-    const data = {
-      taskId: this.leadTaskId,
-      loginId: this.selfAssignLoginId
+    // const data = {
+    //   taskId: this.leadTaskId,
+    //   loginId: this.selfAssignLoginId
+    // }
+    if ( this.subActiveTab === this.displayTabs.NewLeads ) {
+      this.dataToReassign = {
+        myLeads: true,
+        leadId: this.selfAssignLeadId,
+        loginId: this.selfAssignLoginId
+      };
+    } else {
+      this.dataToReassign = {
+        taskId: this.leadTaskId,
+        loginId: this.selfAssignLoginId
+      };
     }
-    this.supervisorService.supervisorReAssign(data).subscribe((res: any) => {
+    console.log(this.dataToReassign);
+
+    this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
       console.log(res);
       const response = res;
       const appiyoError = response.Error;
@@ -1111,6 +1128,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onReAssignClick(item) {
     this.reAssignData = item;
+    console.log('on reAssign click', this.reAssignData);
+
     // console.log(this.reAssignData);
     this.getSupervisorUserDetails();
     // console.log(this.supervisorForm);
@@ -1135,11 +1154,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   supervisorReAssign() {
-    const data = {
-      taskId: this.reAssignData.taskId,
-      loginId: this.supervisorForm.value.roles
+
+    if (this.subActiveTab === this.displayTabs.NewLeads) {
+      this.dataToReassign = {
+        myLeads: true,
+        leadId: this.reAssignData.leadId,
+        loginId: this.supervisorForm.value.roles
+      };
+    } else {
+      this.dataToReassign = {
+        taskId: this.reAssignData.taskId,
+        loginId: this.supervisorForm.value.roles
+      };
     }
-    this.supervisorService.supervisorReAssign(data).subscribe((res: any) => {
+    // const data = {
+    //   taskId: this.reAssignData.taskId,
+    //   myLeads: this.myLeads,
+    //   leadId: this.reAssignData.leadId,
+    //   loginId: this.supervisorForm.value.roles
+    // };
+    this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
       console.log(res);
       const response = res;
       const appiyoError = response.Error;
@@ -1153,7 +1187,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.toasterService.showError(response.ProcessVariables.error.message, 'Re-Assign');
       }
 
-    })
+    });
   }
 
   onBack() {

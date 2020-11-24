@@ -952,8 +952,9 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     supervisorReAssign: {
-      processId: '416121c228eb11eb9fb000505695f93b',
-      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      // processId: '416121c228eb11eb9fb000505695f93b',
+      processId: 'f9c62e182d7f11eb8aae00505695f93b',
+      workflowId: '414373fc28eb11eba11700505695f93b',
       projectId: environment.projectIds.taskProjectId
     },
     stopRcuTask: {
