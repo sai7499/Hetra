@@ -280,6 +280,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="Valuation Date"
                   formControlName="valuationInitiatedDate"
+                  
                 >
                 </kendo-datepicker>
               </div>
@@ -1206,11 +1207,12 @@
                 >
                 <kendo-datepicker
                   width="100%"
-                  formControlName="fitnessValidity"
+                  formControlName="fcExpiryDate"
                   class="form-control mandatory"
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
+                  [min]="toDayDate"
                 >
                 </kendo-datepicker>
               </div>
@@ -1444,10 +1446,9 @@
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
-                  formControlName="majorRepairTillDate"
+                  formControlName=""
                   [placeholder]="'any major accidents'"
                   [maxLength]="labels?.validationData?.company.maxLength"
-                  [isRequired]="'any major accidents is Required'"
                   [type]="labels?.validationData?.company.type"
                   [isDirty]="isDirty"
                 >
@@ -1513,12 +1514,12 @@
 
             <h4 class="title">{{ labels?.recentLast3Valuations }}</h4>
             <div class="row">
-              <div id="applicantTable" class="table-responsive application">
-                <table class="table valuation">
+              <div id="applicantTable" class="table-responsive  application">
+                <table class="table table-borderless valuation">
                   <thead>
                     <tr class="table-head-bg text-center">
                       <!-- <th>{{ labels.sNo }}</th> -->
-                      <td role="columnheader">
+                      <td style ="width:33%" role="columnheader">
                         {{ labels.financier }}
                       </td>
                       <td role="columnheader">
@@ -1544,7 +1545,6 @@
                         <app-vf-custom-select
                           [values]="LOV?.vehicleFinanciers"
                           formControlName="financier"
-                          [isRequired]="'Please select alteast one '"
                         >
                         </app-vf-custom-select>
                       </td>
@@ -1552,7 +1552,6 @@
                         <app-vf-custom-select
                           [values]="monthsLOVS"
                           formControlName="monthOfReport"
-                          [isRequired]="'Please select alteast one '"
                         >
                         </app-vf-custom-select>
                       </td>
@@ -1562,7 +1561,6 @@
                           formControlName="valuation"
                           [maxLength]="labels?.validationData?.idv?.maxLength"
                           [type]="labels?.validationData?.idv?.type"
-                          [isRequired]="'valuation is required'"
                           [isDirty]="isDirty"
                           [placeholder]="'valuation'"
                         ></app-custom-input>
@@ -1578,14 +1576,15 @@
 
             <!-- asset conditons starts here -->
 
-            <h4 class="title">{{ labels?.assetCondition }}</h4>
+            
             <div class="row">
-              <div id="applicantTable" class="table-responsive application">
+              <div id="applicantTable" class="table-responsive table-borderless application col-lg-6 col-md-6">
+                <h4 class="title">{{ labels?.assetCondition }}</h4>
                 <table class="table asset">
                   <thead>
                     <tr class="table-head-bg text-center">
                       <!-- <th>{{ labels.sNo }}</th> -->
-                      <td role="columnheader">
+                      <td style="width:33%;" role="columnheader">
                         {{ labels.partName }}
                       </td>
                       <td role="columnheader">
@@ -1628,7 +1627,6 @@
                         <app-vf-custom-select
                           [values]="conditionLov"
                           formControlName="condition"
-                          [isRequired]="'Please select alteast one '"
                         >
                         </app-vf-custom-select>
                       </td>
@@ -1636,7 +1634,53 @@
                         <app-vf-custom-select
                           [values]="ratingScaleLov"
                           formControlName="ratingScale"
-                          [isRequired]="'Please select alteast one '"
+                        >
+                        </app-vf-custom-select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="applicantTable" class="table-responsive table-borderless application col-lg-6 col-md-6">
+                <h4 class="title">{{ labels?.accessoriesFound }}</h4>
+                <table class="table part">
+                  <thead>
+                    <tr class="table-head-bg text-center">
+                      <!-- <th>{{ labels.sNo }}</th> -->
+                      <td style="width:33%;" role="columnheader">
+                        {{ labels.accessories }}
+                      </td>
+                      <td role="columnheader">
+                        {{ labels.avaialablity }}
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody formArrayName="accessoriesList">
+                    <tr
+                      *ngFor="
+                        let item of vehicleValuationForm.get(
+                          'accessoriesList'
+                        )['controls'];
+                        let i = index
+                      "
+                      [formGroupName]="i"
+                    >
+                      <!-- <td>{{ i + 1 }}</td> -->
+                      <td>
+                        <app-custom-input
+                          [className]="'form-control mandatory'"
+                          [placeholder]="'Accessory Name'"
+                          [isDirty]="isDirty"
+                          [isDisabled]="true"
+                          formControlName="accessoryName"
+
+                        >
+                        </app-custom-input>
+                      </td>
+                      <td>
+                        <app-vf-custom-select
+                          [values]="valuesToYesNo"
+                          formControlName="availability"
                         >
                         </app-vf-custom-select>
                       </td>
@@ -1683,14 +1727,14 @@
             <!-- asset condition ends here -->
 
             <!-- accessories found at inspection starts from here -->
-            <h4 class="title">{{ labels?.accessoriesFound }}</h4>
-            <div class="row">
-              <div id="applicantTable" class="table-responsive application">
+            
+            <!-- <div class="row">
+              <div id="applicantTable" class="table-responsive table-borderless application">
                 <table class="table part">
                   <thead>
-                    <tr class="table-head-bg text-center">
+                    <tr class="table-head-bg text-center"> -->
                       <!-- <th>{{ labels.sNo }}</th> -->
-                      <td role="columnheader">
+                      <!-- <td style="width:33%;" role="columnheader">
                         {{ labels.accessories }}
                       </td>
                       <td role="columnheader">
@@ -1707,9 +1751,9 @@
                         let i = index
                       "
                       [formGroupName]="i"
-                    >
+                    > -->
                       <!-- <td>{{ i + 1 }}</td> -->
-                      <td>
+                      <!-- <td>
                         <app-custom-input
                           [className]="'form-control mandatory'"
                           [placeholder]="'Accessory Name'"
@@ -1731,7 +1775,7 @@
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div> -->
             &nbsp;
 
             <!-- accessories found at inspection ends here -->

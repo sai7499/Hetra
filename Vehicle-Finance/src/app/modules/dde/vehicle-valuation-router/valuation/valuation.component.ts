@@ -263,6 +263,13 @@ export class ValuationComponent implements OnInit {
     }
   }
 
+  // formvalueChange() {
+  //   const formValue = this.vehicleValuationForm.getRawValue();
+  //   formValue.valuationInitiatedDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationInitiatedDate, 'DD/MM/YYYY');
+  //   console.log('in form value change', formValue.valuationInitiatedDate);
+  //   console.log('in form value change', formValue);
+  // }
+
   getVehicleValuation() {
 
     const data = this.colleteralId;
@@ -415,22 +422,22 @@ export class ValuationComponent implements OnInit {
     console.log('in initRows no RowData', type);
     if (type === 'last3Valuations') {
       return this.fb.group({
-        financier: new FormControl('', [Validators.required]),
-        monthOfReport: new FormControl('', [Validators.required]),
-        valuation: new FormControl('', [Validators.required]),
+        financier: new FormControl(''),
+        monthOfReport: new FormControl(''),
+        valuation: new FormControl(''),
       });
     } else if (type === 'partsCondition') {
       console.log('in initRows no RowData parts condition');
       return this.fb.group({
         partName: this.partName,
-        condition: new FormControl('', [Validators.required]),
-        ratingScale: new FormControl('', [Validators.required]),
+        condition: new FormControl(''),
+        ratingScale: new FormControl(''),
       });
 
     } else if (type === 'accessoriesCondition') {
       return this.fb.group({
         accessoryName: this.accessoryName,
-        availability: new FormControl('', [Validators.required]),
+        availability: new FormControl(''),
       });
     }
   }
@@ -484,7 +491,7 @@ export class ValuationComponent implements OnInit {
       secondAsset: [''],
       secondVehiclePrefixNo: [''],
       reRegNumber: [''],
-      // fcExpiryDate: ['', Validators.required],
+      fcExpiryDate: ['', Validators.required],
       dateofReg: ['', Validators.required],
       gvw: ['', Validators.required],
       preReRegNumber: ['', Validators.required],
@@ -521,7 +528,7 @@ export class ValuationComponent implements OnInit {
       hypothecation: ['', Validators.required],
       permitStatus: ['', Validators.required],
       permitValidUpto: ['', Validators.required],
-      fitnessValidity: ['', Validators.required],
+      // fitnessValidity: ['', Validators.required],
       routeOfOperation: ['', Validators.required],
       taxPaid: ['', Validators.required],
       taxValidUpto: ['', Validators.required],
@@ -532,7 +539,7 @@ export class ValuationComponent implements OnInit {
       validUpto: ['', Validators.required],
       modelUnderProduction: ['', Validators.required],
       accidentsInPast: ['', Validators.required],
-      majorRepairTillDate: ['', Validators.required],
+      majorRepairTillDate: [''],
       originalInvoice: ['', Validators.required],
       currInvoiceValue: ['', Validators.required],
       rcBookStatus: ['', Validators.required],
@@ -580,8 +587,8 @@ export class ValuationComponent implements OnInit {
       secondAsset: this.vehicleValuationDetails.secondAsset || '',
       secondVehiclePrefixNo: this.vehicleValuationDetails.secondVehiclePrefixNo || '',
       // agricultureProof: this.vehicleValuationDetails.agricultureProof || '',
-      // fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate ?
-      //   this.utilityService.getDateFromString(this.vehicleValuationDetails.fcExpiryDate) : '',
+      fcExpiryDate: this.vehicleValuationDetails.fcExpiryDate ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.fcExpiryDate) : '',
       dateofReg: this.vehicleValuationDetails.dateofReg ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.dateofReg) : '',
       gvw: this.vehicleValuationDetails.gvw || '',
@@ -622,8 +629,8 @@ export class ValuationComponent implements OnInit {
       permitStatus: this.vehicleValuationDetails.permitStatus || '',
       permitValidUpto: this.vehicleValuationDetails.permitValidUpto ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.permitValidUpto) : '',
-      fitnessValidity: this.vehicleValuationDetails.fitnessValidity ?
-        this.utilityService.getDateFromString(this.vehicleValuationDetails.fitnessValidity) : '',
+      // fitnessValidity: this.vehicleValuationDetails.fitnessValidity ?
+      //   this.utilityService.getDateFromString(this.vehicleValuationDetails.fitnessValidity) : '',
       routeOfOperation: this.vehicleValuationDetails.routeOfOperation || '',
       taxPaid: this.vehicleValuationDetails.taxPaid || '',
       taxValidUpto: this.vehicleValuationDetails.taxValidUpto ?
@@ -821,6 +828,7 @@ export class ValuationComponent implements OnInit {
 
   saveUpdateVehicleValuation() {
     const formValue = this.vehicleValuationForm.getRawValue();
+    console.log('before changing date to utc', formValue);
 
     formValue.valuationDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationDate, 'DD/MM/YYYY');
     formValue.idvValidityDate = this.utilityService.convertDateTimeTOUTC(formValue.idvValidityDate, 'DD/MM/YYYY');
@@ -828,15 +836,15 @@ export class ValuationComponent implements OnInit {
     formValue.dateofReg = this.utilityService.convertDateTimeTOUTC(formValue.dateofReg, 'DD/MM/YYYY');
     formValue.inspectionDate = this.utilityService.convertDateTimeTOUTC(formValue.inspectionDate, 'DD/MM/YYYY');
     formValue.permitValidUpto = this.utilityService.convertDateTimeTOUTC(formValue.permitValidUpto, 'DD/MM/YYYY');
-    formValue.fitnessValidity = this.utilityService.convertDateTimeTOUTC(formValue.fitnessValidity, 'DD/MM/YYYY');
+    // formValue.fitnessValidity = this.utilityService.convertDateTimeTOUTC(formValue.fitnessValidity, 'DD/MM/YYYY');
     formValue.taxValidUpto = this.utilityService.convertDateTimeTOUTC(formValue.taxValidUpto, 'DD/MM/YYYY');
     formValue.validFrom = this.utilityService.convertDateTimeTOUTC(formValue.validFrom, 'DD/MM/YYYY');
     formValue.validUpto = this.utilityService.convertDateTimeTOUTC(formValue.validUpto, 'DD/MM/YYYY');
-    formValue.valuationInitiatedDate = this.utilityService.convertDateTimeTOUTC(formValue.validUpto, 'DD/MM/YYYY');
+    formValue.valuationInitiatedDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationInitiatedDate, 'DD/MM/YYYY');
+    formValue.fcExpiryDate = this.utilityService.convertDateTimeTOUTC(formValue.fcExpiryDate, 'DD/MM/YYYY');
 
-    console.log('valuation form :', this.vehicleValuationForm);
-    // const formValues = this.vehicleValuationForm.value;
-    console.log('FORMVALUES::::', formValue);
+    console.log('after converting date to utc', formValue);
+
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
@@ -848,22 +856,20 @@ export class ValuationComponent implements OnInit {
       // dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
 
     };
-    // console.log("VALUATION DATE****", formValues.valuationDate);
-
-    if (this.vehicleValuationForm.valid === true) {
-      this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
-        const response = res;
-        console.log('VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API', response);
-        if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
-          this.toasterService.showSuccess('Record Saved Successfully', 'Valuation');
-          this.getVehicleValuation();
-        } else {
-          this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
-        }
-      });
-    } else {
-      this.toasterService.showError('Please fill all mandatory fields.', 'Valuation');
-    }
+    // if (this.vehicleValuationForm.valid === true) {
+    this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
+      const response = res;
+      console.log('VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API', response);
+      if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
+        this.toasterService.showSuccess('Record Saved Successfully', 'Valuation');
+        this.getVehicleValuation();
+      } else {
+        this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
+      }
+    });
+    //   } else {
+    //     this.toasterService.showError('Please fill all mandatory fields.', 'Valuation');
+    //   }
   }
 
   onFormSubmit() {
