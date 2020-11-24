@@ -2136,8 +2136,8 @@
             },
             "type": "alpha-numeric",
             "patternCheck": {
-                "rule": "[A-Z1-9]{1}",
-                "msg": "Should be Valid"
+                "rule": "[A-Z]{4}[0-9]{5}[A-Z]{1}",
+                "msg": "Invalid format / PDES03028F"
             }
         },
         "pincode": {
@@ -2783,6 +2783,48 @@
         "speedometerReading": {
             "maxLength": {
                 "rule": 7
+            },
+            "type": "number"
+        },
+        "totalLoanAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "principalAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "emi": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "dpd": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "seasoning": {
+            "maxLength": {
+                "rule": 4
+            },
+            "type": "number"
+        },
+        "ChildLoanAccountNumber": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        "ucicId": {
+            "maxLength": {
+                "rule": 8
             },
             "type": "number"
         }

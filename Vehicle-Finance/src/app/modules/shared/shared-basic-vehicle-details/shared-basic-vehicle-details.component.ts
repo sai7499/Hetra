@@ -141,8 +141,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       if (this.isChildLoan) {
         ProductType = this.loanTypeArray.find((res: any) => res.key === this.assetProductCode)
         if (ProductType) {
-          // this.Product = ProductType['value'];
-          this.Product = 'AccidentLoan'
+          this.Product = ProductType['value'];
+          // this.Product = 'AccidentLoan'
           this.childLoanCondition = child.childLoan.isRequired[this.Product];
         }
       }

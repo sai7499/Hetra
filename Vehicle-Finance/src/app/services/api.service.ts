@@ -952,8 +952,9 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     supervisorReAssign: {
-      processId: '416121c228eb11eb9fb000505695f93b',
-      workflowId: '7fde429c82ea11eabdc2f2fa9bec3d63',
+      // processId: '416121c228eb11eb9fb000505695f93b',
+      processId: 'f9c62e182d7f11eb8aae00505695f93b',
+      workflowId: '414373fc28eb11eba11700505695f93b',
       projectId: environment.projectIds.taskProjectId
     },
     stopRcuTask: {
@@ -975,6 +976,11 @@ export class ApiService {
       processId: '8a5609aad32e11eaacee00505695f93b',
       workflowId: '8a1d1abed32e11eaa96700505695f93b',
       projectId: environment.projectIds.assignCPCMaker
+    },
+    childLoanSearch : {
+      processId: '920538fa2a2811eba1e500505695f93b',
+      workflowId: '91ce6f782a2811eb87b300505695f93b',
+      projectId: environment.projectIds.externalApi
     },
     getTDDetails: {
       processId: '93351a66f71911ea989d00505695f93b',
@@ -1021,7 +1027,5 @@ export class ApiService {
       workflowId: '767be23a08a611eb827600505695f93b',
       projectId: environment.projectIds.trancheProId
     }
-
-
   };
 }
