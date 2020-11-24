@@ -237,7 +237,7 @@ label.col-form-label-two {
 }
 
 .cus-mob-bac {
-    background-color: #cec3c3 !important;
+    background-color: #d8d8d8 !important;
 }
 
 .search-container {
@@ -372,6 +372,10 @@ margin: 0px !important;
 }
 .query .stakeholder-list .radio label {
     padding-left: 25px;
+}
+
+.cus-height {
+    height: 65px !important;
 }
 
 #myUL {

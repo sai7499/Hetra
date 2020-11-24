@@ -19,6 +19,8 @@ export class InsuranceDetailsComponent implements OnInit {
 
   insuranceDetailForm: FormGroup;
   LOV: any = {};
+  isDirty: boolean = false;
+  permanantPincode: any;
 
   public label: any = {};
   public labelCreditShield: any = {};
@@ -50,8 +52,8 @@ export class InsuranceDetailsComponent implements OnInit {
   motar = 'yes'; // to default check motor insurance radio button
   creditShieldRequired: boolean;
   motorShieldRequired = true;
-  isDirty;
-  permanantPincode;
+  // isDirty;
+  // permanantPincode;
   leadData: {};
   applicantList = [];
   lovData: any;
@@ -233,7 +235,6 @@ export class InsuranceDetailsComponent implements OnInit {
 
    };
    this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
-   console.log('insurance', res);
    if (res && res.ProcessVariables.error.code == '0' ) {
      if (event == 'save') {
       this.toasterService.showSuccess('Record saved succesfully', '');
@@ -242,7 +243,6 @@ export class InsuranceDetailsComponent implements OnInit {
       this.toasterService.showSuccess('Record saved succesfully', '');
       this.onNext();
      }
-    
    } else {
      this.toasterService.showError(res.ProcessVariables.error.message, '');
    }

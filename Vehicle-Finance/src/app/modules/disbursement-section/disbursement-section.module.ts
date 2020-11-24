@@ -8,10 +8,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { DisbursementFormComponent } from './disbursement-form/disbursement-form.component';
 import { MatSelectModule } from '@angular/material';
+import { TrancheDisburseComponent } from './tranche-disburse/tranche-disburse.component';
 @NgModule({
   declarations: [
     DisbursementSectionComponent,
     DisbursementFormComponent,
+    TrancheDisburseComponent,
   ],
   imports: [
     CommonModule,
@@ -23,6 +25,6 @@ import { MatSelectModule } from '@angular/material';
     AutocompleteLibModule,
     MatSelectModule
   ],
-  exports: [MatSelectModule, DisbursementFormComponent, DisbursementSectionComponent ],
+  exports: [MatSelectModule, DisbursementFormComponent, DisbursementSectionComponent,TrancheDisburseComponent ],
 })
 export class DisbursementSectionModule { }

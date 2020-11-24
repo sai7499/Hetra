@@ -3,6 +3,7 @@ import { HttpService } from '@services/http.service';
 import { ApiService } from '@services/api.service';
 import RequestEntity from '@model/request.entity';
 import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -12,7 +13,8 @@ export class DisbursementService {
 
   constructor(
     private httpService: HttpService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private http: HttpClient
 ) { }
 
 getDisbLOV() { 
@@ -173,4 +175,96 @@ fetchDisbursement(leadId) {
       const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
       return this.httpService.post(url, body);
   }
+  getTDDetails(reqData,val){
+      if(val == '2'){
+        const processId = this.apiService.api.getTDDetailsByTask.processId;
+        const workflowId = this.apiService.api.getTDDetailsByTask.workflowId;
+        const projectId = this.apiService.api.getTDDetailsByTask.projectId;
+    
+      const body: RequestEntity = {
+          processId: processId,
+          ProcessVariables: reqData,
+          workflowId: workflowId,
+          projectId: projectId
+      };
+      const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+      return this.httpService.post(url, body);
+      } else {
+        const processId = this.apiService.api.getTDDetails.processId;
+        const workflowId = this.apiService.api.getTDDetails.workflowId;
+        const projectId = this.apiService.api.getTDDetails.projectId;
+      
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: reqData,
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+      }
+      }
+      submitToMaker(inputData){
+        const processId = this.apiService.api.submitTDToMaker.processId;
+        const workflowId = this.apiService.api.submitTDToMaker.workflowId;
+        const projectId = this.apiService.api.submitTDToMaker.projectId;
+      
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables:inputData,
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+        }
+        tdReverseToMaker(inputTask,remarks,roleID,flag,trnachJSON){
+          const processId = this.apiService.api.reverseTDToMaker.processId;
+          const workflowId = this.apiService.api.reverseTDToMaker.workflowId;
+          const projectId = this.apiService.api.reverseTDToMaker.projectId;
+        
+          const body: RequestEntity = {
+              processId: processId,
+              ProcessVariables: {
+                "remarks":remarks,
+                "taskID":inputTask,
+                "roleID":roleID,
+                "isReversed":flag,
+                "trancheDisbJson":trnachJSON
+            },
+              workflowId: workflowId,
+              projectId: projectId
+          };
+          const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+          return this.httpService.post(url, body);
+          }
+        tdApprove(inputTask,leadId,loanAccountNumber){
+          const processId = this.apiService.api.tdApprove.processId;
+          const workflowId = this.apiService.api.tdApprove.workflowId;
+          const projectId = this.apiService.api.tdApprove.projectId;
+        
+          const body: RequestEntity = {
+              processId: processId,
+              ProcessVariables: {
+                "taskID":inputTask,
+                "leadID":leadId,
+                "loanAccountNumber":loanAccountNumber
+            },
+              workflowId: workflowId,
+              projectId: projectId
+          };
+          const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+          return this.httpService.post(url, body);
+          }
+          startTask(id){
+          const url = `${environment.host}d/tasks/${id}/start`;
+           const requestBody = {};
+          return this.http.put(url, requestBody);
+          }
+          completeTask(id,remarks){
+            const url = `${environment.host}d/tasks/${id}/complete`;
+            const requestBody = "variables=" + JSON.stringify({
+              state: 1,reversalState:0,remarks:remarks})
+            return this.http.put(url, requestBody);
+            }
 }

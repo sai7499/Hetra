@@ -5,6 +5,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Location } from '@angular/common';
 import { SharedService } from '../shared-service/shared-service';
 import { DashboardService } from '@services/dashboard/dashboard.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 @Component({
   selector: 'app-search-bar',
@@ -26,6 +27,7 @@ export class SearchBarComponent implements OnInit {
     private route: Router,
     private loginStoreService: LoginStoreService,
     private dashboardService: DashboardService,
+    private commomLovService: CommomLovService,
     private location: Location) { }
 
   ngOnInit() {
@@ -66,11 +68,16 @@ export class SearchBarComponent implements OnInit {
 
   navigateToModule() {
     this.sharedService.getUserName('');
+    this.sharedService.getSupervisorName('');
+    this.sharedService.getUserRoleId('');
     this.dashboardService.routingData = '';
     commonRoutingUrl.map(element => {
       if (element.routeId === this.routingId) {
         if (this.searchText == 'Supervisor Dashboard'){
           this.dashboardService.routingData = '';
+        }
+        if (element.routeId == '2') {
+          this.commomLovService.setSearchLoan(null);
         }
         this.route.navigateByUrl(element.routeUrl);
       }

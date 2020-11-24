@@ -156,7 +156,11 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">ORC Status</label>
               <app-vf-custom-select formControlName="orcStatus" [className]="'form-control mandatory'" 
-              [values]="modifiedOrcStatusList" (valueChange)="onOrcStatusChange($event)"></app-vf-custom-select>
+              [values]="modifiedOrcStatusList" 
+              [isRequired]="'ORC status is required'"
+              [isDirty]= "isDirty"
+              (valueChange)="onOrcStatusChange($event)"
+              ></app-vf-custom-select>
               <!-- <app-custom-input
                 formControlName="orcStatus"
                 [className]="'form-control mandatory'"
@@ -168,6 +172,19 @@
               <kendo-datepicker class="form-control mandatory" formControlName="orcReceivedDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'month'" [max]="toDayDate" [min]="disbursementDate">
                   </kendo-datepicker>
+                  <div class="ShowError">
+                    <div *ngIf="isDirty && !pddForm.get('processForm').get('orcReceivedDate').value">
+                      Select date
+                    </div>
+                    <div *ngIf="pddForm.get('processForm').get('orcReceivedDate').value && pddForm.get('processForm').get('orcReceivedDate').invalid">
+                     Invalid date
+                    </div>
+
+                  </div>
+                  
+
+                  <!-- min {{disbursementDate}}
+                  max {{toDayDate}} -->
             </div>
           </div>
           <div class="row">
@@ -184,6 +201,8 @@
                     [max]="toDayDate" 
                     (valueChange)="changeEndorseDate($event)">
                   </kendo-datepicker>
+                  <!-- Min {{minEndorsementDate}} -->
+                  <!-- Max {{toDayDate}} -->
                   <div class="ShowError">
                     <div *ngIf="isEndorsDateMsg && isDirty && !pddForm.get('processForm').get('endorsementDate').value">
                       Endorsement date is required

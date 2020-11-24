@@ -1,5 +1,6 @@
-<div class="content">
+<!-- <div class="content"> -->
   <form class="multisteps-form__form" [formGroup]="sourcingDetailsForm" autocomplete="off">
+    <div class="content">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -20,7 +21,7 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.applicationNo }}</label>
           <app-custom-input formControlName="applicationNo" [className]="'form-control mandatory'"
-            [placeholder]="'Application No.'" [isDirty]="isDirty" [type]="'number'" [maxLength]="applicationNo">
+            [placeholder]="'Application No.'" [isDirty]="isDirty" [type]="'number'" [maxLength]="applicationNoLength">
           </app-custom-input>
         </div>
       </div>
@@ -106,21 +107,13 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_code">{{ labels.sourcingCode }}</label>
           <div class="ng-autocomplete" style="width:100%" [ngClass]="{'codeDisable disableCode': isSourchingCode}">
-            <ng-autocomplete 
-              #autocomplete 
-              [data]="sourcingCodeData" 
-              [searchKeyword]="keyword"
-              (selected)='selectSourcingEvent($event)' 
-              (inputChanged)='onSourcingCodeSearch($event)'
-              (inputCleared)='onSourcingCodeClear($event)' 
-              [itemTemplate]="sourcingCodeTemplate"
-              [notFoundTemplate]="notFoundTemplate" 
-              formControlName="sourcingCode"
-              [placeHolder]="sourcingCodePlaceholder" 
-              [debounceTime]="400" 
-              [disabled]="isSourchingCode">
+            <ng-autocomplete #autocomplete [data]="sourcingCodeData" [searchKeyword]="keyword"
+              (selected)='selectSourcingEvent($event)' (inputChanged)='onSourcingCodeSearch($event)'
+              (inputCleared)='onSourcingCodeClear($event)' [itemTemplate]="sourcingCodeTemplate"
+              [notFoundTemplate]="notFoundTemplate" formControlName="sourcingCode"
+              [placeHolder]="sourcingCodePlaceholder" [debounceTime]="400" [disabled]="isSourchingCode">
             </ng-autocomplete>
-            <div class="invalid-feedback" *ngIf="!isSourceCode" >
+            <div class="invalid-feedback" *ngIf="!isSourceCode">
               <div> Sourcing code required.</div>
             </div>
             <ng-template #sourcingCodeTemplate let-item>
@@ -140,20 +133,13 @@
           </label>
           <div class="ng-autocomplete" style="width: 100%;"
             [ngClass]="{ 'codeDisable disableCode': isDisabledDealerCode }">
-            <ng-autocomplete 
-              [data]="dealerCodeData" 
-              [searchKeyword]="keyword"
-              (inputChanged)="onDealerCodeSearch($event)" 
-              (inputCleared)="onDealerCodeClear($event)"
-              (selected)="selectDealorEvent($event)" 
-              [itemTemplate]="dealerCodeTemplate"
-              [notFoundTemplate]="notFoundTemplate" 
-              formControlName="dealerCode" 
-              [placeHolder]="'Dealer Code'"
-              [debounceTime]="400" 
-              [disabled]="isDisabledDealerCode">
+            <ng-autocomplete [data]="dealerCodeData" [searchKeyword]="keyword"
+              (inputChanged)="onDealerCodeSearch($event)" (inputCleared)="onDealerCodeClear($event)"
+              (selected)="selectDealorEvent($event)" [itemTemplate]="dealerCodeTemplate"
+              [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" [placeHolder]="'Dealer Code'"
+              [debounceTime]="400" [disabled]="isDisabledDealerCode">
             </ng-autocomplete>
-            <div class="invalid-feedback" >
+            <div class="invalid-feedback">
               <div *ngIf="isDealerCode"> Dealer code required.</div>
             </div>
             <ng-template #dealerCodeTemplate let-item>
@@ -164,6 +150,10 @@
             </ng-template>
           </div>
         </div>
+      </div>
+
+      <div class="row">
+        <h3 class="subHeadColor">Loan Details</h3>
       </div>
 
       <div class="row">
@@ -192,14 +182,85 @@
           </app-custom-input>
         </div>
       </div>
+      <div class="row">
+        <h3 class="subHeadColor">Parent Loan Details</h3>
+      </div>
+      <div *ngIf="isChildLoan !== '0'">
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.totalLoanAmount}}</label>
+            <app-custom-input formControlName="totalLoanAmount" [className]="'form-control mandatory'"
+              [placeholder]="'Total Loan Amount'"  [type]="'number'"
+              [maxLength]="totalLoanAmountLength" [isDisabled]="true">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.principalPaid}}</label>
+            <app-custom-input formControlName="principalPaid" [className]="'form-control mandatory'"
+              [placeholder]="'Principal Paid'"  [type]="'number'" [maxLength]="principalAmountLength"
+              [isDisabled]="true" >
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.principalOutstanding}}</label>
+            <app-custom-input formControlName="principalOutstanding" [className]="'form-control mandatory'"
+              [placeholder]="'Principal Outstanding'"  [type]="'number'"
+              [maxLength]="principalAmountLength" [isDisabled]="true">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.dpd}}</label>
+            <app-custom-input formControlName="dpd" [className]="'form-control mandatory'" [placeholder]="'DPD'"
+               [type]="'number'" [maxLength]="dpdLength" [isDisabled]="true">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.emi}}</label>
+            <app-custom-input formControlName="emi" [className]="'form-control mandatory'" [placeholder]="'EMI'"
+               [type]="'number'" [maxLength]="emiLength" [isDisabled]="true">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.rateOfInterest}}</label>
+            <app-custom-input formControlName="rateOfInterest" [className]="'form-control mandatory'"
+              [placeholder]="'Rate Of Interest'"  [type]="'number'" [maxLength]="applicationNo"
+              [isDisabled]="true" >
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.tenor}}</label>
+            <app-custom-input formControlName="tenor" [className]="'form-control mandatory'" [placeholder]="'Tenor'"
+               [type]="'number'" [maxLength]="tenureMonthLength" [isDisabled]="true">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.remainingTenor}}</label>
+            <app-custom-input formControlName="remainingTenor" [className]="'form-control mandatory'"
+              [placeholder]="'Remaining Tenor'"  [type]="'number'" [maxLength]="tenureMonthLength"
+              [isDisabled]="true" >
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="account_branch">{{labels?.childLoanSeasoning}}</label>
+            <app-custom-input formControlName="seasoning" [className]="'form-control mandatory'"
+              [placeholder]="'Seasoning'"  [type]="'number'" [maxLength]="seasoningLength"
+              [isDisabled]="true" >
+            </app-custom-input>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </form>
-</div>
+  </div>
+</form>
 <div class="btn-sec clear-both row btn-mar-15" id="clickButton">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
-    <button (click)="saveAndUpdate()" class="btn btn-primary" type="button"
-      *ngIf="!(operationType)">
+    <button (click)="saveAndUpdate()" class="btn btn-primary" type="button" *ngIf="!(operationType)">
       Save
     </button>
     <button (click)="nextToApplicant()" class="btn btn-primary -btn-next" type="button">
