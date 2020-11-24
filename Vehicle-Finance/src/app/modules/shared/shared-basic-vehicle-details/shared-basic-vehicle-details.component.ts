@@ -28,7 +28,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
 
   maxDate = new Date();
-  maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
+  // maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
   initalZeroCheck = [];
   isNegativeValue = [];
   eligibleLoanAmount: any = 0;
@@ -71,6 +71,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public userId: number;
   public leadId: number;
 
+  public toDayDate = new Date();
+
   isMaxDate: boolean;
 
   public vehicleRegPattern: {
@@ -95,6 +97,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     public sharedService: SharedService, private applicantService: ApplicantService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
+    // date
+    var day = this.toDayDate.getDate();
+            var month = this.toDayDate.getMonth();
+            var year = this.toDayDate.getFullYear();
+            this.toDayDate= new Date(year, month, day, 0,0)
   }
 
   ngOnInit() {
