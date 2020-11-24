@@ -318,7 +318,7 @@ margin: 0px !important;
     font-size: 18px;
 }
 
-.message-dropdown-content {
+ .message-dropdown-content {
     transform-origin: left bottom 0px;
     /* bottom: 425px; */
     transform: scale(1);
@@ -333,13 +333,13 @@ margin: 0px !important;
 
 .content-send {
     right: 16px;
-    top: 76px;
+    /* top: 76px; */
     left: auto;
 }
 
 .content-receiver {
     right: 154px;
-    top: 120px;
+    /* top: 120px; */
     left: auto;
 }
 
@@ -1034,3 +1034,15 @@ body::-webkit-scrollbar-thumb {
     color: red;
     padding-top: 0.5vw;
   } 
+
+  .fa-angle-down{
+    margin-top: 5px;
+    background-color: #120f52;
+    padding: 3px;
+    border-radius: 18%;
+    /* padding-top: 10px; */
+    margin-right: 10px;
+    color: #fff!important;
+
+  }
+  

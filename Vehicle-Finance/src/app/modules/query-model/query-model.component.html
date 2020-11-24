@@ -293,13 +293,11 @@
                             <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
                           </div>
 
-                          <span>
-                            <div class="col-md-4">
-                              <span class="text-center" [ngClass]="j % 2 ===  0 ? 'red-Col' : 'green-Col'"> <strong
-                                  style="color: black;">Status : </strong>
-                                {{message.status}} </span>
-                            </div>
-                          </span>
+                          <div class="col-md-4">
+                            <span class="text-center"
+                            [ngClass]="j % 2  === 0 ? 'red-Col' : 'green-Col'"> <strong style="color: black;">Status : </strong>
+                            {{message.status}} </span>
+                          </div>
 
                           <div class="col-md-4">
                             <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
