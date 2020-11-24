@@ -494,7 +494,7 @@
                     />
                   </div> -->
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseIssueDate"
-                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
+                    [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
                      (valueChange)="drivingIssueDateShowError($event)" 
                      
                     [disabled]='disabledDrivingDates' placeholder="Driving License Issue Date">
@@ -532,7 +532,7 @@
                   }}</label>
                  
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseExpiryDate"
-                    [format]="'dd/MM/yyyy'" [min]="minDrivingExpiryDate" [activeView]="'decade'"
+                    [format]="'dd/MM/yyyy'" [min]="toDayDate" [activeView]="'decade'"
                      (valueChange)="drivingLicenceExpiryShowError($event)" 
                     [disabled]='disabledDrivingDates' placeholder="Driving License Expiry Date">
                   </kendo-datepicker>
@@ -589,7 +589,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportIssueDate"
-                    [format]="'dd/MM/yyyy'" [min]="minPassportIssueDate"  [max]="minPassportExpiryDate" [activeView]="'decade'" 
+                    [format]="'dd/MM/yyyy'" [min]="minPassportIssueDate"  [max]="maxDate" [activeView]="'decade'" 
                     (valueChange)="passportIssueDateShowError($event)" 
                    
                     [disabled]="disabledPassportDates"
@@ -622,7 +622,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
-                    [format]="'dd/MM/yyyy'" [min]="minPassportExpiryDate"  [max]="maxPassportExpiryDate" [activeView]="'decade'" 
+                    [format]="'dd/MM/yyyy'" [min]="toDayDate"  [max]="maxPassportExpiryDate" [activeView]="'decade'" 
                     (valueChange)="passportExpiryShowError($event)" 
                     [disabled]="disabledPassportDates"
                     placeholder="Passport Expiry Date"> 

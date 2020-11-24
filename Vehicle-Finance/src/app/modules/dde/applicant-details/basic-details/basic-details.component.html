@@ -1852,7 +1852,7 @@
                   class="form-control"
                   formControlName="externalRatingIssueDate"
                   [format]="'dd/MM/yyyy'"
-                  [max]="toDayDate"
+                  [max]="maxExtrIssue"
                   placeholder="Issue Date"
                   [activeView]="'decade'"
                   (valueChange)="updateExternalIssueDate($event)"
