@@ -649,15 +649,15 @@ export class SourcingDetailsComponent implements OnInit {
       reqLoanAmt: new FormControl('', Validators.required),
       requestedTenor: new FormControl('', Validators.required),
       /* child loan fom controls */
-      totalLoanAmount: new FormControl('', Validators.required),
-      principalPaid: new FormControl('', Validators.required),
-      principalOutstanding: new FormControl('', Validators.required),
-      dpd: new FormControl('', Validators.required),
-      emi: new FormControl('', Validators.required),
-      rateOfInterest: new FormControl('', Validators.required),
-      tenor: new FormControl('', Validators.required),
-      remainingTenor: new FormControl('', Validators.required),
-      seasoning: new FormControl('', Validators.required),
+      totalLoanAmount: new FormControl(''),
+      principalPaid: new FormControl(''),
+      principalOutstanding: new FormControl(''),
+      dpd: new FormControl(''),
+      emi: new FormControl(''),
+      rateOfInterest: new FormControl(''),
+      tenor: new FormControl(''),
+      remainingTenor: new FormControl(''),
+      seasoning: new FormControl(''),
     });
   }
 

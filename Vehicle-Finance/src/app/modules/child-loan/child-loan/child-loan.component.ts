@@ -35,6 +35,7 @@ export class ChildLoanComponent implements OnInit {
   selectedUcicIndex: number;
   selectedLoanAccNoIndex: number;
   accountNo: any;
+  isCreateLoanBtn: boolean;
 
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
@@ -71,7 +72,8 @@ export class ChildLoanComponent implements OnInit {
     private toasterService: ToastrService,
     private ageValidationService: AgeValidationService,
     private childLoanApiService: ChildLoanApiService,
-    private commonDataService: CommonDataService
+    private commonDataService: CommonDataService,
+    private commomLovService: CommomLovService
   ) { }
 
   ngOnInit() {
@@ -180,7 +182,7 @@ export class ChildLoanComponent implements OnInit {
       this.onSearch();
       console.log('childform3', this.childLoanForm.controls);
     } else {
-      this.toasterService.error('Atleast one field must to search Child Loan.', 'Search Loan');
+      this.toasterService.error('Atleast one search parameter is required to search loan account.', 'Search Loan Account');
     }
 
   }
@@ -288,7 +290,7 @@ export class ChildLoanComponent implements OnInit {
     }
     console.log('this.childData', this.childData);
     this.accordian = '';
-    this.childLoanApiService.searchChildLoanApi('700000372607').subscribe(
+    this.childLoanApiService.searchChildLoanApi(this.childData).subscribe(
       (res: any) => {
         const response = res;
         const appiyoError = response.Error;
@@ -342,6 +344,7 @@ export class ChildLoanComponent implements OnInit {
   onLoanAccNoSelect(event, index) {
     const selectedLoanAcc = event.target.checked;
     if (selectedLoanAcc) {
+      this.isCreateLoanBtn = true;
       this.accountNo = this.loanDetailsData[index].accountNumber;
       this.selectedLoanAccNoIndex = index;
     }
@@ -359,6 +362,7 @@ export class ChildLoanComponent implements OnInit {
       mobile?: any,
       dobOrDoi?: any
       loanAccountNumber?: any
+      fromChild?: boolean
     };
 
     if (customerData > 1) {
@@ -369,10 +373,7 @@ export class ChildLoanComponent implements OnInit {
         entity: this.customerDetailsData[this.selectedUcicIndex].entityTypeID,
         mobile: this.customerDetailsData[this.selectedUcicIndex].mobileNumber,
         dobOrDoi: this.customerDetailsData[this.selectedUcicIndex].dobORdoi,
-        // loanAccountNumber: this.loanDetailsData[this.selectedUcicIndex].accountNumber
       };
-      // console.log('onCreateChild', childDataObj);
-      // this.commonDataService.shareChildLoanData(data);
     } else if (customerData === 1) {
       childDataObj = {
         firstName: this.customerDetailsData[0].firstName,
@@ -381,28 +382,30 @@ export class ChildLoanComponent implements OnInit {
         entity: this.customerDetailsData[0].entityTypeID,
         mobile: this.customerDetailsData[0].mobileNumber,
         dobOrDoi: this.customerDetailsData[0].dobORdoi,
-        // loanAccountNumber: this.loanDetailsData[0].accountNumber
       };
-      // console.log('onCreateChild', childDataObj);
-      // this.commonDataService.shareChildLoanData(data);
     }
     if (loanData > 1) {
       const childData = {
         ...childDataObj,
-        loanAccountNumber: this.loanDetailsData[this.selectedLoanAccNoIndex].accountNumber
+        loanAccountNumber: this.loanDetailsData[this.selectedLoanAccNoIndex].accountNumber,
+        fromChild: true,
+        productCode: this.loanDetailsData[this.selectedLoanAccNoIndex].productCode,
       };
       console.log('onCreateChild', childData);
-      this.commonDataService.shareChildLoanData(childData);
+      // this.commonDataService.shareChildLoanData(childData);
+      this.commomLovService.setSearchLoan(childData);
     } else if (loanData === 1) {
       const childData = {
         ...childDataObj,
-        loanAccountNumber: this.loanDetailsData[0].accountNumber
+        loanAccountNumber: this.loanDetailsData[0].accountNumber,
+        fromChild: true,
+        productCode: this.loanDetailsData[0].productCode,
       };
       console.log('onCreateChild', childData);
-      this.commonDataService.shareChildLoanData(childData);
+      // this.commonDataService.shareChildLoanData(childData);
+      this.commomLovService.setSearchLoan(childData);
+
     }
-    // console.log('onCreateChild', childDataObj);
-    // this.commonDataService.shareChildLoanData(childDataObj);
     this.router.navigateByUrl('pages/lead-creation');
   }
 

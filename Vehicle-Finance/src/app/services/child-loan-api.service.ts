@@ -15,8 +15,8 @@ export class ChildLoanApiService {
         private apiService: ApiService
     ) { }
 
-    // searchChildLoanApi(childLoanDatas) {
-    searchChildLoanApi(loanAccountNo) {
+    searchChildLoanApi(childLoanDatas) {
+        // searchChildLoanApi(loanAccountNo) {
         const processId = this.apiService.api.childLoanSearch.processId;
         const workflowId = this.apiService.api.childLoanSearch.workflowId;
         const projectId = this.apiService.api.childLoanSearch.projectId;
@@ -24,13 +24,15 @@ export class ChildLoanApiService {
         const requestEntity: RequestEntity = {
             processId,
             ProcessVariables: {
-                // ...childLoanDatas
-                loanAccountNo
+                childData: {
+                    ...childLoanDatas
+                }
+
+                // loanAccountNo
             },
             workflowId,
             projectId
         };
-
         // tslint:disable-next-line: max-line-length
         let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
         return this.httpService.post(url, requestEntity);
