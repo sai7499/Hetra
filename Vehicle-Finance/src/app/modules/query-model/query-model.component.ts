@@ -143,7 +143,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 300000)
+    }, 900000000)
 
   }
 
@@ -253,7 +253,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           }
         }
       })
-    }, 300000)
+    }, 900000000)
   }
 
   getCommonLeadData(res) {

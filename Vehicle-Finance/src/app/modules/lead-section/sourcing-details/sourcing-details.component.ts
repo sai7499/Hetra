@@ -163,6 +163,7 @@ export class SourcingDetailsComponent implements OnInit {
   operationType: boolean;
   apiValue: any;
   finalValue: any;
+  productCode: any;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -437,6 +438,7 @@ export class SourcingDetailsComponent implements OnInit {
   productChange(event) {
     this.fundingProgramData = [];
     const productChange = event.target ? event.target.value : event;
+    this.productCode = event.target ? event.target.value : event;
     console.log('productChange', productChange);
 
     this.createLeadService
@@ -562,7 +564,7 @@ export class SourcingDetailsComponent implements OnInit {
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
     this.createLeadService
-      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
+      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString,this.productCode)
       .subscribe((res: any) => {
         const response = res;
         const appiyoError = response.Error;

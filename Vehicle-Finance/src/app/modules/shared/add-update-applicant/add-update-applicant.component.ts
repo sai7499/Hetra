@@ -251,7 +251,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   drivingExpiryInvalidMsg : string= "Invalid Date";
 
 
-  minPassportExpiryDate  : Date = new Date(); 
+  maxDate  : Date = new Date(); 
   minDrivingExpiryDate : Date = new Date();
 
 
@@ -281,15 +281,23 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   ) {
 
-    // this.setBirthDate.setFullYear(this.setBirthDate.getFullYear() - 18)
-    // this.ageMinDate.setFullYear(this.ageMinDate.getFullYear() - 100)
-    this.defaultExpiryDate.setDate(this.defaultExpiryDate.getDate() + 1)
+    this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
+   
     this.minPassportIssueDate.setFullYear(this.minPassportIssueDate.getFullYear() - 10)
-    this.minPassportExpiryDate.setDate(this.minPassportExpiryDate.getDate() - 1)
+    this.minPassportIssueDate.setDate(this.minPassportIssueDate.getDate() + 1)
+    this.minPassportIssueDate= this.utilityService.setTimeForDates(this.minPassportIssueDate)
 
-    this.minDrivingExpiryDate.setDate(this.minDrivingExpiryDate.getDate() - 1)
+    this.maxDate.setDate(this.maxDate.getDate() - 1)
+    this.maxDate= this.utilityService.setTimeForDates(this.maxDate)
 
   }
+
+  // setTimeForDates(value){
+  //   var date = value.getDate()
+  //   var month = value.getMonth()
+  //   var year = value.getFullYear()
+  //   return new Date(year, month, date, 0 , 0)
+  // }
 
   async ngOnInit() {
     this.leadId = this.activatedRoute.snapshot.params['leadId'];
@@ -348,6 +356,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.minAge = new Date();
         this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
         this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+        this.minAge= this.utilityService.setTimeForDates(this.minAge)
+        this.maxAge= this.utilityService.setTimeForDates(this.maxAge)
       }
     );
   }
@@ -2174,7 +2184,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.drivingLicenseIssueDate= new Date(event)
     this.showMessage['drivinglicenseExpiry']=false;
     this.mandatory['drivingLicenseIssueDate'] = false;
-    const valueChecked = this.drivingLicenseIssueDate > this.minDrivingExpiryDate;
+    const valueChecked = this.drivingLicenseIssueDate > this.maxDate;
     if(valueChecked){
       this.showMessage['drivinglicenseIssue']=true;
       this.drivingIssueInvalidMsg="Invalid date- Should be Past date"
@@ -2194,10 +2204,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.passportMandatory['passportIssueDate'] = false;
     this.showMessage['passportExpiry'] = false;
     
-      if (this.passportIssueDate <= this.minPassportIssueDate) {
+      if (this.passportIssueDate < this.minPassportIssueDate) {
         this.showMessage['passportIssue'] = true;
         this.passportIssueInvalidMsg="Passport Issuance date prior to 10 years will not be accepted"
-      } else if (this.passportIssueDate >= this.minPassportExpiryDate) {
+      } else if (this.passportIssueDate >= this.toDayDate) {
         this.showMessage['passportIssue'] = true;
         this.passportIssueInvalidMsg="Invalid date- Should be Past date"
       } else {
@@ -2207,7 +2217,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
         this.maxPassportExpiryDate = this.passportIssueDate;
         this.maxPassportExpiryDate.setFullYear(this.maxPassportExpiryDate.getFullYear() + 10)
-        // console.log('date', this.coApplicantForm.get('dedupe').get('passportIssueDate').value)
+        this.maxPassportExpiryDate.setDate(this.maxPassportExpiryDate.getDate() - 1)
+
+         console.log('date', this.maxPassportExpiryDate )
         // 
         
       }   
@@ -2224,7 +2236,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
   clearDrivingLicenceExpiry(){
-    console.log('drivinglicesEXpiry', this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value)
+    //console.log('drivinglicesEXpiry', this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').value)
     this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
     this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValidators(Validators.required)
     this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').updateValueAndValidity();
@@ -2233,25 +2245,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   drivingLicenceExpiryShowError(event) {
     this.drivingLicenseExpiryDate= new Date(event)
     this.mandatory['drivingLicenseExpiryDate'] = false;
-    setTimeout(() => {
-      if (this.drivingLicenseExpiryDate <= this.minPassportExpiryDate) {
+    
+      if (this.drivingLicenseExpiryDate < this.toDayDate) {
         this.showMessage['drivingLicenseExpiry'] = true;
         this.drivingExpiryInvalidMsg="Invalid date- Should be Future Date"
       } else {
         this.showMessage['drivingLicenseExpiry'] = false;
         this.drivingExpiryInvalidMsg=""
       }
-    })
+    
   }
   passportExpiryShowError(event) {
     this.passportExpiryDate= new Date(event)
     this.passportMandatory['passportExpiryDate'] = false;
     //console.log('COAPPLICANT FORM ',this.coApplicantForm)
     
-      if (this.passportExpiryDate <= this.minPassportExpiryDate) {
+      if (this.passportExpiryDate <= this.maxDate) {
         this.showMessage['passportExpiry'] = true;
         this.passportExpiryInvalidMsg="Invalid date- Should be Future date"
-      } else if (this.passportExpiryDate >= this.maxPassportExpiryDate) {
+      } else if (this.passportExpiryDate > this.maxPassportExpiryDate) {
         this.showMessage['passportExpiry'] = true;
         this.passportExpiryInvalidMsg="Passport expiry date should be 10 years from Issuance date"
       } else {
