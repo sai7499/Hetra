@@ -9,6 +9,7 @@ Injectable({
 export class CommomLovService {
   lovData: any;
   documentCategories: Categories[];
+  searchLoanData: any;
 
   setLovData(LOVsData) {
     this.lovData = LOVsData;
@@ -24,5 +25,13 @@ export class CommomLovService {
 
   getDocumentCategories() {
     return this.documentCategories;
+  }
+
+  setSearchLoan(value) {
+    this.searchLoanData = value;
+  }
+
+  getSearchLoan() {
+    return this.searchLoanData;
   }
 }

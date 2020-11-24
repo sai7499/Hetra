@@ -126,8 +126,13 @@ export class SourcingDetailsComponent implements OnInit {
 
   amountLength: number;
   tenureMonthLength: number;
+  totalLoanAmountLength: number;
+  principalAmountLength: number;
+  emiLength: number;
+  dpdLength: number;
+  seasoningLength: number;
   productCategoryLoanAmount: any;
-  applicationNo: any;
+  applicationNoLength: any;
   isDealerCode: boolean;
   sourchingTypeId: string;
 
@@ -158,6 +163,7 @@ export class SourcingDetailsComponent implements OnInit {
   operationType: boolean;
   apiValue: any;
   finalValue: any;
+  productCode: any;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -175,8 +181,8 @@ export class SourcingDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private objectComparisonService: ObjectComparisonService, 
-    private applicantDataStoreService : ApplicantDataStoreService
+    private objectComparisonService: ObjectComparisonService,
+    private applicantDataStoreService: ApplicantDataStoreService
   ) {
     this.sourcingCodeObject = {
       key: '',
@@ -204,7 +210,12 @@ export class SourcingDetailsComponent implements OnInit {
         this.labels = data;
         this.amountLength = this.labels.validationData.amountValue.maxLength;
         this.tenureMonthLength = this.labels.validationData.tenurePaid.maxLength;
-        this.applicationNo = this.labels.validationData.applicationNo.maxLength;
+        this.applicationNoLength = this.labels.validationData.applicationNo.maxLength;
+        this.totalLoanAmountLength = this.labels.validationData.totalLoanAmount.maxLength;
+        this.principalAmountLength = this.labels.validationData.principalAmount.maxLength;
+        this.emiLength = this.labels.validationData.emi.maxLength;
+        this.dpdLength = this.labels.validationData.dpd.maxLength;
+        this.seasoningLength = this.labels.validationData.seasoning.maxLength;
       },
       (error) => console.log('Sourcing details Label Error', error)
     );
@@ -247,8 +258,8 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.leadSectionData = this.createLeadDataService.getLeadSectionData();
     console.log('leadSectionData Lead details', this.leadSectionData);
-    const applicantList= this.leadSectionData.applicantDetails
-    this.applicantDataStoreService.setApplicantList(applicantList)
+    const applicantList = this.leadSectionData.applicantDetails;
+    this.applicantDataStoreService.setApplicantList(applicantList);
     this.leadData = { ...this.leadSectionData };
     const data = this.leadData;
 
@@ -427,6 +438,7 @@ export class SourcingDetailsComponent implements OnInit {
   productChange(event) {
     this.fundingProgramData = [];
     const productChange = event.target ? event.target.value : event;
+    this.productCode = event.target ? event.target.value : event;
     console.log('productChange', productChange);
 
     this.createLeadService
@@ -552,7 +564,7 @@ export class SourcingDetailsComponent implements OnInit {
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
     this.createLeadService
-      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
+      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString,this.productCode)
       .subscribe((res: any) => {
         const response = res;
         const appiyoError = response.Error;
@@ -638,16 +650,30 @@ export class SourcingDetailsComponent implements OnInit {
       loanType: new FormControl('', Validators.required),
       reqLoanAmt: new FormControl('', Validators.required),
       requestedTenor: new FormControl('', Validators.required),
-      totalLoanAmount: new FormControl('', Validators.required),
-      principalPaid: new FormControl('', Validators.required),
-      principalOutstanding: new FormControl('', Validators.required),
-      dpd: new FormControl('', Validators.required),
-      emi: new FormControl('', Validators.required),
-      rateOfInterest: new FormControl('', Validators.required),
-      tenor: new FormControl('', Validators.required),
-      remainingTenor: new FormControl('', Validators.required),
-      seasoning: new FormControl('', Validators.required),
+      /* child loan fom controls */
+      totalLoanAmount: new FormControl(''),
+      principalPaid: new FormControl(''),
+      principalOutstanding: new FormControl(''),
+      dpd: new FormControl(''),
+      emi: new FormControl(''),
+      rateOfInterest: new FormControl(''),
+      tenor: new FormControl(''),
+      remainingTenor: new FormControl(''),
+      seasoning: new FormControl(''),
     });
+  }
+
+  removeChildLoan() {
+    this.sourcingDetailsForm.removeControl('totalLoanAmount');
+    this.sourcingDetailsForm.removeControl('principalPaid');
+    this.sourcingDetailsForm.removeControl('principalOutstanding');
+    this.sourcingDetailsForm.removeControl('dpd');
+    this.sourcingDetailsForm.removeControl('emi');
+    this.sourcingDetailsForm.removeControl('rateOfInterest');
+    this.sourcingDetailsForm.removeControl('tenor');
+    this.sourcingDetailsForm.removeControl('remainingTenor');
+    this.sourcingDetailsForm.removeControl('seasoning');
+    this.sourcingDetailsForm.updateValueAndValidity();
   }
 
   loanTenureMonth() {
@@ -666,19 +692,6 @@ export class SourcingDetailsComponent implements OnInit {
       },
     ];
     return loanTenure;
-  }
-
-  removeChildLoan() {
-    this.sourcingDetailsForm.removeControl('totalLoanAmount');
-    this.sourcingDetailsForm.removeControl('principalPaid');
-    this.sourcingDetailsForm.removeControl('principalOutstanding');
-    this.sourcingDetailsForm.removeControl('dpd');
-    this.sourcingDetailsForm.removeControl('emi');
-    this.sourcingDetailsForm.removeControl('rateOfInterest');
-    this.sourcingDetailsForm.removeControl('tenor');
-    this.sourcingDetailsForm.removeControl('remainingTenor');
-    this.sourcingDetailsForm.removeControl('seasoning');
-    this.sourcingDetailsForm.updateValueAndValidity();
   }
 
   loanTenureAmount(productCategoryChanged?: string) {
@@ -706,7 +719,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   saveAndUpdate() {
-    let dealer : boolean;
+    let dealer: boolean;
     const formValue = this.sourcingDetailsForm.getRawValue();
     console.log('this.sourcingDetailsForm.value', this.sourcingDetailsForm.valid);
     if (this.sourchingTypeId === '2SOURTYP') {
