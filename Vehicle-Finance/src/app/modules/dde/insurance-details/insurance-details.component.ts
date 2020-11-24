@@ -60,6 +60,7 @@ export class InsuranceDetailsComponent implements OnInit {
   nomineeArray = [];
   guardianArray = [];
   processVariables: any;
+  isGuardian = false;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -144,7 +145,7 @@ export class InsuranceDetailsComponent implements OnInit {
 
   initForm() {
     this.insuranceDetailForm = this.fb.group({
-      nameOfApplicant: [''],
+      nameOfCreditShieldPolicy: [''],
       creditShieldRequired: ['', Validators.required],
       guardianAddLine1: [''],
       guardianAddLine2: [''],
@@ -186,14 +187,22 @@ export class InsuranceDetailsComponent implements OnInit {
   }
 
 
- saveUpdateInsurance() {
+ saveUpdateInsurance(event: string) {
    this.addValidations();
-   this.isDirty = true;
+
+   if ( this.f.value.nomineeAge < 18) {
+    this.isGuardian = true;
+    this.isDirty = true;
+  } else {
+    this.isGuardian = false;
+    this.isDirty = true;
+  }
    if ( this.f.invalid) {
      this.toasterService.showError('Please enter mandatory fields', '');
      console.log('form group', this.f);
      return;
    }
+
    console.log('form group', this.f);
    this.insuranceDetailForm.value.guardianCity =  Number(this.insuranceDetailForm.value.guardianCity);
    this.insuranceDetailForm.value.guardianCountry =  Number(this.insuranceDetailForm.value.guardianCountry);
@@ -225,6 +234,18 @@ export class InsuranceDetailsComponent implements OnInit {
    };
    this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
    console.log('insurance', res);
+   if (res && res.ProcessVariables.error.code == '0' ) {
+     if (event == 'save') {
+      this.toasterService.showSuccess('Record saved succesfully', '');
+      this.getInsuranceDetails();
+     } else if (event == 'next') {
+      this.toasterService.showSuccess('Record saved succesfully', '');
+      this.onNext();
+     }
+    
+   } else {
+     this.toasterService.showError(res.ProcessVariables.error.message, '');
+   }
  });
  }
 
@@ -338,7 +359,7 @@ public selectApplicant(event: any) {
   // this.applicantId = event.id;
   this.applicantList.filter((element: any) => {
     const control = this.insuranceDetailForm as FormGroup;
-    if (element.key === event) {
+    if (element.key == event) {
     this.applicantId = element.applicantId;
     control.patchValue({
       typeOfApplicant: element.applicantType
@@ -414,23 +435,24 @@ public addValidations() {
       }
     }
     console.log('controls array', this.nomineeArray, this.guardianArray);
-    this.f.controls.nameOfApplicant.setValidators(Validators.required);
-    this.f.controls.nameOfApplicant.updateValueAndValidity();
+    this.f.controls.nameOfCreditShieldPolicy.setValidators(Validators.required);
+    this.f.controls.nameOfCreditShieldPolicy.updateValueAndValidity();
     this.f.controls.typeOfApplicant.setValidators(Validators.required);
     this.f.controls.typeOfApplicant.updateValueAndValidity();
     this.f.controls.usedCoverageAmount.setValidators(Validators.required);
     this.f.controls.usedCoverageAmount.updateValueAndValidity();
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.nomineeArray.length; i++) {
-      console.log(this.nomineeArray[i], 'value in nominee array');
+    
       const nomineeKey = this.nomineeArray[i];
-      if ( nomineeKey == 'nomineeAddLine2' || nomineeKey == 'nomineeFullName' ||
-      nomineeKey[i] == 'nomineeMiddleName' || nomineeKey == 'nomineeMobileNumber' ) {
-        this.f.controls[nomineeKey[i]].setValidators(Validators.required);
-        this.f.controls[nomineeKey[i]].updateValueAndValidity();
+      if ( nomineeKey == 'nomineeAddLine2' || nomineeKey == 'nomineeAddLine3' || nomineeKey == 'nomineeFullName' ||
+      nomineeKey == 'nomineeMiddleName' || nomineeKey == 'nomineeMobileNumber' ) {
+        this.f.controls[nomineeKey].clearValidators();
+        this.f.controls[nomineeKey].updateValueAndValidity();
+        console.log(nomineeKey, 'value in nominee   array');
       } else {
-        this.f.controls[nomineeKey[i]].setValidators(Validators.required);
-        this.f.controls[nomineeKey[i]].updateValueAndValidity();
+        this.f.controls[nomineeKey].setValidators(Validators.required);
+        this.f.controls[nomineeKey].updateValueAndValidity();
       }
 
     }
@@ -438,7 +460,7 @@ public addValidations() {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.guardianArray.length; i++) {
         const guardianKey = this.guardianArray[i];
-        if ( guardianKey == 'guardianAddLine2' || guardianKey == 'guardianFullName' ||
+        if ( guardianKey == 'guardianAddLine2' || guardianKey == 'guardianAddLine3' || guardianKey == 'guardianFullName' ||
         guardianKey == 'guardianMiddleName' || guardianKey == 'guardianMobileNumber' ) {
           console.log(this.guardianArray[i], 'value in nominee array');
           this.f.controls[guardianKey].clearValidators();
@@ -449,6 +471,13 @@ public addValidations() {
           this.f.controls[guardianKey].updateValueAndValidity();
         }
 
+      }
+    } else {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < this.guardianArray.length; i++) {
+        const guardianKey = this.guardianArray[i];
+        this.f.controls[guardianKey].clearValidators();
+        this.f.controls[guardianKey].updateValueAndValidity();
       }
     }
   } else {
@@ -463,17 +492,25 @@ getInsuranceDetails() {
   this.insuranceService.getInsuranceDetails(body).subscribe((res: any) => {
   console.log(res, 'res in get');
   if (res && res.ProcessVariables.error.code === '0') {
-  this.processVariables = res.ProcessVariables;
+  this.processVariables = res.ProcessVariables.insuranceDetails;
   if (this.processVariables) {
-     this.f.patchValue({
-      nameOfApplicant: this.processVariables.nameOfApplicant,
-      creditShieldRequired: this.processVariables.creditShieldRequired,
+    this.selectApplicant(this.processVariables.nameOfCreditShieldPolicy);
+    if (this.processVariables.guardianPincode != null || this.processVariables.guardianPincode != undefined) {
+      this.getPincodeResult(this.processVariables.guardianPincode, 'guardian');
+    }
+    if (this.processVariables.nomineePincode != null || this.processVariables.nomineePincode != undefined) {
+      this.getPincodeResult(this.processVariables.nomineePincode, 'nominee');
+    }
+    // this.getPincode(this.processVariables.nomineePincode, 'nominee');
+    this.f.patchValue({
+      nameOfCreditShieldPolicy: this.processVariables.nameOfCreditShieldPolicy,
+      creditShieldRequired: this.returnYesOrNo(this.processVariables.creditShieldRequired),
       guardianAddLine1: this.processVariables.guardianAddLine1,
       guardianAddLine2: this.processVariables.guardianAddLine2,
       guardianAddLine3: this.processVariables.guardianAddLine3,
       guardianCity: this.processVariables.guardianCity,
       guardianCountry: this.processVariables.guardianCountry,
-      guardianDOB: this.processVariables.guardianDOB,
+      guardianDOB: this.utilityService.getDateFromString(this.processVariables.guardianDOB),
       guardianDistrict: this.processVariables.guardianDistrict,
       guardianFirstName: this.processVariables.guardianFirstName,
       guardianFullName: this.processVariables.guardianFullName,
@@ -484,14 +521,14 @@ getInsuranceDetails() {
       guardianState: this.processVariables.guardianState,
       guardianMobileNumber: this.processVariables.guardianMobileNumber,
       nomineeMobileNumber: this.processVariables.nomineeMobileNumber,
-      motorInsuranceRequired: this.processVariables.motorInsuranceRequired,
+      motorInsuranceRequired: this.returnYesOrNo(this.processVariables.motorInsuranceRequired),
       nomineeAddLine1: this.processVariables.nomineeAddLine1,
       nomineeAddLine2: this.processVariables.nomineeAddLine2,
       nomineeAddLine3: this.processVariables.nomineeAddLine3,
       nomineeAge: this.processVariables.nomineeAge,
       nomineeCity: this.processVariables.nomineeCity,
       nomineeCountry: this.processVariables.nomineeCountry,
-      nomineeDOB: this.processVariables.nomineeDOB,
+      nomineeDOB: this.utilityService.getDateFromString(this.processVariables.nomineeDOB),
       nomineeDistrict: this.processVariables.nomineeDistrict,
       nomineeFirstName: this.processVariables.nomineeFirstName,
       nomineeFullName: this.processVariables.nomineeFullName,
@@ -508,5 +545,17 @@ getInsuranceDetails() {
   });
 }
 
-
+returnYesOrNo(event: boolean) {
+  if (event === true) {
+    return 'yes';
+  } else if (event === false) {
+    return 'no';
+  }
+}
+onNext() {
+  this.router.navigate([`pages/dde/${this.leadId}/cam`]);
+}
+onBack() {
+  this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
+}
 }

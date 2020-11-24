@@ -2745,6 +2745,12 @@
                 "rule": "^[0-9]{3}[.]{1}[0-9]{0,2}",
                 "msg":"Please enter as following pattern 654.12"
             }
+        },
+        "insuranceAddress": {
+            "maxLength": {
+                "rule": 35
+            },
+            "type": "alpha-numeric"
         }
     }
 }
