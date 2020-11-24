@@ -977,6 +977,11 @@ export class ApiService {
       workflowId: '8a1d1abed32e11eaa96700505695f93b',
       projectId: environment.projectIds.assignCPCMaker
     },
+    childLoanSearch : {
+      processId: '920538fa2a2811eba1e500505695f93b',
+      workflowId: '91ce6f782a2811eb87b300505695f93b',
+      projectId: environment.projectIds.externalApi
+    },
     getTDDetails: {
       processId: '93351a66f71911ea989d00505695f93b',
       workflowId: '2a7931d8f68d11eab3fb00505695f93b',
@@ -1022,7 +1027,5 @@ export class ApiService {
       workflowId: '767be23a08a611eb827600505695f93b',
       projectId: environment.projectIds.trancheProId
     }
-
-
   };
 }
