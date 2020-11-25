@@ -433,7 +433,6 @@ export class CustomInputComponent
     if (this.type.includes('decimal')) {
       const decimalLength = Number(this.type.split('-')[1] || 2);
       value = String(value);
-      console.log(value.length >= this.defaultMaxLength, 'Max Length', this.defaultMaxLength)
       if (value.length >= this.defaultMaxLength) {
         this.maxLengthValidation = { // increase length by 1 to enter dot('.')
           ...this.maxLengthValidation,
