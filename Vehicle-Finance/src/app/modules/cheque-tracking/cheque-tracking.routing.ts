@@ -11,6 +11,7 @@ const routes: Routes = [
    {
        path: ':leadId',
        component: ChequeComponent,
+       resolve: { leadData: LeadDataResolverService },
        children: [ {
         path: '',
         component: ChequeTrackingComponent

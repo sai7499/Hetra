@@ -784,6 +784,7 @@
     "owndamagediscount": "own damage discount",
     "comprehensive-thirdparty": "Comprehensive / third party",
     "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)",
+    "insuranceType": "Insurance Type",
     "capativeTitle": "Captive",
     "income": "INCOME",
     "route": "ROUTE",

@@ -125,7 +125,8 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="getLeads(getLeadSendObj, queryModalForm.value.searchName, '')">
+                    (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
@@ -247,7 +248,7 @@
 
                     <span class="active-dropdown" *ngIf="clickedIndex === j" (click)="openOptionDropDown(j);">
                       <i class="fa fa-angle-down" aria-hidden="true"></i>
-                    <!-- <span class="message-dropdown-content right" id="myDropdown"
+                      <!-- <span class="message-dropdown-content right" id="myDropdown"
                       [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
                       *ngIf="isClickDropDown === j" (click)="openOptions(message, j)"> -->
                       
@@ -286,14 +287,14 @@
 
                       <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                          <p>{{message.query}}</p> 
+                          <p>{{message.query}}</p>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                           <button class="btn btn-primary mar-top-5">Marked</button>
                         </div>
                         <div class="collg-4 col-md-4 col-sm-4 col-xs-12"></div>
                       </div>
-                        
+
 
                       <span *ngIf="">
 
@@ -312,9 +313,9 @@
                           </div>
 
                           <div class="col-md-4">
-                            <span class="text-center"
-                            [ngClass]="j % 2  === 0 ? 'red-Col' : 'green-Col'"> <strong style="color: black;">Status : </strong>
-                            {{message.status}} </span>
+                            <span class="text-center" [ngClass]="j % 2  === 0 ? 'red-Col' : 'green-Col'"> <strong
+                                style="color: black;">Status : </strong>
+                              {{message.status}} </span>
                           </div>
 
                           <div class="col-md-4">
