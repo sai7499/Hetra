@@ -231,4 +231,11 @@ export class UtilityService {
       return '';
     }
   }
+
+  setTimeForDates(value){
+    var date = value.getDate()
+    var month = value.getMonth()
+    var year = value.getFullYear()
+    return new Date(year, month, date, 0 , 0)
+  }
 }
