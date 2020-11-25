@@ -221,19 +221,19 @@
                 </app-vf-custom-select>
             </div>
 
-            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="nature_of_business">{{ labels.natureOfBusiness }}
                 </label>
                 <app-vf-custom-select [values]="applicantLov?.natureOfBusiness" formControlName="natureOfBusiness">
                 </app-vf-custom-select>
-            </div> -->
+            </div>
 
-            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="educational_background_type">{{ labels.educationalBackground }}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="" formControlName="educationalBackground"></app-vf-custom-select>
-            </div> -->
+                <app-vf-custom-select [values]="LOV?.educationalQualification" formControlName="educationalBackground"></app-vf-custom-select>
+            </div>
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="is_minority">{{ labels.isMinority }}
