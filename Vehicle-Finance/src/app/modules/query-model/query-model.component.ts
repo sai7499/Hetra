@@ -35,6 +35,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   isShowLeadModal: boolean;
   clickedIndex: any = null;
   isClickDropDown: any;
+  isClickButton: any;
 
   leadSectionData: any;
   leadId: number = 0;
@@ -773,7 +774,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     return blob;
   }
 
-  openOptions(data) {
+  openOptions(data, i) {
     let queryTo = this.userId === data.queryFrom ? data.queryTo : data.queryFrom;
 
     let fileterData = this.queryModelLov.queryTo.find((res: any) => {
@@ -789,6 +790,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     })
     this.isClickDropDown = null;
     this.clickedIndex = null;
+    this.isClickButton = i;
     document.getElementById("chat-box").style.overflowY = "auto";
 
   }
