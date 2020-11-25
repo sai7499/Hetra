@@ -1048,11 +1048,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 23: case 24:
         this.router.navigateByUrl(`/pages/deviation-dashboard/${this.leadId}/dashboard-deviation-details`);
         break;
-      case 25: case 26:
-        localStorage.setItem('istermSheet', 'false');
       case 53:
         this.router.navigate([`/pages/disbursement-section/${this.leadId}/tranche-disburse`]);
         break;
+      case 25: case 26:
+        localStorage.setItem('istermSheet', 'false');      
         // tslint:disable-next-line: triple-equals
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
