@@ -108,4 +108,38 @@ export class DashboardService {
     return this.httpService.post(url, body);
   }
 
+  getTrancheDisburseDetails(data) {
+    const processId = this.apiService.api.requestTrancheDisburse.processId;
+    const workflowId = this.apiService.api.requestTrancheDisburse.workflowId;
+    const projectId = this.apiService.api.requestTrancheDisburse.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+
+    return this.httpService.post(url, body);
+  }
+
+  getTaskTrancheDisburseDetails(data) {
+    const processId = this.apiService.api.requestTaskTrancheDisburse.processId;
+    const workflowId = this.apiService.api.requestTaskTrancheDisburse.workflowId;
+    const projectId = this.apiService.api.requestTaskTrancheDisburse.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+
+    return this.httpService.post(url, body);
+  }
+
 }
