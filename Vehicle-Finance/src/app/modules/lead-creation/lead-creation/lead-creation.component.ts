@@ -96,6 +96,7 @@ export class LeadCreationComponent implements OnInit {
   firstName: string = '';
   middleName: string = '';
   lastName: string = '';
+  isremoveDealerRC: boolean;
 
   loanLeadDetails: {
     bizDivision: string;
@@ -134,7 +135,10 @@ export class LeadCreationComponent implements OnInit {
     private toasterService: ToastrService,
     private ageValidationService: AgeValidationService,
     private commonDataService: CommonDataService,
-  ) { }
+  ) {
+    this.isremoveDealerRC = true;
+    console.log('this.isremoveDealerRC', this.isremoveDealerRC)
+  }
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -156,6 +160,7 @@ export class LeadCreationComponent implements OnInit {
       this.getChildLoanEntity();
       if (this.childLoanData.fromChild) {
         this.isFromChild = true;
+        this.removeDealerRClimit();
         this.productCodeFromSearch = this.childLoanData.productCode;
       } else {
         this.isFromChild = false;
@@ -163,7 +168,14 @@ export class LeadCreationComponent implements OnInit {
     } else {
       this.createLeadForm.removeControl('loanAccountNumber');
     }
+  }
 
+  removeDealerRClimit() {
+    this.createLeadForm.removeControl('dealerCode');
+    this.createLeadForm.removeControl('rcLimit');
+    this.createLeadForm.removeControl('rcUtilizedLimit');
+    this.createLeadForm.removeControl('rcUnutilizedLimit');
+    this.isremoveDealerRC = false;
   }
 
   getChildLoanEntity() {
