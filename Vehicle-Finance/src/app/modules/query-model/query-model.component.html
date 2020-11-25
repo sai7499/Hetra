@@ -125,7 +125,8 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="getLeads(getLeadSendObj, queryModalForm.value.searchName, '')">
+                    (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                    queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
@@ -253,7 +254,6 @@
                       [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
                       *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">
                       <a (click)="foo.focus()">Reply</a>
-                      <!-- <a href="#">Status</a> -->
                     </div>
 
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
@@ -277,10 +277,6 @@
 
                       <p>{{message.query}}</p>
 
-                      <span *ngIf="">
-
-                      </span>
-
                       <div *ngIf="message.docId"><a class="text-danger"
                           (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
                           {{message.docName}}</a></div>
@@ -294,9 +290,9 @@
                           </div>
 
                           <div class="col-md-4">
-                            <span class="text-center"
-                            [ngClass]="j % 2  === 0 ? 'red-Col' : 'green-Col'"> <strong style="color: black;">Status : </strong>
-                            {{message.status}} </span>
+                            <span class="text-center" [ngClass]="j % 2  === 0 ? 'red-Col' : 'green-Col'"> <strong
+                                style="color: black;">Status : </strong>
+                              {{message.status}} </span>
                           </div>
 
                           <div class="col-md-4">

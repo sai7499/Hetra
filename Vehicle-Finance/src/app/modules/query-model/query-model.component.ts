@@ -217,16 +217,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       "chatSearchKey": chatSearchKey
     }
 
-    if (chatSearchKey && chatSearchKey.length >= 3) {
-      this.getLeadSearch(data)
-    } else if (!chatSearchKey) {
-      this.getLeadSearch(data)
-    }
-  }
-
-  getLeadSearch(data) {
     this.queryModelService.getLeads(data).subscribe((res: any) => {
-
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.getCommonLeadData(res)
         this.getQueries(this.chatList[0], true)
@@ -368,7 +359,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           this.chatMessages.filter((val, i) => {
             val.time = this.myDateParser(val.createdOn)
 
-            if (i%2) {
+            if (i % 2) {
               val.status = 'ReOpen';
             } else {
               val.status = 'Resolved'

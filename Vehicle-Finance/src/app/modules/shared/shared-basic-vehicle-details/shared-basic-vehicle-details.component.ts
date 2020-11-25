@@ -339,6 +339,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
+      this.vehicleLov.insuranceType = this.LOV['In-HouseInsuranceType']
+
+      console.log('Lov', this.LOV['In-HouseInsuranceType'])
 
       this.vehicleLov.YesORNoValue = [
         {
@@ -571,6 +574,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       productCatCode: VehicleDetail.productCatCode || '',
       rcOwnerName: VehicleDetail.rcOwnerName || '',
       reRegVehicle: VehicleDetail.reRegVehicle || '',
+      insuranceType:  VehicleDetail.insuranceType || '',
       regMonthYear: VehicleDetail.regMonthYear ? this.utilityService.getDateFromString(VehicleDetail.regMonthYear) : '',
       region: VehicleDetail.region || '',
       registrationNo: VehicleDetail.registrationNo || '',
@@ -1174,6 +1178,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       cubicCapacity: [''],
       seatingCapacity: [''],
       idv: '',
+      insuranceType: ['', Validators.required],
       insuranceCopy: [''],
       fsrdFundingReq: '',
       fsrdPremiumAmount: null,
