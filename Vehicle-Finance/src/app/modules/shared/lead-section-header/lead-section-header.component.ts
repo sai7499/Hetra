@@ -38,7 +38,8 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
-  isButtonNameChange : boolean
+  isButtonNameChange : boolean;
+  isBeforeEligibility: boolean;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -134,6 +135,9 @@ export class LeadSectionHeaderComponent implements OnInit {
         }
       });
     });
+
+    this.isBeforeEligibility = leadSectionData.leadDetails.stage !== '10';
+
 
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
 

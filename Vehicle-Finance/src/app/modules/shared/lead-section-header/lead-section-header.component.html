@@ -136,6 +136,8 @@
   </div> -->
 
   <div class="col-lg-2 col-md-2 col-sm-2 btn-width">
+    <ng-container *ngIf="isBeforeEligibility">
+  
     <div class="row view-pad-top" *ngIf="!isButtonNameChange">
       <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
         (click)="saveCurrentUrl()">       
@@ -143,6 +145,7 @@
       </button>
 
     </div>
+  </ng-container>
     <div class="row view-pad-top" *ngIf="isButtonNameChange">
       <button class="btn btn-primary view-button"  type="button"
         (click)="onBackDocumentUpload()">       
