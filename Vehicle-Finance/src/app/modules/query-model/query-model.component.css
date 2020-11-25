@@ -139,26 +139,26 @@ form .form-control {
 }
 
 .box {
-	background: #fff;
-    width: 45%;
-    height: 45%;
+	    background: none;
+    width: 70%;
+    /* height: 12%; */
     text-align: center;
     color: #272264;
     font-size: 16px;
-    padding: 31px 0;
+    padding: 12px;
     margin-bottom: 25px;
-	margin-right: 25px;
-	float: left;
-	cursor: pointer;
-	border: 1px solid #272264;
-	border-radius: 4px;
+    margin-right: 25px;
+    float: left;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
 }
 .box i.fa {
 	font-size: 30px;
 	margin-bottom: 5px;	
 }
 .box:hover, .box:focus, .box.active {
-	background: #272264;
+	background: #ffffff00;
     color: #fff;
 }
 #modal-content {
@@ -322,29 +322,41 @@ margin: 0px !important;
     margin-top:5px;
 }
 
+
  .message-dropdown-content {
-    /* transform-origin: left bottom 0px; */
-    /* bottom: 425px; */
+    margin-top: 3px;
     transform: translateX(0%);
-    /* height: auto; */
     opacity: 1;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 120px;
+    min-width: 88px;
     box-shadow: 0px 8px 16px 0px rgba(255, 0, 0, 0);
-    /* z-index: 1; */
+    margin-right: 5px;
+    height: 27px;
 }
 
 .content-send {
     right: 16px;
     /* top: 76px; */
     left: auto;
+    text-align: center;
+    padding: 5px!important;
+    border-radius: 5px;
+    background: #f57d2f!important;
+    line-height: 1em;
+    color:#fff;
 }
 
 .content-receiver {
     right: 154px;
     /* top: 120px; */
     left: auto;
+    text-align: center;
+    padding: 5px!important;
+    border-radius: 5px;
+    background: #f57d2f!important;
+    line-height: 1em;
+    color:#fff;
 }
 
 .red-Col {
@@ -356,12 +368,13 @@ margin: 0px !important;
 }
 
 .message-dropdown-content  a {
-    float: right;
+    float: none;
     color: black;
-    padding: 12px 16px;
+    /* padding: 12px 16px; */
     text-decoration: none;
     display: block;
     text-align: left;
+    transition: all 0.40s ease;
   }
   
   .message-dropdown-content  a:hover {
@@ -1050,3 +1063,31 @@ body::-webkit-scrollbar-thumb {
 
   }
   
+  div.viewport {
+    /* border: 5px solid #CCCCCC ; */
+    box-sizing: border-box ;
+    height: 300px ;
+    /* overflow: auto ; */
+    /* width: 500px ; */
+}
+
+span.box {
+    /* background-color: #FF3366 ;
+    color: #FFFFFF ;
+    padding: 5px ; */
+    position: absolute ;
+}
+span.tl { left: 0px ; top: 0px ; }
+/* span.tr { right: 0px ; top: 0px ; } */
+span.bl { bottom: 0px ; left: 0px ; }
+span.br { bottom: 0px ; right: 0px ; }
+
+div.viewport-a {
+    padding: 5px 15px 5px 15px ;
+    /*
+        Here, the overflow container is, itself, acting as the anchor for the
+        positioned elements contained within. This caused the absolutely
+        positioned elements to anchor to the actual viewport of the container.
+    */
+    position: relative ;
+}

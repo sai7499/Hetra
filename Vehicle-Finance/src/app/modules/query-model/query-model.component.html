@@ -239,31 +239,18 @@
                     {{labels.backToLead}}</button></div>
 
               </div>
-              <div class="chat-box message-box " id="chat-box">
+              <div class="chat-box message-box viewport viewport-a" id="chat-box">
 
                 <div *ngFor="let message of chatMessages; let j=index;let last=last;"
                   (mouseenter)="clickedIndex === j? clickedIndex = null : clickedIndex = j"
                   (mouseleave)="clickedIndex = null">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
 
-                    <!-- <span class="active-dropdown" *ngIf="clickedIndex === j" (click)="openOptionDropDown(j);">
-                      <i class="fa fa-angle-down" aria-hidden="true"></i> -->
-                    <!-- <span class="message-dropdown-content right" id="myDropdown"
+                    <div class="message-dropdown-content right" id="myDropdown"
                       [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
-                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)"> -->
-                    <!-- <a class="message-dropdown-content right" id="myDropdown"
-                        [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
-                        *ngIf="isClickDropDown === j" (click)="openOptions(message, j)" (click)="foo.focus()">Reply</a> -->
-                    <!-- <a href="#">Status</a> -->
-                    <!-- </span> -->
-                    <!-- </span> -->
-
-                    <span class="message-dropdown-content right" id="myDropdown"
-                      [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
-                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">
-                      <a [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
-                        *ngIf="isClickDropDown === j" (click)="openOptions(message, j)" (click)="foo.focus()">Reply</a>
-                    </span>
+                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)" (click)="foo.focus()">Reply
+                      <a (click)="foo.focus()"><span class="box tr"></span></a>
+                    </div>
 
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
                       <div class="logged-user row">
@@ -293,11 +280,6 @@
                         </div>
                         <div class="collg-4 col-md-4 col-sm-4 col-xs-12"></div>
                       </div>
-
-
-                      <span *ngIf="">
-
-                      </span>
 
                       <div *ngIf="message.docId"><a class="text-danger"
                           (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
