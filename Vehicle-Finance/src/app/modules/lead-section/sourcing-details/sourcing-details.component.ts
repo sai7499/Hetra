@@ -159,6 +159,15 @@ export class SourcingDetailsComponent implements OnInit {
     reqTenure: number;
     userId: number;
     leadId: number;
+    totalLoanAmount?: string,
+    principalPaid?: string,
+    principalOutstanding?: string,
+    dpd ?: string,
+    emi?: string,
+    rateOfInterest?: string,
+    tenor?: string,
+    remainingTenor?: string,
+    seasoning?: string
   };
   operationType: boolean;
   apiValue: any;
@@ -732,7 +741,7 @@ export class SourcingDetailsComponent implements OnInit {
       const saveAndUpdate: any = { ...formValue };
       console.log(formValue, 'FormValue');
       this.saveUpdate = {
-        userId: Number(this.userId),
+        userId: this.userId,
         leadId: Number(this.leadId),
         bizDivision: saveAndUpdate.bizDivision,
         productCatCode: saveAndUpdate.productCategory,
@@ -753,32 +762,41 @@ export class SourcingDetailsComponent implements OnInit {
         typeOfLoan: saveAndUpdate.loanType,
         reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
+        totalLoanAmount: saveAndUpdate.totalLoanAmount,
+        principalPaid: saveAndUpdate.principalPaid,
+        principalOutstanding: saveAndUpdate.principalOutstanding,
+        dpd: saveAndUpdate.dpd,
+        emi: saveAndUpdate.emi,
+        rateOfInterest: saveAndUpdate.rateOfInterest,
+        tenor: saveAndUpdate.tenor,
+        remainingTenor: saveAndUpdate.remainingTenor,
+        seasoning: saveAndUpdate.seasoning
       };
       console.log('this.saveUpdate', this.saveUpdate);
-      this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
-        const response = res;
-        console.log('saveUpdate Response', response);
-        const appiyoError = response.Error;
-        const apiError = response.ProcessVariables.error.code;
+      // this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
+      //   const response = res;
+      //   console.log('saveUpdate Response', response);
+      //   const appiyoError = response.Error;
+      //   const apiError = response.ProcessVariables.error.code;
 
-        if (appiyoError === '0' && apiError === '0') {
-          this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
-          this.sharedService.changeLoanAmount(Number(saveAndUpdate.reqLoanAmt));
-          this.sharedService.leadDataToHeader(this.productCategoryChanged);
-          const dataa = {
-            ...this.saveUpdate,
-            sourcingCodeDesc: this.sourcingCodeValue,
-            dealorCodeDesc: this.dealorCodeValue
-          };
-          const data = {
-            leadDetails: dataa
-          };
-          this.createLeadDataService.setLeadDetailsData(data);
-          this.isSaved = true;
-        } else {
-          this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
-        }
-      });
+      //   if (appiyoError === '0' && apiError === '0') {
+      //     this.toasterService.showSuccess('Record Saved Successfully !', 'Lead Details');
+      //     this.sharedService.changeLoanAmount(Number(saveAndUpdate.reqLoanAmt));
+      //     this.sharedService.leadDataToHeader(this.productCategoryChanged);
+      //     const dataa = {
+      //       ...this.saveUpdate,
+      //       sourcingCodeDesc: this.sourcingCodeValue,
+      //       dealorCodeDesc: this.dealorCodeValue
+      //     };
+      //     const data = {
+      //       leadDetails: dataa
+      //     };
+      //     this.createLeadDataService.setLeadDetailsData(data);
+      //     this.isSaved = true;
+      //   } else {
+      //     this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
+      //   }
+      // });
       this.leadDetail
         .saveAndUpdateLead(this.saveUpdate)
         .subscribe((res: any) => {

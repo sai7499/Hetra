@@ -54,6 +54,7 @@ export class InsuranceDetailsComponent implements OnInit {
   motorShieldRequired = true;
   // isDirty;
   // permanantPincode;
+  inputPincode;
   leadData: {};
   applicantList = [];
   lovData: any;
@@ -557,5 +558,8 @@ onNext() {
 }
 onBack() {
   this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
+}
+cityChange(event){
+
 }
 }

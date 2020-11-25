@@ -45,7 +45,7 @@ export class ChildLoanComponent implements OnInit {
 
   ucicId: any;
   test: any;
-
+  toDaydate: Date = new Date()
   childData: {
     ucic?: any,
     loanAccountNumber?: any,
