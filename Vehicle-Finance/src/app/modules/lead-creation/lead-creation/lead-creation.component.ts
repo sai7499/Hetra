@@ -12,6 +12,7 @@ import { CreateLeadDataService } from '../service/createLead-data.service';
 import { UtilityService } from '@services/utility.service';
 import { ToastrService } from 'ngx-toastr';
 import { AgeValidationService } from '@services/age-validation.service';
+import { CommonDataService } from '@services/common-data.service';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -76,9 +77,14 @@ export class LeadCreationComponent implements OnInit {
   isDealerCode: boolean;
   sourchingTypeId: string;
   productCode: string;
+  isLoanAccountNo: boolean;
+  isFromChild: boolean;
+  productCodeFromSearch: string;
+
 
   obj = {};
   test = [];
+  childLoanData: any;
 
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
@@ -104,6 +110,7 @@ export class LeadCreationComponent implements OnInit {
     loanBranch: number;
     leadHandeledBy: number;
     sourcingCodeDescription: string;
+    parentLoanAccNum?: number;
   };
 
   applicantDetails: {
@@ -125,7 +132,8 @@ export class LeadCreationComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
     private toasterService: ToastrService,
-    private ageValidationService: AgeValidationService
+    private ageValidationService: AgeValidationService,
+    private commonDataService: CommonDataService,
   ) { }
 
   ngOnInit() {
@@ -133,10 +141,48 @@ export class LeadCreationComponent implements OnInit {
     this.initForm();
     this.getLabels();
     this.getLOV();
-    this.getUserDetailsData();
+    // this.getUserDetailsData();
     this.getSourcingChannel();
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
+    const dataFromSearchLoan = this.commonLovService.getSearchLoan();
+
+    this.childLoanData = dataFromSearchLoan;
+    if (this.childLoanData && this.childLoanData.fromChild) {
+      this.isLoanAccountNo = true;
+      this.isFromChild = this.childLoanData.fromChild;
+      this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
+      this.createLeadForm.updateValueAndValidity();
+      this.getChildLoanEntity();
+      if (this.childLoanData.fromChild) {
+        this.isFromChild = true;
+        this.productCodeFromSearch = this.childLoanData.productCode;
+      } else {
+        this.isFromChild = false;
+      }
+    } else {
+      this.createLeadForm.removeControl('loanAccountNumber');
+    }
+
+  }
+
+  getChildLoanEntity() {
+    const entity = this.childLoanData.entity;
+    this.selectApplicantType(`${entity}`, true);
+  }
+
+  getChildLoanData() {
+    this.createLeadForm.patchValue({
+      nameOne: this.childLoanData.firstName,
+      nameTwo: this.childLoanData.middleName,
+      nameThree: this.childLoanData.lastName,
+      mobile: this.childLoanData.mobile,
+      dateOfBirth: this.utilityService.getDateFromString(this.childLoanData.dobOrDoi),
+      loanAccountNumber: this.childLoanData.loanAccountNumber
+    });
+    this.firstName = this.childLoanData.firstName ? this.childLoanData.firstName : '';
+    this.middleName = this.childLoanData.middleName ? this.childLoanData.middleName : '';
+    this.lastName = this.childLoanData.lastName ? this.childLoanData.lastName : '';
   }
 
   getLabels() {
@@ -200,13 +246,17 @@ export class LeadCreationComponent implements OnInit {
       nameThree: new FormControl('', Validators.required),
       mobile: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
+      // loanAccountNumber: new FormControl('', Validators.required)
     });
   }
 
   getLOV() {
     this.commonLovService
       .getLovData()
-      .subscribe((lov: any) => (this.LOV = lov));
+      .subscribe((lov: any) => {
+        (this.LOV = lov);
+        this.getUserDetailsData();
+      });
   }
 
   getUserDetailsData() {
@@ -272,17 +322,37 @@ export class LeadCreationComponent implements OnInit {
           'productCatCode',
           'prodcutCatName'
         );
+        if (this.isFromChild) {
+          this.filterProduct(this.productCodeFromSearch);
+          this.createLeadForm.patchValue({
+            productCategory: this.productCodeFromSearch
+          });
+        }
+
       });
+
   }
 
   productCategoryChange(event) {
+    console.log('productCategoryChange', (event.target != undefined) ? event.target.value : event);
+    const productCategorySelected = event.target ? event.target.value : event;
+    this.filterProduct(productCategorySelected)
+  }
+
+  filterProduct(productCategorySelected) {
     this.productCategorySelectedList = [];
-    console.log('productCategoryChange', event.target.value);
-    const productCategorySelected = event.target.value;
-    this.productCategorySelectedList = this.utilityService.getValueFromJSON(
-      this.productCategoryList.filter(
+    let filterList = [];
+    if (!this.isFromChild) {
+      filterList = this.productCategoryList.filter(
         (data) => data.productCatCode === productCategorySelected
-      ),
+      )
+    } else {
+      filterList = this.productCategoryList.filter(
+        (data) => data.productCatCode === productCategorySelected && data.isChildLoan == 1
+      )
+    }
+    this.productCategorySelectedList = this.utilityService.getValueFromJSON(
+      filterList,
       'assetProdcutCode',
       'assetProdutName'
     );
@@ -294,6 +364,20 @@ export class LeadCreationComponent implements OnInit {
     console.log('productChange', event.target.value);
     const productChange = event.target.value;
     this.productCode = event.target.value;
+
+    const isChild = this.productCategoryList.find((value: any) => {
+      return value.assetProdcutCode === productChange;
+    });
+    console.log('isChildd', isChild.isChildLoan);
+    this.isLoanAccountNo = (isChild.isChildLoan == 0) ? false : true;
+    if (isChild.isChildLoan == 0) {
+      this.isLoanAccountNo = false;
+      this.createLeadForm.removeControl('loanAccountNumber');
+    } else {
+      this.isLoanAccountNo = true;
+      this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
+      this.createLeadForm.updateValueAndValidity();
+    }
 
     this.createLeadService
       .fundingPrograming(productChange)
@@ -479,6 +563,9 @@ export class LeadCreationComponent implements OnInit {
       this.createLeadForm.controls['nameOne'].setValue(nameOne || '');
       const nameThree = this.createLeadForm.controls['nameThree'].value;
       this.createLeadForm.controls['nameThree'].setValue(nameThree || '');
+      if (this.childLoanData) {
+        this.getChildLoanData();
+      }
     });
     this.ageCount++;
     this.getAgeValidation();
@@ -573,7 +660,8 @@ export class LeadCreationComponent implements OnInit {
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
-        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : ''
+        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : '',
+        parentLoanAccNum: leadModel.loanAccountNumber
       };
 
       this.applicantDetails = {

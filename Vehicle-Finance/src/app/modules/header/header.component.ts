@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '25';
-      this.maxSize = 2;
+      this.maxSize = 4;
     } else {
       this.itemsPerPage = '100';
       this.maxSize = 7;
