@@ -51,7 +51,6 @@ export class UploadModalComponent {
   async onFileSelect(event) {
     this.showError = '';
     const files: File = event.target.files[0];
-    console.log(files, 'Files')
     if (!files.type) {
       const type = files.name.split('.')[1];
       this.fileType = this.getFileType(type);
@@ -119,7 +118,6 @@ export class UploadModalComponent {
           var binaryData = e.target.result;
           //Converting Binary Data to base 64
           var base64String = window.btoa(binaryData);
-          console.log('base64String', base64String);
           resolve(base64String)
           //showing file converted to base64
           // document.getElementById('base64').value = base64String;
@@ -193,16 +191,19 @@ export class UploadModalComponent {
 
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
-    console.log(this.docsDetails.docNm.includes(' '));
-    console.log(this.docsDetails.docNm.includes(''));
     let name = this.docsDetails.docNm.replace(' ', '_');
     name = name.replace('/', '_OR_');
-    const fileName =
+    let fileName = '';
+    if (this.docsDetails.docCtgryCd === 50) {
+      fileName = name + '.' + this.fileType;
+    } else {
+      fileName =
       name +
       new Date().getFullYear() +
       +new Date() +
       '.' +
       this.fileType;
+    }
     this.docsDetails.docNm = fileName;
     const addDocReq = [
       {
