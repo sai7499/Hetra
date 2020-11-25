@@ -44,12 +44,12 @@
                     <td [attr.data-label]="label?.action" data-title="Action">
 
                         <ng-container *ngIf="isLoan360">
-                            <a (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
+                            <a (click)="roleType === 1 ? editVehicle(item.collateralId, item.eligibleLoanAmount) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
                             title="Edit collateral"><i class="fa fa-eye cursor-pointer" aria-hidden="true"></i></a>
                         </ng-container>
 
                         <ng-container *ngIf="!isLoan360">
-                            <a (click)="roleType === 1 ? editVehicle(item.collateralId) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
+                            <a (click)="roleType === 1 ? editVehicle(item.collateralId, item.eligibleLoanAmount) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
                             title="Edit collateral"><i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
                         <a data-toggle="modal" data-target="#exampleModal" [ngClass]="{'pointer_non': disableSaveBtn }"
                             (click)="softDeleteCollateral(i, item.collateralId, 'Collateral')"

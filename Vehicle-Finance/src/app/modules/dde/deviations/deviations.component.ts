@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { LabelsService } from "src/app/services/labels.service";
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { UtilityService } from '@services/utility.service';
@@ -31,7 +32,8 @@ export class DeviationsComponent implements OnInit, OnDestroy {
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
     private toasterService: ToasterService, private location: Location,
-    private loanViewService: LoanViewService) { }
+    private loanViewService: LoanViewService,
+    private router: Router) { }
 
   ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
@@ -76,6 +78,10 @@ export class DeviationsComponent implements OnInit, OnDestroy {
       this.isSendBacktoCredit = false;
       return 'deviation-dashboard';
     }
+  }
+
+  onNext() {
+    this.router.navigateByUrl(`pages/dde/${this.leadId}/disbursement/${this.leadId}`);
   }
 
   saveorUpdateDeviationDetails() {

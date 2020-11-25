@@ -44,6 +44,8 @@ export class VehicleValuationComponent implements OnInit {
   isDirty: boolean;
   disableSaveBtn: boolean;
 
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -58,6 +60,7 @@ export class VehicleValuationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.getLabels();
     this.initForm();
     this.getLOV();

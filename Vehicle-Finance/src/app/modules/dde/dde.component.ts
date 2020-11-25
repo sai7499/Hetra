@@ -106,6 +106,13 @@ export class DdeComponent implements OnInit, OnChanges {
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
+      if (this.locationIndex >= 18) {
+         this.show = 3;
+      } else if ( this.locationIndex >= 8) {
+        this.show = 2;
+      } else {
+        this.show = 1;
+      }
     });
 
 
@@ -137,9 +144,7 @@ export class DdeComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     console.log('on change');
-    this.location.onUrlChange((url: string) => {
-      this.locationIndex = this.getLocationIndex(url);
-    });
+    
   }
 
 

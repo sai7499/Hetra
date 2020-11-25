@@ -69,6 +69,8 @@ export class ValuationComponent implements OnInit {
   leadDetails: any;
   productCatoryCode: any;
 
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -85,6 +87,7 @@ export class ValuationComponent implements OnInit {
     private LoanViewService: LoanViewService) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.LoanViewService.checkIsLoan360();
     console.log('today date', this.toDayDate);
     this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     console.log('today date', this.toDayDate);

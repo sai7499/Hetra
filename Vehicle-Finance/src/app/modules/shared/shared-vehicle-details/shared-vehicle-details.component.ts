@@ -106,7 +106,10 @@ export class SharedVehicleDetailsComponent implements OnInit {
     }
   }
 
-  editVehicle(collateralId: number) {
+  editVehicle(collateralId: number, loanAmount) {
+    if (this.isLoan360) {
+      return this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', { vehicleId: collateralId, eligibleLoanAmount: loanAmount }]);
+    }
     this.router.navigate(['/pages/' + this.locationIndex + '/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
   }
 
