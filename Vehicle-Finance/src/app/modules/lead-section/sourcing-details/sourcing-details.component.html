@@ -182,10 +182,11 @@
           </app-custom-input>
         </div>
       </div>
-      <div class="row">
-        <h3 class="subHeadColor">Parent Loan Details</h3>
-      </div>
+      
       <div *ngIf="isChildLoan !== '0'">
+        <div class="row">
+          <h3 class="subHeadColor">Parent Loan Details</h3>
+        </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="account_branch">{{labels?.totalLoanAmount}}</label>
