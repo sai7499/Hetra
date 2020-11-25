@@ -161,6 +161,7 @@ export class ValuationComponent implements OnInit {
       }
     });
     console.log('valuation form', this.vehicleValuationForm);
+    console.log('vehicle lov', this.vehicleLov);
   }
 
   getLabels() {
@@ -313,14 +314,15 @@ export class ValuationComponent implements OnInit {
           }
         ];
         this.vehicleLov.assetVariant = [{
-          key: this.vehicleValuationDetails.assetVarient,
-          value: this.vehicleValuationDetails.assetVarient
-        }]
+          key: this.vehicleValuationDetails.assetVariant,
+          value: this.vehicleValuationDetails.assetVariant
+        }];
 
         this.vehicleLov.vehicleType = [{
           key: this.vehicleValuationDetails.vehicleTypeCode,
           value: this.vehicleValuationDetails.vehicleType
         }];
+        
       }
       if (lastvaluationsList !== null) {
         this.populateData(lastvaluationsList, 'last3Valuations');
@@ -501,7 +503,7 @@ export class ValuationComponent implements OnInit {
       seatingCapacity: ['', Validators.required],
       // speedometerReading: ['', Validators.required],
       fuelUsed: ['', Validators.required],
-      valuationInitiatedDate: ['', Validators.required],
+      valuationInitiationDate: ['', Validators.required],
       personInitiated: ['', Validators.required],
       valuatorRefNo: ['', Validators.required],
       borrowersName: ['', Validators.required],
@@ -511,12 +513,12 @@ export class ValuationComponent implements OnInit {
       timeOfInspection: ['', Validators.required],
       engineStarted: ['', Validators.required],
       vehicleMoved: ['', Validators.required],
-      version: ['', Validators.required],
+      assetVariant: [''],
       color: ['', Validators.required],
       odometerReading: ['', Validators.required],
       estimatedReading: ['', Validators.required],
       vehicleUserFor: ['', Validators.required],
-      regdOwnerName: ['', Validators.required],
+      regOwnerName: ['', Validators.required],
       regAddress: ['', Validators.required],
       ownerSerialNo: ['', Validators.required],
       // reRegTypeOfBody: ['', Validators.required],
@@ -538,11 +540,18 @@ export class ValuationComponent implements OnInit {
       validFrom: ['', Validators.required],
       validUpto: ['', Validators.required],
       modelUnderProduction: ['', Validators.required],
-      accidentsInPast: ['', Validators.required],
-      majorRepairTillDate: [''],
+      anyAccidentsInPast: ['', Validators.required],
+      majorRepairTillDate: ['', Validators.required],
       originalInvoice: ['', Validators.required],
       currInvoiceValue: ['', Validators.required],
       rcBookStatus: ['', Validators.required],
+      remarksRating: ['', Validators.required],
+      remarksRatingScale: ['', Validators.required],
+      expectedFutureLife: ['', Validators.required],
+      marketValue: ['', Validators.required],
+      makeName: ['', Validators.required],
+      makersClassification: ['', Validators.required],
+      reRegTypeOfBody: ['', Validators.required],
       valuationsList: this.listArray,
       partsConditionList: this.partsArray,
       accessoriesList: this.accessoriesArray
@@ -569,7 +578,7 @@ export class ValuationComponent implements OnInit {
       // gridAmount: this.vehicleValuationDetails.gridAmount || '',
       assetMake: this.vehicleValuationDetails.vehicleMfrCode || '',
       assetModel: this.vehicleValuationDetails.vehicleModelCode || '',
-      version: this.vehicleValuationDetails.version || '',
+      assetVariant: this.vehicleValuationDetails.assetVariant || '',
       assetBodyType: this.vehicleValuationDetails.vehicleSegCode || '',
       region: this.vehicleValuationDetails.region || '',
       vehicleType: this.vehicleValuationDetails.vehicleTypeCode || '',
@@ -599,8 +608,8 @@ export class ValuationComponent implements OnInit {
       seatingCapacity: this.vehicleValuationDetails.seatingCapacity || '',
       // speedometerReading: this.vehicleValuationDetails.speedometerReading || '',
       fuelUsed: this.vehicleValuationDetails.fuelUsed || '',
-      valuationInitiatedDate: this.vehicleValuationDetails.valuationInitiatedDate ?
-        this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiatedDate) : '',
+      valuationInitiationDate: this.vehicleValuationDetails.valuationInitiationDate ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : '',
       personInitiated: this.vehicleValuationDetails.personInitiated || '',
       valuatorRefNo: this.vehicleValuationDetails.valuatorRefNo || '',
       borrowersName: this.vehicleValuationDetails.borrowersName || '',
@@ -616,7 +625,7 @@ export class ValuationComponent implements OnInit {
       estimatedReading: this.vehicleValuationDetails.estimatedReading || '',
       vehicleUserFor: this.vehicleValuationDetails.vehicleUserFor || '',
       reRegNumber: this.vehicleValuationDetails.reRegNumber || '',
-      regdOwnerName: this.vehicleValuationDetails.regdOwnerName || '',
+      regOwnerName: this.vehicleValuationDetails.regOwnerName || '',
       regAddress: this.vehicleValuationDetails.regAddress || '',
       ownerSerialNo: this.vehicleValuationDetails.ownerSerialNo || '',
       // reRegTypeOfBody: this.vehicleValuationDetails.reRegTypeOfBody || '',
@@ -643,13 +652,18 @@ export class ValuationComponent implements OnInit {
       validUpto: this.vehicleValuationDetails.validUpto ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.validUpto) : '',
       modelUnderProduction: this.vehicleValuationDetails.modelUnderProduction || '',
-      accidentsInPast: this.vehicleValuationDetails.accidentsInPast || '',
+      anyAccidentsInPast: this.vehicleValuationDetails.anyAccidentsInPast || '',
       majorRepairTillDate: this.vehicleValuationDetails.majorRepairTillDate || '',
       originalInvoice: this.vehicleValuationDetails.originalInvoice || '',
       currInvoiceValue: this.vehicleValuationDetails.currInvoiceValue || '',
       rcBookStatus: this.vehicleValuationDetails.rcBookStatus || '',
-
-
+      remarksRating: this.vehicleValuationDetails.remarksRating || '',
+      remarksRatingScale: this.vehicleValuationDetails.remarksRatingScale || '',
+      expectedFutureLife: this.vehicleValuationDetails.expectedFutureLife || '',
+      marketValue: this.vehicleValuationDetails.marketValue || '',
+      makeName: this.vehicleValuationDetails.makeName || '',
+      reRegTypeOfBody: this.vehicleValuationDetails.reRegTypeOfBody || '',
+      makersClassification: this.vehicleValuationDetails.makersClassification || '',
       // existingVechicleOwned: this.vehicleValuationDetails.existingVechicleOwned || '',
       // noOfVehicles: this.vehicleValuationDetails.noOfVehicles || '',
       // existingSelfCostAsset: this.vehicleValuationDetails.existingSelfCostAsset || '',
@@ -779,7 +793,7 @@ export class ValuationComponent implements OnInit {
             obj.patchValue({
               assetBodyType: '',
               assetModel: '',
-              // assetVariant: ''
+              assetVariant: ''
             })
 
           } else {
@@ -788,7 +802,8 @@ export class ValuationComponent implements OnInit {
           }
         } else {
           this.vehicleLov.assetBodyType = [];
-          this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Vehicle Type')
+          this.toasterService.showWarning(res.ErrorMessage ?
+            res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Vehicle Type')
         }
         this.uiLoader.stop();
       }, error => {
@@ -805,11 +820,12 @@ export class ValuationComponent implements OnInit {
     console.log(this.assetModelType, 'data', this.vehicleLov);
     obj.patchValue({
       assetModel: '',
-      // assetVariant: ''
+      assetVariant: ''
     });
   }
 
   onAssetModel(value: any, obj) {
+    console.log('value in asset model', value);
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value);
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant');
     this.vehicleValuationForm.get('vehicleCode').setValue(
@@ -822,7 +838,7 @@ export class ValuationComponent implements OnInit {
       assetVariant: ''
     });
     console.log('in version', this.assetVariant);
-    console.log('vehicle id :', array[0].vehicleCode);
+    // console.log('vehicle id :', array[0].vehicleCode);
 
   }
 
@@ -842,7 +858,7 @@ export class ValuationComponent implements OnInit {
     formValue.validUpto = this.utilityService.convertDateTimeTOUTC(formValue.validUpto, 'DD/MM/YYYY');
     formValue.valuationInitiatedDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationInitiatedDate, 'DD/MM/YYYY');
     formValue.fcExpiryDate = this.utilityService.convertDateTimeTOUTC(formValue.fcExpiryDate, 'DD/MM/YYYY');
-
+    formValue.valuationInitiationDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationInitiationDate, 'DD/MM/YYYY');
     console.log('after converting date to utc', formValue);
 
     const data = {
@@ -856,20 +872,20 @@ export class ValuationComponent implements OnInit {
       // dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
 
     };
-    // if (this.vehicleValuationForm.valid === true) {
-    this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
-      const response = res;
-      console.log('VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API', response);
-      if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
-        this.toasterService.showSuccess('Record Saved Successfully', 'Valuation');
-        this.getVehicleValuation();
-      } else {
-        this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
-      }
-    });
-    //   } else {
-    //     this.toasterService.showError('Please fill all mandatory fields.', 'Valuation');
-    //   }
+    if (this.vehicleValuationForm.valid === true) {
+      this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
+        const response = res;
+        console.log('VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API', response);
+        if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.getVehicleValuation();
+        } else {
+          this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
+        }
+      });
+    } else {
+      this.toasterService.showError('Please fill all mandatory fields.', 'Valuation');
+    }
   }
 
   onFormSubmit() {
