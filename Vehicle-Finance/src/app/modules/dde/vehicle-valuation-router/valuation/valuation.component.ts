@@ -312,8 +312,8 @@ export class ValuationComponent implements OnInit {
 
   getVehicleValuation() {
 
-    // const data = this.colleteralId;
-    const data = 1695;
+    const data = this.colleteralId;
+    // const data = 1695;
     console.log('DATA::::', data);
     this.vehicleValuationService.getVehicleValuation(data).subscribe((res: any) => {
       const response = res;
@@ -376,21 +376,21 @@ export class ValuationComponent implements OnInit {
       }
       if (lastvaluationsList !== null) {
         this.populateData(lastvaluationsList, 'last3Valuations');
-        console.log('in values list');
+        // console.log('in values list');
       } else if (lastvaluationsList === null) {
-        console.log('in null valuations list');
+        // console.log('in null valuations list');
         const control = this.vehicleValuationForm.controls.valuationsList as FormArray;
         for (let j = 0; j < 3; j++) {
           control.push(this.initRows(null, 'last3Valuations'));
-          console.log('controls', control);
+          // console.log('controls', control);
         }
       }
       if (assetsConditionList !== null) {
         this.populateData(assetsConditionList, 'partsCondition');
-        console.log('in values list');
+        // console.log('in values list');
       } else if (assetsConditionList === null) {
         const control = this.vehicleValuationForm.controls.partsConditionList as FormArray;
-        console.log((this.partsLOV.length));
+        // console.log((this.partsLOV.length));
         for (let k = 0; k < this.partsLOV.length; k++) {
           this.partName = this.partsLOV[k]['value']
           control.push(this.initRows(null, 'partsCondition'));
@@ -399,7 +399,7 @@ export class ValuationComponent implements OnInit {
       }
       if (accConditionList !== null) {
         this.populateData(accConditionList, 'accessoriesCondition');
-        console.log('in values list');
+        // console.log('in values list');
       } else if (accConditionList === null) {
         const control = this.vehicleValuationForm.controls.accessoriesList as FormArray;
         for (let i = 0; i < this.accessoriesLov.length; i++) {
@@ -423,7 +423,7 @@ export class ValuationComponent implements OnInit {
       const partConditionList = data;
       for (let i = 0; i < partConditionList.length; i++) {
         this.addProposedUnit(partConditionList[i], type);
-        console.log('in parts condition ');
+        // console.log('in parts condition ');
       }
     } else if (type === 'accessoriesCondition') {
       const accessoriesConditionList = data;
@@ -436,11 +436,11 @@ export class ValuationComponent implements OnInit {
   addProposedUnit(data?: any, type?: any) {
     if (type === 'last3Valuations') {
       const control = this.vehicleValuationForm.controls.valuationList as FormArray;
-      control.push(this.populateRowData(data, type));
+      // control.push(this.populateRowData(data, type));
     } else if (type === 'partsCodition') {
       const control = this.vehicleValuationForm.controls.partsConditionList as FormArray;
       control.push(this.populateRowData(data, type));
-      console.log('in parts condition ');
+      // console.log('in parts condition ');
     } else if (type === 'accessoriesCondition') {
       const control = this.vehicleValuationForm.controls.accessoriesCondition as FormArray;
       control.push(this.populateRowData(data, type));
@@ -567,7 +567,7 @@ export class ValuationComponent implements OnInit {
       color: ['', Validators.required],
       odometerReading: ['', Validators.required],
       estimatedReading: ['', Validators.required],
-      vehicleUserFor: ['', Validators.required],
+      vehicleUsedFor: ['', Validators.required],
       regOwnerName: ['', Validators.required],
       regAddress: ['', Validators.required],
       ownerSerialNo: ['', Validators.required],
@@ -625,6 +625,7 @@ export class ValuationComponent implements OnInit {
 
       this.yearMonthOfManufacturer = this.vehicleValuationDetails.yearOfManufacturer ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '';
+      console.log('in offline val', this.yearMonthOfManufacturer);
     }
 
     this.vehicleValuationForm.patchValue({
@@ -690,7 +691,7 @@ export class ValuationComponent implements OnInit {
       color: this.vehicleValuationDetails.color || '',
       odometerReading: this.vehicleValuationDetails.odometerReading || '',
       estimatedReading: this.vehicleValuationDetails.estimatedReading || '',
-      vehicleUserFor: this.vehicleValuationDetails.vehicleUserFor || '',
+      vehicleUsedFor: this.vehicleValuationDetails.vehicleUsedFor || '',
       reRegNumber: this.vehicleValuationDetails.reRegNumber || '',
       regOwnerName: this.vehicleValuationDetails.regOwnerName || '',
       regAddress: this.vehicleValuationDetails.regAddress || '',
@@ -735,11 +736,14 @@ export class ValuationComponent implements OnInit {
       // noOfVehicles: regMonthYearthis.vehicleValuationDetails.noOfVehicles || '',
       // existingSelfCostAsset: this.vehicleValuationDetails.existingSelfCostAsset || '',
       // total: this.vehicleValuationDetails.total || '',
-      yearMonthOfManufacter: this.yearMonthOfManufacturer || '',
+      yearOfManufacturer: this.yearMonthOfManufacturer ? this.yearMonthOfManufacturer : '',
       make: this.vehicleValuationDetails.make || '',
       model: this.vehicleValuationDetails.model || '',
       regMonthYear: this.vehicleValuationDetails.regMonthYear || '',
-      yearMonthOfManufact: this.yearMonthOfManufact || '',
+      yearMonthOfManufact: this.yearMonthOfManufact ? this.yearMonthOfManufact : '',
+      noOfOriginalTyres: this.vehicleValuationDetails.noOfOriginalTyres || '',
+      noOfRetreadedTyres: this.vehicleValuationDetails.noOfRetreadedTyres || '',
+
       // year: this.vehicleValuationDetails.year || '',
       // registeredOwner: this.vehicleValuationDetails.registeredOwner || '',
       // registeredOwnerName: this.vehicleValuationDetails.registeredOwnerName || '',
