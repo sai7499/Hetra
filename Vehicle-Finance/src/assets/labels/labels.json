@@ -1694,7 +1694,7 @@
     "placeOfInspection":"Place of Inspection",
     "timeOfInsepction":"Time of Inspection",
     "engineStarted":"Engine started",
-    "vehicleMoved":"Vehilce Moved",
+    "vehicleMoved":"Vehicle Moved",
     "vehcileIdentityDetails":"Vehicle Identity Details",
     "vehicleSegment":"Vehicle Segment",
     "version":"Version (Eg:petrol)",
@@ -2823,10 +2823,23 @@
             "type":"special-alpha-numeric"
         },
         "valuationRefNo":{
-            "maxLenght":{
+            "maxLength":{
                 "rule":40
             },
             "type":"number"
+        },
+        "valuationEngChasisNumber":{
+            "maxLength":{
+                "rule":18
+            },
+            "minLength":{
+                "rule":7
+            },
+            "type":"alpha-numeric",
+            "patternCheck":{
+                "rule":"/^([A-Za-z]{2}[A-z0-9]{5,16})$/",
+                "msg":"Invalid Engine/Chasis Number Format, Valid Format:MA6MFBC1BBT096358"
+            }
         }
 
     }

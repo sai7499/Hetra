@@ -367,6 +367,79 @@
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuation_amount"
+                  >{{ labels?.vehicleInspectedBy }}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="inspectedBy"
+                  [placeholder]="'Vehicle Inspected By'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [isRequired]="'Vehicle Inspected By is Required'"
+                  [type]="labels?.validationData?.name.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="valuation_date"
+                  >{{ labels.inspectionDate }}
+                  <sub class="star_red_col">*</sub>
+                </label>
+
+                <kendo-datepicker
+                  class="form-control"
+                  [activeView]="'decade'"
+                  [format]="'dd/MM/yyyy'"
+                  placeholder="Valuation Date"
+                  formControlName="inspectionDate"
+                  [max]="toDayDate"
+                  [min]="initiationDate"
+                >
+                </kendo-datepicker>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="!vehicleValuationForm.controls['inspectionDate'].vaild"
+                >
+                  <div
+                    *ngIf="
+                      vehicleValuationForm.controls['inspectionDate'].hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    Inspection date is required
+                  </div>
+                  <div
+                    *ngIf="
+                      vehicleValuationForm.controls['inspectionDate'].value &&
+                      vehicleValuationForm.controls['inspectionDate'].errors
+                    "
+                  >
+                    <div
+                      *ngIf="
+                        vehicleValuationForm.controls['inspectionDate'].errors
+                          .minError
+                      "
+                    >
+                      Inspection date should be greater than valuation
+                      initiation date
+                    </div>
+                    <div
+                      *ngIf="
+                        vehicleValuationForm.controls['inspectionDate'].errors
+                          .maxError
+                      "
+                    >
+                      Inspection date should not be future date
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="valuation_amount"
                   >{{ labels?.placeOfInspection }}
                   <sub class="star_red_col">*</sub>
                 </label>
@@ -382,39 +455,6 @@
                 </app-custom-input>
               </div>
 
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valuation_amount"
-                  >{{ labels?.vehicleInspectedBy }}
-                  <sub class="star_red_col">*</sub>
-                </label>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="inspectedBy"
-                  [placeholder]="'Vehicle Inspected By'"
-                  [maxLength]="labels?.validationData?.name.maxLength"
-                  [isRequired]="'Vehicle Inspected By is Required'"
-                  [type]="labels?.validationData?.name.type"
-                  [isDirty]="isDirty"
-                >
-                </app-custom-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valuation_date"
-                  >{{ labels.inspectionDate }}
-                  <sub class="star_red_col">*</sub>
-                </label>
-
-                <kendo-datepicker
-                  class="form-control"
-                  [activeView]="'decade'"
-                  [format]="'dd/MM/yyyy'"
-                  placeholder="Valuation Date"
-                  formControlName="inspectionDate"
-                >
-                </kendo-datepicker>
-              </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="cpv_time"
                   >{{ labels?.timeOfInsepction }}
@@ -437,6 +477,7 @@
                   [isDirty]="isDirty"
                   [isRequired]="'Please Select One Option'"
                   formControlName="engineStarted"
+                  (change)="engineStarted($event.target.value)"
                 >
                 </app-vf-custom-select>
               </div>
@@ -450,7 +491,8 @@
                 <app-vf-custom-select
                   [values]="valuesToYesNo"
                   [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'"
+                  [isDisabled]="vehicleMovedDisabled"
+                  [isRequired]="vehicleMovedRequired ? 'Vehicle moved is required' : ''"
                   formControlName="vehicleMoved"
                 >
                 </app-vf-custom-select>
@@ -949,15 +991,15 @@
                 >
                 </app-vf-custom-select> -->
                 <app-custom-input
-                formControlName="reRegTypeOfBody"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Type Of Body'"
-                [maxLength]="labels?.validationData?.name.maxLength"
-                [type]="labels?.validationData?.name.type"
-                [isRequired]="'Type of body is required'"
-                [isDirty]="isDirty"
-              >
-              </app-custom-input>
+                  formControlName="reRegTypeOfBody"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Type Of Body'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [type]="labels?.validationData?.name.type"
+                  [isRequired]="'Type of body is required'"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
               </div>
             </div>
             <!-- <div class="row">
@@ -1001,15 +1043,15 @@
                 >
                 </app-vf-custom-select> -->
                 <app-custom-input
-                formControlName="makersClassification"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Makers Classification'"
-                [maxLength]="labels?.validationData?.name.maxLength"
-                [type]="labels?.validationData?.name.type"
-                [isRequired]="'Makers classification is required'"
-                [isDirty]="isDirty"
-              >
-              </app-custom-input>
+                  formControlName="makersClassification"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Makers Classification'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [type]="labels?.validationData?.name.type"
+                  [isRequired]="'Makers classification is required'"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="year_month_manufacturing">
@@ -1082,7 +1124,7 @@
                   [placeholder]="'Chassis Number'"
                   [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
                   [isRequired]="'Chassis No is Required'"
-                  [type]="labels?.validationData?.chasisEngineNo.type"
+                  [type]="labels?.validationData?.valuationEngChasisNumber.type"
                   [isDirty]="isDirty"
                 >
                 </app-custom-input>
@@ -1602,6 +1644,7 @@
                         ></app-custom-input>
                       </td>
                     </tr>
+                    vehicleFinanciers
                   </tbody>
                 </table>
               </div>
@@ -1731,7 +1774,7 @@
             </div>
             &nbsp;
 
-            <div class="row" hidden="true">
+            <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.noOfOriginalTyres }}
@@ -1739,9 +1782,9 @@
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
+                  formControlName="noOfOriginalTyres"
                   [placeholder]="'No Of Original Tyres'"
                   [maxLength]="labels?.validationData?.numberOfYears.maxLength"
-                  [isRequired]="'No of original tyres is Required'"
                   [type]="labels?.validationData?.numberOfYears.type"
                   [isDirty]="isDirty"
                 >
@@ -1754,9 +1797,9 @@
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
+                  formControlName="noOfRetreadedTyres"
                   [placeholder]="'No Of Retreaded Tyres'"
                   [maxLength]="labels?.validationData?.numberOfYears.maxLength"
-                  [isRequired]="'No of retreaded tyres is Required'"
                   [type]="labels?.validationData?.numberOfYears.type"
                   [isDirty]="isDirty"
                 >

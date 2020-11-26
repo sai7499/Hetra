@@ -11,6 +11,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
 import value from '*.json';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-valuation',
@@ -115,6 +116,17 @@ export class ValuationComponent implements OnInit {
   ];
   fuelUsedType: any;
   fuelTypeLOV: any;
+  userId: any;
+  roles: any;
+  roleId: any;
+  roleName: any;
+  roleType: any;
+  userDetails: any;
+  userName: any;
+  initiationDate: any;
+  engineStartedType: any;
+  vehicleMovedDisabled: boolean;
+  vehicleMovedRequired: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -129,6 +141,7 @@ export class ValuationComponent implements OnInit {
     private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
+    private loginStoreService: LoginStoreService,
     private fb: FormBuilder) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
@@ -136,6 +149,17 @@ export class ValuationComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
+    //  details from loginstore service
+    this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.userDetails = roleAndUserDetails.userDetails;
+    this.roleId = this.roles[0].roleId;
+    this.roleName = this.roles[0].name;
+    this.roleType = this.roles[0].roleType;
+    this.userName = this.userDetails.firstName;
+
     console.log('today date', this.toDayDate);
     this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     console.log('today date', this.toDayDate);
@@ -191,6 +215,17 @@ export class ValuationComponent implements OnInit {
       this.fuelTypeLOV = this.LOV.fuelType;
     });
     console.log(' LOV**** --->', this.LOV);
+  }
+  getDateFormat(date) { // fun for converting the response date to the valid form date 
+
+    // console.log('in getDateFormat', date);
+    const datePart = date.match(/\d+/g);
+    const month = datePart[1];
+    const day = datePart[0];
+    const year = datePart[2];
+    const dateFormat: Date = new Date(year + '/' + month + '/' + day);
+    console.log('formated data', dateFormat);
+    return dateFormat;
   }
 
   getCollateralId() {
@@ -290,6 +325,7 @@ export class ValuationComponent implements OnInit {
       this.vehicleAddress = this.vehicleValuationDetails.vehicleAddress;
       this.vehiclePincode = this.vehicleValuationDetails.pincode;
       this.assetCostGrid = this.vehicleValuationDetails.gridAmt;
+      this.initiationDate = new Date(this.getDateFormat(this.vehicleValuationDetails.valuationInitiationDate));
       // const lastvaluationsList = this.vehicleValuationDetails.valuationList;
       const lastvaluationsList = null;
       const assetsConditionList = null;
@@ -322,7 +358,7 @@ export class ValuationComponent implements OnInit {
           key: this.vehicleValuationDetails.vehicleTypeCode,
           value: this.vehicleValuationDetails.vehicleType
         }];
-        
+
       }
       if (lastvaluationsList !== null) {
         this.populateData(lastvaluationsList, 'last3Valuations');
@@ -503,8 +539,8 @@ export class ValuationComponent implements OnInit {
       seatingCapacity: ['', Validators.required],
       // speedometerReading: ['', Validators.required],
       fuelUsed: ['', Validators.required],
-      valuationInitiationDate: ['', Validators.required],
-      personInitiated: ['', Validators.required],
+      valuationInitiationDate: [{ value: '', disabled: true }],
+      personInitiated: [{ value: this.userName, disabled: true }],
       valuatorRefNo: ['', Validators.required],
       borrowersName: ['', Validators.required],
       inspectionPlace: ['', Validators.required],
@@ -512,7 +548,7 @@ export class ValuationComponent implements OnInit {
       inspectionDate: ['', Validators.required],
       timeOfInspection: ['', Validators.required],
       engineStarted: ['', Validators.required],
-      vehicleMoved: ['', Validators.required],
+      vehicleMoved: [''],
       assetVariant: [''],
       color: ['', Validators.required],
       odometerReading: ['', Validators.required],
@@ -545,6 +581,8 @@ export class ValuationComponent implements OnInit {
       originalInvoice: ['', Validators.required],
       currInvoiceValue: ['', Validators.required],
       rcBookStatus: ['', Validators.required],
+      noOfOriginalTyres: [''],
+      noOfRetreadedTyres: [''],
       remarksRating: ['', Validators.required],
       remarksRatingScale: ['', Validators.required],
       expectedFutureLife: ['', Validators.required],
@@ -559,6 +597,7 @@ export class ValuationComponent implements OnInit {
   }
 
   setFormValue() {
+
     this.vehicleValuationForm.patchValue({
       // valuatorType: this.vehicleValuationDetails.valuatorType || '',
       // valuatorCode: this.vehicleValuationDetails.valuatorCode || '',
@@ -610,7 +649,8 @@ export class ValuationComponent implements OnInit {
       fuelUsed: this.vehicleValuationDetails.fuelUsed || '',
       valuationInitiationDate: this.vehicleValuationDetails.valuationInitiationDate ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : '',
-      personInitiated: this.vehicleValuationDetails.personInitiated || '',
+      // personInitiated: this.vehicleValuationDetails.personInitiated || '',
+      personInitiated: this.userName || '',
       valuatorRefNo: this.vehicleValuationDetails.valuatorRefNo || '',
       borrowersName: this.vehicleValuationDetails.borrowersName || '',
       inspectionPlace: this.vehicleValuationDetails.inspectionPlace || '',
@@ -839,6 +879,35 @@ export class ValuationComponent implements OnInit {
     });
     console.log('in version', this.assetVariant);
     // console.log('vehicle id :', array[0].vehicleCode);
+
+  }
+
+  engineStarted(event: any) {
+    console.log(event);
+    this.engineStartedType = event ? event : event;
+    if (this.engineStartedType === '0') {
+      this.vehicleMovedDisabled = true;
+      this.vehicleMovedRequired = false;
+      console.log('in no condition disabled');
+      this.vehicleValuationForm.get('vehicleMoved').disable();
+      this.vehicleValuationForm.get('vehicleMoved').clearValidators();
+      this.vehicleValuationForm.get('vehicleMoved').updateValueAndValidity();
+      setTimeout(() => {
+        this.vehicleValuationForm.get('vehicleMoved').patchValue(0);
+
+      });
+
+    } else if (this.engineStartedType === '1') {
+      this.vehicleMovedDisabled = false;
+      this.vehicleMovedRequired = true;
+      setTimeout(() => {
+        this.vehicleValuationForm.get('vehicleMoved').patchValue(null);
+
+      });
+      this.vehicleValuationForm.get('vehicleMoved').enable();
+      this.vehicleValuationForm.get('vehicleMoved').setValidators(Validators.required);
+      this.vehicleValuationForm.get('vehicleMoved').updateValueAndValidity();
+    }
 
   }
 
