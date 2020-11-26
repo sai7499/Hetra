@@ -249,6 +249,7 @@ export class ReferenceComponent implements OnInit {
       this.mobileOneErrorMsg = 'Mobile No. should not same as Reference 1 Mobile No.';
     } else {
       this.isMobileOneErrorMsg = false;
+      this.isMobileTwoErrorMsg= false;
     }
   }
 
@@ -260,6 +261,7 @@ export class ReferenceComponent implements OnInit {
       this.mobileTwoErrorMsg = 'Mobile No. should not same as Reference 2 Mobile No.';
     } else {
       this.isMobileTwoErrorMsg = false;
+      this.isMobileOneErrorMsg= false;
     }
   }
 
