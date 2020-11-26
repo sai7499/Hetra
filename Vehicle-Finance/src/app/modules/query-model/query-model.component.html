@@ -24,8 +24,8 @@
                 <div class="panel-group mar-20 scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group mar-20" id="accordion"
                     *ngFor="let chat of chatList; let i=index; let last=last">
-                    <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                      <div class="divs" (click)="getQueries(chat)">
+                    <div class="flex-container" >
+                      <div class="divs" (click)="getQueries(chat)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
                         <p class="mar-em">{{chat.value}}</p>
                       </div>
 
@@ -135,8 +135,8 @@
               <div class="panel-group mar-20 scroll-box " id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                    <div class="divs" (click)="getQueries(chat, true)">
+                  <div class="flex-container" >
+                    <div class="divs" (click)="getQueries(chat, true)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
