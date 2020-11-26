@@ -1091,3 +1091,10 @@ div.viewport-a {
     */
     position: relative ;
 }
+
+.btn-cus{
+    padding:3px;
+    margin-top:10px;
+    background-color:#1d1a4b;
+    color:#fff;
+}
