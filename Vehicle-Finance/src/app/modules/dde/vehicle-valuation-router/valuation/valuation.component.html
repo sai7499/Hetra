@@ -172,7 +172,7 @@
                     labels?.validationData?.vehiclePrefixNo.maxLength
                   "
                   [type]="labels?.validationData?.vehiclePrefixNo.type"
-                >
+                >preReRegNumber
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -272,7 +272,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="Initiated_Date"
                   >{{ labels.valuationInitiatedDate }}
-                  <sub class="star_red_col">*</sub>
+                  <!-- <sub class="star_red_col">*</sub> -->
                 </label>
                 <kendo-datepicker
                   class="form-control"
@@ -288,7 +288,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="speedometer_reading"
                   >{{ labels?.personInitiated }}
-                  <sub class="star_red_col">*</sub>
+                  <!-- <sub class="star_red_col">*</sub> -->
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -300,7 +300,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="speedometer_reading"
                   >{{ labels?.refNo }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -352,7 +352,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuation_amount"
                   >{{ labels?.borrowersName }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -368,7 +368,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuation_amount"
                   >{{ labels?.vehicleInspectedBy }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -384,7 +384,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuation_date"
                   >{{ labels.inspectionDate }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
 
                 <kendo-datepicker
@@ -441,7 +441,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuation_amount"
                   >{{ labels?.placeOfInspection }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm"  class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -458,7 +458,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="cpv_time"
                   >{{ labels?.timeOfInsepction }}
-                  <sub class="star_red_col">*</sub></label
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
                 >
                 <input
                   type="time"
@@ -467,7 +467,7 @@
                   formControlName="timeOfInspection"
                 />
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="engine_started"
                   >{{ labels.engineStarted }}
                   <sub class="star_red_col">*</sub>
@@ -481,9 +481,23 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="engine_started"
+                  >{{ labels.engineStarted }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                 <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="engineStarted"
+                  [placeholder]="'Engine Started'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+              </div>
             </div>
             <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm"class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vehicle_moved"
                   >{{ labels.vehicleMoved }}
                   <sub class="star_red_col">*</sub>
@@ -497,6 +511,20 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="vehicle_moved"
+                >{{ labels.vehicleMoved }}
+                <!-- <sub class="star_red_col">*</sub> -->
+              </label>
+                 <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="vehicleMoved"
+                  [placeholder]="'Vehicle Moved'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+              </div>
             </div>
             <!-- inspection details ends here -->
 
@@ -508,7 +536,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechicle_number">
                   {{ labels.registrationNumber }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="registrationNo"
@@ -524,7 +552,7 @@
                 >
                 </app-custom-input>
               </div>
-              <div
+              <div *ngIf="!disableForm"
                 class="form-group col-sm-6 col-md-4 col-lg-3"
                 id="asset_make"
               >
@@ -546,7 +574,7 @@
                 </app-vf-custom-select>
               </div>
 
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="asset_manufacturer"
                   >{{ labels.make }}
                   <sub class="star_red_col">*</sub>
@@ -563,9 +591,38 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="vehicle_moved"
+                >{{ labels.make }}
+                <!-- <sub class="star_red_col">*</sub> -->
+              </label>
+                 <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="make"
+                  [placeholder]="'Make'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+              </div>
+              <div  *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="asset_model"
+                  >{{ labels.model }}
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="model"
+                  [placeholder]="'Model'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+
+               
+              </div>
             </div>
             <div class="row">
-              <div
+              <div *ngIf="!disableForm" 
                 class="form-group col-sm-6 col-md-4 col-lg-3"
                 id="vechical_type"
               >
@@ -585,7 +642,7 @@
                 >
                 </app-vf-custom-select>
               </div>
-              <div
+              <div *ngIf="!disableForm"
                 class="form-group col-sm-6 col-md-4 col-lg-3"
                 id="asset_type"
               >
@@ -597,7 +654,7 @@
                   [values]="vehicleLov?.assetBodyType"
                   [id]="'asset_body_type'"
                   formControlName="assetBodyType"
-                  [isRequired]="'Vehcile Segment is Required'"
+                  [isRequired]="'Vehicle Segment is Required'"
                   (change)="
                     onAssetBodyType($event.target.value, vehicleValuationForm)
                   "
@@ -606,7 +663,7 @@
                 </app-vf-custom-select>
               </div>
 
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="asset_model"
                   >{{ labels.model }}
                   <sub class="star_red_col">*</sub>
@@ -628,7 +685,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="version"
                   >{{ labels.version }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <!-- <app-vf-custom-select
                   [values]="vehicleLov?.assetVariant"
@@ -650,7 +707,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="colour"
                   >{{ labels?.colour }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -666,7 +723,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="chassis_number"
                   >{{ labels.chassisNumber }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="chasisNumber"
@@ -685,7 +742,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="engine_number">
                   {{ labels.engineNumber }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="engineNumber"
@@ -703,7 +760,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="speedometer_reading"
                   >{{ labels.odometerReading }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="odometerReading"
@@ -721,7 +778,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="speedometer_reading"
                   >{{ labels.estimatedReading }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="estimatedReading"
@@ -741,7 +798,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="gvw"
                   >{{ labels.gvw }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm"class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="gvw"
@@ -754,7 +811,7 @@
                 >
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="version"
                   >{{ labels.vehicleUsedFor }}
                   <sub class="star_red_col">*</sub>
@@ -766,6 +823,20 @@
                   [isRequired]="'Please Select One Option'"
                 >
                 </app-vf-custom-select>
+              </div>
+              <div  *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="version"
+                  >{{ labels.vehicleUsedFor }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                [className]="'form-control mandatory'"
+                formControlName="vehicleUsedFor"
+                [placeholder]="'Vehicle Used For'"
+                [isDirty]="isDirty"
+                [isDisabled]="true"
+              >
+              </app-custom-input>
               </div>
               <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="version"
@@ -780,7 +851,7 @@
                 >
                 </app-vf-custom-select>
               </div> -->
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="version"
                   >{{ labels.fuelUsed }}
                   <sub class="star_red_col">*</sub>
@@ -793,6 +864,21 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="version"
+                  >{{ labels.fuelUsed }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="fuelUsed"
+                  [placeholder]="'Fuel Used'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+                
+              </div>
             </div>
             <!-- vehicl identity details ends  here -->
 
@@ -803,7 +889,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechicle_number">
                   {{ labels.registrationNumber }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm"class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="registrationNo"
@@ -820,7 +906,7 @@
                 >
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="re_registered_vechicle"
                   >{{ labels.reRegisteredVechicle }}
                   <sub class="star_red_col">*</sub>
@@ -833,10 +919,25 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="re_registered_vechicle"
+                  >{{ labels.reRegisteredVechicle }}
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                </label>
+                <app-custom-input
+                [className]="'form-control mandatory'"
+                formControlName="preReRegNumber"
+                [placeholder]="'Re Registered Vehicle'"
+                [isDirty]="isDirty"
+                [isDisabled]="true"
+              >
+              </app-custom-input>
+               
+              </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechicle_number">
                   {{ labels.reregisteredRegNo }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -855,9 +956,9 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="vechicle_number">
+                <label  for="vechicle_number">
                   {{ labels.regdOwnerName }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="regOwnerName"
@@ -873,7 +974,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechicle_number">
                   {{ labels.address }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="regAddress"
@@ -888,7 +989,7 @@
                 >
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="version"
                   >{{ labels.ownerSerialNo }}
                   <sub class="star_red_col">*</sub>
@@ -901,9 +1002,23 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="version"
+                  >{{ labels.ownerSerialNo }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                [className]="'form-control mandatory'"
+                formControlName="ownerSerialNo"
+                [placeholder]="'Owner Serial No'"
+                [isDirty]="isDirty"
+                [isDisabled]="true"
+              >
+              </app-custom-input>
+              </div>
             </div>
             <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechicle_reg_date"
                   >{{ labels.dateOfRegistration }}
                   <sub class="star_red_col">*</sub>
@@ -937,6 +1052,20 @@
                   </div>
                 </div>
               </div>
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="vechicle_reg_date"
+                >{{ labels.regMonthAndYear }}
+                <!-- <sub class="star_red_col">*</sub> -->
+              </label>
+                 <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="regMonthYear"
+                  [placeholder]="'Reg Month Year'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+              </div>
               <!-- <div
                 class="form-group col-sm-6 col-md-4 col-lg-3"
                 id="asset_make"
@@ -957,7 +1086,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="asset_manufacturer"
                   >{{ labels.makeName }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm"class="star_red_col">*</sub>
                 </label>
                 <!-- <app-vf-custom-select
                   [values]="vehicleLov?.assetMake"
@@ -981,7 +1110,7 @@
                 id="vechical_type"
               >
                 <label for="vechical_type">
-                  {{ labels.typeOfBody }} <sub class="star_red_col">*</sub>
+                  {{ labels.typeOfBody }} <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
 
                 <!-- <app-vf-custom-select
@@ -1035,7 +1164,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="version"
                   >{{ labels.makersClassfication }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <!-- <app-vf-custom-select
                   [values]="vehicleLov?.assetVariant"
@@ -1053,7 +1182,7 @@
                 >
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div  *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="year_month_manufacturing">
                   {{ labels?.monthOfYearOfManf }}
                   <sub class="star_red_col">*</sub>
@@ -1092,11 +1221,26 @@
                     Invalid Date
                   </div>
                 </div>
+              </div>  
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="vehicle_moved"
+                >{{ labels.monthOfYearOfManf }}
+                <!-- <sub class="star_red_col">*</sub> -->
+              </label>
+                 <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="yearMonthOfManufact"
+                  [placeholder]="'Year And Month Of Manufacture'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
               </div>
+
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="age_of_asset"
                   >{{ labels.ageOfAsset }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="ageOfAsset"
@@ -1113,9 +1257,9 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="chassis_number"
+                <label  for="chassis_number"
                   >{{ labels.chassisNumber }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="regChasisNo"
@@ -1132,7 +1276,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="engine_number">
                   {{ labels.engineNumber }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="regEngineNo"
@@ -1146,7 +1290,7 @@
                 >
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="version"
                   >{{ labels.fuelUsed }}
                   <sub class="star_red_col">*</sub>
@@ -1159,13 +1303,27 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div  *ngIf="disableForm"  class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="version"
+                  >{{ labels.fuelUsed }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="regFuelUsed"
+                  [placeholder]="'Fuel Used'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+              </div>
             </div>
 
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="seating_capacity"
                   >{{ labels.seatingCapacity }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm"class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="seatingCapacity"
@@ -1183,7 +1341,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="cubic_capacity"
                   >{{ labels.cubicCapacity }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="cubicCapacity"
@@ -1199,7 +1357,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="unladen_weight"
                   >{{ labels.unladenWeight }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm"class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1217,7 +1375,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="hypothecation_if_any"
                   >{{ labels.hypothecation }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1230,7 +1388,7 @@
                 >
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="inner_state_vechicle"
                   >{{ labels.interStateVehicle }}
                   <sub class="star_red_col">*</sub>
@@ -1243,6 +1401,20 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div *ngIf="disableForm"class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="inner_state_vechicle"
+                  >{{ labels.interStateVehicle }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                [className]="'form-control mandatory'"
+                formControlName="interStateVehicle"
+                [placeholder]="'Inter State Vehicle'"
+                [isDirty]="isDirty"
+                [isDisabled]="true"
+              >
+              </app-custom-input>
+              </div>
             </div>
             &nbsp;
             <!-- registration details ends here -->
@@ -1250,7 +1422,7 @@
             <!-- permit and tax details starts here -->
             <h4 class="title">{{ labels.permitAndTaxDetails }}</h4>
             <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div  *ngIf="!disableForm"class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="permit_status"
                   >{{ labels.permitStatus }}
                   <sub class="star_red_col">*</sub>
@@ -1263,10 +1435,25 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div  *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="permit_status"
+                  >{{ labels.permitStatus }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="permitStatus"
+                  [placeholder]="'Permit Status'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+               
+              </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="permit_date"
                   >{{ labels.permitDate }}
-                  <sub class="star_red_col">*</sub></label
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
                 >
                 <kendo-datepicker
                   width="100%"
@@ -1281,7 +1468,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="fitnes_validity"
                   >{{ labels.fitnessValidity }}
-                  <sub class="star_red_col">*</sub></label
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub></label
                 >
                 <kendo-datepicker
                   width="100%"
@@ -1299,7 +1486,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="route_of_operation"
                   >{{ labels.routeOfOperationValuation }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1315,7 +1502,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="tax_paid"
                   >{{ labels?.taxPaid }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="taxPaid"
@@ -1331,7 +1518,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="tax_validity"
                   >{{ labels.taxValidUpto }}
-                  <sub class="star_red_col">*</sub></label
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
                 >
                 <kendo-datepicker
                   width="100%"
@@ -1353,7 +1540,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="company"
                   >{{ labels?.company }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1369,7 +1556,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="policy_number"
                   >{{ labels?.policyNumber }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm"  class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1385,7 +1572,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="type_of_policy"
                   >{{ labels?.typeOfPolicy }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1403,7 +1590,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valid_from"
                   >{{ labels.validFrom }}
-                  <sub class="star_red_col">*</sub></label
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
                 >
                 <kendo-datepicker
                   width="100%"
@@ -1418,7 +1605,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valid_upto"
                   >{{ labels.validUpto }}
-                  <sub class="star_red_col">*</sub></label
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
                 >
                 <kendo-datepicker
                   width="100%"
@@ -1433,7 +1620,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="idv"
                   >{{ labels.idv }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="idv"
@@ -1451,7 +1638,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="idv_valididty_date"
                   >{{ labels.idvValidityDate }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
 
                 <kendo-datepicker
@@ -1490,7 +1677,7 @@
 
             <h4 class="title">{{ labels?.otherRemarks }}</h4>
             <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="model_in_production"
                   >{{ labels.isModelInProduction }}
                   <sub class="star_red_col">*</sub>
@@ -1503,7 +1690,22 @@
                 >
                 </app-vf-custom-select>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="disableForm"class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="model_in_production"
+                  >{{ labels.isModelInProduction }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="modelUnderProduction"
+                  [placeholder]="' Model Under Production'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+               
+              </div>
+              <div *ngIf="!disableForm"  class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="any_accidents_past"
                   >{{ labels.anyAccidentsInPast }}
                   <sub class="star_red_col">*</sub>
@@ -1516,10 +1718,25 @@
                 >
                 </app-vf-custom-select>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="any_accidents_past"
+                  >{{ labels.anyAccidentsInPast }}
+                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                [className]="'form-control mandatory'"
+                formControlName="anyAccidentsInPast"
+                [placeholder]="'Accidents in Past'"
+                [isDirty]="isDirty"
+                [isDisabled]="true"
+              >
+              </app-custom-input>
+              
+              </div>
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="any_major_accidents"
                   >{{ labels?.anyMajorRepairs }}
-                  <sub class="star_red_col">*</sub>
+                  <sub  class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1531,12 +1748,27 @@
                 >
                 </app-custom-input>
               </div>
+              <div *ngIf="disableForm"class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="any_major_accidents"
+                  >{{ labels?.anyMajorRepairs }}
+                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="majorRepairTillDate"
+                  [placeholder]="'Major Repairs'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+               
+              </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="original_invouice"
                   >{{ labels?.originalInvoice }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm"class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1553,7 +1785,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.currentInvoiceValue }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1566,11 +1798,7 @@
                 >
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <!-- <label for="rc_book_status"
-                  >{{ labels?.rcBookStatus }}
-                  <sub class="star_red_col">*</sub>
-                </label> -->
+              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="rc_book"
                   >{{ labels?.rcBookStatus }}
                   <sub class="star_red_col">*</sub>
@@ -1582,6 +1810,20 @@
                   [isRequired]="'Please Select One Option'"
                 >
                 </app-vf-custom-select>
+              </div>
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="rc_book"
+                  >{{ labels?.rcBookStatus }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="rcBookStatus"
+                  [placeholder]="'RC Book Status'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
               </div>
             </div>
             <!-- other remarks ends here -->
@@ -1778,7 +2020,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.noOfOriginalTyres }}
-                  <sub class="star_blue_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1793,7 +2035,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.noOfRetreadedTyres }}
-                  <sub class="star_blue_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1868,7 +2110,7 @@
             <h4 class="title">{{ labels?.remark }}</h4>
 
             <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="!disableForm"class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="rating"
                   >{{ labels.rating }}
                   <sub class="star_red_col">*</sub>
@@ -1881,7 +2123,22 @@
                 >
                 </app-vf-custom-select>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="rating"
+                  >{{ labels.rating }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="remarksRating"
+                  [placeholder]="'Remarks Rating'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+           
+              </div>
+              <div *ngIf="!disableForm"class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="rating"
                   >{{ labels.ratingScale }}
                   <sub class="star_red_col">*</sub>
@@ -1894,10 +2151,24 @@
                 >
                 </app-vf-custom-select>
               </div>
+              <div *ngIf="disableForm"class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="rating"
+                  >{{ labels.ratingScale }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                [className]="'form-control mandatory'"
+                formControlName="remarksRatingScale"
+                [placeholder]="'Remarks Rating Scale'"
+                [isDirty]="isDirty"
+                [isDisabled]="true"
+              >
+              </app-custom-input>
+              </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.expectedFutureLife }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="expectedFutureLife"
@@ -1915,7 +2186,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.marketValueAsOnDateOfInspection }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm"class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -1931,7 +2202,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuation_amount"
                   >{{ labels?.valuationAmount }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
                   formControlName="valuationAmt"
@@ -1947,7 +2218,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuation_date"
                   >{{ labels.valuationDate }}
-                  <sub class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm"class="star_red_col">*</sub>
                 </label>
 
                 <kendo-datepicker

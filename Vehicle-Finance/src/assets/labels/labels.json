@@ -1708,6 +1708,7 @@
     "regdOwnerName":"Registered Owner Name",
     "ownerSerialNo":"Owner Serial Number",
     "dateOfRegistration":"Date of Registration",
+    "regMonthAndYear":"Month & Year of Registration",
     "classOfVehicle":"Class of vehicle",
     "makeName":"Make Name",
     "monthOfYearOfManf":"Month & Year of Manufacture",

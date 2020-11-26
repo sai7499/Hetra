@@ -127,6 +127,10 @@ export class ValuationComponent implements OnInit {
   engineStartedType: any;
   vehicleMovedDisabled: boolean;
   vehicleMovedRequired: boolean;
+  isOnline: any;
+  disableForm: boolean;
+  yearMonthOfManufact: any;
+  yearMonthOfManufacturer: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -308,7 +312,8 @@ export class ValuationComponent implements OnInit {
 
   getVehicleValuation() {
 
-    const data = this.colleteralId;
+    // const data = this.colleteralId;
+    const data = 1695;
     console.log('DATA::::', data);
     this.vehicleValuationService.getVehicleValuation(data).subscribe((res: any) => {
       const response = res;
@@ -326,6 +331,15 @@ export class ValuationComponent implements OnInit {
       this.vehiclePincode = this.vehicleValuationDetails.pincode;
       this.assetCostGrid = this.vehicleValuationDetails.gridAmt;
       this.initiationDate = new Date(this.getDateFormat(this.vehicleValuationDetails.valuationInitiationDate));
+      this.isOnline = response.ProcessVariables.isOnline;
+      // this.isOnline = true;
+      // this.isOnline = false;
+      console.log('is online valutation', this.isOnline);
+      if (this.isOnline) {
+        this.vehicleValuationForm.disable();
+        this.disableSaveBtn = true;
+        this.disableForm = true;
+      }
       // const lastvaluationsList = this.vehicleValuationDetails.valuationList;
       const lastvaluationsList = null;
       const assetsConditionList = null;
@@ -592,11 +606,26 @@ export class ValuationComponent implements OnInit {
       reRegTypeOfBody: ['', Validators.required],
       valuationsList: this.listArray,
       partsConditionList: this.partsArray,
-      accessoriesList: this.accessoriesArray
+      accessoriesList: this.accessoriesArray,
+      // controls when hitting the external api
+      make: [''],
+      model: [''],
+      regMonthYear: [''],
+      yearMonthOfManufact: ['']
     });
   }
 
   setFormValue() {
+
+    if (this.disableForm) {
+
+      this.yearMonthOfManufact = this.vehicleValuationDetails.yearOfManufacturer || '';
+
+    } else {
+
+      this.yearMonthOfManufacturer = this.vehicleValuationDetails.yearOfManufacturer ?
+        this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '';
+    }
 
     this.vehicleValuationForm.patchValue({
       // valuatorType: this.vehicleValuationDetails.valuatorType || '',
@@ -627,8 +656,6 @@ export class ValuationComponent implements OnInit {
       registrationNo: this.vehicleValuationDetails.registrationNo || '',
       chasisNumber: this.vehicleValuationDetails.chasisNumber || '',
       engineNumber: this.vehicleValuationDetails.engineNumber || '',
-      yearOfManufacturer: this.vehicleValuationDetails.yearOfManufacturer ?
-        this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '',
       // monthOfManufacturer: this.vehicleValuationDetails.monthOfManufacturer || '',
       ageOfAsset: this.vehicleValuationDetails.ageOfAsset || '',
       sellerShortDesc: this.vehicleValuationDetails.sellerShortDesc || '',
@@ -642,7 +669,7 @@ export class ValuationComponent implements OnInit {
       gvw: this.vehicleValuationDetails.gvw || '',
       preReRegNumber: this.vehicleValuationDetails.preReRegNumber || '',
       interStateVehicle: this.vehicleValuationDetails.interStateVehicle || '',
-      // duplicateRc: this.vehicleValuationDetails.duplicateRc || '',
+      // duplicateRc: tregMonthYearhis.vehicleValuationDetails.duplicateRc || '',
       cubicCapacity: this.vehicleValuationDetails.cubicCapacity || '',
       seatingCapacity: this.vehicleValuationDetails.seatingCapacity || '',
       // speedometerReading: this.vehicleValuationDetails.speedometerReading || '',
@@ -705,11 +732,14 @@ export class ValuationComponent implements OnInit {
       reRegTypeOfBody: this.vehicleValuationDetails.reRegTypeOfBody || '',
       makersClassification: this.vehicleValuationDetails.makersClassification || '',
       // existingVechicleOwned: this.vehicleValuationDetails.existingVechicleOwned || '',
-      // noOfVehicles: this.vehicleValuationDetails.noOfVehicles || '',
+      // noOfVehicles: regMonthYearthis.vehicleValuationDetails.noOfVehicles || '',
       // existingSelfCostAsset: this.vehicleValuationDetails.existingSelfCostAsset || '',
       // total: this.vehicleValuationDetails.total || '',
-      // make: this.vehicleValuationDetails.make || '',
-      // model: this.vehicleValuationDetails.model || '',
+      yearMonthOfManufacter: this.yearMonthOfManufacturer || '',
+      make: this.vehicleValuationDetails.make || '',
+      model: this.vehicleValuationDetails.model || '',
+      regMonthYear: this.vehicleValuationDetails.regMonthYear || '',
+      yearMonthOfManufact: this.yearMonthOfManufact || '',
       // year: this.vehicleValuationDetails.year || '',
       // registeredOwner: this.vehicleValuationDetails.registeredOwner || '',
       // registeredOwnerName: this.vehicleValuationDetails.registeredOwnerName || '',
