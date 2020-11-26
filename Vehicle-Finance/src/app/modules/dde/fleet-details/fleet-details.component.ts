@@ -19,6 +19,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import readXlsxFile from 'read-excel-file';
 
+import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-fleet-details',
   templateUrl: './fleet-details.component.html',
@@ -116,6 +118,7 @@ export class FleetDetailsComponent implements OnInit {
   paidTenureCheck = [];
   fleetArrayList: FormArray;
   operationType: boolean;
+  deleteRecordData: { index: number; fleets: any; };
   constructor(
 
     private labelsData: LabelsService,
@@ -711,10 +714,48 @@ export class FleetDetailsComponent implements OnInit {
     this.regionLov[this.formArr.length - 1] = this.allLovs.assetRegion;
   }
 
+  // deleteRow(index: number, fleets: any) {
+  //   console.log("in delete row fn ", fleets, index)
+    
+  //   if (fleets.length > 1) {
+  //     this.formArr.removeAt(index);
+  //     // console.log("inside del fun", fleets)
+
+  //     // console.log("vehicleId", fleets[index].id)
+
+  //     const data = {
+  //       id: fleets[index].id,
+  //       leadId: this.leadId
+  //     }
+
+  //     this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
+
+  //       // console.log("response from delete api", res.ProcessVariables)
+  //     });
+
+  //     fleets.splice(index, 1)
+  //     this.toasterService.showSuccess("Record deleted successfully!", '')
+
+  //   } else {
+
+  //     this.toasterService.showError("atleast one record required !", '')
+
+  //   }
+  // }
+
   deleteRow(index: number, fleets: any) {
-    console.log("in delete row fn ", fleets, index)
-    this.formArr.removeAt(index);
+    console.log("in delete row fn ", fleets, index);
+    this.deleteRecordData = {
+      index,
+      fleets
+    };
+  }
+  callDeleteRecord() {
+    const index = this.deleteRecordData.index;
+    const fleets = this.deleteRecordData.fleets;
     if (fleets.length > 1) {
+    this.formArr.removeAt(index);
+
       // console.log("inside del fun", fleets)
 
       // console.log("vehicleId", fleets[index].id)
@@ -722,7 +763,7 @@ export class FleetDetailsComponent implements OnInit {
       const data = {
         id: fleets[index].id,
         leadId: this.leadId
-      }
+      };
 
       this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
 
@@ -841,6 +882,10 @@ export class FleetDetailsComponent implements OnInit {
     const files: File = event.target.files[0];
     let fileType = '';
     this.fileUrl = files;
+    const target: DataTransfer = event.target;
+    if (target.files.length !== 1) {
+       return this.toasterService.showError('Cannot use multiple files', '');
+    }
     if (!files.type) {
       const type = files.name.split('.')[1];
       fileType = this.getFileType(type);
@@ -863,7 +908,7 @@ export class FleetDetailsComponent implements OnInit {
     const fileToRead = files;
     const fileReader = new FileReader();
     if (fileType.includes('xls')) {
-       this.getDataFromXlsFile(files);
+       this.getDataFromXlsFile(target);
       //   fileReader.onload =  (e: any) => {
       //     console.log('xls', e.target.result);
       // };
@@ -878,22 +923,87 @@ export class FleetDetailsComponent implements OnInit {
 
   }
 
-  getDataFromXlsFile(file) {
-    readXlsxFile(file).then(rows => {
-      const size = rows.length;
-      const data = rows.map((value, index) => {
-        let val = value.join(',');
-        if (size - 1 !== index) {
-          val = val + '\r\n';
+  getDataFromXlsFile(target) {
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+      /* read workbook */
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', cellDates:true });
+
+      /* grab first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      /* save data */
+      let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      console.log('data', data);
+      if (data && data.length !== 0) {
+          const size = data.length;
+          const header: any = data[0];
+          let i = -1;
+          const dateHeaders = [];
+          for (const element of header) {
+               i++;
+               if (element.includes('date')) {
+                  dateHeaders.push(i);
+               }
+          }
+          data = this.getDateFormattedXlsData(data, dateHeaders);
+          const xlsData = data.map((value: any, index) => {
+            let val = value.join(',');
+            if (size - 1 !== index) {
+              val = val === '' ? '' : val + '\r\n';
+            }
+            return val;
+          });
+          let finalData = '';
+          xlsData.forEach((value) => {
+            finalData += value;
+          });
+          this.csvData = finalData;
+          console.log('this.csvData', this.csvData);
+      }
+    };
+    reader.readAsBinaryString(target.files[0]);
+    // readXlsxFile(file).then(rows => {
+    //   const size = rows.length;
+    //   const data = rows.map((value, index) => {
+    //     let val = value.join(',');
+    //     if (size - 1 !== index) {
+    //       val = val + '\r\n';
+    //     }
+    //     return val;
+    //   });
+    //   let finalData = '';
+    //   data.forEach((value) => {
+    //     finalData += value;
+    //   });
+    //   this.csvData = finalData;
+    // });
+  }
+
+  getDateFormattedXlsData(data, dateIndex: any[]) {
+    let index = -1;
+    for (const element of data) {
+        index++;
+        if (index !== 0) {
+           dateIndex.forEach((value) => {
+              const dataValue = element[value];
+              const parse = Date.parse(dataValue);
+              if ( !isNaN(parse) && parse >= 0) {
+                const d = new Date(dataValue);
+                let month: any = d.getMonth() + 1;
+                const year = d.getFullYear();
+                let day: any = d.getDate();
+                day = day <= 9 ? `0${day}` : day;
+                month = month <= 9 ? `0${month}` : month;
+                element[value] = `${day}/${month}/${year}`;
+                data[index] = element;
+              }
+           });
         }
-        return val;
-      });
-      let finalData = '';
-      data.forEach((value) => {
-        finalData += value;
-      });
-      this.csvData = finalData;
-    });
+    }
+    return data;
   }
 
   onFileLoad(fileLoadedEvent: any) {

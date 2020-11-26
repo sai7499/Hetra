@@ -81,7 +81,7 @@
 
 .pad-allside{
   padding: 8px;
-  width: 76%;
+  width: 82%;
   margin:auto;
 }
 
@@ -101,6 +101,13 @@
     cursor: pointer;
 }
 
+.lead-history{
+    font-size: 20px;
+    padding-left: 10px;
+    padding-top:0px!important;
+    cursor: pointer;
+    color:orange;
+}
 .mob-view{
   display:none;
 }
@@ -197,6 +204,12 @@ label.leadHistoryBtn{
   }
   .view-button-org{
     width:100%;
+  }
+
+  .pad-allside{
+    padding: 8px;
+    width: 88%;
+    margin:auto;
   }
   
   .mob-font{
@@ -353,7 +366,7 @@ p-0{
   /* customizable */
   background: #f68b34b8;
   margin-top: 10px;  
-  margin-left: -110px;
+  margin-left: -60px;
   color: #fff;
   font-size:12px;
 }
@@ -366,8 +379,15 @@ p-0{
 
   .pad-allside{
     padding: 8px;
-    width: 65%;
+    width: 72%;
     margin:auto;
+  }
+
+  .lead-history{
+    padding-top: 0px;
+    font-size: 18px;
+    padding-left: 12px;
+    color: orange;
   }
   
   .btn-width{
@@ -385,7 +405,7 @@ p-0{
 
   .pad-allside{
     padding: 8px;
-    width: 75%;
+    width: 72%;
     margin:auto;
   }
   

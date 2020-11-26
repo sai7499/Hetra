@@ -6,11 +6,12 @@ import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DashboardService } from './dashboard/dashboard.service';
 import { ToggleDdeService } from './toggle-dde.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Injectable()
 export class UtilityService {
   constructor(private httpService: HttpService, private router: Router, private dashboardService: DashboardService,
-    private ngxUiLoaderService: NgxUiLoaderService, private toggleDdeService: ToggleDdeService) { }
+    private ngxUiLoaderService: NgxUiLoaderService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
@@ -43,6 +44,7 @@ export class UtilityService {
     localStorage.removeItem('is_pred_done');
     localStorage.removeItem('isPreDisbursement');
     this.router.navigateByUrl('/login');
+    this.sharedService.getUserName('');
     this.dashboardService.routingData = '';
     console.clear();  
   }
@@ -228,5 +230,12 @@ export class UtilityService {
     } else {
       return '';
     }
+  }
+
+  setTimeForDates(value){
+    var date = value.getDate()
+    var month = value.getMonth()
+    var year = value.getFullYear()
+    return new Date(year, month, date, 0 , 0)
   }
 }

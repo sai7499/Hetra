@@ -261,6 +261,10 @@ display: none;
           height:10px;
       }
 
+      .flex-con{
+          display:none;
+      }
+
       /* .form-control[disabled], fieldset[disabled] .form-control {
         cursor: not-allowed;
     }
@@ -285,7 +289,7 @@ display: none;
 }
 
 input{
-    padding: 6px 10px!important;
+    padding: 5px 0px!important;
 }
 
 @media (min-width:992px) and (max-width: 1199px) {

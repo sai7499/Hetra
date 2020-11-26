@@ -56,7 +56,7 @@
               [routerLink]="['./tvr-details']" [ngClass]="{ 'js-active': locationIndex >= 9 }">
               TVR
             </button>
-            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_rcu_details"
+            <button *ngIf="productCatCode == 'UC'" class="multisteps-form__progress-btn second-row" type="button" id="credit_rcu_details"
             [routerLink]="['./rcu']" [ngClass]="{ 'js-active': locationIndex >= 10 }">
            RCU
           </button>
@@ -90,18 +90,19 @@
               [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 15 }">
               Score Card
             </button>
+            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_insurance"
+              [routerLink]="['./insurance-details']" [ngClass]="{ 'js-active': locationIndex >= 16 }">
+              Insurance
+            </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_cam"
-              [routerLink]="['./cam']" [ngClass]="{ 'js-active': locationIndex >= 16 }">
+              [routerLink]="['./cam']" [ngClass]="{ 'js-active': locationIndex >= 17 }">
               CAM
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
-              [routerLink]="['./deviations']" [ngClass]="{ 'js-active': locationIndex >= 17 }">
+              [routerLink]="['./deviations']" [ngClass]="{ 'js-active': locationIndex >= 18 }">
               Deviations
             </button>
-            <!-- <button class="multisteps-form__progress-btn second-row" type="button" id="credit_insurance"
-              [routerLink]="['./insurance-details']" [ngClass]="{ 'js-active': locationIndex >= 16 }">
-              Insurance
-            </button> -->
+            
           </div>
         </div>
         <div class="col-md-1 col-xs-1" [style]="{ cursor: pointer }" [ngClass]="{ isDisabled: !show }">

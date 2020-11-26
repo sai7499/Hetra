@@ -16,7 +16,7 @@
 .nav>li>a {
     position: relative;
     display: block;
-    padding: 10px 15px;
+    padding: 10px 0px !important;
 }
 
 .nav-pills>li>a {
@@ -415,9 +415,23 @@ th {
     }
 }
 
+.btn-re{
+    margin:3px;
 
-/* @media (min-width:260px) and (max-width:560px){
-td::before {
-  content: attr(data-item-value);
-  }
-} */
+}
+
+@media (min-width:260px) and (max-width:760px){
+.btn-re{
+    padding:2px!important;
+    margin:3px!important;
+}
+}
+
+.table{
+    table-layout: fixed;
+    width:100%;
+}
+
+.main-tab{
+    width: fit-content;
+}

@@ -149,7 +149,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "userId": this.userId,
       "devRuleId": obj.value.devRuleId,
       "statusCode": value + '',
-      "isRevert": false
+      "isRevert": obj.value.statusCode === value ? true : false
     }
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
@@ -502,12 +502,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           localStorage.getItem('isPreDisbursement') === 'false') {
           this.isSendBacktoCredit = true;
           this.isWaiverTrigger = true;
-
-          let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
-
-          let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
-
-          let waiverNormsFormArray = (this.deviationsForm.get('waiverNormsFormArray') as FormArray);
 
           setTimeout(() => {
             this.disableInputs();

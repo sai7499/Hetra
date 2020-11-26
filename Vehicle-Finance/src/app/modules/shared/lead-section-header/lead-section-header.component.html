@@ -5,9 +5,10 @@
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
           </label>
-          <label for="lead_created_by_name" class="col-form-label-two">{{
+          <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">{{
             leadId
-          }}</label>
+          }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal" (click)="onLeadHistory()"></i>
+        </label>
         </div>
       </div>
       <div class="row col-lg-4 col-md-4 col-sm-12">
@@ -58,10 +59,10 @@
           <label class="col-form-label" for="lead_handled_by">{{
             labels?.queue
           }}</label>
-          <label for="lead_handled_by_name" class="col-form-label-two">New Lead &nbsp;&nbsp;<a
+           <label for="lead_handled_by_name" class="col-form-label-two">New Lead<!--<a
               *ngIf="router.url == '/pages/lead-section'" data-toggle="tooltip" data-placement="bottom"
               title="Click to View Lead Journey">
-              <span class="fa fa-history"></span></a></label>
+              <span class="fa fa-history"></span></a>--></label> 
         </div>
       </div>
     </div>
@@ -70,9 +71,9 @@
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
           </label>
-          <label for="lead_created_by_name" class="col-form-label-two">:{{
+          <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">:{{
             leadId
-          }}</label>
+          }}  <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal" (click)="onLeadHistory()"></i></label>
         </div>
       </div>
       <div class=" col-lg-4 col-md-4 col-sm-12">
@@ -128,18 +129,29 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-2 btn-width-org">
+  <!-- <div class="col-lg-2 col-md-2 col-sm-2 btn-width-org">
     <div class="row view-pad-top" data-tooltip="Lead History">
       <i class="fa fa-history" data-toggle="modal" data-target="#leadHistoryModal" (click)="onLeadHistory()"></i>
     </div>
-  </div>
+  </div> -->
 
   <div class="col-lg-2 col-md-2 col-sm-2 btn-width">
-    <div class="row view-pad-top">
+    <ng-container *ngIf="isBeforeEligibility">
+  
+    <div class="row view-pad-top" *ngIf="!isButtonNameChange">
       <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
-        (click)="saveCurrentUrl()">
+        (click)="saveCurrentUrl()">       
         View/Upload Document
       </button>
+
+    </div>
+  </ng-container>
+    <div class="row view-pad-top" *ngIf="isButtonNameChange">
+      <button class="btn btn-primary view-button"  type="button"
+        (click)="onBackDocumentUpload()">       
+         Back to Lead
+      </button>
+
     </div>
 
     <div class="row view-pad-bottom" *ngIf="isEnableInitiateQuery">
