@@ -324,15 +324,15 @@ margin: 0px !important;
 
 
  .message-dropdown-content {
-    margin-top: 3px;
+    margin-top: 2px;
     transform: translateX(0%);
     opacity: 1;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 88px;
+    min-width: 75px;
     box-shadow: 0px 8px 16px 0px rgba(255, 0, 0, 0);
     margin-right: 5px;
-    height: 27px;
+    height: 23px;
 }
 
 .content-send {
@@ -340,7 +340,7 @@ margin: 0px !important;
     /* top: 76px; */
     left: auto;
     text-align: center;
-    padding: 5px!important;
+    padding: 4px!important;
     border-radius: 5px;
     background: #f57d2f!important;
     line-height: 1em;
@@ -637,7 +637,8 @@ margin: 0px !important;
 
 
   .selected-back {
-      background-color:#aaaaaa;
+      background-color:#1a1667!important;
+      color:#fff;
   }
     
     .dropdown-content {
@@ -800,7 +801,7 @@ margin: 0px !important;
     .search-bar{
         padding: 8px 0px;
         /* margin: 10px 0px; */
-        background-color: #272264;
+        background-color: #d0d0d0;
     }
     @media (min-width:260px) and (max-width: 760px) {
 
@@ -1019,6 +1020,7 @@ body::-webkit-scrollbar-thumb {
 
   #scrollBox {
       max-height: 360px !important;
+      box-shadow: inset 0 0 10px #797979;
   }
 
   .sidenav .closebtn {
@@ -1053,12 +1055,12 @@ body::-webkit-scrollbar-thumb {
   } 
 
   .fa-angle-down{
-    margin-top: 5px;
+    /* margin-top: 5px; */
     background-color: #120f52;
     padding: 3px;
     border-radius: 18%;
     /* padding-top: 10px; */
-    margin-right: 10px;
+    /* margin-right: 10px; */
     color: #fff!important;
 
   }
@@ -1090,4 +1092,11 @@ div.viewport-a {
         positioned elements to anchor to the actual viewport of the container.
     */
     position: relative ;
+}
+
+.btn-cus{
+    padding:3px;
+    margin-top:10px;
+    background-color:#1d1a4b;
+    color:#fff;
 }
