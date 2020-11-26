@@ -93,6 +93,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
       return 'lead-section';
     } else if (url.includes('sales')) {
       return 'sales';
+    } else if (url.includes('dde')) {
+      return 'dde';
     }
   }
 

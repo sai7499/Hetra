@@ -24,8 +24,8 @@
                 <div class="panel-group mar-20 scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group mar-20" id="accordion"
                     *ngFor="let chat of chatList; let i=index; let last=last">
-                    <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                      <div class="divs" (click)="getQueries(chat)">
+                    <div class="flex-container" >
+                      <div class="divs" (click)="getQueries(chat)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
                         <p class="mar-em">{{chat.value}}</p>
                       </div>
 
@@ -72,6 +72,9 @@
                               <div class="radio"><label><input class="select-user" type="radio" name="radio">
                                   {{stack.value}} <span class="checkmark"></span></label></div>
                             </div>
+                            <div class="empty-list" *ngIf="queryModelLov.queryTo && queryModelLov.queryTo.length === 0">
+                              No stakeholder in the stakeholders list
+                            </div>
                           </div>
                         </form>
                       </div>
@@ -107,7 +110,7 @@
                               </a></p>
                           </div>
                           <div class="empty-list" *ngIf="documents && documents.length === 0">
-                            No documents in the documents list
+                            No document in the documents list
                           </div>
                         </div>
                       </div>
@@ -122,7 +125,8 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="getLeads(getLeadSendObj, queryModalForm.value.searchName, '')">
+                    (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
@@ -131,8 +135,8 @@
               <div class="panel-group mar-20 scroll-box " id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container" [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                    <div class="divs" (click)="getQueries(chat, true)">
+                  <div class="flex-container" >
+                    <div class="divs" (click)="getQueries(chat, true)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
@@ -176,6 +180,9 @@
                           <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
                             <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
                                   class="checkmark"></span></label></div>
+                          </div>
+                          <div class="empty-list" *ngIf="queryModelLov.queryTo && queryModelLov.queryTo.length === 0">
+                            No stakeholder in the stakeholders list
                           </div>
                         </div>
                       </form>
@@ -232,27 +239,77 @@
                     {{labels.backToLead}}</button></div>
 
               </div>
-              <div class="chat-box message-box ">
+              <div class="chat-box message-box viewport viewport-a" id="chat-box">
 
-                <div *ngFor="let message of chatMessages; let j=index;let last=last;">
+                <div *ngFor="let message of chatMessages; let j=index;let last=last;"
+                  (mouseenter)="clickedIndex === j? clickedIndex = null : clickedIndex = j"
+                  (mouseleave)="clickedIndex = null">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
+
+                    <span class="active-dropdown" *ngIf="clickedIndex === j" (click)="openOptionDropDown(j);">
+                      <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+
+                    <div class="message-dropdown-content right" id="myDropdown"
+                      [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
+                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">Reply
+                      <!-- (click)="foo.focus();isClickButton === j? isClickButton = null : isClickButton = j" -->
+                      <a (click)="foo.focus()"><span class="box tr"></span></a>
+                    </div>
+
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
-                      <div class="logged-user">
-                        <span class="cus-name-role"> {{message.nameWithFromRole}}
-                        </span>
-                        <span class="date-time"> <strong>{{labels.queryType}} : </strong> {{message.queryTypeDesc}}
-                        </span>
+                      <div class="logged-user row">
+
+                        <div class="col-md-4">
+                          <span class="cus-name-role"> {{message.nameWithFromRole}}
+                          </span>
+                        </div>
+
+                        <div class="col-md-4">
+                          <span class="text-center"> <strong>Query Id : </strong> {{message.queryId}} </span>
+                        </div>
+
+                        <div class="col-md-4">
+                          <span class="date-time"> <strong>{{labels.queryType}} : </strong> {{message.queryTypeDesc}}
+                          </span>
+                        </div>
 
                       </div>
-                      <p>{{message.query}}</p>
+
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <p>{{message.query}}</p>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" *ngIf="isClickButton === j">
+                          <button #foo class="btn btn-cus">Marked as Read</button>
+                        </div>
+                        <div class="collg-4 col-md-4 col-sm-4 col-xs-12"></div>
+                      </div>
+
                       <div *ngIf="message.docId"><a class="text-danger"
                           (click)="downloadDocs(message.docId, j, $event)"> <i class="fa fa-file-pdf-o"></i>
                           {{message.docName}}</a></div>
                       <br *ngIf="message.docId">
+
                       <div class="tagged-name">
-                        <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
-                        <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
-                        </span>
+                        <div class="logged-user row">
+
+                          <div class="col-md-4">
+                            <span> <strong>Tagged To : </strong> {{message.nameWithToRole}} </span>
+                          </div>
+
+                          <div class="col-md-4">
+                            <span class="text-center" [ngClass]="j % 2  === 0 ? 'red-Col' : 'green-Col'"> <strong
+                                style="color: black;">Status : </strong>
+                              {{message.status}} </span>
+                          </div>
+
+                          <div class="col-md-4">
+                            <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
+                            </span>
+                          </div>
+
+                        </div>
 
                       </div>
                     </div>
@@ -367,6 +424,7 @@
 
                 <div class="col-sm-10 col-md-10 col-lg-10 text-box">
                   <div class="form-group col-lg-12 col-xs-12 col-md-12 col-sm-12">
+                    <!-- #foo -->
                     <textarea class="form-control cus-chat" formControlName="query"
                       (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
 

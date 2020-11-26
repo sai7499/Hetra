@@ -64,6 +64,10 @@ export class InsuranceDetailsComponent implements OnInit {
   guardianArray = [];
   processVariables: any;
   isGuardian = false;
+  isMinor: boolean;
+  isShowGuardian: boolean;
+  healthQuestionAns = [];
+  covidQuestions = [];
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -186,6 +190,7 @@ export class InsuranceDetailsComponent implements OnInit {
       nomineeState: [''],
       typeOfApplicant: [''],
       usedCoverageAmount: [''],
+      healthQuestion: ['']
     });
   }
 
@@ -227,7 +232,7 @@ export class InsuranceDetailsComponent implements OnInit {
    const body  = {
      leadId: this.leadId,
      applicantId: this.applicantId,
-     isMinor: true,
+     isMinor: this.isMinor,
      userId: localStorage.getItem('userId'),
 
      insuranceDetails: {
@@ -400,7 +405,9 @@ public ageCalculation(date, relation: string) {
   this.f.patchValue({
     nomineeAge: event
   });
+  this.enableDisableGuardian(event);
   }
+
   }, 2000);
 
 }
@@ -458,6 +465,7 @@ public addValidations() {
 
     }
     if (this.f.value.nomineeAge < 18 ) {
+      this.isMinor = true
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.guardianArray.length; i++) {
         const guardianKey = this.guardianArray[i];
@@ -474,6 +482,7 @@ public addValidations() {
 
       }
     } else {
+      this.isMinor = true;
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.guardianArray.length; i++) {
         const guardianKey = this.guardianArray[i];
@@ -494,6 +503,8 @@ getInsuranceDetails() {
   console.log(res, 'res in get');
   if (res && res.ProcessVariables.error.code === '0') {
   this.processVariables = res.ProcessVariables.insuranceDetails;
+  this.healthQuestionAns = res.ProcessVariables.healthQuestions;
+  this.covidQuestions = res.ProcessVariables.covidQuestions;
   if (this.processVariables) {
     this.selectApplicant(this.processVariables.nameOfCreditShieldPolicy);
     if (this.processVariables.guardianPincode != null || this.processVariables.guardianPincode != undefined) {
@@ -540,7 +551,9 @@ getInsuranceDetails() {
       nomineeState: this.processVariables.nomineeState,
       typeOfApplicant: this.processVariables.typeOfApplicant,
       usedCoverageAmount: this.processVariables.usedCoverageAmount,
+      healthQuestion: this.processVariables.healthQuestion
      });
+    this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
   }
   }
   });
@@ -559,7 +572,12 @@ onNext() {
 onBack() {
   this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
 }
-cityChange(event){
-
+enableDisableGuardian(event) {
+  // alert('age' + event);
+  if (event < 18 ) {
+    this.isShowGuardian = true;
+  } else {
+    this.isShowGuardian = false;
+  }
 }
 }
