@@ -2385,7 +2385,7 @@
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="disableForm">
+            <div class="row" *ngIf="disableForm" hidden="true">
               <div class="col-sm-5 text-left">
                 <button class="btn btn-primary js-btn-prev" type="button">
                   <a href="#" (click)="redirectUrl()">{{
@@ -2648,13 +2648,15 @@
                   {{ labels.back }}
                 </button>
                 &nbsp;
-                <button
-                  class="btn btn-primary"
-                  (click)="onFormSubmit()"
-                  *ngIf="!disableSaveBtn"
-                >
-                  {{ labels.save }}
-                </button>
+                <ng-container *ngIf="!isLoan360">
+                  <button
+                    class="btn btn-primary"
+                    (click)="onFormSubmit()"
+                    *ngIf="!disableSaveBtn"
+                  >
+                    {{ labels.save }}
+                  </button>
+                </ng-container>
                 &nbsp;
                 <button
                   class="btn btn-primary"

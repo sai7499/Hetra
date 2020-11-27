@@ -42,6 +42,10 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'loan-360',
+        loadChildren: () => import('./modules/loan-360/loan-view.module').then(m => m.LoanViewModule)
+      },
+      {
         path: 'cheque-tracking',
         loadChildren: () => import('./modules/cheque-tracking/cheque-tracking.module').then((m) => m.ChequeTrackingModule)
       },

@@ -49,31 +49,43 @@
               <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td [attr.data-label]="labels?.action">
                 <div class="flex-container">
-                  <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"><i
-                        class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
-                  <div><a [ngClass]="{'pointer_non':isDelete || disableSaveBtn }"
-                      data-toggle="modal" data-target="#myModal" (click)="softDeleteApplicant(i, item.applicantId)"
-                      title="Delete applicant"><i class="fa fa-trash icon p-0" aria-hidden="true"></i></a></div>
-                  <div> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
+                  <ng-container  *ngIf="isLoan360">
+                    <div><a (click)="navigatePage(item.applicantId)" title="View applicant"><i
+                      class="fa fa-eye icon p-0" aria-hidden="true"></i></a></div>
+                  </ng-container>
+                  <ng-container *ngIf="!isLoan360">
+                    <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"><i
+                      class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
+                <div><a [ngClass]="{'pointer_non':isDelete || disableSaveBtn }"
+                    data-toggle="modal" data-target="#myModal" (click)="softDeleteApplicant(i, item.applicantId)"
+                    title="Delete applicant"><i class="fa fa-trash icon p-0" aria-hidden="true"></i></a></div>
+                  </ng-container>
+                  <div *ngIf ="locationPath !=='lead-section'"> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
                       data-target="#myModalApplicantImage" title="View Bureau Report"> <strong
                         class="icon">CB</strong></a></div>
-                  <div><a data-toggle="modal" data-target="#myModalApplicanteKYC" 
+                  <div *ngIf ="locationPath !=='lead-section'"><a data-toggle="modal" data-target="#myModalApplicanteKYC" 
                     title="View applicant eKYC"  (click)="geteKYCDetails(item.applicantId)"
                       >
                       <strong class="icon">ER</strong>
                     </a></div>
 
                 </div>
-                <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
+                <ng-container *ngIf="isLoan360">
+                  <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
+                    class="fa fa-pencil eye" aria-hidden="true"></i></a>
+                </ng-container>
+                <ng-container *ngIf="!isLoan360">
+                  <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
                     class="fa fa-pencil icon" aria-hidden="true"></i></a>
                 &nbsp;<a class="desktop-hide"
                   [ngClass]="{'pointer_non':isDelete || disableSaveBtn }" data-toggle="modal" data-target="#myModal"
                   (click)="softDeleteApplicant(i, item.applicantId)" title="Delete applicant"><i
                     class="fa fa-trash icon" aria-hidden="true"></i></a> &nbsp;
-                <a (click)="getApplicantImage(item.applicantId)" class="desktop-hide" data-toggle="modal"
+                </ng-container>
+                <a *ngIf ="locationPath !=='lead-section'" (click)="getApplicantImage(item.applicantId)" class="desktop-hide" data-toggle="modal"
                   data-target="#myModalApplicantImage" title="View Bureau Report"> <strong class="icon">CB</strong></a>
                 &nbsp;
-                <a data-toggle="modal" class="desktop-hide" data-target="#myModalApplicanteKYC"
+                <a *ngIf ="locationPath !=='lead-section'" data-toggle="modal" class="desktop-hide" data-target="#myModalApplicanteKYC"
                   title="View applicant eKYC" (click)="geteKYCDetails(item.applicantId)">
                   <strong class="icon">ER</strong>
                 </a>
@@ -158,7 +170,7 @@
         </div>
 
         <div class="modal-body">
-          Are you Sure Want to Delete?
+          Are you sure you want to Delete?
         </div>
 
         <div class="modal-footer text-center">
@@ -239,7 +251,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                                      
+            
                           <tr class=" text-center">
                             <td [attr.data-label]="labels?.title">{{panDetails?.nsdlPanTitle}}</td>
                             <td [attr.data-label]="labels?.firstName">{{panDetails?.nsdlFirstName}}</td>
@@ -277,7 +289,7 @@
                             <td [attr.data-label]="labels?.foundnltr">{{appicanteKYCDetails?.foundNLTR}}</td>
                             <td [attr.data-label]="labels?.remark">{{appicanteKYCDetails?.nlRemarks}}</td>
                           </tr>
-                         
+
                         </tbody>
                       </table>
                     </div>
@@ -302,7 +314,7 @@
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Name</p>
                             </div>
-                            
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">: {{adhaarDetails?.applicantName}}</p>
                             </div>
@@ -311,18 +323,18 @@
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">DOB</p>
                             </div>
-                           
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">: {{adhaarDetails?.DOB}}</p>
                             </div>
                           </div>
             
-                       
+               
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
-                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Gender</p>
                             </div>
-                            
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.gender}}</p>
                             </div>
@@ -331,14 +343,14 @@
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">C/O</p>
                             </div>
-                            
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.careOfPerson}}</p>
                             </div>
                           </div>
             
-                       
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Location</p>
                             </div>
@@ -351,12 +363,12 @@
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">Landmark</p>
                             </div>
-                            
+
                             <div class="col-lg-9 col-sm-9 col-md-9 col-xs-9">
                               <p class="">:{{adhaarDetails?.landmark}}</p>
                             </div>
                           </div>
-                       
+                         
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-0">
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
                               <p class="var-lab">City</p>
@@ -655,7 +667,7 @@
 <div class="btn-sec clear-both row cst_btm_btns">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
-    <button class="btn btn-primary " type="button" [routerLink]="['../lead-details']">
+    <button class="btn btn-primary " type="button" (click)="onBack()" >
       Back
     </button>
     <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
@@ -671,5 +683,4 @@
 <!-- Header -->
 <!-- <div class="image-content"  [innerHTML]="cibilImage" > </div>  
   </div> -->
-
 

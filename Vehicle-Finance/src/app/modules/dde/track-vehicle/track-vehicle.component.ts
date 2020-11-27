@@ -879,6 +879,7 @@ export class TrackVehicleComponent implements OnInit {
   onFormSubmit() {
     this.submitted = true;
     this.isDirty = true;
+    console.log(this.trackVehicleForm);
 
     // stop here if form is invalid
     if (this.trackVehicleForm.invalid) {

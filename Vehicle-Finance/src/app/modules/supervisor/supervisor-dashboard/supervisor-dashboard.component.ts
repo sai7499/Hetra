@@ -26,6 +26,7 @@ export class SupervisorDashboardComponent implements OnInit {
   changebutton: boolean = false;
   repBttnId: any = true;
   activeNode: any;
+  userFirstName: any;
   constructor(private supervisorService: SupervisorService, private router: Router, private sharedService: SharedService) { }
 
   ngOnInit() {
@@ -97,7 +98,8 @@ export class SupervisorDashboardComponent implements OnInit {
     //   this.roleUserID = node.userID;
     //   this.rolelist = node.role     
     // }
-    this.roleUserID = node.userId;
+    this.roleUserID = node.userId;  
+    this.userFirstName = node.firstName;
     this.rolelist = node.role;
     // if (node.role.length == 0) {
     //   this.rolelist = [{ roleID: "", name: "No Roles Available" }]
@@ -227,6 +229,7 @@ export class SupervisorDashboardComponent implements OnInit {
   }
   onClick(rolelist) {
     this.sharedService.getUserName(rolelist);
+    this.sharedService.getSupervisorName(this.userFirstName);
     this.sharedService.getUserRoleId(this.roleUserID);
     console.log('roleList', rolelist);
     this.router.navigate(['/pages/supervisor/dashboard']);

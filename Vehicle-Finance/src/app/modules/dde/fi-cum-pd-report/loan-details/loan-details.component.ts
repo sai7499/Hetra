@@ -13,6 +13,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -99,7 +100,8 @@ export class LoanDetailsComponent implements OnInit {
     public sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
-    private toggleDdeService: ToggleDdeService) {
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
@@ -155,6 +157,10 @@ export class LoanDetailsComponent implements OnInit {
     });
     this.operationType = this.toggleDdeService.getOperationType();
     if (this.operationType) {
+      this.loanDetailsForm.disable();
+      this.disableSaveBtn = true;
+    }
+    if (this.loanViewService.checkIsLoan360()) {
       this.loanDetailsForm.disable();
       this.disableSaveBtn = true;
     }

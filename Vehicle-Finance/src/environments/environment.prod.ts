@@ -20,12 +20,13 @@ export const environment = {
     viabilityApi: '0d888054a7e811ea800bf2fa9bec3d63',
     wrapperPanValidation : 'db2732f4ab4811ea82f8f2fa9bec3d63',
     wrapperBiometriceKYC : 'db2732f4ab4811ea82f8f2fa9bec3d63',
-    supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63',//supervisorRelated
+    supervisorProId:'ed58f72ea9a811ea824bf2fa9bec3d63', //supervisorRelated
     reinititateFiApi: '403a8a12b79511ea8afff2fa9bec3d63',
     retrieveAadharData : 'db2732f4ab4811ea82f8f2fa9bec3d63',
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63',
     remarksProjectId : '8bfa8dba945b11eabdcaf2fa9bec3d63',
-    assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63'
+    assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63',
+    trancheProId: 'b73f0180b49111ea8900f2fa9bec3d63'
   },
   // hostingEnvironment: 'DEV',
   hostingEnvironment: 'UAT',
@@ -47,7 +48,8 @@ export const environment = {
   
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
   isMobile: false,
-  isMaas360Enabled: false
+  isMaas360Enabled: false,
+  lmsSITDate:'2021-09-30'
 };
 
 /*

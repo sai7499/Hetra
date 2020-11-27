@@ -29,7 +29,8 @@ import { DedupeCheckComponent } from './dedupe-check/dedupe-check.component';
     DdeSharedModule,
   ],
   exports: [
-    LoanBookingComponent
+    LoanBookingComponent,
+    DeliveryOrderComponent
   ]
 })
 export class LoanBookingModule { }

@@ -8,6 +8,8 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoginStoreService } from '@services/login-store.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   templateUrl: './dde.component.html',
   styleUrls: ['./dde.component.css'],
@@ -15,7 +17,7 @@ import { LoginStoreService } from '@services/login-store.service';
 export class DdeComponent implements OnInit, OnChanges {
   locationIndex: number;
   leadId: number;
-  show: boolean;
+  show: number = 1;
   showNav: boolean = false;
   fiCumPdStatusString: any;
   fiCumPdStatus: boolean;
@@ -23,6 +25,10 @@ export class DdeComponent implements OnInit, OnChanges {
   roleId: any;
   roleType: any;
   role: boolean;
+
+  isLoan360: boolean;
+
+  showLoan360Components: boolean;
 
   constructor(
     public router: Router,
@@ -36,6 +42,7 @@ export class DdeComponent implements OnInit, OnChanges {
     private sharedService: SharedService,
     private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService,
+    private loanViewService: LoanViewService
 
   ) {
     this.leadId = this.route.snapshot.params['leadId'];
@@ -50,6 +57,7 @@ export class DdeComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
     if (this.fiCumPdStatusString == 'false') {
       this.fiCumPdStatus = false;
@@ -72,12 +80,12 @@ export class DdeComponent implements OnInit, OnChanges {
       this.sharedService.pslDataNext$.subscribe((val) => {
         if(val === true) {
           // this.onNext();
-          this.show = false;
+          this.show = 2;
           // this.location.onUrlChange((url: string) => {
           //   this.locationIndex = this.getLocationIndex(url);
           // });
         } else {
-          this.show = true;
+          this.show = 1;
         }
       });
       // this.sharedService.vehicleValuationNext$.subscribe((val) => {
@@ -98,14 +106,21 @@ export class DdeComponent implements OnInit, OnChanges {
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
+      if (this.locationIndex >= 19) {
+         this.show = 3;
+      } else if ( this.locationIndex >= 8) {
+        this.show = 2;
+      } else {
+        this.show = 1;
+      }
     });
 
 
     if (this.locationIndex >= 8) {
 
-      this.show = false;
+      this.show = 2;
     } else {
-      this.show = true;
+      this.show = 1;
     }
 
     if (
@@ -129,23 +144,32 @@ export class DdeComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     console.log('on change');
-    this.location.onUrlChange((url: string) => {
-      this.locationIndex = this.getLocationIndex(url);
-    });
+    
   }
 
 
 
   onPrevious() {
-    this.show = true;
-    if(this.productCatCode != 'NCV') {
+    if (this.show > 2 && this.isLoan360) {
+      this.show = 2;
+      return this.router.navigateByUrl(`/pages/dde/${this.leadId}/deviations`);
+    }
+    this.show = 1;
+    if (this.productCatCode != 'NCV') {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
     } else if(this.productCatCode == 'NCV') {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/psl-data`);
     }
   }
   onNext() {
-    this.show = false;
+    if (this.show === 2 && this.isLoan360) {
+       this.router.navigateByUrl(`/pages/dde/${this.leadId}/disbursement/${this.leadId}`);
+       this.show = 3;
+       return;
+      //  this.showLoan360Components = true;
+    }
+
+    this.show = 2;
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
   }
 
@@ -184,12 +208,27 @@ export class DdeComponent implements OnInit, OnChanges {
       return 14;
     } else if (url.includes('score-card')) {
       return 15;
-    } else if (url.includes('cam')) {
-      return 16;
-    } else if (url.includes('deviations')) {
-      return 17;
     } else if (url.includes('insurance-details')) {
+      return 16;
+    } else if (url.includes('cam')) {
       return 17;
+    } else if (url.includes('deviations')) {
+      return 18;
+    } else if (url.includes('disbursement')) {
+      return 19;
+    } else if (url.includes('negotiation')) {
+      return 20;
+    } else if (url.includes('credit-conditions')) {
+      return 21;
+    } else if (url.includes('sanction-letter')) {
+      return 22;
+    } else if (url.includes('term-sheet')) { 
+      return 23;
+    } else if (url.includes('welcome-letter')) {
+      return 24;
+    } else if (url.includes('delivery-order')) {
+      return 25;
     }
+
   }
 }

@@ -10,8 +10,8 @@ import { UtilityService } from '@services/utility.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
-import value from '*.json';
 import { LoginStoreService } from '@services/login-store.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-valuation',
@@ -157,6 +157,8 @@ export class ValuationComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService,
+    // tslint:disable-next-line: no-shadowed-variable
+    private LoanViewService: LoanViewService,
     private fb: FormBuilder) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
@@ -198,6 +200,12 @@ export class ValuationComponent implements OnInit {
         this.vehicleValuationForm.disable();
         this.disableSaveBtn = true;
       }
+
+      if (this.LoanViewService.checkIsLoan360()) {
+        this.vehicleValuationForm.disable();
+        this.disableSaveBtn = true;
+      }
+
     });
     // console.log('valuation form', this.vehicleValuationForm);
     // console.log('vehicle lov', this.vehicleLov);

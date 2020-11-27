@@ -13,13 +13,15 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import html2pdf from 'html2pdf.js';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
+  selector: 'app-applicant-list',
   templateUrl: './applicant-list.component.html',
   styleUrls: ['./applicant-list.component.css'],
 })
 export class ApplicantListComponent implements OnInit {
-  @ViewChild('draggable',{static:true}) private draggableElement: ElementRef;
+  @ViewChild('draggable', { static: true }) private draggableElement: ElementRef;
 
   labels: any = {};
   showAddApplicant: boolean;
@@ -46,8 +48,12 @@ export class ApplicantListComponent implements OnInit {
   imgeKYC: any;
   showeKYC: boolean = false;
   collateralVehicleDetails: any;
-  isDelete : boolean= false;
+  isDelete: boolean = false;
   leadSectioData: any;
+  locationPath: string;
+  showNotCoApplicant: boolean = false;
+
+  isLoan360: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -60,11 +66,20 @@ export class ApplicantListComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
-    private applicantDataStoreService : ApplicantDataStoreService
+    private applicantDataStoreService : ApplicantDataStoreService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      this.locationPath = 'sales'
+    } else if (currentUrl.includes('dde')) {
+      this.locationPath = 'dde'
+    } else {
+      this.locationPath = 'lead-section'
+    }
 
     this.isShowAddaApplicant(currentUrl);
 
@@ -82,12 +97,18 @@ export class ApplicantListComponent implements OnInit {
     // });
 
     this.leadId = (await this.getLeadId()) as number;
-    if (currentUrl.includes('sales')) {
+    if (this.locationPath == 'sales') {
       this.applicantUrl = `/pages/sales-applicant-details/${this.leadId}/basic-details`;
-    } else {
+    } else if (this.locationPath == 'dde') {
       this.applicantUrl = `/pages/applicant-details/${this.leadId}/basic-data`;
+    } else {
+      this.applicantUrl = `/pages/lead-section/${this.leadId}/co-applicant`;
     }
     this.getApplicantList();
+
+    this.applicantDataStoreService.setDedupeFlag(false);
+    this.applicantDataStoreService.setPanValidate(false);
+    this.applicantDataStoreService.setDetectvalueChange(false)
 
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
@@ -97,7 +118,6 @@ export class ApplicantListComponent implements OnInit {
     })
     // this.downloadpdf();
     // 
-    this.applicantDataStoreService.setDetectvalueChange(false)
     this.showeKYC = false;
   }
 
@@ -114,14 +134,20 @@ export class ApplicantListComponent implements OnInit {
 
   navigateAddapplicant() {
 
-    if(this.applicantList){
+    if (this.applicantList) {
       if (this.applicantList.length > 4) {
         this.toasterService.showWarning('Maximum 5 Applicants', '')
         return;
       }
     }
-    
-    this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`);
+
+    if (this.locationPath == 'sales') {
+      this.router.navigateByUrl(`/pages/sales-applicant-details/${this.leadId}/add-applicant`);
+    } else {
+      this.router.navigateByUrl(`/pages/lead-section/${this.leadId}/co-applicant`);
+    }
+
+
   }
 
 
@@ -144,8 +170,8 @@ export class ApplicantListComponent implements OnInit {
       this.applicantList = processVariables.applicantListForLead;
       console.log('getapplicants', this.applicantList);
       this.applicantDataStoreService.setApplicantList(this.applicantList)
-      if(this.applicantList){
-        this.isDelete= this.applicantList.length === 1 ? true : false;
+      if (this.applicantList) {
+        this.isDelete = this.applicantList.length === 1 ? true : false;
         this.applicantList.map((data) => {
           if (data.mobileNumber && data.mobileNumber.length === 12) {
             data.mobileNumber = data.mobileNumber.slice(2, 12)
@@ -185,7 +211,7 @@ export class ApplicantListComponent implements OnInit {
     this.applicantService.softDeleteApplicant(data).subscribe((res) => {
       console.log('res', this.selectedApplicantId);
       this.applicantList.splice(this.index, 1);
-      this.isDelete= this.applicantList.length === 1 ? true : false;
+      this.isDelete = this.applicantList.length === 1 ? true : false;
       this.getApplicantList();
     });
   }
@@ -212,8 +238,8 @@ export class ApplicantListComponent implements OnInit {
           this.cibilImage = this.imageUrl;
           console.log(this.newImage);
           // setTimeout(() => {
-            // this.dragElement(document.getElementById('mydiv'));
-         // });
+          // this.dragElement(document.getElementById('mydiv'));
+          // });
           // this.hideDraggableContainer = true;
         } else {
           // this.hideDraggableContainer = true;
@@ -270,14 +296,25 @@ export class ApplicantListComponent implements OnInit {
     }
   }
   forFindingApplicantType() {
-    if(this.applicantList){
+    if (this.applicantList) {
       const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
       console.log('findApplicant', findApplicant)
       this.showNotApplicant = findApplicant == undefined ? true : false;
-    }else{
-      this.showNotApplicant= true;
+    } else {
+      this.showNotApplicant = true;
     }
-    
+
+  }
+
+  forFindingCoApplicantType() {
+    if (this.applicantList) {
+      const findCoApplicant = this.applicantList.find((data) => data.applicantTypeKey == "COAPPAPPRELLEAD")
+      console.log('findApplicant', findCoApplicant)
+      this.showNotCoApplicant = findCoApplicant == undefined ? true : false;
+    } else {
+      this.showNotCoApplicant = true;
+    }
+
   }
 
   onNext() {
@@ -290,27 +327,49 @@ export class ApplicantListComponent implements OnInit {
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
     const product = this.leadSectioData.leadDetails.productCatCode;
 
-    if (product === 'NCV') {
-      const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
-      if (!result) {
-        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', ''); 
+    if (product === 'NCV' || product === 'UCV' || product === 'UC') {
+      // this.forFindingCoApplicantType()
+      this.showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
+      if (!this.showNotCoApplicant) {
+         this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
       }
     }
-    if (this.router.url.includes('sales')) {
-      this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
-    } else {
-      this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`)
-    }
 
+    if (product === 'NCV') {
+      const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+      console.log("result", result);
+      if (!result) {
+        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+      }
+    }
+    if (this.locationPath=='sales') {
+      this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
+    } else if(this.locationPath=='dde'){
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`)
+    }else{
+      this.router.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-list`)
+    }
+   
+
+  }
+
+  onBack() {
+    if (this.locationPath == 'lead-section') {
+      this.router.navigateByUrl(`pages/lead-section/${this.leadId}`)
+    } else if (this.locationPath == 'sales') {
+      this.router.navigateByUrl(`pages/sales/${this.leadId}/lead-details`)
+    } else {
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/lead-details`)
+    }
   }
   destroyImage() {
     if (this.cibilImage) {
       this.cibilImage = null;
     }
   }
-  
-   geteKYCDetails(applicantId) {
-   this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
+
+  geteKYCDetails(applicantId) {
+    this.applicantService.geteKYCDetails(applicantId).subscribe((res: any) => {
       if (res['ProcessVariables'] && res.Error === "0" && res['ProcessVariables'].error.code == 0) {
         // this.showeKYC = true;
         this.appicanteKYCDetails = res['ProcessVariables'];
@@ -318,7 +377,7 @@ export class ApplicantListComponent implements OnInit {
         this.adhaarDetails = this.appicanteKYCDetails['aadharDetails'];
         this.dedupeMatchedCriteria = this.appicanteKYCDetails['dedupeMatchedCriteria'];
         this.exactMatches = this.appicanteKYCDetails['exactMatches'];
-        this.probableMatches = this.appicanteKYCDetails['probableMatches']; 
+        this.probableMatches = this.appicanteKYCDetails['probableMatches'];
         this.collateralVehicleDetails = this.appicanteKYCDetails['collateralVehicleDetails']
         // setTimeout(() => {
         //   this.downloadpdf();
@@ -332,33 +391,33 @@ export class ApplicantListComponent implements OnInit {
       }
     });
   }
-  
- async downloadpdf() {
-  document.getElementById("ekyc-to-print").classList.remove('dontdisplayed');
-  document.getElementById("ekyc-to-print").classList.add('display');
-  const html = document.getElementById('ekyc-to-print').innerHTML;
-  document.getElementById("ekyc-to-print").classList.remove('display');
-  document.getElementById("ekyc-to-print").classList.add('dontdisplayed');
+
+  async downloadpdf() {
+    document.getElementById("ekyc-to-print").classList.remove('dontdisplayed');
+    document.getElementById("ekyc-to-print").classList.add('display');
+    const html = document.getElementById('ekyc-to-print').innerHTML;
+    document.getElementById("ekyc-to-print").classList.remove('display');
+    document.getElementById("ekyc-to-print").classList.add('dontdisplayed');
     var options = {
-      margin:[0.5, 0.5, 0.5, 0.5],
+      margin: [0.5, 0.5, 0.5, 0.5],
       filename: `applicanteKYC${this.leadId}`,
       image: { type: 'jpeg', quality: 1 },
-      jsPDF: { unit: 'mm', orientation: 'p',format: 'A4' },
-      html2canvas: {scale: 4,  logging:true},
+      jsPDF: { unit: 'mm', orientation: 'p', format: 'A4' },
+      html2canvas: { scale: 4, logging: true },
     }
-     html2pdf().from(html)
-    .set(options).outputImg('datauristring').then(res => {
-      this.imgeKYC = this.domSanitizer.bypassSecurityTrustResourceUrl(res);
-      setTimeout(() => {
-        this.showeKYC = true;
-      });
-           })
-        }
+    html2pdf().from(html)
+      .set(options).outputImg('datauristring').then(res => {
+        this.imgeKYC = this.domSanitizer.bypassSecurityTrustResourceUrl(res);
+        setTimeout(() => {
+          this.showeKYC = true;
+        });
+      })
+  }
 
-        destroyeKYCImage() {
-          if (this.imgeKYC) {
-            this.showeKYC = false;
-            this.imgeKYC = null;
-          }
-        }
+  destroyeKYCImage() {
+    if (this.imgeKYC) {
+      this.showeKYC = false;
+      this.imgeKYC = null;
+    }
+  }
 }
