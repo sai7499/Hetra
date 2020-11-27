@@ -7,6 +7,28 @@
 .mar-bot-btn{
     margin-bottom: 25px;
 }
-.margin {
-    margin-left: 0px;
+
+.main-head{
+    background-color: #272264;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.sub-head{
+    background-color: #afafaf;
+    padding: 6px;
+    border-radius: 5px;
+    color: #fff;
+    margin: 5px 0px;
+    font-size: 14px;
+}
+
+.line-hgt{
+    line-height:2em;
+}
+
+.mar-type{
+    margin: 5px 15px;
+    font-weight:400;
 }
