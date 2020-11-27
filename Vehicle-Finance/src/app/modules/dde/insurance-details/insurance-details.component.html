@@ -1,7 +1,8 @@
 <div class="content">
-    <h4 class="margin">Insurance Details</h4>
+    
     <form [formGroup]="insuranceDetailForm">
         <div class="row">
+            <h4 class="main-head">Insurance Details</h4>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="spoke_code_location" class="asset_type">{{labels?.motorInsuranceRequired}}</label>
                 <div>
@@ -65,8 +66,8 @@
                     </app-custom-input>
                 </div>
             </div>
-            <div>
-                <h3 class="margin">{{labels?.nomineeDetails}}</h3>
+            <div class="row">
+                <h4 class="main-head">{{labels?.nomineeDetails}}</h4>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
@@ -149,8 +150,8 @@
             <!-- Nominee details Ends -->
 
             <!-- Nominee Address Starts -->
-            <div>
-                <h3 class="margin">{{labels?.nomineeAddress}}</h3>
+            <div class="row">
+                <h3 class="sub-head">{{labels?.nomineeAddress}}</h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
@@ -242,8 +243,8 @@
             <!-- Nominee Address Ends -->
 
             <!-- Guardian Details Starts -->
-            <div *ngIf="isShowGuardian">
-                <h3 class="margin">{{labels?.guardianDetails}}</h3>
+            <div class="row" *ngIf="isShowGuardian">
+                <h4 class="main-head">{{labels?.guardianDetails}}</h4>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label class="ellipsify">{{labels?.firstName}}</label>
@@ -328,8 +329,8 @@
             <!-- Guardian Details Ends -->
 
             <!-- Gurdian Address Starts -->
-            <div *ngIf="isShowGuardian">
-                <h3 class="margin">{{labels?.guardianAddress}}</h3>
+            <div class="row" *ngIf="isShowGuardian">
+                <h3 class="sub-head">{{labels?.guardianAddress}}</h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
@@ -431,32 +432,32 @@
             <!-- Guardian Address Ends -->
         </div>
         <div>
-        <div class="col-lg-12 col-sm-12 col-md 12 col-xs-12">
-            <h3 >Health questions</h3>
+        <div class="row">
+            <h3 class="main-head">Health questions</h3>
             <!-- <div class="row" *ngFor="let ans  of healthQuestionAns; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>
             </div> -->
-            <ol    >
+            <ol class="line-hgt">
                 <li class="text-justify" *ngFor="let ans of healthQuestionAns; let i = index"> 
                      {{ ans }}
                 </li>
             </ol>
 
         </div>
-        <div class="col-lg-12 col-sm-12 col-md 12 col-xs-12">
-             <h3>Covid related questions</h3>
+        <div class="row">
+             <h3 class="main-head">Covid related questions</h3>
             <!-- <div class="row" *ngFor="let ans  of covidQuestions; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>      
             </div> -->
-            <ol    >
+            <ol class="line-hgt">
                 <li class="text-justify" *ngFor="let ans of covidQuestions; let i = index"> 
                      {{ ans }}
                 </li>
             </ol>
         </div>
         <!-- <div class="row"> -->
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <label for="spoke_code_location" class="asset_type">Is the answer to any of the below mentioned medical questions is YES?  Select Yes &nbsp; &nbsp;</label>
+            <div class="row mar-type">
+                <p for="spoke_code_location" class="asset_type">Is the answer to any of the below mentioned medical questions is YES?  Select Yes </p>
                 
                     <label class="radio-inline">
                         <!-- <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="1">Yes -->
