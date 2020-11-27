@@ -44,7 +44,7 @@
                     <!--formControlName="ndForProposedVehicle"  -->
                     <app-vf-custom-select id="needForProposedVehicle" formControlName="nameOfCreditShieldPolicy"
                         (change)="selectApplicant($event.target.value)" [values]="applicantList"
-                        [isRequired]="'Please select applicant'" [isDirty]="true">
+                        [isRequired]="'Please select applicant'" [isDirty]="isDirty">
 
                     </app-vf-custom-select>
                 </div>
@@ -128,11 +128,12 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <!-- [isRequired]="'Please enter mobile number'" -->
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.mobileNumber}}</label>
                         <app-custom-input id="needForProposedVehicle" formControlName="nomineeMobileNumber"
                             [className]="'form-control mandatory'" [placeholder]="'Enter nominee mobile number'"
                             [maxLength]="labels?.validationData?.mobileNumber?.maxLength"
-                            [isRequired]="'Please enter mobile number'"
+                            
                             [type]="labels?.validationData.mobileNumber?.type"
                             [patternCheck]="labels?.validationData?.mobileNumber?.pattern" [isDirty]="isDirty">
                         </app-custom-input>
@@ -206,14 +207,14 @@
                                             <option>City 3</option>
                                         </select> -->
                         <app-vf-custom-select formControlName="nomineeCity" [values]="nomineeCity"
-                            [isRequired]="'Please select nominee country'" [isDirty]="true">
+                            [isRequired]="'Please select nominee country'" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
 
                         <app-vf-custom-select formControlName="nomineeDistrict" [values]="nomineeDistrict"
-                            [isRequired]="'Please select nominee district'" [isDirty]="true">
+                            [isRequired]="'Please select nominee district'" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
                 </div>
@@ -222,7 +223,7 @@
                         <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
 
                         <app-vf-custom-select formControlName="nomineeState" [values]="nomineeState"
-                            [isRequired]="'Please select nominee state'" [isDirty]="true">
+                            [isRequired]="'Please select nominee state'" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -233,7 +234,7 @@
                                             <option>Country 3</option>
                                         </select> -->
                         <app-vf-custom-select formControlName="nomineeCountry" [values]="nomineeCountry"
-                            [isRequired]="'Please select nominee country'" [isDirty]="true">
+                            [isRequired]="'Please select nominee country'" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
 
@@ -455,25 +456,21 @@
                 </li>
             </ol>
         </div>
-        <!-- <div class="row"> -->
-            <div class="row mar-type">
-                <p for="spoke_code_location" class="asset_type">Is the answer to any of the below mentioned medical questions is YES?  Select Yes </p>
+        <div class="row">
+            <div class="row mar-type row">
+                <p  class=" col-lg-6 col-md-6 col-sm-6">Is the answer to any of the below mentioned medical questions is YES?  Select Yes </p>
                 
-                    <label class="radio-inline">
-                        <!-- <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="1">Yes -->
-                        <input type="radio" formControlName="healthQuestion" name="healthQuestion"
-                             value="1" >Yes
-                    </label>
-                    <label class="radio-inline">
-                        <!-- <input type="radio" name="addressConfirmed" formControlName="addressConfirmed" value="0">No -->
-                        <input type="radio" formControlName="healthQuestion" name="healthQuestion"
-                             value="0" >No
-                    </label>
-                
+                    
+                <app-vf-custom-select  class="col-sm-2 col-lg-2 col-md-2" 
+                [isRequired]="'Please select one option'" 
+                formControlName="healthQuestion" 
+                [values]="healthAns"
+                [isDirty]="isDirty">
+                </app-vf-custom-select>
 
             </div>
            
-        <!-- </div> -->
+        </div>
     </div>
     </form>
     <!-- <div class="col-lg-12 col-md-12 col-sm-12">

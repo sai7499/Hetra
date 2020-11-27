@@ -68,7 +68,7 @@ export class InsuranceDetailsComponent implements OnInit {
   isShowGuardian: boolean;
   healthQuestionAns = [];
   covidQuestions = [];
-
+  healthAns: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
               private toggleDdeService: ToggleDdeService,
@@ -449,6 +449,9 @@ public addValidations() {
     this.f.controls.typeOfApplicant.updateValueAndValidity();
     this.f.controls.usedCoverageAmount.setValidators(Validators.required);
     this.f.controls.usedCoverageAmount.updateValueAndValidity();
+    this.f.controls.healthQuestion.setValidators(Validators.required);
+    this.f.controls.healthQuestion.updateValueAndValidity();
+    
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.nomineeArray.length; i++) {
     
