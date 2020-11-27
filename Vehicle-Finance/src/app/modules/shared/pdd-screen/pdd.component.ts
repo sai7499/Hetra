@@ -352,8 +352,12 @@ export class PddComponent implements OnInit {
     }
 
     getCollectedDate(index) {
+        
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         const value = formArray['controls'][index].get('collectedDate').value;
+        if(this.toDayDate< value){
+            return null;
+        }
         return value;
     }
 

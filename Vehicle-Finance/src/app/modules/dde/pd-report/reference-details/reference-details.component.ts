@@ -309,7 +309,7 @@ export class ReferenceDetailsComponent implements OnInit {
       referencePincode: ["", Validators.required],
       referenceMobile: ["", Validators.required],
       referenceRelationship: ["", Validators.required],
-      natureOfBusiness: [""],
+      natureOfBusiness: ["", Validators.required],
       selfieWithCustomer: [""],
       uploadImages: [""],
       pdStatus: ["", Validators.required],

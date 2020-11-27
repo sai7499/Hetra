@@ -503,12 +503,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.isSendBacktoCredit = true;
           this.isWaiverTrigger = true;
 
-          let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
-
-          let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
-
-          let waiverNormsFormArray = (this.deviationsForm.get('waiverNormsFormArray') as FormArray);
-
           setTimeout(() => {
             this.disableInputs();
             this.disableAutoDeviation()
