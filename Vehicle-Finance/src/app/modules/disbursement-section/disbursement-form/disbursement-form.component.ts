@@ -263,6 +263,8 @@ export class DisbursementFormComponent implements OnInit {
   fetchedCoApp2Data: boolean=false;
   fetchedCoApp3Data: boolean=false;
   cumulativeAmount: any;
+  flagBank : boolean;
+  flagFinance
   isLoan360: boolean;
 
   constructor(
@@ -288,6 +290,8 @@ export class DisbursementFormComponent implements OnInit {
   async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.flag = true;
+    this.flagBank = true;
+    this.flagFinance = true;
     this.initForm();
     this.getLabels();
     this.disbLOV();
@@ -1179,6 +1183,45 @@ export class DisbursementFormComponent implements OnInit {
       }
     });
   }
+
+  getBankerApplicantDetails(){
+    let ReqAppData = {
+      "LeadID":this.disbLeadId          
+      }
+      this.disbursementService.getApplicantDetails(ReqAppData).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      // const apiError = response.ProcessVariables.error.code;
+      // appiyoError === '0' && apiError === '0'
+      if (appiyoError === '0') {
+        console.log('applicantData', response)
+        this.flagBank = false;
+        const bankerDetailsData = response.ProcessVariables.ApplicantDetails;
+        const duplicateAppDetails: any = { ...bankerDetailsData };
+        this.bankerObjInfo['beneficiaryName'] = duplicateAppDetails.applicantName;
+      }
+    });
+  }
+
+  getFinanceApplicantDetails(){
+    let ReqAppData = {
+      "LeadID":this.disbLeadId          
+      }
+      this.disbursementService.getApplicantDetails(ReqAppData).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      // const apiError = response.ProcessVariables.error.code;
+      // appiyoError === '0' && apiError === '0'
+      if (appiyoError === '0') {
+        console.log('applicantData', response)
+        this.flagFinance = false;
+        const financeDetails = response.ProcessVariables.ApplicantDetails;
+        const duplicateAppDetails: any = { ...financeDetails };
+        this.financierObjInfo['beneficiaryName'] = duplicateAppDetails.applicantName;
+      }
+    });
+  }
+
   fetchLoanDetails() {
     this.disbursementService.fetchLoanDetails(this.disbLeadId).subscribe((res: any) => {
       const response = res;
@@ -1830,9 +1873,17 @@ export class DisbursementFormComponent implements OnInit {
             this.disburseToCoApp = true;
           }
           if (val[j] == '4DISBURSETO') {
+            
+            if (this.flagBank) {
+              this.getBankerApplicantDetails();
+            }
+
             this.disburseToBanker = true;
           }
           if (val[j] == '5DISBURSETO') {
+            if (this.flagFinance) {
+              this.getFinanceApplicantDetails();
+            }
             this.disburseToFinancier = true;
             // this.getBasicFiancierLov();
           }
@@ -1887,6 +1938,7 @@ export class DisbursementFormComponent implements OnInit {
       this.showBankerBankDetails = false;
       this.showBankerDDDetails = false;
       this.showBankerCASADetails = false;
+      this.flagBank = true;
       this.trancheBankerList = [];
       this.bankerformArray.forEach(key => {
         this.bankerDetailsForm.get(key).clearValidators();
@@ -1899,6 +1951,7 @@ export class DisbursementFormComponent implements OnInit {
       this.showFinBankDetails = false;
       this.showFinDDDetails = false;
       this.showFinCASADetails = false;
+      this.flagFinance = true;
       this.trancheFinancierList = [];
       this.finformArray.forEach(key => {
         this.financierDetailsForm.get(key).clearValidators();
@@ -1932,7 +1985,10 @@ export class DisbursementFormComponent implements OnInit {
 
     // });
   }
+  
   // this.qualityCriteriaForm.controls.avgAMBval.reset();
+
+
 
   selectCoApplicant(sNo) {
     //console.log('selectedCoAppLists', this.coAppNamesLov)
@@ -2874,6 +2930,8 @@ export class DisbursementFormComponent implements OnInit {
         }
         if (this.disburseTo) {
           this.flag = (this.disbursementDetailsData.ApplicantDetails) ? false : true;
+          this.flagBank = (this.disbursementDetailsData.BankerDetails) ? false : true;
+          this.flagFinance = (this.disbursementDetailsData.FinancierDetails) ? false : true;
           this.disburseToVal(this.disburseTo);
         }
         if (this.disbursementDetailsData.DealerDetails) {

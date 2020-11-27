@@ -357,9 +357,9 @@ export class ApplicantListComponent implements OnInit {
     if (this.locationPath == 'lead-section') {
       this.router.navigateByUrl(`pages/lead-section/${this.leadId}`)
     } else if (this.locationPath == 'sales') {
-      this.router.navigateByUrl(`pages/sales/${this.leadId}//lead-details`)
+      this.router.navigateByUrl(`pages/sales/${this.leadId}/lead-details`)
     } else {
-      this.router.navigateByUrl(`pages/dde/${this.leadId}//lead-details`)
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/lead-details`)
     }
   }
   destroyImage() {
