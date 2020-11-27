@@ -7,13 +7,13 @@
 
     <div class="multisteps-form">
       <div class="multisteps-form__progress main-tab" *ngIf="showNav == true">
-        <div class="col-md-1 col-xs-1" [style]="{ cursor: pointer }" [ngClass]="{ isDisabled: show }">
+        <div class="col-md-1 col-xs-1" [style]="{ cursor: pointer }" [ngClass]="{ isDisabled: show === 1 }">
           <a class="prev-first-data" (click)="onPrevious()">
             <i class="fa fa-angle-left"></i>
           </a>
         </div>
         <div class="col-md-10 col-xs-9 text-center">
-          <div *ngIf="show" class="progress-box second-box">
+          <div *ngIf="show === 1" class="progress-box second-box">
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_sourcing_details"
               [routerLink]="['./lead-details']" [ngClass]="{ 'js-active': locationIndex >= 0 }">
               Lead Details
@@ -51,7 +51,7 @@
               Vehicle Valuation
             </button>
           </div>
-          <div *ngIf="!show" class="progress-box second-box">
+          <div *ngIf="show === 2" class="progress-box second-box">
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_tvr_details"
               [routerLink]="['./tvr-details']" [ngClass]="{ 'js-active': locationIndex >= 9 }">
               TVR
@@ -104,12 +104,53 @@
             </button>
             
           </div>
+          <div *ngIf="show === 3" class="progress-box second-box">
+            <ng-container *ngIf="isLoan360 && locationIndex >=18">
+              <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
+              [routerLink]="['./disbursement', leadId]" [ngClass]="{ 'js-active': locationIndex >= 19 }">
+              Disbursement
+            </button>
+            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
+              [routerLink]="['./negotiation']" [ngClass]="{ 'js-active': locationIndex >= 20 }">
+              Negotiation
+            </button>
+            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
+              [routerLink]="['./credit-conditions']" [ngClass]="{ 'js-active': locationIndex >= 21 }">
+              Credit Conditions
+            </button>
+            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
+              [routerLink]="['./sanction-letter']" [ngClass]="{ 'js-active': locationIndex >= 22 }">
+              Sanction Letter
+            </button>
+            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
+              [routerLink]="['./term-sheet']" [ngClass]="{ 'js-active': locationIndex >= 23 }">
+              Term Sheet
+            </button>
+            <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
+              [routerLink]="['./welcome-letter']" [ngClass]="{ 'js-active': locationIndex >= 24 }">
+              Welcome Letter
+            </button>
+            <button *ngIf="productCatCode === 'NCV'" class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
+              [routerLink]="['./delivery-order']" [ngClass]="{ 'js-active': locationIndex >= 25 }">
+              Delivery Order View
+            </button>
+            </ng-container>
+          </div>
         </div>
-        <div class="col-md-1 col-xs-1" [style]="{ cursor: pointer }" [ngClass]="{ isDisabled: !show }">
-          <a class="next-second-data text-right" href="javascript:void(0)" (click)="onNext()">
-            <i class="fa fa-angle-right"></i>
-          </a>
-        </div>
+        <ng-container *ngIf="isLoan360">
+          <div class="col-md-1 col-xs-1" [style]="{ cursor: pointer }" [ngClass]="{ isDisabled: show === 3}">
+            <a class="next-second-data text-right" href="javascript:void(0)" (click)="onNext()">
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!isLoan360">
+          <div class="col-md-1 col-xs-1" [style]="{ cursor: pointer }" [ngClass]="{ isDisabled: show === 2}">
+            <a class="next-second-data text-right" href="javascript:void(0)" (click)="onNext()">
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </div>
+        </ng-container>
         <div class="clearfix"></div>
       </div>
 

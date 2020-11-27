@@ -2,22 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentUploadService } from '@services/document-upload.service';
 import { ToasterService } from '@services/toaster.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   templateUrl: './document-upload.component.html',
   styleUrls: ['./document-upload.component.css'],
 })
 export class DocumentUploadComponent implements OnInit {
+
+  isLoan360: boolean;
+
   constructor(
     private aRoute: ActivatedRoute,
     private router: Router,
     private doucmentUploadService: DocumentUploadService,
-    private toStarService: ToasterService
+    private toStarService: ToasterService,
+    private loanViewService: LoanViewService
   ) {}
   leadId;
   isModelShow = false;
   errorMessage: string;
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.aRoute.parent.params.subscribe((val) => (this.leadId = val.leadId));
   }
 

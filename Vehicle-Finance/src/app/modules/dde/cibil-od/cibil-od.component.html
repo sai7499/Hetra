@@ -25,7 +25,14 @@
               <td [attr.data-label]="labels?.applicantType">{{odApplicant?.applicantType}}</td>
               <td [attr.data-label]="labels?.ucicId">{{odApplicant?.ucic}}</td>
               <td [attr.data-label]="labels?.cibilScore">{{odApplicant?.cibilScore}}</td>
-              <td [attr.data-label]="labels?.action"> <a (click)="navigatePage(odApplicant?.applicantId)"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+              <td [attr.data-label]="labels?.action">
+                <ng-container *ngIf="isLoan360">
+                  <a (click)="navigatePage(odApplicant?.applicantId)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                </ng-container> 
+                <ng-container *ngIf="!isLoan360">
+                  <a (click)="navigatePage(odApplicant?.applicantId)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                </ng-container> 
+              </td>
             </tr>
           </tbody>
         </table>

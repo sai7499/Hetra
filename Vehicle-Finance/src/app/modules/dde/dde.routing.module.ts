@@ -30,6 +30,12 @@ import { ReferenceComponent } from '@modules/shared/reference/reference.componen
 import { RcuComponent } from './rcu/rcu.component';
 import { PSLdataComponent } from './psldata/psldata.component';
 
+import { CreditConditionsComponent } from '@modules/dde/credit-conditions/credit-conditions.component';
+import { SanctionDetailsComponent } from '@modules/dde/credit-decisions/sanction-details/sanction-details.component';
+import { TermSheetComponent } from './credit-decisions/term-sheet/term-sheet.component';
+import { WelomceLetterComponent } from './cpc-maker/welomce-letter/welomce-letter.component';
+import { DeliveryOrderComponent } from './cpc-maker/delivery-order/delivery-order.component';
+
 const routes: Routes = [
   {
     path: ':leadId',
@@ -148,6 +154,37 @@ const routes: Routes = [
         path: 'loanbooking',
         component: LoanBookingComponent,
       },
+      {
+        path: 'negotiation',
+        loadChildren: () =>
+          import(
+            '@modules/negotiation/negotiation.module'
+          ).then((m) => m.NegotiationModule),
+      },
+      {
+        path: 'credit-conditions',
+        component: CreditConditionsComponent
+      },
+      {
+        path: 'disbursement',
+        loadChildren: () => import('@modules/disbursement-section/disbursement-section.module').then(m => m.DisbursementSectionModule)
+      },
+      {
+        path: 'sanction-letter',
+        component: SanctionDetailsComponent
+      },
+      {
+        path: 'term-sheet',
+        component: TermSheetComponent
+      },
+      {
+        path: 'welcome-letter',
+        component: WelomceLetterComponent
+      },
+      {
+        path: 'delivery-order',
+        component: DeliveryOrderComponent
+      }
     ],
   },
 ];

@@ -6,6 +6,7 @@ import { CreditConditionService } from '../services/credit-condition.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LoanViewService } from '@services/loan-view.service';
 
 
 interface dataObject{ 
@@ -66,6 +67,8 @@ export class CreditConditionsComponent implements OnInit {
 
   showModal: boolean;
 
+  isLoan360: boolean;
+
   constructor(
     public labelsService: LabelsService,
     private loginStoreService: LoginStoreService,
@@ -74,7 +77,8 @@ export class CreditConditionsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toasterService: ToasterService,
     private sharedService: SharedService,
-    private creditConditionService: CreditConditionService
+    private creditConditionService: CreditConditionService,
+    private loanViewService: LoanViewService
   ) { 
     this.sharedService.productCatCode$.subscribe((value) => {
       this.productCatCode = value;
@@ -465,6 +469,7 @@ export class CreditConditionsComponent implements OnInit {
     })
   }
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.getLabelData();
     this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     console.log(this.roleAndUserDetails)
@@ -494,6 +499,9 @@ export class CreditConditionsComponent implements OnInit {
 
   }
   onNext()  {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/sanction-letter`);
+    }
     // this.onSave();
     // tslint:disable-next-line: triple-equals
     if(this.roleType == 1 && localStorage.getItem('isPreDisbursement') == 'true'){
@@ -517,6 +525,10 @@ export class CreditConditionsComponent implements OnInit {
   }
   
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/negotiation`);
+    }
+
     if(this.roleType == '1' && localStorage.getItem('isPreDisbursement') == 'true'){
       this.router.navigate([`pages/dashboard`]);
     }else  if( this.userType == 2 && this.salesResponse == 'true' ){

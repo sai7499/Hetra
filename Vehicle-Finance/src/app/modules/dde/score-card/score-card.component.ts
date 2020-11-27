@@ -5,6 +5,8 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LabelsService } from 'src/app/services/labels.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
     templateUrl: './score-card.component.html',
     styleUrls: ['./score-card.component.css']
@@ -34,7 +36,8 @@ export class ScoreCardComponent implements OnInit {
         private scoreCardService: ScoreCardService,
         private loginStoreService: LoginStoreService,
         private createLeadDataService: CreateLeadDataService,
-        private toggleDdeService: ToggleDdeService
+        private toggleDdeService: ToggleDdeService,
+        private loanViewService: LoanViewService
     ) { }
 
 
@@ -50,6 +53,12 @@ export class ScoreCardComponent implements OnInit {
         if (operationType) {
             this.disableSaveBtn = true;
         }
+
+        if (this.loanViewService.checkIsLoan360()) {
+            this.disableSaveBtn = true;
+        }
+
+        
 
         this.labelsData.getLabelsData().subscribe(
             (data) => {
