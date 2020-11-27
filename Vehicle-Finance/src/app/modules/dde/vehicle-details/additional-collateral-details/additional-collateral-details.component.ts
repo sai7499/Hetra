@@ -36,6 +36,8 @@ export class AdditionalCollateralComponent implements OnInit {
     goldGramsValue: any;
     disableSaveBtn: boolean;
 
+    typeOfApplicant: any;
+
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService, private toggleDdeService: ToggleDdeService,
         private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute,
@@ -280,19 +282,33 @@ export class AdditionalCollateralComponent implements OnInit {
 
         let formArray = this.collateralForm.get('collateralFormArray') as FormArray;
         const details = formArray.at(0);
-        console.log(details, 'details')
 
         details.get('relationWithApplicant').setValue('')
 
-        let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
+        this.typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
 
         let lovOfSelf = [{
             key: "5RELATION",
             value: "Self"
         }]
-
         let lovOfRelationship = this.LOV.relationship.filter((data) => data.key !== "5RELATION")
-        this.LOV.relationLov = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
+
+        if (this.collateralType === 'PROPADDCOLTYP') {
+
+            if (this.typeOfApplicant && this.typeOfApplicant['applicantType'] === "Applicant") {
+                details.patchValue({
+                    propertyOwnerType: 'SOLEPROPOWNTYP'
+                })
+            } else {
+                details.patchValue({
+                    propertyOwnerType: 'JOINEDPROPOWNTYP'
+                })
+            }
+            details.get('propertyOwnerType').disable()
+        }
+
+        this.LOV.relationLov = this.typeOfApplicant ? this.typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship
+            : this.LOV.relationship;
     }
 
     setFormValue(id) {
@@ -313,11 +329,9 @@ export class AdditionalCollateralComponent implements OnInit {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
                 this.collateralDataService.setAdditionalCollateralList(collateralDetail);
 
-                console.log(collateralDetail, 'collateralDetail')
-                this.onFindRelationship(collateralDetail.propertyOwner)
-
-
                 const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+
+                this.onFindRelationship(collateralDetail.propertyOwner)
 
                 this.collateralType = collateralDetail.collateralType;
 
@@ -329,7 +343,7 @@ export class AdditionalCollateralComponent implements OnInit {
 
                 formArray.clear();
                 this.currentValue = collateralDetail.currentValuePerGram
-                this.goldGramsValue = collateralDetail.goldInGrams
+                this.goldGramsValue = collateralDetail.goldInGrams;
 
                 formArray.push(
                     this._fb.group({
@@ -354,6 +368,21 @@ export class AdditionalCollateralComponent implements OnInit {
                         totalMarketValue: collateralDetail.totalMarketValue || null,
                     })
                 )
+
+                const details = formArray.at(0);
+                if (this.collateralType === 'PROPADDCOLTYP') {
+
+                    if (this.typeOfApplicant && this.typeOfApplicant['applicantType'] === "Applicant") {
+                        details.patchValue({
+                            propertyOwnerType: 'SOLEPROPOWNTYP'
+                        })
+                    } else {
+                        details.patchValue({
+                            propertyOwnerType: 'JOINEDPROPOWNTYP'
+                        })
+                    }
+                    details.get('propertyOwnerType').disable()
+                }
             } else {
                 this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Additional CollateralAdditional Collateral Detail')
             }

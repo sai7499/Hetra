@@ -2436,6 +2436,7 @@ export class DisbursementFormComponent implements OnInit {
   }
 
   saveAndUpdate(fromButton?:string) {
+    console.log('roletype', this.roleType)
     // console.log(this.disburseTo)
     // console.log('1', this.dealerDetailsForm.valid);
     // console.log('2', this.appDetailsForm.valid);
@@ -3247,6 +3248,9 @@ export class DisbursementFormComponent implements OnInit {
   } else if(  this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/welomce-letter`]);
   }
+  else if( this.roleType == '7') {
+    this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/check-list`]);
+  }
 }
   routerUrlIdentifier() {
     if (this.router.url.includes('disbursement')) {
@@ -3264,6 +3268,9 @@ export class DisbursementFormComponent implements OnInit {
       this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/negotiation`]);
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/check-list`]);
+    }
+    else if (this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/negotiation`]);
     }
   }
 

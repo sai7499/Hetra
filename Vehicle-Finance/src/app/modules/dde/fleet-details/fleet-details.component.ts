@@ -120,9 +120,8 @@ export class FleetDetailsComponent implements OnInit {
   paidTenureCheck = [];
   fleetArrayList: FormArray;
   operationType: boolean;
-
+  deleteRecordData: { index: number; fleets: any; };
   isLoan360: boolean;
-
   constructor(
 
     private labelsData: LabelsService,
@@ -726,10 +725,48 @@ export class FleetDetailsComponent implements OnInit {
     this.regionLov[this.formArr.length - 1] = this.allLovs.assetRegion;
   }
 
+  // deleteRow(index: number, fleets: any) {
+  //   console.log("in delete row fn ", fleets, index)
+    
+  //   if (fleets.length > 1) {
+  //     this.formArr.removeAt(index);
+  //     // console.log("inside del fun", fleets)
+
+  //     // console.log("vehicleId", fleets[index].id)
+
+  //     const data = {
+  //       id: fleets[index].id,
+  //       leadId: this.leadId
+  //     }
+
+  //     this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
+
+  //       // console.log("response from delete api", res.ProcessVariables)
+  //     });
+
+  //     fleets.splice(index, 1)
+  //     this.toasterService.showSuccess("Record deleted successfully!", '')
+
+  //   } else {
+
+  //     this.toasterService.showError("atleast one record required !", '')
+
+  //   }
+  // }
+
   deleteRow(index: number, fleets: any) {
-    console.log("in delete row fn ", fleets, index)
-    this.formArr.removeAt(index);
+    console.log("in delete row fn ", fleets, index);
+    this.deleteRecordData = {
+      index,
+      fleets
+    };
+  }
+  callDeleteRecord() {
+    const index = this.deleteRecordData.index;
+    const fleets = this.deleteRecordData.fleets;
     if (fleets.length > 1) {
+    this.formArr.removeAt(index);
+
       // console.log("inside del fun", fleets)
 
       // console.log("vehicleId", fleets[index].id)
@@ -737,7 +774,7 @@ export class FleetDetailsComponent implements OnInit {
       const data = {
         id: fleets[index].id,
         leadId: this.leadId
-      }
+      };
 
       this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
 

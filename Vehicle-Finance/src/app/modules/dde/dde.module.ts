@@ -40,6 +40,7 @@ import { LoanBookingModule } from './loan-status/loan-booking.module';
 import { RcuComponent } from './rcu/rcu.component';
 // import { PdReportComponent } from './pd-report/pd-report.component';
 import { PSLdataComponent } from './psldata/psldata.component';
+import { MatFormField, MatSelectModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -87,8 +88,10 @@ import { PSLdataComponent } from './psldata/psldata.component';
     CreditConditionModule,
     ViabilityDashboardModule,
     FiReportModule,
-    LoanBookingModule
+    LoanBookingModule,
+    MatSelectModule,
+    // MatFormField
   ],
-  exports: [ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
+  exports: [MatSelectModule, ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
 })
 export class DdeModule { }

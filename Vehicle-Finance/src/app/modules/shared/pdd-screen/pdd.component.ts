@@ -58,7 +58,7 @@ export class PddComponent implements OnInit {
     isRtoAgentMsg: boolean = false;
     isEndorsDateMsg: boolean = false;
     isShowError: boolean = false;
-    rtoAgentsList =[]
+    rtoAgentsList = [];
 
     constructor(private location: Location,
         private pddDetailsService: PddDetailsService,
@@ -72,6 +72,13 @@ export class PddComponent implements OnInit {
         private labelsData: LabelsService,
         private router: Router,
         private objectComparisonService: ObjectComparisonService) {
+
+            this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
+
+        // var day = this.toDayDate.getDate();
+        // var month = this.toDayDate.getMonth();
+        // var year = this.toDayDate.getFullYear();
+        // this.toDayDate = new Date(year, month, day, 0, 0)
     }
     ngOnInit() {
         this.getLabels();
@@ -134,9 +141,9 @@ export class PddComponent implements OnInit {
                 chasNumber: new FormControl('')
             }),
             processForm: new FormGroup({
-                orcStatus: new FormControl(''),
+                orcStatus: new FormControl('', Validators.required),
                 orcRemarks: new FormControl(''),
-                orcReceivedDate: new FormControl(''),
+                orcReceivedDate: new FormControl('', Validators.required),
                 rtoAgent: new FormControl({ value: '', disabled: true }),
                 endorsementDate: new FormControl({ value: '', disabled: true })
 
@@ -159,7 +166,7 @@ export class PddComponent implements OnInit {
                 this.modifiedOrcStatusList = response.modifiedOrcStatusList;
                 this.pddDocumentList = response.pddDocumentList;
                 this.orcHistory = response.orcHistory;
-                this.rtoAgentsList= response.rtoAgentsList;
+                this.rtoAgentsList = response.rtoAgentsList;
                 this.disableDocumentList = response.disableDocumentList;
                 this.disbursementDate = this.utilityService.getDateFromString(response.disbursementDate) || '';
                 if (this.orcHistory) {
@@ -263,7 +270,7 @@ export class PddComponent implements OnInit {
         });
 
         if (value.endorsementDate) {
-           this.changeEndorseDate(this.utilityService.getDateFromString(value.endorsementDate))
+            this.changeEndorseDate(this.utilityService.getDateFromString(value.endorsementDate))
         }
     }
 
@@ -345,8 +352,12 @@ export class PddComponent implements OnInit {
     }
 
     getCollectedDate(index) {
+        
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         const value = formArray['controls'][index].get('collectedDate').value;
+        if(this.toDayDate< value){
+            return null;
+        }
         return value;
     }
 
@@ -434,8 +445,11 @@ export class PddComponent implements OnInit {
             const processForm = formValues.processForm;
             const controls = this.pddForm.get('processForm')
 
-            if (!processForm.orcStatus || !processForm.orcReceivedDate) {
+            if (controls.get('orcStatus').invalid ||
+                controls.get('orcReceivedDate').invalid) {
+                this.isDirty = true;
                 return true;
+
             } else if (controls.get('rtoAgent').invalid ||
                 controls.get('endorsementDate').invalid ||
                 this.isShowError) {
@@ -443,6 +457,7 @@ export class PddComponent implements OnInit {
 
                 return true;
             }
+            // ( processForm.orcStatus=="RECDFRMRTOAGNTPDDDOCS" && !processForm.endorsementDate)
         } else {
             const numberForm = this.pddForm.get('numberForm').value;
             if (!numberForm.regNumber || !numberForm.engNumber || !numberForm.chasNumber) {
@@ -526,6 +541,8 @@ export class PddComponent implements OnInit {
 
     changeEndorseDate(event) {
         const date = new Date(event);
+        //console.log('date', date)
+
         //console.log(date,'form', this.pddForm.get('processForm').get('endorsementDate'))
         if (date > this.toDayDate) {
             this.isShowError = true;

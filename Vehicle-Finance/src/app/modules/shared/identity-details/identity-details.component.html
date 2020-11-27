@@ -189,7 +189,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
                 [min]="minPassportIssueDate"
-                [max]="toDayDate"
+                [max]="maxDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
                 (valueChange)="passportIssueDateChange($event)"
@@ -296,7 +296,7 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="drivingLicenseIssueDate" [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
+                [max]="maxDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
                 [disabled]="drivingLicenceDates"

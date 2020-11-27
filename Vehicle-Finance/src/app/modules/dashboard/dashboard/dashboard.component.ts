@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
@@ -19,6 +19,7 @@ import { PollingService } from '@services/polling.service';
 import { timer } from 'rxjs';
 import { LeadHistoryService } from '@services/lead-history.service';
 import { CommonDataService } from '@services/common-data.service';
+import { SupervisorService } from '@modules/supervisor/service/supervisor.service';
 
 export enum DisplayTabs {
   Leads,
@@ -70,8 +71,12 @@ export enum DisplayTabs {
   RCUWithBranch,
   CPCCAD,
   CPCCADWithMe,
-  CPCCADWithBranch
-}
+  CPCCADWithBranch,
+  TranchesDisburse,
+  TrancheDisburseWithBranch,
+  TrancheDisburseReversedWithMe,
+  TrancheDisburseReversedWithBranch
+  }
 
 export enum sortingTables {
   ByLeadId,
@@ -100,7 +105,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   supervisorForm: FormGroup
   filterForm: FormGroup;
   showFilter;
-  roleType;
+  roleType: any;
   labels: any = {};
   validationData;
   isDirty: boolean;
@@ -165,6 +170,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
   supervisor: boolean;
   userName: any;
   reAssignData: any;
+  loginId: any;
+  userData: any;
+  supervisorRoleId: any;
+  supervisorRoleType: any;
+  userDetailsRoleType: any;
+  selfAssign: boolean;
+  selfAssignLoginId: any;
+  showModal: boolean;
+  @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
+  @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
+  @ViewChild('closeModal2', { static: false }) public closeModal2: ElementRef;
+  userDetailsRoleId: any;
+  supervisorUserId: any;
+  
+  
+  TrancheDisbList: any[];
+  trancheDetails: any[];
+  TrancheDisbTaskList: any[];
+  loginUserId: string;
+  supervisorName: any;
+  leadTaskId: any;
+  pendingName: any;
+  dataToReassign: any;
+  selfAssignData: any;
+  selfAssignLeadId: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -184,7 +214,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private pollingService: PollingService,
     private queryModelService: QueryModelService,
     private leadHistoryService: LeadHistoryService,
-    private commonDataService: CommonDataService
+    private commonDataService: CommonDataService,
+    private supervisorService: SupervisorService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -197,10 +228,65 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const thisUrl = this.router.url;
+    console.log(thisUrl);
+    this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
+      console.log(value);
+      if (value) {
+        this.userName = value.roleName;
+        this.supervisorRoleId = value.roleId;
+        this.supervisorRoleType = value.roleType;
+      }
+    });
+    this.sharedService.isSupervisorRoleId.subscribe((value: any) => {
+      console.log(value);
+      if (value) {
+        this.supervisorUserId = value;
+      }
+
+    });
+    this.sharedService.isSupervisorName.subscribe((value: any) => {
+      console.log(value);
+      if(value) {
+        this.supervisorName = value;
+      }
+      
+    })
+
+
+    this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
+      this.branchId = userDetails.branchId;
+      this.userDetailsRoleId = userDetails.roleId;
+      this.businessDivision = userDetails.businessDivision[0].bizDivId;
+      this.userDetailsRoleType = userDetails.roleType;
+      this.selfAssignLoginId = userDetails.loginId;
+    });
+
+
+    if (this.supervisorRoleType == this.userDetailsRoleType) {
+      this.selfAssign = true;
+    } else {
+      this.selfAssign = false;
+    }
+    if (this.userName) {
+      this.roleType = this.supervisorRoleType;
+      this.loginUserId = this.supervisorUserId;
+      this.roleId = this.supervisorRoleId;
+      this.loginUserId = this.supervisorUserId;
+      this.router.navigate(['/pages/supervisor/dashboard']);
+      this.pendingName = this.supervisorName;
+    } else {
+      this.roleType = this.userDetailsRoleType;
+      this.roleId = this.userDetailsRoleId;
+      this.loginUserId = localStorage.getItem('userId');
+      this.router.navigate(['/pages/dashboard']);
+      this.pendingName = 'Me';
+    }
+    console.log(this.roleType);
 
     this.supervisorForm = this.fb.group({
-      roles: ['']
-    })
+      roles: ['', Validators.required]
+    });
 
     if (this.router.url === "/pages/supervisor/dashboard") {
       this.supervisor = true;
@@ -208,9 +294,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.supervisor = false;
     }
 
-    this.sharedService.userName$.subscribe((value) => {
-      this.userName = value;
-    })
+
 
     this.userId = localStorage.getItem('userId')
 
@@ -219,12 +303,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     localStorage.removeItem('istermSheet');
     localStorage.removeItem('salesResponse');
     localStorage.removeItem('isFiCumPd');
-    this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
-      this.branchId = userDetails.branchId;
-      this.roleId = userDetails.roleId;
-      this.businessDivision = userDetails.businessDivision[0].bizDivId;
-      this.roleType = userDetails.roleType;
-    });
+
+
     localStorage.setItem('isPreDisbursement', 'false');
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
@@ -232,29 +312,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       this.onTabsLoading(this.subActiveTab);
     } else {
-      if (this.roleType === 1) {
+      if (this.roleType == '1') {
         this.activeTab = 0;
         this.subActiveTab = 3;
         this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType === 2) {
+      } else if (this.roleType == '2') {
         this.activeTab = 18;
         this.subActiveTab = 21;
         this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType === 4) {
+      } else if (this.roleType == '4') {
         this.activeTab = 30;
         this.subActiveTab = 31;
         this.onTabsLoading(this.subActiveTab);
         this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe, 'CPC');
-      } else if (this.roleType === 5) {
+      } else if (this.roleType == '5') {
         this.activeTab = 33;
         this.subActiveTab = 34;
         this.onTabsLoading(this.subActiveTab);
         this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
-      } else if (this.roleType === 6) {
+      } else if (this.roleType == '6') {
         this.activeTab = 44;
         this.subActiveTab = 45;
         this.onTabsLoading(this.subActiveTab);
-      } else if(this.roleType === 7) {
+      } else if (this.roleType == '7') {
         this.activeTab = 47;
         this.subActiveTab = 48;
         this.onTabsLoading(this.subActiveTab);
@@ -299,7 +379,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 300000)
+    }, 30000)
 
   }
 
@@ -313,7 +393,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.intervalId)
         }
       })
-    }, 300000)
+    }, 30000)
   }
 
   getCountAcrossLeads(userId) {
@@ -336,7 +416,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   initinequery() {
     const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);
+    localStorage.setItem('forQueryUrl', currentUrl);
     this.router.navigateByUrl(`/pages/query-model`)
   }
 
@@ -513,12 +593,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: 
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -596,6 +676,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 48: case 49:
         this.taskName = 'CPC-CAD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
+       case 51:
+        this.taskName = 'TrancheDisbursement';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);
+        break;  
+      case 52:
+        this.taskName = 'TrancheDisbursementPendingWithMe';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);
+        break; 
+      case 53:
+        this.taskName = 'TrancheDisbursementPendingWithBranch';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);	
+	
         break;
       default:
         break;
@@ -637,7 +729,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.toggleDdeService.clearToggleData();
     }
 
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads || 
+      this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
     } else {
@@ -650,7 +743,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   leads(data) {
     this.sortTab = '';
     this.subActiveTab = data;
-    if (this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
     } else {
@@ -773,7 +866,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // new leads
   getSalesLeads(perPageCount, pageNumber?) {
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: this.loginUserId,
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
       // tslint:disable-next-line: radix
@@ -812,6 +905,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getTaskDashboardLeads(perPageCount, pageNumber?) {
+    
+    const data = {
+      taskName: this.taskName,
+      branchId: this.branchId,
+      roleId: this.roleId,
+      userId: this.loginUserId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: this.myLeads,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      sortByDate: this.sortByDate,
+      sortByLead: this.sortByLead,
+      sortByLoanAmt: this.sortByLoanAmt,
+      sortByProduct: this.sortByProduct,
+      sortByStage: this.sortByStage
+    };
+
+    this.responseForCredit(data);
+  }
+
+  getTrancheDisburseLeads(perPageCount, pageNumber?) {
     const data = {
       taskName: this.taskName,
       branchId: this.branchId,
@@ -834,8 +956,50 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByProduct: this.sortByProduct,
       sortByStage: this.sortByStage
     };
+    if(data.taskName == 'TrancheDisbursement')
+    this.responseForTrancheDisburse(data);
+    else {
+     this.responseForTaskTrancheDisburse(data) ;
+    }
+  }
 
-    this.responseForCredit(data);
+  responseForTrancheDisburse(data) {
+    this.dashboardService.getTrancheDisburseDetails(data).subscribe((res: any) => {
+      this.setTrancheDispersePageData(res,1);
+      if (res.ProcessVariables.TrancheDisbList != null) {
+        this.isLoadLead = true;
+      } else {
+        this.trancheDetails = [];
+        this.isLoadLead = false;
+        this.TrancheDisbList = [];
+      }
+    });
+  }
+  // for Dashboard Task Tranche Disburse
+  responseForTaskTrancheDisburse(data) {
+    this.dashboardService.getTaskTrancheDisburseDetails(data).subscribe((res: any) => {
+      this.setTrancheDispersePageData(res,2);
+      if (res.ProcessVariables.TrancheDisbTaskList != null) {
+        this.isLoadLead = true;
+      } else {
+        this.trancheDetails = [];
+        this.isLoadLead = false;
+        this.TrancheDisbTaskList = [];
+      }
+    });
+  }
+  setTrancheDispersePageData(res,val) {
+    this.trancheDetails = [];
+    const response = (val == 1) ? res.ProcessVariables.TrancheDisbList : res.ProcessVariables.TrancheDisbTaskList;
+    this.trancheDetails = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count =
+      Number(res.ProcessVariables.totalPages) *
+      Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
   }
 
   setPage(event) {
@@ -884,8 +1048,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 23: case 24:
         this.router.navigateByUrl(`/pages/deviation-dashboard/${this.leadId}/dashboard-deviation-details`);
         break;
+      case 53:
+        this.router.navigate([`/pages/disbursement-section/${this.leadId}/tranche-disburse`]);
+        break;
       case 25: case 26:
-        localStorage.setItem('istermSheet', 'false');
+        localStorage.setItem('istermSheet', 'false');      
         // tslint:disable-next-line: triple-equals
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
@@ -916,7 +1083,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 45: case 46:
         this.router.navigateByUrl(`/pages/dde/${this.leadId}/rcu`);
         break;
-        case 48: case 49:
+      case 48: case 49:
         this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
         break;
 
@@ -998,7 +1165,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: triple-equals
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
-        this.onRoutingTabs(this.subActiveTab);
+        if (this.userName) {
+          return;
+        } else {
+          this.onRoutingTabs(this.subActiveTab);
+        }
         this.saveTaskLogs();
       } else {
         this.toasterService.showError(response.Error, '');
@@ -1006,33 +1177,124 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSupervisorAssign() {
-    this.onAssign();
-  }
-  getReAssignData(item) {
-    this.reAssignData = item;
-    console.log(this.reAssignData);
 
+  // Self-Assign Method
+  onSelfAssignClick(taskId, leadId) {
+    this.leadTaskId = taskId;
+    this.selfAssignLeadId = leadId;
+    console.log('on self assign click', this.selfAssignData);
   }
-  onReAssign() {
-    const data = {
-      // userId: ,
-      taskId: this.reAssignData.taskId,
-      userId: this.supervisorForm.value
-    };
-    console.log(data);
-    this.taskDashboard.releaseTask(data).subscribe((res: any) => {
+  onSupervisorAssign() {
+    // const data = {
+    //   taskId: this.leadTaskId,
+    //   loginId: this.selfAssignLoginId
+    // }
+    if ( this.subActiveTab === this.displayTabs.NewLeads ) {
+      this.dataToReassign = {
+        myLeads: true,
+        leadId: this.selfAssignLeadId,
+        loginId: this.selfAssignLoginId
+      };
+    } else {
+      this.dataToReassign = {
+        taskId: this.leadTaskId,
+        loginId: this.selfAssignLoginId
+      };
+    }
+    console.log(this.dataToReassign);
+
+    this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
       console.log(res);
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.toasterService.showSuccess('Self Assigned Successfully', 'Self-Assign');
+        this.closeModal2.nativeElement.click();
+        this.onClick();
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, 'Self-Assign');
+      }
+
     })
 
-    console.log(this.supervisorForm.value);
+  }
 
+  onReAssignClick(item) {
+    this.reAssignData = item;
+    console.log('on reAssign click', this.reAssignData);
+
+    // console.log(this.reAssignData);
+    this.getSupervisorUserDetails();
+    // console.log(this.supervisorForm);
+  }
+
+  getSupervisorUserDetails() {
+    const data = {
+      leadId: this.reAssignData.leadId,
+      roleId: this.supervisorRoleId,
+      userId: this.supervisorUserId
+    }
+    this.supervisorService.getSupervisorUserDetails(data).subscribe((res: any) => {
+      console.log(res);
+      this.userData = res.ProcessVariables.loginIds;
+      this.loginId = res.ProcessVariables.thisUser;
+
+    })
+  }
+
+  onConfirmAssign() {
+    this.showModal = true;
+  }
+
+  supervisorReAssign() {
+
+    if (this.subActiveTab === this.displayTabs.NewLeads) {
+      this.dataToReassign = {
+        myLeads: true,
+        leadId: this.reAssignData.leadId,
+        loginId: this.supervisorForm.value.roles
+      };
+    } else {
+      this.dataToReassign = {
+        taskId: this.reAssignData.taskId,
+        loginId: this.supervisorForm.value.roles
+      };
+    }
+    // const data = {
+    //   taskId: this.reAssignData.taskId,
+    //   myLeads: this.myLeads,
+    //   leadId: this.reAssignData.leadId,
+    //   loginId: this.supervisorForm.value.roles
+    // };
+    this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
+      console.log(res);
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.toasterService.showSuccess('Re Assigned Successfully', 'Re-Assign');
+        this.onClick();
+        this.closeModal.nativeElement.click();
+        this.closeModal1.nativeElement.click();
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, 'Re-Assign');
+      }
+
+    });
+  }
+
+  onBack() {
+    this.sharedService.getUserName('');
+    this.sharedService.getSupervisorName('');
+    this.sharedService.getUserRoleId('');
+    this.router.navigate(['pages/supervisor']);
   }
 
   saveTaskLogs() {
     const data = {
       userId: localStorage.getItem('userId'),
-      leadId: this.leadId,
+      leadId: (this.leadId)?parseInt(this.leadId):null,
       isClaim: this.isClaim,
       isRelease: this.isRelease,
       taskName: this.taskName

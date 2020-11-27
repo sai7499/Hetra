@@ -215,6 +215,7 @@ export class TermSheetComponent implements OnInit {
       return this.router.navigateByUrl(`pages/dde/${this.leadId}/welcome-letter`);
     }
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
+    console.log('this.roleType', this.roleType)
     if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
     } else if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true") {
@@ -228,6 +229,9 @@ export class TermSheetComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/sanction-details`]);
+    }
+    else if (this.roleType == '7') {
+      this.router.navigate([`/pages/cpc-maker/${this.leadId}/sanction-details`]);
     }
   }
 
@@ -249,6 +253,9 @@ export class TermSheetComponent implements OnInit {
       this.router.navigate([`pages/dashboard`]);
     } else if (this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
+    }
+    else if (this.roleType == '7') {
+      this.router.navigate([`/pages/dashboard`]);
     }
   }
   downloadpdf() {

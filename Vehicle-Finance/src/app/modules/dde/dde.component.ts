@@ -208,9 +208,9 @@ export class DdeComponent implements OnInit, OnChanges {
       return 14;
     } else if (url.includes('score-card')) {
       return 15;
-    } else if (url.includes('cam')) {
+    } else if (url.includes('insurance-details')) {
       return 16;
-    } else if (url.includes('deviations')) {
+    } else if (url.includes('cam')) {
       return 17;
     } else if (url.includes('insurance-details')) {
       return 17;

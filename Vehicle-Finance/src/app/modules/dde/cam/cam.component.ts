@@ -778,7 +778,7 @@ console.log("res",res);
       return this.router.navigate([`pages/dde/${this.leadId}/score-card`]);;
     }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
-      this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
+      this.router.navigate([`pages/dde/${this.leadId}/insurance-details`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {

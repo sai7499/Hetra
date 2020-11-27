@@ -76,6 +76,7 @@
     "rxjs": "~6.4.0",
     "sjcl": "^1.0.8",
     "tslib": "^1.9.0",
+    "xlsx": "^0.16.9",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

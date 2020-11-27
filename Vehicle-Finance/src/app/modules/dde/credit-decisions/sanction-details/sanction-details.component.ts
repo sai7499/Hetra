@@ -255,6 +255,9 @@ export class SanctionDetailsComponent implements OnInit {
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/pdc-details`]);
     }
+    else if (this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
+    }
   }
 
   onBack() {
@@ -273,6 +276,8 @@ export class SanctionDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+    }else if (this.roleType == '7') {
+      this.router.navigate([`/pages/cpc-maker/${this.leadId}/term-sheet`]);
     }
   }
   downloadpdf() {

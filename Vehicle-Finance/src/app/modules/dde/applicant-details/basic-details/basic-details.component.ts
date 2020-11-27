@@ -109,7 +109,7 @@ export class BasicDetailsComponent implements OnInit {
   apiValue: any;
   finalValue: any;
   isExpiryDate: boolean= false;
-
+  maxExtrIssue = new Date()
   isLoan360: boolean;
 
   constructor(
@@ -128,7 +128,13 @@ export class BasicDetailsComponent implements OnInit {
     private ageValidationService: AgeValidationService,
     private objectComparisonService: ObjectComparisonService,
     private loanViewService: LoanViewService
-  ) { }
+  ) { 
+    this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
+
+    this.maxExtrIssue.setDate(this.maxExtrIssue.getDate()-1)
+    this.maxExtrIssue = this.utilityService.setTimeForDates(this.maxExtrIssue)
+
+  }
   async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelsData.getLabelsData().subscribe(
@@ -1299,7 +1305,7 @@ export class BasicDetailsComponent implements OnInit {
    this.externalExpiryDate= new Date(event)
     this.isExpiryDate=false;
    
-      if (this.externalExpiryDate <= this.toDayDate) {
+      if (this.externalExpiryDate < this.toDayDate) {
         this.showMsg['expiryDate'] = true;
       } else {
         this.showMsg['expiryDate'] = false;
@@ -1312,7 +1318,7 @@ export class BasicDetailsComponent implements OnInit {
     const details = formArray.at(0);
     this.showMsg['expiryDate'] = false;
     this.externalIssueDate =new Date(event) ;
-    if( this.externalIssueDate > this.toDayDate){
+    if( this.externalIssueDate > this.maxExtrIssue){
       this.showMsg['issueDate']= true
     }else{
       this.showMsg['issueDate']= false

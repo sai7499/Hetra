@@ -78,6 +78,31 @@ export class AddvehicleComponent implements OnInit {
       let data = this.formValue.value.vehicleFormArray[0];
 
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
+
+        if (data && data.fcExpiryDate) {
+          data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
+        }
+
+        if (data.firFiled) {
+          data.firFiled = data.firFiled === true ? '1' : '0';
+        }
+
+        if (data.onlineVerification) {
+          data.onlineVerification = data.onlineVerification === true ? '1' : '0';
+        }
+
+        if (data.insuranceValidity) {
+          data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.accidentDate) {
+          data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.invoiceDate) {
+          data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
+        }
+
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
         }
