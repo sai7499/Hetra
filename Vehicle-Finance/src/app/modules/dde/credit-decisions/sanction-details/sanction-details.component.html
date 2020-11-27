@@ -310,7 +310,7 @@
             <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
             <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
             <ng-container *ngIf="!isLoan360">
-                <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
+            <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submitToSales}}</button>
             <button class="btn btn-primary dash_href adjustMargins" type="button"
                 *ngIf="roleType == '2' && salesResponse == 'true'"><a data-toggle="modal"
@@ -319,7 +319,7 @@
                 *ngIf="roleType != '2' && isPreDisbursement == 'true'">
                     <a data-toggle="modal"
                     data-target="#myModalSubmitToCD">{{labels?.submit}}</a></button>
-
+                </ng-container>
             <button class="btn btn-primary btn_div" type="button"
                 [disabled]="roleType != '1' && roleType != '4' && roleType != '5' && roleType != '7' "
 
