@@ -24,6 +24,8 @@ import { DraggableContainerService } from '@services/draggable.service';
 import { ToasterService } from '@services/toaster.service';
 import { Constant } from '@assets/constants/constant';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-applicant-docs-upload',
   templateUrl: './applicant-docs-upload.component.html',
@@ -111,7 +113,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
   isNewUpload = false;
   docError = {};
 
-
+  isLoan360: boolean;
+ 
   constructor(
     private lovData: LovDataService,
     private router: Router,
@@ -124,12 +127,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private utilityService: UtilityService,
     private base64StorageService: Base64StorageService,
     private draggableContainerService: DraggableContainerService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private loanViewService: LoanViewService
   ) {
 
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.uploadForm = new FormGroup({});
     this.labelsData.getLabelsData().subscribe(
       (data) => {
@@ -248,6 +253,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return;
     }
     this.constructFormForUpload();
+    
   }
 
   setDocumentDetails() {
@@ -276,6 +282,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
             ) as FormArray;
             formArray.push(this.getDocsFormControls());
           });
+          if (this.isLoan360) {
+            this.uploadForm.disable();
+          }
           return;
         }
         docDetails.forEach((docs, index) => {
@@ -310,6 +319,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
             formArray.push(this.getDocsFormControls());
           }
         });
+        if (this.isLoan360) {
+          this.uploadForm.disable();
+        }
       });
   }
 

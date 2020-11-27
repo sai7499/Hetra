@@ -571,9 +571,12 @@
             roleType == '2' && version != 'undefined' && showReinitiate == true
           "
         >
+        <ng-container *ngIf="!isLoan360">
           <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
             {{ labels.reinitiate }}</button
           >&nbsp;
+        </ng-container>
+          
           <!-- <button class="btn btn-success" (click)="approvePd()" [disabled]="disableSaveBtn">
                         {{ labels.approve }}
                     </button> -->

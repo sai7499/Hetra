@@ -506,9 +506,10 @@
               formControlName="fcExpiryDate"
               [activeView]="'decade'"
               [format]="'dd/MM/yyyy'"
-              [min]="toDayDate"
+             
               placeholder="FC Expiry Date"
             >
+            <!-- [min]="toDayDate" -->
             </kendo-datepicker>
             <div class="invalid-feedback">
               <div
@@ -859,6 +860,7 @@
           {{ labels.back }}
         </button>
         &nbsp;
+        <ng-container *ngIf="!isLoan360">
         <button
           class="btn btn-primary"
           (click)="onFormSubmit()"
@@ -866,8 +868,9 @@
         >
           {{ labels.save }}
         </button>
+      </ng-container>
         &nbsp;
-        <button class="btn btn-primary" type="button" (click)="onNext()">
+        <button class="btn btn-primary" type="button" (click)="onNext()" *ngIf="!isLoan360">
           {{ labels.next }}
         </button>
       </div>

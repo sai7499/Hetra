@@ -10,6 +10,7 @@ import { UtilityService } from '@services/utility.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-valuation',
@@ -68,6 +69,8 @@ export class ValuationComponent implements OnInit {
   leadDetails: any;
   productCatoryCode: any;
 
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -80,9 +83,11 @@ export class ValuationComponent implements OnInit {
     private vehicleDetailService: VehicleDetailService,
     private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService,
-    private toggleDdeService: ToggleDdeService) { }
+    private toggleDdeService: ToggleDdeService,
+    private LoanViewService: LoanViewService) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.LoanViewService.checkIsLoan360();
     console.log('today date', this.toDayDate);
     this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     console.log('today date', this.toDayDate);
@@ -106,6 +111,12 @@ export class ValuationComponent implements OnInit {
         this.vehicleValuationForm.disable();
         this.disableSaveBtn = true;
       }
+
+      if (this.LoanViewService.checkIsLoan360()) {
+        this.vehicleValuationForm.disable();
+        this.disableSaveBtn = true;
+      }
+
     });
     console.log('valuation form', this.vehicleValuationForm);
   }

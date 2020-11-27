@@ -10,6 +10,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-insurance-details',
   templateUrl: './insurance-details.component.html',
@@ -68,6 +70,9 @@ export class InsuranceDetailsComponent implements OnInit {
   isShowGuardian: boolean;
   healthQuestionAns = [];
   covidQuestions = [];
+  healthAns: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
+
+  isLoan360: boolean;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -81,6 +86,7 @@ export class InsuranceDetailsComponent implements OnInit {
               private createLeadService: CreateLeadDataService,
               private lovService: CommomLovService,
               private utilityService: UtilityService,
+              private loanViewService: LoanViewService
               ) { }
 
   async ngOnInit() {
@@ -88,6 +94,11 @@ export class InsuranceDetailsComponent implements OnInit {
     this.leadData = this.createLeadService.getLeadSectionData();
     console.log('lead Data', this.leadData);
     this.initForm();
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
+    if (this.isLoan360) {
+        this.insuranceDetailForm.disable();
+        this.disableSaveBtn  = true;
+      }
     // tslint:disable-next-line: no-string-literal
     this.leadData['applicantDetails'].map((element => {
       const body = {
@@ -184,18 +195,24 @@ export class InsuranceDetailsComponent implements OnInit {
       nomineeFullName: [''],
       nomineeLastName: [''],
       nomineeMiddleName: [''],
-      // nomineeMobile: [''],
+      nomineeGender: [''],
       nomineePincode: (['']),
       nomineeRelationWithApp: [''],
       nomineeState: [''],
       typeOfApplicant: [''],
       usedCoverageAmount: [''],
-      healthQuestion: ['']
+      healthQuestion: [''],
+      guarantorGender: ['']
     });
   }
 
 
  saveUpdateInsurance(event: string) {
+
+  if (this.isLoan360) {
+      return this.onNext();
+   }
+
    this.addValidations();
 
    if ( this.f.value.nomineeAge < 18) {
@@ -449,6 +466,9 @@ public addValidations() {
     this.f.controls.typeOfApplicant.updateValueAndValidity();
     this.f.controls.usedCoverageAmount.setValidators(Validators.required);
     this.f.controls.usedCoverageAmount.updateValueAndValidity();
+    this.f.controls.healthQuestion.setValidators(Validators.required);
+    this.f.controls.healthQuestion.updateValueAndValidity();
+    
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.nomineeArray.length; i++) {
     
@@ -551,7 +571,9 @@ getInsuranceDetails() {
       nomineeState: this.processVariables.nomineeState,
       typeOfApplicant: this.processVariables.typeOfApplicant,
       usedCoverageAmount: this.processVariables.usedCoverageAmount,
-      healthQuestion: this.processVariables.healthQuestion
+      healthQuestion: this.processVariables.healthQuestion,
+      guarantorGender: this.processVariables.guarantorGender,
+      nomineeGender: this.processVariables.nomineeGender
      });
     this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
   }

@@ -363,7 +363,7 @@
                   (click)="onCreateChildLoan()">
                   Create Child Loan Lead
                 </button>
-                <button class="btn btn-primary js-btn-next mar-right8" type="button">
+                <button class="btn btn-primary js-btn-next mar-right8" type="button" [disabled]="!isCreateLoanBtn" (click)="viewLoan360()">
                   View Loan 360
                 </button>
               </div>

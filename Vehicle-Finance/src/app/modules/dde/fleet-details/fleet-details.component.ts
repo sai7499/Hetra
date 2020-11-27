@@ -18,6 +18,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import readXlsxFile from 'read-excel-file';
+import { LoanViewService } from '@services/loan-view.service';
 
 import * as XLSX from 'xlsx';
 
@@ -75,6 +76,7 @@ export class FleetDetailsComponent implements OnInit {
   public allLovs: any;
   fleetLov: any = [];
 
+
   regexPattern = {
     // tensure: {
     //   rule: "^[1-9][0-9]*$",
@@ -119,6 +121,7 @@ export class FleetDetailsComponent implements OnInit {
   fleetArrayList: FormArray;
   operationType: boolean;
   deleteRecordData: { index: number; fleets: any; };
+  isLoan360: boolean;
   constructor(
 
     private labelsData: LabelsService,
@@ -135,7 +138,8 @@ export class FleetDetailsComponent implements OnInit {
     private uiLoader: NgxUiLoaderService,
     private vehicleDetailService: VehicleDetailService,
     private sharedService: SharedService,
-    private toggleDdeService: ToggleDdeService) {
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     this.fleetArrayList = this.fb.array([]);
   }
@@ -144,6 +148,8 @@ export class FleetDetailsComponent implements OnInit {
   async ngOnInit() {
 
     // accessing lead if from route
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.leadId = (await this.getLeadId()) as number;
     console.log("leadID =>", this.leadId)
@@ -666,6 +672,7 @@ export class FleetDetailsComponent implements OnInit {
     this.fleetDetailsService.getFleetDetails(data).subscribe((res: any) => {
       if (res['Status'] == "Execution Completed" && res.ProcessVariables.fleets != null) {
         const fleets = res['ProcessVariables'].fleets;
+        this.formArr.clear();
         for (let i = 0; i < fleets.length; i++) {
           this.vehicleTypeLov[i] = this.allLovs.vehicleType;
           this.regionLov[i] = this.allLovs.assetRegion;
@@ -699,6 +706,11 @@ export class FleetDetailsComponent implements OnInit {
       }
       this.operationType = this.toggleDdeService.getOperationType();
       if (this.operationType) {
+        this.fleetForm.disable();
+        this.disableSaveBtn = true;
+      }
+
+      if (this.loanViewService.checkIsLoan360()) {
         this.fleetForm.disable();
         this.disableSaveBtn = true;
       }
@@ -814,6 +826,13 @@ export class FleetDetailsComponent implements OnInit {
 
 
   onFormSubmit(index: any) {
+
+    if (this.isLoan360) {
+      if (index === 'next') {
+        return this.router.navigateByUrl(`pages/dde/${this.leadId}/exposure`);
+      }
+      return;
+    }
 
     this.fleetDetails = this.fleetForm.value.Rows;
     console.log("fleet form value", this.fleetForm)
@@ -1035,6 +1054,7 @@ export class FleetDetailsComponent implements OnInit {
         this.docsFleetDetails = null;
         this.showUploadModal = false;
         this.toasterService.showSuccess('Saved successfully', '');
+        this.getFleetDetails();
     }));
   }
 

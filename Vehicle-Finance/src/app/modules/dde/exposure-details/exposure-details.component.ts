@@ -10,6 +10,8 @@ import { ToasterService } from '@services/toaster.service';
 import { element } from 'protractor';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-exposure-details',
   templateUrl: './exposure-details.component.html',
@@ -29,6 +31,7 @@ export class ExposureDetailsComponent implements OnInit {
   rowIndex;
   isModelShow: boolean;
   errorMessage;
+  isLoan360: boolean;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -36,7 +39,8 @@ export class ExposureDetailsComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private location: Location,
               private toStarService: ToasterService,
-              private toggleDdeService: ToggleDdeService ) {
+              private toggleDdeService: ToggleDdeService,
+              private loanViewService: LoanViewService ) {
                 this.yearCheck = [{rule: val => val>this.currentYear,
                                    msg:'Future year not accepted'}];
                 this.labelService.getLabelsData().subscribe(res => {
@@ -71,6 +75,7 @@ export class ExposureDetailsComponent implements OnInit {
    }
   ];
    ngOnInit() {
+     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.exposureLiveLoan = this.formBuilder.group({
       loanTable: this.formBuilder.array([]),      
     });
@@ -97,6 +102,11 @@ export class ExposureDetailsComponent implements OnInit {
            this.exposureLiveLoan.disable();
            this.disableSaveBtn  = true;
          }
+
+        if (this.loanViewService.checkIsLoan360()) {
+          this.exposureLiveLoan.disable();
+           this.disableSaveBtn  = true;
+        } 
     });
   }
   getLeadId() {
