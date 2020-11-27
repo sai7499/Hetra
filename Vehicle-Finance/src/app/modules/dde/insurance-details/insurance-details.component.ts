@@ -10,6 +10,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-insurance-details',
   templateUrl: './insurance-details.component.html',
@@ -69,6 +71,9 @@ export class InsuranceDetailsComponent implements OnInit {
   healthQuestionAns = [];
   covidQuestions = [];
   healthAns: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
+
+  isLoan360: boolean;
+
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
               private toggleDdeService: ToggleDdeService,
@@ -81,6 +86,7 @@ export class InsuranceDetailsComponent implements OnInit {
               private createLeadService: CreateLeadDataService,
               private lovService: CommomLovService,
               private utilityService: UtilityService,
+              private loanViewService: LoanViewService
               ) { }
 
   async ngOnInit() {
@@ -88,6 +94,11 @@ export class InsuranceDetailsComponent implements OnInit {
     this.leadData = this.createLeadService.getLeadSectionData();
     console.log('lead Data', this.leadData);
     this.initForm();
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
+    if (this.isLoan360) {
+        this.insuranceDetailForm.disable();
+        this.disableSaveBtn  = true;
+      }
     // tslint:disable-next-line: no-string-literal
     this.leadData['applicantDetails'].map((element => {
       const body = {
@@ -197,6 +208,11 @@ export class InsuranceDetailsComponent implements OnInit {
 
 
  saveUpdateInsurance(event: string) {
+
+  if (this.isLoan360) {
+      return this.onNext();
+   }
+
    this.addValidations();
 
    if ( this.f.value.nomineeAge < 18) {

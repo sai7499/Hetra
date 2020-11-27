@@ -860,6 +860,7 @@
           {{ labels.back }}
         </button>
         &nbsp;
+        <ng-container *ngIf="!isLoan360">
         <button
           class="btn btn-primary"
           (click)="onFormSubmit()"
@@ -867,8 +868,9 @@
         >
           {{ labels.save }}
         </button>
+      </ng-container>
         &nbsp;
-        <button class="btn btn-primary" type="button" (click)="onNext()">
+        <button class="btn btn-primary" type="button" (click)="onNext()" *ngIf="!isLoan360">
           {{ labels.next }}
         </button>
       </div>

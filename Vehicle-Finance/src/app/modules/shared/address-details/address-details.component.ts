@@ -29,6 +29,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { AgmFitBounds } from '@agm/core';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-address-details',
   templateUrl: './address-details.component.html',
@@ -115,6 +117,8 @@ export class AddressDetailsComponent implements OnInit {
   apiAddressLead = '0';
   apiCommunicationCheckBox = '0';
 
+  isLoan360: boolean;
+
 
   constructor(
     private lovData: LovDataService,
@@ -129,10 +133,12 @@ export class AddressDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.getLabels();
     this.getLOV();
@@ -620,6 +626,9 @@ export class AddressDetailsComponent implements OnInit {
       })
     }
     this.apiValue = this.addressForm.getRawValue();
+    if (this.loanViewService.checkIsLoan360()) {
+      this.addressForm.disable();
+    }
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
@@ -1605,6 +1614,21 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      const url = this.location.path();
+      localStorage.setItem('currentUrl', url);
+      if (url.includes('sales')) {
+        this.router.navigateByUrl(
+          `pages/sales-applicant-details/${this.leadId}/document-upload/${this.applicantId}`
+        );
+  
+      } else {
+        this.router.navigateByUrl(
+          `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
+        );
+      }
+      return;
+    }
     this.finalValue = this.addressForm.getRawValue();
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
     console.log(JSON.stringify(this.apiValue));
