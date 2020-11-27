@@ -457,26 +457,28 @@ export class LeadCreationComponent implements OnInit {
 
   sourchingTypeChange(event) {
     this.sourchingTypeId = event.target ? event.target.value : event;
-    if (this.sourchingTypeId === '2SOURTYP') {
-      this.createLeadForm.controls['dealerCode'].setValidators(Validators.required);
-      this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
-      this.createLeadForm.controls['rcLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUtilizedLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUnutilizedLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
-      this.isDealerCode = true;
-    } else {
-      this.createLeadForm.controls['dealerCode'].setValidators([]);
-      this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
-      this.createLeadForm.controls['rcLimit'].setValidators([]);
-      this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
-      this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
-      this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
-      this.isDealerCode = false;
+    if (this.isremoveDealerRC) {
+      if (this.sourchingTypeId === '2SOURTYP') {
+        this.createLeadForm.controls['dealerCode'].setValidators(Validators.required);
+        this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+        this.createLeadForm.controls['rcLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUtilizedLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUnutilizedLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+        this.isDealerCode = true;
+      } else {
+        this.createLeadForm.controls['dealerCode'].setValidators([]);
+        this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+        this.createLeadForm.controls['rcLimit'].setValidators([]);
+        this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
+        this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
+        this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+        this.isDealerCode = false;
+      }
     }
     this.socuringTypeData = this.sourcingData.filter(
       (data) => data.sourcingTypeId === this.sourchingTypeId

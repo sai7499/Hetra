@@ -64,7 +64,9 @@ h3.dedupe_head {
     text-align: left!important;
 }
 
-
+.pad-zero{
+    padding:0px!important;
+  }
 /* Lead dedupe*/
 
 .dedupe_head {
