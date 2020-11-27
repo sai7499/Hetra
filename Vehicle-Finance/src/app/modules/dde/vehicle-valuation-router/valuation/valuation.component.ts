@@ -143,6 +143,7 @@ export class ValuationComponent implements OnInit {
   permitType: any;
   permitDisabled: boolean;
   permitRequired: boolean;
+  isLoan360: boolean;
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -166,7 +167,7 @@ export class ValuationComponent implements OnInit {
   }
 
   async ngOnInit() {
-
+    this.isLoan360 = this.LoanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     //  details from loginstore service
     this.userId = roleAndUserDetails.userDetails.userId;
