@@ -672,6 +672,7 @@ export class FleetDetailsComponent implements OnInit {
     this.fleetDetailsService.getFleetDetails(data).subscribe((res: any) => {
       if (res['Status'] == "Execution Completed" && res.ProcessVariables.fleets != null) {
         const fleets = res['ProcessVariables'].fleets;
+        this.formArr.clear();
         for (let i = 0; i < fleets.length; i++) {
           this.vehicleTypeLov[i] = this.allLovs.vehicleType;
           this.regionLov[i] = this.allLovs.assetRegion;
@@ -1053,6 +1054,7 @@ export class FleetDetailsComponent implements OnInit {
         this.docsFleetDetails = null;
         this.showUploadModal = false;
         this.toasterService.showSuccess('Saved successfully', '');
+        this.getFleetDetails();
     }));
   }
 
