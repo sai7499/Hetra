@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AgeValidationService } from '@services/age-validation.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
 import { CommonDataService } from '@services/common-data.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-child-loan',
@@ -36,6 +37,7 @@ export class ChildLoanComponent implements OnInit {
   selectedLoanAccNoIndex: number;
   accountNo: any;
   isCreateLoanBtn: boolean;
+  selectedLeadId: string;
 
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
@@ -73,7 +75,8 @@ export class ChildLoanComponent implements OnInit {
     private ageValidationService: AgeValidationService,
     private childLoanApiService: ChildLoanApiService,
     private commonDataService: CommonDataService,
-    private commomLovService: CommomLovService
+    private commomLovService: CommomLovService,
+    private loanViewService: LoanViewService
   ) { }
 
   ngOnInit() {
@@ -347,8 +350,18 @@ export class ChildLoanComponent implements OnInit {
       this.isCreateLoanBtn = true;
       this.accountNo = this.loanDetailsData[index].accountNumber;
       this.selectedLoanAccNoIndex = index;
+      this.selectedLeadId = this.loanDetailsData[index].parentLead;
     }
   }
+
+  viewLoan360() {
+    this.loanViewService.isLoan360(true);
+    // this.loanViewService.getLoanDetails(this.leadId)
+    //     .subscribe((value) => {
+           // console.log('loan 360', value);
+    this.router.navigateByUrl(`/pages/dde/${this.selectedLeadId}`);
+       // });
+}
 
   onCreateChildLoan() {
     const customerData = this.customerDetailsData.length;
