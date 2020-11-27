@@ -427,7 +427,7 @@
           <button type="button" class="btn btn-primary" value="submit" (click)="onBack()">
             Back
           </button> 
-          <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
+          <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" *ngIf="!isLoan360">
             Save
           </button> 
           <button type="button" class="btn btn-primary" value="submit" (click)="onNext()">

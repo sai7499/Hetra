@@ -10,6 +10,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-psl-data',
   templateUrl: './psl-data.component.html',
@@ -91,6 +93,7 @@ export class PslDataComponent implements OnInit {
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
     private sharedService: SharedService,
+    private loanViewService: LoanViewService
   ) { }
 
   ngOnInit() {
@@ -314,6 +317,10 @@ export class PslDataComponent implements OnInit {
             this.pslDataForm.disable();
             this.disableSaveBtn = true;
           }
+          if (this.loanViewService.checkIsLoan360()) {
+            this.pslDataForm.disable();
+            this.disableSaveBtn = true;
+          }
         })
         return;
       }
@@ -414,6 +421,11 @@ export class PslDataComponent implements OnInit {
       setTimeout(() => {
         const operationType = this.toggleDdeService.getOperationType();
         if (operationType) {
+          this.pslDataForm.disable();
+          this.disableSaveBtn = true;
+        }
+
+        if (this.loanViewService.checkIsLoan360()) {
           this.pslDataForm.disable();
           this.disableSaveBtn = true;
         }

@@ -705,9 +705,11 @@
     <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
       </button></a>
+      <ng-container *ngIf="!this.isLoan360"> 
     <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
       Save
     </p>
+  </ng-container>
     <a id="next_vehicle_details"><button class="btn btn-primary" type="button" (click)="onNext()">
         Next
       </button></a>
