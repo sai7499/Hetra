@@ -184,13 +184,14 @@ export class InsuranceDetailsComponent implements OnInit {
       nomineeFullName: [''],
       nomineeLastName: [''],
       nomineeMiddleName: [''],
-      // nomineeMobile: [''],
+      nomineeGender: [''],
       nomineePincode: (['']),
       nomineeRelationWithApp: [''],
       nomineeState: [''],
       typeOfApplicant: [''],
       usedCoverageAmount: [''],
-      healthQuestion: ['']
+      healthQuestion: [''],
+      guarantorGender: ['']
     });
   }
 
@@ -554,7 +555,9 @@ getInsuranceDetails() {
       nomineeState: this.processVariables.nomineeState,
       typeOfApplicant: this.processVariables.typeOfApplicant,
       usedCoverageAmount: this.processVariables.usedCoverageAmount,
-      healthQuestion: this.processVariables.healthQuestion
+      healthQuestion: this.processVariables.healthQuestion,
+      guarantorGender: this.processVariables.guarantorGender,
+      nomineeGender: this.processVariables.nomineeGender
      });
     this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
   }

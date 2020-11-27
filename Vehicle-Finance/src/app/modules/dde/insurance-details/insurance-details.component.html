@@ -4,7 +4,7 @@
         <div class="row">
             <h4 class="main-head">Insurance Details</h4>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="spoke_code_location" class="asset_type">{{labels?.motorInsuranceRequired}}</label>
+                <label for="spoke_code_location" class="asset_type">{{labels?.motorInsuranceRequired}}<sub class="star_red_col">*</sub></label>
                 <div>
 
                     <label class="radio-inline">
@@ -21,7 +21,7 @@
 
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                <label for="sourcing_type" class="asset_type">{{labels?.creditShieldRequired}}</label>
+                <label for="sourcing_type" class="asset_type">{{labels?.creditShieldRequired}}<sub class="star_red_col">*</sub></label>
                 <div>
                     <label class="radio-inline">
                         <!-- <input type="radio" name="residenceStabilityConfirmed" formControlName="residenceStabilityConfirmed" value="1">Yes -->
@@ -40,7 +40,7 @@
         <div *ngIf="showCreditDetails">
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.creditShieldHolderName}}</label>
+                    <label for="needForProposedVehicle" class="ellipsify">{{labels?.creditShieldHolderName}} <sub class="star_red_col">*</sub></label>
                     <!--formControlName="ndForProposedVehicle"  -->
                     <app-vf-custom-select id="needForProposedVehicle" formControlName="nameOfCreditShieldPolicy"
                         (change)="selectApplicant($event.target.value)" [values]="applicantList"
@@ -55,7 +55,7 @@
                     </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}}</label>
+                    <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}} <sub class="star_red_col">*</sub></label>
                     <!-- formControlName="contractDetails" -->
                     <app-custom-input id="usedCoverageAmount" formControlName="usedCoverageAmount"
                         [className]="'form-control mandatory'" [placeholder]="'Enter used coverage amount'"
@@ -70,7 +70,7 @@
                 <h4 class="main-head">{{labels?.nomineeDetails}}</h4>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                        <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}}</label>
+                        <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}} <sub class="star_red_col">*</sub></label>
                         <app-custom-input id="needForProposedVehicle" formControlName="nomineeFirstName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter nominee first name'"
                             [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
@@ -88,7 +88,7 @@
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                        <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}</label>
+                        <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}} <sub class="star_red_col">*</sub></label>
                         <app-custom-input id="contractDetails" formControlName="nomineeLastName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter nominee last name'"
                             [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
@@ -109,7 +109,13 @@
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                        <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}}</label>
+                        <label for="passport">{{ labels?.gender }} <sub class="star_red_col">*</sub></label>
+                        <app-vf-custom-select formControlName="nomineeGender" [values]="lovData?.gender"
+                            [isRequired]="'Please select nominee gender'" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}} <sub class="star_red_col">*</sub></label>
                         <!-- <app-custom-input id="routeOfOperation" formControlName="nomineeDOB">
                         </app-custom-input> -->
                         <kendo-datepicker class="form-control" formControlName="nomineeDOB" [format]="'dd/MM/yyyy'"
@@ -119,14 +125,15 @@
                             <p>Please enter nominee date of birth</p>
                         </div>
                     </div>
+                   
+                </div>
+                <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.age}}</label>
                         <app-custom-input id="contractDetails" formControlName="nomineeAge"
                             (change)="enableDisableGuardian($event)" [isDisabled]="true">
                         </app-custom-input>
                     </div>
-                </div>
-                <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <!-- [isRequired]="'Please enter mobile number'" -->
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.mobileNumber}}</label>
@@ -139,7 +146,7 @@
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                        <label for="routeOfOperation" class="ellipsify">{{labels?.relationshipWithApplicant}}</label>
+                        <label for="routeOfOperation" class="ellipsify">{{labels?.relationshipWithApplicant}} <sub class="star_red_col">*</sub></label>
                         <app-vf-custom-select id="routeOfOperation" formControlName="nomineeRelationWithApp"
                             [className]="'form-control mandatory'"
                             [isRequired]="'Please select relationship With applicant'" [isDirty]="isDirty"
@@ -201,11 +208,6 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
-                        <!-- <select class="form-control" formControlName="city" id="permanent_address_city">
-                                            <option>City 1</option>
-                                            <option>City 2</option>
-                                            <option>City 3</option>
-                                        </select> -->
                         <app-vf-custom-select formControlName="nomineeCity" [values]="nomineeCity"
                             [isRequired]="'Please select nominee country'" [isDirty]="isDirty">
                         </app-vf-custom-select>
@@ -248,7 +250,7 @@
                 <h4 class="main-head">{{labels?.guardianDetails}}</h4>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                        <label class="ellipsify">{{labels?.firstName}}</label>
+                        <label class="ellipsify">{{labels?.firstName}}<sub class="star_red_col">*</sub></label>
                         <app-custom-input id="guardianFirstName" formControlName="guardianFirstName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter guardian first name'"
                             [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
@@ -268,7 +270,7 @@
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                        <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}</label>
+                        <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}}<sub class="star_red_col">*</sub></label>
                         <app-custom-input id="guardianLastName" formControlName="guardianLastName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter guardian last name'"
                             [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
@@ -291,7 +293,16 @@
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                        <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}}</label>
+                        <label for="passport">{{ labels?.gender }} <sub class="star_red_col">*</sub></label>
+                        <app-vf-custom-select formControlName="guarantorGender" [values]="lovData?.gender"
+                            [isRequired]="'Please select guardian gender'" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                        <div class="invalid-feedback" *ngIf=" isGuardian && f.controls.guarantorGender.invalid">
+                            <p> Please select guardian gender </p>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="routeOfOperation" class="ellipsify">{{labels?.dateOfBirth}} <sub class="star_red_col">*</sub></label>
                         <!-- <app-custom-input id="routeOfOperation" formControlName="guardianDOB">
                         </app-custom-input> -->
                         <kendo-datepicker class="form-control" formControlName="guardianDOB" [format]="'dd/MM/yyyy'"
@@ -301,6 +312,16 @@
                             <p> Please enter guardian date of birth </p>
                         </div>
                     </div>
+                   
+                   
+                </div>
+                <div class="row">
+                    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="lead_created_by_source" class="ellipsify">{{labels?.age}}</label>
+                        <app-custom-input id="contractDetails" formControlName="nomineeAge"
+                            (change)="enableDisableGuardian($event)" [isDisabled]="true">
+                        </app-custom-input>
+                    </div> -->
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.mobileNumber}}</label>
                         <app-custom-input id="contractDetails" formControlName="guardianMobileNumber"
@@ -310,11 +331,9 @@
                             [patternCheck]="labels?.validationData?.mobileNumber?.pattern">
                         </app-custom-input>
                     </div>
-                </div>
-                <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle"
-                            class="ellipsify">{{labels?.relationshipWithApplicant}}</label>
+                            class="ellipsify">{{labels?.relationshipWithApplicant}} <sub class="star_red_col">*</sub></label>
                         <!-- <app-custom-input id="needForProposedVehicle" formControlName="guardianRelationWithApp">
                         </app-custom-input> -->
                         <app-vf-custom-select id="guardianRelationWithApp" formControlName="guardianRelationWithApp"
