@@ -163,7 +163,7 @@ export class FleetDetailsComponent implements OnInit {
     console.log("user id ==>", this.userId)
 
     this.getLov();
-    this.getFleetDetails();
+    
 
     this.fleetForm = this.fb.group(
       {
@@ -514,6 +514,7 @@ export class FleetDetailsComponent implements OnInit {
       this.allLovs = value.LOVS;
 
       this.fleetLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
+      this.getFleetDetails();
     });
 
   }
@@ -659,6 +660,31 @@ export class FleetDetailsComponent implements OnInit {
 
   //  method for getting fleet Details
 
+  addFleetTable(fleets) {
+    for (let i = 0; i < fleets.length; i++) {
+      this.vehicleTypeLov[i] = this.allLovs.vehicleType;
+      this.regionLov[i] = this.allLovs.assetRegion;
+      this.vehicleManufacturer[i] = this.allLovs.vehicleManufacturer;
+      this.assetBodyTypeLov[i] = [{
+        key: fleets[i].assetBodyType,
+        value: fleets[i].assetBodyTypeDesc
+      }];
+      this.assetModelTypeLov[i] = [{
+        key: fleets[i].assetModel,
+        value: fleets[i].assetModelDesc
+      }];
+      if (!fleets[i].seasoning) {
+        fleets[i].seasoning = (fleets[i].paid / fleets[i].tenure) * 100
+      }
+      if (i == 0) {
+        this.formArr.push(this.initRows(fleets[i]))
+      }
+      else {
+        this.addNewRow(fleets[i]);
+      }
+    }
+  }
+
   getFleetDetails() {
     const data = {
       leadId: this.leadId
@@ -666,28 +692,7 @@ export class FleetDetailsComponent implements OnInit {
     this.fleetDetailsService.getFleetDetails(data).subscribe((res: any) => {
       if (res['Status'] == "Execution Completed" && res.ProcessVariables.fleets != null) {
         const fleets = res['ProcessVariables'].fleets;
-        for (let i = 0; i < fleets.length; i++) {
-          this.vehicleTypeLov[i] = this.allLovs.vehicleType;
-          this.regionLov[i] = this.allLovs.assetRegion;
-          this.vehicleManufacturer[i] = this.allLovs.vehicleManufacturer;
-          this.assetBodyTypeLov[i] = [{
-            key: fleets[i].assetBodyType,
-            value: fleets[i].assetBodyTypeDesc
-          }];
-          this.assetModelTypeLov[i] = [{
-            key: fleets[i].assetModel,
-            value: fleets[i].assetModelDesc
-          }];
-          if (!fleets[i].seasoning) {
-            fleets[i].seasoning = (fleets[i].paid / fleets[i].tenure) * 100
-          }
-          if (i == 0) {
-            this.formArr.push(this.initRows(fleets[i]))
-          }
-          else {
-            this.addNewRow(fleets[i]);
-          }
-        }
+        this.addFleetTable(fleets);
       } else {
         if (res['Error'] == "1") {
           this.toasterService.showError(res['ErrorMessage'], '');
@@ -1012,7 +1017,7 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   saveValidRecords() {
-    const filteredData = this.docsFleetDetails.filter((value) => {
+    let filteredData = this.docsFleetDetails.filter((value) => {
       return value.status;
     });
     if (filteredData.length === 0) {
@@ -1034,6 +1039,29 @@ export class FleetDetailsComponent implements OnInit {
         }
         this.docsFleetDetails = null;
         this.showUploadModal = false;
+        filteredData = filteredData.map((data) => {
+          return {
+            regdNo: data.regdNo,
+            regdOwner: data.regdOwner,
+            relation: data.relationUniqueId,
+            region: data.regionUniqueId,
+            make: data.makeUniqueId,
+            vehicleType: data.vehicleTypeUniqueId,
+            assetBodyType: data.segmentUniqueId,
+            assetBodyTypeDesc: value.segmentId,
+            assetModel: data.assetModel,
+            yom: data.yom,
+            loanNo: data.loanNo,
+            purchaseDate: data.purchaseDate,
+            tenure: data.tenure,
+            paid: data.paid,
+            seasoning: data.seasoning,
+            ad: data.ad,
+            pd: data.pd,
+            gridValue: data.gridValue
+          }
+        })
+        this.addFleetTable(filteredData);
         this.toasterService.showSuccess('Saved successfully', '');
     }));
   }
