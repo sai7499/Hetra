@@ -114,6 +114,11 @@ export class ValuationComponent implements OnInit {
     { key: 7, value: '7' }, { key: 0, value: '8' },
     { key: 9, value: '9' }, { key: 10, value: '10' },
   ];
+  vehiclePermitStatus: any = [
+    { key: '1VEHPERSTATUS', value: 'Valid' },
+    { key: '2VEHPERSTATUS', value: 'surrendered' },
+    { key: '3VEHPERSTATUS', value: 'Not Available' }
+  ];
   fuelUsedType: any;
   fuelTypeLOV: any;
   userId: any;
@@ -134,6 +139,10 @@ export class ValuationComponent implements OnInit {
   reportUrl: any;
   personInitiatedBy: any;
   regDateAndMonth: any;
+  manufactureDate: Date;
+  permitType: any;
+  permitDisabled: boolean;
+  permitRequired: boolean;
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -294,6 +303,7 @@ export class ValuationComponent implements OnInit {
     // } else {
     //   this.customFutureDate = false;
     // }
+    console.log('in on get date value fn');
     this.customFutureDate = false;
     if (event > this.toDayDate) {
       this.customFutureDate = true;
@@ -318,6 +328,65 @@ export class ValuationComponent implements OnInit {
     }
     console.log('Form Data', this.vehicleValuationForm);
 
+  }
+  onPermitChange(event: any) {
+    this.permitType = event ? event : '';
+    if (this.permitType === '3VEHPERSTATUS') {
+      this.permitDisabled = true;
+      this.permitRequired = false;
+      this.vehicleValuationForm.get('permitValidUpto').disable();
+      this.vehicleValuationForm.get('permitValidUpto').clearValidators();
+      this.vehicleValuationForm.get('permitValidUpto').updateValueAndValidity();
+
+      setTimeout(() => {
+        this.vehicleValuationForm.get('permitValidUpto').patchValue(null);
+
+      });
+    } else if (this.engineStartedType !== '3VEHPERSTATUS') {
+      this.permitDisabled = false;
+      this.permitRequired = true;
+      this.vehicleValuationForm.get('permitValidUpto').enable();
+      this.vehicleValuationForm.get('permitValidUpto').setValidators(Validators.required);
+      this.vehicleValuationForm.get('permitValidUpto').updateValueAndValidity();
+    }
+
+
+  }
+
+  // tslint:disable-next-line: no-shadowed-variable
+  validatingBeforeRegDate(value?: any) {
+    console.log('value', value);
+    const regDate = new Date(this.vehicleValuationForm.value.dateofReg)
+      ? new Date(this.vehicleValuationForm.value.dateofReg) : null;
+    const permitDate = new Date(this.vehicleValuationForm.value.permitValidUpto)
+      ? new Date(this.vehicleValuationForm.value.permitValidUpto) : null;
+    const fitnessDate = new Date(this.vehicleValuationForm.value.fcExpiryDate)
+      ? new Date(this.vehicleValuationForm.value.fcExpiryDate) : null;
+    const taxDate = new Date(this.vehicleValuationForm.value.taxValidUpto)
+      ? new Date(this.vehicleValuationForm.value.taxValidUpto) : null;
+
+    if (value === 'permitDate') {
+      if (regDate !== null && permitDate !== null) {
+        if (permitDate < regDate) {
+          this.toasterService.showWarning('Permit Validity Date should be greater than Registration Date', '');
+          return;
+        }
+      }
+    } else if (value === 'fitnessDate') {
+      if (regDate !== null && fitnessDate !== null) {
+        if (fitnessDate < regDate) {
+          this.toasterService.showWarning('Fitness Validity Date should be greater than Registration Date', '');
+          return;
+        }
+      }
+    } else if (value === 'taxDate') {
+      if (regDate !== null && fitnessDate !== null) {
+        if (taxDate < regDate) {
+          this.toasterService.showWarning('Tax Validity Date should be greater than Registration Date', '');
+          return;
+        }
+      }
+    }
   }
 
   // formvalueChange() {
@@ -606,7 +675,7 @@ export class ValuationComponent implements OnInit {
       unladenWeight: ['', Validators.required],
       hypothecation: ['', Validators.required],
       permitStatus: ['', Validators.required],
-      permitValidUpto: ['', Validators.required],
+      permitValidUpto: [''],
       // fitnessValidity: ['', Validators.required],
       routeOfOperation: ['', Validators.required],
       taxPaid: ['', Validators.required],
@@ -1021,7 +1090,11 @@ export class ValuationComponent implements OnInit {
         }
       });
     } else {
+      // this.validatingBeforeRegDate('taxDate');
+      // this.validatingBeforeRegDate('permitDate');
+      // this.validatingBeforeRegDate('fitnessDate');
       this.toasterService.showError('Please fill all mandatory fields.', 'Valuation');
+      console.log('valuation form', this.vehicleValuationForm);
     }
   }
 

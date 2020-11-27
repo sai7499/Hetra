@@ -1083,6 +1083,7 @@
                   placeholder="Date Of Registration"
                   (change)="validateDateOfReg()"
                 >
+                
                 </kendo-datepicker>
                 <div class="invalid-feedback">
                   <div
@@ -1092,14 +1093,14 @@
                   >
                     Registration Date is Required
                   </div>
-                  <div *ngIf="
-                  vehicleValuationForm.controls.dateofReg.value &s&
-                  vehicleValuationForm.controls.dateofReg.errors
-                ">
-                    <div *ngIf="
-                    vehicleValuationForm.controls.dateofReg.errors.maxError
-                  "
-                      
+                  <div
+                    *ngIf="
+                  vehicleValuationForm.controls.dateofReg.value &&
+                  vehicleValuationForm.controls.dateofReg.errors">
+                    <div
+                      *ngIf="
+                        vehicleValuationForm.controls.dateofReg.errors.maxError
+                      "
                     >
                       Reg. Date should not be future date
                     </div>
@@ -1253,14 +1254,13 @@
                   class="form-control"
                   [id]="'year_month_manufacturing'"
                   formControlName="yearOfManufacturer"
-                  ndo-datepicker="ndo-datepicker"
                   [bottomView]="'year'"
                   [topView]="'decade'"
                   [format]="'MMMM yyyy'"
                   [min]="minDate"
                   [max]="toDayDate"
                   placeholder="Year And Month of Manufacture"
-                  (valueChange)="onGetDateValue()"
+                  (valueChange)="onGetDateValue($event)"
                 >
                 </kendo-datepicker>
 
@@ -1507,10 +1507,11 @@
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
-                  [values]="LOV?.vehiclePermitStatus"
+                  [values]="vehiclePermitStatus"
                   formControlName="permitStatus"
                   [isDirty]="isDirty"
                   [isRequired]="'Please Select One Option'"
+                  (change)="onPermitChange($event.target.value)"
                 >
                 </app-vf-custom-select>
               </div>
@@ -1534,7 +1535,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="permit_date"
                   >{{ labels.permitDate }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub></label
                 >
                 <kendo-datepicker
                   width="100%"
@@ -1543,8 +1544,28 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
+                  (change)="validatingBeforeRegDate('permitDate')"
+                  [min]="this.vehicleValuationForm."
                 >
                 </kendo-datepicker>
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      isDirty &&
+                      !vehicleValuationForm.controls.permitValidUpto.value
+                    "
+                  >
+                    Permit validity  date is Required
+                  </div>
+                  <div
+                    *ngIf="
+                      vehicleValuationForm.controls.permitValidUpto.value &&
+                      vehicleValuationForm.controls.permitValidUpto.errors
+                    "
+                  >
+                    Invalid Date
+                  </div>
+                </div>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="fitnes_validity"
@@ -1558,7 +1579,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
-                  [min]="toDayDate"
+                  (change)="validatingBeforeRegDate('fitnessDate')"
                 >
                 </kendo-datepicker>
               </div>
@@ -1608,6 +1629,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
+                  (change)="validatingBeforeRegDate('taxDate')"
                 >
                 </kendo-datepicker>
               </div>
