@@ -106,7 +106,7 @@ export class DdeComponent implements OnInit, OnChanges {
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
-      if (this.locationIndex >= 18) {
+      if (this.locationIndex >= 19) {
          this.show = 3;
       } else if ( this.locationIndex >= 8) {
         this.show = 2;
@@ -212,22 +212,22 @@ export class DdeComponent implements OnInit, OnChanges {
       return 16;
     } else if (url.includes('cam')) {
       return 17;
-    } else if (url.includes('insurance-details')) {
-      return 17;
-    } else if (url.includes('disbursement')) {
+    } else if (url.includes('deviations')) {
       return 18;
-    } else if (url.includes('negotiation')) {
+    } else if (url.includes('disbursement')) {
       return 19;
-    } else if (url.includes('credit-conditions')) {
+    } else if (url.includes('negotiation')) {
       return 20;
-    } else if (url.includes('sanction-letter')) {
+    } else if (url.includes('credit-conditions')) {
       return 21;
-    } else if (url.includes('term-sheet')) { 
+    } else if (url.includes('sanction-letter')) {
       return 22;
-    } else if (url.includes('welcome-letter')) {
+    } else if (url.includes('term-sheet')) { 
       return 23;
-    } else if (url.includes('delivery-order')) {
+    } else if (url.includes('welcome-letter')) {
       return 24;
+    } else if (url.includes('delivery-order')) {
+      return 25;
     }
 
   }

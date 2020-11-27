@@ -71,6 +71,8 @@ export class InsuranceDetailsComponent implements OnInit {
   healthQuestionAns = [];
   covidQuestions = [];
 
+  isLoan360: boolean;
+
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
               private toggleDdeService: ToggleDdeService,
@@ -91,7 +93,8 @@ export class InsuranceDetailsComponent implements OnInit {
     this.leadData = this.createLeadService.getLeadSectionData();
     console.log('lead Data', this.leadData);
     this.initForm();
-    if (this.loanViewService.checkIsLoan360()) {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
+    if (this.isLoan360) {
         this.insuranceDetailForm.disable();
         this.disableSaveBtn  = true;
       }
@@ -203,6 +206,11 @@ export class InsuranceDetailsComponent implements OnInit {
 
 
  saveUpdateInsurance(event: string) {
+
+  if (this.isLoan360) {
+      return this.onNext();
+   }
+
    this.addValidations();
 
    if ( this.f.value.nomineeAge < 18) {

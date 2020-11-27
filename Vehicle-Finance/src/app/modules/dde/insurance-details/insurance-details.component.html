@@ -491,7 +491,7 @@
                 {{ labels.back }}
             </button>
 
-            <button class="btn btn-primary" (click)="saveUpdateInsurance('save')">
+            <button class="btn btn-primary" (click)="saveUpdateInsurance('save')" *ngIf="!this.isLoan360">
                 {{ labels.save }}
             </button>
 
