@@ -478,6 +478,7 @@
     "contactNo": "Contact No",
     "customerRequestedAmount": "Customer Requested Amount",
     "roi": "ROI",
+    "roiinPercent": "ROI (%)",
     "loanTenure": "Loan Tenure",
     "loanTenureInMonths": "Loan Tenure (In Months)",
     "profile": "profile",
