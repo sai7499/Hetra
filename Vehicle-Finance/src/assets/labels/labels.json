@@ -1747,6 +1747,7 @@
     "rating":"Rating",
     "expectedFutureLife":"Expected Future Life Of The Vehicle (in Years):",
     "marketValueAsOnDateOfInspection":"Market Value as on date of Inspection",
+    "downloadReport":"Download Report",
     "validationData": {
         "name": {
             "maxLength": {
