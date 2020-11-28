@@ -81,11 +81,10 @@
               [isRequired]= "'Loan Account Number is mandatory' "
               [isDirty]="isDirty"
               [type]="labels?.validationData?.ChildLoanAccountNumber?.type"
-              (input)="onFirstName($event)"
               >
             </app-custom-input>
             <span class="input-group-btn pad-zero">
-              <button class="btn btn-default">
+              <button class="btn btn-default" (click)="onLoanAccNoSearch()">
                 <i class="fa fa-search"></i>
               </button>
             </span>
@@ -404,6 +403,32 @@
         <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
           Cancel
         </button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" [ngClass]="{ 'dis-block': isLoanModal }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Seach Loan Account Number</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
+      </div>
+      <div class="modal-body">
+        <p id="">Navigate to search account no.</p>
+      </div> 
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="navgiateToSearchLoan()"
+        >
+          OK
+        </button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          Cancel
+        </button>
       </div>
     </div>
   </div>

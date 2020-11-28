@@ -2842,7 +2842,8 @@
         },
         "ChildLoanAccountNumber": {
             "maxLength": {
-                "rule": 12
+                "rule": 12,
+                "msg": "Maximun 12 digits for loan Account Number"
             },
             "type": "number"
         },

@@ -13,6 +13,7 @@ import { UtilityService } from '@services/utility.service';
 import { ToastrService } from 'ngx-toastr';
 import { AgeValidationService } from '@services/age-validation.service';
 import { CommonDataService } from '@services/common-data.service';
+import { ChildLoanApiService } from '@services/child-loan-api.service';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -80,6 +81,7 @@ export class LeadCreationComponent implements OnInit {
   isLoanAccountNo: boolean;
   isFromChild: boolean;
   productCodeFromSearch: string;
+  isLoanModal: boolean;
 
 
   obj = {};
@@ -135,6 +137,7 @@ export class LeadCreationComponent implements OnInit {
     private toasterService: ToastrService,
     private ageValidationService: AgeValidationService,
     private commonDataService: CommonDataService,
+    private childLoanApiService: ChildLoanApiService,
   ) {
     this.isremoveDealerRC = true;
     console.log('this.isremoveDealerRC', this.isremoveDealerRC)
@@ -176,6 +179,14 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadForm.removeControl('rcUtilizedLimit');
     this.createLeadForm.removeControl('rcUnutilizedLimit');
     this.isremoveDealerRC = false;
+  }
+  addDealerRClimit() {
+    this.createLeadForm.addControl('dealerCode', new FormControl(''));
+    this.createLeadForm.addControl('rcLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.addControl('rcUtilizedLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.addControl('rcUnutilizedLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.updateValueAndValidity();
+
   }
 
   getChildLoanEntity() {
@@ -384,9 +395,13 @@ export class LeadCreationComponent implements OnInit {
     this.isLoanAccountNo = (isChild.isChildLoan == 0) ? false : true;
     if (isChild.isChildLoan == 0) {
       this.isLoanAccountNo = false;
+      this.isremoveDealerRC = true;
+      this.addDealerRClimit();
       this.createLeadForm.removeControl('loanAccountNumber');
     } else {
       this.isLoanAccountNo = true;
+      this.isremoveDealerRC = false;
+      this.removeDealerRClimit();
       this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
       this.createLeadForm.updateValueAndValidity();
     }
@@ -749,6 +764,30 @@ export class LeadCreationComponent implements OnInit {
         'Lead Creation'
       );
     }
+  }
+
+  onLoanAccNoSearch() {
+    const data = {
+      loanAccountNumber: this.createLeadForm.controls.loanAccountNumber.value
+    }
+    this.childLoanApiService.searchChildLoanApi(data).subscribe(
+      (res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        const errorMessage = response.ProcessVariables.error.message;
+
+        if (appiyoError === '0' && apiError === '0') {
+
+        } else {
+          this.isLoanModal = true;
+        }
+
+      })
+  }
+
+  navgiateToSearchLoan() {
+    this.router.navigateByUrl(`/pages/child-loan`);
   }
 
   navgiateToNextPage() {
