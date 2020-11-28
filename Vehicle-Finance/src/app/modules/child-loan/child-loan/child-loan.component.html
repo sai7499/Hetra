@@ -355,8 +355,9 @@
               </tbody>
             </table>
             <div class="btn-sec clear-both btn-mar-reject">
-              <div class="text-right margin_top">
+              <div class="text-right margin_top" >
                 <button 
+                  *ngIf="isSO === 1"
                   [disabled]="!isCreateLoanBtn"
                   class="btn btn-primary js-btn-next mar-right8" 
                   type="button"
