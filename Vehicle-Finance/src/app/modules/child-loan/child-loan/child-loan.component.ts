@@ -405,7 +405,6 @@ export class ChildLoanComponent implements OnInit {
         productCode: this.loanDetailsData[this.selectedLoanAccNoIndex].productCode,
       };
       console.log('onCreateChild', childData);
-      // this.commonDataService.shareChildLoanData(childData);
       this.commomLovService.setSearchLoan(childData);
     } else if (loanData === 1) {
       const childData = {
@@ -415,7 +414,6 @@ export class ChildLoanComponent implements OnInit {
         productCode: this.loanDetailsData[0].productCode,
       };
       console.log('onCreateChild', childData);
-      // this.commonDataService.shareChildLoanData(childData);
       this.commomLovService.setSearchLoan(childData);
 
     }

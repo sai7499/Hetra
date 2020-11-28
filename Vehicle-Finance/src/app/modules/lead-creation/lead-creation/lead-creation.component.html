@@ -71,6 +71,7 @@
           <label for="first_name">{{labels?.loanAccNumber}}
               <sub class="star_red_col">*</sub>
             </label>
+            <div class="input-group input-medium col-sm-12">
             <app-custom-input
               #firstOne
               formControlName="loanAccountNumber"
@@ -80,9 +81,14 @@
               [isRequired]= "'Loan Account Number is mandatory' "
               [isDirty]="isDirty"
               [type]="labels?.validationData?.ChildLoanAccountNumber?.type"
-              (input)="onFirstName($event)"
               >
             </app-custom-input>
+            <!-- <span class="input-group-btn pad-zero">
+              <button class="btn btn-default" (click)="onLoanAccNoSearch()">
+                <i class="fa fa-search"></i>
+              </button>
+            </span> -->
+          </div>
             </div>
         </div>
 
@@ -146,7 +152,8 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="isremoveDealerRC">
+          <!-- <div class="row" *ngIf="true"> -->
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">Dealer Code
               <sub class="star_blue_col">*</sub>
@@ -177,7 +184,8 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" *ngIf="isremoveDealerRC">
+          <!-- <div class="row" *ngIf="true"> -->
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">RC Limit
             </label>
@@ -363,7 +371,7 @@
         <div class="row individual_section_leadco">
           <div class="btn-sec clear-both">
             <div class="col-sm-12 text-right">
-              <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
+              <button type="button" class="btn btn-primary" (click)="onSubmit()">
                 {{ labels.createLead }}
               </button>
             </div>
@@ -397,6 +405,32 @@
         <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
           Cancel
         </button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" [ngClass]="{ 'dis-block': isLoanModal }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Seach Loan Account Number</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
+      </div>
+      <div class="modal-body">
+        <p id="">Navigate to search account no.</p>
+      </div> 
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="navgiateToSearchLoan()"
+        >
+          OK
+        </button>
+        <button type="button" class="btn btn-primary" (click)="childLoanModalClose()">
+          Cancel
+        </button>
       </div>
     </div>
   </div>
