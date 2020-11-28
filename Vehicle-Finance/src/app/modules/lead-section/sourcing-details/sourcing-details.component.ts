@@ -163,6 +163,7 @@ export class SourcingDetailsComponent implements OnInit {
     userId: number;
     leadId: number;
     totalLoanAmount?: string,
+    parentLoanAccNum?: any;
     principalPaid?: string,
     principalOutstanding?: string,
     dpd ?: string,
@@ -176,6 +177,7 @@ export class SourcingDetailsComponent implements OnInit {
   apiValue: any;
   finalValue: any;
   productCode: any;
+  isRemoveDealer: boolean;
 
 
   constructor(
@@ -284,6 +286,7 @@ export class SourcingDetailsComponent implements OnInit {
     } else {
       let loanLeadDetails = this.leadData.loanLeadDetails;
       console.log(this.leadData.loanLeadDetails, 'Loan')
+      // this.isRemoveDealer = 
 
       // const childLoanData = this.leadData.loanLeadDetails;
       this.sourcingDetailsForm.patchValue({
@@ -295,7 +298,8 @@ export class SourcingDetailsComponent implements OnInit {
         rateOfInterest: loanLeadDetails.rateOfInterest,
         tenor: loanLeadDetails.tenor,
         remainingTenor: loanLeadDetails.remainingTenor,
-        seasoning: loanLeadDetails.seasoning
+        seasoning: loanLeadDetails.seasoning,
+        loanAccountNumber: loanLeadDetails.parentLoanAccNum
       });
     }
 
@@ -678,6 +682,7 @@ export class SourcingDetailsComponent implements OnInit {
       tenor: new FormControl(''),
       remainingTenor: new FormControl(''),
       seasoning: new FormControl(''),
+      loanAccountNumber: new FormControl('')
     });
   }
 
@@ -691,6 +696,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.removeControl('tenor');
     this.sourcingDetailsForm.removeControl('remainingTenor');
     this.sourcingDetailsForm.removeControl('seasoning');
+    this.sourcingDetailsForm.removeControl('loanAccountNumber');
     this.sourcingDetailsForm.updateValueAndValidity();
   }
 
@@ -761,7 +767,7 @@ export class SourcingDetailsComponent implements OnInit {
         sourcingChannel: saveAndUpdate.sourcingChannel,
         sourcingType: saveAndUpdate.sourcingType,
         sourcingCode: this.sourcingCodeKey,
-        dealorCode: this.dealorCodeKey,
+        dealorCode: this.dealorCodeKey ? this.dealorCodeKey : '',
         // spokeCode: Number(saveAndUpdate.spokeCode),
         spokeCode: 1,
         loanBranch: Number(this.branchId),
@@ -772,6 +778,8 @@ export class SourcingDetailsComponent implements OnInit {
         reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
         totalLoanAmount: saveAndUpdate.totalLoanAmount,
+        
+        parentLoanAccNum: saveAndUpdate.loanAccountNumber,
         principalPaid: saveAndUpdate.principalPaid,
         principalOutstanding: saveAndUpdate.principalOutstanding,
         dpd: saveAndUpdate.dpd,
