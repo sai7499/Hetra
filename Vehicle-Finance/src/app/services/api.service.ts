@@ -36,6 +36,11 @@ export class ApiService {
       processId: '8b9b2a2295c411eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    getLoan360: {
+      workflowId: '8b7c681c95c411eabdcff2fa9bec3d63',
+      processId: '8b9b2a2295c411eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
     getMyLeads: {
       workflowId: 'a8cc3836959a11eabdcff2fa9bec3d63',
       processId: 'a8f86a64959a11eabdcff2fa9bec3d63',

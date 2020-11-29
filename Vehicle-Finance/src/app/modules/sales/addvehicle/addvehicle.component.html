@@ -10,7 +10,7 @@
             [routerLink]="['../vehicle-list']">
             {{ label.back }}
         </button>
-        <button class="btn btn-primary" type="button" (click)="onFormSubmit()" >
+        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" (click)="onFormSubmit()" >
             {{ label.save }} </button>
         
     </div>

@@ -839,6 +839,7 @@
         data-toggle="modal"
         data-target="#myModal"
         (click)="submitToCredit()"
+        *ngIf="!isLoan360"
       >
         Submit To Credit
       </button>

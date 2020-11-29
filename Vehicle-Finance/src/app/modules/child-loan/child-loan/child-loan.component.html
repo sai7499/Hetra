@@ -260,7 +260,7 @@
           <!-- </div>
         </div> -->
       <!-- </div> -->
-    </div>
+    <!-- </div> -->
 
     <div id="customerDetails_id" class="row" *ngIf="customerDetailsData.length != 0">
       <div class="col-md-6">
@@ -269,9 +269,10 @@
       <div class="col-md-6 text-right"></div>
     </div>
 
-    <div class="content" *ngIf="customerDetailsData.length != 0">      
-      <div class="container-fluid">        
-        <div class="row">
+    <!-- <div class="content" >       -->
+      <!-- <div class="container-fluid">         -->
+        <div class="row" *ngIf="customerDetailsData.length != 0">
+          <div class="col-md-12">
           <div id="wrapper">
             <table>
               <thead>
@@ -308,19 +309,21 @@
             </table>
           </div>
         </div>
-      </div>
-    </div>
+        </div>
+      <!-- </div> -->
+    <!-- </div> -->
 
-    <div class="row" *ngIf="loanDetailsData.length != 0">
+    <div class="row " [ngStyle]="{'margin-top':'15px'}" *ngIf="loanDetailsData.length != 0">
       <div class="col-md-6">
         <h3 class="margin_zero">Loan Account Details</h3>
       </div>
       <div class="col-md-6 text-right"></div>
     </div>
 
-    <div class="content" *ngIf="loanDetailsData.length != 0">      
-      <div class="container-fluid">        
-        <div class="row">
+    <!-- <div class="content" >       -->
+      <!-- <div class="container-fluid">         -->
+        <div class="row" *ngIf="loanDetailsData.length != 0">
+          <div class="col-md-12">
           <div id="wrapper">
             <table>
               <thead>
@@ -352,22 +355,25 @@
               </tbody>
             </table>
             <div class="btn-sec clear-both btn-mar-reject">
-              <div class="text-right">
+              <div class="text-right margin_top" >
                 <button 
+                  *ngIf="isSO === 1"
                   [disabled]="!isCreateLoanBtn"
                   class="btn btn-primary js-btn-next mar-right8" 
                   type="button"
                   (click)="onCreateChildLoan()">
                   Create Child Loan Lead
                 </button>
-                <button class="btn btn-primary js-btn-next mar-right8" type="button">
+                <button class="btn btn-primary js-btn-next mar-right8" type="button" [disabled]="!isCreateLoanBtn" (click)="viewLoan360()">
                   View Loan 360
                 </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        </div>
+      <!-- </div> -->
+    <!-- </div> -->
+  </div>
   </div>
 </main>

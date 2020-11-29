@@ -12,6 +12,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -90,7 +91,8 @@ export class TeleVerificationFormComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private toggleDdeService: ToggleDdeService,
     private vehicleStoreService: VehicleDataStoreService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private loanViewService: LoanViewService
 
   ) {
 
@@ -410,6 +412,11 @@ export class TeleVerificationFormComponent implements OnInit {
 
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
+        this.teleVerificationForm.disable();
+        this.disableSaveBtn = true;
+      }
+
+      if (this.loanViewService.checkIsLoan360()) {
         this.teleVerificationForm.disable();
         this.disableSaveBtn = true;
       }

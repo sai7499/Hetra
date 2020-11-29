@@ -14,6 +14,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -28,7 +29,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
 
   maxDate = new Date();
-  maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
+  // maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
   initalZeroCheck = [];
   isNegativeValue = [];
   eligibleLoanAmount: any = 0;
@@ -71,6 +72,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public userId: number;
   public leadId: number;
 
+  public toDayDate = new Date();
+
   isMaxDate: boolean;
 
   public vehicleRegPattern: {
@@ -92,9 +95,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDetailService: VehicleDetailService, private activedRoute: ActivatedRoute,
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
-    public sharedService: SharedService, private applicantService: ApplicantService) {
+    public sharedService: SharedService, private applicantService: ApplicantService,
+    private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
+    // date
+    var day = this.toDayDate.getDate();
+            var month = this.toDayDate.getMonth();
+            var year = this.toDayDate.getFullYear();
+            this.toDayDate= new Date(year, month, day, 0,0)
   }
 
   ngOnInit() {
@@ -142,7 +151,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         ProductType = this.loanTypeArray.find((res: any) => res.key === this.assetProductCode)
         if (ProductType) {
           this.Product = ProductType['value'];
-          // this.Product = 'AccidentLoan'
           this.childLoanCondition = child.childLoan.isRequired[this.Product];
         }
       }
@@ -165,6 +173,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
+      this.basicVehicleForm.disable();
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
       this.basicVehicleForm.disable();
       this.disableSaveBtn = true;
     }
@@ -333,6 +346,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
+      this.vehicleLov.insuranceType = this.LOV['In-HouseInsuranceType']
+
+      console.log('Lov', this.LOV['In-HouseInsuranceType'])
 
       this.vehicleLov.YesORNoValue = [
         {
@@ -565,6 +581,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       productCatCode: VehicleDetail.productCatCode || '',
       rcOwnerName: VehicleDetail.rcOwnerName || '',
       reRegVehicle: VehicleDetail.reRegVehicle || '',
+      insuranceType:  VehicleDetail.insuranceType || '',
       regMonthYear: VehicleDetail.regMonthYear ? this.utilityService.getDateFromString(VehicleDetail.regMonthYear) : '',
       region: VehicleDetail.region || '',
       registrationNo: VehicleDetail.registrationNo || '',
@@ -1168,6 +1185,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       cubicCapacity: [''],
       seatingCapacity: [''],
       idv: '',
+      insuranceType: ['', Validators.required],
       insuranceCopy: [''],
       fsrdFundingReq: '',
       fsrdPremiumAmount: null,
