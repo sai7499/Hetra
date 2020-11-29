@@ -75,8 +75,11 @@ export enum DisplayTabs {
   TranchesDisburse,
   TrancheDisburseWithBranch,
   TrancheDisburseReversedWithMe,
-  TrancheDisburseReversedWithBranch
-  }
+  TrancheDisburseReversedWithBranch,
+  ReAppeal,
+  ReAppealWithMe,
+  ReAppealWithBranch
+}
 
 export enum sortingTables {
   ByLeadId,
@@ -183,8 +186,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('closeModal2', { static: false }) public closeModal2: ElementRef;
   userDetailsRoleId: any;
   supervisorUserId: any;
-  
-  
+
+
   TrancheDisbList: any[];
   trancheDetails: any[];
   TrancheDisbTaskList: any[];
@@ -195,6 +198,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dataToReassign: any;
   selfAssignData: any;
   selfAssignLeadId: any;
+  selectOne = false;
+  selectAll = false;
+  selectedArray: any[];
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -247,10 +253,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     this.sharedService.isSupervisorName.subscribe((value: any) => {
       console.log(value);
-      if(value) {
+      if (value) {
         this.supervisorName = value;
       }
-      
+
     })
 
 
@@ -379,7 +385,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         clearInterval(this.intervalId)
       }
-    }, 30000)
+    }, 300000)
 
   }
 
@@ -393,7 +399,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.intervalId)
         }
       })
-    }, 30000)
+    }, 300000)
   }
 
   getCountAcrossLeads(userId) {
@@ -593,12 +599,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -676,26 +682,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 48: case 49:
         this.taskName = 'CPC-CAD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
-       case 51:
+        break;
+      case 51:
         this.taskName = 'TrancheDisbursement';
         this.getTrancheDisburseLeads(this.itemsPerPage, event);
-        break;  
+        break;
       case 52:
         this.taskName = 'TrancheDisbursementPendingWithMe';
         this.getTrancheDisburseLeads(this.itemsPerPage, event);
-        break; 
+        break;
       case 53:
         this.taskName = 'TrancheDisbursementPendingWithBranch';
-        this.getTrancheDisburseLeads(this.itemsPerPage, event);	
-	
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);
+
         break;
+      case 55: case 56:
+        this.taskName = 'Re-Appealed Leads';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
       default:
         break;
     }
   }
   // changing main tabs
   onLeads(data?, subTab?, tabName?: string) {
-
+    this.selectedArray = [];
+    this.selectAll = false;
     this.sortTab = '';
     this.activeTab = data;
     this.subActiveTab = subTab;
@@ -729,7 +740,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.toggleDdeService.clearToggleData();
     }
 
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads || 
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads ||
       this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -741,6 +752,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // changing sub tabs
   leads(data) {
+    this.selectAll = false;
+    this.selectedArray = [];
     this.sortTab = '';
     this.subActiveTab = data;
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
@@ -905,7 +918,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getTaskDashboardLeads(perPageCount, pageNumber?) {
-    
+
     const data = {
       taskName: this.taskName,
       branchId: this.branchId,
@@ -956,16 +969,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByProduct: this.sortByProduct,
       sortByStage: this.sortByStage
     };
-    if(data.taskName == 'TrancheDisbursement')
-    this.responseForTrancheDisburse(data);
+    if (data.taskName == 'TrancheDisbursement')
+      this.responseForTrancheDisburse(data);
     else {
-     this.responseForTaskTrancheDisburse(data) ;
+      this.responseForTaskTrancheDisburse(data);
     }
   }
 
   responseForTrancheDisburse(data) {
     this.dashboardService.getTrancheDisburseDetails(data).subscribe((res: any) => {
-      this.setTrancheDispersePageData(res,1);
+      this.setTrancheDispersePageData(res, 1);
       if (res.ProcessVariables.TrancheDisbList != null) {
         this.isLoadLead = true;
       } else {
@@ -978,7 +991,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // for Dashboard Task Tranche Disburse
   responseForTaskTrancheDisburse(data) {
     this.dashboardService.getTaskTrancheDisburseDetails(data).subscribe((res: any) => {
-      this.setTrancheDispersePageData(res,2);
+      this.setTrancheDispersePageData(res, 2);
       if (res.ProcessVariables.TrancheDisbTaskList != null) {
         this.isLoadLead = true;
       } else {
@@ -988,7 +1001,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     });
   }
-  setTrancheDispersePageData(res,val) {
+  setTrancheDispersePageData(res, val) {
     this.trancheDetails = [];
     const response = (val == 1) ? res.ProcessVariables.TrancheDisbList : res.ProcessVariables.TrancheDisbTaskList;
     this.trancheDetails = response;
@@ -1050,9 +1063,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
       case 25: case 26:
         localStorage.setItem('istermSheet', 'false');
-      case 53:
-        this.router.navigate([`/pages/disbursement-section/${this.leadId}/tranche-disburse`]);
-        break;
         // tslint:disable-next-line: triple-equals
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
@@ -1061,6 +1071,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
         }
         break;
+      case 53:
+        this.router.navigate([`/pages/disbursement-section/${this.leadId}/tranche-disburse`]);
+        break;
+
       case 28: case 29:
         localStorage.setItem('istermSheet', 'true');
         this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/new-term-sheet`);
@@ -1085,6 +1099,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
       case 48: case 49:
         this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
+        break;
+      case 55: case 56:
+        localStorage.setItem('istermSheet', 'false');
+        if (this.salesResponse == false) {
+          this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
+          // tslint:disable-next-line: triple-equals
+        } else if (this.salesResponse == true) {
+          this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
+        }
         break;
 
       default:
@@ -1189,7 +1212,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   taskId: this.leadTaskId,
     //   loginId: this.selfAssignLoginId
     // }
-    if ( this.subActiveTab === this.displayTabs.NewLeads ) {
+    if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.dataToReassign = {
         myLeads: true,
         leadId: this.selfAssignLeadId,
@@ -1294,7 +1317,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   saveTaskLogs() {
     const data = {
       userId: localStorage.getItem('userId'),
-      leadId: (this.leadId)?parseInt(this.leadId):null,
+      leadId: (this.leadId) ? parseInt(this.leadId) : null,
       isClaim: this.isClaim,
       isRelease: this.isRelease,
       taskName: this.taskName
@@ -1345,5 +1368,69 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
         }
       );
+  }
+
+  onCheck(event, item) {
+    console.log(event, item);
+    // if(event.target.name == 'oneLead') {
+    //   this.selectOne = true;
+    // }
+
+    // if(this.selectOne && this.selectAll) {
+    //   event.traget.checked = true;
+    // }
+    console.log(event.target.checked);
+    if (event.target.checked) {
+      if (this.subActiveTab === this.displayTabs.NewLeads) {
+        this.selectedArray.push(item.leadId);
+      } else {
+        this.selectedArray.push(item.taskId);
+      }
+      console.log(this.selectedArray);
+    } else {
+      if (this.selectedArray == []) this.selectAll = false;
+      let unSelectedIndex = this.selectedArray.findIndex((ele, index) => {
+        console.log(ele, item);
+        console.log(ele == item.leadId || ele == item.taskId)
+        if (ele == item.leadId || ele == item.taskId) {
+          return true;
+        }
+      })
+      console.log(unSelectedIndex);
+      this.selectedArray.splice(unSelectedIndex, 1);
+
+      console.log(this.selectedArray);
+
+    }
+
+  }
+  allSelect(event) {
+    const checked = event.target.checked;
+    this.newArray.forEach(item => item.selected = checked);
+
+    console.log(this.newArray);
+    this.selectedArray = [];
+    if (event.target.checked) {
+      this.selectAll = true;
+      for (let i = 0; i < this.newArray.length; i++) {
+        if (this.subActiveTab === this.displayTabs.NewLeads) {
+          // console.log(this.newArray[i].leadId);
+          this.selectedArray.push(this.newArray[i].leadId);
+
+        } else {
+          // console.log(this.newArray[i].taskId);
+          this.selectedArray.push(this.newArray[i].taskId);
+
+        }
+
+      }
+      console.log(this.selectedArray);
+
+    } else {
+      this.selectAll = false;
+      this.selectedArray = [];
+      console.log('selectedArray', this.selectedArray);
+    }
+
   }
 }

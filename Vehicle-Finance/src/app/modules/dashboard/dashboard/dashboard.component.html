@@ -232,6 +232,9 @@
         <ul *ngIf="displayTabs?.Decision === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li (click)="leads(displayTabs?.CreditDecisionWithMe)" [ngClass]="{'active':displayTabs?.CreditDecisionWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Decision Pending With {{pendingName}}</a></li>
             <li (click)="leads(displayTabs?.CreditDecisionWithBranch)" [ngClass]="{'active':displayTabs?.CreditDecisionWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Decision Pending With Branch</a></li>
+            <li (click)="leads(displayTabs?.ReAppealWithMe)" [ngClass]="{'active':displayTabs?.ReAppealWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Re-Appeal Pending With {{pendingName}}</a></li>
+            <li (click)="leads(displayTabs?.ReAppealWithBranch)" [ngClass]="{'active':displayTabs?.ReAppealWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Re-Appeal Pending With Branch</a></li>
+
         </ul>
         <ul *ngIf="displayTabs?.TermSheet === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li (click)="leads(displayTabs?.TermSheetWithMe)" [ngClass]="{'active':displayTabs?.TermSheetWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Termsheet Pending with {{pendingName}}</a></li>
@@ -326,6 +329,8 @@
             <table *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.TranchesDisburse != activeTab">
                 <thead>
                     <tr class="table-head-bg">
+                        <th *ngIf="userName">
+                            <input type="checkbox" name="allLeads" [checked]="selectAll" (change)="allSelect($event)"></th>
                         <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
                         <th *ngIf="(!onReleaseTab && !onAssignTab) && userName">{{labels?.action}}</th>
                         <th>{{labels?.leadID}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLeadId === sortTab}" (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
@@ -348,7 +353,9 @@
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()" value="Release"
                 data-toggle="modal" data-target="#releaseModal">
             </td> -->
-
+                        <td *ngIf="userName">
+                            <input type="checkbox" class="custom-control-label" [checked]="item.selected" name="oneLead" (change)="onCheck($event, item)">
+                        </td>
                         <td *ngIf="onReleaseTab && !userName">
                             <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
                         </td>
