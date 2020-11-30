@@ -153,6 +153,9 @@ export class ValuationComponent implements OnInit {
   currentInvoiceRequired: boolean;
   invalidInsDate: boolean;
   invalidInsuranceValidity: boolean;
+  regNo: any;
+  isPreRegNoDisabled: boolean;
+  isPreRegNoRequired: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -357,11 +360,12 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationForm.get('permitValidUpto').disable();
       this.vehicleValuationForm.get('permitValidUpto').clearValidators();
       this.vehicleValuationForm.get('permitValidUpto').updateValueAndValidity();
+      // setTimeout(() => {
+      //   this.vehicleValuationForm.get('permitValidUpto').patchValue(null);
 
-      setTimeout(() => {
-        this.vehicleValuationForm.get('permitValidUpto').patchValue(null);
-
-      });
+      // });
+      this.vehicleValuationForm.removeControl('permitValidUpto');
+      console.log('this form after permit', this.vehicleValuationForm);
     } else if (this.engineStartedType !== '3VEHPERSTATUS') {
       this.permitDisabled = false;
       this.permitRequired = true;
@@ -429,16 +433,18 @@ export class ValuationComponent implements OnInit {
   taxPaidCheck() {
     const taxPaid = this.vehicleValuationForm.value.taxPaid ? this.vehicleValuationForm.value.taxPaid : '';
     const valuationAmount = this.vehicleValuationForm.value.valuationAmt ? this.vehicleValuationForm.value.valuationAmt : '';
-    if (taxPaid > valuationAmount) {
-      this.invalidTaxPaid = true;
-      this.toasterService.showWarning('Tax Paid should not be greater than Vehicle Value', '');
-    } else {
-      this.invalidTaxPaid = false;
+    if (taxPaid !== null && valuationAmount !== null) {
+      if (taxPaid > valuationAmount) {
+        this.invalidTaxPaid = true;
+        this.toasterService.showWarning('Tax Paid should not be greater than Vehicle Value', '');
+      } else {
+        this.invalidTaxPaid = false;
+      }
     }
   }
   modelInProdChange(event?: any) {
     console.log(event);
-    this.modelInProd = event ? event : event;
+    this.modelInProd = event ? event : null;
     if (this.modelInProd === '0') {
       this.currentInvoiceDisabled = true;
       this.currentInvoiceRequired = false;
@@ -461,6 +467,15 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationForm.get('currInvoiceValue').setValidators(Validators.required);
       this.vehicleValuationForm.get('currInvoiceValue').updateValueAndValidity();
     }
+
+  }
+  onRegistrationNoChange(event?: any) {
+    const registrationNo = event ? event : null;
+    console.log('in reg no change', event);
+    this.regNo = registrationNo;
+    this.vehicleValuationForm.patchValue({
+      regdNo: this.regNo ? this.regNo : ''
+    });
 
   }
 
@@ -492,7 +507,33 @@ export class ValuationComponent implements OnInit {
 
     console.log('in valid upto', diffDays);
   }
+  onRegTypeChange(event?: any) {
+    const isReRegistered = event ? event : null;
+    if (isReRegistered === '0') {
+      this.isPreRegNoDisabled = true;
+      this.isPreRegNoRequired = false;
+      this.vehicleValuationForm.get('reRegNumber').disable();
+      this.vehicleValuationForm.get('reRegNumber').clearValidators();
+      this.vehicleValuationForm.get('reRegNumber').updateValueAndValidity();
+      setTimeout(() => {
+        this.vehicleValuationForm.get('reRegNumber').patchValue(null);
 
+      });
+    } else if (isReRegistered === '1') {
+      this.isPreRegNoDisabled = false;
+      this.currentInvoiceRequired = true;
+      // console.log('in no condition', this.modelInProd, this.currentInvoiceDisabled, this.currentInvoiceRequired);
+      // setTimeout(() => {
+      //   this.vehicleValuationForm.get('currInvoiceValue').patchValue(null);
+
+      // });
+      this.vehicleValuationForm.get('reRegNumber').enable();
+      this.vehicleValuationForm.get('reRegNumber').setValidators(Validators.required);
+      this.vehicleValuationForm.get('reRegNumber').updateValueAndValidity();
+    }
+
+
+  }
 
   // formvalueChange() {
   //   const formValue = this.vehicleValuationForm.getRawValue();
@@ -605,6 +646,11 @@ export class ValuationComponent implements OnInit {
       // this.onPermitChange(this.vehicleValuationDetails.permitStatus);
       // this.engineStarted(this.vehicleValuationDetails.engineStarted);
       // this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
+      if ((this.vehicleValuationDetails.preReRegNumber !== null) &&
+        (this.vehicleValuationDetails.modelUnderProduction !== null)) {
+        this.onRegTypeChange(this.vehicleValuationDetails.preReRegNumber);
+        this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
+      }
       this.setFormValue();
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
@@ -727,7 +773,7 @@ export class ValuationComponent implements OnInit {
       valuationDate: ['', Validators.required],
       idv: ['', Validators.required],
       idvValidityDate: ['', Validators.required],
-      vehicleAvailGrid: ['', Validators.required],
+      vehicleAvailGrid: [''],
       region: ['', Validators.required],
       vehicleType: ['', Validators.required],
       vehicleCode: 0,
@@ -749,7 +795,7 @@ export class ValuationComponent implements OnInit {
       fcExpiryDate: ['', Validators.required],
       dateofReg: ['', Validators.required],
       gvw: ['', Validators.required],
-      preReRegNumber: ['', Validators.required],
+      preReRegNumber: [''],
       interStateVehicle: ['', Validators.required],
       // duplicateRc: ['', Validators.required],
       cubicCapacity: ['', Validators.required],
@@ -767,7 +813,7 @@ export class ValuationComponent implements OnInit {
       engineStarted: ['', Validators.required],
       vehicleMoved: [''],
       assetVariant: [''],
-      color: ['', Validators.required],
+      colour: ['', Validators.required],
       odometerReading: ['', Validators.required],
       estimatedReading: ['', Validators.required],
       vehicleUsedFor: ['', Validators.required],
@@ -814,7 +860,8 @@ export class ValuationComponent implements OnInit {
       make: [''],
       model: [''],
       regMonthYear: [''],
-      yearMonthOfManufact: ['']
+      yearMonthOfManufact: [''],
+      regdNo: ['']
     });
   }
 
@@ -898,7 +945,7 @@ export class ValuationComponent implements OnInit {
       timeOfInspection: this.vehicleValuationDetails.timeOfInspection || '',
       engineStarted: this.vehicleValuationDetails.engineStarted || '',
       vehicleMoved: this.vehicleValuationDetails.vehicleMoved || '',
-      color: this.vehicleValuationDetails.color || '',
+      colour: this.vehicleValuationDetails.color || '',
       odometerReading: this.vehicleValuationDetails.odometerReading || '',
       estimatedReading: this.vehicleValuationDetails.estimatedReading || '',
       vehicleUsedFor: this.vehicleValuationDetails.vehicleUsedFor || '',
@@ -953,7 +1000,7 @@ export class ValuationComponent implements OnInit {
       yearMonthOfManufact: this.yearMonthOfManufact ? this.yearMonthOfManufact : '',
       noOfOriginalTyres: this.vehicleValuationDetails.noOfOriginalTyres || '',
       noOfRetreadedTyres: this.vehicleValuationDetails.noOfRetreadedTyres || '',
-
+      regdNo: this.vehicleValuationDetails.registrationNo ? this.vehicleValuationDetails.registrationNo : '',
       // year: this.vehicleValuationDetails.year || '',
       // registeredOwner: this.vehicleValuationDetails.registeredOwner || '',
       // registeredOwnerName: this.vehicleValuationDetails.registeredOwnerName || '',

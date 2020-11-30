@@ -1041,6 +1041,11 @@ export class ApiService {
       processId: 'f007931203cc11eba91300505695f93b',
       workflowId: '767be23a08a611eb827600505695f93b',
       projectId: environment.projectIds.trancheProId
+    },
+    reAppeal: {
+      processId: '0e709facc67311ea954700505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
+      projectId: environment.projectIds.submitToCredit
     }
   };
 }
