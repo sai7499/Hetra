@@ -12,10 +12,15 @@
               <div class="left">
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                   <div class="input-group search-btn">
-                    <input type="text" class="form-control input-search" placeholder="Search"
+                    <!-- <input type="text" class="form-control input-search" placeholder="Search"
                       formControlName="searchName" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
-                      queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''
-                      ">
+                      queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''"> -->
+
+                    <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
+                      [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                      queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
+                    </app-custom-input>
+
                     <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                   </div>
                 </div>
@@ -24,8 +29,9 @@
                 <div class="panel-group mar-20 scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group mar-20" id="accordion"
                     *ngFor="let chat of chatList; let i=index; let last=last">
-                    <div class="flex-container" >
-                      <div class="divs" (click)="getQueries(chat)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
+                    <div class="flex-container">
+                      <div class="divs" (click)="getQueries(chat)"
+                        [ngClass]="selectedList === chat ? 'selected-back' : ''">
                         <p class="mar-em">{{chat.value}}</p>
                       </div>
 
@@ -61,9 +67,13 @@
                         <form class="clearfix">
                           <div class="form-group col-xs-12">
                             <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search"
+                              <!-- <input type="text" class="form-control" placeholder="Search"
+                                [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
+                                (keyup)="getvalueCheck($event.target.value)"> -->
+                              <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
                                 [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
                                 (keyup)="getvalueCheck($event.target.value)">
+                              </app-custom-input>
                               <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             </div>
                           </div>
@@ -95,8 +105,12 @@
                         <form>
                           <div class="form-group col-xs-12 bloc">
                             <div class="input-group bloc-search">
-                              <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchDocuments"
-                                [ngModelOptions]="{standalone: true}" (keyup)="getDocuments($event.target.value)">
+                              <!-- <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchDocuments"
+                                [ngModelOptions]="{standalone: true}" (keyup)="getDocuments($event.target.value)"> -->
+                              <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                                [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
+                                (keyup)="getDocuments($event.target.value)">
+                              </app-custom-input>
                               <span class="input-group-addon "><i class="fa fa-search"></i></span>
                             </div>
                           </div>
@@ -124,9 +138,13 @@
             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="message-hide">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
-                  <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
+                  <!-- <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
                     (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''"> -->
+                  <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
+                    [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
+                  </app-custom-input>
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>
               </div>
@@ -135,8 +153,9 @@
               <div class="panel-group mar-20 scroll-box " id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container" >
-                    <div class="divs" (click)="getQueries(chat, true)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
+                  <div class="flex-container">
+                    <div class="divs" (click)="getQueries(chat, true)"
+                      [ngClass]="selectedList === chat ? 'selected-back' : ''">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
@@ -170,9 +189,13 @@
                       <form class="clearfix">
                         <div class="form-group col-xs-12">
                           <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search"
+                            <!-- <input type="text" class="form-control" placeholder="Search"
+                              [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
+                              (keyup)="getvalueCheck($event.target.value)"> -->
+                            <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
                               [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
                               (keyup)="getvalueCheck($event.target.value)">
+                            </app-custom-input>
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
                           </div>
                         </div>
@@ -203,8 +226,12 @@
                       <form>
                         <div class="form-group col-xs-12 bloc">
                           <div class="input-group bloc-search">
-                            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchDocuments"
-                              [ngModelOptions]="{standalone: true}" (keyup)="getDocuments($event.target.value)">
+                            <!-- <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchDocuments"
+                              [ngModelOptions]="{standalone: true}" (keyup)="getDocuments($event.target.value)"> -->
+                            <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                              [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
+                              (keyup)="getDocuments($event.target.value)">
+                            </app-custom-input>
                             <span class="input-group-addon "><i class="fa fa-search"></i></span>
                           </div>
                         </div>
@@ -242,18 +269,18 @@
               <div class="chat-box message-box viewport viewport-a" id="chat-box">
 
                 <div *ngFor="let message of chatMessages; let j=index;let last=last;"
-                  (mouseenter)="clickedIndex === j? clickedIndex = null : clickedIndex = j"
-                  (mouseleave)="clickedIndex = null">
+                  (mouseenter)="isCheckFropdownBut(message, j)" (mouseleave)="clickedIndex = null">
+                  <!-- clickedIndex === j? clickedIndex = null : clickedIndex = j -->
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
 
-                    <span class="active-dropdown" *ngIf="clickedIndex === j" (click)="openOptionDropDown(j);">
+                    <span class="active-dropdown" *ngIf="clickedIndex === j" (click)="openOptionDropDown(j)">
                       <i class="fa fa-angle-down" aria-hidden="true"></i>
                     </span>
 
                     <div class="message-dropdown-content right" id="myDropdown"
                       [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
                       *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">Reply
-                      <!-- (click)="foo.focus();isClickButton === j? isClickButton = null : isClickButton = j" -->
+                      <!-- clickedIndex === j? clickedIndex = null : clickedIndex = j -->
                       <a (click)="foo.focus()"><span class="box tr"></span></a>
                     </div>
 
@@ -266,7 +293,9 @@
                         </div>
 
                         <div class="col-md-4">
-                          <span class="text-center"> <strong>Query Id : </strong> {{message.queryId}} </span>
+                          <span class="text-center"> <strong>Query Id : </strong>
+                            <!-- {{message.queryId}} -->
+                          </span>
                         </div>
 
                         <div class="col-md-4">
@@ -280,7 +309,8 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                           <p>{{message.query}}</p>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" *ngIf="isClickButton === j">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"
+                          *ngIf="isClickButton === j && userId === message.queryFrom">
                           <button #foo class="btn btn-cus">Marked as Read</button>
                         </div>
                         <div class="collg-4 col-md-4 col-sm-4 col-xs-12"></div>
@@ -301,7 +331,8 @@
                           <div class="col-md-4">
                             <span class="text-center" [ngClass]="j % 2  === 0 ? 'red-Col' : 'green-Col'"> <strong
                                 style="color: black;">Status : </strong>
-                              {{message.status}} </span>
+                              <!-- {{message.status}} -->
+                            </span>
                           </div>
 
                           <div class="col-md-4">
@@ -334,11 +365,15 @@
 
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.leadID}}</label>
+                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12" for="lead_id">{{labels.leadID}}</label>
                     <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
 
-                      <input type="text" class="form-control" autocomplete="off" formControlName="searchLeadId"
+                      <!-- <input type="text" class="form-control" autocomplete="off" formControlName="searchLeadId"
+                        (keyup)="getleadIdvalue($event.target.value)" (blur)="onBlurleadId()"> -->
+
+                      <app-custom-input id="'lead_id'" autocomplete="off" formControlName="searchLeadId"
                         (keyup)="getleadIdvalue($event.target.value)" (blur)="onBlurleadId()">
+                      </app-custom-input>
 
                       <div class="ShowError" *ngIf="isleadIdshowError || (queryModalForm.get('searchLeadId').touched &&
                         queryModalForm.get('searchLeadId').invalid)">
@@ -376,11 +411,64 @@
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                   <div class="form-group">
 
+                    <label for="reply_to" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.replyTo}}</label>
+                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12">
+                      <!-- <input type="text" class="form-control" autocomplete="off" formControlName="replyTo"> -->
+
+                      <app-custom-input id="leadId" autocomplete="off" formControlName="replyTo"
+                        [className]="'form-control'" [placeholder]="'Reply To'" [type]="'text'">
+                      </app-custom-input>
+
+                      <!-- <div class="ShowError" *ngIf="isQueryToShowError || (queryModalForm.get('searchText').touched &&
+                        queryModalForm.get('searchText').invalid)">
+                        Please select the valid query to
+                      </div>
+
+                      <div class="dropdown-content" *ngIf="dropDown"
+                        [ngClass]="searchLead.length > 0 ? '': 'cus-height'">
+                        <div *ngFor="let item of searchLead">
+                          <a data-toggle="collapse" data-target="#bs-navbar"
+                            (click)="getQueryTo(item)">{{item.value}}</a>
+                        </div>
+                        <div class="empty-list" *ngIf="searchLead && searchLead.length === 0">
+                          <p>No such query to available</p>
+                        </div>
+                      </div> -->
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <label for="status" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.status}}</label>
+                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12">
+                      <app-vf-custom-select [values]="queryModelLov?.status" [id]="'status'" formControlName="status"
+                        [isRequired]="'Status Required'" [isDirty]="isDirty">
+                      </app-vf-custom-select>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="form-group row">
+
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                  <div class="form-group">
+
                     <label for="query_to" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.tagQueryTo}}</label>
                     <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeave()">
-                      <input type="text" class="form-control" autocomplete="off" formControlName="searchText"
+
+                      <!-- <input type="text" class="form-control" autocomplete="off" formControlName="searchText"
+                        (mouseup)="getvalue($event.target.value)" (blur)="onBlurQueryTo()"
+                        (keyup)="getvalue($event.target.value)"> -->
+
+                      <app-custom-input id="'query_to'" autocomplete="off" formControlName="searchText"
+                        [className]="'form-control'" [placeholder]="'Tag Query To'" [type]="'text'"
                         (mouseup)="getvalue($event.target.value)" (blur)="onBlurQueryTo()"
                         (keyup)="getvalue($event.target.value)">
+                      </app-custom-input>
 
                       <div class="ShowError" *ngIf="isQueryToShowError || (queryModalForm.get('searchText').touched &&
                         queryModalForm.get('searchText').invalid)">
@@ -424,7 +512,6 @@
 
                 <div class="col-sm-10 col-md-10 col-lg-10 text-box">
                   <div class="form-group col-lg-12 col-xs-12 col-md-12 col-sm-12">
-                    <!-- #foo -->
                     <textarea class="form-control cus-chat" formControlName="query"
                       (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
 

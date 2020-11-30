@@ -76,7 +76,7 @@ export enum DisplayTabs {
   TrancheDisburseWithBranch,
   TrancheDisburseReversedWithMe,
   TrancheDisburseReversedWithBranch
-  }
+}
 
 export enum sortingTables {
   ByLeadId,
@@ -183,8 +183,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('closeModal2', { static: false }) public closeModal2: ElementRef;
   userDetailsRoleId: any;
   supervisorUserId: any;
-  
-  
+
+
   TrancheDisbList: any[];
   trancheDetails: any[];
   TrancheDisbTaskList: any[];
@@ -247,12 +247,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     this.sharedService.isSupervisorName.subscribe((value: any) => {
       console.log(value);
-      if(value) {
+      if (value) {
         this.supervisorName = value;
       }
-      
-    })
 
+    })
 
     this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
       this.branchId = userDetails.branchId;
@@ -293,8 +292,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.supervisor = false;
     }
-
-
 
     this.userId = localStorage.getItem('userId')
 
@@ -373,13 +370,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.getCountAcrossLeads(this.userId)
 
-    setTimeout(() => {
-      if (currentUrl.includes('dashboard') && this.isIntervalId) {
-        this.intervalId = this.getPollCount()
-      } else {
-        clearInterval(this.intervalId)
-      }
-    }, 30000)
+    if (currentUrl.includes('dashboard')) {
+      console.log('Its a Log')
+      setTimeout(() => {
+        if (this.isIntervalId) {
+          this.intervalId = setInterval(() => {
+            this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
+              console.log('Polling request')
+              if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+                this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+              } else {
+                clearInterval(this.intervalId)
+              }
+            })
+          }, 30000)
+        }
+      }, 30000)
+    } else {
+      this.isIntervalId = false;
+      console.log('Its not a Log')
+
+      clearInterval(this.intervalId)
+    }
+    // setTimeout(() => {
+    //   if (currentUrl.includes('dashboard') && this.isIntervalId) {
+    //     this.intervalId = this.getPollCount()
+    //   } else {
+    //     clearInterval(this.intervalId)
+    //   }
+    // }, 30000)
 
   }
 
@@ -676,18 +695,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 48: case 49:
         this.taskName = 'CPC-CAD';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
-       case 51:
+      case 51:
         this.taskName = 'TrancheDisbursement';
         this.getTrancheDisburseLeads(this.itemsPerPage, event);
-        break;  
+        break;
       case 52:
         this.taskName = 'TrancheDisbursementPendingWithMe';
         this.getTrancheDisburseLeads(this.itemsPerPage, event);
-        break; 
+        break;
       case 53:
         this.taskName = 'TrancheDisbursementPendingWithBranch';
-        this.getTrancheDisburseLeads(this.itemsPerPage, event);	
-	
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);
+
         break;
       default:
         break;
@@ -729,7 +748,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.toggleDdeService.clearToggleData();
     }
 
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads || 
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads ||
       this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
@@ -905,7 +924,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getTaskDashboardLeads(perPageCount, pageNumber?) {
-    
+
     const data = {
       taskName: this.taskName,
       branchId: this.branchId,
@@ -956,16 +975,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByProduct: this.sortByProduct,
       sortByStage: this.sortByStage
     };
-    if(data.taskName == 'TrancheDisbursement')
-    this.responseForTrancheDisburse(data);
+    if (data.taskName == 'TrancheDisbursement')
+      this.responseForTrancheDisburse(data);
     else {
-     this.responseForTaskTrancheDisburse(data) ;
+      this.responseForTaskTrancheDisburse(data);
     }
   }
 
   responseForTrancheDisburse(data) {
     this.dashboardService.getTrancheDisburseDetails(data).subscribe((res: any) => {
-      this.setTrancheDispersePageData(res,1);
+      this.setTrancheDispersePageData(res, 1);
       if (res.ProcessVariables.TrancheDisbList != null) {
         this.isLoadLead = true;
       } else {
@@ -978,7 +997,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // for Dashboard Task Tranche Disburse
   responseForTaskTrancheDisburse(data) {
     this.dashboardService.getTaskTrancheDisburseDetails(data).subscribe((res: any) => {
-      this.setTrancheDispersePageData(res,2);
+      this.setTrancheDispersePageData(res, 2);
       if (res.ProcessVariables.TrancheDisbTaskList != null) {
         this.isLoadLead = true;
       } else {
@@ -988,7 +1007,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     });
   }
-  setTrancheDispersePageData(res,val) {
+  setTrancheDispersePageData(res, val) {
     this.trancheDetails = [];
     const response = (val == 1) ? res.ProcessVariables.TrancheDisbList : res.ProcessVariables.TrancheDisbTaskList;
     this.trancheDetails = response;
@@ -1052,7 +1071,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate([`/pages/disbursement-section/${this.leadId}/tranche-disburse`]);
         break;
       case 25: case 26:
-        localStorage.setItem('istermSheet', 'false');      
+        localStorage.setItem('istermSheet', 'false');
         // tslint:disable-next-line: triple-equals
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
@@ -1189,7 +1208,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   taskId: this.leadTaskId,
     //   loginId: this.selfAssignLoginId
     // }
-    if ( this.subActiveTab === this.displayTabs.NewLeads ) {
+    if (this.subActiveTab === this.displayTabs.NewLeads) {
       this.dataToReassign = {
         myLeads: true,
         leadId: this.selfAssignLeadId,
@@ -1294,7 +1313,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   saveTaskLogs() {
     const data = {
       userId: localStorage.getItem('userId'),
-      leadId: (this.leadId)?parseInt(this.leadId):null,
+      leadId: (this.leadId) ? parseInt(this.leadId) : null,
       isClaim: this.isClaim,
       isRelease: this.isRelease,
       taskName: this.taskName

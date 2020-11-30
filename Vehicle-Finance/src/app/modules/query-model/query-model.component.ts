@@ -102,6 +102,9 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   isQueryToShowError: boolean = false;
   queryToDeductValue: boolean = false;
 
+  // Reply To
+  isReplyToArray: any = [];
+
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
@@ -129,6 +132,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       searchLeadId: ['', Validators.required],
       searchText: ['', Validators.required],
       docName: [''],
+      replyTo: [''],
+      status: [''],
       leadId: ['', Validators.required]
     })
 
@@ -150,9 +155,20 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   }
 
+  isCheckFropdownBut(chat, index) {
+
+    if (this.isClickDropDown === index) {
+      this.clickedIndex = null;
+    } else {
+      this.isClickDropDown = null;
+      this.clickedIndex === index? this.clickedIndex = null : this.clickedIndex = index
+    }
+
+  }
+
   openOptionDropDown(index) {
     this.isClickDropDown = index;
-    this.clickedIndex = index;
+    this.clickedIndex = null;
     document.getElementById("chat-box").style.overflowY = "hidden";
   }
 
@@ -359,15 +375,12 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
           this.chatMessages.filter((val, i) => {
             val.time = this.myDateParser(val.createdOn)
-
-            if (i % 2) {
-              val.status = 'ReOpen';
-            } else {
-              val.status = 'Resolved'
-            }
-
-
-            val.queryId = i + 1000;
+            // if (i % 2) {
+            //   val.status = 'ReOpen';
+            // } else {
+            //   val.status = 'Resolved'
+            // }
+            // val.queryId = i + 1000;
           })
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
@@ -775,6 +788,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   openOptions(data, i) {
+    this.isClickDropDown = null;
+    this.clickedIndex = null;
     let queryTo = this.userId === data.queryFrom ? data.queryTo : data.queryFrom;
 
     let fileterData = this.queryModelLov.queryTo.find((res: any) => {
@@ -788,8 +803,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       searchText: fileterData.value,
       queryTo: fileterData.key
     })
-    this.isClickDropDown = null;
-    this.clickedIndex = null;
     this.isClickButton = i;
     document.getElementById("chat-box").style.overflowY = "auto";
 
