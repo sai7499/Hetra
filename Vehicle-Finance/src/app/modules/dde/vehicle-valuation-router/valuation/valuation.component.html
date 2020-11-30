@@ -1554,7 +1554,7 @@
                   (change)="validatingBeforeRegDate('permitDate')"
                 >
                 </kendo-datepicker>
-                <div class="invalid-feedback">
+                <!-- <div class="invalid-feedback">
                   <div
                     *ngIf="
                       isDirty &&
@@ -1571,7 +1571,7 @@
                   >
                     Invalid Date
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="fitnes_validity"
@@ -2374,6 +2374,7 @@
                   formControlName="valuationDate"
                   [activeView]="'decade'"
                   [max]="toDayDate"
+                  [format]="'dd/MM/yyyy'"
                   [min]="leadCreatedDate"
                   placeholder="Valuation Date"
                 >

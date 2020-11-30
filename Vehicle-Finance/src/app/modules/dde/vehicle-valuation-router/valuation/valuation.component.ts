@@ -360,11 +360,12 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationForm.get('permitValidUpto').disable();
       this.vehicleValuationForm.get('permitValidUpto').clearValidators();
       this.vehicleValuationForm.get('permitValidUpto').updateValueAndValidity();
+      // setTimeout(() => {
+      //   this.vehicleValuationForm.get('permitValidUpto').patchValue(null);
 
-      setTimeout(() => {
-        this.vehicleValuationForm.get('permitValidUpto').patchValue(null);
-
-      });
+      // });
+      this.vehicleValuationForm.removeControl('permitValidUpto');
+      console.log('this form after permit', this.vehicleValuationForm);
     } else if (this.engineStartedType !== '3VEHPERSTATUS') {
       this.permitDisabled = false;
       this.permitRequired = true;
@@ -643,6 +644,11 @@ export class ValuationComponent implements OnInit {
       // this.onPermitChange(this.vehicleValuationDetails.permitStatus);
       // this.engineStarted(this.vehicleValuationDetails.engineStarted);
       // this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
+      if ((this.vehicleValuationDetails.preReRegNumber !== null) &&
+        (this.vehicleValuationDetails.modelUnderProduction !== null)) {
+        this.onRegTypeChange(this.vehicleValuationDetails.preReRegNumber);
+        this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
+      }
       this.setFormValue();
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
