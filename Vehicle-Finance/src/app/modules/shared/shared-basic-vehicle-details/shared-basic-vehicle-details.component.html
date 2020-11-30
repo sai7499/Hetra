@@ -1654,8 +1654,6 @@
                                 placeholder="Expected NOC Date">
                             </kendo-datepicker>
 
-                            {{toDayDate}}
-
                             <div class="invalid-feedback"
                                 *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
                                 Invalid Date
