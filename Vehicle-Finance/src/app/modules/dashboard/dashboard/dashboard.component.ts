@@ -208,7 +208,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selfAssignLeadId: any;
   selectOne = false;
   selectAll = false;
-  selectedArray: any[];
+  selectedArray = [];
   sortAsc = true;
   sortDesc = false;
   checkedOne: any;
@@ -734,6 +734,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getSalesLeads(this.itemsPerPage, event);
         break;
       case 4: case 5:
+        this.declinedFlow = false;
         this.taskName = 'Sanctioned Leads';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
@@ -1421,6 +1422,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.toasterService.showSuccess('Self Assigned Successfully', 'Self-Assign');
         this.closeModal2.nativeElement.click();
         this.onClick();
+        this.selectedArray = [];
       } else {
         this.toasterService.showError(response.ProcessVariables.error.message, 'Self-Assign');
       }
@@ -1480,6 +1482,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.onClick();
         this.closeModal.nativeElement.click();
         this.closeModal1.nativeElement.click();
+        this.selectedArray = [];
       } else {
         this.toasterService.showError(response.ProcessVariables.error.message, 'Re-Assign');
       }
@@ -1562,7 +1565,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // if(this.selectOne && this.selectAll) {
     //   event.traget.checked = true;
     // }
-    // console.log(event.target.checked);
+    console.log(event.target.checked);
     if (event.target.checked) {
       if (this.subActiveTab === this.displayTabs.NewLeads) {
         this.selectedArray.push(item.leadId);
@@ -1585,10 +1588,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log(this.selectedArray);
 
     }
-    if(this.selectedArray.length > 0) {
-      this.disableButton = true;
-    } else {
+    if(this.selectedArray.length <= 0) {
       this.disableButton = false;
+    } else {
+      this.disableButton = true;
     }
 
   }
@@ -1600,6 +1603,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.selectedArray = [];
     if (event.target.checked) {
       this.selectAll = true;
+    this.disableButton = true;
       for (let i = 0; i < this.newArray.length; i++) {
         if (this.subActiveTab === this.displayTabs.NewLeads) {
           // console.log(this.newArray[i].leadId);
@@ -1615,19 +1619,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log(this.selectedArray);
 
     } else {
+    this.disableButton = false;
       this.selectAll = false;
       this.selectedArray = [];
       console.log('selectedArray', this.selectedArray);
     }
-    if(this.selectedArray.length > 0) {
-      this.disableButton = true;
-    } else {
-      this.disableButton = false;
-    }
+    // if(this.selectedArray.length <= 0) {
+    //   this.disableButton = true;
+    // } else {
+    //   this.disableButton = false;
+    // }
 
   }
 
   assignSelectedLeads() {
     this.onReAssignClick();
   }
+  // selfAssignSelectedLeads() {
+  //   data
+  // }
 }
