@@ -323,12 +323,15 @@
             <li (click)="leads(displayTabs?.TrancheDisburseReversedWithMe)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithMe === subActiveTab}" routerLinkActive="active"><a data-toggle="tab"> Pending With Me</a></li>
             <li (click)="leads(displayTabs?.TrancheDisburseReversedWithBranch)" [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab}" routerLinkActive="active"><a data-toggle="tab">Pending With CPC</a></li>
         </ul>
+        
     </div>
+    
     <!-- CPCCAD
      Dashboard Ends -->
-
-     <div>
-         <button class="btn btn-primary" (click)="assignSelectedLeads()">Re-Assign selected leads</button>
+     <div *ngIf="checkedOne || checkedAll">
+         <button class="btn btn-primary" data-toggle="modal" data-target="#supervisorTaskAssign" (click)="assignSelectedLeads()">Re-Assign selected leads</button>
+         <button class="btn btn-primary" *ngIf="selfAssign" style="margin-left: 5px;" data-toggle="modal" data-target="#supervisorTaskAssign" (click)="assignSelectedLeads()">Re-Assign selected leads</button>
+     
      </div>
 
     <div>
@@ -361,7 +364,7 @@
                 data-toggle="modal" data-target="#releaseModal">
             </td> -->
                         <td *ngIf="userName">
-                            <input type="checkbox" class="custom-control-label" [checked]="item.selected" name="oneLead" (change)="onCheck($event, item)">
+                            <input type="checkbox" [checked]="item.selected" name="oneLead" (change)="onCheck($event, item)">
                         </td>
                         <td *ngIf="onReleaseTab && !userName">
                             <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
@@ -372,24 +375,24 @@
                         <!--  -->
                         <td [attr.data-label]="labels?.action" *ngIf="userName && (!onReleaseTab && !onAssignTab)">
 
-                            <input type="button" *ngIf="selfAssign" style="margin-top: 5px;" (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal" data-target="#confirmSelfAssign" class="btn btn-primary" value="Self Assign">
-                            <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)" class="btn btn-primary" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign" style="margin-top: 5px;" (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal" data-target="#confirmSelfAssign" class="btn btn-primary" value="Self Assign">
+                            <input type="button" [disabled]="disableButton" style="margin-top: 5px;" (click)="onReAssignClick(item)" class="btn btn-primary" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
                         </td>
                         <td [attr.data-label]="labels?.action" *ngIf="userName && onReleaseTab">
-                            <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
+                            <!-- <input type="button" [disabled]="disableButton" *ngIf="!userName" class="btn btn-primary"
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
                 value="Release" data-toggle="modal" data-target="#releaseModal"> -->
-                            <input type="button" *ngIf="selfAssign" (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal" data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
-                            <input type="button" (click)="onReAssignClick(item)" class="btn btn-primary btn-re" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign" (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal" data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
+                            <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item)" class="btn btn-primary btn-re" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
                         </td>
 
                         <!--  -->
                         <td [attr.data-label]="labels?.action" *ngIf="userName && onAssignTab">
-                            <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
+                            <!-- <input type="button" [disabled]="disableButton" *ngIf="!userName" class="btn btn-primary"
                 (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                 value="Assign" data-toggle="modal" data-target="#assignModel" /> -->
-                            <input type="button" *ngIf="selfAssign" (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal" data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
-                            <input type="button" (click)="onReAssignClick(item)" class="btn btn-primary btn-re" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign" (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal" data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
+                            <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item)" class="btn btn-primary btn-re" value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
                         </td>
                         <td [attr.data-label]="labels?.leadID" *ngIf="(!onReleaseTab && !onAssignTab) && !userName">
                             <a class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)" style="cursor: pointer;">{{item.leadId}}</a>
@@ -426,22 +429,22 @@
                         <tr class="table-head-bg">
                             <th *ngIf="(onReleaseTab || onAssignTab) && displayTabs?.PDDforCPC === activeTab">{{labels?.action}}</th>
                             <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
-                            <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}<i class="fa fa-sort"></i>
+                            <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAccNo === sortTab}" (click)="onSort(sortTables?.ByLoanAccNo)"></i>
                             </th>
-                            <th *ngIf="displayTabs?.LoanBooking !== activeTab">{{labels?.loanNumber}}<i class="fa fa-sort"></i> </th>
-                            <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName+' Name'}}<i class="fa fa-sort"></i>
+                            <th *ngIf="displayTabs?.LoanBooking !== activeTab">{{labels?.loanNumber}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAccNo === sortTab}" (click)="onSort(sortTables?.ByLoanAccNo)"></i> </th>
+                            <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName+' Name'}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByName === sortTab}" (click)="onSort(sortTables?.ByName)"></i>
                             </th>
-                            <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
+                            <th>{{labels?.productCategory}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByProduct === sortTab}" (click)="onSort(sortTables?.ByProduct)"></i> </th>
                             <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
-                                {{labels?.disbursementDate}}<i class="fa fa-sort"></i> </th>
+                                {{labels?.disbursementDate}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByDisburDate === sortTab}" (click)="onSort(sortTables?.ByDisburDate)"></i> </th>
                             <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
-                                {{labels?.expectedDate}}<i class="fa fa-sort"></i> </th>
+                                {{labels?.expectedDate}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByExpectedDate === sortTab}" (click)="onSort(sortTables?.ByExpectedDate)"></i> </th>
                             <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}<i class="fa fa-sort"></i> </th> -->
                             <th *ngIf="displayTabs?.PDDforCPC === activeTab">{{labels?.branch}}<i class="fa fa-sort"></i> </th>
                             <th *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab">
                                 {{labels?.loanAmount}}<i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}" (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>
                             <th *ngIf="displayTabs?.LoanBooking === activeTab">
-                                {{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
+                                {{labels?.applicant+'s'}} </th>
                             <!-- <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i>
               </th> -->
                         </tr>
