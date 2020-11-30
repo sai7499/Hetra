@@ -35,7 +35,7 @@ import { SanctionDetailsComponent } from '@modules/dde/credit-decisions/sanction
 import { TermSheetComponent } from './credit-decisions/term-sheet/term-sheet.component';
 import { WelomceLetterComponent } from './cpc-maker/welomce-letter/welomce-letter.component';
 import { DeliveryOrderComponent } from './cpc-maker/delivery-order/delivery-order.component';
-
+import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
 const routes: Routes = [
   {
     path: ':leadId',
@@ -184,7 +184,12 @@ const routes: Routes = [
       {
         path: 'delivery-order',
         component: DeliveryOrderComponent
+      },
+      {
+        path: 'loan-details',
+        component: LoanDetailsComponent
       }
+
     ],
   },
 ];
