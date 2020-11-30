@@ -78,7 +78,8 @@ export enum DisplayTabs {
   TrancheDisburseReversedWithBranch,
   ReAppeal,
   ReAppealWithMe,
-  ReAppealWithBranch
+  ReAppealWithBranch,
+  ExternalUser
 }
 
 export enum sortingTables {
@@ -86,7 +87,10 @@ export enum sortingTables {
   ByProduct,
   ByLoanAmt,
   ByDate,
-  ByStage
+  ByStage,
+  SortAsc,
+  SortDesc
+
 }
 
 @Component({
@@ -137,7 +141,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   leadId;
   sortTab;
   sortByDate = false;
-  sortByLead = false;
+  sortByLead = true;
   sortByLoanAmt = false;
   sortByProduct = false;
   sortByStage = false;
@@ -201,6 +205,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectOne = false;
   selectAll = false;
   selectedArray: any[];
+  sortAsc = true;
+  sortDesc = false;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -430,7 +436,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sortTab = data;
     switch (data) {
       case 0:
-        this.sortByLead = this.sortByLead === false ? true : false;
+        // this.sortByLead = this.sortByLead === false ? true : false;
+        this.sortByLead = true;
+        this.sortAsc = this.sortAsc === true ? false : true;
+        this.sortDesc = this.sortDesc === false ? true : false;
         this.sortByDate = false;
         this.sortByProduct = false;
         this.sortByLoanAmt = false;
@@ -438,35 +447,47 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.onTabsLoading(this.subActiveTab);
         break;
       case 1:
+        this.sortAsc = this.sortAsc === true ? false : true;
+        this.sortDesc = this.sortDesc === false ? true : false;
         this.sortByLead = false;
         this.sortByDate = false;
-        this.sortByProduct = this.sortByProduct === false ? true : false;
+        // this.sortByProduct = this.sortByProduct === false ? true : false;
+        this.sortByProduct = true;
         this.sortByLoanAmt = false;
         this.sortByStage = false;
         this.onTabsLoading(this.subActiveTab);
         break;
       case 2:
+        this.sortAsc = this.sortAsc === true ? false : true;
+        this.sortDesc = this.sortDesc === false ? true : false;
         this.sortByLead = false;
         this.sortByDate = false;
         this.sortByProduct = false;
-        this.sortByLoanAmt = this.sortByLoanAmt === false ? true : false;
+        // this.sortByLoanAmt = this.sortByLoanAmt === false ? true : false;
+        this.sortByLoanAmt = true;
         this.sortByStage = false;
         this.onTabsLoading(this.subActiveTab);
         break;
       case 3:
+        this.sortAsc = this.sortAsc === true ? false : true;
+        this.sortDesc = this.sortDesc === false ? true : false;
         this.sortByLead = false;
-        this.sortByDate = this.sortByDate === false ? true : false;
+        // this.sortByDate = this.sortByDate === false ? true : false;
+        this.sortByDate = true;
         this.sortByProduct = false;
         this.sortByLoanAmt = false;
         this.sortByStage = false;
         this.onTabsLoading(this.subActiveTab);
         break;
       case 4:
+        this.sortAsc = this.sortAsc === true ? false : true;
+        this.sortDesc = this.sortDesc === false ? true : false;
         this.sortByLead = false;
         this.sortByDate = false;
         this.sortByProduct = false;
         this.sortByLoanAmt = false;
-        this.sortByStage = this.sortByStage === false ? true : false;
+        // this.sortByStage = this.sortByStage === false ? true : false;
+        this.sortByStage = true;
         this.onTabsLoading(this.subActiveTab);
         break;
 
@@ -604,7 +625,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -699,6 +720,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 55: case 56:
         this.taskName = 'Re-Appealed Leads';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+        case 57:
+          this.getExternalUserLeads(this.itemsPerPage, event);
       default:
         break;
     }
@@ -715,11 +739,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       subActiveTab: this.subActiveTab,
     };
     if (this.sortTab === '') {
-      this.sortByLead = false;
+      this.sortByLead = true;
       this.sortByDate = false;
       this.sortByProduct = false;
       this.sortByLoanAmt = false;
       this.sortByStage = false;
+      this.sortAsc = true;
+      this.sortDesc = false;
       this.onTabsLoading(this.subActiveTab);
     }
 
@@ -765,11 +791,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     // this.onTabsLoading(this.subActiveTab);
     if (this.sortTab === '') {
-      this.sortByLead = false;
+      this.sortByLead = true;
       this.sortByDate = false;
       this.sortByProduct = false;
       this.sortByLoanAmt = false;
       this.sortByStage = false;
+      this.sortAsc = true;
+      this.sortDesc = false;
       this.onTabsLoading(this.subActiveTab);
     }
   }
@@ -804,7 +832,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // getting response Data for all tabs
   setPageData(res) {
+    if(this.subActiveTab === this.displayTabs.ExternalUser) {
+      this.newArray = res.ProcessVariables.extLeadDetails;
+    } else {
     this.newArray = res.ProcessVariables.loanLead;
+    }
     switch (this.activeTab) {
       case 15:
         this.newArray = res.ProcessVariables.processLogs;
@@ -898,13 +930,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
       sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
+      sortByStage: this.sortByStage,
+      sortAsc: this.sortAsc,
+      sortDesc: this.sortDesc
     };
 
     this.responseForSales(data);
   }
 
-  // For TaskDashboard Api
+  // For TaskDashboard Api Starts
   responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
       this.setPageData(res);
@@ -940,11 +974,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
       sortByProduct: this.sortByProduct,
-      sortByStage: this.sortByStage
+      sortByStage: this.sortByStage,
+      sortAsc: this.sortAsc,
+      sortDesc: this.sortDesc
     };
 
     this.responseForCredit(data);
   }
+  // For TaskDashboard Api Ends
+
+  // External User API Atarts
+  responseForEcxternalUser(data) {
+    this.dashboardService.getExternalUserDetails(data).subscribe((res: any) => {
+      this.setPageData(res);
+      if (res.ProcessVariables.extLeadDetails != null) {
+        this.isLoadLead = true;
+      } else {
+        this.isLoadLead = false;
+        this.newArray = [];
+      }
+    })
+  }
+
+  getExternalUserLeads(perPageCount, pageNumber?) {
+    const data = {
+      userId: this.loginUserId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+    };
+    this.responseForEcxternalUser(data);
+  }
+  // External User API Ends
 
   getTrancheDisburseLeads(perPageCount, pageNumber?) {
     const data = {
@@ -1044,7 +1106,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/credit-condition`);
         break;
       case 6: case 7:
-
+        
         break;
       case 8: case 9:
         this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
@@ -1340,6 +1402,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sharedService.getLoanNumber(loanNumber);
   }
   getLeadId(item) {
+    // to set localStorage variable for declined leads
     localStorage.setItem('salesResponse', item.is_sales_response_completed);
     this.salesResponse = item.is_sales_response_completed;
     localStorage.setItem('is_pred_done', item.is_pred_done);
@@ -1348,6 +1411,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sharedService.getTaskID(item.taskId);
     this.sharedService.setProductCatCode(item.productCatCode);
     this.sharedService.setProductCatName(item.productCatName);
+    
+
   }
 
   onLeadHistory(leadId) {
@@ -1432,5 +1497,42 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log('selectedArray', this.selectedArray);
     }
 
+  }
+
+  assignSelectedLeads() {
+    this.onReAssignClick(this.newArray);
+    if (this.subActiveTab === this.displayTabs.NewLeads) {
+      this.dataToReassign = {
+        myLeads: true,
+        leadId: this.selectedArray,
+        loginId: this.supervisorForm.value.roles
+      };
+    } else {
+      this.dataToReassign = {
+        taskId: this.reAssignData.taskId,
+        loginId: this.supervisorForm.value.roles
+      };
+    }
+    // const data = {
+    //   taskId: this.reAssignData.taskId,
+    //   myLeads: this.myLeads,
+    //   leadId: this.reAssignData.leadId,
+    //   loginId: this.supervisorForm.value.roles
+    // };
+    this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
+      console.log(res);
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.toasterService.showSuccess('Re Assigned Successfully', 'Re-Assign');
+        this.onClick();
+        this.closeModal.nativeElement.click();
+        this.closeModal1.nativeElement.click();
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, 'Re-Assign');
+      }
+
+    });
   }
 }
