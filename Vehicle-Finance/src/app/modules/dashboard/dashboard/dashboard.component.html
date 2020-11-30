@@ -529,24 +529,24 @@
                         </th>
                         <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
                         <th *ngIf="(!onReleaseTab && !onAssignTab) && userName">{{labels?.action}}</th>
-                        <th>{{labels?.leadID}}<i class="fa fa-sort"
+                        <th>{{labels?.leadID}}<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
                                 (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
                         <th>{{labels?.applicantName}} </th>
-                        <th>{{labels?.product}}<i class="fa fa-sort"
+                        <th>{{labels?.product}}<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                                 (click)="onSort(sortTables?.ByProduct)"> </i> </th>
-                        <th>{{labels?.loanAmount}}<i class="fa fa-sort"
+                        <th>{{labels?.loanAmount}}<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                 (click)="onSort(sortTables?.ByLoanAmt)"> </i> </th>
                         <th>{{labels?.applicant+'s'}} </th>
-                        <th>{{labels?.createdOn}}<i class="fa fa-sort"
+                        <th>{{labels?.createdOn}}<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByDate === sortTab}"
                                 (click)="onSort(sortTables?.ByDate)"> </i> </th>
                         <th>{{labels?.createdBy}} </th>
                         <th *ngIf="!displayTabs?.ExternalUser === subActiveTab">{{labels?.priority}} </th>
                         <th>{{labels?.promoCode}} </th>
-                        <th>{{labels?.status}} <i class="fa fa-sort"
+                        <th>{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"
                                 (click)="onSort(sortTables?.ByStage)"> </i> </th>
                         <th>{{labels?.history}} </th>
@@ -666,28 +666,28 @@
                                     class="fa fa-sort" [ngClass]="{'active':sortTables?.ByName === sortTab}"
                                     (click)="onSort(sortTables?.ByName)"></i>
                             </th>
-                            <th>{{labels?.productCategory}}<i class="fa fa-sort"
+                            <th>{{labels?.productCategory}}<i style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                                     (click)="onSort(sortTables?.ByProduct)"></i> </th>
                             <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
-                                {{labels?.disbursementDate}}<i class="fa fa-sort"
+                                {{labels?.disbursementDate}}<i style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByDisburDate === sortTab}"
                                     (click)="onSort(sortTables?.ByDisburDate)"></i> </th>
                             <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
-                                {{labels?.expectedDate}}<i class="fa fa-sort"
+                                {{labels?.expectedDate}}<i style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByExpectedDate === sortTab}"
                                     (click)="onSort(sortTables?.ByExpectedDate)"></i> </th>
-                            <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}<i class="fa fa-sort"></i> </th> -->
+                            <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}<i style="cursor: pointer" class="fa fa-sort"></i> </th> -->
                             <th *ngIf="displayTabs?.PDDforCPC === activeTab">{{labels?.branch}}<i
                                     class="fa fa-sort"></i> </th>
                             <th
                                 *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab">
-                                {{labels?.loanAmount}}<i class="fa fa-sort"
+                                {{labels?.loanAmount}}<i style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                     (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>
                             <th *ngIf="displayTabs?.LoanBooking === activeTab">
                                 {{labels?.applicant+'s'}} </th>
-                            <!-- <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i>
+                            <!-- <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName}}<i style="cursor: pointer" class="fa fa-sort"></i>
               </th> -->
                         </tr>
                     </thead>
@@ -759,29 +759,29 @@
                         <tr class="table-head-bg">
                             <th *ngIf="displayTabs?.TrancheDisburseWithBranch != subActiveTab">{{labels?.action}}</th>
                             <th>{{labels?.loanNumber}}
-                                <i class="fa fa-sort"></i>
+                                <i style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
                             <th>{{labels?.productName}}
-                                <i class="fa fa-sort"></i>
+                                <i style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
                             <!-- <th>{{labels?.productCategory}}
-                    <i class="fa fa-sort"></i>
+                    <i style="cursor: pointer" class="fa fa-sort"></i>
                 </th> -->
                             <th>{{labels?.loanAmount}}
-                                <i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
+                                <i style="cursor: pointer" class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                     (click)="onSort(sortTables?.ByLoanAmt)"></i>
                             </th>
                             <th>{{labels?.mainApplicantName}}
-                                <i class="fa fa-sort"></i>
+                                <i style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
                             <th>{{labels?.noOfTrancheDisburse}}
-                                <i class="fa fa-sort"></i>
+                                <i style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
                             <th>{{labels?.alreadyDisbursedAmount}}
-                                <i class="fa fa-sort"></i>
+                                <i style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
                             <th>{{labels?.balanceToBeDisbursed}}
-                                <i class="fa fa-sort"></i>
+                                <i style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
                         </tr>
                     </thead>
