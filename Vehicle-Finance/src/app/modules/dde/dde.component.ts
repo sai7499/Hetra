@@ -194,9 +194,9 @@ export class DdeComponent implements OnInit, OnChanges {
       return 8;
     } else if (url.includes('tvr-details')) {
       return 9;
-    }else if (url.includes('rcu')) {
+    } else if (url.includes('rcu')) {
       return 10;
-    }else if (url.includes('fi-list')) {
+    } else if (url.includes('fi-list')) {
       return 11;
     } else if (url.includes('pd-list')) {
       return 12;
@@ -228,6 +228,8 @@ export class DdeComponent implements OnInit, OnChanges {
       return 24;
     } else if (url.includes('delivery-order')) {
       return 25;
+    } else  if (url.includes('loan-details')) {
+      return -1;
     }
 
   }
