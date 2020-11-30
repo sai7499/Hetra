@@ -84,14 +84,15 @@ export class IncomeDetailsComponent implements OnInit {
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
+      if (value.Error === '0' && processVariables.error.code === '0') {
         this.pdDetail = value.ProcessVariables['incomeDetails'];
-        console.log('PD Details', this.pdDetail);
-        if (value.ProcessVariables['incomeDetails'].typeOfAccount == "4BNKACCTYP") {
-          this.isccOdLimit = true;
-          this.addCCOd(value.ProcessVariables['incomeDetails'].typeOfAccount)
-        }
-        this.setFormValue(value.ProcessVariables['incomeDetails']);
+        if (this.pdDetail) {
+          if (value.ProcessVariables['incomeDetails'].typeOfAccount == "4BNKACCTYP") {
+            this.isccOdLimit = true;
+            this.addCCOd(value.ProcessVariables['incomeDetails'].typeOfAccount)
+          }
+          this.setFormValue(value.ProcessVariables['incomeDetails']);
+        }        
       }
     });
 

@@ -10,6 +10,7 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ElementSchemaRegistry } from '@angular/compiler';
 import { Location } from '@angular/common';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-welomce-letter',
@@ -88,6 +89,7 @@ export class WelomceLetterComponent implements OnInit {
   isLoanBooking: boolean;
   showModal: boolean;
   chequeModeMsg: string;
+  isLoan360: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
               private labelsData: LabelsService, 
@@ -98,9 +100,12 @@ export class WelomceLetterComponent implements OnInit {
               private sharedService: SharedService,
               private domSanitizer: DomSanitizer,
               private location: Location,
-              private router: Router) { }
+              private router: Router,
+              private loanViewService: LoanViewService) { }
 
   ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     const path = this.location.path();
     console.log('path', path);
@@ -336,6 +341,9 @@ export class WelomceLetterComponent implements OnInit {
 
   onBack() {
     const path = this.location.path();
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/term-sheet`);
+    }
     if (path.includes('cheque-tracking')) {
       return this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
     } else if (path.includes('loanbooking')) {

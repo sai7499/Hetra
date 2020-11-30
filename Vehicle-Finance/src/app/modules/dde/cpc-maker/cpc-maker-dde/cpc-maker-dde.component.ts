@@ -68,7 +68,7 @@ export class CpcMakerDdeComponent implements OnInit {
   }
   onNavigate(url: string) {
     // tslint:disable-next-line: triple-equals
-    if (this.roleType == '4') {
+    if (this.roleType == '4' || this.roleType == '7') {
       this.router.navigate([`/pages/cpc-maker/${this.leadId}/${url}`]);
     // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '5') {
@@ -84,17 +84,17 @@ export class CpcMakerDdeComponent implements OnInit {
       return 2;
     }  else if (url.includes('negotiation')) {
       return 3;
-    }  else if (url.includes('disbursement') && this.roleType == '4') {
+    }  else if (url.includes('disbursement') && (this.roleType == '4' || this.roleType == '7')) {
       return 4;
-    } else if (url.includes('check-list') && this.roleType == '4') {
+    } else if (url.includes('check-list') && (this.roleType == '4' || this.roleType == '7')) {
       return 5;
     } else if (url.includes('check-list') && this.roleType == '5' ) {
       return 4;
     } else if (url.includes('disbursement') && this.roleType == '5') {
       return 5;
-    } else if (url.includes('pdc-details') && this.roleType == '4') {
+    } else if (url.includes('pdc-details') && (this.roleType == '4' || this.roleType == '7')) {
       return 6;
-    } else if (url.includes('welomce-letter') ) {
+    } else if (url.includes('remarks') && this.roleType == '7') {
       return 7;
     } else if (url.includes('delivery-order') ) {
       return 8;

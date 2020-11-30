@@ -24,6 +24,8 @@ export class FiListComponent implements OnInit {
   fiStatusValue: any;
   fiStatus: { [id: string]: any; } = {};
   pdStatusValue;
+  productCatCode: string;
+
   constructor(
     private labelDetails: LabelsService,
     private router: Router,
@@ -81,7 +83,8 @@ export class FiListComponent implements OnInit {
     const data = this.leadData;
     this.applicantId = data['applicantDetails'][0]['applicantId'];
     console.log('lead section applicant ID', this.applicantId);
-
+    this.productCatCode = this.leadData['leadDetails'].productCatCode;
+    console.log("PRODUCT_CODE::", this.productCatCode);
 
   }
 
@@ -99,7 +102,7 @@ export class FiListComponent implements OnInit {
       console.log('fi List', this.fiList);
 
       for (var i in this.fiList) {
-        if (this.fiList[i]['fiStatus']!= null) {
+        if (this.fiList[i]['fiStatus'] != null) {
           this.fiStatusValue = this.fiList[i]['fiStatus']
         }
 
@@ -162,12 +165,15 @@ export class FiListComponent implements OnInit {
 
   onNavigate(action) { // fun for routing into next and back pages using argument ==> 'action'
     // console.log('in on navigate', action);
+    console.log(action === 'back' && this.productCatCode == 'UC');
 
-    if (action === 'back') {
+    if (this.productCatCode == 'UC' && action === 'back') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+    } else if (this.productCatCode != 'UC' && action === 'back') {
       this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
-    } else if (action === 'next') {
+    }
+    else if (action === 'next') {
       this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-
     }
 
 

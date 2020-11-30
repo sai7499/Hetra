@@ -11,6 +11,8 @@ import { CommonDataService } from '@services/common-data.service';
 import { ToasterService } from '@services/toaster.service';
 // import { LeadHistoriesDataService } from '@services/lead-histories-data.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-lead-section-header',
   templateUrl: './lead-section-header.component.html',
@@ -38,6 +40,9 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
+  isLoan360: boolean;
+  isButtonNameChange : boolean;
+  isBeforeEligibility: boolean;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -50,6 +55,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     private leadHistoryService: LeadHistoryService,
     private commonDataService: CommonDataService,
     private toasterService: ToasterService,
+    private loanViewService: LoanViewService
   ) {
     // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
     this.leadId = this.aRoute.snapshot.params['leadId'];
@@ -57,6 +63,7 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   ngOnInit() {
     // this.leadId = (await this.getLeadId()) as number;
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const operationType = this.toggleDdeService.getOperationType()
     this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
     this.getLabels();
@@ -83,6 +90,12 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.productId = val)
 
     const currentUrl = this.location.path();
+
+    if(currentUrl.includes('document-viewupload')){
+      this.isButtonNameChange= true;
+    }else{
+      this.isButtonNameChange= false;
+    }
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
@@ -128,6 +141,9 @@ export class LeadSectionHeaderComponent implements OnInit {
       });
     });
 
+    this.isBeforeEligibility = leadSectionData.leadDetails.stage !== '10';
+
+
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
 
     this.sharedService.leadData$.subscribe((value) => {
@@ -157,7 +173,14 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   saveCurrentUrl() {
     const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);
+    localStorage.setItem('currentUrl', currentUrl);  
+  }
+
+  onBackDocumentUpload(){
+    
+    const url=  localStorage.getItem('currentUrl');
+    this.router.navigateByUrl(url)
+
   }
 
   viewOrEditDde() {
@@ -199,7 +222,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   initinequery() {
     this.isEnableInitiateQuery = false;
     const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);
+    localStorage.setItem('forQueryUrl', currentUrl);
     this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
     // this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
   }
@@ -220,7 +243,8 @@ export class LeadSectionHeaderComponent implements OnInit {
             const message = response.ProcessVariables.error.message;
             this.toasterService.showError(message, 'Lead Creation');
           }
-        }
+        },
+        (error) => console.log('Lead Histroy Error', error)
       );
   }
 

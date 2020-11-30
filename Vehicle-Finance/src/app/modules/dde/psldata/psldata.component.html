@@ -371,12 +371,13 @@
                 <app-vf-custom-select 
                     [values]="pslLandHolding" 
                     formControlName="landHolding"
-                    (change)="onChangePslLandHolding($event)"
-                    name="landHolding"
-                    [isRequired]="'Please Select One Option'"
-                    [isDirty] = "isDirty"
+                    (change)="onChangePslLandHolding($event.target.value)"
+                    name="landHolding"                   
                     >
                 </app-vf-custom-select>
+                <div class="invalid-feedback" *ngIf="isDirty && g.controls.landHolding.invalid">
+                    <p>Please select one option</p>
+                </div>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
                 <label for="land_owner">{{labels.landOwner}}
@@ -474,6 +475,7 @@
                     [isRequired]="'Required Input is mandatory'"
                     [type]="labels?.validationData.landArea.type"
                     [isDirty]="isDirty"
+                    [isDisabled]="true"
                     >
                     </app-custom-input>
                 </div> <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
@@ -552,7 +554,7 @@
                 <label for="weaker_section_ag">{{labels.weakerSection}}
                     <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select 
+                <!-- <app-vf-custom-select 
                     [values]="weakerSectionValues" 
                     formControlName="weakerSection"
                     (change)="onChangeWeakerSection($event)"
@@ -560,7 +562,15 @@
                     [isRequired]="'Please Select One Option'"
                     [isDirty] = "isDirty"
                     >
-                </app-vf-custom-select>
+                </app-vf-custom-select> -->
+                <mat-form-field>
+                    <mat-select id="disburseTo" 
+                      formControlName="weakerSection" multiple 
+                       >
+                      <mat-option *ngFor="let x of weakerSectionValues" [value]="x.key">{{x.value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             </div>
             </div>
@@ -678,7 +688,7 @@
                         [className]="'form-control mandatory'"
                         [placeholder]="'Enter UDHYAM Registration number'"
                         [maxLength]="labels?.validationData?.pslUdhyamregno?.maxLength"
-                    
+                        [inputClass]="'input-upper'"
                         [type]="labels?.validationData?.pslUdhyamregno?.type"
                         [isDirty]="isDirty"
                         
@@ -759,7 +769,7 @@
                     [values]="pslSubCategoryValues" 
                     formControlName="pslSubCategory"
                     name="pslSubCategory"
-                    
+                    (change)="onChangePslSubcategory($event.target.value)"
                     [isDirty] = "isDirty"
                 >
                 </app-vf-custom-select>

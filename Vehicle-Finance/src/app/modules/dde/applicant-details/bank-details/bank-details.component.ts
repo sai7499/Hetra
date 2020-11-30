@@ -14,6 +14,9 @@ import { Location } from '@angular/common';
 import { ToasterService } from '@services/toaster.service';
 import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+
+import { LoanViewService } from '@services/loan-view.service';
+
 // import * as $ from 'jquery';
 
 @Component({
@@ -82,7 +85,8 @@ export class BankDetailsComponent implements OnInit {
     private location: Location,
     private toasterService: ToasterService,
     private labelsService: LabelsService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService
   ) {
     this.listArray = this.fb.array([]);
   }
@@ -229,6 +233,11 @@ export class BankDetailsComponent implements OnInit {
           this.bankForm.disable();
           this.disableSaveBtn = true;
         }
+
+        if (this.loanViewService.checkIsLoan360()) {
+          this.bankForm.disable();
+          this.disableSaveBtn = true;
+       }
         // }
       });
   }
@@ -274,6 +283,8 @@ export class BankDetailsComponent implements OnInit {
     for (let i = 0; i < transactionDetailsList.length; i++) {
       this.addProposedUnit(transactionDetailsList[i]);
     }
+
+    
   }
 
   addProposedUnit(data?: any) {

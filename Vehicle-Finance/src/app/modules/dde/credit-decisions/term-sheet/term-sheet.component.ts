@@ -11,6 +11,7 @@ import { UploadService } from '@services/upload.service';
 import { DocumentDetails } from '@model/upload-model';
 import { map } from 'rxjs/operators';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { LoanViewService } from '@services/loan-view.service';
 declare var $;
 @Component({
   selector: 'app-term-sheet',
@@ -59,6 +60,7 @@ export class TermSheetComponent implements OnInit {
   docsDetails: any = {};
   vehicleDetailsArray: any = [];
   isDocumentId: boolean;
+  isLoan360: boolean;
 
   constructor(
     public labelsService: LabelsService,
@@ -68,7 +70,8 @@ export class TermSheetComponent implements OnInit {
     private toasterService: ToasterService,
     public termSheetService: TermSheetService,
     private loginStoreService: LoginStoreService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private loanViewService: LoanViewService
   ) {
 
   }
@@ -179,6 +182,7 @@ export class TermSheetComponent implements OnInit {
     })
   }
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.getLabelData();
     console.log(this.isApprove);
     this.leadId = (await this.getLeadId()) as number;
@@ -207,7 +211,11 @@ export class TermSheetComponent implements OnInit {
     }
   }
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/welcome-letter`);
+    }
     // this.router.navigate([`/pages/credit-decisions/${this.leadId}/check-list`]);
+    console.log('this.roleType', this.roleType)
     if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/sanction-details`]);
     } else if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == "true") {
@@ -222,9 +230,17 @@ export class TermSheetComponent implements OnInit {
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/sanction-details`]);
     }
+    else if (this.roleType == '7') {
+      this.router.navigate([`/pages/cpc-maker/${this.leadId}/sanction-details`]);
+    }
   }
 
   onBack() {
+
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/sanction-letter`);
+    }
+
     if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true") {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/credit-condition`]);
     } else if (this.roleType == '2') {
@@ -237,6 +253,9 @@ export class TermSheetComponent implements OnInit {
       this.router.navigate([`pages/dashboard`]);
     } else if (this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);
+    }
+    else if (this.roleType == '7') {
+      this.router.navigate([`/pages/dashboard`]);
     }
   }
   downloadpdf() {

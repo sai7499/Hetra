@@ -1,4 +1,4 @@
-<div class="row text-right">
+<div class="row text-right" *ngIf="productCategoryFromLead != 'UC'">
     <div class="form-group col-sm-12 col-md-12 col-lg-12">
         <button 
             [disabled]="disableSaveBtn"
@@ -8,7 +8,7 @@
         </button>
     </div>
 </div>
-<table class="table cam_table_proposed mt-3 main-table">
+<table class="table cam_table_proposed mt-3 main-table" *ngIf="!showError">
     <thead>
         <tr class="tr_style">
             <th>S.No</th>
@@ -19,19 +19,22 @@
         </tr>
     </thead>
     <tbody style="text-align: left;">
-        <!-- <tr *ngFor="let res of result">
-            <td >{{res.sNo}}</td>
-            <td *ngIf="res.name">{{res.name}}</td>
-            <td *ngIf="res.subHeading" [ngClass]="{'bolder':'true'}">{{res.subHeading}}</td>
-            <td>{{res.weight}}</td>
-            <td>{{res.input}}</td>
-            <td>{{res.score}}</td>
-          </tr> -->
-        <tr *ngIf="borrowerAttributes">
-            <td [attr.data-label]="labels?.sNo"></td>
-            <td [attr.data-label]="labels?.parameter"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
+        <tr *ngFor="let res of result">
+            <td [attr.data-label]="'S.No'">{{res.sNo}}</td>
+            <td [attr.data-label]="'Parameter'" *ngIf="res.name">{{res.name}}</td>
+            <td [attr.data-label]="'Parameter'" *ngIf="res.subHeading"><strong>{{res.subHeading}}</strong></td>
+            <td [attr.data-label]="'Weightage'">{{res.weight}}</td>
+            <td [attr.data-label]="'Input Value'">{{res.input}}</td>
+            <td [attr.data-label]="'Score'">{{res.score}}</td>            
+        </tr>
+        
+
+        <!-- <tr *ngIf="borrowerAttributes">
+            <td class="tab-head" [attr.data-label]="labels?.borrowerAttributes"></td>
+            <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{borrowerAttributes[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.borrowerAttributeWeightage}}</strong></td>
-            <td [attr.data-label]="labels?.inputValue"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.borrowerAttributeScore}}</strong></td>
         </tr> 
 
@@ -39,51 +42,51 @@
             <td [attr.data-label]="labels?.sNo">{{i+1}}</td>
             <td [attr.data-label]="labels?.parameter">{{borrowerAttribute.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{borrowerAttribute.weightage}}</td>
-            <td [attr.data-label]="labels?.inputValue">{{borrowerAttribute.inputValueDescription}}</td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue">{{borrowerAttribute.inputValueDescription}}</td>
             <td [attr.data-label]="labels?.scoreValue">{{borrowerAttribute.score}}</td>
         </tr>
         <tr *ngIf="borrowerAssessments">
-            <td [attr.data-label]="labels?.sNo"></td>
-            <td [attr.data-label]="labels?.parameter"><strong>{{borrowerAssessments[0].scoreParameterCatDesc}}</strong></td>
+            <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{borrowerAssessments[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.borrowerAssessmentWeightage}}</strong></td>
-            <td [attr.data-label]="labels?.inputValue"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.borrowerAssessmentScore}}</strong></td>
         </tr>
         <tr *ngFor="let borrowerAssessment of borrowerAssessments; let i = index">
             <td [attr.data-label]="labels?.sNo">{{borrowerAttributesLength + i}}</td>
             <td [attr.data-label]="labels?.parameter">{{borrowerAssessment.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{borrowerAssessment.weightage}}</td>
-            <td [attr.data-label]="labels?.inputValue">{{borrowerAssessment.inputValueDescription}}</td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue">{{borrowerAssessment.inputValueDescription}}</td>
             <td [attr.data-label]="labels?.scoreValue">{{borrowerAssessment.score}}</td>
         </tr>
         <tr *ngIf="fieldVerifications">
-            <td [attr.data-label]="labels?.sNo"></td>
-            <td [attr.data-label]="labels?.parameter"><strong>{{fieldVerifications[0].scoreParameterCatDesc}}</strong></td>
+            <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{fieldVerifications[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.fieldVerificationWeightage}}</strong></td>
-            <td [attr.data-label]="labels?.inputValue"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.fieldVerificationScore}}</strong></td>
         </tr>
         <tr *ngFor="let fieldVerification of fieldVerifications; let i = index">
             <td [attr.data-label]="labels?.sNo">{{borrowerAssessmentsLength + i}}</td>
             <td [attr.data-label]="labels?.parameter">{{fieldVerification.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{fieldVerification.weightage}}</td>
-            <td [attr.data-label]="labels?.inputValue">{{fieldVerification.inputValueDescription}}</td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue">{{fieldVerification.inputValueDescription}}</td>
             <td [attr.data-label]="labels?.scoreValue">{{fieldVerification.score}}</td>
         </tr>
         <tr *ngIf="repaymentAssessments">
-            <td [attr.data-label]="labels?.sNo"></td>
-            <td [attr.data-label]="labels?.parameter"><strong>{{repaymentAssessments[0].scoreParameterCatDesc}}</strong></td>
+            <td class="tab-hide-space" [attr.data-label]="labels?.sNo"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.parameter"><strong>{{repaymentAssessments[0].scoreParameterCatDesc}}</strong></td>
             <td [attr.data-label]="labels?.weightage"><strong>{{scoreCard.repaymentAssessmentWeightage}}</strong></td>
-            <td [attr.data-label]="labels?.inputValue"></td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue"></td>
             <td [attr.data-label]="labels?.scoreValue"><strong>{{scoreCard.repaymentAssessmentScore}}</strong></td>
         </tr>
         <tr *ngFor="let repaymentAssessment of repaymentAssessments; let i = index">
             <td [attr.data-label]="labels?.sNo">{{fieldVerificationsLength + i}}</td>
             <td [attr.data-label]="labels?.parameter">{{repaymentAssessment.scoreDescription}}</td>
             <td [attr.data-label]="labels?.weightage">{{repaymentAssessment.weightage}}</td>
-            <td [attr.data-label]="labels?.inputValue">{{repaymentAssessment.inputValueDescription}}</td>
+            <td class="tab-hide" [attr.data-label]="labels?.inputValue">{{repaymentAssessment.inputValueDescription}}</td>
             <td [attr.data-label]="labels?.scoreValue">{{repaymentAssessment.score}}</td>
-        </tr>
+        </tr> -->
         
         <tr *ngIf="scoreCard">
             <td class="tab-hide"></td>
@@ -94,10 +97,22 @@
         </tr>
     </tbody>
 </table>
+<table *ngIf="showError">
+    <thead>
+        <tr class="tr_style">
+            <th>Score Card</th>
+        </tr>
+    </thead>
+    <tbody >
+        <tr style="width: 100%;">            
+            <td >{{errorMessage}}</td>            
+        </tr>
+    </tbody>
+</table>
 <table class="table cam_table_proposed mt-3 mar-bot-40">
     <tbody>
-        <tr>
-            <td class="actionTable"><strong>Action</strong></td>
+        <!-- <tr>
+            <td style="width:100%" class="actionTable"><strong>Action</strong></td>
             <td 
                 class="actionTable" 
                 [ngClass]="{'highestRisk': riskLevel <= 50,
@@ -105,7 +120,20 @@
                             'highRisk': riskLevel > 50 && riskLevel <= 60,
                             'mediumRisk': riskLevel > 70 && riskLevel <= 75,
                             'lowRisk': riskLevel > 75 && riskLevel <= 85,
-                            'veryLowRisk': riskLevel > 85 }">
+                            'veryLowRisk': riskLevel > 85 }"  style="width:100%"  >
+                <strong>{{risk}}</strong>
+            </td>
+        </tr> -->
+        <tr *ngIf="productCategoryFromLead != 'UC'">
+            <td class="actionTable"><strong>Action</strong></td>          
+            <td 
+                class="actionTable" 
+                [ngClass]="{'highestRisk': riskLevel <= 50,
+                            'veryhighRisk': riskLevel > 50 && riskLevel <= 60,
+                            'highRisk': riskLevel > 60 && riskLevel <= 70,
+                            'mediumRisk': riskLevel > 70 && riskLevel <= 75,
+                            'lowRisk': riskLevel > 75 && riskLevel <= 85,
+                            'veryLowRisk': riskLevel > 85 }"  >
                 <strong>{{risk}}</strong>
             </td>
         </tr>

@@ -23,6 +23,7 @@ export class VehicleDetailComponent implements OnInit {
   eligibleModal: boolean;
   userId : any;
   applicantList: any=[]
+  showNotCoApplicant: boolean;
 
 
   constructor(private creditService: CreditScoreService,
@@ -53,6 +54,17 @@ export class VehicleDetailComponent implements OnInit {
     // })
 
   }
+  forFindingCoApplicantType() {
+    if (this.applicantList) {
+      const findCoApplicant = this.applicantList.find((data) => data.applicantTypeKey == "COAPPAPPRELLEAD")
+      console.log('findApplicant', findCoApplicant)
+      this.showNotCoApplicant = findCoApplicant == undefined ? true : false;
+    } else {
+      this.showNotCoApplicant = true;
+    }
+
+  }
+
   onCredit() {
     const body = { leadId: this.leadId };
     this.creditService.getCreditScore(body).subscribe((res: any) => {
@@ -64,7 +76,13 @@ export class VehicleDetailComponent implements OnInit {
       
         const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
         const product = leadSectioData.leadDetails.productCatCode;
-
+        if (product === 'NCV' || product === 'UCV' || product === 'UC') {
+          this.showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
+          if (!this.showNotCoApplicant) {
+             this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+          }
+        }
+    
        if(product==="NCV"){
          const result= this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
         if (!result) {

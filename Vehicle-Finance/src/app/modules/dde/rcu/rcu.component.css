@@ -1,13 +1,16 @@
 .od-row{
-    margin-left: -15px;
-    margin-right: -15px;
+    margin: 0px 50px;
+    padding: 10px 0px;
     
   }
-  .pl{
+  /* .pl{
       padding: 7px 0px 0px 75px;
   }
   .pl-top{
       padding-top: 7px;
+  } */
+    .panel-body>.p-0{
+      padding: 0% !important;
   }
   .app-doc{
       margin-top: 30px;
@@ -219,8 +222,9 @@ font-size: 16px;
 display: none;
 }
 .errText{
-    text-align: justify;
+    text-align: center;
     font-size: 16px;
+    margin-bottom: 20px;
 }
 .errHead h3{
     text-align: center;
@@ -233,3 +237,313 @@ display: none;
 .fa.fa-inr{
     color:#333332b3 ;
 }
+
+@media (min-width:260px) and (max-width: 768px) {
+    .od-row{
+        margin: 0px 5px;
+        padding: 2px 0px;        
+      }
+
+      .hetra-tabs{
+          text-align:center;
+      }
+
+      .flex-container{
+          display:none;
+      }
+
+      .input-box{
+        line-height: 1em;
+        padding: 5px 3px;
+      }
+
+      .box-height{
+          height:10px;
+      }
+
+      .flex-con{
+          display:none;
+      }
+
+      /* .form-control[disabled], fieldset[disabled] .form-control {
+        cursor: not-allowed;
+    }
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #eee;
+        opacity: 1;
+    }
+    .form-control[disabled], fieldset[disabled] .form-control {
+        cursor: not-allowed;
+    }
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color: #eee;
+        opacity: 1;
+    } */
+    
+    .form-control-cus {
+        display: inline-block!important;
+        border: none!important;
+     }
+
+     
+}
+
+input{
+    padding: 5px 0px!important;
+}
+
+@media (min-width:992px) and (max-width: 1199px) {
+    .clearfix-hide{
+        display:block!important;
+    }
+
+    .form-control-ins{
+        display: inline-block!important;
+        width: 100%!important;
+        height: 34px!important;
+        padding: 6px 12px!important;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+
+       .form-control-ins > input {
+            width:100%!important;
+        }
+}
+
+@media (min-width: 768px){
+.modal-dialog {
+    margin: 10px auto;
+    font-size:14px;
+    font-weight:bold;
+}
+}
+
+.btn-ok{
+    margin:2px;
+}
+
+.modal-dialog {
+    
+    margin: 10px auto;
+    font-size:14px;
+    font-weight:bold;
+}
+
+   
+
+.flex-container {
+    display: flex;
+    flex-wrap: nowrap;  
+  }
+  
+  .flex-container > .row {  
+    width: 100%;
+    text-align: center;  
+  }
+
+  .flex-container > .flex-con {  
+    width: 50%;
+    text-align: center;  
+  }
+
+  .flex-container > .flex-rep {  
+    width: 50%;
+    text-align: center;  
+  }
+
+  .clearfix-hide{
+    display:none;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  /* Zebra striping */
+  /* tr:nth-of-type(odd) {
+    background: #f2f2f2;
+  } */
+  th {
+    background-color: #1d1a4b;
+    color: #fff;
+    font-weight: 600;
+    word-break:break-word!important;
+  }
+  td,
+  th {
+    padding: 14px;
+    border: 1px solid #ccc;
+    text-align: left;
+    text-align: center;
+    
+     }
+  
+     td{
+      word-break:break-word!important;
+      font-size:14px!important;
+     }
+
+
+     .tab-hide{
+       display:block;
+        background-color: #272264;
+        color: #fff;
+     }
+
+     .mb-10{
+         margin-bottom:10px;
+     }
+     /*Mobile View*/
+@media (min-width:260px) and (max-width: 760px) {
+.tab-hide {
+  display: none !important;
+}
+.main-table td,
+.main-table tr {
+   display: block;
+ }
+
+.main-table td,
+.main-table th {
+   border: 1px solid #ccc;
+   text-align: left;
+   text-align: center;
+   /* margin: 12px; */
+   line-height: 1.5;
+   /* color: white; */
+   padding: 2px;
+   font-size: 14px;
+ }
+
+ /* Hide table headers (but not display: none;, for accessibility) */
+.main-table thead tr {
+   position: absolute;
+   top: -9999px;
+   left: -9999px;
+ }
+.main-table tr {
+   /* border: 1px solid #E74C3C;  */
+ }
+.main-table tr + tr {
+   margin-top: 1.5em;
+ }
+.main-table td {
+   /* make like a "row" */
+   border: none;
+   border-bottom: 1px solid #eee;
+   /* position: relative; */
+   padding-left: 50%;
+   /* background-color: #F8D9D5; */
+   text-align: left;
+   /* padding: 1px;*/
+   border: 1px solid #929294;
+   word-break: break-all!important;
+ }
+
+.main-table td:before {
+   content: attr(data-label);
+   display: inline-block;
+   line-height: 1.5;
+   margin-left: -100%;
+   margin-right: 12px;
+   width: 70%;
+   white-space: nowrap;
+   background-color: #1d1a4b;
+   color: white;
+   height: 40px;
+   padding: 10px;
+ }
+
+ .ekyc-to-print{
+   padding: 10px 35px;
+ }
+ .tablewithdetails td:before {
+   content: attr(data-label);
+   display: inline-block;
+   line-height: 1.5;
+   margin-left: -2%;
+   margin-right: 5%;
+   width: 50%;
+   white-space: nowrap;
+   background-color: #1d1a4b;
+   color: white;
+   padding: 10px;
+    text-align: left; 
+   font-size:12px;
+  
+  } 
+
+  .tab-content td{
+
+   font-size:12px!important;
+ 
+ }
+
+ .p-0{
+   padding:0px!important;
+ }
+
+ .tab_details p {
+   font-size:13px!important;
+ }
+ 
+
+/* .tab-details {
+ border-radius: 5px;
+ border: 1px solid #e5e5e5;
+ padding: 5px 5px!important;
+ margin: 5px;
+} */
+
+
+
+}
+
+.input-box{
+        display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    
+    .form-control-cus {
+        border: none!important;
+        padding: 2px!important;
+     }
+
+    .form-control-ins{
+    display: inline-block!important;
+    width: 100%!important;
+    height: 34px!important;
+    padding: 6px 12px!important;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+     

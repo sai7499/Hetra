@@ -35,7 +35,7 @@ export class PollingService {
       workflowId: workflowId,
       projectId: projectId,
       showLoader: false,
-      headers: 'JJsZjki6ofISkf/SIfKoHbt9O77X7kF/hy4O7ZshWR0fXZJCEMLuKFgxM9RtZPcl'
+      headers: this.conditionalPollingTok
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -56,7 +56,7 @@ export class PollingService {
       workflowId: workflowId,
       projectId: projectId,
       showLoader: false,
-      headers: 'JJsZjki6ofISkf/SIfKoHbt9O77X7kF/hy4O7ZshWR0fXZJCEMLuKFgxM9RtZPcl'
+      headers: this.conditionalPollingTok
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;

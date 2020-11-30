@@ -28,4 +28,10 @@ export class CommonDataService {
     shareLeadHistoryData(value: any) {
         this.leadHistoryData$.next(value);
     }
+
+    selectedCustomerData$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    public selectedCustomerData = this.selectedCustomerData$.asObservable();
+    shareChildLoanData(value: any){
+        this.selectedCustomerData$.next(value);
+    }
 }

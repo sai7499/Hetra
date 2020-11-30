@@ -78,7 +78,15 @@
                   </app-custom-input></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="collectedDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate" [min]="disbursementDate">
-                  </kendo-datepicker></td>
+                  </kendo-datepicker>
+                 <!-- max {{toDayDate}}
+                 min {{disbursementDate}} -->
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('collectedDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('collectedDate').invalid">
+                     Invalid date
+                  </div>
+
+                </td>
                   <td><app-custom-input
                     formControlName="podNumber"
                     [className]="'form-control mandatory'"
@@ -89,7 +97,11 @@
                   </app-custom-input></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="courieredDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate" [min]="getCollectedDate(i)">
-                  </kendo-datepicker></td>
+                  </kendo-datepicker>
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('courieredDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('courieredDate').invalid">
+                     Invalid date
+                  </div></td>
                   <ng-container *ngIf="isSales"><td (click)="uploadDocs(i)" class="upload-icon"><label
                     ><i
                       class="fa fa-upload fa-3 custom-file-label cursor-pointer"
@@ -102,7 +114,13 @@
                     </app-vf-custom-select></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="cpcReceivedDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [max]="toDayDate" >
-                  </kendo-datepicker></td>
+                  </kendo-datepicker>
+                  
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('cpcReceivedDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('cpcReceivedDate').invalid">
+                     Invalid date
+                  </div>
+                </td>
                   <td><app-custom-input
                     formControlName="phyTrackingNum"
                     [className]="'form-control mandatory'"
@@ -139,9 +157,9 @@
           </div>
           <div class="col-sm-6"></div>
         </div>
-        <ng-container *ngIf="isSales">
-        <div formGroupName="processForm">
-          <div class="row">
+        <ng-container >
+        <div  formGroupName="processForm">
+          <div class="row" >
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <!-- <label for="middle_name">ORC Process</label> -->
               <h3 class="h3-margin">ORC Process</h3>
@@ -152,10 +170,15 @@
               </app-custom-input> -->
             </div>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="isSales">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">ORC Status</label>
-              <app-vf-custom-select formControlName="orcStatus" [className]="'form-control mandatory'" [values]="modifiedOrcStatusList" (valueChange)="onOrcStatusChange($event)"></app-vf-custom-select>
+              <app-vf-custom-select formControlName="orcStatus" [className]="'form-control mandatory'" 
+              [values]="modifiedOrcStatusList" 
+              [isRequired]="'ORC status is required'"
+              [isDirty]= "isDirty"
+              (valueChange)="onOrcStatusChange($event)"
+              ></app-vf-custom-select>
               <!-- <app-custom-input
                 formControlName="orcStatus"
                 [className]="'form-control mandatory'"
@@ -165,17 +188,60 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">Date</label>
               <kendo-datepicker class="form-control mandatory" formControlName="orcReceivedDate"
-                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [max]="toDayDate" [min]="disbursementDate">
+                    [format]="'dd/MM/yyyy'"  [activeView]="'month'" [max]="toDayDate" [min]="disbursementDate">
                   </kendo-datepicker>
+                  <div class="ShowError">
+                    <div *ngIf="isDirty && !pddForm.get('processForm').get('orcReceivedDate').value">
+                      Select date
+                    </div>
+                    <div *ngIf="pddForm.get('processForm').get('orcReceivedDate').value && pddForm.get('processForm').get('orcReceivedDate').invalid">
+                     Invalid date
+                    </div>
+
+                  </div>
+                  
+
+                  <!-- min {{disbursementDate}}
+                  max {{toDayDate}} -->
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">RTO Agent</label>
+              <app-vf-custom-select formControlName="rtoAgent" [className]="'form-control mandatory'"
+               [values]="rtoAgentsList" [isRequired]=" isRtoAgentMsg ?'RTO Agent is required' : ''" [isDirty]="isDirty" ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Endorsement Date</label>
+              <kendo-datepicker class="form-control mandatory" formControlName="endorsementDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'month'" 
+                    [min]="orcHistory? minEndorsementDate : ''"
+                    [max]="toDayDate" 
+                    (valueChange)="changeEndorseDate($event)">
+                  </kendo-datepicker>
+                  <!-- Min {{minEndorsementDate}} -->
+                  <!-- Max {{toDayDate}} -->
+                  <div class="ShowError">
+                    <div *ngIf="isEndorsDateMsg && isDirty && !pddForm.get('processForm').get('endorsementDate').value">
+                      Endorsement date is required
+                    </div>
+                    <div *ngIf="isShowError">
+                      Invalid date
+                    </div>
+                  </div>
+                 
+            </div>
+           
+          </div>
+
+          <div class="row" *ngIf="isSales">
+            <div class="form-group col-sm-6 col-md-6 col-lg-8">
               <label for="middle_name">Remarks</label>
             <textarea class="form-control mandatory" formControlName="orcRemarks" maxlength="1250"></textarea>
             </div>
           </div>
-          <ng-container *ngIf="isSales && orcHistory">
+        </div>
+          <ng-container *ngIf="orcHistory">
             <form action="" method="POST">
               <div class="table-responsive" id="exact_macth_title2_sec">
                 <table class="table">
@@ -195,7 +261,7 @@
               </div>
             </form>
           </ng-container>
-          <div class="btn-sec clear-both row">
+          <div class="btn-sec clear-both row" *ngIf="isSales">
             <!-- <div class="col-sm-4 text-right">
               <a id="back_vehicle_details"
                 ><button class="btn btn-primary" type="button" (click)="onBack()">
@@ -223,7 +289,7 @@
               >
               </div>
           </div>
-        </div>
+        
       </ng-container>
       <ng-container *ngIf="!isSales && this.showEngineNumber">
         <div formGroupName="numberForm">

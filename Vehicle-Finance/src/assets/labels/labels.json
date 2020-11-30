@@ -152,7 +152,7 @@
     "applicantDetailsTitle": "Applicant Details",
     "personalDetailsTitle": "Personal Details",
     "addApplicantTitle": "Add Applicant",
-    "ucicId": "UCIC ID",
+    "ucicId": "UCIC",
     "name": "Name",
     "mobileNumber": "Mobile Number",
     "applicantType": "Applicant Type",
@@ -255,7 +255,7 @@
     "pdReport": "PD Report",
     "flStatus": "Fl Status",
     "flReport": "Fl Report",
-    "vehicleValTitle": "Valuation",
+    "vehicleValTitle": "Vehicle Valuation",
     "valuatorType": "Valuator Type",
     "valuatorCode": "Valuator Code",
     "valuatorName": "Valuator Name",
@@ -281,6 +281,10 @@
     "cinNumber": "CIN Number",
     "gstNumber": "GST Number",
     "leadID": "Lead ID",
+    "stakeholders": "Stakeholders",
+    "documentsShared": "Documents Shared",
+    "queryType": "Query Type",
+    "tagQueryTo": "Tag query To",
     "queue": "Queue",
     "userName": "User Name",
     "password": "Password",
@@ -322,6 +326,7 @@
     "workStability": "Work Stability",
     "natureOfBusiness": "Nature of Business",
     "educationalBackground": "Educational Background Type",
+    "vehicleApplication": "Vehicle Application",
     "isMinority": "Is Minority?",
     "community": "Community",
     "srto": "SRTO",
@@ -725,6 +730,8 @@
     "approveDeviations": "Approve Deviation",
     "sendBackToCredit": "Send Back To Credit",
     "sendBackToSales": "Send Back To Sales",
+    "send": "send",
+    "backToLead": "Back to Lead",
     "referText3": "Insurance expiry below 60days (deviation is not applicable if the insurance is done through inhouse at the time of funding)",
     "recommendation": "Recommendation",
     "roleName": "Role Name",
@@ -778,6 +785,7 @@
     "owndamagediscount": "own damage discount",
     "comprehensive-thirdparty": "Comprehensive / third party",
     "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)",
+    "insuranceType": "Insurance Type",
     "capativeTitle": "Captive",
     "income": "INCOME",
     "route": "ROUTE",
@@ -898,7 +906,25 @@
     "secondChassisNumber": "Second Chassis Number",
     "agricultureProof": "Agriculture Proof",
     "fcExpiryDate": "FC Expiry Date",
+    "fcAmount": "FC Amount",
+    "taxDetails": "Tax Details",
+    "taxBill": "Tax Bill",
+    "totalTaxBill": "Total Tax Bill",
+    "tyreDealer": "Tyre Dealer",
+    "tyreManufacturer": "Tyre Manufacturer",
+    "VehcostPerTyre": "Cost per tyre",
+    "marginAmount": "Margin Amount",
+    "tyreSpecification": "Tyre specification/Model description",
+    "onlineVerification": "onlineVerification",
     "vehicleRegDate": "Vehicle Reg.Date",
+    "accidentDate": "Accident Date",
+    "accidentType": "Type of Accident",
+    "firFiled": "FIR Filed",
+    "repairCost": "Cost of Repair",
+    "spareCost": "Cost of Spares",
+    "totalCost": "Total Cost",
+    "isAuthSvcCentre": "Is Authorised Service Centre? ",
+    "svcCentreName": "Service Centre Name",
     "gvw": "GVW",
     "reRegisteredVechicle": "Re-Registered Vehicle",
     "interStateVehicle": "Inter State Vehicle",
@@ -1609,7 +1635,7 @@
     "disbursementDate": "Disbursement Date",
     "appName": "Applicant Name",
     "coAppName": "Co-Applicant Name",
-    "selectBanker": "Select Banker",
+    "selectBank": "Select Bank",
     "selectFinancier": "Select Financier",
     "approvedLoanAmount": "Approved Loan Amount",
     "approvedIRR": "Approved IRR (in %)",
@@ -1634,28 +1660,26 @@
     "equitasEmployeesRelative": "Equitas Employees Relative",
     "employeeNo": "Employee Number",
     "initiate": "Initiate Viability for New Vehicles",
-    "customerDOI": "Customer DOI",
     "foundnl": "Found in NL",
     "foundnltr": "Found in NLTR",
     "maidenName": "Maiden Name",
     "matchedCriteria": "Matched Criteria",
     "disbursementStartDate": "Disbursement - Start Date",
     "disbursementEndDate": "Disbursement - End Date",
-    "propertyValue":"Property Value",
+    "propertyValue": "Property Value",
     "initiateRcu": "Initiate RCU",
-    "rcu":"RCU",
-    "fileRcuStatus":"File RCU Status",
-    "screened":"Screened",
-    "sampled":"Sampled",
-    "showApplicantDocuments":"Show Applicant Documents",
-    "showCollateralDocuments":"Show Collateral Documents",
-    "documentCategory":"Document Category",
-    "rcuReportStatus":"RCU Report Status",
-    "rcuUpload":"RCU Upload",
-    "rcuReportReceivedDateandTime":"RCU Report Received Date and Time",
-"rcuDocumentId":"RCU Document Id",
-
-    
+    "rcu": "RCU",
+    "fileRcuStatus": "File RCU Status",
+    "screened": "Screened",
+    "sampled": "Sampled",
+    "showApplicantDocuments": "Show Applicant Documents",
+    "showCollateralDocuments": "Show Collateral Documents",
+    "documentCategory": "Document Category",
+    "rcuReportStatus": "RCU Report Status",
+    "rcuUpload": "RCU Upload",
+    "rcuReportReceivedDateandTime": "RCU Report Received Date and Time",
+    "rcuDocumentId": "RCU Document Id",
+    "documentId": "Document Id",
     "landAreaInHectares": "Land Area In Hectares",
     "uRecessionNo": "UDHYAM Registration number",
     "uRegisteredMobileNo": "UDHYAM Registered mobile number",
@@ -1667,10 +1691,120 @@
     "inputValue": "Input Value",
     "scoreValue": "Score",
     "marketAndFinancierReference": "Market & Financier Reference",
-    "performed_by":"Performed By",
-    "performed_on":"Performed On",
-    "speedometerReading": "Speedometer Reading",
+    "performed_by": "Performed By",
+    "performed_on": "Performed On",
+    "odometerReading": "Odometer Reading",
     "deleteReference": "Are You Sure Want To Delete Reference Details?",
+    "principalPaid": "Principal Paid",
+    "principalOutstanding": "Principal Outstanding",
+    "rateOfInterest": "Rate Of Interest",
+    "tenor": "Tenor",
+    "remainingTenor": "Remaining Tenor",
+    "childLoanSeasoning": "Seasoning",
+    "creditShieldHolderName": "Name of the credit shield policy holder",
+    "typeOfApplicant": "Type of applicant",
+    "usedCoverageAmount": "Used coverage amount",
+    "nomineeDetails": "Nominee Details",
+    "nomineeAddress": "Nominee Address",
+    "guardianDetails": "Guardian Details",
+    "guardianAddress": "Guardian Address",
+    "motorInsuranceRequired": "Motor insurance required?",
+    "creditShieldRequired": "Credit sheld required?",
+    "backToFiCumPdList": "Back to FI cum PD List",
+    "fiCumPdStatus": "FI cum PD Status",
+    "fiCumPdReport": "FI cum PD Report",
+    "valuationInitiatedDate": "Valuation Initiation Date",
+    "personInitiated": "Person Initiated",
+    "refNo": "Ref No.",
+    "inspectionDetails": "Inspection Details",
+    "borrowersName": "Borrower's Name",
+    "inspectionDate": "Inspection Date",
+    "vehicleInspectedBy": "Vehicle Inspected By",
+    "placeOfInspection": "Place of Inspection",
+    "timeOfInsepction": "Time of Inspection",
+    "engineStarted": "Engine started",
+    "vehicleMoved": "Vehicle Moved",
+    "vehcileIdentityDetails": "Vehicle Identity Details",
+    "vehicleSegment": "Vehicle Segment",
+    "version": "Version (Eg:petrol)",
+    "colour": "Colour",
+    "estimatedReading": "Estimated Reading",
+    "vehicleUsedFor": "Vehicle Used For",
+    "typeOfBody": "Type Of Body",
+    "fuelUsed": "Fuel Used",
+    "registrationDetails": "Registration Details",
+    "reregisteredRegNo": "If Re-registered , mention previous Reg Number",
+    "regdOwnerName": "Registered Owner Name",
+    "ownerSerialNo": "Owner Serial Number",
+    "dateOfRegistration": "Date of Registration",
+    "regMonthAndYear": "Month & Year of Registration",
+    "classOfVehicle": "Class of vehicle",
+    "makeName": "Make Name",
+    "monthOfYearOfManf": "Month & Year of Manufacture",
+    "makersClassfication": "Makers Classification (Eg:petrol)",
+    "unladenWeight": "Unladen Weight(in KGs or TONs)",
+    "hypothecation": "Hypothecation if any",
+    "permitAndTaxDetails": "Permit and Tax Details",
+    "fitnessValidity": "Fitness Validity",
+    "routeOfOperationValuation": "Route of Operation",
+    "taxPaid": "Tax Paid",
+    "taxValidUpto": "Tax valid Up to",
+    "insuranceDetails": "Insurance Details",
+    "company": "Company",
+    "policyNumber": "Policy Number",
+    "validFrom": "Valid From",
+    "validUpto": "Valid up to",
+    "typeOfPolicy": "Type of policy",
+    "isModelInProduction": "Is the Model Currently under Production ?",
+    "anyAccidentsInPast": "Any accidents in the past ? If yes, mention in remarks",
+    "originalInvoice": "Original Invoice Value(Ex-show)",
+    "anyMajorRepairs": "Any Other Major Repairs till date",
+    "currentInvoiceValue": "Current Invoice Value",
+    "rcBookStatus": "RC Book Status",
+    "recentLast3Valuations": "Recent Last Three Valuation & Price Of The Same Model Given By The Valuer",
+    "monthOfReport": "Month of the Report",
+    "valuation": "Valuation",
+    "assetCondition": "Asset Condition",
+    "partName": "Part Name",
+    "conditon": "Condition",
+    "ratingScale": "Rating Scale",
+    "noOfOriginalTyres": "No. of Original Tyres",
+    "noOfRetreadedTyres": "No.of Retreaded Tyres",
+    "accessoriesFound": "Accessories found at the time of Inspection",
+    "accessories": "Accessories",
+    "avaialablity": "Availability",
+    "rating": "Rating",
+    "expectedFutureLife": "Expected Future Life Of The Vehicle (in Years):",
+    "marketValueAsOnDateOfInspection": "Market Value as on date of Inspection",
+    "downloadReport": "Download Report",
+    "borrowerAttributes": " Borrower Attributes",
+    "borrowerAttributeWeightage": "Borrower Weightage",
+    "borrowerAttributeScore": "Borrower Score",
+    "customerDOI": "Customer DOI",
+    "bnfName": "Beneficiary Name",
+    "miPacVasAmount": "MI+PAC+VAS Amount (Rs)",
+    "noOfTrancheDisburse": " Total No. of Tranche Disbursements",
+    "alreadyDisbursedAmount": "Already Disbursed Amount (Rs)",
+    "balanceToBeDisbursed": "Balance To Be Disbursed (Rs)",
+    "disbursementMode": "Disbursement Mode",
+    "chequeHandoverDate": "Cheque Handover Date",
+    "supportDoc": "Support Doc",
+    "transactionRefNumber": "Transaction Reference Number",
+    "initiatedBy": "Initiated By",
+    "authorizedBy": "Authorized By",
+    "loanTenorinMonths": "Loan Tenor (Months)",
+    "loanAmountinRs": "Loan Amount (Rs)",
+    "amountToBeDisbursed": "Amount To Be Disbursed (Rs)",
+    "bnfBankBranch": "Beneficiary Bank Branch",
+    "serialNumber": "Serial Number",
+    "mainApplicantName": "Main Applicant Name",
+    "branchInitiatedDate": "Branch Initiated Date",
+    "cpcReversedDate": "CPC Reversed Date",
+    "cpcReversedRemarks": "CPC Reversed Remarks",
+    "cpcReversedBy": "Reversed By",
+    "productName": "Product Name",
+    "initiatedBranch": "Initiated Branch",
+    "initiatedOn": "Initiated On",
     "validationData": {
         "name": {
             "maxLength": {
@@ -1862,7 +1996,8 @@
         "addressLine": {
             "maxLength": {
                 "rule": 35
-            }
+            },
+            "type": "alpha-numeric"
         },
         "businessName": {
             "maxLength": {
@@ -2067,8 +2202,8 @@
             },
             "type": "alpha-numeric",
             "patternCheck": {
-                "rule": "[A-Z1-9]{1}",
-                "msg": "Should be Valid"
+                "rule": "[A-Z]{4}[0-9]{5}[A-Z]{1}",
+                "msg": "Invalid format / PDES03028F"
             }
         },
         "pincode": {
@@ -2216,6 +2351,12 @@
                 "rule": 30
             },
             "type": "alpha-numeric"
+        },
+        "invoiceNumber": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
         },
         "monthOfManuf": {
             "maxLength": {
@@ -2697,17 +2838,137 @@
             "maxLength": {
                 "rule": 300
             },
-            "type":"special-alpha-numeric"
+            "type": "special-alpha-numeric"
         },
         "pslUdhyamregno": {
-            "maxLength":{
-                "rule":20
+            "maxLength": {
+                "rule": 20
             },
-            "type":"alpha-numeric-nospace"
+            "type": "alpha-numeric-nospace"
         },
-        "speedometerReading": {
+        "odometerReading": {
             "maxLength": {
                 "rule": 7
+            },
+            "type": "number"
+        },
+        "colour": {
+            "maxLength": {
+                "rule": "20"
+            },
+            "type": "alpha"
+        },
+        "regdOwnerName": {
+            "maxLength": {
+                "rule": 105
+            },
+            "type": "alpha"
+        },
+        "valuationAddress": {
+            "maxLength": {
+                "rule": 200
+            },
+            "type": "alpha"
+        },
+        "hypothecation": {
+            "maxLength": {
+                "rule": 200
+            },
+            "type": "alpha-numeric"
+        },
+        "company": {
+            "maxLength": {
+                "rule": 105
+            },
+            "type": "alpha"
+        },
+        "policyNumber": {
+            "maxLength": {
+                "rule": 20
+            },
+            "type": "special-alpha-numeric"
+        },
+        "valuationRefNo": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "number"
+        },
+        "valuationEngChasisNumber": {
+            "maxLength": {
+                "rule": 18
+            },
+            "minLength": {
+                "rule": 7
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "/^([A-Za-z]{2}[A-z0-9]{5,16})$/",
+                "msg": "Invalid Engine/Chasis Number Format, Valid Format:MA6MFBC1BBT096358"
+            }
+        },
+        "insuranceDetails": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-numeric"
+        },
+        "decimalValues": {
+            "maxLength": {
+                "rule": 6
+            },
+            "type": "decimal",
+            "patternCheck": {
+                "rule": "^[0-9]{3}[.]{1}[0-9]{0,2}",
+                "msg": "Please enter as following pattern 654.12"
+            }
+        },
+        "insuranceAddress": {
+            "maxLength": {
+                "rule": 35
+            },
+            "type": "alpha-numeric"
+        },
+        "totalLoanAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "principalAmount": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "emi": {
+            "maxLength": {
+                "rule": 10
+            },
+            "type": "number"
+        },
+        "dpd": {
+            "maxLength": {
+                "rule": 3
+            },
+            "type": "number"
+        },
+        "seasoning": {
+            "maxLength": {
+                "rule": 4
+            },
+            "type": "number"
+        },
+        "ChildLoanAccountNumber": {
+            "maxLength": {
+                "rule": 12,
+                "msg": "Maximun 12 digits for loan Account Number"
+            },
+            "type": "number"
+        },
+        "ucicId": {
+            "maxLength": {
+                "rule": 8
             },
             "type": "number"
         }

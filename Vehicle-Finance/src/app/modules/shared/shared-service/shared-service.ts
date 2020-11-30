@@ -85,7 +85,18 @@ export class SharedService {
         this.productCatName$.next(data);
     }
     userName$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isSUpervisorUserName = this.userName$.asObservable();
     getUserName(data) {
         this.userName$.next(data);
+    }
+    userRoleId$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isSupervisorRoleId = this.userRoleId$.asObservable();
+    getUserRoleId(data) {
+        this.userRoleId$.next(data);
+    }
+    supervisorName$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isSupervisorName = this.supervisorName$.asObservable();
+    getSupervisorName(data) {
+        this.supervisorName$.next(data)
     }
 }

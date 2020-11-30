@@ -1,15 +1,24 @@
 
-
+.mar-top90{
+  scroll-behavior: smooth !important;
+}
 /* Top-heading Space */
 
 h3.margin_zero {
-    margin-top: 0px;
+  margin: 15px 12px 15px 0 !important;
+  color: #1d1a4b;
   }
   
   h3.dedupe_head {
     margin-top: 0px;
   }
-  
+ .heading{
+   color: #1d1a4b !important;
+ } 
+
+ .margin_top{
+  margin-top: 10px !important;
+ }
   
   /* footer */
   
@@ -269,7 +278,9 @@ h3.margin_zero {
   /* Top-heading Space */
   
   h3.margin_zero {
-    margin-top: 0px;
+    margin: 15px 12px 15px 0 !important;
+    color: #1d1a4b;
+
   }
   
   h3.dedupe_head {
@@ -386,7 +397,6 @@ h3.margin_zero {
     border-radius: 8px;
     border: 1px solid #ddd;
     margin:15px;
-    
   }
   
   label.col-form-label {
@@ -501,6 +511,11 @@ h3.margin_zero {
   .input-upper {
     text-transform: uppercase;
   }
+
+  input[type="radio"] {
+    cursor: pointer;
+  }
+
   
   /*Mobile View*/
   @media 

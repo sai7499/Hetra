@@ -2,13 +2,12 @@
 <form class="multisteps-form__form" style="height: 400px;" [formGroup]="fleetForm" *ngIf="this.fleetForm">
     <!-- <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn"> -->
     <div class="container">
-        <div class="row">
+        <div class="row" *ngIf="!isLoan360">
             <div class="col-sm-6">
-              </div>
-              <div class="col-sm-6 text-right">
+            </div>
+            <div class="col-sm-6 text-right">
                 <span id="edit_vehicle_details_replace"></span>
-                <a id="back_vehicle_details"
-                  ><button class="btn btn-primary mrg-10" type="button" (click)="openUploadModal()">
+                <a id="back_vehicle_details"><button class="btn btn-primary mrg-10" type="button" (click)="openUploadModal()">
                     Upload
                   </button></a
                 >
@@ -41,7 +40,7 @@
                             <td role="columnheader">{{labels.pd}} </td>
                             <td role="columnheader">{{labels.gridValue}}</td>
                             <td role="columnheader">{{labels.track}} </td>
-                            <td role="columnheader">{{labels.action}} </td>
+                            <td role="columnheader" *ngIf="!isLoan360">{{labels.action}} </td>
                         </tr>
                     </thead>
                     <tbody formArrayName="Rows">
@@ -335,9 +334,9 @@
                                                 (click)="addNewRow()"></i> &nbsp;
                                             <i class="fa fa-minus" aria-hidden="true" id="remove_item_applicant"
                                                 (click)="deleteRow(i)"></i></td> -->
-                            <td>
+                            <td *ngIf="!isLoan360">
                                 <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add" [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
-                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" [disabled]="disableSaveBtn" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
+                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" data-toggle="modal" data-target="#deleteModal" [disabled]="disableSaveBtn" value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
                             </td>
                         </tr>
                     </tbody>
@@ -466,6 +465,32 @@
     (input)="onFileSelect($event)"
   />
 </div>
+
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-body">
+          Are you sure you want to Delete?
+        </div>
+
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="callDeleteRecord()">
+            Yes
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </form>
 
