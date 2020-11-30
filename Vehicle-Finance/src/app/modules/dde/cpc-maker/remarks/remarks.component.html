@@ -18,15 +18,15 @@
       Back
     </button>
     <button  class="btn btn-primary" type="button"
-     (click)="onsave()" >
+     (click)="onsave()" *ngIf="!isDeclinedFlow">
       Save
     </button>
     <button  class="btn btn-primary -btn-next" type="button" 
-    (click)="onApproval()">
+    (click)="onApproval()" *ngIf="!isDeclinedFlow">
       Approve
     </button>
     <button  class="btn btn-primary -btn-next" type="button"
-    (click)="onSendToCredit()">
+    (click)="onSendToCredit()" *ngIf="!isDeclinedFlow">
      Send Back To Credit
     </button>
   </div>
