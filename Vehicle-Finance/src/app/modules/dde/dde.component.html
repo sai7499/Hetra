@@ -14,9 +14,13 @@
         </div>
         <div class="col-md-10 col-xs-9 text-center">
           <div *ngIf="show === 1" class="progress-box second-box">
+            <button *ngIf="isLoan360" class="multisteps-form__progress-btn second-row" type="button" id="credit_sourcing_details"
+              [routerLink]="['./loan-details']" [ngClass]="{ 'js-active': locationIndex >= -1 }">
+              Loan Details
+            </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_sourcing_details"
-              [routerLink]="['./lead-details']" [ngClass]="{ 'js-active': locationIndex >= 0 }">
-              Lead Details
+            [routerLink]="['./lead-details']" [ngClass]="{ 'js-active': locationIndex >= 0 }">
+            Lead Details
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_application_details"
               [routerLink]="['./applicant-list']" [ngClass]="{ 'js-active': locationIndex >= 1 }">

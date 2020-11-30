@@ -341,7 +341,7 @@
               <tbody>
                 <tr *ngFor="let loanDetail of loanDetailsData; let i = index">
                   <td align="center" [attr.data-label]="'Select'">
-                    <input  class="checkbox" type="radio" name="loanDetails" (click)="onLoanAccNoSelect($event, i)" />
+                    <input  class="checkbox" type="radio" name="loanDetails" (click)="onLoanAccNoSelect($event, i, loanDetail)" />
                   </td>
                   <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
                   <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>

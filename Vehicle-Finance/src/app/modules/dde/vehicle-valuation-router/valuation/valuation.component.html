@@ -374,9 +374,13 @@
               </div>
             </div>
             <div class="row">
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="vehicle_moved">{{ labels.vehicleMoved }}
-                  <sub class="star_red_col">*</sub>
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="vehicle_moved"
+                  >{{ labels.vehicleMoved }}
+                  <sub class="star_blue_col">*</sub>
                 </label>
                 <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty" [isDisabled]="vehicleMovedDisabled"
                   [isRequired]="
@@ -710,10 +714,15 @@
                   <sub class="star_red_col">*</sub>
                 </label>
 
-                <kendo-datepicker class="form-control" formControlName="dateofReg" [activeView]="'decade'"
-                  [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date Of Registration"
-                  (change)="validateDateOfReg()">
-
+                <kendo-datepicker
+                  class="form-control"
+                  formControlName="dateofReg"
+                  [activeView]="'decade'"
+                  [format]="'dd/MM/yyyy'"
+                  [max]="toDayDate"
+                  placeholder="Date Of Registration"
+                  (change)="validateDateOfReg()"
+                >
                 </kendo-datepicker>
                 <div class="invalid-feedback">
                   <div *ngIf="
@@ -721,10 +730,14 @@
                     ">
                     Registration Date is Required
                   </div>
-                  <div *ngIf="
-                  vehicleValuationForm.controls.dateofReg.value &&
-                  vehicleValuationForm.controls.dateofReg.errors">
-                    <div *ngIf="
+                  <div
+                    *ngIf="
+                      vehicleValuationForm.controls.dateofReg.value &&
+                      vehicleValuationForm.controls.dateofReg.errors
+                    "
+                  >
+                    <div
+                      *ngIf="
                         vehicleValuationForm.controls.dateofReg.errors.maxError
                       ">
                       Reg. Date should not be future date
@@ -1007,17 +1020,26 @@
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="permit_date">{{ labels.permitDate }}
-                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub></label>
-                <kendo-datepicker width="100%" formControlName="permitValidUpto" class="form-control mandatory"
-                  [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'"
-                  (change)="validatingBeforeRegDate('permitDate')" [min]="minDate">
+                <label for="permit_date"
+                  >{{ labels.permitDate }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub></label
+                >
+                <kendo-datepicker
+                  width="100%"
+                  formControlName="permitValidUpto"
+                  class="form-control mandatory"
+                  [format]="'dd/MM/yyyy'"
+                  placeholder="dd/mm/yyyy"
+                  [activeView]="'decade'"
+                  (change)="validatingBeforeRegDate('permitDate')"
+                >
                 </kendo-datepicker>
                 <div class="invalid-feedback">
                   <div *ngIf="
                       isDirty &&
                       !vehicleValuationForm.controls.permitValidUpto.value
-                    ">
+                    "
+                  >
                     Permit validity date is Required
                   </div>
                   <div *ngIf="
@@ -1052,9 +1074,16 @@
                 <label for="tax_paid">{{ labels?.taxPaid }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="taxPaid" [className]="'form-control mandatory'"
-                  [placeholder]="'Tax Paid'" [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="'Tax Paid is Required'" [type]="labels?.validationData?.idv.type" [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="taxPaid"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Tax Paid'"
+                  [maxLength]="labels?.validationData?.idv.maxLength"
+                  [isRequired]="'Tax Paid is Required'"
+                  [type]="labels?.validationData?.idv.type"
+                  [isDirty]="isDirty"
+                  (change)="taxPaidCheck()"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1105,17 +1134,35 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valid_from">{{ labels.validFrom }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label>
-                <kendo-datepicker width="100%" formControlName="validFrom" class="form-control mandatory"
-                  [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'">
+                <label for="valid_from"
+                  >{{ labels.validFrom }}
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
+                >
+                <kendo-datepicker
+                  width="100%"
+                  formControlName="validFrom"
+                  class="form-control mandatory"
+                  [format]="'dd/MM/yyyy'"
+                  placeholder="dd/mm/yyyy"
+                  [activeView]="'decade'"
+                  (change)="validatingBeforeRegDate('insuranceDate')"
+                >
                 </kendo-datepicker>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valid_upto">{{ labels.validUpto }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label>
-                <kendo-datepicker width="100%" formControlName="validUpto" class="form-control mandatory"
-                  [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'">
+                <label for="valid_upto"
+                  >{{ labels.validUpto }}
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
+                >
+                <kendo-datepicker
+                  width="100%"
+                  formControlName="validUpto"
+                  class="form-control mandatory"
+                  [format]="'dd/MM/yyyy'"
+                  placeholder="dd/mm/yyyy"
+                  [activeView]="'decade'"
+                  (change)="validUptoCheck()"
+                >
                 </kendo-datepicker>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1164,8 +1211,13 @@
                 <label for="model_in_production">{{ labels.isModelInProduction }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty"
-                  formControlName="modelUnderProduction" [isRequired]="'Please Select One Option'">
+                <app-vf-custom-select
+                  [values]="valuesToYesNo"
+                  [isDirty]="isDirty"
+                  formControlName="modelUnderProduction"
+                  [isRequired]="'Please Select One Option'"
+                  (change)="modelInProdChange($event.target.value)"
+                >
                 </app-vf-custom-select>
               </div>
               <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1223,13 +1275,22 @@
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="current_invoice_value">{{ labels?.currentInvoiceValue }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                <label for="current_invoice_value"
+                  >{{ labels?.currentInvoiceValue }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="currInvoiceValue"
-                  [placeholder]="'Original Invoice'" [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="'Original invoice is Required'" [type]="labels?.validationData?.idv.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="currInvoiceValue"
+                  [placeholder]="'current Invoice'"
+                  [maxLength]="labels?.validationData?.idv.maxLength"
+                  [isRequired]="
+                    currentInvoiceRequired ? 'Current invoice is Required' : ''
+                  "
+                  [type]="labels?.validationData?.idv.type"
+                  [isDirty]="isDirty"
+                  [isDisabled]="currentInvoiceDisabled"
+                >
                 </app-custom-input>
               </div>
               <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
