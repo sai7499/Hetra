@@ -21,6 +21,7 @@ import { map } from 'rxjs/operators';
 import { DocumentDetails } from '@model/upload-model';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-cam',
@@ -115,6 +116,7 @@ export class CamComponent implements OnInit {
   showSendBackToSales:boolean = false
   body: any;
   isLoan360: boolean;
+  isDeclinedFlow = false;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -125,13 +127,20 @@ export class CamComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router, private uploadService: UploadService,
     private location: Location, private utilityService: UtilityService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private sharedService: SharedService
   ) {
     this.salesResponse = localStorage.getItem('salesResponse');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
     });
+    this.sharedService.isDeclinedFlow.subscribe((res: any) => {
+      console.log(res, ' declined flow');
+      if (res) {
+          this.isDeclinedFlow = res;
+      }
+  });
 
   }
 
@@ -783,6 +792,8 @@ console.log("res",res);
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
       this.router.navigate([`pages/dashboard`]);
+    } else if( this.roleType == '1' &&  this.isDeclinedFlow == true) {
+      this.router.navigate([`pages/dashboard`]);
     }
   }
   onNext() {
@@ -794,6 +805,8 @@ console.log("res",res);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
+    } else if( this.roleType == '1'  && this.isDeclinedFlow == true) {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     }
   }

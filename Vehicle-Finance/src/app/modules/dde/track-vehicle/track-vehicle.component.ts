@@ -350,22 +350,27 @@ export class TrackVehicleComponent implements OnInit {
 
         if (i == 0) {
           this.fleetRtrDetails[i].dueDate = addDueDate;
-          if (this.fleetRtrDetails[i]['receivedDate'] != "") {
-            this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
-          } else {
-            this.fleetRtrDetails[i]['receivedDate'] = this.addingReceviedDate();
-          }
+          this.fleetRtrDetails[i].receivedDate = addDueDate;
+          this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+
+          // if (this.fleetRtrDetails[i]['receivedDate'] != "") {
+          //   this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+          // } else {
+          //   this.fleetRtrDetails[i]['receivedDate'] = this.addingReceviedDate();
+          // }
           this.formArr.push(this.initRows(this.fleetRtrDetails[i]));
         }
         else {
           let addDueDate2 = this.addMonth(addDueDate, i)
           this.fleetRtrDetails[i].dueDate = addDueDate2;
-          if (this.fleetRtrDetails[i]['receivedDate'] != "") {
-            this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
-          } else {
-            this.fleetRtrDetails[i]['receivedDate'] = this.addingReceviedDate();
-          }
+          this.fleetRtrDetails[i].receivedDate = addDueDate2;
           this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+          // if (this.fleetRtrDetails[i]['receivedDate'] != "") {
+          //   this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
+          // } else {
+          //   this.fleetRtrDetails[i]['receivedDate'] = this.addingReceviedDate();
+          // }
+         // this.fleetRtrDetails[i].delayDays = this.dateDiff(this.fleetRtrDetails[i].dueDate, this.fleetRtrDetails[i]['receivedDate']);
           this.focusedDate.push(addDueDate2)
           this.addNewRow(this.fleetRtrDetails[i]);
         }
@@ -617,9 +622,25 @@ export class TrackVehicleComponent implements OnInit {
     if (rowData['controls']['receivedDate'] && rowData['controls']['receivedDate'].status != "INVALID") {
       console.log(rowData.value['receivedDate']);
       this.dateExceeded = false;
-      const dueDate = new Date(this.trackVehicleForm.value['installment'][i]['dueDate']);
-      const recDate = new Date(rowData.value['receivedDate']);
-      let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+      const dueDate=  this.trackVehicleForm.value['installment'][i]['dueDate'];
+      const recDate = rowData.value['receivedDate'];
+      const delayedDays = this.dateDiff(dueDate, recDate)
+    //  let dueDate = new Date(this.trackVehicleForm.value['installment'][i]['dueDate']);
+    //  dueDate = this.utilityService.setTimeForDates(dueDate)
+    //  let recDate = new Date(rowData.value['receivedDate']);
+    //  recDate = this.utilityService.setTimeForDates(recDate)
+    
+    //   let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+
+    //   if(delayedDays < 0){
+    //    delayedDays = 0;
+    //   }
+      
+    //   if(delayedDays.toString().includes('.')){
+    //     delayedDays = Math.trunc(delayedDays)
+    //   }
+      
+      console.log('delayedDays', delayedDays)
       this.trackVehicleForm.value['installment'][i]['delayDays'] = delayedDays;
       rowData.value['payment'] = this.formArr.controls[i]['controls']['payment'].value
       rowData.value['dueDate'] = this.formArr.controls[i]['controls']['dueDate'].value
@@ -644,10 +665,20 @@ export class TrackVehicleComponent implements OnInit {
     //  this.fleetRtrForm(this.fleetDetails);
   }
   dateDiff(d1, d2) {
-    const dueDate = new Date(d1);
-    const recDate = new Date(d2);
+    let dueDate = new Date(d1);
+    let recDate = new Date(d2);
+    dueDate = this.utilityService.setTimeForDates(dueDate)
+    recDate = this.utilityService.setTimeForDates(recDate)
+   
     let delDate = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
-    return delDate.toFixed(0); 
+    if(delDate < 0){
+      delDate = 0;
+     }
+     
+     if(delDate.toString().includes('.')){
+      delDate = Math.trunc(delDate)
+     }
+    return delDate;
   }
   delayDaysCalc() {
     this.totalDelayDays = 0;

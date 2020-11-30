@@ -104,7 +104,7 @@
     </div>
     <div class="col-sm-8 text-right">
       <button class="btn btn-primary" (click)="onBack()" type="button">Back</button>
-      <ng-container *ngIf="!isLoan360">
+      <ng-container *ngIf="!isLoan360 && !isDeclinedFlow">
       <button  class="btn btn-primary" (click)="saveUpdate('save')" type="button" *ngIf="!isLoan360">Save</button>
       <!-- <button class="btn btn-primary"
        *ngIf="userType !== 2" 
