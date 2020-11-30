@@ -152,7 +152,7 @@
     "applicantDetailsTitle": "Applicant Details",
     "personalDetailsTitle": "Personal Details",
     "addApplicantTitle": "Add Applicant",
-    "ucicId": "UCIC ID",
+    "ucicId": "UCIC",
     "name": "Name",
     "mobileNumber": "Mobile Number",
     "applicantType": "Applicant Type",
@@ -2961,7 +2961,8 @@
         },
         "ChildLoanAccountNumber": {
             "maxLength": {
-                "rule": 12
+                "rule": 12,
+                "msg": "Maximun 12 digits for loan Account Number"
             },
             "type": "number"
         },

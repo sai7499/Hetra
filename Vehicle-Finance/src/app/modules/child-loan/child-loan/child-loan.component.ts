@@ -9,6 +9,7 @@ import { AgeValidationService } from '@services/age-validation.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
 import { CommonDataService } from '@services/common-data.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-child-loan',
@@ -38,6 +39,7 @@ export class ChildLoanComponent implements OnInit {
   accountNo: any;
   isCreateLoanBtn: boolean;
   selectedLeadId: string;
+  isSO: any;
 
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
@@ -47,7 +49,9 @@ export class ChildLoanComponent implements OnInit {
 
   ucicId: any;
   test: any;
-  toDaydate: Date = new Date()
+  toDaydate: Date = new Date();
+  userDetails: any;
+
   childData: {
     ucic?: any,
     loanAccountNumber?: any,
@@ -76,7 +80,9 @@ export class ChildLoanComponent implements OnInit {
     private childLoanApiService: ChildLoanApiService,
     private commonDataService: CommonDataService,
     private commomLovService: CommomLovService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private loginStoreService: LoginStoreService,
+
   ) { }
 
   ngOnInit() {
@@ -84,6 +90,9 @@ export class ChildLoanComponent implements OnInit {
     this.getLabels();
     this.getAgeValidation();
     this.vehicleRegPattern = this.validateCustomPattern();
+    const userDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.isSO = userDetails.roles[0].roleId;
+    console.log('userDetails', userDetails);
   }
 
   initForm() {
@@ -344,13 +353,14 @@ export class ChildLoanComponent implements OnInit {
     }
   }
 
-  onLoanAccNoSelect(event, index) {
+  onLoanAccNoSelect(event, index, loanDetail) {
     const selectedLoanAcc = event.target.checked;
     if (selectedLoanAcc) {
       this.isCreateLoanBtn = true;
       this.accountNo = this.loanDetailsData[index].accountNumber;
       this.selectedLoanAccNoIndex = index;
       this.selectedLeadId = this.loanDetailsData[index].parentLead;
+      this.loanViewService.setLoanAccountDetails(loanDetail);
     }
   }
 
@@ -358,10 +368,10 @@ export class ChildLoanComponent implements OnInit {
     this.loanViewService.isLoan360(true);
     // this.loanViewService.getLoanDetails(this.leadId)
     //     .subscribe((value) => {
-           // console.log('loan 360', value);
-    this.router.navigateByUrl(`/pages/dde/${this.selectedLeadId}`);
-       // });
-}
+    // console.log('loan 360', value);
+    this.router.navigateByUrl(`/pages/dde/${this.selectedLeadId}/loan-details`);
+    // });
+  }
 
   onCreateChildLoan() {
     const customerData = this.customerDetailsData.length;
@@ -405,7 +415,6 @@ export class ChildLoanComponent implements OnInit {
         productCode: this.loanDetailsData[this.selectedLoanAccNoIndex].productCode,
       };
       console.log('onCreateChild', childData);
-      // this.commonDataService.shareChildLoanData(childData);
       this.commomLovService.setSearchLoan(childData);
     } else if (loanData === 1) {
       const childData = {
@@ -415,7 +424,6 @@ export class ChildLoanComponent implements OnInit {
         productCode: this.loanDetailsData[0].productCode,
       };
       console.log('onCreateChild', childData);
-      // this.commonDataService.shareChildLoanData(childData);
       this.commomLovService.setSearchLoan(childData);
 
     }
