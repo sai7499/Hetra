@@ -433,11 +433,13 @@ export class ValuationComponent implements OnInit {
   taxPaidCheck() {
     const taxPaid = this.vehicleValuationForm.value.taxPaid ? this.vehicleValuationForm.value.taxPaid : '';
     const valuationAmount = this.vehicleValuationForm.value.valuationAmt ? this.vehicleValuationForm.value.valuationAmt : '';
-    if (taxPaid > valuationAmount) {
-      this.invalidTaxPaid = true;
-      this.toasterService.showWarning('Tax Paid should not be greater than Vehicle Value', '');
-    } else {
-      this.invalidTaxPaid = false;
+    if (taxPaid !== null && valuationAmount !== null) {
+      if (taxPaid > valuationAmount) {
+        this.invalidTaxPaid = true;
+        this.toasterService.showWarning('Tax Paid should not be greater than Vehicle Value', '');
+      } else {
+        this.invalidTaxPaid = false;
+      }
     }
   }
   modelInProdChange(event?: any) {
