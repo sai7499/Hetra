@@ -8,7 +8,7 @@
     </div>
 
     <div class="content">
-      <form [formGroup]="createLeadForm">
+      <form [formGroup]="createExternalLeadForm">
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub>
@@ -42,54 +42,6 @@
               [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="fundingProgram">{{ labels.fundingProgram }}
-              <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="fundingProgramData" 
-              formControlName="fundingProgram"
-              [isRequired]="'Funding Program required'"
-              [isDirty]="isDirty">
-            </app-vf-custom-select>
-          </div>
-
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="priority">{{ labels.priority }}</label>
-            <app-vf-custom-select 
-              [values]="[
-                { key: '1', value: 'Yes' },
-                { key: '0', value: 'No' }
-              ]" 
-              formControlName="priority">
-            </app-vf-custom-select>
-          </div>
-
-          <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLoanAccountNo">
-          <label for="first_name">{{labels?.loanAccNumber}}
-              <sub class="star_red_col">*</sub>
-            </label>
-            <div class="input-group input-medium col-sm-12">
-            <app-custom-input
-              #firstOne
-              formControlName="loanAccountNumber"
-              [className]="'form-control mandatory'"
-              [placeholder]="'Loan Account Number'"
-              [maxLength]="labels?.validationData?.ChildLoanAccountNumber?.maxLength"
-              [isRequired]= "'Loan Account Number is mandatory' "
-              [isDirty]="isDirty"
-              [type]="labels?.validationData?.ChildLoanAccountNumber?.type"
-              >
-            </app-custom-input>
-            <!-- <span class="input-group-btn pad-zero">
-              <button class="btn btn-default" (click)="onLoanAccNoSearch()">
-                <i class="fa fa-search"></i>
-              </button>
-            </span> -->
-          </div>
-            </div>
         </div>
 
         <div class="row">
@@ -152,72 +104,9 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="isremoveDealerRC">
-          <!-- <div class="row" *ngIf="true"> -->
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_code">Dealer Code
-              <sub class="star_blue_col">*</sub>
-            </label>            
-              <div class="ng-autocomplete" style="width:100%" >
-                <ng-autocomplete 
-                  [data]="dealerCodeData"
-                  [searchKeyword]="'dealorName'"
-                  (selected)='selectDealerEvent($event)'
-                  (inputChanged)='onDealerCodeSearch($event)'
-                  (inputCleared)='onDealerCodeCleared($event)'
-                  [itemTemplate]="dealerCodeTemplate"
-                  [notFoundTemplate]="notFoundTemplate"
-                  formControlName="dealerCode"
-                  [placeHolder]="'Dealer Code'"
-                  [minQueryLength]="2">                                 
-                </ng-autocomplete>    
-                <div class="invalid-feedback" *ngIf="isDealerCode">
-                  <div > Dealer code required.</div>
-                </div>           
-                <ng-template #dealerCodeTemplate let-item>
-                <a [innerHTML]="item.dealorName"></a>
-                </ng-template>               
-                <ng-template #notFoundTemplate let-notFound>
-                <div [innerHTML]="notFound"></div>
-                </ng-template>
-              </div>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="isremoveDealerRC">
-          <!-- <div class="row" *ngIf="true"> -->
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_code">RC Limit
-            </label>
-            <input formControlName="rcLimit" type="text" class="form-control mandatory select2" id="rcLimit"
-              placeholder="RC Limit" name="rcLimit" />
-          </div>
-
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_code">RC Utilized Limit
-            </label>
-            <input formControlName="rcUtilizedLimit" type="text" class="form-control mandatory select2"
-              id="rcUtilizedLimit" placeholder="RC Utilized Limit" name="rcUtilizedLimit" />
-          </div>
-
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="sourcing_code">RC Unutilized Limit
-            </label>
-            <input formControlName="rcUnutilizedLimit" type="text" class="form-control mandatory select2"
-              id="rcUnutilizedLimit" placeholder="RC Utilized Limit" name="rcUnutilizedLimit" />
-          </div>
-        </div>
+       
 
         <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="spoken_code">{{ labels.spokeCodeLocation }}
-              <sub class="star_blue_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="spokesCodeLocation" 
-              formControlName="spokeCodeLocation" 
-              [isRequired]="'spokes Code Location required'">
-            </app-vf-custom-select>
-          </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="account_branch">{{ labels.loanAccountBranch }}
               <sub class="star_red_col">*</sub></label>
@@ -227,14 +116,6 @@
             </app-vf-custom-select> -->
             <input type="text" class="form-control mandatory" 
               formControlName="loanBranch" required />
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="lead_handled">{{ labels.leadHandledBy }}</label>
-            <!-- <app-vf-custom-select 
-              [values]="lovLabels?.leadHandledBY" 
-              formControlName="leadHandeledBy">
-            </app-vf-custom-select> -->
-            <input type="text" class="form-control mandatory" formControlName="leadHandeledBy" required />
           </div>
         </div>
 
@@ -381,67 +262,3 @@
     </div>
   </div>
 </main>
-
-<div class="modal" id="modal" [ngClass]="{ 'dis-block': showModal }">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title">Lead Creation</h4>
-        <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
-      </div>
-      <div class="modal-body">
-        <p id="">Lead created successfully ! <strong>Lead ID:</strong> {{leadId}}</p>
-      </div> 
-      <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-success"
-          data-dismiss="modal"
-          id="reject_dlead"
-          (click)="navgiateToNextPage()"
-        >
-          OK
-        </button>
-        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
-          Cancel
-        </button> -->
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal" [ngClass]="{ 'dis-block': isLoanModal }">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title">Seach Loan Account Number</h4>
-        <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
-      </div>
-      <div class="modal-body">
-        <p id="">Navigate to search account no.</p>
-      </div> 
-      <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="navgiateToSearchLoan()"
-        >
-          OK
-        </button>
-        <button type="button" class="btn btn-primary" (click)="childLoanModalClose()">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Footer -->
-<footer class="footer pf mob-font">
-  <div class="container-fluid">
-    <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
-  </div>
-</footer>
-
-

@@ -152,7 +152,7 @@
     "applicantDetailsTitle": "Applicant Details",
     "personalDetailsTitle": "Personal Details",
     "addApplicantTitle": "Add Applicant",
-    "ucicId": "UCIC ID",
+    "ucicId": "UCIC",
     "name": "Name",
     "mobileNumber": "Mobile Number",
     "applicantType": "Applicant Type",
@@ -1753,14 +1753,14 @@
     "insuranceDetails": "Insurance Details",
     "company": "Company",
     "policyNumber": "Policy Number",
-    "validFrom": "Valid From:",
+    "validFrom": "Valid From",
     "validUpto": "Valid up to",
     "typeOfPolicy": "Type of policy",
     "isModelInProduction": "Is the Model Currently under Production ?",
     "anyAccidentsInPast": "Any accidents in the past ? If yes, mention in remarks",
     "originalInvoice": "Original Invoice Value(Ex-show)",
     "anyMajorRepairs": "Any Other Major Repairs till date",
-    "currentInvoiceValue": "Current Invoice Value(Ex-Show if in production)",
+    "currentInvoiceValue": "Current Invoice Value",
     "rcBookStatus": "RC Book Status",
     "recentLast3Valuations": "Recent Last Three Valuation & Price Of The Same Model Given By The Valuer",
     "monthOfReport": "Month of the Report",
@@ -2633,9 +2633,9 @@
         },
         "DeductionChargefixedRate": {
             "maxLength": {
-                "rule": 5
+                "rule": 7
             },
-            "type": "number"
+            "type": "decimal"
         },
         "NegotiatedEMI": {
             "maxLength": {
@@ -2962,7 +2962,8 @@
         },
         "ChildLoanAccountNumber": {
             "maxLength": {
-                "rule": 12
+                "rule": 12,
+                "msg": "Maximun 12 digits for loan Account Number"
             },
             "type": "number"
         },

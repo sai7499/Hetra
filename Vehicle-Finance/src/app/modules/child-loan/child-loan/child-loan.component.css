@@ -5,7 +5,8 @@
 /* Top-heading Space */
 
 h3.margin_zero {
-  margin: 15px 12px 0 !important;
+  margin: 15px 12px 15px 0 !important;
+  color: #1d1a4b;
   }
   
   h3.dedupe_head {
@@ -14,6 +15,10 @@ h3.margin_zero {
  .heading{
    color: #1d1a4b !important;
  } 
+
+ .margin_top{
+  margin-top: 10px !important;
+ }
   
   /* footer */
   
@@ -273,7 +278,9 @@ h3.margin_zero {
   /* Top-heading Space */
   
   h3.margin_zero {
-    margin: 15px 12px 0 !important;
+    margin: 15px 12px 15px 0 !important;
+    color: #1d1a4b;
+
   }
   
   h3.dedupe_head {
