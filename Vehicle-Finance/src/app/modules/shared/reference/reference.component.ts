@@ -10,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { ToasterService } from '@services/toaster.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-reference',
   templateUrl: './reference.component.html',
@@ -106,6 +108,7 @@ export class ReferenceComponent implements OnInit {
   testt: string;
   apiValue: any;
   finalValue: any;
+  isLoan360: boolean;
 
   constructor(
     private commonLovService: CommomLovService,
@@ -116,7 +119,8 @@ export class ReferenceComponent implements OnInit {
     private toasterServiceInfo: ToasterService,
     private location: Location,
     private router: Router,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private loanViewService: LoanViewService
   ) {
     this.refOnefirstName = '';
     this.refOnemiddleName = '';
@@ -137,6 +141,7 @@ export class ReferenceComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.currentUrl = this.location.path();
     if (this.currentUrl) {
@@ -249,6 +254,7 @@ export class ReferenceComponent implements OnInit {
       this.mobileOneErrorMsg = 'Mobile No. should not same as Reference 1 Mobile No.';
     } else {
       this.isMobileOneErrorMsg = false;
+      this.isMobileTwoErrorMsg = false;
     }
   }
 
@@ -260,6 +266,7 @@ export class ReferenceComponent implements OnInit {
       this.mobileTwoErrorMsg = 'Mobile No. should not same as Reference 2 Mobile No.';
     } else {
       this.isMobileTwoErrorMsg = false;
+      this.isMobileOneErrorMsg = false;
     }
   }
 
@@ -449,6 +456,9 @@ export class ReferenceComponent implements OnInit {
             const message = response.ProcessVariables.error.message;
             this.toasterService.error(message, 'Reference Details');
           }
+          if (this.loanViewService.checkIsLoan360()) {
+            this.referenceForm.disable();
+          }
         },
         (err) => {
           console.log(err);
@@ -539,6 +549,9 @@ export class ReferenceComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      return this.onNavigate();
+    }
     this.isDirty = true;
     if (this.referenceForm.valid === true
       && !this.isMobileOneErrorMsg

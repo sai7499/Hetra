@@ -19,6 +19,10 @@ import { UploadService } from '@services/upload.service';
 import { UtilityService } from '@services/utility.service';
 import { map } from 'rxjs/operators';
 import { DocumentDetails } from '@model/upload-model';
+
+import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -110,7 +114,9 @@ export class CamComponent implements OnInit {
   coAppArray: any = []
   guarntorArray: any = []
   showSendBackToSales:boolean = false
-  body: any
+  body: any;
+  isLoan360: boolean;
+  isDeclinedFlow = false;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -121,16 +127,26 @@ export class CamComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router, private uploadService: UploadService,
     private location: Location, private utilityService: UtilityService,
+    private loanViewService: LoanViewService,
+    private sharedService: SharedService
   ) {
     this.salesResponse = localStorage.getItem('salesResponse');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
     });
+    this.sharedService.isDeclinedFlow.subscribe((res: any) => {
+      console.log(res, ' declined flow');
+      if (res) {
+          this.isDeclinedFlow = res;
+      }
+  });
 
   }
 
   ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -379,6 +395,11 @@ export class CamComponent implements OnInit {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) { 
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.camDetailsForm.disable();
       this.disableSaveBtn = true;
     }
 
@@ -762,20 +783,30 @@ console.log("res",res);
     });
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigate([`pages/dde/${this.leadId}/score-card`]);;
+    }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
       this.router.navigate([`pages/dde/${this.leadId}/insurance-details`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
       this.router.navigate([`pages/dashboard`]);
+    } else if( this.roleType == '1' &&  this.isDeclinedFlow == true) {
+      this.router.navigate([`pages/dashboard`]);
     }
   }
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
+    }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
       this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
+    } else if( this.roleType == '1'  && this.isDeclinedFlow == true) {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     }
   }

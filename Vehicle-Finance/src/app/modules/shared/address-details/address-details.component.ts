@@ -29,6 +29,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { AgmFitBounds } from '@agm/core';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-address-details',
   templateUrl: './address-details.component.html',
@@ -115,6 +117,8 @@ export class AddressDetailsComponent implements OnInit {
   apiAddressLead = '0';
   apiCommunicationCheckBox = '0';
 
+  isLoan360: boolean;
+
 
   constructor(
     private lovData: LovDataService,
@@ -129,10 +133,12 @@ export class AddressDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.getLabels();
     this.getLOV();
@@ -199,8 +205,8 @@ export class AddressDetailsComponent implements OnInit {
         const pincode = officeAddress.get('pincode').value;
         const addressLineOne = officeAddress.get('addressLineOne').value;
         officeAddress.patchValue({
-          pincode : pincode || null,
-          addressLineOne : addressLineOne || null
+          pincode: pincode || null,
+          addressLineOne: addressLineOne || null
         })
         // const pincode = officeAddress.get('pincode').value;
         // officeAddress.get('pincode').setValue(pincode || null)
@@ -553,10 +559,10 @@ export class AddressDetailsComponent implements OnInit {
     this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
       this.address = res.ProcessVariables;
 
-      if (this.address.ucic) { 
-          this.showModCurrCheckBox = true;
+      if (this.address.ucic) {
+        this.showModCurrCheckBox = true;
       }
-      
+
 
       setTimeout(() => {
         this.setAddressData();
@@ -609,17 +615,26 @@ export class AddressDetailsComponent implements OnInit {
       })
     } else {
       this.clearFormArray();
-      this.addNonIndividualFormControls();
-      this.disableRegister = true;
-      this.onRegAsCommChecked = true;
-      this.disableAddress('registeredAddress');
-      this.disableAddress('communicationAddress');
+       this.addNonIndividualFormControls();
+      if (this.address.ucic) {
+
+        this.disableRegister = true;
+        this.onRegAsCommChecked = true;
+        this.disableAddress('registeredAddress');
+        this.disableAddress('communicationAddress');
+      }
+      
+     
+
       this.setValuesForNonIndividual();
       setTimeout(() => {
         this.listenerForRegisterAddress();
       })
     }
     this.apiValue = this.addressForm.getRawValue();
+    if (this.loanViewService.checkIsLoan360()) {
+      this.addressForm.disable();
+    }
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
@@ -854,8 +869,8 @@ export class AddressDetailsComponent implements OnInit {
     const modifyCurrentAdd = this.address.applicantDetails.modifyCurrentAddress;
     this.checkedModifyCurrent = modifyCurrentAdd == '1' ? true : false;
     this.showSrField = modifyCurrentAdd == '1' ? true : false;
-    if(modifyCurrentAdd == '1'){
-      this.disableCurrent=false
+    if (modifyCurrentAdd == '1') {
+      this.disableCurrent = false
     }
     //this.disableCurrent = modifyCurrentAdd == '1' ? false : true;
 
@@ -898,7 +913,14 @@ export class AddressDetailsComponent implements OnInit {
     } else {
       this.onPerAsCurChecked = false;
       this.isCurrAddSameAsPermAdd = '0';
-      currentAddressVariable.enable();
+      if (this.disableCurrent) {
+
+        currentAddressVariable.disable();
+      } else {
+        currentAddressVariable.enable();
+      }
+
+
       // if (this.address.ucic) {
       //   this.disableCurrent = true;
       //   currentAddressVariable.disable();
@@ -977,7 +999,7 @@ export class AddressDetailsComponent implements OnInit {
     const details = formArray.at(0);
     const registeredAddressObj = addressObj[Constant.REGISTER_ADDRESS];
     this.apiCommunicationCheckBox = (registeredAddressObj && registeredAddressObj.isCurrAddSameAsPermAdd == '1') ? '1' : '0'
-    if (registeredAddressObj&& registeredAddressObj.isCurrAddSameAsPermAdd == '1') {
+    if (registeredAddressObj && registeredAddressObj.isCurrAddSameAsPermAdd == '1') {
       this.isRegSameAsCommAdd = '1'
       this.onRegAsCommChecked = true;
       const formArray = this.addressForm.get('details') as FormArray;
@@ -1076,7 +1098,7 @@ export class AddressDetailsComponent implements OnInit {
       details.get('currentAddress').reset();
       if (this.onCurrAsOfficeChecked) {
         this.onCurrAsOfficeChecked = false;
-        this.isCurrAddSameAsOffAdd='0'
+        this.isCurrAddSameAsOffAdd = '0'
         details.get('officeAddress').enable();
       }
     }
@@ -1309,7 +1331,7 @@ export class AddressDetailsComponent implements OnInit {
       this.disableCurrent = false;
       if (this.onCurrAsOfficeChecked) {
         this.onCurrAsOfficeChecked = false;
-        this.isCurrAddSameAsOffAdd='0'
+        this.isCurrAddSameAsOffAdd = '0'
         control.get('officeAddress').enable();
         control.get('officeAddress').reset();
 
@@ -1326,7 +1348,7 @@ export class AddressDetailsComponent implements OnInit {
       control.get('srNumber').setValue(null)
       const addressObj = this.getAddressObj();
       const currentAddressObj =
-      addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
+        addressObj[Constant.CURRENT_ADDRESS] || addressObj['COMMADDADDTYP'];
       if (currentAddressObj) {
         this.currentPincode = this.formatPincodeData(currentAddressObj)
         const currentAddress = control.get('currentAddress');
@@ -1605,6 +1627,21 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      const url = this.location.path();
+      localStorage.setItem('currentUrl', url);
+      if (url.includes('sales')) {
+        this.router.navigateByUrl(
+          `pages/sales-applicant-details/${this.leadId}/document-upload/${this.applicantId}`
+        );
+
+      } else {
+        this.router.navigateByUrl(
+          `/pages/applicant-details/${this.leadId}/bank-list/${this.applicantId}`
+        );
+      }
+      return;
+    }
     this.finalValue = this.addressForm.getRawValue();
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
     console.log(JSON.stringify(this.apiValue));

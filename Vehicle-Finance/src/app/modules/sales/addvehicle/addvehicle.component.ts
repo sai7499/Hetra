@@ -8,6 +8,9 @@ import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
+
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-addvehicle',
   templateUrl: './addvehicle.component.html',
@@ -28,6 +31,8 @@ export class AddvehicleComponent implements OnInit {
 
   productCatoryCode: string;
 
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private router: Router,
@@ -37,10 +42,11 @@ export class AddvehicleComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private utilityService: UtilityService,
     private sharedService: SharedService,
-    private toasterService: ToasterService) { }
+    private toasterService: ToasterService,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
-
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();

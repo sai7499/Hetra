@@ -16,7 +16,7 @@
                 <td>{{labels?.currentPos}} </td>
                 <td>{{labels?.tenure}} </td>
                 <td>{{labels?.emiPaid}} </td>
-                <td>{{labels?.action}} </td>
+                <td *ngIf="!isLoan360">{{labels?.action}} </td>
 
               </tr>
             </thead>
@@ -127,7 +127,7 @@
                     [isDirty]="isDirty">
                   </app-custom-input>
                   </td>
-                <td>                  
+                <td *ngIf="!isLoan360">                  
                   <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant" 
                     *ngIf= " exposureLiveLoan.get('loanTable')['controls'].length >1"
                     style="color: red;" (click)="showModel(i)" title="Delete exposure"></i>&nbsp;                   

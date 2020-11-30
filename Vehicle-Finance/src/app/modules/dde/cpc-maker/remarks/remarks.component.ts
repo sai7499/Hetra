@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
@@ -22,6 +23,7 @@ export class RemarksComponent implements OnInit {
   showModalApprove : boolean = false;
   showSendCredit : boolean = false;
   roleType : any;
+  isDeclinedFlow : boolean;
 
   constructor(
     private router: Router,
@@ -30,8 +32,14 @@ export class RemarksComponent implements OnInit {
     private toasterService: ToasterService,
     private objectComparisonService: ObjectComparisonService,
     private loginStoreService: LoginStoreService,
+    private sharedService: SharedService
 
-  ) { }
+  ) { this.sharedService.isDeclinedFlow.subscribe((res: any) => {
+    console.log(res, ' declined flow');
+    if (res) {
+        this.isDeclinedFlow = res;
+    }
+}); }
 
   async ngOnInit() {
 
@@ -92,6 +100,8 @@ export class RemarksComponent implements OnInit {
   onBack() {
     if(this.roleType=='7'){
       this.router.navigateByUrl(`pages/cpc-maker/${this.leadId}/check-list`)
+    } else if( this.roleType == '1') {
+      this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/credit-condition`)
     }
     
   }

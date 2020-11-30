@@ -17,6 +17,8 @@ import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-cibil-od-list',
   templateUrl: './cibil-od-list.component.html',
@@ -57,6 +59,7 @@ export class CibilOdListComponent implements OnInit {
   cibilImage: any;
   addMatchFound  : boolean = false;
   cibilOdDetails: any;
+  isLoan360: boolean;
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -69,7 +72,8 @@ export class CibilOdListComponent implements OnInit {
     private utilityService: UtilityService,
     private applicantImageService: ApplicantImageService,
     private domSanitizer: DomSanitizer,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService
   ) {
     this.odAccountDetailsArray = this.formBuilder.array([]);
     this.AssetBureauEnquiryArray = this.formBuilder.array([]);
@@ -77,6 +81,7 @@ export class CibilOdListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelService.getLabelsData().subscribe((res) => {
       this.labels = res;
     });
@@ -387,6 +392,11 @@ export class CibilOdListComponent implements OnInit {
         this.odDetailsForm.disable();
         this.disableSaveBtn = true;
       }
+
+      if (this.loanViewService.checkIsLoan360()) {
+        this.odDetailsForm.disable();
+        this.disableSaveBtn = true;
+      }
     });
 
   }
@@ -521,6 +531,9 @@ export class CibilOdListComponent implements OnInit {
   }
 
   onBackToODDetails() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
+    }
     this.cibilOdDetails = this.odDetailsForm.value.Rows;
     this.submitted = true;
     this.isDirty = true;

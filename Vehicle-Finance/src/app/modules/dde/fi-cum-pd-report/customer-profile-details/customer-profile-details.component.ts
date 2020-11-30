@@ -13,6 +13,8 @@ import { LoginStoreService } from '@services/login-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 // import { MessageService } from '@progress/kendo-angular-l10n';
 @Component({
   selector: 'app-customer-profile-details',
@@ -87,6 +89,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private personalDiscussion: PersonalDiscussionService,
     private toggleDdeService: ToggleDdeService,
     private createLeadDataService: CreateLeadDataService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
@@ -130,6 +133,11 @@ export class CustomerProfileDetailsComponent implements OnInit {
     });
     this.operationType = this.toggleDdeService.getOperationType();
     if (this.operationType) {
+      this.customerProfileForm.disable();
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
       this.customerProfileForm.disable();
       this.disableSaveBtn = true;
     }
