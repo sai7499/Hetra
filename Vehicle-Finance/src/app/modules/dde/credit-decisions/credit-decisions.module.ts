@@ -18,6 +18,9 @@ import { DisbursementSectionModule } from '@modules/disbursement-section/disburs
 import { DdeModule } from '../dde.module';
 import { CamComponent } from '../cam/cam.component';
 import { DeviationsComponent } from '../deviations/deviations.component';
+// import { CpcMakerModule } from '../cpc-maker/cpc-maker.module';
+import { RemarksComponent } from '../../dde/cpc-maker/remarks/remarks.component';
+
 @NgModule({
   declarations: [
     CreditDecisionComponent,
@@ -29,7 +32,8 @@ import { DeviationsComponent } from '../deviations/deviations.component';
     TermSheetFromDashboardComponent,
     // NegotiationComponent
     CamComponent,
-    DeviationsComponent
+    DeviationsComponent,
+    RemarksComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +53,8 @@ import { DeviationsComponent } from '../deviations/deviations.component';
     CustomerFeedbackComponent,
     CheckListComponent,
     TermSheetFromDashboardComponent,
-    CreditConditionsComponent
+    CreditConditionsComponent,
+    RemarksComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
