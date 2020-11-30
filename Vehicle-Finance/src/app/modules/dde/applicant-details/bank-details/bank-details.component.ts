@@ -284,7 +284,7 @@ export class BankDetailsComponent implements OnInit {
       this.addProposedUnit(transactionDetailsList[i]);
     }
 
-    
+
   }
 
   addProposedUnit(data?: any) {
@@ -420,30 +420,36 @@ export class BankDetailsComponent implements OnInit {
   getMonths() {
     const tempArray: Array<any> = this.listArray.value;
     console.log('temp array', tempArray);
-    if (this.OldToDate && this.OldFromDate) {
-      const txt = confirm('Are You Sure Want To Change Dates ?');
-      if (txt === false) {
-        return;
+    setTimeout(() => {
+      if (this.OldToDate && this.OldFromDate) {
+        const txt = confirm('Are You Sure Want To Change Dates ?');
+        if (txt === false) {
+          return;
+        }
       }
-    }
+    }, 1000);
+    
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
     const toDate = new Date(this.bankForm.value.toDate)
       ? new Date(this.bankForm.value.toDate)
       : null;
-    if (fromDate > toDate) {
-      this.toasterService.showWarning('Invalid Date Selection', '');
-      if (this.OldFromDate || this.OldToDate) {
-        // this.listArray.controls = [];
-        const date = new Date(this.OldFromDate);
-        this.bankForm.patchValue({
-          fromDate: this.OldFromDate,
-          toDate: this.OldFromDate,
-        });
+    setTimeout(() => {
+      if (fromDate > toDate) {
+        this.toasterService.showWarning('Invalid Date Selection', '');
+        if (this.OldFromDate || this.OldToDate) {
+          // this.listArray.controls = [];
+          const date = new Date(this.OldFromDate);
+          this.bankForm.patchValue({
+            fromDate: this.OldFromDate,
+            toDate: this.OldFromDate,
+          });
+        }
+        return;
       }
-      return;
-    }
+    }, 2000);
+
     const fromDateNew = this.bankForm.value.fromDate;
     const toDateNew = this.bankForm.value.toDate;
     this.OldFromDate = fromDateNew;

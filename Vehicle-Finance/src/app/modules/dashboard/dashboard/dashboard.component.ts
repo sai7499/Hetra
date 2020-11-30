@@ -195,6 +195,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dataToReassign: any;
   selfAssignData: any;
   selfAssignLeadId: any;
+  declinedFlow = false;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -618,6 +619,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 6: case 7:
+        this.declinedFlow = true;
         this.taskName = 'Declined Leads';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
@@ -1031,7 +1033,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/credit-condition`);
         break;
       case 6: case 7:
-
+        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/cam`);
         break;
       case 8: case 9:
         this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
@@ -1052,7 +1054,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate([`/pages/disbursement-section/${this.leadId}/tranche-disburse`]);
         break;
       case 25: case 26:
-        localStorage.setItem('istermSheet', 'false');      
+        localStorage.setItem('istermSheet', 'false');
         // tslint:disable-next-line: triple-equals
         if (this.salesResponse == false) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/cam`]);
@@ -1325,6 +1327,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sharedService.getTaskID(item.taskId);
     this.sharedService.setProductCatCode(item.productCatCode);
     this.sharedService.setProductCatName(item.productCatName);
+    this.sharedService.getDeclinedFlow(this.declinedFlow);
   }
 
   onLeadHistory(leadId) {

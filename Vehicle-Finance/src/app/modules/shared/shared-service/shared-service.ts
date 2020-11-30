@@ -99,4 +99,9 @@ export class SharedService {
     getSupervisorName(data) {
         this.supervisorName$.next(data)
     }
+    declinedFlow$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isDeclinedFlow = this.declinedFlow$.asObservable();
+    getDeclinedFlow(data) {
+        this.declinedFlow$.next(data);
+    }
 }
