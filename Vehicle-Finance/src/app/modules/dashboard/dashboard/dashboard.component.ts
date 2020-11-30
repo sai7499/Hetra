@@ -370,10 +370,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.getCountAcrossLeads(this.userId)
 
+    let timeOut;
+
     if (currentUrl.includes('dashboard')) {
-      console.log('Its a Log')
-      setTimeout(() => {
+      timeOut = setTimeout(() => {
         if (this.isIntervalId) {
+          console.log('Its a Log')
           this.intervalId = setInterval(() => {
             this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
               console.log('Polling request')
@@ -389,7 +391,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.isIntervalId = false;
       console.log('Its not a Log')
-
+      clearTimeout(timeOut)
       clearInterval(this.intervalId)
     }
     // setTimeout(() => {

@@ -78,6 +78,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     chatSearchKey: ''
   }
 
+  LOV: any;
+
   getChatSendObj = {
     leadId: this.leadId,
     perPage: 50,
@@ -133,7 +135,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       searchText: ['', Validators.required],
       docName: [''],
       replyTo: [''],
-      status: [''],
+      queryStatus: ['OPNQUESTAT'],
       leadId: ['', Validators.required]
     })
 
@@ -161,7 +163,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       this.clickedIndex = null;
     } else {
       this.isClickDropDown = null;
-      this.clickedIndex === index? this.clickedIndex = null : this.clickedIndex = index
+      this.clickedIndex === index ? this.clickedIndex = null : this.clickedIndex = index
     }
 
   }
@@ -174,7 +176,9 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-      let LOV = value.LOVS;
+      this.LOV = value.LOVS;
+      // console.log('Lov', this.LOV)
+      this.queryModelLov.queryStatus = value.LOVS.queryStatus;
       this.queryModelLov.queryType = value.LOVS.queryType;
       this.getLeads(this.getLeadSendObj);
     });
@@ -796,13 +800,33 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       return res.key === queryTo;
     })
 
+    // this.queryModelLov.queryStatus = value.LOVS.queryStatus;
+
+    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((data) => {
+      if (data.key !== 'OPNQUESTAT') {
+        return {
+          key: data.key,
+          value: data.value
+        }
+      }
+    })
+
     this.queryModalForm.patchValue({
       query: data.query,
       queryType: data.queryType,
       queryFrom: this.userId,
       searchText: fileterData.value,
-      queryTo: fileterData.key
+      queryTo: fileterData.key,
+      replyTo: data.queryId,
+      queryStatus: data.queryStatus
     })
+
+    this.queryModalForm.get('queryType').disable()
+    this.queryModalForm.get('searchText').disable()
+    this.queryModalForm.get('searchLeadId').disable()
+    this.queryModalForm.get('queryTo').disable()
+    this.queryModalForm.get('replyTo').disable()
+
     this.isClickButton = i;
     document.getElementById("chat-box").style.overflowY = "auto";
 

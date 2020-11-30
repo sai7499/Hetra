@@ -13,7 +13,7 @@ const routes: Routes = [
     resolve: { leadData: LeadDataResolverService },
     children: [
       {
-        path: "basic-vehicle-details",
+        path: "basic-vehicle-details/:vehicleId",
         component: BasicVehicleDetailsComponent
       },
       {

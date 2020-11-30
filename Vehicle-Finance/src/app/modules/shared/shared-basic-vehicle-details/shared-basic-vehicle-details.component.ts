@@ -43,7 +43,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   LOV: any = [];
   public label: any = {};
 
-  public onlyFutureDate= new Date();
+  public onlyFutureDate = new Date();
   maxFuteureDate = this.onlyFutureDate.setDate(this.maxDate.getDate() + 1)
 
   public childLoanCondition: any = {};
@@ -101,9 +101,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
     var day = this.toDayDate.getDate();
-            var month = this.toDayDate.getMonth();
-            var year = this.toDayDate.getFullYear();
-            this.toDayDate= new Date(year, month, day, 0,0)
+    var month = this.toDayDate.getMonth();
+    var year = this.toDayDate.getFullYear();
+    this.toDayDate = new Date(year, month, day, 0, 0)
   }
 
   ngOnInit() {
@@ -156,12 +156,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       }
     })
 
-    if (this.activedRoute.snapshot.params['eligibleLoanAmount']) {
-      this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] === null ? 0 : this.activedRoute.snapshot.params['eligibleLoanAmount'];
-    } else {
-      this.eligibleLoanAmount = 0;
-    }
-
     this.initForms();
     this.getLov();
 
@@ -180,6 +174,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.loanViewService.checkIsLoan360()) {
       this.basicVehicleForm.disable();
       this.disableSaveBtn = true;
+    }
+
+    if (this.vehicleDataService.getLoanAmount()) {
+      this.eligibleLoanAmount = Number(this.vehicleDataService.getLoanAmount())
     }
 
   }
@@ -347,8 +345,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
       this.vehicleLov.insuranceType = this.LOV['In-HouseInsuranceType']
-
-      console.log('Lov', this.LOV['In-HouseInsuranceType'])
 
       this.vehicleLov.YesORNoValue = [
         {
@@ -581,7 +577,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       productCatCode: VehicleDetail.productCatCode || '',
       rcOwnerName: VehicleDetail.rcOwnerName || '',
       reRegVehicle: VehicleDetail.reRegVehicle || '',
-      insuranceType:  VehicleDetail.insuranceType || '',
+      insuranceType: VehicleDetail.insuranceType || '',
       regMonthYear: VehicleDetail.regMonthYear ? this.utilityService.getDateFromString(VehicleDetail.regMonthYear) : '',
       region: VehicleDetail.region || '',
       registrationNo: VehicleDetail.registrationNo || '',

@@ -12,9 +12,6 @@
               <div class="left">
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                   <div class="input-group search-btn">
-                    <!-- <input type="text" class="form-control input-search" placeholder="Search"
-                      formControlName="searchName" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
-                      queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''"> -->
 
                     <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
                       [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
@@ -138,9 +135,7 @@
             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="message-hide">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
-                  <!-- <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
-                  queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''"> -->
+
                   <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
                     [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
@@ -294,7 +289,7 @@
 
                         <div class="col-md-4">
                           <span class="text-center"> <strong>Query Id : </strong>
-                            <!-- {{message.queryId}} -->
+                            {{message.queryId}}
                           </span>
                         </div>
 
@@ -309,11 +304,15 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                           <p>{{message.query}}</p>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"
-                          *ngIf="isClickButton === j && userId === message.queryFrom">
-                          <button #foo class="btn btn-cus">Marked as Read</button>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <button #foo class="btn btn-cus"
+                            *ngIf="isClickButton === j && userId === message.queryFrom">Marked as Closed</button>
                         </div>
-                        <div class="collg-4 col-md-4 col-sm-4 col-xs-12"></div>
+                        <div class="collg-4 col-md-4 col-sm-4 col-xs-12">
+                          <span class="date-time"> <strong> Lead Status : </strong>
+                            {{message.leadStage}}
+                          </span>
+                        </div>
                       </div>
 
                       <div *ngIf="message.docId"><a class="text-danger"
@@ -331,7 +330,7 @@
                           <div class="col-md-4">
                             <span class="text-center" [ngClass]="j % 2  === 0 ? 'red-Col' : 'green-Col'"> <strong
                                 style="color: black;">Status : </strong>
-                              <!-- {{message.status}} -->
+                              {{message.queryStatus}}
                             </span>
                           </div>
 
@@ -367,9 +366,6 @@
                   <div class="form-group">
                     <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12" for="lead_id">{{labels.leadID}}</label>
                     <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
-
-                      <!-- <input type="text" class="form-control" autocomplete="off" formControlName="searchLeadId"
-                        (keyup)="getleadIdvalue($event.target.value)" (blur)="onBlurleadId()"> -->
 
                       <app-custom-input id="'lead_id'" autocomplete="off" formControlName="searchLeadId"
                         (keyup)="getleadIdvalue($event.target.value)" (blur)="onBlurleadId()">
@@ -443,7 +439,7 @@
                   <div class="form-group">
                     <label for="status" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.status}}</label>
                     <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12">
-                      <app-vf-custom-select [values]="queryModelLov?.status" [id]="'status'" formControlName="status"
+                      <app-vf-custom-select [values]="queryModelLov?.queryStatus" [id]="'status'" formControlName="queryStatus"
                         [isRequired]="'Status Required'" [isDirty]="isDirty">
                       </app-vf-custom-select>
                     </div>
