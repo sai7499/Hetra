@@ -353,13 +353,14 @@ export class ChildLoanComponent implements OnInit {
     }
   }
 
-  onLoanAccNoSelect(event, index) {
+  onLoanAccNoSelect(event, index, loanDetail) {
     const selectedLoanAcc = event.target.checked;
     if (selectedLoanAcc) {
       this.isCreateLoanBtn = true;
       this.accountNo = this.loanDetailsData[index].accountNumber;
       this.selectedLoanAccNoIndex = index;
       this.selectedLeadId = this.loanDetailsData[index].parentLead;
+      this.loanViewService.setLoanAccountDetails(loanDetail);
     }
   }
 
@@ -368,7 +369,7 @@ export class ChildLoanComponent implements OnInit {
     // this.loanViewService.getLoanDetails(this.leadId)
     //     .subscribe((value) => {
     // console.log('loan 360', value);
-    this.router.navigateByUrl(`/pages/dde/${this.selectedLeadId}`);
+    this.router.navigateByUrl(`/pages/dde/${this.selectedLeadId}/loan-details`);
     // });
   }
 
