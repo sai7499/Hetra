@@ -39,6 +39,8 @@ export class UploadModalComponent {
   fileInput: ElementRef;
   isMobile: any;
 
+  inAppCamera:boolean = false;
+
   constructor(
     private uploadService: UploadService,
     private utilityService: UtilityService,
@@ -306,6 +308,7 @@ export class UploadModalComponent {
   }
 
   openCamera() {
+    this.inAppCamera = true;
     this.takePicture().then((uri) => {
       this.imageUrl = uri;
       this.fileName = Math.random().toString(36).substring(2, 15);
@@ -317,5 +320,9 @@ export class UploadModalComponent {
   onClose() {
     this.close.emit();
     this.removeFile();
+  }
+
+  getMobileFileURI(data) {
+    this.imageUrl = data.nativeURL;
   }
 }

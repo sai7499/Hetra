@@ -1,0 +1,42 @@
+<div class="controls">
+  <div class="pictures">
+      <img class="originalPicture" [src]="originalImg" *ngIf="showOriginalImg"/>
+      <img class="croppedPicture" [src]="croppedImage"/>
+  </div>
+
+<div id="camerablock" class="camerablock" *ngIf="showCameraPreview">
+  <button (click)="takePictureButton()">Take Picture</button>
+  <button (click)="switchCameraButton()">Switch Camera</button>
+  <div>
+    <p style="margin-bottom:0px;">
+      Zoom:
+      <span id="zoomValue"style="margin: 0 5px;">{{zoomValue}}</span>
+      <input type="range" min="0" max="{{zoomMaxValue}}" #ranger (input)="changeZoom(ranger.value)" value="0">
+    </p>
+  </div>
+</div>
+<div id="previewblock" class="previewblock" *ngIf="showPreview">
+  <button (click)="confirmPreview()">Confirm</button>
+  <button (click)="deletePreview()">Delete</button>
+</div>
+<div id="cropblock" class="previewblock" *ngIf="showCropview">
+  <button (click)="confirmCrop()">Crop</button>
+  <button (click)="retrySnap()">Retry</button>
+</div>
+
+<image-cropper
+    [imageBase64]="imageBase64"
+    [maintainAspectRatio]="false"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+></image-cropper>
+
+</div>
+
+<div class="container">
+  <div *ngIf="imgFile">Cropped Picture</div>
+  <img class="img_size" src="{{imgFile}}" *ngIf="imgFile">
+</div>
