@@ -29,6 +29,10 @@
     (click)="onSendToCredit()" *ngIf="!isDeclinedFlow">
      Send Back To Credit
     </button>
+    <button  class="btn btn-primary -btn-next" type="button" 
+    (click)="onReappeal()" *ngIf="isDeclinedFlow">
+      Approve
+    </button>
   </div>
 </div>
 
