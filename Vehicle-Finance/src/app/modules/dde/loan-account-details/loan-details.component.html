@@ -1,0 +1,66 @@
+<main>
+    <div class="container-fluid">
+  
+
+  
+      <div class="content">
+              
+  
+
+  
+      <div class="row " [ngStyle]="{'margin-top':'15px'}" >
+        <div class="col-md-6">
+          <h3 class="margin_zero">Loan Account Details</h3>
+        </div>
+        <div class="col-md-6 text-right"></div>
+      </div>
+  
+      <!-- <div class="content" >       -->
+        <!-- <div class="container-fluid">         -->
+          <div class="row">
+            <div class="col-md-12">
+            <div id="wrapper">
+              <table>
+                <thead>
+                  <tr class="table-head-bg">
+                    <th>Loan Account Number </th>
+                    <th>Loan Start Date </th>
+                    <th>Loan Amount </th>
+                    <th>Number of EMIs </th>
+                    <th>Seasoning </th>
+                    <th>Rate of Interest </th>
+                    <th>DPD </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td [attr.data-label]="'Loan Account Number'">{{loanAccountDetails?.accountNumber}}</td>
+                    <td [attr.data-label]="'Loan Start Date'">{{loanAccountDetails?.loanStartDate}}</td>
+                    <td [attr.data-label]="'Loan Amount'">{{loanAccountDetails?.totalLoanAmount}}</td>
+                    <td [attr.data-label]="'Number of EMIs'">{{loanAccountDetails?.totalEMIs}}</td>
+                    <td [attr.data-label]="'Seasoning'">{{loanAccountDetails?.seasoning}}</td>
+                    <td [attr.data-label]="'Rate of Interest'">{{loanAccountDetails?.rateOfInterest}}</td>
+                    <td [attr.data-label]="'DPD'">{{loanAccountDetails?.dpd}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="btn-sec clear-both btn-mar-reject">
+                <div class="text-right margin_top" >
+                  <button 
+                    
+                    class="btn btn-primary js-btn-next mar-right8" 
+                    type="button"
+                    (click)="onNext()"
+                    >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        <!-- </div> -->
+      <!-- </div> -->
+    </div>
+    </div>
+  </main>
