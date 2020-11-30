@@ -509,7 +509,7 @@
               >
                 <label for="vehicle_moved"
                   >{{ labels.vehicleMoved }}
-                  <sub class="star_red_col">*</sub>
+                  <sub class="star_blue_col">*</sub>
                 </label>
                 <app-vf-custom-select
                   [values]="valuesToYesNo"
@@ -1083,7 +1083,6 @@
                   placeholder="Date Of Registration"
                   (change)="validateDateOfReg()"
                 >
-                
                 </kendo-datepicker>
                 <div class="invalid-feedback">
                   <div
@@ -1095,8 +1094,10 @@
                   </div>
                   <div
                     *ngIf="
-                  vehicleValuationForm.controls.dateofReg.value &&
-                  vehicleValuationForm.controls.dateofReg.errors">
+                      vehicleValuationForm.controls.dateofReg.value &&
+                      vehicleValuationForm.controls.dateofReg.errors
+                    "
+                  >
                     <div
                       *ngIf="
                         vehicleValuationForm.controls.dateofReg.errors.maxError
@@ -1554,7 +1555,7 @@
                       !vehicleValuationForm.controls.permitValidUpto.value
                     "
                   >
-                    Permit validity  date is Required
+                    Permit validity date is Required
                   </div>
                   <div
                     *ngIf="
@@ -1613,6 +1614,7 @@
                   [isRequired]="'Tax Paid is Required'"
                   [type]="labels?.validationData?.idv.type"
                   [isDirty]="isDirty"
+                  (change)="taxPaidCheck()"
                 >
                 </app-custom-input>
               </div>
@@ -1701,6 +1703,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
+                  (change)="validatingBeforeRegDate('insuranceDate')"
                 >
                 </kendo-datepicker>
               </div>
@@ -1716,6 +1719,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
+                  (change)="validUptoCheck()"
                 >
                 </kendo-datepicker>
               </div>
@@ -1792,6 +1796,7 @@
                   [isDirty]="isDirty"
                   formControlName="modelUnderProduction"
                   [isRequired]="'Please Select One Option'"
+                  (change)="modelInProdChange($event.target.value)"
                 >
                 </app-vf-custom-select>
               </div>
@@ -1902,16 +1907,19 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.currentInvoiceValue }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
                   formControlName="currInvoiceValue"
-                  [placeholder]="'Original Invoice'"
+                  [placeholder]="'current Invoice'"
                   [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="'Original invoice is Required'"
+                  [isRequired]="
+                    currentInvoiceRequired ? 'Current invoice is Required' : ''
+                  "
                   [type]="labels?.validationData?.idv.type"
                   [isDirty]="isDirty"
+                  [isDisabled]="currentInvoiceDisabled"
                 >
                 </app-custom-input>
               </div>
