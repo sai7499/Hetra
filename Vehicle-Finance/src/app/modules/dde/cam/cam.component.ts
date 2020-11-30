@@ -19,6 +19,10 @@ import { UploadService } from '@services/upload.service';
 import { UtilityService } from '@services/utility.service';
 import { map } from 'rxjs/operators';
 import { DocumentDetails } from '@model/upload-model';
+
+import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -109,6 +113,10 @@ export class CamComponent implements OnInit {
   appArray: any = []
   coAppArray: any = []
   guarntorArray: any = []
+  showSendBackToSales:boolean = false
+  body: any;
+  isLoan360: boolean;
+  isDeclinedFlow = false;
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -119,16 +127,26 @@ export class CamComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router, private uploadService: UploadService,
     private location: Location, private utilityService: UtilityService,
+    private loanViewService: LoanViewService,
+    private sharedService: SharedService
   ) {
     this.salesResponse = localStorage.getItem('salesResponse');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
     });
+    this.sharedService.isDeclinedFlow.subscribe((res: any) => {
+      console.log(res, ' declined flow');
+      if (res) {
+          this.isDeclinedFlow = res;
+      }
+  });
 
   }
 
   ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -161,7 +179,11 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamUsedCarDetails(this.generateCam)
           this.showCamHtml = true
-          this.showSave = false
+          if (this.currentUrl.includes('dde')) {
+            this.showSave = true
+            this.showSendBackToSales = true
+
+          }
 
         }
       })
@@ -186,6 +208,8 @@ export class CamComponent implements OnInit {
           this.showCamHtml = true
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
+            this.showSendBackToSales = true
+
           }
         }
       })
@@ -212,6 +236,8 @@ export class CamComponent implements OnInit {
           this.showCamHtml = true
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
+            this.showSendBackToSales = true
+
           }
 
         }
@@ -221,51 +247,172 @@ export class CamComponent implements OnInit {
     if (this.productCategoryCode == "UCV") {
 
       this.camDetailsForm = this.formBuilder.group({
-        proposedVehicleRemarks: [],
-        cibilSynopsisRemarks: [],
-        trackValidationRemarks: [],
-        fleetRemarks: [],
-        concernsAndRisks: [],
-        strengthAndMitigates: [],
-        keyFinancialRemarks: [],
+        proposedVehicleRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        cibilSynopsisRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        trackValidationRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        fleetRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        concernsAndRisks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        keyFinancialRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
         commentsOnBankingIfAny: new FormControl(),
         commentsOnRtr: new FormControl(),
       })
     } else if (this.productCategoryCode == "NCV") {
       this.camDetailsForm = this.formBuilder.group({
-        proposedVehicleRemarks: [],
-        cibilSynopsisRemarks: [],
-        trackValidationRemarks: [],
-        fleetRemarks: [],
-        concernsAndRisks: [],
-        strengthAndMitigates: [],
-        keyFinancialRemarks: [],
-        commentsOnBankingIfAny:[],
-        // commentsOnBankingIfAny: new FormControl(null, [
-        //   Validators.required,
-        //   Validators.maxLength(200),
+        proposedVehicleRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        cibilSynopsisRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        trackValidationRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        fleetRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        concernsAndRisks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        keyFinancialRemarks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        // commentsOnBankingIfAny:new FormControl(null, [
+          // Validators.required,
+        //   Validators.maxLength(5000),
         //   Validators.pattern(
         //     /^[a-zA-Z0-9 ]*$/
         //   ),
         // ]),
-        commentsOnRtr: []
+        commentsOnBankingIfAny: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        commentsOnRtr: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ])
 
+      })
+    }else if (this.productCategoryCode == "UC") {
+      this.camDetailsForm = this.formBuilder.group({
+       
+        concernsAndRisks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
       })
     }
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) { 
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.camDetailsForm.disable();
       this.disableSaveBtn = true;
     }
 
     this.currentUrl = this.location.path();
     if (this.currentUrl.includes('credit-decisions')) {
       this.showSave = false
-      if(this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV"){
+      if(this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV" || this.productCategoryCode == "UC"){
         this.camDetailsForm.disable();
       }
     } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
+      this.showSendBackToSales = true
+
     }
 
   }
@@ -279,6 +426,8 @@ export class CamComponent implements OnInit {
       this.showCamHtml = true
       if (this.currentUrl.includes('dde')) {
         this.showSave = true
+        this.showSendBackToSales = true
+
       }
       this.pdfId = "UCpdfgeneration" // pdf generation 
     } else
@@ -290,6 +439,8 @@ export class CamComponent implements OnInit {
         this.showCamHtml = true
         if (this.currentUrl.includes('dde')) {
           this.showSave = true
+          this.showSendBackToSales = true
+
         }
         this.pdfId = "UCVpdfgeneration" // pdf generation
       } else
@@ -301,6 +452,7 @@ export class CamComponent implements OnInit {
           this.showCamHtml = true
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
+            this.showSendBackToSales = true
           }
           this.pdfId = "NCVpdfgeneration" // pdf generation
         }
@@ -356,7 +508,7 @@ export class CamComponent implements OnInit {
         })
         setTimeout(() => {
           if (isUpload === 'isUpload') {
-            this.uploadPdf()
+            // this.uploadPdf()
           }
         });
 
@@ -400,10 +552,16 @@ export class CamComponent implements OnInit {
         this.autoDeviation = res.ProcessVariables['autoDeviations']
         this.manualDeviation = res.ProcessVariables['manualDeviation']
         this.vehicleDetails = res.ProcessVariables['vehicleDetails']
-        this.recommendation = res.ProcessVariables['recommendation']
+        this.recommendation = res.ProcessVariables['recommendations']
+        this.camDetailsForm.patchValue({
+          concernsAndRisks: this.camDetails.concernsAndRisks ? this.camDetails.concernsAndRisks : null,
+        })
+        this.camDetailsForm.patchValue({
+          strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
+        })
         setTimeout(() => {
           if (isUpload === 'isUpload') {
-            this.uploadPdf()
+            // this.uploadPdf()
           }
         });
 
@@ -500,7 +658,7 @@ export class CamComponent implements OnInit {
         })
         setTimeout(() => {
           if (isUpload === 'isUpload') {
-            this.uploadPdf()
+            // this.uploadPdf()
           }
         });
       } else if (res && res.ProcessVariables.error.code == '1') {
@@ -515,7 +673,7 @@ export class CamComponent implements OnInit {
     })
   }
   onSubmit() {
-console.log(this.camDetailsForm);
+console.log("form",this.camDetailsForm);
 
 
     // this.submitted = true;
@@ -538,26 +696,57 @@ console.log(this.camDetailsForm);
 
     // } else {
       // this.submitted = true;
-
-      const body = {
-        leadId: this.leadId,
-        userId: this.userId,
-
-        anyOtherRemarks: {
-          proposedVehicleRemarks: this.camDetailsForm.controls.proposedVehicleRemarks.value,
-          cibilSynopsisRemarks: this.camDetailsForm.controls
-            .cibilSynopsisRemarks.value,
-          trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
-          fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
-          keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value,
-          concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
-          strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
-          commentsOnBankingIfAny: this.camDetailsForm.controls.commentsOnBankingIfAny.value,
-          commentsOnRtr: this.camDetailsForm.controls.commentsOnRtr.value
-        }
-      };
-
-      this.camService.saveCamRemarks(body).subscribe((res: any) => {
+      if(this.productCategoryCode == "UCV"){
+        this.body = {
+          leadId: this.leadId,
+          userId: this.userId,
+     anyOtherRemarks: {
+            proposedVehicleRemarks: this.camDetailsForm.controls.proposedVehicleRemarks.value,
+            cibilSynopsisRemarks: this.camDetailsForm.controls
+              .cibilSynopsisRemarks.value,
+            trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
+            fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
+            keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value,
+            concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+            strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+            commentsOnBankingIfAny: this.camDetailsForm.controls.commentsOnBankingIfAny.value,
+            commentsOnRtr: this.camDetailsForm.controls.commentsOnRtr.value
+          }
+        };
+      }
+           
+      if(this.productCategoryCode == "NCV"){
+        this.body = {
+          leadId: this.leadId,
+          userId: this.userId,
+     anyOtherRemarks: {
+            proposedVehicleRemarks: this.camDetailsForm.controls.proposedVehicleRemarks.value,
+            cibilSynopsisRemarks: this.camDetailsForm.controls
+              .cibilSynopsisRemarks.value,
+            trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
+            fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
+            keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value,
+            concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+            strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+            commentsOnBankingIfAny: this.camDetailsForm.controls.commentsOnBankingIfAny.value,
+            commentsOnRtr: this.camDetailsForm.controls.commentsOnRtr.value
+          }
+        };
+      }
+      if(this.productCategoryCode == "UC"){
+        this.body = {
+          leadId: this.leadId,
+          userId: this.userId,
+     anyOtherRemarks: {
+           
+            concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+            strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+            
+          }
+        };
+      }
+      this.camService.saveCamRemarks( this.body).subscribe((res: any) => {
+console.log("res",res);
 
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == "0") {
@@ -573,6 +762,10 @@ console.log(this.camDetailsForm);
             if (this.productCategoryCode == "NCV") {
               this.generateCam = true
               this.getCamNewCvDetails(this.generateCam);
+            }else
+            if (this.productCategoryCode == "UC") {
+              this.generateCam = true
+              this.getCamUsedCarDetails(this.generateCam);
             }
         }
       });
@@ -590,22 +783,46 @@ console.log(this.camDetailsForm);
     });
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigate([`pages/dde/${this.leadId}/score-card`]);;
+    }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
-      this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
+      this.router.navigate([`pages/dde/${this.leadId}/insurance-details`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
       this.router.navigate([`pages/dashboard`]);
+    } else if( this.roleType == '1' &&  this.isDeclinedFlow == true) {
+      this.router.navigate([`pages/dashboard`]);
     }
   }
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
+    }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
       this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
+    } else if( this.roleType == '1'  && this.isDeclinedFlow == true) {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     }
+  }
+  sendBackToSales(){
+    const data = {
+      leadId: this.leadId,
+        userId: this.userId,
+    };
+    this.camService.getBackToSales(data).subscribe((res: any) => {
+      if (res && res.ProcessVariables.error.code == "0") {
+        this.toasterService.showSuccess("CAM Lead Is Successfully Submitted Back To Sales", "CAM Details");
+        this.router.navigateByUrl('/pages/dashboard');
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'CAM Details');
+      }
+    })
   }
   downloadpdf() {
     var options = {
@@ -620,129 +837,129 @@ console.log(this.camDetailsForm);
 
   }
 
-  uploadPdf() {
-    var options = {
-      margin: [0.5,0.3,0.5,0.3],
-      filename: `CamDetails_${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 0.99 },
-      html2canvas:{scale:3, logging: true},   
-      pagebreak: { before:"#page_break" },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
-    }
-    html2pdf().from(document.getElementById(this.pdfId))
-      .set(options).toPdf().output('datauristring').then(res => {
-        console.log("file res:", res);
-        this.docsDetails = {
-          associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
-          associatedWith: '1',
-          bsPyld: "/9j/4QCORXhpZgAATU0AKgAAAAgABQEaAAUAAAABAAAASgEbAA",
-          deferredDate: "",
-          docCatg: "VF LOAN DOCS",
-          docCmnts: "Addition of document for Applicant Creation",
-          docCtgryCd: 102,
-          docNm: `CAM`,
-          docRefId: [
-            {
-              idTp: 'LEDID',
-              id: this.leadId,
-            },
-            {
-              idTp: 'BRNCH',
-              id: Number(localStorage.getItem('branchId')),
-            },
-          ],
-          docSbCtgry: "VF GENERATED DOCS",
-          docSbCtgryCd: 42,
-          docSize: 2097152,
-          docTp: "Lead",
-          docTypCd: 148,
-          docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
-          docsTypeForString: "",
-          documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
-          documentNumber: `CAM${this.leadId}`,
-          expiryDate: "",
-          formArrayIndex: 0,
-          isDeferred: "0",
-          issueDate: ""
-        }
-        let base64File: string = res.toString()
-          .replace(/^data:application\/[a-z]+;filename=generated.pdf;base64,/, '');
-        this.docsDetails.bsPyld = base64File;
-        let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
-        fileName =
-          this.docsDetails.docNm +
-          new Date().getFullYear() +
-          +new Date() +
-          '.pdf';
-        this.docsDetails.docNm = fileName;
-        const addDocReq = [
-          {
-            ...this.docsDetails,
-          },
-        ];
-        this.uploadService
-          .constructUploadModel(addDocReq)
-          .pipe(
-            map((value: any) => {
-              if (value.addDocumentRep.msgHdr.rslt === 'OK') {
-                const body = value.addDocumentRep.msgBdy;
-                const docsRes = body.addDocResp[0];
-                const docsDetails = {
-                  ...docsRes,
-                };
-                return docsDetails;
-              }
-              throw new Error('error');
-            })
-          )
-          .subscribe(
-            (value) => {
-              console.log("Response upload", value)
-              // html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
-              let documentDetails: DocumentDetails = {
-                documentId: this.docsDetails.documentId,
-                documentType: String(this.docsDetails.docTypCd),
-                documentName: String(this.docsDetails.docTypCd),
-                documentNumber: this.docsDetails.documentNumber,
-                dmsDocumentId: value.docIndx,
-                categoryCode: String(this.docsDetails.docCtgryCd),
-                issuedAt: 'check',
-                subCategoryCode: String(this.docsDetails.docSbCtgryCd),
-                issueDate:
-                  this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
-                  '',
-                expiryDate:
-                  this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
-                  '',
-                associatedId: this.docsDetails.associatedId,
-                associatedWith: this.docsDetails.associatedWith,
-                formArrayIndex: this.docsDetails.formArrayIndex,
-                deferredDate:
-                  this.utilityService.getDateFormat(
-                    this.docsDetails.deferredDate
-                  ) || '',
-                isDeferred: this.docsDetails.isDeferred,
-              };
+  // uploadPdf() {
+  //   var options = {
+  //     margin: [0.5,0.3,0.5,0.3],
+  //     filename: `CamDetails_${this.leadId}.pdf`,
+  //     image: { type: 'jpeg', quality: 0.99 },
+  //     html2canvas:{scale:3, logging: true},   
+  //     pagebreak: { before:"#page_break" },
+  //     jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+  //   }
+  //   html2pdf().from(document.getElementById(this.pdfId))
+  //     .set(options).toPdf().output('datauristring').then(res => {
+  //       console.log("file res:", res);
+  //       this.docsDetails = {
+  //         associatedId: this.vehicleDetailsArray[0].collateralId.toString(),//"1496",
+  //         associatedWith: '1',
+  //         bsPyld: "/9j/4QCORXhpZgAATU0AKgAAAAgABQEaAAUAAAABAAAASgEbAA",
+  //         deferredDate: "",
+  //         docCatg: "VF LOAN DOCS",
+  //         docCmnts: "Addition of document for Applicant Creation",
+  //         docCtgryCd: 102,
+  //         docNm: `CAM`,
+  //         docRefId: [
+  //           {
+  //             idTp: 'LEDID',
+  //             id: this.leadId,
+  //           },
+  //           {
+  //             idTp: 'BRNCH',
+  //             id: Number(localStorage.getItem('branchId')),
+  //           },
+  //         ],
+  //         docSbCtgry: "VF GENERATED DOCS",
+  //         docSbCtgryCd: 42,
+  //         docSize: 2097152,
+  //         docTp: "Lead",
+  //         docTypCd: 148,
+  //         docsType: "png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip",
+  //         docsTypeForString: "",
+  //         documentId: this.isDocumentId ? this.docsDetails.documentId : 0,
+  //         documentNumber: `CAM${this.leadId}`,
+  //         expiryDate: "",
+  //         formArrayIndex: 0,
+  //         isDeferred: "0",
+  //         issueDate: ""
+  //       }
+  //       let base64File: string = res.toString()
+  //         .replace(/^data:application\/[a-z]+;filename=generated.pdf;base64,/, '');
+  //       this.docsDetails.bsPyld = base64File;
+  //       let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
+  //       fileName =
+  //         this.docsDetails.docNm +
+  //         new Date().getFullYear() +
+  //         +new Date() +
+  //         '.pdf';
+  //       this.docsDetails.docNm = fileName;
+  //       const addDocReq = [
+  //         {
+  //           ...this.docsDetails,
+  //         },
+  //       ];
+  //       this.uploadService
+  //         .constructUploadModel(addDocReq)
+  //         .pipe(
+  //           map((value: any) => {
+  //             if (value.addDocumentRep.msgHdr.rslt === 'OK') {
+  //               const body = value.addDocumentRep.msgBdy;
+  //               const docsRes = body.addDocResp[0];
+  //               const docsDetails = {
+  //                 ...docsRes,
+  //               };
+  //               return docsDetails;
+  //             }
+  //             throw new Error('error');
+  //           })
+  //         )
+  //         .subscribe(
+  //           (value) => {
+  //             console.log("Response upload", value)
+  //             // html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
+  //             let documentDetails: DocumentDetails = {
+  //               documentId: this.docsDetails.documentId,
+  //               documentType: String(this.docsDetails.docTypCd),
+  //               documentName: String(this.docsDetails.docTypCd),
+  //               documentNumber: this.docsDetails.documentNumber,
+  //               dmsDocumentId: value.docIndx,
+  //               categoryCode: String(this.docsDetails.docCtgryCd),
+  //               issuedAt: 'check',
+  //               subCategoryCode: String(this.docsDetails.docSbCtgryCd),
+  //               issueDate:
+  //                 this.utilityService.getDateFormat(this.docsDetails.issueDate) ||
+  //                 '',
+  //               expiryDate:
+  //                 this.utilityService.getDateFormat(this.docsDetails.expiryDate) ||
+  //                 '',
+  //               associatedId: this.docsDetails.associatedId,
+  //               associatedWith: this.docsDetails.associatedWith,
+  //               formArrayIndex: this.docsDetails.formArrayIndex,
+  //               deferredDate:
+  //                 this.utilityService.getDateFormat(
+  //                   this.docsDetails.deferredDate
+  //                 ) || '',
+  //               isDeferred: this.docsDetails.isDeferred,
+  //             };
 
-              console.log(this.isDocumentId, 'document Details', this.docsDetails.documentId)
+  //             console.log(this.isDocumentId, 'document Details', this.docsDetails.documentId)
 
-              this.uploadService.saveOrUpdateDocument([documentDetails]).subscribe((file: any) => {
-                console.log('file', file)
+  //             this.uploadService.saveOrUpdateDocument([documentDetails]).subscribe((file: any) => {
+  //               console.log('file', file)
 
-                if (file.Error === '0' && file.ProcessVariables.error.code === '0') {
+  //               if (file.Error === '0' && file.ProcessVariables.error.code === '0') {
 
-                  if (file.ProcessVariables.documentIds && file.ProcessVariables.documentIds.length > 0) {
-                    this.docsDetails.documentId = file.ProcessVariables.documentIds[0];
-                    this.isDocumentId = true;
-                  } else {
-                    this.isDocumentId = false;
-                  }
-                }
-              })
+  //                 if (file.ProcessVariables.documentIds && file.ProcessVariables.documentIds.length > 0) {
+  //                   this.docsDetails.documentId = file.ProcessVariables.documentIds[0];
+  //                   this.isDocumentId = true;
+  //                 } else {
+  //                   this.isDocumentId = false;
+  //                 }
+  //               }
+  //             })
 
-            })
+  //           })
 
-      });
-  }
+  //     });
+  // }
 
 }

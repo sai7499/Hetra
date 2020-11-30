@@ -46,8 +46,9 @@
       </p>
     </div> -->
 
-    <p class="title" id="exact_macth_title2">Dedupe Parameters</p>
+    
     <form action="" method="POST">
+      <p class="title" id="exact_macth_title2">Dedupe Parameters</p>
       <div class="table-responsive" id="exact_macth_title2_sec">
         <table class="table">
           <thead>
@@ -103,6 +104,7 @@
                 <td>{{ dedupeParameter?.cstVatNumber }}</td>
                 <td>{{ dedupeParameter?.gstNumber }}</td>
                 <td>{{ dedupeParameter?.tanNumber }}</td>
+                <td></td>
               </ng-container>
             </tr>
           </tbody>
@@ -110,15 +112,16 @@
       </div>
     </form>
 
+    
+    <form action="" method="POST">
     <p id="exact_macth_title3">Exact Matches</p>
     <div class="table-responsive">
       <table class="table table-responsive" id="exact_macth_title3_sec">
         <thead>
           <tr class="table-head-bg">
             <td>Select</td>
-            <td>UCIC</td>
+           
             <td>Name</td>
-            <td>Matched Criteria</td>
             <td>{{ isIndividual ? 'DOB' : 'DOI' }}</td>
             <td *ngIf="isIndividual">Mother Maiden Name</td>
             <td>Mobile Number</td>
@@ -136,6 +139,9 @@
               <td>TAN</td>
             </ng-container>
             <td *ngIf="isIndividual">CKYC Number</td>
+            
+            <td>Matched Criteria</td>
+            <td>UCIC</td>
           </tr>
         </thead>
         <tbody>
@@ -155,9 +161,8 @@
                 [(ngModel)]="selectedApplicant"
               />
             </td>
-            <td>{{ exactMatch.ucic }}</td>
+            
             <td>{{ exactMatch.fullName }}</td>
-            <td>{{ exactMatch.matchedCriteria }}</td>
             <td>{{ isIndividual ? exactMatch.dob : exactMatch.doi }}</td>
             <td *ngIf="isIndividual"></td>
             <td>{{ exactMatch.mobile }}</td>
@@ -167,7 +172,7 @@
             </td>
             <ng-container *ngIf="isIndividual">
               <td>{{ exactMatch.passport=="undefined"? '' :exactMatch.passport }}</td>
-              <td>{{ exactMatch.voterIdNumber=="undefined"? '' :exactMatch.voterIdNumber }}</td>
+              <td>{{ exactMatch.voterID=="undefined"? '' :exactMatch.voterID }}</td>
               <td>{{ exactMatch.prospectDrivingLicense=="undefined"? '' :exactMatch.prospectDrivingLicense }}</td>
             </ng-container>
 
@@ -178,21 +183,23 @@
               <td>{{ exactMatch?.tan=="undefined"? '' :exactMatch.tan  }}</td>
             </ng-container>
             <td *ngIf="isIndividual">{{ exactMatch.prospectCkycNumber=="undefined"? '' :exactMatch.prospectCkycNumber}}</td>
+           
+            <td>{{ exactMatch.matchedCriteria }}</td>
+            <td>{{ exactMatch.ucic }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+  </form>
     <form action="" method="POST">
+      <p id="probale_title4">Probable Matches</p>
       <div class="table-responsive">
-        <p id="probale_title4">Probable Matches</p>
-
-        <table class="table" id="exact_macth_title4_sec">
+       <table class="table table-responsive" id="exact_macth_title4_sec">
           <thead>
             <tr class="table-head-bg">
               <td>Select</td>
-              <td>UCIC</td>
+              
               <td>Name</td>
-              <td>Matched Criteria</td>
               <td>{{ isIndividual ? 'DOB' : 'DOI' }}</td>
               <td *ngIf="isIndividual">Mother Maiden Name</td>
               <td>Mobile Number</td>
@@ -210,6 +217,9 @@
                 <td>TAN</td>
               </ng-container>
               <td *ngIf="isIndividual">CKYC Number</td>
+              
+              <td>Matched Criteria</td>
+              <td>UCIC</td>  
             </tr>
           </thead>
           <tbody>
@@ -229,9 +239,8 @@
                   [(ngModel)]="selectedApplicant"
                 />
               </td>
-              <td>{{ probable.ucic }}</td>
+              
               <td>{{ probable.fullName }}</td>
-              <td>{{ probable.matchedCriteria }}</td>
               <td>{{ isIndividual ? probable.dob : probable.doi }}</td>
               <td *ngIf="isIndividual"></td>
               <td>{{ probable.mobile }}</td>
@@ -253,6 +262,9 @@
                 <td>{{ probable?.tan=='undefined'?'' : probable.tan }}</td>
               </ng-container>
               <td *ngIf="isIndividual">{{ probable.prospectCkycNumber=='undefined'?'' : probable.prospectCkycNumber }}</td>
+              
+              <td>{{ probable.matchedCriteria }}</td>
+              <td>{{ probable.ucic }}</td>
             </tr>
           </tbody>
         </table>
@@ -502,4 +514,5 @@
   [showModal]="showNegativeListModal"
   [modalInput]="negativeModalInput"
   (onButtonClick)="negativeListModalListener($event)"
+  [applicantId]="getApplicantId"
 ></app-negative-list-modal>

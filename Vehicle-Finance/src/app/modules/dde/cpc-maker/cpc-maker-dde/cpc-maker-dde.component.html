@@ -4,7 +4,7 @@
       <!-- <app-dde-header></app-dde-header> -->
       <app-lead-section-header></app-lead-section-header>
       <div class="multisteps-form">
-          <div class="multisteps-form__progress1">
+          <div class="multisteps-form__progress1 main-tab">
            
               
               <button class="multisteps-form__progress-btn "  (click)="onNavigate('term-sheet')"
@@ -24,7 +24,7 @@
                   Negotiations</button>
                   <button class="multisteps-form__progress-btn "  (click)="onNavigate('disbursement')"
                   [ngClass]="{'js-active': locationIndex >= 4}"
-                     type="button" id="applicant_bank_details" *ngIf="roleType == '4'">
+                     type="button" id="applicant_bank_details" *ngIf="roleType == '4' || roleType == '7' ">
                      Disbursement</button>
 
                   <button  class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 4}"
@@ -37,7 +37,7 @@
                      Disbursement</button>
 
                   <button  class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"
-                    type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" *ngIf="roleType == '4'">
+                    type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" *ngIf="roleType == '4' || roleType == '7'">
                     Check List 
                 </button>
                  
@@ -47,19 +47,66 @@
                 *ngIf="roleType == '4'">
                 PDC Details </button>
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 7}"
-                  type="button" id="applicant_identity_details" (click)="onNavigate('welomce-letter')" 
-                  *ngIf="roleType == '5'">
-                  Welcome Letter
+                  type="button" id="applicant_identity_details" (click)="onNavigate('remarks')" 
+                  *ngIf="roleType == '7'">
+                  Remarks
               </button>
-              <!-- {{productCatCode}}test -->
-              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 8}"
+              
+             <!--  <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 8}"
                 type="button" id="applicant_identity_details" (click)="onNavigate('delivery-order')" 
                 *ngIf="roleType == '5' && productCatCode == 'NCV'">
                 Delivery Order
-            </button>
-
+            </button> -->
+             
              
               
+          </div>
+          <div class="scrollmenu">
+            <button class="multisteps-form__progress-btn "  (click)="onNavigate('term-sheet')"
+           [ngClass]="{'js-active': locationIndex >= 0}"
+              type="button" id="applicant_bank_details">
+              Term Sheet</button>
+              <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 1}"
+                type="button" id="applicant_identity_details" (click)="onNavigate('sanction-details')" >
+                Sanction Details
+            </button> 
+            <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
+              type="button" id="applicant_basic_details" (click)="onNavigate('pdc-details')" *ngIf="roleType == '5'">
+              PDC Details </button>
+            <button class="multisteps-form__progress-btn "  (click)="onNavigate('negotiation')"
+           [ngClass]="{'js-active': locationIndex >= 3}"
+              type="button" id="applicant_bank_details">
+              Negotiations</button>
+              <button class="multisteps-form__progress-btn "  (click)="onNavigate('disbursement')"
+              [ngClass]="{'js-active': locationIndex >= 4}"
+                 type="button" id="applicant_bank_details" *ngIf="roleType == '4' || roleType == '7' ">
+                 Disbursement</button>
+
+              <button  class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 4}"
+                type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" *ngIf="roleType == '5'">
+                Check List 
+            </button>
+            <button class="multisteps-form__progress-btn "  (click)="onNavigate('disbursement')"
+              [ngClass]="{'js-active': locationIndex >= 5}"
+                 type="button" id="applicant_bank_details" *ngIf="roleType == '5'">
+                 Disbursement</button>
+
+              <button  class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 5}"
+                type="button" id="applicant_identity_details" (click)="onNavigate('check-list')" *ngIf="roleType == '4' || roleType == '7'">
+                Check List 
+            </button>
+             
+         
+          <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 6}"
+            type="button" id="applicant_basic_details" (click)="onNavigate('pdc-details')" 
+            *ngIf="roleType == '4'">
+            PDC Details </button>
+            <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 7}"
+              type="button" id="applicant_identity_details" (click)="onNavigate('remarks')" 
+              *ngIf="roleType == '7'">
+              Remarks
+          </button>
+
           </div>
 
           <!-- <div class="content" > -->

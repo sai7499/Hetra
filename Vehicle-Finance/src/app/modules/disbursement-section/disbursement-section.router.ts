@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DisbursementSectionComponent } from './disbursement-section.component';
 import { DisbursementFormComponent } from './disbursement-form/disbursement-form.component';
+import { TrancheDisburseComponent } from '@modules/disbursement-section/tranche-disburse/tranche-disburse.component';
 
 const routes: Routes = [
   
@@ -13,6 +14,10 @@ const routes: Routes = [
       {
         path: '',
         component: DisbursementFormComponent,
+      },
+      {
+        path: 'tranche-disburse',
+        component: TrancheDisburseComponent,
       },
      ],
   },

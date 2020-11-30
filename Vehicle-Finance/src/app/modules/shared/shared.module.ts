@@ -27,6 +27,8 @@ import { DocsUploadPipe } from './pipes/docs-upload.pipe';
 import { DraggableComponent } from './draggable-container/draggable-container.component';
 import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-docs-upload.component';
 import { ApplicantKycDetailsComponent } from './applicant-kyc-details/applicant-kyc-details.component';
+import { PddComponent } from './pdd-screen/pdd.component';
+import { UploadDiscussionComponent } from './upload-discussion/upload-discussion.component';
 
 import {
   BsDatepickerModule,
@@ -37,6 +39,9 @@ import { SharedDeviationComponent } from './shared-deviation/shared-deviation.co
 import { NegativeListModalComponent } from './negative-list-modal/negative-list.modal.component';
 import { MatTreeModule, MatIconModule } from '@angular/material';
 import { RejectReasonModalComponent } from './reject-reason-modal/reject-reason-modal.component';
+import { PageRedirectModalComponent } from './page-redirect-modal/page-redirect-modal.component';
+import { ReferenceComponent } from './reference/reference.component';
+import { WelomceLetterComponent } from '@modules/dde/cpc-maker/welomce-letter/welomce-letter.component';
 setTheme('bs4');
 
 @NgModule({
@@ -62,7 +67,12 @@ setTheme('bs4');
     DraggableComponent,
     ApplicantDocsUploadComponent,
     RejectReasonModalComponent,
-    ApplicantKycDetailsComponent
+    ApplicantKycDetailsComponent,
+    PageRedirectModalComponent,
+    ReferenceComponent,
+    PddComponent,
+    UploadDiscussionComponent,
+    WelomceLetterComponent
   ],
   imports: [
     CommonModule,
@@ -98,7 +108,12 @@ setTheme('bs4');
     ApplicantDocsUploadComponent,
     MatTreeModule,
     MatIconModule,
-    RejectReasonModalComponent
+    RejectReasonModalComponent,
+    PageRedirectModalComponent,
+    ReferenceComponent,
+    PddComponent,
+    UploadDiscussionComponent,
+    WelomceLetterComponent
   ],
 })
 export class SharedModule { }

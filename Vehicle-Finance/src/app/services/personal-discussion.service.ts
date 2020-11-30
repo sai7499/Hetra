@@ -179,4 +179,19 @@ export class PersonalDiscussionService {
     return this.httpService.post(url, body);
 
   }
+  deleteMarFinReference(data) {
+    const projectId = environment.projectIds.salesProjectId;
+    const processId = this.apiService.api.deleteMarFinReference.processId;
+    const workflowId = this.apiService.api.deleteMarFinReference.workflowId;
+    const body = {
+      projectId,
+      processId,
+      workflowId,
+      ProcessVariables: {
+        ...data
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 }

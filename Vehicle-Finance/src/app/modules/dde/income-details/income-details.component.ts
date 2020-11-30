@@ -16,6 +16,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-income-details',
@@ -135,6 +136,7 @@ export class IncomeDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
     private utilityService: UtilityService,
+    private loanViewService: LoanViewService
   ) {
     this.yearOneValue = (this.today - 1).toString() + '-' + (this.today)
     this.yearTwoValue = (this.today - 2).toString() + '-' + (this.today - 1)
@@ -833,7 +835,11 @@ this.getSalariedFoirIncome();
           this.addKeyFinancialDetails(keyFinancialObj)
         }
         const operationType = this.toggleDdeService.getOperationType();
-        if (operationType === '1' || operationType === '2') {
+        if (operationType) {
+          this.incomeDetailsForm.disable();
+          this.disableSaveBtn = true;
+        }
+        if (this.loanViewService.checkIsLoan360()) {
           this.incomeDetailsForm.disable();
           this.disableSaveBtn = true;
         }

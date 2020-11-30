@@ -1,4 +1,4 @@
-<form class="form multisteps-form__form" style="height: auto" [formGroup]="checklistForm">
+<form class="form multisteps-form__form" style="height: auto" [formGroup]="checklistForm" >
     <div class="container overflow-hidden">
 
 
@@ -8,11 +8,11 @@
                     <div class="panel-heading panel-primary" id="headingTwo1">
                         <h4 class="panel-title">
                             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
-                                Term sheets <i class="fa fa-angle-down"></i>
+                               Check List <i class="fa fa-angle-down"></i>
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
+                    <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true" *ngIf = "checkListMaster">
                         <div class="panel-body">
                             <ng-container>
                                 <div class="row">

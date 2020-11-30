@@ -36,8 +36,12 @@ import { PdListComponent } from './pd-list/pd-list.component';
 import { FiReportModule } from './fi-report/fi-report.module';
 import { PddDetailsComponent } from './pdd-details/pdd-details.component';
 import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.component';
-import { LoanStatusComponent } from './loan-status/loan-status.component';
+import { LoanBookingModule } from './loan-status/loan-booking.module';
+import { RcuComponent } from './rcu/rcu.component';
 // import { PdReportComponent } from './pd-report/pd-report.component';
+import { PSLdataComponent } from './psldata/psldata.component';
+import { MatFormField, MatSelectModule } from '@angular/material';
+import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
 
 @NgModule({
   declarations: [
@@ -66,9 +70,10 @@ import { LoanStatusComponent } from './loan-status/loan-status.component';
     PdListComponent,
     PddDetailsComponent,
     ChequeTrackingComponent,
-    LoanStatusComponent
+    RcuComponent,
 
-
+    PSLdataComponent,
+    LoanDetailsComponent
   ],
   imports: [
     DdeRoutingModule,
@@ -84,8 +89,11 @@ import { LoanStatusComponent } from './loan-status/loan-status.component';
     PdReportModule,
     CreditConditionModule,
     ViabilityDashboardModule,
-    FiReportModule
+    FiReportModule,
+    LoanBookingModule,
+    MatSelectModule,
+    // MatFormField
   ],
-  exports: [ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
+  exports: [MatSelectModule, ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
 })
 export class DdeModule { }

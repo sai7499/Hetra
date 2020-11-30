@@ -118,7 +118,6 @@ export class UploadModalComponent {
           var binaryData = e.target.result;
           //Converting Binary Data to base 64
           var base64String = window.btoa(binaryData);
-          console.log('base64String', base64String);
           resolve(base64String)
           //showing file converted to base64
           // document.getElementById('base64').value = base64String;
@@ -192,18 +191,35 @@ export class UploadModalComponent {
 
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
-    let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
-    const name = this.docsDetails.docNm.replace('/', '_OR_');
-    fileName =
+    let name = this.docsDetails.docNm.replace(' ', '_');
+    name = name.replace('/', '_OR_');
+    let fileName = '';
+    if (this.docsDetails.docCtgryCd === 50) {
+      fileName = name + '.' + this.fileType;
+    } else {
+      fileName =
       name +
       new Date().getFullYear() +
       +new Date() +
       '.' +
       this.fileType;
+    }
     this.docsDetails.docNm = fileName;
     const addDocReq = [
       {
-        ...this.docsDetails,
+        // ...this.docsDetails,
+        docTp: this.docsDetails.docTp,
+        docSbCtgry: this.docsDetails.docSbCtgry,
+        docNm: this.docsDetails.docNm,
+        docCtgryCd: this.docsDetails.docCtgryCd,
+        docCatg: this.docsDetails.docCatg,
+        docTypCd: this.docsDetails.docTypCd,
+        flLoc: this.docsDetails.flLoc,
+        docCmnts: this.docsDetails.docCmnts,
+        bsPyld: this.docsDetails.bsPyld,
+        docSbCtgryCd: this.docsDetails.docSbCtgryCd,
+        docRefId: this.docsDetails.docRefId,
+
       },
     ];
     this.uploadService
@@ -261,6 +277,7 @@ export class UploadModalComponent {
             documentDetails.imageUrl = this.imageUrl;
             documentDetails.docsTypeForString = this.docsDetails.docsTypeForString;
           }
+          documentDetails['fileName'] = this.fileName;
           this.uploadSuccess.emit(documentDetails);
           this.imageUrl = '';
           this.fileName = '';

@@ -25,7 +25,17 @@ import { PdListComponent } from './pd-list/pd-list.component';
 import { PddDetailsComponent } from './pdd-details/pdd-details.component';
 import { ChequeTrackingComponent } from './cheque-tracking/cheque-tracking.component';
 import { LoanStatusComponent } from './loan-status/loan-status.component';
+import { LoanBookingComponent } from './loan-status/loan-booking/loan-booking.component';
+import { ReferenceComponent } from '@modules/shared/reference/reference.component';
+import { RcuComponent } from './rcu/rcu.component';
+import { PSLdataComponent } from './psldata/psldata.component';
 
+import { CreditConditionsComponent } from '@modules/dde/credit-conditions/credit-conditions.component';
+import { SanctionDetailsComponent } from '@modules/dde/credit-decisions/sanction-details/sanction-details.component';
+import { TermSheetComponent } from './credit-decisions/term-sheet/term-sheet.component';
+import { WelomceLetterComponent } from './cpc-maker/welomce-letter/welomce-letter.component';
+import { DeliveryOrderComponent } from './cpc-maker/delivery-order/delivery-order.component';
+import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
 const routes: Routes = [
   {
     path: ':leadId',
@@ -47,6 +57,10 @@ const routes: Routes = [
       {
         path: 'vehicle-list',
         component: VehicleListComponent,
+      },
+      {
+        path: 'reference',
+        component: ReferenceComponent,
       },
       {
         path: 'fleet-details',
@@ -86,7 +100,7 @@ const routes: Routes = [
       },
       {
         path: 'psl-data',
-        component: PslDataComponent,
+        component: PSLdataComponent,
       },
       {
         path: 'applicant-list',
@@ -95,6 +109,14 @@ const routes: Routes = [
       {
         path: 'tvr-details',
         component: TvrDetailsComponent,
+      },
+      {
+        path: 'rcu-initiate',
+        component: RcuComponent,
+      },
+      {
+        path: 'rcu',
+        component: RcuComponent,
       },
       {
         path: 'cam',
@@ -129,9 +151,45 @@ const routes: Routes = [
         component: ChequeTrackingComponent,
       },
       {
-        path: 'loan-status',
-        component: LoanStatusComponent,
+        path: 'loanbooking',
+        component: LoanBookingComponent,
       },
+      {
+        path: 'negotiation',
+        loadChildren: () =>
+          import(
+            '@modules/negotiation/negotiation.module'
+          ).then((m) => m.NegotiationModule),
+      },
+      {
+        path: 'credit-conditions',
+        component: CreditConditionsComponent
+      },
+      {
+        path: 'disbursement',
+        loadChildren: () => import('@modules/disbursement-section/disbursement-section.module').then(m => m.DisbursementSectionModule)
+      },
+      {
+        path: 'sanction-letter',
+        component: SanctionDetailsComponent
+      },
+      {
+        path: 'term-sheet',
+        component: TermSheetComponent
+      },
+      {
+        path: 'welcome-letter',
+        component: WelomceLetterComponent
+      },
+      {
+        path: 'delivery-order',
+        component: DeliveryOrderComponent
+      },
+      {
+        path: 'loan-details',
+        component: LoanDetailsComponent
+      }
+
     ],
   },
 ];

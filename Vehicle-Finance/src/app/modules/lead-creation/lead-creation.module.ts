@@ -12,6 +12,7 @@ import { LeadCreationRouterModule } from "./lead-creation.router";
 import { LeadDedupeComponent } from "./lead-dedupe/lead-dedupe.component";
 import { LeadComponent } from "./lead.component";
 import { DateInputModule, DatePickerModule } from '@progress/kendo-angular-dateinputs';
+import { ExistingLeadCreationComponent } from './existing-lead-creation/existing-lead-creation.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { DateInputModule, DatePickerModule } from '@progress/kendo-angular-datei
     LeadCreationComponent,
     LeadDedupeComponent,
     LeadComponent,
+    ExistingLeadCreationComponent,
   ],
   imports: [
     CommonModule,

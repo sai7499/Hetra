@@ -169,7 +169,6 @@
                 </app-vf-custom-select>
             </div>
 
-
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="customer_profile">{{ labels.customerProfile }}
                     <sub class="star_red_col">*</sub></label>
@@ -183,12 +182,35 @@
         <div class="row">
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+                <label for="educational_background_type">{{ labels.educationalBackground }}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="LOV?.LOVS?.educationalQualification"
+                    formControlName="educationalBackgroundType" [isRequired]="'Educational Qualification Required'"
+                    [isDirty]="isDirty">
+                </app-vf-custom-select>
+            </div>
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="prior_experience">{{ labels.priorExperience }}
                     <sub class="star_red_col">*</sub></label>
                 <app-vf-custom-select [values]="applicantLov?.priorExperience" formControlName="priorInfo"
                     [isRequired]="'Please select one'" [isDirty]="isDirty">
                 </app-vf-custom-select>
             </div>
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12"
+                *ngIf="productCatoryCode === 'NCV' || productCatoryCode === 'UCV'">
+                <label for="vehicle_application">{{ labels.vehicleApplication }}
+                    <sub class="star_red_col">*</sub></label>
+                <app-vf-custom-select [values]="LOV?.LOVS?.vehicleApplication" formControlName="vehicleApplication"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty">
+                </app-vf-custom-select>
+            </div>
+
+        </div>
+
+        <div class="row">
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="business_key">{{ labels.businessKey }}
@@ -209,10 +231,6 @@
                 </app-vf-custom-select>
             </div>
 
-        </div>
-
-        <div class="row">
-
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="business_type">{{ labels.businessType }}
                     <sub class="star_red_col">*</sub></label>
@@ -221,19 +239,9 @@
                 </app-vf-custom-select>
             </div>
 
-            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
-                <label for="nature_of_business">{{ labels.natureOfBusiness }}
-                </label>
-                <app-vf-custom-select [values]="applicantLov?.natureOfBusiness" formControlName="natureOfBusiness">
-                </app-vf-custom-select>
-            </div> -->
+        </div>
 
-            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
-                <label for="educational_background_type">{{ labels.educationalBackground }}
-                    <sub class="star_red_col">*</sub>
-                </label>
-                <app-vf-custom-select [values]="" formControlName="educationalBackground"></app-vf-custom-select>
-            </div> -->
+        <div class="row">
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="is_minority">{{ labels.isMinority }}
@@ -251,10 +259,6 @@
                 </app-vf-custom-select>
             </div>
 
-        </div>
-
-        <div class="row">
-
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="srto">{{ labels.srto }}
                     <sub class="star_red_col">*</sub></label>
@@ -262,6 +266,10 @@
                     [maxLength]="labels.validationData?.srto?.maxLength" [isDirty]="isDirty"
                     [placeholder]="'Enter SRTO'" [type]="labels.validationData?.srto?.type"></app-custom-input>
             </div>
+
+        </div>
+
+        <div class="row">
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="contact_number">{{ labels.contactNumber }}
@@ -289,10 +297,6 @@
 
             </div>
 
-        </div>
-
-        <div class="row">
-
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="email_id">{{ labels?.emailAddress }}
                     <sub class="star_red_col">*</sub></label>
@@ -301,6 +305,10 @@
                     [maxlength]="labels.validationData?.emailPattern?.maxLength" [placeholder]="'Enter Email Address'">
                 </app-custom-input>
             </div>
+
+        </div>
+
+        <div class="row">
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="resident_status">{{ labels?.residentStatus }}
@@ -318,9 +326,6 @@
                 </app-vf-custom-select>
             </div>
 
-        </div>
-
-        <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 pad-zero">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
                     <label for="no_of_years_residing">{{ labels?.noOfYearsResiding }}
@@ -354,6 +359,10 @@
                 </app-vf-custom-select> -->
             </div>
 
+        </div>
+
+        <div class="row">
+
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="no_of_adults_dependant">{{ labels?.noOfAdultsDependant }}
                     <sub class="star_red_col">*</sub></label>
@@ -378,6 +387,50 @@
                 </app-custom-input>
 
             </div>
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+                <label for="locality">{{ labels.locality }} <sub class="star_red_col">*</sub></label>
+                <app-vf-custom-select [values]="(LOV?.LOVS)['fi/PdResidentialLocality']"
+                    formControlName="residentialLocality" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                </app-vf-custom-select>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+                <label for="house_ownership">{{ labels.houseOwnership }}
+                    <sub class="star_red_col">*</sub></label>
+
+                <app-vf-custom-select [values]="(LOV?.LOVS)['fi/PdHouseOwnership']" formControlName="houseOwnership"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty"
+                    (change)="houseOwnerShip($event.target.value)">
+                </app-vf-custom-select>
+            </div>
+
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+                <label for="property_area">{{ labels.propertyArea }} <sub class="star_blue_col">*</sub></label>
+                <app-custom-input id="property_area" [placeholder]="'Enter area of  property'"
+                    formControlName="areaOfProperty" [type]="labels?.validationData?.propertyArea?.type" [isRequired]="
+                        ownerNamePropertyAreaRequired
+                          ? 'Area of property is required'
+                          : ''
+                      " [maxLength]="labels?.validationData?.propertyArea?.maxLength"
+                    [minLength]="labels?.validationData?.propertyArea.minLength" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+
+            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                <label for="loan_amt">{{ labels.propertyValue }} <sub class="star_blue_col">*</sub></label>
+                <app-custom-input id="loan_amt" formControlName="propertyValue" placeholder="property value"
+                    [type]="labels?.validationData?.amountValue?.type" [isRequired]="
+                  ownerNamePropertyAreaRequired
+                    ? 'Value of property is required'
+                    : ''" [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                </app-custom-input>
+            </div>
+
         </div>
 
         <div class="row">
@@ -399,7 +452,6 @@
                     [isDirty]="isDirty" [isDisabled]="true">
                 </app-custom-input>
             </div>
-
         </div>
 
         <div class="btn-sec clear-both row cst_btm_btns">

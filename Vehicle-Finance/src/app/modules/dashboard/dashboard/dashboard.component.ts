@@ -1,22 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '@services/dashboard/dashboard.service';
-import { LoginService } from '../../login/login/login.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UtilityService } from '@services/utility.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { TaskDashboard } from '@services/task-dashboard/task-dashboard.service';
 import { ToasterService } from '@services/toaster.service';
-import { Router } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-import { NumberFormatStyle, Location } from '@angular/common';
-import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { Location } from '@angular/common';
 import { environment } from 'src/environments/environment';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { debounceTime, retry, share, switchMap } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { QueryModelService } from '@services/query-model.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
-// for sales
+import { PollingService } from '@services/polling.service';
+import { timer } from 'rxjs';
+import { LeadHistoryService } from '@services/lead-history.service';
+import { CommonDataService } from '@services/common-data.service';
+import { SupervisorService } from '@modules/supervisor/service/supervisor.service';
+
 export enum DisplayTabs {
   Leads,
   PD,
@@ -56,8 +60,23 @@ export enum DisplayTabs {
   CPCCheckerWithBranch,
   PreDisbursementQueue,
   PreDisbursementWithMe,
-  PreDisbursementWithBranch
-}
+  PreDisbursementWithBranch,
+  PDDforCPC,
+  PDDWithMe,
+  PDDWithBranch,
+  ReversedLeadsWithMe,
+  ReversedLeadsWithBranch,
+  RCU,
+  RCUWithMe,
+  RCUWithBranch,
+  CPCCAD,
+  CPCCADWithMe,
+  CPCCADWithBranch,
+  TranchesDisburse,
+  TrancheDisburseWithBranch,
+  TrancheDisburseReversedWithMe,
+  TrancheDisburseReversedWithBranch
+  }
 
 export enum sortingTables {
   ByLeadId,
@@ -72,10 +91,21 @@ export enum sortingTables {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  roleList = [
+    'USER 1',
+    'USER 2',
+    'USER 3',
+    'USER 4',
+    'USER 5',
+    'USER 6',
+  ];
+
+  roleFilter = new FormControl(this.roleList);
+  supervisorForm: FormGroup
   filterForm: FormGroup;
   showFilter;
-  roleType;
+  roleType: any;
   labels: any = {};
   validationData;
   isDirty: boolean;
@@ -120,79 +150,195 @@ export class DashboardComponent implements OnInit {
   isPDD;
   isChequeTracking;
   isLog;
-
-
-  // roleType;
+  isAmountChange: boolean;
   isLoadLead = true;
   onAssignTab: boolean;
   onReleaseTab: boolean;
 
+  // Query Model
+  leadCount: number = 0;
+  userId: string;
+  intervalId: any;
+  isIntervalId: boolean = false;
+  subscription: any;
+
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
+  endDateChange: string;
+  disbFromDate: any;
+  disbToDate: string;
+  supervisor: boolean;
+  userName: any;
+  reAssignData: any;
+  loginId: any;
+  userData: any;
+  supervisorRoleId: any;
+  supervisorRoleType: any;
+  userDetailsRoleType: any;
+  selfAssign: boolean;
+  selfAssignLoginId: any;
+  showModal: boolean;
+  @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
+  @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
+  @ViewChild('closeModal2', { static: false }) public closeModal2: ElementRef;
+  userDetailsRoleId: any;
+  supervisorUserId: any;
+  
+  
+  TrancheDisbList: any[];
+  trancheDetails: any[];
+  TrancheDisbTaskList: any[];
+  loginUserId: string;
+  supervisorName: any;
+  leadTaskId: any;
+  pendingName: any;
+  dataToReassign: any;
+  selfAssignData: any;
+  selfAssignLeadId: any;
+  declinedFlow = false;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
     private fb: FormBuilder,
     private dashboardService: DashboardService,
-    private loginService: LoginService,
     private loginStoreService: LoginStoreService,
     private labelService: LabelsService,
     private utilityService: UtilityService,
-    private labelsData: LabelsService,
     private vehicleDataStoreService: VehicleDataStoreService,
     private router: Router,
+    private aRoute: ActivatedRoute,
     private taskDashboard: TaskDashboard,
     private toasterService: ToasterService,
     private sharedService: SharedService,
-    private applicantStoreService: ApplicantDataStoreService,
     private toggleDdeService: ToggleDdeService,
-    private location: Location
+    private location: Location,
+    private pollingService: PollingService,
+    private queryModelService: QueryModelService,
+    private leadHistoryService: LeadHistoryService,
+    private commonDataService: CommonDataService,
+    private supervisorService: SupervisorService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
     } else {
       this.itemsPerPage = '25';
     }
-    // if (window.screen.width > 768) {
-    //   this.itemsPerPage = '25';
-    // } else if (window.screen.width <= 768) {
-    //   this.itemsPerPage = '5';
-    // }
+
+    this.leadId = this.aRoute.snapshot.params['leadId'];
+
   }
 
   ngOnInit() {
+    const thisUrl = this.router.url;
+    console.log(thisUrl);
+    this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
+      console.log(value);
+      if (value) {
+        this.userName = value.roleName;
+        this.supervisorRoleId = value.roleId;
+        this.supervisorRoleType = value.roleType;
+      }
+    });
+    this.sharedService.isSupervisorRoleId.subscribe((value: any) => {
+      console.log(value);
+      if (value) {
+        this.supervisorUserId = value;
+      }
+
+    });
+    this.sharedService.isSupervisorName.subscribe((value: any) => {
+      console.log(value);
+      if(value) {
+        this.supervisorName = value;
+      }
+      
+    })
+
+
     this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
       this.branchId = userDetails.branchId;
-      this.roleId = userDetails.roleId;
+      this.userDetailsRoleId = userDetails.roleId;
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
-      this.roleType = userDetails.roleType;
+      this.userDetailsRoleType = userDetails.roleType;
+      this.selfAssignLoginId = userDetails.loginId;
     });
+
+
+    if (this.supervisorRoleType == this.userDetailsRoleType) {
+      this.selfAssign = true;
+    } else {
+      this.selfAssign = false;
+    }
+    if (this.userName) {
+      this.roleType = this.supervisorRoleType;
+      this.loginUserId = this.supervisorUserId;
+      this.roleId = this.supervisorRoleId;
+      this.loginUserId = this.supervisorUserId;
+      this.router.navigate(['/pages/supervisor/dashboard']);
+      this.pendingName = this.supervisorName;
+    } else {
+      this.roleType = this.userDetailsRoleType;
+      this.roleId = this.userDetailsRoleId;
+      this.loginUserId = localStorage.getItem('userId');
+      this.router.navigate(['/pages/dashboard']);
+      this.pendingName = 'Me';
+    }
+    console.log(this.roleType);
+
+    this.supervisorForm = this.fb.group({
+      roles: ['', Validators.required]
+    });
+
+    if (this.router.url === "/pages/supervisor/dashboard") {
+      this.supervisor = true;
+    } else {
+      this.supervisor = false;
+    }
+
+
+
+    this.userId = localStorage.getItem('userId')
+
+    localStorage.removeItem('is_pred_done');
+    localStorage.removeItem('isPreDisbursement');
+    localStorage.removeItem('istermSheet');
+    localStorage.removeItem('salesResponse');
+    localStorage.removeItem('isFiCumPd');
+
+
     localStorage.setItem('isPreDisbursement', 'false');
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
-      console.log('active', this.activeTab, 'sub-active', this.subActiveTab);
-      
+
       this.onTabsLoading(this.subActiveTab);
     } else {
-      if (this.roleType === 1) {
+      if (this.roleType == '1') {
         this.activeTab = 0;
         this.subActiveTab = 3;
         this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType === 2) {
+      } else if (this.roleType == '2') {
         this.activeTab = 18;
         this.subActiveTab = 21;
         this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType === 4) {
+      } else if (this.roleType == '4') {
         this.activeTab = 30;
         this.subActiveTab = 31;
         this.onTabsLoading(this.subActiveTab);
         this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe, 'CPC');
-      } else if (this.roleType === 5) {
+      } else if (this.roleType == '5') {
         this.activeTab = 33;
         this.subActiveTab = 34;
         this.onTabsLoading(this.subActiveTab);
         this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
+      } else if (this.roleType == '6') {
+        this.activeTab = 44;
+        this.subActiveTab = 45;
+        this.onTabsLoading(this.subActiveTab);
+      } else if (this.roleType == '7') {
+        this.activeTab = 47;
+        this.subActiveTab = 48;
+        this.onTabsLoading(this.subActiveTab);
       }
     }
 
@@ -203,10 +349,13 @@ export class DashboardComponent implements OnInit {
 
     this.filterForm = this.fb.group({
       leadId: [''],
+      loanNumber: [''],
       product: [''],
       leadStage: [''],
       fromDate: [''],
       toDate: [''],
+      disbFromDate: [''],
+      disbToDate: [''],
       loanMinAmt: [null],
       loanMaxAmt: [null]
     });
@@ -222,6 +371,54 @@ export class DashboardComponent implements OnInit {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     }
+
+    this.getCountAcrossLeads(this.userId)
+
+    setTimeout(() => {
+      if (currentUrl.includes('dashboard') && this.isIntervalId) {
+        this.intervalId = this.getPollCount()
+      } else {
+        clearInterval(this.intervalId)
+      }
+    }, 30000)
+
+  }
+
+  getPollCount() {
+    return setInterval(() => {
+      this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
+        console.log('Polling request')
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+        } else {
+          clearInterval(this.intervalId)
+        }
+      })
+    }, 30000)
+  }
+
+  getCountAcrossLeads(userId) {
+
+    this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+        this.isIntervalId = true;
+      } else {
+        this.leadCount = 0;
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
+      }
+    })
+
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId)
+  }
+
+  initinequery() {
+    const currentUrl = this.location.path();
+    localStorage.setItem('forQueryUrl', currentUrl);
+    this.router.navigateByUrl(`/pages/query-model`)
   }
 
   onSort(data) {
@@ -279,7 +476,7 @@ export class DashboardComponent implements OnInit {
       const minAmt = this.filterForm.get('loanMinAmt').value;
       const minLoanAmt = Number(minAmt || 0);
       if (data && minLoanAmt >= data) {
-        this.isFromDate = true;
+        this.isAmountChange = true;
         // this.toasterService.showWarning('Invalid Amount', '');
       }
     });
@@ -288,103 +485,89 @@ export class DashboardComponent implements OnInit {
   loanMinAmtChange() {
     this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
       if (data) {
-        this.isFromDate = true;
+        this.isAmountChange = true;
         this.filterForm.get('loanMaxAmt').setValue(null);
       } else {
-        this.isFromDate = false;
+        this.isAmountChange = false;
       }
     });
   }
 
   onChangeFromDate(event) {
     this.fromDateChange = this.utilityService.getDateFormat(event);
+
     if (this.fromDateChange) {
       this.isFromDate = true;
+    } else {
+      this.isFromDate = false;
     }
   }
   onChangeEndDate(event) {
-    const endDateChange = this.utilityService.getDateFormat(event);
-    if (endDateChange) {
+    this.endDateChange = this.utilityService.getDateFormat(event);
+    if (this.endDateChange) {
       this.isFromDate = false;
+    } else if (this.fromDateChange && (this.endDateChange == undefined || this.endDateChange == '')) {
+      this.isFromDate = true;
+    }
+  }
+
+  onChangeDisbFromDate(event) {
+    this.disbFromDate = this.utilityService.getDateFormat(event);
+    if (this.disbFromDate) {
+      this.isFromDate = true;
+    } else {
+      this.isFromDate = false;
+    }
+  }
+
+  onChangeDisbToDate(event) {
+    this.disbToDate = this.utilityService.getDateFormat(event);
+    if (this.disbToDate) {
+      this.isFromDate = false;
+    } else if (this.disbFromDate && (this.disbToDate == undefined || this.disbToDate == '')) {
+      this.isFromDate = true;
     }
   }
 
   onMinAmtChange(event) {
     this.minLoanAmtChange = event;
     if (this.minLoanAmtChange) {
-      this.isFromDate = true;
+      this.isAmountChange = true;
     }
   }
 
   onMaxAmtChange(event) {
     this.maxLoanAmtChange = event;
     if (this.maxLoanAmtChange) {
-      this.isFromDate = false;
+      this.isAmountChange = false;
     } else if (this.minLoanAmtChange && !this.maxLoanAmtChange) {
-      this.isFromDate = true;
+      this.isAmountChange = true;
     }
   }
 
   onFromDateChange() {
+    if (!this.displayTabs.PDD && !this.displayTabs.PDDforCPC) {
+
+    }
     this.filterForm.get('fromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
-      if (data) {
-        this.isFromDate = true;
+      if (data || this.filterForm.get('fromDate').dirty) {
+        // this.isFromDate = true;
         this.filterForm.get('toDate').setValue(null);
-      } else {
+      } else if (this.fromDateChange == undefined) {
+        this.isFromDate = false;
+      }
+    });
+
+    this.filterForm.get('disbFromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if (data || this.filterForm.get('disbFromDate').dirty) {
+        // this.isFromDate = true;
+        this.filterForm.get('disbToDate').setValue(null);
+      } else if (this.disbFromDate == undefined) {
         this.isFromDate = false;
       }
     });
   }
 
-
-  // loanMaxAmtChange() {
-  //     this.filterForm.get('loanMaxAmt').valueChanges.pipe(debounceTime(1000)).subscribe((data) => {
-
-  //       const minAmt = this.filterForm.get('loanMinAmt').value;
-  //       const minLoanAmt = Number(minAmt || 0);
-  //       if ((data && minLoanAmt >= data)) {
-  //         // this.filterForm.get('loanMaxAmt').setValue(null);
-  //         this.toasterService.showWarning('Invalid Amount', '');
-  //         this.isDisable = false;
-  //         console.log('min');
-  //       } else if (data) {
-  //         this.isDisable = true;
-  //       }
-  //     });
-  // }
-
-  // loanMinAmtChange() {
-  //     this.filterForm.get('loanMinAmt').valueChanges.pipe(debounceTime(300)).subscribe((data) => {
-  //       const maxAmt = this.filterForm.get('loanMaxAmt').value;
-  //       const minAmt = this.filterForm.get('loanMinAmt').value;
-  //       console.log(data);
-  //       if(data != "" || data != undefined){
-  //       if (parseFloat(maxAmt) <= parseFloat(data)) {
-  //         // this.filterForm.get('loanMaxAmt').setValue(null);
-  //         this.isDisable = false;
-  //         console.log('max')
-  //       }
-  //     } else if (maxAmt > data) {
-  //         this.isDisable = true;
-  //       }
-  //     });
-  // }
-
-  // loanMinAmtChange() {
-  //   setTimeout(() => {
-  //       const maxAmt = this.filterForm.value.loanMaxAmt;
-  //       const minAmt = this.filterForm.value.loanMinAmt;
-  //       console.log(minAmt);
-  //       if(minAmt != "" && minAmt != undefined){
-  //       if (parseFloat(maxAmt) <= parseFloat(minAmt)) {
-  //         this.isDisable = false;
-  //       }
-  //     }else{
-  //         this.isDisable = true;
-  //       }
-  //   }, 0);
-
-  // }
 
   // Loading dashboard pages
   onTabsLoading(data, event?) {
@@ -411,12 +594,12 @@ export class DashboardComponent implements OnInit {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -436,6 +619,7 @@ export class DashboardComponent implements OnInit {
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 6: case 7:
+        this.declinedFlow = true;
         this.taskName = 'Declined Leads';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
@@ -479,6 +663,34 @@ export class DashboardComponent implements OnInit {
         this.taskName = 'Predisbursement';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
+      case 40: case 41:
+        this.taskName = 'CPC-PDD';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 42: case 43:
+        this.taskName = 'Send Back To Sales';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 45: case 46:
+        this.taskName = 'RCU';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 48: case 49:
+        this.taskName = 'CPC-CAD';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+       case 51:
+        this.taskName = 'TrancheDisbursement';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);
+        break;  
+      case 52:
+        this.taskName = 'TrancheDisbursementPendingWithMe';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);
+        break; 
+      case 53:
+        this.taskName = 'TrancheDisbursementPendingWithBranch';
+        this.getTrancheDisburseLeads(this.itemsPerPage, event);	
+	
+        break;
       default:
         break;
     }
@@ -519,7 +731,8 @@ export class DashboardComponent implements OnInit {
       this.toggleDdeService.clearToggleData();
     }
 
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads || 
+      this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
     } else {
@@ -532,7 +745,7 @@ export class DashboardComponent implements OnInit {
   leads(data) {
     this.sortTab = '';
     this.subActiveTab = data;
-    if (this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
     } else {
@@ -655,7 +868,7 @@ export class DashboardComponent implements OnInit {
   // new leads
   getSalesLeads(perPageCount, pageNumber?) {
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: this.loginUserId,
       // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
       // tslint:disable-next-line: radix
@@ -694,10 +907,12 @@ export class DashboardComponent implements OnInit {
   }
 
   getTaskDashboardLeads(perPageCount, pageNumber?) {
+    
     const data = {
       taskName: this.taskName,
       branchId: this.branchId,
       roleId: this.roleId,
+      userId: this.loginUserId,
       // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
       // tslint:disable-next-line: radix
@@ -720,6 +935,75 @@ export class DashboardComponent implements OnInit {
     this.responseForCredit(data);
   }
 
+  getTrancheDisburseLeads(perPageCount, pageNumber?) {
+    const data = {
+      taskName: this.taskName,
+      branchId: this.branchId,
+      roleId: this.roleId,
+      // tslint:disable-next-line: radix
+      currentPage: parseInt(pageNumber),
+      // tslint:disable-next-line: radix
+      perPage: parseInt(perPageCount),
+      myLeads: this.myLeads,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      sortByDate: this.sortByDate,
+      sortByLead: this.sortByLead,
+      sortByLoanAmt: this.sortByLoanAmt,
+      sortByProduct: this.sortByProduct,
+      sortByStage: this.sortByStage
+    };
+    if(data.taskName == 'TrancheDisbursement')
+    this.responseForTrancheDisburse(data);
+    else {
+     this.responseForTaskTrancheDisburse(data) ;
+    }
+  }
+
+  responseForTrancheDisburse(data) {
+    this.dashboardService.getTrancheDisburseDetails(data).subscribe((res: any) => {
+      this.setTrancheDispersePageData(res,1);
+      if (res.ProcessVariables.TrancheDisbList != null) {
+        this.isLoadLead = true;
+      } else {
+        this.trancheDetails = [];
+        this.isLoadLead = false;
+        this.TrancheDisbList = [];
+      }
+    });
+  }
+  // for Dashboard Task Tranche Disburse
+  responseForTaskTrancheDisburse(data) {
+    this.dashboardService.getTaskTrancheDisburseDetails(data).subscribe((res: any) => {
+      this.setTrancheDispersePageData(res,2);
+      if (res.ProcessVariables.TrancheDisbTaskList != null) {
+        this.isLoadLead = true;
+      } else {
+        this.trancheDetails = [];
+        this.isLoadLead = false;
+        this.TrancheDisbTaskList = [];
+      }
+    });
+  }
+  setTrancheDispersePageData(res,val) {
+    this.trancheDetails = [];
+    const response = (val == 1) ? res.ProcessVariables.TrancheDisbList : res.ProcessVariables.TrancheDisbTaskList;
+    this.trancheDetails = response;
+    this.limit = res.ProcessVariables.perPage;
+    this.pageNumber = res.ProcessVariables.from;
+    this.count =
+      Number(res.ProcessVariables.totalPages) *
+      Number(res.ProcessVariables.perPage);
+    this.currentPage = res.ProcessVariables.currentPage;
+    this.totalItems = res.ProcessVariables.totalPages;
+    this.from = res.ProcessVariables.from;
+  }
+
   setPage(event) {
     this.onTabsLoading(this.subActiveTab, event);
   }
@@ -729,13 +1013,27 @@ export class DashboardComponent implements OnInit {
   }
 
   onRoutingTabs(data) {
+    switch (this.activeTab) {
+      case 15:
+        this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
+        break;
+      case 16:
+        this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
+        break;
+      case 17:
+        this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
+        break;
+
+      default:
+        break;
+    }
     switch (data) {
       case 4: case 5:
         localStorage.setItem('istermSheet', 'false');
         this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/credit-condition`);
         break;
       case 6: case 7:
-
+        this.router.navigateByUrl(`/pages/credit-decisions/${this.leadId}/cam`);
         break;
       case 8: case 9:
         this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
@@ -751,6 +1049,9 @@ export class DashboardComponent implements OnInit {
         break;
       case 23: case 24:
         this.router.navigateByUrl(`/pages/deviation-dashboard/${this.leadId}/dashboard-deviation-details`);
+        break;
+      case 53:
+        this.router.navigate([`/pages/disbursement-section/${this.leadId}/tranche-disburse`]);
         break;
       case 25: case 26:
         localStorage.setItem('istermSheet', 'false');
@@ -774,6 +1075,18 @@ export class DashboardComponent implements OnInit {
         break;
       case 37: case 38:
         this.router.navigateByUrl(`/pages/pre-disbursement/${this.leadId}/credit-condition`);
+        break;
+      case 40: case 41:
+        this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
+        break;
+      case 42: case 43:
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+        break;
+      case 45: case 46:
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/rcu`);
+        break;
+      case 48: case 49:
+        this.router.navigateByUrl(`/pages/cpc-maker/${this.leadId}/term-sheet`);
         break;
 
       default:
@@ -822,7 +1135,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onRelase(taskId, leadId) {
+  onRelase(taskId?, leadId?) {
     this.isRelease = true;
     this.isClaim = false;
     this.leadId = leadId;
@@ -841,7 +1154,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onAssign(taskId, leadId) {
+  onAssign(taskId?, leadId?) {
     this.isClaim = true;
     this.isRelease = false;
     this.leadId = leadId;
@@ -854,7 +1167,11 @@ export class DashboardComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
-        this.onRoutingTabs(this.subActiveTab);
+        if (this.userName) {
+          return;
+        } else {
+          this.onRoutingTabs(this.subActiveTab);
+        }
         this.saveTaskLogs();
       } else {
         this.toasterService.showError(response.Error, '');
@@ -862,10 +1179,124 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+
+  // Self-Assign Method
+  onSelfAssignClick(taskId, leadId) {
+    this.leadTaskId = taskId;
+    this.selfAssignLeadId = leadId;
+    console.log('on self assign click', this.selfAssignData);
+  }
+  onSupervisorAssign() {
+    // const data = {
+    //   taskId: this.leadTaskId,
+    //   loginId: this.selfAssignLoginId
+    // }
+    if ( this.subActiveTab === this.displayTabs.NewLeads ) {
+      this.dataToReassign = {
+        myLeads: true,
+        leadId: this.selfAssignLeadId,
+        loginId: this.selfAssignLoginId
+      };
+    } else {
+      this.dataToReassign = {
+        taskId: this.leadTaskId,
+        loginId: this.selfAssignLoginId
+      };
+    }
+    console.log(this.dataToReassign);
+
+    this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
+      console.log(res);
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.toasterService.showSuccess('Self Assigned Successfully', 'Self-Assign');
+        this.closeModal2.nativeElement.click();
+        this.onClick();
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, 'Self-Assign');
+      }
+
+    })
+
+  }
+
+  onReAssignClick(item) {
+    this.reAssignData = item;
+    console.log('on reAssign click', this.reAssignData);
+
+    // console.log(this.reAssignData);
+    this.getSupervisorUserDetails();
+    // console.log(this.supervisorForm);
+  }
+
+  getSupervisorUserDetails() {
+    const data = {
+      leadId: this.reAssignData.leadId,
+      roleId: this.supervisorRoleId,
+      userId: this.supervisorUserId
+    }
+    this.supervisorService.getSupervisorUserDetails(data).subscribe((res: any) => {
+      console.log(res);
+      this.userData = res.ProcessVariables.loginIds;
+      this.loginId = res.ProcessVariables.thisUser;
+
+    })
+  }
+
+  onConfirmAssign() {
+    this.showModal = true;
+  }
+
+  supervisorReAssign() {
+
+    if (this.subActiveTab === this.displayTabs.NewLeads) {
+      this.dataToReassign = {
+        myLeads: true,
+        leadId: this.reAssignData.leadId,
+        loginId: this.supervisorForm.value.roles
+      };
+    } else {
+      this.dataToReassign = {
+        taskId: this.reAssignData.taskId,
+        loginId: this.supervisorForm.value.roles
+      };
+    }
+    // const data = {
+    //   taskId: this.reAssignData.taskId,
+    //   myLeads: this.myLeads,
+    //   leadId: this.reAssignData.leadId,
+    //   loginId: this.supervisorForm.value.roles
+    // };
+    this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
+      console.log(res);
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if (appiyoError === '0' && apiError === '0') {
+        this.toasterService.showSuccess('Re Assigned Successfully', 'Re-Assign');
+        this.onClick();
+        this.closeModal.nativeElement.click();
+        this.closeModal1.nativeElement.click();
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, 'Re-Assign');
+      }
+
+    });
+  }
+
+  onBack() {
+    this.sharedService.getUserName('');
+    this.sharedService.getSupervisorName('');
+    this.sharedService.getUserRoleId('');
+    this.router.navigate(['pages/supervisor']);
+  }
+
   saveTaskLogs() {
     const data = {
       userId: localStorage.getItem('userId'),
-      leadId: this.leadId,
+      leadId: (this.leadId)?parseInt(this.leadId):null,
       isClaim: this.isClaim,
       isRelease: this.isRelease,
       taskName: this.taskName
@@ -883,6 +1314,7 @@ export class DashboardComponent implements OnInit {
   getLoanNumber(loanNumber) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab
     };
     this.sharedService.getLoanNumber(loanNumber);
   }
@@ -895,5 +1327,26 @@ export class DashboardComponent implements OnInit {
     this.sharedService.getTaskID(item.taskId);
     this.sharedService.setProductCatCode(item.productCatCode);
     this.sharedService.setProductCatName(item.productCatName);
+    this.sharedService.getDeclinedFlow(this.declinedFlow);
+  }
+
+  onLeadHistory(leadId) {
+    this.leadHistoryService.leadHistoryApi(leadId)
+      .subscribe(
+        (res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+
+          if (appiyoError === '0' && apiError === '0') {
+            const leadHistoryData = response;
+            console.log('leadHistoryData', leadHistoryData);
+            this.commonDataService.shareLeadHistoryData(leadHistoryData);
+          } else {
+            const message = response.ProcessVariables.error.message;
+            this.toasterService.showError(message, 'Lead Creation');
+          }
+        }
+      );
   }
 }

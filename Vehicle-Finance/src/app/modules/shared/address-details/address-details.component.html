@@ -22,7 +22,7 @@
               <input type="checkbox" id="address_section_checkbox" 
                 (click)="onAddSameAsApplicant($event)" 
                 [checked]="sameAsAppAddress"
-                [disabled]="disableSameAppAddress"/>
+                [disabled]="disableSameAppAddress || isLoan360"/>
               <span id="address_section_checkbox_text"> Address From Main Applicant?
               </span>
             </div>
@@ -66,7 +66,8 @@
                                         <option>City 3</option>
                                     </select> -->
                 <app-vf-custom-select formControlName="city" [values]="permanantPincode?.city"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" 
+                  (change)="cityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -123,27 +124,29 @@
             </div>
           </div>
           <div class="btn-sec clear-both row">
-            <div class="col-sm-2 col-md-2 col-lg-2">
-              <h4 class="title">Current Address</h4>
+            <div class="custom-col-22">
+              <h4 class="title">Communication Address</h4>
             </div>
-            <div class="col-sm-3 col-md-3 col-lg-3 text-center" id="align_this_texbox">
+            <div class="custom-col-30" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)"
-                [checked]="onPerAsCurChecked" [disabled]="disableCurrent || disableSaveBtn" />
+                [checked]="onPerAsCurChecked" [disabled]="disableCurrent || disableSaveBtn || isLoan360" />
               <span id="address_section_checkbox_text">&nbsp;Is it same as your permanent Address?
               </span>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 text-left" id="align_this_checkbox" *ngIf="showModCurrCheckBox">
+            <div class="custom-col-17" id="align_this_checkbox" *ngIf="showModCurrCheckBox">
               <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
-                [checked]="checkedModifyCurrent" [disabled]=" disableSaveBtn" />
-              <span id="address_section_checkbox_text">&nbsp;Modify Current Address
+                [checked]="checkedModifyCurrent" [disabled]=" disableSaveBtn || isLoan360" />
+              <span id="address_section_checkbox_text">&nbsp;Modify Current Address 
               </span>
             </div>
 
-            <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="showSrField">
+            <div class="form-group custom-col-30" *ngIf="showSrField">
               <label for="line1">SR Number</label>
               <app-custom-input formControlName="srNumber"
               (keyup)="validateSrNumber($event)"
                [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
+               [patternCheck]="validationData.srNumber.patternCheck"
+                      [maxLength]="validationData.srNumber.maxLength"
                 [type]="validationData.srNumber.type"></app-custom-input>
 
                 <div class="ShowError" 
@@ -195,7 +198,8 @@
                                         <option>City 3</option>
                                     </select> -->
                 <app-vf-custom-select formControlName="city" [values]="currentPincode?.city"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" 
+                  (change)="currentCityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -297,7 +301,7 @@
             </div>
             <div class="col-sm-7" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="officeSameAddress($event)"
-                [checked]="onCurrAsOfficeChecked" [disabled]="disableSaveBtn" />
+                [checked]="onCurrAsOfficeChecked" [disabled]="disableSaveBtn || isLoan360" />
               <span id="address_section_checkbox_text">Is it same as your current Address?
               </span>
             </div>
@@ -502,7 +506,8 @@
                                     <option>City 3</option>
                                 </select> -->
                 <app-vf-custom-select formControlName="city" [values]="registeredPincode?.city"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" 
+                  (change)="cityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -562,8 +567,10 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.alternateContactNumber }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"></app-custom-input>
+                <app-custom-input formControlName="mobileNumber" 
+                [maxLength]="validationData?.landlineNumber?.maxLength"
+                  [type]="validationData?.landlineNumber?.type">
+                </app-custom-input>
               </div>
 
 
@@ -577,7 +584,7 @@
               </div>
               <div class="col-sm-7" id="align_this_texbox">
                 <input type="checkbox" id="address_section_checkbox" (change)="onSameRegistered($event)"
-                  [checked]="onRegAsCommChecked" [disabled]="disableRegister || disableSaveBtn" />
+                  [checked]="onRegAsCommChecked" [disabled]="disableRegister || disableSaveBtn || isLoan360" />
                 <span id="address_section_checkbox_text">Is it same as your Registered Address?
                 </span>
               </div>
@@ -698,9 +705,11 @@
     <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
       </button></a>
+      <ng-container *ngIf="!isLoan360"> 
     <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
       Save
     </p>
+  </ng-container>
     <a id="next_vehicle_details"><button class="btn btn-primary" type="button" (click)="onNext()">
         Next
       </button></a>

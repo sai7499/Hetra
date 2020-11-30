@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpService } from '@services/http.service';
 import { environment } from './../../environments/environment';
@@ -14,11 +13,10 @@ import  mLanguageLabelsurltelugu  from '../../assets/labels/labels-telugu.json';
 import  mLanguageLabelsurlenglish  from '../../assets/labels/label_english.json';
 import  mLanguageLabelsurlkanada  from '../../assets/labels/labels_kanada.json';
 import  mLanguageLabelsurlmarati  from '../../assets/labels/labels_marathi.json';
-
-
-
-
-
+import  mLanguageLabelsurlgujarati from '../../assets/labels/label_gujarati.json';
+import  mLanguageLabelsurlhindi from '../../assets/labels/label_hindi.json';
+import  mLanguageLabelsurltamil from '../../assets/labels/label_tamil.json';
+import mChildLoanLabels from '../../assets/jsonData/child-loan.json'
 
 
 @Injectable({
@@ -76,7 +74,27 @@ export class LabelsService {
         return this.createObservableObj(mLanguageLabelsurlmarati);
         // return this.httpService.get(this.labelsurl);
         }
-
+    getWelcomeDatahindi(): Observable<any> {
+        // if(this.isMobile) {
+        //   return this.createObservableObj(mLabelsurl);
+        // }
+        return this.createObservableObj(mLanguageLabelsurlhindi);
+        // return this.httpService.get(this.labelsurl);
+         }
+    getWelcomeDatatamil(): Observable<any> {
+        // if(this.isMobile) {
+        //   return this.createObservableObj(mLabelsurl);
+        // }
+        return this.createObservableObj(mLanguageLabelsurltamil);
+        // return this.httpService.get(this.labelsurl);
+         }    
+      getWelcomeDatagujarati(): Observable<any> {
+        // if(this.isMobile) {
+        //   return this.createObservableObj(mLabelsurl);
+        // }
+        return this.createObservableObj(mLanguageLabelsurlgujarati);
+        // return this.httpService.get(this.labelsurl);
+         }  
 
   getLabelsOfDDEData(): Observable<any> {
     // if(this.isMobile) {
@@ -101,6 +119,10 @@ export class LabelsService {
     // }
     return this.createObservableObj(mLanguageLabelsurl);
     //return this.httpService.get(this.languageLabelsurl);
+  }
+
+  getChildLoanConditionData(): Observable<any> {
+    return this.createObservableObj(mChildLoanLabels);
   }
 
   createObservableObj(labelsurl:string){

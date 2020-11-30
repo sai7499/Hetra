@@ -8,6 +8,8 @@ import { DisbursementService } from '../services/disbursement.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStoreService } from '@services/login-store.service';
 import { LoanCreationService } from '@services/loan-creation.service';
+import { retry } from 'rxjs/operators';
+import { LoanViewService } from '@services/loan-view.service';
 declare var jquery: any;
 declare var $: any;
 
@@ -261,6 +263,9 @@ export class DisbursementFormComponent implements OnInit {
   fetchedCoApp2Data: boolean=false;
   fetchedCoApp3Data: boolean=false;
   cumulativeAmount: any;
+  flagBank : boolean;
+  flagFinance
+  isLoan360: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -272,7 +277,8 @@ export class DisbursementFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private loanCreationService: LoanCreationService
+    private loanCreationService: LoanCreationService,
+    private loanViewService: LoanViewService
   ) {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -282,7 +288,10 @@ export class DisbursementFormComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.flag = true;
+    this.flagBank = true;
+    this.flagFinance = true;
     this.initForm();
     this.getLabels();
     this.disbLOV();
@@ -1174,6 +1183,45 @@ export class DisbursementFormComponent implements OnInit {
       }
     });
   }
+
+  getBankerApplicantDetails(){
+    let ReqAppData = {
+      "LeadID":this.disbLeadId          
+      }
+      this.disbursementService.getApplicantDetails(ReqAppData).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      // const apiError = response.ProcessVariables.error.code;
+      // appiyoError === '0' && apiError === '0'
+      if (appiyoError === '0') {
+        console.log('applicantData', response)
+        this.flagBank = false;
+        const bankerDetailsData = response.ProcessVariables.ApplicantDetails;
+        const duplicateAppDetails: any = { ...bankerDetailsData };
+        this.bankerObjInfo['beneficiaryName'] = duplicateAppDetails.applicantName;
+      }
+    });
+  }
+
+  getFinanceApplicantDetails(){
+    let ReqAppData = {
+      "LeadID":this.disbLeadId          
+      }
+      this.disbursementService.getApplicantDetails(ReqAppData).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      // const apiError = response.ProcessVariables.error.code;
+      // appiyoError === '0' && apiError === '0'
+      if (appiyoError === '0') {
+        console.log('applicantData', response)
+        this.flagFinance = false;
+        const financeDetails = response.ProcessVariables.ApplicantDetails;
+        const duplicateAppDetails: any = { ...financeDetails };
+        this.financierObjInfo['beneficiaryName'] = duplicateAppDetails.applicantName;
+      }
+    });
+  }
+
   fetchLoanDetails() {
     this.disbursementService.fetchLoanDetails(this.disbLeadId).subscribe((res: any) => {
       const response = res;
@@ -1825,9 +1873,17 @@ export class DisbursementFormComponent implements OnInit {
             this.disburseToCoApp = true;
           }
           if (val[j] == '4DISBURSETO') {
+            
+            if (this.flagBank) {
+              this.getBankerApplicantDetails();
+            }
+
             this.disburseToBanker = true;
           }
           if (val[j] == '5DISBURSETO') {
+            if (this.flagFinance) {
+              this.getFinanceApplicantDetails();
+            }
             this.disburseToFinancier = true;
             // this.getBasicFiancierLov();
           }
@@ -1882,6 +1938,7 @@ export class DisbursementFormComponent implements OnInit {
       this.showBankerBankDetails = false;
       this.showBankerDDDetails = false;
       this.showBankerCASADetails = false;
+      this.flagBank = true;
       this.trancheBankerList = [];
       this.bankerformArray.forEach(key => {
         this.bankerDetailsForm.get(key).clearValidators();
@@ -1894,6 +1951,7 @@ export class DisbursementFormComponent implements OnInit {
       this.showFinBankDetails = false;
       this.showFinDDDetails = false;
       this.showFinCASADetails = false;
+      this.flagFinance = true;
       this.trancheFinancierList = [];
       this.finformArray.forEach(key => {
         this.financierDetailsForm.get(key).clearValidators();
@@ -1927,7 +1985,10 @@ export class DisbursementFormComponent implements OnInit {
 
     // });
   }
+  
   // this.qualityCriteriaForm.controls.avgAMBval.reset();
+
+
 
   selectCoApplicant(sNo) {
     //console.log('selectedCoAppLists', this.coAppNamesLov)
@@ -2412,8 +2473,10 @@ export class DisbursementFormComponent implements OnInit {
       // disburseTo:new FormControl(''),
       toDeductCharges: [''],
     })
+
     
-    if (this.roleType != '1' && this.roleType != '2'){
+    
+    if ((this.roleType != '1' && this.roleType != '2') || this.isLoan360){
       this.disbursementDetailsForm.disable();
       this.dealerDetailsForm.disable();
       this.appDetailsForm.disable();
@@ -2428,7 +2491,8 @@ export class DisbursementFormComponent implements OnInit {
     }
   }
 
-  saveAndUpdate() {
+  saveAndUpdate(fromButton?:string) {
+    console.log('roletype', this.roleType)
     // console.log(this.disburseTo)
     // console.log('1', this.dealerDetailsForm.valid);
     // console.log('2', this.appDetailsForm.valid);
@@ -2831,22 +2895,23 @@ export class DisbursementFormComponent implements OnInit {
               const apiError = response.ProcessVariables.error;
               if (apiError.code == '0') {
                 this.toasterService.showSuccess('saved successfully', '');
-                this.fetchDisbursementDetails();
+                this.fetchDisbursementDetails();                
+                this.onNext(true);
               } else {
-                this.toasterService.showError(apiError.message, '');
+                this.toasterService.showError(apiError.message, '');                
               }
               console.log('saveUpdate', response.ProcessVariables)
             }
           });
 
         } else {
-          this.toasterService.showError('Please fill all mandatory fields', '');
+          this.toasterService.showError('Please fill all mandatory fields', '');         
         }
       } else {
-        this.toasterService.showError('Please select "from whom" deductions to be levied', '');
+        this.toasterService.showError('Please select "from whom" deductions to be levied', '');        
       }
     } else {
-      this.toasterService.showError('Please select "to whom" disbursement to be done', '');
+      this.toasterService.showError('Please select "to whom" disbursement to be done', '');     
     }
 
   }
@@ -2865,6 +2930,8 @@ export class DisbursementFormComponent implements OnInit {
         }
         if (this.disburseTo) {
           this.flag = (this.disbursementDetailsData.ApplicantDetails) ? false : true;
+          this.flagBank = (this.disbursementDetailsData.BankerDetails) ? false : true;
+          this.flagFinance = (this.disbursementDetailsData.FinancierDetails) ? false : true;
           this.disburseToVal(this.disburseTo);
         }
         if (this.disbursementDetailsData.DealerDetails) {
@@ -3212,6 +3279,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }
       }
+      
     });
   }
   getLeadId() {
@@ -3224,16 +3292,22 @@ export class DisbursementFormComponent implements OnInit {
       });
     });
   }
- onNext() {
-  if(this.roleType == '1') {
+ onNext(status?:boolean) {   
+  if (this.isLoan360) {
+    return this.router.navigateByUrl(`pages/dde/${this.disbLeadId}/negotiation`);
+  }
+  if(this.roleType == '1' && status == true) {    
     this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/sanction-details`]);
-  } else if (this.roleType == '2' ) {
+  } else if (this.roleType == '2' && status == true) {
     // this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/term-sheet`]);
     this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/cam`]);
   } else if( this.roleType == '4' ) {
     this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/check-list`]);
   } else if(  this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/welomce-letter`]);
+  }
+  else if( this.roleType == '7') {
+    this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/check-list`]);
   }
 }
   routerUrlIdentifier() {
@@ -3242,6 +3316,9 @@ export class DisbursementFormComponent implements OnInit {
     }
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.disbLeadId}/deviations`);
+    }
     // this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/negotiation`]);
     if (this.roleType == '1' || this.roleType == '2') {
       this.router.navigate([`pages/credit-decisions/${this.disbLeadId}/negotiation`]);
@@ -3249,6 +3326,9 @@ export class DisbursementFormComponent implements OnInit {
       this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/negotiation`]);
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.disbLeadId}/check-list`]);
+    }
+    else if (this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.disbLeadId}/negotiation`]);
     }
   }
 

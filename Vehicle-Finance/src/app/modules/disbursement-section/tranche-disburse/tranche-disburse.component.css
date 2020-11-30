@@ -1,0 +1,407 @@
+.row.top_bar {
+    border: 1px solid #ddd;
+    font-weight: 100;
+    border-radius: 6px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    background: white;
+   margin : 0 15px;
+  
+    }
+    
+    .form-group.mb-0 {
+      margin-bottom: 3px;
+    }
+    
+    label.col-form-label {
+      width: 62%;
+      padding-right: 0px;
+      padding-left: 0px;
+      font-weight: bolder;
+      font-size: 13.5px;
+      word-break: break-word;
+    }
+    
+    label.col-form-label-two {
+      width: 38%;
+      padding-right: 0px;
+      padding-left: 10px;
+      font-weight: normal;
+      font-size: 13.5px;
+      float: right;
+      word-break: break-word;
+    }
+    .panel-primary {
+      background-color: #1d1a4b !important;
+      color: white !important;
+  }
+  
+  /* .form label {
+      font-size: 13px !important;
+  } */
+  
+  
+  .image-upload input {
+      cursor: pointer;
+      opacity: 0;
+      height: 5%;
+      width: 5%;
+      z-index: 10;
+      position: absolute;
+      top: 0;
+      left: 0
+  }
+  
+  .fa.fa-upload {
+      font-size: 20px;
+  }
+  
+  .fa.fa-plus {
+      font-size: 20px;
+  }
+  
+  .fa.fa-minus {
+      font-size: 20px;
+  }
+  
+  .date_width {
+      width: 146px;
+      margin: 0px;
+      font-size: 12px;
+  }
+  
+  @media (min-width: 992px) {
+      .form .col-md-2 {
+          width: 20%;
+      }
+  }
+  
+  .form-group.col-sm-6.col-md-3.col-lg-3 {
+      width: 28%;
+  }
+  
+  .form-group.col-sm-6.col-md-4.col-lg-3 {
+      width: 28%;
+      max-width: 28%;
+  }
+  
+  .form-group.col-sm-3.col-md-2 {
+      width: 12.5%;
+  }
+  
+  .image-upload input {
+      cursor: pointer;
+      opacity: 0;
+      height: 5%;
+      width: 5%;
+      z-index: 10;
+      position: absolute;
+      top: 0;
+      left: 0
+  }
+  
+  .text-dec {
+      text-decoration: underline;
+  }
+  
+  .label_height {
+      height: 37px;
+  }
+  
+  .fa.fa-upload {
+      font-size: 20px;
+      cursor: pointer;
+  }
+  
+  .date_width {
+      width: 100%;
+      margin: 0px;
+      font-size: 12px;
+  }
+  
+  .upload_down {
+      margin-top: 30px;
+  }
+  
+  .image-upload {
+      margin-top: 8px;
+  }
+  
+  .action {
+      width: 100%;
+  }
+  
+  .form-group.col-sm-6.col-md-2.col-lg-3 {
+      width: 15%;
+  }
+  
+  .radio-inline.p-0.m-0 {
+      padding: 0px;
+      margin-left: 0px;
+      margin-top: 10px;
+  }
+  
+  .upload_sanction {
+      position: absolute;
+      font-size: 50px;
+      opacity: 0;
+      right: 87px;
+      top: 34px;
+      width: 95px;
+      height: 37px;
+  }
+  
+  .upload_label {
+      width: 100%;
+  }
+  
+  .file-input {
+      border: none;
+      border-bottom: 2px solid #0e25c7;
+      border-radius: 0px;
+  }
+  
+  .file-input:read-only {
+      background-color: #fff;
+	  border: none;
+	  box-shadow: none;
+      color: #1d1a4b;
+  }
+  
+  .file-input:hover {
+      cursor: pointer;
+      font-size: 16px;
+  }
+  .file-list {
+	  border-bottom: 1px solid #eaeaea;
+  }
+  
+  .mar-bot{
+      margin-bottom:20px;
+  }
+  .dis-block {
+    display: block;
+  }
+  .tranche-disburse-top-section .col-lg-3 {
+      width: 25%;
+  }
+  .tranche-disburse-top-section .form-group {
+	  margin-bottom: 5px;
+  }
+  .pending-disburse-container,
+  .earlier-disburse-container  {
+      width: 100%;
+      overflow-x: scroll;
+  }
+  .lead-detail-panel {
+      margin-bottom: 15px;
+  }
+  .pending-disburse-table-container {
+      width: 1850px;
+  }
+  .earlier-disburse-table-container {
+    width: 1700px;
+}
+  .pending-disburse-table-container .panel-heading.panel-primary,
+  .earlier-disburse-table-container .panel-heading.panel-primary {
+      height: 37px;
+  }
+  .pending-disburse-table-container .panel-body,
+  .earlier-disburse-table-container .panel-body {
+      padding: 15px 0;
+  }
+  
+  .pending-disbursement-table,
+  .pending-disbursement-section,
+  .earlier-disbursement-table,
+  .earlier-disbursement-section {
+      width: 100%;
+  }
+  .pending-disbursement-section,
+  .earlier-disbursement-section {
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 15px;
+  }
+  .pending-disbursement-section .form-group.pending-disb-data .btn-primary{
+	padding: 4px 10px;
+}
+  .pending-disbursement-section:last-child,
+  .earlier-disbursement-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+  }
+  .pending-disbursement-table .form-group,
+  .earlier-disbursement-table .form-group {
+      margin-bottom: 0;
+  }
+  .pending-disbursement-table .label_height,
+  .earlier-disbursement-table .label_height {
+      height: auto;
+  }
+  .pending-data-label,
+  .pending-disb-data,
+  .earlier-data-label,
+  .earlier-disb-data {
+      width: 9%;
+      display: inline-block;
+      text-align: center;
+      vertical-align: middle;
+  }
+  .earlier-data-label,
+  .earlier-disb-data {
+      width: 11%;
+      padding: 0 10px;;
+  }
+  .earlier-data-label:nth-child(3),
+  .earlier-disb-data:nth-child(3) {
+      width: 12%;
+  }
+  .earlier-data-label:nth-child(6),
+  .earlier-disb-data:nth-child(6) {
+      width: 9%;
+  }
+  .earlier-data-label:nth-child(7),
+  .earlier-disb-data:nth-child(7) {
+      width: 14%;
+  }
+  .earlier-data-label:nth-child(8),
+  .earlier-disb-data:nth-child(8) {
+      width: 10%;
+  }
+  .earlier-block {
+      margin: 0 auto;
+  }
+  .pending-data-label:first-child,
+  .pending-disb-data:first-child,
+  .pending-data-label:nth-child(10),
+  .pending-disb-data:nth-child(10) {
+      width: 8%;
+  }
+  .pending-data-label:nth-child(6),
+  .pending-disb-data:nth-child(6) {
+    width: 10%;
+  }
+  .pending-data-label:nth-child(9),
+  .pending-disb-data:nth-child(9) {
+    width: 13%;
+  }
+  .pending-data-label:last-child,
+  .pending-disb-data:last-child {
+      width: 6%;
+  }
+  .pending-disb-data {
+      padding:0 8px;
+      vertical-align: middle;
+  }
+  ::ng-deep .dealers-modal .modal-dialog {
+      width: 50%;
+  }
+  ::ng-deep .dealers-modal .modal-title,
+  ::ng-deep .dis-block .modal-title {
+      font-size: 24px;
+      padding: 0 20px;
+      text-align: left;
+  }
+  ::ng-deep .dis-block .modal-title {
+      padding: 0 10px;
+  }
+  ::ng-deep .dealers-modal .modal-header .close,
+  ::ng-deep .dis-block .modal-header .close {
+      margin-top: 6px;
+  }
+  /* ::ng-deep .dealers-modal .modal-header {
+      border-bottom: none;
+  } */
+  .inner-modal-title {
+      font-size: 18px;
+  }
+  ::ng-deep .dealers-modal .modal-footer {
+      border-top: none;
+  }
+  .pending-earlier-section {
+      background: #fff;
+      margin: 0 10px;
+      padding: 15px 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+  }
+  .pending-earlier-section .form {
+      padding: 0;
+  }
+  .pending-view-icon,
+  .pending-view-icon:hover {
+    border: none;
+    padding: 13px;
+    border-radius: 4px;
+    background: #eee url(../../../../assets/images/action-eye-icon.png) no-repeat 5px;
+  }
+  .pending-view-icon:hover {
+    background: #1d1a4b url(../../../../assets/images/action-eye-hover-icon.png) no-repeat 5px;
+  }
+  .marb-100 {
+      margin-bottom: 100px;
+  }
+
+.tranch-inner-heading {
+    margin-bottom: 10px;
+}
+.upload-input {
+    width: 75%;
+    display: inline-block;
+    vertical-align: middle;
+}
+.upload-icon {
+    width: 25%;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 7px 0 0;
+}
+/* .pending-disb-data input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+}
+
+.pending-disb-data input[type='checkbox']:after {
+    background: #28a745 !important;
+} */
+
+.pending-disb-data input[type='checkbox'] {
+	width: 20px;
+	height: 20px;
+	margin: 0 auto;
+	display: block;
+	position: relative;
+	cursor: pointer;
+}
+
+.pending-disb-data input[type='checkbox']:after {
+	content: "";
+	vertical-align: middle;
+	text-align: center;
+	line-height: 16px;
+	position: absolute;
+	cursor: pointer;
+	height: 20px;
+	width: 20px;
+	left: 0;
+	top: 0;
+	font-size: 14px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.pending-disb-data input[type='checkbox']:checked:after {
+	background: #28a745;
+	content: '\2714';
+	color: #fff;
+}
+.disable-check {
+    pointer-events: none;
+}
+.no-pad-top {
+	padding-top: 0;
+}
+
+

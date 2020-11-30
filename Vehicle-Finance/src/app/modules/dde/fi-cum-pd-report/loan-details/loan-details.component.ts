@@ -13,6 +13,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -43,7 +44,8 @@ export class LoanDetailsComponent implements OnInit {
   yearCheck = [];
   productCat: any;
   public toDayDate: Date = new Date();
-
+  entityTypeKey: string;
+  custCategory: string;
   amountPattern = {
     rule: '^[1-9][0-9]*$',
     msg: 'Numbers Only Required',
@@ -76,11 +78,14 @@ export class LoanDetailsComponent implements OnInit {
   insuranceStatus: any;
   insRequired: boolean;
   disableSaveBtn: boolean;
-  operationType: string;
+  operationType: boolean;
   insDisabled: boolean;
   vehCondStatus: any;
   vehCondRequired: boolean;
-
+  public vehicleRegPattern: {
+    rule?: any;
+    msg?: string;
+  }[];
 
 
   constructor(private labelsData: LabelsService,
@@ -95,7 +100,8 @@ export class LoanDetailsComponent implements OnInit {
     public sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
-    private toggleDdeService: ToggleDdeService) {
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
@@ -132,6 +138,7 @@ export class LoanDetailsComponent implements OnInit {
         this.errorMsg = error;
       });
     this.initForm();
+    this.vehicleRegPattern = this.validateCustomPattern();
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
@@ -149,7 +156,11 @@ export class LoanDetailsComponent implements OnInit {
 
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
+      this.loanDetailsForm.disable();
+      this.disableSaveBtn = true;
+    }
+    if (this.loanViewService.checkIsLoan360()) {
       this.loanDetailsForm.disable();
       this.disableSaveBtn = true;
     }
@@ -188,9 +199,15 @@ export class LoanDetailsComponent implements OnInit {
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
     console.log('in get lead section data', data);
+    for (const value of data['applicantDetails']) {
+      if (value['applicantId'] === this.applicantId) {
 
+        const applicantDetailsFromLead = value;
+        this.entityTypeKey = applicantDetailsFromLead['entityTypeKey'];
+        console.log('entity type key', this.entityTypeKey);
+      }
+    }
     const leadDetailsFromLead = data['leadDetails'];
-
     // this.applicantFullName = applicantDetailsFromLead['fullName']
     // this.mobileNo = applicantDetailsFromLead['mobileNumber']
     // console.log("in lead section data", this.applicantFullName, this.mobileNo)
@@ -246,6 +263,7 @@ export class LoanDetailsComponent implements OnInit {
       this.insDisabled = false;
       this.loanDetailsForm.get('insuranceValidity').enable();
       this.loanDetailsForm.get('insuranceValidity').setValidators(Validators.required);
+      this.loanDetailsForm.get('insuranceValidity').updateValueAndValidity();
     } else if (this.insuranceStatus !== '1') {
       this.insRequired = false;
       this.insDisabled = true;
@@ -274,6 +292,24 @@ export class LoanDetailsComponent implements OnInit {
 
     }
 
+  }
+  validateCustomPattern() {
+    const regPatternData = [
+      {
+        rule: (inputValue) => {
+          const patttern = '^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$';
+          if (inputValue.length === 10) {
+            return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{2}[0-9]{4}/).test(inputValue);
+          } else if (inputValue.length === 9) {
+            return !RegExp(/[A-Z-a-z]{2}[0-9]{2}[A-Z-a-z]{1}[0-9]{4}/).test(inputValue)
+          } else {
+            return true;
+          }
+        },
+        msg: 'Invalid Vehicle Registration Number, Valid Formats are: TN02AB1234/TN02A1234',
+      }
+    ];
+    return regPatternData;
   }
 
   initForm() {
@@ -494,6 +530,7 @@ export class LoanDetailsComponent implements OnInit {
 
         this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
         console.log('new cv details', this.newCvDetails);
+        this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
         // console.log('used vehicle details', this.usedVehicleDetails);
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;

@@ -6,15 +6,20 @@ import { LeadStoreService } from '@services/lead-store.service';
 import { Location } from '@angular/common';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-disbursement-section',
   templateUrl: './disbursement-section.component.html',
   styleUrls: ['./disbursement-section.component.css']
 })
 export class DisbursementSectionComponent implements OnInit {
-  constructor() { }
+  isLoan360: boolean;
+  constructor(private loanViewService: LoanViewService) { 
+  }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
   }
 
 }

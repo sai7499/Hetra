@@ -356,7 +356,7 @@
           >{{ labels.knowAbtVehicle }} <sub class="star_red_col">*</sub></label
         >
         <!-- <input type="text" class="form-control" id="know_abt_vechicle" formControlName="knowAbtVehicle"> -->
-        <app-custom-input
+        <!-- <app-custom-input
           id="know_abt_vechicle"
           formControlName="proposedVehicle"
           placeholder="how do you know about proposed vehilcle"
@@ -367,7 +367,14 @@
           "
           [isDirty]="isDirty"
         >
-        </app-custom-input>
+        </app-custom-input> -->
+        <app-vf-custom-select
+          [values]="(LOV?.LOVS)['howDoYouKnowAboutProposedVehicle']"
+          formControlName="proposedVehicle"
+          [isRequired]="'Please select one'"
+          [isDirty]="isDirty"
+        >
+        </app-vf-custom-select>
       </div>
     </div>
     <div
@@ -471,7 +478,7 @@
           formControlName="fundsUsage"
           placeholder="usage of funds"
           [type]="labels?.validationData?.name?.type"
-          [isRequired]="'usge of funds is required'"
+          [isRequired]="'Usage of funds is required'"
           [maxLength]="labels?.validationData?.name?.maxLength"
           [isDirty]="isDirty"
         >
@@ -588,27 +595,28 @@
           style="resize: none"
         ></textarea>
 
-        <div
-          class="invalid-feedback"
-          *ngIf="
-            loanDetailsForm.controls['othersRemarks'].touched &&
-            !loanDetailsForm.controls['othersRemarks'].vaild
-          "
-        >
+        <div class="invalid-feedback">
           <div
             *ngIf="
-              loanDetailsForm.controls['othersRemarks'].hasError('required')
+              loanDetailsForm.controls['othersRemarks'].touched &&
+              !loanDetailsForm.controls['othersRemarks'].valid
             "
           >
-            remarks are required
-          </div>
+            <div
+              *ngIf="
+                loanDetailsForm.controls['othersRemarks'].hasError('required')
+              "
+            >
+              remarks are required
+            </div>
 
-          <div
-            *ngIf="
-              loanDetailsForm.controls['othersRemarks'].hasError('pattern')
-            "
-          >
-            special characters are not allowed
+            <div
+              *ngIf="
+                loanDetailsForm.controls['othersRemarks'].hasError('pattern')
+              "
+            >
+              special characters are not allowed
+            </div>
           </div>
         </div>
       </div>
@@ -667,11 +675,13 @@
         >
         <app-custom-input
           formControlName="regNo"
-          placeholder="reg no"
+          placeholder="registration no"
           [inputClass]="'input-upper'"
           [type]="labels?.validationData?.vehicleRegNo?.type"
           [isRequired]="'registration number is required'"
+          [minLength]="labels?.validationData?.vehicleRegNo?.minLength"
           [maxLength]="labels?.validationData?.vehicleRegNo?.maxLength"
+          [custom]="vehicleRegPattern"
           [isDirty]="isDirty"
         >
         </app-custom-input>
@@ -773,28 +783,29 @@
           [min]="toDayDate"
         >
         </kendo-datepicker>
-        <div
-          class="invalid-feedback"
-          *ngIf="
-            loanDetailsForm.controls['permitValidity'].touched &&
-            !loanDetailsForm.controls['permitValidity'].vaild
-          "
-        >
+        <div class="invalid-feedback">
           <div
             *ngIf="
-              loanDetailsForm.controls['permitValidity'].hasError('required')
+              loanDetailsForm.controls['permitValidity'].touched &&
+              !loanDetailsForm.controls['permitValidity'].value
             "
           >
-            permit validity is required
+            <div
+              *ngIf="
+                loanDetailsForm.controls['permitValidity'].hasError('required')
+              "
+            >
+              permit validity is required
+            </div>
           </div>
-
-          <!-- <div
+          <div
             *ngIf="
-              loanDetailsForm.controls['othersRemarks'].hasError('pattern')
+              loanDetailsForm.controls['permitValidity'].value &&
+              loanDetailsForm.controls['permitValidity'].errors
             "
           >
-            special characters are not allowed
-          </div> -->
+            Validity date should not be past date
+          </div>
         </div>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -819,20 +830,29 @@
           [min]="toDayDate"
         >
         </kendo-datepicker>
-        <div
-          class="invalid-feedback"
-          *ngIf="
-            loanDetailsForm.controls['fitnessValidity'].touched &&
-            !loanDetailsForm.controls['fitnessValidity'].vaild
-          "
-        >
+        <div class="invalid-feedback">
           <div
             *ngIf="
-              loanDetailsForm.controls['fitnessValidity'].hasError('required')
+              loanDetailsForm.controls['fitnessValidity'].touched &&
+              !loanDetailsForm.controls['fitnessValidity'].value
             "
           >
-            fitness validity is required
+            <div
+              *ngIf="
+                loanDetailsForm.controls['fitnessValidity'].hasError('required')
+              "
+            >
+              fitness validity is required
+            </div>
           </div>
+          <div
+          *ngIf="
+            loanDetailsForm.controls['fitnessValidity'].value &&
+            loanDetailsForm.controls['fitnessValidity'].errors
+          "
+        >
+          Validity date should not be past date
+        </div>
         </div>
       </div>
     </div>
@@ -863,16 +883,24 @@
         >
         </kendo-datepicker>
         <div
-          class="invalid-feedback"
-          *ngIf="
+          class="invalid-feedback">
+          <div *ngIf="
             loanDetailsForm.controls['taxValidity'].touched &&
-            !loanDetailsForm.controls['taxValidity'].vaild
+            !loanDetailsForm.controls['taxValidity'].value
           "
         >
           <div
             *ngIf="loanDetailsForm.controls['taxValidity'].hasError('required')"
           >
             tax Validity is required
+          </div>
+          </div>
+          <div
+            *ngIf="
+            loanDetailsForm.controls['taxValidity'].value &&
+            loanDetailsForm.controls['taxValidity'].errors"
+          >
+            Validity date should not be past date
           </div>
         </div>
       </div>
@@ -899,14 +927,6 @@
         <label for="insurance_date"
           >{{ labels.insuranceDate }} <sub class="star_blue_col">*</sub></label
         >
-        <!-- <div class="input-group input-medium">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default">
-                            <i class="fa fa-calendar"></i>
-                        </button>
-                    </span>
-                    <input type="date" class="form-control" id="insurance_date" formControlName="insuranceValidity">
-                </div> -->
         <kendo-datepicker
           width="100%"
           class="form-control mandatory"
@@ -918,10 +938,10 @@
         >
         </kendo-datepicker>
         <div
-          class="invalid-feedback"
-          *ngIf="
+          class="invalid-feedback" *ngIf ="insRequired">
+          <div *ngIf="
             loanDetailsForm.controls['insuranceValidity'].touched &&
-            !loanDetailsForm.controls['insuranceValidity'].vaild
+            !loanDetailsForm.controls['insuranceValidity'].value
           "
         >
           <div
@@ -930,6 +950,15 @@
             "
           >
             insurance validity is required
+          </div>
+          </div>
+          <div
+            *ngIf="
+              loanDetailsForm.controls['insuranceValidity'].value &&
+              loanDetailsForm.controls['insuranceValidity'].errors
+            "
+          >
+            Validity date should not be past date
           </div>
         </div>
       </div>
@@ -940,8 +969,7 @@
     >
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="vehicle_verified"
-          >{{ labels.vehicleVerified }}
-          <sub class="star_red_col">*</sub></label
+          >{{ labels.vehicleVerified }} <sub class="star_red_col">*</sub></label
         >
         <!-- <select class="form-control">
                     <option>Select</option>
@@ -1077,7 +1105,7 @@
           class="invalid-feedback"
           *ngIf="
             loanDetailsForm.controls['remarks'].touched &&
-            !loanDetailsForm.controls['remarks'].vaild
+            !loanDetailsForm.controls['remarks'].valid
           "
         >
           <div *ngIf="loanDetailsForm.controls['remarks'].hasError('required')">
@@ -1119,34 +1147,4 @@
       </div>
     </div>
   </div>
-
-  <!-- <div class="btn-sec clear-both" *ngIf="roleName === 'Credit Officer'">
-        <div class="col-sm-7"></div>
-        <div class="col-sm-5 text-right">
-            <button class="btn btn-danger" type="button" (click)="reinitiatePd()">
-                {{labels.reinitiate}}
-            </button>&nbsp;
-            <button class="btn btn-success " (click)="approvePd()">
-                {{labels.approve}}
-            </button>
-
-        </div>
-    </div> -->
-  <!-- <div class="btn-sec clear-both">
-        <div class="col-sm-5"></div>
-        <div class="col-sm-7 text-right">
-
-            <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
-                {{labels.back}}
-            </button>&nbsp;
-            <button class="btn btn-primary " (click)="onFormSubmit()">
-                {{labels.save}}
-            </button>&nbsp;
-            <button class="btn btn-primary" type="button" (click)="onNavigateNext()">
-                {{labels.next}}
-            </button>
-
-
-        </div>
-    </div> -->
 </form>

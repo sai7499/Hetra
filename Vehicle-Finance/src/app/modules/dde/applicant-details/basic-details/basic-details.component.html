@@ -387,9 +387,10 @@
                 formControlName="fatherName"
                 [maxLength]="validationData?.fullName?.maxLength"
                 [isDirty]="isDirty"
-                [isRequired]="isRequiredFather"
+                
                 [type]="validationData?.fullName?.type"
               ></app-custom-input>
+              <!-- [isRequired]="isRequiredFather" -->
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="spouse_name"
@@ -406,10 +407,11 @@
               <app-custom-input
                 formControlName="spouseName"
                 [maxLength]="validationData?.fullName?.maxLength"
-                [isRequired]="isRequiredSpouse"
+                
                 [isDirty]="isDirty"
                 [type]="validationData?.fullName?.type"
               ></app-custom-input>
+              <!-- [isRequired]="isRequiredSpouse" -->
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="maiden_name"
@@ -465,7 +467,7 @@
               <app-custom-input
                 formControlName="emailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -482,7 +484,7 @@
               <app-custom-input
                 formControlName="alternateEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
           </div>
@@ -1573,7 +1575,7 @@
               <app-custom-input
                 formControlName="companyEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -1583,7 +1585,7 @@
               <app-custom-input
                 formControlName="alternateEmailId"
                 [patternCheck]="emailPattern"
-                [maxlength]="validationData?.email?.maxLength"
+                [maxLength]="validationData?.emailPattern?.maxLength"
               ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -1850,10 +1852,10 @@
                   class="form-control"
                   formControlName="externalRatingIssueDate"
                   [format]="'dd/MM/yyyy'"
-                  [max]="toDayDate"
+                  [max]="maxExtrIssue"
                   placeholder="Issue Date"
                   [activeView]="'decade'"
-                  (ngModelChange)="updateExternalIssueDate($event)"
+                  (valueChange)="updateExternalIssueDate($event)"
                 ></kendo-datepicker>
                 <!-- <div *ngIf="validation.get('externalRatingIssueDate').touched"> -->
                 <div
@@ -1868,7 +1870,7 @@
                 <div
                   class="ShowError"
                   *ngIf="
-                   externalIssueDate > toDayDate
+                  this.showMsg['issueDate']
                   "
                 >
                   Invalid date
@@ -1889,7 +1891,7 @@
                   [min]="toDayDate"
                   placeholder="Expiry Date"
                   [activeView]="'decade'"
-                  (ngModelChange)="updateExternalExpiryDate($event)"
+                  (valueChange)="updateExternalExpiryDate($event)"
                 ></kendo-datepicker>
                 <div
                   class="ShowError"
@@ -1903,7 +1905,7 @@
                 <div
                   class="ShowError"
                   *ngIf="
-                    externalExpiryDate < toDayDate
+                  showMsg['expiryDate']
                   "
                 >
                   Invalid date

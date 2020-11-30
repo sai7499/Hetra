@@ -12,6 +12,9 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
+
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -46,7 +49,7 @@ export class ApplicantDetailComponent implements OnInit {
   roleId: any;
   roleType: any;
   disableSaveBtn: boolean;
-  operationType: string;
+  operationType: boolean;
   ownerShipType: any;
   ownerNamePropertyAreaRequired: boolean;
   ownerNamePropertyAreaDisabled: boolean;
@@ -67,6 +70,7 @@ export class ApplicantDetailComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
     private utilityService: UtilityService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
@@ -97,10 +101,16 @@ export class ApplicantDetailComponent implements OnInit {
       //  this.setFormValue();
     });
     this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType === '1' || this.operationType === '2') {
+    if (this.operationType) {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.applicantForm.disable();
+      this.disableSaveBtn = true;
+    }
+    
 
   }
   getLeadId() {  // fun to get lead id from router
@@ -188,6 +198,8 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.get('owner').setValidators(Validators.required);
       this.applicantForm.get('areaOfProperty').enable();
       this.applicantForm.get('areaOfProperty').setValidators(Validators.required);
+      this.applicantForm.get('propertyValue').enable();
+      this.applicantForm.get('propertyValue').setValidators(Validators.required);
 
     } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
       this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
@@ -198,6 +210,7 @@ export class ApplicantDetailComponent implements OnInit {
       setTimeout(() => {
         this.applicantForm.get('owner').setValue(null);
         this.applicantForm.get('areaOfProperty').setValue(null);
+        this.applicantForm.get('propertyValue').setValue(null);
       });
       this.applicantForm.get('owner').disable();
       this.applicantForm.get('owner').clearValidators();
@@ -205,7 +218,9 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.get('areaOfProperty').disable();
       this.applicantForm.get('areaOfProperty').clearValidators();
       this.applicantForm.get('areaOfProperty').updateValueAndValidity();
-
+      this.applicantForm.get('propertyValue').disable();
+      this.applicantForm.get('propertyValue').clearValidators();
+      this.applicantForm.get('propertyValue').updateValueAndValidity();
     }
   }
   resAddress(event: any) {
@@ -260,6 +275,7 @@ export class ApplicantDetailComponent implements OnInit {
       houseOwnership: new FormControl('', Validators.required),
       ownerProofAvail: new FormControl('', Validators.required),
       areaOfProperty: new FormControl(''),
+      propertyValue: new FormControl(''),
       owner: new FormControl(''),
       ratingbySO: new FormControl('', Validators.required)
     });
@@ -310,6 +326,7 @@ export class ApplicantDetailComponent implements OnInit {
       houseOwnership: applicantModal.houseOwnership || '',
       ownerProofAvail: applicantModal.ownerProofAvail || '',
       owner: applicantModal.owner || '',
+      propertyValue: applicantModal.propertyValue || '',
       areaOfProperty: applicantModal.areaOfProperty || '',
       ratingbySO: applicantModal.ratingbySO || '',
       alternateAddr: applicantModal.alternateAddr || ''
@@ -344,7 +361,7 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   onFormSubmit(action) { // fun that submits all the pd data
-    if (this.operationType === '1') {
+    if (this.operationType) {
       this.onNavigateNext();
       return;
     }
@@ -381,6 +398,7 @@ export class ApplicantDetailComponent implements OnInit {
       standardOfLiving: applicantFormModal.standardOfLiving,
       houseOwnership: applicantFormModal.houseOwnership,
       owner: applicantFormModal.owner,
+      propertyValue: applicantFormModal.propertyValue,
       areaOfProperty: applicantFormModal.areaOfProperty,
       ownerProofAvail: applicantFormModal.ownerProofAvail,
       ratingbySO: applicantFormModal.ratingbySO,

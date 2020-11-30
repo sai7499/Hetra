@@ -11,6 +11,7 @@ body {
     /* Internet Explorer/Edge */
     user-select: none;
     /* Non-prefixed version, currently*/
+    overflow-x: hidden;
 }
 
 a:hover,
@@ -694,6 +695,11 @@ h4.table-head-bg.m-0.p-02 {
     margin: 15px 0;
 }
 
+.HeaderModalWidth{
+    width: 90% !important;
+    margin: 30px auto !important;
+}
+
 @media print {
     app-root app-lead-section-header {
         display: none;
@@ -793,13 +799,13 @@ h4.table-head-bg.m-0.p-02 {
 
 /* fa fa-icon */
 
-.fa-pencil {
+ /* .fa-pencil {
     padding-right: 35px;
 }
 
 .fa-trash {
     padding-right: 35px;
-}
+}  */
 
 
 /* font size in table td*/
@@ -959,8 +965,30 @@ font-size:10px;
     font-weight:bold;
     padding-top:30px;
     padding-bottom:30px;
-    
     }
     
     }
 /*Welomce Letter styles End */
+
+/* 
+::placeholder {
+    color: blue;
+    
+  }
+  .mandatory::-webkit-input-placeholder { color: blue!important; }
+
+  :-ms-input-placeholder { 
+    color: blue;
+    
+  }
+  
+  ::-ms-input-placeholder { 
+    color: blue;
+    
+  }
+
+
+  .form-control ng-untouched ng-pristine ng-valid ::-webkit-input-placeholder{
+    color: blue!important;
+
+  } */

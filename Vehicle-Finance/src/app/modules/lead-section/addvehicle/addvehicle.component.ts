@@ -8,6 +8,8 @@ import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-addvehicle',
   templateUrl: './addvehicle.component.html',
@@ -27,6 +29,7 @@ export class AddvehicleComponent implements OnInit {
   leadId: number;
 
   productCatoryCode: string;
+  isLoan360: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -37,10 +40,11 @@ export class AddvehicleComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private sharedService: SharedService) { }
+    private sharedService: SharedService,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
-
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -74,17 +78,40 @@ export class AddvehicleComponent implements OnInit {
       let data = this.formValue.value.vehicleFormArray[0];
 
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
+
+        if (data && data.fcExpiryDate) {
+          data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
+        }
+
+        if (data.firFiled) {
+          data.firFiled = data.firFiled === true ? '1' : '0';
+        }
+
+        if (data.onlineVerification) {
+          data.onlineVerification = data.onlineVerification === true ? '1' : '0';
+        }
+
+        if (data.insuranceValidity) {
+          data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.accidentDate) {
+          data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.invoiceDate) {
+          data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
+        }
+
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
         }
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
-          const apiError = res.ProcessVariables.error.message;
-
-          if (res.Error === '0' && res.Error === '0') {
+          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
-            this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-details']);
+            this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-list']);
           } else {
-            this.toasterService.showError(apiError, 'Vehicle Details')
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Details')
           }
         }, error => {
           console.log(error, 'error')

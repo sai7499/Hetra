@@ -36,11 +36,13 @@
                                     <!-- <i class="fa fa-sort"></i> -->
                                 </th>
                                 <th>
-                                    {{ labels.pdStatus }}
+                                    <!-- {{ labels.pdStatus }} -->
+                                    {{fiCumPdStatusString == 'true' ? labels.fiCumPdStatus : labels.pdStatus}}
                                     <!-- <i class="fa fa-sort"></i> -->
                                 </th>
                                 <th *ngIf="pdStatusValue === 'Submitted'">
-                                    {{ labels.pdReport }}
+                                    <!-- {{ labels.pdReport }} -->
+                                    {{fiCumPdStatusString == 'true' ? labels.fiCumPdReport : labels.pdReport}}
                                     <!-- <i class="fa fa-sort"></i> -->
                                 </th>
                         </thead>
@@ -61,11 +63,10 @@
                                 <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId, item.cibilScore)">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && item.pdStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId, item.cibilScore)">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
-
                                 </td>
-                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && pdStatusValue === 'Submitted'">
+                                <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;" *ngIf="show && item.pdStatusValue === 'Submitted'">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
                                 <!-- <ng-container *ngIf='item.pdReportValue'> -->

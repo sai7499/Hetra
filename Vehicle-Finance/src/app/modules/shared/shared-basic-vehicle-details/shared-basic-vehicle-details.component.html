@@ -103,8 +103,8 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_sub_variant">
                         <label for="asset_sub_variant"> {{ label.assetSubVariant }} </label>
-                        <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
-                            formControlName="assetSubVariant">
+                        <app-vf-custom-select [values]="vehicleLov?.assetSubVarient" [id]="'asset_sub_variant'"
+                            formControlName="assetSubVarient">
                         </app-vf-custom-select>
                     </div>
 
@@ -231,12 +231,10 @@
                     </div>
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                        <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
-                        </label>
+                        <label for="final_asset_cost"> {{ label.finalAssetCost }}</label>
 
                         <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                            [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                            [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                            [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                         </app-custom-input>
 
                     </div>
@@ -289,7 +287,7 @@
                             [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
                             [maxLength]="label.validationData?.mobileNumber.maxLength"
                             [patternCheck]="label.validationData?.mobileNumber.pattern"
-                            (change)="onChangeMobileNumber($event.target.value)" 
+                            (change)="onChangeMobileNumber($event.target.value)"
                             (keyUp)="onChangeMobileNumber($event.target.value)"
                             [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -338,7 +336,7 @@
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 no_vehicle"
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="no_vehicle"
                         *ngIf="productCatoryCode === 'NCV' || productCatoryCode === 'NC'">
                         <label for="no_vehicle"> {{ label.noVehicle }} <sub class="star_red_col">*</sub> </label>
 
@@ -435,37 +433,10 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
-                                formControlName="assetSubVariant">
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVarient" [id]="'asset_sub_variant'"
+                                formControlName="assetSubVarient">
                             </app-vf-custom-select>
                         </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
-                            </label>
-
-                            <app-custom-input formControlName="exShowRoomCost"
-                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
-                                [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
-                                [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
-                                [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'Ex Showroom Cost'">
-                            </app-custom-input>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="final_asset_cost">{{label.finalAssetCost}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
-                            </app-custom-input>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
@@ -485,6 +456,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
 
@@ -495,10 +470,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
@@ -519,6 +490,10 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
 
@@ -529,10 +504,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
@@ -557,22 +528,24 @@
 
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
-
-                            <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="label.validationData?.chasisEngineNo.type" [inputClass]="'input-upper'"
-                                [className]="'form-control mandatory'" [placeholder]="'Invoice No'"
-                                [maxLength]="label.validationData?.chasisEngineNo.maxLength"
-                                [inputClass]="'input-upper'">
-                            </app-custom-input>
-                        </div>
-
                     </div>
 
                     <div class="row">
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                            *ngIf="!(Product === 'InsuranceLoan' || Product === 'SaathiLoan')">
+                            <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
+
+                            <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
+                                [type]="label.validationData?.invoiceNumber.type" [inputClass]="'input-upper'"
+                                [className]="'form-control mandatory'" [placeholder]="'Invoice No'"
+                                [maxLength]="label.validationData?.invoiceNumber.maxLength"
+                                [inputClass]="'input-upper'">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 "
+                            *ngIf="!(Product === 'InsuranceLoan' || Product === 'SaathiLoan')">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
@@ -586,7 +559,7 @@
 
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
 
                             <app-custom-input formControlName="invoiceAmount"
@@ -596,6 +569,10 @@
                             </app-custom-input>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
@@ -608,42 +585,123 @@
                             </app-custom-input>
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
+                            <label for="orp_funding">{{label.orpFunding}} </label>
+                            <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="isOrpFunding"
+                                (change)="onChangeFinalAssetCost($event.target.value, obj)">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-custom-input formControlName="exShowRoomCost"
+                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
+                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'Ex Showroom Cost'">
+                            </app-custom-input>
+
+                        </div>
+
                     </div>
 
                     <div class="row">
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
-                            <label for="orp_funding">{{label.orpFunding}} </label>
-                            <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="isOrpFunding">
-                            </app-vf-custom-select>
-                        </div>
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance">{{label.insurance}} </label>
+                            <label for="insurance">{{label.insurance}} <sub class="star_blue_col">*</sub> </label>
 
                             <app-custom-input formControlName="insurance"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [id]="'insurance'"
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'Insurance'">
+                                [placeholder]="'Insurance'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Insurance Required'"
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="one_time_tax">{{label.oneTimeTax}} </label>
+                            <label for="one_time_tax">{{label.oneTimeTax}} <sub class="star_blue_col">*</sub> </label>
 
                             <app-custom-input formControlName="oneTimeTax"
                                 [type]="label.validationData?.amountValue.type" [id]="'one_time_tax'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'One Time Tax'">
+                                [placeholder]="'One Time Tax'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'One Time Tax Required'"
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="others">{{label.others}} <sub class="star_blue_col">*</sub> </label>
+
+                            <app-custom-input formControlName="others" [id]="'others'"
+                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Others'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Others Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
                         </div>
 
                     </div>
 
                     <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="amc_amount">{{label.amcAmount}} <sub class="star_blue_col">*</sub> </label>
+                            <app-custom-input formControlName="amcAmount"
+                                [type]="label.validationData?.amountValue.type"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'amc_amount'"
+                                [className]="'form-control'" [placeholder]="'AMC Amount'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'AMC Amount Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
+                            <label for="discount">{{label.discount}} <sub class="star_blue_col">*</sub> </label>
+
+                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
+                                [id]="'discount'" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Discount Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="basicVehicleForm.controls['isVaildFinalAssetCost'].value === false">
+                                Discount should not greater than Ex show room price
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="final_asset_cost">{{label.finalAssetCost}}</label>
+                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
+                            <label for="fast_tag">{{label.fastTag}} </label>
+                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="fastTag">
+                            </app-vf-custom-select>
+                        </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
@@ -659,44 +717,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
                             <app-vf-custom-select [id]="'emi_protect'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="emiProtect">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                            <label for="fast_tag">{{label.fastTag}} </label>
-                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="fastTag">
-                            </app-vf-custom-select>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                            <label for="others">{{label.others}} </label>
-
-                            <app-custom-input formControlName="others" [id]="'others'"
-                                [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Others'">
-                            </app-custom-input>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                            <label for="discount">{{label.discount}} </label>
-
-                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
-                                [id]="'discount'" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
-                            </app-custom-input>
-                        </div>
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
 
@@ -802,36 +832,10 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
-                                formControlName="assetSubVariant">
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVarient" [id]="'asset_sub_variant'"
+                                formControlName="assetSubVarient">
                             </app-vf-custom-select>
                         </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <app-custom-input formControlName="exShowRoomCost"
-                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
-                                [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
-                                [isDirty]="isDirty" (keyup)="onPatchFinalAssetCost($event.target.value)"
-                                [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'Ex Showroom Cost'">
-                            </app-custom-input>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="final_asset_cost">{{label.finalAssetCost}} <sub class="star_red_col">*</sub>
-                            </label>
-                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
-                            </app-custom-input>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
@@ -851,6 +855,10 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
 
@@ -861,10 +869,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
@@ -888,6 +892,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label
                                 for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
@@ -895,10 +903,6 @@
                                 [values]="vehicleLov?.YesORNoValue" formControlName="manufacSubventionApplicable">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
@@ -920,6 +924,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
                             <app-custom-input formControlName="manufacturesubventionPartFinCharge"
@@ -929,20 +937,18 @@
                             </app-custom-input>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 "
+                            *ngIf="!(Product === 'InsuranceLoan' || Product === 'SaathiLoan')">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
-                                [type]="label.validationData?.chasisEngineNo.type"
-                                [className]="'form-control mandatory'" [placeholder]="'Proforma Invoice No'"
-                                [maxLength]="label.validationData?.chasisEngineNo.maxLength">
+                                [type]="label.validationData?.invoiceNumber.type" [className]="'form-control mandatory'"
+                                [placeholder]="'Proforma Invoice No'"
+                                [maxLength]="label.validationData?.invoiceNumber.maxLength">
                             </app-custom-input>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 "
+                            *ngIf="!(Product === 'InsuranceLoan' || Product === 'SaathiLoan')">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
@@ -955,7 +961,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
                             <app-custom-input formControlName="invoiceAmount" [id]="'proforma_invoice_amount'"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
@@ -964,39 +974,115 @@
                             </app-custom-input>
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
+                            <label for="orp_funding">{{label.orpFunding}} </label>
+                            <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="isOrpFunding"
+                                (change)="onChangeFinalAssetCost($event.target.value, obj)">
+                            </app-vf-custom-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
+                            </label>
+                            <app-custom-input formControlName="exShowRoomCost"
+                                [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [className]="'form-control mandatory'" [isRequired]="'Ex Showroom Cost Required'"
+                                [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'Ex Showroom Cost'">
+                            </app-custom-input>
+                        </div>
+
                     </div>
 
                     <div class="row">
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
-                            <label for="orp_funding">{{label.orpFunding}} </label>
-                            <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="isOrpFunding">
-                            </app-vf-custom-select>
-                        </div>
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="insurance">{{label.insurance}} </label>
+                            <label for="insurance">{{label.insurance}} <sub class="star_blue_col">*</sub> </label>
                             <app-custom-input formControlName="insurance" [id]="'insurance'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'">
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Insurance'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Insurance Required'"
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
-                            <label for="one_time_tax">{{label.oneTimeTax}} </label>
+                            <label for="one_time_tax">{{label.oneTimeTax}} <sub class="star_blue_col">*</sub> </label>
                             <app-custom-input formControlName="oneTimeTax" [id]="'one_time_tax'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'One Time Tax'">
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'One Time Tax'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'One Time Tax Required'"
+                                [isDirty]="isDirty">
                             </app-custom-input>
 
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="others">{{label.others}} <sub class="star_blue_col">*</sub> </label>
+                            <app-custom-input formControlName="others" [type]="label.validationData?.amountValue.type"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'others'"
+                                [className]="'form-control'" [placeholder]="'Others'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Others Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
                         </div>
 
                     </div>
 
                     <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
+                            <label for="amc_amount">{{label.amcAmount}} <sub class="star_blue_col">*</sub> </label>
+                            <app-custom-input formControlName="amcAmount"
+                                [type]="label.validationData?.amountValue.type"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'amc_amount'"
+                                [className]="'form-control'" [placeholder]="'AMC Amount'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'AMC Amount Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
+                            <label for="discount">{{label.discount}} <sub class="star_blue_col">*</sub> </label>
+                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
+                                [id]="'discount'" [className]="'form-control'"
+                                (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'"
+                                [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Discount Required'"
+                                [isDirty]="isDirty">
+                            </app-custom-input>
+
+                            <div class="invalid-feedback"
+                                *ngIf="basicVehicleForm.controls['isVaildFinalAssetCost'].value === false">
+                                Discount should not greater than Ex show room price
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                            <label for="final_asset_cost">{{label.finalAssetCost}} </label>
+                            <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
+                            </app-custom-input>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
+                            <label for="fast_tag">{{label.fastTag}} </label>
+                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
+                                formControlName="fastTag">
+                            </app-vf-custom-select>
+                        </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="pac">{{label.pac}} </label>
@@ -1012,42 +1098,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
                             <app-vf-custom-select [id]="'emi_protect'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="emiProtect">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
-                            <label for="fast_tag">{{label.fastTag}} </label>
-                            <app-vf-custom-select [id]="'fast_tag'" [values]="vehicleLov?.YesORNoValue"
-                                formControlName="fastTag">
-                            </app-vf-custom-select>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
-                            <label for="others">{{label.others}} </label>
-                            <app-custom-input formControlName="others" [type]="label.validationData?.amountValue.type"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [id]="'others'"
-                                [className]="'form-control'" [placeholder]="'Others'">
-                            </app-custom-input>
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
-                            <label for="discount">{{label.discount}} </label>
-                            <app-custom-input formControlName="discount" [type]="label.validationData?.amountValue.type"
-                                [id]="'discount'" [className]="'form-control'"
-                                [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Discount'">
-                            </app-custom-input>
-                        </div>
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
 
@@ -1165,8 +1225,8 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
-                                formControlName="assetSubVariant">
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVarient" [id]="'asset_sub_variant'"
+                                formControlName="assetSubVarient">
                             </app-vf-custom-select>
                         </div>
 
@@ -1246,11 +1306,9 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
-                            </label>
+                            <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
                             <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                             </app-custom-input>
                         </div>
 
@@ -1346,7 +1404,8 @@
 
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                            *ngIf="!(Product === 'FCLoan' || Product === 'TaxLoan')">
                             <label for="permit_type">{{label.permitType}} </label>
                             <app-vf-custom-select [id]="'permit_type'" [values]="vehicleLov?.permitType"
                                 formControlName="typeOfPermit">
@@ -1513,16 +1572,16 @@
 
                     <div class="row">
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TopUp'">
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                                placeholder="insurance_validity">
+                                [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="Insurance Validity">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
+                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
                                 Invalid Date
                             </div>
 
@@ -1586,6 +1645,23 @@
 
                     </div>
 
+                    <div class="row">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="noc_date">{{label.expectedNOCDate}}</label>
+                            <kendo-datepicker class="form-control" [id]="'noc_date'" formControlName="expectedNOCDate"
+                                [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="Expected NOC Date">
+                            </kendo-datepicker>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
+                                Invalid Date
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
 
                 <div class="" id="used_car_show" *ngIf="productCatoryCode === 'UC'">
@@ -1682,8 +1758,8 @@
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
-                            <app-vf-custom-select [values]="vehicleLov?.assetSubVariant" [id]="'asset_sub_variant'"
-                                formControlName="assetSubVariant">
+                            <app-vf-custom-select [values]="vehicleLov?.assetSubVarient" [id]="'asset_sub_variant'"
+                                formControlName="assetSubVarient">
                             </app-vf-custom-select>
                         </div>
 
@@ -1730,7 +1806,7 @@
                             </div>
 
                             <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > maxDate
-                                ||  obj.controls['manuFacMonthYear'].value < minDate)">
+                            ||  obj.controls['manuFacMonthYear'].value < minDate)">
                                 Invalid Date
                             </div>
 
@@ -1793,11 +1869,9 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                            <label for="final_asset_cost"> {{ label.finalAssetCost }} <sub class="star_red_col">*</sub>
-                            </label>
+                            <label for="final_asset_cost"> {{ label.finalAssetCost }}</label>
                             <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
-                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'"
-                                [isRequired]="'Final Asset Cost Required'" [isDirty]="isDirty" [isDisabled]="true">
+                                [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                             </app-custom-input>
                         </div>
 
@@ -1917,18 +1991,6 @@
                             </app-custom-input>
                         </div>
 
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="rc_owner_name">{{label.rcOwnerName}}</label>
-
-                            <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
-                                [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
-                                [placeholder]="'Name of Vehicle Owner/Dealer'"
-                                [maxLength]="label.validationData?.name.maxLength"
-                                [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
-                            </app-custom-input>
-
-                        </div> -->
-
                     </div>
 
                     <div class="row">
@@ -2008,16 +2070,16 @@
 
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TopUp'">
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                                placeholder="insurance_validity">
+                                [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="Insurance Validity">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
+                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
                                 Invalid Date
                             </div>
                         </div>
@@ -2078,12 +2140,300 @@
                             </app-custom-input>
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="noc_date">{{label.expectedNOCDate}}</label>
+                            <kendo-datepicker class="form-control" [id]="'noc_date'" formControlName="expectedNOCDate"
+                                [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                placeholder="Expected NOC Date">
+                            </kendo-datepicker>
+
+                            <div class="invalid-feedback"
+                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
+                                Invalid Date
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="insurance_type">{{label.insuranceType}} <sub class="star_red_col">*</sub> </label>
+                            <app-vf-custom-select [id]="'insurance_type'" [values]="vehicleLov?.insuranceType"
+                                formControlName="insuranceType" [isRequired]="'Insurance Type Required'" [isDirty]="isDirty">
+                            </app-vf-custom-select>
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
 
+            <div id="child_loan_start" *ngIf="isChildLoan && Product">
+
+                <!-- <h3 class="title cus-title"> {{ label.childLoan }} </h3> -->
+
+                <div class="row">
+
+                    <!-- Fc Loan || Top Up-->
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.fcExpiryDate">
+                        <label for="fc_expiry_date">{{label.fcExpiryDate}}</label>
+
+                        <kendo-datepicker class="form-control" formControlName="fcExpiryDate" [activeView]="'decade'"
+                            [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="FC Expiry Date">
+                        </kendo-datepicker>
+
+                        <div class="invalid-feedback"
+                            *ngIf="roleType !==1 && obj.controls['fcExpiryDate'].touched && obj.controls['fcExpiryDate'].hasError('required')">
+                            Invalid Date
+                        </div>
+
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.fcAmount">
+                        <label for="fc_amount">{{label.fcAmount}}</label>
+                        <app-custom-input formControlName="fcAmount" [type]="label.validationData?.amountValue.type"
+                            [id]="'fc_amount'" [className]="'form-control mandatory'" [placeholder]="'FC Amount'"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isRequired]="roleType === 1 ? '' : 'FC Amount Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="childLoanCondition.typeOfPermit">
+                        <label for="permit_type">{{label.permitType}} </label>
+                        <app-vf-custom-select [id]="'permit_type'" [values]="vehicleLov?.permitType"
+                            [isRequired]="roleType === 1 ? '' : 'Type of Permit Required'" [isDirty]="isDirty"
+                            formControlName="typeOfPermit">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxDetails">
+                        <label for="tax_details">{{label.taxDetails}}</label>
+                        <app-vf-custom-select formControlName="taxDetails" [values]="LOV?.taxDetails"
+                            [id]="'tax_details'" (change)="onGetTaxValue($event.target.value, obj)"
+                            [isRequired]="roleType === 1 ? '' : 'Tax Details Required'" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxBill">
+                        <label for="tax_bill">{{label.taxBill}}</label>
+                        <app-custom-input formControlName="taxBill" [type]="label.validationData?.amountValue.type"
+                            [id]="'tax_bill'" [className]="'form-control mandatory'" [placeholder]="'Tax Bill'"
+                            (keyup)="onGetTaxBill($event.target.value, obj)"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isRequired]="roleType === 1 ? '' : 'Tax Bill Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.totalTaxBill">
+                        <label for="total_tax_bill">{{label.totalTaxBill}}</label>
+                        <app-custom-input formControlName="totalTaxBill" [type]="label.validationData?.amountValue.type"
+                            [id]="'total_tax_bill'" [className]="'form-control mandatory'"
+                            [placeholder]="'Total Tax Bill'" [isDisabled]="true">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.insuranceValidity">
+                        <label for="insurance_validity">{{label.insuranceValidity}}</label>
+
+                        <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
+                            [min]="onlyFutureDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                            placeholder="Insurance Validity">
+                        </kendo-datepicker>
+
+                        <div class="invalid-feedback" *ngIf="roleType !==1 && obj.controls['insuranceValidity'].touched &&
+                            obj.controls['insuranceValidity'].hasError('required') ||
+                            obj.controls['insuranceValidity'].value < onlyFutureDate">
+                            Invalid Date (Future Date Only)
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 mt" *ngIf="childLoanCondition.onlineVerification">
+                        <label for="frsd_required">{{label.onlineVerification}} </label>
+
+                        <input class="ml" type="checkbox" formControlName="onlineVerification" />
+
+                    </div>
+
+                    <!-- Tyre Loan -->
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.tyreDealer">
+                        <label for="tyre_dealer">{{label.tyreDealer}}</label>
+                        <app-vf-custom-select [values]="LOV?.tyreDealer" [id]="'tyre_dealer'"
+                            formControlName="tyreDealer" [isRequired]="roleType === 1 ? '' : 'Tyre Dealer Required'"
+                            [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.tyreManufacturer">
+                        <label for="tyre_manufacturer">{{label.tyreManufacturer}}</label>
+                        <app-vf-custom-select [values]="LOV?.tyreManufacturer" [id]="'tyre_manufacturer'"
+                            formControlName="tyreManufacturer"
+                            [isRequired]="roleType === 1 ? '' : 'Tyre Dealer Required'" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.noOfTyres">
+                        <label for="no_tyre">{{label.noOfTyres}}</label>
+                        <app-custom-input formControlName="noOfTyres" [type]="label.validationData?.noOfTyres.type"
+                            [id]="'no_tyre'" [className]="'form-control mandatory'" [placeholder]="'No of Tyres'"
+                            [maxLength]="label.validationData?.noOfTyres.maxLength"
+                            [isRequired]="roleType === 1 ? '' : 'No of Tyres Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.costPerTyre">
+                        <label for="cost_tyre">{{label.VehcostPerTyre}}</label>
+                        <app-custom-input formControlName="costPerTyre" [type]="label.validationData?.amountValue.type"
+                            [id]="'cost_tyre'" [className]="'form-control mandatory'"
+                            [placeholder]="roleType === 1 ? '' : 'Cost Per Tyre'"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isRequired]="roleType === 1 ? '' : 'Cost Per Tyre Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.invoiceAmount">
+                        <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
+
+                        <app-custom-input formControlName="invoiceAmount"
+                            [type]="label.validationData?.amountValue.type" [id]="'proforma_invoice_amount'"
+                            [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
+                            [placeholder]="'Proforma Invoice Amount'"
+                            (keyup)="onGetMarginAmount($event.target.value, obj)"
+                            [isRequired]="roleType === 1 ? '' : 'Proforma Invoice Amount Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.marginAmount">
+                        <label for="margin_amount">{{label.marginAmount}}</label>
+                        <app-custom-input formControlName="marginAmount" [type]="label.validationData?.amountValue.type"
+                            [id]="'margin_amount'" [className]="'form-control mandatory'" [custom]="isNegativeValue"
+                            [placeholder]="'Margin Amount'" [maxLength]="label.validationData?.amountValue.maxLength"
+                            [isRequired]="roleType === 1 ? '' : 'Margin Amount Required'" [isDirty]="isDirty">
+                            <!--  Invoice Amount - Requested Loan -->
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.tyreSpecification">
+                        <label for="tyre_specification">{{label.tyreSpecification}}</label>
+                        <app-custom-input formControlName="tyreSpecification"
+                            [type]="label.validationData?.address.type" [id]="'tyre_specification'"
+                            [className]="'form-control mandatory'"
+                            [placeholder]="'Tyre specification/Model description'"
+                            [maxLength]="label.validationData?.address.maxLength"
+                            [isRequired]="roleType === 1 ? '' : 'Tyre specification/Model description Required'"
+                            [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <!-- Accident Loan Starts-->
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.accidentDate">
+                        <label for="accident_date">{{label.accidentDate}}</label>
+
+                        <kendo-datepicker class="form-control mandatory" formControlName="accidentDate"
+                            [format]="'dd/MM/yyyy'" [max]="onlyFutureDate" [activeView]="'decade'"
+                            placeholder="Accident Date">
+                        </kendo-datepicker>
+
+                        <div class="invalid-feedback"
+                            *ngIf="roleType !==1 && obj.controls['accidentDate'].touched && 
+                            obj.controls['accidentDate'].hasError('required') || obj.controls['accidentDate'].value > onlyFutureDate">
+                            Invalid Date
+                        </div>
+
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.accidentType">
+                        <label for="accident_type">{{label.accidentType}}</label>
+                        <app-vf-custom-select [values]="LOV?.typeOfAccident" [id]="'accident_type'"
+                            formControlName="accidentType"
+                            [isRequired]="roleType === 1 ? '' : 'Type of Accident Required'" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.repairCost">
+                        <label for="cost_repair">{{label.repairCost}}</label>
+                        <app-custom-input formControlName="repairCost" [type]="label.validationData?.amountValue.type"
+                            [id]="'cost_repair'" [className]="'form-control mandatory'" [placeholder]="'Cost of Repair'"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            (keyup)="onGetTotalCost($event.target.value, obj)"
+                            [isRequired]="roleType === 1 ? '' : 'Cost of Repair Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.spareCost">
+                        <label for="cost_spares">{{label.spareCost}}</label>
+                        <app-custom-input formControlName="spareCost" [type]="label.validationData?.amountValue.type"
+                            [id]="'cost_spares'" [className]="'form-control mandatory'" [placeholder]="'Cost of Spares'"
+                            [maxLength]="label.validationData?.amountValue.maxLength"
+                            (keyup)="onGetSpareCost($event.target.value, obj)"
+                            [isRequired]="roleType === 1 ? '' : 'Cost of Spares Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.totalCost">
+                        <label for="total_cost">{{label.totalCost}}</label>
+                        <app-custom-input formControlName="totalCost" [type]="label.validationData?.amountValue.type"
+                            [id]="'total_cost'" [className]="'form-control mandatory'" [placeholder]="'Total Cost'"
+                            [isDisabled]="true">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.isAuthSvcCentre">
+                        <label for="is_auth">{{label.isAuthSvcCentre}}</label>
+                        <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" [id]="'is_auth'"
+                            formControlName="isAuthSvcCentre"
+                            [isRequired]="roleType === 1 ? '' : 'Is Authorised Service Centre Required'"
+                            [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.svcCentreName">
+                        <label for="svc_centreName">{{label.svcCentreName}}</label>
+                        <app-custom-input formControlName="svcCentreName"
+                            [type]="label.validationData?.addressLine.type" [id]="'svc_centreName'"
+                            [className]="'form-control mandatory'" [placeholder]="'Service Centre Name'"
+                            [maxLength]="label.validationData?.addressLine.maxLength"
+                            [isRequired]="roleType === 1 ? '' : 'Service Centre Name Required'" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 mt" *ngIf="childLoanCondition.firFiled">
+                        <label for="frsd_required">{{label.firFiled}} </label>
+                        <input class="ml" type="checkbox" formControlName="firFiled" />
+                    </div>
+
+                    <!-- Insurance || Saathi Loan -->
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.invoiceNumber">
+                        <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
+
+                        <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
+                            [type]="label.validationData?.invoiceNumber.type" [inputClass]="'input-upper'"
+                            [className]="'form-control mandatory'" [placeholder]="'Invoice No'"
+                            [isRequired]="roleType === 1 ? '' : 'Invoice No Required'"
+                            [maxLength]="label.validationData?.invoiceNumber.maxLength" [inputClass]="'input-upper'">
+                        </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.invoiceDate">
+                        <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
+                        <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
+                            [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                            placeholder="Proforma Invoice Date">
+                        </kendo-datepicker>
+
+                        <div class="invalid-feedback"
+                            *ngIf="roleType !==1 && obj.controls['invoiceDate'].touched && 
+                           obj.controls['invoiceDate'].hasError('required') || obj.controls['invoiceDate'].value > maxDate">
+                            Invalid Date
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
 
     </ng-container>

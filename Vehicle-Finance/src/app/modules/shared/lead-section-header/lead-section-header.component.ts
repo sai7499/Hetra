@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@shared/shared-service/shared-service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { LeadStoreService } from '@services/lead-store.service';
 import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LeadHistoryService } from '@services/lead-history.service';
+import { CommonDataService } from '@services/common-data.service';
+import { ToasterService } from '@services/toaster.service';
+// import { LeadHistoriesDataService } from '@services/lead-histories-data.service';
+
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-lead-section-header',
@@ -23,22 +28,34 @@ export class LeadSectionHeaderComponent implements OnInit {
   loanAmount: string;
   stageDescription: string;
 
+  leadCount: number = 0;
+  userId: string = '0';
+
   isNeedBackButton: boolean = false;
   ddeBackLabel: string;
   ddeBackRouter: string;
 
+  isEnableInitiateQuery: boolean = true;
+  locationIndex: number;
+
   isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
+  isLoan360: boolean;
+  isButtonNameChange : boolean;
+  isBeforeEligibility: boolean;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
-    private loginStoreService: LoginStoreService,
     private sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
     private aRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
     private location: Location,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private leadHistoryService: LeadHistoryService,
+    private commonDataService: CommonDataService,
+    private toasterService: ToasterService,
+    private loanViewService: LoanViewService
   ) {
     // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
     this.leadId = this.aRoute.snapshot.params['leadId'];
@@ -46,9 +63,12 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   ngOnInit() {
     // this.leadId = (await this.getLeadId()) as number;
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const operationType = this.toggleDdeService.getOperationType()
-    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType === '1' || operationType === '2');
+    this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
     this.getLabels();
+    this.userId = localStorage.getItem('userId');
+
     if (this.leadId) {
       // console.log(this.aRoute.snapshot)
       const gotLeadData = this.aRoute.snapshot.data.leadData;
@@ -56,6 +76,7 @@ export class LeadSectionHeaderComponent implements OnInit {
         const leadData = gotLeadData.ProcessVariables;
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
+        this.leadCount = leadData.queryCount;
       }
     }
     this.getUserDetails();
@@ -67,6 +88,31 @@ export class LeadSectionHeaderComponent implements OnInit {
     }
     this.sharedService.productCatName$.subscribe(val =>
       this.productId = val)
+
+    const currentUrl = this.location.path();
+
+    if(currentUrl.includes('document-viewupload')){
+      this.isButtonNameChange= true;
+    }else{
+      this.isButtonNameChange= false;
+    }
+    this.locationIndex = this.getLocationIndex(currentUrl);
+    this.location.onUrlChange((url: string) => {
+      this.locationIndex = this.getLocationIndex(url);
+    });
+
+    this.getInitiateQueryCount(this.leadId);
+
+  }
+
+  getLocationIndex(url: string) {
+    if (url.includes('query-model')) {
+      this.isEnableInitiateQuery = false
+      return 0;
+    } else {
+      this.isEnableInitiateQuery = true;
+      return 1;
+    }
   }
 
   getLabels() {
@@ -95,6 +141,9 @@ export class LeadSectionHeaderComponent implements OnInit {
       });
     });
 
+    this.isBeforeEligibility = leadSectionData.leadDetails.stage !== '10';
+
+
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
 
     this.sharedService.leadData$.subscribe((value) => {
@@ -106,8 +155,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.sharedService.loanAmount$.subscribe(
       (value) => (this.loanAmount = Number(value).toLocaleString('en-IN'))
     );
-    // Number(value).toLocaleString('en-IN')
-    // 'en-IN'
+
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
       ? Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
       : '0';
@@ -125,7 +173,14 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   saveCurrentUrl() {
     const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);
+    localStorage.setItem('currentUrl', currentUrl);  
+  }
+
+  onBackDocumentUpload(){
+    
+    const url=  localStorage.getItem('currentUrl');
+    this.router.navigateByUrl(url)
+
   }
 
   viewOrEditDde() {
@@ -157,11 +212,40 @@ export class LeadSectionHeaderComponent implements OnInit {
     const ddeButton = JSON.parse(value);
     this.router.navigateByUrl(ddeButton.currentUrl);
     localStorage.removeItem('isDdeClicked');
-    // this.toggleDdeService.clearToggleData();
-    // this.toggleDdeService.setIsDDEClicked(0);
-    // this.isEnableDdeButton = false;
     this.isNeedBackButton = false
+  }
 
+  getInitiateQueryCount(lead) {
+    console.log(lead, 'lead')
+  }
+
+  initinequery() {
+    this.isEnableInitiateQuery = false;
+    const currentUrl = this.location.path();
+    localStorage.setItem('forQueryUrl', currentUrl);
+    this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
+    // this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
+  }
+
+  onLeadHistory() {
+    this.leadHistoryService.leadHistoryApi(this.leadId)
+      .subscribe(
+        (res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+
+          if (appiyoError === '0' && apiError === '0') {
+            const leadHistoryData = response;
+            console.log('leadHistoryData', leadHistoryData);
+            this.commonDataService.shareLeadHistoryData(leadHistoryData);
+          } else {
+            const message = response.ProcessVariables.error.message;
+            this.toasterService.showError(message, 'Lead Creation');
+          }
+        },
+        (error) => console.log('Lead Histroy Error', error)
+      );
   }
 
 }

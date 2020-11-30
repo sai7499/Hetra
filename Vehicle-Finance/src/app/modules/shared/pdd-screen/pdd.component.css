@@ -1,0 +1,32 @@
+.table td {
+    text-align: left;
+  }
+  
+  .h3-margin {
+    margin: 0 !important;
+  }
+
+  .btn-margin-right {
+    margin-right: 30px;
+  }
+
+  .dis-block {
+    display: block;
+  }
+
+.upload-icon {
+  text-align: center !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.ShowError{
+  font-size: 12px;
+  font-family: zurich-bold;
+  letter-spacing: 0.5px;
+  color: red;
+  padding-top: 0.5vw;
+} 
+  

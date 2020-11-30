@@ -130,8 +130,7 @@
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="ageofAsset">{{ labels?.AgeofAsset }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="ageofAsset" type="text" class="form-control mandatory select2" id="ageofAsset"
-                   placeholder="Age of Vehicle as on date"
+                  <input formControlName="ageofAsset" type="text" class="form-control mandatory select2" id="ageofAsset" placeholder="Age of Vehicle as on date"
                     name="ageofAsset" />
                 </div>
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="netAssetCost">{{ labels?.NetAssetCost }}
@@ -220,8 +219,9 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="MITenure" type="number" class="form-control mandatory select2 custom-negotiation-field"
-                      id="MITenure" placeholder="Eligible LTV (in %)" [isDirty]="isDirty" [isRequired]="'MI Tenure is Required'"
-                      name="MITenure" (change)="fetchPreimumAmount(1,'motor',i)" [maxLength]="labels?.validationData.MITenure.maxLength">
+                      id="MITenure" placeholder="MI Tenure" [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
+                      .value == '4')? null :'MI Tenure is Required'" name="MITenure" (change)="fetchPreimumAmount(1,'motor',i)"
+                      [maxLength]="labels?.validationData.MITenure.maxLength">
                     </app-custom-input>
                   </div>
                 </div>
@@ -230,13 +230,14 @@
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforMI" [isDirty]="isDirty" [isRequired]="'Is Funding Required for MI is required'"
-                      (change)="calculateTotal(i)">
+                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforMI" [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
+                    .value == '4')? null :'Is Funding Required for MI is required'" (change)="calculateTotal(i)">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforMI" (change)="calculateTotal(i)"
-                      [isRequired]="'Is Funding Required for life-cover is required'">
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
+                    .value == '4')? null :'Is Funding Required for MI is required'">
                     </app-vf-custom-select>
                   </div>
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}
@@ -244,7 +245,8 @@
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="MIPremiumAmount" type="number" id="MIPremiumAmount" placeholder="MI Premium Amount (in INR)"
                       name="MIPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.MIPremiumAmount.maxLength"
-                      [isRequired]="'MI Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
+                      .value == '4')? null :'MI Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
                       (change)="validateTenure('motor',i);validateAmount('MIPremiumAmount',i);calculateTotal(i)">
                     </app-custom-input>
                   </div>
@@ -270,7 +272,8 @@
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="PACPremiumAmount" type="number" id="PACPremiumAmount" placeholder="PAC Premium Amount (in INR)"
                       name="PACPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.MIPremiumAmount.maxLength"
-                      [isRequired]="'PAC Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
+                      .value == '4')? null :'PAC Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
                       (change)="validateAmount('PACPremiumAmount',i);calculateTotal(i)">
                     </app-custom-input>
                   </div>
@@ -280,12 +283,14 @@
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforPAC" [isDirty]="isDirty" (change)="calculateTotal(i)"
-                      [isRequired]="'Is Funding Required for PAC is required'">
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
+                      .value == '4')? null :'Is Funding Required for PAC is required'">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforPAC" (change)="calculateTotal(i)"
-                      [isRequired]="'Is Funding Required for life-cover is required'">
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
+                      .value == '4')? null :'Is Funding Required for PAC is required'">
                     </app-vf-custom-select>
                   </div>
                 </div>
@@ -309,8 +314,8 @@
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="VASPremiumAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
                       [isDirty]="isDirty" id="VASPremiumAmount" [maxLength]="labels?.validationData.VASPremiumAmount.maxLength"
-                      placeholder="VAS Premium Amount (in INR)" name="VASPremiumAmount" [isRequired]="'VAS Premium Amount is Required'"
-                      (change)="validateAmount('VASPremiumAmount',i);calculateTotal(i)">
+                      placeholder="VAS Premium Amount (in INR)" name="VASPremiumAmount" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']['controls'].VAS
+                      .value == '4')? null :'VAS Premium Amount is Required'" (change)="validateAmount('VASPremiumAmount',i);calculateTotal(i)">
                     </app-custom-input>
                   </div>
                 </div>
@@ -319,12 +324,14 @@
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="FundingRequiredLOV" [isDirty]="isDirty" formControlName="fundingRequiredforVAS" (change)="calculateTotal(i)"
-                      [isRequired]="'Is Funding Required for VAS is required'">
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']['controls'].VAS
+                      .value == '4')? null :'Is Funding Required for VAS is required'">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforVAS" (change)="calculateTotal(i)"
-                      [isRequired]="'Is Funding Required for life-cover is required'">
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']['controls'].VAS
+                      .value == '4')? null :'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
                   </div>
                 </div>
@@ -345,7 +352,8 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="InsuranceSlabLOV" [isDirty]="isDirty" formControlName="fundingforLifeCover" [className]="'form-control mandatory'"
-                      [isRequired]="'Is Funding Required for Lifer Cover is required'" (change)="getFundingReq($event,i);fetchPreimumAmount(3,'creditShieldInsurance',i)">
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
+                      .value == '4')? null :'Is Funding Required for Lifer Cover is required'" (change)="getFundingReq($event,i);fetchPreimumAmount(3,'creditShieldInsurance',i)">
                     </app-vf-custom-select>
                   </div>
                 </div>
@@ -354,12 +362,14 @@
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)"
-                      [isDirty]="isDirty" [isRequired]="'Is Funding Required for life-cover is required'">
+                      [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
+                      .value == '4')? null :'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
                     <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)"
-                      [isRequired]="'Is Funding Required for life-cover is required'" [isDirty]="isDirty">
+                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
+                      .value == '4')? null :'Is Funding Required for life-cover is required'" [isDirty]="isDirty">
                     </app-vf-custom-select>
                   </div>
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="lifeCoverPremiumAmount">{{ labels?.lifeCoverPremiumAmount }}
@@ -367,8 +377,8 @@
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input formControlName="lifeCoverPremiumAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
                       id="lifeCoverPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.lifeCoverPremiumAmount.maxLength"
-                      placeholder="Life Cover Premium Amount (in INR)" name="lifeCoverPremiumAmount" [isRequired]="'Life Cover Premium Amount is required'"
-                      (change)="validateTenure('creditShieldInsurance',i);validateAmount('lifeCoverPremiumAmount',i);calculateTotal(i)">
+                      placeholder="Life Cover Premium Amount (in INR)" name="lifeCoverPremiumAmount" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
+                      .value == '4')? null :'Life Cover Premium Amount is required'" (change)="validateTenure('creditShieldInsurance',i);validateAmount('lifeCoverPremiumAmount',i);calculateTotal(i)">
                     </app-custom-input>
                   </div>
                 </div>
@@ -593,16 +603,19 @@
         </div>
         <div class="btn-sec button-section clear-both">
           <div class="col-sm-12 text-right">
-            <button type="button" class="btn btn-primary" value="back" *ngIf="roleType == '1'" (click)="onBack()">
+            <button type="button" class="btn btn-primary" value="back" *ngIf="roleType == '1' || roleType == '7'" (click)="onBack()">
               {{ labels?.back }}
             </button>
             <!-- <button (click)="onBack()" class="btn btn-primary mar-right8" type="button" >Back </button>&nbsp; -->
-            <button type="button" class="btn btn-primary" value="cancel" (click)="cancel()">
+            <button type="button" class="btn btn-primary" value="cancel" (click)="cancel()" *ngIf="!isLoan360">
               {{ labels?.cancel }}
             </button>
-            <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" *ngIf="roleType != 4 && roleType != 5">
-              {{ labels?.save }}
-            </button>
+            <ng-container *ngIf="!isLoan360">
+              <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" *ngIf="roleType != 4 && roleType != 5">
+                {{ labels?.save }}
+              </button>
+            </ng-container>
+            
             <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button"> Next </button>
           </div>
         </div>

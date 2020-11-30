@@ -22,6 +22,7 @@
             <label for="product_type">{{ labels.productCategory }}
               <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select 
+              [isDisabled]="isFromChild"
               [values]="productCategoryData" 
               (change)="productCategoryChange($event)"
               formControlName="productCategory"
@@ -66,6 +67,29 @@
             </app-vf-custom-select>
           </div>
 
+          <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLoanAccountNo">
+          <label for="first_name">{{labels?.loanAccNumber}}
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="input-group input-medium col-sm-12">
+            <app-custom-input
+              #firstOne
+              formControlName="loanAccountNumber"
+              [className]="'form-control mandatory'"
+              [placeholder]="'Loan Account Number'"
+              [maxLength]="labels?.validationData?.ChildLoanAccountNumber?.maxLength"
+              [isRequired]= "'Loan Account Number is mandatory' "
+              [isDirty]="isDirty"
+              [type]="labels?.validationData?.ChildLoanAccountNumber?.type"
+              >
+            </app-custom-input>
+            <!-- <span class="input-group-btn pad-zero">
+              <button class="btn btn-default" (click)="onLoanAccNoSearch()">
+                <i class="fa fa-search"></i>
+              </button>
+            </span> -->
+          </div>
+            </div>
         </div>
 
         <div class="row">
@@ -108,13 +132,17 @@
                 [searchKeyword]="'value'"
                 (selected)='selectSourcingEvent($event)'
                 (inputChanged)='onSourcingCodeSearch($event)'
+                (inputCleared)='onSourcingCodeCleared($event)'
                 [itemTemplate]="sourcingCodeTemplate"
                 [notFoundTemplate]="notFoundTemplate"
                 formControlName="sourcingCode"
                 [placeHolder]="sourcingCodePlaceholder"
                 [minQueryLength]="2"
                 [disabled]="isSourchingCode">                                 
-              </ng-autocomplete>               
+              </ng-autocomplete>  
+              <div class="invalid-feedback" *ngIf="!isSourceCode">
+                <div > Sourcing code required.</div>
+              </div>             
               <ng-template #sourcingCodeTemplate let-item>
               <a [innerHTML]="item.value"></a>
               </ng-template>               
@@ -124,7 +152,8 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="isremoveDealerRC">
+          <!-- <div class="row" *ngIf="true"> -->
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">Dealer Code
               <sub class="star_blue_col">*</sub>
@@ -135,12 +164,16 @@
                   [searchKeyword]="'dealorName'"
                   (selected)='selectDealerEvent($event)'
                   (inputChanged)='onDealerCodeSearch($event)'
+                  (inputCleared)='onDealerCodeCleared($event)'
                   [itemTemplate]="dealerCodeTemplate"
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="dealerCode"
                   [placeHolder]="'Dealer Code'"
                   [minQueryLength]="2">                                 
-                </ng-autocomplete>               
+                </ng-autocomplete>    
+                <div class="invalid-feedback" *ngIf="isDealerCode">
+                  <div > Dealer code required.</div>
+                </div>           
                 <ng-template #dealerCodeTemplate let-item>
                 <a [innerHTML]="item.dealorName"></a>
                 </ng-template>               
@@ -151,7 +184,8 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" *ngIf="isremoveDealerRC">
+          <!-- <div class="row" *ngIf="true"> -->
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_code">RC Limit
             </label>
@@ -208,6 +242,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select 
+              [isDisabled]="isFromChild"
               [values]="LOV.LOVS.entityType" 
               formControlName="entity" 
               [isRequired]="'Entity Required'"
@@ -227,6 +262,7 @@
             </label>
             <app-custom-input
               #firstOne
+              [isDisabled]="isFromChild"
               formControlName="nameOne"
               [className]="'form-control mandatory'"
               [placeholder]="firstPlaceholder"
@@ -243,6 +279,7 @@
             <label for="middle_name" *ngIf="applicantType == 'INDIVENTTYP'">{{labels.middleName}}</label>
             <label for="middle_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName2 }}</label>
             <app-custom-input
+              [isDisabled]="isFromChild"
               formControlName="nameTwo"
               [className]="'form-control mandatory'"
               [placeholder]="secondPlaceholder"
@@ -262,6 +299,7 @@
               <sub class="star_red_col" *ngIf="applicantType == 'INDIVENTTYP'">*</sub>
             </label>
             <app-custom-input
+              [isDisabled]="isFromChild"
               formControlName="nameThree"
               [className]="'form-control mandatory'"
               [placeholder]="thirdPlaceholder"
@@ -273,7 +311,8 @@
               >
             </app-custom-input>
           </div>
-
+        </div>
+        <div class="row individual_section_leadco">
           <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == 'INDIVENTTYP'">
             <label for="entity">{{ labels.fullName }}</label>
               <app-custom-input
@@ -290,6 +329,7 @@
             <label for="mobile">{{ labels.mobile }} <sub class="star_red_col">*</sub></label>
             <app-custom-input
               formControlName="mobile"
+              [isDisabled]="isFromChild"
               [className]="'form-control mandatory'"
               [placeholder]="'Mobile'"
               [maxLength]="mobileLength"
@@ -310,6 +350,7 @@
 
             <kendo-datepicker class="form-control mandatory" 
               formControlName="dateOfBirth" 
+              [disabled]="isFromChild"
               [format]="'dd/MM/yyyy'"
               [min]="minAge"
               [max]="maxAge" 
@@ -326,11 +367,11 @@
             </div>
             
           </div>
-
-
+        </div>
+        <div class="row individual_section_leadco">
           <div class="btn-sec clear-both">
             <div class="col-sm-12 text-right">
-              <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()">
+              <button type="button" class="btn btn-primary" (click)="onSubmit()">
                 {{ labels.createLead }}
               </button>
             </div>
@@ -364,6 +405,32 @@
         <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
           Cancel
         </button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" [ngClass]="{ 'dis-block': isLoanModal }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Seach Loan Account Number</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
+      </div>
+      <div class="modal-body">
+        <p id="">Navigate to search account no.</p>
+      </div> 
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="navgiateToSearchLoan()"
+        >
+          OK
+        </button>
+        <button type="button" class="btn btn-primary" (click)="childLoanModalClose()">
+          Cancel
+        </button>
       </div>
     </div>
   </div>

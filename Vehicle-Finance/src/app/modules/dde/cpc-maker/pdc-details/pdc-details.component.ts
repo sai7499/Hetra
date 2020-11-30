@@ -3,7 +3,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
-import { FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, FormGroup, FormControl } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { HttpService } from '@services/http.service';
 import { PdcServiceService } from '@services/pdc-service.service';
@@ -38,6 +38,11 @@ export class PdcDetailsComponent implements OnInit {
   leadData: any;
   acceptanceDate: any;
   submitted = false;
+  pdcCount: any;
+  spdcCount: any;
+  showPdcButton = false;
+  showspdcButton: boolean;
+  negotiatedEmi: any;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -59,14 +64,18 @@ export class PdcDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.leadData = (this.leadDataService.getLeadSectionData());
+    this.leadData = this.leadDataService.getLeadSectionData();
     this.acceptanceDate = this.leadData.leadDetails.custAcceptedDate;
     if (!this.acceptanceDate) {
-     this.toDayDate =  this.utilityService.getDateFromString(this.leadData.leadDetails.leadCreatedOn);
+      this.toDayDate = this.utilityService.getDateFromString(
+        this.leadData.leadDetails.leadCreatedOn
+      );
     } else {
-      this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate ));
+      this.toDayDate = this.utilityService.getDateFromString(
+        this.utilityService.getDateFormat(this.toDayDate)
+      );
     }
-    console.log(this.toDayDate, ' lead Data onit', );
+    console.log(this.toDayDate, ' lead Data onit');
 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -91,12 +100,15 @@ export class PdcDetailsComponent implements OnInit {
       this.lovData = res.LOVS;
     });
   }
-  get f() { return this.pdcForm.controls; }
+  get f() {
+    return this.pdcForm.controls;
+  }
   private initRows() {
     return this.fb.group({
       pdcId: [null],
       // instrType: [null, Validators.required],
-      emiAmount: [null, Validators.required],
+      // emiAmount: [{value: this.negotiatedEmi, disabled: true}, Validators.required ],
+      emiAmount:  new FormControl(this.negotiatedEmi,[ Validators.required ]),
       instrNo: [null, Validators.required],
       instrDate: [null, Validators.required],
       instrBankName: [null, Validators.required],
@@ -109,7 +121,7 @@ export class PdcDetailsComponent implements OnInit {
     return this.fb.group({
       pdcId: [null],
       // instrType: [null, Validators.required],
-      emiAmount: [null],
+      emiAmount:  new FormControl(this.negotiatedEmi,[ Validators.required ]),
       instrNo: [null],
       instrDate: [null],
       instrBankName: [null, Validators.required],
@@ -172,10 +184,10 @@ export class PdcDetailsComponent implements OnInit {
     });
   }
   submitTocpc() {
-    // if (this.pdcForm.invalid) {
-    //   this.toasterService.showError('Save before Submitting', '');
-    //   return;
-    // }
+    if (this.pdcForm.invalid) {
+      this.toasterService.showError('Save before Submitting', '');
+      return;
+    }
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '4') {
       const body = {
@@ -237,7 +249,7 @@ export class PdcDetailsComponent implements OnInit {
       }
     });
   }
-  onSave() {
+  onSave(dataString: string) {
     this.submitted = true;
     //  localStorage.setItem('pdcData', JSON.stringify(this.pdcForm.value));
     // tslint:disable-next-line: prefer-for-of
@@ -254,8 +266,8 @@ export class PdcDetailsComponent implements OnInit {
       this.pdcForm.value.spdcList[i].instrDate = this.pdcForm.value.spdcList[i]
         .instrDate
         ? this.utilityService.getDateFormat(
-          this.pdcForm.value.spdcList[i].instrDate
-        )
+            this.pdcForm.value.spdcList[i].instrDate
+          )
         : null;
     }
     console.log(this.pdcForm, 'pdc Form');
@@ -274,7 +286,13 @@ export class PdcDetailsComponent implements OnInit {
       if (res.ProcessVariables.error.code == '0') {
         // this.getData(res.ProcessVariables);
         this.toasterService.showSuccess('Record Saved Successfully', '');
-        this.getPdcDetails();
+        // tslint:disable-next-line: triple-equals
+        if (dataString == 'save') {
+          this.getPdcDetails();
+          // tslint:disable-next-line: triple-equals
+        } else if (dataString == 'cpc') {
+          this.submitTocpc();
+        }
       } else {
         this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
@@ -298,20 +316,58 @@ export class PdcDetailsComponent implements OnInit {
       // this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
       // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '5') {
-      this.router.navigate([
-        `pages/cpc-checker/${this.leadId}/negotiation`,
-      ]);
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
     }
   }
-  getData(data: any) {
+  getData(data: any, pdcCount: any, spdcCount: any) {
     // const data = JSON.parse(localStorage.getItem('pdcData'));
     // this.pdcForm.controls.pdcList.controls = [];
     // this.pdcForm.controls.spdcList.controls = [];
+    pdcCount = pdcCount;
+    spdcCount = spdcCount;
     if (data) {
       const spdcControl = this.pdcForm.controls.spdcList as FormArray;
       const PdcControl = this.pdcForm.controls.pdcList as FormArray;
 
-      if (data.pdcList) {
+      // tslint:disable-next-line: triple-equals
+      if (pdcCount != '' && pdcCount != null) {
+        for (let i = 0; i < pdcCount; i++) {
+          this.addPdcUnit();
+        }
+        if (data.pdcList != null) {
+          for (let i = 0; i < pdcCount; i++) {
+            PdcControl.at(i).patchValue({
+              pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
+              instrType: data.pdcList[i].instrType
+                ? data.pdcList[i].instrType
+                : null,
+              emiAmount: data.pdcList[i].emiAmount
+                ? data.pdcList[i].emiAmount
+                : this.negotiatedEmi,
+              instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : null,
+              instrDate: data.pdcList[i].instrDate
+                ? this.utilityService.getDateFromString(
+                    data.pdcList[i].instrDate
+                  )
+                : null,
+              instrBankName: data.pdcList[i].instrBankName
+                ? data.pdcList[i].instrBankName
+                : null,
+              instrBranchName: data.pdcList[i].instrBranchName
+                ? data.pdcList[i].instrBranchName
+                : null,
+              instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
+                ? data.pdcList[i].instrBranchAccountNumber
+                : null,
+              instrAmount: data.pdcList[i].instrAmount
+                ? data.pdcList[i].instrAmount
+                : null,
+            });
+          }
+        }
+        // tslint:disable-next-line: triple-equals
+      } else if (pdcCount == '' && data.pdcList) {
+        this.showPdcButton = true;
         for (let i = 0; i < data.pdcList.length; i++) {
           this.addPdcUnit();
           PdcControl.at(i).patchValue({
@@ -321,7 +377,7 @@ export class PdcDetailsComponent implements OnInit {
               : null,
             emiAmount: data.pdcList[i].emiAmount
               ? data.pdcList[i].emiAmount
-              : null,
+              : this.negotiatedEmi,
             instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : null,
             instrDate: data.pdcList[i].instrDate
               ? this.utilityService.getDateFromString(data.pdcList[i].instrDate)
@@ -342,9 +398,50 @@ export class PdcDetailsComponent implements OnInit {
         }
       } else {
         this.addPdcUnit();
+        this.showPdcButton = true;
       }
-      // tslint:disable-next-line: prefer-for-of
-      if (data.spdcList) {
+      // tslint:disable-next-line: triple-equals
+      if (spdcCount != '' && spdcCount != null) {
+        for (let i = 0; i < spdcCount; i++) {
+          this.addSPdcUnit();
+        }
+        if (data.spdcList) {
+          for (let j = 0; j < data.spdcList.length; j++) {
+            spdcControl.at(j).patchValue({
+              pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : null,
+              instrType: data.spdcList[j].instrType
+                ? data.spdcList[j].instrType
+                : null,
+              emiAmount: data.spdcList[j].emiAmount
+                ? data.spdcList[j].emiAmount
+                : this.negotiatedEmi,
+              instrNo: data.spdcList[j].instrNo
+                ? data.spdcList[j].instrNo
+                : null,
+              instrDate: data.spdcList[j].instrDate
+                ? this.utilityService.getDateFromString(
+                    data.spdcList[j].instrDate
+                  )
+                : null,
+              instrBankName: data.spdcList[j].instrBankName
+                ? data.spdcList[j].instrBankName
+                : null,
+              instrBranchName: data.spdcList[j].instrBranchName
+                ? data.spdcList[j].instrBranchName
+                : null,
+              instrBranchAccountNumber: data.spdcList[j]
+                .instrBranchAccountNumber
+                ? data.spdcList[j].instrBranchAccountNumber
+                : null,
+              instrAmount: data.spdcList[j].instrAmount
+                ? data.spdcList[j].instrAmount
+                : null,
+            });
+          }
+        }
+
+        // tslint:disable-next-line: triple-equals
+      } else if (data.spdcList && spdcCount == '') {
         // tslint:disable-next-line: prefer-for-of
         for (let j = 0; j < data.spdcList.length; j++) {
           this.addSPdcUnit();
@@ -355,12 +452,12 @@ export class PdcDetailsComponent implements OnInit {
               : null,
             emiAmount: data.spdcList[j].emiAmount
               ? data.spdcList[j].emiAmount
-              : null,
+              : this.negotiatedEmi,
             instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : null,
             instrDate: data.spdcList[j].instrDate
               ? this.utilityService.getDateFromString(
-                data.spdcList[j].instrDate
-              )
+                  data.spdcList[j].instrDate
+                )
               : null,
             instrBankName: data.spdcList[j].instrBankName
               ? data.spdcList[j].instrBankName
@@ -377,6 +474,7 @@ export class PdcDetailsComponent implements OnInit {
           });
         }
       } else {
+        this.showspdcButton = true;
         this.addSPdcUnit();
       }
     }
@@ -394,8 +492,12 @@ export class PdcDetailsComponent implements OnInit {
       if (res.ProcessVariables.error.code == '0') {
         this.pdcForm.controls.pdcList.controls = [];
         this.pdcForm.controls.spdcList.controls = [];
+        this.pdcCount = res.ProcessVariables.pdcCount;
+        this.spdcCount = res.ProcessVariables.spdcCount;
+        this.negotiatedEmi = res.ProcessVariables.negotiatedEmi;
+        console.log(this.pdcCount, this.spdcCount, 'pdc and spdc count');
         if (res.ProcessVariables) {
-          this.getData(res.ProcessVariables);
+          this.getData(res.ProcessVariables, this.pdcCount, this.spdcCount);
         }
         // else if (res.ProcessVariables.pdcList && res.ProcessVariables.spdcList != null) {
         //   this.addPdcUnit();
@@ -442,7 +544,8 @@ export class PdcDetailsComponent implements OnInit {
           console.log(spdcCheck);
           if (spdcCheck.length >= 1) {
             // alert(foundValue.length);
-            const control = this.pdcForm.controls[string1].controls as FormArray;
+            const control = this.pdcForm.controls[string1]
+              .controls as FormArray;
             console.log(control);
             // tslint:disable-next-line: no-unused-expression
             this.toasterService.showWarning('Duplicate InstrNo Found', '');
@@ -479,7 +582,9 @@ export class PdcDetailsComponent implements OnInit {
         // tslint:disable-next-line: triple-equals
         // tslint:disable-next-line: prefer-const
         let foundValue = value
-          ? stringValue1.filter((x) => this.utilityService.getDateFormat(x.instrDate) === value)
+          ? stringValue1.filter(
+              (x) => this.utilityService.getDateFormat(x.instrDate) === value
+            )
           : 'not found';
         console.log(foundValue);
         if (foundValue.length > 1) {
@@ -493,12 +598,15 @@ export class PdcDetailsComponent implements OnInit {
         if (value) {
           // tslint:disable-next-line: prefer-const
           let spdcCheck = value
-            ? stringValue2.filter((x) => this.utilityService.getDateFormat(x.instrDate) === value)
+            ? stringValue2.filter(
+                (x) => this.utilityService.getDateFormat(x.instrDate) === value
+              )
             : 'not found';
           console.log(spdcCheck);
           if (spdcCheck.length >= 1) {
             // alert(foundValue.length);
-            const control = this.pdcForm.controls[string1].controls as FormArray;
+            const control = this.pdcForm.controls[string1]
+              .controls as FormArray;
             console.log(control);
             // tslint:disable-next-line: no-unused-expression
             this.toasterService.showWarning('Duplicate InstrDate Found', '');
@@ -509,10 +617,8 @@ export class PdcDetailsComponent implements OnInit {
     }, 2000);
   }
 
-
   getIndex(i: number) {
     this.rowIndex = null;
     this.rowIndex = i;
   }
-
 }

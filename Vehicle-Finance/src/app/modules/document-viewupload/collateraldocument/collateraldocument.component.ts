@@ -40,6 +40,9 @@ export class CollateraldocumentComponent implements OnInit {
   }
 
   getVehicleList(vehicleList) {
+    if (!vehicleList) {
+      return;
+    }
     this.vehicleList = vehicleList.map((val) => {
       let collateralValue = '';
       if (!val.regNo) {

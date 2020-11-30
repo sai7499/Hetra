@@ -16,7 +16,10 @@ const routes: Routes = [
         component: ViabilityDetailsComponent
       },
       {
-
+        path: 'viability-details/:collateralId/:version',
+        component: ViabilityDetailsComponent
+      },
+      {
           path: 'viability-list',
           component: ViabilityListComponent
         }

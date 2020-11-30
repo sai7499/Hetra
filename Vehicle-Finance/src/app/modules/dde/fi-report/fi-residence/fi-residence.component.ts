@@ -10,6 +10,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FieldInvestigation } from '@model/dde.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
+import { UtilityService } from '@services/utility.service';
 
 
 
@@ -33,7 +34,9 @@ export class FiResidenceComponent implements OnInit {
   leadData: {};
   applicantFullName: any;
   fiDate: Date = new Date();
-  fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
+  // fiTime: any = String(new Date(new Date().getTime()).toLocaleTimeString()).slice(0, 5);
+  fiTime: any;
   pincodeResult: {
     state?: any[];
     country?: any[];
@@ -45,7 +48,6 @@ export class FiResidenceComponent implements OnInit {
   };
   state = [];
   city = [];
-  toDayDate: Date = new Date();
   leadCreatedDateFromLead: any;
   cpVerificaton: string;
   initiatedDate: any;
@@ -66,7 +68,11 @@ export class FiResidenceComponent implements OnInit {
     rule?: any;
     msg?: string;
   }[];
-
+  ownerShipType: any;
+  ownerNamePropertyAreaRequired: boolean;
+  ownerNamePropertyAreaDisabled: boolean;
+  initDate: boolean;
+  toDayDate: Date = new Date();
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -78,6 +84,7 @@ export class FiResidenceComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
     private applicantService: ApplicantService,
+    private utilityService: UtilityService,
 
   ) {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
@@ -85,14 +92,19 @@ export class FiResidenceComponent implements OnInit {
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
     console.log('in construc app id', this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
+    this.fiTime = this.stringTime[0] + ':' + this.stringTime[1];
     console.log('leadid', this.leadId);
+    console.log('string time', this.stringTime);
+    console.log('fi time', this.fiTime);
     console.log('now  fi date', this.fiDate);
     console.log('version', this.version);
+
 
   }
 
   async ngOnInit() {
 
+    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -205,7 +217,8 @@ export class FiResidenceComponent implements OnInit {
     //   }
     // }
   }
-  ownerShipType(event: any) {
+  // fun for conditional entry for rent amount
+  houseOwnerShipType(event: any) {
     console.log('in resendential type');
     console.log(event);
     this.resedenceType = event ? event : event;
@@ -231,6 +244,96 @@ export class FiResidenceComponent implements OnInit {
 
     }
   }
+
+  // fun for conditional entry for area of property and value of property
+
+  houseOwnerShip(event: any) {
+    console.log('event', event);
+    this.ownerShipType = event ? event : event;
+    if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
+      this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
+      this.ownerShipType === '5HOUOWN') {
+
+      //  checking whether resi is rented or not
+      if (this.ownerShipType === '2HOUOWN') {
+        console.log('in add rent amount validator');
+        this.isRentDisabled = false;
+        this.rentRequired = true;
+        this.fieldReportForm.get('rentAmt').enable();
+        this.fieldReportForm.get('rentAmt').setValidators(Validators.required);
+        this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+
+      } else if (this.resedenceType !== '2HOUOWN') { //  checking the condition if resi is not rented
+        console.log('in remove rent amount validator');
+        this.fieldReportForm.get('rentAmt').disable();
+        this.isRentDisabled = true;
+        this.rentRequired = false;
+        setTimeout(() => {
+          this.fieldReportForm.get('rentAmt').patchValue(null);
+
+        });
+        this.fieldReportForm.get('rentAmt').clearValidators();
+        this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+
+      }
+      console.log('in owner,property enabled');
+      this.ownerNamePropertyAreaRequired = true;
+      this.ownerNamePropertyAreaDisabled = false;
+      // this.personalDetailsForm.get('owner').enable();
+      // this.personalDetailsForm.get('owner').setValidators(Validators.required);
+      this.fieldReportForm.get('areaOfProperty').enable();
+      this.fieldReportForm.get('areaOfProperty').setValidators(Validators.required);
+      this.fieldReportForm.get('propertyValue').enable();
+      this.fieldReportForm.get('propertyValue').setValidators(Validators.required);
+
+    } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
+      this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
+      this.ownerShipType !== '5HOUOWN') {
+      console.log('in owner,property disabled');
+
+      if (this.resedenceType !== '2HOUOWN') { //  checking the condition if resi is not rented
+        console.log('in remove rent amount validator');
+        this.fieldReportForm.get('rentAmt').disable();
+        this.isRentDisabled = true;
+        this.rentRequired = false;
+        setTimeout(() => {
+          this.fieldReportForm.get('rentAmt').patchValue(null);
+
+        });
+        this.fieldReportForm.get('rentAmt').clearValidators();
+        this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+
+      } else if (this.ownerShipType === '2HOUOWN') {
+        console.log('in add rent amount validator');
+        this.isRentDisabled = false;
+        this.rentRequired = true;
+        this.fieldReportForm.get('rentAmt').enable();
+        this.fieldReportForm.get('rentAmt').setValidators(Validators.required);
+        this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+
+      }
+      this.ownerNamePropertyAreaRequired = false;
+      this.ownerNamePropertyAreaDisabled = true;
+
+      setTimeout(() => {
+        // this.personalDetailsForm.get('owner').setValue(null);
+        this.fieldReportForm.get('areaOfProperty').setValue(null);
+        this.fieldReportForm.get('propertyValue').setValue(null);
+      });
+
+      // this.personalDetailsForm.get('owner').disable();
+      // this.personalDetailsForm.get('owner').clearValidators();
+      // this.personalDetailsForm.get('owner').updateValueAndValidity();
+      this.fieldReportForm.get('areaOfProperty').disable();
+      this.fieldReportForm.get('areaOfProperty').clearValidators();
+      this.fieldReportForm.get('areaOfProperty').updateValueAndValidity();
+      this.fieldReportForm.get('propertyValue').disable();
+      this.fieldReportForm.get('propertyValue').clearValidators();
+      this.fieldReportForm.get('propertyValue').updateValueAndValidity();
+
+    }
+  }
+
 
   getPincode(pincode) {
     // const id = pincode.id;
@@ -290,7 +393,8 @@ export class FiResidenceComponent implements OnInit {
       });
 
   }
-  getMonths() {
+  validateSubmitDate() {
+    console.log('Form Data', this.fieldReportForm);
     const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
       ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
     console.log('init date', initiatedDate);
@@ -299,12 +403,14 @@ export class FiResidenceComponent implements OnInit {
     console.log('init date', submitDate);
     if (initiatedDate !== null && submitDate !== null) {
       if (submitDate < initiatedDate) {
+        this.initDate = true;
         this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
-
+      } else {
+        this.initDate = false;
       }
 
     }
-
+    console.log('Form Data', this.fieldReportForm);
   }
 
   initForm() {
@@ -343,7 +449,7 @@ export class FiResidenceComponent implements OnInit {
       noOfYearsResi: new FormControl('', Validators.required),
       noOfMonthsResi: new FormControl('', Validators.required),
       yrsOfStayInResi: new FormControl(''),
-      areaInSqFeet: new FormControl('', Validators.required),
+      // areaInSqFeet: new FormControl('', Validators.required),
       locality: new FormControl('', Validators.required),
       visibleAssets: new FormControl('', Validators.required),
       locatingResidence: new FormControl('', Validators.required),
@@ -365,7 +471,9 @@ export class FiResidenceComponent implements OnInit {
       cpvAgencyStatus: new FormControl('', Validators.required),
       verifiedBy: new FormControl('', Validators.required),
       fiDate: new FormControl({ value: '', disabled: true }),
-      fiTime: new FormControl({ value: '', disabled: true })
+      fiTime: new FormControl({ value: '', disabled: true }),
+      areaOfProperty: new FormControl(''),
+      propertyValue: new FormControl(''),
 
     });
 
@@ -419,7 +527,7 @@ export class FiResidenceComponent implements OnInit {
       personMetName: fiModel.personMetName ? fiModel.personMetName : null,
       yrsOfStayInCity: fiModel.yrsOfStayInCity ? fiModel.yrsOfStayInCity : null,
       yrsOfStayInResi: fiModel.yrsOfStayInResi ? fiModel.yrsOfStayInResi : null,
-      areaInSqFeet: fiModel.areaInSqFeet ? fiModel.areaInSqFeet : null,
+      // areaInSqFeet: fiModel.areaInSqFeet ? fiModel.areaInSqFeet : null,
       locality: fiModel.locality ? fiModel.locality : null,
       visibleAssets: fiModel.visibleAssets ? fiModel.visibleAssets : null,
       locatingResidence: fiModel.locatingResidence ? fiModel.locatingResidence : null,
@@ -449,6 +557,8 @@ export class FiResidenceComponent implements OnInit {
       noOfYearsCity: noofyearsCity,
       noOfMonthsResi: noofmonthsResi,
       noOfYearsResi: noofyearsResi,
+      areaOfProperty: fiModel.areaOfProperty,
+      propertyValue: fiModel.propertyValue,
 
     });
   }
@@ -513,17 +623,19 @@ export class FiResidenceComponent implements OnInit {
 
 
   onFormSubmit() { // fun that submits all the pd data
+    this.validateSubmitDate();
     const formValue = this.fieldReportForm.getRawValue();
-
     this.yearsOfStayInCity = String((Number(formValue.noOfYearsCity) * 12) + Number(formValue.noOfMonthsCity)) || '';
     this.yearsOfStayInResi = String((Number(formValue.noOfYearsResi) * 12) + Number(formValue.noOfMonthsResi)) || '';
-
     const formModal = this.fieldReportForm.value;
     const fieldReportModal = { ...formModal };
     console.log('Form Data', this.fieldReportForm);
     this.isDirty = true;
     if (this.fieldReportForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
+      return;
+    } else if (this.initDate) {
+      this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
       return;
     }
     this.fiResidenceDetails = {
@@ -555,7 +667,7 @@ export class FiResidenceComponent implements OnInit {
       personMetName: fieldReportModal.personMetName,
       yrsOfStayInCity: this.yearsOfStayInCity,
       yrsOfStayInResi: this.yearsOfStayInResi,
-      areaInSqFeet: fieldReportModal.areaInSqFeet,
+      // areaInSqFeet: fieldReportModal.areaInSqFeet,
       locality: fieldReportModal.locality,
       visibleAssets: fieldReportModal.visibleAssets,
       locatingResidence: fieldReportModal.locatingResidence,
@@ -578,6 +690,9 @@ export class FiResidenceComponent implements OnInit {
       verifiedBy: fieldReportModal.verifiedBy,
       fiDate: this.sendDate(this.fiDate),
       fiTime: this.fiTime,
+      propertyValue: fieldReportModal.propertyValue || '',
+      areaOfProperty: fieldReportModal.areaOfProperty || '',
+
     };
     const data = {
       userId: this.userId,

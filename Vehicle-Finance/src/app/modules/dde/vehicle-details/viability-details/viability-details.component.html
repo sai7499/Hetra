@@ -694,13 +694,14 @@
                                 <app-custom-input
                                 [id]="gross_income_perday"
                                 formControlName="businessEarningPerDay"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
-                                [type]="label?.validationData?. amountFiveCharc?.type"
-                                [isRequired]="'Earnings Per Day Is Required'"
+                                
+                                [maxLength]="label?.validationData?. daysFormat?.maxLength"
+                                [type]="label?.validationData?. daysFormat?.type"
+                                [isRequired]="'Earnings Per Month Is Required'"
                                 [isDirty]="isDirty"
+                                [custom]="daysCheck"
                                 (keyup)="calculateStandOperator()"
-                                [placeholder]="'Enter Business Earning Per Day'"
+                                [placeholder]="'Enter Business Earning Per Month'"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -938,13 +939,13 @@
                                 <app-custom-input
                                 [id]="num_earnings_perday"
                                 formControlName="businessEarningPerDay"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
-                                [type]="label?.validationData?. amountFiveCharc?.type"
-                                [isRequired]="'Business Earning Per Day Is Required'"
+                                [custom]="daysCheck"
+                                [maxLength]="label?.validationData?. daysFormat?.maxLength"
+                                [type]="label?.validationData?. daysFormat?.type"
+                                [isRequired]="'Business Earning Per Month Is Required'"
                                 [isDirty]="isDirty"
                                 
-                                [placeholder]="'Enter No of Earnings Per Day'"
+                                [placeholder]="'Enter No of Earnings Per Month'"
                                 (keyup)="calculateCaptive()"
                                 ></app-custom-input> 
                             </td>
@@ -1165,11 +1166,15 @@
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">
         <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> 
-        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
+        
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
+       <ng-container *ngIf="!isLoan360">
+        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
         <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
             <p type="button" class="btn btn-primary">{{label?.submit}}</p>
         </a>
+        <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal" data-target="#myModalReinitiate" *ngIf = "showReinitiate">{{label?.reinitiate}}</button>
+       </ng-container>
     </div>
 </div>
 <div class="modal" id="myModalCredit">
@@ -1196,6 +1201,34 @@
 
         </div>
     </div>
-</div>
 
+
+</div>
+<div class="modal" id="myModalReinitiate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <p>Are you sure want to ReInitiate Viability ?</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
+                    value="Yes" (click)="reInitiateViability()">{{label?.yes}}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{label?.cancel}}</button>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
  <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal>

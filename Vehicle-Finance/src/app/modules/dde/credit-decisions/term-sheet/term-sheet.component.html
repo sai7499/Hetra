@@ -229,9 +229,13 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>{{labels.customerDOB}}</td>
+                                    <td *ngIf = "applicantDetails?.entityType == 'INDIVENTTYP'">{{labels.customerDOB}}</td>
+                                    <td *ngIf = "applicantDetails?.entityType == 'NONINDIVENTTYP'">{{labels.customerDOI}}</td>
+
                                     <td>:</td>
                                     <td>{{applicantDetails?.dob}}</td>
+                                    <!-- <td *ngIf = "applicantDetails?.entityType == 'NONINDIVENTTYP'">{{applicantDetails?.doi}}</td> -->
+
                                     <td>{{labels.customerAge}}</td>
                                     <td>:</td>
                                     <td>{{applicantDetails?.age}}</td>
@@ -294,7 +298,9 @@
                         <table class="table-responsive  table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td class="tab-wid-25">{{labels.dob}}</td>
+                                    <td class="tab-wid-25" *ngIf = "coAppDetailsData?.entityType == 'INDIVENTTYP'">{{labels.dob}}</td>
+                                    <td class="tab-wid-25" *ngIf = "coAppDetailsData?.entityType == 'NONINDIVENTTYP'">{{labels.doi}}</td>
+
                                     <td class="tab-wid-5">:</td>
                                     <td class="tab-wid-25" >{{coAppDetailsData.dob}}</td>
                                     <td class="tab-wid-25">{{labels.age}} </td>
@@ -306,9 +312,9 @@
                                     <td class="tab-wid-25">{{labels.gender}}</td>
                                     <td class="tab-wid-5">:</td>
                                     <td class="tab-wid-25" >{{coAppDetailsData.gender}}</td>
-                                    <td class="tab-wid-25">{{labels.dob}}</td>
+                                    <!-- <td class="tab-wid-25">{{labels.dob}}</td>
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{coAppDetailsData.dob}}</td>
+                                    <td class="tab-wid-25" >{{coAppDetailsData.dob}}</td> -->
                                 </tr>
                                 
                             </tbody>
@@ -329,7 +335,9 @@
                         <table class="table-responsive  table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td class="tab-wid-25">{{labels.dob}}</td>
+                                    <td class="tab-wid-25" *ngIf = "guarantorData?.entityType == 'INDIVENTTYP'">{{labels.dob}}</td>
+                                    <td class="tab-wid-25" *ngIf = "guarantorData?.entityType == 'NONINDIVENTTYP'">{{labels.doi}}</td>
+
                                     <td class="tab-wid-5">:</td>
                                     <td class="tab-wid-25" >{{guarantorData.dob}}</td>
                                     <td class="tab-wid-25">{{labels.age}} </td>
@@ -341,9 +349,9 @@
                                     <td class="tab-wid-25">{{labels.gender}}</td>
                                     <td class="tab-wid-5">:</td>
                                     <td class="tab-wid-25" >{{guarantorData.gender}}</td>
-                                    <td class="tab-wid-25">{{labels.dob}}</td>
+                                    <!-- <td class="tab-wid-25">{{labels.dob}}</td>
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{guarantorData.dob}}</td>
+                                    <td class="tab-wid-25" >{{guarantorData.dob}}</td> -->
                                 </tr>
                                 
                             </tbody>
@@ -924,7 +932,7 @@
                 <button class="btn btn-primary btn_div " (click)="onBack()" type="button">Back</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
                 <button class="btn btn-primary btn_div" (click)="onNext()" type="button">Next</button>
-                <button class="btn btn-primary btn_div" (click)="downloadpdf()" type="button">Download</button>
+                <button  *ngIf="!isLoan360" class="btn btn-primary btn_div" (click)="downloadpdf()" type="button">Download</button>
 
             </div>
         </div>

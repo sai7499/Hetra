@@ -30,6 +30,7 @@
 
                     <app-custom-input formControlName="proofName" [type]="label.validationData?.name.type"
                         [id]="'name_proof'" [className]="'form-control mandatory'"
+                        [isDisabled]="collateralForm.get('proofCollected').value === 'YPROOF' ? false : true"
                         [placeholder]="'Name of Proof/Proof Name'" [maxLength]="label.validationData?.name.maxLength">
                     </app-custom-input>
 
@@ -68,6 +69,7 @@
                                 <app-custom-input formControlName="landInAcres"
                                     [type]="label.validationData?.landArea.type" [id]="'land_in_acres'"
                                     [className]="'form-control mandatory'" [placeholder]="'Land in Acres'"
+                                    (ngModelChange)="getLandArea($event, obj)"
                                     [maxLength]="label.validationData?.landArea.maxLength"
                                     [isRequired]="'Land in Acres Required'" [isDirty]="isDirty">
                                 </app-custom-input>
@@ -95,7 +97,7 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
+                                <app-vf-custom-select [values]="LOV?.relationLov" [id]="'relation_applicant'"
                                     formControlName="relationWithApplicant"
                                     [isRequired]="'Related to Primary Applicant Required'" [isDirty]="isDirty">
                                 </app-vf-custom-select>
@@ -110,6 +112,7 @@
                                 <app-custom-input formControlName="marketValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'market_value_acre'"
                                     [className]="'form-control mandatory'" [placeholder]="'Market Value / Acre'"
+                                    (ngModelChange)="getMarketValue('landInAcres', obj)"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [isRequired]="'Market Value / Acre Required'" [isDirty]="isDirty">
                                 </app-custom-input>
@@ -121,8 +124,7 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-custom-input formControlName="totalMarketValue"
-                                     [id]="'total_land'"
+                                <app-custom-input formControlName="totalMarketValue" [id]="'total_land'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Market Value'"
                                     [value]="obj.controls['marketValue'].value * obj.controls['landInAcres'].value"
                                     [isDisabled]="true">
@@ -142,6 +144,7 @@
                                 <app-custom-input formControlName="guideLineValue"
                                     [type]="label.validationData?.amountValue.type" [id]="'guide_line'"
                                     [className]="'form-control mandatory'" [placeholder]="'Guide line  value / Acre'"
+                                    (ngModelChange)="getGuideLine('landInAcres', obj)"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [isRequired]="'Guide line  value / Acre'" [isDirty]="isDirty">
                                 </app-custom-input>
@@ -153,12 +156,11 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-custom-input formControlName="totalGuideLineValue"
-                                     [id]="'total_guide_line_value'"
+                                <app-custom-input formControlName="totalGuideLineValue" [id]="'total_guide_line_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Guideline Value'"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [value]="obj.controls['landInAcres'].value * obj.controls['guideLineValue'].value"
-                                     [isDisabled]="true">
+                                    [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -202,7 +204,7 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
+                                <app-vf-custom-select [values]="LOV?.relationLov" [id]="'relation_applicant'"
                                     formControlName="relationWithApplicant"
                                     [isRequired]="'Related to Primary Applicant Required'" [isDirty]="isDirty">
                                 </app-vf-custom-select>
@@ -243,12 +245,11 @@
                                 <app-custom-input formControlName="goldInGrams"
                                     [type]="label.validationData?.goldInGrams.type" [id]="'gold_in_gms'"
                                     [patternCheck]="label.validationData?.goldInGrams.patternCheck"
-                                    [className]="'form-control mandatory'" 
+                                    [className]="'form-control mandatory'"
                                     [placeholder]="'Gold in gms (net weight - excluding stones)'"
                                     [maxLength]="label.validationData?.goldInGrams.maxLength"
                                     [isRequired]="'Gold in gms (net weight - excluding stones) Required'"
-                                    (ngModelChange)="goldGrams($event)"
-                                    [isDirty]="isDirty">
+                                    (ngModelChange)="goldGrams($event)" [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>
@@ -261,7 +262,7 @@
                                 <app-custom-input formControlName="currentValuePerGram"
                                     [type]="label.validationData?.valueasToday.type" [id]="'value_as_today'"
                                     [className]="'form-control mandatory'" [placeholder]="'Value as of today per gram'"
-                                    [maxLength]="label.validationData?.valueasToday.maxLength" 
+                                    [maxLength]="label.validationData?.valueasToday.maxLength"
                                     (ngModelChange)="currentValueGrams($event)"
                                     [isRequired]="'Value as of today per gram Required'" [isDirty]="isDirty">
                                 </app-custom-input>
@@ -273,10 +274,9 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-custom-input formControlName="totalMarketValue"
-                                     [id]="'total_value'"
+                                <app-custom-input formControlName="totalMarketValue" [id]="'total_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Value'"
-                                     [isDisabled]="true">
+                                    [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -302,7 +302,7 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
+                                <app-vf-custom-select [values]="LOV?.relationLov" [id]="'relation_applicant'"
                                     formControlName="relationWithApplicant"
                                     [isRequired]="'Related to Primary Applicant Required'" [isDirty]="isDirty">
                                 </app-vf-custom-select>
@@ -314,8 +314,8 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-vf-custom-select [values]="LOV?.goldPurity" [id]="'purity'" formControlName="purity"
-                                    [isRequired]="'Purity Required'" [isDirty]="isDirty">
+                                <app-vf-custom-select [values]="LOV?.goldPurity" [id]="'purity'"
+                                    formControlName="purity" [isRequired]="'Purity Required'" [isDirty]="isDirty">
                                 </app-vf-custom-select>
 
                             </div>
@@ -340,18 +340,6 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="property_type">{{label.propertyOwnerType}}
-                                    <sub class="star_red_col">*</sub>
-                                </label>
-
-                                <app-vf-custom-select [values]="LOV?.propertyOwnerType" [id]="'property_type'"
-                                    formControlName="propertyOwnerType" [isRequired]="'Property Owner Type Required'"
-                                    [isDirty]="isDirty">
-                                </app-vf-custom-select>
-
-                            </div>
-
-                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_owner">{{label.propertyOwner}}
                                     <sub class="star_red_col">*</sub>
                                 </label>
@@ -362,20 +350,30 @@
 
                             </div>
 
-                            
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <label for="relation_applicant">{{label.relatedWithApplicant}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
+
+                                <app-vf-custom-select [values]="LOV?.relationLov" [id]="'relation_applicant'"
+                                    formControlName="relationWithApplicant"
+                                    [isRequired]="'Related to Primary Applicant Required'" [isDirty]="isDirty">
+                                </app-vf-custom-select>
+
+                            </div>
 
                         </div>
 
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="relation_applicant">{{label.relatedWithApplicant}}
+                                <label for="property_type">{{label.propertyOwnerType}}
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-vf-custom-select [values]="LOV?.relationship" [id]="'relation_applicant'"
-                                    formControlName="relationWithApplicant"
-                                    [isRequired]="'Related to Primary Applicant Required'" [isDirty]="isDirty">
+                                <app-vf-custom-select [values]="LOV?.propertyOwnerType" [id]="'property_type'"
+                                    formControlName="propertyOwnerType" [isRequired]="'Property Owner Type Required'"
+                                    [isDirty]="isDirty" (change)="onCheckApplicant($event.target.value, obj)">
                                 </app-vf-custom-select>
 
                             </div>
@@ -386,10 +384,11 @@
                                 </label>
 
                                 <app-custom-input formControlName="totalLandArea"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_land_area'"
+                                    [type]="label.validationData?.landArea.type" [id]="'total_land_area'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Area'"
                                     [maxLength]="label.validationData?.landArea.maxLength"
-                                    [isRequired]="'Total Land Area Required'" [isDirty]="isDirty">
+                                    (ngModelChange)="getLandArea($event, obj)" [isRequired]="'Total Land Area Required'"
+                                    [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>
@@ -400,7 +399,7 @@
                                 </label>
 
                                 <app-custom-input formControlName="totalBuiltUpArea"
-                                    [type]="label.validationData?.amountValue.type" [id]="'total_build_up_area'"
+                                    [type]="label.validationData?.landArea.type" [id]="'total_build_up_area'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Built up Area'"
                                     [maxLength]="label.validationData?.landArea.maxLength"
                                     [isRequired]="'Total Built up Area Required'" [isDirty]="isDirty">
@@ -408,7 +407,7 @@
 
                             </div>
 
-                            
+
 
                         </div>
 
@@ -420,9 +419,10 @@
                                 </label>
 
                                 <app-custom-input formControlName="marketValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'market_value_sf'"
+                                    [type]="label.validationData?.landArea.type" [id]="'market_value_sf'"
                                     [className]="'form-control mandatory'" [placeholder]="'Market Value / SF'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    (ngModelChange)="getMarketValue('totalLandArea', obj)"
+                                    [maxLength]="label.validationData?.landArea.maxLength"
                                     [isRequired]="'Market Value / SF Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
@@ -433,11 +433,10 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-custom-input formControlName="totalMarketValue"
-                                    [id]="'total_market_value'"
+                                <app-custom-input formControlName="totalMarketValue" [id]="'total_market_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Market Value'"
                                     [value]="obj.controls['marketValue'].value * obj.controls['totalLandArea'].value"
-                                     [isDisabled]="true">
+                                    [isDisabled]="true">
                                 </app-custom-input>
 
                             </div>
@@ -448,15 +447,16 @@
                                 </label>
 
                                 <app-custom-input formControlName="guideLineValue"
-                                    [type]="label.validationData?.amountValue.type" [id]="'guide_line_value'"
+                                    [type]="label.validationData?.landArea.type" [id]="'guide_line_value'"
                                     [className]="'form-control mandatory'" [placeholder]="'Guide line  value / SF'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    [maxLength]="label.validationData?.landArea.maxLength"
+                                    (ngModelChange)="getGuideLine('totalLandArea', obj)"
                                     [isRequired]="'Guide line  value / SF Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>
 
-                            
+
 
                         </div>
 
@@ -467,8 +467,7 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-custom-input formControlName="totalGuideLineValue"
-                                    [id]="'total_guide_line'"
+                                <app-custom-input formControlName="totalGuideLineValue" [id]="'total_guide_line'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Guideline Value'"
                                     [value]="obj.controls['totalLandArea'].value * obj.controls['guideLineValue'].value "
                                     [isDisabled]="true">
@@ -508,7 +507,8 @@
                 [routerLink]="['/pages/dde/'+ leadId + '/vehicle-list']">{{label.back}}
                 To Collateral Details </button></div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary dash_href" (click)="onFormSubmit(collateralForm)" *ngIf="!disableSaveBtn"> {{label.save}} </button>
+            <button class="btn btn-primary dash_href" (click)="onFormSubmit(collateralForm)" *ngIf="!disableSaveBtn">
+                {{label.save}} </button>
         </div>
 
     </div>

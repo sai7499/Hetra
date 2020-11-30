@@ -1,0 +1,425 @@
+<main class="mar-top90">
+  <app-lead-section-header></app-lead-section-header>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="margin_zero">Post Disbursement Documentation</h3>
+        </div>
+        <div class="col-md-6 text-right"></div>
+      </div>
+  
+      <div class="content" [formGroup]="pddForm">
+        <form formGroupName="loanForm">
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Loan Number</label>
+              <app-custom-input
+                formControlName="loanNumber"
+                [className]="'form-control mandatory'"
+                [isDisabled]="true"
+                >
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Applicant Name</label>
+              <app-custom-input
+                formControlName="applicantName"
+                [className]="'form-control mandatory'"
+                [isDisabled]="true"
+                >
+              </app-custom-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Disbursement Date</label>
+              <kendo-datepicker class="form-control mandatory" formControlName="disbursementDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="true">
+                  </kendo-datepicker>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Expected Date</label>
+              <kendo-datepicker class="form-control mandatory" formControlName="expectedDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="true">
+                  </kendo-datepicker>
+            </div>
+          </div>
+        </form>
+        <form action="" method="POST" formArrayName="pddDocumentDetails">
+          <div class="table-responsive" id="exact_macth_title2_sec">
+            <table class="table">
+              <thead>
+                <tr class="table-head-bg">
+                  <td>Document Name</td>
+                  <td>Document Number</td>
+                  <td>Collected Date</td>
+                  <td>POD Number</td>
+                  <td>Couriered Date</td>
+                  <ng-container *ngIf="isSales"><td>Upload</td></ng-container>
+                  <td>View</td>
+                  <ng-container *ngIf="!isSales">
+                    <td>Status</td>
+                  <td>Received Date</td>
+                  <td>Physical Tracking Number</td>
+                  </ng-container>
+                </tr>
+              </thead>
+              <tbody>
+               <ng-container *ngFor="let detail of pddForm.get('pddDocumentDetails')['controls']; let i = index">
+                <tr [formGroupName]="i">
+                  <td>{{documentName(i)}}</td>
+                  <td> <app-custom-input
+                    formControlName="docNumber"
+                    [className]="'form-control mandatory'"
+                    [isDisabled]="!isSales"
+                    [maxLength]="documentNumMax"
+                    [type]="'alpha-numeric'"
+                    >
+                  </app-custom-input></td>
+                  <td><kendo-datepicker class="form-control mandatory" formControlName="collectedDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate" [min]="disbursementDate">
+                  </kendo-datepicker>
+                 <!-- max {{toDayDate}}
+                 min {{disbursementDate}} -->
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('collectedDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('collectedDate').invalid">
+                     Invalid date
+                  </div>
+
+                </td>
+                  <td><app-custom-input
+                    formControlName="podNumber"
+                    [className]="'form-control mandatory'"
+                    [isDisabled]="!isSales"
+                    [type]="labels?.validationData?.podNumber?.type"
+                    [maxLength]="labels?.validationData?.podNumber?.maxLength"
+                    >
+                  </app-custom-input></td>
+                  <td><kendo-datepicker class="form-control mandatory" formControlName="courieredDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate" [min]="getCollectedDate(i)">
+                  </kendo-datepicker>
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('courieredDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('courieredDate').invalid">
+                     Invalid date
+                  </div></td>
+                  <ng-container *ngIf="isSales"><td (click)="uploadDocs(i)" class="upload-icon"><label
+                    ><i
+                      class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                      aria-hidden="true"
+                      id="add_more_documents_upload1a"
+                    ></i></label></td></ng-container>
+                  <td (click)="downloadDocs(i)" class="cursor-pointer">{{documentArray(i)}}</td>
+                  <ng-container *ngIf="!isSales">
+                  <td><app-vf-custom-select formControlName="cpcStatus" [values]="lovs?.LOVS?.pddDocumentsCpcStatus">
+                    </app-vf-custom-select></td>
+                  <td><kendo-datepicker class="form-control mandatory" formControlName="cpcReceivedDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [max]="toDayDate" >
+                  </kendo-datepicker>
+                  
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('cpcReceivedDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('cpcReceivedDate').invalid">
+                     Invalid date
+                  </div>
+                </td>
+                  <td><app-custom-input
+                    formControlName="phyTrackingNum"
+                    [className]="'form-control mandatory'"
+                    [type]="labels?.validationData?.physicalTrackingNumber?.type"
+                    [maxLength]="labels?.validationData?.physicalTrackingNumber?.maxLength"
+                    >
+                  </app-custom-input></td>
+                  </ng-container>
+                </tr>
+               </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="btn-sec clear-both row" *ngIf="this.isSales">
+          <div class="col-sm-6 text-right">
+            <span id="edit_vehicle_details_replace"></span>
+            <a id="back_vehicle_details"
+              ><button class="btn btn-primary" type="button" (click)="updateTable()">
+                Update
+              </button></a
+            >
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+        <div class="btn-sec clear-both row" *ngIf="!this.isSales && this.showEngineNumber">
+          <div class="col-sm-6 text-right">
+            <span id="edit_vehicle_details_replace"></span>
+            <a id="back_vehicle_details"
+              ><button class="btn btn-primary" type="button" (click)="updateTable()">
+                Update
+              </button></a
+            >
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+        <ng-container >
+        <div  formGroupName="processForm">
+          <div class="row" >
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <!-- <label for="middle_name">ORC Process</label> -->
+              <h3 class="h3-margin">ORC Process</h3>
+              <!-- <app-custom-input
+                formControlName="orcProcess"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input> -->
+            </div>
+          </div>
+          <div class="row" *ngIf="isSales">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">ORC Status</label>
+              <app-vf-custom-select formControlName="orcStatus" [className]="'form-control mandatory'" 
+              [values]="modifiedOrcStatusList" 
+              [isRequired]="'ORC status is required'"
+              [isDirty]= "isDirty"
+              (valueChange)="onOrcStatusChange($event)"
+              ></app-vf-custom-select>
+              <!-- <app-custom-input
+                formControlName="orcStatus"
+                [className]="'form-control mandatory'"
+                >
+              </app-custom-input> -->
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Date</label>
+              <kendo-datepicker class="form-control mandatory" formControlName="orcReceivedDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'month'" [max]="toDayDate" [min]="disbursementDate">
+                  </kendo-datepicker>
+                  <div class="ShowError">
+                    <div *ngIf="isDirty && !pddForm.get('processForm').get('orcReceivedDate').value">
+                      Select date
+                    </div>
+                    <div *ngIf="pddForm.get('processForm').get('orcReceivedDate').value && pddForm.get('processForm').get('orcReceivedDate').invalid">
+                     Invalid date
+                    </div>
+
+                  </div>
+                  
+
+                  <!-- min {{disbursementDate}}
+                  max {{toDayDate}} -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">RTO Agent</label>
+              <app-vf-custom-select formControlName="rtoAgent" [className]="'form-control mandatory'"
+               [values]="rtoAgentsList" [isRequired]=" isRtoAgentMsg ?'RTO Agent is required' : ''" [isDirty]="isDirty" ></app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <label for="middle_name">Endorsement Date</label>
+              <kendo-datepicker class="form-control mandatory" formControlName="endorsementDate"
+                    [format]="'dd/MM/yyyy'"  [activeView]="'month'" 
+                    [min]="orcHistory? minEndorsementDate : ''"
+                    [max]="toDayDate" 
+                    (valueChange)="changeEndorseDate($event)">
+                  </kendo-datepicker>
+                  <!-- Min {{minEndorsementDate}} -->
+                  <!-- Max {{toDayDate}} -->
+                  <div class="ShowError">
+                    <div *ngIf="isEndorsDateMsg && isDirty && !pddForm.get('processForm').get('endorsementDate').value">
+                      Endorsement date is required
+                    </div>
+                    <div *ngIf="isShowError">
+                      Invalid date
+                    </div>
+                  </div>
+                 
+            </div>
+           
+          </div>
+
+          <div class="row" *ngIf="isSales">
+            <div class="form-group col-sm-6 col-md-6 col-lg-8">
+              <label for="middle_name">Remarks</label>
+            <textarea class="form-control mandatory" formControlName="orcRemarks" maxlength="1250"></textarea>
+            </div>
+          </div>
+        </div>
+          <ng-container *ngIf="orcHistory">
+            <form action="" method="POST">
+              <div class="table-responsive" id="exact_macth_title2_sec">
+                <table class="table">
+                  <thead>
+                    <tr class="table-head-bg">
+                      <td>Status</td>
+                      <td>Status changed on</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let status of orcHistory">
+                      <td>{{status.orcStatus}}</td>
+                      <td>{{status.orcReceivedDate}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
+          </ng-container>
+          <div class="btn-sec clear-both row" *ngIf="isSales">
+            <!-- <div class="col-sm-4 text-right">
+              <a id="back_vehicle_details"
+                ><button class="btn btn-primary" type="button" (click)="onBack()">
+                  Back
+                </button></a
+              >
+            </div> -->
+            <div class="col-sm-6 text-right">
+              <a id="back_vehicle_details" class="btn-margin-right"
+                ><button class="btn btn-primary" type="button" (click)="onBack()">
+                  Back
+                </button></a
+              >
+              <a id="back_vehicle_details"
+                ><button class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
+                  Update
+                </button></a
+              >
+            </div>
+            <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
+              <a id="back_vehicle_details"
+                ><button class="btn btn-primary" type="button" [disabled]="isDisableSubmitToCpc" (click)="onSubmit()">
+                  Submit to CPC
+                </button></a
+              >
+              </div>
+          </div>
+        
+      </ng-container>
+      <ng-container *ngIf="!isSales && this.showEngineNumber">
+        <div formGroupName="numberForm">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">Registration No</label>
+            <app-custom-input
+              formControlName="regNumber"
+              [className]="'form-control mandatory'"
+              [custom]="vehicleRegPattern"
+              [minLength]="labels?.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
+                            [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
+              >
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">Engine Number</label>
+            <app-custom-input
+              formControlName="engNumber"
+              [className]="'form-control mandatory'"
+              [type]="labels?.validationData?.engineNo.type"
+              [maxLength]="labels?.validationData?.engineNo.maxLength"
+              >
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">Chassis Number</label>
+            <app-custom-input
+              formControlName="chasNumber"
+              [className]="'form-control mandatory'"
+              [type]="labels?.validationData?.chasisNo?.type"
+              [maxLength]="labels?.validationData?.chasisNo?.maxLength"
+              >
+            </app-custom-input>
+          </div>
+      </div>
+      </ng-container>
+      <div class="btn-sec clear-both row" *ngIf="!isSales">
+        <div class="col-sm-6 text-right">
+          <a id="back_vehicle_details" class="btn-margin-right"
+          ><button class="btn btn-primary" type="button" (click)="onBack()">
+            Back
+          </button></a
+        >
+        <a id="back_vehicle_details" *ngIf="showEngineNumber"
+        ><button class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
+          Update
+        </button></a
+      >
+      <a id="back_vehicle_details" *ngIf="!showEngineNumber"
+        ><button class="btn btn-primary" type="button" (click)="updateTable()">
+          Update
+        </button></a
+      >
+        </div>
+        <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
+          <a id="back_vehicle_details"
+            ><button class="btn btn-primary" type="button" (click)="onSubmit()" [disabled]="isDisableCpcSubmit">
+              Submit
+            </button></a
+          >
+          </div>
+      </div>
+      </div>
+    </div>
+
+    <app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+  (uploadSuccess)="onUploadSuccess($event)"
+  [docsDetails]="selectedDocDetails"
+></app-upload-modal>
+
+<div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': showDialog }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <!-- <h4 class="modal-title">Customer Dedupe Match Found</h4> -->
+        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">
+          Are you sure you want to submit?
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="ucic_lead"
+          (click)="callSubmitApi()"
+        >
+          <!-- (click)="checkNegativeList()" -->
+
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="onCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  </main>
+
+
+  
+  
+  
+  <!-- Footer -->
+  <footer class="footer pf mob-font">
+    <div class="container-fluid">
+      <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+  
+  
