@@ -399,7 +399,7 @@
                 </kendo-datepicker>
                 <div
                   class="invalid-feedback"
-                  *ngIf="!vehicleValuationForm.controls['inspectionDate'].vaild"
+                  *ngIf="!vehicleValuationForm.controls['inspectionDate'].valid"
                 >
                   <div
                     *ngIf="
@@ -1544,8 +1544,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
-                  (change)="validatingBeforeRegDate('permitDate')"
-                  [min]="this.vehicleValuationForm."
+                  (change)="validatingBeforeRegDate('permitDate')"                  
                 >
                 </kendo-datepicker>
                 <div class="invalid-feedback">
