@@ -227,10 +227,10 @@ export class PdcDetailsComponent implements OnInit {
     }
   }
   sendBackToCredit() {
-    if (this.pdcForm.invalid) {
-      this.toasterService.showError('Save before Submitting', '');
-      return;
-    }
+    // if (this.pdcForm.invalid) {
+    //   this.toasterService.showError('Save before Submitting', '');
+    //   return;
+    // }
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
