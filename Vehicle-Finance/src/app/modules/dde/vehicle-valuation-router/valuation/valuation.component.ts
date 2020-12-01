@@ -172,7 +172,7 @@ export class ValuationComponent implements OnInit {
     private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService,
     // tslint:disable-next-line: no-shadowed-variable
-    private LoanViewService: LoanViewService,
+    private loanViewService: LoanViewService,
     private fb: FormBuilder) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
@@ -180,7 +180,7 @@ export class ValuationComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.isLoan360 = this.LoanViewService.checkIsLoan360();
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     //  details from loginstore service
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -215,7 +215,7 @@ export class ValuationComponent implements OnInit {
         this.disableSaveBtn = true;
       }
 
-      if (this.LoanViewService.checkIsLoan360()) {
+      if (this.loanViewService.checkIsLoan360()) {
         this.vehicleValuationForm.disable();
         this.disableSaveBtn = true;
       }
