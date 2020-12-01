@@ -295,8 +295,8 @@
                           <p>{{message.query}}</p>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                          <button #foo class="btn btn-cus"
-                            *ngIf="isClickButton === j && userId === message.queryFrom">Marked as Closed</button>
+                          <!-- <button #foo class="btn btn-cus"
+                            *ngIf="isClickButton === j && userId === message.queryFrom">Marked as Closed</button> -->
                         </div>
                         <div class="collg-4 col-md-4 col-sm-4 col-xs-12">
                           <span class="date-time"> <strong> Lead Status : </strong>
@@ -445,7 +445,7 @@
                     <label for="query_to" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.tagQueryTo}}</label>
                     <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeave()">
 
-                      <app-custom-input id="'query_to'" autocomplete="off" formControlName="searchText"
+                      <app-custom-input #foo id="'query_to'" autocomplete="off" formControlName="searchText"
                         [className]="'form-control'" [placeholder]="'Tag Query To'" [type]="'text'"
                         (mouseup)="getvalue($event.target.value)" (blur)="onBlurQueryTo()"
                         (keyup)="getvalue($event.target.value)">
