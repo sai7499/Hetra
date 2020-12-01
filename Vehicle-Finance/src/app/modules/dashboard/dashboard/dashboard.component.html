@@ -488,58 +488,60 @@
                             <!-- <th>{{labels?.productCategory}}
                     <i class="fa fa-sort"></i>
                 </th> -->
-                            <th>{{labels?.loanAmount}}
-                                <i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}" (click)="onSort(sortTables?.ByLoanAmt)"></i>
-                            </th>
-                            <th>{{labels?.mainApplicantName}}
-                                <i class="fa fa-sort"></i>
-                            </th>
-                            <th>{{labels?.noOfTrancheDisburse}}
-                                <i class="fa fa-sort"></i>
-                            </th>
-                            <th>{{labels?.alreadyDisbursedAmount}}
-                                <i class="fa fa-sort"></i>
-                            </th>
-                            <th>{{labels?.balanceToBeDisbursed}}
-                                <i class="fa fa-sort"></i>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of trancheDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-                            <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
-                                <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); assignTaskId(item.taskId); onClick()" value="Release" data-toggle="modal" data-target="#releaseModal">
-                            </td>
-                            <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
-                                <input type="button" class="btn btn-primary" (click)="onAssign(item.taskId, item.leadID);  assignTaskId(item.taskId); onClick(); getLeadId(item);getLoanNumber(item.loanAccountNumber)" value="Assign" data-toggle="modal" data-target="#assignModel" />
-                            </td>
-                            <td [attr.data-label]="labels?.loanNumber" *ngIf="displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab">
-                                <!-- <a (click)="assignTaskId(item.taskId);getLoanNumber(item.loanAccountNumber)" [routerLink]="[ '/pages/disbursement-section', item.leadID,'tranche-disburse' ]">{{item.loanAccountNumber}}</a> -->
-                                {{item.loanAccountNumber}}
-                            </td>
-                            <td [attr.data-label]="labels?.loanNumber" class="text-underline" *ngIf="displayTabs?.TrancheDisburseReversedWithBranch != subActiveTab" (click)="getLoanNumber(item.loanAccountNumber)">
-                                <a (click)="assignTaskId(item.taskId);getLoanNumber(item.loanAccountNumber)" [routerLink]="[ '/pages/disbursement-section', (item.taskId)?(item.leadID+'-'+item.taskId):item.leadID,'tranche-disburse' ]">{{item.loanAccountNumber}}</a>
-                            </td>
-                            <td [attr.data-label]="labels?.productName">{{item.productName ? item.productName : '--'}}</td>
-                            <!-- <td [attr.data-label]="labels?.productCategory">{{item.productCatCode ? item.productCatCode : '--'}}</td> -->
-                            <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
-                            <td [attr.data-label]="labels?.applicant">{{item.applicantName ? item.applicantName : '--'}}</td>
-                            <td [attr.data-label]="labels?.trancheCount">{{item.trancheCount}}</td>
-                            <td [attr.data-label]="labels?.disbursedAmount">{{item.disbursedAmount}}</td>
-                            <td [attr.data-label]="labels?.balanceAmount">{{item.balanceAmount}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <th>{{labels?.loanAmount}}
+                    <i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}" (click)="onSort(sortTables?.ByLoanAmt)"></i>
+                </th>
+                <th>{{labels?.mainApplicantName}}
+                    <i class="fa fa-sort"></i>
+                </th> 
+                <th>{{labels?.noOfTrancheDisburse}}
+                    <i class="fa fa-sort"></i>
+                </th>
+                <th>{{labels?.alreadyDisbursedAmount}}
+                    <i class="fa fa-sort"></i>
+                </th>
+                <th>{{labels?.balanceToBeDisbursed}}
+                    <i class="fa fa-sort"></i>
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of trancheDetails | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+                  <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab">
+                      <input type="button" class="btn btn-primary" (click)="onRelase(item.taskId); assignTaskId(item.taskId); onClick()" value="Release"
+                          data-toggle="modal" data-target="#releaseModal">
+                  </td>
+                  <td [attr.data-label]="labels?.action" *ngIf="onAssignTab">
+                      <input type="button" class="btn btn-primary" (click)="onAssign(item.taskId, item.leadID);  assignTaskId(item.taskId); onClick(); getLeadId(item);getLoanNumber(item.loanAccountNumber)"
+                          value="Assign" data-toggle="modal" data-target="#assignModel" />
+                  </td>
+                  <td [attr.data-label]="labels?.loanNumber" *ngIf="displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab"  >  
+                      <!-- <a (click)="assignTaskId(item.taskId);getLoanNumber(item.loanAccountNumber)" [routerLink]="[ '/pages/disbursement-section', item.leadID,'tranche-disburse' ]">{{item.loanAccountNumber}}</a> -->
+                      {{item.loanAccountNumber}}
+                    </td>
+                  <td [attr.data-label]="labels?.loanNumber" class="text-underline" *ngIf="displayTabs?.TrancheDisburseReversedWithBranch != subActiveTab" (click)="getLoanNumber(item.loanAccountNumber)" >
+                      <a (click)="assignTaskId(item.taskId);getLoanNumber(item.loanAccountNumber)" [routerLink]="[ '/pages/disbursement-section', (item.taskId)?(item.loanAccountNumber+'-'+item.taskId):item.loanAccountNumber,'tranche-disburse' ]">{{item.loanAccountNumber}}</a>
+                  </td>
+                  <td [attr.data-label]="labels?.productName">{{item.productName ? item.productName : '--'}}</td>
+                  <!-- <td [attr.data-label]="labels?.productCategory">{{item.productCatCode ? item.productCatCode : '--'}}</td> -->
+                  <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                  <td [attr.data-label]="labels?.applicant">{{item.applicantName ? item.applicantName : '--'}}</td>
+                  <td [attr.data-label]="labels?.trancheCount">{{item.trancheCount}}</td>
+                  <td [attr.data-label]="labels?.disbursedAmount">{{item.disbursedAmount}}</td>
+                  <td [attr.data-label]="labels?.balanceAmount">{{item.balanceAmount}}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
 
-            <div class="noDataFound" *ngIf="!isLoadLead">
-                <h3>No data found</h3>
-            </div>
-            <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
-                <div class="records col-lg-6 col-md-6 col-sm-3 col-xs-3">
+      <div class="noDataFound" *ngIf="!isLoadLead">
+        <h3>No data found</h3>
+      </div>
+      <div *ngIf="isLoadLead" class="row clearfix marBottom-45">
+        <div class="records col-lg-6 col-md-6 col-sm-3 col-xs-3">
 
-                    <div class="top-padding"><label>No. of Rows </label>
-                        <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
+          <div class="top-padding"><label>No. of Rows </label>
+            <select class="form-control  input-sm" (change)="setPage($event)" [(ngModel)]="itemsPerPage">
               <option value="5">5</option>
               <option value="10">10</option>
               <option class="filter-disable" value="25">25</option>

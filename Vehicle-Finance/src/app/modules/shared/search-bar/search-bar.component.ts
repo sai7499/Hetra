@@ -76,7 +76,7 @@ export class SearchBarComponent implements OnInit {
     this.dashboardService.routingData = '';
     commonRoutingUrl.map(element => {
       if (element.routeId === this.routingId) {
-        if (this.searchText == 'Supervisor Dashboard'){
+        if (this.searchText == 'Supervisor Dashboard') {
           this.dashboardService.routingData = '';
         }
         if (element.routeId == '2') {

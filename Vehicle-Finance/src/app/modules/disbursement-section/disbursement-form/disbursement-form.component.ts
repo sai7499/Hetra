@@ -1906,11 +1906,17 @@ export class DisbursementFormComponent implements OnInit {
       this.showDDDetails = false;
       this.showCASADetails = false;
       this.trancheDealerList = [];
+      this.dealerObjInfo['dealerCode'] = '';
       this.dealerformArray.forEach(key => {
         this.dealerDetailsForm.get(key).clearValidators();
         this.dealerDetailsForm.get(key).setErrors(null);
       });
 
+    } else {
+      this.dealerformArray.forEach(key => {
+        this.dealerDetailsForm.get(key).setValidators([Validators.required]);
+      });
+      //this.dealerDetailsForm.get('dealerCode').setValidators([Validators.required]);
     }
     if (!this.disburseToApp) {
       this.appDetailsForm.reset();
@@ -1985,10 +1991,7 @@ export class DisbursementFormComponent implements OnInit {
 
     // });
   }
-  
   // this.qualityCriteriaForm.controls.avgAMBval.reset();
-
-
 
   selectCoApplicant(sNo) {
     //console.log('selectedCoAppLists', this.coAppNamesLov)
@@ -2473,8 +2476,6 @@ export class DisbursementFormComponent implements OnInit {
       // disburseTo:new FormControl(''),
       toDeductCharges: [''],
     })
-
-    
     
     if ((this.roleType != '1' && this.roleType != '2') || this.isLoan360){
       this.disbursementDetailsForm.disable();
@@ -3279,7 +3280,6 @@ export class DisbursementFormComponent implements OnInit {
           }
         }
       }
-      
     });
   }
   getLeadId() {

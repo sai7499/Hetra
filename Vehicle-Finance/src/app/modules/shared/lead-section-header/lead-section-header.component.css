@@ -103,7 +103,7 @@
 
 .lead-history{
     font-size: 20px;
-    padding-left: 10px;
+    /* padding-left: 10px; */
     padding-top:0px!important;
     cursor: pointer;
     color:orange;
@@ -369,11 +369,16 @@ p-0{
   margin-left: -60px;
   color: #fff;
   font-size:12px;
+    
+   
+  
 }
 
 [data-tooltip]:not([data-tooltip-persistent]):before {
   pointer-events: none;
 }
+
+
 
 @media (min-width:768px) and (max-width:991px) {
 
@@ -386,7 +391,7 @@ p-0{
   .lead-history{
     padding-top: 0px;
     font-size: 18px;
-    padding-left: 12px;
+    /* padding-left: 12px; */
     color: orange;
   }
   

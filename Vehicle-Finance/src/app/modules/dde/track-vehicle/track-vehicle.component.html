@@ -431,6 +431,7 @@
                                     <div class='input-group date' id='datetimepicker1'>
                                         <kendo-datepicker class="form-control mandatory" 
                                             formControlName="dueDate"
+                                            disabled
                                             [format]="'dd/MM/yyyy'"
                                             placeholder="dd/mm/yyyy"
                                             [activeView]="'decade'"
@@ -466,7 +467,8 @@
                                             [format]="'dd/MM/yyyy'" 
                                             [max]="toDayDate" 
                                             placeholder="dd/MM/yyyy"
-                                            (blur)="delayDays($event ,i , itemrow)"
+                                  
+                                            (valueChange)="delayDays($event ,i , itemrow)"
                                             [focusedDate]="focusedDate ? focusedDate[i] : ''">
                                         </kendo-datepicker>
                                         <!-- [focusedDate]="focusedDate" -->
