@@ -228,7 +228,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit() {
+ async ngOnInit() {
     const thisUrl = this.router.url;
     console.log(thisUrl);
     this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
@@ -369,66 +369,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     }
 
-    this.getCountAcrossLeads(this.userId)
-
-    let timeOut;
-
-    if (currentUrl.includes('dashboard')) {
-      timeOut = setTimeout(() => {
-        if (this.isIntervalId) {
-          console.log('Its a Log')
-          this.intervalId = setInterval(() => {
-            this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
-              console.log('Polling request')
-              if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-                this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
-              } else {
-                clearInterval(this.intervalId)
-              }
-            })
-          }, 30000)
-        }
-      }, 30000)
-    } else {
-      this.isIntervalId = false;
-      console.log('Its not a Log')
-      clearTimeout(timeOut)
-      clearInterval(this.intervalId)
+    try {
+      await this.getCountAcrossLeads(this.userId)
+      if (currentUrl.includes('dashboard') && this.isIntervalId) {
+        this.intervalId = this.getPollCount()
+      }
+    } catch (error) {
+      
     }
-    // setTimeout(() => {
-    //   if (currentUrl.includes('dashboard') && this.isIntervalId) {
-    //     this.intervalId = this.getPollCount()
-    //   } else {
-    //     clearInterval(this.intervalId)
-    //   }
-    // }, 30000)
 
   }
 
   getPollCount() {
     return setInterval(() => {
       this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
-        console.log('Polling request')
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
         } else {
           clearInterval(this.intervalId)
         }
       })
-    }, 30000)
+    }, 300000)
   }
 
-  getCountAcrossLeads(userId) {
+  async getCountAcrossLeads(userId) {
 
-    this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
-        this.isIntervalId = true;
-      } else {
-        this.leadCount = 0;
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
-      }
+    return new Promise((resolve, reject) => {
+      this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+          this.isIntervalId = true;
+          resolve()
+        } else {
+          this.leadCount = 0;
+          reject()
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
+        }
+      })
     })
+
+
 
   }
 

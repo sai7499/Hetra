@@ -1393,14 +1393,8 @@
                             <label for="fitness_date">{{label.fitnessDate}} </label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="fitnessDate"
-                                [format]="'dd/MM/yyyy'" [min]="maxDate" [activeView]="'decade'"
-                                placeholder="Fitness Date">
+                                [format]="'dd/MM/yyyy'" [activeView]="'decade'" placeholder="Fitness Date">
                             </kendo-datepicker>
-
-                            <div class="invalid-feedback"
-                                *ngIf="obj.controls['fitnessDate'].touched && obj.controls['fitnessDate'].value < maxDate">
-                                Invalid Date
-                            </div>
 
                         </div>
 
