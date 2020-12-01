@@ -6,6 +6,8 @@ import { UtilityService } from '@services/utility.service';
 import html2pdf from 'html2pdf.js';
 import { WelcomeService } from '../welomce-letter/welcome.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-delivery-order',
   templateUrl: './delivery-order.component.html',
@@ -21,13 +23,16 @@ export class DeliveryOrderComponent implements OnInit {
   private vehicleDetails;
   private loanAmount;
   private loanAmountText;
+  isLoan360: boolean;
   constructor(private activatedRoute: ActivatedRoute,
               private createLeadDataService: CreateLeadDataService,
               private welcomeService: WelcomeService,
               private toasterService: ToasterService,
-              private utilityService: UtilityService) { }
+              private utilityService: UtilityService,
+              private loanViewService: LoanViewService) { }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.getLeadId();
   }
 
