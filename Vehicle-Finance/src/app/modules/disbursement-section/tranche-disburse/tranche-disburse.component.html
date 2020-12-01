@@ -91,7 +91,7 @@
                                                     <div class="form-group">
                                                             <label class="col-form-label" for="lead_handled_by">{{labels?.creditShieldPremium}}
                                                         </label>
-                                                        <label for="lead_handled_by_name" class="col-form-label-two">100000
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['creditShieldAmount']}}
                                                         </label>
                                                     </div>
                                                 </div>
@@ -688,7 +688,7 @@
 
             </div>
             <div class="modal-body">
-              <p>{{statusFlag}}</p>                                      
+              <p>{{message}}</p>                                      
         </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="statusModal = false" >Close</button>

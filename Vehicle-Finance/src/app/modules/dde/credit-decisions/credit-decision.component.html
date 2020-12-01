@@ -4,7 +4,7 @@
         <!-- <app-dde-header></app-dde-header> -->
         <app-lead-section-header></app-lead-section-header>
         <div class="multisteps-form" *ngIf="roleType == '1'">
-            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true'">
+            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true' && !isDeclinedFlow"> 
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 0}"
                     type="button" id="applicant_basic_details" (click)="onNavigate('credit-condition')">
                     Credit Condition </button>
@@ -27,14 +27,38 @@
                 </button>
                
             </div>
+            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true' && isDeclinedFlow" > 
+               
+                <button  class="multisteps-form__progress-btn " 
+                    [ngClass]="{'js-active': locationIndex >= 0}"  
+                    type="button" id="checklist_identity_details" (click)="onNavigate('cam')"  >
+                    CAM 
+                </button>
+                <button  class="multisteps-form__progress-btn " 
+                    [ngClass]="{'js-active': locationIndex >= 1}"  
+                    type="button" id="checklist_identity_details" (click)="onNavigate('deviations')"  >
+                    Deviations
+                </button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
+                    type="button" id="applicant_basic_details" (click)="onNavigate('credit-condition')">
+                    Credit Condition </button>
+                
+                   
+                <button class="multisteps-form__progress-btn "  (click)="onNavigate('remarks')" [ngClass]="{'js-active': locationIndex >= 3}"
+                            type="button" id="applicant_bank_details" >
+                            Remarks</button>
+                    
+                
+                
+            </div>
            
             <!-- <div class="content" > -->
                 <router-outlet></router-outlet>
             <!-- </div> -->
 
         </div>
-        <div class="multiple-form" *ngIf="roleType == '2' && salesResponse == 'false'">
-            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true'">
+        <div class="multiple-form" *ngIf="roleType == '2' && salesResponse == 'false' && isDeclinedFlow == false">
+            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true'"> 
                 <button  class="multisteps-form__progress-btn " 
                     [ngClass]="{'js-active': locationIndex >= 0}"  
                     type="button" id="checklist_identity_details" (click)="onNavigate('cam')"  >
@@ -62,8 +86,8 @@
             </div>
             <router-outlet></router-outlet>
         </div>
-        <div class="multiple-form" *ngIf="roleType == '2' && salesResponse == 'true'">
-            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true'">
+        <div class="multiple-form" *ngIf="roleType == '2' && salesResponse == 'true' && isDeclinedFlow == false">
+            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true'"> 
                 <button class="multisteps-form__progress-btn "  (click)="onNavigate('negotiation')" [ngClass]="{'js-active': locationIndex >= 0}"
                     type="button" id="applicant_bank_details" >
                     Negotiation</button>
@@ -103,6 +127,34 @@
             </div>
             <router-outlet></router-outlet>
         </div>
+        <!-- <div class="multiple-form" *ngIf="roleType == '1' && isDeclinedFlow  && salesResponse == 'false'">
+            <div class="multisteps-form__progress1" *ngIf = "istermSheet != 'true'" > 
+               
+                <button  class="multisteps-form__progress-btn " 
+                    [ngClass]="{'js-active': locationIndex >= 0}"  
+                    type="button" id="checklist_identity_details" (click)="onNavigate('cam')"  >
+                    CAM 
+                </button>
+                <button  class="multisteps-form__progress-btn " 
+                    [ngClass]="{'js-active': locationIndex >= 1}"  
+                    type="button" id="checklist_identity_details" (click)="onNavigate('deviations')"  >
+                    Deviations
+                </button>
+                <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
+                    type="button" id="applicant_basic_details" (click)="onNavigate('credit-condition')">
+                    Credit Condition </button>
+                
+                   
+                <button class="multisteps-form__progress-btn "  (click)="onNavigate('remarks')" [ngClass]="{'js-active': locationIndex >= 3}"
+                            type="button" id="applicant_bank_details" >
+                            Remarks</button>
+                    
+                
+                
+            </div>
+            <router-outlet></router-outlet>
+        </div> -->
+        <!-- <router-outlet></router-outlet> -->
     </div>
 
 </main>

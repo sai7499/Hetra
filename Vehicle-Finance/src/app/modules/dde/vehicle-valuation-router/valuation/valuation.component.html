@@ -399,7 +399,7 @@
                 </kendo-datepicker>
                 <div
                   class="invalid-feedback"
-                  *ngIf="!vehicleValuationForm.controls['inspectionDate'].vaild"
+                  *ngIf="!vehicleValuationForm.controls['inspectionDate'].valid"
                 >
                   <div
                     *ngIf="
@@ -509,7 +509,7 @@
               >
                 <label for="vehicle_moved"
                   >{{ labels.vehicleMoved }}
-                  <sub class="star_red_col">*</sub>
+                  <sub class="star_blue_col">*</sub>
                 </label>
                 <app-vf-custom-select
                   [values]="valuesToYesNo"
@@ -563,6 +563,7 @@
                   [custom]="vehicleRegPattern"
                   [isRequired]="'Registration No is Required'"
                   [isDirty]="isDirty"
+                  (change)="onRegistrationNoChange($event.target.value)"
                 >
                 </app-custom-input>
               </div>
@@ -737,7 +738,7 @@
                 <app-custom-input
                   [className]="'form-control mandatory'"
                   [placeholder]="'Colour'"
-                  formControlName="color"
+                  formControlName="colour"
                   [maxLength]="labels?.validationData?.colour.maxLength"
                   [isRequired]="'colour is Required'"
                   [type]="labels?.validationData?.colour.type"
@@ -925,22 +926,23 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechicle_number">
                   {{ labels.registrationNumber }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
                 </label>
                 <app-custom-input
-                  formControlName="registrationNo"
+                  formControlName="regdNo"
                   [className]="'form-control mandatory'"
                   [inputClass]="'text-uppercase'"
                   [placeholder]="'Registration Number'"
-                  [minLength]="labels.validationData?.vehicleRegNo.minLength"
-                  [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
-                  [type]="labels?.validationData?.vehicleRegNo.type"
-                  [custom]="vehicleRegPattern"
-                  [isRequired]="'Registration No is Required'"
-                  [isDirty]="isDirty"
                   [isDisabled]="true"
                 >
                 </app-custom-input>
+                <!-- [minLength]="labels.validationData?.vehicleRegNo.minLength"
+                [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
+                [type]="labels?.validationData?.vehicleRegNo.type"
+                [custom]="vehicleRegPattern"
+                [isRequired]="'Registration No is Required'"
+                [isDirty]="isDirty"
+                [isDisabled]="true" -->
               </div>
               <div
                 *ngIf="!disableForm"
@@ -955,6 +957,7 @@
                   formControlName="preReRegNumber"
                   [isRequired]="'Please Select One Option'"
                   [isDirty]="isDirty"
+                  (change)="onRegTypeChange($event.target.value)"
                 >
                 </app-vf-custom-select>
               </div>
@@ -971,14 +974,13 @@
                   formControlName="preReRegNumber"
                   [placeholder]="'Re Registered Vehicle'"
                   [isDirty]="isDirty"
-                  [isDisabled]="true"
                 >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechicle_number">
                   {{ labels.reregisteredRegNo }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
@@ -989,8 +991,12 @@
                   [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
                   [type]="labels?.validationData?.vehicleRegNo.type"
                   [custom]="vehicleRegPattern"
-                  [isRequired]="'Registration No is Required'"
+                  [isRequired]="
+                  isPreRegNoRequired ? 'Registration no is Required' : ''
+                  "
                   [isDirty]="isDirty"
+                  [isDisabled]="isPreRegNoDisabled"
+                  
                 >
                 </app-custom-input>
               </div>
@@ -1083,7 +1089,6 @@
                   placeholder="Date Of Registration"
                   (change)="validateDateOfReg()"
                 >
-                
                 </kendo-datepicker>
                 <div class="invalid-feedback">
                   <div
@@ -1095,8 +1100,10 @@
                   </div>
                   <div
                     *ngIf="
-                  vehicleValuationForm.controls.dateofReg.value &&
-                  vehicleValuationForm.controls.dateofReg.errors">
+                      vehicleValuationForm.controls.dateofReg.value &&
+                      vehicleValuationForm.controls.dateofReg.errors
+                    "
+                  >
                     <div
                       *ngIf="
                         vehicleValuationForm.controls.dateofReg.errors.maxError
@@ -1545,17 +1552,16 @@
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
                   (change)="validatingBeforeRegDate('permitDate')"
-                  [min]="this.vehicleValuationForm."
                 >
                 </kendo-datepicker>
-                <div class="invalid-feedback">
+                <!-- <div class="invalid-feedback">
                   <div
                     *ngIf="
                       isDirty &&
                       !vehicleValuationForm.controls.permitValidUpto.value
                     "
                   >
-                    Permit validity  date is Required
+                    Permit validity date is Required
                   </div>
                   <div
                     *ngIf="
@@ -1565,7 +1571,7 @@
                   >
                     Invalid Date
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="fitnes_validity"
@@ -1614,6 +1620,7 @@
                   [isRequired]="'Tax Paid is Required'"
                   [type]="labels?.validationData?.idv.type"
                   [isDirty]="isDirty"
+                  (change)="taxPaidCheck()"
                 >
                 </app-custom-input>
               </div>
@@ -1702,6 +1709,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
+                  (change)="validatingBeforeRegDate('insuranceDate')"
                 >
                 </kendo-datepicker>
               </div>
@@ -1717,6 +1725,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
+                  (change)="validUptoCheck()"
                 >
                 </kendo-datepicker>
               </div>
@@ -1793,6 +1802,7 @@
                   [isDirty]="isDirty"
                   formControlName="modelUnderProduction"
                   [isRequired]="'Please Select One Option'"
+                  (change)="modelInProdChange($event.target.value)"
                 >
                 </app-vf-custom-select>
               </div>
@@ -1903,16 +1913,19 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.currentInvoiceValue }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
                   formControlName="currInvoiceValue"
-                  [placeholder]="'Original Invoice'"
+                  [placeholder]="'current Invoice'"
                   [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="'Original invoice is Required'"
+                  [isRequired]="
+                    currentInvoiceRequired ? 'Current invoice is Required' : ''
+                  "
                   [type]="labels?.validationData?.idv.type"
                   [isDirty]="isDirty"
+                  [isDisabled]="currentInvoiceDisabled"
                 >
                 </app-custom-input>
               </div>
@@ -2361,6 +2374,7 @@
                   formControlName="valuationDate"
                   [activeView]="'decade'"
                   [max]="toDayDate"
+                  [format]="'dd/MM/yyyy'"
                   [min]="leadCreatedDate"
                   placeholder="Valuation Date"
                 >

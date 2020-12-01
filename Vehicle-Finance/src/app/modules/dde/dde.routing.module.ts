@@ -36,6 +36,9 @@ import { TermSheetComponent } from './credit-decisions/term-sheet/term-sheet.com
 import { WelomceLetterComponent } from './cpc-maker/welomce-letter/welomce-letter.component';
 import { DeliveryOrderComponent } from './cpc-maker/delivery-order/delivery-order.component';
 import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
+
+import { PddComponent } from '@shared/pdd-screen/pdd.component';
+
 const routes: Routes = [
   {
     path: ':leadId',
@@ -188,6 +191,10 @@ const routes: Routes = [
       {
         path: 'loan-details',
         component: LoanDetailsComponent
+      },
+      {
+        path: 'pdd',
+        component: PddComponent
       }
 
     ],

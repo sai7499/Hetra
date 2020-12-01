@@ -57,9 +57,11 @@ export class CibilOdListComponent implements OnInit {
   unamePattern = '^[a-z0-9_-]{8,15}$';
   imageUrl: any;
   cibilImage: any;
-  addMatchFound  : boolean = false;
+  addMatchFound: boolean = false;
   cibilOdDetails: any;
   isLoan360: boolean;
+  isloanTypeError: boolean = false;
+  isDisabledLoanType: boolean = false;
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -119,7 +121,7 @@ export class CibilOdListComponent implements OnInit {
       justification: [''],
       cibilStatus: new FormControl(null, [
         Validators.required]),
-      addMatchFound:  this.addMatchFound,
+      addMatchFound: this.addMatchFound,
       addCibilScore: ['']
 
     });
@@ -151,9 +153,28 @@ export class CibilOdListComponent implements OnInit {
     });
   }
 
+  get odDetailsFormArray() {
+    return this.odDetailsForm.get('odAccountDetails') as FormArray;
+  }
+
   onSelectLoan(event, i) {
     this.selctedLoan[i] = event;
     this.selectedLoanType = this.selctedLoan[i];
+    console.log('formArray', this.odDetailsFormArray)
+    if (this.selectedLoanType === 'OTRSLONTYP') {
+
+      this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').setValidators([Validators.required]);
+      this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').updateValueAndValidity();
+      this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').enable()
+      //  this.isloanTypeError = true;
+      //  this.isDisabledLoanType = false;
+    } else {
+      this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').clearValidators();
+      this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').updateValueAndValidity();
+      this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').disable()
+      //  this.isloanTypeError = false;
+      //  this.isDisabledLoanType = true;
+    }
   }
   onSelectProof(event) {
     this.selctedProof = null;
@@ -185,6 +206,15 @@ export class CibilOdListComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         this.odAccountDetailsArray.push(this.getodListDetails(data[i]));
+        console.log(this.odDetailsFormArray.controls[i])
+        const loanType = this.odDetailsFormArray.controls[i].get('typeOfLoan').value;
+        if (loanType === 'OTRSLONTYP') {
+          this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').setValidators([Validators.required]);
+          this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').updateValueAndValidity();
+          this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').enable();
+        } else {
+          this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').disable();
+        }
       }
     } else {
       this.odAccountDetailsArray.push(this.getodListDetails());
@@ -413,6 +443,7 @@ export class CibilOdListComponent implements OnInit {
     this.submitted = true;
     // stop here if form is invalid
     if (this.odDetailsForm.invalid) {
+      this.isDirty = true;
       this.toasterService.showError(
         'Fields Missing Or Invalid Pattern Detected',
         'OD Details'
@@ -423,7 +454,7 @@ export class CibilOdListComponent implements OnInit {
 
       this.odDetailsForm.value.odAccountDetails.forEach((ele) => {
         ele.odType = ele.odType.toString();
-        ele.otherTypeOfLoan = ele.otherTypeOfLoan.toString();
+        ele.otherTypeOfLoan = ele.otherTypeOfLoan ? ele.otherTypeOfLoan.toString() : '';
         ele.typeOfLoan = ele.typeOfLoan.toString();
         ele.odAmount = ele.odAmount.toString();
         ele.odDpd = Number(ele.odDpd);
@@ -519,15 +550,15 @@ export class CibilOdListComponent implements OnInit {
     }
   }
   onAdditionalMatch(event: any) {
-   
-    if(typeof(event) != 'number') {
+
+    if (typeof (event) != 'number') {
       this.addMatchFound = event.currentTarget.checked
-    } else if (typeof(event) == 'number' && event === 1) {
+    } else if (typeof (event) == 'number' && event === 1) {
       this.addMatchFound = true;
-    } else if (typeof(event) == 'number' && event === 0) {
+    } else if (typeof (event) == 'number' && event === 0) {
       this.addMatchFound = false;
     }
-    
+
   }
 
   onBackToODDetails() {
@@ -538,15 +569,15 @@ export class CibilOdListComponent implements OnInit {
     this.submitted = true;
     this.isDirty = true;
     if (this.odDetailsForm.valid === true) {
-          this.onSubmit();
-        } else {
-          this.isDirty = true;
-          this.toasterService.showError(
-            'Fields Missing Or Invalid Pattern Detected',
-            'OD Details'
-          );
-          return;
-        }
+      this.onSubmit();
+    } else {
+      this.isDirty = true;
+      this.toasterService.showError(
+        'Fields Missing Or Invalid Pattern Detected',
+        'OD Details'
+      );
+      return;
+    }
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
   showOdModel(i) {

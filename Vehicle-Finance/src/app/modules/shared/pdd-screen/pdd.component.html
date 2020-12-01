@@ -1,5 +1,5 @@
-<main class="mar-top90">
-  <app-lead-section-header></app-lead-section-header>
+<main [ngClass]="{'mar-top90': !isLoan360}">
+  <app-lead-section-header *ngIf="!isLoan360"></app-lead-section-header>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-6">
@@ -55,7 +55,7 @@
                   <td>Collected Date</td>
                   <td>POD Number</td>
                   <td>Couriered Date</td>
-                  <ng-container *ngIf="isSales"><td>Upload</td></ng-container>
+                  <ng-container *ngIf="!isLoan360"><td *ngIf="isSales">Upload</td></ng-container>
                   <td>View</td>
                   <ng-container *ngIf="!isSales">
                     <td>Status</td>
@@ -102,7 +102,7 @@
                   this.pddForm.get('pddDocumentDetails')['controls'][i].get('courieredDate').invalid">
                      Invalid date
                   </div></td>
-                  <ng-container *ngIf="isSales"><td (click)="uploadDocs(i)" class="upload-icon"><label
+                  <ng-container *ngIf="!isLoan360"><td *ngIf="isSales" (click)="uploadDocs(i)" class="upload-icon"><label
                     ><i
                       class="fa fa-upload fa-3 custom-file-label cursor-pointer"
                       aria-hidden="true"
@@ -135,11 +135,12 @@
             </table>
           </div>
         </form>
+        <ng-container *ngIf="!isLoan360">
         <div class="btn-sec clear-both row" *ngIf="this.isSales">
           <div class="col-sm-6 text-right">
             <span id="edit_vehicle_details_replace"></span>
             <a id="back_vehicle_details"
-              ><button class="btn btn-primary" type="button" (click)="updateTable()">
+              ><button  class="btn btn-primary" type="button" (click)="updateTable()">
                 Update
               </button></a
             >
@@ -157,6 +158,7 @@
           </div>
           <div class="col-sm-6"></div>
         </div>
+      </ng-container>
         <ng-container >
         <div  formGroupName="processForm">
           <div class="row" >
@@ -275,12 +277,15 @@
                   Back
                 </button></a
               >
+              <ng-container *ngIf="!isLoan360">
               <a id="back_vehicle_details"
                 ><button class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
                   Update
                 </button></a
               >
+            </ng-container>
             </div>
+            <ng-container *ngIf="!isLoan360">
             <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
               <a id="back_vehicle_details"
                 ><button class="btn btn-primary" type="button" [disabled]="isDisableSubmitToCpc" (click)="onSubmit()">
@@ -288,6 +293,7 @@
                 </button></a
               >
               </div>
+            </ng-container>
           </div>
         
       </ng-container>
@@ -333,6 +339,7 @@
             Back
           </button></a
         >
+        <ng-container *ngIf="!isLoan360">
         <a id="back_vehicle_details" *ngIf="showEngineNumber"
         ><button class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
           Update
@@ -343,7 +350,9 @@
           Update
         </button></a
       >
+    </ng-container>
         </div>
+        <ng-container *ngIf="!isLoan360">
         <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
           <a id="back_vehicle_details"
             ><button class="btn btn-primary" type="button" (click)="onSubmit()" [disabled]="isDisableCpcSubmit">
@@ -351,6 +360,7 @@
             </button></a
           >
           </div>
+        </ng-container>
       </div>
       </div>
     </div>
