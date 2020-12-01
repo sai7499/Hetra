@@ -419,6 +419,10 @@ th {
     margin:3px;
 
 }
+.forAssignButton {
+    margin-left: 202vh;
+    padding-bottom: 10px;
+}
 
 @media (min-width:260px) and (max-width:760px){
 .btn-re{
