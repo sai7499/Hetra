@@ -1041,6 +1041,16 @@ export class ApiService {
       processId: 'f007931203cc11eba91300505695f93b',
       workflowId: '767be23a08a611eb827600505695f93b',
       projectId: environment.projectIds.trancheProId
+    },
+    externalSourcingChannel: {
+      processId: 'a7f68c98316e11eb9adf00505695f93b',
+      workflowId: 'efd8c3c4a6e411eabf7ff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
+    createExternalLead: {
+      processId: 'f0269e8e845a11eabdc2f2fa9bec3d63',
+      workflowId: 'f000e040845a11eabdc2f2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }
