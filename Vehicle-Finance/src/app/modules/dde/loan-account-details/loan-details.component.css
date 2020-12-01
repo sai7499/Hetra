@@ -613,5 +613,16 @@
       margin-bottom: 10px; */
     }
     } 
+
+    label.col-form-label-two {
+      font-weight: 500 !important;
+    }
+
+    .title {
+      background: #272264;
+      padding: 8px 15px;
+      font-size: 16px;
+      color: #fff;
+  }
     
     
