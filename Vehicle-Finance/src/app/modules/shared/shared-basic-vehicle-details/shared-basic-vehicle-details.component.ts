@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
+import { ChildLoanApiService } from '@services/child-loan-api.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -88,6 +89,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isSpareCost: any;
   isRepairCost: any;
 
+  // check dedupe
+  isVehicleDedupe: boolean;
+  isVehicleRegistrationNumber: any;
+
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
@@ -96,7 +101,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService,
-    private loanViewService: LoanViewService) {
+    private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
@@ -1234,6 +1239,33 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       form.get('totalCost').setValue(null)
     }
+  }
+
+  getCheckDedupe(val: string, form) {
+
+    console.log(val, 'form', form)
+
+    if (val && val.length >= 9 && form.controls['vehicleRegNo'].valid) {
+      this.isVehicleRegistrationNumber = val;
+      this.isVehicleDedupe = true;
+    } else {
+      this.isVehicleDedupe = false;
+    }
+
+  }
+
+  searchLoanNumber(form) {
+
+    let childData = {
+      vehicleRegistrationNumber: form.controls['vehicleRegNo'].value
+    }
+
+
+    this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
+      console.log(res, 'res')
+      this.isVehicleDedupe = false;
+    })
+
   }
 
   onGetSpareCost(val: string, form) {

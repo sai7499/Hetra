@@ -10,6 +10,7 @@
                 <h3 class="title cus-title"> {{ label.vehcileDetailsTitle }} </h3>
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                         <label for="registartion_number"> {{ label.registartionNumber }}
                             <sub class="star_red_col">*</sub>
@@ -20,10 +21,37 @@
                             [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
                             [minLength]="label.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
                             [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
-                            [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
+                            [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty"
+                            (keyup)="getCheckDedupe($event.target.value, obj)">
                         </app-custom-input>
 
                     </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="isVehicleDedupe">
+                        <label for="registartion_number"></label>
+                        <input type="button" class="form-control btn-primary" id="check_dedupe"
+                            (click)="searchLoanNumber(obj)" name="registartion_number" value="Check Dedupe"
+                            data-toggle="modal" data-target="#myModal">
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg" *ngIf="isVehicleDedupe">
+                        <label for="registartion_number"> Loan Account Number
+                            <sub class="star_red_col">*</sub>
+                        </label>
+
+                        <!-- formControlName="vehicleRegNo"
+                            [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
+                            [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
+                            [minLength]="label.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
+                            [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
+                            [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty"
+                            (keyup)="getCheckDedupe($event.target.value, obj)" -->
+
+                        <app-custom-input [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'">
+                        </app-custom-input>
+
+                    </div>
+
                 </div>
 
                 <div class="row">
