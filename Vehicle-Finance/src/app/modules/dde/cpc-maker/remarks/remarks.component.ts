@@ -35,7 +35,8 @@ export class RemarksComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private sharedService: SharedService,
     private reappealService: ReappealService
-  ) { this.sharedService.isDeclinedFlow.subscribe((res: any) => {
+  ) { 
+    this.sharedService.isDeclinedFlow.subscribe((res: any) => {
     console.log(res, ' declined flow');
     if (res) {
         this.isDeclinedFlow = res;
@@ -76,16 +77,27 @@ export class RemarksComponent implements OnInit {
     const data = {
       leadId: this.leadId
     };
-
-    this.cpcService.getAssetRemarks(data).subscribe((res: any) => {
-      const response = res;
-      const processVaribles = response.ProcessVariables;
-      if (response.Error == '0' && processVaribles.error.code == '0') {
-        this.setRemarks(processVaribles);
-      } else {
-        this.toasterService.showError(response.error.message, '');
-      }
-    });
+  if(!this.isDeclinedFlow){
+      this.cpcService.getAssetRemarks(data).subscribe((res: any) => {
+        const response = res;
+        const processVaribles = response.ProcessVariables;
+        if (response.Error == '0' && processVaribles.error.code == '0') {
+          this.setRemarks(processVaribles);
+        } else {
+          this.toasterService.showError(response.error.message, '');
+        }
+      });
+    }else{
+      this.cpcService.getDeclientRemarks(data).subscribe((res: any) => {
+        const response = res;
+        const processVaribles = response.ProcessVariables;
+        if (response.Error == '0' && processVaribles.error.code == '0') {
+          this.setRemarks(processVaribles);
+        } else {
+          this.toasterService.showError(response.error.message, '');
+        }
+      });
+    }
   }
 
   setRemarks(values) {
@@ -115,17 +127,33 @@ export class RemarksComponent implements OnInit {
       remarks: remarks,
       userId: localStorage.getItem('userId'),
     };
-
-    this.cpcService.saveAssetRemarks(data).subscribe((res: any) => {
-      const responce = res;
-      const processVaribles = responce.ProcessVariables;
-      if (responce.Error == '0' && processVaribles.error.code == '0') {
-        this.toasterService.showSuccess('Record Saved Successfully', '');
-        this.apiValue = this.remarksForm.getRawValue();
-      } else {
-        this.toasterService.showError(processVaribles.error.message, '');
-      }
-    });
+    if (this.remarksForm.invalid){
+      this.toasterService.showError('Please enter any remarks', '');
+    }else{
+    if (!this.isDeclinedFlow ){
+      this.cpcService.saveAssetRemarks(data).subscribe((res: any) => {
+        const responce = res;
+        const processVaribles = responce.ProcessVariables;
+        if (responce.Error == '0' && processVaribles.error.code == '0') {
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.apiValue = this.remarksForm.getRawValue();
+        } else {
+          this.toasterService.showError(processVaribles.error.message, '');
+        }
+      });
+    }else{
+      this.cpcService.saveDeclientRemarks(data).subscribe((res: any) => {
+        const responce = res;
+        const processVaribles = responce.ProcessVariables;
+        if (responce.Error == '0' && processVaribles.error.code == '0') {
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.apiValue = this.remarksForm.getRawValue();
+        } else {
+          this.toasterService.showError(processVaribles.error.message, '');
+        }
+      });
+    }
+  }
   }
 
   onApproval() {
@@ -143,30 +171,33 @@ export class RemarksComponent implements OnInit {
     }
     this.showModalApprove = true;
 
-
   }
 
   callApproval() {
-    const body = {
-      leadId: this.leadId,
-      userId: localStorage.getItem('userId'),
-      isCPCMaker: false,
-      isCPCChecker: false,
-      sendBackToCredit: false,
-      isSubmitCAD: true
-    };
-    this.cpcService.assignCPCMaker(body).subscribe((res: any) => {
-      // tslint:disable-next-line: triple-equals
-      this.showModalApprove = false;
-      if (res.ProcessVariables.error.code == '0') {
+    if (!this.isDeclinedFlow){
+      const body = {
+        leadId: this.leadId,
+        userId: localStorage.getItem('userId'),
+        isCPCMaker: false,
+        isCPCChecker: false,
+        sendBackToCredit: false,
+        isSubmitCAD: true
+      };
+      this.cpcService.assignCPCMaker(body).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        this.showModalApprove = false;
+        if (res.ProcessVariables.error.code == '0') {
 
-        this.toasterService.showSuccess('Approved Successfully', '');
-        this.router.navigate([`pages/dashboard`]);
+          this.toasterService.showSuccess('Approved Successfully', '');
+          this.router.navigate([`pages/dashboard`]);
 
-      } else {
-        this.toasterService.showError(res.Processvariables.error.message, '');
-      }
-    });
+        } else {
+          this.toasterService.showError(res.Processvariables.error.message, '');
+        }
+      });
+    }else{
+      return this.submitReappeal();
+    }
   }
 
   onCancel(){
@@ -217,6 +248,20 @@ export class RemarksComponent implements OnInit {
     this.showSendCredit = false;
   }
   onReappeal() {
+    this.formvalue = this.remarksForm.getRawValue();
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue);
+    if (this.remarksForm.invalid) {
+      this.toasterService.showError('Please enter any remarks', '');
+      return;
+    }
+    if (!isValueCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+    this.showModalApprove = true;  
+  }
+
+  submitReappeal(){
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
