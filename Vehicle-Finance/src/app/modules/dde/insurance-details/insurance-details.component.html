@@ -23,7 +23,7 @@
             </div>
         </div>
             
-            <div class="row">
+            <div class="row" *ngIf="motar == 'yes'">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="needForProposedVehicle" class="ellipsify">Insurance Provider <sub class="star_red_col">*</sub></label>
                     <!--formControlName="ndForProposedVehicle"  -->
@@ -52,7 +52,7 @@
                     </app-vf-custom-select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="motar == 'yes'">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="needForProposedVehicle" class="ellipsify">Vehicle Model <sub class="star_red_col">*</sub></label>
                     <!--formControlName="ndForProposedVehicle"  -->
@@ -81,7 +81,7 @@
                     </app-vf-custom-select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="motar == 'yes'">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="needForProposedVehicle" class="ellipsify">Rto Center <sub class="star_red_col">*</sub></label>
                     <!--formControlName="ndForProposedVehicle"  -->
