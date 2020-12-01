@@ -5,19 +5,63 @@
   
       <div class="content">
               
+        <div class="row "  >
+          <div class="col-md-6">
+            <h3 class="margin_zero">Loan Account Details</h3>
+          </div>
+          <div class="col-md-6 text-right"></div>
+        </div>
+
+               <div class="row">
+                    <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                        <label for="name_of_ca">Loan Account Number</label>
+                        <span class="form-control">{{loanAccountDetails?.accountNumber}}</span>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                        <label for="name_of_ca_firm">Loan Start Date</label>
+                            <span class="form-control">{{loanAccountDetails?.loanStartDate}}</span>
+                    </div>
+                   
+        
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                      <label for="name_of_ca">Loan Amount</label>
+                      <span class="form-control">{{loanAccountDetails?.totalLoanAmount}}</span>
+                  </div>
+                  <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                      <label for="name_of_ca_firm">Number of EMIs</label>
+                          <span class="form-control">{{loanAccountDetails?.totalEMIs}}</span>
+                  </div>
+                 
+      
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                    <label for="name_of_ca">Seasoning</label>
+                    <span class="form-control">{{loanAccountDetails?.seasoning}}</span>
+                </div>
+                <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                    <label for="name_of_ca_firm">Rate of Interest</label>
+                        <span class="form-control">{{loanAccountDetails?.rateOfInterest}}</span>
+                </div>
+               
+    
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                  <label for="name_of_ca">DPD</label>
+                  <span class="form-control">{{loanAccountDetails?.dpd}}</span>
+              </div>  
+          </div>
   
 
   
-      <div class="row " [ngStyle]="{'margin-top':'15px'}" >
-        <div class="col-md-6">
-          <h3 class="margin_zero">Loan Account Details</h3>
-        </div>
-        <div class="col-md-6 text-right"></div>
-      </div>
+      
   
       <!-- <div class="content" >       -->
         <!-- <div class="container-fluid">         -->
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-12">
             <div id="wrapper">
               <table>
@@ -58,9 +102,21 @@
               </div>
             </div>
           </div>
-          </div>
+          </div> -->
         <!-- </div> -->
       <!-- </div> -->
+      <div class="btn-sec clear-both btn-mar-reject">
+        <div class="text-right margin_top" >
+          <button 
+            
+            class="btn btn-primary js-btn-next mar-right8" 
+            type="button"
+            (click)="onNext()"
+            >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
     </div>
   </main>
