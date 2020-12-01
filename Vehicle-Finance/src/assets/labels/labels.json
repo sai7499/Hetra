@@ -2916,13 +2916,9 @@
         },
         "decimalValues": {
             "maxLength": {
-                "rule": 6
+                "rule": 12
             },
-            "type": "decimal",
-            "patternCheck": {
-                "rule": "^[0-9]{3}[.]{1}[0-9]{0,2}",
-                "msg": "Please enter as following pattern 654.12"
-            }
+            "type": "number"            
         },
         "insuranceAddress": {
             "maxLength": {

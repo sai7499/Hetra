@@ -278,7 +278,7 @@ h3.margin_zero {
   /* Top-heading Space */
   
   h3.margin_zero {
-    margin: 15px 12px 15px 0 !important;
+    margin: 1px 1px 5px 0 !important;
     color: #1d1a4b;
 
   }
@@ -494,7 +494,7 @@ h3.margin_zero {
     font-weight: 600; 
   }
   td, th { 
-    padding: 12px 0px; 
+    padding: 5px 0px; 
     border: 1px solid #ccc; 
     text-align: left; 
     text-align: center;
