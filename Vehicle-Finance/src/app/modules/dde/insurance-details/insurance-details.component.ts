@@ -655,15 +655,17 @@ getInsuranceProvider() {
   const body = {}
   this.insuranceService.getMotorInsuranceProviderDetails(body ).subscribe((res: any) => {
   console.log('insurance provider', res);
+  this.insuranceProviderList = this.utilityService.getValueFromJSON(res.ProcessVariables.insuranceLOV,
+                              'insProUniqCode','insProvider')
   // if (res && res.ProcessVariables.Error == '0') {
-  res.ProcessVariables.insuranceLOV.map((element) => {
-      // tslint:disable-next-line: no-shadowed-variable
-      const body = {
-        key: element.insProUniqCode,
-        value: element.insProvider
-      };
-      this.insuranceProviderList.push(body);
-    });
+  // res.ProcessVariables.insuranceLOV.map((element) => {
+  //     // tslint:disable-next-line: no-shadowed-variable
+  //     const body = {
+  //       key: element.insProUniqCode,
+  //       value: element.insProvider
+  //     };
+  //     this.insuranceProviderList.push(body);
+  //   });
   console.log('insurance lov list', this.insuranceProviderList);
   // }
   });
