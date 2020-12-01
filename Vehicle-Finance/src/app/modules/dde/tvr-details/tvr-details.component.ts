@@ -5,6 +5,8 @@ import { TvrDetailsService } from '@services/tvr/tvr-details.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-tvr-details',
   templateUrl: './tvr-details.component.html',
@@ -21,6 +23,7 @@ export class TvrDetailsComponent implements OnInit {
   fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
   productCatCode: string;
+  isLoan360: boolean;
 
   constructor(
     private labelDetails: LabelsService,
@@ -29,10 +32,11 @@ export class TvrDetailsComponent implements OnInit {
     private tvrService: TvrDetailsService,
     private sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
-
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
     if (this.fiCumPdStatusString == 'false') {
       this.fiCumPdStatus = false
@@ -101,6 +105,9 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-list`)
+    }
     if (this.productCatCode == 'UC') {
       this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
     } else {
