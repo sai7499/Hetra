@@ -19,6 +19,8 @@ import { debounce } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { LoanViewService } from '@services/loan-view.service';
+
 
 @Component({
   selector: 'app-sourcing-details',
@@ -26,6 +28,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
   styleUrls: ['./sourcing-details.component.css'],
 })
 export class SourcingDetailsComponent implements OnInit {
+  isLoan360: boolean;
   isDisabledDealerCode: boolean;
   labels: any = {};
   sourcingDetailsForm: FormGroup;
@@ -160,6 +163,7 @@ export class SourcingDetailsComponent implements OnInit {
     userId: number;
     leadId: number;
     totalLoanAmount?: string,
+    parentLoanAccNum?: any;
     principalPaid?: string,
     principalOutstanding?: string,
     dpd ?: string,
@@ -173,6 +177,8 @@ export class SourcingDetailsComponent implements OnInit {
   apiValue: any;
   finalValue: any;
   productCode: any;
+  isRemoveDealer: boolean;
+
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -190,8 +196,9 @@ export class SourcingDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private objectComparisonService: ObjectComparisonService,
-    private applicantDataStoreService: ApplicantDataStoreService
+    private objectComparisonService: ObjectComparisonService, 
+    private applicantDataStoreService : ApplicantDataStoreService,
+    private loanViewService: LoanViewService
   ) {
     this.sourcingCodeObject = {
       key: '',
@@ -205,12 +212,17 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.getLabels();
     this.getLOV();
     this.getSourcingChannel();
     this.tenureMonthlyValidation = this.loanTenureMonth();
     this.operationType = this.toggleDdeService.getOperationType();
+  }
+
+  navigateToPrevious() {
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/loan-details`);
   }
 
   getLabels() {
@@ -278,6 +290,7 @@ export class SourcingDetailsComponent implements OnInit {
     } else {
       let loanLeadDetails = this.leadData.loanLeadDetails;
       console.log(this.leadData.loanLeadDetails, 'Loan')
+      // this.isRemoveDealer = 
 
       // const childLoanData = this.leadData.loanLeadDetails;
       this.sourcingDetailsForm.patchValue({
@@ -289,7 +302,8 @@ export class SourcingDetailsComponent implements OnInit {
         rateOfInterest: loanLeadDetails.rateOfInterest,
         tenor: loanLeadDetails.tenor,
         remainingTenor: loanLeadDetails.remainingTenor,
-        seasoning: loanLeadDetails.seasoning
+        seasoning: loanLeadDetails.seasoning,
+        loanAccountNumber: loanLeadDetails.parentLoanAccNum
       });
     }
 
@@ -350,6 +364,9 @@ export class SourcingDetailsComponent implements OnInit {
       leadCreatedDate: this.leadCreatedDateFromLead,
     });
     this.apiValue = this.sourcingDetailsForm.getRawValue();
+    if (this.isLoan360) {
+      this.sourcingDetailsForm.disable();
+    }
   }
 
   patchSourcingDetails(data) {
@@ -669,6 +686,7 @@ export class SourcingDetailsComponent implements OnInit {
       tenor: new FormControl(''),
       remainingTenor: new FormControl(''),
       seasoning: new FormControl(''),
+      loanAccountNumber: new FormControl('')
     });
   }
 
@@ -682,6 +700,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.removeControl('tenor');
     this.sourcingDetailsForm.removeControl('remainingTenor');
     this.sourcingDetailsForm.removeControl('seasoning');
+    this.sourcingDetailsForm.removeControl('loanAccountNumber');
     this.sourcingDetailsForm.updateValueAndValidity();
   }
 
@@ -752,7 +771,7 @@ export class SourcingDetailsComponent implements OnInit {
         sourcingChannel: saveAndUpdate.sourcingChannel,
         sourcingType: saveAndUpdate.sourcingType,
         sourcingCode: this.sourcingCodeKey,
-        dealorCode: this.dealorCodeKey,
+        dealorCode: this.dealorCodeKey ? this.dealorCodeKey : '',
         // spokeCode: Number(saveAndUpdate.spokeCode),
         spokeCode: 1,
         loanBranch: Number(this.branchId),
@@ -763,6 +782,8 @@ export class SourcingDetailsComponent implements OnInit {
         reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
         totalLoanAmount: saveAndUpdate.totalLoanAmount,
+        
+        parentLoanAccNum: saveAndUpdate.loanAccountNumber,
         principalPaid: saveAndUpdate.principalPaid,
         principalOutstanding: saveAndUpdate.principalOutstanding,
         dpd: saveAndUpdate.dpd,
@@ -845,6 +866,9 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   nextToApplicant() {
+    if (this.isLoan360) {
+      return this.onNavigate();
+    }
     this.isDirty = true;
     console.log('testform', this.sourcingDetailsForm);
     this.finalValue = this.sourcingDetailsForm.getRawValue();

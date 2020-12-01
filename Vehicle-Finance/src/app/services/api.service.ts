@@ -36,6 +36,11 @@ export class ApiService {
       processId: '8b9b2a2295c411eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    getLoan360: {
+      workflowId: '8b7c681c95c411eabdcff2fa9bec3d63',
+      processId: '8b9b2a2295c411eabdcff2fa9bec3d63',
+      projectId: environment.projectIds.salesProjectId
+    },
     getMyLeads: {
       workflowId: 'a8cc3836959a11eabdcff2fa9bec3d63',
       processId: 'a8f86a64959a11eabdcff2fa9bec3d63',
@@ -1036,6 +1041,16 @@ export class ApiService {
       processId: 'f007931203cc11eba91300505695f93b',
       workflowId: '767be23a08a611eb827600505695f93b',
       projectId: environment.projectIds.trancheProId
+    },
+    externalUser: {
+      processId: '05eb8f2a316e11eb934a00505695f93b',
+      workflowId: '05bf0c20316e11eb863800505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    reAppeal: {
+      processId: '0e709facc67311ea954700505695f93b',
+      workflowId: '3ea13662c66611eaa13a00505695f93b',
+      projectId: environment.projectIds.submitToCredit
     }
   };
 }

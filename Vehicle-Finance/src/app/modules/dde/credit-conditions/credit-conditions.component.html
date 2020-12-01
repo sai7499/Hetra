@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-12">
       <div *ngIf="userType === 2">
-        <button style="float:right" (click)="addOtherUnit()" class="btn btn-primary text-right" type="button">Add new
+        <button style="float:right" *ngIf="!isLoan360" (click)="addOtherUnit()" class="btn btn-primary text-right" type="button">Add new
           row</button>
 
       </div>
@@ -87,7 +87,7 @@
           </div>
         </div>
         <div class="col-xs-6 col-sm-1" *ngIf="userType == 2">
-          <div>
+          <div *ngIf="!isLoan360">
             <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
         (click)="addOtherUnit()"></i>&nbsp; -->
             <i type="button" class="fa fa-trash" title="Delete" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -104,7 +104,8 @@
     </div>
     <div class="col-sm-8 text-right">
       <button class="btn btn-primary" (click)="onBack()" type="button">Back</button>
-      <button class="btn btn-primary" (click)="saveUpdate('save')" type="button">Save</button>
+      <ng-container *ngIf="!isLoan360 && !isDeclinedFlow">
+      <button  class="btn btn-primary" (click)="saveUpdate('save')" type="button" *ngIf="!isLoan360">Save</button>
       <!-- <button class="btn btn-primary"
        *ngIf="userType !== 2" 
        (click)="assignCDTaskFromSales()"
@@ -123,9 +124,11 @@
       (click)="alertMessage('Reject')" data-toggle="modal"
       data-target="#approveModal"  [disabled]="!isRejectEnable"
         >Reject</button> -->
-        <button class="btn btn-primary" *ngIf="userType === 2" type="button" 
+        
+        <button  class="btn btn-primary" *ngIf="userType === 2" type="button" 
         (click)="reject()"  [disabled]="!isRejectEnable"
           >Reject</button>
+        </ng-container> 
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"
@@ -138,10 +141,12 @@
       <button class="btn btn-primary" *ngIf="userType === 2" 
         (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
 
-      <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
+      <ng-container *ngIf="!isLoan360">
+        <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
         data-target="#approveModal" type="button" [disabled]="!isDeclineEnable">Decline</button>
       <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
         data-toggle="modal" data-target="#approveModal" type="button">Send Back to DDE </button>
+      </ng-container>
 
       <button class="btn btn-primary" (click)="onNext()" type="button">Next</button>
     </div>

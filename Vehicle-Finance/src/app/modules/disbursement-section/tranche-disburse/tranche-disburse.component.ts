@@ -74,6 +74,7 @@ export class TrancheDisburseComponent implements OnInit {
   DisbursementLog: any;
   isFailed: boolean;
   payableToData: any;
+  message:any;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -141,7 +142,7 @@ export class TrancheDisburseComponent implements OnInit {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
           let routePram = value.leadId.split('-');
-          this.leadId = Number(routePram[0]);
+          this.loanAccountNumber = Number(routePram[0]);
           if(routePram[1]){
              this.taskId = routePram[1]; 
           }
@@ -546,10 +547,12 @@ export class TrancheDisburseComponent implements OnInit {
         if (apiError.code == '0') {
           if(action == 'Reverse'){
             this.toasterService.showSuccess('Reversed Successfully', 'Reversed');
-            this.navigateToDashboard();
-          }else if(action == 'SubToChecker')
-          this.toasterService.showSuccess('Submitted Successfully', '');
-          this.callStartAndComplete(this.taskId,this.remarks,'Reverse');
+            this.callStartAndComplete(this.taskId,this.remarks,'Reverse');
+            // this.navigateToDashboard();
+          }else if(action == 'SubToChecker'){
+            this.toasterService.showSuccess('Submitted Successfully', '');
+            this.callStartAndComplete(this.taskId,this.remarks,'SubToChecker');
+          }
         } else {
           this.toasterService.showError(apiError.message,'')
         } 
@@ -572,10 +575,13 @@ export class TrancheDisburseComponent implements OnInit {
             this.statusModal = true;
             this.statusFlag = 'Unable to Approve';
           } else {
+            this.message = apiError.message;
             this.callStartAndComplete(this.taskId,this.remarks,'Approve');
           }
         } else {
           this.statusModal = true;
+          this.message = apiError.message;
+          this.statusFlag = 'Unable to Approve';
           this.toasterService.showError(apiError.message,'')
         } 
       }
@@ -630,14 +636,14 @@ export class TrancheDisburseComponent implements OnInit {
   }
 
   onBack() {
-   // this.location.back();
-   if (this.roleType == '1') {
-    this.router.navigate([`/pages/dashboard`]);
-  } else if (this.roleType == '4') {
-    this.router.navigate([`/pages/cpc-maker`]);
-  } else if (this.roleType == '5') {
-    this.router.navigate([`/pages/cpc-checker`]);
-  }
+    this.router.navigate([`pages/dashboard`]);
+  // if (this.roleType == '1') {
+  //   this.router.navigate([`/pages/dashboard`]);
+  // } else if (this.roleType == '4') {
+  //   this.router.navigate([`/pages/cpc-maker`]);
+  // } else if (this.roleType == '5') {
+  //   this.router.navigate([`/pages/cpc-checker`]);
+  // }
   }
 
   ngAfterViewInit() {

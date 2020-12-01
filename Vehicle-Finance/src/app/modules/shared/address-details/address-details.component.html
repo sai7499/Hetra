@@ -22,7 +22,7 @@
               <input type="checkbox" id="address_section_checkbox" 
                 (click)="onAddSameAsApplicant($event)" 
                 [checked]="sameAsAppAddress"
-                [disabled]="disableSameAppAddress"/>
+                [disabled]="disableSameAppAddress || isLoan360"/>
               <span id="address_section_checkbox_text"> Address From Main Applicant?
               </span>
             </div>
@@ -129,13 +129,13 @@
             </div>
             <div class="custom-col-30" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)"
-                [checked]="onPerAsCurChecked" [disabled]="disableCurrent || disableSaveBtn" />
+                [checked]="onPerAsCurChecked" [disabled]="disableCurrent || disableSaveBtn || isLoan360" />
               <span id="address_section_checkbox_text">&nbsp;Is it same as your permanent Address?
               </span>
             </div>
             <div class="custom-col-17" id="align_this_checkbox" *ngIf="showModCurrCheckBox">
               <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
-                [checked]="checkedModifyCurrent" [disabled]=" disableSaveBtn" />
+                [checked]="checkedModifyCurrent" [disabled]=" disableSaveBtn || isLoan360" />
               <span id="address_section_checkbox_text">&nbsp;Modify Current Address 
               </span>
             </div>
@@ -301,7 +301,7 @@
             </div>
             <div class="col-sm-7" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="officeSameAddress($event)"
-                [checked]="onCurrAsOfficeChecked" [disabled]="disableSaveBtn" />
+                [checked]="onCurrAsOfficeChecked" [disabled]="disableSaveBtn || isLoan360" />
               <span id="address_section_checkbox_text">Is it same as your current Address?
               </span>
             </div>
@@ -584,7 +584,7 @@
               </div>
               <div class="col-sm-7" id="align_this_texbox">
                 <input type="checkbox" id="address_section_checkbox" (change)="onSameRegistered($event)"
-                  [checked]="onRegAsCommChecked" [disabled]="disableRegister || disableSaveBtn" />
+                  [checked]="onRegAsCommChecked" [disabled]="disableRegister || disableSaveBtn || isLoan360" />
                 <span id="address_section_checkbox_text">Is it same as your Registered Address?
                 </span>
               </div>
@@ -705,9 +705,11 @@
     <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
         Back
       </button></a>
+      <ng-container *ngIf="!isLoan360"> 
     <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
       Save
     </p>
+  </ng-container>
     <a id="next_vehicle_details"><button class="btn btn-primary" type="button" (click)="onNext()">
         Next
       </button></a>

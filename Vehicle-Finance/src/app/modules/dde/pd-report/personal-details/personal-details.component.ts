@@ -48,6 +48,9 @@ export class PersonalDetailsComponent implements OnInit {
   ownerNamePropertyAreaRequired: boolean;
   ownerNamePropertyAreaDisabled: boolean;
 
+  productCatoryCode: string = '';
+  leadDetails: any;
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router, private createLeadDataService: CreateLeadDataService,
@@ -82,7 +85,9 @@ export class PersonalDetailsComponent implements OnInit {
 
     const leadData = this.createLeadDataService.getLeadSectionData();
 
-    this.applicantDetails = leadData['applicantDetails']
+    this.applicantDetails = leadData['applicantDetails'];
+    this.leadDetails = leadData['leadDetails']
+    this.productCatoryCode = this.leadDetails['productCatCode'];
 
     this.leadId = (await this.getLeadId()) as number;
 
@@ -95,16 +100,13 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   houseOwnerShip(event: any) {
-    console.log('event', event);
     this.ownerShipType = event ? event : event;
     if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
       this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
       this.ownerShipType === '5HOUOWN') {
-      console.log('in owner,property enabled');
       this.ownerNamePropertyAreaRequired = true;
       this.ownerNamePropertyAreaDisabled = false;
-      // this.personalDetailsForm.get('owner').enable();
-      // this.personalDetailsForm.get('owner').setValidators(Validators.required);
+
       this.personalDetailsForm.get('areaOfProperty').enable();
       this.personalDetailsForm.get('areaOfProperty').setValidators(Validators.required);
       this.personalDetailsForm.get('propertyValue').enable();
@@ -113,17 +115,12 @@ export class PersonalDetailsComponent implements OnInit {
     } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
       this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
       this.ownerShipType !== '5HOUOWN') {
-      console.log('in owner,property disabled');
       this.ownerNamePropertyAreaRequired = false;
       this.ownerNamePropertyAreaDisabled = true;
       setTimeout(() => {
-        // this.personalDetailsForm.get('owner').setValue(null);
         this.personalDetailsForm.get('areaOfProperty').setValue(null);
         this.personalDetailsForm.get('propertyValue').setValue(null);
       });
-      // this.personalDetailsForm.get('owner').disable();
-      // this.personalDetailsForm.get('owner').clearValidators();
-      // this.personalDetailsForm.get('owner').updateValueAndValidity();
       this.personalDetailsForm.get('areaOfProperty').disable();
       this.personalDetailsForm.get('areaOfProperty').clearValidators();
       this.personalDetailsForm.get('areaOfProperty').updateValueAndValidity();
@@ -193,8 +190,8 @@ export class PersonalDetailsComponent implements OnInit {
       businessKey: ['', Validators.required],
       occupationType: ['', Validators.required],
       businessType: ['', Validators.required],
-      natureOfBusiness: [''],
-      educationalBackground: [''],
+      vehicleApplication: [''],
+      educationalBackgroundType: ['', Validators.required],
       isMinority: ['', Validators.required],
       community: ['', Validators.required],
       srto: ['', Validators.compose([Validators.maxLength(10), Validators.required])],
@@ -219,6 +216,7 @@ export class PersonalDetailsComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    console.log('Lov', this.LOV)
     this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -343,8 +341,8 @@ export class PersonalDetailsComponent implements OnInit {
       businessKey: personalPDDetais.businessKey || '',
       occupationType: personalPDDetais.occupationType || '',
       businessType: personalPDDetais.businessType || '',
-      natureOfBusiness: personalPDDetais.natureOfBusiness || '',
-      educationalBackground: personalPDDetais.educationalBackground || '',
+      vehicleApplication: personalPDDetais.vehicleApplication || '',
+      educationalBackgroundType: personalPDDetais.educationalBackgroundType || '',
       weddingAnniversaryDate: personalPDDetais.weddingAnniversaryDate ?
         this.utilityService.getDateFromString(personalPDDetais.weddingAnniversaryDate) : '',
       noOfYears: noofyears,

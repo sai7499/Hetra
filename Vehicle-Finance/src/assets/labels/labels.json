@@ -152,7 +152,7 @@
     "applicantDetailsTitle": "Applicant Details",
     "personalDetailsTitle": "Personal Details",
     "addApplicantTitle": "Add Applicant",
-    "ucicId": "UCIC ID",
+    "ucicId": "UCIC",
     "name": "Name",
     "mobileNumber": "Mobile Number",
     "applicantType": "Applicant Type",
@@ -255,7 +255,7 @@
     "pdReport": "PD Report",
     "flStatus": "Fl Status",
     "flReport": "Fl Report",
-    "vehicleValTitle": "Valuation",
+    "vehicleValTitle": "Vehicle Valuation",
     "valuatorType": "Valuator Type",
     "valuatorCode": "Valuator Code",
     "valuatorName": "Valuator Name",
@@ -326,6 +326,7 @@
     "workStability": "Work Stability",
     "natureOfBusiness": "Nature of Business",
     "educationalBackground": "Educational Background Type",
+    "vehicleApplication": "Vehicle Application",
     "isMinority": "Is Minority?",
     "community": "Community",
     "srto": "SRTO",
@@ -477,6 +478,7 @@
     "contactNo": "Contact No",
     "customerRequestedAmount": "Customer Requested Amount",
     "roi": "ROI",
+    "roiinPercent": "ROI (%)",
     "loanTenure": "Loan Tenure",
     "loanTenureInMonths": "Loan Tenure (In Months)",
     "profile": "profile",
@@ -784,6 +786,7 @@
     "owndamagediscount": "own damage discount",
     "comprehensive-thirdparty": "Comprehensive / third party",
     "insurancetype": "Insurance type (bumper to bumper / normal / return to invoice)",
+    "insuranceType": "Insurance Type",
     "capativeTitle": "Captive",
     "income": "INCOME",
     "route": "ROUTE",
@@ -1657,7 +1660,7 @@
     "equitasEmployee": "Equitas Employee",
     "equitasEmployeesRelative": "Equitas Employees Relative",
     "employeeNo": "Employee Number",
-    "initiate": "Initiate Viability for New Vehicles",    
+    "initiate": "Initiate Viability for New Vehicles",
     "foundnl": "Found in NL",
     "foundnltr": "Found in NLTR",
     "maidenName": "Maiden Name",
@@ -1691,7 +1694,7 @@
     "marketAndFinancierReference": "Market & Financier Reference",
     "performed_by": "Performed By",
     "performed_on": "Performed On",
-    "speedometerReading": "Speedometer Reading",
+    "odometerReading": "Odometer Reading",
     "deleteReference": "Are You Sure Want To Delete Reference Details?",
     "principalPaid": "Principal Paid",
     "principalOutstanding": "Principal Outstanding",
@@ -1708,35 +1711,99 @@
     "guardianAddress": "Guardian Address",
     "motorInsuranceRequired": "Motor insurance required?",
     "creditShieldRequired": "Credit sheld required?",
-    "backToFiCumPdList":"Back to FI cum PD List",
-    "fiCumPdStatus":"FI cum PD Status",
-    "fiCumPdReport":"FI cum PD Report",
-    "borrowerAttributes":" Borrower Attributes",
-    "borrowerAttributeWeightage":"Borrower Weightage",
-    "borrowerAttributeScore":"Borrower Score",
-    "customerDOI" : "Customer DOI",
+    "backToFiCumPdList": "Back to FI cum PD List",
+    "fiCumPdStatus": "FI cum PD Status",
+    "fiCumPdReport": "FI cum PD Report",
+    "valuationInitiatedDate": "Valuation Initiation Date",
+    "personInitiated": "Person Initiated",
+    "refNo": "Ref No.",
+    "inspectionDetails": "Inspection Details",
+    "borrowersName": "Borrower's Name",
+    "inspectionDate": "Inspection Date",
+    "vehicleInspectedBy": "Vehicle Inspected By",
+    "placeOfInspection": "Place of Inspection",
+    "timeOfInsepction": "Time of Inspection",
+    "engineStarted": "Engine started",
+    "vehicleMoved": "Vehicle Moved",
+    "vehcileIdentityDetails": "Vehicle Identity Details",
+    "vehicleSegment": "Vehicle Segment",
+    "version": "Version (Eg:petrol)",
+    "colour": "Colour",
+    "estimatedReading": "Estimated Reading",
+    "vehicleUsedFor": "Vehicle Used For",
+    "typeOfBody": "Type Of Body",
+    "fuelUsed": "Fuel Used",
+    "registrationDetails": "Registration Details",
+    "reregisteredRegNo": "If Re-registered , mention previous Reg Number",
+    "regdOwnerName": "Registered Owner Name",
+    "ownerSerialNo": "Owner Serial Number",
+    "dateOfRegistration": "Date of Registration",
+    "regMonthAndYear": "Month & Year of Registration",
+    "classOfVehicle": "Class of vehicle",
+    "makeName": "Make Name",
+    "monthOfYearOfManf": "Month & Year of Manufacture",
+    "makersClassfication": "Makers Classification (Eg:petrol)",
+    "unladenWeight": "Unladen Weight(in KGs or TONs)",
+    "hypothecation": "Hypothecation if any",
+    "permitAndTaxDetails": "Permit and Tax Details",
+    "fitnessValidity": "Fitness Validity",
+    "routeOfOperationValuation": "Route of Operation",
+    "taxPaid": "Tax Paid",
+    "taxValidUpto": "Tax valid Up to",
+    "insuranceDetails": "Insurance Details",
+    "company": "Company",
+    "policyNumber": "Policy Number",
+    "validFrom": "Valid From",
+    "validUpto": "Valid up to",
+    "typeOfPolicy": "Type of policy",
+    "isModelInProduction": "Is the Model Currently under Production ?",
+    "anyAccidentsInPast": "Any accidents in the past ? If yes, mention in remarks",
+    "originalInvoice": "Original Invoice Value(Ex-show)",
+    "anyMajorRepairs": "Any Other Major Repairs till date",
+    "currentInvoiceValue": "Current Invoice Value",
+    "rcBookStatus": "RC Book Status",
+    "recentLast3Valuations": "Recent Last Three Valuation & Price Of The Same Model Given By The Valuer",
+    "monthOfReport": "Month of the Report",
+    "valuation": "Valuation",
+    "assetCondition": "Asset Condition",
+    "partName": "Part Name",
+    "conditon": "Condition",
+    "ratingScale": "Rating Scale",
+    "noOfOriginalTyres": "No. of Original Tyres",
+    "noOfRetreadedTyres": "No.of Retreaded Tyres",
+    "accessoriesFound": "Accessories found at the time of Inspection",
+    "accessories": "Accessories",
+    "avaialablity": "Availability",
+    "rating": "Rating",
+    "expectedFutureLife": "Expected Future Life Of The Vehicle (in Years):",
+    "marketValueAsOnDateOfInspection": "Market Value as on date of Inspection",
+    "downloadReport": "Download Report",
+    "borrowerAttributes": " Borrower Attributes",
+    "borrowerAttributeWeightage": "Borrower Weightage",
+    "borrowerAttributeScore": "Borrower Score",
+    "customerDOI": "Customer DOI",
     "bnfName": "Beneficiary Name",
-    "miPacVasAmount":"MI+PAC+VAS Amount (Rs)",
-    "noOfTrancheDisburse":" Total No. of Tranche Disbursements",
-    "alreadyDisbursedAmount":"Already Disbursed Amount (Rs)",
-    "balanceToBeDisbursed":"Balance To Be Disbursed (Rs)",
-    "disbursementMode":"Disbursement Mode",
-    "chequeHandoverDate":"Cheque Handover Date",
-    "supportDoc":"Support Doc",
-    "transactionRefNumber":"Transaction Reference Number",
-    "initiatedBy":"Initiated By",
-    "authorizedBy":"Authorized By",
+    "miPacVasAmount": "MI+PAC+VAS Amount (Rs)",
+    "noOfTrancheDisburse": " Total No. of Tranche Disbursements",
+    "alreadyDisbursedAmount": "Already Disbursed Amount (Rs)",
+    "balanceToBeDisbursed": "Balance To Be Disbursed (Rs)",
+    "disbursementMode": "Disbursement Mode",
+    "chequeHandoverDate": "Cheque Handover Date",
+    "supportDoc": "Support Doc",
+    "transactionRefNumber": "Transaction Reference Number",
+    "initiatedBy": "Initiated By",
+    "authorizedBy": "Authorized By",
     "loanTenorinMonths": "Loan Tenor (Months)",
     "loanAmountinRs": "Loan Amount (Rs)",
     "amountToBeDisbursed": "Amount To Be Disbursed (Rs)",
     "bnfBankBranch": "Beneficiary Bank Branch",
     "serialNumber": "Serial Number",
-    "mainApplicantName":"Main Applicant Name",
-    "branchInitiatedDate":"Branch Initiated Date",
-    "cpcReversedDate":"CPC Reversed Date",
-    "cpcReversedRemarks":"CPC Reversed Remarks",
+    "mainApplicantName": "Main Applicant Name",
+    "branchInitiatedDate": "Branch Initiated Date",
+    "cpcReversedDate": "CPC Reversed Date",
+    "cpcReversedRemarks": "CPC Reversed Remarks",
     "cpcReversedBy": "Reversed By",
-    "productName":"Product Name",
+    "productName": "Product Name",
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
     "validationData": {
@@ -2566,9 +2633,9 @@
         },
         "DeductionChargefixedRate": {
             "maxLength": {
-                "rule": 5
+                "rule": 7
             },
-            "type": "number"
+            "type": "decimal"
         },
         "NegotiatedEMI": {
             "maxLength": {
@@ -2780,26 +2847,81 @@
             },
             "type": "alpha-numeric-nospace"
         },
-        "speedometerReading": {
+        "odometerReading": {
             "maxLength": {
                 "rule": 7
             },
             "type": "number"
         },
+        "colour": {
+            "maxLength": {
+                "rule": "20"
+            },
+            "type": "alpha"
+        },
+        "regdOwnerName": {
+            "maxLength": {
+                "rule": 105
+            },
+            "type": "alpha"
+        },
+        "valuationAddress": {
+            "maxLength": {
+                "rule": 200
+            },
+            "type": "alpha"
+        },
+        "hypothecation": {
+            "maxLength": {
+                "rule": 200
+            },
+            "type": "alpha-numeric"
+        },
+        "company": {
+            "maxLength": {
+                "rule": 105
+            },
+            "type": "alpha"
+        },
+        "policyNumber": {
+            "maxLength": {
+                "rule": 20
+            },
+            "type": "special-alpha-numeric"
+        },
+        "valuationRefNo": {
+            "maxLength": {
+                "rule": 40
+            },
+            "type": "number"
+        },
+        "valuationEngChasisNumber": {
+            "maxLength": {
+                "rule": 18
+            },
+            "minLength": {
+                "rule": 7
+            },
+            "type": "alpha-numeric",
+            "patternCheck": {
+                "rule": "/^([A-Za-z]{2}[A-z0-9]{5,16})$/",
+                "msg": "Invalid Engine/Chasis Number Format, Valid Format:MA6MFBC1BBT096358"
+            }
+        },
         "insuranceDetails": {
             "maxLength": {
                 "rule": 30
             },
-            "type": "alpha-numeric" 
+            "type": "alpha-numeric"
         },
         "decimalValues": {
             "maxLength": {
                 "rule": 6
             },
             "type": "decimal",
-            "patternCheck":{
+            "patternCheck": {
                 "rule": "^[0-9]{3}[.]{1}[0-9]{0,2}",
-                "msg":"Please enter as following pattern 654.12"
+                "msg": "Please enter as following pattern 654.12"
             }
         },
         "insuranceAddress": {
@@ -2840,7 +2962,8 @@
         },
         "ChildLoanAccountNumber": {
             "maxLength": {
-                "rule": 12
+                "rule": 12,
+                "msg": "Maximun 12 digits for loan Account Number"
             },
             "type": "number"
         },

@@ -13,6 +13,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import html2pdf from 'html2pdf.js';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-applicant-list',
@@ -52,6 +53,8 @@ export class ApplicantListComponent implements OnInit {
   locationPath: string;
   showNotCoApplicant: boolean = false;
 
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private location: Location,
@@ -63,10 +66,12 @@ export class ApplicantListComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
-    private applicantDataStoreService: ApplicantDataStoreService
+    private applicantDataStoreService : ApplicantDataStoreService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const currentUrl = this.location.path();
     if (currentUrl.includes('sales')) {
       this.locationPath = 'sales'
@@ -352,9 +357,9 @@ export class ApplicantListComponent implements OnInit {
     if (this.locationPath == 'lead-section') {
       this.router.navigateByUrl(`pages/lead-section/${this.leadId}`)
     } else if (this.locationPath == 'sales') {
-      this.router.navigateByUrl(`pages/sales/${this.leadId}//lead-details`)
+      this.router.navigateByUrl(`pages/sales/${this.leadId}/lead-details`)
     } else {
-      this.router.navigateByUrl(`pages/dde/${this.leadId}//lead-details`)
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/lead-details`)
     }
   }
   destroyImage() {

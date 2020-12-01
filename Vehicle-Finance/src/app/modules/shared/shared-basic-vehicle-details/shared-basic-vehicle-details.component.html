@@ -1576,12 +1576,12 @@
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
                                 placeholder="Insurance Validity">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
+                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
                                 Invalid Date
                             </div>
 
@@ -1650,12 +1650,12 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="noc_date">{{label.expectedNOCDate}}</label>
                             <kendo-datepicker class="form-control" [id]="'noc_date'" formControlName="expectedNOCDate"
-                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
                                 placeholder="Expected NOC Date">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < maxDate">
+                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
                                 Invalid Date
                             </div>
 
@@ -1991,18 +1991,6 @@
                             </app-custom-input>
                         </div>
 
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                        <label for="rc_owner_name">{{label.rcOwnerName}}</label>
-
-                        <app-custom-input formControlName="rcOwnerName" [type]="label.validationData?.name.type"
-                            [id]="'name_vehicle_owner'" [className]="'form-control mandatory'"
-                            [placeholder]="'Name of Vehicle Owner/Dealer'"
-                            [maxLength]="label.validationData?.name.maxLength"
-                            [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
-                        </app-custom-input>
-
-                    </div> -->
-
                     </div>
 
                     <div class="row">
@@ -2086,12 +2074,12 @@
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
 
                             <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
-                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
                                 placeholder="Insurance Validity">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < maxDate">
+                                *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
                                 Invalid Date
                             </div>
                         </div>
@@ -2155,15 +2143,22 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="noc_date">{{label.expectedNOCDate}}</label>
                             <kendo-datepicker class="form-control" [id]="'noc_date'" formControlName="expectedNOCDate"
-                                [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
                                 placeholder="Expected NOC Date">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < maxDate">
+                                *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
                                 Invalid Date
                             </div>
 
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="insurance_type">{{label.insuranceType}} <sub class="star_red_col">*</sub> </label>
+                            <app-vf-custom-select [id]="'insurance_type'" [values]="vehicleLov?.insuranceType"
+                                formControlName="insuranceType" [isRequired]="'Insurance Type Required'" [isDirty]="isDirty">
+                            </app-vf-custom-select>
                         </div>
 
                     </div>
@@ -2337,7 +2332,8 @@
                         <label for="accident_date">{{label.accidentDate}}</label>
 
                         <kendo-datepicker class="form-control mandatory" formControlName="accidentDate"
-                            [format]="'dd/MM/yyyy'" [max]="onlyFutureDate" [activeView]="'decade'" placeholder="Accident Date">
+                            [format]="'dd/MM/yyyy'" [max]="onlyFutureDate" [activeView]="'decade'"
+                            placeholder="Accident Date">
                         </kendo-datepicker>
 
                         <div class="invalid-feedback"

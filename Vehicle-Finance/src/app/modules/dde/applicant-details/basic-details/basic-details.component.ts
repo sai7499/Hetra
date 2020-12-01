@@ -23,6 +23,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { AgeValidationService } from '@services/age-validation.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   templateUrl: './basic-details.component.html',
   styleUrls: ['./basic-details.component.css'],
@@ -108,6 +110,7 @@ export class BasicDetailsComponent implements OnInit {
   finalValue: any;
   isExpiryDate: boolean= false;
   maxExtrIssue = new Date()
+  isLoan360: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -123,7 +126,8 @@ export class BasicDetailsComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
     private ageValidationService: AgeValidationService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private loanViewService: LoanViewService
   ) { 
     this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
 
@@ -132,6 +136,7 @@ export class BasicDetailsComponent implements OnInit {
 
   }
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -543,6 +548,11 @@ export class BasicDetailsComponent implements OnInit {
       this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
       this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
       this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+        this.basicForm.disable();
+        this.disableSaveBtn = true;
     }
   }
 
@@ -1698,6 +1708,12 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      this.router.navigate([
+        `/pages/applicant-details/${this.leadId}/identity-details`,
+        this.applicantId,
+      ]);
+    }
     this.finalValue = this.basicForm.getRawValue();
     console.log('this.finalValue', this.finalValue)
     if (this.isIndividual){

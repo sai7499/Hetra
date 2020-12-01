@@ -59,10 +59,10 @@
           <label class="col-form-label" for="lead_handled_by">{{
             labels?.queue
           }}</label>
-           <label for="lead_handled_by_name" class="col-form-label-two">New Lead<!--<a
-              *ngIf="router.url == '/pages/lead-section'" data-toggle="tooltip" data-placement="bottom"
-              title="Click to View Lead Journey">
-              <span class="fa fa-history"></span></a>--></label> 
+          <label for="lead_handled_by_name" class="col-form-label-two">New Lead<!--<a
+            *ngIf="router.url == '/pages/lead-section'" data-toggle="tooltip" data-placement="bottom"
+            title="Click to View Lead Journey">
+            <span class="fa fa-history"></span></a>--></label> 
         </div>
       </div>
     </div>
@@ -136,20 +136,26 @@
   </div> -->
 
   <div class="col-lg-2 col-md-2 col-sm-2 btn-width">
+    <ng-container *ngIf="isBeforeEligibility">
+      
     <div class="row view-pad-top" *ngIf="!isButtonNameChange">
-      <button class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
-        (click)="saveCurrentUrl()">       
+      <button *ngIf="!isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
+        (click)="saveCurrentUrl()">
         View/Upload Document
       </button>
-
+      <button  *ngIf="isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
+      (click)="saveCurrentUrl()">
+      View Document
+    </button>
     </div>
-    <div class="row view-pad-top" *ngIf="isButtonNameChange">
-      <button class="btn btn-primary view-button"  type="button"
-        (click)="onBackDocumentUpload()">       
-         Back to Lead
-      </button>
+  </ng-container>
+  <div class="row view-pad-top" *ngIf="isButtonNameChange">
+    <button class="btn btn-primary view-button"  type="button"
+      (click)="onBackDocumentUpload()">       
+       Back to Lead
+    </button>
 
-    </div>
+  </div>
 
     <div class="row view-pad-bottom" *ngIf="isEnableInitiateQuery">
       <button class="btn btn-primary view-button" type="button" (click)="initinequery()">

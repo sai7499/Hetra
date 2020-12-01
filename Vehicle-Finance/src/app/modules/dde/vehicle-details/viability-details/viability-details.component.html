@@ -1166,12 +1166,15 @@
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">
         <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> 
-        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
+        
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
+       <ng-container *ngIf="!isLoan360">
+        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
         <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
             <p type="button" class="btn btn-primary">{{label?.submit}}</p>
         </a>
         <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal" data-target="#myModalReinitiate" *ngIf = "showReinitiate">{{label?.reinitiate}}</button>
+       </ng-container>
     </div>
 </div>
 <div class="modal" id="myModalCredit">

@@ -78,7 +78,15 @@
                   </app-custom-input></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="collectedDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate" [min]="disbursementDate">
-                  </kendo-datepicker></td>
+                  </kendo-datepicker>
+                 <!-- max {{toDayDate}}
+                 min {{disbursementDate}} -->
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('collectedDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('collectedDate').invalid">
+                     Invalid date
+                  </div>
+
+                </td>
                   <td><app-custom-input
                     formControlName="podNumber"
                     [className]="'form-control mandatory'"
@@ -89,7 +97,11 @@
                   </app-custom-input></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="courieredDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [disabled]="!isSales" [max]="toDayDate" [min]="getCollectedDate(i)">
-                  </kendo-datepicker></td>
+                  </kendo-datepicker>
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('courieredDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('courieredDate').invalid">
+                     Invalid date
+                  </div></td>
                   <ng-container *ngIf="isSales"><td (click)="uploadDocs(i)" class="upload-icon"><label
                     ><i
                       class="fa fa-upload fa-3 custom-file-label cursor-pointer"
@@ -102,7 +114,13 @@
                     </app-vf-custom-select></td>
                   <td><kendo-datepicker class="form-control mandatory" formControlName="cpcReceivedDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'decade'" [max]="toDayDate" >
-                  </kendo-datepicker></td>
+                  </kendo-datepicker>
+                  
+                  <div class="ShowError" *ngIf="this.pddForm.get('pddDocumentDetails')['controls'][i].get('cpcReceivedDate').value &&
+                  this.pddForm.get('pddDocumentDetails')['controls'][i].get('cpcReceivedDate').invalid">
+                     Invalid date
+                  </div>
+                </td>
                   <td><app-custom-input
                     formControlName="phyTrackingNum"
                     [className]="'form-control mandatory'"

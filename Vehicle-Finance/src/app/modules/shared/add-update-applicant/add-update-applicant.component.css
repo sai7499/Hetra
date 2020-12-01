@@ -113,6 +113,14 @@ h3.dedupe_head {
   margin-bottom: 20px;
 }
 
+.content-box {
+  background: #fff;
+  padding: 25px 15px;
+  border-radius: 8px;
+  /* border: 1px solid #ddd; */
+  margin-bottom: 20px;
+}
+
 label.col-form-label {
   width: 50%;
   padding-right: 20px;

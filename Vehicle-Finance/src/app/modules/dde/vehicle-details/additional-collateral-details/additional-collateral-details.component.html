@@ -340,18 +340,6 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="property_type">{{label.propertyOwnerType}}
-                                    <sub class="star_red_col">*</sub>
-                                </label>
-
-                                <app-vf-custom-select [values]="LOV?.propertyOwnerType" [id]="'property_type'"
-                                    formControlName="propertyOwnerType" [isRequired]="'Property Owner Type Required'"
-                                    [isDirty]="isDirty">
-                                </app-vf-custom-select>
-
-                            </div>
-
-                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="property_owner">{{label.propertyOwner}}
                                     <sub class="star_red_col">*</sub>
                                 </label>
@@ -361,12 +349,6 @@
                                 </app-vf-custom-select>
 
                             </div>
-
-
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="relation_applicant">{{label.relatedWithApplicant}}
@@ -380,6 +362,22 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                                <label for="property_type">{{label.propertyOwnerType}}
+                                    <sub class="star_red_col">*</sub>
+                                </label>
+
+                                <app-vf-custom-select [values]="LOV?.propertyOwnerType" [id]="'property_type'"
+                                    formControlName="propertyOwnerType" [isRequired]="'Property Owner Type Required'"
+                                    [isDirty]="isDirty" (change)="onCheckApplicant($event.target.value, obj)">
+                                </app-vf-custom-select>
+
+                            </div>
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="total_land_area">{{label?.totalLandArea}}
                                     <sub class="star_red_col">*</sub>
@@ -389,8 +387,8 @@
                                     [type]="label.validationData?.landArea.type" [id]="'total_land_area'"
                                     [className]="'form-control mandatory'" [placeholder]="'Total Land Area'"
                                     [maxLength]="label.validationData?.landArea.maxLength"
-                                    (ngModelChange)="getLandArea($event, obj)"
-                                    [isRequired]="'Total Land Area Required'" [isDirty]="isDirty">
+                                    (ngModelChange)="getLandArea($event, obj)" [isRequired]="'Total Land Area Required'"
+                                    [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </div>

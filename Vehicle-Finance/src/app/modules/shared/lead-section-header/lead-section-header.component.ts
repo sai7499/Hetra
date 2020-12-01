@@ -11,6 +11,8 @@ import { CommonDataService } from '@services/common-data.service';
 import { ToasterService } from '@services/toaster.service';
 // import { LeadHistoriesDataService } from '@services/lead-histories-data.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-lead-section-header',
   templateUrl: './lead-section-header.component.html',
@@ -38,7 +40,9 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   isEnableDdeButton: boolean = false;
   isDdeModule: boolean;
-  isButtonNameChange : boolean
+  isLoan360: boolean;
+  isButtonNameChange : boolean;
+  isBeforeEligibility: boolean;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -51,6 +55,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     private leadHistoryService: LeadHistoryService,
     private commonDataService: CommonDataService,
     private toasterService: ToasterService,
+    private loanViewService: LoanViewService
   ) {
     // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
     this.leadId = this.aRoute.snapshot.params['leadId'];
@@ -58,6 +63,7 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   ngOnInit() {
     // this.leadId = (await this.getLeadId()) as number;
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const operationType = this.toggleDdeService.getOperationType()
     this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
     this.getLabels();
@@ -134,6 +140,9 @@ export class LeadSectionHeaderComponent implements OnInit {
         }
       });
     });
+
+    this.isBeforeEligibility = leadSectionData.leadDetails.stage !== '10';
+
 
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
 

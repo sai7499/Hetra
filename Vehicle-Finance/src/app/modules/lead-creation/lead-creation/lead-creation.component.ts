@@ -13,6 +13,7 @@ import { UtilityService } from '@services/utility.service';
 import { ToastrService } from 'ngx-toastr';
 import { AgeValidationService } from '@services/age-validation.service';
 import { CommonDataService } from '@services/common-data.service';
+import { ChildLoanApiService } from '@services/child-loan-api.service';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -80,6 +81,7 @@ export class LeadCreationComponent implements OnInit {
   isLoanAccountNo: boolean;
   isFromChild: boolean;
   productCodeFromSearch: string;
+  isLoanModal: any;
 
 
   obj = {};
@@ -96,6 +98,7 @@ export class LeadCreationComponent implements OnInit {
   firstName: string = '';
   middleName: string = '';
   lastName: string = '';
+  isremoveDealerRC: boolean;
 
   loanLeadDetails: {
     bizDivision: string;
@@ -122,6 +125,18 @@ export class LeadCreationComponent implements OnInit {
     dobOrDoc: string;
   };
 
+  childLoanDatas: {
+    firstName?: any,
+    middleName?: any,
+    lastName?: any,
+    entity?: any,
+    mobile?: any,
+    dobOrDoi?: any,
+    loanAccountNumber?: any,
+    fromChild?: boolean,
+    fromCreateLead?: boolean
+  }
+
   constructor(
     private router: Router,
     private leadStoreService: LeadStoreService,
@@ -134,35 +149,88 @@ export class LeadCreationComponent implements OnInit {
     private toasterService: ToastrService,
     private ageValidationService: AgeValidationService,
     private commonDataService: CommonDataService,
-  ) { }
+    private childLoanApiService: ChildLoanApiService,
+  ) {
+    this.isremoveDealerRC = true;
+    console.log('this.isremoveDealerRC', this.isremoveDealerRC)
+  }
 
   ngOnInit() {
     this.onChangeLanguage('English');
     this.initForm();
     this.getLabels();
     this.getLOV();
-    // this.getUserDetailsData();
     this.getSourcingChannel();
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
     const dataFromSearchLoan = this.commonLovService.getSearchLoan();
-
     this.childLoanData = dataFromSearchLoan;
+    console.log('456', this.childLoanData)
+    if (this.childLoanData) {
+      this.updateChildLoan(this.childLoanData);
+    }
+    // if (this.childLoanData && this.childLoanData.fromChild) {
+    //   this.isLoanAccountNo = true;
+    //   this.isFromChild = this.childLoanData.fromChild;
+    //   this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
+    //   this.createLeadForm.updateValueAndValidity();
+    //   this.getChildLoanEntity();
+    //   if (this.childLoanData.fromChild) {
+    //     this.isFromChild = true;
+    //     this.removeDealerRClimit();
+    //     this.productCodeFromSearch = this.childLoanData.productCode;
+    //   } else {
+    //     this.isFromChild = false;
+    //   }
+    // } else {
+    //   this.createLeadForm.removeControl('loanAccountNumber');
+    // }
+  }
+
+  updateChildLoan(data) {
+    console.log('this.childLoanDatas', data)
+    this.childLoanData = data;
     if (this.childLoanData && this.childLoanData.fromChild) {
       this.isLoanAccountNo = true;
       this.isFromChild = this.childLoanData.fromChild;
+      // if (!data.fromCreateLead) {
       this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
       this.createLeadForm.updateValueAndValidity();
+      // }
+
       this.getChildLoanEntity();
       if (this.childLoanData.fromChild) {
         this.isFromChild = true;
+        this.removeDealerRClimit();
         this.productCodeFromSearch = this.childLoanData.productCode;
+        if (data.fromCreateLead == true) {
+          this.filterProduct(this.productCodeFromSearch);
+          this.createLeadForm.patchValue({
+            productCategory: this.productCodeFromSearch
+          });
+        }
+
       } else {
         this.isFromChild = false;
       }
     } else {
       this.createLeadForm.removeControl('loanAccountNumber');
     }
+  }
+
+  removeDealerRClimit() {
+    this.createLeadForm.removeControl('dealerCode');
+    this.createLeadForm.removeControl('rcLimit');
+    this.createLeadForm.removeControl('rcUtilizedLimit');
+    this.createLeadForm.removeControl('rcUnutilizedLimit');
+    this.isremoveDealerRC = false;
+  }
+  addDealerRClimit() {
+    this.createLeadForm.addControl('dealerCode', new FormControl(''));
+    this.createLeadForm.addControl('rcLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.addControl('rcUtilizedLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.addControl('rcUnutilizedLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.updateValueAndValidity();
 
   }
 
@@ -344,7 +412,8 @@ export class LeadCreationComponent implements OnInit {
     let filterList = [];
     if (!this.isFromChild) {
       filterList = this.productCategoryList.filter(
-        (data) => data.productCatCode === productCategorySelected
+        // (data) => data.productCatCode === productCategorySelected 
+        (data) => data.productCatCode === productCategorySelected && data.isChildLoan == 0
       )
     } else {
       filterList = this.productCategoryList.filter(
@@ -365,19 +434,23 @@ export class LeadCreationComponent implements OnInit {
     const productChange = event.target.value;
     this.productCode = event.target.value;
 
-    const isChild = this.productCategoryList.find((value: any) => {
-      return value.assetProdcutCode === productChange;
-    });
-    console.log('isChildd', isChild.isChildLoan);
-    this.isLoanAccountNo = (isChild.isChildLoan == 0) ? false : true;
-    if (isChild.isChildLoan == 0) {
-      this.isLoanAccountNo = false;
-      this.createLeadForm.removeControl('loanAccountNumber');
-    } else {
-      this.isLoanAccountNo = true;
-      this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
-      this.createLeadForm.updateValueAndValidity();
-    }
+    // const isChild = this.productCategoryList.find((value: any) => {
+    //   return value.assetProdcutCode === productChange;
+    // });
+    // console.log('isChildd', isChild.isChildLoan);
+    // this.isLoanAccountNo = (isChild.isChildLoan == 0) ? false : true;
+    // if (isChild.isChildLoan == 0) {
+    //   this.isLoanAccountNo = false;
+    //   this.isremoveDealerRC = true;
+    //   this.addDealerRClimit();
+    //   this.createLeadForm.removeControl('loanAccountNumber');
+    // } else {
+    //   this.isLoanAccountNo = true;
+    //   this.isremoveDealerRC = false;
+    //   this.removeDealerRClimit();
+    //   this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
+    //   this.createLeadForm.updateValueAndValidity();
+    // }
 
     this.createLeadService
       .fundingPrograming(productChange)
@@ -445,26 +518,28 @@ export class LeadCreationComponent implements OnInit {
 
   sourchingTypeChange(event) {
     this.sourchingTypeId = event.target ? event.target.value : event;
-    if (this.sourchingTypeId === '2SOURTYP') {
-      this.createLeadForm.controls['dealerCode'].setValidators(Validators.required);
-      this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
-      this.createLeadForm.controls['rcLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUtilizedLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUnutilizedLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
-      this.isDealerCode = true;
-    } else {
-      this.createLeadForm.controls['dealerCode'].setValidators([]);
-      this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
-      this.createLeadForm.controls['rcLimit'].setValidators([]);
-      this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
-      this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
-      this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
-      this.isDealerCode = false;
+    if (this.isremoveDealerRC) {
+      if (this.sourchingTypeId === '2SOURTYP') {
+        this.createLeadForm.controls['dealerCode'].setValidators(Validators.required);
+        this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+        this.createLeadForm.controls['rcLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUtilizedLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUnutilizedLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+        this.isDealerCode = true;
+      } else {
+        this.createLeadForm.controls['dealerCode'].setValidators([]);
+        this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+        this.createLeadForm.controls['rcLimit'].setValidators([]);
+        this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
+        this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
+        this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+        this.isDealerCode = false;
+      }
     }
     this.socuringTypeData = this.sourcingData.filter(
       (data) => data.sourcingTypeId === this.sourchingTypeId
@@ -629,7 +704,7 @@ export class LeadCreationComponent implements OnInit {
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
-    console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
+    // console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
     console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
     this.isMobile = this.createLeadForm.controls.mobile.value;
     this.isDirty = true;
@@ -655,7 +730,7 @@ export class LeadCreationComponent implements OnInit {
         sourcingCode: leadModel.sourcingCode
           ? leadModel.sourcingCode.key
           : '',
-        dealorCode: leadModel.dealerCode.dealorCode,
+        dealorCode: leadModel.dealerCode ? leadModel.dealerCode.dealorCode : '',
         // spokeCode: Number(leadModel.spokeCode),
         spokeCode: 1,
         loanBranch: Number(this.branchId),
@@ -735,6 +810,50 @@ export class LeadCreationComponent implements OnInit {
         'Lead Creation'
       );
     }
+  }
+
+  onLoanAccNoSearch() {
+    const data = {
+      loanAccountNumber: this.createLeadForm.controls.loanAccountNumber.value
+    }
+    this.childLoanApiService.searchChildLoanApi(data).subscribe(
+      (res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        const errorMessage = response.ProcessVariables.error.message;
+
+        if (appiyoError === '0' && apiError === '0') {
+          const customerDetailsData = response.ProcessVariables.customerDetails;
+          const loanDetailsData = response.ProcessVariables.loanDetails;
+          console.log(customerDetailsData, '123', loanDetailsData);
+          this.childLoanDatas = {
+            firstName: customerDetailsData[0].firstName,
+            middleName: customerDetailsData[0].middleName,
+            lastName: customerDetailsData[0].lastName,
+            entity: customerDetailsData[0].entityTypeID,
+            mobile: customerDetailsData[0].mobileNumber,
+            dobOrDoi: customerDetailsData[0].dobORdoi,
+            loanAccountNumber: loanDetailsData[0].accountNumber,
+            fromChild: true,
+            fromCreateLead: true
+          }
+
+          this.updateChildLoan(this.childLoanDatas);
+
+        } else {
+          this.isLoanModal = true;
+        }
+
+      })
+  }
+
+  navgiateToSearchLoan() {
+    this.router.navigateByUrl(`/pages/child-loan`);
+  }
+
+  childLoanModalClose() {
+    this.isLoanModal = false;
   }
 
   navgiateToNextPage() {

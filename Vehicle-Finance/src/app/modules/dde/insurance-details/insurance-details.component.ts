@@ -10,6 +10,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-insurance-details',
   templateUrl: './insurance-details.component.html',
@@ -64,6 +66,13 @@ export class InsuranceDetailsComponent implements OnInit {
   guardianArray = [];
   processVariables: any;
   isGuardian = false;
+  isMinor: boolean;
+  isShowGuardian: boolean;
+  healthQuestionAns = [];
+  covidQuestions = [];
+  healthAns: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
+
+  isLoan360: boolean;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -77,6 +86,7 @@ export class InsuranceDetailsComponent implements OnInit {
               private createLeadService: CreateLeadDataService,
               private lovService: CommomLovService,
               private utilityService: UtilityService,
+              private loanViewService: LoanViewService
               ) { }
 
   async ngOnInit() {
@@ -84,6 +94,11 @@ export class InsuranceDetailsComponent implements OnInit {
     this.leadData = this.createLeadService.getLeadSectionData();
     console.log('lead Data', this.leadData);
     this.initForm();
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
+    if (this.isLoan360) {
+        this.insuranceDetailForm.disable();
+        this.disableSaveBtn  = true;
+      }
     // tslint:disable-next-line: no-string-literal
     this.leadData['applicantDetails'].map((element => {
       const body = {
@@ -180,17 +195,24 @@ export class InsuranceDetailsComponent implements OnInit {
       nomineeFullName: [''],
       nomineeLastName: [''],
       nomineeMiddleName: [''],
-      // nomineeMobile: [''],
+      nomineeGender: [''],
       nomineePincode: (['']),
       nomineeRelationWithApp: [''],
       nomineeState: [''],
       typeOfApplicant: [''],
       usedCoverageAmount: [''],
+      healthQuestion: [''],
+      guarantorGender: ['']
     });
   }
 
 
  saveUpdateInsurance(event: string) {
+
+  if (this.isLoan360) {
+      return this.onNext();
+   }
+
    this.addValidations();
 
    if ( this.f.value.nomineeAge < 18) {
@@ -227,7 +249,7 @@ export class InsuranceDetailsComponent implements OnInit {
    const body  = {
      leadId: this.leadId,
      applicantId: this.applicantId,
-     isMinor: true,
+     isMinor: this.isMinor,
      userId: localStorage.getItem('userId'),
 
      insuranceDetails: {
@@ -400,7 +422,9 @@ public ageCalculation(date, relation: string) {
   this.f.patchValue({
     nomineeAge: event
   });
+  this.enableDisableGuardian(event);
   }
+
   }, 2000);
 
 }
@@ -442,6 +466,9 @@ public addValidations() {
     this.f.controls.typeOfApplicant.updateValueAndValidity();
     this.f.controls.usedCoverageAmount.setValidators(Validators.required);
     this.f.controls.usedCoverageAmount.updateValueAndValidity();
+    this.f.controls.healthQuestion.setValidators(Validators.required);
+    this.f.controls.healthQuestion.updateValueAndValidity();
+    
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.nomineeArray.length; i++) {
     
@@ -458,6 +485,7 @@ public addValidations() {
 
     }
     if (this.f.value.nomineeAge < 18 ) {
+      this.isMinor = true
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.guardianArray.length; i++) {
         const guardianKey = this.guardianArray[i];
@@ -474,6 +502,7 @@ public addValidations() {
 
       }
     } else {
+      this.isMinor = true;
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.guardianArray.length; i++) {
         const guardianKey = this.guardianArray[i];
@@ -494,6 +523,8 @@ getInsuranceDetails() {
   console.log(res, 'res in get');
   if (res && res.ProcessVariables.error.code === '0') {
   this.processVariables = res.ProcessVariables.insuranceDetails;
+  this.healthQuestionAns = res.ProcessVariables.healthQuestions;
+  this.covidQuestions = res.ProcessVariables.covidQuestions;
   if (this.processVariables) {
     this.selectApplicant(this.processVariables.nameOfCreditShieldPolicy);
     if (this.processVariables.guardianPincode != null || this.processVariables.guardianPincode != undefined) {
@@ -540,7 +571,11 @@ getInsuranceDetails() {
       nomineeState: this.processVariables.nomineeState,
       typeOfApplicant: this.processVariables.typeOfApplicant,
       usedCoverageAmount: this.processVariables.usedCoverageAmount,
+      healthQuestion: this.processVariables.healthQuestion,
+      guarantorGender: this.processVariables.guarantorGender,
+      nomineeGender: this.processVariables.nomineeGender
      });
+    this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
   }
   }
   });
@@ -559,7 +594,12 @@ onNext() {
 onBack() {
   this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
 }
-cityChange(event){
-
+enableDisableGuardian(event) {
+  // alert('age' + event);
+  if (event < 18 ) {
+    this.isShowGuardian = true;
+  } else {
+    this.isShowGuardian = false;
+  }
 }
 }
