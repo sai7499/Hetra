@@ -1051,6 +1051,16 @@ export class ApiService {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit
+    },
+    saveDeclientRemards:{
+      processId: 'bc5cb0782fec11eba83800505695f93b',
+      workflowId: 'bbf4e6f02fec11eb934a00505695f93b',
+      projectId: environment.projectIds.remarksProjectId
+    },
+    getDeclientRemards:{
+      processId: 'dbf7187e2fec11eb9d9b00505695f93b',
+      workflowId: 'bbf4e6f02fec11eb934a00505695f93b',
+      projectId: environment.projectIds.remarksProjectId
     }
   };
 }
