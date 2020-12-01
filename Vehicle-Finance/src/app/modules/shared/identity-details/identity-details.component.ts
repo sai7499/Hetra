@@ -475,6 +475,9 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onRetreiveAdhar() {
+    if (this.isLoan360) {
+      return;
+    }
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
     const value = this.indivIdentityInfoDetails;

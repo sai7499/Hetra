@@ -1042,6 +1042,11 @@ export class ApiService {
       workflowId: '767be23a08a611eb827600505695f93b',
       projectId: environment.projectIds.trancheProId
     },
+    externalUser: {
+      processId: '05eb8f2a316e11eb934a00505695f93b',
+      workflowId: '05bf0c20316e11eb863800505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     reAppeal: {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
