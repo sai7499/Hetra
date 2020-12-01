@@ -251,7 +251,7 @@ this.getSalariedFoirIncome();
 
   private getKeyFinancialDetails(data?: any) {
 
-    if (data == undefined) {
+    if (data === undefined) {
 
       return this.formBuilder.group({
         yearOne: this.formBuilder.group({
@@ -410,7 +410,7 @@ this.getSalariedFoirIncome();
         control.push(this.getKeyFinancialDetails(data[i]));
         this.onCashGeneration(null, i)
       }
-    } else {
+    } else if (data == null) {
       control.push(this.getKeyFinancialDetails());
     }
   }
@@ -732,8 +732,8 @@ this.getSalariedFoirIncome();
               this.totalMonthlyOtherIncome = 0
             }
             this.getTotalOtherIncome(i);
-            this.getOtherFactoredIncome(i)
-            // this.getSalariedFoirIncome()
+            // this.getOtherFactoredIncome(i)
+            this.getSalariedFoirIncome()
             // this.getSalaryIncome(null,i)
 
           });
