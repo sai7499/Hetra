@@ -73,6 +73,14 @@ export class InsuranceDetailsComponent implements OnInit {
   healthAns: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
 
   isLoan360: boolean;
+  insuranceProviderList = [];
+  vehicleMakeList = [];
+  fuelTypeList =  [];
+  modelList =  [];
+  rtoCentreList =  [];
+  variantList =  [];
+  vehicleTypeList =  [];
+     
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -137,6 +145,7 @@ export class InsuranceDetailsComponent implements OnInit {
     this.checkOnCredit(this.flag);
     this.checkOnMotor(this.motar);
     this.getInsuranceDetails();
+    this.getInsuranceProvider();
 
   }
   getApplicantId() {
@@ -202,7 +211,14 @@ export class InsuranceDetailsComponent implements OnInit {
       typeOfApplicant: [''],
       usedCoverageAmount: [''],
       healthQuestion: [''],
-      guarantorGender: ['']
+      guarantorGender: [''],
+      fuelType: [''],
+      model: [''],
+      rtoCentre: [''],
+      variant: [''],
+      vehicleMake: [''],
+      vehicleType: [''],
+      insuranceProvider: ['']
     });
   }
 
@@ -213,40 +229,40 @@ export class InsuranceDetailsComponent implements OnInit {
       return this.onNext();
    }
 
-   this.addValidations();
+  this.addValidations();
 
-   if ( this.f.value.nomineeAge < 18) {
+  if ( this.f.value.nomineeAge < 18) {
     this.isGuardian = true;
     this.isDirty = true;
   } else {
     this.isGuardian = false;
     this.isDirty = true;
   }
-   if ( this.f.invalid) {
+  if ( this.f.invalid) {
      this.toasterService.showError('Please enter mandatory fields', '');
      console.log('form group', this.f);
      return;
    }
 
-   console.log('form group', this.f);
-   this.insuranceDetailForm.value.guardianCity =  Number(this.insuranceDetailForm.value.guardianCity);
-   this.insuranceDetailForm.value.guardianCountry =  Number(this.insuranceDetailForm.value.guardianCountry);
-   this.insuranceDetailForm.value.guardianDistrict =  Number(this.insuranceDetailForm.value.guardianDistrict);
-   this.insuranceDetailForm.value.guardianState =  Number(this.insuranceDetailForm.value.guardianState);
-   this.insuranceDetailForm.value.guardianPincode =  Number(this.insuranceDetailForm.value.guardianPincode);
-   this.insuranceDetailForm.value.nomineeAge =  Number(this.insuranceDetailForm.value.nomineeAge);
-   this.insuranceDetailForm.value.nomineeCity =  Number(this.insuranceDetailForm.value.nomineeCity);
-   this.insuranceDetailForm.value.nomineeCountry =  Number(this.insuranceDetailForm.value.nomineeCountry);
-   this.insuranceDetailForm.value.nomineeDistrict =  Number(this.insuranceDetailForm.value.nomineeDistrict);
-   this.insuranceDetailForm.value.nomineePincode =  Number(this.insuranceDetailForm.value.nomineePincode);
-   this.insuranceDetailForm.value.nomineeState =  Number(this.insuranceDetailForm.value.nomineeState);
-   this.insuranceDetailForm.value.nomineeAge =  Number(this.insuranceDetailForm.value.nomineeAge);
-   this.insuranceDetailForm.value.usedCoverageAmount =  Number(this.insuranceDetailForm.value.usedCoverageAmount);
-   this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
-   this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
-   this.insuranceDetailForm.value.nomineeDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.nomineeDOB);
-   this.insuranceDetailForm.value.guardianDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.guardianDOB);
-   const body  = {
+  console.log('form group', this.f);
+  this.insuranceDetailForm.value.guardianCity =  Number(this.insuranceDetailForm.value.guardianCity);
+  this.insuranceDetailForm.value.guardianCountry =  Number(this.insuranceDetailForm.value.guardianCountry);
+  this.insuranceDetailForm.value.guardianDistrict =  Number(this.insuranceDetailForm.value.guardianDistrict);
+  this.insuranceDetailForm.value.guardianState =  Number(this.insuranceDetailForm.value.guardianState);
+  this.insuranceDetailForm.value.guardianPincode =  Number(this.insuranceDetailForm.value.guardianPincode);
+  this.insuranceDetailForm.value.nomineeAge =  Number(this.insuranceDetailForm.value.nomineeAge);
+  this.insuranceDetailForm.value.nomineeCity =  Number(this.insuranceDetailForm.value.nomineeCity);
+  this.insuranceDetailForm.value.nomineeCountry =  Number(this.insuranceDetailForm.value.nomineeCountry);
+  this.insuranceDetailForm.value.nomineeDistrict =  Number(this.insuranceDetailForm.value.nomineeDistrict);
+  this.insuranceDetailForm.value.nomineePincode =  Number(this.insuranceDetailForm.value.nomineePincode);
+  this.insuranceDetailForm.value.nomineeState =  Number(this.insuranceDetailForm.value.nomineeState);
+  this.insuranceDetailForm.value.nomineeAge =  Number(this.insuranceDetailForm.value.nomineeAge);
+  this.insuranceDetailForm.value.usedCoverageAmount =  Number(this.insuranceDetailForm.value.usedCoverageAmount);
+  this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
+  this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
+  this.insuranceDetailForm.value.nomineeDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.nomineeDOB);
+  this.insuranceDetailForm.value.guardianDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.guardianDOB);
+  const body  = {
      leadId: this.leadId,
      applicantId: this.applicantId,
      isMinor: this.isMinor,
@@ -257,7 +273,7 @@ export class InsuranceDetailsComponent implements OnInit {
      }
 
    };
-   this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
+  this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
    if (res && res.ProcessVariables.error.code == '0' ) {
      if (event == 'save') {
       this.toasterService.showSuccess('Record saved succesfully', '');
@@ -573,9 +589,25 @@ getInsuranceDetails() {
       usedCoverageAmount: this.processVariables.usedCoverageAmount,
       healthQuestion: this.processVariables.healthQuestion,
       guarantorGender: this.processVariables.guarantorGender,
-      nomineeGender: this.processVariables.nomineeGender
+      nomineeGender: this.processVariables.nomineeGender,
+      fuelType: this.processVariables.fuelType,
+      model: this.processVariables.model,
+      rtoCentre: this.processVariables.rtoCentre,
+      variant: this.processVariables.variant,
+      vehicleMake: this.processVariables.vehicleMake,
+      vehicleType: this.processVariables.vehicleType,
+      insuranceProvider: this.processVariables.insuranceProvider 
      });
     this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
+    if (this.motar == 'yes') {
+      this.getInsuranceProvider();
+      this.onChangeInsuranceprovider(null, 'insProvider');
+      this.onChangeInsuranceprovider(this.processVariables.vehicleMake, 'vehicleMake');
+      this.onChangeInsuranceprovider(this.processVariables.vehicleType, 'vehicleType');
+      this.onChangeInsuranceprovider(this.processVariables.model, 'vehicleModel');
+      this.onChangeInsuranceprovider(this.processVariables.variant, 'vehicleVariant');
+    }
+    
   }
   }
   });
@@ -601,5 +633,133 @@ enableDisableGuardian(event) {
   } else {
     this.isShowGuardian = false;
   }
+}
+getInsuranceProvider() {
+  const body = {}
+  this.insuranceService.getMotorInsuranceProviderDetails(body ).subscribe((res: any) => {
+  console.log('insurance provider', res);
+  // if (res && res.ProcessVariables.Error == '0') {
+  res.ProcessVariables.insuranceLOV.map((element) => {
+      // tslint:disable-next-line: no-shadowed-variable
+      const body = {
+        key: element.insProUniqCode,
+        value: element.insProvider
+      };
+      this.insuranceProviderList.push(body);
+    });
+  console.log('insurance lov list', this.insuranceProviderList);
+  // }
+  });
+}
+
+onChangeInsuranceprovider(event, lovType) {
+  this.getInsuranceMasterDetails(event, lovType);
+}
+getInsuranceMasterDetails(event, lovType) {
+if (lovType == 'insProvider') {
+  const body = {};
+  console.log('body for insprovider lovtype', body)
+  this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
+    console.log(res, ' res for vehicle make');
+    res.ProcessVariables.insuranceVehMstDetails.map((element) => {
+      // tslint:disable-next-line: no-shadowed-variable
+      const body = {
+        key: element.makeCode,
+        value: element.makeName
+      };
+      this.vehicleMakeList.push(body);
+    });
+    console.log('vehicle make', this.vehicleMakeList);
+  });
+} else if ( lovType == 'vehicleMake') {
+  const body = {
+    vehicleMake: event
+  };
+  console.log('body for vehicle make lovtype', body)
+  this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
+  console.log(res, ' res for vehicle type');
+  res.ProcessVariables.insuranceVehMstDetails.map((element) => {
+    // tslint:disable-next-line: no-shadowed-variable
+    const body = {
+      key: element.bodyTypeCode,
+      value: element.bodyTypeName
+    };
+    this.vehicleTypeList.push(body);
+  });
+  console.log('vehicle type', this.vehicleTypeList)
+});
+// })
+} else if ( lovType == 'vehicleType') {
+  const control = this.insuranceDetailForm.value;
+  const body = {
+    vehicleMake: control.vehicleMake,
+    vehicleType: event
+  };
+  console.log('body for vehicle type lovtype', body)
+  this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
+  console.log(res, ' res for vehicle model');
+  res.ProcessVariables.insuranceVehMstDetails.map((element) => {
+    const body = {
+      key: element.modelCode,
+      value: element.modelName
+    };
+    this.modelList.push(body);
+  });
+  console.log('vehicle model', this.modelList);
+});
+// })
+} else if ( lovType == 'vehicleModel') {
+  const control = this.insuranceDetailForm.value;
+  const body = {
+    vehicleMake: control.vehicleMake,
+    vehicleType: control.vehicleType,
+    vehicleModel: event
+  };
+  console.log('body for vehicle model lovtype', body);
+  this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
+  console.log(res, ' res for vehicle variant');
+  res.ProcessVariables.insuranceVehMstDetails.map((element) => {
+    const body = {
+      key: element.variant,
+      value: element.variant
+    };
+    this.variantList.push(body);
+  });
+  console.log('vehicle variant ', this.variantList);
+// });
+})
+}  else if ( lovType == 'vehicleVariant') {
+  const control = this.insuranceDetailForm.value;
+  const body = {
+    vehicleMake: control.vehicleMake,
+    vehicleType: control.vehicleType,
+    vehicleModel: control.model,
+    variant: event
+  };
+  console.log('body for vehicle variant lovtype', body);
+  this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
+  console.log(res, ' res for fuel type');
+  res.ProcessVariables.insuranceVehMstDetails.map((element) => {
+    const body = {
+      key: element.fuelType,
+      value: element.fuelType
+    };
+    this.fuelTypeList.push(body);
+  });
+  console.log('vehicle variant ', this.fuelTypeList);
+
+})
+}
+
+}
+getRtoDetails(event) {
+const body = {
+  rtoCode: event
+};
+this.insuranceService.getInsuranceRtoDetails(body).subscribe((res: any) => {
+  console.log('rto', res);
+  this.rtoCentreList = res.ProcessVariables.rtoCentreList;
+  console.log('rto center', this.rtoCentreList);
+});
 }
 }

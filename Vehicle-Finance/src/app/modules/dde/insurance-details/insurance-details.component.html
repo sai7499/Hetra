@@ -1,9 +1,10 @@
 <div class="content">
     
     <form [formGroup]="insuranceDetailForm">
+        <div class="">
+            <h4 class="main-head">Motor Insurance Details</h4>
         <div class="row">
-            <h4 class="main-head">Insurance Details</h4>
-            <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                <div class=" form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="spoke_code_location" class="asset_type">{{labels?.motorInsuranceRequired}}<sub class="star_red_col">*</sub></label>
                 <div>
 
@@ -20,6 +21,104 @@
                 </div>
 
             </div>
+        </div>
+            
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="needForProposedVehicle" class="ellipsify">Insurance Provider <sub class="star_red_col">*</sub></label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <app-vf-custom-select id="insuranceProvider" formControlName="insuranceProvider"
+                        (change)="onChangeInsuranceprovider(null, 'insProvider')" [values]="insuranceProviderList"
+                        [isRequired]="'Please insurance provider'" [isDirty]="isDirty">
+
+                    </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="needForProposedVehicle" class="ellipsify">Vehicle Make <sub class="star_red_col">*</sub></label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <app-vf-custom-select id="vehicleMake" formControlName="vehicleMake"
+                    (change)="onChangeInsuranceprovider($event.target.value, 'vehicleMake')" [values]="vehicleMakeList"
+                        [isRequired]="'Please select vehicle make'" [isDirty]="isDirty">
+
+                    </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="needForProposedVehicle" class="ellipsify">Vehicle Type <sub class="star_red_col">*</sub></label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <app-vf-custom-select id="vehicleType" formControlName="vehicleType"
+                    (change)="onChangeInsuranceprovider($event.target.value, 'vehicleType')" [values]="vehicleTypeList"
+                        [isRequired]="'Please select vehicle type'" [isDirty]="isDirty">
+
+                    </app-vf-custom-select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="needForProposedVehicle" class="ellipsify">Vehicle Model <sub class="star_red_col">*</sub></label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <app-vf-custom-select id="model" formControlName="model"
+                    (change)="onChangeInsuranceprovider($event.target.value, 'vehicleModel')" [values]="modelList"
+                        [isRequired]="'Please select vehicle model'" [isDirty]="isDirty">
+
+                    </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="needForProposedVehicle" class="ellipsify">Vehicle Variant <sub class="star_red_col">*</sub></label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <app-vf-custom-select id="variant" formControlName="variant"
+                    (change)="onChangeInsuranceprovider($event.target.value, 'vehicleVariant')" [values]="variantList"
+                        [isRequired]="'Please select vehicle variant'" [isDirty]="isDirty">
+
+                    </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="needForProposedVehicle" class="ellipsify">Fuel Type <sub class="star_red_col">*</sub></label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <app-vf-custom-select id="fuelType" formControlName="fuelType"
+                        [values]="fuelTypeList"
+                        [isRequired]="'Please select fuel type'" [isDirty]="isDirty">
+
+                    </app-vf-custom-select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="needForProposedVehicle" class="ellipsify">Rto Center <sub class="star_red_col">*</sub></label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <!-- <app-vf-custom-select id="rtoCentre" formControlName="rtoCentre"
+                         [values]="rtoCentreList"
+                        [isRequired]="'Please select RTO center'" [isDirty]="isDirty">
+
+                    </app-vf-custom-select> -->
+                    <div class="ng-autocomplete" style="width:100%" >
+                        <ng-autocomplete 
+                          [data]="rtoCentreList"
+                          [searchKeyword]="'value'"
+                          
+                          (inputChanged)='getRtoDetails($event)'
+                          
+                          [itemTemplate]="dealerCodeTemplate"
+                          [notFoundTemplate]="notFoundTemplate"
+                          formControlName="rtoCentre"
+                          [placeHolder]="'Rto Center'"
+                          [minQueryLength]="4">                                 
+                        </ng-autocomplete>    
+                        <!-- <div class="invalid-feedback" *ngIf="isDealerCode">
+                          <div > Dealer code required.</div>
+                        </div>            -->
+                        <ng-template #dealerCodeTemplate let-item>
+                        <a [innerHTML]="item.value"></a>
+                        </ng-template>               
+                        <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <!-- Nominee Details Starts -->
+        <div class="row" >
+            <h4 class="main-head">Credit Insurance Details</h4>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="sourcing_type" class="asset_type">{{labels?.creditShieldRequired}}<sub class="star_red_col">*</sub></label>
                 <div>
@@ -35,10 +134,8 @@
                     </label>
                 </div>
             </div>
-        </div>
-        <!-- Nominee Details Starts -->
-        <div *ngIf="showCreditDetails">
-            <div class="row">
+            
+            <div class="row" *ngIf="showCreditDetails">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="needForProposedVehicle" class="ellipsify">{{labels?.creditShieldHolderName}} <sub class="star_red_col">*</sub></label>
                     <!--formControlName="ndForProposedVehicle"  -->
@@ -66,7 +163,7 @@
                     </app-custom-input>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="showCreditDetails">
                 <h4 class="main-head">{{labels?.nomineeDetails}}</h4>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -158,7 +255,7 @@
             <!-- Nominee details Ends -->
 
             <!-- Nominee Address Starts -->
-            <div class="row">
+            <div class="row" *ngIf="showCreditDetails">
                 <h3 class="sub-head">{{labels?.nomineeAddress}}</h3>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -452,7 +549,7 @@
             <!-- Guardian Address Ends -->
         </div>
         <div>
-        <div class="row">
+        <div class="row" *ngIf="showCreditDetails">
             <h3 class="main-head">Health questions</h3>
             <!-- <div class="row" *ngFor="let ans  of healthQuestionAns; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>
@@ -464,7 +561,7 @@
             </ol>
 
         </div>
-        <div class="row">
+        <div class="row" *ngIf="showCreditDetails">
              <h3 class="main-head">Covid related questions</h3>
             <!-- <div class="row" *ngFor="let ans  of covidQuestions; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>      
