@@ -319,8 +319,7 @@
                 *ngIf="roleType != '2' && isPreDisbursement == 'true'">
                     <a data-toggle="modal"
                     data-target="#myModalSubmitToCD">{{labels?.submit}}</a></button>
-                </ng-container>
-            <button class="btn btn-primary btn_div" type="button"
+                    <button class="btn btn-primary btn_div" type="button"
                 [disabled]="roleType != '1' && roleType != '4' && roleType != '5' && roleType != '7' "
 
                 *ngIf="roleType != '2' && isPreDisbursement == 'false'" (click)="onNext()"
@@ -329,6 +328,14 @@
             <button class="btn btn-primary btn_div" type="button" 
             *ngIf="roleType == '2' && isPreDisbursement == 'true' && salesResponse == 'true' " 
             (click)="onNext()" >{{labels?.next}}</button>
+                </ng-container>
+
+                <ng-container>  
+                    <button class="btn btn-primary btn_div" type="button" 
+                    
+                    (click)="onNext()" >{{labels?.next}}</button>
+                </ng-container>
+            
             
             <!-- <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submit}}</button> -->
