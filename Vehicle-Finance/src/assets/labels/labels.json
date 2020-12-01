@@ -479,6 +479,7 @@
     "contactNo": "Contact No",
     "customerRequestedAmount": "Customer Requested Amount",
     "roi": "ROI",
+    "roiinPercent": "ROI (%)",
     "loanTenure": "Loan Tenure",
     "loanTenureInMonths": "Loan Tenure (In Months)",
     "profile": "profile",
@@ -2633,9 +2634,9 @@
         },
         "DeductionChargefixedRate": {
             "maxLength": {
-                "rule": 5
+                "rule": 7
             },
-            "type": "number"
+            "type": "decimal"
         },
         "NegotiatedEMI": {
             "maxLength": {

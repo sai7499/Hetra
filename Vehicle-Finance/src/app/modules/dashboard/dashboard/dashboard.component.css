@@ -434,4 +434,18 @@ th {
 
 .main-tab{
     width: fit-content;
+   
+}
+
+.fa-history{
+    
+    -webkit-transition: 0.6s ease-out;
+    -moz-transition:  0.6s ease-out;
+    transition:  0.6s ease-out;
+  
+}
+.fa-history:hover{
+  -webkit-transform: rotateZ(-80deg);
+    -moz-transform: rotateZ(-80deg);
+    transform: rotateZ(-80deg);
 }
