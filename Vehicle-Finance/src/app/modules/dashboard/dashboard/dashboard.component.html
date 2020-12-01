@@ -506,13 +506,13 @@
     <!-- CPCCAD
      Dashboard Ends -->
     <div class="container-fluid row" *ngIf="disableButton" style="margin-bottom: 5px;">
-        <div class="col-md-3"></div>
-        <div class="col-md-3 ">
-            <button class="btn btn-primary col-sm-12" data-toggle="modal" data-target="#supervisorTaskAssign"
+        <div class="col-md-2 col-lg-3 col-sm-3 col-xs-12" ></div>
+        <div class="col-md-3 col-lg-2 col-sm-3 col-xs-12">
+            <button class="btn btn-primary col-xs-12" style="margin-bottom: 5px;" data-toggle="modal" data-target="#supervisorTaskAssign"
                 (click)="assignSelectedLeads()">Re-Assign selected leads</button>
         </div>
-        <div class="col-md-3">
-            <button class="btn btn-primary col-sm-12" *ngIf="selfAssign" style="margin-left: 5px;" data-toggle="modal"
+        <div class="col-md-3 col-lg-2 col-sm-3 col-xs-12">
+            <button class="btn btn-primary col-xs-12" *ngIf="selfAssign" data-toggle="modal"
             data-target="#confirmSelfAssign" (click)="selfAssignSelectedLeads()">Self-Assign selected leads</button>
         </div>
 
@@ -560,16 +560,16 @@
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()" value="Release"
                 data-toggle="modal" data-target="#releaseModal">
             </td> -->
-                        <td *ngIf="userName">
+                        <td [attr.data-label]="labels?.select" *ngIf="userName">
                             <input type="checkbox" [checked]="item.selected" name="oneLead"
                                 (change)="onCheck($event, item)">
                         </td>
-                        <td *ngIf="onReleaseTab && !userName">
+                        <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab && !userName">
                             <input type="button" class="btn btn-primary"
                                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
                                 value="Release" data-toggle="modal" data-target="#releaseModal">
                         </td>
-                        <td *ngIf="onAssignTab && !userName">
+                        <td [attr.data-label]="labels?.action" *ngIf="onAssignTab && !userName">
                             <input type="button" class="btn btn-primary"
                                 (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                                 value="Assign" data-toggle="modal" data-target="#assignModel" />
@@ -577,7 +577,7 @@
                         <!--  -->
                         <td [attr.data-label]="labels?.action" *ngIf="userName && (!onReleaseTab && !onAssignTab)">
 
-                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign" style="margin-top: 5px;"
+                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign" style="margin-top: 5px; margin-right: 5px;"
                                 (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary" value="Self Assign">
                             <input type="button" [disabled]="disableButton" style="margin-top: 5px;"
@@ -588,7 +588,7 @@
                             <!-- <input type="button" [disabled]="disableButton" *ngIf="!userName" class="btn btn-primary"
                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
                 value="Release" data-toggle="modal" data-target="#releaseModal"> -->
-                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign"
+                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign" style="margin-top: 5px; margin-right: 5px;"
                                 (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
                             <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item)"
@@ -601,7 +601,7 @@
                             <!-- <input type="button" [disabled]="disableButton" *ngIf="!userName" class="btn btn-primary"
                 (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                 value="Assign" data-toggle="modal" data-target="#assignModel" /> -->
-                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign"
+                            <input type="button" [disabled]="disableButton" *ngIf="selfAssign" style="margin-top: 5px; margin-right: 5px;"
                                 (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
                             <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item)"
