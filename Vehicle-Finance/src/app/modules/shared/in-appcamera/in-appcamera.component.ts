@@ -70,6 +70,10 @@ export class InAppcameraComponent implements OnInit {
 
   @Output() fileURIChange = new EventEmitter();
 
+  @Output() onBackKeyDown = new EventEmitter();
+
+  
+
   constructor(private cameraPreview: CameraPreview,
     private file: File,
     private domSanitizer: DomSanitizer,
@@ -89,6 +93,13 @@ export class InAppcameraComponent implements OnInit {
       }, (err) => {
         console.log(err);
         this.picture = 'assets/img/test.jpg';
+      });
+
+      this.cameraPreview.onBackButton().then((result)=>{
+        console.log("Backbutton"+result);
+        this.onBackKeyDown.emit(result);
+      }, (err)=>{
+        console.log("Backbutton Err"+err);
       });
   
     }

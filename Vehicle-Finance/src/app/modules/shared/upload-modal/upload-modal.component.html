@@ -117,5 +117,5 @@
     style="visibility: hidden;"
     (input)="onFileSelect($event)"
   />
-  <app-in-appcamera *ngIf="inAppCamera" (fileURIChange)= 'getMobileFileURI($event)'></app-in-appcamera>
+  <app-in-appcamera *ngIf="inAppCamera" (onBackKeyDown)= "onBackPressed()" (fileURIChange)= 'getMobileFileURI($event)'></app-in-appcamera>
 </div>

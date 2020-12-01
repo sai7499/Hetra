@@ -325,4 +325,8 @@ export class UploadModalComponent {
   getMobileFileURI(data) {
     this.imageUrl = data.nativeURL;
   }
+
+  onBackPressed(){
+    this.inAppCamera= false;
+  }
 }
