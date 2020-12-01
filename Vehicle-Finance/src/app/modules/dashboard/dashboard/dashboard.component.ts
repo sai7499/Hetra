@@ -251,7 +251,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const thisUrl = this.router.url;
     console.log(thisUrl);
     this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
@@ -274,9 +274,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (value) {
         this.supervisorName = value;
       }
-
     })
-
 
     this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
       this.branchId = userDetails.branchId;
@@ -395,47 +393,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     }
 
-    this.getCountAcrossLeads(this.userId)
-
-    setTimeout(() => {
+    try {
+      await this.getCountAcrossLeads(this.userId)
       if (currentUrl.includes('dashboard') && this.isIntervalId) {
         this.intervalId = this.getPollCount()
-      } else {
-        clearInterval(this.intervalId)
       }
-    }, 300000)
+    } catch (error) {
+
+    }
 
   }
 
   getPollCount() {
     return setInterval(() => {
       this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
-        console.log('Polling request')
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
         } else {
           clearInterval(this.intervalId)
         }
       })
-    }, 300000)
+    }, 1000)
   }
 
-  getCountAcrossLeads(userId) {
-
-    this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
-        this.isIntervalId = true;
-      } else {
-        this.leadCount = 0;
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
-      }
+  async getCountAcrossLeads(userId) {
+    return new Promise((resolve, reject) => {
+      this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+          this.isIntervalId = true;
+          resolve()
+        } else {
+          this.leadCount = 0;
+          reject()
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
+        }
+      })
     })
 
-  }
-
-  ngOnDestroy() {
-    clearInterval(this.intervalId)
   }
 
   initinequery() {
@@ -1588,7 +1583,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log(this.selectedArray);
 
     }
-    if(this.selectedArray.length <= 0) {
+    if (this.selectedArray.length <= 0) {
       this.disableButton = false;
     } else {
       this.disableButton = true;
@@ -1603,7 +1598,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.selectedArray = [];
     if (event.target.checked) {
       this.selectAll = true;
-    this.disableButton = true;
+      this.disableButton = true;
       for (let i = 0; i < this.newArray.length; i++) {
         if (this.subActiveTab === this.displayTabs.NewLeads) {
           // console.log(this.newArray[i].leadId);
@@ -1619,7 +1614,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log(this.selectedArray);
 
     } else {
-    this.disableButton = false;
+      this.disableButton = false;
       this.selectAll = false;
       this.selectedArray = [];
       console.log('selectedArray', this.selectedArray);
@@ -1638,4 +1633,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // selfAssignSelectedLeads() {
   //   data
   // }
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId)
+  }
+
 }
