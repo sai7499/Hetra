@@ -26,9 +26,8 @@
                 <div class="panel-group mar-20 scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group mar-20" id="accordion"
                     *ngFor="let chat of chatList; let i=index; let last=last">
-                    <div class="flex-container">
-                      <div class="divs" (click)="getQueries(chat, true)"
-                        [ngClass]="selectedList === chat ? 'selected-back' : ''">
+                    <div class="flex-container" >
+                      <div class="divs btn" (click)="getQueries(chat)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
                         <p class="mar-em">{{chat.value}}</p>
                       </div>
 
@@ -143,9 +142,8 @@
               <div class="panel-group mar-20 scroll-box " id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container">
-                    <div class="divs" (click)="getQueries(chat, true)"
-                      [ngClass]="selectedList === chat ? 'selected-back' : ''">
+                  <div class="flex-container" >
+                    <div class="divs btn" (click)="getQueries(chat, true)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
@@ -166,7 +164,7 @@
 
               <div class="panel-group mar-20" id="accordion">
                 <div class="panel panel-default tab-con">
-                  <div class="panel-heading" id="headingOne">
+                  <div class="panel-heading btn btn-stack" id="headingOne">
                     <h4 class="panel-title">
                       <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseBriefOne">
                         <i class="fa fa-user"></i>&nbsp; {{labels.stakeholders}} <i class="fa fa-angle-down"></i>
@@ -202,7 +200,7 @@
                 </div>
 
                 <div class="panel panel-default tab-con">
-                  <div class="panel-heading" id="headingTwo">
+                  <div class="panel-heading btn btn-stack" id="headingTwo">
                     <h4 class="panel-title">
                       <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseBriefTwo">
                         <i class="fa fa-file"></i>&nbsp; {{labels.documentsShared}} <i class="fa fa-angle-down"></i>
@@ -476,7 +474,7 @@
                     <label for="file-upload" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.attachment}}</label>
                     <div class="upload-btn-wrapper col-sm-8 col-lg-8 col-md-8 col-xs-12">
 
-                      <a id="file-upload"><button class="btn-upload" aria-hidden="true" type="button"
+                      <a id="file-upload"><button class="btn-upload btn" aria-hidden="true" type="button"
                           (click)="chooseFile()">
                           {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file
                         </button></a>

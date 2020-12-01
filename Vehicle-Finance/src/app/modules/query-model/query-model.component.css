@@ -1100,3 +1100,7 @@ div.viewport-a {
     background-color:#1d1a4b;
     color:#fff;
 }
+
+.btn-stack{
+    width:-webkit-fill-available;
+}

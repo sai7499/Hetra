@@ -294,7 +294,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           }
         }
       })
-    }, 600000)
+    }, 300000)
   }
 
   getCommonLeadData(res) {
