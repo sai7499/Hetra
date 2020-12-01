@@ -550,7 +550,7 @@
               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="CreditShieldCharges">{{deductionLabel[i]}}
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3 label-space ">
-                <app-custom-input formControlName="DeductionChargefixedRate" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                <app-custom-input formControlName="DeductionChargefixedRate" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'decimal'"
                   (change)="getNetDisbursementAmount()" [placeholder]="'Credit Shield Charges (in INR)'" [isRequired]="'Deduction Charges is Required'"
                   [maxLength]="labels?.validationData.DeductionChargefixedRate.maxLength">
                 </app-custom-input>
