@@ -221,6 +221,10 @@ export class SourcingDetailsComponent implements OnInit {
     this.operationType = this.toggleDdeService.getOperationType();
   }
 
+  navigateToPrevious() {
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/loan-details`);
+  }
+
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => {

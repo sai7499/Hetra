@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 export class LoanViewService {
 
     private loan360 = false;
+    private loanDetails: any;
 
     constructor(private httpService: HttpService, private apiService: ApiService) {}
 
@@ -20,7 +21,15 @@ export class LoanViewService {
     checkIsLoan360() {
         return this.loan360;
     }
-    
+
+    setLoanAccountDetails(value) {
+        this.loanDetails = value;
+    }
+
+    getLoanAccountDetails() {
+        return this.loanDetails;
+    }
+
     getLoanDetails(leadId) {
         const processData = {
             leadId
