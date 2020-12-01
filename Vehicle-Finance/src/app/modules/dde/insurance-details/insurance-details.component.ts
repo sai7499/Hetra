@@ -80,7 +80,7 @@ export class InsuranceDetailsComponent implements OnInit {
   rtoCentreList =  [];
   variantList =  [];
   vehicleTypeList =  [];
-     
+
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -484,10 +484,10 @@ public addValidations() {
     this.f.controls.usedCoverageAmount.updateValueAndValidity();
     this.f.controls.healthQuestion.setValidators(Validators.required);
     this.f.controls.healthQuestion.updateValueAndValidity();
-    
+
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.nomineeArray.length; i++) {
-    
+
       const nomineeKey = this.nomineeArray[i];
       if ( nomineeKey == 'nomineeAddLine2' || nomineeKey == 'nomineeAddLine3' || nomineeKey == 'nomineeFullName' ||
       nomineeKey == 'nomineeMiddleName' || nomineeKey == 'nomineeMobileNumber' ) {
@@ -591,23 +591,40 @@ getInsuranceDetails() {
       guarantorGender: this.processVariables.guarantorGender,
       nomineeGender: this.processVariables.nomineeGender,
       fuelType: this.processVariables.fuelType,
-      model: this.processVariables.model,
-      rtoCentre: this.processVariables.rtoCentre,
-      variant: this.processVariables.variant,
-      vehicleMake: this.processVariables.vehicleMake,
-      vehicleType: this.processVariables.vehicleType,
-      insuranceProvider: this.processVariables.insuranceProvider 
      });
     this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
-    if (this.motar == 'yes') {
+    if (this.motar == 'yes'   &&  this.processVariables.insuranceProvider != null ) {
       this.getInsuranceProvider();
+      this.f.patchValue({
+        insuranceProvider: this.processVariables.insuranceProvider
+      })
       this.onChangeInsuranceprovider(null, 'insProvider');
+      this.f.patchValue({
+        vehicleMake: this.processVariables.vehicleMake,
+      })
       this.onChangeInsuranceprovider(this.processVariables.vehicleMake, 'vehicleMake');
+      this.f.patchValue({
+        vehicleType: this.processVariables.vehicleType
+      })
       this.onChangeInsuranceprovider(this.processVariables.vehicleType, 'vehicleType');
+      this.f.patchValue({
+        model: this.processVariables.model,
+      })
       this.onChangeInsuranceprovider(this.processVariables.model, 'vehicleModel');
+      this.f.patchValue({
+        variant: this.processVariables.variant,
+      })
       this.onChangeInsuranceprovider(this.processVariables.variant, 'vehicleVariant');
+      this.f.patchValue({
+        variant: this.processVariables.variant
+      })
+      this.getRtoDetails(this.processVariables.rtoCentre);
+      this.f.patchValue({
+        rtoCentre: this.processVariables.rtoCentre,
+      })
+     
     }
-    
+
   }
   }
   });
