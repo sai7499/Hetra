@@ -42,6 +42,7 @@ import { RcuComponent } from './rcu/rcu.component';
 import { PSLdataComponent } from './psldata/psldata.component';
 import { MatFormField, MatSelectModule } from '@angular/material';
 import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,9 @@ import { LoanDetailsComponent } from './loan-account-details/loan-details.compon
     FiReportModule,
     LoanBookingModule,
     MatSelectModule,
+    AutocompleteLibModule
     // MatFormField
+    
   ],
   exports: [MatSelectModule, ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
 })

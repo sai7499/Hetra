@@ -228,6 +228,8 @@ export class DdeComponent implements OnInit, OnChanges {
       return 24;
     } else if (url.includes('delivery-order')) {
       return 25;
+    } else if (url.includes('pdd')) {
+      return 26;
     } else  if (url.includes('loan-details')) {
       return -1;
     }

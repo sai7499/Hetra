@@ -18,7 +18,7 @@
       Back
     </button>
     <button  class="btn btn-primary" type="button"
-     (click)="onsave()" *ngIf="!isDeclinedFlow">
+     (click)="onsave()">
       Save
     </button>
     <button  class="btn btn-primary -btn-next" type="button" 
@@ -31,7 +31,7 @@
     </button>
     <button  class="btn btn-primary -btn-next" type="button" 
     (click)="onReappeal()" *ngIf="isDeclinedFlow">
-      Approve
+      Re-Appeal
     </button>
   </div>
 </div>
@@ -51,7 +51,7 @@
 
           <!-- Modal body -->
           <div class="modal-body" style="text-align: center;">
-              <label>Are you sure you want to Approve the Remarks</label>
+              <label>Are you sure you want to {{isDeclinedFlow ? 'Re-Appeal': 'Approve'}} the Lead</label>
           </div>
 
           <!-- Modal footer -->
