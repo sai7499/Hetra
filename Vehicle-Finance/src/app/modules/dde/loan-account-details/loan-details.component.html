@@ -6,13 +6,195 @@
       <div class="content">
               
         <div class="row "  >
-          <div class="col-md-6">
-            <h3 class="margin_zero">Loan Account Details</h3>
+          <div >
+            <h3 class="title">Loan Account Details</h3>
           </div>
-          <div class="col-md-6 text-right"></div>
         </div>
 
-               <div class="row">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-12">
+              <div class="form-group">
+                  <label class="col-form-label" for="roi">Loan Account Number
+                  </label>
+                  <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.accountNumber}}
+                  </label>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+              <div class="form-group">
+                  <label class="col-form-label" for="lead_handled_by">Loan Start Date
+                  </label>
+                  <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.loanStartDate}}
+                  </label>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+              <div class="form-group">
+                      <label class="col-form-label" for="lead_handled_by">Product
+                  </label>
+                  <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.productCode}}
+                  </label>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group">
+                <label class="col-form-label" for="roi">Total Loan Amount
+                </label>
+                <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalLoanAmount}}
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group">
+                <label class="col-form-label" for="lead_handled_by">Outstanding Principal
+                </label>
+                <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.principalOutstanding}}
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="form-group">
+                    <label class="col-form-label" for="lead_handled_by">Rate of Interest
+                </label>
+                <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.rateOfInterest}}%
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+              <label class="col-form-label" for="roi">Total Number of EMIs (Months)
+              </label>
+              <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalEMIs}}
+              </label>
+          </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+              <label class="col-form-label" for="lead_handled_by">EMIs Serviced (Months)
+              </label>
+              <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.emiServiced}}
+              </label>
+          </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+                  <label class="col-form-label" for="lead_handled_by">EMIs yet to be Serviced (Months)
+              </label>
+              <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.emiYetToBeServiced}}
+              </label>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-12">
+        <div class="form-group">
+            <label class="col-form-label" for="roi">Total Tenure (Months)
+            </label>
+            <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalTenure}}
+            </label>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12">
+        <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Remaining Tenure (Days)
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.remainTenure}}
+            </label>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12">
+        <div class="form-group">
+                <label class="col-form-label" for="lead_handled_by">DPD
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.dpd || 'NA'}}
+            </label>
+        </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-lg-3 col-md-3 col-sm-12">
+      <div class="form-group">
+          <label class="col-form-label" for="roi">First Disbursement Date
+          </label>
+          <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.firstDisbursement}}
+          </label>
+      </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-12">
+      <div class="form-group">
+          <label class="col-form-label" for="lead_handled_by">Last Due Date
+          </label>
+          <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.lastDueDate}}
+          </label>
+      </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-12">
+      <div class="form-group">
+              <label class="col-form-label" for="lead_handled_by">Next Due Date
+          </label>
+          <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.nextDueDate}}
+          </label>
+      </div>
+  </div>
+</div>
+<div class="row "  >
+  <div >
+    <h3 class="title">Customer Details</h3>
+  </div>
+  
+</div>
+<div class="row">
+  <div class="col-lg-3 col-md-3 col-sm-12">
+      <div class="form-group">
+          <label class="col-form-label" for="roi">UCIC
+          </label>
+          <label for="roi_value" class="col-form-label-two">:&nbsp;{{customerDetails?.ucic}}
+          </label>
+      </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-12">
+      <div class="form-group">
+          <label class="col-form-label" for="lead_handled_by">Entity
+          </label>
+          <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.entity}}
+          </label>
+      </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-12">
+    <div class="form-group">
+        <label class="col-form-label" for="lead_handled_by">Name
+        </label>
+        <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.fullName}}
+        </label>
+    </div>
+</div>
+  
+</div>
+<div class="row">
+  <div class="col-lg-3 col-md-3 col-sm-12">
+    <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Mobile Number
+        </label>
+        <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.mobileNumber}}
+        </label>
+    </div>
+</div>
+  <div class="col-lg-3 col-md-3 col-sm-12">
+      <div class="form-group">
+          <label class="col-form-label" for="roi">D.O.B
+          </label>
+          <label for="roi_value" class="col-form-label-two">:&nbsp;{{customerDetails?.dob}}
+          </label>
+      </div>
+  </div>
+  
+</div>
+
+               <!-- <div class="row">
                     <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
                         <label for="name_of_ca">Loan Account Number</label>
                         <span class="form-control">{{loanAccountDetails?.accountNumber}}</span>
@@ -30,8 +212,8 @@
                       <span class="form-control">{{loanAccountDetails?.totalLoanAmount}}</span>
                   </div>
                   <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
-                      <label for="name_of_ca_firm">Number of EMIs</label>
-                          <span class="form-control">{{loanAccountDetails?.totalEMIs}}</span>
+                      <label for="name_of_ca_firm">Total Number of EMIs :</label>
+                          <label >{{loanAccountDetails?.totalEMIs}}</label>
                   </div>
                  
       
@@ -53,7 +235,7 @@
                   <label for="name_of_ca">DPD</label>
                   <span class="form-control">{{loanAccountDetails?.dpd}}</span>
               </div>  
-          </div>
+          </div> -->
   
 
   
