@@ -28,8 +28,9 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="isVehicleRegNoChange">
                         <label for="check_dedupe"></label>
                         <input type="button" class="form-control btn-primary" id="check_dedupe" name="check_dedupe"
-                            value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)" data-toggle="modal"
-                            data-target="#dedupeModal">
+                            value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
+                        <!-- data-toggle="modal"
+                            data-target="#dedupeModal -->
 
                     </div>
 
@@ -2454,25 +2455,23 @@
 
 </form>
 
-<!-- Check Depude Modek -->
+<!-- Check Depude Model -->
 
-<div class="modal" id="dedupeModal">
-    <div class="modal-dialog">
-        <div class="modal-content" style="width: 700px;">
-            <!-- Modal Header -->
+<div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': isShowParentLoan }">
+    <div class="modal-dialog top-space">
+        <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Loan Account Details</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    &times;
+                <button type="button" class="close" data-dismiss="modal" (click)="onClose()">
+                    ×
                 </button>
+                <h4 class="modal-title">Loan Account Details</h4>
             </div>
 
-            <!-- Modal body -->
-            <div class="modal-body" style="text-align: center;">
+            <div class="modal-body">
                 <div class="row" *ngIf="loanDetailsData.length != 0">
                     <div class="col-md-12">
                         <div id="wrapper">
-                            <table id="add_vhd_table" class="table table-bordered">
+                            <table id="add_vhd_table" class="table table-responsive main-table">
                                 <thead>
                                     <tr class="table-head-bg ">
                                         <th>Select </th>
@@ -2488,7 +2487,7 @@
                                 <tbody>
                                     <tr *ngFor="let loanDetail of loanDetailsData; let i = index">
                                         <td align="center" [attr.data-label]="'Select'">
-                                            <input class="checkbox" type="radio" name="loanDetails"
+                                            <input class="" type="radio" name="loanDetails"
                                                 (click)="onLoanAccNoSelect($event, i, loanDetail)" />
                                         </td>
                                         <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
@@ -2520,14 +2519,13 @@
                 </div>
             </div>
 
-            <!-- Modal footer -->
             <div class="modal-footer text-center">
-                <button type="button" data-dismiss="modal" class="btn btn-success" id="reject_yes_val" value="Yes">
-                    {{ label.yes }}
+                <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead" (click)="onClose()">
+                    Cancel
                 </button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">
-                    {{ label.cancel }}
-                </button>
+                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
+              Cancel
+            </button> -->
             </div>
         </div>
     </div>
