@@ -1806,6 +1806,7 @@
     "productName": "Product Name",
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
+    "relationshipWithNominee": "Relationship with nominee ",
     "validationData": {
         "name": {
             "maxLength": {
