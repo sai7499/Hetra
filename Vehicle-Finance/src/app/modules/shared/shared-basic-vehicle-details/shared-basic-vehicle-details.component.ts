@@ -95,6 +95,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isShowParentLoan: boolean;
   loanDetailsData: any = [];
   isVehicleRegNoChange: boolean;
+  searchChildLoanData: any;
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
@@ -308,9 +309,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const details = formArray.at(0) as FormGroup;
 
     if (this.isChildLoan) {
-      // (this.Product === 'FCLoan' || this.Product === 'TaxLoan') ? this.addFCLoanControls(details) : this.Product === 'TopUp' ? this.addTopUpControls(details) :
-      //   this.Product === 'TyreLoan' ? this.addTyreLoanControls(details) : this.Product === 'AccidentLoan' ? this.addAccidentLoanControls(details) :
-      //     (this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan') ? this.addInsuranceControls(details) : '';
       this.getDynamicFormControls(details)
     }
   }
@@ -1257,10 +1255,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   getRegistrationNumber(val: any, form) {
 
     if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
-      this.isVehicleRegNoChange = true;
-
       if (this.vehicleRegNoChange !== val) {
-
+        this.isVehicleRegNoChange = true;
+      } else {
+        this.isVehicleRegNoChange = false;
       }
 
     }
@@ -1269,6 +1267,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onClose() {
     this.isShowParentLoan = false;
+    this.isVehicleRegNoChange = false;
+
   }
   getparentLoanAccountNumber(obj) {
 
@@ -1276,20 +1276,41 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value
     }
     this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
+      this.vehicleRegNoChange = res.ProcessVariables.childData.vehicleRegistrationNumber;
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.vehicleRegNoChange = obj.controls['vehicleRegNo'].value;
+        this.searchChildLoanData = res;
         this.isVehicleDedupe = true;
         this.isShowParentLoan = true;
-        obj.addControl('isVehicleDedupe', this._fb.control(true))
-        obj.addControl('parentLoanAccountNumber', this._fb.control(''))
+
+        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+        const details = formArray.at(0) as FormGroup;
+
+        details.addControl('isVehicleDedupe', this._fb.control(''))
+        details.addControl('parentLoanAccountNumber', this._fb.control('', Validators.required))
+
         this.loanDetailsData = res.ProcessVariables.loanDetails ? res.ProcessVariables.loanDetails : [];
       } else {
         this.isVehicleDedupe = false;
         this.isShowParentLoan = false;
+        this.isVehicleRegNoChange = false;
+
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })
+  }
+
+  onLoanAccNoSelect(val, index, data) {
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    const details = formArray.at(0) as FormGroup;
+
+    details.patchValue({
+      parentLoanAccountNumber: data.accountNumber,
+      isVehicleDedupe: true
+    })
+    this.isShowParentLoan = false;
+    this.isVehicleRegNoChange = false;
+
   }
 
 }

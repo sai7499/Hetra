@@ -29,8 +29,6 @@
                         <label for="check_dedupe"></label>
                         <input type="button" class="form-control btn-primary" id="check_dedupe" name="check_dedupe"
                             value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
-                        <!-- data-toggle="modal"
-                            data-target="#dedupeModal -->
 
                     </div>
 
@@ -1156,8 +1154,43 @@
                 <div class="" id="used_cv_show" *ngIf="productCatoryCode == 'UCV'">
 
                     <div class="row">
+                       
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
+                            <label for="registartion_number"> {{ label.registartionNumber }}
+                                <sub class="star_red_col">*</sub>
+                            </label>
+    
+                            <app-custom-input formControlName="vehicleRegNo"
+                                [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
+                                [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
+                                [minLength]="label.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
+                                [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
+                                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty"
+                                (keyup)="getRegistrationNumber($event.target.value, obj)">
+                            </app-custom-input>
+                        </div>
+    
+                        <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="isVehicleRegNoChange">
+                            <label for="check_dedupe"></label>
+                            <input type="button" class="form-control btn-primary" id="check_dedupe" name="check_dedupe"
+                                value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
+    
+                        </div>
+    
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number" *ngIf="isVehicleDedupe">
+                            <label for="loan_number"> Search Loan Account Number
+                                <sub class="star_red_col">*</sub>
+                            </label>
+    
+                            <app-custom-input formControlName="parentLoanAccountNumber">
+                            </app-custom-input>
+                        </div>
+    
+                    </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <div class="row">
+
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="registartion_number">{{label.registartionNumber}} <sub
                                     class="star_red_col">*</sub>
                             </label>
@@ -1171,7 +1204,7 @@
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
@@ -1680,8 +1713,43 @@
                 <div class="" id="used_car_show" *ngIf="productCatoryCode === 'UC'">
 
                     <div class="row">
+                       
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
+                            <label for="registartion_number"> {{ label.registartionNumber }}
+                                <sub class="star_red_col">*</sub>
+                            </label>
+    
+                            <app-custom-input formControlName="vehicleRegNo"
+                                [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
+                                [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
+                                [minLength]="label.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
+                                [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
+                                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty"
+                                (keyup)="getRegistrationNumber($event.target.value, obj)">
+                            </app-custom-input>
+                        </div>
+    
+                        <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="isVehicleRegNoChange">
+                            <label for="check_dedupe"></label>
+                            <input type="button" class="form-control btn-primary" id="check_dedupe" name="check_dedupe"
+                                value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
+    
+                        </div>
+    
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number" *ngIf="isVehicleDedupe">
+                            <label for="loan_number"> Search Loan Account Number
+                                <sub class="star_red_col">*</sub>
+                            </label>
+    
+                            <app-custom-input formControlName="parentLoanAccountNumber">
+                            </app-custom-input>
+                        </div>
+    
+                    </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                    <div class="row">
+
+                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="registartion_number">{{label.registartionNumber}} <sub
                                     class="star_red_col">*</sub>
                             </label>
@@ -1695,7 +1763,7 @@
                                 [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
                             </app-custom-input>
 
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
@@ -2487,10 +2555,10 @@
                                 <tbody>
                                     <tr *ngFor="let loanDetail of loanDetailsData; let i = index">
                                         <td align="center" [attr.data-label]="'Select'">
-                                            <input class="checkbox" type="radio" name="loanDetails"
-                                                (click)="onLoanAccNoSelect($event, i, loanDetail)" />
+                                            <input class="checkbox" type="radio" name="loanDetails" 
+                                            (click)="onLoanAccNoSelect($event, i, loanDetail)"/>
+                                            <!--  -->
                                         </td>
-                                        <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
                                         <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
                                         <td [attr.data-label]="'Loan Start Date'">{{loanDetail.loanStartDate}}</td>
                                         <td [attr.data-label]="'Loan Amount'">{{loanDetail.totalLoanAmount}}</td>

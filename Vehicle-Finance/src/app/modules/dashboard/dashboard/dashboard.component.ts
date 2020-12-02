@@ -418,7 +418,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           clearInterval(this.intervalId)
         }
       })
-    }, 1000)
+    }, 300000)
   }
 
   async getCountAcrossLeads(userId) {
