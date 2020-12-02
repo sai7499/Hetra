@@ -235,7 +235,7 @@
                       class="fa fa-angle-double-left"></i>
                   </button></div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11"> 
-                  <span _ngcontent-iiu-c8="" class="btn btn-primary btn-fa">
+                  <span _ngcontent-iiu-c8="" class="btn btn-primary btn-fa " style="display:none;">
                     <i _ngcontent-iiu-c8="" class="fa fa-search"></i></span>
                     <button class="btn btn-warning view-button"
                     type="button" (click)="backFromQuery()"><i class="fa fa-arrow-left"></i>
@@ -244,12 +244,12 @@
               </div>
               <div class="chat-box message-box viewport viewport-a" id="chat-box">
                <div style="width:100%;"> 
-                <div class="input-group search-btn" style="margin:0px 0px 5px 60%;width:40%;">
+                <!-- <div class="input-group search-btn" style="margin:0px 0px 5px 60%;width:40%;">
                   <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
                     (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
-                </div>
+                </div> -->
 
                </div>
                
