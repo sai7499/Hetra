@@ -28,16 +28,16 @@ export const environment = {
     assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63',
     trancheProId: 'b73f0180b49111ea8900f2fa9bec3d63'
   },
-  hostingEnvironment: 'DEV',
-  //hostingEnvironment: 'UAT',
+  //hostingEnvironment: 'DEV',
+  hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   // host: '/appiyo/',
   //host: window["env"]["hostUrl"] || "default",
-  host: "https://hetrauat.equitasbank.com/appiyodev/",
+  //host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
-  //host: "https://hetrauat.equitasbank.com/appiyo/",
+  host: "https://hetrauat.equitasbank.com/appiyo/",
 
   baseUrl: window.location.origin,
   // tslint:disable-next-line: max-line-length
