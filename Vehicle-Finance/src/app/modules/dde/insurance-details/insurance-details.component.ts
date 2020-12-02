@@ -82,7 +82,7 @@ export class InsuranceDetailsComponent implements OnInit {
   vehicleTypeList = [];
   productCode: string;
   rtoCenterName: any;
-  isRtoCenter: boolean;
+  isRtoCenter = true;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -889,11 +889,11 @@ export class InsuranceDetailsComponent implements OnInit {
         console.log('rto', res);
         this.rtoCentreList = res.ProcessVariables.rtoCentreList;
         console.log('rto center', this.rtoCentreList);
-        if ( isGetApi == true) {
+        if ( isGetApi == true && this.rtoCentreList != null) {
           this.f.patchValue({
             rtoCentre: this.rtoCentreList[0].value,
           });
-          this.isRtoCenter = true;
+          // this.isRtoCenter = true;
           this.selectRtoEvent(this.rtoCentreList[0]);
         }
       });
