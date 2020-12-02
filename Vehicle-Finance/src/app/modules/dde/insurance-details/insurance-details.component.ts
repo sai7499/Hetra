@@ -265,8 +265,8 @@ export class InsuranceDetailsComponent implements OnInit {
     this.insuranceDetailForm.value.nomineeState = Number(this.insuranceDetailForm.value.nomineeState);
     this.insuranceDetailForm.value.nomineeAge = Number(this.insuranceDetailForm.value.nomineeAge);
     this.insuranceDetailForm.value.usedCoverageAmount = Number(this.insuranceDetailForm.value.usedCoverageAmount);
-    this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
-    this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
+    // this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
+    // this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
     this.insuranceDetailForm.value.nomineeDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.nomineeDOB);
     this.insuranceDetailForm.value.guardianDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.guardianDOB);
     this.insuranceDetailForm.value.rtoCentre = this.rtoCenterName;
@@ -734,10 +734,10 @@ export class InsuranceDetailsComponent implements OnInit {
     });
   }
 
-  returnYesOrNo(event: boolean) {
-    if (event === true) {
+  returnYesOrNo(event: string) {
+    if (event == 'yes') {
       return 'yes';
-    } else if (event === false) {
+    } else if (event == 'no') {
       return 'no';
     }
   }
