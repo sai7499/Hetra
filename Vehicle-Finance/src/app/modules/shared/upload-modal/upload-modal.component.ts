@@ -19,6 +19,9 @@ import { Constant } from '@assets/constants/constant';
 import { environment } from 'src/environments/environment';
 import { ToasterService } from '@services/toaster.service';
 
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+
+
 @Component({
   selector: 'app-upload-modal',
   templateUrl: './upload-modal.component.html',
@@ -45,7 +48,9 @@ export class UploadModalComponent {
     private uploadService: UploadService,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private camera: Camera
+    private camera: Camera,
+    private webview: WebView,
+    
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -309,12 +314,12 @@ export class UploadModalComponent {
 
   openCamera() {
     this.inAppCamera = true;
-    this.takePicture().then((uri) => {
-      this.imageUrl = uri;
-      this.fileName = Math.random().toString(36).substring(2, 15);
-      this.fileSize = ""
-      this.fileType = "png";
-    });
+    // this.takePicture().then((uri) => {
+    //   this.imageUrl = uri;
+    //   this.fileName = Math.random().toString(36).substring(2, 15);
+    //   this.fileSize = ""
+    //   this.fileType = "png";
+    // });
   }
 
   onClose() {
@@ -323,7 +328,12 @@ export class UploadModalComponent {
   }
 
   getMobileFileURI(data) {
-    this.imageUrl = data.nativeURL;
+    // this.imageUrl = this.webview.convertFileSrc(data.nativeURL);
+    // this.fileName = data.name;
+   // this.imageUrl = data.nativeURL;
+
+   this.imageUrl = data;
+    this.inAppCamera = false;
   }
 
   onBackPressed(){

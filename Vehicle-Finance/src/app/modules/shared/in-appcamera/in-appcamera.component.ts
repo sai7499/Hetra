@@ -41,7 +41,7 @@ export class InAppcameraComponent implements OnInit {
     x: 0,
     y: 0,
     width: window.screen.width,
-    height: window.screen.height-300,
+    height: window.screen.height-200,
     camera: 'rear',
     tapPhoto: true,
     previewDrag: true,
@@ -96,6 +96,7 @@ export class InAppcameraComponent implements OnInit {
       });
 
       this.cameraPreview.onBackButton().then((result)=>{
+        this.cameraPreview.stopCamera();
         console.log("Backbutton"+result);
         this.onBackKeyDown.emit(result);
       }, (err)=>{
@@ -172,7 +173,9 @@ export class InAppcameraComponent implements OnInit {
     var folderpath = this.file.externalCacheDirectory;
     var filename  = Math.random().toString(36).substring(2, 15);
 
-    this.savebase64AsImageFile(folderpath,filename,this.croppedImage,contentType);
+    this.fileURIChange.emit(this.croppedImage);
+
+    //this.savebase64AsImageFile(folderpath,filename,this.croppedImage,contentType);
 
   }
 
@@ -237,6 +240,7 @@ export class InAppcameraComponent implements OnInit {
 
   savebase64AsImageFile(folderpath,filename,content,contentType){
     // Convert the base64 string in a Blob
+    var that = this;
     var DataBlob = this.b64toBlob(content,contentType);
     
     console.log("Starting to write the file :3"+ DataBlob);
@@ -245,13 +249,54 @@ export class InAppcameraComponent implements OnInit {
       replace: true
     }
     console.log(folderpath);
-    this.file.writeFile(folderpath, filename+ '.png', DataBlob, this.fileWriteOption).then((result)=>{
-      console.log("result", result);
-      this.fileURIChange.emit(result);
+
+    setTimeout(function() {
+      that.file.writeFile(folderpath, filename+ '.png', DataBlob, that.fileWriteOption).then((result)=>{
+        console.log("result", result);
+        that.fileURIChange.emit(result);
       //this.imgFile = this.webview.convertFileSrc(result.nativeURL);
-    }).catch((err)=>{
-      console.log('Write '+JSON.stringify(err));
-    });
+      }).catch((err)=>{
+        console.log('Write '+JSON.stringify(err));
+      });
+
+    }, 1000);
+
+
+    // this.file.checkDir(this.file.externalApplicationStorageDirectory, 'DirectorioFotos')
+    //     .then(_ => {
+    //       this.file.writeFile(this.file.externalApplicationStorageDirectory + 'DirectorioFotos/', "UUID" + '.jpg', DataBlob, this.fileWriteOption).then(response => {
+    //         // ACTION
+    //         console.log("UUID"+response);
+    //         this.fileURIChange.emit(response);
+    //       }).catch(err => {
+    //         // ACTION
+    //         console.log("Err"+JSON.stringify(err));
+    //         this.file.createDir(this.file.externalApplicationStorageDirectory, 'DirectorioFotos', false).then(result => {
+    //           this.file.writeFile(this.file.externalApplicationStorageDirectory + 'DirectorioFotos/', "UUID" + '.jpg', DataBlob, this.fileWriteOption).then(response => {
+    //             // ACTION
+    //             console.log("UUID"+response);
+    //             this.fileURIChange.emit(response);
+    //           }).catch(err => {
+    //             // ACTION
+    //             console.log("Err"+JSON.stringify(err));
+    //           })
+    //         })  
+    //       })
+    //     })
+    //     .catch(err => {
+    //       this.file.createDir(this.file.externalApplicationStorageDirectory, 'DirectorioFotos', false).then(result => {
+    //         this.file.writeFile(this.file.externalApplicationStorageDirectory + 'DirectorioFotos/', "UUID" + '.jpg', DataBlob).then(response => {
+    //           // ACTION
+    //           console.log("UUID"+response);
+    //           this.fileURIChange.emit(response);
+    //         }).catch(err => {
+    //           // ACTION
+    //           console.log("Err"+JSON.stringify(err));
+    //         })
+    //       })
+    //     });
+
+
   }
 
   switchCameraButton(){

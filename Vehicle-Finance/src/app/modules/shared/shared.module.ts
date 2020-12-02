@@ -46,6 +46,8 @@ import { InAppcameraComponent } from './in-appcamera/in-appcamera.component';
 
 import { ImageCropperModule } from 'ngx-image-cropper';
 
+import { File } from '@ionic-native/file/ngx';
+
 setTheme('bs4');
 
 @NgModule({
@@ -121,5 +123,8 @@ setTheme('bs4');
     UploadDiscussionComponent,
     WelomceLetterComponent
   ],
+  providers: [
+    File
+  ]
 })
 export class SharedModule { }
