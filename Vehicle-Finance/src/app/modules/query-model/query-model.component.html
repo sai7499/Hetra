@@ -26,8 +26,9 @@
                 <div class="panel-group mar-20 scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group mar-20" id="accordion"
                     *ngFor="let chat of chatList; let i=index; let last=last">
-                    <div class="flex-container" >
-                      <div class="divs btn" (click)="getQueries(chat)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
+                    <div class="flex-container">
+                      <div class="divs btn" (click)="getQueries(chat)"
+                        [ngClass]="selectedList === chat ? 'selected-back' : ''">
                         <p class="mar-em">{{chat.value}}</p>
                       </div>
 
@@ -142,8 +143,9 @@
               <div class="panel-group mar-20 scroll-box " id="scrollBox">
                 <div class="panel-group mar-20" id="accordion"
                   *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container" >
-                    <div class="divs btn" (click)="getQueries(chat, true)"[ngClass]="selectedList === chat ? 'selected-back' : ''" >
+                  <div class="flex-container">
+                    <div class="divs btn" (click)="getQueries(chat, true)"
+                      [ngClass]="selectedList === chat ? 'selected-back' : ''">
                       <p class="mar-em">{{chat.value}}</p>
                     </div>
 
@@ -239,20 +241,37 @@
 
             </div>
 
-            <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12 right">
+            <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12 right msg-space">
               <div class="row view-pad-bottom">
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0 back-div"><button
                     class="btn btn-warning back-arrow view-button" type="button" (click)="openNav()"><i
                       class="fa fa-angle-double-left"></i>
                   </button></div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11"> <button class="btn btn-warning view-button"
-                    type="button" (click)="backFromQuery()"><i class="fa fa-arrow-left"></i>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11">
+                  <!-- <span _ngcontent-iiu-c8="" class="btn btn-primary btn-fa">
+                    <i _ngcontent-iiu-c8="" class="fa fa-search"></i></span> -->
+                  <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
+                      class="fa fa-arrow-left"></i>
                     {{labels.backToLead}}</button></div>
 
               </div>
               <div class="chat-box message-box viewport viewport-a" id="chat-box">
+                <div style="width:100%;">
 
-                <div *ngFor="let message of chatMessages; let j=index;let last=last;"
+                  <div class="input-group search-btn" style="margin:0px 0px 5px 60%;width:40%;">
+                    <input type="text" class="form-control input-search" placeholder="Query Id Search"
+                      [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
+                      (keyup)="searchQueryIdMessage($event.target.value)">
+                    <!--  formControlName="searchName" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''" -->
+                    <span class="input-group-addon glass-span" (click)="clearSearch()"><i
+                        [ngClass]="searchQueryId.length >= 1 ? 'fa fa-close cus-close' : 'fa fa-search'"></i></span>
+                    <!-- class="fa fa-search" -->
+                  </div>
+
+                </div>
+
+                <div *ngFor="let message of searchChatMessages; let j=index;let last=last;"
                   (mouseenter)="isCheckFropdownBut(message, j)" (mouseleave)="clickedIndex = null">
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
 
@@ -335,13 +354,13 @@
 
                   <div class="cus-top-arrow" *ngIf="getChatsObj && getChatsObj.count > 50">
                     <button type="button" class="btn btn-white btn-circle cus-circle"
-                      (click)="getMoreChat(chatMessages.length, getChatsObj)"><i
+                      (click)="getMoreChat(searchChatMessages.length, getChatsObj)"><i
                         class="fa fa-angle-down cus-arrow"></i></button>
                   </div>
 
                 </div>
 
-                <div class="wt-mid text-center" *ngIf="chatMessages && chatMessages.length === 0">
+                <div class="wt-mid text-center" *ngIf="searchChatMessages && searchChatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
 
@@ -515,6 +534,19 @@
 
             </div>
 
+            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="search-message" style="display:none;">
+              <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
+                <div class="input-group search-btn">
+                  <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
+                    (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
+                  <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
+                </div>
+              </div>
+              <div class="" id="">
+
+              </div>
+            </div>
           </div>
         </form>
 

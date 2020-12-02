@@ -109,6 +109,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   replySearchArray: any = [];
   replyDropdown: boolean;
   getDisableQueryTo: any;
+  searchQueryId: any ='';
+  searchChatMessages: any = [];
 
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
@@ -390,6 +392,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           }
           this.getChatsObj = res.ProcessVariables;
           this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
+          this.searchChatMessages =  this.chatMessages;
           this.isReplyToArray = this.chatMessages.filter((val, i) => {
             val.time = this.myDateParser(val.createdOn)
             return {
@@ -403,6 +406,11 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  clearSearch() {
+    this.searchQueryId = '';
+    this.searchChatMessages = this.chatMessages;
   }
 
   getLeadSectionData(leadId) {
@@ -562,6 +570,23 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  searchQueryIdMessage(val: string) {
+
+    this.searchChatMessages = this.chatMessages.filter((mes: any) => {
+      val = val.toString().toLowerCase();
+      console.log(mes, 'mes')
+
+      if (mes.queryId) {
+        const eName = mes.queryId.toString().toLowerCase();
+        if (eName.includes(val)) {
+          return mes;
+        }
+      }
+
+    })
+
   }
 
   getLead(lead) {

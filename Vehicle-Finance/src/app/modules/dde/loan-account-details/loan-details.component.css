@@ -119,10 +119,10 @@
     
     .content {
       background: #fff;
-      padding: 25px 30px;
+      padding: 0px 30px 25px;
       border-radius: 8px;
       border: 1px solid #ddd;
-      margin-bottom: 20px;
+      margin-bottom: 0px;
     }
     
     label.col-form-label {
@@ -393,10 +393,10 @@
     
     .content {
       background: #fff;
-      padding: 25px 30px;
+      padding: 0px 30px 25px;
       border-radius: 8px;
       border: 1px solid #ddd;
-      margin:15px;
+      margin:0px;
     }
     
     label.col-form-label {
@@ -613,5 +613,16 @@
       margin-bottom: 10px; */
     }
     } 
+
+    label.col-form-label-two {
+      font-weight: 500 !important;
+    }
+
+    .title {
+      background: #272264;
+      padding: 8px 15px;
+      font-size: 16px;
+      color: #fff;
+  }
     
     
