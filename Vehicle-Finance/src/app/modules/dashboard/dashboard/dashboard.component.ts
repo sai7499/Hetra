@@ -79,7 +79,8 @@ export enum DisplayTabs {
   ReAppeal,
   ReAppealWithMe,
   ReAppealWithBranch,
-  ExternalUser
+  ExternalUser,
+  ExternalUserDashboard
 }
 
 export enum sortingTables {
@@ -337,8 +338,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.onTabsLoading(this.subActiveTab);
     } else {
       if (this.roleType == '1') {
-        this.activeTab = 0;
-        this.subActiveTab = 3;
+        if(this.roleId == '65') {
+          this.activeTab = 58
+        } else {
+          this.activeTab = 0;
+          this.subActiveTab = 3;
+        }
         this.onTabsLoading(this.subActiveTab);
       } else if (this.roleType == '2') {
         this.activeTab = 18;
@@ -709,6 +714,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLog = false;
         this.getSalesLeads(this.itemsPerPage, event);
         break;
+        case 58:
+          this.getSalesLeads(this.itemsPerPage, event);
       default:
         break;
     }
@@ -976,48 +983,60 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // for MyLeads Api
   responseForSales(data) {
-    this.dashboardService.myLeads(data).subscribe((res: any) => {
-      this.setPageData(res);
-      if (this.subActiveTab === this.displayTabs.NewLeads) {
+    if(this.activeTab === this.displayTabs.ExternalUserDashboard) {
+      this.dashboardService.getExternalUserDashboardDetails(data).subscribe((res: any) => {
+        this.setPageData(res);
         if (res.ProcessVariables.loanLead != null) {
           this.isLoadLead = true;
         } else {
           this.isLoadLead = false;
           this.newArray = [];
         }
-      } else {
-        switch (this.activeTab) {
-          case 15:
-            if (res.ProcessVariables.processLogs != null) {
-              this.isLoadLead = true;
-            } else {
-              this.isLoadLead = false;
-              this.newArray = [];
-            }
-            break;
-          case 16:
-            if (res.ProcessVariables.pddDetails != null) {
-              this.isLoadLead = true;
-            } else {
-              this.isLoadLead = false;
-              this.newArray = [];
-            }
-            break;
-          case 17:
-            if (res.ProcessVariables.chequeTrackingDetails != null) {
-              this.isLoadLead = true;
-            } else {
-              this.isLoadLead = false;
-              this.newArray = [];
-            }
-            break;
-
-          default:
-            break;
+      })
+    } else {
+      this.dashboardService.myLeads(data).subscribe((res: any) => {
+        this.setPageData(res);
+        if (this.subActiveTab === this.displayTabs.NewLeads) {
+          if (res.ProcessVariables.loanLead != null) {
+            this.isLoadLead = true;
+          } else {
+            this.isLoadLead = false;
+            this.newArray = [];
+          }
+        } else {
+          switch (this.activeTab) {
+            case 15:
+              if (res.ProcessVariables.processLogs != null) {
+                this.isLoadLead = true;
+              } else {
+                this.isLoadLead = false;
+                this.newArray = [];
+              }
+              break;
+            case 16:
+              if (res.ProcessVariables.pddDetails != null) {
+                this.isLoadLead = true;
+              } else {
+                this.isLoadLead = false;
+                this.newArray = [];
+              }
+              break;
+            case 17:
+              if (res.ProcessVariables.chequeTrackingDetails != null) {
+                this.isLoadLead = true;
+              } else {
+                this.isLoadLead = false;
+                this.newArray = [];
+              }
+              break;
+  
+            default:
+              break;
+          }
         }
-      }
-
-    });
+  
+      });
+    }
   }
 
   // new leads
@@ -1115,9 +1134,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getExternalUserLeads(perPageCount, pageNumber?) {
     const data = {
       userId: this.loginUserId,
-      // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
     };
     this.responseForEcxternalUser(data);

@@ -159,4 +159,22 @@ export class DashboardService {
     return this.httpService.post(url, body);
   }
 
+
+  getExternalUserDashboardDetails(data) {
+    const processId = this.apiService.api.externalUserDashboard.processId;
+    const workflowId = this.apiService.api.externalUserDashboard.workflowId;
+    const projectId = this.apiService.api.externalUserDashboard.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+
+    return this.httpService.post(url, body);
+  }
+
 }
