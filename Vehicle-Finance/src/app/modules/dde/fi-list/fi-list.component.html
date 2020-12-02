@@ -81,7 +81,7 @@
     <div class="col-sm-7 text-right cst_btm_btns">
         <br />
         <br />
-        <button class="btn btn-primary" type="button" (click)="onNavigateToFiSummary()">
+        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateToFiSummary()">
       Back to FI Summary
     </button>
         <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
@@ -94,11 +94,11 @@
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right cst_btm_btns" *ngIf="showStatus">
 
-        <button class="btn btn-primary" type="button" (click)="onNavigate('back')">
+        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigate('back')">
       {{ labels?.back }}
     </button>
 
-        <button class="btn btn-primary" type="button" (click)="onNavigate('next')">
+        <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNavigate('next')">
       {{ labels?.next }}
     </button>
     </div>
