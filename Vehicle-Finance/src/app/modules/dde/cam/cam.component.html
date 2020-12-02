@@ -2929,14 +2929,14 @@ labels?.strengthsOrMitigates
     <div class="btn-sec clear-both row">
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right">
-            <button (click)="onBack()" class="btn btn-primary dash_href" type="button">
+            <button (click)="onBack()" class="btn btn-primary dash_href hvr-sweep-to-left" type="button">
                 {{ labels?.back }}
             </button>
             <button *ngIf="showSave == true" class="btn btn-primary mar-right8" type="button"
                 (click)=onSubmit(); [disabled]="disableSaveBtn">
                 Save
             </button>
-            <button (click)="onNext()" class="btn btn-primary dash_href" type="button">
+            <button (click)="onNext()" class="btn btn-primary dash_href hvr-sweep-to-right" type="button">
                 {{ labels?.next }}
             </button>
             <ng-container *ngIf="!isLoan360">
