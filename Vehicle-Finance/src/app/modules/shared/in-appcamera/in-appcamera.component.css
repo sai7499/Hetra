@@ -151,3 +151,9 @@ button.btn-camera:focus{
 button:focus{
   outline: none !important;
 }
+
+.cropper .move {
+  width: 100%;
+  cursor: move;
+  border: 1px solid #fff !important;
+}
