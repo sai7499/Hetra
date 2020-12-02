@@ -20,15 +20,26 @@
                             [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
                             [minLength]="label.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
                             [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
-                            [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
+                            [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty"
+                            (keyup)="getRegistrationNumber($event.target.value, obj)">
                         </app-custom-input>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="isVehicleRegNoChange">
+                        <label for="check_dedupe"></label>
+                        <input type="button" class="form-control btn-primary" id="check_dedupe" name="check_dedupe"
+                            value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)" data-toggle="modal"
+                            data-target="#dedupeModal">
 
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1">
-                        <label for="check_dedupe"></label>
-                        <input type="button" class="form-control btn-primary" id="check_dedupe"
-                            name="check_dedupe" value="Check Dedupe" data-toggle="modal" data-target="#myModal">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number" *ngIf="isVehicleDedupe">
+                        <label for="loan_number"> Search Loan Account Number
+                            <sub class="star_red_col">*</sub>
+                        </label>
+
+                        <app-custom-input formControlName="parentLoanAccountNumber">
+                        </app-custom-input>
                     </div>
 
                 </div>
@@ -2442,3 +2453,82 @@
     </ng-container>
 
 </form>
+
+<!-- Check Depude Modek -->
+
+<div class="modal" id="dedupeModal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 700px;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Loan Account Details</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="text-align: center;">
+                <div class="row" *ngIf="loanDetailsData.length != 0">
+                    <div class="col-md-12">
+                        <div id="wrapper">
+                            <table id="add_vhd_table">
+                                <thead>
+                                    <tr class="table-head-bg ">
+                                        <th>Select </th>
+                                        <th>Loan Account Number </th>
+                                        <th>Loan Start Date </th>
+                                        <th>Loan Amount </th>
+                                        <th>Number of EMIs </th>
+                                        <th>Seasoning </th>
+                                        <th>Rate of Interest </th>
+                                        <th>DPD </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let loanDetail of loanDetailsData; let i = index">
+                                        <td align="center" [attr.data-label]="'Select'">
+                                            <input class="checkbox" type="radio" name="loanDetails"
+                                                (click)="onLoanAccNoSelect($event, i, loanDetail)" />
+                                        </td>
+                                        <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
+                                        <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
+                                        <td [attr.data-label]="'Loan Start Date'">{{loanDetail.loanStartDate}}</td>
+                                        <td [attr.data-label]="'Loan Amount'">{{loanDetail.totalLoanAmount}}</td>
+                                        <td [attr.data-label]="'Number of EMIs'">{{loanDetail.totalEMIs}}</td>
+                                        <td [attr.data-label]="'Seasoning'">{{loanDetail.seasoning}}</td>
+                                        <td [attr.data-label]="'Rate of Interest'">{{loanDetail.rateOfInterest}}</td>
+                                        <td [attr.data-label]="'DPD'">{{loanDetail.dpd}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <div class="btn-sec clear-both btn-mar-reject">
+                                <div class="text-right margin_top">
+                                    <button *ngIf="isSO === 1" [disabled]="!isCreateLoanBtn"
+                                        class="btn btn-primary js-btn-next mar-right8" type="button"
+                                        (click)="onCreateChildLoan()">
+                                        Create Child Loan Lead
+                                    </button>
+                                    <button class="btn btn-primary js-btn-next mar-right8" type="button"
+                                        [disabled]="!isCreateLoanBtn" (click)="viewLoan360()">
+                                        View Loan 360
+                                    </button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" data-dismiss="modal" class="btn btn-success" id="reject_yes_val" value="Yes">
+                    {{ label.yes }}
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    {{ label.cancel }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

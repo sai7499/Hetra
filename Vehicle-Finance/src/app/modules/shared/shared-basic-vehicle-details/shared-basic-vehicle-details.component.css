@@ -12,6 +12,10 @@
     margin: 15px 0;
 }
 
+#dedupeModal {
+    display: none;
+}
+
 .star_red_col
 {
     color: #da3939;

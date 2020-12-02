@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
+import { ChildLoanApiService } from '@services/child-loan-api.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -88,6 +89,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isSpareCost: any;
   isRepairCost: any;
 
+  // Check Depdue
+  isVehicleDedupe: boolean;
+  vehicleRegNoChange: any;
+  isShowParentLoan: boolean;
+  loanDetailsData: any = [];
+  isVehicleRegNoChange: boolean;
+
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
@@ -96,7 +104,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService,
-    private loanViewService: LoanViewService) {
+    private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
@@ -1244,6 +1252,57 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       form.get('totalCost').setValue(null)
     }
+  }
+
+  getRegistrationNumber(val: any, form) {
+
+    if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
+      this.vehicleRegNoChange = form.controls['vehicleRegNo'].value;
+      this.isVehicleRegNoChange = true;
+
+      if (this.vehicleRegNoChange !== val) {
+
+        // let childData = {
+        //   vehicleRegistrationNumber: form.controls['vehicleRegNo'].value
+        // }
+
+        // this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
+
+        //   console.log(res, 'res')
+        //   if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        //     this.isVehicleDedupe = true;
+        //     form.addControl('isVehicleDedupe', this._fb.control(true))
+        //     form.addControl('parentLoanAccountNumber', this._fb.control(''))
+        //   }
+        // })
+
+      }
+
+    }
+
+  }
+
+  getparentLoanAccountNumber(obj) {
+    var modal = document.getElementById('dedupeModal');
+
+    let childData = {
+      vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value
+    }
+    this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
+
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.isVehicleDedupe = true;
+        obj.addControl('isVehicleDedupe', this._fb.control(true))
+        obj.addControl('parentLoanAccountNumber', this._fb.control(''))
+        this.loanDetailsData = res.ProcessVariables.loanDetails ? res.ProcessVariables.loanDetails : [];
+        modal.style.display = "block";
+
+      } else {
+        this.isVehicleDedupe = false;
+        modal.style.display = "none";
+        this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
+      }
+    })
   }
 
 }
