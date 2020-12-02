@@ -179,6 +179,8 @@ public class CameraActivity extends Fragment {
         if(toBack == false) {
             this.setupTouchAndBackButton();
         }
+        this.setupTouchAndBackButton();
+
         this.setupTouchZoom();
 
     }
