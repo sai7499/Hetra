@@ -82,7 +82,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
-        this.disableSaveBtn = true;
+      this.disableSaveBtn = true;
     }
 
     if (this.loanViewService.checkIsLoan360()) {
@@ -109,10 +109,11 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   editVehicle(collateralId: number, loanAmount) {
+    this.vehicleDataStoreService.setLoanAmount(loanAmount)
     if (this.isLoan360) {
-      return this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', { vehicleId: collateralId, eligibleLoanAmount: loanAmount }]);
+      return this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', + collateralId]);
     }
-    this.router.navigate(['/pages/' + this.locationIndex + '/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
+    this.router.navigate(['/pages/' + this.locationIndex + '/' + this.leadId + '/add-vehicle', + collateralId]);
   }
 
   editCollateralDetails(collateralId: number) {
@@ -120,7 +121,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   onEditVehicleDetails(collateralId: number, loanAmount: any) {
-    this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', { vehicleId: collateralId, eligibleLoanAmount: loanAmount }]);
+    this.vehicleDataStoreService.setLoanAmount(loanAmount)
+    this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', + collateralId])
   }
 
   getVehicleDetails(id: number) {

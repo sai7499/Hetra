@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
+import { ChildLoanApiService } from '@services/child-loan-api.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -43,7 +44,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   LOV: any = [];
   public label: any = {};
 
-  public onlyFutureDate= new Date();
+  public onlyFutureDate = new Date();
   maxFuteureDate = this.onlyFutureDate.setDate(this.maxDate.getDate() + 1)
 
   public childLoanCondition: any = {};
@@ -88,6 +89,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isSpareCost: any;
   isRepairCost: any;
 
+  // Check Depdue
+  isVehicleDedupe: boolean;
+  vehicleRegNoChange: any;
+  isShowParentLoan: boolean;
+  loanDetailsData: any = [];
+  isVehicleRegNoChange: boolean;
+
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
@@ -96,14 +104,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService,
-    private loanViewService: LoanViewService) {
+    private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
     var day = this.toDayDate.getDate();
-            var month = this.toDayDate.getMonth();
-            var year = this.toDayDate.getFullYear();
-            this.toDayDate= new Date(year, month, day, 0,0)
+    var month = this.toDayDate.getMonth();
+    var year = this.toDayDate.getFullYear();
+    this.toDayDate = new Date(year, month, day, 0, 0)
   }
 
   ngOnInit() {
@@ -156,12 +164,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       }
     })
 
-    if (this.activedRoute.snapshot.params['eligibleLoanAmount']) {
-      this.eligibleLoanAmount = this.activedRoute.snapshot.params['eligibleLoanAmount'] === null ? 0 : this.activedRoute.snapshot.params['eligibleLoanAmount'];
-    } else {
-      this.eligibleLoanAmount = 0;
-    }
-
     this.initForms();
     this.getLov();
 
@@ -180,6 +182,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.loanViewService.checkIsLoan360()) {
       this.basicVehicleForm.disable();
       this.disableSaveBtn = true;
+    }
+
+    if (this.vehicleDataService.getLoanAmount()) {
+      this.eligibleLoanAmount = Number(this.vehicleDataService.getLoanAmount())
     }
 
   }
@@ -347,8 +353,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.vehicleLov.permitType = value.LOVS.vehiclePermitType;
       this.vehicleLov.insuranceType = this.LOV['In-HouseInsuranceType']
-
-      console.log('Lov', this.LOV['In-HouseInsuranceType'])
 
       this.vehicleLov.YesORNoValue = [
         {
@@ -581,7 +585,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       productCatCode: VehicleDetail.productCatCode || '',
       rcOwnerName: VehicleDetail.rcOwnerName || '',
       reRegVehicle: VehicleDetail.reRegVehicle || '',
-      insuranceType:  VehicleDetail.insuranceType || '',
+      insuranceType: VehicleDetail.insuranceType || '',
       regMonthYear: VehicleDetail.regMonthYear ? this.utilityService.getDateFromString(VehicleDetail.regMonthYear) : '',
       region: VehicleDetail.region || '',
       registrationNo: VehicleDetail.registrationNo || '',
@@ -1248,6 +1252,57 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       form.get('totalCost').setValue(null)
     }
+  }
+
+  getRegistrationNumber(val: any, form) {
+
+    if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
+      this.vehicleRegNoChange = form.controls['vehicleRegNo'].value;
+      this.isVehicleRegNoChange = true;
+
+      if (this.vehicleRegNoChange !== val) {
+
+        // let childData = {
+        //   vehicleRegistrationNumber: form.controls['vehicleRegNo'].value
+        // }
+
+        // this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
+
+        //   console.log(res, 'res')
+        //   if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        //     this.isVehicleDedupe = true;
+        //     form.addControl('isVehicleDedupe', this._fb.control(true))
+        //     form.addControl('parentLoanAccountNumber', this._fb.control(''))
+        //   }
+        // })
+
+      }
+
+    }
+
+  }
+
+  getparentLoanAccountNumber(obj) {
+    var modal = document.getElementById('dedupeModal');
+
+    let childData = {
+      vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value
+    }
+    this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
+
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.isVehicleDedupe = true;
+        obj.addControl('isVehicleDedupe', this._fb.control(true))
+        obj.addControl('parentLoanAccountNumber', this._fb.control(''))
+        this.loanDetailsData = res.ProcessVariables.loanDetails ? res.ProcessVariables.loanDetails : [];
+        modal.style.display = "block";
+
+      } else {
+        this.isVehicleDedupe = false;
+        modal.style.display = "none";
+        this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
+      }
+    })
   }
 
 }

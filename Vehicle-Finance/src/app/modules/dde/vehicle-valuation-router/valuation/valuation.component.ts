@@ -32,6 +32,7 @@ export class ValuationComponent implements OnInit {
   vehicleValuationDetails: any = {};
   isInputField = false;
   isDirty: boolean;
+  isLoan360: boolean;
   customFutureDate: boolean;
   public toDayDate: Date = new Date();
   currentYear = new Date().getFullYear();
@@ -143,7 +144,7 @@ export class ValuationComponent implements OnInit {
   permitType: any;
   permitDisabled: boolean;
   permitRequired: boolean;
-  isLoan360: boolean;
+
   invalidPemitDate: boolean;
   invalidFitnessDate: boolean;
   invalidTaxDate: boolean;
