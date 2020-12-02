@@ -35,7 +35,7 @@ const routes: Routes = [
         component: DocumentUploadComponent,
       },
       {
-        path: 'add-vehicle',
+        path: 'add-vehicle/:vehicleId',
         component: AddvehicleComponent
       },
       {
