@@ -1257,24 +1257,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   getRegistrationNumber(val: any, form) {
 
     if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
-      this.vehicleRegNoChange = form.controls['vehicleRegNo'].value;
       this.isVehicleRegNoChange = true;
 
       if (this.vehicleRegNoChange !== val) {
-
-        // let childData = {
-        //   vehicleRegistrationNumber: form.controls['vehicleRegNo'].value
-        // }
-
-        // this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
-
-        //   console.log(res, 'res')
-        //   if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        //     this.isVehicleDedupe = true;
-        //     form.addControl('isVehicleDedupe', this._fb.control(true))
-        //     form.addControl('parentLoanAccountNumber', this._fb.control(''))
-        //   }
-        // })
 
       }
 
@@ -1282,8 +1267,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   }
 
+  onClose() {
+    this.isShowParentLoan = false;
+  }
   getparentLoanAccountNumber(obj) {
-    var modal = document.getElementById('dedupeModal');
 
     let childData = {
       vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value
@@ -1291,15 +1278,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.vehicleRegNoChange = obj.controls['vehicleRegNo'].value;
         this.isVehicleDedupe = true;
+        this.isShowParentLoan = true;
         obj.addControl('isVehicleDedupe', this._fb.control(true))
         obj.addControl('parentLoanAccountNumber', this._fb.control(''))
         this.loanDetailsData = res.ProcessVariables.loanDetails ? res.ProcessVariables.loanDetails : [];
-        modal.style.display = "block";
-
       } else {
         this.isVehicleDedupe = false;
-        modal.style.display = "none";
+        this.isShowParentLoan = false;
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })

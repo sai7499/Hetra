@@ -262,8 +262,6 @@
                     <input type="text" class="form-control input-search" placeholder="Query Id Search"
                       [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
                       (keyup)="searchQueryIdMessage($event.target.value)">
-                    <!--  formControlName="searchName" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
-                  queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''" -->
                     <span class="input-group-addon glass-span" (click)="clearSearch()"><i
                         [ngClass]="searchQueryId.length >= 1 ? 'fa fa-close cus-close' : 'fa fa-search'"></i></span>
                     <!-- class="fa fa-search" -->

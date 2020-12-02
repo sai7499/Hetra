@@ -12,10 +12,6 @@
     margin: 15px 0;
 }
 
-#dedupeModal {
-    display: none;
-}
-
 .star_red_col
 {
     color: #da3939;
@@ -41,3 +37,61 @@ kendo-datepicker{
 .ml {
     margin-left: 10px;
 }
+
+/* modal */
+
+.dis-block {
+    display: block;
+}
+
+.dis-block {
+    display: block;
+  }
+  
+  .upload-btn {
+    border: 1px solid #1d1a4b;
+    background-color: #1d1a4b;
+    color:#fff;
+    margin: 10px 0;
+    padding: 4px;
+    border-radius: 5px;
+  }
+  
+  .remove-btn {
+    background: #dc1818;
+    color: #f6f6f6;
+  }
+  
+  .file-info {
+    word-break: break-all;
+    padding: 5px 5px 5px 0;
+  }
+  
+  .preview-panel {
+    padding-left: 15px;
+  }
+  
+  .btn-info {
+    color: #fff;
+    background-color: #1d1a4b;
+    border-color: #161338;
+  }
+  
+  .show-error {
+    color: red;
+  }
+
+  .top-space{
+    top:10%;
+  }
+  
+  .wid-30{
+    width:30%;
+  }
+  
+  .wid-70{
+    width:70%;
+  }
+
+  
+  
