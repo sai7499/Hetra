@@ -186,7 +186,9 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group col-sm-3 col-md-2">
+                    <div class="form-group col-sm-3 col-md-2" (click)="downloadForLoan360(FORM_ARRAY_NAME + '_' + subCat.code,
+                    i,
+                    $event)">
                       <label>File</label>
                       <input
                         formControlName="file"

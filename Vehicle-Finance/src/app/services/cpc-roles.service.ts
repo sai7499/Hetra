@@ -87,5 +87,40 @@ export class CpcRolesService {
     const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     return this.httpService.post(url, requestEntity);
   }
+// save for declient flow
+  saveDeclientRemarks(data){
+    const processData = data;
+    const processId = this.apiService.api.saveDeclientRemards.processId;
+    const workflowId = this.apiService.api.saveDeclientRemards.workflowId;
+    const projectId = this.apiService.api.saveDeclientRemards.projectId;
 
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+  // get declinet remarks
+  getDeclientRemarks(data){
+    const processData = data;
+    const processId = this.apiService.api.getDeclientRemards.processId;
+    const workflowId = this.apiService.api.getDeclientRemards.workflowId;
+    const projectId = this.apiService.api.getDeclientRemards.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 }

@@ -307,7 +307,7 @@
     <div class="btn-sec clear-both row cst_btm_btns">
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right">
-            <button class="btn btn-primary btn_div " type="button" (click)="onBack()">{{labels?.back}}</button>
+            <button class="btn btn-primary btn_div hvr-sweep-to-left " type="button" (click)="onBack()">{{labels?.back}}</button>
             <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
             <ng-container *ngIf="!isLoan360">
             <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
@@ -315,20 +315,27 @@
             <button class="btn btn-primary dash_href adjustMargins" type="button"
                 *ngIf="roleType == '2' && salesResponse == 'true'"><a data-toggle="modal"
                     data-target="#myModalForApproval">Submit for Approval</a></button>
-            <button class="btn btn-primary dash_href adjustMargins" type="button"
+            <button class="btn btn-primary dash_href adjustMargins " type="button"
                 *ngIf="roleType != '2' && isPreDisbursement == 'true'">
                     <a data-toggle="modal"
                     data-target="#myModalSubmitToCD">{{labels?.submit}}</a></button>
-                </ng-container>
-            <button class="btn btn-primary btn_div" type="button"
+                    <button class="btn btn-primary btn_div hvr-sweep-to-right" type="button"
                 [disabled]="roleType != '1' && roleType != '4' && roleType != '5' && roleType != '7' "
 
                 *ngIf="roleType != '2' && isPreDisbursement == 'false'" (click)="onNext()"
                 (click)="onNext()">{{labels?.next}}</button>
 
-            <button class="btn btn-primary btn_div" type="button" 
+            <button class="btn btn-primary btn_div hvr-sweep-to-right" type="button" 
             *ngIf="roleType == '2' && isPreDisbursement == 'true' && salesResponse == 'true' " 
             (click)="onNext()" >{{labels?.next}}</button>
+                </ng-container>
+
+                <ng-container>  
+                    <button class="btn btn-primary btn_div hvr-sweep-to-right" type="button" 
+                    
+                    (click)="onNext()" >{{labels?.next}}</button>
+                </ng-container>
+            
             
             <!-- <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submit}}</button> -->

@@ -1042,10 +1042,40 @@ export class ApiService {
       workflowId: '767be23a08a611eb827600505695f93b',
       projectId: environment.projectIds.trancheProId
     },
+    externalUser: {
+      processId: '05eb8f2a316e11eb934a00505695f93b',
+      workflowId: '05bf0c20316e11eb863800505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     reAppeal: {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.submitToCredit
+    },
+    saveDeclientRemards:{
+      processId: 'bc5cb0782fec11eba83800505695f93b',
+      workflowId: 'bbf4e6f02fec11eb934a00505695f93b',
+      projectId: environment.projectIds.remarksProjectId
+    },
+    getDeclientRemards:{
+      processId: 'dbf7187e2fec11eb9d9b00505695f93b',
+      workflowId: 'bbf4e6f02fec11eb934a00505695f93b',
+      projectId: environment.projectIds.remarksProjectId
+    },
+    insuranceVehicleMaster: {
+      processId: '62afd09c32ca11eb9d0800505695f93b',
+      workflowId: '627e454a32ca11eb9f4000505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    motorInsuranceProvider : {
+      processId: '36b6bc2c32fb11ebbb2400505695f93b',
+      workflowId: '3691c28c32fb11eb957300505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    insuranceRTOMaster: {
+      processId: 'c71ef06c32cf11ebba8e00505695f93b',
+      workflowId: 'c6ef01c232cf11eb8a3c00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }

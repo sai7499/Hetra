@@ -370,7 +370,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -414,7 +414,7 @@
                            placeholder="tranche Date" [activeView]="'decade'" [disabled]='true'></kendo-datepicker> -->
                             </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,1)" title="delete">
                               <img src="assets/images/delete-icon.png" />
@@ -674,7 +674,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -718,7 +718,7 @@
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,2)" title="delete">
                                 <img src="assets/images/delete-icon.png" />
@@ -993,7 +993,7 @@
                               <th>{{labels?.disbursementPercent}}</th>
                               <th>{{labels?.disbursementAmount}}</th>
                               <th>{{labels?.disbursementDate}}</th>
-                              <th>{{labels?.action}}</th>                   
+                              <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                             </tr>
                           </thead>
                           <tbody>
@@ -1293,7 +1293,7 @@
                               <th>{{labels?.disbursementPercent}}</th>
                               <th>{{labels?.disbursementAmount}}</th>
                               <th>{{labels?.disbursementDate}}</th>
-                              <th>{{labels?.action}}</th>                   
+                              <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                             </tr>
                           </thead>
                           <tbody>
@@ -1333,7 +1333,7 @@
                                    name="trancheCoApp2List[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
                             </div>
                               </td>
-                              <td class="text-center" width="10%">
+                              <td class="text-center" width="10%" *ngIf="!isLoan360">
                                 <div>
                                   <button class="delete-btn mr-8" (click)="deleteRow(i,9)" title="delete">
                                     <img src="assets/images/delete-icon.png" />
@@ -1593,7 +1593,7 @@
                               <th>{{labels?.disbursementPercent}}</th>
                               <th>{{labels?.disbursementAmount}}</th>
                               <th>{{labels?.disbursementDate}}</th>
-                              <th>{{labels?.action}}</th>                   
+                              <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                             </tr>
                           </thead>
                           <tbody>
@@ -1633,7 +1633,7 @@
                                    name="trancheCoApp3List[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
                             </div>
                               </td>
-                              <td class="text-center" width="10%">
+                              <td class="text-center" width="10%" *ngIf="!isLoan360">
                                 <div>
                                   <button class="delete-btn mr-8" (click)="deleteRow(i,10)" title="delete">
                                     <img src="assets/images/delete-icon.png" />
@@ -1911,7 +1911,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -1955,7 +1955,7 @@
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,4)" title="delete">
                                 <img src="assets/images/delete-icon.png" />
@@ -2215,7 +2215,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -2259,7 +2259,7 @@
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,5)" title="delete">
                                 <img src="assets/images/delete-icon.png" />
@@ -2523,7 +2523,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -2567,7 +2567,7 @@
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,6)" title="delete">
                                 <img src="assets/images/delete-icon.png" />
@@ -2634,17 +2634,19 @@
     <div class="col-sm-5">
     </div>
     <div class="col-sm-7 text-right">
-      <button (click)="onBack()" class="btn btn-primary " type="button" *ngIf="showSaveButton == true">Back </button>
+      <button (click)="onBack()" class="btn btn-primary hvr-sweep-to-left" type="button" *ngIf="showSaveButton == true">Back </button>
       <ng-container *ngIf="!isLoan360">
       <button (click)="saveAndUpdate()" class="btn btn-primary " type="button" *ngIf="roleType != 4 && roleType != 5" >Save </button>
       
       <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button" *ngIf="roleType == '5'">Book Loan </button>
-      <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next" type="button" *ngIf="roleType != 4 && roleType != 5 && roleType !== 7" > Next </button>
+      <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" *ngIf="roleType != 4 && roleType != 5 && roleType !== 7" > Next </button>
   </ng-container>
      <ng-container *ngIf="!isLoan360">
-      <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button" *ngIf="roleType == 4 || roleType == 7" > Next </button>
+      <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" *ngIf="roleType == 4 || roleType == 7" > Next </button>
       </ng-container>
-      <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button" *ngIf="roleType == 4 || roleType == 7" > Next </button>
+      <ng-container *ngIf="isLoan360">
+        <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" > Next </button>
+        </ng-container>
     </div>
   </div>
 </div>
