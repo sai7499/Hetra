@@ -1042,3 +1042,13 @@ font-size:10px;
 .nav-pills>li{
     background-color:#fff0;
 }
+
+image-cropper .overlay {
+    outline: solid #000 100vw !important;
+}
+
+.cropper .move {
+  width: 100%;
+  cursor: move;
+  border: 1px solid #fff !important;
+}

@@ -19,7 +19,8 @@ import { Constant } from '@assets/constants/constant';
 import { environment } from 'src/environments/environment';
 import { ToasterService } from '@services/toaster.service';
 
-import { WebView } from '@ionic-native/ionic-webview/ngx';
+// import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -49,7 +50,8 @@ export class UploadModalComponent {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private camera: Camera,
-    private webview: WebView,
+    private domSanitizer: DomSanitizer
+    // private webview: WebView,
     
   ) {
     this.isMobile = environment.isMobile;
@@ -327,12 +329,26 @@ export class UploadModalComponent {
     this.removeFile();
   }
 
-  getMobileFileURI(data) {
+  getMobileBase64(obj) {
     // this.imageUrl = this.webview.convertFileSrc(data.nativeURL);
     // this.fileName = data.name;
    // this.imageUrl = data.nativeURL;
 
-   this.imageUrl = data;
+   let data = obj.base64;
+
+   this.fileName = obj.fileName;
+
+   var block = data.split(";");
+   // Get the content type
+   var dataType = block[0].split(":")[1];// In this case "image/png"
+
+   // get the real base64 content of the file
+   var realData = block[1].split(",")[1];// In this case "iVBORw0KGg...."
+   console.log("realData"+ realData);
+
+   this.fileType = "png";
+
+    this.imageUrl = realData;
     this.inAppCamera = false;
   }
 

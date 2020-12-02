@@ -8,6 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Observable, Observer } from 'rxjs';
 import { File } from '@ionic-native/file/ngx';
+import { CONTEXT_NAME } from '@angular/compiler/src/render3/view/util';
 
 //import { WebView } from '@ionic-native/ionic-webview/ngx';
 
@@ -68,7 +69,7 @@ export class InAppcameraComponent implements OnInit {
   showOriginalImg: boolean;
   croppedPicture: any;
 
-  @Output() fileURIChange = new EventEmitter();
+  @Output() mobileBase64Change = new EventEmitter();
 
   @Output() onBackKeyDown = new EventEmitter();
 
@@ -171,9 +172,14 @@ export class InAppcameraComponent implements OnInit {
     // To define the type of the Blob
     var contentType = "image/png";
     var folderpath = this.file.externalCacheDirectory;
-    var filename  = Math.random().toString(36).substring(2, 15);
+    var name  = Math.random().toString(36).substring(2, 15);
 
-    this.fileURIChange.emit(this.croppedImage);
+    let obj = {
+      base64: this.croppedImage,
+      fileName: name
+    }
+
+    this.mobileBase64Change.emit(obj);
 
     //this.savebase64AsImageFile(folderpath,filename,this.croppedImage,contentType);
 
@@ -253,7 +259,7 @@ export class InAppcameraComponent implements OnInit {
     setTimeout(function() {
       that.file.writeFile(folderpath, filename+ '.png', DataBlob, that.fileWriteOption).then((result)=>{
         console.log("result", result);
-        that.fileURIChange.emit(result);
+        that.mobileBase64Change.emit(result);
       //this.imgFile = this.webview.convertFileSrc(result.nativeURL);
       }).catch((err)=>{
         console.log('Write '+JSON.stringify(err));
@@ -319,5 +325,29 @@ export class InAppcameraComponent implements OnInit {
     this.zoomValue = value;
     this.cameraPreview.setZoom(this.zoomValue);
   }
+
+  rotateBase64Img(){
+    let that = this; 
+    this.rotateBase64Image(this.imageBase64, function(result){
+      that.imageBase64 = result;
+    });
+  }
+
+  rotateBase64Image(base64data, callback) {
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext("2d");
+
+    const image = new Image();
+    image.src = base64data;
+    image.onload = function() {
+      canvas.width = image.height;
+      canvas.height = image.width;
+      ctx.rotate(90 * Math.PI / 180);
+      ctx.translate(0, -canvas.width);
+      ctx.drawImage(image, 0, 0);     
+      callback(canvas.toDataURL());
+    };
+  } 
 
 }
