@@ -256,6 +256,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
     
   }
 
+  downloadForLoan360(formArrayName: string, index: number, event) {
+    if (!this.isLoan360) {
+      return;
+    }
+    this.downloadDocs(formArrayName,index,event);
+  }
+
   setDocumentDetails() {
     this.uploadService
       .getDocumentDetails(this.applicantId, this.associatedWith)

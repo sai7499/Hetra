@@ -103,7 +103,7 @@
     <div class="col-sm-4">
     </div>
     <div class="col-sm-8 text-right">
-      <button class="btn btn-primary" (click)="onBack()" type="button">Back</button>
+      <button class="btn btn-primary hvr-sweep-to-left" (click)="onBack()" type="button">Back</button>
       <ng-container *ngIf="!isLoan360 && !isDeclinedFlow">
       <button  class="btn btn-primary" (click)="saveUpdate('save')" type="button" *ngIf="!isLoan360">Save</button>
       <!-- <button class="btn btn-primary"
@@ -144,11 +144,11 @@
       <ng-container *ngIf="!isLoan360">
         <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
         data-target="#approveModal" type="button" [disabled]="!isDeclineEnable">Decline</button>
-      <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
+      <button class="btn btn-primary hvr-sweep-to-left" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
         data-toggle="modal" data-target="#approveModal" type="button">Send Back to DDE </button>
       </ng-container>
 
-      <button class="btn btn-primary" (click)="onNext()" type="button">Next</button>
+      <button class="btn btn-primary hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
     </div>
   </div>
 </div>
