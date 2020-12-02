@@ -57,6 +57,7 @@ import { CanActivateService } from '@services/can-activate.service';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 
 setTheme('bs4');
 
@@ -128,7 +129,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     File,
     FileTransfer,
     FileTransferObject,
-    CanActivateService
+    CanActivateService,
+    CameraPreview,
   ],
   bootstrap: [AppComponent],
 })
