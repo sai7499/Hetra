@@ -1,0 +1,52 @@
+<div class="controls in_app_camera">
+  <div class="pictures">
+      <img class="originalPicture" [src]="originalImg" *ngIf="showOriginalImg"/>
+      <!-- <img class="croppedPicture" [src]="croppedImage"/> -->
+  </div>
+
+<!-- <div id="camerablock" class="camerablock" *ngIf="showCameraPreview">
+  <button (click)="takePictureButton()">Take Picture</button>
+  <button (click)="switchCameraButton()">Switch Camera</button>
+</div>
+<div id="previewblock" class="previewblock" *ngIf="showPreview">
+  <button (click)="confirmPreview()">Confirm</button>
+  <button (click)="deletePreview()">Delete</button>
+</div>
+<div id="cropblock" class="previewblock" *ngIf="showCropview">
+  <button (click)="confirmCrop()">Crop</button>
+  <button (click)="retrySnap()">Retry</button>
+  <button (click)="rotateBase64Img()" class="rotate_base64_img"> Rotate</button>
+</div> -->
+
+<div id="camerablock" class="camerablock text-center" *ngIf="showCameraPreview">
+  <button class="btn-camera " (click)="takePictureButton()"><img src="assets/images/take_picture_164.png" style="width: 40px;height: 40px;margin-left: 65px;"></button>
+  <button class="btn-style" (click)="switchCameraButton()" ><img src="assets/images/switch_camera_128.png" style="width: 30px;height: 30px;"> </button>
+  <div class="black_color"> Take for photo</div>
+</div>
+<div id="previewblock" class="previewblock" *ngIf="showPreview">
+  <button class="btn-style btn-crop" (click)="confirmPreview()"><img src="assets/images/confirm_photo_52.png" style="width: 30px;height: 30px;"/>Confirm</button>
+  <button class="btn-style btn-crop" (click)="deletePreview()"><img src="assets/images/delete_photo_52.png"style="width: 30px;height: 30px;"/>Retry</button>
+</div>
+<div id="cropblock" class="previewblock" *ngIf="showCropview">
+  <button class="btn-style btn-crop" (click)="confirmCrop()"><img src="assets/images/crop_photo_52.png"style="width: 30px;height: 30px;"/>Crop</button>
+  <button class="btn-style btn-crop" (click)="retrySnap()"><img src="assets/images/retry_photo_52.png"style="width: 30px;height: 30px;"/>Retry</button>
+  <button class="btn-style btn-crop" (click)="rotateBase64Img()"><img src="assets/images/rotate.png"style="width: 30px;height: 30px;"/>Rotate</button>
+</div>
+
+
+<image-cropper
+    [imageBase64]="imageBase64"
+    [maintainAspectRatio]="false"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+></image-cropper>
+
+</div>
+
+<div class="container">
+  <div *ngIf="imgFile">Cropped Picture</div>
+  <img class="img_size" src="{{imgFile}}" *ngIf="imgFile">
+</div>
