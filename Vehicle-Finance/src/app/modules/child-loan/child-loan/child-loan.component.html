@@ -201,8 +201,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">Name<sub class="star_blue_col">*</sub>
             </label>
-            <app-custom-input 
-
+            <app-custom-input
               formControlName="name" 
               [className]="'form-control mandatory'" 
               [placeholder]="'Name'"
@@ -210,13 +209,15 @@
               [type]="'alpha'"
               (input)="onName($event)">
             </app-custom-input>
+            <div class="invalid-feedback" *ngIf="isNameErrMsg">
+              Name is mandatory
+            </div>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{labels.mobile}}
               <sub class="star_blue_col">*</sub></label>
             <app-custom-input 
-              [isDisabled]="isDisableMobile"
               formControlName="mobile" 
               [className]="'form-control mandatory'" 
               [placeholder]="'Mobile'"
@@ -226,7 +227,7 @@
               (input)="onMobileInput($event)">
             </app-custom-input>
             <div class="invalid-feedback" *ngIf="isMobileErrMsg">
-              Name is mandatory
+              Mobile is mandatory
             </div>
           </div>
 
@@ -236,12 +237,10 @@
             </label>        
             <kendo-datepicker class="form-control mandatory" 
               formControlName="dateOfBirth" 
-              [format]="'dd/MM/yyyy'"
-              
+              [format]="'dd/MM/yyyy'"              
               [max]="toDaydate" 
               [placeholder]="'Date of birth'"
               [activeView]="'decade'"
-              [disabled]="isDisableDob"
               (valueChange)="onDateOfBirthInput($event)">
             </kendo-datepicker>  
             <div class="invalid-feedback" >
