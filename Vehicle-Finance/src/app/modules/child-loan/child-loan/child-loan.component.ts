@@ -102,6 +102,8 @@ export class ChildLoanComponent implements OnInit {
     const userDetails = this.loginStoreService.getRolesAndUserDetails();
     this.isSO = userDetails.roles[0].roleId;
     console.log('userDetails', userDetails);
+    console.log('bod ',this.childLoanForm.controls.dateOfBirth);
+    
   }
 
   initForm() {
@@ -184,35 +186,21 @@ export class ChildLoanComponent implements OnInit {
     const name = this.childLoanForm.controls.name.valid;
     const mobile = this.childLoanForm.controls.mobile.valid;
     const dateOfBirth = this.childLoanForm.controls.dateOfBirth.valid;
-    if (
+    if ((
       ucic || loanAccountNumber ||
       vehicleRegistrationNumber ||
       aadhaar || drivingLicense ||
       voterId || passport || pan ||
-      cin || tan || gst
-    ) {
-      if (
-        (name && dateOfBirth || name && mobile) &&
-        (dateOfBirth && name || dateOfBirth && mobile) &&
-        (mobile && name || mobile && dateOfBirth)
-      ) {
-        this.toasterService.error(
-          'Atleast two search parameters are required in NAME, MOBILE and DOB to search loan account.', 'Search Loan Account'
-        );
-      } else {
-        this.onSearch();
-        console.log('childform1', this.childLoanForm.controls);
-      }
-    } else if (
-      (name && dateOfBirth || name && mobile) &&
-      (dateOfBirth && name || dateOfBirth && mobile) &&
-      (mobile && name || mobile && dateOfBirth)
-    ) {
+      cin || tan || gst  ) || (name && mobile && dateOfBirth))
+     {      
+        this.onSearch();      
+    } else if((name && dateOfBirth)|| (name && mobile) || (dateOfBirth && mobile))
+         {
       this.onSearch();
       console.log('childform1', this.childLoanForm.controls);
     } else {
       this.toasterService.error(
-        'Atleast one search parameter is required to search loan account.', 'Search Loan Account'
+        'Atleast one search parameter or mandatory fields are required to search loan account.', 'Search Loan Account'
       );
     }
 
@@ -346,7 +334,7 @@ export class ChildLoanComponent implements OnInit {
 
   onDateOfBirthInput(event) {
     this.getFormControlValues();
-    console.log('ddob', event);
+    console.log('ddob', event,this.childLoanForm.controls.dateOfBirth);
     if (
       (this.nameValue === '' || this.nameValue === undefined) &&
       (this.mobileValue === '' || this.mobileValue === undefined) &&

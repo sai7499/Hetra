@@ -700,7 +700,7 @@ export class ExistingLeadCreationComponent implements OnInit {
   }
 
   navgiateToNextPage() {
-    // this.router.navigateByUrl(`pages/lead-section/${this.leadId}`);
+    this.router.navigateByUrl(`/pages/dashboard`);
     this.showModal = false;
   }
  
