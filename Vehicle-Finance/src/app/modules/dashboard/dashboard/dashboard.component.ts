@@ -80,7 +80,8 @@ export enum DisplayTabs {
   ReAppealWithMe,
   ReAppealWithBranch,
   ExternalUser,
-  ExternalUserDashboard
+  ExternalUserDashboard,
+  UploadedLead
 }
 
 export enum sortingTables {
@@ -725,7 +726,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -825,6 +826,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
       case 57:
         this.getExternalUserLeads(this.itemsPerPage, event);
+        break;
+        case 59:
+        this.getSalesLeads(this.itemsPerPage, event);
+        break;
       default:
         break;
     }
@@ -983,7 +988,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // for MyLeads Api
   responseForSales(data) {
-    if(this.activeTab === this.displayTabs.ExternalUserDashboard) {
+    if(this.activeTab === this.displayTabs.ExternalUserDashboard || this.subActiveTab === this.displayTabs.UploadedLead) {
       this.dashboardService.getExternalUserDashboardDetails(data).subscribe((res: any) => {
         this.setPageData(res);
         if (res.ProcessVariables.loanLead != null) {

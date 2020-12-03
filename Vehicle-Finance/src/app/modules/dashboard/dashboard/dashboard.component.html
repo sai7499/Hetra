@@ -210,6 +210,10 @@
                 (click)="leads(displayTabs?.ExternalUser)"
                 [ngClass]="{'active':displayTabs?.ExternalUser === subActiveTab}" routerLinkActive="active" id="leads">
                 <a data-toggle="tab">Created by ext user</a></li>
+            <li class="btn-dash" *ngIf="userDetailsRoleId == '6' && userDetailsRoleType == '1'"
+                (click)="leads(displayTabs?.UploadedLead)"
+                [ngClass]="{'active':displayTabs?.UploadedLead === subActiveTab}" routerLinkActive="active" id="leads">
+                <a data-toggle="tab">Uploaded Lead</a></li>
             <!--  -->
             <!--  -->
             <li class="btn-dash" (click)="leads(displayTabs?.ReversedLeadsWithMe)"
@@ -637,7 +641,7 @@
                                 data-target="#supervisorTaskAssign">
                         </td>
                         <td [attr.data-label]="labels?.leadID" *ngIf="(!onReleaseTab && !onAssignTab) && !userName">
-                            <a class="text-underline" *ngIf="!displayTabs?.ExternalUserDashboard === activeTab"
+                            <a class="text-underline" *ngIf="displayTabs?.ExternalUserDashboard != activeTab"
                                 (click)="onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId); getLeadId(item)"
                                 style="cursor: pointer;">{{item.leadId}}</a>
                                 <a *ngIf="displayTabs?.ExternalUserDashboard === activeTab">{{item.leadId}}</a>
