@@ -78,6 +78,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     chatSearchKey: ''
   }
 
+  LOV: any;
+
   getChatSendObj = {
     leadId: this.leadId,
     perPage: 50,
@@ -102,12 +104,20 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   isQueryToShowError: boolean = false;
   queryToDeductValue: boolean = false;
 
+  // Reply To
+  isReplyToArray: any = [];
+  replySearchArray: any = [];
+  replyDropdown: boolean;
+  getDisableQueryTo: any;
+  searchQueryId: any ='';
+  searchChatMessages: any = [];
+
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
     private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute, private location: Location, private pollingService: PollingService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.labelsData.getLabelsData().subscribe((data) => {
       this.labels = data;
@@ -129,6 +139,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       searchLeadId: ['', Validators.required],
       searchText: ['', Validators.required],
       docName: [''],
+      repliedTo: [null],
+      queryStatus: ['OPNQUESTAT'],
       leadId: ['', Validators.required]
     })
 
@@ -140,27 +152,46 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
     const currentUrl = this.location.path();
 
-    setTimeout(() => {
+    try {
+      await this.getLeads(this.getLeadSendObj);
       if (currentUrl.includes('query-model') && this.isIntervalStart) {
         this.intervalId = this.getPollLeads(this.getLeadSendObj)
-      } else {
-        clearInterval(this.intervalId)
       }
-    }, 900000000)
+    } catch (error) {
+
+    }
+  }
+
+  isCheckFropdownBut(chat, index) {
+
+    if (this.isClickDropDown === index) {
+      this.clickedIndex = null;
+    } else {
+      this.isClickDropDown = null;
+      this.clickedIndex === index ? this.clickedIndex = null : this.clickedIndex = index
+    }
 
   }
 
   openOptionDropDown(index) {
     this.isClickDropDown = index;
-    this.clickedIndex = index;
+    this.clickedIndex = null;
     document.getElementById("chat-box").style.overflowY = "hidden";
   }
 
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
-      let LOV = value.LOVS;
+      this.LOV = value.LOVS;
+      this.queryModelLov.queryStatus = value.LOVS.queryStatus;
       this.queryModelLov.queryType = value.LOVS.queryType;
-      this.getLeads(this.getLeadSendObj);
+      // this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((data) => {
+      //   if (data.key === 'OPNQUESTAT') {
+      //     return {
+      //       key: 'OPNQUESTAT,
+      //       value: 'Opened'
+      //     }
+      //   }
+      // })
     });
   }
 
@@ -206,7 +237,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     }
   }
 
-  getLeads(sendObj, chatSearchKey?: string, searchKey?: string) {
+  async getLeads(sendObj, chatSearchKey?: string, searchKey?: string) {
 
     let data = {
       "userId": this.userId,
@@ -218,16 +249,27 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       "chatSearchKey": chatSearchKey
     }
 
-    this.queryModelService.getLeads(data).subscribe((res: any) => {
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.getCommonLeadData(res)
-        this.getQueries(this.chatList[0], true)
-        this.isIntervalStart = true;
-      } else {
-        this.chatList = [];
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
-      }
+    return new Promise((resolve, reject) => {
+      this.queryModelService.getLeads(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.getCommonLeadData(res)
+          this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
+          if (this.selectedList) {
+            this.selectedList = this.chatList.find(obj => obj.key === this.selectedList.key)
+            this.getQueries(this.selectedList, true)
+          } else {
+            this.getQueries(this.chatList[0], true)
+          }
+          this.isIntervalStart = true;
+          resolve()
+        } else {
+          this.chatList = [];
+          reject()
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Leads')
+        }
+      })
     })
+
   }
 
   getPollLeads(sendObj) {
@@ -254,7 +296,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           }
         }
       })
-    }, 900000000)
+    }, 300000)
   }
 
   getCommonLeadData(res) {
@@ -268,11 +310,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       })
 
       this.queryModalForm.patchValue({
-        searchLeadId: test ? test.value : ''
-      })
-
-      // this.searchLeadId = test ? test.value : '';
-      this.queryModalForm.patchValue({
+        searchLeadId: test ? test.value : '',
         leadId: Number(this.routerId)
       })
 
@@ -332,6 +370,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
       this.queryModalForm.patchValue({
         leadId: Number(lead.key),
+        searchLeadId: lead.value
       })
 
       if (isSelected) {
@@ -344,10 +383,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         this.getLeadSectionData(this.queryModalForm.value.leadId)
       }
 
-      // this.searchLeadId = lead.value;
-      this.queryModalForm.patchValue({
-        searchLeadId: lead.value
-      })
       this.getUsers();
       this.queryModelService.getQueries(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
@@ -357,23 +392,25 @@ export class QueryModelComponent implements OnInit, OnDestroy {
           }
           this.getChatsObj = res.ProcessVariables;
           this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
-          this.chatMessages.filter((val, i) => {
+          this.searchChatMessages =  this.chatMessages;
+          this.isReplyToArray = this.chatMessages.filter((val, i) => {
             val.time = this.myDateParser(val.createdOn)
-
-            if (i % 2) {
-              val.status = 'ReOpen';
-            } else {
-              val.status = 'Resolved'
+            return {
+              queryId: val.queryId,
+              status: val.queryStatus,
+              queryTo: val.queryTo
             }
-
-
-            val.queryId = i + 1000;
           })
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
         }
       })
     }
+  }
+
+  clearSearch() {
+    this.searchQueryId = '';
+    this.searchChatMessages = this.chatMessages;
   }
 
   getLeadSectionData(leadId) {
@@ -407,6 +444,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     let validDate = date + 'T' + time + ':' + millisecond;
     return validDate
   }
+
   getleadIdvalue(value: string) {
 
     if (value && value.length > 0) {
@@ -426,7 +464,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       });
     } else {
       this.isLeadShow = false;
-      // this.leadIdDeductValue = false;
     }
   }
 
@@ -440,7 +477,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
 
   getvalue(enteredValue: string) {
-    this.dropDown = (enteredValue === '') ? false : true;
 
     if (enteredValue && enteredValue.length > 0) {
       this.queryToDeductValue = true;
@@ -451,6 +487,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         enteredValue = enteredValue.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
         if (eName.includes(enteredValue)) {
+          this.getDisableQueryTo = e;
           return e;
         }
         this.dropDown = true;
@@ -458,8 +495,44 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       });
     } else {
       this.dropDown = false;
-      // this.queryToDeductValue = false;
     }
+  }
+
+  searchRepliedTo(value: string) {
+
+    if (value && value.length >= 1) {
+      this.replySearchArray = this.isReplyToArray.filter((sea: any) => {
+        value = value.toString().toLowerCase();
+        const eName = sea.queryId.toString().toLowerCase();
+        if (eName.includes(value)) {
+          if (sea.queryStatusDesc !== 'Closed') {
+            this.replyDropdown = true;
+            return sea;
+          } else {
+            this.toasterService.showInfo('This query alredy closed', '')
+          }
+        }
+      })
+    } else {
+      this.queryModalForm.patchValue({
+        repliedTo: null
+      })
+      this.replyDropdown = false;
+    }
+
+  }
+
+  getReplyTo(val) {
+
+    this.replyDropdown = false;
+    this.getvalue(val.queryTo);
+    this.dropDown = false;
+    this.queryModalForm.patchValue({
+      repliedTo: val.queryId,
+      queryTo: val.queryTo,
+      searchText: this.getDisableQueryTo.value
+    })
+    this.queryModalForm.get('searchText').disable()
   }
 
   onBlurQueryTo() {
@@ -499,6 +572,23 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     });
   }
 
+  searchQueryIdMessage(val: string) {
+
+    this.searchChatMessages = this.chatMessages.filter((mes: any) => {
+      val = val.toString().toLowerCase();
+      console.log(mes, 'mes')
+
+      if (mes.queryId) {
+        const eName = mes.queryId.toString().toLowerCase();
+        if (eName.includes(val)) {
+          return mes;
+        }
+      }
+
+    })
+
+  }
+
   getLead(lead) {
     this.isLeadShow = false;
     this.queryModalForm.patchValue({
@@ -520,14 +610,12 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       queryTo: item.key,
       searchText: item.value
     })
-    // this.searchText = item.value;
 
     this.isQueryToShowError = false;
     this.queryToDeductValue = true;
   }
 
   mouseEnter() {
-    // this.dropDown = true;
     this.searchLead = this.queryModelLov.queryTo;
   }
 
@@ -555,18 +643,19 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
     if (form.valid && form.controls['query'].value.trim().length !== 0) {
 
-      let assetQueries = [];
+      // let assetQueries = [];
 
-      assetQueries = [
-        {
-          query: form.value.query.trim(),
-          queryType: form.value.queryType,
-          queryFrom: this.userId,
-          queryTo: form.value.queryTo,
-          docId: form.value.docId,
-          docName: form.value.docName
-        }
-      ]
+      let assetQueries = [{
+        query: form.controls['query'].value.trim(),
+        queryType: form.controls['queryType'].value,
+        queryFrom: this.userId,
+        queryTo: form.controls['queryTo'].value,
+        docId: form.controls['docId'].value,
+        docName: form.controls['docName'].value,
+        repliedTo: form.controls['repliedTo'].value,
+        queryStatus: form.controls['queryStatus'].value,
+      }]
+
 
       let data = {
         "leadId": Number(form.value.leadId),
@@ -575,12 +664,16 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
       this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          this.getLeads(this.getLeadSendObj);
           this.queryModalForm.patchValue({
             queryFrom: localStorage.getItem('userId'),
             query: ''
           })
-          // this.searchText = '';
+          this.queryModalForm.get('queryType').enable()
+          this.queryModalForm.get('searchText').enable()
+          this.queryModalForm.get('repliedTo').enable()
+          this.queryModalForm.get('queryTo').enable()
+          this.getLeads(this.getLeadSendObj);
+
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
         }
@@ -775,10 +868,29 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   openOptions(data, i) {
+    this.isClickDropDown = null;
+    this.clickedIndex = null;
     let queryTo = this.userId === data.queryFrom ? data.queryTo : data.queryFrom;
 
     let fileterData = this.queryModelLov.queryTo.find((res: any) => {
       return res.key === queryTo;
+    })
+
+    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((status) => {
+      if (status.key !== 'OPNQUESTAT') {
+
+        if (data.queryFrom === this.userId) {
+          return {
+            key: status.key,
+            value: status.value
+          }
+        } else if (status.key !== 'REOPNQUESTAT' && status.key !== 'CLOSEQUESTAT') {
+          return {
+            key: status.key,
+            value: status.value
+          }
+        }
+      }
     })
 
     this.queryModalForm.patchValue({
@@ -786,10 +898,15 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       queryType: data.queryType,
       queryFrom: this.userId,
       searchText: fileterData.value,
-      queryTo: fileterData.key
+      queryTo: fileterData.key,
+      repliedTo: data.queryId,
+      queryStatus: data.queryStatus
     })
-    this.isClickDropDown = null;
-    this.clickedIndex = null;
+
+    this.queryModalForm.get('queryType').disable()
+    this.queryModalForm.get('searchText').disable()
+    this.queryModalForm.get('repliedTo').disable()
+
     this.isClickButton = i;
     document.getElementById("chat-box").style.overflowY = "auto";
 

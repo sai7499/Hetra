@@ -992,11 +992,10 @@
                   [type]="labels?.validationData?.vehicleRegNo.type"
                   [custom]="vehicleRegPattern"
                   [isRequired]="
-                  isPreRegNoRequired ? 'Registration no is Required' : ''
+                    isPreRegNoRequired ? 'Registration no is Required' : ''
                   "
                   [isDirty]="isDirty"
                   [isDisabled]="isPreRegNoDisabled"
-                  
                 >
                 </app-custom-input>
               </div>
@@ -1563,12 +1562,10 @@
                   >
                     Permit validity date is Required
                   </div>
-                  <div
-                    *ngIf="
+                  <div *ngIf="
                       vehicleValuationForm.controls.permitValidUpto.value &&
                       vehicleValuationForm.controls.permitValidUpto.errors
-                    "
-                  >
+                    ">
                     Invalid Date
                   </div>
                 </div> -->
@@ -2020,7 +2017,8 @@
                           [type]="labels?.validationData?.idv?.type"
                           [isDirty]="isDirty"
                           [placeholder]="'valuation'"
-                        ></app-custom-input>
+                        >
+                        </app-custom-input>
                       </td>
                     </tr>
                     vehicleFinanciers
@@ -2399,7 +2397,8 @@
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="disableForm" hidden="true">
+            &nbsp;
+            <!-- <div class="row" *ngIf="disableForm">
               <div class="col-sm-5 text-left">
                 <button class="btn btn-primary js-btn-prev" type="button">
                   <a href="#" (click)="redirectUrl()">{{
@@ -2408,7 +2407,7 @@
                 </button>
               </div>
               <div class="col-sm-7"></div>
-            </div>
+            </div> -->
 
             <!-- previous data fields starts from here wihtout section  -->
 
@@ -2652,7 +2651,15 @@
             <!-- </div> -->
             &nbsp;
             <div class="row">
-              <div class="col-sm-5"></div>
+              <!-- <div class="col-sm-5"> -->
+              <div class="col-sm-5 text-left">
+                <button class="btn btn-primary js-btn-prev" type="button" *ngIf="disableForm">
+                  <a  (click)="redirectUrl()">{{
+                    labels.downloadReport
+                  }}</a>
+                </button>
+              </div>
+
               <div class="col-sm-7 text-right">
                 <button
                   class="btn btn-primary js-btn-prev"
