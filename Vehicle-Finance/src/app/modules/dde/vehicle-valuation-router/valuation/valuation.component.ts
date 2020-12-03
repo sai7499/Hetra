@@ -581,6 +581,10 @@ export class ValuationComponent implements OnInit {
         this.reportUrl = this.vehicleValuationDetails.pdfUrl;
         console.log('report url', this.reportUrl);
       }
+      // if (this.vehicleValuationDetails.reportUrl) {
+      //   this.reportUrl = this.vehicleValuationDetails.reportUrl;
+      //   console.log('report url', this.reportUrl);
+      // }
 
       // patching lovs for vehicle details
       if (this.vehicleCode != null) {
@@ -660,6 +664,8 @@ export class ValuationComponent implements OnInit {
     // this.router.navigate([this.reportUrl]);
 
     window.open(this.reportUrl, '_blank');
+    // window.focus();
+    return;
 
   }
 
