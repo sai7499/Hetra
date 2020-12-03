@@ -18,11 +18,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/login/login.module').then((m) => m.LoginModule),
   },
-  {
-    path: 'child-loan',
-    loadChildren: () =>
-      import('./modules/child-loan/child-loan.module').then((m) => m.ChildLoanModule),
-  },
+  // {
+  //   path: 'child-loan',
+  //   loadChildren: () =>
+  //     import('./modules/child-loan/child-loan.module').then((m) => m.ChildLoanModule),
+  // },
   {
     path: 'activity-search',
     canActivate: [Authguard],
