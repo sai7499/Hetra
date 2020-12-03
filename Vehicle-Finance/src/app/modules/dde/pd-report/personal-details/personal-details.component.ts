@@ -179,7 +179,7 @@ export class PersonalDetailsComponent implements OnInit {
       fatherLastName: ['', Validators.required],
       fatherFullName: [{ value: '', disabled: true }, Validators.required],
       gender: ['', Validators.required],
-      dob: ['', Validators.required],
+      dob: [{ value: '', disable: true }],
       maritalStatus: ['', Validators.required],
       weddingAnniversaryDate: [{ value: '', disabled: true }],
       religion: ['', Validators.required],
