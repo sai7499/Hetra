@@ -1156,3 +1156,6 @@ font-size:10px;
   transition-property: box-shadow;
 }
 
+image-cropper .overlay {
+    outline: solid #000 100vw !important;
+}

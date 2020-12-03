@@ -42,6 +42,10 @@ import { RejectReasonModalComponent } from './reject-reason-modal/reject-reason-
 import { PageRedirectModalComponent } from './page-redirect-modal/page-redirect-modal.component';
 import { ReferenceComponent } from './reference/reference.component';
 import { WelomceLetterComponent } from '@modules/dde/cpc-maker/welomce-letter/welomce-letter.component';
+import { InAppcameraComponent } from './in-appcamera/in-appcamera.component';
+
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 setTheme('bs4');
 
 @NgModule({
@@ -72,7 +76,8 @@ setTheme('bs4');
     ReferenceComponent,
     PddComponent,
     UploadDiscussionComponent,
-    WelomceLetterComponent
+    WelomceLetterComponent,
+    InAppcameraComponent
   ],
   imports: [
     CommonModule,
@@ -84,7 +89,8 @@ setTheme('bs4');
     NgxPaginationModule,
     DatePickerModule,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
+    ImageCropperModule
   ],
   exports: [
     CustomSelectComponent,
@@ -114,6 +120,6 @@ setTheme('bs4');
     PddComponent,
     UploadDiscussionComponent,
     WelomceLetterComponent
-  ],
+  ]
 })
 export class SharedModule { }
