@@ -79,7 +79,8 @@ export enum DisplayTabs {
   ReAppeal,
   ReAppealWithMe,
   ReAppealWithBranch,
-  ExternalUser
+  ExternalUser,
+  ExternalUserDashboard
 }
 
 export enum sortingTables {
@@ -251,7 +252,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const thisUrl = this.router.url;
     console.log(thisUrl);
     this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
@@ -274,9 +275,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (value) {
         this.supervisorName = value;
       }
-
     })
-
 
     this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
       this.branchId = userDetails.branchId;
@@ -337,8 +336,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.onTabsLoading(this.subActiveTab);
     } else {
       if (this.roleType == '1') {
-        this.activeTab = 0;
-        this.subActiveTab = 3;
+        if(this.roleId == '65') {
+          this.activeTab = 58
+        } else {
+          this.activeTab = 0;
+          this.subActiveTab = 3;
+        }
         this.onTabsLoading(this.subActiveTab);
       } else if (this.roleType == '2') {
         this.activeTab = 18;
@@ -395,22 +398,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.toggleDdeService.setOperationType('1', 'Deviation', currentUrl);
     }
 
-    this.getCountAcrossLeads(this.userId)
-
-    setTimeout(() => {
+    try {
+      await this.getCountAcrossLeads(this.userId)
       if (currentUrl.includes('dashboard') && this.isIntervalId) {
         this.intervalId = this.getPollCount()
-      } else {
-        clearInterval(this.intervalId)
       }
-    }, 300000)
+    } catch (error) {
+
+    }
 
   }
 
   getPollCount() {
     return setInterval(() => {
       this.pollingService.getPollingLeadCount(this.userId).subscribe((res: any) => {
-        console.log('Polling request')
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
         } else {
@@ -420,22 +421,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }, 300000)
   }
 
-  getCountAcrossLeads(userId) {
-
-    this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
-        this.isIntervalId = true;
-      } else {
-        this.leadCount = 0;
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
-      }
+  async getCountAcrossLeads(userId) {
+    return new Promise((resolve, reject) => {
+      this.queryModelService.getCountAcrossLeads(userId).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
+          this.isIntervalId = true;
+          resolve()
+        } else {
+          this.leadCount = 0;
+          reject()
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Count Across Leads')
+        }
+      })
     })
 
-  }
-
-  ngOnDestroy() {
-    clearInterval(this.intervalId)
   }
 
   initinequery() {
@@ -709,6 +709,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLog = false;
         this.getSalesLeads(this.itemsPerPage, event);
         break;
+        case 58:
+          this.getSalesLeads(this.itemsPerPage, event);
       default:
         break;
     }
@@ -976,48 +978,60 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // for MyLeads Api
   responseForSales(data) {
-    this.dashboardService.myLeads(data).subscribe((res: any) => {
-      this.setPageData(res);
-      if (this.subActiveTab === this.displayTabs.NewLeads) {
+    if(this.activeTab === this.displayTabs.ExternalUserDashboard) {
+      this.dashboardService.getExternalUserDashboardDetails(data).subscribe((res: any) => {
+        this.setPageData(res);
         if (res.ProcessVariables.loanLead != null) {
           this.isLoadLead = true;
         } else {
           this.isLoadLead = false;
           this.newArray = [];
         }
-      } else {
-        switch (this.activeTab) {
-          case 15:
-            if (res.ProcessVariables.processLogs != null) {
-              this.isLoadLead = true;
-            } else {
-              this.isLoadLead = false;
-              this.newArray = [];
-            }
-            break;
-          case 16:
-            if (res.ProcessVariables.pddDetails != null) {
-              this.isLoadLead = true;
-            } else {
-              this.isLoadLead = false;
-              this.newArray = [];
-            }
-            break;
-          case 17:
-            if (res.ProcessVariables.chequeTrackingDetails != null) {
-              this.isLoadLead = true;
-            } else {
-              this.isLoadLead = false;
-              this.newArray = [];
-            }
-            break;
-
-          default:
-            break;
+      })
+    } else {
+      this.dashboardService.myLeads(data).subscribe((res: any) => {
+        this.setPageData(res);
+        if (this.subActiveTab === this.displayTabs.NewLeads) {
+          if (res.ProcessVariables.loanLead != null) {
+            this.isLoadLead = true;
+          } else {
+            this.isLoadLead = false;
+            this.newArray = [];
+          }
+        } else {
+          switch (this.activeTab) {
+            case 15:
+              if (res.ProcessVariables.processLogs != null) {
+                this.isLoadLead = true;
+              } else {
+                this.isLoadLead = false;
+                this.newArray = [];
+              }
+              break;
+            case 16:
+              if (res.ProcessVariables.pddDetails != null) {
+                this.isLoadLead = true;
+              } else {
+                this.isLoadLead = false;
+                this.newArray = [];
+              }
+              break;
+            case 17:
+              if (res.ProcessVariables.chequeTrackingDetails != null) {
+                this.isLoadLead = true;
+              } else {
+                this.isLoadLead = false;
+                this.newArray = [];
+              }
+              break;
+  
+            default:
+              break;
+          }
         }
-      }
-
-    });
+  
+      });
+    }
   }
 
   // new leads
@@ -1115,9 +1129,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getExternalUserLeads(perPageCount, pageNumber?) {
     const data = {
       userId: this.loginUserId,
-      // tslint:disable-next-line: radix
       currentPage: parseInt(pageNumber),
-      // tslint:disable-next-line: radix
       perPage: parseInt(perPageCount),
     };
     this.responseForEcxternalUser(data);
@@ -1588,7 +1600,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log(this.selectedArray);
 
     }
-    if(this.selectedArray.length <= 0) {
+    if (this.selectedArray.length <= 0) {
       this.disableButton = false;
     } else {
       this.disableButton = true;
@@ -1603,7 +1615,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.selectedArray = [];
     if (event.target.checked) {
       this.selectAll = true;
-    this.disableButton = true;
+      this.disableButton = true;
       for (let i = 0; i < this.newArray.length; i++) {
         if (this.subActiveTab === this.displayTabs.NewLeads) {
           // console.log(this.newArray[i].leadId);
@@ -1619,7 +1631,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log(this.selectedArray);
 
     } else {
-    this.disableButton = false;
+      this.disableButton = false;
       this.selectAll = false;
       this.selectedArray = [];
       console.log('selectedArray', this.selectedArray);
@@ -1638,4 +1650,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // selfAssignSelectedLeads() {
   //   data
   // }
+
+  ngOnDestroy() {
+    clearInterval(this.intervalId)
+  }
+
 }

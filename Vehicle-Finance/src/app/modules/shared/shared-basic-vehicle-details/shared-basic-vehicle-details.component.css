@@ -37,3 +37,19 @@ kendo-datepicker{
 .ml {
     margin-left: 10px;
 }
+
+/* modal */
+
+.dis-block {
+    display: block;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #1d1a4b;
+    border-color: #161338;
+}
+
+.top-space {
+    top:10%;
+}
