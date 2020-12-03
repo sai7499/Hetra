@@ -2538,11 +2538,11 @@
             <div class="modal-body">
                 <div class="row" *ngIf="loanDetailsData.length != 0">
                     <div class="col-md-12">
-                        <div id="wrapper">
-                            <table id="add_vhd_table" class="table table-bordered">
+                        <div class="table-responsive application">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr class="table-head-bg ">
-                                        <th>Select </th>
+                                        <th >Select </th>
                                         <th>Loan Account Number </th>
                                         <th>Loan Start Date </th>
                                         <th>Loan Amount </th>
@@ -2555,7 +2555,7 @@
                                 <tbody>
                                     <tr *ngFor="let loanDetail of loanDetailsData; let i = index">
                                         <td align="center" [attr.data-label]="'Select'">
-                                            <input class="checkbox" type="radio" name="loanDetails" 
+                                            <input class="" type="radio" name="loanDetails" 
                                             (click)="onLoanAccNoSelect($event, i, loanDetail)"/>
                                             <!--  -->
                                         </td>
