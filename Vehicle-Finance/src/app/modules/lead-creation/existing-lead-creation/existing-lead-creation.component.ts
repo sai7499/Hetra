@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { LabelsService } from 'src/app/services/labels.service';
 import { LeadStoreService } from 'src/app/services/lead-store.service';
@@ -101,6 +101,16 @@ export class ExistingLeadCreationComponent implements OnInit {
   isSourcingChannel: boolean;
   isSourcingType: boolean;
   isSourcingCode: boolean;
+  leadIdFromDashboard: any;
+  showApprove: boolean;
+
+  approveApplicantDetails: {
+    name1: any,
+    name2: any,
+    name3: any,
+    mobileNumber: any,
+    dob: any
+  }
 
 
   public vehicleRegPattern: {
@@ -145,6 +155,8 @@ export class ExistingLeadCreationComponent implements OnInit {
     private uiLoader: NgxUiLoaderService,
     private toasterService: ToasterService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private leadStoreService: LeadStoreService
   ) { }
 
   ngOnInit() {
@@ -154,7 +166,12 @@ export class ExistingLeadCreationComponent implements OnInit {
     this.getLOV();
     this.createExternalLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
-    this.vehicleRegPattern = this.validateCustomPattern()
+    this.vehicleRegPattern = this.validateCustomPattern();
+    this.leadIdFromDashboard = this.activatedRoute.snapshot.params.leadId;
+    if (this.leadIdFromDashboard) {
+      this.getLeadIdPool();
+      this.createExternalLeadForm.disable();
+    }
   }
 
   getLabels() {
@@ -703,7 +720,92 @@ export class ExistingLeadCreationComponent implements OnInit {
     this.router.navigateByUrl(`/pages/dashboard`);
     this.showModal = false;
   }
- 
+
+  getLeadIdPool() {
+    this.createLeadService.leadIdByPool(this.leadIdFromDashboard).subscribe(
+      (res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        const errorMessage = response.ProcessVariables.error.message;
+
+        if (appiyoError === '0' && apiError === '0') {
+          console.log('byPool', response);
+          const productCategory = response.ProcessVariables.leadDetails.productCatCode;
+          const product = response.ProcessVariables.leadDetails.productId;
+          const loanBranch = response.ProcessVariables.leadDetails.branchId;
+          const entity = response.ProcessVariables.applicantDetails[0].entityTypeKey;
+          const mobileNumber: string = response.ProcessVariables.applicantDetails[0].mobileNumber;
+          const mobile = mobileNumber.slice(2);
+          const dob = response.ProcessVariables.applicantDetails[0].dob;
+          const dateOfBirth = this.utilityService.getDateFromString(dob.slice());
+          const reqLoanAmt = response.ProcessVariables.leadDetails.reqLoanAmt;
+          const vehilceRegNo = response.ProcessVariables.vehicleCollateral[0].regNo;
+          const region = response.ProcessVariables.vehicleCollateral[0].region;
+          // const make = response.ProcessVariables.vehicleCollateral[0].make;
+          this.productCategoryChange(productCategory);
+          this.selectApplicantType(entity, true);
+          // this.onVehicleRegion('TNASTRGN', this.createExternalLeadForm);
+          // this.onVehicleRegion(region, this.createExternalLeadForm)
+          // this.onAssetMake(make, this.createExternalLeadForm);
+          this.createExternalLeadForm.patchValue({
+            productCategory,
+            product,
+            loanBranch,
+            entity,
+            mobile,
+            dateOfBirth,
+            reqLoanAmt,
+            vehilceRegNo,
+            // region: 'TNASTRGN',
+            // region,
+            // make
+          })
+        }
+      });
+  }
+
+  onApprove() {
+    this.approveApplicantDetails = {
+      name1: 'extTest',
+      name2: null,
+      name3: 'test1',
+      mobileNumber: '9791330502',
+      dob: '21/07/1997'
+    }
+    this.createLeadService.externalApprove(this.approveApplicantDetails).subscribe(
+      (res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        const errorMessage = response.ProcessVariables.error.message;
+
+        if (appiyoError === '0' && apiError === '0') {
+          console.log('resext', response);
+          const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
+          if (isDedupeAvailable) {
+            const leadDedupeData = response.ProcessVariables;
+            this.leadStoreService.setDedupeData(leadDedupeData);
+            this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
+            return;
+          }
+          this.router.navigateByUrl(`pages/lead-section/${this.leadIdFromDashboard}`);
+        }
+
+      })
+  }
+
+  onApproveModel() {
+    this.showApprove = true;
+  }
+  closeApprove() {
+    this.showApprove = false;
+  }
+
+  navgiateToLead() {
+    this.router.navigateByUrl(`pages/lead-section/${this.leadIdFromDashboard}`);
+  }
+
 
 
 }

@@ -8,7 +8,7 @@
     </div>
 
     <div class="content">
-      <form [formGroup]="createExternalLeadForm">
+      <form [formGroup]="createExternalLeadForm" >
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub>
@@ -363,8 +363,11 @@
         <div class="row individual_section_leadco">
           <div class="btn-sec clear-both">
             <div class="col-sm-12 text-right">
-              <button type="button" class="btn btn-primary" (click)="onSubmit()">
+              <button *ngIf="!leadIdFromDashboard" type="button" class="btn btn-primary" (click)="onSubmit()">
                 {{ labels.createLead }}
+              </button>
+              <button *ngIf="leadIdFromDashboard" type="button" class="btn btn-primary" (click)="onApproveModel()">
+                 Approve 
               </button>
             </div>
           </div>
@@ -394,6 +397,36 @@
           (click)="navgiateToNextPage()">
           OK
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" [ngClass]="{ 'dis-block': showApprove }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Lead Approval</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
+      </div>
+      <div class="modal-body">
+        <p id="">Are you sure to approve?  </p>
+      </div> 
+      <div class="modal-footer text-center">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          (click)="navgiateToLead()">
+          OK
+        </button> &nbsp; &nbsp;
+        <button
+        type="button"
+        class="btn btn-danger"
+        data-dismiss="modal"
+        (click)="closeApprove()">
+        Cancel
+      </button>
       </div>
     </div>
   </div>

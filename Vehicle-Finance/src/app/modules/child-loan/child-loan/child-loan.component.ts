@@ -102,8 +102,7 @@ export class ChildLoanComponent implements OnInit {
     const userDetails = this.loginStoreService.getRolesAndUserDetails();
     this.isSO = userDetails.roles[0].roleId;
     console.log('userDetails', userDetails);
-    console.log('bod ',this.childLoanForm.controls.dateOfBirth);
-    
+    console.log('bod ', this.childLoanForm.controls.dateOfBirth);    
   }
 
   initForm() {
@@ -191,11 +190,9 @@ export class ChildLoanComponent implements OnInit {
       vehicleRegistrationNumber ||
       aadhaar || drivingLicense ||
       voterId || passport || pan ||
-      cin || tan || gst  ) || (name && mobile && dateOfBirth))
-     {      
-        this.onSearch();      
-    } else if((name && dateOfBirth)|| (name && mobile) || (dateOfBirth && mobile))
-         {
+      cin || tan || gst) || (name && mobile && dateOfBirth)) {
+      this.onSearch();
+    } else if ((name && dateOfBirth) || (name && mobile) || (dateOfBirth && mobile)) {
       this.onSearch();
       console.log('childform1', this.childLoanForm.controls);
     } else {
@@ -334,7 +331,7 @@ export class ChildLoanComponent implements OnInit {
 
   onDateOfBirthInput(event) {
     this.getFormControlValues();
-    console.log('ddob', event,this.childLoanForm.controls.dateOfBirth);
+    console.log('ddob', event, this.childLoanForm.controls.dateOfBirth);
     if (
       (this.nameValue === '' || this.nameValue === undefined) &&
       (this.mobileValue === '' || this.mobileValue === undefined) &&
@@ -373,13 +370,13 @@ export class ChildLoanComponent implements OnInit {
     }
   }
 
-  onSearch() {
+  onSearch(loanAccNo?, isCreateChild?) {
     const formValue = this.childLoanForm.getRawValue();
     const childLoanDatas: any = { ...formValue };
 
     this.childData = {
       ucic: childLoanDatas.ucic,
-      loanAccountNumber: childLoanDatas.loanAccountNumber,
+      loanAccountNumber: loanAccNo ? loanAccNo : childLoanDatas.loanAccountNumber,
       vehicleRegistrationNumber: childLoanDatas.vehicleRegistrationNumber,
       aadhaar: childLoanDatas.aadhaar,
       drivingLicense: childLoanDatas.drivingLicense,
@@ -408,6 +405,9 @@ export class ChildLoanComponent implements OnInit {
           if (this.customerDetailsData.length !== 0 || this.loanDetailsData.length !== 0) {
             this.accordian = '#collapseOne';
             this.test = '#customerDetails_id';
+            if (isCreateChild) {
+              this.onCreateChildLoan();
+            }
           } else {
             this.accordian = '';
             this.test = '';
@@ -466,7 +466,12 @@ export class ChildLoanComponent implements OnInit {
     // });
   }
 
+  onCreate() {
+    this.onSearch(this.accountNo, true);
+  }
+
   onCreateChildLoan() {
+
     const customerData = this.customerDetailsData.length;
     const loanData = this.loanDetailsData.length;
 
@@ -486,7 +491,8 @@ export class ChildLoanComponent implements OnInit {
         firstName: this.customerDetailsData[this.selectedUcicIndex].firstName,
         middleName: this.customerDetailsData[this.selectedUcicIndex].middleName,
         lastName: this.customerDetailsData[this.selectedUcicIndex].lastName,
-        entity: this.customerDetailsData[this.selectedUcicIndex].entityTypeID,
+        entity: this.customerDetailsData[this.selectedUcicIndex].entityTypeID ?
+          this.customerDetailsData[this.selectedUcicIndex].entityTypeID : 'INDIVENTTYP',
         mobile: this.customerDetailsData[this.selectedUcicIndex].mobileNumber,
         dobOrDoi: this.customerDetailsData[this.selectedUcicIndex].dobORdoi,
       };
