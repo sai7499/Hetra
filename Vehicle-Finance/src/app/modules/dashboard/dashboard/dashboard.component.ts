@@ -221,6 +221,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   sortByName = false;
   disableButton: boolean;
   declinedFlow = false;
+  isBM = false;
+  externalUserData: any;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -337,8 +339,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.onTabsLoading(this.subActiveTab);
     } else {
       if (this.roleType == '1') {
-        if(this.roleId == '65') {
-          this.activeTab = 58
+        if (this.roleId == '66') {
+          this.activeTab = 58;
         } else {
           this.activeTab = 0;
           this.subActiveTab = 3;
@@ -710,8 +712,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLog = false;
         this.getSalesLeads(this.itemsPerPage, event);
         break;
-        case 58:
-          this.getSalesLeads(this.itemsPerPage, event);
+      case 58:
+        this.isBM = false;
+        this.getExternalUserLeads(this.itemsPerPage, event);
       default:
         break;
     }
@@ -820,11 +823,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 57:
+        this.isBM = true;
         this.getExternalUserLeads(this.itemsPerPage, event);
         break;
-        case 59:
-        this.getSalesLeads(this.itemsPerPage, event);
-        break;
+
       default:
         break;
     }
@@ -833,6 +835,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   onLeads(data?, subTab?, tabName?: string) {
 
     this.selectedArray = [];
+    this.disableButton = false;
     this.selectAll = false;
     this.sortTab = '';
     this.activeTab = data;
@@ -895,6 +898,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.selectAll = false;
     this.selectedArray = [];
+    this.disableButton = false;
     this.sortTab = '';
     this.subActiveTab = data;
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
@@ -951,11 +955,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // getting response Data for all tabs
   setPageData(res) {
-    if (this.subActiveTab === this.displayTabs.ExternalUser) {
-      this.newArray = res.ProcessVariables.extLeadDetails;
-    } else {
-      this.newArray = res.ProcessVariables.loanLead;
-    }
+    // if (this.subActiveTab === this.displayTabs.ExternalUser) {
+    //   this.newArray = res.ProcessVariables.extLeadDetails;
+    // } else {
+    this.newArray = res.ProcessVariables.loanLead;
+    // }
     switch (this.activeTab) {
       case 15:
         this.newArray = res.ProcessVariables.processLogs;
@@ -983,60 +987,60 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // for MyLeads Api
   responseForSales(data) {
-    if(this.activeTab === this.displayTabs.ExternalUserDashboard || this.subActiveTab === this.displayTabs.UploadedLead) {
-      this.dashboardService.getExternalUserDashboardDetails(data).subscribe((res: any) => {
-        this.setPageData(res);
+    // if(this.activeTab === this.displayTabs.ExternalUserDashboard || this.subActiveTab === this.displayTabs.UploadedLead) {
+    //   this.dashboardService.getExternalUserDashboardDetails(data).subscribe((res: any) => {
+    //     this.setPageData(res);
+    //     if (res.ProcessVariables.loanLead != null) {
+    //       this.isLoadLead = true;
+    //     } else {
+    //       this.isLoadLead = false;
+    //       this.newArray = [];
+    //     }
+    //   })
+    // } else {
+    this.dashboardService.myLeads(data).subscribe((res: any) => {
+      this.setPageData(res);
+      if (this.subActiveTab === this.displayTabs.NewLeads) {
         if (res.ProcessVariables.loanLead != null) {
           this.isLoadLead = true;
         } else {
           this.isLoadLead = false;
           this.newArray = [];
         }
-      })
-    } else {
-      this.dashboardService.myLeads(data).subscribe((res: any) => {
-        this.setPageData(res);
-        if (this.subActiveTab === this.displayTabs.NewLeads) {
-          if (res.ProcessVariables.loanLead != null) {
-            this.isLoadLead = true;
-          } else {
-            this.isLoadLead = false;
-            this.newArray = [];
-          }
-        } else {
-          switch (this.activeTab) {
-            case 15:
-              if (res.ProcessVariables.processLogs != null) {
-                this.isLoadLead = true;
-              } else {
-                this.isLoadLead = false;
-                this.newArray = [];
-              }
-              break;
-            case 16:
-              if (res.ProcessVariables.pddDetails != null) {
-                this.isLoadLead = true;
-              } else {
-                this.isLoadLead = false;
-                this.newArray = [];
-              }
-              break;
-            case 17:
-              if (res.ProcessVariables.chequeTrackingDetails != null) {
-                this.isLoadLead = true;
-              } else {
-                this.isLoadLead = false;
-                this.newArray = [];
-              }
-              break;
-  
-            default:
-              break;
-          }
+      } else {
+        switch (this.activeTab) {
+          case 15:
+            if (res.ProcessVariables.processLogs != null) {
+              this.isLoadLead = true;
+            } else {
+              this.isLoadLead = false;
+              this.newArray = [];
+            }
+            break;
+          case 16:
+            if (res.ProcessVariables.pddDetails != null) {
+              this.isLoadLead = true;
+            } else {
+              this.isLoadLead = false;
+              this.newArray = [];
+            }
+            break;
+          case 17:
+            if (res.ProcessVariables.chequeTrackingDetails != null) {
+              this.isLoadLead = true;
+            } else {
+              this.isLoadLead = false;
+              this.newArray = [];
+            }
+            break;
+
+          default:
+            break;
         }
-  
-      });
-    }
+      }
+
+    });
+    // }
   }
 
   // new leads
@@ -1120,9 +1124,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // External User API Atarts
   responseForEcxternalUser(data) {
-    this.dashboardService.getExternalUserDetails(data).subscribe((res: any) => {
+    this.dashboardService.getExternalUserDashboardDetails(data).subscribe((res: any) => {
       this.setPageData(res);
-      if (res.ProcessVariables.extLeadDetails != null) {
+      if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
       } else {
         this.isLoadLead = false;
@@ -1136,6 +1140,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
       userId: this.loginUserId,
       currentPage: parseInt(pageNumber),
       perPage: parseInt(perPageCount),
+      isPDD: this.isPDD,
+      isChequeTracking: this.isChequeTracking,
+      isLog: this.isLog,
+      leadId: this.filterFormDetails ? this.filterFormDetails.leadId : '',
+      fromDate: this.filterFormDetails ? this.filterFormDetails.fromDate : '',
+      toDate: this.filterFormDetails ? this.filterFormDetails.toDate : '',
+      productCategory: this.filterFormDetails ? this.filterFormDetails.product : '',
+      leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
+      loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
+      loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      sortByDate: this.sortByDate,
+      sortByLead: this.sortByLead,
+      sortByLoanAmt: this.sortByLoanAmt,
+      sortByProduct: this.sortByProduct,
+      sortByStage: this.sortByStage,
+      sortByLoanAccNo: this.sortByLoanAccNo,
+      sortByDisburDate: this.sortByDisburDate,
+      sortByExpectedDate: this.sortByExpectedDate,
+      sortByName: this.sortByName,
+      sortAsc: this.sortAsc,
+      sortDesc: this.sortDesc,
+      isBM: this.isBM
     };
     this.responseForEcxternalUser(data);
   }
@@ -1216,6 +1242,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onClick() {
     this.onTabsLoading(this.subActiveTab);
+    this.disableButton = false;
   }
 
   onRoutingTabs(data) {
@@ -1303,6 +1330,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         } else if (this.salesResponse == true) {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
         }
+        break;
+      case 57:
+        this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
         break;
 
       default:
@@ -1395,13 +1425,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  //Assign for external user
+  onAssignExternalUser(taskId?, leadId?) {
+    this.selectedArray = [];
+    this.isClaim = true;
+    this.isRelease = false;
+    this.leadId = leadId;
+    this.dashboardService.routingData = {
+      activeTab: this.activeTab,
+      subActiveTab: this.subActiveTab,
+    };
+    this.selectedArray.push(leadId);
+    const data= {
+      myLeads: true,
+        leadId: this.selectedArray,
+        loginId: localStorage.getItem('userId')
+    }
+    this.supervisorService.supervisorReAssign(taskId).subscribe((res: any) => {
+      const response = JSON.parse(res);
+      // tslint:disable-next-line: triple-equals
+      if (response.ErrorCode == 0) {
+        this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
+        if (this.userName) {
+          return;
+        } else {
+          this.onRoutingTabs(this.subActiveTab);
+        }
+        this.saveTaskLogs();
+      } else {
+        this.toasterService.showError(response.Error, '');
+      }
+    });
+  }
+
 
   // Self-Assign Method
   onSelfAssignClick(taskId, leadId) {
     this.selectedArray = [];
     this.leadTaskId = taskId;
     this.selfAssignLeadId = leadId;
-    if (this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.selectedArray.push(leadId);
     } else {
       this.selectedArray.push(taskId);
@@ -1416,7 +1479,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   taskId: this.leadTaskId,
     //   loginId: this.selfAssignLoginId
     // }
-    if (this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
         leadId: this.selectedArray,
@@ -1458,12 +1521,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getSupervisorUserDetails() {
-    const data = {
-      // leadId: this.reAssignData.leadId,
-      roleId: this.supervisorRoleId,
-      userId: this.supervisorUserId
+    if(this.subActiveTab === this.displayTabs.ExternalUser) {
+      this.externalUserData = {
+        roleId: this.userDetailsRoleId,
+        userId: localStorage.getItem('userId')
+      }
+    } else {
+      this.externalUserData = {
+        roleId: this.supervisorRoleId,
+        userId: this.supervisorUserId
+      }
     }
-    this.supervisorService.getSupervisorUserDetails(data).subscribe((res: any) => {
+    // const data = {
+    //   roleId: this.supervisorRoleId,
+    //   userId: this.supervisorUserId
+    // }
+    this.supervisorService.getSupervisorUserDetails(this.externalUserData).subscribe((res: any) => {
       console.log(res);
       this.userData = res.ProcessVariables.loginIds;
       this.loginId = res.ProcessVariables.thisUser;
@@ -1477,7 +1550,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   supervisorReAssign() {
 
-    if (this.subActiveTab === this.displayTabs.NewLeads) {
+    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
         leadId: this.selectedArray,
@@ -1584,7 +1657,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // }
     console.log(event.target.checked);
     if (event.target.checked) {
-      if (this.subActiveTab === this.displayTabs.NewLeads) {
+      if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
         this.selectedArray.push(item.leadId);
       } else {
         this.selectedArray.push(item.taskId);
@@ -1622,7 +1695,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.selectAll = true;
       this.disableButton = true;
       for (let i = 0; i < this.newArray.length; i++) {
-        if (this.subActiveTab === this.displayTabs.NewLeads) {
+        if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
           // console.log(this.newArray[i].leadId);
           this.selectedArray.push(this.newArray[i].leadId);
 
@@ -1652,9 +1725,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   assignSelectedLeads() {
     this.onReAssignClick();
   }
-  // selfAssignSelectedLeads() {
-  //   data
-  // }
 
   ngOnDestroy() {
     clearInterval(this.intervalId)
