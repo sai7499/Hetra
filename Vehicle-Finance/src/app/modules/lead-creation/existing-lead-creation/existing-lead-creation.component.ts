@@ -103,6 +103,8 @@ export class ExistingLeadCreationComponent implements OnInit {
   isSourcingCode: boolean;
   leadIdFromDashboard: any;
   showApprove: boolean;
+  mobileApprove: any;
+  dobApprove: any;
 
   approveApplicantDetails: {
     name1: any,
@@ -732,46 +734,79 @@ export class ExistingLeadCreationComponent implements OnInit {
         if (appiyoError === '0' && apiError === '0') {
           console.log('byPool', response);
           const productCategory = response.ProcessVariables.leadDetails.productCatCode;
+          this.productCategoryChange(productCategory);
           const product = response.ProcessVariables.leadDetails.productId;
           const loanBranch = response.ProcessVariables.leadDetails.branchId;
           const entity = response.ProcessVariables.applicantDetails[0].entityTypeKey;
+          const nameOne = response.ProcessVariables.applicantDetails[0].name1;
+          const nameTwo = response.ProcessVariables.applicantDetails[0].name2;
+          const nameThree = response.ProcessVariables.applicantDetails[0].name3;
+          this.firstName = nameOne;
+          this.middleName = nameTwo;
+          this.lastName = nameThree;
           const mobileNumber: string = response.ProcessVariables.applicantDetails[0].mobileNumber;
           const mobile = mobileNumber.slice(2);
           const dob = response.ProcessVariables.applicantDetails[0].dob;
           const dateOfBirth = this.utilityService.getDateFromString(dob.slice());
+          this.mobileApprove = mobile;
+          this.dobApprove = dateOfBirth;
+
+          const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
+          const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
+          const sourcingCode = response.ProcessVariables.leadDetails.sourcingCode;
+
           const reqLoanAmt = response.ProcessVariables.leadDetails.reqLoanAmt;
-          const vehilceRegNo = response.ProcessVariables.vehicleCollateral[0].regNo;
-          const region = response.ProcessVariables.vehicleCollateral[0].region;
-          // const make = response.ProcessVariables.vehicleCollateral[0].make;
-          this.productCategoryChange(productCategory);
+          const vehicleRegNo = response.ProcessVariables.vehicleCollateral[0].regNo;
+          const region = response.ProcessVariables.vehicleCollateral[0].regionCode;
+
+          const vehilce: Array<any> = response.ProcessVariables.vehicleCollateral;
+          this.vehicleLov.assetMake = [{ key: vehilce[0].makeCode, value: vehilce[0].make }];
+          this.vehicleLov.vehicleType = [{ key: vehilce[0].vehicleTypeCode, value: vehilce[0].vehicleType }];
+          this.vehicleLov.assetBodyType = [{ key: vehilce[0].segmentCode, value: vehilce[0].segment }];
+          this.vehicleLov.assetModel = [{ key: vehilce[0].modelCode, value: vehilce[0].model }];
+          this.vehicleLov.assetVariant = [{ key: 'variantKey', value: vehilce[0].variant }];
           this.selectApplicantType(entity, true);
-          // this.onVehicleRegion('TNASTRGN', this.createExternalLeadForm);
-          // this.onVehicleRegion(region, this.createExternalLeadForm)
-          // this.onAssetMake(make, this.createExternalLeadForm);
+          const assetMake = response.ProcessVariables.vehicleCollateral[0].makeCode;
+          const vehicleType = response.ProcessVariables.vehicleCollateral[0].vehicleTypeCode;
+          const assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
+          const assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
+          const assetVariant = 'variantKey';
+          const dobyymm = response.ProcessVariables.applicantDetails[0].dob;
+          const manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
           this.createExternalLeadForm.patchValue({
             productCategory,
             product,
             loanBranch,
             entity,
+            nameOne,
+            nameTwo,
+            nameThree,
             mobile,
             dateOfBirth,
+            sourcingChannel,
+            sourcingType,
+            sourcingCode,
             reqLoanAmt,
-            vehilceRegNo,
-            // region: 'TNASTRGN',
-            // region,
-            // make
-          })
+            vehicleRegNo,
+            region,
+            assetMake,
+            vehicleType,
+            assetBodyType,
+            assetModel,
+            assetVariant,
+            manuFacMonthYear
+          });
         }
       });
   }
 
   onApprove() {
     this.approveApplicantDetails = {
-      name1: 'extTest',
-      name2: null,
-      name3: 'test1',
-      mobileNumber: '9791330502',
-      dob: '21/07/1997'
+      name1: this.firstName,
+      name2: this.middleName,
+      name3: this.lastName,
+      mobileNumber: this.mobileApprove,
+      dob: this.dobApprove
     }
     this.createLeadService.externalApprove(this.approveApplicantDetails).subscribe(
       (res: any) => {
@@ -790,6 +825,8 @@ export class ExistingLeadCreationComponent implements OnInit {
             return;
           }
           this.router.navigateByUrl(`pages/lead-section/${this.leadIdFromDashboard}`);
+        } else {
+          this.toasterService.showError(errorMessage, 'Approve Lead');
         }
 
       })
@@ -803,7 +840,7 @@ export class ExistingLeadCreationComponent implements OnInit {
   }
 
   navgiateToLead() {
-    this.router.navigateByUrl(`pages/lead-section/${this.leadIdFromDashboard}`);
+    this.onApprove();
   }
 
 
