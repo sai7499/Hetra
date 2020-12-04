@@ -275,14 +275,25 @@
                       <i class="fa fa-angle-down" aria-hidden="true"></i>
                     </span>
 
-                    <div class="message-dropdown-content right" id="myDropdown"
+                    <div tabindex="-1" class="_3nLE_"
+                      style="transform-origin: left bottom; left: 884.35px; bottom: 124.6px; transform: scale(1); opacity: 1;">
+                      <ul class="_1hhxx">
+                        <li tabindex="-1" class="_1uAPO _2AkAt _14FXT" data-animate-dropdown-item="true"
+                          style="opacity: 1;">
+                          <div class="_1OwwW _3oTCZ _1NUp7" role="button" title="Reply">Reply</div>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <!-- <div class="message-dropdown-content right" id="myDropdown"
                       [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
-                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)"><select name="cars" class="con-send" id="cars">
+                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)"><select name="cars"
+                        class="con-send" id="cars">
                         <option value="">1</option>
-                        
+                        <option value="">2</option>
                       </select>
                       <a (click)="foo.focus()"><span class="box tr"></span></a>
-                    </div>
+                    </div> -->
 
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
                       <div class="logged-user row">
@@ -299,7 +310,8 @@
                         </div>
 
                         <div class="col-md-4">
-                          <span class="date-time"> <strong>{{labels.queryType}} : </strong> {{message.queryTypeDesc}}
+                          <span class="date-time"> <strong>{{labels.queryType}} : </strong>
+                            {{message.queryTypeDesc}}
                           </span>
                           <span class="date-time"> <strong> Lead Stage : </strong>
                             {{message.leadStageDesc}}

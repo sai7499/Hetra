@@ -629,17 +629,18 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       val = val.toString().toLowerCase();
       if (mes.queryId) {
         const eQueryId = mes.queryId.toString().toLowerCase();
-        if (eQueryId.includes(val)) {
-          // return mes;
+        if (eQueryId.includes(val)
+        ) {
+          return mes;
         }
 
-        if (mes.parentQueryId) {
-          queryMessage = this.chatMessages.filter((res) => {
-            if (mes.parentQueryId === res.queryId || eQueryId.includes(res)) {
-              return res
-            }
-          })
-        }
+        // if (mes.parentQueryId) {
+        //   this.chatMessages.filter((res) => {
+        //     if (mes.parentQueryId === res.queryId) {
+        //       return res
+        //     }
+        //   })
+        // }
 
       }
       console.log(queryMessage, 'chatMessages', mes)
