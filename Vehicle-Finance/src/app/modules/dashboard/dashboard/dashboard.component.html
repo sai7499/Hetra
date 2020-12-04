@@ -161,7 +161,7 @@
     </div>
 
     <!-- Sales Flow -->
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId != '65'">
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId != '66'">
 
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)"
@@ -200,7 +200,7 @@
         </ul>
     </div>
 
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId != '65'">
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId != '66'">
         <ul *ngIf="displayTabs?.Leads === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.NewLeads)"
                 [ngClass]="{'active':displayTabs?.NewLeads === subActiveTab}" routerLinkActive="active" id="leads"><a
@@ -209,7 +209,7 @@
             <li class="btn-dash" *ngIf="userDetailsRoleId == '6' && userDetailsRoleType == '1'"
                 (click)="leads(displayTabs?.ExternalUser)"
                 [ngClass]="{'active':displayTabs?.ExternalUser === subActiveTab}" routerLinkActive="active" id="leads">
-                <a data-toggle="tab">Created by ext user</a></li>
+                <a data-toggle="tab">Branch Leads</a></li>
             <!--  -->
             <!--  -->
             <li class="btn-dash" (click)="leads(displayTabs?.ReversedLeadsWithMe)"
@@ -520,7 +520,7 @@
     </div>
     <!-- CPCCAD Dashboard Ends -->
     <!-- External User Dashboard Starts -->
-    <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId == '65'">
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId == '66'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="onLeads(displayTabs?.ExternalUserDashboard)"
                 [ngClass]="{'active':displayTabs?.ExternalUserDashboard === activeTab}" routerLinkActive="active"><a
@@ -549,26 +549,29 @@
                 *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.TranchesDisburse != activeTab">
                 <thead>
                     <tr class="table-head-bg">
+                        <th *ngIf="userName">
+                            <input type="checkbox" name="allLeads" [checked]="selectAll" (change)="allSelect($event)">
+                        </th>
                         <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
                         <th *ngIf="(!onReleaseTab && !onAssignTab) && userName">{{labels?.action}}</th>
-                        <th>{{labels?.leadID}}<i class="fa fa-sort"
+                        <th>{{labels?.leadID}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
                                 (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
                         <th>{{labels?.applicantName}} </th>
-                        <th>{{labels?.product}}<i class="fa fa-sort"
+                        <th>{{labels?.product}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                                 (click)="onSort(sortTables?.ByProduct)"> </i> </th>
-                        <th>{{labels?.loanAmount}}<i class="fa fa-sort"
+                        <th>{{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                 (click)="onSort(sortTables?.ByLoanAmt)"> </i> </th>
                         <th>{{labels?.applicant+'s'}} </th>
-                        <th>{{labels?.createdOn}}<i class="fa fa-sort"
+                        <th>{{labels?.createdOn}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByDate === sortTab}"
                                 (click)="onSort(sortTables?.ByDate)"> </i> </th>
                         <th>{{labels?.createdBy}} </th>
                         <th>{{labels?.priority}} </th>
                         <th>{{labels?.promoCode}} </th>
-                        <th>{{labels?.status}} <i class="fa fa-sort"
+                        <th>{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"
                                 (click)="onSort(sortTables?.ByStage)"> </i> </th>
                         <th>{{labels?.history}} </th>
@@ -583,15 +586,28 @@
                 data-toggle="modal" data-target="#releaseModal">
             </td> -->
 
-                        <td *ngIf="onReleaseTab && !userName">
+            <td [attr.data-label]="labels?.select" *ngIf="userName">
+                <input type="checkbox" [checked]="item.selected" name="oneLead"
+                    (change)="onCheck($event, item)">
+            </td>
+            <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab && !userName">
                             <input type="button" class="btn btn-primary"
                                 (click)="onRelase(item.taskId, item.leadId); assignTaskId(item.taskId, item.leadId); onClick()"
                                 value="Release" data-toggle="modal" data-target="#releaseModal">
                         </td>
-                        <td *ngIf="onAssignTab && !userName">
-                            <input type="button" class="btn btn-primary"
+                        <td [attr.data-label]="labels?.action" *ngIf="onAssignTab && !userName">
+                            <input *ngIf="displayTabs?.ExternalUser != subActiveTab" type="button" class="btn btn-primary"
                                 (click)="onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                                 value="Assign" data-toggle="modal" data-target="#assignModel" />
+                                <!--  -->
+                                <input *ngIf="displayTabs?.ExternalUser === subActiveTab" type="button" [disabled]="disableButton"
+                                style="margin-top: 5px; margin-right: 5px;"
+                                (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
+                                data-target="#confirmSelfAssign" class="btn btn-primary" value="Self Assign">
+                                <input *ngIf="displayTabs?.ExternalUser === subActiveTab" type="button" [disabled]="disableButton" style="margin-top: 5px;"
+                                (click)="onReAssignClick(item)" class="btn btn-primary" value="Re-Assign"
+                                data-toggle="modal" data-target="#supervisorTaskAssign">
+
                         </td>
                         <!--  -->
                         <td [attr.data-label]="labels?.action" *ngIf="userName && (!onReleaseTab && !onAssignTab)">
@@ -600,9 +616,9 @@
                                 style="margin-top: 5px; margin-right: 5px;"
                                 (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary" value="Self Assign">
-                            <input type="button" style="margin-top: 5px;" (click)="onReAssignClick(item)"
-                                class="btn btn-primary" value="Re-Assign" data-toggle="modal"
-                                data-target="#supervisorTaskAssign">
+                                <input type="button" [disabled]="disableButton" style="margin-top: 5px;"
+                                (click)="onReAssignClick(item)" class="btn btn-primary" value="Re-Assign"
+                                data-toggle="modal" data-target="#supervisorTaskAssign">
                         </td>
                         <td [attr.data-label]="labels?.action" *ngIf="userName && onReleaseTab">
                             <!-- <input type="button" *ngIf="!userName" class="btn btn-primary"
@@ -612,8 +628,9 @@
                                 style="margin-top: 5px; margin-right: 5px;"
                                 (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
-                            <input type="button" (click)="onReAssignClick(item)" class="btn btn-primary btn-re"
-                                value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+                                <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item)"
+                                class="btn btn-primary btn-re" value="Re-Assign" data-toggle="modal"
+                                data-target="#supervisorTaskAssign">
                         </td>
 
                         <!--  -->
@@ -625,8 +642,9 @@
                                 style="margin-top: 5px; margin-right: 5px;"
                                 (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
-                            <input type="button" (click)="onReAssignClick(item)" class="btn btn-primary btn-re"
-                                value="Re-Assign" data-toggle="modal" data-target="#supervisorTaskAssign">
+                                <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item)"
+                                class="btn btn-primary btn-re" value="Re-Assign" data-toggle="modal"
+                                data-target="#supervisorTaskAssign">
                         </td>
                         <td [attr.data-label]="labels?.leadID" *ngIf="(!onReleaseTab && !onAssignTab) && !userName">
                             <a class="text-underline" *ngIf="displayTabs?.ExternalUserDashboard != activeTab"
@@ -640,7 +658,10 @@
                                 style="cursor: pointer;">{{item.leadId}}</a>
                         </td>
                         <td [attr.data-label]="labels?.leadID" *ngIf="(!onReleaseTab && onAssignTab) && !userName">
-                            <a>{{item.leadId}}</a>
+                            <a *ngIf="displayTabs?.ExternalUser != subActiveTab">{{item.leadId}}</a>
+                            <a *ngIf="displayTabs?.ExternalUser === subActiveTab" class="text-underline"
+                            (click)="getLeadId(item); onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId)"
+                            style="cursor: pointer;">{{item.leadId}}</a>
                         </td>
                         <td [attr.data-label]="labels?.leadID" *ngIf="userName">
                             <a>{{item.leadId}}</a>
@@ -674,29 +695,38 @@
                             <th *ngIf="(onReleaseTab || onAssignTab) && displayTabs?.PDDforCPC === activeTab">
                                 {{labels?.action}}</th>
                             <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.leadID}}</th>
-                            <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}<i
-                                    class="fa fa-sort"></i>
+                            <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}&nbsp;<i
+                                 style="cursor: pointer" class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAccNo === sortTab}"
+                                (click)="onSort(sortTables?.ByLoanAccNo)"></i>
                             </th>
-                            <th *ngIf="displayTabs?.LoanBooking !== activeTab">{{labels?.loanNumber}}<i
-                                    class="fa fa-sort"></i> </th>
-                            <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName+' Name'}}<i
-                                    class="fa fa-sort"></i>
+                            <th *ngIf="displayTabs?.LoanBooking !== activeTab">{{labels?.loanNumber}}&nbsp;<i
+                                 style="cursor: pointer" class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAccNo === sortTab}"
+                                (click)="onSort(sortTables?.ByLoanAccNo)"></i>
+                            <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName+' Name'}}&nbsp;<i
+                                 style="cursor: pointer" class="fa fa-sort" [ngClass]="{'active':sortTables?.ByName === sortTab}"
+                                (click)="onSort(sortTables?.ByName)"></i>
                             </th>
-                            <th>{{labels?.productCategory}}<i class="fa fa-sort"></i> </th>
+                            <th>{{labels?.productCategory}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
+                                (click)="onSort(sortTables?.ByProduct)"></i> </th>
                             <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
-                                {{labels?.disbursementDate}}<i class="fa fa-sort"></i> </th>
+                                {{labels?.disbursementDate}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                    [ngClass]="{'active':sortTables?.ByDisburDate === sortTab}"
+                                    (click)="onSort(sortTables?.ByDisburDate)"></i> </th>
                             <th *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab">
-                                {{labels?.expectedDate}}<i class="fa fa-sort"></i> </th>
-                            <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}<i class="fa fa-sort"></i> </th> -->
-                            <th *ngIf="displayTabs?.PDDforCPC === activeTab">{{labels?.branch}}<i
+                                {{labels?.expectedDate}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                    [ngClass]="{'active':sortTables?.ByExpectedDate === sortTab}"
+                                    (click)="onSort(sortTables?.ByExpectedDate)"></i> </th>
+                            <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}&nbsp;<i class="fa fa-sort"></i> </th> -->
+                            <th *ngIf="displayTabs?.PDDforCPC === activeTab">{{labels?.branch}}&nbsp;<i
                                     class="fa fa-sort"></i> </th>
                             <th
                                 *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab">
-                                {{labels?.loanAmount}}<i class="fa fa-sort"
+                                {{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                     (click)="onSort(sortTables?.ByLoanAmt)"></i> </th>
                             <th *ngIf="displayTabs?.LoanBooking === activeTab">
-                                {{labels?.applicant+'s'}}<i class="fa fa-sort"></i> </th>
+                                {{labels?.applicant+'s'}} </th>
                             <!-- <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName}}<i class="fa fa-sort"></i>
               </th> -->
                         </tr>
@@ -768,30 +798,27 @@
                     <thead>
                         <tr class="table-head-bg">
                             <th *ngIf="displayTabs?.TrancheDisburseWithBranch != subActiveTab">{{labels?.action}}</th>
-                            <th>{{labels?.loanNumber}}
-                                <i class="fa fa-sort"></i>
+                            <th>{{labels?.loanNumber}}&nbsp;
+                                <i  style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
-                            <th>{{labels?.productName}}
-                                <i class="fa fa-sort"></i>
+                            <th>{{labels?.productName}}&nbsp;
+                                <i  style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
-                            <!-- <th>{{labels?.productCategory}}
+                            <!-- <th>{{labels?.productCategory}}&nbsp;
                     <i class="fa fa-sort"></i>
                 </th> -->
-                            <th>{{labels?.loanAmount}}
-                                <i class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
+                            <th>{{labels?.loanAmount}}&nbsp;
+                                <i  style="cursor: pointer" class="fa fa-sort" [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                     (click)="onSort(sortTables?.ByLoanAmt)"></i>
                             </th>
-                            <th>{{labels?.mainApplicantName}}
-                                <i class="fa fa-sort"></i>
+                            <th>{{labels?.mainApplicantName}}&nbsp;
+                                <i  style="cursor: pointer" class="fa fa-sort"></i>
                             </th>
                             <th>{{labels?.noOfTrancheDisburse}}
-                                <i class="fa fa-sort"></i>
                             </th>
                             <th>{{labels?.alreadyDisbursedAmount}}
-                                <i class="fa fa-sort"></i>
                             </th>
                             <th>{{labels?.balanceToBeDisbursed}}
-                                <i class="fa fa-sort"></i>
                             </th>
                         </tr>
                     </thead>

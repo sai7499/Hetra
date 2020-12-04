@@ -168,7 +168,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.initForms();
     this.getLov();
 
-    if (this.id) {
+    if (this.id && this.id !== 0) {
       this.setFormValue();
     };
 
@@ -578,6 +578,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       bodyCost: VehicleDetail.bodyCost || null,
       pac: VehicleDetail.pac || '',
       pacAmount: VehicleDetail.pacAmount || null,
+      parentLoanAccountNumber: VehicleDetail.parentLoanAccountNumber|| null,
+      isVehicleDedupe:  VehicleDetail.isVehicleDedupe === 'Yes' ? true : false,
       permitExpiryDate: VehicleDetail.permitExpiryDate ? this.utilityService.getDateFromString(VehicleDetail.permitExpiryDate) : '',
       processtionType: VehicleDetail.processtionType || '',
       productCatCode: VehicleDetail.productCatCode || '',
@@ -620,6 +622,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
+
+    // this.isVehicleDedupe = VehicleDetail.isVehicleDedupe === 'Yes' ? true: false;
+
+    if (VehicleDetail.parentLoanAccountNumber) {
+      this.isVehicleDedupe = true;
+    }
+
   }
 
   onVehicleRegion(value: any, obj) {
@@ -924,6 +933,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
         vehicleId: 0,
         collateralId: 0,
+        isVehicleDedupe: true,
+        parentLoanAccountNumber: [''],
         leadId: this.leadId,
         userId: this.userId
       });
@@ -950,6 +961,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         vehicleUsage: ['', Validators.required],
         category: ['', Validators.required],
         vehicleId: 0,
+        isVehicleDedupe: true,
+        parentLoanAccountNumber: [''],
         collateralId: 0,
         leadId: this.leadId,
         userId: this.userId
@@ -1113,6 +1126,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       loanAmount: [0],
       bodyCost: [''],
       idv: [''],
+      isVehicleDedupe: true,
+      parentLoanAccountNumber: [''],
       insuranceCopy: [''],
       fsrdFundingReq: [''],
       fsrdPremiumAmount: [null],
@@ -1129,20 +1144,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('insuranceValidity', this._fb.control(''))
     }
     formArray.push(controls);
-
-  }
-
-  onValueForCurrentDate(event) {
-
-    let date = this.utilityService.convertDateTimeTOUTC(new Date(event), 'DD/MM/YYYY')
-
-    let maxConvertDate = this.utilityService.convertDateTimeTOUTC(this.maxDate, 'DD/MM/YYYY')
-
-    if (date < maxConvertDate) {
-      this.isMaxDate = true
-    } else if (date >= maxConvertDate) {
-      this.isMaxDate = false;
-    }
 
   }
 
@@ -1175,6 +1176,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       bodyCost: [''],
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: null,
+      isVehicleDedupe: false,
+      parentLoanAccountNumber: [''],
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
       ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
@@ -1200,6 +1203,20 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('insuranceValidity', this._fb.control(''))
     }
     formArray.push(controls);
+  }
+
+  onValueForCurrentDate(event) {
+
+    let date = this.utilityService.convertDateTimeTOUTC(new Date(event), 'DD/MM/YYYY')
+
+    let maxConvertDate = this.utilityService.convertDateTimeTOUTC(this.maxDate, 'DD/MM/YYYY')
+
+    if (date < maxConvertDate) {
+      this.isMaxDate = true
+    } else if (date >= maxConvertDate) {
+      this.isMaxDate = false;
+    }
+
   }
 
   onGetTaxValue(val: any, form) {
@@ -1282,13 +1299,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.searchChildLoanData = res;
         this.isVehicleDedupe = true;
         this.isShowParentLoan = true;
-
-        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-        const details = formArray.at(0) as FormGroup;
-
-        details.addControl('isVehicleDedupe', this._fb.control(''))
-        details.addControl('parentLoanAccountNumber', this._fb.control('', Validators.required))
-
         this.loanDetailsData = res.ProcessVariables.loanDetails ? res.ProcessVariables.loanDetails : [];
       } else {
         this.isVehicleDedupe = false;
@@ -1306,7 +1316,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     details.patchValue({
       parentLoanAccountNumber: data.accountNumber,
-      isVehicleDedupe: true
+      isVehicleDedupe: false
     })
     this.isShowParentLoan = false;
     this.isVehicleRegNoChange = false;

@@ -25,7 +25,7 @@
                         </app-custom-input>
                     </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="isVehicleRegNoChange">
+                    <div class="form-group col-sm-6 col-md-4 col-lg-2" id="check_dedupe" *ngIf="isVehicleRegNoChange">
                         <label for="check_dedupe"></label>
                         <input type="button" class="form-control btn-primary" id="check_dedupe" name="check_dedupe"
                             value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
@@ -1154,12 +1154,12 @@
                 <div class="" id="used_cv_show" *ngIf="productCatoryCode == 'UCV'">
 
                     <div class="row">
-                       
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                             <label for="registartion_number"> {{ label.registartionNumber }}
                                 <sub class="star_red_col">*</sub>
                             </label>
-    
+
                             <app-custom-input formControlName="vehicleRegNo"
                                 [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
                                 [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
@@ -1169,42 +1169,27 @@
                                 (keyup)="getRegistrationNumber($event.target.value, obj)">
                             </app-custom-input>
                         </div>
-    
-                        <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="isVehicleRegNoChange">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-2" id="check_dedupe"
+                            *ngIf="isVehicleRegNoChange">
                             <label for="check_dedupe"></label>
                             <input type="button" class="form-control btn-primary" id="check_dedupe" name="check_dedupe"
                                 value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
-    
+
                         </div>
-    
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number" *ngIf="isVehicleDedupe">
                             <label for="loan_number"> Search Loan Account Number
                                 <sub class="star_red_col">*</sub>
                             </label>
-    
+
                             <app-custom-input formControlName="parentLoanAccountNumber">
                             </app-custom-input>
                         </div>
-    
+
                     </div>
 
                     <div class="row">
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="registartion_number">{{label.registartionNumber}} <sub
-                                    class="star_red_col">*</sub>
-                            </label>
-
-                            <app-custom-input formControlName="vehicleRegNo"
-                                [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
-                                [className]="'form-control mandatory'" [inputClass]="'input-upper'"
-                                [placeholder]="'Vechical Registration No'"
-                                [minLength]="label.validationData?.vehicleRegNo.minLength"
-                                [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
-                                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
-                            </app-custom-input>
-
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
@@ -1226,10 +1211,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub>
                             </label>
@@ -1240,6 +1221,10 @@
                             </app-vf-custom-select>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_body_type">{{label.assetSegement}} <sub
@@ -1260,10 +1245,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub></label>
 
@@ -1274,6 +1255,10 @@
                             </app-vf-custom-select>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
@@ -1304,10 +1289,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="age_vehicle">{{label.ageOfAsset}} <sub class="star_red_col">*</sub> </label>
                             <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
@@ -1316,6 +1297,10 @@
                             </app-custom-input>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
@@ -1337,10 +1322,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis"
                             *ngIf="productCatoryCode === 'UCV'">
                             <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
@@ -1356,6 +1337,10 @@
                             </app-custom-input>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
@@ -1376,10 +1361,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner">
                             <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
@@ -1402,6 +1383,10 @@
                             </div>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address">
                             <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
@@ -1437,10 +1422,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="fitness_date">{{label.fitnessDate}} </label>
 
@@ -1449,6 +1430,10 @@
                             </kendo-datepicker>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3"
                             *ngIf="!(Product === 'FCLoan' || Product === 'TaxLoan')">
@@ -1468,10 +1453,6 @@
                             </app-custom-input>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="permit_expire_date">{{label.permitExpireDate}}
                             </label>
@@ -1487,6 +1468,10 @@
                             </div>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="chassis_number">{{label.chassisNumber}}</label>
@@ -1512,10 +1497,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} </label>
 
@@ -1526,6 +1507,10 @@
                             </app-custom-input>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_ownership">{{label.vehicleOwnership}} </label>
@@ -1713,12 +1698,12 @@
                 <div class="" id="used_car_show" *ngIf="productCatoryCode === 'UC'">
 
                     <div class="row">
-                       
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                             <label for="registartion_number"> {{ label.registartionNumber }}
                                 <sub class="star_red_col">*</sub>
                             </label>
-    
+
                             <app-custom-input formControlName="vehicleRegNo"
                                 [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
                                 [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
@@ -1728,42 +1713,27 @@
                                 (keyup)="getRegistrationNumber($event.target.value, obj)">
                             </app-custom-input>
                         </div>
-    
-                        <div class="form-group col-sm-6 col-md-4 col-lg-2" id="vechical_reg1" *ngIf="isVehicleRegNoChange">
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-2" id="check_dedupe"
+                            *ngIf="isVehicleRegNoChange">
                             <label for="check_dedupe"></label>
                             <input type="button" class="form-control btn-primary" id="check_dedupe" name="check_dedupe"
                                 value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
-    
+
                         </div>
-    
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number" *ngIf="isVehicleDedupe">
                             <label for="loan_number"> Search Loan Account Number
                                 <sub class="star_red_col">*</sub>
                             </label>
-    
+
                             <app-custom-input formControlName="parentLoanAccountNumber">
                             </app-custom-input>
                         </div>
-    
+
                     </div>
 
                     <div class="row">
-
-                        <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="registartion_number">{{label.registartionNumber}} <sub
-                                    class="star_red_col">*</sub>
-                            </label>
-
-                            <app-custom-input formControlName="vehicleRegNo"
-                                [type]="label.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
-                                [className]="'form-control mandatory'" [inputClass]="'input-upper'"
-                                [placeholder]="'Vechical Registration No'"
-                                [minLength]="label.validationData?.vehicleRegNo.minLength"
-                                [maxLength]="label.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
-                                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
-                            </app-custom-input>
-
-                        </div> -->
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vechical_region"> {{ label.vechicalRegion }} <sub class="star_red_col">*</sub>
@@ -1786,10 +1756,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="vehicle_type">{{label.vehicleType}} <sub class="star_red_col">*</sub>
                             </label>
@@ -1800,6 +1766,10 @@
                             </app-vf-custom-select>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_body_type">{{label.assetSegement}} <sub
@@ -1822,10 +1792,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_variant">{{label.assetVariant}} <sub class="star_red_col">*</sub></label>
 
@@ -1836,6 +1802,10 @@
                             </app-vf-custom-select>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="asset_sub_variant">{{label.assetSubVariant}}</label>
@@ -1855,10 +1825,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_category">
                             <label for="vechical_usage">{{ label.vehicleCategory }} <sub class="star_red_col">*</sub>
                             </label>
@@ -1869,6 +1835,10 @@
                             </app-vf-custom-select>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="month_year">{{label.monthYear}} <sub class="star_red_col">*</sub> </label>
@@ -1902,10 +1872,6 @@
                             </app-custom-input>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
@@ -1914,6 +1880,10 @@
                                 [isDisabled]="true">
                             </app-custom-input>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="asset_cost_indian">{{label.assetCostIndian}} <sub class="star_red_col">*</sub>
@@ -1945,16 +1915,16 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost"> {{ label.finalAssetCost }}</label>
                             <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
                                 [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                             </app-custom-input>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub>
@@ -1991,10 +1961,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address">
                             <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
                             </label>
@@ -2010,6 +1976,10 @@
                             </div>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode">
                             <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
@@ -2040,10 +2010,6 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="engine_number">{{label.engineNumber}}</label>
                             <app-custom-input formControlName="engineNumber"
@@ -2053,6 +2019,10 @@
                                 [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                             </app-custom-input>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
@@ -2072,10 +2042,6 @@
                             </app-custom-input>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
 
@@ -2090,6 +2056,10 @@
                             </div>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
@@ -2109,16 +2079,16 @@
                             </app-vf-custom-select>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
                             <app-vf-custom-select [id]="'inter_state_vehicle'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="interStateVehicle">
                             </app-vf-custom-select>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="duplicate_rc">{{label.duplicateRC}}</label>
@@ -2136,10 +2106,6 @@
                             </app-custom-input>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                             <label for="seating_capacity">{{label.seatingCapacity}}</label>
                             <app-custom-input formControlName="seatingCapacity"
@@ -2150,6 +2116,10 @@
                             </app-custom-input>
 
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TopUp'">
                             <label for="insurance_validity">{{label.insuranceValidity}}</label>
@@ -2174,16 +2144,16 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
                             <label for="frsd_required">{{label.frsdRequired}}</label>
 
                             <input class="ml" type="checkbox" formControlName="fsrdFundingReq"
                                 (click)="onChangeFRSD($event)" />
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3"
                             *ngIf="obj.controls['fsrdFundingReq'].value === true">
@@ -2206,10 +2176,6 @@
                             </app-custom-input>
                         </div>
 
-                    </div>
-
-                    <div class="row">
-
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
 
                             <label for="body_cost">{{label.bodyCost}}</label>
@@ -2220,6 +2186,10 @@
                                 [id]="'body_cost'" [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="noc_date">{{label.expectedNOCDate}}</label>
@@ -2251,8 +2221,6 @@
             </div>
 
             <div id="child_loan_start" *ngIf="isChildLoan && Product">
-
-                <!-- <h3 class="title cus-title"> {{ label.childLoan }} </h3> -->
 
                 <div class="row">
 
@@ -2538,8 +2506,8 @@
             <div class="modal-body">
                 <div class="row" *ngIf="loanDetailsData.length != 0">
                     <div class="col-md-12">
-                        <div id="wrapper">
-                            <table id="add_vhd_table" class="table table-bordered">
+                        <div class="table-responsive application">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr class="table-head-bg ">
                                         <th>Select </th>
@@ -2555,8 +2523,8 @@
                                 <tbody>
                                     <tr *ngFor="let loanDetail of loanDetailsData; let i = index">
                                         <td align="center" [attr.data-label]="'Select'">
-                                            <input class="checkbox" type="radio" name="loanDetails" 
-                                            (click)="onLoanAccNoSelect($event, i, loanDetail)"/>
+                                            <input class="" type="radio" name="loanDetails"
+                                                (click)="onLoanAccNoSelect($event, i, loanDetail)" />
                                             <!--  -->
                                         </td>
                                         <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
