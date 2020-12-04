@@ -24,8 +24,7 @@
 
                 <br /><br />
                 <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox">
-                  <div class="panel-group " id="accordion"
-                    *ngFor="let chat of chatList; let i=index; let last=last">
+                  <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                     <div class="flex-container">
                       <div class="divs btn" (click)="getQueries(chat)"
                         [ngClass]="selectedList === chat ? 'selected-back' : ''">
@@ -141,8 +140,7 @@
 
               <br /><br />
               <div class="panel-group  scroll-box " id="scrollBox">
-                <div class="panel-group " id="accordion"
-                  *ngFor="let chat of chatList; let i=index; let last=last">
+                <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container">
                     <div class="divs btn" (click)="getQueries(chat, true)"
                       [ngClass]="selectedList === chat ? 'selected-back' : ''">
@@ -248,17 +246,15 @@
                       class="fa fa-angle-double-left"></i>
                   </button></div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11">
-                  <!-- <span _ngcontent-iiu-c8="" class="btn btn-primary btn-fa">
-                    <i _ngcontent-iiu-c8="" class="fa fa-search"></i></span> -->
                   <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
                       class="fa fa-arrow-left"></i>
                     {{labels.backToLead}}</button></div>
 
               </div>
               <div class="chat-box message-box viewport viewport-a" id="chat-box">
-                <div >
+                <div>
 
-                  <div class="input-group search-btn-msg" >
+                  <div class="input-group search-btn-msg">
                     <input type="text" class="form-control input-search" placeholder="Query Id Search"
                       [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
                       (keyup)="searchQueryIdMessage($event.target.value)">
@@ -271,6 +267,7 @@
 
                 <div *ngFor="let message of searchChatMessages; let j=index;let last=last;"
                   (mouseenter)="isCheckFropdownBut(message, j)" (mouseleave)="clickedIndex = null">
+                  <!-- [scrollTop]="scrollMe.scrollHeight" -->
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
 
                     <span class="active-dropdown" *ngIf="clickedIndex === j && message.queryStatusDesc !== 'Closed'"
@@ -301,6 +298,9 @@
                         <div class="col-md-4">
                           <span class="date-time"> <strong>{{labels.queryType}} : </strong> {{message.queryTypeDesc}}
                           </span>
+                          <span class="date-time"> <strong> Lead Stage : </strong>
+                            {{message.leadStageDesc}}
+                          </span>
                         </div>
 
                       </div>
@@ -308,15 +308,6 @@
                       <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                           <p>{{message.query}}</p>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                          <!-- <button #foo class="btn btn-cus"
-                            *ngIf="isClickButton === j && userId === message.queryFrom">Marked as Closed</button> -->
-                        </div>
-                        <div class="collg-4 col-md-4 col-sm-4 col-xs-12">
-                          <span class="date-time"> <strong> Lead Status : </strong>
-                            {{message.leadStageDesc}}
-                          </span>
                         </div>
                       </div>
 
@@ -449,7 +440,6 @@
                   </div>
                 </div>
 
-             
                 <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
 
@@ -504,13 +494,16 @@
 
                 <div class="col-sm-12 col-md-12 col-lg-12 text-box">
                   <div class="text-box-msg col-lg-12 col-xs-12 col-md-12 col-sm-12">
-                    <div class="font-msg col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span class="i-span input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span></div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 p-0">  <textarea class="form-control cus-chat" style="height:40px;" formControlName="query"
-                      (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
+                    <div class="font-msg col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span
+                        class="i-span input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span></div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 p-0"> <textarea class="form-control cus-chat"
+                        style="height:40px;" formControlName="query" (keyup.enter)="onFormSubmit(queryModalForm)"
+                        placeholder="Type your message here"></textarea>
                     </div>
-                    <div class="font-msg col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span class="i-span input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span></div>
-                    
-                  
+                    <div class="font-msg col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span class="i-span input-group-addon"
+                        (click)="onFormSubmit(queryModalForm)"><i class="fa fa-send fa-fw"></i></span></div>
+
+
                     <div class="invalid-feedback"
                       *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
                       <div *ngIf="queryModalForm.controls['query'].hasError('required')">
@@ -521,12 +514,10 @@
                 </div>
 
                 <!-- <div class="col-sm-2 col-md-2 col-lg-2 text-left mob-send">
-
                   <button type="button" class="btn btn-primary d-lg-flex btn-pad"
                     (click)="onFormSubmit(queryModalForm)"><i class="fa fa-send"></i><span
                       class="d-none d-lg-block ml-1 cus-hide-mob">
                       {{labels.send}}</span></button>
-
                 </div> -->
               </div>
 
