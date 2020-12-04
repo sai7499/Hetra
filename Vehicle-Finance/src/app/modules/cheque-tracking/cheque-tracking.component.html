@@ -172,7 +172,10 @@
                                               
                                           </div>
                                             &nbsp;
-                                            <div class="row" *ngIf="showStatusDate">
+                                            <div *ngIf="showStatusDate">
+
+                                            
+                                            <div class="row" >
                                                <div class="col-lgg-3 col-sm-4 col-md-3">Handed Over Date</div>
                                                <div class="col-lg-4 col-sm-4 col-md-3">
                                                 <kendo-datepicker
@@ -181,6 +184,7 @@
                                                 [format]="'dd/MM/yyyy'"
                                                 placeholder="Status Updated On"
                                                 [activeView]="'decade'"
+                                                [disabled]="disableUpdate"
                                                
                                               ></kendo-datepicker>
                                               <!-- (valueChange)="updateStatusDate($event)" -->
@@ -193,6 +197,49 @@
 
                                                </div>
                                             </div>
+                                            &nbsp;
+                                            <div class="row"
+                                            >
+                                              <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">Cheque Collected By</p></div>
+                                              <!-- <div class="col-lg-4 col-sm-4 col-md-3">
+                                                  <textarea class="form-control" cols="2"
+                                                  formControlName='remarks'></textarea>
+                                              </div> -->
+                                              <div class="col-lg-4 col-sm-4 col-md-3">
+                                                <app-vf-custom-select
+                                                formControlName="chequeCollectedBy"
+                                                [values]="applicantList"
+                                                [isDisabled]="disableUpdate"
+                                                [isRequired]="'Please select one'"
+                                                [isDirty]="isDirty"
+                                                
+                                            ></app-vf-custom-select>
+                                              </div>
+                                              
+                                              
+                                          </div>
+                                          &nbsp;
+                                          <div class="row"
+                                          >
+                                            <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">ID Proof</p></div>
+                                            <!-- <div class="col-lg-4 col-sm-4 col-md-3">
+                                                <textarea class="form-control" cols="2"
+                                                formControlName='remarks'></textarea>
+                                            </div> -->
+                                            <div class="col-lg-4 col-sm-4 col-md-3">
+                                              <app-vf-custom-select
+                                              formControlName="idProof"
+                                              [values]="idProofValues"
+                                              [isDisabled]="disableUpdate"
+                                              [isRequired]="'Please select one'"
+                                              [isDirty]="isDirty"
+                                              
+                                          ></app-vf-custom-select>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        </div>
                                             &nbsp;
                                             <div class="row"
                                             *ngIf="showRemark">
@@ -241,11 +288,13 @@
         <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBack()">{{labels.back}}</button>
         <button class="btn btn-primary dash_href "
         [disabled]="disableUpdate"
-        data-toggle="modal"
-        data-target="#myModal"
+        
+        (click)="checkFormUpdate()"
         >Update</button>
         <button class="btn btn-primary dash_href hvr-sweep-to-right" (click)="onNext()">Next</button>
     </div>
+    <!-- data-toggle="modal"
+        data-target="#myModal" -->
             
 </div>
 <!-- <div class="modal" id="myModal">
@@ -282,24 +331,23 @@
       </div>
     </div>
   </div> -->
-
-  <div class="modal fade" id="myModal" role="dialog">
+  
+  <div class="modal" id="myModal" role="dialog" [ngClass]="{ 'dis-block': showModal }">
     <div class="modal-dialog">
 
 
         <div class="modal-content">
-            <!-- <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Update</h4>
-            </div> -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="showModal=false">&times;</button>
+            </div>
             <div class="modal-body" >
-                <p>Are You Sure Want to Update Record?</p>
+                <p>Are You Sure you Want to Update Record?</p>
             </div>
            
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary " (click)="onUpdate()" 
                     data-dismiss="modal">Yes</button> &nbsp;
-                <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary " data-dismiss="modal" (click)="showModal=false">Close</button>
             </div>
         </div>
 

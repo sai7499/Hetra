@@ -337,6 +337,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.isContactNumberChanged = true;
           this.coApplicantForm.get('dedupe').get('pan').disable();
           this.getDedupeStoredValues();
+          this.setDedupeValidators();
         }
       }
 

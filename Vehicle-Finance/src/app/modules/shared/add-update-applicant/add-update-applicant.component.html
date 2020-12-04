@@ -453,9 +453,7 @@
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
-                  <app-custom-input formControlName="drivingLicenseNumber" [patternCheck]="
-                      validationData?.drivingLicense?.patternCheck
-                    " [maxLength]="validationData?.drivingLicense?.maxLength" (keyup)="onDrvingLisenseChange($event)"
+                  <app-custom-input formControlName="drivingLicenseNumber" [maxLength]="validationData?.drivingLicense?.maxLength" (keyup)="onDrvingLisenseChange($event)"
                     [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type" >
                   </app-custom-input>
                   
