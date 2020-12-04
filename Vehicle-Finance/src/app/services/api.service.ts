@@ -931,6 +931,11 @@ export class ApiService {
       workflowId: '28ff0e6a18fa11eb8f6e00505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
+    updateStatus: {
+      processId: 'e5530f5e32df11eb996500505695f93b',
+      workflowId: 'a41a11d218df11eb8ba600505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     getCount: {
       processId: 'daefda501b3411eba4e100505695f93b',
       workflowId: '83d58122193411eb853500505695f93b',

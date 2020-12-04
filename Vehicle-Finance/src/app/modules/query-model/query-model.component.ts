@@ -624,29 +624,25 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   searchQueryIdMessage(val: string) {
-
-    this.searchChatMessages = this.chatMessages.filter((mes: any) => {
+    let queryMessage = [];
+    this.searchChatMessages = this.chatMessages.filter((mes: any, i) => {
       val = val.toString().toLowerCase();
-
-      let queryMessage = [];
-
       if (mes.queryId) {
-
-        if (mes.parentQueryId) {
-          //   const eName = mes.parentQueryId.toString().toLowerCase();
-          //   if (eName.includes(val)) {
-          //     queryMessage.unshift(mes)
-          //     return mes;
-          //   }
-        }
         const eQueryId = mes.queryId.toString().toLowerCase();
         if (eQueryId.includes(val)) {
-          console.log(mes, 'mes')
+          // return mes;
+        }
 
-          return mes;
+        if (mes.parentQueryId) {
+          queryMessage = this.chatMessages.filter((res) => {
+            if (mes.parentQueryId === res.queryId || eQueryId.includes(res)) {
+              return res
+            }
+          })
         }
 
       }
+      console.log(queryMessage, 'chatMessages', mes)
 
     })
 
