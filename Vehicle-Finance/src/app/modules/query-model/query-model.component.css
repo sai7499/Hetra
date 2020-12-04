@@ -816,6 +816,8 @@ margin: 0px !important;
             padding: 0px 0px 10px;
         }
 
+       
+
 
         .close-btn{
             font-size: 13px;
@@ -1121,7 +1123,7 @@ div.viewport-a {
     margin: 0px 10px;
 }
 
-.msg-space{
+/* .msg-space{
     position:fixed;
     right:-3px;
-}
+} */

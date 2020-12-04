@@ -231,7 +231,8 @@ export class InsuranceDetailsComponent implements OnInit {
     if (this.isLoan360) {
       return this.onNext();
     }
-
+    this.checkOnMotor(this.f.value.motorInsuranceRequired);
+    this.checkOnCredit(this.f.value.creditShieldRequired);
 
     if (this.f.value.nomineeAge < 18) {
       this.isGuardian = true;
@@ -297,11 +298,11 @@ export class InsuranceDetailsComponent implements OnInit {
   }
 
   checkOnCredit(event) {
-    if (event === 'no') {
+    if (event == 'no') {
       this.showCreditDetails = false;
       this.creditShieldRequired = false;
       this.removeValidations();
-    } else if (event === 'yes') {
+    } else if (event == 'yes') {
       this.showCreditDetails = true;
       this.creditShieldRequired = true;
       this.addValidations();

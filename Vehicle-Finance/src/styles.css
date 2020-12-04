@@ -286,7 +286,7 @@ h3 {
 @media (min-width:300px) and (max-width:767px) {
     .content {
         background: #fff;
-        padding: 18px!important; 
+        padding:3px 15px!important; 
         border-radius: 8px;
         border: 1px solid #ddd;
         margin-bottom: 20px;
