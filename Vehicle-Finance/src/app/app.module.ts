@@ -60,6 +60,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 import { QueryDataResolverService } from '@modules/lead-section/services/queryDaraResolver.service';
 
+import { LeadUploadDiscussionComponent } from '@modules/lead-upload-discussion/lead-upload-discussion.component';
+import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
+
 setTheme('bs4');
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -74,7 +77,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective],
+  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective,LeadUploadComponent, LeadUploadDiscussionComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

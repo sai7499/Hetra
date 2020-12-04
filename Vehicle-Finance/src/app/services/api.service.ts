@@ -146,6 +146,16 @@ export class ApiService {
       workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    validateLeadDetails: {
+      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      processId: 'e64e888231f611ebac6300505695f93b',
+      projectId: environment.projectIds.camProjectId,
+    },
+    saveValidLeadRecords: {
+      workflowId: 'e630a07e31f611eb9bb600505695f93b',
+      processId: '8910dbe6338311eba9ba00505695f93b',
+      projectId: environment.projectIds.camProjectId,
+    },
     getFleetRtr: {
       processId: '7e26a5b29aae11eabdd1f2fa9bec3d63',
       workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
