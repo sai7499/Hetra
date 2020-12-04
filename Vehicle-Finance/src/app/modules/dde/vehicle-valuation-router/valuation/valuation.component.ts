@@ -32,6 +32,7 @@ export class ValuationComponent implements OnInit {
   vehicleValuationDetails: any = {};
   isInputField = false;
   isDirty: boolean;
+  isLoan360: boolean;
   customFutureDate: boolean;
   public toDayDate: Date = new Date();
   currentYear = new Date().getFullYear();
@@ -143,7 +144,7 @@ export class ValuationComponent implements OnInit {
   permitType: any;
   permitDisabled: boolean;
   permitRequired: boolean;
-  isLoan360: boolean;
+
   invalidPemitDate: boolean;
   invalidFitnessDate: boolean;
   invalidTaxDate: boolean;
@@ -580,6 +581,10 @@ export class ValuationComponent implements OnInit {
         this.reportUrl = this.vehicleValuationDetails.pdfUrl;
         console.log('report url', this.reportUrl);
       }
+      // if (this.vehicleValuationDetails.reportUrl) {
+      //   this.reportUrl = this.vehicleValuationDetails.reportUrl;
+      //   console.log('report url', this.reportUrl);
+      // }
 
       // patching lovs for vehicle details
       if (this.vehicleCode != null) {
@@ -659,6 +664,8 @@ export class ValuationComponent implements OnInit {
     // this.router.navigate([this.reportUrl]);
 
     window.open(this.reportUrl, '_blank');
+    // window.focus();
+    return;
 
   }
 

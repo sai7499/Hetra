@@ -82,28 +82,28 @@ export class InsuranceDetailsComponent implements OnInit {
   vehicleTypeList = [];
   productCode: string;
   rtoCenterName: any;
-  isRtoCenter: boolean;
+  isRtoCenter = true;
 
   constructor(private fb: FormBuilder,
-    private labelsData: LabelsService,
-    private toggleDdeService: ToggleDdeService,
-    private insuranceService: InsuranceServiceService,
-    private loginStoreService: LoginStoreService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private applicantService: ApplicantService,
-    private toasterService: ToasterService,
-    private createLeadService: CreateLeadDataService,
-    private lovService: CommomLovService,
-    private utilityService: UtilityService,
-    private loanViewService: LoanViewService
+              private labelsData: LabelsService,
+              private toggleDdeService: ToggleDdeService,
+              private insuranceService: InsuranceServiceService,
+              private loginStoreService: LoginStoreService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private applicantService: ApplicantService,
+              private toasterService: ToasterService,
+              private createLeadService: CreateLeadDataService,
+              private lovService: CommomLovService,
+              private utilityService: UtilityService,
+              private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
     this.todayDate = new Date();
     this.leadData = this.createLeadService.getLeadSectionData();
     console.log('lead Data', this.leadData);
-    this.productCode = this.leadData['leadDetails'].productCatCode
+    this.productCode = this.leadData['leadDetails'].productCatCode;
     this.initForm();
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     if (this.isLoan360) {
@@ -145,10 +145,10 @@ export class InsuranceDetailsComponent implements OnInit {
     this.applicantId = (await this.getApplicantId()) as number;
     this.leadId = (await this.getLeadId()) as number;
 
-    this.checkOnCredit(this.flag);
-    this.checkOnMotor(this.motar);
+   
     this.getInsuranceDetails();
     this.getInsuranceProvider();
+    
 
   }
   getApplicantId() {
@@ -231,7 +231,8 @@ export class InsuranceDetailsComponent implements OnInit {
     if (this.isLoan360) {
       return this.onNext();
     }
-    
+    this.checkOnMotor(this.f.value.motorInsuranceRequired);
+    this.checkOnCredit(this.f.value.creditShieldRequired);
 
     if (this.f.value.nomineeAge < 18) {
       this.isGuardian = true;
@@ -240,7 +241,7 @@ export class InsuranceDetailsComponent implements OnInit {
       this.isGuardian = false;
       this.isDirty = true;
     }
-   if (!this.isRtoCenter){
+    if (!this.isRtoCenter){
       this.toasterService.showError('Please enter mandatory fields', '');
       this.isRtoCenter = false;
       this.insuranceDetailForm.controls.rtoCentre.reset();
@@ -265,8 +266,8 @@ export class InsuranceDetailsComponent implements OnInit {
     this.insuranceDetailForm.value.nomineeState = Number(this.insuranceDetailForm.value.nomineeState);
     this.insuranceDetailForm.value.nomineeAge = Number(this.insuranceDetailForm.value.nomineeAge);
     this.insuranceDetailForm.value.usedCoverageAmount = Number(this.insuranceDetailForm.value.usedCoverageAmount);
-    this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
-    this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
+    // this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
+    // this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
     this.insuranceDetailForm.value.nomineeDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.nomineeDOB);
     this.insuranceDetailForm.value.guardianDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.guardianDOB);
     this.insuranceDetailForm.value.rtoCentre = this.rtoCenterName;
@@ -297,17 +298,17 @@ export class InsuranceDetailsComponent implements OnInit {
   }
 
   checkOnCredit(event) {
-    if (event === 'no') {
+    if (event == 'no') {
       this.showCreditDetails = false;
       this.creditShieldRequired = false;
       this.removeValidations();
-    } else if (event === 'yes') {
+    } else if (event == 'yes') {
       this.showCreditDetails = true;
       this.creditShieldRequired = true;
       this.addValidations();
     }
   }
-  checkOnMotor(event) {   
+  checkOnMotor(event) {
       if (event === 'no') {
         // this.showCreditDetails = false;
         this.motorShieldRequired = false;
@@ -342,7 +343,7 @@ export class InsuranceDetailsComponent implements OnInit {
         this.f.controls.model.updateValueAndValidity();
         this.f.controls.fuelType.setValidators(Validators.required);
         this.f.controls.fuelType.updateValueAndValidity();
-      }     
+      }
   }
   getPincode(pincode, event: string) {
     // const id = pincode.id;
@@ -468,21 +469,35 @@ export class InsuranceDetailsComponent implements OnInit {
 
   }
   public ageCalculation(date, relation: string) {
-    setTimeout(() => {
-      const event = this.calculateAgeInYears(this.utilityService.getDateFormat(date));
-      console.log('testing date', event);
-      if (relation === 'nominee') {
-        this.f.patchValue({
-          nomineeAge: event
-        });
-        this.enableDisableGuardian(event);
-      }
+    if (date == null || date == undefined) {
+      return;
+    }
+    console.log('date full year', date.getFullYear());
+    const dateYear = date.getFullYear().toString();
+    if (dateYear.length === 4) {
+      setTimeout(() => {
+        const event = this.calculateAgeInYears(this.utilityService.getDateFormat(date));
+        console.log('testing date', event);
+        if (relation === 'nominee' && (event > 0 && event <= 100)) {
+          this.f.patchValue({
+            nomineeAge: event
+          });
+          this.enableDisableGuardian(event);
+        } else if (relation === 'nominee' && (event > 0 && event <= 100)) {
+          this.f.controls.nomineeDOB.reset();
+          this.f.controls.nomineeAge.reset();
+        } else if (relation === 'guardian' && (event <= 18 || event > 100)) {
+          this.f.controls.guardianDOB.reset();
+          this.toasterService.showError('Please enter guardian age greater than 18', '');
+        }
 
-    }, 2000);
+      }, 2000);
+
+    }
 
   }
   public calculateAgeInYears(date) {
-    if(date){
+    if (date) {
     const now = new Date();
     const toDayDate = this.utilityService.getDateFromString(
       date
@@ -540,7 +555,7 @@ export class InsuranceDetailsComponent implements OnInit {
 
       }
       if (this.f.value.nomineeAge < 18) {
-        this.isMinor = true
+        this.isMinor = true;
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < this.guardianArray.length; i++) {
           const guardianKey = this.guardianArray[i];
@@ -557,7 +572,7 @@ export class InsuranceDetailsComponent implements OnInit {
 
         }
       } else {
-        this.isMinor = true;
+        this.isMinor = false;
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < this.guardianArray.length; i++) {
           const guardianKey = this.guardianArray[i];
@@ -565,7 +580,7 @@ export class InsuranceDetailsComponent implements OnInit {
           this.f.controls[guardianKey].updateValueAndValidity();
         }
       }
-    } 
+    }
   }
 
   public removeValidations() {
@@ -586,9 +601,9 @@ export class InsuranceDetailsComponent implements OnInit {
       console.log('controls array', this.nomineeArray, this.guardianArray);
       this.f.controls.nameOfCreditShieldPolicy.clearValidators();
       this.f.controls.nameOfCreditShieldPolicy.updateValueAndValidity();
-      this.f.controls.typeOfApplicant.clearValidators()
+      this.f.controls.typeOfApplicant.clearValidators();
       this.f.controls.typeOfApplicant.updateValueAndValidity();
-      this.f.controls.usedCoverageAmount.clearValidators()
+      this.f.controls.usedCoverageAmount.clearValidators();
       this.f.controls.usedCoverageAmount.updateValueAndValidity();
       this.f.controls.healthQuestion.clearValidators();
       this.f.controls.healthQuestion.updateValueAndValidity();
@@ -597,24 +612,24 @@ export class InsuranceDetailsComponent implements OnInit {
       for (let i = 0; i < this.nomineeArray.length; i++) {
 
         const nomineeKey = this.nomineeArray[i];
-       
-          this.f.controls[nomineeKey].clearValidators();
-          this.f.controls[nomineeKey].updateValueAndValidity();
-          console.log(nomineeKey, 'value in nominee   array');       
+
+        this.f.controls[nomineeKey].clearValidators();
+        this.f.controls[nomineeKey].updateValueAndValidity();
+        console.log(nomineeKey, 'value in nominee   array');
 
       }
-      
-        this.isMinor = true
+
+      this.isMinor = false;
         // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < this.guardianArray.length; i++) {
+      for (let i = 0; i < this.guardianArray.length; i++) {
           const guardianKey = this.guardianArray[i];
-         
-            this.f.controls[guardianKey].clearValidators();
-            this.f.controls[guardianKey].updateValueAndValidity();
-         
+
+          this.f.controls[guardianKey].clearValidators();
+          this.f.controls[guardianKey].updateValueAndValidity();
+
 
         }
-      
+
   }
 }
   getInsuranceDetails() {
@@ -628,6 +643,38 @@ export class InsuranceDetailsComponent implements OnInit {
         this.healthQuestionAns = res.ProcessVariables.healthQuestions;
         this.covidQuestions = res.ProcessVariables.covidQuestions;
         if (this.processVariables) {
+          if (this.motar == 'yes' && this.processVariables.insuranceProvider != null) {
+            this.getInsuranceProvider();
+            this.f.patchValue({
+              insuranceProvider: this.processVariables.insuranceProvider
+            });
+            this.onChangeInsuranceprovider(null, 'insProvider');
+            this.f.patchValue({
+              vehicleMake: this.processVariables.vehicleMake,
+            });
+            this.onChangeInsuranceprovider(this.processVariables.vehicleMake, 'vehicleMake');
+            this.f.patchValue({
+              vehicleType: this.processVariables.vehicleType
+            });
+            this.onChangeInsuranceprovider(this.processVariables.vehicleType, 'vehicleType');
+            this.f.patchValue({
+              model: this.processVariables.model,
+            });
+            this.onChangeInsuranceprovider(this.processVariables.model, 'vehicleModel');
+            this.f.patchValue({
+              variant: this.processVariables.variant,
+            });
+            this.onChangeInsuranceprovider(this.processVariables.variant, 'vehicleVariant');
+            this.f.patchValue({
+              fuelType: this.processVariables.fuelType
+            });
+            // this.getRtoDetails(this.processVariables.rtoCentre, true);
+            this.f.patchValue({
+              rtoCentre: this.processVariables.rtoCentre,
+            });
+            this.selectRtoEvent(res.ProcessVariables.aRtoCentre);
+
+          }
           this.selectApplicant(this.processVariables.nameOfCreditShieldPolicy);
           if (this.processVariables.guardianPincode != null || this.processVariables.guardianPincode != undefined) {
             this.getPincodeResult(this.processVariables.guardianPincode, 'guardian');
@@ -635,9 +682,9 @@ export class InsuranceDetailsComponent implements OnInit {
           if (this.processVariables.nomineePincode != null || this.processVariables.nomineePincode != undefined) {
             this.getPincodeResult(this.processVariables.nomineePincode, 'nominee');
           }
+          this.checkOnCredit(this.returnYesOrNo(this.processVariables.creditShieldRequired));
+          this.checkOnMotor(this.returnYesOrNo(this.processVariables.motorInsuranceRequired));
           // this.getPincode(this.processVariables.nomineePincode, 'nominee');
-          this.checkOnCredit(this.processVariables.creditShieldRequired);
-          this.checkOnMotor(this.processVariables.motorInsuranceRequired);
           this.f.patchValue({
             nameOfCreditShieldPolicy: this.processVariables.nameOfCreditShieldPolicy,
             creditShieldRequired: this.returnYesOrNo(this.processVariables.creditShieldRequired),
@@ -677,50 +724,23 @@ export class InsuranceDetailsComponent implements OnInit {
             usedCoverageAmount: this.processVariables.usedCoverageAmount,
             healthQuestion: this.processVariables.healthQuestion,
             guarantorGender: this.processVariables.guarantorGender,
-            nomineeGender: this.processVariables.nomineeGender,       
+            nomineeGender: this.processVariables.nomineeGender,
           });
-          this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
-          if (this.motar == 'yes' && this.processVariables.insuranceProvider != null) {
-            this.getInsuranceProvider();
-            this.f.patchValue({
-              insuranceProvider: this.processVariables.insuranceProvider
-            })
-            this.onChangeInsuranceprovider(null, 'insProvider');
-            this.f.patchValue({
-              vehicleMake: this.processVariables.vehicleMake,
-            })
-            this.onChangeInsuranceprovider(this.processVariables.vehicleMake, 'vehicleMake');
-            this.f.patchValue({
-              vehicleType: this.processVariables.vehicleType
-            })
-            this.onChangeInsuranceprovider(this.processVariables.vehicleType, 'vehicleType');
-            this.f.patchValue({
-              model: this.processVariables.model,
-            })
-            this.onChangeInsuranceprovider(this.processVariables.model, 'vehicleModel');
-            this.f.patchValue({
-              variant: this.processVariables.variant,
-            })
-            this.onChangeInsuranceprovider(this.processVariables.variant, 'vehicleVariant');
-            this.f.patchValue({
-              fuelType: this.processVariables.fuelType
-            })
-            this.getRtoDetails(this.processVariables.rtoCentre);
-            this.f.patchValue({
-              rtoCentre: this.processVariables.rtoCentre,
-            })
-
-          }
-
+          // this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
+          
+          this.enableDisableGuardian(this.processVariables.nomineeAge);
+        } else {
+          this.checkOnCredit(this.flag);
+          this.checkOnMotor(this.motar);
         }
       }
     });
   }
 
-  returnYesOrNo(event: boolean) {
-    if (event === true) {
+  returnYesOrNo(event: string) {
+    if (event == 'yes') {
       return 'yes';
-    } else if (event === false) {
+    } else if (event == 'no') {
       return 'no';
     }
   }
@@ -732,20 +752,20 @@ export class InsuranceDetailsComponent implements OnInit {
   }
   enableDisableGuardian(event) {
     // alert('age' + event);
-    if (event < 18) {
+    if (event < 18 && this.creditShieldRequired == true) {
       this.isShowGuardian = true;
     } else {
       this.isShowGuardian = false;
     }
   }
   getInsuranceProvider() {
-    const body = {}
+    const body = {};
     this.insuranceService.getMotorInsuranceProviderDetails(body).subscribe((res: any) => {
       console.log('insurance provider', res);
-      let itemList: Array<any> = res.ProcessVariables.insuranceLOV
+      let itemList: Array<any> = res.ProcessVariables.insuranceLOV;
       this.insuranceProviderList = this.utilityService.getValueFromJSON(
-        itemList.filter(val => val.productCatCode == this.productCode),
-        'insProUniqCode', 'insProvider')
+        itemList.filter(val => val.productCatCode == this.productCode && val.insProvider != 'NOT REQUIRED' ),
+        'insProUniqCode', 'insProvider');
       console.log('insurance lov list', this.insuranceProviderList);
       // }
     });
@@ -760,7 +780,7 @@ export class InsuranceDetailsComponent implements OnInit {
       this.insuranceDetailForm.controls.vehicleMake.reset();
       this.vehicleMakeList = [];
       const body = {};
-      console.log('body for insprovider lovtype', body)
+      console.log('body for insprovider lovtype', body);
       this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
         console.log(res, ' res for vehicle make');
         res.ProcessVariables.insuranceVehMstDetails.map((element) => {
@@ -775,11 +795,11 @@ export class InsuranceDetailsComponent implements OnInit {
       });
     } else if (lovType == 'vehicleMake') {
       this.insuranceDetailForm.controls.vehicleType.reset();
-      this.vehicleTypeList = []
+      this.vehicleTypeList = [];
       const body = {
         vehicleMake: event
       };
-      console.log('body for vehicle make lovtype', body)
+      console.log('body for vehicle make lovtype', body);
       this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
         console.log(res, ' res for vehicle type');
         res.ProcessVariables.insuranceVehMstDetails.map((element) => {
@@ -790,7 +810,8 @@ export class InsuranceDetailsComponent implements OnInit {
           };
           this.vehicleTypeList.push(body);
         });
-        console.log('vehicle type', this.vehicleTypeList)
+       
+        console.log('vehicle type', this.vehicleTypeList);
       });
       // })
     } else if (lovType == 'vehicleType') {
@@ -801,9 +822,12 @@ export class InsuranceDetailsComponent implements OnInit {
         vehicleMake: control.vehicleMake,
         vehicleType: event
       };
-      console.log('body for vehicle type lovtype', body)
+      console.log('body for vehicle type lovtype', body);
       this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
         console.log(res, ' res for vehicle model');
+        this.rtoCentreList = res.ProcessVariables.rtoLocationList;
+        console.log('rtoLocationList', this.rtoCentreList);
+        
         res.ProcessVariables.insuranceVehMstDetails.map((element) => {
           const body = {
             key: element.modelCode,
@@ -811,6 +835,7 @@ export class InsuranceDetailsComponent implements OnInit {
           };
           this.modelList.push(body);
         });
+
         console.log('vehicle model', this.modelList);
       });
       // })
@@ -835,7 +860,7 @@ export class InsuranceDetailsComponent implements OnInit {
         });
         console.log('vehicle variant ', this.variantList);
         // });
-      })
+      });
     } else if (lovType == 'vehicleVariant') {
       this.insuranceDetailForm.controls.fuelType.reset();
       this.fuelTypeList = [];
@@ -858,26 +883,37 @@ export class InsuranceDetailsComponent implements OnInit {
         });
         console.log('vehicle variant ', this.fuelTypeList);
 
-      })
+      });
     }
 
   }
-  getRtoDetails(event: string) {
+  getRtoDetails(event: string, isGetApi?: boolean) {
     this.isRtoCenter = false;
     if (event.length >= 4) {
       const body = {
+        vehicleType: this.f.value.vehicleType,
         rtoCode: event
       };
       this.insuranceService.getInsuranceRtoDetails(body).subscribe((res: any) => {
         console.log('rto', res);
-        this.rtoCentreList = res.ProcessVariables.rtoCentreList;
+        if (isGetApi != true) {
+          this.rtoCentreList = res.ProcessVariables.rtoCentreList;
+        }
+        
         console.log('rto center', this.rtoCentreList);
+        if ( isGetApi == true && this.rtoCentreList != null) {
+          this.f.patchValue({
+            rtoCentre: this.processVariables.rtoCode,
+          });
+          // this.isRtoCenter = true;
+          // this.selectRtoEvent(this.rtoCentreList[0]);
+        }
       });
     }
   }
 
-  selectRtoEvent(event){
-    this.isRtoCenter = event.key? true:false
-    this.rtoCenterName = event? event.key:null
+  selectRtoEvent(event) {
+    this.isRtoCenter = event.key ? true : false;
+    this.rtoCenterName = event ? event.key : null;
   }
 }
