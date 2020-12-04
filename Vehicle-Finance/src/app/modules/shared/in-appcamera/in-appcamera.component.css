@@ -83,7 +83,7 @@ button{
   text-align: center;
 }
 button{
-  background: gray;
+  /* background: gray; */
   color:#333;
   border-radius: 3px;
   border:1px solid #ccc;
@@ -103,6 +103,7 @@ button{
   margin-left: 8px;
   max-width: 100%; /* This rule is very important, please do not ignore this! */
   width:  95vw;
+  height: calc(90vh - 100px);
 }
 
 .img_size{
@@ -113,9 +114,9 @@ button{
   margin-top: 108px;
 }
 
-.in_app_camera image-cropper{
+/* .in_app_camera image-cropper{
   position: absolute;
-}
+} */
 
 .btn-style{
   padding: 5px 10px;
@@ -123,6 +124,7 @@ button{
   background-color: #fff0;
   border: none;
   font-size: 8px;
+  height: 40px;
 }
 
 .btn-camera{
@@ -155,5 +157,25 @@ button:focus{
 .cropper .move {
   width: 100%;
   cursor: move;
-  border: 1px solid #fff !important;
+  border: 3px solid #fff !important;
+}
+
+.close_camera_preview {
+  color: #FFF;
+    float: right;
+    font-size: 20px;
+    padding-right: 13px;
+    padding-top: 5px;
+    font-weight: bold;
+}
+
+.cropper .resize .square{
+  background: #FFF !important;
+  border: 3px solid #FFF !important;
+}
+
+.btn_icon_camera {
+  width: 15px;
+  height: 15px;
+  vertical-align: -5px;
 }

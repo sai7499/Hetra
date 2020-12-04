@@ -394,6 +394,9 @@ export class ApplicantService {
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    console.log("Biometric Body"+body);
+    console.log("URL"+url);
+
     return this.httpService.post(url, body);
   }
 
