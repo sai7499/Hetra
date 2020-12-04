@@ -288,7 +288,7 @@
 <div class="btn-sec clear-both row btn-mar-15" id="clickButton">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right p-0" style="padding-bottom: 2vw;">
-    <button (click)="navigateToPrevious()" class="btn btn-primary" type="button" *ngIf="isLoan360">
+    <button (click)="navigateToPrevious()" class="btn btn-primary hvr-sweep-to-left" type="button" *ngIf="isLoan360">
       Back
     </button>
     <ng-container *ngIf="!isLoan360">
@@ -296,7 +296,7 @@
       Save
     </button>
   </ng-container>
-    <button (click)="nextToApplicant()" class="btn btn-primary -btn-next" type="button">
+    <button (click)="nextToApplicant()" class="btn btn-primary -btn-next hvr-sweep-to-right" type="button">
       Next
     </button>
   </div>

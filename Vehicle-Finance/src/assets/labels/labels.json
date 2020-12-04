@@ -285,6 +285,7 @@
     "documentsShared": "Documents Shared",
     "queryType": "Query Type",
     "tagQueryTo": "Tag query To",
+    "replyTo": "Replied To",
     "queue": "Queue",
     "userName": "User Name",
     "password": "Password",
@@ -1806,6 +1807,7 @@
     "productName": "Product Name",
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
+    "relationshipWithNominee": "Relationship with nominee ",
     "validationData": {
         "name": {
             "maxLength": {

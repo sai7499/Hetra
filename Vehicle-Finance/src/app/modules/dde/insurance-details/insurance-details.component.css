@@ -10,9 +10,10 @@
 
 .main-head{
     background-color: #272264;
-    padding: 10px;
+    padding: 5px;
     border-radius: 5px;
     color: #fff;
+    margin: 0px 5px;
 }
 
 .sub-head{
@@ -20,7 +21,7 @@
     padding: 6px;
     border-radius: 5px;
     color: #fff;
-    margin: 5px 0px;
+    margin: 0px 5px;
     font-size: 14px;
 }
 
@@ -32,3 +33,12 @@
     margin: 5px 15px;
     font-weight:400;
 }
+
+@media (min-width:200px) and (max-width:767px) {
+    .heading-style{
+        width: 95%;
+        margin: auto;
+    }
+    
+}
+

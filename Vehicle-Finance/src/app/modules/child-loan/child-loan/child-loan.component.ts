@@ -10,6 +10,7 @@ import { ChildLoanApiService } from '@services/child-loan-api.service';
 import { CommonDataService } from '@services/common-data.service';
 import { LoanViewService } from '@services/loan-view.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   selector: 'app-child-loan',
@@ -31,9 +32,10 @@ export class ChildLoanComponent implements OnInit {
   name: string = '';
   isMobileErrMsg: boolean;
   isDobErrMsg: boolean;
+  isNameErrMsg: boolean;
   isDisableMobDob: boolean = true;
-  isDisableMobile: boolean = true;
-  isDisableDob: boolean = true;
+  // isDisableMobile: boolean = true;
+  // isDisableDob: boolean = true;
   selectedUcicIndex: number;
   selectedLoanAccNoIndex: number;
   accountNo: any;
@@ -51,6 +53,12 @@ export class ChildLoanComponent implements OnInit {
   test: any;
   toDaydate: Date = new Date();
   userDetails: any;
+  nameValue: any;
+  mobileValue: any;
+  dobValue: any;
+  nameValid: any;
+  mobileValid: any;
+  dobValid: any;
 
   childData: {
     ucic?: any,
@@ -82,6 +90,7 @@ export class ChildLoanComponent implements OnInit {
     private commomLovService: CommomLovService,
     private loanViewService: LoanViewService,
     private loginStoreService: LoginStoreService,
+    private utilityService: UtilityService
 
   ) { }
 
@@ -93,6 +102,7 @@ export class ChildLoanComponent implements OnInit {
     const userDetails = this.loginStoreService.getRolesAndUserDetails();
     this.isSO = userDetails.roles[0].roleId;
     console.log('userDetails', userDetails);
+    console.log('bod ', this.childLoanForm.controls.dateOfBirth);    
   }
 
   initForm() {
@@ -175,28 +185,46 @@ export class ChildLoanComponent implements OnInit {
     const name = this.childLoanForm.controls.name.valid;
     const mobile = this.childLoanForm.controls.mobile.valid;
     const dateOfBirth = this.childLoanForm.controls.dateOfBirth.valid;
-    if (
+    if ((
       ucic || loanAccountNumber ||
       vehicleRegistrationNumber ||
       aadhaar || drivingLicense ||
       voterId || passport || pan ||
-      cin || tan || gst
-    ) {
-      this.accordian = '#collapseOne';
+      cin || tan || gst) || (name && mobile && dateOfBirth)) {
+      this.onSearch();
+    } else if ((name && dateOfBirth) || (name && mobile) || (dateOfBirth && mobile)) {
       this.onSearch();
       console.log('childform1', this.childLoanForm.controls);
-    } else if (name && dateOfBirth) {
-      this.accordian = '#collapseOne';
-      this.onSearch();
-      console.log('childform2', this.childLoanForm.controls);
-    } else if (name && mobile) {
-      this.accordian = '#collapseOne';
-      this.onSearch();
-      console.log('childform3', this.childLoanForm.controls);
     } else {
-      this.toasterService.error('Atleast one search parameter is required to search loan account.', 'Search Loan Account');
+      this.toasterService.error(
+        'Atleast one search parameter or mandatory fields are required to search loan account.', 'Search Loan Account'
+      );
     }
 
+    // (
+    //   ucic || loanAccountNumber ||
+    //   vehicleRegistrationNumber ||
+    //   aadhaar || drivingLicense ||
+    //   voterId || passport || pan ||
+    //   cin || tan || gst
+    // ) && (
+    //   !name && !mobile && !dateOfBirth
+    // )
+    // if (
+    //   (name && dateOfBirth || name && mobile) &&
+    //   (dateOfBirth && name || dateOfBirth && mobile) &&
+    //   (mobile && name || mobile && dateOfBirth)
+    // ) {
+    //   this.onSearch();
+    //   console.log('childform1', this.childLoanForm.controls);
+    // } else {
+    //   this.toasterService.error(
+    //     'Atleast two search parameters are required in NAME, MOBILE and DOB to search loan account.', 'Search Loan Account'
+    //   );
+    // }
+    // this.toasterService.error(
+    //   'Atleast one search parameter is required to search loan account.', 'Search Loan Account'
+    // );
   }
 
   getFormControlValues() {
@@ -211,82 +239,144 @@ export class ChildLoanComponent implements OnInit {
     const cin = this.childLoanForm.controls.value;
     const tan = this.childLoanForm.controls.value;
     const gst = this.childLoanForm.controls.value;
-    const name = this.childLoanForm.controls.value;
-    const mobile = this.childLoanForm.controls.value;
-    const dateOfBirth = this.childLoanForm.controls.value;
+    this.nameValue = this.childLoanForm.controls.name.value;
+    this.mobileValue = this.childLoanForm.controls.mobile.value;
+    this.dobValue = this.childLoanForm.controls.dateOfBirth.value;
+    // this.dobValue = this.utilityService.getDateFormat(this.childLoanForm.controls.dateOfBirth.value);
+
   }
 
   onName(event) {
+    this.getFormControlValues();
     this.name = event.target.value;
     this.name = this.name.replace(/[^a-zA-Z ]/g, '');
-    if (this.name !== '') {
-      // this.isDisableMobDob = false;      
-      this.isDisableMobile = false;
-      this.isDisableDob = false;
+    this.nameValue = this.name;
+    if (
+      (this.nameValue === '' || this.nameValue === undefined) &&
+      (this.mobileValue === '' || this.mobileValue === undefined) &&
+      (this.dobValue === null || this.dobValue === '' || this.dobValue === undefined)
+    ) {
       this.isMobileErrMsg = false;
       this.isDobErrMsg = false;
-      const mobile = this.childLoanForm.controls.mobile.valid;
-      const dateOfBirth = this.childLoanForm.controls.dateOfBirth.valid;
-      if (mobile || dateOfBirth) {
+      this.isNameErrMsg = false;
+      return;
+    }
+    if (this.nameValue) {
+      if (this.mobileValue !== '' || (this.dobValue !== '' && this.dobValue !== null)) {
         this.isMobileErrMsg = false;
         this.isDobErrMsg = false;
-        this.accordian = '#collapseOne';
       } else {
         this.isMobileErrMsg = true;
         this.isDobErrMsg = true;
-        this.accordian = '';
       }
-    } else if (this.name === '') {
-      // this.isDisableMobDob = true;      
-      this.childLoanForm.patchValue({ mobile: null });
-      this.childLoanForm.updateValueAndValidity();
-      this.childLoanForm.patchValue({ dateOfBirth: null });
-      this.childLoanForm.updateValueAndValidity();
-      this.isDisableMobile = true;
-      this.isDisableDob = true;
-      this.isMobileErrMsg = false;
-      this.isDobErrMsg = false;
-      this.accordian = '';
+      this.isNameErrMsg = false;
+    } else {
+      if (this.mobileValue !== '' || this.dobValue !== '') {
+        this.isMobileErrMsg = this.mobileValue ? false : true;
+        this.isDobErrMsg = this.dobValue ? false : true;
+        if (this.mobileValue === '' && this.dobValue === '') {
+          this.isNameErrMsg = false;
+        } else {
+          this.isMobileErrMsg = this.mobileValue ? false : true;
+          this.isDobErrMsg = this.dobValue ? false : true;
+          if (!this.isMobileErrMsg && !this.isDobErrMsg) {
+            this.isNameErrMsg = false;
+          } else if (!this.isMobileErrMsg || !this.isDobErrMsg) {
+            this.isNameErrMsg = true;
+          }
+        }
+      }
     }
-    // else {
-    //   // this.isDisableMobDob = true;
-    //   this.isDisableMobile = true;
-    //   this.isDisableDob = true;
-    // }
   }
   onMobileInput(event) {
+    this.getFormControlValues();
     const mobileValue = event.target.value;
-    if (mobileValue) {
+    if (
+      (this.nameValue === '' || this.nameValue === undefined) &&
+      (this.mobileValue === '' || this.mobileValue === undefined) &&
+      (this.dobValue === null || this.dobValue === '' || this.dobValue !== undefined)
+    ) {
       this.isMobileErrMsg = false;
       this.isDobErrMsg = false;
-      const mobile = this.childLoanForm.controls.mobile.valid;
-      this.accordian = (mobile) ? '#collapseOne' : '';
+      this.isNameErrMsg = false;
+      return;
+    }
+    if (this.mobileValue) {
+      if (this.nameValue !== '' || (this.dobValue !== '' && this.dobValue !== null)) {
+        this.isNameErrMsg = false;
+        this.isDobErrMsg = false;
+      } else {
+        this.isNameErrMsg = true;
+        this.isDobErrMsg = true;
+      }
+      this.isMobileErrMsg = false;
     } else {
-      this.isMobileErrMsg = true;
-      this.isDobErrMsg = true;
+      if (this.nameValue !== '' || this.dobValue !== '') {
+        this.isNameErrMsg = this.nameValue ? false : true;
+        this.isDobErrMsg = this.dobValue ? false : true;
+        if (this.nameValue === '' && this.dobValue === '') {
+          this.isMobileErrMsg = false;
+        } else {
+          this.isNameErrMsg = this.nameValue ? false : true;
+          this.isDobErrMsg = this.dobValue ? false : true;
+          if (!this.isNameErrMsg && !this.isDobErrMsg) {
+            this.isMobileErrMsg = false;
+          } else if (!this.isNameErrMsg || !this.isDobErrMsg) {
+            this.isMobileErrMsg = true;
+          }
+        }
+      }
     }
   }
 
   onDateOfBirthInput(event) {
-    console.log('ddob', event);
-    if (event) {
+    this.getFormControlValues();
+    console.log('ddob', event, this.childLoanForm.controls.dateOfBirth);
+    if (
+      (this.nameValue === '' || this.nameValue === undefined) &&
+      (this.mobileValue === '' || this.mobileValue === undefined) &&
+      (this.dobValue === null || this.dobValue === '' || this.dobValue === undefined)
+    ) {
       this.isMobileErrMsg = false;
       this.isDobErrMsg = false;
-      const dateOfBirth = this.childLoanForm.controls.dateOfBirth.valid;
-      this.accordian = (dateOfBirth) ? '#collapseOne' : '';
+      this.isNameErrMsg = false;
+      return;
+    }
+    if (this.dobValue) {
+      if (this.nameValue !== '' || this.mobileValue !== '') {
+        this.isNameErrMsg = false;
+        this.isMobileErrMsg = false;
+      } else {
+        this.isNameErrMsg = true;
+        this.isMobileErrMsg = true;
+      }
+      this.isDobErrMsg = false;
     } else {
-      this.isMobileErrMsg = true;
-      this.isDobErrMsg = true;
+      if (this.nameValue !== '' || this.mobileValue !== '') {
+        this.isNameErrMsg = this.nameValue ? false : true;
+        this.isMobileErrMsg = this.mobileValue ? false : true;
+        if (this.nameValue === '' && this.mobileValue === '') {
+          this.isDobErrMsg = false;
+        } else {
+          this.isNameErrMsg = this.nameValue ? false : true;
+          this.isMobileErrMsg = this.mobileValue ? false : true;
+          if (!this.isNameErrMsg && !this.isMobileErrMsg) {
+            this.isDobErrMsg = false;
+          } else if (!this.isNameErrMsg || !this.isMobileErrMsg) {
+            this.isDobErrMsg = true;
+          }
+        }
+      }
     }
   }
 
-  onSearch() {
+  onSearch(loanAccNo?, isCreateChild?) {
     const formValue = this.childLoanForm.getRawValue();
     const childLoanDatas: any = { ...formValue };
 
     this.childData = {
       ucic: childLoanDatas.ucic,
-      loanAccountNumber: childLoanDatas.loanAccountNumber,
+      loanAccountNumber: loanAccNo ? loanAccNo : childLoanDatas.loanAccountNumber,
       vehicleRegistrationNumber: childLoanDatas.vehicleRegistrationNumber,
       aadhaar: childLoanDatas.aadhaar,
       drivingLicense: childLoanDatas.drivingLicense,
@@ -315,6 +405,9 @@ export class ChildLoanComponent implements OnInit {
           if (this.customerDetailsData.length !== 0 || this.loanDetailsData.length !== 0) {
             this.accordian = '#collapseOne';
             this.test = '#customerDetails_id';
+            if (isCreateChild) {
+              this.onCreateChildLoan();
+            }
           } else {
             this.accordian = '';
             this.test = '';
@@ -373,7 +466,12 @@ export class ChildLoanComponent implements OnInit {
     // });
   }
 
+  onCreate() {
+    this.onSearch(this.accountNo, true);
+  }
+
   onCreateChildLoan() {
+
     const customerData = this.customerDetailsData.length;
     const loanData = this.loanDetailsData.length;
 
@@ -393,7 +491,8 @@ export class ChildLoanComponent implements OnInit {
         firstName: this.customerDetailsData[this.selectedUcicIndex].firstName,
         middleName: this.customerDetailsData[this.selectedUcicIndex].middleName,
         lastName: this.customerDetailsData[this.selectedUcicIndex].lastName,
-        entity: this.customerDetailsData[this.selectedUcicIndex].entityTypeID,
+        entity: this.customerDetailsData[this.selectedUcicIndex].entityTypeID ?
+          this.customerDetailsData[this.selectedUcicIndex].entityTypeID : 'INDIVENTTYP',
         mobile: this.customerDetailsData[this.selectedUcicIndex].mobileNumber,
         dobOrDoi: this.customerDetailsData[this.selectedUcicIndex].dobORdoi,
       };

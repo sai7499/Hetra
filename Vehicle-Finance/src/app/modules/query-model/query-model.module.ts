@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@modules/shared/shared.module';
 import { QueryModelRouterModule } from './query-model.router';
 import { SearchPipe } from '@services/search.pipe';
+// import { ScrollToBottomDirective } from './scroll-to-bottom.directive';
 
 @NgModule({
   declarations: [QueryModelComponent, SearchPipe],
@@ -13,6 +14,7 @@ import { SearchPipe } from '@services/search.pipe';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    // ScrollToBottomDirective,
     QueryModelRouterModule
   ]
 })
