@@ -1106,6 +1106,11 @@ export class ApiService {
       processId: 'c71ef06c32cf11ebba8e00505695f93b',
       workflowId: 'c6ef01c232cf11eb8a3c00505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    submitValuationTask: {
+      processId: '02e6fa7e35ee11eb80a600505695f93b',
+      workflowId: '02b88fb835ee11eb9cc400505695f93b',
+      projectId: environment.projectIds.submitToCredit
     }
   };
 }
