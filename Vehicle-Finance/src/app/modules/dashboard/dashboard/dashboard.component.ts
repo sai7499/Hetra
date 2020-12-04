@@ -373,6 +373,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.activeTab = 47;
         this.subActiveTab = 48;
         this.onTabsLoading(this.subActiveTab);
+      } else if (this.roleType == '9') {
+        this.activeTab = 60;
+        this.subActiveTab = 61;
+        this.onTabsLoading(this.subActiveTab);
       }
     }
 
@@ -724,12 +728,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55: case 61:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59: case 62:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -835,6 +839,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
         this.isBM = true;
         this.getExternalUserLeads(this.itemsPerPage, event);
+        break;
+        case 61: case 62:
+        this.taskName = 'Vehicle Valuation';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
 
       default:
@@ -1344,8 +1352,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 57:
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
         break;
-      case 57:
-        // this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
+      case 61: case 62:
+        this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
         break;
 
       default:
@@ -1682,7 +1690,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
       console.log(this.selectedArray);
     } else {
-      if (this.selectedArray == []) this.selectAll = false;
+      if (this.selectedArray.length == 0) this.selectAll = false;
       let unSelectedIndex = this.selectedArray.findIndex((ele, index) => {
         console.log(ele, leadId, taskId);
         console.log(ele.leadId == leadId || ele.taskId == taskId)
