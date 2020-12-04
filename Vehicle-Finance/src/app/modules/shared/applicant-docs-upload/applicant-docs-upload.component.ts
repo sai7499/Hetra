@@ -525,6 +525,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
     // this.currentlySelectedDocs = categoryCode;
   }
 
+  onDocumentNumberPress(event, index, code) {
+    if (code === 12 || code === 13 || code === 15 || code === 16) {
+      const value = event.target.value;
+      const formArray = this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray;
+      console.log('formArray.at[index]', formArray.at(index))
+      formArray.at(index).get('documentNumber').setValue(String(value).toUpperCase());
+    }
+  }
+
   setDocumentValidation() {
     // this.selectedCode = subCategoryCode;
     // if (subCategoryCode === 12) { // passport

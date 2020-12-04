@@ -7,6 +7,7 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 import { TermSheetFromDashboardComponent } from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
 import { DetectBrowserActivityService } from '@services/detect-browser-activity.service'
 import { PddComponent } from '@modules/shared/pdd-screen/pdd.component';
+import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
 const routes: Routes = [
   {
     path: '',
@@ -41,6 +42,10 @@ const routes: Routes = [
       getLOV: LovResolverService,
     },
     children: [
+      {
+        path: 'lead-upload',
+        component: LeadUploadComponent
+      },
       {
         path: 'loan-360',
         loadChildren: () => import('./modules/loan-360/loan-view.module').then(m => m.LoanViewModule)
