@@ -117,7 +117,7 @@
                                     &nbsp;
                                     <div class="row">
                                         <div class="col-lg-3 col-sm-4 col-md-3">{{labels.customerName}}</div>
-                                        <div class="col-lg-4 col-sm-4 col-md-3"><strong>-</strong></div>
+                                        <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{chequeCollctedBy || '-'}}</strong></div>
                                     </div>
                                     &nbsp;
                                     <div class="row" 
@@ -209,6 +209,7 @@
                                                 <app-vf-custom-select
                                                 formControlName="chequeCollectedBy"
                                                 [values]="applicantList"
+                                                (change)="onChangeChequeCollected($event)"
                                                 [isDisabled]="disableUpdate"
                                                 [isRequired]="'Please select one'"
                                                 [isDirty]="isDirty"

@@ -42,6 +42,8 @@ export class ChequeTrackingComponent implements OnInit {
   idProofValues: any = [];
   applicantList: any = [];
   leadSectioData: any;
+  chequeCollctedBy : string;
+  applicantArray : any=[]
 
   constructor(
     private labelsData: LabelsService,
@@ -107,9 +109,9 @@ export class ChequeTrackingComponent implements OnInit {
 
   getApplicantDetails() {
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
-    const applicantList = this.leadSectioData['applicantDetails']
+    this.applicantArray = this.leadSectioData['applicantDetails']
 
-    applicantList.forEach((val) => {
+    this.applicantArray.forEach((val) => {
       const keyValue = {
         key: val.applicantId,
         value: val.fullName
@@ -167,7 +169,8 @@ export class ChequeTrackingComponent implements OnInit {
 
         })
 
-
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error.message, '')
       }
     })
   }
@@ -198,6 +201,18 @@ export class ChequeTrackingComponent implements OnInit {
   //   });
 
   // }
+
+
+  onChangeChequeCollected(event){
+    console.log('event', event)
+    const value= event.target.value;
+    let app= this.applicantArray.find((data)=>{
+      return Number(value)===data.applicantId
+    })
+   this.chequeCollctedBy= app.fullName;
+
+
+  }
 
 
 
@@ -291,8 +306,10 @@ export class ChequeTrackingComponent implements OnInit {
     if (this.isChecked) {
       this.disableUpdate = false;
       this.index = index;
+      
 
       this.selectedData = data;
+      this.chequeCollctedBy= this.selectedData.chequeCollectedByDesc;
       console.log('statusUpdaed', this.selectedData)
 
 
@@ -414,6 +431,10 @@ export class ChequeTrackingComponent implements OnInit {
       if (res['ProcessVariables'].error.code == '0') {
         this.toasterService.showSuccess('Record Updated Successfully',
           '')
+          this.selectedData={};
+          this.chequeCollctedBy= ''
+          this.statusMsg=''
+          this.index= null;
           this.getChequeTrckingData();
           this.chequeForm.get('status').setValue('')
           this.showRemark= false;
