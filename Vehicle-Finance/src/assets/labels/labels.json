@@ -2143,11 +2143,7 @@
             "maxLength": {
                 "rule": 16
             },
-            "type": "alpha-numeric",
-            "patternCheck": {
-                "rule": "[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{11}",
-                "msg": "Invalid Driving License.Valid format-AA12A12345678901"
-            }
+            "type": "alpha-numeric"
         },
         "voterId": {
             "maxLength": {
