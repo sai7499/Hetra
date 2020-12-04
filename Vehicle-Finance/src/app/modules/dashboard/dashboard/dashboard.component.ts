@@ -834,8 +834,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 57:
         if (!this.userName) {
           this.userDetailsRoleId = '1';
+          this.loginUserId = localStorage.getItem('userId');
         } else {
-          this.userDetailsRoleId = this.roleId
+          this.userDetailsRoleId = this.roleId;
+          this.loginUserId = this.supervisorUserId;
         }
         this.isBM = true;
         this.getExternalUserLeads(this.itemsPerPage, event);
@@ -1459,7 +1461,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.selectedArray.push(leadId);
     const data = {
       myLeads: true,
-      leadId: this.selectedArray,
+      reassignDetails: this.selectedArray,
       loginId: localStorage.getItem('userId')
     }
     this.supervisorService.supervisorReAssign(taskId).subscribe((res: any) => {
@@ -1500,13 +1502,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
-        leadId: this.selectedArray,
+        reassignDetails: this.selectedArray,
         loginId: this.selfAssignLoginId,
         fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     } else {
       this.dataToReassign = {
-        taskId: this.selectedArray,
+        reassignDetails: this.selectedArray,
         loginId: this.selfAssignLoginId,
         fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
@@ -1532,8 +1534,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onReAssignClick(leadId?, taskId?) {
-    this.selectedArray = [];
-    // this.reAssignData = item;
+    // this.selectedArray = [];
+    this.reAssignData = {leadId, taskId};
     this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' })
     console.log(this.selectedArray);
 
@@ -1548,7 +1550,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.subActiveTab === this.displayTabs.ExternalUser) {
       this.externalUserData = {
         roleId: this.userDetailsRoleId,
-        userId: localStorage.getItem('userId')
+        userId: this.loginUserId
       }
     } else {
       this.externalUserData = {
@@ -1577,13 +1579,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
-        leadId: this.selectedArray,
+        reassignDetails: this.selectedArray,
         loginId: this.supervisorForm.value.roles,
         fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     } else {
       this.dataToReassign = {
-        taskId: this.selectedArray,
+        reassignDetails: this.selectedArray,
         loginId: this.supervisorForm.value.roles,
         fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
@@ -1750,7 +1752,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   assignSelectedLeads() {
-    this.onReAssignClick();
+    this.getSupervisorUserDetails();
   }
 
   ngOnDestroy() {
