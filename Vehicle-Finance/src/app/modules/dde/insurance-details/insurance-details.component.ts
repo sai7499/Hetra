@@ -668,10 +668,11 @@ export class InsuranceDetailsComponent implements OnInit {
             this.f.patchValue({
               fuelType: this.processVariables.fuelType
             });
-            this.getRtoDetails(this.processVariables.rtoCentre, true);
+            // this.getRtoDetails(this.processVariables.rtoCentre, true);
             this.f.patchValue({
               rtoCentre: this.processVariables.rtoCentre,
             });
+            this.selectRtoEvent(res.ProcessVariables.aRtoCentre);
 
           }
           this.selectApplicant(this.processVariables.nameOfCreditShieldPolicy);
@@ -681,6 +682,8 @@ export class InsuranceDetailsComponent implements OnInit {
           if (this.processVariables.nomineePincode != null || this.processVariables.nomineePincode != undefined) {
             this.getPincodeResult(this.processVariables.nomineePincode, 'nominee');
           }
+          this.checkOnCredit(this.returnYesOrNo(this.processVariables.creditShieldRequired));
+          this.checkOnMotor(this.returnYesOrNo(this.processVariables.motorInsuranceRequired));
           // this.getPincode(this.processVariables.nomineePincode, 'nominee');
           this.f.patchValue({
             nameOfCreditShieldPolicy: this.processVariables.nameOfCreditShieldPolicy,
@@ -724,8 +727,7 @@ export class InsuranceDetailsComponent implements OnInit {
             nomineeGender: this.processVariables.nomineeGender,
           });
           // this.ageCalculation(this.processVariables.nomineeDOB, 'nominee');
-          this.checkOnCredit(this.returnYesOrNo(this.processVariables.creditShieldRequired));
-          this.checkOnMotor(this.returnYesOrNo(this.processVariables.motorInsuranceRequired));
+          
           this.enableDisableGuardian(this.processVariables.nomineeAge);
         } else {
           this.checkOnCredit(this.flag);
@@ -750,7 +752,7 @@ export class InsuranceDetailsComponent implements OnInit {
   }
   enableDisableGuardian(event) {
     // alert('age' + event);
-    if (event < 18) {
+    if (event < 18 && this.creditShieldRequired == true) {
       this.isShowGuardian = true;
     } else {
       this.isShowGuardian = false;
@@ -762,7 +764,7 @@ export class InsuranceDetailsComponent implements OnInit {
       console.log('insurance provider', res);
       let itemList: Array<any> = res.ProcessVariables.insuranceLOV;
       this.insuranceProviderList = this.utilityService.getValueFromJSON(
-        itemList.filter(val => val.productCatCode == this.productCode),
+        itemList.filter(val => val.productCatCode == this.productCode && val.insProvider != 'NOT REQUIRED' ),
         'insProUniqCode', 'insProvider');
       console.log('insurance lov list', this.insuranceProviderList);
       // }
@@ -808,6 +810,7 @@ export class InsuranceDetailsComponent implements OnInit {
           };
           this.vehicleTypeList.push(body);
         });
+       
         console.log('vehicle type', this.vehicleTypeList);
       });
       // })
@@ -822,6 +825,9 @@ export class InsuranceDetailsComponent implements OnInit {
       console.log('body for vehicle type lovtype', body);
       this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
         console.log(res, ' res for vehicle model');
+        this.rtoCentreList = res.ProcessVariables.rtoLocationList;
+        console.log('rtoLocationList', this.rtoCentreList);
+        
         res.ProcessVariables.insuranceVehMstDetails.map((element) => {
           const body = {
             key: element.modelCode,
@@ -829,6 +835,7 @@ export class InsuranceDetailsComponent implements OnInit {
           };
           this.modelList.push(body);
         });
+
         console.log('vehicle model', this.modelList);
       });
       // })
@@ -884,18 +891,22 @@ export class InsuranceDetailsComponent implements OnInit {
     this.isRtoCenter = false;
     if (event.length >= 4) {
       const body = {
+        vehicleType: this.f.value.vehicleType,
         rtoCode: event
       };
       this.insuranceService.getInsuranceRtoDetails(body).subscribe((res: any) => {
         console.log('rto', res);
-        this.rtoCentreList = res.ProcessVariables.rtoCentreList;
+        if (isGetApi != true) {
+          this.rtoCentreList = res.ProcessVariables.rtoCentreList;
+        }
+        
         console.log('rto center', this.rtoCentreList);
         if ( isGetApi == true && this.rtoCentreList != null) {
           this.f.patchValue({
-            rtoCentre: this.rtoCentreList[0].value,
+            rtoCentre: this.processVariables.rtoCode,
           });
           // this.isRtoCenter = true;
-          this.selectRtoEvent(this.rtoCentreList[0]);
+          // this.selectRtoEvent(this.rtoCentreList[0]);
         }
       });
     }
