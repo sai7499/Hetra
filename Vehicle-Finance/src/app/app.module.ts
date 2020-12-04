@@ -58,6 +58,7 @@ import { DisbursementSectionModule } from '@modules/disbursement-section/disburs
 import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
+import { QueryDataResolverService } from '@modules/lead-section/services/queryDaraResolver.service';
 
 setTheme('bs4');
 
@@ -117,6 +118,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CommonModule,
     LovResolverService,
     LeadDataResolverService,
+    QueryDataResolverService,
     CommomLovService,
     UtilityService,
     Authguard,

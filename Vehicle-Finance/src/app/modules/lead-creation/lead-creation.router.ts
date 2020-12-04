@@ -21,6 +21,10 @@ const routes: Routes = [
       {
         path: "lead-dedupe",
         component: LeadDedupeComponent
+      },
+      {
+        path:"external-lead/:leadId",
+        component: ExistingLeadCreationComponent
       }
     ]
   }
