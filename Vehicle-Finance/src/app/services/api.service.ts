@@ -146,6 +146,16 @@ export class ApiService {
       workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    validateLeadDetails: {
+      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      processId: 'e64e888231f611ebac6300505695f93b',
+      projectId: environment.projectIds.camProjectId,
+    },
+    saveValidLeadRecords: {
+      workflowId: 'e630a07e31f611eb9bb600505695f93b',
+      processId: '8910dbe6338311eba9ba00505695f93b',
+      projectId: environment.projectIds.camProjectId,
+    },
     getFleetRtr: {
       processId: '7e26a5b29aae11eabdd1f2fa9bec3d63',
       workflowId: 'be4f9c6099c911eabdcff2fa9bec3d63',
@@ -931,6 +941,11 @@ export class ApiService {
       workflowId: '28ff0e6a18fa11eb8f6e00505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
+    updateStatus: {
+      processId: 'e5530f5e32df11eb996500505695f93b',
+      workflowId: 'a41a11d218df11eb8ba600505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     getCount: {
       processId: 'daefda501b3411eba4e100505695f93b',
       workflowId: '83d58122193411eb853500505695f93b',
@@ -1096,6 +1111,11 @@ export class ApiService {
       processId: 'c71ef06c32cf11ebba8e00505695f93b',
       workflowId: 'c6ef01c232cf11eb8a3c00505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    submitValuationTask: {
+      processId: '02e6fa7e35ee11eb80a600505695f93b',
+      workflowId: '02b88fb835ee11eb9cc400505695f93b',
+      projectId: environment.projectIds.submitToCredit
     }
   };
 }

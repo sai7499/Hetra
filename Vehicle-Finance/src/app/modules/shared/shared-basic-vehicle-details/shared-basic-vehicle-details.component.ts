@@ -30,7 +30,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
 
   maxDate = new Date();
-  // maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
   initalZeroCheck = [];
   isNegativeValue = [];
   eligibleLoanAmount: any = 0;
@@ -119,6 +118,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.basicVehicleForm = this._fb.group({
       isValidPincode: true,
+      isCheckDedpue: true,
       isInvalidMobileNumber: true,
       isVaildFinalAssetCost: true,
       vehicleFormArray: this._fb.array([])
@@ -168,7 +168,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.initForms();
     this.getLov();
 
-    if (this.id && this.id !== 0) {
+
+    console.log(this.id, 'fdsg')
+
+    if (this.id && this.id !== '0') {
       this.setFormValue();
     };
 
@@ -578,8 +581,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       bodyCost: VehicleDetail.bodyCost || null,
       pac: VehicleDetail.pac || '',
       pacAmount: VehicleDetail.pacAmount || null,
-      parentLoanAccountNumber: VehicleDetail.parentLoanAccountNumber|| null,
-      isVehicleDedupe:  VehicleDetail.isVehicleDedupe === 'Yes' ? true : false,
+      parentLoanAccountNumber: VehicleDetail.parentLoanAccountNumber || null,
+      isVehicleDedupe: VehicleDetail.isVehicleDedupe === 'Yes' ? true : false,
       permitExpiryDate: VehicleDetail.permitExpiryDate ? this.utilityService.getDateFromString(VehicleDetail.permitExpiryDate) : '',
       processtionType: VehicleDetail.processtionType || '',
       productCatCode: VehicleDetail.productCatCode || '',
@@ -1273,6 +1276,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
       if (this.vehicleRegNoChange !== val) {
+        this.basicVehicleForm.patchValue({
+          isCheckDedpue: false
+        })
+
         this.isVehicleRegNoChange = true;
       } else {
         this.isVehicleRegNoChange = false;
@@ -1292,22 +1299,34 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     let childData = {
       vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value
     }
+
+    this.basicVehicleForm.patchValue({
+      isCheckDedpue: true
+    })
+
     this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
       this.vehicleRegNoChange = res.ProcessVariables.childData.vehicleRegistrationNumber;
+
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      const details = formArray.at(0) as FormGroup;
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.searchChildLoanData = res;
         this.isVehicleDedupe = true;
         this.isShowParentLoan = true;
+        obj.get('parentLoanAccountNumber').setValidators([Validators.required]);
+        obj.get('parentLoanAccountNumber').updateValueAndValidity()
         this.loanDetailsData = res.ProcessVariables.loanDetails ? res.ProcessVariables.loanDetails : [];
       } else {
         this.isVehicleDedupe = false;
         this.isShowParentLoan = false;
         this.isVehicleRegNoChange = false;
-
+        obj.get('parentLoanAccountNumber').clearValidators();
+        obj.get('parentLoanAccountNumber').updateValueAndValidity();
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })
+    console.log(obj, 'obj')
   }
 
   onLoanAccNoSelect(val, index, data) {
