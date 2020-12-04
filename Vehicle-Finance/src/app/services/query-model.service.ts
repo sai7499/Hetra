@@ -116,4 +116,24 @@ export class QueryModelService {
     return this.httpService.post(url, body);
   }
 
+  // Update Query Status
+
+  updateQueryStatus(data) {
+    const processId = this.apiService.api.updateStatus.processId;
+    const workflowId = this.apiService.api.updateStatus.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body = {
+
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId,
+      showLoader: false
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
 }

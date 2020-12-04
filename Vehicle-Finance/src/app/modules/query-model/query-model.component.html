@@ -27,13 +27,13 @@
                   <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                     <div class="flex-container">
                       <div class="divs btn" (click)="getQueries(chat)"
-                        [ngClass]="selectedList === chat ? 'selected-back' : ''">
+                        [ngClass]="selectedList === chat ? 'selected-back' : ''" style="height: 50px;">
                         <p class="mar-em">{{chat.value}}</p>
+                        <i class="fa fa-comment count-list font-medium-3"
+                          *ngIf="chat.count && chat.count !== 0"></i><span
+                          class="notification badge badge-pill badge-danger"
+                          *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
                       </div>
-
-                      <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
-                        class="notification badge badge-pill badge-danger"
-                        *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
                     </div>
                     <hr>
                   </div>
@@ -143,13 +143,12 @@
                 <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="flex-container">
                     <div class="divs btn" (click)="getQueries(chat, true)"
-                      [ngClass]="selectedList === chat ? 'selected-back' : ''">
+                      [ngClass]="selectedList === chat ? 'selected-back' : ''" style="height: 50px;">
                       <p class="mar-em">{{chat.value}}</p>
+                      <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
+                        class="notification badge badge-pill badge-danger"
+                        *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
                     </div>
-
-                    <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
-                      class="notification badge badge-pill badge-danger"
-                      *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
                   </div>
                   <hr>
                 </div>
@@ -251,7 +250,9 @@
                     {{labels.backToLead}}</button></div>
 
               </div>
-              <div class="chat-box message-box viewport viewport-a" id="chat-box">
+              <div class="chat-box message-box viewport viewport-a" id="chat-box" #scrollMe
+                [scrollTop]="scrollMe.scrollHeight">
+                <!-- [scrollTop]="scrollMe.scrollHeight" -->
                 <div>
 
                   <div class="input-group search-btn-msg">
@@ -260,14 +261,12 @@
                       (keyup)="searchQueryIdMessage($event.target.value)">
                     <span class="input-group-addon glass-span" (click)="clearSearch()"><i
                         [ngClass]="searchQueryId.length >= 1 ? 'fa fa-close cus-close' : 'fa fa-search'"></i></span>
-                    <!-- class="fa fa-search" -->
                   </div>
 
                 </div>
 
                 <div *ngFor="let message of searchChatMessages; let j=index;let last=last;"
                   (mouseenter)="isCheckFropdownBut(message, j)" (mouseleave)="clickedIndex = null">
-                  <!-- [scrollTop]="scrollMe.scrollHeight" -->
                   <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
 
                     <span class="active-dropdown" *ngIf="clickedIndex === j && message.queryStatusDesc !== 'Closed'"
@@ -275,10 +274,10 @@
                       <i class="fa fa-angle-down" aria-hidden="true"></i>
                     </span>
 
-                    <div class="message-dropdown-content right" id="myDropdown"
-                      [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
-                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">Reply
-                      <a (click)="foo.focus()"><span class="box tr"></span></a>
+                    <div id="myDropdown" class="cus-mes-dropdown-content" *ngIf="isClickDropDown === j"
+                      [ngClass]="message.queryFrom === userId  ? 'cus-left-rep' : 'cus-right-rep'">
+                      <a (click)="openOptions(message, j)">Reply</a>
+                      <a (click)="updateStatus(message, j)" *ngIf="message.queryFrom === userId">Closed</a>
                     </div>
 
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
@@ -296,7 +295,8 @@
                         </div>
 
                         <div class="col-md-4">
-                          <span class="date-time"> <strong>{{labels.queryType}} : </strong> {{message.queryTypeDesc}}
+                          <span class="date-time"> <strong>{{labels.queryType}} : </strong>
+                            {{message.queryTypeDesc}}
                           </span>
                           <span class="date-time"> <strong> Lead Stage : </strong>
                             {{message.leadStageDesc}}
@@ -352,7 +352,6 @@
                 <div class="wt-mid text-center" *ngIf="searchChatMessages && searchChatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
-
               </div>
 
               <div class="form-group row">
@@ -440,7 +439,6 @@
                   </div>
                 </div>
 
-
                 <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
 
@@ -473,7 +471,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                <!-- <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
                     <label for="file-upload" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.attachment}}</label>
                     <div class="upload-btn-wrapper col-sm-7 col-lg-7 col-md-7 col-xs-12">
@@ -488,28 +486,34 @@
                       *ngIf="queryModalForm.controls['docName'].value">
                       {{queryModalForm.controls['docName'].value}} </label>
                   </div>
-                </div>
+                </div> -->
               </div>
 
               <div class="form-group row">
 
                 <div class="col-sm-12 col-md-12 col-lg-12 text-box">
                   <div class="text-box-msg col-lg-12 col-xs-12 col-md-12 col-sm-12">
-                    <div class="font-msg col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span
-                        class="i-span input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span></div>
+                    <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span id="cus-tooltip"
+                        class="i-span input-group-addon" (click)="chooseFile()" data-tooltip="Attachment"
+                        [ngClass]="queryModalForm.controls['docName'].value ? 'cus-font-size' : ''"><i
+                          class="fa fa-paperclip fa-fw"></i>
+                      </span>
+                      <span *ngIf="queryModalForm.controls['docName'].value" style="font-size: 11px;">
+                        {{queryModalForm.controls['docName'].value}}</span>
+                    </div>
                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 p-0"> <textarea class="form-control cus-chat"
-                        style="height:40px;" formControlName="query" (keyup.enter)="onFormSubmit(queryModalForm)"
+                        style="height:70px;" formControlName="query" (keyup.enter)="onFormSubmit(queryModalForm)"
                         placeholder="Type your message here"></textarea>
                     </div>
-                    <div class="font-msg col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span class="i-span input-group-addon"
-                        (click)="onFormSubmit(queryModalForm)"><i class="fa fa-send fa-fw"></i></span></div>
+                    <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span data-tooltip="Send"
+                        class="i-span input-group-addon" (click)="onFormSubmit(queryModalForm)"><i
+                          class="fa fa-send fa-fw"></i></span></div>
 
-
-                    <div class="invalid-feedback"
-                      *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
-                      <div *ngIf="queryModalForm.controls['query'].hasError('required')">
-                        Query Required
-                      </div>
+                  </div>
+                  <div class="invalid-feedback"
+                    *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
+                    <div *ngIf="queryModalForm.controls['query'].hasError('required')">
+                      Query Required
                     </div>
                   </div>
                 </div>
