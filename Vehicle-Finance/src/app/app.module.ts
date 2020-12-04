@@ -59,6 +59,7 @@ import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 import { QueryDataResolverService } from '@modules/lead-section/services/queryDaraResolver.service';
+import { ScrollToBottomDirective } from '@services/directives/scroll-to-bottom.directive';
 
 setTheme('bs4');
 
@@ -74,7 +75,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective],
+  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective, ScrollToBottomDirective],
   imports: [
     BrowserModule,
     HttpClientModule,
