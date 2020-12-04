@@ -71,7 +71,8 @@ export class LeadUploadComponent implements OnInit {
             }
             this.showUploadModal = false;
             this.leadUploadDetails = null;
-            this.toasterService.success('Saved Successfully')
+            this.removeFile();
+            this.toasterService.success('Saved Successfully');
         });
 
   }
