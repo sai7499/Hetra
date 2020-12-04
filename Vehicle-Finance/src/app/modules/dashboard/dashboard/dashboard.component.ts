@@ -81,7 +81,10 @@ export enum DisplayTabs {
   ReAppealWithBranch,
   ExternalUser,
   ExternalUserDashboard,
-  UploadedLead
+  UploadedLead,
+  VehicleValuvator,
+  VehicleValuvatorWithMe,
+  VehicleValuvatorWithBranch
 }
 
 export enum sortingTables {
@@ -266,6 +269,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.supervisorRoleType = value.roleType;
       }
     });
+    console.log(this.supervisorRoleId);
+
     this.sharedService.isSupervisorRoleId.subscribe((value: any) => {
       console.log(value);
       if (value) {
@@ -287,6 +292,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.userDetailsRoleType = userDetails.roleType;
       this.selfAssignLoginId = userDetails.loginId;
     });
+    console.log(this.userDetailsRoleId);
 
 
     if (this.supervisorRoleType == this.userDetailsRoleType) {
@@ -298,7 +304,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.roleType = this.supervisorRoleType;
       this.loginUserId = this.supervisorUserId;
       this.roleId = this.supervisorRoleId;
-      this.loginUserId = this.supervisorUserId;
       this.router.navigate(['/pages/supervisor/dashboard']);
       this.pendingName = this.supervisorName;
     } else {
@@ -823,6 +828,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 57:
+        if (!this.userName) {
+          this.userDetailsRoleId = '1';
+        } else {
+          this.userDetailsRoleId = this.roleId
+        }
         this.isBM = true;
         this.getExternalUserLeads(this.itemsPerPage, event);
         break;
@@ -1334,6 +1344,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 57:
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
         break;
+      case 57:
+        // this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
+        break;
 
       default:
         break;
@@ -1436,10 +1449,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       subActiveTab: this.subActiveTab,
     };
     this.selectedArray.push(leadId);
-    const data= {
+    const data = {
       myLeads: true,
-        leadId: this.selectedArray,
-        loginId: localStorage.getItem('userId')
+      leadId: this.selectedArray,
+      loginId: localStorage.getItem('userId')
     }
     this.supervisorService.supervisorReAssign(taskId).subscribe((res: any) => {
       const response = JSON.parse(res);
@@ -1460,35 +1473,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   // Self-Assign Method
-  onSelfAssignClick(taskId, leadId) {
+  onSelfAssignClick(leadId?, taskId?) {
     this.selectedArray = [];
     this.leadTaskId = taskId;
     this.selfAssignLeadId = leadId;
-    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
-      this.selectedArray.push(leadId);
-    } else {
-      this.selectedArray.push(taskId);
-    }
-    console.log(this.selectedArray);
+    // if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
+    //   this.selectedArray.push(leadId);
+    // } else {
+    //   this.selectedArray.push(taskId);
+    // }
+    this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' });
 
+    console.log(this.selectedArray);
 
     console.log('on self assign click', this.selfAssignData);
   }
   onSupervisorAssign() {
-    // const data = {
-    //   taskId: this.leadTaskId,
-    //   loginId: this.selfAssignLoginId
-    // }
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
         leadId: this.selectedArray,
-        loginId: this.selfAssignLoginId
+        loginId: this.selfAssignLoginId,
+        fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     } else {
       this.dataToReassign = {
         taskId: this.selectedArray,
-        loginId: this.selfAssignLoginId
+        loginId: this.selfAssignLoginId,
+        fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     }
     console.log(this.dataToReassign);
@@ -1511,8 +1523,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
 
-  onReAssignClick() {
+  onReAssignClick(leadId?, taskId?) {
+    this.selectedArray = [];
     // this.reAssignData = item;
+    this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' })
+    console.log(this.selectedArray);
+
     console.log('on reAssign click', this.reAssignData);
 
     // console.log(this.reAssignData);
@@ -1521,14 +1537,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getSupervisorUserDetails() {
-    if(this.subActiveTab === this.displayTabs.ExternalUser) {
+    if (this.subActiveTab === this.displayTabs.ExternalUser) {
       this.externalUserData = {
         roleId: this.userDetailsRoleId,
         userId: localStorage.getItem('userId')
       }
     } else {
       this.externalUserData = {
-        roleId: this.supervisorRoleId,
+        roleId: this.roleId,
         userId: this.supervisorUserId
       }
     }
@@ -1554,12 +1570,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.dataToReassign = {
         myLeads: true,
         leadId: this.selectedArray,
-        loginId: this.supervisorForm.value.roles
+        loginId: this.supervisorForm.value.roles,
+        fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     } else {
       this.dataToReassign = {
         taskId: this.selectedArray,
-        loginId: this.supervisorForm.value.roles
+        loginId: this.supervisorForm.value.roles,
+        fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     }
     this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
@@ -1645,8 +1663,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       );
   }
 
-  onCheck(event, item) {
-    console.log(event, item);
+  onCheck(event, leadId?, taskId?) {
+    console.log(event, leadId, taskId);
     this.checkedOne = event.target.checked;
     // if(event.target.name == 'oneLead') {
     //   this.selectOne = true;
@@ -1658,17 +1676,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log(event.target.checked);
     if (event.target.checked) {
       if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
-        this.selectedArray.push(item.leadId);
+        this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' });
       } else {
-        this.selectedArray.push(item.taskId);
+        this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' });
       }
       console.log(this.selectedArray);
     } else {
       if (this.selectedArray == []) this.selectAll = false;
       let unSelectedIndex = this.selectedArray.findIndex((ele, index) => {
-        console.log(ele, item);
-        console.log(ele == item.leadId || ele == item.taskId)
-        if (ele == item.leadId || ele == item.taskId) {
+        console.log(ele, leadId, taskId);
+        console.log(ele.leadId == leadId || ele.taskId == taskId)
+        if (ele.leadId == leadId || ele.taskId == taskId) {
           return true;
         }
       })
@@ -1695,15 +1713,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.selectAll = true;
       this.disableButton = true;
       for (let i = 0; i < this.newArray.length; i++) {
-        if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
-          // console.log(this.newArray[i].leadId);
-          this.selectedArray.push(this.newArray[i].leadId);
+        // if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
+        //   // console.log(this.newArray[i].leadId);
+        //   this.selectedArray.push({"leadId": this.newArray[i].leadId});
 
-        } else {
-          // console.log(this.newArray[i].taskId);
-          this.selectedArray.push(this.newArray[i].taskId);
+        // } else {
+        //   // console.log(this.newArray[i].taskId);
+        //   this.selectedArray.push(this.newArray[i].taskId);
 
-        }
+        // }
+        this.selectedArray.push({ "leadId": this.newArray[i].leadId ? this.newArray[i].leadId : '', "taskId": this.newArray[i].taskId ? this.newArray[i].taskId : '' });
 
       }
       console.log(this.selectedArray);

@@ -206,7 +206,7 @@
                 [ngClass]="{'active':displayTabs?.NewLeads === subActiveTab}" routerLinkActive="active" id="leads"><a
                     data-toggle="tab">New Leads</a></li>
             <!--  -->
-            <li class="btn-dash" *ngIf="userDetailsRoleId == '6' && userDetailsRoleType == '1'"
+            <li class="btn-dash" *ngIf="roleId == '6' && roleType == '1'"
                 (click)="leads(displayTabs?.ExternalUser)"
                 [ngClass]="{'active':displayTabs?.ExternalUser === subActiveTab}" routerLinkActive="active" id="leads">
                 <a data-toggle="tab">Branch Leads</a></li>
@@ -217,7 +217,7 @@
                     data-toggle="tab">Reversed Leads with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.ReversedLeadsWithBranch)"
                 [ngClass]="{'active':displayTabs?.ReversedLeadsWithBranch === subActiveTab}" routerLinkActive="active">
-                <a data-toggle="tab">Reversed Leads Pending with Branch</a></li>
+                <a data-toggle="tab">Reversed Leads with Branch</a></li>
             <!--  -->
             <li class="btn-dash" (click)="leads(displayTabs?.SanctionedWithMe)"
                 [ngClass]="{'active':displayTabs?.SanctionedWithMe === subActiveTab}" routerLinkActive="active"><a
@@ -256,7 +256,7 @@
                     data-toggle="tab">Viability Checks with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.ViabilityWithBranch)"
                 [ngClass]="{'active':displayTabs?.ViabilityWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Viability Checks Pending with Branch</a></li>
+                    data-toggle="tab">Viability Checks with Branch</a></li>
         </ul>
         <!--  -->
         <ul *ngIf="displayTabs?.Deviation === activeTab" class="nav nav-pills nav-justified" id="background_white">
@@ -265,7 +265,7 @@
                     data-toggle="tab">Deviation With {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.DeviationWithBranch)"
                 [ngClass]="{'active':displayTabs?.DeviationWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Deviation Pending With Branch</a></li>
+                    data-toggle="tab">Deviation With Branch</a></li>
         </ul>
         <!--  -->
         <ul *ngIf="displayTabs?.PreDisbursementQueue === activeTab" class="nav nav-pills nav-justified"
@@ -275,7 +275,7 @@
                     data-toggle="tab">Leads with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.PreDisbursementWithBranch)"
                 [ngClass]="{'active':displayTabs?.PreDisbursementWithBranch === subActiveTab}"
-                routerLinkActive="active"><a data-toggle="tab">Leads Pending with Branch</a></li>
+                routerLinkActive="active"><a data-toggle="tab">Leads with Branch</a></li>
         </ul>
         <ul *ngIf="displayTabs?.TermSheet === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.TermSheetWithMe)"
@@ -283,7 +283,7 @@
                     data-toggle="tab">Termsheet with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.TermSheetWithBranch)"
                 [ngClass]="{'active':displayTabs?.TermSheetWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Termsheet Pending With Branch</a></li>
+                    data-toggle="tab">Termsheet With Branch</a></li>
         </ul>
 
         <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified"
@@ -335,7 +335,7 @@
                     data-toggle="tab">DDE Leads with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.DDEWithBranch)"
                 [ngClass]="{'active':displayTabs?.DDEWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">DDE Leads Pending with Branch</a></li>
+                    data-toggle="tab">DDE Leads with Branch</a></li>
         </ul>
         <ul *ngIf="displayTabs?.PD === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.MyPD)"
@@ -359,7 +359,7 @@
                     data-toggle="tab">Deviation With {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.DeviationWithBranch)"
                 [ngClass]="{'active':displayTabs?.DeviationWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Deviation Pending With Branch</a></li>
+                    data-toggle="tab">Deviation With Branch</a></li>
         </ul>
         <ul *ngIf="displayTabs?.Decision === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.CreditDecisionWithMe)"
@@ -382,7 +382,7 @@
                     data-toggle="tab">Termsheet with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.TermSheetWithBranch)"
                 [ngClass]="{'active':displayTabs?.TermSheetWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Termsheet Pending With Branch</a></li>
+                    data-toggle="tab">Termsheet With Branch</a></li>
         </ul>
 
     </div>
@@ -407,7 +407,7 @@
                     data-toggle="tab">Leads with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.CPCMakerWithBranch)"
                 [ngClass]="{'active':displayTabs?.CPCMakerWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Leads Pending with CPC</a></li>
+                    data-toggle="tab">Leads with CPC</a></li>
         </ul>
         <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified"
             id="background_white">
@@ -446,7 +446,7 @@
                     data-toggle="tab">Leads with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.CPCCheckerWithBranch)"
                 [ngClass]="{'active':displayTabs?.CPCCheckerWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Leads Pending with CPC</a></li>
+                    data-toggle="tab">Leads with CPC</a></li>
         </ul>
         <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.PDDWithMe)"
@@ -454,7 +454,7 @@
                     data-toggle="tab">Leads with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.PDDWithBranch)"
                 [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Leads Pending with Branch</a></li>
+                    data-toggle="tab">Leads with Branch</a></li>
         </ul>
         <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified"
             id="background_white">
@@ -484,7 +484,7 @@
                     data-toggle="tab">RCU with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.RCUWithBranch)"
                 [ngClass]="{'active':displayTabs?.RCUWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">RCU Pending with Branch</a></li>
+                    data-toggle="tab">RCU with Branch</a></li>
         </ul>
     </div>
     <!-- RCU Dashboard Ends -->
@@ -505,7 +505,7 @@
                     data-toggle="tab"> CAD with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.CPCCADWithBranch)"
                 [ngClass]="{'active':displayTabs?.CPCCADWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">CAD Pending with Branch</a></li>
+                    data-toggle="tab">CAD with Branch</a></li>
 
         </ul>
         <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified"
@@ -519,6 +519,7 @@
         </ul>
     </div>
     <!-- CPCCAD Dashboard Ends -->
+
     <!-- External User Dashboard Starts -->
     <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId == '66'">
         <ul class="nav nav-pills nav-justified" id="background_white">
@@ -530,6 +531,28 @@
     </div>
     <!-- External User Dashboard Ends -->
 
+    <!-- vehicle Valuvator Dashboard Starts -->
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '9'">
+        <ul class="nav nav-pills nav-justified" id="background_white">
+            <li class="btn-dash" (click)="onLeads(displayTabs?.VehicleValuvator, displayTabs?.VehicleValuvatorWithMe)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvator === activeTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Vehicle Valuvator</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container-fluid mar-bottom" *ngIf="roleType == '9'">
+        <ul *ngIf="displayTabs?.VehicleValuvator === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li class="btn-dash" class="active" (click)="leads(displayTabs?.VehicleValuvatorWithMe)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvatorWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab"> Leads with {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.VehicleValuvatorWithBranch)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvatorWithBranch === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Leads with Branch</a></li>
+
+        </ul>
+    <!-- vehicle Valuvator Dashboard Ends -->
+
+    <!-- Tables are Starting from here #################################################-->
     <div class="container-fluid row" *ngIf="disableButton" style="margin-bottom: 5px;">
         <div class="col-md-2 col-lg-3 col-sm-3 col-xs-12"></div>
         <div class="col-md-3 col-lg-2 col-sm-3 col-xs-12">
@@ -540,7 +563,6 @@
             <button class="btn btn-primary col-xs-12" *ngIf="selfAssign" data-toggle="modal"
                 data-target="#confirmSelfAssign" (click)="selfAssignSelectedLeads()">Self-Assign selected leads</button>
         </div>
-
     </div>
 
     <div>
@@ -549,7 +571,7 @@
                 *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.TranchesDisburse != activeTab">
                 <thead>
                     <tr class="table-head-bg">
-                        <th *ngIf="userName">
+                        <th *ngIf="userName || displayTabs?.ExternalUser === subActiveTab">
                             <input type="checkbox" name="allLeads" [checked]="selectAll" (change)="allSelect($event)">
                         </th>
                         <th *ngIf="onReleaseTab || onAssignTab">{{labels?.action}}</th>
@@ -586,9 +608,9 @@
                 data-toggle="modal" data-target="#releaseModal">
             </td> -->
 
-            <td [attr.data-label]="labels?.select" *ngIf="userName">
+            <td [attr.data-label]="labels?.select" *ngIf="userName || displayTabs?.ExternalUser === subActiveTab">
                 <input type="checkbox" [checked]="item.selected" name="oneLead"
-                    (change)="onCheck($event, item)">
+                    (change)="onCheck($event, item.leadId, item.taskId)">
             </td>
             <td [attr.data-label]="labels?.action" *ngIf="onReleaseTab && !userName">
                             <input type="button" class="btn btn-primary"
@@ -602,10 +624,10 @@
                                 <!--  -->
                                 <input *ngIf="displayTabs?.ExternalUser === subActiveTab" type="button" [disabled]="disableButton"
                                 style="margin-top: 5px; margin-right: 5px;"
-                                (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
+                                (click)="onSelfAssignClick(item.leadId, item.taskId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary" value="Self Assign">
                                 <input *ngIf="displayTabs?.ExternalUser === subActiveTab" type="button" [disabled]="disableButton" style="margin-top: 5px;"
-                                (click)="onReAssignClick(item)" class="btn btn-primary" value="Re-Assign"
+                                (click)="onReAssignClick(item.leadId, item.taskId)" class="btn btn-primary" value="Re-Assign"
                                 data-toggle="modal" data-target="#supervisorTaskAssign">
 
                         </td>
@@ -614,10 +636,10 @@
 
                             <input type="button" [disabled]="disableButton" *ngIf="selfAssign"
                                 style="margin-top: 5px; margin-right: 5px;"
-                                (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
+                                (click)="onSelfAssignClick(item.leadId, item.taskId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary" value="Self Assign">
                                 <input type="button" [disabled]="disableButton" style="margin-top: 5px;"
-                                (click)="onReAssignClick(item)" class="btn btn-primary" value="Re-Assign"
+                                (click)="onReAssignClick(item.leadId, item.taskId)" class="btn btn-primary" value="Re-Assign"
                                 data-toggle="modal" data-target="#supervisorTaskAssign">
                         </td>
                         <td [attr.data-label]="labels?.action" *ngIf="userName && onReleaseTab">
@@ -626,9 +648,9 @@
                 value="Release" data-toggle="modal" data-target="#releaseModal"> -->
                             <input type="button" [disabled]="disableButton" *ngIf="selfAssign"
                                 style="margin-top: 5px; margin-right: 5px;"
-                                (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
+                                (click)="onSelfAssignClick(item.leadId, item.taskId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
-                                <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item)"
+                                <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item.leadId, item.taskId)"
                                 class="btn btn-primary btn-re" value="Re-Assign" data-toggle="modal"
                                 data-target="#supervisorTaskAssign">
                         </td>
@@ -640,9 +662,9 @@
                 value="Assign" data-toggle="modal" data-target="#assignModel" /> -->
                             <input type="button" [disabled]="disableButton" *ngIf="selfAssign"
                                 style="margin-top: 5px; margin-right: 5px;"
-                                (click)="onSelfAssignClick(item.taskId, item.leadId)" data-toggle="modal"
+                                (click)="onSelfAssignClick(item.leadId, item.taskId)" data-toggle="modal"
                                 data-target="#confirmSelfAssign" class="btn btn-primary btn-re" value="Self Assign">
-                                <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item)"
+                                <input type="button" [disabled]="disableButton" (click)="onReAssignClick(item.leadId, item.taskId)"
                                 class="btn btn-primary btn-re" value="Re-Assign" data-toggle="modal"
                                 data-target="#supervisorTaskAssign">
                         </td>
