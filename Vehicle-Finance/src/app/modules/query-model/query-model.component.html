@@ -277,10 +277,11 @@
 
                     <div class="message-dropdown-content right" id="myDropdown"
                       [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
-                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)"><select name="cars" class="con-send" id="cars">
-                        <option value="">1</option>
-                        
-                      </select>
+                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">
+                      <div class="con-send">
+                        <p class="mar-bt">Reply</p>
+                        <p class="mar-bt">Closed</p>
+                      </div>
                       <a (click)="foo.focus()"><span class="box tr"></span></a>
                     </div>
 
