@@ -1870,14 +1870,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
     if (!!permenantAddressObj) {
-      this.permenantAddDatas.push(permenantAddressObj)
+      //this.permenantAddDatas.push(permenantAddressObj)
       this.isPermanantAddressSame =
         permenantAddressObj.isCurrAddSameAsPermAdd === '1';
       this.apiCurrentCheckBox = permenantAddressObj.isCurrAddSameAsPermAdd == '1' ? '1' : '0';
     }
-    if (!!currentAddressObj) {
-      this.currentAddDatas.push(currentAddressObj)
-    }
+    // if (!!currentAddressObj) {
+    //   this.currentAddDatas.push(currentAddressObj)
+    // }
 
     this.permanentPincode = this.formatPincodeData(permenantAddressObj);
 
@@ -1971,13 +1971,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       addressObj[Constant.CURRENT_ADDRESS] ||
       addressObj[Constant.COMMUNICATION_ADDRESS];
     if (!!registeredAddressObj) {
-      this.regiesterAddDatas.push(registeredAddressObj)
+      //this.regiesterAddDatas.push(registeredAddressObj)
       this.isRegAddressSame =
         registeredAddressObj.isCurrAddSameAsPermAdd === '1';
       this.apiCurrentCheckBox = registeredAddressObj.isCurrAddSameAsPermAdd == '1' ? '1' : '0';
-    } if (!!communicationAddressObj) {
-      this.communicationAddDatas.push(communicationAddressObj)
     }
+    //  if (!!communicationAddressObj) {
+    //   this.communicationAddDatas.push(communicationAddressObj)
+    // }
 
 
     this.registerPincode = this.formatPincodeData(registeredAddressObj);
