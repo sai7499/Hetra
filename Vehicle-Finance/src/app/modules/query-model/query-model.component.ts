@@ -933,26 +933,23 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
       return;
     }
-    // const byteCharacters = atob(bas64String);
-    // const byteArrays = [];
+    if (imageValue.imageType.includes('png')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/png');
 
-    // let  contentType: string='image/png', sliceSize=512;
+    }
 
-    // for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-    //   const slice = byteCharacters.slice(offset, offset + sliceSize);
+    if (imageValue.imageType.includes('pdf')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/pdf');
 
-    //   const byteNumbers = new Array(slice.length);
-    //   for (let i = 0; i < slice.length; i++) {
-    //     byteNumbers[i] = slice.charCodeAt(i);
-    //   }
+    }
 
-    //   const byteArray = new Uint8Array(byteNumbers);
+    if (imageValue.imageType.includes('jpeg')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'image/jpeg');
+    }
 
-    //   byteArrays.push(byteArray);
-    // }
-
-    // const blob = new Blob(byteArrays, { type: contentType });
-    // return blob;
+    if (imageValue.imageType.includes('tiff')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'image/tiff');
+    }
 
   }
 
@@ -1031,19 +1028,32 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     return blob;
   }
 
-  openOptions(data, i) {
+  openOptions(selectedData, i) {
     this.isClickDropDown = null;
     this.clickedIndex = null;
-    let queryTo = this.userId === data.queryFrom ? data.queryTo : data.queryFrom;
+    let queryTo = this.userId === selectedData.queryFrom ? selectedData.queryTo : selectedData.queryFrom;
 
-    let fileterData = this.queryModelLov.queryTo.find((res: any) => {
-      return res.key === queryTo;
-    })
+    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((status: any) => {
 
-    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((status) => {
       if (status.key !== 'OPNQUESTAT') {
+        if (selectedData.parentQueryId) {
 
-        if (data.queryFrom === this.userId) {
+          let data = this.chatMessages.filter((res) => {
+
+            if (selectedData.parentQueryId === res.queryId && res.queryFrom === this.userId) {
+              return {
+                key: status.key,
+                value: status.value
+              }
+            } else if (status.key !== 'REOPNQUESTAT' && status.key !== 'CLOSEQUESTAT') {
+              return {
+                key: status.key,
+                value: status.value
+              }
+            }
+          })
+          return data
+        } else if (selectedData.queryFrom === this.userId) {
           return {
             key: status.key,
             value: status.value
@@ -1057,13 +1067,17 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       }
     })
 
+    let fileterData = this.queryModelLov.queryTo.find((res: any) => {
+      return res.key === queryTo;
+    })
+
     this.queryModalForm.patchValue({
-      queryType: data.queryType,
+      queryType: selectedData.queryType,
       queryFrom: this.userId,
       searchText: fileterData.value,
       queryTo: fileterData.key,
-      repliedTo: data.queryId,
-      queryStatus: data.queryStatus
+      repliedTo: selectedData.queryId,
+      queryStatus: ''
     })
 
     this.queryModalForm.get('queryType').disable()
