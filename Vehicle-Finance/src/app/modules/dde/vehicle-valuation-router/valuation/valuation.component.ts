@@ -579,7 +579,9 @@ export class ValuationComponent implements OnInit {
       this.vehicleAddress = this.vehicleValuationDetails.vehicleAddress;
       this.vehiclePincode = this.vehicleValuationDetails.pincode;
       this.assetCostGrid = this.vehicleValuationDetails.gridAmt;
-      this.initiationDate = new Date(this.getDateFormat(this.vehicleValuationDetails.valuationInitiationDate));
+      if (this.vehicleValuationDetails.valuationInitiationDate != null) {
+        this.initiationDate = new Date(this.getDateFormat(this.vehicleValuationDetails.valuationInitiationDate));
+      }
       this.isOnline = response.ProcessVariables.isOnline;
       // this.isOnline = true;
       // this.isOnline = false;
@@ -887,7 +889,7 @@ export class ValuationComponent implements OnInit {
       regdNo: [''],
       // valuatorRemarks: ['', Validators.required]
       valuatorRemarks: new FormControl('', Validators.compose([Validators.maxLength(1500),
-        Validators.pattern(/^[a-zA-Z0-9 ]*$/)])),
+      Validators.pattern(/^[a-zA-Z0-9 ]*$/)])),
     });
   }
 
@@ -1319,8 +1321,14 @@ export class ValuationComponent implements OnInit {
       collateralId: this.colleteralId
     };
     this.vehicleValuationService.sumbitValuationTask(data).subscribe((value: any) => {
-      const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
+      // const processVariables = value.ProcessVariables;
+      const response = value;
+      if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
+        this.toasterService.showSuccess('Record Submitted Successfully', '');
+        // this.getVehicleValuation();
+        this.onBack();
+      } else {
+        this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
       }
     });
   }

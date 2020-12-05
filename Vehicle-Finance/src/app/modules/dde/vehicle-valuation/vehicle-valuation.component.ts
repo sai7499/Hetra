@@ -212,7 +212,7 @@ export class VehicleValuationComponent implements OnInit {
         const response = res;
         // console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
         if (response["Error"] == 0 && response["ProcessVariables"]["error"]["code"] == 0) {
-          this.toasterService.showSuccess("Record Saved Successfully", "Vehicle Valuation");
+          this.toasterService.showSuccess('Valuation Initiated Successfully', '');
           const getData = response["ProcessVariables"]["collateralDetails"];
           return this.collateralDetailsData.forEach(element => {
             if (element.collateralId == getData.collateralId) {
