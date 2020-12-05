@@ -73,7 +73,8 @@ export class InAppcameraComponent implements OnInit {
 
   @Output() onBackKeyDown = new EventEmitter();
 
-  
+  @Output() onClose = new EventEmitter();
+
 
   constructor(private cameraPreview: CameraPreview,
     private file: File,
@@ -348,6 +349,10 @@ export class InAppcameraComponent implements OnInit {
       ctx.drawImage(image, 0, 0);     
       callback(canvas.toDataURL());
     };
-  } 
+  }
+
+  close() {
+    this.onClose.emit("Close triggered");
+  }
 
 }

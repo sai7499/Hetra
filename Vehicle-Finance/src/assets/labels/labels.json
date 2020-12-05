@@ -1337,8 +1337,10 @@
     "monthlyIncomeAmount": "Monthly Income Amount",
     "annualIncomeAmount": "Annual Income Amount",
     "ownHouseProofAvail": "Own House Proof Available?",
-    "houseOwnerProperty": "Owner of the Property",
-    "ownHouseAppRelationship": "Owner Relationship with the Applicant ",
+    "houseOwnerProperty": "Owner of the Applicant's House ",
+    "ownHouseAppRelationship": "Owner Relationship with the Applicant's House ",
+    "agriOwnerProperty": "Owner of the Property ",
+    "agriAppRelationship": "Owner Relationship with the Applicant ",
     "averageBankBalance": "Average Bank Balance",
     "rtrType": "RTR Type",
     "prevLoanAmount": "Previous Loan Amount",
@@ -1758,7 +1760,7 @@
     "validUpto": "Valid up to",
     "typeOfPolicy": "Type of policy",
     "isModelInProduction": "Is the Model Currently under Production ?",
-    "anyAccidentsInPast": "Any accidents in the past ? If yes, mention in remarks",
+    "anyAccidentsInPast":"Any accidents in the past ? If yes, mention in remarks",
     "originalInvoice": "Original Invoice Value(Ex-show)",
     "anyMajorRepairs": "Any Other Major Repairs till date",
     "currentInvoiceValue": "Current Invoice Value",
@@ -2143,11 +2145,12 @@
             "maxLength": {
                 "rule": 16
             },
-            "type": "alpha-numeric",
+            "type": "alpha-numeric-nospace",
             "patternCheck": {
-                "rule": "[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{11}",
-                "msg": "Invalid Driving License.Valid format-AA12A12345678901"
+                "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
+                "msg": "Should be valid"
             }
+
         },
         "voterId": {
             "maxLength": {
@@ -2681,6 +2684,10 @@
             "maxLength": {
                 "rule": 6,
                 "msg": "Should be 6 Digits"
+            },
+            "patternCheck": {
+                "rule": "^[0-9]{6}",
+                "msg": "Invalid Number"
             },
             "type": "number"
         },

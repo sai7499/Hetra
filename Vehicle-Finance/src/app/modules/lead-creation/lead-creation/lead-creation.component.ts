@@ -114,6 +114,7 @@ export class LeadCreationComponent implements OnInit {
     leadHandeledBy: number;
     sourcingCodeDescription: string;
     parentLoanAccNum?: number;
+    isCommSuppressed: number
   };
 
   applicantDetails: {
@@ -314,6 +315,7 @@ export class LeadCreationComponent implements OnInit {
       nameThree: new FormControl('', Validators.required),
       mobile: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
+      communication: new FormControl('0'),
       // loanAccountNumber: new FormControl('', Validators.required)
     });
   }
@@ -736,7 +738,8 @@ export class LeadCreationComponent implements OnInit {
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
         sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : '',
-        parentLoanAccNum: leadModel.loanAccountNumber
+        parentLoanAccNum: leadModel.loanAccountNumber,
+        isCommSuppressed: Number(leadModel.communication)
       };
 
       this.applicantDetails = {

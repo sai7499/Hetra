@@ -131,8 +131,8 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="isChildLoan === '0'">
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+      <div class="row" >
+        <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isChildLoan === '0'">
           <label for="sourcing_code">Dealer Code
             <sub class="star_blue_col">*</sub>
           </label>
@@ -155,6 +155,20 @@
             </ng-template>
           </div>
         </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="priority">Suppress Communication<sub class="star_red_col">*</sub></label>
+          <app-vf-custom-select 
+            [values]="[
+              { key: '1', value: 'Yes' },
+              { key: '0', value: 'No' }
+            ]" 
+            formControlName="communication">
+          </app-vf-custom-select>
+        </div>
+      </div>
+
+      <div class="row">
+        
       </div>
 
       <div class="row">
