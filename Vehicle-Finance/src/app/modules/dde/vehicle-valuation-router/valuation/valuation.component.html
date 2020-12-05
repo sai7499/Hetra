@@ -13,14 +13,20 @@
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_type">{{ labels.valuatorType }}</label>
-                <app-custom-input [(ngModel)]="valuatorType" formControlName="valuatorType"
-                  [placeholder]="'Valuator Type'">
+                <app-custom-input
+                  [(ngModel)]="valuatorType"
+                  formControlName="valuatorType"
+                  [placeholder]="'Valuator Type'"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_code">{{ labels.valuatorCode }}</label>
-                <app-custom-input [(ngModel)]="valuatorCode" formControlName="valuatorCode"
-                  [placeholder]="'Valuator Code'">
+                <app-custom-input
+                  [(ngModel)]="valuatorCode"
+                  formControlName="valuatorCode"
+                  [placeholder]="'Valuator Code'"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -91,12 +97,18 @@
             <!-- </div> -->
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3" hidden="true">
-                <label for="seller_short_descr">{{ labels.sellerShortDescr }}
+                <label for="seller_short_descr"
+                  >{{ labels.sellerShortDescr }}
                 </label>
-                <app-custom-input formControlName="sellerShortDesc" [className]="'form-control mandatory'"
-                  [placeholder]="'Seller Short Descr'" [maxLength]="
+                <app-custom-input
+                  formControlName="sellerShortDesc"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Seller Short Descr'"
+                  [maxLength]="
                     labels?.validationData?.sellerShortDesc.maxLength
-                  " [type]="labels?.validationData?.sellerShortDesc.type">
+                  "
+                  [type]="labels?.validationData?.sellerShortDesc.type"
+                >
                 </app-custom-input>
               </div>
 
@@ -138,39 +150,62 @@
             <div class="row" hidden="true">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="second_asset">{{ labels.secondAsset }} </label>
-                <app-custom-input formControlName="secondAsset" [className]="'form-control mandatory'"
-                  [placeholder]="'Second Asset'" [maxLength]="labels?.validationData?.makeModel.maxLength"
-                  [type]="labels?.validationData?.makeModel.type">
+                <app-custom-input
+                  formControlName="secondAsset"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Second Asset'"
+                  [maxLength]="labels?.validationData?.makeModel.maxLength"
+                  [type]="labels?.validationData?.makeModel.type"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="second_vechicle_no_prefix">{{ labels.secondVechicleNoPrefix }}
+                <label for="second_vechicle_no_prefix"
+                  >{{ labels.secondVechicleNoPrefix }}
                 </label>
-                <app-custom-input formControlName="secondVehiclePrefixNo" [className]="'form-control mandatory'"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Second Vehicle No Prefix'" [maxLength]="
+                <app-custom-input
+                  formControlName="secondVehiclePrefixNo"
+                  [className]="'form-control mandatory'"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Second Vehicle No Prefix'"
+                  [maxLength]="
                     labels?.validationData?.vehiclePrefixNo.maxLength
-                  " [type]="labels?.validationData?.vehiclePrefixNo.type">preReRegNumber
+                  "
+                  [type]="labels?.validationData?.vehiclePrefixNo.type"
+                  >preReRegNumber
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="second_vechicle_no">{{ labels.secondVechicleNo }}
+                <label for="second_vechicle_no"
+                  >{{ labels.secondVechicleNo }}
                 </label>
-                <app-custom-input formControlName="reRegNumber" [className]="'form-control mandatory'"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Second Vehicle No'"
-                  [maxLength]="labels?.validationData?.registrationNo.maxLength" [patternCheck]="
+                <app-custom-input
+                  formControlName="reRegNumber"
+                  [className]="'form-control mandatory'"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Second Vehicle No'"
+                  [maxLength]="labels?.validationData?.registrationNo.maxLength"
+                  [patternCheck]="
                     labels?.validationData?.registrationNo.registrationPattern
-                  " [type]="labels?.validationData?.registrationNo.type">
+                  "
+                  [type]="labels?.validationData?.registrationNo.type"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row" hidden="true">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="second_chassis_number">{{ labels.secondChassisNumber }}
+                <label for="second_chassis_number"
+                  >{{ labels.secondChassisNumber }}
                 </label>
-                <app-custom-input formControlName="regChasisNo" [className]="'form-control mandatory'"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Second Chassis Number'"
+                <app-custom-input
+                  formControlName="regChasisNo"
+                  [className]="'form-control mandatory'"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Second Chassis Number'"
                   [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
-                  [type]="labels?.validationData?.chasisEngineNo.type">
+                  [type]="labels?.validationData?.chasisEngineNo.type"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -183,63 +218,98 @@
                 <label for="valuator_name">{{
                   labels.nameOfVehicleOwner
                 }}</label>
-                <app-custom-input [(ngModel)]="nameOfVehicleOwner" formControlName="vehicleOwnerName"
-                  [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'">
+                <app-custom-input
+                  [(ngModel)]="nameOfVehicleOwner"
+                  formControlName="vehicleOwnerName"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Name of Vehicle Owner/Dealer'"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_name">{{
                   labels.mobileNumberOfVehicle
                 }}</label>
-                <app-custom-input [(ngModel)]="mobileNumberOfVehicleOwner" formControlName="vehicleOwnerMobile"
-                  [className]="'form-control mandatory'" [placeholder]="'Mobile Number of Vehicle Owner/Dealer'">
+                <app-custom-input
+                  [(ngModel)]="mobileNumberOfVehicleOwner"
+                  formControlName="vehicleOwnerMobile"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_name">{{ labels.vehicleAddress }}</label>
-                <app-custom-input [(ngModel)]="vehicleAddress" formControlName="vehicleAddress"
-                  [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'">
+                <app-custom-input
+                  [(ngModel)]="vehicleAddress"
+                  formControlName="vehicleAddress"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Vehicle Address'"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_name">{{ labels.vehiclePinCode }}</label>
-                <app-custom-input [(ngModel)]="vehiclePincode" formControlName="pincode"
-                  [className]="'form-control mandatory'" [placeholder]="'Vehicle Pincode'">
+                <app-custom-input
+                  [(ngModel)]="vehiclePincode"
+                  formControlName="pincode"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Vehicle Pincode'"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_name">{{ labels.valuatorName }}</label>
-                <app-custom-input [(ngModel)]="valuatorName" formControlName="valuatorName"
-                  [placeholder]="'Valuator Name'">
+                <app-custom-input
+                  [(ngModel)]="valuatorName"
+                  formControlName="valuatorName"
+                  [placeholder]="'Valuator Name'"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="Initiated_Date">{{ labels.valuationInitiatedDate }}
+                <label for="Initiated_Date"
+                  >{{ labels.valuationInitiatedDate }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <kendo-datepicker class="form-control" [activeView]="'decade'" [format]="'dd/MM/yyyy'"
-                  placeholder="Valuation Date" formControlName="valuationInitiationDate">
+                <kendo-datepicker
+                  class="form-control"
+                  [activeView]="'decade'"
+                  [format]="'dd/MM/yyyy'"
+                  placeholder="Valuation Date"
+                  formControlName="valuationInitiationDate"
+                >
                 </kendo-datepicker>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="speedometer_reading">{{ labels?.personInitiated }}
+                <label for="speedometer_reading"
+                  >{{ labels?.personInitiated }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Person Initiated '"
-                  formControlName="personInitiated">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Person Initiated '"
+                  formControlName="personInitiated"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="speedometer_reading">{{ labels?.refNo }}
+                <label for="speedometer_reading"
+                  >{{ labels?.refNo }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Ref No. '"
-                  formControlName="valuatorRefNo" [maxLength]="labels?.validationData?.valuationRefNo.maxLength"
-                  [isRequired]="'Reference no is Required'" [type]="labels?.validationData?.valuationRefNo.type">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Ref No. '"
+                  formControlName="valuatorRefNo"
+                  [maxLength]="labels?.validationData?.valuationRefNo.maxLength"
+                  [isRequired]="'Reference no is Required'"
+                  [type]="labels?.validationData?.valuationRefNo.type"
+                >
                 </app-custom-input>
               </div>
 
@@ -280,33 +350,52 @@
             <h4 class="title">{{ labels.inspectionDetails }}</h4>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valuation_amount">{{ labels?.borrowersName }}
+                <label for="valuation_amount"
+                  >{{ labels?.borrowersName }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="borrowersName"
-                  [placeholder]="'Borrowers Name'" [maxLength]="labels?.validationData?.name.maxLength"
-                  [isRequired]="'Borrowers Name is Required'" [type]="labels?.validationData?.name.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="borrowersName"
+                  [placeholder]="'Borrowers Name'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [isRequired]="'Borrowers Name is Required'"
+                  [type]="labels?.validationData?.name.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valuation_amount">{{ labels?.vehicleInspectedBy }}
+                <label for="valuation_amount"
+                  >{{ labels?.vehicleInspectedBy }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="inspectedBy"
-                  [placeholder]="'Vehicle Inspected By'" [maxLength]="labels?.validationData?.name.maxLength"
-                  [isRequired]="'Vehicle Inspected By is Required'" [type]="labels?.validationData?.name.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="inspectedBy"
+                  [placeholder]="'Vehicle Inspected By'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [isRequired]="'Vehicle Inspected By is Required'"
+                  [type]="labels?.validationData?.name.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valuation_date">{{ labels.inspectionDate }}
+                <label for="valuation_date"
+                  >{{ labels.inspectionDate }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
 
-                <kendo-datepicker class="form-control" [activeView]="'decade'" [format]="'dd/MM/yyyy'"
-                  placeholder="Valuation Date" formControlName="inspectionDate" [max]="toDayDate"
-                  [min]="initiationDate">
+                <kendo-datepicker
+                  class="form-control"
+                  [activeView]="'decade'"
+                  [format]="'dd/MM/yyyy'"
+                  placeholder="Valuation Date"
+                  formControlName="inspectionDate"
+                  [max]="toDayDate"
+                  [min]="initiationDate"
+                >
                 </kendo-datepicker>
                 <div
                   class="invalid-feedback"
@@ -317,24 +406,31 @@
                       vehicleValuationForm.controls['inspectionDate'].hasError(
                         'required'
                       )
-                    ">
+                    "
+                  >
                     Inspection date is required
                   </div>
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       vehicleValuationForm.controls['inspectionDate'].value &&
                       vehicleValuationForm.controls['inspectionDate'].errors
-                    ">
-                    <div *ngIf="
+                    "
+                  >
+                    <div
+                      *ngIf="
                         vehicleValuationForm.controls['inspectionDate'].errors
                           .minError
-                      ">
+                      "
+                    >
                       Inspection date should be greater than valuation
                       initiation date
                     </div>
-                    <div *ngIf="
+                    <div
+                      *ngIf="
                         vehicleValuationForm.controls['inspectionDate'].errors
                           .maxError
-                      ">
+                      "
+                    >
                       Inspection date should not be future date
                     </div>
                   </div>
@@ -343,37 +439,66 @@
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valuation_amount">{{ labels?.placeOfInspection }}
+                <label for="valuation_amount"
+                  >{{ labels?.placeOfInspection }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="inspectionPlace"
-                  [placeholder]="'Place Of Inspection'" [maxLength]="labels?.validationData?.name.maxLength"
-                  [isRequired]="'Place of inspection is Required'" [type]="labels?.validationData?.name.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="inspectionPlace"
+                  [placeholder]="'Place Of Inspection'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [isRequired]="'Place of inspection is Required'"
+                  [type]="labels?.validationData?.name.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="cpv_time">{{ labels?.timeOfInsepction }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label>
-                <input type="time" class="form-control mandatory" placeholder="'Time Of Insepction'"
-                  formControlName="timeOfInspection" />
+                <label for="cpv_time"
+                  >{{ labels?.timeOfInsepction }}
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
+                >
+                <input
+                  type="time"
+                  class="form-control mandatory"
+                  placeholder="'Time Of Insepction'"
+                  formControlName="timeOfInspection"
+                />
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="engine_started">{{ labels.engineStarted }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="engine_started"
+                  >{{ labels.engineStarted }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'" formControlName="engineStarted"
-                  (change)="engineStarted($event.target.value)">
+                <app-vf-custom-select
+                  [values]="valuesToYesNo"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                  formControlName="engineStarted"
+                  (change)="engineStarted($event.target.value)"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="engine_started">{{ labels.engineStarted }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="engine_started"
+                  >{{ labels.engineStarted }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="engineStarted"
-                  [placeholder]="'Engine Started'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="engineStarted"
+                  [placeholder]="'Engine Started'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -386,18 +511,32 @@
                   >{{ labels.vehicleMoved }}
                   <sub class="star_blue_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty" [isDisabled]="vehicleMovedDisabled"
+                <app-vf-custom-select
+                  [values]="valuesToYesNo"
+                  [isDirty]="isDirty"
+                  [isDisabled]="vehicleMovedDisabled"
                   [isRequired]="
                     vehicleMovedRequired ? 'Vehicle moved is required' : ''
-                  " formControlName="vehicleMoved">
+                  "
+                  formControlName="vehicleMoved"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="vehicle_moved">{{ labels.vehicleMoved }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="vehicle_moved"
+                  >{{ labels.vehicleMoved }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="vehicleMoved"
-                  [placeholder]="'Vehicle Moved'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="vehicleMoved"
+                  [placeholder]="'Vehicle Moved'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -413,8 +552,11 @@
                   {{ labels.registrationNumber }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="registrationNo" [className]="'form-control mandatory'"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Registration Number'"
+                <app-custom-input
+                  formControlName="registrationNo"
+                  [className]="'form-control mandatory'"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Registration Number'"
                   [minLength]="labels.validationData?.vehicleRegNo.minLength"
                   [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
                   [type]="labels?.validationData?.vehicleRegNo.type"
@@ -425,82 +567,150 @@
                 >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_make">
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+                id="asset_make"
+              >
                 <label for="vechical_region">
                   {{ labels.vechicalRegion }}
                   <sub class="star_red_col">*</sub>
                 </label>
 
-                <app-vf-custom-select [values]="vehicleLov?.region" [id]="'vechical_region'" formControlName="region"
-                  [isRequired]="'Vehicle Region is Required'" (change)="
+                <app-vf-custom-select
+                  [values]="vehicleLov?.region"
+                  [id]="'vechical_region'"
+                  formControlName="region"
+                  [isRequired]="'Vehicle Region is Required'"
+                  (change)="
                     onVehicleRegion($event.target.value, vehicleValuationForm)
-                  " [isDirty]="isDirty">
+                  "
+                  [isDirty]="isDirty"
+                >
                 </app-vf-custom-select>
               </div>
 
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="asset_manufacturer">{{ labels.make }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="asset_manufacturer"
+                  >{{ labels.make }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'" formControlName="assetMake"
-                  [isRequired]="'Make is Required'" (change)="
+                <app-vf-custom-select
+                  [values]="vehicleLov?.assetMake"
+                  [id]="'asset_make'"
+                  formControlName="assetMake"
+                  [isRequired]="'Make is Required'"
+                  (change)="
                     onAssetMake($event.target.value, vehicleValuationForm)
-                  " [isDirty]="isDirty">
+                  "
+                  [isDirty]="isDirty"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="vehicle_moved">{{ labels.make }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="vehicle_moved"
+                  >{{ labels.make }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="make" [placeholder]="'Make'"
-                  [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="make"
+                  [placeholder]="'Make'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
                 <label for="asset_model">{{ labels.model }} </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="model" [placeholder]="'Model'"
-                  [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="model"
+                  [placeholder]="'Model'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row">
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_type">
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+                id="vechical_type"
+              >
                 <label for="vechical_type">
                   {{ labels.typeOfBody }} <sub class="star_red_col">*</sub>
                 </label>
 
-                <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
-                  formControlName="vehicleType" [isRequired]="'Vehicle Type is Required'" (change)="
+                <app-vf-custom-select
+                  [values]="vehicleLov?.vehicleType"
+                  [id]="'vechical_type'"
+                  formControlName="vehicleType"
+                  [isRequired]="'Vehicle Type is Required'"
+                  (change)="
                     onVehicleType($event.target.value, vehicleValuationForm)
-                  " [isDirty]="isDirty">
+                  "
+                  [isDirty]="isDirty"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_type">
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+                id="asset_type"
+              >
                 <label for="asset_body_type">
                   {{ labels.vehicleSegment }} <sub class="star_red_col">*</sub>
                 </label>
 
-                <app-vf-custom-select [values]="vehicleLov?.assetBodyType" [id]="'asset_body_type'"
-                  formControlName="assetBodyType" [isRequired]="'Vehicle Segment is Required'" (change)="
+                <app-vf-custom-select
+                  [values]="vehicleLov?.assetBodyType"
+                  [id]="'asset_body_type'"
+                  formControlName="assetBodyType"
+                  [isRequired]="'Vehicle Segment is Required'"
+                  (change)="
                     onAssetBodyType($event.target.value, vehicleValuationForm)
-                  " [isDirty]="isDirty">
+                  "
+                  [isDirty]="isDirty"
+                >
                 </app-vf-custom-select>
               </div>
 
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="asset_model">{{ labels.model }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="asset_model"
+                  >{{ labels.model }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="vehicleLov?.assetModel" [id]="'asset_model'"
-                  formControlName="assetModel" [isRequired]="'Model is Required'" (change)="
+                <app-vf-custom-select
+                  [values]="vehicleLov?.assetModel"
+                  [id]="'asset_model'"
+                  formControlName="assetModel"
+                  [isRequired]="'Model is Required'"
+                  (change)="
                     onAssetModel($event.target.value, vehicleValuationForm)
-                  " [isDirty]="isDirty">
+                  "
+                  [isDirty]="isDirty"
+                >
                 </app-vf-custom-select>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.version }}
+                <label for="version"
+                  >{{ labels.version }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <!-- <app-vf-custom-select
@@ -509,13 +719,20 @@
                   formControlName="assetVariant"
                 >
                 </app-vf-custom-select> -->
-                <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Version'"
-                  formControlName="assetVariant" [maxLength]="labels?.validationData?.colour.maxLength"
-                  [isRequired]="'version is Required'" [type]="labels?.validationData?.colour.type" [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Version'"
+                  formControlName="assetVariant"
+                  [maxLength]="labels?.validationData?.colour.maxLength"
+                  [isRequired]="'version is Required'"
+                  [type]="labels?.validationData?.colour.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="colour">{{ labels?.colour }}
+                <label for="colour"
+                  >{{ labels?.colour }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
@@ -530,13 +747,20 @@
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="chassis_number">{{ labels.chassisNumber }}
+                <label for="chassis_number"
+                  >{{ labels.chassisNumber }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="chasisNumber" [className]="'form-control mandatory'"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Chassis Number'"
-                  [maxLength]="labels?.validationData?.chasisEngineNo.maxLength" [isRequired]="'Chassis No is Required'"
-                  [type]="labels?.validationData?.chasisEngineNo.type" [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="chasisNumber"
+                  [className]="'form-control mandatory'"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Chassis Number'"
+                  [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
+                  [isRequired]="'Chassis No is Required'"
+                  [type]="labels?.validationData?.chasisEngineNo.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -546,60 +770,104 @@
                   {{ labels.engineNumber }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="engineNumber" [className]="'form-control mandatory'"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Engine Number'"
-                  [maxLength]="labels?.validationData?.chasisEngineNo.maxLength" [isRequired]="'Engine No is Required'"
-                  [type]="labels?.validationData?.chasisEngineNo.type" [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="engineNumber"
+                  [className]="'form-control mandatory'"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Engine Number'"
+                  [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
+                  [isRequired]="'Engine No is Required'"
+                  [type]="labels?.validationData?.chasisEngineNo.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="speedometer_reading">{{ labels.odometerReading }}
+                <label for="speedometer_reading"
+                  >{{ labels.odometerReading }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="odometerReading" [className]="'form-control mandatory'"
-                  [placeholder]="'Odometer Reading'" [maxLength]="
+                <app-custom-input
+                  formControlName="odometerReading"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Odometer Reading'"
+                  [maxLength]="
                     labels?.validationData?.odometerReading.maxLength
-                  " [isRequired]="'odometer reading is Required'" [type]="labels?.validationData?.odometerReading.type"
-                  [isDirty]="isDirty">
+                  "
+                  [isRequired]="'odometer reading is Required'"
+                  [type]="labels?.validationData?.odometerReading.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="speedometer_reading">{{ labels.estimatedReading }}
+                <label for="speedometer_reading"
+                  >{{ labels.estimatedReading }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="estimatedReading" [className]="'form-control mandatory'"
-                  [placeholder]="'Estimated Reading'" [maxLength]="
+                <app-custom-input
+                  formControlName="estimatedReading"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Estimated Reading'"
+                  [maxLength]="
                     labels?.validationData?.odometerReading.maxLength
-                  " [isRequired]="'odometer reading is Required'" [type]="labels?.validationData?.odometerReading.type"
-                  [isDirty]="isDirty">
+                  "
+                  [isRequired]="'odometer reading is Required'"
+                  [type]="labels?.validationData?.odometerReading.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="gvw">{{ labels.gvw }}
+                <label for="gvw"
+                  >{{ labels.gvw }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="gvw" [className]="'form-control mandatory'" [placeholder]="'GVW'"
-                  [maxLength]="labels?.validationData?.gvw.maxLength" [isRequired]="'GVW is Required'"
-                  [type]="labels?.validationData?.gvw.type" [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="gvw"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'GVW'"
+                  [maxLength]="labels?.validationData?.gvw.maxLength"
+                  [isRequired]="'GVW is Required'"
+                  [type]="labels?.validationData?.gvw.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.vehicleUsedFor }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="version"
+                  >{{ labels.vehicleUsedFor }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select formControlName="vehicleUsedFor" [values]="LOV?.vehicleUsage" [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'">
+                <app-vf-custom-select
+                  formControlName="vehicleUsedFor"
+                  [values]="LOV?.vehicleUsage"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.vehicleUsedFor }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="version"
+                  >{{ labels.vehicleUsedFor }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="vehicleUsedFor"
-                  [placeholder]="'Vehicle Used For'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="vehicleUsedFor"
+                  [placeholder]="'Vehicle Used For'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
               <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -615,20 +883,37 @@
                 >
                 </app-vf-custom-select>
               </div> -->
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.fuelUsed }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="version"
+                  >{{ labels.fuelUsed }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="LOV?.fuelType" [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'" formControlName="fuelUsed">
+                <app-vf-custom-select
+                  [values]="LOV?.fuelType"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                  formControlName="fuelUsed"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.fuelUsed }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="version"
+                  >{{ labels.fuelUsed }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="fuelUsed"
-                  [placeholder]="'Fuel Used'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="fuelUsed"
+                  [placeholder]="'Fuel Used'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -659,8 +944,12 @@
                 [isDirty]="isDirty"
                 [isDisabled]="true" -->
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="re_registered_vechicle">{{ labels.reRegisteredVechicle }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="re_registered_vechicle"
+                  >{{ labels.reRegisteredVechicle }}
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
@@ -672,8 +961,12 @@
                 >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="re_registered_vechicle">{{ labels.reRegisteredVechicle }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="re_registered_vechicle"
+                  >{{ labels.reRegisteredVechicle }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
@@ -689,18 +982,20 @@
                   {{ labels.reregisteredRegNo }}
                   <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="reRegNumber"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Registration Number'"
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="reRegNumber"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Registration Number'"
                   [minLength]="labels.validationData?.vehicleRegNo.minLength"
                   [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
                   [type]="labels?.validationData?.vehicleRegNo.type"
                   [custom]="vehicleRegPattern"
                   [isRequired]="
-                  isPreRegNoRequired ? 'Registration no is Required' : ''
+                    isPreRegNoRequired ? 'Registration no is Required' : ''
                   "
                   [isDirty]="isDirty"
                   [isDisabled]="isPreRegNoDisabled"
-                  
                 >
                 </app-custom-input>
               </div>
@@ -711,10 +1006,15 @@
                   {{ labels.regdOwnerName }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="regOwnerName" [className]="'form-control mandatory'"
-                  [placeholder]="'Registered Owner Name'" [maxLength]="labels?.validationData?.regdOwnerName.maxLength"
-                  [type]="labels?.validationData?.regdOwnerName.type" [isRequired]="'Owner Name is Required'"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="regOwnerName"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Registered Owner Name'"
+                  [maxLength]="labels?.validationData?.regdOwnerName.maxLength"
+                  [type]="labels?.validationData?.regdOwnerName.type"
+                  [isRequired]="'Owner Name is Required'"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -722,33 +1022,60 @@
                   {{ labels.address }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="regAddress" [className]="'form-control mandatory'"
-                  [placeholder]="'Address'" [maxLength]="
+                <app-custom-input
+                  formControlName="regAddress"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Address'"
+                  [maxLength]="
                     labels?.validationData?.valuationAddress.maxLength
-                  " [type]="labels?.validationData?.valuationAddress.type" [isRequired]="'Address is Required'"
-                  [isDirty]="isDirty">
+                  "
+                  [type]="labels?.validationData?.valuationAddress.type"
+                  [isRequired]="'Address is Required'"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.ownerSerialNo }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="version"
+                  >{{ labels.ownerSerialNo }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select formControlName="ownerSerialNo" [values]="ownerSerialNo" [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'">
+                <app-vf-custom-select
+                  formControlName="ownerSerialNo"
+                  [values]="ownerSerialNo"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.ownerSerialNo }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="version"
+                  >{{ labels.ownerSerialNo }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="ownerSerialNo"
-                  [placeholder]="'Owner Serial No'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="ownerSerialNo"
+                  [placeholder]="'Owner Serial No'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row">
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="vechicle_reg_date">{{ labels.dateOfRegistration }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="vechicle_reg_date"
+                  >{{ labels.dateOfRegistration }}
                   <sub class="star_red_col">*</sub>
                 </label>
 
@@ -763,9 +1090,11 @@
                 >
                 </kendo-datepicker>
                 <div class="invalid-feedback">
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       isDirty && !vehicleValuationForm.controls.dateofReg.value
-                    ">
+                    "
+                  >
                     Registration Date is Required
                   </div>
                   <div
@@ -777,18 +1106,28 @@
                     <div
                       *ngIf="
                         vehicleValuationForm.controls.dateofReg.errors.maxError
-                      ">
+                      "
+                    >
                       Reg. Date should not be future date
                     </div>
                   </div>
                 </div>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="vechicle_reg_date">{{ labels.regMonthAndYear }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="vechicle_reg_date"
+                  >{{ labels.regMonthAndYear }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="regMonthYear"
-                  [placeholder]="'Reg Month Year'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="regMonthYear"
+                  [placeholder]="'Reg Month Year'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
               <!-- <div
@@ -809,7 +1148,8 @@
               </div> -->
 
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="asset_manufacturer">{{ labels.makeName }}
+                <label for="asset_manufacturer"
+                  >{{ labels.makeName }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <!-- <app-vf-custom-select
@@ -818,12 +1158,21 @@
                   [isDirty]="isDirty"
                 >
                 </app-vf-custom-select> -->
-                <app-custom-input formControlName="makeName" [className]="'form-control mandatory'"
-                  [placeholder]="'Make Name'" [maxLength]="labels?.validationData?.name.maxLength"
-                  [type]="labels?.validationData?.name.type" [isRequired]="'Make name is Required'" [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="makeName"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Make Name'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [type]="labels?.validationData?.name.type"
+                  [isRequired]="'Make name is Required'"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_type">
+              <div
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+                id="vechical_type"
+              >
                 <label for="vechical_type">
                   {{ labels.typeOfBody }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
@@ -835,10 +1184,15 @@
                   [isDirty]="isDirty"
                 >
                 </app-vf-custom-select> -->
-                <app-custom-input formControlName="reRegTypeOfBody" [className]="'form-control mandatory'"
-                  [placeholder]="'Type Of Body'" [maxLength]="labels?.validationData?.name.maxLength"
-                  [type]="labels?.validationData?.name.type" [isRequired]="'Type of body is required'"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="reRegTypeOfBody"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Type Of Body'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [type]="labels?.validationData?.name.type"
+                  [isRequired]="'Type of body is required'"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -873,7 +1227,8 @@
             </div> -->
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.makersClassfication }}
+                <label for="version"
+                  >{{ labels.makersClassfication }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <!-- <app-vf-custom-select
@@ -881,68 +1236,111 @@
                   [isDirty]="isDirty"
                 >
                 </app-vf-custom-select> -->
-                <app-custom-input formControlName="makersClassification" [className]="'form-control mandatory'"
-                  [placeholder]="'Makers Classification'" [maxLength]="labels?.validationData?.name.maxLength"
-                  [type]="labels?.validationData?.name.type" [isRequired]="'Makers classification is required'"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="makersClassification"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Makers Classification'"
+                  [maxLength]="labels?.validationData?.name.maxLength"
+                  [type]="labels?.validationData?.name.type"
+                  [isRequired]="'Makers classification is required'"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
                 <label for="year_month_manufacturing">
                   {{ labels?.monthOfYearOfManf }}
                   <sub class="star_red_col">*</sub>
                 </label>
 
-                <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
-                  formControlName="yearOfManufacturer" [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'"
-                  [min]="minDate" [max]="toDayDate" placeholder="Year And Month of Manufacture"
-                  (valueChange)="onGetDateValue($event)">
+                <kendo-datepicker
+                  class="form-control"
+                  [id]="'year_month_manufacturing'"
+                  formControlName="yearOfManufacturer"
+                  [bottomView]="'year'"
+                  [topView]="'decade'"
+                  [format]="'MMMM yyyy'"
+                  [min]="minDate"
+                  [max]="toDayDate"
+                  placeholder="Year And Month of Manufacture"
+                  (valueChange)="onGetDateValue($event)"
+                >
                 </kendo-datepicker>
 
                 <div class="invalid-feedback">
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       isDirty &&
                       !vehicleValuationForm.controls.yearOfManufacturer.value
-                    ">
+                    "
+                  >
                     Year And Month of Manufacturer is Required
                   </div>
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       vehicleValuationForm.controls.yearOfManufacturer.value &&
                       vehicleValuationForm.controls.yearOfManufacturer.errors
-                    ">
+                    "
+                  >
                     Invalid Date
                   </div>
                 </div>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="vehicle_moved">{{ labels.monthOfYearOfManf }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="vehicle_moved"
+                  >{{ labels.monthOfYearOfManf }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="yearMonthOfManufact"
-                  [placeholder]="'Year And Month Of Manufacture'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="yearMonthOfManufact"
+                  [placeholder]="'Year And Month Of Manufacture'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="age_of_asset">{{ labels.ageOfAsset }}
+                <label for="age_of_asset"
+                  >{{ labels.ageOfAsset }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
-                  [placeholder]="'Age of Vehicle'" [maxLength]="labels?.validationData?.ageOfAsset.maxLength"
-                  [isRequired]="'Age of Asset is Required'" [type]="labels?.validationData?.ageOfAsset.type"
-                  [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  formControlName="ageOfAsset"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Age of Vehicle'"
+                  [maxLength]="labels?.validationData?.ageOfAsset.maxLength"
+                  [isRequired]="'Age of Asset is Required'"
+                  [type]="labels?.validationData?.ageOfAsset.type"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="chassis_number">{{ labels.chassisNumber }}
+                <label for="chassis_number"
+                  >{{ labels.chassisNumber }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="regChasisNo" [className]="'form-control mandatory'"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Chassis Number'"
-                  [maxLength]="labels?.validationData?.chasisEngineNo.maxLength" [isRequired]="'Chassis No is Required'"
-                  [type]="labels?.validationData?.valuationEngChasisNumber.type" [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="regChasisNo"
+                  [className]="'form-control mandatory'"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Chassis Number'"
+                  [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
+                  [isRequired]="'Chassis No is Required'"
+                  [type]="labels?.validationData?.valuationEngChasisNumber.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -950,88 +1348,153 @@
                   {{ labels.engineNumber }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="regEngineNo" [className]="'form-control mandatory'"
-                  [inputClass]="'text-uppercase'" [placeholder]="'Engine Number'"
-                  [maxLength]="labels?.validationData?.chasisEngineNo.maxLength" [isRequired]="'Engine No is Required'"
-                  [type]="labels?.validationData?.chasisEngineNo.type" [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="regEngineNo"
+                  [className]="'form-control mandatory'"
+                  [inputClass]="'text-uppercase'"
+                  [placeholder]="'Engine Number'"
+                  [maxLength]="labels?.validationData?.chasisEngineNo.maxLength"
+                  [isRequired]="'Engine No is Required'"
+                  [type]="labels?.validationData?.chasisEngineNo.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.fuelUsed }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="version"
+                  >{{ labels.fuelUsed }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select formControlName="regFuelUsed" [values]="LOV?.fuelType" [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'">
+                <app-vf-custom-select
+                  formControlName="regFuelUsed"
+                  [values]="LOV?.fuelType"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="version">{{ labels.fuelUsed }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="version"
+                  >{{ labels.fuelUsed }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="regFuelUsed"
-                  [placeholder]="'Fuel Used'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="regFuelUsed"
+                  [placeholder]="'Fuel Used'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
             </div>
 
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="seating_capacity">{{ labels.seatingCapacity }}
+                <label for="seating_capacity"
+                  >{{ labels.seatingCapacity }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="seatingCapacity" [className]="'form-control mandatory'"
-                  [placeholder]="'Seating Capacity'" [maxLength]="
+                <app-custom-input
+                  formControlName="seatingCapacity"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Seating Capacity'"
+                  [maxLength]="
                     labels?.validationData?.seatingCapacity.maxLength
-                  " [isRequired]="'Seating Capacity is Required'" [type]="labels?.validationData?.seatingCapacity.type"
-                  [isDirty]="isDirty">
+                  "
+                  [isRequired]="'Seating Capacity is Required'"
+                  [type]="labels?.validationData?.seatingCapacity.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="cubic_capacity">{{ labels.cubicCapacity }}
+                <label for="cubic_capacity"
+                  >{{ labels.cubicCapacity }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="cubicCapacity" [className]="'form-control mandatory'"
-                  [placeholder]="'Cubic Capacity'" [maxLength]="labels?.validationData?.cubicCapacity.maxLength"
-                  [isRequired]="'Cubic Capacity is Required'" [type]="labels?.validationData?.cubicCapacity.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="cubicCapacity"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Cubic Capacity'"
+                  [maxLength]="labels?.validationData?.cubicCapacity.maxLength"
+                  [isRequired]="'Cubic Capacity is Required'"
+                  [type]="labels?.validationData?.cubicCapacity.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="unladen_weight">{{ labels.unladenWeight }}
+                <label for="unladen_weight"
+                  >{{ labels.unladenWeight }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="unladenWeight"
-                  [placeholder]="'Unladen weight'" [maxLength]="labels?.validationData?.rentAmount.maxLength"
-                  [isRequired]="'Unladen weight is Required'" [type]="labels?.validationData?.rentAmount.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="unladenWeight"
+                  [placeholder]="'Unladen weight'"
+                  [maxLength]="labels?.validationData?.rentAmount.maxLength"
+                  [isRequired]="'Unladen weight is Required'"
+                  [type]="labels?.validationData?.rentAmount.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="hypothecation_if_any">{{ labels.hypothecation }}
+                <label for="hypothecation_if_any"
+                  >{{ labels.hypothecation }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="hypothecation"
-                  [placeholder]="'Hypothecation if any'" [maxLength]="labels?.validationData?.hypothecation.maxLength"
-                  [isRequired]="'Hypothecation is Required'" [type]="labels?.validationData?.hypothecation.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="hypothecation"
+                  [placeholder]="'Hypothecation if any'"
+                  [maxLength]="labels?.validationData?.hypothecation.maxLength"
+                  [isRequired]="'Hypothecation is Required'"
+                  [type]="labels?.validationData?.hypothecation.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="inner_state_vechicle">{{ labels.interStateVehicle }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="inner_state_vechicle"
+                  >{{ labels.interStateVehicle }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="valuesToYesNo" formControlName="interStateVehicle"
-                  [isRequired]="'Please Select One Option'" [isDirty]="isDirty">
+                <app-vf-custom-select
+                  [values]="valuesToYesNo"
+                  formControlName="interStateVehicle"
+                  [isRequired]="'Please Select One Option'"
+                  [isDirty]="isDirty"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="inner_state_vechicle">{{ labels.interStateVehicle }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="inner_state_vechicle"
+                  >{{ labels.interStateVehicle }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="interStateVehicle"
-                  [placeholder]="'Inter State Vehicle'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="interStateVehicle"
+                  [placeholder]="'Inter State Vehicle'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -1041,20 +1504,38 @@
             <!-- permit and tax details starts here -->
             <h4 class="title">{{ labels.permitAndTaxDetails }}</h4>
             <div class="row">
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="permit_status">{{ labels.permitStatus }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="permit_status"
+                  >{{ labels.permitStatus }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="vehiclePermitStatus" formControlName="permitStatus" [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'" (change)="onPermitChange($event.target.value)">
+                <app-vf-custom-select
+                  [values]="vehiclePermitStatus"
+                  formControlName="permitStatus"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                  (change)="onPermitChange($event.target.value)"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="permit_status">{{ labels.permitStatus }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="permit_status"
+                  >{{ labels.permitStatus }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="permitStatus"
-                  [placeholder]="'Permit Status'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="permitStatus"
+                  [placeholder]="'Permit Status'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1090,27 +1571,42 @@
                 </div> -->
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="fitnes_validity">{{ labels.fitnessValidity }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label>
-                <kendo-datepicker width="100%" formControlName="fcExpiryDate" class="form-control mandatory"
-                  [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'"
-                  (change)="validatingBeforeRegDate('fitnessDate')">
+                <label for="fitnes_validity"
+                  >{{ labels.fitnessValidity }}
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
+                >
+                <kendo-datepicker
+                  width="100%"
+                  formControlName="fcExpiryDate"
+                  class="form-control mandatory"
+                  [format]="'dd/MM/yyyy'"
+                  placeholder="dd/mm/yyyy"
+                  [activeView]="'decade'"
+                  (change)="validatingBeforeRegDate('fitnessDate')"
+                >
                 </kendo-datepicker>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="route_of_operation">{{ labels.routeOfOperationValuation }}
+                <label for="route_of_operation"
+                  >{{ labels.routeOfOperationValuation }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="routeOfOperation"
-                  [placeholder]="'route of operation'" [maxLength]="labels?.validationData?.hypothecation.maxLength"
-                  [isRequired]="'route of operation is Required'" [type]="labels?.validationData?.hypothecation.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="routeOfOperation"
+                  [placeholder]="'route of operation'"
+                  [maxLength]="labels?.validationData?.hypothecation.maxLength"
+                  [isRequired]="'route of operation is Required'"
+                  [type]="labels?.validationData?.hypothecation.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="tax_paid">{{ labels?.taxPaid }}
+                <label for="tax_paid"
+                  >{{ labels?.taxPaid }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input
@@ -1126,11 +1622,19 @@
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="tax_validity">{{ labels.taxValidUpto }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label>
-                <kendo-datepicker width="100%" formControlName="taxValidUpto" class="form-control mandatory"
-                  [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'"
-                  (change)="validatingBeforeRegDate('taxDate')">
+                <label for="tax_validity"
+                  >{{ labels.taxValidUpto }}
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub></label
+                >
+                <kendo-datepicker
+                  width="100%"
+                  formControlName="taxValidUpto"
+                  class="form-control mandatory"
+                  [format]="'dd/MM/yyyy'"
+                  placeholder="dd/mm/yyyy"
+                  [activeView]="'decade'"
+                  (change)="validatingBeforeRegDate('taxDate')"
+                >
                 </kendo-datepicker>
               </div>
             </div>
@@ -1141,33 +1645,51 @@
             <h4 class="title">{{ labels?.insuranceDetails }}</h4>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="company">{{ labels?.company }}
+                <label for="company"
+                  >{{ labels?.company }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="insuCompany"
-                  [placeholder]="'Company'" [maxLength]="labels?.validationData?.company.maxLength"
-                  [isRequired]="'Company Name is Required'" [type]="labels?.validationData?.company.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="insuCompany"
+                  [placeholder]="'Company'"
+                  [maxLength]="labels?.validationData?.company.maxLength"
+                  [isRequired]="'Company Name is Required'"
+                  [type]="labels?.validationData?.company.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="policy_number">{{ labels?.policyNumber }}
+                <label for="policy_number"
+                  >{{ labels?.policyNumber }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Policy Number'"
-                  formControlName="insuPolicyNo" [maxLength]="labels?.validationData?.policyNumber.maxLength"
-                  [isRequired]="'Policy Name is Required'" [type]="labels?.validationData?.policyNumber.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Policy Number'"
+                  formControlName="insuPolicyNo"
+                  [maxLength]="labels?.validationData?.policyNumber.maxLength"
+                  [isRequired]="'Policy Name is Required'"
+                  [type]="labels?.validationData?.policyNumber.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="type_of_policy">{{ labels?.typeOfPolicy }}
+                <label for="type_of_policy"
+                  >{{ labels?.typeOfPolicy }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Type Of Policy'"
-                  formControlName="typeOfPolicy" [maxLength]="labels?.validationData?.company.maxLength"
-                  [isRequired]="'Type of policy is Required'" [type]="labels?.validationData?.company.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Type Of Policy'"
+                  formControlName="typeOfPolicy"
+                  [maxLength]="labels?.validationData?.company.maxLength"
+                  [isRequired]="'Type of policy is Required'"
+                  [type]="labels?.validationData?.company.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
             </div>
@@ -1205,35 +1727,53 @@
                 </kendo-datepicker>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="idv">{{ labels.idv }}
+                <label for="idv"
+                  >{{ labels.idv }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="idv" [className]="'form-control mandatory'" [placeholder]="'IDV'"
-                  [maxLength]="labels?.validationData?.idv.maxLength" [isRequired]="'IDV is Required'"
-                  [type]="labels?.validationData?.idv.type" [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="idv"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'IDV'"
+                  [maxLength]="labels?.validationData?.idv.maxLength"
+                  [isRequired]="'IDV is Required'"
+                  [type]="labels?.validationData?.idv.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="idv_valididty_date">{{ labels.idvValidityDate }}
+                <label for="idv_valididty_date"
+                  >{{ labels.idvValidityDate }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
 
-                <kendo-datepicker class="form-control" formControlName="idvValidityDate" [activeView]="'decade'"
-                  [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="IDV Validity Date">
+                <kendo-datepicker
+                  class="form-control"
+                  formControlName="idvValidityDate"
+                  [activeView]="'decade'"
+                  [format]="'dd/MM/yyyy'"
+                  [min]="toDayDate"
+                  placeholder="IDV Validity Date"
+                >
                 </kendo-datepicker>
                 <div class="invalid-feedback">
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       isDirty &&
                       !vehicleValuationForm.controls.idvValidityDate.value
-                    ">
+                    "
+                  >
                     IDV Validity Date is Required
                   </div>
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       vehicleValuationForm.controls.idvValidityDate.value &&
                       vehicleValuationForm.controls.idvValidityDate.errors
-                    ">
+                    "
+                  >
                     Invalid Date
                   </div>
                 </div>
@@ -1246,8 +1786,12 @@
 
             <h4 class="title">{{ labels?.otherRemarks }}</h4>
             <div class="row">
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="model_in_production">{{ labels.isModelInProduction }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="model_in_production"
+                  >{{ labels.isModelInProduction }}
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
@@ -1259,60 +1803,23 @@
                 >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="model_in_production">{{ labels.isModelInProduction }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="model_in_production"
+                  >{{ labels.isModelInProduction }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="modelUnderProduction"
-                  [placeholder]="' Model Under Production'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="modelUnderProduction"
+                  [placeholder]="' Model Under Production'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="any_accidents_past">{{ labels.anyAccidentsInPast }}
-                  <sub class="star_red_col">*</sub>
-                </label>
-                <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty" formControlName="anyAccidentsInPast"
-                  [isRequired]="'Please Select One Option'">
-                </app-vf-custom-select>
-              </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="any_accidents_past">{{ labels.anyAccidentsInPast }}
-                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
-                </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="anyAccidentsInPast"
-                  [placeholder]="'Accidents in Past'" [isDirty]="isDirty" [isDisabled]="true">
-                </app-custom-input>
-              </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="any_major_accidents">{{ labels?.anyMajorRepairs }}
-                  <sub class="star_red_col">*</sub>
-                </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="majorRepairTillDate"
-                  [placeholder]="'any major repairs'" [maxLength]="labels?.validationData?.company.maxLength"
-                  [type]="labels?.validationData?.company.type" [isDirty]="isDirty">
-                </app-custom-input>
-              </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="any_major_accidents">{{ labels?.anyMajorRepairs }}
-                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
-                </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="majorRepairTillDate"
-                  [placeholder]="'Major Repairs'" [isDirty]="isDirty" [isDisabled]="true">
-                </app-custom-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="original_invouice">{{ labels?.originalInvoice }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
-                </label>
-                <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Original Invoice'"
-                  formControlName="originalInvoice" [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="'Original invoice is Required'" [type]="labels?.validationData?.idv.type"
-                  [isDirty]="isDirty">
-                </app-custom-input>
-              </div>
-
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="current_invoice_value"
                   >{{ labels?.currentInvoiceValue }}
@@ -1332,21 +1839,198 @@
                 >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="rc_book">{{ labels?.rcBookStatus }}
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="original_invouice"
+                  >{{ labels?.originalInvoice }}
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Original Invoice'"
+                  formControlName="originalInvoice"
+                  [maxLength]="labels?.validationData?.idv.maxLength"
+                  [isRequired]="'Original invoice is Required'"
+                  [type]="labels?.validationData?.idv.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+            </div>
+            <div class="row">
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="rc_book"
+                  >{{ labels?.rcBookStatus }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="rcBookStatusLOV" formControlName="rcBookStatus" [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'">
+                <app-vf-custom-select
+                  [values]="rcBookStatusLOV"
+                  formControlName="rcBookStatus"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="rc_book">{{ labels?.rcBookStatus }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="rc_book"
+                  >{{ labels?.rcBookStatus }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="rcBookStatus"
-                  [placeholder]="'RC Book Status'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="rcBookStatus"
+                  [placeholder]="'RC Book Status'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="current_invoice_value"
+                  >{{ labels?.noOfOriginalTyres }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="noOfOriginalTyres"
+                  [placeholder]="'No Of Original Tyres'"
+                  [maxLength]="labels?.validationData?.numberOfYears.maxLength"
+                  [type]="labels?.validationData?.numberOfYears.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="current_invoice_value"
+                  >{{ labels?.noOfRetreadedTyres }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="noOfRetreadedTyres"
+                  [placeholder]="'No Of Retreaded Tyres'"
+                  [maxLength]="labels?.validationData?.numberOfYears.maxLength"
+                  [type]="labels?.validationData?.numberOfYears.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+            </div>
+            <div class="row">
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="any_major_accidents"
+                  >{{ labels?.anyMajorRepairs }}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="majorRepairTillDate"
+                  [placeholder]="'any major repairs'"
+                  [maxLength]="labels?.validationData?.company.maxLength"
+                  [type]="labels?.validationData?.company.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="any_major_accidents"
+                  >{{ labels?.anyMajorRepairs }}
+                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="majorRepairTillDate"
+                  [placeholder]="'Major Repairs'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+              </div>
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="any_accidents_past"
+                  >{{ labels.anyAccidentsInPast }}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select
+                  [values]="valuesToYesNo"
+                  [isDirty]="isDirty"
+                  formControlName="anyAccidentsInPast"
+                  [isRequired]="'Please Select One Option'"
+                  (change)="accidentsInPast($event.target.value)"
+                >
+                </app-vf-custom-select>
+              </div>
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="any_accidents_past"
+                  >{{ labels.anyAccidentsInPast }}
+                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="anyAccidentsInPast"
+                  [placeholder]="'Accidents in Past'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
+                </app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="valuator_remarks"
+                  >{{ labels?.remark }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
+                </label>
+                <textarea
+                  class="form-control mandatory"
+                  name="valuatorRemarks"
+                  id="valuatorRemarks"
+                  cols="1"
+                  rows="3"
+                  placeholder="valuator remarks"
+                  formControlName="valuatorRemarks"
+                  maxlength="1500"
+                  style="resize: none"
+                ></textarea>
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                    vehicleValuationForm.controls['valuatorRemarks'].touched &&
+                      !vehicleValuationForm.controls['valuatorRemarks'].valid
+                    "
+                  >
+                    <div
+                      *ngIf="
+                      vehicleValuationForm.controls['valuatorRemarks'].hasError('required')
+                      "
+                    >
+                      Remarks are required
+                    </div>
+        
+                    <div
+                      *ngIf="
+                      vehicleValuationForm.controls['valuatorRemarks'].hasError('pattern')
+                      "
+                    >
+                      Special characters are not allowed
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- other remarks ends here -->
@@ -1374,25 +2058,39 @@
                     </tr>
                   </thead>
                   <tbody formArrayName="valuationsList">
-                    <tr *ngFor="
+                    <tr
+                      *ngFor="
                         let item of vehicleValuationForm.get('valuationsList')[
                           'controls'
                         ];
                         let i = index
-                      " [formGroupName]="i">
+                      "
+                      [formGroupName]="i"
+                    >
                       <!-- <td>{{ i + 1 }}</td> -->
                       <td>
-                        <app-vf-custom-select [values]="LOV?.vehicleFinanciers" formControlName="financier">
+                        <app-vf-custom-select
+                          [values]="LOV?.vehicleFinanciers"
+                          formControlName="financier"
+                        >
                         </app-vf-custom-select>
                       </td>
                       <td>
-                        <app-vf-custom-select [values]="monthsLOVS" formControlName="monthOfReport">
+                        <app-vf-custom-select
+                          [values]="monthsLOVS"
+                          formControlName="monthOfReport"
+                        >
                         </app-vf-custom-select>
                       </td>
                       <td style="min-width: 60px">
-                        <app-custom-input [className]="'form-control mandatory'" formControlName="valuation"
+                        <app-custom-input
+                          [className]="'form-control mandatory'"
+                          formControlName="valuation"
                           [maxLength]="labels?.validationData?.idv?.maxLength"
-                          [type]="labels?.validationData?.idv?.type" [isDirty]="isDirty" [placeholder]="'valuation'">
+                          [type]="labels?.validationData?.idv?.type"
+                          [isDirty]="isDirty"
+                          [placeholder]="'valuation'"
+                        >
                         </app-custom-input>
                       </td>
                     </tr>
@@ -1401,14 +2099,17 @@
                 </table>
               </div>
             </div>
-            &nbsp;
+            <!-- &nbsp; -->
 
             <!-- last three valuations list ends -->
 
             <!-- asset conditons starts here -->
 
             <div class="row" hidden="true">
-              <div id="applicantTable" class="table-responsive table-borderless application col-lg-6 col-md-6">
+              <div
+                id="applicantTable"
+                class="table-responsive table-borderless application col-lg-6 col-md-6"
+              >
                 <h4 class="title">{{ labels?.assetCondition }}</h4>
                 <table class="table asset">
                   <thead>
@@ -1426,12 +2127,15 @@
                     </tr>
                   </thead>
                   <tbody formArrayName="partsConditionList">
-                    <tr *ngFor="
+                    <tr
+                      *ngFor="
                         let item of vehicleValuationForm.get(
                           'partsConditionList'
                         )['controls'];
                         let i = index
-                      " [formGroupName]="i">
+                      "
+                      [formGroupName]="i"
+                    >
                       <!-- <td>{{ i + 1 }}</td> -->
                       <td>
                         <!-- <app-vf-custom-select
@@ -1441,23 +2145,37 @@
                           [isDisabled]="true"
                         >
                         </app-vf-custom-select> -->
-                        <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Part Name'"
-                          [isDirty]="isDirty" [isDisabled]="true" formControlName="partName">
+                        <app-custom-input
+                          [className]="'form-control mandatory'"
+                          [placeholder]="'Part Name'"
+                          [isDirty]="isDirty"
+                          [isDisabled]="true"
+                          formControlName="partName"
+                        >
                         </app-custom-input>
                       </td>
                       <td>
-                        <app-vf-custom-select [values]="conditionLov" formControlName="condition">
+                        <app-vf-custom-select
+                          [values]="conditionLov"
+                          formControlName="condition"
+                        >
                         </app-vf-custom-select>
                       </td>
                       <td>
-                        <app-vf-custom-select [values]="ratingScaleLov" formControlName="ratingScale">
+                        <app-vf-custom-select
+                          [values]="ratingScaleLov"
+                          formControlName="ratingScale"
+                        >
                         </app-vf-custom-select>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div id="applicantTable" class="table-responsive table-borderless application col-lg-6 col-md-6">
+              <div
+                id="applicantTable"
+                class="table-responsive table-borderless application col-lg-6 col-md-6"
+              >
                 <h4 class="title">{{ labels?.accessoriesFound }}</h4>
                 <table class="table part">
                   <thead>
@@ -1472,20 +2190,31 @@
                     </tr>
                   </thead>
                   <tbody formArrayName="accessoriesList">
-                    <tr *ngFor="
+                    <tr
+                      *ngFor="
                         let item of vehicleValuationForm.get('accessoriesList')[
                           'controls'
                         ];
                         let i = index
-                      " [formGroupName]="i">
+                      "
+                      [formGroupName]="i"
+                    >
                       <!-- <td>{{ i + 1 }}</td> -->
                       <td>
-                        <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Accessory Name'"
-                          [isDirty]="isDirty" [isDisabled]="true" formControlName="accessoryName">
+                        <app-custom-input
+                          [className]="'form-control mandatory'"
+                          [placeholder]="'Accessory Name'"
+                          [isDirty]="isDirty"
+                          [isDisabled]="true"
+                          formControlName="accessoryName"
+                        >
                         </app-custom-input>
                       </td>
                       <td>
-                        <app-vf-custom-select [values]="valuesToYesNo" formControlName="availability">
+                        <app-vf-custom-select
+                          [values]="valuesToYesNo"
+                          formControlName="availability"
+                        >
                         </app-vf-custom-select>
                       </td>
                     </tr>
@@ -1493,29 +2222,8 @@
                 </table>
               </div>
             </div>
-            &nbsp;
+            <!-- &nbsp; -->
 
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="current_invoice_value">{{ labels?.noOfOriginalTyres }}
-                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
-                </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="noOfOriginalTyres"
-                  [placeholder]="'No Of Original Tyres'" [maxLength]="labels?.validationData?.numberOfYears.maxLength"
-                  [type]="labels?.validationData?.numberOfYears.type" [isDirty]="isDirty">
-                </app-custom-input>
-              </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="current_invoice_value">{{ labels?.noOfRetreadedTyres }}
-                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
-                </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="noOfRetreadedTyres"
-                  [placeholder]="'No Of Retreaded Tyres'" [maxLength]="labels?.validationData?.numberOfYears.maxLength"
-                  [type]="labels?.validationData?.numberOfYears.type" [isDirty]="isDirty">
-                </app-custom-input>
-              </div>
-            </div>
-            &nbsp;
             <!-- asset condition ends here -->
 
             <!-- accessories found at inspection starts from here -->
@@ -1568,7 +2276,7 @@
                 </table>
               </div>
             </div> -->
-            &nbsp;
+            <!-- &nbsp; -->
 
             <!-- accessories found at inspection ends here -->
 
@@ -1577,72 +2285,125 @@
             <h4 class="title">{{ labels?.remark }}</h4>
 
             <div class="row">
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="rating">{{ labels.rating }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="rating"
+                  >{{ labels.rating }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select [values]="conditionLov" formControlName="remarksRating" [isDirty]="isDirty"
-                  [isRequired]="'Please Select One Option'">
+                <app-vf-custom-select
+                  [values]="conditionLov"
+                  formControlName="remarksRating"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="rating">{{ labels.rating }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="rating"
+                  >{{ labels.rating }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="remarksRating"
-                  [placeholder]="'Remarks Rating'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="remarksRating"
+                  [placeholder]="'Remarks Rating'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
-              <div *ngIf="!disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="rating">{{ labels.ratingScale }}
+              <div
+                *ngIf="!disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="rating"
+                  >{{ labels.ratingScale }}
                   <sub class="star_red_col">*</sub>
                 </label>
-                <app-vf-custom-select formControlName="remarksRatingScale" [values]="remarksRatingScaleLov"
-                  [isDirty]="isDirty" [isRequired]="'Please Select One Option'">
+                <app-vf-custom-select
+                  formControlName="remarksRatingScale"
+                  [values]="remarksRatingScaleLov"
+                  [isDirty]="isDirty"
+                  [isRequired]="'Please Select One Option'"
+                >
                 </app-vf-custom-select>
               </div>
-              <div *ngIf="disableForm" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="rating">{{ labels.ratingScale }}
+              <div
+                *ngIf="disableForm"
+                class="form-group col-sm-6 col-md-4 col-lg-3"
+              >
+                <label for="rating"
+                  >{{ labels.ratingScale }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" formControlName="remarksRatingScale"
-                  [placeholder]="'Remarks Rating Scale'" [isDirty]="isDirty" [isDisabled]="true">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="remarksRatingScale"
+                  [placeholder]="'Remarks Rating Scale'"
+                  [isDirty]="isDirty"
+                  [isDisabled]="true"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="current_invoice_value">{{ labels?.expectedFutureLife }}
+                <label for="current_invoice_value"
+                  >{{ labels?.expectedFutureLife }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="expectedFutureLife" [className]="'form-control mandatory'"
-                  [placeholder]="'Expected Future Life'" [maxLength]="labels?.validationData?.numberOfYears.maxLength"
-                  [isRequired]="'Expected future life is Required'" [type]="labels?.validationData?.numberOfYears.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="expectedFutureLife"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Expected Future Life'"
+                  [maxLength]="labels?.validationData?.numberOfYears.maxLength"
+                  [isRequired]="'Expected future life is Required'"
+                  [type]="labels?.validationData?.numberOfYears.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="current_invoice_value">{{ labels?.marketValueAsOnDateOfInspection }}
+                <label for="current_invoice_value"
+                  >{{ labels?.marketValueAsOnDateOfInspection }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Market Value'"
-                  formControlName="marketValue" [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="'Market value is Required'" [type]="labels?.validationData?.idv.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Market Value'"
+                  formControlName="marketValue"
+                  [maxLength]="labels?.validationData?.idv.maxLength"
+                  [isRequired]="'Market value is Required'"
+                  [type]="labels?.validationData?.idv.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valuation_amount">{{ labels?.valuationAmount }}
+                <label for="valuation_amount"
+                  >{{ labels?.valuationAmount }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
-                <app-custom-input formControlName="valuationAmt" [className]="'form-control mandatory'"
-                  [placeholder]="'Valuation Amount'" [maxLength]="labels?.validationData?.amountValue.maxLength"
-                  [isRequired]="'Valuation Amount is Required'" [type]="labels?.validationData?.amountValue.type"
-                  [isDirty]="isDirty">
+                <app-custom-input
+                  formControlName="valuationAmt"
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Valuation Amount'"
+                  [maxLength]="labels?.validationData?.amountValue.maxLength"
+                  [isRequired]="'Valuation Amount is Required'"
+                  [type]="labels?.validationData?.amountValue.type"
+                  [isDirty]="isDirty"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="valuation_date">{{ labels.valuationDate }}
+                <label for="valuation_date"
+                  >{{ labels.valuationDate }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
 
@@ -1657,22 +2418,27 @@
                 >
                 </kendo-datepicker>
                 <div class="invalid-feedback">
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       isDirty &&
                       !vehicleValuationForm.controls.valuationDate.value
-                    ">
+                    "
+                  >
                     Valuation Date is Required
                   </div>
-                  <div *ngIf="
+                  <div
+                    *ngIf="
                       vehicleValuationForm.controls.valuationDate.value &&
                       vehicleValuationForm.controls.valuationDate.errors
-                    ">
+                    "
+                  >
                     Invalid Date
                   </div>
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="disableForm" hidden="true">
+            &nbsp;
+            <!-- <div class="row" *ngIf="disableForm">
               <div class="col-sm-5 text-left">
                 <button class="btn btn-primary js-btn-prev" type="button">
                   <a href="#" (click)="redirectUrl()">{{
@@ -1681,7 +2447,7 @@
                 </button>
               </div>
               <div class="col-sm-7"></div>
-            </div>
+            </div> -->
 
             <!-- previous data fields starts from here wihtout section  -->
 
@@ -1925,19 +2691,41 @@
             <!-- </div> -->
             &nbsp;
             <div class="row">
-              <div class="col-sm-5"></div>
+              <!-- <div class="col-sm-5"> -->
+              <div class="col-sm-5 text-left">
+                <button
+                  class="btn btn-primary js-btn-prev"
+                  type="button"
+                  *ngIf="disableForm"
+                >
+                  <a (click)="redirectUrl()">{{ labels.downloadReport }}</a>
+                </button>
+              </div>
+
               <div class="col-sm-7 text-right">
-                <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()">
+                <button
+                  class="btn btn-primary js-btn-prev"
+                  type="button"
+                  (click)="onBack()"
+                >
                   {{ labels.back }}
                 </button>
                 &nbsp;
                 <ng-container *ngIf="!isLoan360">
-                  <button class="btn btn-primary" (click)="onFormSubmit()" *ngIf="!disableSaveBtn">
+                  <button
+                    class="btn btn-primary"
+                    (click)="onFormSubmit()"
+                    *ngIf="!disableSaveBtn"
+                  >
                     {{ labels.save }}
                   </button>
                 </ng-container>
                 &nbsp;
-                <button class="btn btn-primary" type="button" (click)="onNext()">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  (click)="onNext()"
+                >
                   {{ labels.next }}
                 </button>
               </div>

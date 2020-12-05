@@ -1,0 +1,142 @@
+<main class="mar-top90">
+    <div class="container-fluid">
+        
+
+        <div class="content">
+
+            <div class="row "  >
+                <div >
+                  <h3 class="title">Lead Upload</h3>
+                </div>
+              </div>
+
+            <!-- <div class="row">
+                <div class="col-sm-6 text-right">
+                    <button (click)="openUploadModal()" class="btn btn-primary" type="button">
+                        Upload
+                    </button>
+                </div>
+                <div class="col-sm-6">
+                    
+                </div>
+            </div> -->
+            <div class="row">
+                <br />
+
+                <div class="row ">
+                    <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+                        <div class="col-12 mid-text">
+                            <button class="btn upload-btn" (click)="fileInput.click()" *ngIf="!fileUrl">
+                                Select Document
+                            </button>
+                            <button class="btn upload-btn" (click)="removeFile(); fileInput.click()"
+                                *ngIf="fileUrl">
+                                Change Document</button>
+                            <button class="btn upload-btn remove-btn" (click)="removeFile()"
+                                *ngIf="fileUrl">
+                                Remove
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-6">Name : {{ fileName }} </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-6">Size : {{ fileSize }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="showError" class="show-error">
+                {{ showError }}
+            </div>
+            <div class="row">
+                <div class="col-sm-6 text-right">
+                    <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead"
+                                (click)="uploadFile()" [disabled]="!fileUrl">
+                                Upload
+                            </button>
+                </div>
+                <div class="col-sm-6"></div>
+            </div>
+            
+
+            <!-- <div  id="myModal" [ngClass]="{ 'dis-block': true }">
+                <div class="modal-dialog top-space">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" (click)="onClose()">
+                                ×
+                            </button>
+                            <h4 class="modal-title">Upload Document</h4>
+                        </div>
+
+                        <div class="modal-body ">
+                            <div class="row">
+                                <br />
+
+                                <div class="row ">
+                                    <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+                                        <div class="col-12 mid-text">
+                                            <button class="btn upload-btn" (click)="fileInput.click()" *ngIf="!fileUrl">
+                                                Select Document
+                                            </button>
+                                            <button class="btn upload-btn" (click)="removeFile(); fileInput.click()"
+                                                *ngIf="fileUrl">
+                                                Change Document</button>
+                                            <button class="btn upload-btn remove-btn" (click)="removeFile()"
+                                                *ngIf="fileUrl">
+                                                Remove
+                                            </button>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="col-6">Name : {{ fileName }} </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="col-6">Size : {{ fileSize }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="showError" class="show-error">
+                                {{ showError }}
+                            </div>
+                        </div>
+
+                        <div class="modal-footer text-center">
+                            <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead"
+                                (click)="uploadFile()" [disabled]="!fileUrl">
+                                Upload
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <input #fileInput type="file" style="visibility: hidden;" (input)="onFileSelect($event)" />
+            </div> -->
+
+        </div>
+
+    </div>
+    <input #fileInput type="file" style="visibility: hidden;" (input)="onFileSelect($event)" />
+</main>
+
+<app-lead-upload-discussion *ngIf="leadUploadDetails" [showUpload]="!!leadUploadDetails" [details]="leadUploadDetails" (cancel)="onModalClose()" (save)="saveValidRecords()"></app-lead-upload-discussion>
+
+<!-- Footer -->
+<footer class="footer pf mob-font">
+    <div class="container-fluid">
+      <p>© Equitas Small Finance Bank Limited. All Rights Reserved.</p>
+    </div>
+  </footer>

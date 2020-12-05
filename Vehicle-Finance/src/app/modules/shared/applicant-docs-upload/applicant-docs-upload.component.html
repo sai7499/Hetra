@@ -126,7 +126,8 @@
                       *ngIf="subCat.code !== 3"
                     >
                       <label for="documentnumber">Document Number</label>
-                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null"/>
+                      <input formControlName="documentNumber" [maxlength]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.maxLength || null" 
+                      class="form-control" [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null" (keyup)="onDocumentNumberPress($event, i, subCat.code)"/>
                       <div class="invalid-feedback" *ngIf="(docsList(subCat.code)?.controls[i]?.get('documentNumber')?.touched  || docsList(subCat.code)?.controls[i]?.get('documentNumber')?.dirty)">
                         <div *ngIf="docsList(subCat.code)?.controls[i]?.get('documentNumber').errors?.pattern">
                           {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
@@ -186,7 +187,9 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group col-sm-3 col-md-2">
+                    <div class="form-group col-sm-3 col-md-2" (click)="downloadForLoan360(FORM_ARRAY_NAME + '_' + subCat.code,
+                    i,
+                    $event)">
                       <label>File</label>
                       <input
                         formControlName="file"

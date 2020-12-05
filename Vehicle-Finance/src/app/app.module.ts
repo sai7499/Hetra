@@ -57,6 +57,12 @@ import { CanActivateService } from '@services/can-activate.service';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CameraPreview } from '@ionic-native/camera-preview/ngx';
+import { QueryDataResolverService } from '@modules/lead-section/services/queryDaraResolver.service';
+import { ScrollToBottomDirective } from '@services/directives/scroll-to-bottom.directive';
+
+import { LeadUploadDiscussionComponent } from '@modules/lead-upload-discussion/lead-upload-discussion.component';
+import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
 
 setTheme('bs4');
 
@@ -72,7 +78,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective],
+  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective,LeadUploadComponent, LeadUploadDiscussionComponent,ScrollToBottomDirective],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -116,6 +122,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CommonModule,
     LovResolverService,
     LeadDataResolverService,
+    QueryDataResolverService,
     CommomLovService,
     UtilityService,
     Authguard,
@@ -128,7 +135,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     File,
     FileTransfer,
     FileTransferObject,
-    CanActivateService
+    CanActivateService,
+    CameraPreview,
   ],
   bootstrap: [AppComponent],
 })

@@ -22,6 +22,7 @@ export class SearchBarComponent implements OnInit {
   routingId: string;
   activityClass = false;
   isMobile: boolean;
+  roleId: any;
 
   constructor(
     private sharedService: SharedService,
@@ -34,12 +35,15 @@ export class SearchBarComponent implements OnInit {
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    console.log('123roleAndUserDetails', roleAndUserDetails);
+    this.roleId = roleAndUserDetails.roles[0].roleId;
     const currentUrl = this.location.path();
     if (currentUrl.includes('activity-search')) {
       this.isMobile = true;
     }
     this.sharedService.getSearchBarActivity().subscribe((val: any) => {
       this.activityList = val;
+      console.log('activityList', this.activityList);
       this.searchLead = this.activityList;
     });
   }
@@ -81,6 +85,9 @@ export class SearchBarComponent implements OnInit {
         }
         if (element.routeId == '2') {
           this.commomLovService.setSearchLoan(null);
+          if (this.roleId === 66) {
+            return this.route.navigateByUrl('/pages/lead-creation/existing-lead-creation');
+          }
         }
         this.route.navigateByUrl(element.routeUrl);
       }

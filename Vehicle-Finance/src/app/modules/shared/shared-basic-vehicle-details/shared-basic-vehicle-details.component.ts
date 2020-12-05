@@ -30,7 +30,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   disableSaveBtn: boolean;
 
   maxDate = new Date();
-  // maxPreviousDate = this.maxDate.setDate(this.maxDate.getDate() - 1)
   initalZeroCheck = [];
   isNegativeValue = [];
   eligibleLoanAmount: any = 0;
@@ -89,9 +88,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isSpareCost: any;
   isRepairCost: any;
 
-  // check dedupe
+  // Check Depdue
   isVehicleDedupe: boolean;
+  vehicleRegNoChange: any;
+  isShowParentLoan: boolean;
+  loanDetailsData: any = [];
   isVehicleRegistrationNumber: any;
+  isVehicleRegNoChange: boolean;
+  searchChildLoanData: any;
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
@@ -115,6 +119,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.basicVehicleForm = this._fb.group({
       isValidPincode: true,
+      isCheckDedpue: true,
       isInvalidMobileNumber: true,
       isVaildFinalAssetCost: true,
       vehicleFormArray: this._fb.array([])
@@ -164,7 +169,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.initForms();
     this.getLov();
 
-    if (this.id) {
+
+    console.log(this.id, 'fdsg')
+
+    if (this.id && this.id !== '0') {
       this.setFormValue();
     };
 
@@ -305,9 +313,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const details = formArray.at(0) as FormGroup;
 
     if (this.isChildLoan) {
-      // (this.Product === 'FCLoan' || this.Product === 'TaxLoan') ? this.addFCLoanControls(details) : this.Product === 'TopUp' ? this.addTopUpControls(details) :
-      //   this.Product === 'TyreLoan' ? this.addTyreLoanControls(details) : this.Product === 'AccidentLoan' ? this.addAccidentLoanControls(details) :
-      //     (this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan') ? this.addInsuranceControls(details) : '';
       this.getDynamicFormControls(details)
     }
   }
@@ -577,6 +582,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       bodyCost: VehicleDetail.bodyCost || null,
       pac: VehicleDetail.pac || '',
       pacAmount: VehicleDetail.pacAmount || null,
+      parentLoanAccountNumber: VehicleDetail.parentLoanAccountNumber || null,
+      isVehicleDedupe: VehicleDetail.isVehicleDedupe === 'Yes' ? true : false,
       permitExpiryDate: VehicleDetail.permitExpiryDate ? this.utilityService.getDateFromString(VehicleDetail.permitExpiryDate) : '',
       processtionType: VehicleDetail.processtionType || '',
       productCatCode: VehicleDetail.productCatCode || '',
@@ -619,6 +626,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
+
+    // this.isVehicleDedupe = VehicleDetail.isVehicleDedupe === 'Yes' ? true: false;
+
+    if (VehicleDetail.parentLoanAccountNumber) {
+      this.isVehicleDedupe = true;
+    }
+
   }
 
   onVehicleRegion(value: any, obj) {
@@ -923,6 +937,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         pincode: ['', Validators.compose([Validators.maxLength(6), Validators.required])],
         vehicleId: 0,
         collateralId: 0,
+        isVehicleDedupe: true,
+        parentLoanAccountNumber: [''],
         leadId: this.leadId,
         userId: this.userId
       });
@@ -949,6 +965,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         vehicleUsage: ['', Validators.required],
         category: ['', Validators.required],
         vehicleId: 0,
+        isVehicleDedupe: true,
+        parentLoanAccountNumber: [''],
         collateralId: 0,
         leadId: this.leadId,
         userId: this.userId
@@ -1112,6 +1130,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       loanAmount: [0],
       bodyCost: [''],
       idv: [''],
+      isVehicleDedupe: true,
+      parentLoanAccountNumber: [''],
       insuranceCopy: [''],
       fsrdFundingReq: [''],
       fsrdPremiumAmount: [null],
@@ -1128,20 +1148,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('insuranceValidity', this._fb.control(''))
     }
     formArray.push(controls);
-
-  }
-
-  onValueForCurrentDate(event) {
-
-    let date = this.utilityService.convertDateTimeTOUTC(new Date(event), 'DD/MM/YYYY')
-
-    let maxConvertDate = this.utilityService.convertDateTimeTOUTC(this.maxDate, 'DD/MM/YYYY')
-
-    if (date < maxConvertDate) {
-      this.isMaxDate = true
-    } else if (date >= maxConvertDate) {
-      this.isMaxDate = false;
-    }
 
   }
 
@@ -1174,6 +1180,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       bodyCost: [''],
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: null,
+      isVehicleDedupe: false,
+      parentLoanAccountNumber: [''],
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
       ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
       address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
@@ -1199,6 +1207,20 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('insuranceValidity', this._fb.control(''))
     }
     formArray.push(controls);
+  }
+
+  onValueForCurrentDate(event) {
+
+    let date = this.utilityService.convertDateTimeTOUTC(new Date(event), 'DD/MM/YYYY')
+
+    let maxConvertDate = this.utilityService.convertDateTimeTOUTC(this.maxDate, 'DD/MM/YYYY')
+
+    if (date < maxConvertDate) {
+      this.isMaxDate = true
+    } else if (date >= maxConvertDate) {
+      this.isMaxDate = false;
+    }
+
   }
 
   onGetTaxValue(val: any, form) {
@@ -1276,6 +1298,76 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       form.get('totalCost').setValue(null)
     }
+  }
+
+  getRegistrationNumber(val: any, form) {
+
+    if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
+      if (this.vehicleRegNoChange !== val) {
+        this.basicVehicleForm.patchValue({
+          isCheckDedpue: false
+        })
+
+        this.isVehicleRegNoChange = true;
+      } else {
+        this.isVehicleRegNoChange = false;
+      }
+
+    }
+
+  }
+
+  onClose() {
+    this.isShowParentLoan = false;
+    this.isVehicleRegNoChange = false;
+
+  }
+  getparentLoanAccountNumber(obj) {
+
+    let childData = {
+      vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value
+    }
+
+    this.basicVehicleForm.patchValue({
+      isCheckDedpue: true
+    })
+
+    this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
+      this.vehicleRegNoChange = res.ProcessVariables.childData.vehicleRegistrationNumber;
+
+      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+      const details = formArray.at(0) as FormGroup;
+
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.searchChildLoanData = res;
+        this.isVehicleDedupe = true;
+        this.isShowParentLoan = true;
+        obj.get('parentLoanAccountNumber').setValidators([Validators.required]);
+        obj.get('parentLoanAccountNumber').updateValueAndValidity()
+        this.loanDetailsData = res.ProcessVariables.loanDetails ? res.ProcessVariables.loanDetails : [];
+      } else {
+        this.isVehicleDedupe = false;
+        this.isShowParentLoan = false;
+        this.isVehicleRegNoChange = false;
+        obj.get('parentLoanAccountNumber').clearValidators();
+        obj.get('parentLoanAccountNumber').updateValueAndValidity();
+        this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
+      }
+    })
+    console.log(obj, 'obj')
+  }
+
+  onLoanAccNoSelect(val, index, data) {
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    const details = formArray.at(0) as FormGroup;
+
+    details.patchValue({
+      parentLoanAccountNumber: data.accountNumber,
+      isVehicleDedupe: false
+    })
+    this.isShowParentLoan = false;
+    this.isVehicleRegNoChange = false;
+
   }
 
 }

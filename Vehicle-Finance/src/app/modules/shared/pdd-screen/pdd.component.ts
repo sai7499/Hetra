@@ -15,6 +15,8 @@ import { DraggableContainerService } from '@services/draggable.service';
 import { LabelsService } from "@services/labels.service";
 import { ObjectComparisonService } from '@services/obj-compare.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
     templateUrl: './pdd.component.html',
     styleUrls: ['./pdd.component.css']
@@ -59,8 +61,10 @@ export class PddComponent implements OnInit {
     isEndorsDateMsg: boolean = false;
     isShowError: boolean = false;
     rtoAgentsList = [];
+    isLoan360: boolean;
 
-    constructor(private location: Location,
+    constructor(
+        private location: Location,
         private pddDetailsService: PddDetailsService,
         private utilityService: UtilityService,
         private lovService: CommomLovService,
@@ -71,7 +75,8 @@ export class PddComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private labelsData: LabelsService,
         private router: Router,
-        private objectComparisonService: ObjectComparisonService) {
+        private objectComparisonService: ObjectComparisonService,
+        private loanViewService: LoanViewService) {
 
             this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
 
@@ -81,6 +86,7 @@ export class PddComponent implements OnInit {
         // this.toDayDate = new Date(year, month, day, 0, 0)
     }
     ngOnInit() {
+        this.isLoan360 = this.loanViewService.checkIsLoan360();
         this.getLabels();
         this.vehicleRegPattern = this.validateCustomPattern();
         const currentUrl = this.location.path();
@@ -92,6 +98,12 @@ export class PddComponent implements OnInit {
                 this.isSales = roles.roles[0].roleType === 1;
             }
             this.initForm();
+            if (this.isLoan360) {
+                this.activatedRoute.parent.params.subscribe((paramValue) => {
+                    this.leadId = Number(paramValue.leadId || 0);
+                });
+                
+            }
             this.lovService.getLovData().subscribe((lov: any) => {
                 this.lovs = lov;
                 this.rtoAgent = [{ key: '1RTOAGENT', value: "RTO Agent 1" },
@@ -245,6 +257,9 @@ export class PddComponent implements OnInit {
                 this.updateNumberForm(numberFormData);
                 this.updateProcessForm(response);
                 this.enableCpccSubmit();
+                if (this.isLoan360) {
+                    this.pddForm.disable();
+                }
             });
     }
 
@@ -718,6 +733,9 @@ export class PddComponent implements OnInit {
     }
 
     onBack() {
+        if (this.isLoan360) {
+            return this.router.navigateByUrl(`/pages/dde/${this.leadId}/delivery-order`);
+        }
         this.router.navigateByUrl(`/pages/dashboard`);
     }
 

@@ -256,6 +256,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
     
   }
 
+  downloadForLoan360(formArrayName: string, index: number, event) {
+    if (!this.isLoan360) {
+      return;
+    }
+    this.downloadDocs(formArrayName,index,event);
+  }
+
   setDocumentDetails() {
     this.uploadService
       .getDocumentDetails(this.applicantId, this.associatedWith)
@@ -518,6 +525,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
     // this.currentlySelectedDocs = categoryCode;
   }
 
+  onDocumentNumberPress(event, index, code) {
+    if (code === 12 || code === 13 || code === 15 || code === 16) {
+      const value = event.target.value;
+      const formArray = this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray;
+      console.log('formArray.at[index]', formArray.at(index))
+      formArray.at(index).get('documentNumber').setValue(String(value).toUpperCase());
+    }
+  }
+
   setDocumentValidation() {
     // this.selectedCode = subCategoryCode;
     // if (subCategoryCode === 12) { // passport
@@ -532,9 +548,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
     // if (subCategoryCode === 13) {
       const drivingLicense = this.validationData.drivingLicense;
       this.docsValidation[13] = {
-        pattern: drivingLicense.patternCheck.rule,
+        pattern: '',
         maxLength: drivingLicense.maxLength.rule,
-        patternMsg: drivingLicense.patternCheck.msg
+        patternMsg: ''
       };
     //   return;
     // }
