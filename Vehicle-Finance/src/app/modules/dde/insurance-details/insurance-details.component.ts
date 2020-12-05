@@ -83,6 +83,7 @@ export class InsuranceDetailsComponent implements OnInit {
   productCode: string;
   rtoCenterName: any;
   isRtoCenter = true;
+  isNomineeInvalid = false;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -299,6 +300,7 @@ export class InsuranceDetailsComponent implements OnInit {
 
   checkOnCredit(event) {
     if (event == 'no') {
+      this.applicantId = null;
       this.showCreditDetails = false;
       this.creditShieldRequired = false;
       this.removeValidations();
@@ -469,7 +471,9 @@ export class InsuranceDetailsComponent implements OnInit {
 
   }
   public ageCalculation(date, relation: string) {
+    this.isNomineeInvalid = false;
     if (date == null || date == undefined) {
+      this.isNomineeInvalid = true;
       return;
     }
     console.log('date full year', date.getFullYear());
@@ -483,9 +487,12 @@ export class InsuranceDetailsComponent implements OnInit {
             nomineeAge: event
           });
           this.enableDisableGuardian(event);
-        } else if (relation === 'nominee' && (event > 0 && event <= 100)) {
+        } else if (relation === 'nominee' && (event < 0 || event > 100)) {
+          this.isNomineeInvalid = true;
           this.f.controls.nomineeDOB.reset();
           this.f.controls.nomineeAge.reset();
+
+          // this.toasterService.showError('Please enter guardian age greater than 18', '');
         } else if (relation === 'guardian' && (event <= 18 || event > 100)) {
           this.f.controls.guardianDOB.reset();
           this.toasterService.showError('Please enter guardian age greater than 18', '');
@@ -650,13 +657,14 @@ export class InsuranceDetailsComponent implements OnInit {
             });
             this.onChangeInsuranceprovider(null, 'insProvider');
             this.f.patchValue({
+              vehicleType: this.processVariables.vehicleType
+            });
+            
+            this.onChangeInsuranceprovider(this.processVariables.vehicleType, 'vehicleType');
+            this.f.patchValue({
               vehicleMake: this.processVariables.vehicleMake,
             });
             this.onChangeInsuranceprovider(this.processVariables.vehicleMake, 'vehicleMake');
-            this.f.patchValue({
-              vehicleType: this.processVariables.vehicleType
-            });
-            this.onChangeInsuranceprovider(this.processVariables.vehicleType, 'vehicleType');
             this.f.patchValue({
               model: this.processVariables.model,
             });
@@ -776,10 +784,13 @@ export class InsuranceDetailsComponent implements OnInit {
     this.getInsuranceMasterDetails(event, lovType);
   }
   getInsuranceMasterDetails(event, lovType) {
-    if (lovType == 'insProvider') {
+    if (lovType == 'vehicleType') {
+      // calling api for vehicle make
       this.insuranceDetailForm.controls.vehicleMake.reset();
       this.vehicleMakeList = [];
-      const body = {};
+      const body = {
+        vehicleType: event
+      };
       console.log('body for insprovider lovtype', body);
       this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
         console.log(res, ' res for vehicle make');
@@ -793,11 +804,12 @@ export class InsuranceDetailsComponent implements OnInit {
         });
         console.log('vehicle make', this.vehicleMakeList);
       });
-    } else if (lovType == 'vehicleMake') {
+    } else if (lovType == 'insProvider') {
+      // calling api to get vehicle type
       this.insuranceDetailForm.controls.vehicleType.reset();
       this.vehicleTypeList = [];
       const body = {
-        vehicleMake: event
+        leadId: this.leadId
       };
       console.log('body for vehicle make lovtype', body);
       this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
@@ -814,13 +826,15 @@ export class InsuranceDetailsComponent implements OnInit {
         console.log('vehicle type', this.vehicleTypeList);
       });
       // })
-    } else if (lovType == 'vehicleType') {
+    } else if (lovType == 'vehicleMake') {
+      // calling api to get vehicle model
       this.insuranceDetailForm.controls.model.reset();
       this.modelList = [];
       const control = this.insuranceDetailForm.value;
+      
       const body = {
-        vehicleMake: control.vehicleMake,
-        vehicleType: event
+        vehicleMake: event,
+        vehicleType: control.vehicleType
       };
       console.log('body for vehicle type lovtype', body);
       this.insuranceService.getInsuranceMasterDetails(body).subscribe((res: any) => {
@@ -840,6 +854,7 @@ export class InsuranceDetailsComponent implements OnInit {
       });
       // })
     } else if (lovType == 'vehicleModel') {
+      // calling api to get vehicle variant
       this.insuranceDetailForm.controls.variant.reset();
       this.variantList = [];
       const control = this.insuranceDetailForm.value;
@@ -862,6 +877,7 @@ export class InsuranceDetailsComponent implements OnInit {
         // });
       });
     } else if (lovType == 'vehicleVariant') {
+      // calling api to get vehicle fuel type
       this.insuranceDetailForm.controls.fuelType.reset();
       this.fuelTypeList = [];
       const control = this.insuranceDetailForm.value;
