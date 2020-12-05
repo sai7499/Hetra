@@ -1,5 +1,5 @@
 import { DatePipe, Location } from '@angular/common';
-import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
@@ -24,7 +24,7 @@ import { PollingService } from '@services/polling.service';
   styleUrls: ['./query-model.component.css'],
   providers: [DatePipe]
 })
-export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentChecked, DoCheck {
+export class QueryModelComponent implements OnInit, OnDestroy, AfterContentChecked, DoCheck {
 
   @ViewChild('scrollMe', { static: true }) el: ElementRef;
   scrolltop: number = null;
@@ -264,14 +264,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
 
     const el: HTMLDivElement = this.el.nativeElement;
     // let height = pbox.scrollTop() + pbox.height() + $('#postbox').filter('.chat_msg:last').scrollTop();
-    div.scrollTop =div.scrollHeight - div.offsetHeight;
+    div.scrollTop = div.scrollHeight - div.offsetHeight;
     this.scrolltop = Math.max(0, el.scrollHeight - el.offsetHeight)
 
     // div.scrollTo(0, document.getElementById('chat-box').scrollHeight)
-  }
-
-  ngAfterViewInit() {
-
   }
 
   async getLeads(sendObj, chatSearchKey?: string, searchKey?: string) {
@@ -440,7 +436,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       this.getUsers();
       this.queryModelService.getQueries(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          // lead.count = 0;
           if (this.isMobileView) {
             this.closeNav();
           }
@@ -455,7 +450,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
               queryTo: val.queryTo
             }
           })
-          // this.scrollToBottom()
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
         }
@@ -529,7 +523,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       this.isleadIdshowError = false;
     }
   }
-
 
   getvalue(enteredValue: string) {
 
@@ -633,7 +626,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       }
     });
   }
-
 
   getDocuments(searchValue: string) {
 
@@ -1019,7 +1011,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
     this.isClickButton = i;
   }
 
-  updateStatus(data, index) {
+  updateStatus(data) {
 
     let bodyResponse = {
       "leadId": this.queryModalForm.controls['leadId'].value,
@@ -1033,6 +1025,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       }
     })
 
+  }
+
+  autoPopulateQueryType(resVal) {
+    console.log(resVal, 'resVal')
   }
 
 }
