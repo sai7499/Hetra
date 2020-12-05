@@ -107,11 +107,9 @@
               <!-- <sub class="star_blue_col">*</sub> -->
             </label>
             <app-custom-input 
-
               formControlName="drivingLicense" 
               [className]="'form-control mandatory'" 
               [placeholder]="'Driving License'" 
-              [patternCheck]="labels?.validationData?.drivingLicense?.patternCheck"
               [maxLength]="labels?.validationData?.drivingLicense?.maxLength" 
               [inputClass]="'text-uppercase'"
               [type]="labels?.validationData?.drivingLicense?.type">

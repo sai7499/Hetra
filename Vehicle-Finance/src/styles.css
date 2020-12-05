@@ -1014,7 +1014,7 @@ font-size:10px;
   }
 
   .btn-default{
-    border: 1px solid #ddd; 
+    border: 1px solid #ddd!important; 
     box-shadow: none!important
   }
 
@@ -1159,3 +1159,15 @@ font-size:10px;
 image-cropper .overlay {
     outline: solid #000 100vw !important;
 }
+
+.cropper .move {
+    width: 100%;
+    cursor: move;
+    border: 3px solid #fff !important;
+}
+
+.cropper .resize .square{
+    background: #FFF !important;
+    border: 3px solid #FFF !important;
+}
+
