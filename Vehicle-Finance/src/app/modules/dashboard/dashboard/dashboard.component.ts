@@ -1351,9 +1351,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
         }
         break;
-      case 57:
-        this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
-        break;
+      // case 57:
+      //   this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
+      //   break;
       case 61: case 62:
         this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
         break;
@@ -1374,6 +1374,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
       } else if (stageCode === '20') {
         this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
+      }else if(stageCode === '5'){
+        this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
     this.onRoutingTabs(this.subActiveTab);
