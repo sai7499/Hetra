@@ -3696,7 +3696,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           //   that.isAlertDanger = true;
           // }, 1500);
           // alert(processVariables.error.message);
-
+          that.ekycDone = '0'
           let alertRet = Modals.alert({
             title: 'e-KYC Failed',
             message: processVariables.error.message
@@ -3757,10 +3757,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const geoMasterData = value.geoMasterData;
 
 
-    let datas = geoMasterData.filter((data) => {
+    let datas = geoMasterData.find((data) => {
       return cityId === data.cityId;
     })
-    datas = datas[0];
     console.log('cityDatas', datas)
 
 

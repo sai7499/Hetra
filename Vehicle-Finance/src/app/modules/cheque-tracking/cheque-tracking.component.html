@@ -150,8 +150,11 @@
                                                 </div>
                                             </div>
                                             &nbsp;
+                                            <div *ngIf="showChequeNum">
+
+                                            
                                             <div class="row"
-                                            *ngIf="showChequeNum">
+                                            >
                                               <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">Cheque Number</p></div>
                                               <!-- <div class="col-lg-4 col-sm-4 col-md-3">
                                                   <textarea class="form-control" cols="2"
@@ -168,9 +171,47 @@
                                                 [type]="validationData?.chequeNumber?.type"
                                               ></app-custom-input>
                                               </div>
+
                                               
                                               
                                           </div>
+                                          &nbsp;
+                                          <div class="row">
+                                            <div class="col-lgg-3 col-sm-4 col-md-3">Cheque Date</div>
+                                            <div class="col-lg-4 col-sm-4 col-md-3">
+                                             <kendo-datepicker
+                                             class="form-control"
+                                             formControlName="chequeDate"
+                                             [format]="'dd/MM/yyyy'"
+                                             [min]="disburseDate"
+                                             placeholder="Cheque Date"
+                                             [activeView]="'decade'"
+                                             [disabled]="disableUpdate"
+                                             (valueChange)="onChequeDateChange($event)"
+                                            
+                                           ></kendo-datepicker>
+                                           <!-- (valueChange)="updateStatusDate($event)" -->
+                                           <div class="invalid-feedback ShowError">
+                                            <div 
+                                            *ngIf="isDirty">
+                                              <div *ngIf="chequeForm.get('chequeDate').invalid">
+                                                  Select Date
+                                              </div>
+                                            </div>
+                                            <div 
+                                            *ngIf="chequeForm.get('chequeDate').value && 
+                                            chequeForm.get('chequeDate').invalid">
+                                             
+                                                  Invalid Date
+                                            </div>
+                                            
+                                           </div>
+                                          
+
+                                            </div>
+
+                                          </div>
+                                        </div>
                                             &nbsp;
                                             <div *ngIf="showStatusDate">
 
@@ -182,6 +223,7 @@
                                                 class="form-control"
                                                 formControlName="statusUpdatedOn"
                                                 [format]="'dd/MM/yyyy'"
+                                                [min]="minHandoverDate"
                                                 placeholder="Status Updated On"
                                                 [activeView]="'decade'"
                                                 [disabled]="disableUpdate"
@@ -189,10 +231,14 @@
                                               ></kendo-datepicker>
                                               <!-- (valueChange)="updateStatusDate($event)" -->
                                               <div class="invalid-feedback ShowError"
-                                              *ngIf="chequeForm.get('statusUpdatedOn').touched || isDirty">
-                                                <div *ngIf="chequeForm.get('statusUpdatedOn').invalid">
+                                              >
+
+                                                <div *ngIf="isDirty && chequeForm.get('statusUpdatedOn').invalid">
                                                     Select Date
                                                 </div>
+                                               <div *ngIf="chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">
+                                                   Invalid Date
+                                               </div>
                                               </div>
 
                                                </div>

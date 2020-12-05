@@ -43,7 +43,9 @@ export class ChequeTrackingComponent implements OnInit {
   applicantList: any = [];
   leadSectioData: any;
   chequeCollctedBy : string;
-  applicantArray : any=[]
+  applicantArray : any=[];
+  disburseDate : Date;
+  minHandoverDate: Date;
 
   constructor(
     private labelsData: LabelsService,
@@ -86,7 +88,7 @@ export class ChequeTrackingComponent implements OnInit {
     this.chequeForm = new FormGroup({
       //details: new FormArray([]),
       chequeNum: new FormControl(''),
-      // chequeDate: new FormControl(''),
+      chequeDate: new FormControl(''),
       // statusUpdatedOn: new FormControl(''),
       status: new FormControl('', Validators.required),
       statusUpdatedOn: new FormControl(''),
@@ -163,7 +165,10 @@ export class ChequeTrackingComponent implements OnInit {
     this.chequeTrackingService.getChequeTracking(data).subscribe((res) => {
       if (res['ProcessVariables'].error.code == '0') {
         const data = res['ProcessVariables'].chequeData;
+        const disbDate= res['ProcessVariables'].disbDate
         //this.addUnit(data)
+        this.disburseDate = this.utilityService.getDateFromString(disbDate);
+        console.log('this.disburseDate', this.disburseDate)
         setTimeout(() => {
           this.chequeData = data;
 
@@ -202,6 +207,10 @@ export class ChequeTrackingComponent implements OnInit {
 
   // }
 
+  onChangeCheque(event) {
+    this.selectedData.chequeNum = event;
+  }
+
 
   onChangeChequeCollected(event){
     console.log('event', event)
@@ -210,8 +219,13 @@ export class ChequeTrackingComponent implements OnInit {
       return Number(value)===data.applicantId
     })
    this.chequeCollctedBy= app.fullName;
+  }
 
-
+  onChequeDateChange(event){
+    // let date = new Date(event)
+    console.log('date error', this.chequeForm.get('chequeDate'))
+    const date= this.utilityService.getDateFormat(event);
+     this.selectedData.chequeDate = date;
   }
 
 
@@ -265,12 +279,17 @@ export class ChequeTrackingComponent implements OnInit {
     if (value == 'BRNCHRECEIVEDCHEQUESTS') {
       this.chequeForm.get('chequeNum').setValidators([Validators.required]);
       this.chequeForm.get('chequeNum').updateValueAndValidity();
+      this.chequeForm.get('chequeDate').setValidators([Validators.required]);
+      this.chequeForm.get('chequeDate').updateValueAndValidity();
       this.showChequeNum = true;
       this.chequeForm.get('chequeNum').setValue('')
+      this.chequeForm.get('chequeDate').setValue('')
     }
     else {
       this.chequeForm.get('chequeNum').clearValidators();
       this.chequeForm.get('chequeNum').updateValueAndValidity();
+      this.chequeForm.get('chequeDate').clearValidators();
+      this.chequeForm.get('chequeDate').updateValueAndValidity();
       //this.chequeData[this.index].statusUpdatedOn= '-'
       this.showChequeNum = false;
     }
@@ -311,6 +330,8 @@ export class ChequeTrackingComponent implements OnInit {
       this.selectedData = data;
       this.chequeCollctedBy= this.selectedData.chequeCollectedByDesc;
       console.log('statusUpdaed', this.selectedData)
+      const recieveDate = this.selectedData.chequeDate
+      this.minHandoverDate = this.utilityService.getDateFromString(recieveDate || '')
 
 
       this.chequeForm.get('status').setValue('')
@@ -323,10 +344,10 @@ export class ChequeTrackingComponent implements OnInit {
       if (this.selectedData.chequeStatus == "HANDEDOVERCHEQUESTS") {
         this.showStatusDate = true;
         this.chequeForm.patchValue({
-          status: this.selectedData.chequeStatus,
-          statusUpdatedOn: this.utilityService.getDateFromString(this.selectedData.statusUpdatedOn),
-          chequeCollectedBy: this.selectedData.chequeCollectedBy,
-          idProof: this.selectedData.idProof
+          status: this.selectedData.chequeStatus || '',
+          statusUpdatedOn: this.utilityService.getDateFromString(this.selectedData.statusUpdatedOn)|| '',
+          chequeCollectedBy: this.selectedData.chequeCollectedBy || '',
+          idProof: this.selectedData.idProof || ''
         })
 
         this.chequeForm.get('status').clearValidators();
@@ -338,8 +359,8 @@ export class ChequeTrackingComponent implements OnInit {
         this.chequeForm.get('status').setValidators([Validators.required]);
         this.chequeForm.get('status').updateValueAndValidity();
         this.chequeForm.patchValue({
-          status: this.selectedData.chequeStatus,
-          remarks: this.selectedData.remarks
+          status: this.selectedData.chequeStatus || '',
+          remarks: this.selectedData.remarks|| ''
         })
         this.statusMsg = ''
         this.disableUpdate = false;
@@ -348,8 +369,9 @@ export class ChequeTrackingComponent implements OnInit {
         this.chequeForm.get('status').setValidators([Validators.required]);
         this.chequeForm.get('status').updateValueAndValidity();
         this.chequeForm.patchValue({
-          status: this.selectedData.chequeStatus,
-          chequeNum: this.selectedData.chequeNum
+          status: this.selectedData.chequeStatus || '',
+          chequeNum: this.selectedData.chequeNum || '',
+          chequeDate : this.utilityService.getDateFromString(this.selectedData.chequeDate)  || ''
         })
         this.statusMsg = ''
         this.disableUpdate = false;
@@ -366,9 +388,7 @@ export class ChequeTrackingComponent implements OnInit {
 
   }
 
-  onChangeCheque(event) {
-    this.selectedData.chequeNum = event;
-  }
+  
 
   onRemarkValue(event) {
     //console.log('event', event)
