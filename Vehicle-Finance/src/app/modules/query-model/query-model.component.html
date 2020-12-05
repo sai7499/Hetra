@@ -26,8 +26,7 @@
                 <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                     <div class="text-center">
-                      <div class="" (click)="getQueries(chat)"
-                        [ngClass]="selectedList === chat ? 'side-border' : ''" >
+                      <div class="" (click)="getQueries(chat)" [ngClass]="selectedList === chat ? 'side-border' : ''">
                         <p class="mar-em">{{chat.value}}</p>
                         <!-- <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i> -->
                         <span class="notification badge badge-pill badge-danger"
@@ -147,13 +146,13 @@
               <div class="panel-group  scroll-box " id="scrollBox">
                 <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="" style="padding: 0px 15px;">
-                    
+
                     <div class="" (click)="getQueries(chat, true)"
-                      [ngClass]="selectedList === chat ? 'side-border' : ''" >
+                      [ngClass]="selectedList === chat ? 'side-border' : ''">
                       <!-- <p class="col-lg-1 dot-style"></p> -->
-                    <p class=" mar-em">{{chat.value}}</p>
-                      <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
-                        class="notification badge badge-pill badge-danger"
+                      <p class=" mar-em">{{chat.value}}</p>
+                      <!-- <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i> -->
+                      <span class="notification badge badge-pill badge-danger"
                         *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
                     </div>
                   </div>
