@@ -93,6 +93,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   vehicleRegNoChange: any;
   isShowParentLoan: boolean;
   loanDetailsData: any = [];
+  isVehicleRegistrationNumber: any;
   isVehicleRegNoChange: boolean;
   searchChildLoanData: any;
 
@@ -1023,13 +1024,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
 
-    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
-    }
-
     if (this.Product !== 'TyreLoan') {
       controls.addControl('invoiceAmount', this._fb.control(null))
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
     }
 
     formArray.push(controls);
@@ -1075,13 +1073,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId
     })
-    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
-    }
-
     if (this.Product !== 'TyreLoan') {
       controls.addControl('invoiceAmount', this._fb.control(null))
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
     }
 
     formArray.push(controls);
@@ -1260,6 +1255,33 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       form.get('totalCost').setValue(null)
     }
+  }
+
+  getCheckDedupe(val: string, form) {
+
+    console.log(val, 'form', form)
+
+    if (val && val.length >= 9 && form.controls['vehicleRegNo'].valid) {
+      this.isVehicleRegistrationNumber = val;
+      this.isVehicleDedupe = true;
+    } else {
+      this.isVehicleDedupe = false;
+    }
+
+  }
+
+  searchLoanNumber(form) {
+
+    let childData = {
+      vehicleRegistrationNumber: form.controls['vehicleRegNo'].value
+    }
+
+
+    this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
+      console.log(res, 'res')
+      this.isVehicleDedupe = false;
+    })
+
   }
 
   onGetSpareCost(val: string, form) {

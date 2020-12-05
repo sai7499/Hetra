@@ -25,13 +25,12 @@
                 <br /><br />
                 <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
-                    <div class="flex-container">
-                      <div class="divs btn" (click)="getQueries(chat)"
-                        [ngClass]="selectedList === chat ? 'selected-back' : ''" style="height: 50px;">
+                    <div class="text-center">
+                      <div class="" (click)="getQueries(chat)"
+                        [ngClass]="selectedList === chat ? 'side-border' : ''" >
                         <p class="mar-em">{{chat.value}}</p>
-                        <i class="fa fa-comment count-list font-medium-3"
-                          *ngIf="chat.count && chat.count !== 0"></i><span
-                          class="notification badge badge-pill badge-danger"
+                        <!-- <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i> -->
+                        <span class="notification badge badge-pill badge-danger"
                           *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
                       </div>
                     </div>
@@ -72,8 +71,11 @@
                           </div>
                           <div class="stakeholder-list">
                             <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
-                              <div class="radio"><label><input class="select-user" type="radio" name="radio">
-                                  {{stack.value}} <span class="checkmark"></span></label></div>
+                              <div class="radio"><label>
+                                  {{stack.value}}
+                                  <!-- <input class="select-user" type="radio" name="radio">
+                                  {{stack.value}} <span class="checkmark"></span> -->
+                                </label></div>
                             </div>
                             <div class="empty-list" *ngIf="queryModelLov.queryTo && queryModelLov.queryTo.length === 0">
                               No stakeholder in the stakeholders list
@@ -112,7 +114,10 @@
                             <p *ngIf="document.docId"><a (click)="downloadDocs(document.docId, k, $event)">ID:
                                 {{document.docId}} <span *ngIf="document.docName"> -
                                   {{document.docName}}</span>
-                              </a></p>
+                              </a>
+                              <i class="fa fa-cloud-download cus-download-ic"
+                                (click)="downloadAllFiles(document.docId, k, $event)"></i>
+                            </p>
                           </div>
                           <div class="empty-list" *ngIf="documents && documents.length === 0">
                             No document in the documents list
@@ -126,7 +131,7 @@
 
             </div>
 
-            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="message-hide">
+            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 left" id="message-hide">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
 
@@ -141,10 +146,12 @@
               <br /><br />
               <div class="panel-group  scroll-box " id="scrollBox">
                 <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container">
-                    <div class="divs btn" (click)="getQueries(chat, true)"
-                      [ngClass]="selectedList === chat ? 'selected-back' : ''" style="height: 50px;">
-                      <p class="mar-em">{{chat.value}}</p>
+                  <div class="" style="padding: 0px 15px;">
+                    
+                    <div class="" (click)="getQueries(chat, true)"
+                      [ngClass]="selectedList === chat ? 'side-border' : ''" >
+                      <!-- <p class="col-lg-1 dot-style"></p> -->
+                    <p class=" mar-em">{{chat.value}}</p>
                       <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
                         class="notification badge badge-pill badge-danger"
                         *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
@@ -186,8 +193,11 @@
                         </div>
                         <div class="stakeholder-list">
                           <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
-                            <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
-                                  class="checkmark"></span></label></div>
+                            <div class="radio" (click)="autoPopulateQueryType(stack)">
+                              <label>
+                                {{stack.value}}
+                              </label>
+                            </div>
                           </div>
                           <div class="empty-list" *ngIf="queryModelLov.queryTo && queryModelLov.queryTo.length === 0">
                             No stakeholder in the stakeholders list
@@ -225,7 +235,12 @@
                           <p *ngIf="document.docId"><a (click)="downloadDocs(document.docId, k, $event)">ID:
                               {{document.docId}} <span *ngIf="document.docName"> -
                                 {{document.docName}}</span>
-                            </a></p>
+                            </a>
+                            <!-- <span style="float: right"> -->
+                            <i class="fa fa-cloud-download cus-download-ic"
+                              (click)="downloadAllFiles(document.docId, k, $event)"></i>
+                            <!-- </span> -->
+                          </p>
                         </div>
                         <div class="empty-list" *ngIf="documents && documents.length === 0">
                           No documents in the documents list
@@ -238,22 +253,19 @@
 
             </div>
 
-            <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12 right msg-space">
+            <div class="col-sm-9 col-lg-9 col-md-9 col-xs-12 right msg-space">
               <div class="row view-pad-bottom">
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0 back-div"><button
                     class="btn btn-warning back-arrow view-button" type="button" (click)="openNav()"><i
                       class="fa fa-angle-double-left"></i>
                   </button></div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                   <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
                       class="fa fa-arrow-left"></i>
-                    {{labels.backToLead}}</button></div>
+                    {{labels.backToLead}}</button>
+                </div>
 
-              </div>
-              <div class="chat-box message-box viewport viewport-a" id="chat-box" #scrollMe
-                [scrollTop]="scrollMe.scrollHeight">
-                <!-- [scrollTop]="scrollMe.scrollHeight" -->
-                <div>
+                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8 p-0 text-right" style="float: right;">
 
                   <div class="input-group search-btn-msg">
                     <input type="text" class="form-control input-search" placeholder="Query Id Search"
@@ -265,9 +277,14 @@
 
                 </div>
 
+              </div>
+              <div class="chat-box message-box viewport viewport-a" id="chat-box" #scrollMe
+                [scrollTop]="scrollMe.scrollHeight">
+                <!-- [scrollTop]="scrollMe.scrollHeight" -->
+
                 <div *ngFor="let message of searchChatMessages; let j=index;let last=last;"
                   (mouseenter)="isCheckFropdownBut(message, j)" (mouseleave)="clickedIndex = null">
-                  <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
+                  <div class="wt-90" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
 
                     <span class="active-dropdown" *ngIf="clickedIndex === j && message.queryStatusDesc !== 'Closed'"
                       (click)="openOptionDropDown(j)">
@@ -277,37 +294,44 @@
                     <div id="myDropdown" class="cus-mes-dropdown-content" *ngIf="isClickDropDown === j"
                       [ngClass]="message.queryFrom === userId  ? 'cus-left-rep' : 'cus-right-rep'">
                       <a (click)="openOptions(message, j)">Reply</a>
-                      <a (click)="updateStatus(message, j)" *ngIf="message.queryFrom === userId">Closed</a>
+                      <a (click)="updateStatus(message)" *ngIf="message.queryFrom === userId">Closed</a>
                     </div>
 
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
-                      <div class="logged-user row">
+                      <div class="logged-user">
 
-                        <div class="col-md-4">
-                          <span class="cus-name-role"> {{message.nameWithFromRole}}
-                          </span>
+                        <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span class="cus-name-role"> {{message.nameWithFromRole}}
+                            </span>
+                          </div>
+
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span class="date-time"> <strong>{{labels.queryType}} : </strong>
+                              {{message.queryTypeDesc}}
+                            </span>
+                          </div>
                         </div>
 
-                        <div class="col-md-4">
-                          <span class="text-center"> <strong>Query Id : </strong>
-                            {{message.queryId}}
-                          </span>
-                        </div>
+                        <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span class="text-center"> <strong>Query Id : </strong>
+                              {{message.queryId}}
+                            </span>
+                          </div>
 
-                        <div class="col-md-4">
-                          <span class="date-time"> <strong>{{labels.queryType}} : </strong>
-                            {{message.queryTypeDesc}}
-                          </span>
-                          <span class="date-time"> <strong> Lead Stage : </strong>
-                            {{message.leadStageDesc}}
-                          </span>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" *ngIf="message.leadStageDesc">
+                            <span class="date-time"> <strong> Lead Stage : </strong>
+                              {{message.leadStageDesc}}
+                            </span>
+                          </div>
                         </div>
 
                       </div>
 
                       <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                          <p>{{message.query}}</p>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <p class="cus-query">{{message.query}}</p>
                         </div>
                       </div>
 
@@ -428,18 +452,8 @@
               </div>
 
               <div class="form-group row">
-                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-                  <div class="form-group">
-                    <label for="status" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.status}}</label>
-                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12">
-                      <app-vf-custom-select [values]="queryModelLov?.queryStatus" [id]="'status'"
-                        formControlName="queryStatus" [isRequired]="'Status Required'" [isDirty]="isDirty">
-                      </app-vf-custom-select>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 ">
                   <div class="form-group">
 
                     <label for="query_to" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.tagQueryTo}}</label>
@@ -471,22 +485,20 @@
                   </div>
                 </div>
 
-                <!-- <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+
+                </div>
+
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
-                    <label for="file-upload" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.attachment}}</label>
-                    <div class="upload-btn-wrapper col-sm-7 col-lg-7 col-md-7 col-xs-12">
-
-                      <a id="file-upload"><button class="btn-upload btn" aria-hidden="true" type="button"
-                          (click)="chooseFile()">
-                          {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file
-                        </button></a>
+                    <label for="status" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.status}}</label>
+                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12">
+                      <app-vf-custom-select [values]="queryModelLov?.queryStatus" [id]="'status'"
+                        formControlName="queryStatus" [isRequired]="'Status Required'" [isDirty]="isDirty">
+                      </app-vf-custom-select>
                     </div>
-
-                    <label for="file-name" class="col-sm-8 col-lg-8 col-md-8 col-xs-12"
-                      *ngIf="queryModalForm.controls['docName'].value">
-                      {{queryModalForm.controls['docName'].value}} </label>
                   </div>
-                </div> -->
+                </div>
               </div>
 
               <div class="form-group row">
@@ -541,6 +553,7 @@
 
               </div>
             </div>
+
           </div>
         </form>
 

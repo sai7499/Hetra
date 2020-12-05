@@ -10,6 +10,7 @@
                 <h3 class="title cus-title"> {{ label.vehcileDetailsTitle }} </h3>
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                         <label for="registartion_number"> {{ label.registartionNumber }}
                             <sub class="star_red_col">*</sub>
@@ -547,10 +548,9 @@
 
                     </div>
 
-                    <div class="row">
+                    <div class="row" *ngIf="Product !== 'TyreLoan'">
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3"
-                            *ngIf="!(Product === 'InsuranceLoan' || Product === 'SaathiLoan')">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
 
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
@@ -561,8 +561,7 @@
                             </app-custom-input>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 "
-                            *ngIf="!(Product === 'InsuranceLoan' || Product === 'SaathiLoan')">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
@@ -576,7 +575,7 @@
 
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
 
                             <app-custom-input formControlName="invoiceAmount"
@@ -954,8 +953,7 @@
                             </app-custom-input>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 "
-                            *ngIf="!(Product === 'InsuranceLoan' || Product === 'SaathiLoan')">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
                             <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
                             <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
                                 [type]="label.validationData?.invoiceNumber.type" [className]="'form-control mandatory'"
@@ -964,8 +962,7 @@
                             </app-custom-input>
                         </div>
 
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 "
-                            *ngIf="!(Product === 'InsuranceLoan' || Product === 'SaathiLoan')">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
                                 [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
@@ -2230,7 +2227,7 @@
                         <label for="fc_expiry_date">{{label.fcExpiryDate}}</label>
 
                         <kendo-datepicker class="form-control" formControlName="fcExpiryDate" [activeView]="'decade'"
-                            [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="FC Expiry Date">
+                            [format]="'dd/MM/yyyy'" placeholder="FC Expiry Date">
                         </kendo-datepicker>
 
                         <div class="invalid-feedback"
@@ -2335,8 +2332,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.costPerTyre">
                         <label for="cost_tyre">{{label.VehcostPerTyre}}</label>
                         <app-custom-input formControlName="costPerTyre" [type]="label.validationData?.amountValue.type"
-                            [id]="'cost_tyre'" [className]="'form-control mandatory'"
-                            [placeholder]="roleType === 1 ? '' : 'Cost Per Tyre'"
+                            [id]="'cost_tyre'" [className]="'form-control mandatory'" [placeholder]="'Cost Per Tyre'"
                             [maxLength]="label.validationData?.amountValue.maxLength"
                             [isRequired]="roleType === 1 ? '' : 'Cost Per Tyre Required'" [isDirty]="isDirty">
                         </app-custom-input>
@@ -2556,12 +2552,12 @@
             </div>
 
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead" (click)="onClose()">
+                <button type="button" class="btn btn-info" data-dismiss="modal" id="continue">
+                    Continue with select loan number
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="close" (click)="onClose()">
                     Cancel
                 </button>
-                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
-              Cancel
-            </button> -->
             </div>
         </div>
     </div>
