@@ -352,14 +352,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
         let findChat: any = this.chatList;
 
         let emptyLeadData = {
+          count: 0,
           key: this.routerId,
           value: test ? test.value : '',
-          count: 0
         }
-
-        // this.selectedList = emptyLeadData;
-
-        // this.chatList.unshift(emptyLeadData)
 
         findChat.find((chat, i) => {
           if (chat.key === this.routerId) {
@@ -368,41 +364,14 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
           }
         })
 
-        // if (findChat) {
-        //   console.log(findChat,'findChat')
-        // }
-
-
         this.selectedList = findChat;
         let spliceChat = findChat.splice(index, 1)
         this.chatList.unshift(spliceChat[0])
 
-        if (this.chatList[0].key === this.routerId) {
-          console.log('chat', this.chatList)
-
-        } else {
-          console.log('not chat', this.chatList)
-
+        if (this.chatList[0].key !== this.routerId) {
           this.chatList.unshift(emptyLeadData)
-
         }
         this.getQueries(this.chatList[0], true)
-
-      } else {
-
-
-        // let emptyLeadData = {
-        //   key: this.routerId,
-        //   value: test ? test.value : '',
-        //   count: 0
-        // }
-
-        // this.selectedList = emptyLeadData;
-
-        // this.chatList.unshift(emptyLeadData)
-        // this.getQueries(this.chatList[0], true);
-        // this.getUsers();
-
       }
     } else {
       this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
@@ -471,7 +440,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       this.getUsers();
       this.queryModelService.getQueries(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          lead.count = 0;
+          // lead.count = 0;
           if (this.isMobileView) {
             this.closeNav();
           }
@@ -617,7 +586,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
     this.replyDropdown = false;
     this.getvalue(val.queryTo);
     this.dropDown = false;
-    console.log(val, 'val')
     this.queryModalForm.patchValue({
       query: val.query,
       queryType: val.queryType,
@@ -711,8 +679,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
           return queryMessage
         }
       }
-      console.log(queryMessage, 'chatMessages', this.chatMessages)
-
     })
 
     this.searchChatMessages = queryMessage;
@@ -1061,10 +1027,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       "queryStatus": 'CLOSEQUESTAT'
     }
 
-    console.log(this.LOV.queryStatus)
-
     this.queryModelService.updateQueryStatus(bodyResponse).subscribe((res: any) => {
-      console.log(res, 'res')
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.getLeads(this.getLeadSendObj);
       }

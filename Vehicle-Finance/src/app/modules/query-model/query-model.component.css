@@ -306,8 +306,8 @@ margin: 0px !important;
 .receive-message {
 	background: #f8f8f8;
 }
-.wt-80 {
-	width: 80%;
+.wt-90 {
+	width: 90%;
     margin-bottom: 20px;
 }
 
@@ -1215,9 +1215,21 @@ div.viewport-a {
 
 .i-span{
     border: none;
-    font-size: 40px;
+    font-size: 30px;
+    line-height: 2em;
+    cursor: pointer;
     color: #b1afaf;
 }
+
+.i-span:hover {
+    border-left: 0;
+    color: #f3682e !important;
+}
+
+.cus-query {
+    word-break: break-all;
+}
+
 .fa-fw{
     width: 0 !important;
 }
