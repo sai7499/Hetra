@@ -496,7 +496,7 @@
                     <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span id="cus-tooltip"
                         class="i-span input-group-addon" (click)="chooseFile()" data-tooltip="Attachment"
                         [ngClass]="queryModalForm.controls['docName'].value ? 'cus-font-size' : ''"><i
-                          class="fa fa-paperclip"></i>
+                          class="fa fa-paperclip fa-fw"></i>
                       </span>
                       <span *ngIf="queryModalForm.controls['docName'].value" style="font-size: 11px;">
                         {{queryModalForm.controls['docName'].value}}</span>
@@ -507,7 +507,7 @@
                     </div>
                     <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span data-tooltip="Send"
                         class="i-span input-group-addon" (click)="onFormSubmit(queryModalForm)"><i
-                          class="fa fa-send"></i></span></div>
+                          class="fa fa-send fa-fw"></i></span></div>
 
                   </div>
                   <div class="invalid-feedback"
