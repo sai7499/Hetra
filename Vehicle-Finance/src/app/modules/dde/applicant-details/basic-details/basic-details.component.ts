@@ -75,9 +75,9 @@ export class BasicDetailsComponent implements OnInit {
   showEmployeeNo: boolean = false;
   checkedEquitasEmployee: string = '0';
   checkedRelativeEquitas: string = '0';
-  showMsg={
+  showMsg = {
     issueDate: false,
-    expiryDate : false
+    expiryDate: false
   }
 
   emailPattern = {
@@ -105,10 +105,10 @@ export class BasicDetailsComponent implements OnInit {
   public showSelfEmp: boolean;
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
-  isSave : boolean = false;
+  isSave: boolean = false;
   apiValue: any;
   finalValue: any;
-  isExpiryDate: boolean= false;
+  isExpiryDate: boolean = false;
   maxExtrIssue = new Date()
   isLoan360: boolean;
 
@@ -128,10 +128,10 @@ export class BasicDetailsComponent implements OnInit {
     private ageValidationService: AgeValidationService,
     private objectComparisonService: ObjectComparisonService,
     private loanViewService: LoanViewService
-  ) { 
-    this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
+  ) {
+    this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
 
-    this.maxExtrIssue.setDate(this.maxExtrIssue.getDate()-1)
+    this.maxExtrIssue.setDate(this.maxExtrIssue.getDate() - 1)
     this.maxExtrIssue = this.utilityService.setTimeForDates(this.maxExtrIssue)
 
   }
@@ -212,10 +212,10 @@ export class BasicDetailsComponent implements OnInit {
       data => {
         const minAge = data.ages.applicant.minAge;
         const maxAge = data.ages.applicant.maxAge;
-          this.maxAge = new Date();
-          this.minAge = new Date();
-          this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
-          this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+        this.maxAge = new Date();
+        this.minAge = new Date();
+        this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
+        this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
       }
     );
   }
@@ -293,8 +293,8 @@ export class BasicDetailsComponent implements OnInit {
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
       details.patchValue({
-        houseOwnerProperty : '',
-        ownHouseAppRelationship : ''
+        houseOwnerProperty: '',
+        ownHouseAppRelationship: ''
       })
     }
   }
@@ -484,14 +484,16 @@ export class BasicDetailsComponent implements OnInit {
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
+      this.onCustCategoryChanged(this.custCatValue)
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
       this.setMaritalStatusValue(this.applicant.aboutIndivProspectDetails.maritalStatus);
-      this.onCustCategoryChanged(this.custCatValue)
+
     } else {
       this.addNonIndividualFormControls();
-      this.setValuesForNonIndividual();
       this.removeApplicantRelationControl();
+      this.setValuesForNonIndividual();
+
       // setTimeout(() => {
       //   this.listerForDirectors();
       // });
@@ -538,21 +540,21 @@ export class BasicDetailsComponent implements OnInit {
       custSegment: applicantDetails.custSegment || '',
     });
     this.apiValue = this.basicForm.getRawValue();
-    if (this.isIndividual){
-      const dob= this.basicForm.getRawValue().details[0].dob
-      this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
-    }else{
-      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
-      const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
-      const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
-      this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
-      this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
-      this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+    if (this.isIndividual) {
+      const dob = this.basicForm.getRawValue().details[0].dob
+      this.apiValue.details[0].dob = this.utilityService.getDateFormat(dob)
+    } else {
+      const doc = this.basicForm.getRawValue().details[0].dateOfIncorporation;
+      const externalRatingIssueDate = this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+      const externalRatingExpiryDate = this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
+      this.apiValue.details[0].dateOfIncorporation = this.utilityService.getDateFormat(doc)
+      this.apiValue.details[0].externalRatingIssueDate = this.utilityService.getDateFormat(externalRatingIssueDate)
+      this.apiValue.details[0].externalRatingExpiryDate = this.utilityService.getDateFormat(externalRatingExpiryDate)
     }
 
     if (this.loanViewService.checkIsLoan360()) {
-        this.basicForm.disable();
-        this.disableSaveBtn = true;
+      this.basicForm.disable();
+      this.disableSaveBtn = true;
     }
   }
 
@@ -626,7 +628,7 @@ export class BasicDetailsComponent implements OnInit {
       noofyearsInCurrEmp = String(Math.floor(Number(aboutIndivProspectDetails.currentEmpYears) / 12)) || '';
     }
 
-    
+
 
     details.patchValue({
       emailId: aboutIndivProspectDetails.emailId || '',
@@ -707,8 +709,8 @@ export class BasicDetailsComponent implements OnInit {
     const details = formArray.at(0);
 
 
-    if(corporateProspectDetails.externalRatingIssueDate){
-      const convertDate= this.utilityService.getDateFromString(corporateProspectDetails.externalRatingIssueDate)
+    if (corporateProspectDetails.externalRatingIssueDate) {
+      const convertDate = this.utilityService.getDateFromString(corporateProspectDetails.externalRatingIssueDate)
       this.updateExternalIssueDate(convertDate)
     }
     details.patchValue({
@@ -753,27 +755,29 @@ export class BasicDetailsComponent implements OnInit {
       creditRiskScore: corporateProspectDetails.creditRiskScore || '',
     });
 
-    if(corporateProspectDetails.externalRatingExpiryDate){
-      const convertDate= this.utilityService.getDateFromString(corporateProspectDetails.externalRatingExpiryDate)
+    if (corporateProspectDetails.externalRatingExpiryDate) {
+      const convertDate = this.utilityService.getDateFromString(corporateProspectDetails.externalRatingExpiryDate)
       this.updateExternalExpiryDate(convertDate)
     }
 
     const directorArray = this.applicant.directorDetails;
     const director = this.basicForm.get('directors') as FormArray;
-    console.log(this.basicForm,'director', director, )
+    console.log(this.basicForm, 'director', director,)
     const directorValue = this.applicant.corporateProspectDetails.numberOfDirectors;
 
     this.addDirectorControls(directorValue);
+    if (Number(directorValue) === Number(directorArray.length)) {
+      directorArray.forEach((value, index) => {         //patching directorDetails
+        console.log(value, 'value', index)
+        director.at(index).patchValue({
+          directorName: value.directorName,
+          din: value.din
+        })
 
-    directorArray.forEach((value, index) => {         //patching directorDetails
-      console.log(value,'value', index)
-      director.at(index).patchValue({
-        directorName: value.directorName,
-        din: value.din
+
       })
+    }
 
-      
-    })
   }
 
 
@@ -1025,37 +1029,37 @@ export class BasicDetailsComponent implements OnInit {
 
       this.applicant = this.applicantDataService.getApplicant(); // To get Applicant details from api
       this.setBasicData();
-      if(this.applicant.ucic){
-        if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
-           this.disableUCICIndividualDetails();
-        }else{
+      if (this.applicant.ucic) {
+        if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
+          this.disableUCICIndividualDetails();
+        } else {
           this.disableUCICNonIndividualDetails();
         }
       }
-      if(this.applicant.ekycDone=='1'){
-        if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+      if (this.applicant.ekycDone == '1') {
+        if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
           this.disableEKYDetails();
         }
       }
-  
-    
+
+
     });
 
   }
 
-  disableEKYDetails(){
+  disableEKYDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     const applicantDetails = this.applicant.applicantDetails;
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
-    applicantDetails.name1? details.get('name1').disable() : details.get('name1').enable();
-    details.get('name2').disable() 
+    applicantDetails.name1 ? details.get('name1').disable() : details.get('name1').enable();
+    details.get('name2').disable()
     applicantDetails.name3 ? details.get('name3').disable() : details.get('name3').enable();
-    aboutIndivProspectDetails.dob? details.get('dob').disable() : details.get('dob').enable();
-    aboutIndivProspectDetails.gender ? details.get('gender').disable() :  details.get('gender').enable() ;
+    aboutIndivProspectDetails.dob ? details.get('dob').disable() : details.get('dob').enable();
+    aboutIndivProspectDetails.gender ? details.get('gender').disable() : details.get('gender').enable();
   }
 
-  disableUCICIndividualDetails(){
+  disableUCICIndividualDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('name1').disable();
@@ -1066,7 +1070,7 @@ export class BasicDetailsComponent implements OnInit {
     details.get('gender').disable();
 
   }
-  disableUCICNonIndividualDetails(){
+  disableUCICNonIndividualDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('name1').disable();
@@ -1100,14 +1104,27 @@ export class BasicDetailsComponent implements OnInit {
   //   }
 
   // }
+
+
+  setEqutasDefaultValues(details){
+    this.checkedEquitasEmployee = '0'
+    this.checkedRelativeEquitas = '0'
+    details.get('isEquitasEmployee').enable();
+    details.get('isEquitasEmployeeRelative').enable();
+    details.get('equitasEmployeeNumber').setValue('');
+    details.get('equitasEmployeeNumber').clearValidators();
+    details.get('equitasEmployeeNumber').updateValueAndValidity();
+  }
   onCustCategoryChanged(value) {
-    this.custCatValue = value
+    this.custCatValue = value;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    this.setEqutasDefaultValues(details)
     if (this.custCatValue == 'SEMCUSTSEG') {
       this.ageOfSeniorCitizen = 65;
 
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
-      const formArray = this.basicForm.get('details') as FormArray;
-      const details = formArray.at(0);
+
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
@@ -1117,8 +1134,6 @@ export class BasicDetailsComponent implements OnInit {
     } else if (this.custCatValue == 'SALCUSTSEG') {
       this.ageOfSeniorCitizen = 60
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
-      const formArray = this.basicForm.get('details') as FormArray;
-      const details = formArray.at(0);
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
       this.showSalaried = true;
@@ -1262,6 +1277,38 @@ export class BasicDetailsComponent implements OnInit {
   }
 
 
+  onChangeOwner(event) {
+    const value = event.target.value;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const appRelation = this.getSelfRelationValue()
+    if (value === 'APPAPPRELLEAD') {
+      details.get('ownHouseAppRelationship').setValue(appRelation.key);
+    } else {
+      details.get('ownHouseAppRelationship').setValue('');
+    }
+  }
+
+  onChangeAgriOwner(event) {
+    const value = event.target.value;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const appRelation = this.getSelfRelationValue()
+    if (value === 'APPAPPRELLEAD') {
+      details.get('agriAppRelationship').setValue(appRelation.key);
+    } else {
+      details.get('agriAppRelationship').setValue('');
+    }
+  }
+  getSelfRelationValue() {
+    const relationship = this.LOV.LOVS.relationship;
+    const appRelation = relationship.find((data: any) => {
+      return data.key === '5RELATION'
+    })
+    return appRelation
+  }
+
+
 
   setValidation() {                    // set validators based upon product aanf funding program
     const formArray = this.basicForm.get('details') as FormArray;
@@ -1302,26 +1349,26 @@ export class BasicDetailsComponent implements OnInit {
   updateExternalExpiryDate(event) {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-   this.externalExpiryDate= new Date(event)
-    this.isExpiryDate=false;
-   
-      if (this.externalExpiryDate < this.toDayDate) {
-        this.showMsg['expiryDate'] = true;
-      } else {
-        this.showMsg['expiryDate'] = false;
-      }
-   
+    this.externalExpiryDate = new Date(event)
+    this.isExpiryDate = false;
+
+    if (this.externalExpiryDate < this.toDayDate) {
+      this.showMsg['expiryDate'] = true;
+    } else {
+      this.showMsg['expiryDate'] = false;
+    }
+
   }
 
   updateExternalIssueDate(event) {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     this.showMsg['expiryDate'] = false;
-    this.externalIssueDate =new Date(event) ;
-    if( this.externalIssueDate > this.maxExtrIssue){
-      this.showMsg['issueDate']= true
-    }else{
-      this.showMsg['issueDate']= false
+    this.externalIssueDate = new Date(event);
+    if (this.externalIssueDate > this.maxExtrIssue) {
+      this.showMsg['issueDate'] = true
+    } else {
+      this.showMsg['issueDate'] = false
     }
 
     details.get('externalRatingExpiryDate').setValue(null)
@@ -1330,6 +1377,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   async onSubmit() {
+    console.log('this.basicForm', this.basicForm)
     this.setValidation();
     const value = this.basicForm.getRawValue();
     const formArray = this.basicForm.get('details') as FormArray;
@@ -1360,10 +1408,10 @@ export class BasicDetailsComponent implements OnInit {
       })
     }
 
-    
+
     this.isDirty = true;
     if (this.basicForm.invalid) {
-      
+
       this.toasterService.showError(
         'Please fill all mandatory fields.',
         'Applicant Details'
@@ -1372,7 +1420,7 @@ export class BasicDetailsComponent implements OnInit {
       return;
 
     }
-  
+
 
     if (this.showNotApplicant) {
 
@@ -1383,15 +1431,15 @@ export class BasicDetailsComponent implements OnInit {
 
     if (this.isIndividual) {
 
-      const fatherName= details.get('fatherName').value
-    const spouseName= details.get('spouseName').value
-    if(!fatherName && !spouseName){
-      this.toasterService.showInfo(
-        'Please enter either father name or spouse name',
-        ''
-      );
-      return;
-    }
+      const fatherName = details.get('fatherName').value
+      const spouseName = details.get('spouseName').value
+      if (!fatherName && !spouseName) {
+        this.toasterService.showInfo(
+          'Please enter either father name or spouse name',
+          ''
+        );
+        return;
+      }
 
 
       const formValueData = value.details[0];
@@ -1442,20 +1490,20 @@ export class BasicDetailsComponent implements OnInit {
           'Record Saved Successfully',
           ''
         );
-        this.apiValue=this.basicForm.getRawValue();
+        this.apiValue = this.basicForm.getRawValue();
 
-        if (this.isIndividual){
-          const dob= this.basicForm.getRawValue().details[0].dob
-          this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
-        }else{
-          const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
-          const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
-          const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
-          this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
-          this.apiValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
-          this.apiValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+        if (this.isIndividual) {
+          const dob = this.basicForm.getRawValue().details[0].dob
+          this.apiValue.details[0].dob = this.utilityService.getDateFormat(dob)
+        } else {
+          const doc = this.basicForm.getRawValue().details[0].dateOfIncorporation;
+          const externalRatingIssueDate = this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+          const externalRatingExpiryDate = this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
+          this.apiValue.details[0].dateOfIncorporation = this.utilityService.getDateFormat(doc)
+          this.apiValue.details[0].externalRatingIssueDate = this.utilityService.getDateFormat(externalRatingIssueDate)
+          this.apiValue.details[0].externalRatingExpiryDate = this.utilityService.getDateFormat(externalRatingExpiryDate)
         }
-      }else{
+      } else {
         this.toasterService.showError(
           response.ProcessVariables.error.message,
           'Applicant Details'
@@ -1716,7 +1764,7 @@ export class BasicDetailsComponent implements OnInit {
     }
     this.finalValue = this.basicForm.getRawValue();
     console.log('this.finalValue', this.finalValue)
-    if (this.isIndividual){
+    if (this.isIndividual) {
       // if(this.applicant.ucic){
       //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
       //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
@@ -1725,9 +1773,9 @@ export class BasicDetailsComponent implements OnInit {
       //   this.finalValue.details[0].dob=this.apiValue.details[0].dob
       //   this.finalValue.details[0].gender=this.apiValue.details[0].gender
       // }
-      const dob= this.basicForm.getRawValue().details[0].dob
-      this.finalValue.details[0].dob=this.utilityService.getDateFormat(dob)
-    }else{
+      const dob = this.basicForm.getRawValue().details[0].dob
+      this.finalValue.details[0].dob = this.utilityService.getDateFormat(dob)
+    } else {
       // if(this.applicant.ucic){
       //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
       //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
@@ -1735,33 +1783,33 @@ export class BasicDetailsComponent implements OnInit {
       //   this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
       //   this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
       // }
-      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
-      const externalRatingIssueDate=this.basicForm.getRawValue().details[0].externalRatingIssueDate;
-      const externalRatingExpiryDate=this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
-      this.finalValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
-      this.finalValue.details[0].externalRatingIssueDate=this.utilityService.getDateFormat(externalRatingIssueDate)
-      this.finalValue.details[0].externalRatingExpiryDate=this.utilityService.getDateFormat(externalRatingExpiryDate)
+      const doc = this.basicForm.getRawValue().details[0].dateOfIncorporation;
+      const externalRatingIssueDate = this.basicForm.getRawValue().details[0].externalRatingIssueDate;
+      const externalRatingExpiryDate = this.basicForm.getRawValue().details[0].externalRatingExpiryDate;
+      this.finalValue.details[0].dateOfIncorporation = this.utilityService.getDateFormat(doc)
+      this.finalValue.details[0].externalRatingIssueDate = this.utilityService.getDateFormat(externalRatingIssueDate)
+      this.finalValue.details[0].externalRatingExpiryDate = this.utilityService.getDateFormat(externalRatingExpiryDate)
     }
     // console.log(JSON.stringify(this.apiValue));
     // console.log(JSON.stringify(this.finalValue));
     // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
-    const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
-    if(this.basicForm.invalid){
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
+    if (this.basicForm.invalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if(!isValueCheck){
+    if (!isValueCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
-    
-    
-      this.router.navigate([
-        `/pages/applicant-details/${this.leadId}/identity-details`,
-        this.applicantId,
-      ]);
-    
-    
+
+
+    this.router.navigate([
+      `/pages/applicant-details/${this.leadId}/identity-details`,
+      this.applicantId,
+    ]);
+
+
   }
 
   onBackToApplicant() {
