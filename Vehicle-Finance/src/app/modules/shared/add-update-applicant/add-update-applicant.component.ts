@@ -971,14 +971,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.mandatory['drivingLicenseExpiryDate'] = true;
     } else {
       //this.disabledDrivingDates = true;
-      if (this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value == ''
-      ) {
+      // if (this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value == ''
+      // ) {
         this.showMessage['drivingLicenseExpiry'] = false;
         this.showMessage['drivingLicenseIssue'] = false;
         this.disabledDrivingDates = true;
         this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').setValue(null);
         this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
-      }
+      // }
 
 
       this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').clearValidators();

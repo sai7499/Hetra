@@ -330,7 +330,7 @@
             (click)="onNext()" >{{labels?.next}}</button>
                 </ng-container>
 
-                <ng-container>  
+                <ng-container *ngIf="isLoan360">  
                     <button class="btn btn-primary btn_div hvr-sweep-to-right" type="button" 
                     
                     (click)="onNext()" >{{labels?.next}}</button>
