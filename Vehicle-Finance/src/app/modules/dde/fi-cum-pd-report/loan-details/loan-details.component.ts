@@ -447,7 +447,7 @@ export class LoanDetailsComponent implements OnInit {
   }
   RemoveAddControls() {
     const controls = this.loanDetailsForm as FormGroup;
-    console.log('in remove coontrols', controls);
+    console.log('in remove controls', controls);
     console.log('in remove controls', this.productCatCode);
 
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {

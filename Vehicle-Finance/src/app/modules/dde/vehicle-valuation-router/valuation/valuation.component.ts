@@ -159,6 +159,7 @@ export class ValuationComponent implements OnInit {
   isPreRegNoRequired: boolean;
   accInPast: any;
   extValuator: boolean;
+  showPdfDownload: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -444,12 +445,14 @@ export class ValuationComponent implements OnInit {
   }
   taxPaidCheck() {
     const taxPaid = this.vehicleValuationForm.value.taxPaid ? this.vehicleValuationForm.value.taxPaid : '';
+    console.log('tax paid', taxPaid);
     const valuationAmount = this.vehicleValuationForm.value.valuationAmt ? this.vehicleValuationForm.value.valuationAmt : '';
+    console.log('valuation amount', valuationAmount);
     if (taxPaid !== null && valuationAmount !== null) {
       if (taxPaid > valuationAmount) {
         this.invalidTaxPaid = true;
         this.toasterService.showWarning('Tax Paid should not be greater than Vehicle Value', '');
-      } else {
+      } else if (taxPaid < valuationAmount) {
         this.invalidTaxPaid = false;
       }
     }
@@ -494,7 +497,6 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationForm.get('currInvoiceValue').setValidators(Validators.required);
       this.vehicleValuationForm.get('currInvoiceValue').updateValueAndValidity();
     }
-
   }
   onRegistrationNoChange(event?: any) {
     const registrationNo = event ? event : null;
@@ -605,8 +607,9 @@ export class ValuationComponent implements OnInit {
       const lastvaluationsList = null;
       const assetsConditionList = null;
       const accConditionList = null;
-      if (this.vehicleValuationDetails.pdfUrl) {
+      if (this.vehicleValuationDetails.pdfUrl !== null) {
         this.reportUrl = this.vehicleValuationDetails.pdfUrl;
+        this.showPdfDownload = true;
         console.log('report url', this.reportUrl);
       }
       // if (this.vehicleValuationDetails.reportUrl) {
@@ -1117,7 +1120,7 @@ export class ValuationComponent implements OnInit {
               assetBodyType: '',
               assetModel: '',
               // assetVariant: ''
-            })
+            });
 
           } else {
             this.vehicleLov.vehicleType = [];
@@ -1242,6 +1245,8 @@ export class ValuationComponent implements OnInit {
   }
 
   saveUpdateVehicleValuation() {
+    const controls = this.vehicleValuationForm as FormGroup;
+    controls.removeControl('valuatorType');
     this.validatingBeforeRegDate('taxDate');
     this.validatingBeforeRegDate('permitDate');
     this.validatingBeforeRegDate('fitnessDate');
@@ -1249,7 +1254,7 @@ export class ValuationComponent implements OnInit {
     this.validUptoCheck();
     this.taxPaidCheck();
     const formValue = this.vehicleValuationForm.getRawValue();
-    // console.log('before changing date to utc', formValue);
+    console.log('formvalue after removind valuator type', formValue);
 
     formValue.valuationDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationDate, 'DD/MM/YYYY');
     formValue.idvValidityDate = this.utilityService.convertDateTimeTOUTC(formValue.idvValidityDate, 'DD/MM/YYYY');

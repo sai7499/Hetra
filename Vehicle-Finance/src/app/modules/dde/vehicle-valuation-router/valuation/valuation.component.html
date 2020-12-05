@@ -1971,6 +1971,7 @@
                   formControlName="anyAccidentsInPast"
                   [isRequired]="'Please Select One Option'"
                   (change)="accidentsInPast($event.target.value)"
+                  
                 >
                 </app-vf-custom-select>
               </div>
@@ -2438,6 +2439,8 @@
               </div>
             </div>
             &nbsp;
+            
+                  
             <!-- <div class="row" *ngIf="disableForm">
               <div class="col-sm-5 text-left">
                 <button class="btn btn-primary js-btn-prev" type="button">
@@ -2696,7 +2699,7 @@
                 <button
                   class="btn btn-primary js-btn-prev"
                   type="button"
-                  *ngIf="disableForm"
+                  *ngIf="disableForm && showPdfDownload"
                 >
                   <a (click)="redirectUrl()">{{ labels.downloadReport }}</a>
                 </button>
