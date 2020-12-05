@@ -842,7 +842,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isBM = true;
         this.getExternalUserLeads(this.itemsPerPage, event);
         break;
-        case 61: case 62:
+      case 61: case 62:
         this.taskName = 'Vehicle Valuation';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
@@ -1351,9 +1351,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
         }
         break;
-      case 57:
-        this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
-        break;
+      // case 57:
+      //   this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
+      //   break;
       case 61: case 62:
         this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
         break;
@@ -1374,7 +1374,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
       } else if (stageCode === '20') {
         this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
-      }else if(stageCode === '5'){
+      } else if (stageCode === '5') {
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
@@ -1537,7 +1537,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onReAssignClick(leadId?, taskId?) {
     // this.selectedArray = [];
-    this.reAssignData = {leadId, taskId};
+    this.reAssignData = { leadId, taskId };
     this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' })
     console.log(this.selectedArray);
 
