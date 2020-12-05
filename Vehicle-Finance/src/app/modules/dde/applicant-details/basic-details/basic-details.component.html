@@ -882,7 +882,8 @@
                         <input formControlName="name" type="text" class="form-control" name="annual_income" id="annual_income">
                     </div> -->
           </div>
-          <div *ngIf="custCatValue=='SEMCUSTSEG'">
+          <div *ngIf="custCatValue=='SEMCUSTSEG' || custCatValue=='FTBCUSTSEG'
+           || custCatValue=='FTUCUSTSEG' || custCatValue=='TROPCUSTSEG'">
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="employee_type">Type Of Business
