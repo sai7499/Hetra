@@ -166,12 +166,14 @@ export class SourcingDetailsComponent implements OnInit {
     parentLoanAccNum?: any;
     principalPaid?: string,
     principalOutstanding?: string,
-    dpd ?: string,
+    dpd?: string,
     emi?: string,
     rateOfInterest?: string,
     tenor?: string,
     remainingTenor?: string,
-    seasoning?: string
+    seasoning?: string,
+    isCommSuppressed: number
+
   };
   operationType: boolean;
   apiValue: any;
@@ -196,8 +198,8 @@ export class SourcingDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private objectComparisonService: ObjectComparisonService, 
-    private applicantDataStoreService : ApplicantDataStoreService,
+    private objectComparisonService: ObjectComparisonService,
+    private applicantDataStoreService: ApplicantDataStoreService,
     private loanViewService: LoanViewService
   ) {
     this.sourcingCodeObject = {
@@ -328,6 +330,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeValue = data.leadDetails.dealorCodeDesc;
 
     const priorityFromLead = data.leadDetails.priority;
+    const CommunicationFromLead = data.leadDetails.priority;
     this.leadId = data.leadId ? data.leadId : data.leadDetails.leadId;
 
     const sourchingType = this.leadData.leadDetails.sourcingType;
@@ -359,6 +362,7 @@ export class SourcingDetailsComponent implements OnInit {
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
+    this.sourcingDetailsForm.patchValue({ communication: CommunicationFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
     this.sourcingDetailsForm.patchValue({
       leadCreatedDate: this.leadCreatedDateFromLead,
@@ -435,13 +439,23 @@ export class SourcingDetailsComponent implements OnInit {
     }
     this.productCategorySelectedList = [];
     const productCategorySelected = isBool ? event.target.value : event;
+    let filterList = [];
+    if (this.isChildLoan === '0') {
+      filterList = this.productCategoryList.filter(
+        (data) => data.productCatCode === productCategorySelected && data.isChildLoan === '0'
+      );
+    } else if (this.isChildLoan === '1') {
+      filterList = this.productCategoryList.filter(
+        (data) => data.productCatCode === productCategorySelected && data.isChildLoan === '1'
+      );
+    }
+
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
-      this.productCategoryList.filter(
-        (data) => data.productCatCode === productCategorySelected
-      ),
+      filterList,
       'assetProdcutCode',
       'assetProdutName'
     );
+
     if (isBool === true) {
       this.sourcingDetailsForm.patchValue({ product: '' });
     }
@@ -590,7 +604,7 @@ export class SourcingDetailsComponent implements OnInit {
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
     this.createLeadService
-      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString,this.productCode)
+      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
       .subscribe((res: any) => {
         const response = res;
         const appiyoError = response.Error;
@@ -686,7 +700,8 @@ export class SourcingDetailsComponent implements OnInit {
       tenor: new FormControl(''),
       remainingTenor: new FormControl(''),
       seasoning: new FormControl(''),
-      loanAccountNumber: new FormControl('')
+      loanAccountNumber: new FormControl(''),
+      communication: new FormControl('0'),
     });
   }
 
@@ -782,7 +797,8 @@ export class SourcingDetailsComponent implements OnInit {
         reqLoanAmt: saveAndUpdate.reqLoanAmt,
         reqTenure: Number(saveAndUpdate.requestedTenor),
         totalLoanAmount: saveAndUpdate.totalLoanAmount,
-        
+        isCommSuppressed: Number(saveAndUpdate.communication),
+
         parentLoanAccNum: saveAndUpdate.loanAccountNumber,
         principalPaid: saveAndUpdate.principalPaid,
         principalOutstanding: saveAndUpdate.principalOutstanding,
