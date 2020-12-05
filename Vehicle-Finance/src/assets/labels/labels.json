@@ -1758,7 +1758,7 @@
     "validUpto": "Valid up to",
     "typeOfPolicy": "Type of policy",
     "isModelInProduction": "Is the Model Currently under Production ?",
-    "anyAccidentsInPast": "Any accidents in the past ? If yes, mention in remarks",
+    "anyAccidentsInPast": "Any accidents in the past?",
     "originalInvoice": "Original Invoice Value(Ex-show)",
     "anyMajorRepairs": "Any Other Major Repairs till date",
     "currentInvoiceValue": "Current Invoice Value",
