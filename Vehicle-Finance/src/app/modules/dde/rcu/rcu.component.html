@@ -1,6 +1,8 @@
 <div style="text-align: center;">
-  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr == true" (click)="showInitiateTask()"
+  <ng-container *ngIf="!isLoan360">   <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr == true" (click)="showInitiateTask()"
     type="button">{{labels?.initiateRcu}}</button>
+  </ng-container>
+
 </div>
 <form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr == true" [formGroup]="rcuDetailsForm">
   <h3 class="dashboard m-0">{{ labels?.rcu }}</h3>
@@ -152,7 +154,7 @@
               [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
-            <td [attr.data-label]="labels?.documentId" data-title="Member">
+            <td [attr.data-label]="labels?.documentId" data-title="Member" (click)="clickForLoan360(i,'applicantDocuments')">
               <input name="input" type="text" class="form-control form-control-cus file-input box-height" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
@@ -218,7 +220,7 @@
               [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
             </kendo-datepicker>
             </td>
-            <td [attr.data-label]="labels?.documentId" data-title="Member">
+            <td [attr.data-label]="labels?.documentId" data-title="Member" (click)="clickForLoan360(i, 'collateralDocuments')">
               <input name="input" type="text" class=" form-control form-control-cus file-input" formControlName="dmsDocumentID" readonly
                 (click)="downloadDocs($event.target.value)" />
             </td>
@@ -293,7 +295,7 @@
     <div  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12"  >
       <label >RCU Document Id</label>
     </div>
-    <div  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+    <div  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12" (click)="clickForLoan360('rcuDocumentId')">
       <input  class="form-control file-input ng-untouched ng-pristine" formControlName="rcuDocumentId" readonly
       (click)="downloadDocs($event.target.value)">
     </div>
@@ -323,12 +325,16 @@
     <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details"  *ngIf="showBack == true">
       Back
     </button>
+    <ng-container *ngIf="!isLoan360">
     <button class="btn btn-primary mar-right8" type="button" (click)="onSave()"  *ngIf="showSave == true">
       Save
     </button>
+  </ng-container>
+  <ng-container *ngIf="!isLoan360">
     <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
       Submit
     </button>
+  </ng-container>
     <button class="btn btn-primary dash_href" type="button" (click)="onNext()"  *ngIf="showBack == true">
       Next
     </button>

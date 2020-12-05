@@ -1007,18 +1007,34 @@ export class FleetDetailsComponent implements OnInit {
         index++;
         if (index !== 0) {
            dateIndex.forEach((value) => {
-              const dataValue = element[value];
-              const parse = Date.parse(dataValue);
-              if ( !isNaN(parse) && parse >= 0) {
-                const d = new Date(dataValue);
-                let month: any = d.getMonth() + 1;
-                const year = d.getFullYear();
-                let day: any = d.getDate();
-                day = day <= 9 ? `0${day}` : day;
-                month = month <= 9 ? `0${month}` : month;
-                element[value] = `${day}/${month}/${year}`;
-                data[index] = element;
-              }
+            const dataValue = element[value];
+            const parse = Date.parse(dataValue);
+            if ( !isNaN(parse) && parse >= 0) {
+              if (dataValue.includes('-')) {
+                 let dateValue = dataValue.split('-');
+                 if (dateValue.length === 3) {
+                   dateValue = dateValue.join('/');
+                   element[value] = dateValue;
+                   data[index] = element;
+                 }
+              } else if (dataValue.includes('/')) {
+                let dateValue = dataValue.split('/');
+                if (dateValue.length === 3) {
+                  dateValue = dateValue.join('/');
+                  element[value] = dataValue;
+                  data[index] = element;
+                }
+             } else {
+              const d = new Date(dataValue);
+              let month: any = d.getMonth() + 1;
+              const year = d.getFullYear();
+              let day: any = d.getDate();
+              day = day <= 9 ? `0${day}` : day;
+              month = month <= 9 ? `0${month}` : month;
+              element[value] = `${day}/${month}/${year}`;
+              data[index] = element;
+             } 
+            }
            });
         }
     }

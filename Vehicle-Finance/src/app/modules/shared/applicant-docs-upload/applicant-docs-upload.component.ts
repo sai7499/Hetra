@@ -548,9 +548,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
     // if (subCategoryCode === 13) {
       const drivingLicense = this.validationData.drivingLicense;
       this.docsValidation[13] = {
-        pattern: '',
+        pattern: drivingLicense.patternCheck.rule,
         maxLength: drivingLicense.maxLength.rule,
-        patternMsg: ''
+        patternMsg: drivingLicense.patternCheck.msg
       };
     //   return;
     // }
