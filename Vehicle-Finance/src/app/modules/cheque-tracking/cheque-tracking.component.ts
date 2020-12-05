@@ -46,6 +46,7 @@ export class ChequeTrackingComponent implements OnInit {
   applicantArray : any=[];
   disburseDate : Date;
   minHandoverDate: Date;
+  isInvalidChequeNum : boolean= false;
 
   constructor(
     private labelsData: LabelsService,
@@ -169,6 +170,11 @@ export class ChequeTrackingComponent implements OnInit {
         //this.addUnit(data)
         this.disburseDate = this.utilityService.getDateFromString(disbDate);
         console.log('this.disburseDate', this.disburseDate)
+        // data.map((element)=>{
+        //   if(element.chequeNum.length !==6){
+
+        //   }
+        // })
         setTimeout(() => {
           this.chequeData = data;
 
@@ -208,6 +214,17 @@ export class ChequeTrackingComponent implements OnInit {
   // }
 
   onChangeCheque(event) {
+    const isValid=this.chequeForm.get('chequeNum').valid;
+    if(isValid){
+      const value = Number(event)
+      if(value === 0){
+        this.isInvalidChequeNum = true;
+        console.log('INVALID')
+      }else{
+        this.isInvalidChequeNum = false;
+        console.log("Valid")
+      }
+    }
     this.selectedData.chequeNum = event;
   }
 
@@ -398,7 +415,7 @@ export class ChequeTrackingComponent implements OnInit {
   checkFormUpdate() {
     const value = this.chequeForm.value;
     console.log('value', value)
-    if (this.chequeForm.invalid) {
+    if (this.chequeForm.invalid || this.isInvalidChequeNum) {
       this.isDirty = true;
       this.toasterService.showError('Please fill mandatory fields.',
         'Cheque Tracking')
