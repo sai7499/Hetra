@@ -562,7 +562,13 @@ margin: 0px !important;
     right: 0;
     margin: 0 auto;
 }
+.dot-style{
+    border-radius: 50%;
+    background-color: orange;
+    width: 10px;
+    height: 10px;
 
+}
 .search-container .search .search-icon-left,
 .search-container .search .microphone-icon {
     height: 44px;
@@ -577,8 +583,8 @@ margin: 0px !important;
 	padding-left: 0;
 }
 .query .panel-group .panel-default .panel-heading {
-    background-color: #120f52;
-    padding: 15px 20px;
+    background-color: #b1afaf;
+    padding: 5px 10px;
     color: #fff;
 }
 .query .panel-group .panel-default {
@@ -1134,8 +1140,8 @@ body::-webkit-scrollbar-thumb {
 
   .fa-angle-down{
     /* margin-top: 5px; */
-    background-color: #120f52;
-    padding: 3px;
+    background-color:#f57d2f;
+    padding: 2px;
     border-radius: 18%;
     /* padding-top: 10px; */
     /* margin-right: 10px; */
