@@ -159,7 +159,7 @@ export class ValuationComponent implements OnInit {
   isPreRegNoRequired: boolean;
   accInPast: any;
   extValuator: boolean;
-  showPdfDownload: boolean;
+  disablePdfDownload: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -444,9 +444,10 @@ export class ValuationComponent implements OnInit {
     }
   }
   taxPaidCheck() {
-    const taxPaid = this.vehicleValuationForm.value.taxPaid ? this.vehicleValuationForm.value.taxPaid : '';
+    const taxPaid = Number(this.vehicleValuationForm.value.taxPaid) ? Number(this.vehicleValuationForm.value.taxPaid) : null;
     console.log('tax paid', taxPaid);
-    const valuationAmount = this.vehicleValuationForm.value.valuationAmt ? this.vehicleValuationForm.value.valuationAmt : '';
+    const valuationAmount = Number(this.vehicleValuationForm.value.valuationAmt) ?
+      Number(this.vehicleValuationForm.value.valuationAmt) : null;
     console.log('valuation amount', valuationAmount);
     if (taxPaid !== null && valuationAmount !== null) {
       if (taxPaid > valuationAmount) {
@@ -606,11 +607,13 @@ export class ValuationComponent implements OnInit {
       // const lastvaluationsList = this.vehicleValuationDetails.valuationList;
       const lastvaluationsList = null;
       const assetsConditionList = null;
+      // this.vehicleValuationDetails.pdfUrl = 'www.google.com';
       const accConditionList = null;
       if (this.vehicleValuationDetails.pdfUrl !== null) {
         this.reportUrl = this.vehicleValuationDetails.pdfUrl;
-        this.showPdfDownload = true;
         console.log('report url', this.reportUrl);
+      } else if (this.vehicleValuationDetails.pdfUrl === null) {
+        this.disablePdfDownload = true;
       }
       // if (this.vehicleValuationDetails.reportUrl) {
       //   this.reportUrl = this.vehicleValuationDetails.reportUrl;
@@ -1245,8 +1248,6 @@ export class ValuationComponent implements OnInit {
   }
 
   saveUpdateVehicleValuation() {
-    const controls = this.vehicleValuationForm as FormGroup;
-    controls.removeControl('valuatorType');
     this.validatingBeforeRegDate('taxDate');
     this.validatingBeforeRegDate('permitDate');
     this.validatingBeforeRegDate('fitnessDate');
@@ -1326,6 +1327,7 @@ export class ValuationComponent implements OnInit {
 
   onFormSubmit() {
     this.isDirty = true;
+    // this.vehicleValuationForm.removeControl('valuatorType');
     this.saveUpdateVehicleValuation();
   }
   submitValuationTask() {
