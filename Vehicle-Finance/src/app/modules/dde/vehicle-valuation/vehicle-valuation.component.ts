@@ -9,6 +9,7 @@ import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 
 @Component({
@@ -45,6 +46,11 @@ export class VehicleValuationComponent implements OnInit {
   disableSaveBtn: boolean;
 
   isLoan360: boolean;
+  roleId: any;
+  roleName: any;
+  roles: any;
+  roleType: any;
+  extValuator: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -56,10 +62,31 @@ export class VehicleValuationComponent implements OnInit {
     private toasterService: ToasterService,
     private sharedService: SharedService,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private loginStoreService: LoginStoreService,
   ) { }
 
   ngOnInit() {
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
+    //  details from loginstore service
+    // this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    // this.userDetails = roleAndUserDetails.userDetails;
+    this.roleId = this.roles[0].roleId;
+    this.roleName = this.roles[0].name;
+    this.roleType = this.roles[0].roleType;
+    // this.userName = this.userDetails.firstName;
+    console.log('user details ==> ', roleAndUserDetails);
+    // console.log('user id ==>', this.userId);
+    // console.log('user name', this.userName);
+    console.log('role id', this.roleId);
+    console.log('role name', this.roleName);
+    if (this.roleId === 86) {
+      this.extValuator = true;
+    } else {
+      this.extValuator = false;
+    }
+
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.getLabels();
     this.initForm();
@@ -242,7 +269,7 @@ export class VehicleValuationComponent implements OnInit {
     });
     console.log("DATA::", data);
     if (status == 'NOT INITIATED') {
-      this.regNo= data.regNo;
+      this.regNo = data.regNo;
       this.make = data.make;
       this.model = data.model;
       this.address = data.address;
@@ -278,6 +305,9 @@ export class VehicleValuationComponent implements OnInit {
 
   onBack() {
     this.router.navigate([`/pages/dde/${this.leadId}/psl-data`]);
+  }
+  onNavigateToValuationSummary() { // func to route to the valuation dashboard
+    this.router.navigate([`/pages/dashboard`]);
   }
 
 }

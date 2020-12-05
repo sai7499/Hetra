@@ -1808,6 +1808,7 @@
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
+    "goToDashboard":"Go To Dashboard",
     "validationData": {
         "name": {
             "maxLength": {

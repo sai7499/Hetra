@@ -11,6 +11,9 @@
                     <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
                 </div>
             </div>
+            <div>
+                <h3>Valuation Dashboard</h3>
+            </div>
             <div class="row">
                 <div class="table-responsive application" id="applicantTable">
                     <table class="table">
@@ -57,11 +60,14 @@
 
 <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5"> </div>
-    <div class="col-sm-7 text-right "> <br> <br>
+    <div class="col-sm-7 text-right " *ngIf="!extValuator"> <br> <br>
         <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()"> {{labels.back}} </button>
     
         <!-- <p class="btn btn-primary save"> Save </p> -->
         <button  class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()"> {{labels.next}} </button>
+    </div>
+    <div class="col-sm-7 text-right " *ngIf="extValuator"> <br> <br>
+        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateToValuationSummary()"> {{labels.goToDashboard}} </button>
     </div>
 </div>
 

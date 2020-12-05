@@ -81,7 +81,10 @@ export enum DisplayTabs {
   ReAppealWithBranch,
   ExternalUser,
   ExternalUserDashboard,
-  UploadedLead
+  UploadedLead,
+  VehicleValuvator,
+  VehicleValuvatorWithMe,
+  VehicleValuvatorWithBranch
 }
 
 export enum sortingTables {
@@ -266,6 +269,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.supervisorRoleType = value.roleType;
       }
     });
+    console.log(this.supervisorRoleId);
+
     this.sharedService.isSupervisorRoleId.subscribe((value: any) => {
       console.log(value);
       if (value) {
@@ -287,6 +292,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.userDetailsRoleType = userDetails.roleType;
       this.selfAssignLoginId = userDetails.loginId;
     });
+    console.log(this.userDetailsRoleId);
 
 
     if (this.supervisorRoleType == this.userDetailsRoleType) {
@@ -298,7 +304,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.roleType = this.supervisorRoleType;
       this.loginUserId = this.supervisorUserId;
       this.roleId = this.supervisorRoleId;
-      this.loginUserId = this.supervisorUserId;
       this.router.navigate(['/pages/supervisor/dashboard']);
       this.pendingName = this.supervisorName;
     } else {
@@ -367,6 +372,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else if (this.roleType == '7') {
         this.activeTab = 47;
         this.subActiveTab = 48;
+        this.onTabsLoading(this.subActiveTab);
+      } else if (this.roleType == '9') {
+        this.activeTab = 60;
+        this.subActiveTab = 61;
         this.onTabsLoading(this.subActiveTab);
       }
     }
@@ -719,12 +728,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55: case 61:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59: case 62:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -823,8 +832,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 57:
+        if (!this.userName) {
+          this.userDetailsRoleId = '1';
+          this.loginUserId = localStorage.getItem('userId');
+        } else {
+          this.userDetailsRoleId = this.roleId;
+          this.loginUserId = this.supervisorUserId;
+        }
         this.isBM = true;
         this.getExternalUserLeads(this.itemsPerPage, event);
+        break;
+        case 61: case 62:
+        this.taskName = 'Vehicle Valuation';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
 
       default:
@@ -1331,8 +1351,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.router.navigate([`/pages/credit-decisions/${this.leadId}/negotiation`]);
         }
         break;
-      case 57:
-        this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
+      // case 57:
+      //   this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
+      //   break;
+      case 61: case 62:
+        this.router.navigate([`/pages/valuation-dashboard/${this.leadId}/vehicle-valuation`]);
         break;
 
       default:
@@ -1351,6 +1374,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
       } else if (stageCode === '20') {
         this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
+      }else if(stageCode === '5'){
+        this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
     this.onRoutingTabs(this.subActiveTab);
@@ -1436,10 +1461,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       subActiveTab: this.subActiveTab,
     };
     this.selectedArray.push(leadId);
-    const data= {
+    const data = {
       myLeads: true,
-        leadId: this.selectedArray,
-        loginId: localStorage.getItem('userId')
+      reassignDetails: this.selectedArray,
+      loginId: localStorage.getItem('userId')
     }
     this.supervisorService.supervisorReAssign(taskId).subscribe((res: any) => {
       const response = JSON.parse(res);
@@ -1460,35 +1485,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   // Self-Assign Method
-  onSelfAssignClick(taskId, leadId) {
+  onSelfAssignClick(leadId?, taskId?) {
     this.selectedArray = [];
     this.leadTaskId = taskId;
     this.selfAssignLeadId = leadId;
-    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
-      this.selectedArray.push(leadId);
-    } else {
-      this.selectedArray.push(taskId);
-    }
-    console.log(this.selectedArray);
+    // if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
+    //   this.selectedArray.push(leadId);
+    // } else {
+    //   this.selectedArray.push(taskId);
+    // }
+    this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' });
 
+    console.log(this.selectedArray);
 
     console.log('on self assign click', this.selfAssignData);
   }
   onSupervisorAssign() {
-    // const data = {
-    //   taskId: this.leadTaskId,
-    //   loginId: this.selfAssignLoginId
-    // }
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
-        leadId: this.selectedArray,
-        loginId: this.selfAssignLoginId
+        reassignDetails: this.selectedArray,
+        loginId: this.selfAssignLoginId,
+        fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     } else {
       this.dataToReassign = {
-        taskId: this.selectedArray,
-        loginId: this.selfAssignLoginId
+        reassignDetails: this.selectedArray,
+        loginId: this.selfAssignLoginId,
+        fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     }
     console.log(this.dataToReassign);
@@ -1511,8 +1535,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
 
-  onReAssignClick() {
-    // this.reAssignData = item;
+  onReAssignClick(leadId?, taskId?) {
+    // this.selectedArray = [];
+    this.reAssignData = {leadId, taskId};
+    this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' })
+    console.log(this.selectedArray);
+
     console.log('on reAssign click', this.reAssignData);
 
     // console.log(this.reAssignData);
@@ -1521,14 +1549,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getSupervisorUserDetails() {
-    if(this.subActiveTab === this.displayTabs.ExternalUser) {
+    if (this.subActiveTab === this.displayTabs.ExternalUser) {
       this.externalUserData = {
         roleId: this.userDetailsRoleId,
-        userId: localStorage.getItem('userId')
+        userId: this.loginUserId
       }
     } else {
       this.externalUserData = {
-        roleId: this.supervisorRoleId,
+        roleId: this.roleId,
         userId: this.supervisorUserId
       }
     }
@@ -1553,13 +1581,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
-        leadId: this.selectedArray,
-        loginId: this.supervisorForm.value.roles
+        reassignDetails: this.selectedArray,
+        loginId: this.supervisorForm.value.roles,
+        fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     } else {
       this.dataToReassign = {
-        taskId: this.selectedArray,
-        loginId: this.supervisorForm.value.roles
+        reassignDetails: this.selectedArray,
+        loginId: this.supervisorForm.value.roles,
+        fromId: this.supervisorUserId ? this.supervisorUserId : ''
       };
     }
     this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
@@ -1645,8 +1675,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       );
   }
 
-  onCheck(event, item) {
-    console.log(event, item);
+  onCheck(event, leadId?, taskId?) {
+    console.log(event, leadId, taskId);
     this.checkedOne = event.target.checked;
     // if(event.target.name == 'oneLead') {
     //   this.selectOne = true;
@@ -1658,17 +1688,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log(event.target.checked);
     if (event.target.checked) {
       if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
-        this.selectedArray.push(item.leadId);
+        this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' });
       } else {
-        this.selectedArray.push(item.taskId);
+        this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' });
       }
       console.log(this.selectedArray);
     } else {
-      if (this.selectedArray == []) this.selectAll = false;
+      if (this.selectedArray.length == 0) this.selectAll = false;
       let unSelectedIndex = this.selectedArray.findIndex((ele, index) => {
-        console.log(ele, item);
-        console.log(ele == item.leadId || ele == item.taskId)
-        if (ele == item.leadId || ele == item.taskId) {
+        console.log(ele, leadId, taskId);
+        console.log(ele.leadId == leadId || ele.taskId == taskId)
+        if (ele.leadId == leadId || ele.taskId == taskId) {
           return true;
         }
       })
@@ -1695,15 +1725,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.selectAll = true;
       this.disableButton = true;
       for (let i = 0; i < this.newArray.length; i++) {
-        if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
-          // console.log(this.newArray[i].leadId);
-          this.selectedArray.push(this.newArray[i].leadId);
+        // if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
+        //   // console.log(this.newArray[i].leadId);
+        //   this.selectedArray.push({"leadId": this.newArray[i].leadId});
 
-        } else {
-          // console.log(this.newArray[i].taskId);
-          this.selectedArray.push(this.newArray[i].taskId);
+        // } else {
+        //   // console.log(this.newArray[i].taskId);
+        //   this.selectedArray.push(this.newArray[i].taskId);
 
-        }
+        // }
+        this.selectedArray.push({ "leadId": this.newArray[i].leadId ? this.newArray[i].leadId : '', "taskId": this.newArray[i].taskId ? this.newArray[i].taskId : '' });
 
       }
       console.log(this.selectedArray);
@@ -1723,7 +1754,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   assignSelectedLeads() {
-    this.onReAssignClick();
+    this.getSupervisorUserDetails();
   }
 
   ngOnDestroy() {

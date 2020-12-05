@@ -82,7 +82,7 @@ export class ValuationComponent implements OnInit {
     { key: 3, value: 'Xerox Copy' }, { key: 4, value: 'Not Available' }
   ];
   leadDetails: any;
-  productCatoryCode: any;
+  productCategoryCode: any;
   partsLOV: any = [
     { key: 0, value: 'Engine' }, { key: 1, value: 'Transmission' }, { key: 2, value: 'Battery' },
     { key: 3, value: 'Electrical parts' }, { key: 4, value: 'Chassis' }, { key: 5, value: 'Body' },
@@ -158,6 +158,7 @@ export class ValuationComponent implements OnInit {
   isPreRegNoDisabled: boolean;
   isPreRegNoRequired: boolean;
   accInPast: any;
+  extValuator: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -192,7 +193,14 @@ export class ValuationComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
     this.userName = this.userDetails.firstName;
-
+    console.log('user details ==> ', roleAndUserDetails);
+    console.log('user id ==>', this.userId);
+    console.log('user name', this.userName);
+    console.log('role id', this.roleId);
+    console.log('role name', this.roleName);
+    // if (this.roleId === 86) {
+    //   this.extValuator = true;
+    // }
     // console.log('today date', this.toDayDate);
     this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     // console.log('today date', this.toDayDate);
@@ -206,7 +214,7 @@ export class ValuationComponent implements OnInit {
     // this.getCollateralId();
     // console.log('COLLATERALID::::', this.colleteralId);
     this.getVehicleValuation();
-    this.getLeadSectiondata();
+    this.getLeadSectionData();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     this.vehicleRegPattern = this.validateCustomPattern();
@@ -301,15 +309,17 @@ export class ValuationComponent implements OnInit {
   }
 
   // GET LEAD SECTION DATA
-  getLeadSectiondata() {
+  getLeadSectionData() {
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.leadDetails = leadData['leadDetails']
-    this.productCatoryCode = this.leadDetails['productCatCode'];
+    console.log('lead data', leadData);
+    this.productCategoryCode = this.leadDetails['productCatCode'];
     // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
     this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
     // console.log('LEAD_CREATED_DATE::', this.leadCreatedDate);
     // console.log('MAX_DATE::', this.toDayDate);
+
 
   }
 
@@ -1046,7 +1056,7 @@ export class ValuationComponent implements OnInit {
 
     const data = {
       'region': region,
-      'productCategory': this.productCatoryCode
+      'productCategory': this.productCategoryCode
     };
 
     this.vehicleDetailService.getVehicleMasterFromRegion(data).subscribe((res: any) => {
@@ -1088,7 +1098,7 @@ export class ValuationComponent implements OnInit {
 
       const data = {
         "region": obj.value.region,
-        "productCategory": this.productCatoryCode,
+        "productCategory": this.productCategoryCode,
         "make": value
       };
 
@@ -1134,7 +1144,7 @@ export class ValuationComponent implements OnInit {
       const data =
       {
         "region": obj.value.region,
-        "productCategory": this.productCatoryCode,
+        "productCategory": this.productCategoryCode,
         "make": obj.value.assetMake,
         "vehicleType": value
       }
@@ -1325,10 +1335,11 @@ export class ValuationComponent implements OnInit {
       const response = value;
       if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
         this.toasterService.showSuccess('Record Submitted Successfully', '');
+        this.router.navigate([`/pages/dashboard`]);
         // this.getVehicleValuation();
         this.onBack();
       } else {
-        this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
+        this.toasterService.showError(response['ProcessVariables'].error['message'], '');
       }
     });
   }
@@ -1338,7 +1349,12 @@ export class ValuationComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+    if (this.roleId === 86) {
+      this.router.navigate([`/pages/valuation-dashboard/${this.leadId}/vehicle-valuation`]);
+    } else {
+      this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+
+    }
   }
 
 }
