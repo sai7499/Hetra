@@ -43,6 +43,7 @@ export class SearchBarComponent implements OnInit {
     }
     this.sharedService.getSearchBarActivity().subscribe((val: any) => {
       this.activityList = val;
+      console.log('activityList', this.activityList);
       this.searchLead = this.activityList;
     });
   }

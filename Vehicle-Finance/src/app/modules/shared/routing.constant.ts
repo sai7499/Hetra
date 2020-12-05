@@ -7,4 +7,5 @@ export const commonRoutingUrl = [
     { routeId: '01', routeUrl: '/pages/lead-creation/existing-lead-creation', routingPage: 'Create Existing New Lead'},
     { routeId: '5', routeUrl: '/pages/', routingPage: 'Sample Page'},
     { routeId: '42', routeUrl: '/pages/supervisor', routingPage: 'My Team'},
+    { routeId: '44', routeUrl: '/pages/lead-upload', routingPage: 'Lead Upload'}
 ];

@@ -34,16 +34,7 @@
 
                     </app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="needForProposedVehicle" class="ellipsify">Vehicle Make <sub
-                            class="star_red_col">*</sub></label>
-                    <!--formControlName="ndForProposedVehicle"  -->
-                    <app-vf-custom-select id="vehicleMake" formControlName="vehicleMake"
-                        (change)="onChangeInsuranceprovider($event.target.value, 'vehicleMake')"
-                        [values]="vehicleMakeList" [isRequired]="'Please select vehicle make'" [isDirty]="isDirty">
-
-                    </app-vf-custom-select>
-                </div>
+               
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="needForProposedVehicle" class="ellipsify">Vehicle Type <sub
                             class="star_red_col">*</sub></label>
@@ -51,6 +42,16 @@
                     <app-vf-custom-select id="vehicleType" formControlName="vehicleType"
                         (change)="onChangeInsuranceprovider($event.target.value, 'vehicleType')"
                         [values]="vehicleTypeList" [isRequired]="'Please select vehicle type'" [isDirty]="isDirty">
+
+                    </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="needForProposedVehicle" class="ellipsify">Vehicle Make <sub
+                            class="star_red_col">*</sub></label>
+                    <!--formControlName="ndForProposedVehicle"  -->
+                    <app-vf-custom-select id="vehicleMake" formControlName="vehicleMake"
+                        (change)="onChangeInsuranceprovider($event.target.value, 'vehicleMake')"
+                        [values]="vehicleMakeList" [isRequired]="'Please select vehicle make'" [isDirty]="isDirty">
 
                     </app-vf-custom-select>
                 </div>
@@ -250,6 +251,9 @@
                             (valueChange)="ageCalculation($event, 'nominee')"></kendo-datepicker>
                         <div class="invalid-feedback" *ngIf="isDirty && this.f.controls.nomineeDOB.invalid">
                             <p>Please enter nominee date of birth</p>
+                        </div>
+                        <div class="invalid-feedback" *ngIf="isNomineeInvalid && this.f.controls.nomineeDOB.invalid">
+                            <p>Please enter valid nominee date of birth</p>
                         </div>
                     </div>
 

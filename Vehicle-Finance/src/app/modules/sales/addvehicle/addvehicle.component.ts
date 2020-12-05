@@ -78,6 +78,13 @@ export class AddvehicleComponent implements OnInit {
     if (this.formValue.valid === true) {
       let data = this.formValue.value.vehicleFormArray[0];
 
+      // && this.formValue.value.isCheckDedpue
+
+      if (this.formValue.value.isCheckDedpue === false) {
+        this.toasterService.showError('Please click check dedupe', 'Vehicle Detail')
+        return
+      }
+
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
 
         if (data && data.fcExpiryDate) {
@@ -127,7 +134,6 @@ export class AddvehicleComponent implements OnInit {
           this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
         }
       }
-
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
