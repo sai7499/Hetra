@@ -1024,13 +1024,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
 
-    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
-    }
-
     if (this.Product !== 'TyreLoan') {
       controls.addControl('invoiceAmount', this._fb.control(null))
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
     }
 
     formArray.push(controls);
@@ -1076,13 +1073,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId
     })
-    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
-    }
-
     if (this.Product !== 'TyreLoan') {
       controls.addControl('invoiceAmount', this._fb.control(null))
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
     }
 
     formArray.push(controls);

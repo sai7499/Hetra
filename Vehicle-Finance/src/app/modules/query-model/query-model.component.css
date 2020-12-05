@@ -65,6 +65,15 @@ h3 {
     border-color: #272264;
 	color: #fff;
 }
+
+.cus-cursor {
+    cursor: pointer;
+}
+
+.cus-select-chat {
+    color: #24c627 !important
+}
+
 .table{
 	background: #fff;
 	border: 1px solid #ddd;
@@ -510,11 +519,19 @@ margin: 0px !important;
 	margin-bottom: 12px;
 }
 
+.cus-download-ic {
+    font-size: 20px;
+    float: right;
+    cursor: pointer;
+    color: #f78d35;
+}
+
 .query .stakeholder-list .checkmark {
 	top:2px;
 }
 .query .stakeholder-list .radio label {
     padding-left: 25px;
+    cursor: pointer;
 }
 
 .cus-height {
@@ -776,11 +793,10 @@ margin: 0px !important;
 
   
 .notification {
-    right: -36px;
     color: white;
     position: relative;
-    top: -33px;
-    background: #f3682d;
+    top: -25px;
+    background: #24c627;
     float: right;
     padding: 0.25rem 0.65rem;
 }

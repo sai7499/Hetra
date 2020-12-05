@@ -211,7 +211,7 @@ export class PersonalDetailsComponent implements OnInit {
       fatherLastName: ['', Validators.required],
       fatherFullName: [{ value: '', disabled: true }, Validators.required],
       gender: ['', Validators.required],
-      dob: [{ value: '', disabled: true }],
+      dob: [''],
       maritalStatus: ['', Validators.required],
       weddingAnniversaryDate: [{ value: '', disabled: true }],
       religion: ['', Validators.required],
@@ -248,7 +248,6 @@ export class PersonalDetailsComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('Lov', this.LOV)
     this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -283,26 +282,25 @@ export class PersonalDetailsComponent implements OnInit {
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ?
           value.ProcessVariables.applicantPersonalDiscussionDetails : {};
         if (this.personalPDDetais.dob) {
-          if (this.personalPDDetais.dob != null) {
-            this.applicantDob = this.personalPDDetais.dob;
-            this.personalDetailsForm.patchValue({ dob: this.applicantDob ? new Date(this.getDateFormat(this.applicantDob)) : '' });
-            // console.log('in dob  present condition but  not null');
-            // console.log('applicant dob from api', this.applicantDob);
-            // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
-          } else if (this.personalPDDetais.dob == null) {
-            // console.log('in dob  present condition but null');
-            // console.log('applicant dob from api', this.applicantDob);
-            // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
-            this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.serviceDobOrDio) : '' });
-          }
+          // if (this.personalPDDetais.dob != null) {
+          this.applicantDob = this.personalPDDetais.dob;
+          this.personalDetailsForm.patchValue({ dob: this.applicantDob ? new Date(this.getDateFormat(this.applicantDob)) : '' });
+          // console.log('in dob  present condition but  not null');
+          // console.log('applicant dob from api', this.applicantDob);
+          // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
+          //   } else if (this.personalPDDetais.dob == null) {
+          //     // console.log('in dob  present condition but null');
+          //     // console.log('applicant dob from api', this.applicantDob);
+          //     // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
+          //     this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.getDateFormat(this.serviceDobOrDio)) : ''  });
+          //   }
         } else {
           this.applicantDob = null;
           // console.log('in dob not present condition');
           // console.log('applicant dob from api', this.applicantDob);
           // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
-          this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.serviceDobOrDio) : '' });
+          this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.getDateFormat(this.serviceDobOrDio)) : '' });
         }
-
 
         if (this.personalPDDetais.applicantName) {
           this.setFormValue(this.personalPDDetais);
