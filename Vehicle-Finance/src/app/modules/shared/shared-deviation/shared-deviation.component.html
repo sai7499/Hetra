@@ -1,4 +1,4 @@
-<form class="multisteps-form__form" [formGroup]="deviationsForm">
+<form class="multisteps-form__form p-0" [formGroup]="deviationsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
     <ng-container formArrayName="waiverNormsFormArray">
@@ -10,7 +10,7 @@
 
       <div *ngIf="deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
 
-        <h3 class="cus-title margin_zero">{{labels?.waiverDeviation}}</h3>
+        <h3 class="banner-con">{{labels?.waiverDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -98,7 +98,7 @@
 
     <div
       *ngIf="isSendBacktoCredit && isWaiverTrigger || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
-      <hr>
+     
     </div>
 
     <ng-container formArrayName="autoDeviationFormArray">
@@ -112,7 +112,7 @@
 
       <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="cus-title margin_zero">{{labels?.autoDeviation}}</h3>
+        <h3 class="banner-con">{{labels?.autoDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -202,7 +202,7 @@
 
       <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
+        <h3 class="banner-con">{{labels?.manualDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -312,7 +312,7 @@
 
     <div class="row" *ngIf="recommendationArray.length > 0">
 
-      <h3 class="margin_zero">{{labels?.recommendation}}</h3>
+      <h3 class="banner-con">{{labels?.recommendation}}</h3>
 
       <div class="table-responsive">
         <table class="table" id="recommendation_table">
@@ -417,7 +417,7 @@
 
 <div class="modal fade" id="referRecommedation" role="dialog">
   <div class="modal-dialog">
-    <form class="multisteps-form__form" [formGroup]="modalForm">
+    <form class="multisteps-form__form p-0" [formGroup]="modalForm">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>

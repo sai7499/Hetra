@@ -275,7 +275,7 @@ h3 {
 
 .content {
     background: #fff;
-    padding: 25px 30px;
+    padding: 8px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
     margin-bottom: 20px;
@@ -1158,4 +1158,28 @@ font-size:10px;
 
 image-cropper .overlay {
     outline: solid #000 100vw !important;
+}
+
+.cropper .move {
+    width: 100%;
+    cursor: move;
+    border: 3px solid #fff !important;
+}
+
+.cropper .resize .square{
+    background: #FFF !important;
+    border: 3px solid #FFF !important;
+}
+
+.banner-con{
+    color: #fbfbff !important;
+    margin: 0px 0px 5px;
+    background-color: #221d61;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+    box-shadow: 0 1rem 1.25rem 0 rgb(22 75 195 / 8%),
+     0 -0.25rem 1.5rem rgb(228 206 239 / 0%) inset, 
+     0 0.75rem 0.5rem rgb(255 255 255 / 22%) inset, 
+    0 0.25rem 0.5rem 0 rgb(180 70 207 / 8%) inset;
 }

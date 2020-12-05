@@ -1,4 +1,4 @@
-<form class="multisteps-form__form" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
+<form class="multisteps-form__form p-0" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
 
     <ng-container formArrayName="vehicleFormArray">
 
@@ -7,7 +7,7 @@
 
             <div id="sales_section_start" *ngIf="roleType === 1">
 
-                <h3 class="title cus-title"> {{ label.vehcileDetailsTitle }} </h3>
+                <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} </h3>
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
@@ -31,13 +31,13 @@
                             value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
 
                     </div>
-
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number" *ngIf="isVehicleDedupe">
-                        <label for="loan_number"> Search Loan Account Number
+                        <label for="loan_number"> Parent Loan Account Number
                             <sub class="star_red_col">*</sub>
                         </label>
 
-                        <app-custom-input formControlName="parentLoanAccountNumber">
+                        <app-custom-input formControlName="parentLoanAccountNumber"
+                            [isRequired]="'Parent Account Number required'" [isDirty]="isDirty" [isDisabled]="true">
                         </app-custom-input>
                     </div>
 
@@ -1179,11 +1179,12 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number" *ngIf="isVehicleDedupe">
-                            <label for="loan_number"> Search Loan Account Number
+                            <label for="loan_number"> Parent Loan Account Number
                                 <sub class="star_red_col">*</sub>
                             </label>
 
-                            <app-custom-input formControlName="parentLoanAccountNumber">
+                            <app-custom-input formControlName="parentLoanAccountNumber"
+                                [isRequired]="'Parent Account Number required'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
                         </div>
 
@@ -1723,11 +1724,10 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number" *ngIf="isVehicleDedupe">
-                            <label for="loan_number"> Search Loan Account Number
-                                <sub class="star_red_col">*</sub>
-                            </label>
+                            <label for="loan_number"> Parent Loan Account Number</label>
 
-                            <app-custom-input formControlName="parentLoanAccountNumber">
+                            <app-custom-input formControlName="parentLoanAccountNumber"
+                                [isRequired]="'Parent Account Number required'" [isDirty]="isDirty" [isDisabled]="true">
                             </app-custom-input>
                         </div>
 

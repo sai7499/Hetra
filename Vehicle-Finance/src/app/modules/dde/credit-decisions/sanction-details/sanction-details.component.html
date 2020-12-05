@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="row">
-            <h4 id="vf_sheet_tag4" class="text-center head-tag"><i>{{labels?.sanctionLetter}}</i></h4>
+            <h4 id="vf_sheet_tag4" class="text-center banner-con"><i>{{labels?.sanctionLetter}}</i></h4>
         </div>
         <!-- <div id="vf_sheet_tag5">
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
@@ -90,7 +90,7 @@
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
         <div id="">
             <div id="" class="table-responsive">
-                <p id=" " class="text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
+                <p id=" " class="banner-con text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
                 <table class="table table-align">
                     <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
                         <tr class="top-border">
@@ -116,7 +116,7 @@
                 </table>
             </div>
             <div class="align-justify table-responsive" id="vf_sheet_second_table">
-                <p id="vf_sheet_tag33" class="text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
+                <p id="vf_sheet_tag33" class="banner-con text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
                 <table class="table " id="table-align">
                     <tbody>
                         <tr>
@@ -227,8 +227,8 @@
                 </div>
             </div>
         </div>
-        <p class="align-justify" id="vf_sheet_text_tag"> <strong>{{labels?.generalTermsAndConditions}}</strong> </p>
-        <div [innerHTML]="generalTermsAndConditions"></div>
+        <p class="banner-con" id="vf_sheet_text_tag"> <strong>{{labels?.generalTermsAndConditions}}</strong> </p>
+        <div style="line-height:2em;" [innerHTML]="generalTermsAndConditions"></div>
         <div class="align-justify" id="vf_sheet_row_space">
             <div class="row">
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" *ngIf="isApplicant">
@@ -252,8 +252,8 @@
             </div>
         </div>
         <div class="align-justify table-responsive" id="page_break">
-            <h4 id="vf_sheet_tag75" style="text-align: center; font-weight: bold;">
-                <p> {{labels?.vfSheetTag75}} </p>
+            <h4 class="banner-con text-center">
+               {{labels?.vfSheetTag75}}
             </h4>
             <p id="vf_sheet_tag76"><strong> {{labels?.vfSheetTag76}} </strong></p>
             <p id="vf_sheet_tag77"> {{labels?.vfSheetTag77}} </p>
