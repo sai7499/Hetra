@@ -895,6 +895,51 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     });
   }
 
+  async downloadAllFiles(documentId: string, index: number, event) {
+
+    let el = event.srcElement;
+
+    if (!documentId) {
+      return;
+    }
+
+    let collateralId = this.leadSectionData['vehicleCollateral'] ? this.leadSectionData['vehicleCollateral'][0] : this.leadSectionData['applicantDetails'][0];
+
+    if (!collateralId) {
+      return;
+    }
+
+    const bas64String = this.base64StorageService.getString(
+      collateralId.collateralId + documentId
+    );
+    if (bas64String) {
+      this.setContainerPosition(el);
+      this.showDraggableContainer = {
+        imageUrl: bas64String.imageUrl,
+        imageType: bas64String.imageType,
+      };
+      this.draggableContainerService.setContainerValue({
+        image: this.showDraggableContainer,
+        css: this.setCss,
+      });
+      return;
+    }
+    const imageValue: any = await this.getBase64String(documentId);
+    if (imageValue.imageType.includes('xls')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/vnd.ms-excel');
+      return;
+    }
+    if (imageValue.imageType.includes('doc')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
+      return;
+    }
+    if (imageValue.imageType.includes('png')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/png');
+
+    }
+
+  }
+
   getBase64String(documentId) {
     return new Promise((resolve, reject) => {
       this.uploadService
@@ -1029,6 +1074,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
 
   autoPopulateQueryType(resVal) {
     console.log(resVal, 'resVal')
+    this.queryModalForm.patchValue({
+      queryTo: resVal.key,
+      searchText: resVal.value
+    })
   }
 
 }
