@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,  HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -46,18 +46,18 @@ export class BasicDetailsComponent implements OnInit {
 
   isSeniorCitizen: any = '0';
   isMinor: any = '0';
- // gaurdianNamemandatory: any = {};
+  // gaurdianNamemandatory: any = {};
   checkingMinor: boolean;
   checkingSenior: boolean;
 
   isDirty: boolean;
   mobilePhone: any;
   countryList = [];
-  leadId : number;
+  leadId: number;
   mobileNumberChange: boolean;
   apiValue: any;
   finalValue: any;
-  
+
 
   //imMinor : boolean= true
   // designation = [
@@ -77,8 +77,8 @@ export class BasicDetailsComponent implements OnInit {
   };
 
   toDayDate: Date = new Date();
-  setBirthDate : Date = new Date()
-  public ageMinDate : Date = new Date()
+  setBirthDate: Date = new Date()
+  public ageMinDate: Date = new Date()
   isRequiredSpouse = 'Spouse Name is Required';
   isRequiredFather = 'Father Name is Required';
   productCategory: string;
@@ -90,11 +90,11 @@ export class BasicDetailsComponent implements OnInit {
   custCatValue: string;
   ageOfSeniorCitizen = 65;
   applicantData = [];
-  showNotApplicant : boolean;
+  showNotApplicant: boolean;
   hideMsgForOwner: boolean = false;
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
-  isSave : boolean = false;
+  isSave: boolean = false;
 
 
   constructor(
@@ -111,12 +111,12 @@ export class BasicDetailsComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private ageValidationService: AgeValidationService,
     private objectComparisonService: ObjectComparisonService
-  ) { 
-    this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
+  ) {
+    this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
   }
 
   async ngOnInit() {
-    
+
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
@@ -154,7 +154,7 @@ export class BasicDetailsComponent implements OnInit {
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 
     this.applicantData = leadData['applicantDetails'];
-    
+
 
   }
 
@@ -163,12 +163,12 @@ export class BasicDetailsComponent implements OnInit {
       data => {
         const minAge = data.ages.applicant.minAge;
         const maxAge = data.ages.applicant.maxAge;
-          this.maxAge = new Date();
-          this.minAge = new Date();
-          this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
-          this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
-          this.minAge= this.utilityService.setTimeForDates(this.minAge)
-          this.maxAge= this.utilityService.setTimeForDates(this.maxAge)
+        this.maxAge = new Date();
+        this.minAge = new Date();
+        this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
+        this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+        this.minAge = this.utilityService.setTimeForDates(this.minAge)
+        this.maxAge = this.utilityService.setTimeForDates(this.maxAge)
       }
     );
   }
@@ -176,7 +176,7 @@ export class BasicDetailsComponent implements OnInit {
   selectApplicantType(event) {
     const value = event.target.value;
     this.showNotApplicant = false;
-  
+
 
     this.applicantData.forEach((data) => {
       if (data.applicantId !== this.applicantId) {
@@ -192,7 +192,7 @@ export class BasicDetailsComponent implements OnInit {
     })
   }
 
-  
+
 
   getCountryList() {
     this.applicantService.getCountryList().subscribe((res: any) => {
@@ -233,10 +233,10 @@ export class BasicDetailsComponent implements OnInit {
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
       const houseOwner = details.get('houseOwnerProperty').value;
-      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      const ownHouseAppRelationship = details.get('ownHouseAppRelationship').value
       details.patchValue({
-        houseOwnerProperty : houseOwner,
-        ownHouseAppRelationship : ownHouseAppRelationship
+        houseOwnerProperty: houseOwner,
+        ownHouseAppRelationship: ownHouseAppRelationship
       })
 
     } else {
@@ -246,8 +246,8 @@ export class BasicDetailsComponent implements OnInit {
       details.get('houseOwnerProperty').updateValueAndValidity();
       details.get('ownHouseAppRelationship').updateValueAndValidity();
       details.patchValue({
-        houseOwnerProperty : '',
-        ownHouseAppRelationship : ''
+        houseOwnerProperty: '',
+        ownHouseAppRelationship: ''
       })
     }
   }
@@ -300,7 +300,7 @@ export class BasicDetailsComponent implements OnInit {
           setTimeout(() => {
             details.get('spouseName').setValue(spouseName || null);
           });
-        } 
+        }
         else {
           details.get('spouseName').setValidators([Validators.required]);
           details.get('spouseName').updateValueAndValidity();
@@ -311,65 +311,65 @@ export class BasicDetailsComponent implements OnInit {
           });
         }
       });
-      
+
 
     details.get('spouseName').valueChanges
-    .subscribe((value) => {
-      if (spouseName == value) {
-        return;
-      }
-      spouseName = value;
-      if (value) {
-        details.get('fatherName').clearValidators();
-        details.get('fatherName').updateValueAndValidity();
-        this.isRequiredFather = '';
-        //const fatherName= details.get('fatherName').value || null;
-        setTimeout(() => {
-          details.get('fatherName').setValue(fatherName || null);
-        });
-      } 
-      else {
-        details.get('fatherName').setValidators([Validators.required]);
-        details.get('fatherName').updateValueAndValidity();
-        this.isRequiredFather = 'Father Name is Required';
-        setTimeout(() => {
-          details.get('fatherName').setValue(fatherName || null);
-        });
-      }
-    });
+      .subscribe((value) => {
+        if (spouseName == value) {
+          return;
+        }
+        spouseName = value;
+        if (value) {
+          details.get('fatherName').clearValidators();
+          details.get('fatherName').updateValueAndValidity();
+          this.isRequiredFather = '';
+          //const fatherName= details.get('fatherName').value || null;
+          setTimeout(() => {
+            details.get('fatherName').setValue(fatherName || null);
+          });
+        }
+        else {
+          details.get('fatherName').setValidators([Validators.required]);
+          details.get('fatherName').updateValueAndValidity();
+          this.isRequiredFather = 'Father Name is Required';
+          setTimeout(() => {
+            details.get('fatherName').setValue(fatherName || null);
+          });
+        }
+      });
   }
 
   getApplicantDetails() {
 
     this.applicant = this.applicantDataService.getApplicant();
     this.setBasicData();
-    if(this.applicant.ucic){
-      if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
-         this.disableUCICIndividualDetails();
-      }else{
+    if (this.applicant.ucic) {
+      if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
+        this.disableUCICIndividualDetails();
+      } else {
         this.disableUCICNonIndividualDetails();
       }
     }
-    if(this.applicant.ekycDone=='1'){
-      if(this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP'){
+    if (this.applicant.ekycDone == '1') {
+      if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
         this.disableEKYDetails();
       }
     }
   }
 
-  disableEKYDetails(){
+  disableEKYDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     const applicantDetails = this.applicant.applicantDetails;
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails;
-    applicantDetails.name1? details.get('name1').disable() : details.get('name1').enable();
-    details.get('name2').disable() ;
+    applicantDetails.name1 ? details.get('name1').disable() : details.get('name1').enable();
+    details.get('name2').disable();
     applicantDetails.name3 ? details.get('name3').disable() : details.get('name3').enable();
-    aboutIndivProspectDetails.dob? details.get('dob').disable() : details.get('dob').enable();
-    aboutIndivProspectDetails.gender ? details.get('gender').disable() :  details.get('gender').enable() ;
+    aboutIndivProspectDetails.dob ? details.get('dob').disable() : details.get('dob').enable();
+    aboutIndivProspectDetails.gender ? details.get('gender').disable() : details.get('gender').enable();
   }
 
-  disableUCICIndividualDetails(){
+  disableUCICIndividualDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('name1').disable();
@@ -380,7 +380,7 @@ export class BasicDetailsComponent implements OnInit {
     details.get('gender').disable();
 
   }
-  disableUCICNonIndividualDetails(){
+  disableUCICNonIndividualDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('name1').disable();
@@ -424,7 +424,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   checkSenior(event) {
-    if (event.target.checked && (this.showAge <= this.ageOfSeniorCitizen )) {
+    if (event.target.checked && (this.showAge <= this.ageOfSeniorCitizen)) {
       event.target.checked = false;
     } else {
       event.target.checked = true;
@@ -434,7 +434,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   checkMinor(event) {
-    if (event.target.checked && (this.showAge > 18 )) {
+    if (event.target.checked && (this.showAge > 18)) {
       event.target.checked = false;
     } else {
       event.target.checked = true;
@@ -453,27 +453,57 @@ export class BasicDetailsComponent implements OnInit {
 
   onCustCategoryChanged(event) {
     this.custCatValue = event.target.value;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
     if (this.custCatValue == 'SEMCUSTSEG') {
       this.ageOfSeniorCitizen = 65;
 
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
-      const formArray = this.basicForm.get('details') as FormArray;
-      const details = formArray.at(0);
+
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
 
-      
+
     } else {
       this.ageOfSeniorCitizen = 60
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
-      const formArray = this.basicForm.get('details') as FormArray;
-      const details = formArray.at(0);
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
-      
+
     }
+  }
+
+  onChangeOwner(event) {
+    const value = event.target.value;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const appRelation = this.getSelfRelationValue()
+    if (value === 'APPAPPRELLEAD') {
+      details.get('ownHouseAppRelationship').setValue(appRelation.key);
+    } else {
+      details.get('ownHouseAppRelationship').setValue('');
+    }
+  }
+
+  onChangeAgriOwner(event) {
+    const value = event.target.value;
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    const appRelation = this.getSelfRelationValue()
+    if (value === 'APPAPPRELLEAD') {
+      details.get('agriAppRelationship').setValue(appRelation.key);
+    } else {
+      details.get('agriAppRelationship').setValue('');
+    }
+  }
+  getSelfRelationValue() {
+    const relationship = this.applicantLov.relationship;
+    const appRelation = relationship.find((data: any) => {
+      return data.key === '5RELATION'
+    })
+    return appRelation
   }
 
   setBasicData() {
@@ -492,15 +522,15 @@ export class BasicDetailsComponent implements OnInit {
       applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
     });
     const applicantDetails = this.applicant.applicantDetails;
-  
+
     this.custCatValue = applicantDetails.custSegment;
-    this.ageOfSeniorCitizen= this.custCatValue !== "SEMCUSTSEG"? 60 : 65;
+    this.ageOfSeniorCitizen = this.custCatValue !== "SEMCUSTSEG" ? 60 : 65;
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
-      
+
 
 
     } else {
@@ -512,13 +542,13 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
 
-    if( applicantDetails.ownHouseProofAvail=='1'){
+    if (applicantDetails.ownHouseProofAvail == '1') {
       this.checkedBoxHouse = true;
-      this.isChecked= true;
+      this.isChecked = true;
       this.hideMsgForOwner = true;
-    }else{
+    } else {
       this.checkedBoxHouse = false;
-      this.isChecked= false;
+      this.isChecked = false;
       this.hideMsgForOwner = false;
     }
 
@@ -549,21 +579,21 @@ export class BasicDetailsComponent implements OnInit {
     });
     //console.log('this.basicForm.value', this.basicForm.value)
     this.apiValue = this.basicForm.getRawValue();
-    if (this.isIndividual){
-      const dob= this.basicForm.getRawValue().details[0].dob
-      this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
-    }else{
-      const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
-       this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+    if (this.isIndividual) {
+      const dob = this.basicForm.getRawValue().details[0].dob
+      this.apiValue.details[0].dob = this.utilityService.getDateFormat(dob)
+    } else {
+      const doc = this.basicForm.getRawValue().details[0].dateOfIncorporation;
+      this.apiValue.details[0].dateOfIncorporation = this.utilityService.getDateFormat(doc)
     }
-    
+
   }
 
   removeApplicantRelationControl() {
     this.basicForm.removeControl('applicantRelationship');
   }
 
-  
+
 
   setValuesForIndividual() {
     const aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
@@ -579,7 +609,7 @@ export class BasicDetailsComponent implements OnInit {
     } else if (mobile && mobile.length == 10) {
       this.mobilePhone = mobile;
     }
-  
+
 
 
     const formArray = this.basicForm.get('details') as FormArray;
@@ -609,7 +639,7 @@ export class BasicDetailsComponent implements OnInit {
       recommendations: aboutIndivProspectDetails.recommendations || ''
     });
 
-   
+
     // this.clearFatherOrSpouseValidation();
     // this.eitherFathOrspouse();
     this.listenerForMobilechange()
@@ -666,29 +696,29 @@ export class BasicDetailsComponent implements OnInit {
     formArray.clear();
   }
 
-  listenerForMobilechange(){
-      const formArray= this.basicForm.get('details') as FormArray;
-      const details = formArray.at(0)
-      details.get('mobilePhone').valueChanges.subscribe((value)=>{
-        if(!details.get('mobilePhone').invalid){
-          if(value!==this.mobilePhone){
-            this.mobileNumberChange= true;
-          }else{
-            this.mobileNumberChange= false;
-          }
+  listenerForMobilechange() {
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0)
+    details.get('mobilePhone').valueChanges.subscribe((value) => {
+      if (!details.get('mobilePhone').invalid) {
+        if (value !== this.mobilePhone) {
+          this.mobileNumberChange = true;
+        } else {
+          this.mobileNumberChange = false;
         }
-      })
+      }
+    })
   }
 
-  listenerCompanyNumberChange(){
-    const formArray= this.basicForm.get('details') as FormArray;
+  listenerCompanyNumberChange() {
+    const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0)
-    details.get('companyPhoneNumber').valueChanges.subscribe((value)=>{
-      if(!details.get('companyPhoneNumber').invalid){
-        if(value!==this.mobilePhone){
-          this.mobileNumberChange= true;
-        }else{
-          this.mobileNumberChange= false;
+    details.get('companyPhoneNumber').valueChanges.subscribe((value) => {
+      if (!details.get('companyPhoneNumber').invalid) {
+        if (value !== this.mobilePhone) {
+          this.mobileNumberChange = true;
+        } else {
+          this.mobileNumberChange = false;
         }
       }
     })
@@ -839,16 +869,16 @@ export class BasicDetailsComponent implements OnInit {
     this.setFormsValidators();
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    if(this.hideMsgForOwner){
+    if (this.hideMsgForOwner) {
       const houseOwner = details.get('houseOwnerProperty').value;
-      const ownHouseAppRelationship= details.get('ownHouseAppRelationship').value
+      const ownHouseAppRelationship = details.get('ownHouseAppRelationship').value
       details.patchValue({
-        houseOwnerProperty : houseOwner,
-        ownHouseAppRelationship : ownHouseAppRelationship
+        houseOwnerProperty: houseOwner,
+        ownHouseAppRelationship: ownHouseAppRelationship
       })
     }
     this.isDirty = true;
-   
+
     if (this.basicForm.invalid) {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
@@ -866,9 +896,9 @@ export class BasicDetailsComponent implements OnInit {
 
     const rawValue = this.basicForm.getRawValue();
     if (this.isIndividual) {
-      const fatherName= details.get('fatherName').value
-      const spouseName= details.get('spouseName').value
-      if(!fatherName && !spouseName){
+      const fatherName = details.get('fatherName').value
+      const spouseName = details.get('spouseName').value
+      if (!fatherName && !spouseName) {
         this.toasterService.showInfo(
           'Please enter either father name or spouse name',
           ''
@@ -886,7 +916,7 @@ export class BasicDetailsComponent implements OnInit {
 
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
-    this.leadId=leadId;
+    this.leadId = leadId;
 
 
     const data = {
@@ -906,15 +936,15 @@ export class BasicDetailsComponent implements OnInit {
           'Record Saved Successfully',
           ''
         );
-        this.apiValue=this.basicForm.getRawValue();
-        if(this.isIndividual){
-          const dob= this.basicForm.getRawValue().details[0].dob
-          this.apiValue.details[0].dob=this.utilityService.getDateFormat(dob)
-        }else{
-          const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
-          this.apiValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
+        this.apiValue = this.basicForm.getRawValue();
+        if (this.isIndividual) {
+          const dob = this.basicForm.getRawValue().details[0].dob
+          this.apiValue.details[0].dob = this.utilityService.getDateFormat(dob)
+        } else {
+          const doc = this.basicForm.getRawValue().details[0].dateOfIncorporation;
+          this.apiValue.details[0].dateOfIncorporation = this.utilityService.getDateFormat(doc)
         }
-      }else{
+      } else {
         this.toasterService.showError(
           res.ProcessVariables.error.message,
           'Applicant Details'
@@ -1062,7 +1092,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.entityType = value.entity;
     applicantDetails.bussinessEntityType = value.bussinessEntityType;
 
-   // applicantDetails.custSegment = formValue.custSegment;
+    // applicantDetails.custSegment = formValue.custSegment;
     applicantDetails.monthlyIncomeAmount = formValue.monthlyIncomeAmount;
     applicantDetails.annualIncomeAmount = formValue.annualIncomeAmount;
 
@@ -1109,58 +1139,58 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onNext() {
-      this.finalValue = this.basicForm.getRawValue();
-      //console.log('basicFrm',this.basicForm.value)
-      if (this.isIndividual){
-        // if(this.applicant.ucic){
-        //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
-        //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
-        //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
-        //   this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
-        //   this.finalValue.details[0].dob=this.apiValue.details[0].dob
-        //   this.finalValue.details[0].gender=this.apiValue.details[0].gender
-        // }
-        const dob= this.basicForm.getRawValue().details[0].dob
-        this.finalValue.details[0].dob=this.utilityService.getDateFormat(dob)
-      }else{
-        // if(this.applicant.ucic){
-        //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
-        //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
-        //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
-        //   this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
-        //   this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
-        // }
-       
-        const doc=this.basicForm.getRawValue().details[0].dateOfIncorporation;
-        this.finalValue.details[0].dateOfIncorporation=this.utilityService.getDateFormat(doc)
-      }
-      // console.log(JSON.stringify(this.apiValue));
-      //  console.log(JSON.stringify(this.finalValue));
-      // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+    this.finalValue = this.basicForm.getRawValue();
+    //console.log('basicFrm',this.basicForm.value)
+    if (this.isIndividual) {
+      // if(this.applicant.ucic){
+      //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+      //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+      //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+      //   this.finalValue.details[0].mobilePhone=this.apiValue.details[0].mobilePhone
+      //   this.finalValue.details[0].dob=this.apiValue.details[0].dob
+      //   this.finalValue.details[0].gender=this.apiValue.details[0].gender
+      // }
+      const dob = this.basicForm.getRawValue().details[0].dob
+      this.finalValue.details[0].dob = this.utilityService.getDateFormat(dob)
+    } else {
+      // if(this.applicant.ucic){
+      //   this.finalValue.details[0].name1=this.apiValue.details[0].name1
+      //   this.finalValue.details[0].name2=this.apiValue.details[0].name2
+      //   this.finalValue.details[0].name3=this.apiValue.details[0].name3
+      //   this.finalValue.details[0].companyPhoneNumber=this.apiValue.details[0].companyPhoneNumber
+      //   this.finalValue.details[0].dateOfIncorporation=this.apiValue.details[0].dateOfIncorporation
+      // }
 
-      const isValueCheck=this.objectComparisonService.compare(this.apiValue, this.finalValue)
-      if(this.basicForm.invalid){
-        this.toasterService.showInfo('Please SAVE details before proceeding', '');
-        return;
-      }
-      if(!isValueCheck){
-        this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
-        return;
-      }
-    
-      
-      if(this.mobileNumberChange){
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      }
-      else{
-        this.router.navigateByUrl(
-          `/pages/sales-applicant-details/${this.leadId}/identity-details/${this.applicantId}`
-        );
-      }
+      const doc = this.basicForm.getRawValue().details[0].dateOfIncorporation;
+      this.finalValue.details[0].dateOfIncorporation = this.utilityService.getDateFormat(doc)
     }
-      
-     
-  
+    // console.log(JSON.stringify(this.apiValue));
+    //  console.log(JSON.stringify(this.finalValue));
+    // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
+    if (this.basicForm.invalid) {
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
+    }
+    if (!isValueCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+
+
+    if (this.mobileNumberChange) {
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+      );
+    }
+    else {
+      this.router.navigateByUrl(
+        `/pages/sales-applicant-details/${this.leadId}/identity-details/${this.applicantId}`
+      );
+    }
+  }
+
+
+
 }
