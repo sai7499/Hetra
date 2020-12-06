@@ -111,6 +111,7 @@ export class BasicDetailsComponent implements OnInit {
   isExpiryDate: boolean = false;
   maxExtrIssue = new Date()
   isLoan360: boolean;
+  occupation: any[]
 
   constructor(
     private labelsData: LabelsService,
@@ -1019,6 +1020,7 @@ export class BasicDetailsComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
+      console.log('this.LOV.LOVS', this.LOV.LOVS)
       this.ownerPropertyRelation = this.LOV.LOVS.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
       const businessTypevalue = this.LOV.LOVS.businessType
       businessTypevalue.find((data) => {
@@ -1106,7 +1108,7 @@ export class BasicDetailsComponent implements OnInit {
   // }
 
 
-  setEqutasDefaultValues(details){
+  setEqutasDefaultValues(details) {
     this.checkedEquitasEmployee = '0'
     this.checkedRelativeEquitas = '0'
     details.get('isEquitasEmployee').enable();
@@ -1117,8 +1119,13 @@ export class BasicDetailsComponent implements OnInit {
   }
   onCustCategoryChanged(value) {
     this.custCatValue = value;
+
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
+    details.get('occupation').setValue('');
+    const lov = this.LOV.LOVS.occupation;
+    this.occupation = this.applicantDataService.getOccupationLov(lov, this.custCatValue);
+    //console.log('occupation', this.occupation)
     this.setEqutasDefaultValues(details);
     this.setNullValues(details)
     if (this.custCatValue == 'SEMCUSTSEG') {
@@ -1141,7 +1148,7 @@ export class BasicDetailsComponent implements OnInit {
       this.setSalriedValidators();
       this.removeSelfEmpValidators()
     }
-    
+
     else if (this.custCatValue == 'FTBCUSTSEG' || this.custCatValue == 'FTUCUSTSEG' || this.custCatValue == 'TROPCUSTSEG') {
       //this.showSalaried = true;
       this.setSelfEmpValidators();
@@ -1152,13 +1159,15 @@ export class BasicDetailsComponent implements OnInit {
       this.removeSalariedValidators();
       this.removeSelfEmpValidators();
     }
-    
+
   }
 
 
 
 
-  setNullValues(details){
+
+
+  setNullValues(details) {
     details.get('businessType').setValue(null);
     details.get('businessName').setValue(null);
     details.get('businessStartDate').setValue(null);
