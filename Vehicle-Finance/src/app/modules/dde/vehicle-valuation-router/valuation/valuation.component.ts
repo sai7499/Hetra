@@ -12,6 +12,12 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { DocRequest, DocumentDetails } from '@model/upload-model';
+import { UploadService } from '@services/upload.service';
+import { GpsService } from '@services/gps.service';
+import { Constant } from '../../../../../assets/constants/constant';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-valuation',
@@ -159,6 +165,24 @@ export class ValuationComponent implements OnInit {
   isPreRegNoRequired: boolean;
   accInPast: any;
 
+
+  selectedDocDetails: DocRequest;
+  showModal: boolean;
+  isMobile: any;
+  base64Image: any;
+  latitude: string = null;
+  longitude: string = null;
+  documentArr: DocumentDetails[] = [];
+  SELFIE_IMAGE: string;
+
+  PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
+  OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
+  OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
+  dmsDocumentId: string;
+
+
+
+
   constructor(
     private labelsData: LabelsService,
     private commomLovService: CommomLovService,
@@ -175,13 +199,22 @@ export class ValuationComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     // tslint:disable-next-line: no-shadowed-variable
     private loanViewService: LoanViewService,
+    private uploadService: UploadService,
+    private gpsService: GpsService,
     private fb: FormBuilder) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
     this.accessoriesArray = this.fb.array([]);
+    this.isMobile = environment.isMobile;
+
   }
 
   async ngOnInit() {
+
+    if (this.isMobile) {
+      this.checkGpsEnabled();
+    }
+
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     //  details from loginstore service
@@ -225,6 +258,32 @@ export class ValuationComponent implements OnInit {
     });
     // console.log('valuation form', this.vehicleValuationForm);
     // console.log('vehicle lov', this.vehicleLov);
+
+    this.selectedDocDetails = {
+      docsType: this.PROFILE_TYPE,
+      docSize: this.OTHER_DOCUMENTS_SIZE,
+      docTp: "LEAD",
+      docSbCtgry: "ACCOUNT OPENING FORM",
+      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
+      docCtgryCd: 70,
+      docCatg: "KYC - I",
+      docTypCd: 276,
+      flLoc: "",
+      docCmnts: "Addition of document for Lead Creation",
+      bsPyld: "Base64 data of the image",
+      docSbCtgryCd: 204,
+      docsTypeForString: "selfie",
+      docRefId: [
+        {
+          idTp: 'LEDID',
+          id: this.leadId,
+        },
+        {
+          idTp: 'BRNCH',
+          id: Number(localStorage.getItem('branchId')),
+        },
+      ],
+    };
 
   }
 
@@ -566,7 +625,8 @@ export class ValuationComponent implements OnInit {
     // console.log('DATA::::', data);
     this.vehicleValuationService.getVehicleValuation(data).subscribe((res: any) => {
       const response = res;
-      // console.log("RESPONSE_FROM_GET_VEHICLE_VALUATION_API", response);
+      this.SELFIE_IMAGE = response.ProcessVariables.vehicleImage;
+      console.log("RESPONSE_FROM_GET_VEHICLE_VALUATION_API", response);
       this.vehicleValuationDetails = response.ProcessVariables.vehicleValutionDetails;
       this.vehicleCode = this.vehicleValuationDetails.vehicleCode;
       // console.log('vehicle code', this.vehicleCode);
@@ -584,6 +644,15 @@ export class ValuationComponent implements OnInit {
       // this.isOnline = true;
       // this.isOnline = false;
       console.log('is online valutation', this.isOnline);
+
+
+      this.latitude = this.vehicleValuationDetails.latitude;
+      this.longitude = this.vehicleValuationDetails.longitude;
+      // if (this.dmsDocumentId) {
+      //   this.downloadDocs(this.dmsDocumentId);
+      // }
+
+
       if (this.isOnline) {
         this.vehicleValuationForm.disable();
         this.disableSaveBtn = true;
@@ -885,6 +954,8 @@ export class ValuationComponent implements OnInit {
       regMonthYear: [''],
       yearMonthOfManufact: [''],
       regdNo: [''],
+      latitude: [{ value: '', disabled: true }],
+      longitude: [{ value: '', disabled: true }],
       // valuatorRemarks: ['', Validators.required]
       valuatorRemarks: new FormControl('', Validators.compose([Validators.maxLength(1500),
         Validators.pattern(/^[a-zA-Z0-9 ]*$/)])),
@@ -1027,6 +1098,8 @@ export class ValuationComponent implements OnInit {
       noOfOriginalTyres: this.vehicleValuationDetails.noOfOriginalTyres || '',
       noOfRetreadedTyres: this.vehicleValuationDetails.noOfRetreadedTyres || '',
       regdNo: this.vehicleValuationDetails.registrationNo ? this.vehicleValuationDetails.registrationNo : '',
+      latitude: this.latitude || "",
+      longitude: this.longitude || "",
       valuatorRemarks: this.vehicleValuationDetails.valuatorRemarks ? this.vehicleValuationDetails.valuatorRemarks : '',
       // year: this.vehicleValuationDetails.year || '',
       // registeredOwner: this.vehicleValuationDetails.registeredOwner || '',
@@ -1230,6 +1303,16 @@ export class ValuationComponent implements OnInit {
   }
 
   saveUpdateVehicleValuation() {
+    console.log("latitude::", this.latitude);
+    console.log("longitude::", this.longitude);
+    console.log("SELFIE_IMAGE::", this.SELFIE_IMAGE);
+
+    if(this.isMobile && this.SELFIE_IMAGE && !this.isOnline) {
+      this.toasterService.showError('Vehicle photo is required', '');
+      return;
+    }
+
+
     this.validatingBeforeRegDate('taxDate');
     this.validatingBeforeRegDate('permitDate');
     this.validatingBeforeRegDate('fitnessDate');
@@ -1258,6 +1341,9 @@ export class ValuationComponent implements OnInit {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
       collateralId: this.colleteralId,
+      latitude: this.latitude || '',
+      longitude: this.longitude || '',
+      vehicleImage: this.SELFIE_IMAGE,
       ...formValue,
       // valuationDate: this.utilityService.convertDateTimeTOUTC(formValues.valuationDate, 'DD/MM/YYYY'),
       // idvValidityDate: this.utilityService.convertDateTimeTOUTC(formValues.idvValidityDate, 'DD/MM/YYYY'),
@@ -1332,5 +1418,152 @@ export class ValuationComponent implements OnInit {
   onBack() {
     this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
   }
+
+  async onUploadSuccess(event: DocumentDetails) {
+    // this.toasterService.showSuccess('Document uploaded successfully', '');
+    this.showModal = false;
+    this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
+    // const data = {
+    //   inputValue: event.imageUrl,
+    //   isPhoto: true,
+    //   applicantId: this.applicantId,
+    // };
+    //this.uploadPhotoOrSignature(data);
+
+    event.imageUrl = '';
+
+    // const formArray = this.uploadForm.get(
+    //   `${this.FORM_ARRAY_NAME}_${event.subCategoryCode}`
+    // ) as FormArray;
+    // formArray.at(this.selectedIndex).get('file').setValue(event.dmsDocumentId);
+    let index = 0;
+    if (this.documentArr.length === 0) {
+      this.documentArr.push(event);
+      index = 0;
+    }
+    console.log('documentArr', this.documentArr);
+    this.individualImageUpload(event, index);
+
+    let position = await this.getLatLong();
+    if (position["latitude"]) {
+      this.latitude = position["latitude"].toString();
+      this.longitude = position["longitude"].toString();
+      this.vehicleValuationForm.get("latitude").patchValue(this.latitude);
+      this.vehicleValuationForm.get("longitude").patchValue(this.longitude);
+    } else {
+      this.latitude = "";
+      this.longitude = "";
+      this.toasterService.showError(position["message"], "GPS Alert");
+    }
+
+  }
+
+  individualImageUpload(request: DocumentDetails, index: number) {
+    this.uploadService
+      .saveOrUpdateDocument([request])
+      .subscribe((value: any) => {
+        if (value.Error !== '0') {
+          return;
+        }
+        this.toasterService.showSuccess('Document uploaded successfully', '');
+        console.log('saveOrUpdateDocument', value);
+        const processVariables = value.ProcessVariables;
+        const documentId = processVariables.documentIds[0];
+        console.log("documentId******", documentId);
+        this.dmsDocumentId = documentId;
+       // this.documentArr[index].documentId = documentId;
+        //const subCategoryCode = this.documentArr[index].subCategoryCode;
+      });
+  }
+
+  async getLatLong() {
+    /* Get latitude and longitude from mobile */
+
+    return new Promise((resolve, reject) => {
+
+      if (this.isMobile) {
+
+        this.gpsService.getLatLong().subscribe((position) => {
+          console.log("Mobile position", position);
+          resolve(position);
+        });
+
+        // this.gpsService.initLatLong().subscribe((res) => {
+        //   console.log("Error position", res);
+        //   if (res) {
+        //     this.gpsService.getLatLong().subscribe((position) => {
+        //       console.log("Mobile position", position);
+        //       resolve(position);
+        //     });
+        //   } else {
+        //     console.log("Error position", res);
+        //   }
+        // });
+      } else {
+        this.gpsService.getBrowserLatLong().subscribe((position) => {
+          console.log("Browser position", position);
+          if (position["code"]) {
+            this.toasterService.showError(position["message"], "GPS Alert");
+          }
+          resolve(position);
+        });
+      }
+    });
+  }
+
+  async checkGpsEnabled() {
+    this.gpsService.getLatLong().subscribe((position) => {
+      console.log("getLatLong", position);
+      this.gpsService.initLatLong().subscribe((res) => {
+        console.log("gpsService", res);
+        if (res) {
+          this.gpsService.getLatLong().subscribe((position) => {
+            console.log("getLatLong", position);
+          });
+        } else {
+          console.log("error initLatLong", res);
+        }
+      });
+    });
+  }
+
+  async downloadDocs(documentId: string) {
+    console.log(event);
+
+    // let el = event.srcElement;
+    // const formArray = this.uploadForm.get(formArrayName) as FormArray;
+    // const documentId = formArray.at(index).get('file').value;
+    if (!documentId) {
+      return;
+    }
+
+    const imageValue: any = await this.getBase64String(documentId);
+    this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + imageValue.imageUrl;
+
+  }
+
+  getBase64String(documentId) {
+    return new Promise((resolve, reject) => {
+      this.uploadService
+        .getDocumentBase64String(documentId)
+        .subscribe((value) => {
+          const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
+          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+          const imageType = documentName.split('.')[1].toLowerCase();
+
+          resolve({
+            imageUrl,
+            imageType,
+          });
+          console.log('downloadDocs', value);
+        });
+    });
+  }
+
+
+
+
+
+
 
 }
