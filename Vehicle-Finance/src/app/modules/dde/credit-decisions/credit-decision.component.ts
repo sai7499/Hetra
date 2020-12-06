@@ -45,7 +45,6 @@ export class CreditDecisionComponent implements OnInit {
         this.isPreDone = localStorage.getItem('is_pred_done');
         this.istermSheet = localStorage.getItem('istermSheet');
         const button = document.getElementById('checklist_identity_details');
-
         // tslint:disable-next-line: triple-equals
         // if (this.salesResponse != 'true') {
         // button.disable();
@@ -131,7 +130,7 @@ export class CreditDecisionComponent implements OnInit {
                 return 3;
             }
 
-        } else if (this.roleType == '2' && this.salesResponse == 'false') {
+        } else if (this.roleType == '2' && this.salesResponse == 'false' && this.isDeclinedFlow == false) {
             if (url.includes('cam')) {
                 return 0;
             } else if (url.includes('deviations')) {
