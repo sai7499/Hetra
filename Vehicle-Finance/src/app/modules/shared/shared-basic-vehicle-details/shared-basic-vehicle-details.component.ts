@@ -468,46 +468,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     let data = {
       "collateralId": this.id
     }
-
+    let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    let details = formArray.at(0) as FormGroup;
+  
     this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
-
-        this.vehicleLov.assetMake = [{
-          key: VehicleDetail.vehicleMfrUniqueCode,
-          value: VehicleDetail.vehicleMfrCode
-        }]
-
-        this.vehicleLov.assetBodyType = [{
-          key: VehicleDetail.vehicleSegmentUniqueCode,
-          value: VehicleDetail.vehicleSegmentCode
-        }]
-
-        this.vehicleLov.assetModel = [
-          {
-            key: VehicleDetail.vehicleModelCode,
-            value: VehicleDetail.vehicleModel
-          }
-        ]
-
-        this.vehicleLov.assetVariant = [{
-          key: VehicleDetail.assetVarient,
-          value: VehicleDetail.assetVarient
-        }]
-
-        this.vehicleLov.vehicleType = [{
-          key: VehicleDetail.vehicleTypeUniqueCode,
-          value: VehicleDetail.vehicleTypeCode
-        }]
-
-        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-        this.onPatchArrayValue(formArray, VehicleDetail)
-        this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
-        this.sharedService.getFormValidation(this.basicVehicleForm)
-        this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
-      } else {
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
-      }
+      this.getAVehicleDetails(res, formArray)
     })
 
   }
@@ -837,7 +802,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   getSchemeData(form) {
-    console.log(form, 'form')
+    let data =  {
+      "vehicleCode": form.controls.vehicleId.value,
+      "leadId": Number(this.leadId)
+    }
+
+    this.vehicleDetailService.getScheme(data).subscribe((res: any) => {
+      console.log(res, 'res')
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.vehicleLov.scheme = res.ProcessVariables.scheme ? res.ProcessVariables.scheme : []
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Scheme')
+      }
+    })
   }
 
   getPincode(pincode) {
@@ -1315,6 +1292,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.isShowParentLoan = false;
     this.isVehicleRegNoChange = false;
   }
+
   getparentLoanAccountNumber(obj) {
 
     let childData = {
@@ -1348,7 +1326,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
   }
 
-  onLoanAccNoSelect(val, index, data) {
+  onLoanAccNoSelect(data) {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const details = formArray.at(0) as FormGroup;
 
@@ -1375,50 +1353,56 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.id && this.id !== '0' ? editFiledData['collateralId'] = this.id : data;
 
-    console.log(editFiledData, 'editFiledData', data)
-
-
     this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
-
-        this.vehicleLov.assetMake = [{
-          key: VehicleDetail.vehicleMfrUniqueCode,
-          value: VehicleDetail.vehicleMfrCode
-        }]
-
-        this.vehicleLov.assetBodyType = [{
-          key: VehicleDetail.vehicleSegmentUniqueCode,
-          value: VehicleDetail.vehicleSegmentCode
-        }]
-
-        this.vehicleLov.assetModel = [
-          {
-            key: VehicleDetail.vehicleModelCode,
-            value: VehicleDetail.vehicleModel
-          }
-        ]
-
-        this.vehicleLov.assetVariant = [{
-          key: VehicleDetail.assetVarient,
-          value: VehicleDetail.assetVarient
-        }]
-
-        this.vehicleLov.vehicleType = [{
-          key: VehicleDetail.vehicleTypeUniqueCode,
-          value: VehicleDetail.vehicleTypeCode
-        }]
-
-        this.onPatchArrayValue(formArray, VehicleDetail)
-        this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
-        this.sharedService.getFormValidation(this.basicVehicleForm)
-        this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
-        this.isShowParentLoan = false;
-        this.isVehicleRegNoChange = false;
-      } else {
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
-      }
+      this.getAVehicleDetails(res, formArray)
     })
+  }
+
+  getAVehicleDetails(res, formArray) {
+    if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+      let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+
+      this.vehicleLov.assetMake = [{
+        key: VehicleDetail.vehicleMfrUniqueCode,
+        value: VehicleDetail.vehicleMfrCode
+      }]
+
+      this.vehicleLov.assetBodyType = [{
+        key: VehicleDetail.vehicleSegmentUniqueCode,
+        value: VehicleDetail.vehicleSegmentCode
+      }]
+
+      this.vehicleLov.assetModel = [
+        {
+          key: VehicleDetail.vehicleModelCode,
+          value: VehicleDetail.vehicleModel
+        }
+      ]
+
+      this.vehicleLov.assetVariant = [{
+        key: VehicleDetail.assetVarient,
+        value: VehicleDetail.assetVarient
+      }]
+
+      this.vehicleLov.vehicleType = [{
+        key: VehicleDetail.vehicleTypeUniqueCode,
+        value: VehicleDetail.vehicleTypeCode
+      }]
+
+      this.vehicleLov.scheme = [{
+        key: VehicleDetail.scheme,
+        value: VehicleDetail.schemeDesc
+      }]
+
+      this.onPatchArrayValue(formArray, VehicleDetail)
+      this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
+      this.sharedService.getFormValidation(this.basicVehicleForm)
+      this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
+      this.isShowParentLoan = false;
+      this.isVehicleRegNoChange = false;
+    } else {
+      this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
+    }
   }
 
 }

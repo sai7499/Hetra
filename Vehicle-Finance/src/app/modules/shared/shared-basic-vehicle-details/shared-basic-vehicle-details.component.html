@@ -157,11 +157,11 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
-                            <label for="scheme"> {{ label.scheme }} <sub class="star_red_col">*</sub>
+                            <label for="scheme"> {{ label.scheme }}
                             </label>
 
-                            <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'" formControlName="scheme"
-                                [isRequired]="'Scheme Required'" [isDirty]="isDirty">
+                            <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
+                                formControlName="scheme">
                             </app-vf-custom-select>
 
                         </div>
@@ -476,12 +476,26 @@
                             </app-vf-custom-select>
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
+                            <label for="scheme"> {{ label.scheme }}
+                            </label>
+
+                            <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
+                                formControlName="scheme">
+                            </app-vf-custom-select>
+
+                        </div>
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
                                 [id]="'dealer_subvention_applicable'" formControlName="dealerSuventionApproval">
                             </app-vf-custom-select>
                         </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
@@ -493,10 +507,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_irr">{{label.dealerSubventionIRR}}</label>
@@ -520,6 +530,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label
                                 for="manufacturer_subvention_applicable">{{label.manufacturerSubventionApplicable}}</label>
@@ -527,10 +541,6 @@
                                 [values]="vehicleLov?.YesORNoValue" formControlName="manufacSubventionApplicable">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_amount">{{label.manufacturerSubventionAmount}}</label>
@@ -550,18 +560,6 @@
                                 [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_irr'"
                                 [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Manufacturer Subvention Part of Operating IRR'">
-                            </app-custom-input>
-
-                        </div>
-
-                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                            <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}
-                            </label>
-
-                            <app-custom-input formControlName="manufacturesubventionPartFinCharge"
-                                [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_finance'"
-                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
-                                [placeholder]="'Manufacturer Subvention Part of Finance Charges'">
                             </app-custom-input>
 
                         </div>
@@ -611,6 +609,18 @@
                     <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                            <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}
+                            </label>
+
+                            <app-custom-input formControlName="manufacturesubventionPartFinCharge"
+                                [type]="label.validationData?.amountValue.type" [id]="'manufacturer_subvention_finance'"
+                                [className]="'form-control'" [maxLength]="label.validationData?.amountValue.maxLength"
+                                [placeholder]="'Manufacturer Subvention Part of Finance Charges'">
+                            </app-custom-input>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
 
                             <app-custom-input formControlName="grossVehicleWeight"
@@ -629,6 +639,10 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
@@ -642,10 +656,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} <sub class="star_blue_col">*</sub> </label>
@@ -675,6 +685,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} <sub class="star_blue_col">*</sub> </label>
 
@@ -686,10 +700,6 @@
                                 [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="amc_amount">{{label.amcAmount}} <sub class="star_blue_col">*</sub> </label>
@@ -721,16 +731,16 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost">{{label.finalAssetCost}}</label>
                             <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
                                 [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
@@ -746,16 +756,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="vas">{{label.vas}} </label>
                             <app-vf-custom-select [id]="'vas'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="vas">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
@@ -774,6 +784,9 @@
                             </app-custom-input>
                         </div>
 
+                    </div>
+
+                    <div class="row">
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
 
                             <label for="body_cost">{{label.bodyCost}}</label>
@@ -784,7 +797,6 @@
                                 [id]="'body_cost'" [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
-
                     </div>
 
                 </div>
@@ -873,6 +885,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
+                            <label for="scheme"> {{ label.scheme }}
+                            </label>
+
+                            <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
+                                formControlName="scheme">
+                            </app-vf-custom-select>
+
+                        </div>
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_use">
                             <label for="vechical_usage"> {{ label.vechicleUsage }} <sub class="star_red_col">*</sub>
                             </label>
@@ -884,16 +906,16 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
                             <app-vf-custom-select [values]="vehicleLov?.YesORNoValue"
                                 [id]="'dealer_subvention_applicable'" formControlName="dealerSuventionApproval">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
@@ -917,6 +939,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
 
@@ -927,10 +953,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label
@@ -949,6 +971,10 @@
                             </app-custom-input>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
 
@@ -959,10 +985,6 @@
                             </app-custom-input>
 
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}</label>
@@ -982,6 +1004,10 @@
                             </app-custom-input>
                         </div>
 
+                        <!-- </div>
+
+                    <div class="row"> -->
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
@@ -994,10 +1020,6 @@
                                 Invalid Date
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
                             <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
@@ -1016,6 +1038,10 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub class="star_red_col">*</sub>
                             </label>
@@ -1027,10 +1053,6 @@
                                 [placeholder]="'Ex Showroom Cost'">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="insurance">{{label.insurance}} <sub class="star_blue_col">*</sub> </label>
@@ -1056,6 +1078,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="others">{{label.others}} <sub class="star_blue_col">*</sub> </label>
                             <app-custom-input formControlName="others" [type]="label.validationData?.amountValue.type"
@@ -1066,10 +1092,6 @@
                                 [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                             <label for="amc_amount">{{label.amcAmount}} <sub class="star_blue_col">*</sub> </label>
@@ -1100,16 +1122,16 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3">
                             <label for="final_asset_cost">{{label.finalAssetCost}} </label>
                             <app-custom-input formControlName="finalAssetCost" [className]="'form-control mandatory'"
                                 [placeholder]="'Final Asset Cost'" [id]="'final_asset_cost'" [isDisabled]="true">
                             </app-custom-input>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="fast_type">
                             <label for="fast_tag">{{label.fastTag}} </label>
@@ -1125,16 +1147,16 @@
                             </app-vf-custom-select>
                         </div>
 
+                    </div>
+
+                    <div class="row">
+
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="vas">{{label.vas}} </label>
                             <app-vf-custom-select [id]="'vas'" [values]="vehicleLov?.YesORNoValue"
                                 formControlName="vas">
                             </app-vf-custom-select>
                         </div>
-
-                    </div>
-
-                    <div class="row">
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                             <label for="emi_protect">{{label.emiProtect}} </label>
@@ -1153,6 +1175,9 @@
                             </app-custom-input>
                         </div>
 
+                    </div>
+
+                    <div class="row">
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
 
                             <label for="body_cost">{{label.bodyCost}}</label>
@@ -1163,7 +1188,6 @@
                                 [id]="'body_cost'" [isDirty]="isDirty">
                             </app-custom-input>
                         </div>
-
                     </div>
 
                 </div>
@@ -1313,6 +1337,20 @@
 
                             </div>
 
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
+                                <label for="scheme"> {{ label.scheme }}
+                                </label>
+
+                                <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
+                                    formControlName="scheme">
+                                </app-vf-custom-select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="age_vehicle">{{label.ageOfAsset}} <sub class="star_red_col">*</sub> </label>
                                 <app-custom-input formControlName="ageOfAsset" [className]="'form-control mandatory'"
@@ -1321,10 +1359,6 @@
                                 </app-custom-input>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                                 <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
@@ -1347,6 +1381,10 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis"
                                 *ngIf="productCatoryCode === 'UCV'">
                                 <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub
@@ -1363,10 +1401,6 @@
                                 </app-custom-input>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="final_asset_cost"> {{ label.finalAssetCost }} </label>
@@ -1389,6 +1423,10 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner">
                                 <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
                                         class="star_red_col">*</sub> </label>
@@ -1410,10 +1448,6 @@
                                 </div>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address">
                                 <label for="vehicle_address"> {{ label.vehicleAddress }} <sub
@@ -1451,6 +1485,10 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="fitness_date">{{label.fitnessDate}} </label>
 
@@ -1459,10 +1497,6 @@
                                 </kendo-datepicker>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3"
                                 *ngIf="!(Product === 'FCLoan' || Product === 'TaxLoan')">
@@ -1482,6 +1516,10 @@
                                 </app-custom-input>
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="permit_expire_date">{{label.permitExpireDate}}
                                 </label>
@@ -1497,10 +1535,6 @@
                                 </div>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                                 <label for="chassis_number">{{label.chassisNumber}}</label>
@@ -1526,6 +1560,10 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}} </label>
 
@@ -1537,10 +1575,6 @@
                                 </app-custom-input>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="vehicle_ownership">{{label.vehicleOwnership}} </label>
@@ -1901,6 +1935,16 @@
                                 </div>
 
                             </div>
+                            
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
+                                <label for="scheme"> {{ label.scheme }}
+                                </label>
+
+                                <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
+                                    formControlName="scheme">
+                                </app-vf-custom-select>
+
+                            </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_asset">
                                 <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub>
@@ -1911,6 +1955,10 @@
                                 </app-custom-input>
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle">
                                 <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                                 </label>
@@ -1920,10 +1968,6 @@
                                     [isDisabled]="true">
                                 </app-custom-input>
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="asset_cost_indian">{{label.assetCostIndian}} <sub
@@ -1958,6 +2002,10 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="final_asset_cost"> {{ label.finalAssetCost }}</label>
                                 <app-custom-input formControlName="finalAssetCost"
@@ -1965,10 +2013,6 @@
                                     [id]="'final_asset_cost'" [isDisabled]="true">
                                 </app-custom-input>
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="rc_owner_name">{{label.rcOwnerName}} <sub class="star_red_col">*</sub>
@@ -2005,6 +2049,10 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address">
                                 <label for="vehicle_address"> {{ label.vehicleAddress }} <sub
                                         class="star_red_col">*</sub>
@@ -2021,10 +2069,6 @@
                                 </div>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode">
                                 <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub
@@ -2056,6 +2100,10 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                                 <label for="engine_number">{{label.engineNumber}}</label>
                                 <app-custom-input formControlName="engineNumber"
@@ -2065,10 +2113,6 @@
                                     [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="vehicle_purchased_cost">{{label.vehiclePurchasedCost}}</label>
@@ -2090,6 +2134,10 @@
                                 </app-custom-input>
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
 
@@ -2104,10 +2152,6 @@
                                 </div>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="gross_vehicle_weight">{{label.grossVehicleWeight}}</label>
@@ -2127,16 +2171,16 @@
                                 </app-vf-custom-select>
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="inter_state_vehicle">{{label.interStateVehicle}}</label>
                                 <app-vf-custom-select [id]="'inter_state_vehicle'" [values]="vehicleLov?.YesORNoValue"
                                     formControlName="interStateVehicle">
                                 </app-vf-custom-select>
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="duplicate_rc">{{label.duplicateRC}}</label>
@@ -2155,6 +2199,11 @@
                                 </app-custom-input>
                             </div>
 
+
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
                                 <label for="seating_capacity">{{label.seatingCapacity}}</label>
                                 <app-custom-input formControlName="seatingCapacity"
@@ -2165,10 +2214,6 @@
                                 </app-custom-input>
 
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TopUp'">
                                 <label for="insurance_validity">{{label.insuranceValidity}}</label>
@@ -2193,16 +2238,16 @@
 
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
                                 <label for="frsd_required">{{label.frsdRequired}}</label>
 
                                 <input class="ml" type="checkbox" formControlName="fsrdFundingReq"
                                     (click)="onChangeFRSD($event)" />
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3"
                                 *ngIf="obj.controls['fsrdFundingReq'].value === true">
@@ -2225,6 +2270,10 @@
                                 </app-custom-input>
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
 
                                 <label for="body_cost">{{label.bodyCost}}</label>
@@ -2235,10 +2284,6 @@
                                     [placeholder]="'Body Cost'" [id]="'body_cost'" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
-
-                        </div>
-
-                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="noc_date">{{label.expectedNOCDate}}</label>
@@ -2572,7 +2617,7 @@
                                     <tr *ngFor="let loanDetail of loanDetailsData; let i = index">
                                         <td align="center" [attr.data-label]="'Select'">
                                             <input class="" type="radio" name="loanDetails"
-                                                (click)="onLoanAccNoSelect($event, i, loanDetail)" />
+                                                (click)="onLoanAccNoSelect(loanDetail)" />
                                             <!--  -->
                                         </td>
                                         <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
