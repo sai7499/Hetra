@@ -1568,6 +1568,7 @@
     "referenceInfoAddressLine3": "Reference Info - Address Line3",
     "imageSelfie": "Image/Selfie",
     "selfieImageTitle": "Selfie With Customer House",
+    "takeVehiclePhoto": "Take vehicle photo",
     "uploadIamges": "Upload Image",
     "pdStatusTitle": "PD Status",
     "PdStatus": "PD Status",
@@ -2110,7 +2111,8 @@
         },
         "adhaarNumber": {
             "maxLength": {
-                "rule": 12
+                "rule": 12,
+                "msg": "Aadhaar number should be 12 digits"
             },
             "type": "number",
             "patternCheck": {

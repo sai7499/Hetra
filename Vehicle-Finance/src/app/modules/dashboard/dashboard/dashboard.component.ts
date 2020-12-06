@@ -439,7 +439,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.leadCount = res.ProcessVariables.leadCount ? res.ProcessVariables.leadCount : 0;
           this.isIntervalId = true;
-          resolve()
+          resolve(true)
         } else {
           this.leadCount = 0;
           reject()

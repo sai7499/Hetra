@@ -396,6 +396,10 @@ p-0{
   .tab_details p {
     font-size:13px!important;
   }
+
+  .dis-block {
+    display: block;
+  }
   /* .dontdisplayed .content-two {
     background: #fff;
     padding: 5px 16px!important;
