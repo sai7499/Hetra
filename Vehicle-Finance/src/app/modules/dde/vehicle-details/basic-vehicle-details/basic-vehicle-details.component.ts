@@ -72,6 +72,11 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     if (this.formValue.valid === true) {
 
+      if (this.formValue.value.isCheckDedpue === false) {
+        this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
+        return
+      }
+
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber && this.formValue.value.isVaildFinalAssetCost) {
         let data = this.formValue.value.vehicleFormArray[0];
 

@@ -163,6 +163,7 @@ export class ValuationComponent implements OnInit {
   regNo: any;
   isPreRegNoDisabled: boolean;
   isPreRegNoRequired: boolean;
+  accInPast: any;
 
 
   selectedDocDetails: DocRequest;
@@ -501,6 +502,21 @@ export class ValuationComponent implements OnInit {
         this.invalidTaxPaid = false;
       }
     }
+  }
+  accidentsInPast(event?: any) {
+    console.log(event);
+    this.accInPast = event ? event : null;
+    if (this.accInPast === '0') {
+      // this.currentInvoiceRequired = false;
+      this.vehicleValuationForm.get('valuatorRemarks').clearValidators();
+      this.vehicleValuationForm.get('valuatorRemarks').updateValueAndValidity();
+    } else if (this.accInPast === '1') {
+      // this.currentInvoiceDisabled = false;
+      // this.currentInvoiceRequired = true;
+      this.vehicleValuationForm.get('valuatorRemarks').setValidators(Validators.required);
+      this.vehicleValuationForm.get('valuatorRemarks').updateValueAndValidity();
+    }
+
   }
   modelInProdChange(event?: any) {
     console.log(event);
@@ -939,7 +955,10 @@ export class ValuationComponent implements OnInit {
       yearMonthOfManufact: [''],
       regdNo: [''],
       latitude: [{ value: '', disabled: true }],
-      longitude: [{ value: '', disabled: true }]
+      longitude: [{ value: '', disabled: true }],
+      // valuatorRemarks: ['', Validators.required]
+      valuatorRemarks: new FormControl('', Validators.compose([Validators.maxLength(1500),
+        Validators.pattern(/^[a-zA-Z0-9 ]*$/)])),
     });
   }
 
@@ -1081,6 +1100,7 @@ export class ValuationComponent implements OnInit {
       regdNo: this.vehicleValuationDetails.registrationNo ? this.vehicleValuationDetails.registrationNo : '',
       latitude: this.latitude || "",
       longitude: this.longitude || "",
+      valuatorRemarks: this.vehicleValuationDetails.valuatorRemarks ? this.vehicleValuationDetails.valuatorRemarks : '',
       // year: this.vehicleValuationDetails.year || '',
       // registeredOwner: this.vehicleValuationDetails.registeredOwner || '',
       // registeredOwnerName: this.vehicleValuationDetails.registeredOwnerName || '',
@@ -1114,7 +1134,7 @@ export class ValuationComponent implements OnInit {
             vehicleType: '',
             assetBodyType: '',
             assetModel: '',
-            // assetVariant: ''
+            // assetVariant: ''valuatorRemarks
           });
         } else {
           this.vehicleLov.assetMake = [];
@@ -1375,6 +1395,19 @@ export class ValuationComponent implements OnInit {
   onFormSubmit() {
     this.isDirty = true;
     this.saveUpdateVehicleValuation();
+  }
+  submitValuationTask() {
+    const data = {
+      leadId: this.leadId,
+      userId: this.userId,
+      isSubmitVal: true,
+      collateralId: this.colleteralId
+    };
+    this.vehicleValuationService.sumbitValuationTask(data).subscribe((value: any) => {
+      const processVariables = value.ProcessVariables;
+      if (processVariables.error.code === '0') {
+      }
+    });
   }
 
   onNext() {

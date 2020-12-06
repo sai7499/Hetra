@@ -219,6 +219,30 @@
               
               </div>
 
+              <div class="row" *ngIf="productCategory == '1003'">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4" id="align_this_checkbox">
+                  <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor"
+                    (click)="onOwnHouseAvailable($event)" [checked]="checkedBoxHouse == true" />
+                  <span class="is_senior">{{ labels?.ownHouseProofAvail }}
+                  </span>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                  <label for="Vechical Type">{{ labels?.houseOwnerProperty
+                    }}<sub class="star_blue_col">*</sub></label>
+                  <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="houseOwnerProperty"
+                (click)="onChangeOwner($event)"  
+                    [isDirty]="isDirtyUcic" [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''">
+                  </app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                  <label for="Vechical Type">{{ labels?.ownHouseAppRelationship
+                    }}<sub class="star_blue_col">*</sub></label>
+                  <app-vf-custom-select [values]="LOV?.LOVS?.relationship" formControlName="ownHouseAppRelationship"
+                    [isDirty]="isDirtyUcic" [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''">
+                  </app-vf-custom-select>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="
                     productCategory == '1003' &&
@@ -243,28 +267,7 @@
                 </div>
               </div>
 
-              <div class="row" *ngIf="productCategory == '1003' && fundingProgram == '26'">
-                <div class="form-group col-sm-6 col-md-4 col-lg-4" id="align_this_checkbox">
-                  <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor"
-                    (click)="onOwnHouseAvailable($event)" [checked]="checkedBoxHouse == true" />
-                  <span class="is_senior">{{ labels?.ownHouseProofAvail }}
-                  </span>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                  <label for="Vechical Type">{{ labels?.houseOwnerProperty
-                    }}<sub class="star_blue_col">*</sub></label>
-                  <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="houseOwnerProperty"
-                    [isDirty]="isDirtyUcic" [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''">
-                  </app-vf-custom-select>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                  <label for="Vechical Type">{{ labels?.ownHouseAppRelationship
-                    }}<sub class="star_blue_col">*</sub></label>
-                  <app-vf-custom-select [values]="LOV?.LOVS?.relationship" formControlName="ownHouseAppRelationship"
-                    [isDirty]="isDirtyUcic" [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''">
-                  </app-vf-custom-select>
-                </div>
-              </div>
+              
               <div class="row" *ngIf="productCategory == '1003' && fundingProgram == '26'">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="aadharnumber">{{ labels?.averageBankBalance }}
@@ -324,14 +327,15 @@
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                  <label for="Vechical Type">{{ labels?.houseOwnerProperty
+                  <label for="Vechical Type">{{ labels?.agriOwnerProperty
                     }}<sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="agriOwnerProperty"
+                  (click)="onChangeAgriOwner($event)" 
                     [isRequired]="'Please select one'" [isDirty]="isDirtyUcic">
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                  <label for="Vechical Type">{{ labels?.ownHouseAppRelationship }}
+                  <label for="Vechical Type">{{ labels?.agriAppRelationship }}
                     <sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="LOV?.LOVS?.relationship" formControlName="agriAppRelationship"
                     [isRequired]="'Please select one'" [isDirty]="isDirtyUcic">
@@ -453,9 +457,10 @@
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
-                  <app-custom-input formControlName="drivingLicenseNumber" [patternCheck]="
-                      validationData?.drivingLicense?.patternCheck
-                    " [maxLength]="validationData?.drivingLicense?.maxLength" (keyup)="onDrvingLisenseChange($event)"
+                  <app-custom-input formControlName="drivingLicenseNumber" [maxLength]="validationData?.drivingLicense?.maxLength"
+                  [minLength]="validationData?.drivingLicense?.minLength"
+                  [patternCheck]="validationData?.drivingLicense?.patternCheck"
+                   (keyup)="onDrvingLisenseChange($event)"
                     [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type" >
                   </app-custom-input>
                   
@@ -697,7 +702,7 @@
                   </button>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
-                  *ngIf="isMobile && showEkycbutton && applicantType=='INDIVENTTYP'">
+                  *ngIf="isMobile && showEkycbutton && applicantType=='INDIVENTTYP'"> 
                   <button class="btn btn-primary mar-right8" type="button" (click)="calleKYC()">
                     <a class="back_color">Check e-KYC</a>
                   </button>

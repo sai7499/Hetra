@@ -1852,18 +1852,55 @@
                 >
                 </app-custom-input>
               </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="current_invoice_value"
+                  >{{ labels?.currentInvoiceValue }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="currInvoiceValue"
+                  [placeholder]="'current Invoice'"
+                  [maxLength]="labels?.validationData?.idv.maxLength"
+                  [isRequired]="
+                    currentInvoiceRequired ? 'Current invoice is Required' : ''
+                  "
+                  [type]="labels?.validationData?.idv.type"
+                  [isDirty]="isDirty"
+                  [isDisabled]="currentInvoiceDisabled"
+                >
+                </app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="original_invouice"
+                  >{{ labels?.originalInvoice }}
+                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  [placeholder]="'Original Invoice'"
+                  formControlName="originalInvoice"
+                  [maxLength]="labels?.validationData?.idv.maxLength"
+                  [isRequired]="'Original invoice is Required'"
+                  [type]="labels?.validationData?.idv.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+            </div>
+            <div class="row">
               <div
                 *ngIf="!disableForm"
                 class="form-group col-sm-6 col-md-4 col-lg-3"
               >
-                <label for="any_accidents_past"
-                  >{{ labels.anyAccidentsInPast }}
+                <label for="rc_book"
+                  >{{ labels?.rcBookStatus }}
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
-                  [values]="valuesToYesNo"
+                  [values]="rcBookStatusLOV"
+                  formControlName="rcBookStatus"
                   [isDirty]="isDirty"
-                  formControlName="anyAccidentsInPast"
                   [isRequired]="'Please Select One Option'"
                 >
                 </app-vf-custom-select>
@@ -1872,19 +1909,51 @@
                 *ngIf="disableForm"
                 class="form-group col-sm-6 col-md-4 col-lg-3"
               >
-                <label for="any_accidents_past"
-                  >{{ labels.anyAccidentsInPast }}
-                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
+                <label for="rc_book"
+                  >{{ labels?.rcBookStatus }}
+                  <!-- <sub class="star_red_col">*</sub> -->
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
-                  formControlName="anyAccidentsInPast"
-                  [placeholder]="'Accidents in Past'"
+                  formControlName="rcBookStatus"
+                  [placeholder]="'RC Book Status'"
                   [isDirty]="isDirty"
                   [isDisabled]="true"
                 >
                 </app-custom-input>
               </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="current_invoice_value"
+                  >{{ labels?.noOfOriginalTyres }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="noOfOriginalTyres"
+                  [placeholder]="'No Of Original Tyres'"
+                  [maxLength]="labels?.validationData?.numberOfYears.maxLength"
+                  [type]="labels?.validationData?.numberOfYears.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="current_invoice_value"
+                  >{{ labels?.noOfRetreadedTyres }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
+                </label>
+                <app-custom-input
+                  [className]="'form-control mandatory'"
+                  formControlName="noOfRetreadedTyres"
+                  [placeholder]="'No Of Retreaded Tyres'"
+                  [maxLength]="labels?.validationData?.numberOfYears.maxLength"
+                  [type]="labels?.validationData?.numberOfYears.type"
+                  [isDirty]="isDirty"
+                >
+                </app-custom-input>
+              </div>
+            </div>
+            <div class="row">
               <div
                 *ngIf="!disableForm"
                 class="form-group col-sm-6 col-md-4 col-lg-3"
@@ -1920,57 +1989,20 @@
                 >
                 </app-custom-input>
               </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="original_invouice"
-                  >{{ labels?.originalInvoice }}
-                  <sub *ngIf="!disableForm" class="star_red_col">*</sub>
-                </label>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  [placeholder]="'Original Invoice'"
-                  formControlName="originalInvoice"
-                  [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="'Original invoice is Required'"
-                  [type]="labels?.validationData?.idv.type"
-                  [isDirty]="isDirty"
-                >
-                </app-custom-input>
-              </div>
-
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="current_invoice_value"
-                  >{{ labels?.currentInvoiceValue }}
-                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
-                </label>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="currInvoiceValue"
-                  [placeholder]="'current Invoice'"
-                  [maxLength]="labels?.validationData?.idv.maxLength"
-                  [isRequired]="
-                    currentInvoiceRequired ? 'Current invoice is Required' : ''
-                  "
-                  [type]="labels?.validationData?.idv.type"
-                  [isDirty]="isDirty"
-                  [isDisabled]="currentInvoiceDisabled"
-                >
-                </app-custom-input>
-              </div>
               <div
                 *ngIf="!disableForm"
                 class="form-group col-sm-6 col-md-4 col-lg-3"
               >
-                <label for="rc_book"
-                  >{{ labels?.rcBookStatus }}
+                <label for="any_accidents_past"
+                  >{{ labels.anyAccidentsInPast }}
                   <sub class="star_red_col">*</sub>
                 </label>
                 <app-vf-custom-select
-                  [values]="rcBookStatusLOV"
-                  formControlName="rcBookStatus"
+                  [values]="valuesToYesNo"
                   [isDirty]="isDirty"
+                  formControlName="anyAccidentsInPast"
                   [isRequired]="'Please Select One Option'"
+                  (change)="accidentsInPast($event.target.value)"
                 >
                 </app-vf-custom-select>
               </div>
@@ -1978,18 +2010,59 @@
                 *ngIf="disableForm"
                 class="form-group col-sm-6 col-md-4 col-lg-3"
               >
-                <label for="rc_book"
-                  >{{ labels?.rcBookStatus }}
-                  <!-- <sub class="star_red_col">*</sub> -->
+                <label for="any_accidents_past"
+                  >{{ labels.anyAccidentsInPast }}
+                  <!-- <sub *ngIf="!disableForm" class="star_red_col">*</sub> -->
                 </label>
                 <app-custom-input
                   [className]="'form-control mandatory'"
-                  formControlName="rcBookStatus"
-                  [placeholder]="'RC Book Status'"
+                  formControlName="anyAccidentsInPast"
+                  [placeholder]="'Accidents in Past'"
                   [isDirty]="isDirty"
                   [isDisabled]="true"
                 >
                 </app-custom-input>
+              </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="valuator_remarks"
+                  >{{ labels?.remark }}
+                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
+                </label>
+                <textarea
+                  class="form-control mandatory"
+                  name="valuatorRemarks"
+                  id="valuatorRemarks"
+                  cols="1"
+                  rows="3"
+                  placeholder="valuator remarks"
+                  formControlName="valuatorRemarks"
+                  maxlength="1500"
+                  style="resize: none"
+                ></textarea>
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                    vehicleValuationForm.controls['valuatorRemarks'].touched &&
+                      !vehicleValuationForm.controls['valuatorRemarks'].valid
+                    "
+                  >
+                    <div
+                      *ngIf="
+                      vehicleValuationForm.controls['valuatorRemarks'].hasError('required')
+                      "
+                    >
+                      Remarks are required
+                    </div>
+        
+                    <div
+                      *ngIf="
+                      vehicleValuationForm.controls['valuatorRemarks'].hasError('pattern')
+                      "
+                    >
+                      Special characters are not allowed
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- other remarks ends here -->
@@ -2058,7 +2131,7 @@
                 </table>
               </div>
             </div>
-            &nbsp;
+            <!-- &nbsp; -->
 
             <!-- last three valuations list ends -->
 
@@ -2181,41 +2254,8 @@
                 </table>
               </div>
             </div>
-            &nbsp;
+            <!-- &nbsp; -->
 
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="current_invoice_value"
-                  >{{ labels?.noOfOriginalTyres }}
-                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
-                </label>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="noOfOriginalTyres"
-                  [placeholder]="'No Of Original Tyres'"
-                  [maxLength]="labels?.validationData?.numberOfYears.maxLength"
-                  [type]="labels?.validationData?.numberOfYears.type"
-                  [isDirty]="isDirty"
-                >
-                </app-custom-input>
-              </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="current_invoice_value"
-                  >{{ labels?.noOfRetreadedTyres }}
-                  <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
-                </label>
-                <app-custom-input
-                  [className]="'form-control mandatory'"
-                  formControlName="noOfRetreadedTyres"
-                  [placeholder]="'No Of Retreaded Tyres'"
-                  [maxLength]="labels?.validationData?.numberOfYears.maxLength"
-                  [type]="labels?.validationData?.numberOfYears.type"
-                  [isDirty]="isDirty"
-                >
-                </app-custom-input>
-              </div>
-            </div>
-            &nbsp;
             <!-- asset condition ends here -->
 
             <!-- accessories found at inspection starts from here -->
@@ -2268,7 +2308,7 @@
                 </table>
               </div>
             </div> -->
-            &nbsp;
+            <!-- &nbsp; -->
 
             <!-- accessories found at inspection ends here -->
 
@@ -2685,10 +2725,12 @@
             <div class="row">
               <!-- <div class="col-sm-5"> -->
               <div class="col-sm-5 text-left">
-                <button class="btn btn-primary js-btn-prev" type="button" *ngIf="disableForm">
-                  <a  (click)="redirectUrl()">{{
-                    labels.downloadReport
-                  }}</a>
+                <button
+                  class="btn btn-primary js-btn-prev"
+                  type="button"
+                  *ngIf="disableForm"
+                >
+                  <a (click)="redirectUrl()">{{ labels.downloadReport }}</a>
                 </button>
               </div>
 

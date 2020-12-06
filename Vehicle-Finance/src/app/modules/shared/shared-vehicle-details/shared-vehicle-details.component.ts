@@ -42,6 +42,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
   isCollateralSrting: string = 'Collateral';
 
   isLoan360: boolean;
+  isChildLoan: boolean;
 
   constructor(
     private loginStoreService: LoginStoreService, private toggleDdeService: ToggleDdeService,
@@ -72,6 +73,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
+
+    this.isChildLoan = this.leadData.leadDetails['isChildLoan'] ? this.leadData.leadDetails['isChildLoan'] === '1' ? true : false : false;
+
+    if (this.isChildLoan) {
+      this.disableSaveBtn = true;
+    }
+
     this.getLov();
 
     this.labelsData.getLabelsData().subscribe(data => {

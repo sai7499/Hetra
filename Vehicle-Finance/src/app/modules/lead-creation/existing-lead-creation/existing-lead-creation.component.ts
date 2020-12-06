@@ -134,7 +134,8 @@ export class ExistingLeadCreationComponent implements OnInit {
     sourcingType: any,
     sourcingCode: any,
     loanBranch: any,
-    totalLoanAmount: any
+    totalLoanAmount: any,
+    isCommSuppressed: number
   }
 
   applicantDetails: {
@@ -243,6 +244,7 @@ export class ExistingLeadCreationComponent implements OnInit {
       vehicleId: new FormControl(''),
       assetSubVarient: new FormControl(''),
       manuFacMonthYear: new FormControl(''),
+      communication: new FormControl('0'),
     });
   }
 
@@ -674,7 +676,8 @@ export class ExistingLeadCreationComponent implements OnInit {
         sourcingType: data.sourcingType,
         sourcingCode: data.sourcingCode,
         loanBranch: Number(data.loanBranch),
-        totalLoanAmount: data.reqLoanAmt
+        totalLoanAmount: data.reqLoanAmt,
+        isCommSuppressed: Number(data.communication)
       }
 
       this.applicantDetails = {
@@ -737,6 +740,7 @@ export class ExistingLeadCreationComponent implements OnInit {
           this.productCategoryChange(productCategory);
           const product = response.ProcessVariables.leadDetails.productId;
           const loanBranch = response.ProcessVariables.leadDetails.branchId;
+          const communication = response.ProcessVariables.leadDetails.isCommSuppressed;
           const entity = response.ProcessVariables.applicantDetails[0].entityTypeKey;
           const nameOne = response.ProcessVariables.applicantDetails[0].name1;
           const nameTwo = response.ProcessVariables.applicantDetails[0].name2;
@@ -777,6 +781,7 @@ export class ExistingLeadCreationComponent implements OnInit {
             productCategory,
             product,
             loanBranch,
+            communication,
             entity,
             nameOne,
             nameTwo,

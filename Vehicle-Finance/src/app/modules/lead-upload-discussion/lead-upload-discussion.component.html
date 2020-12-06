@@ -1,0 +1,88 @@
+<div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': showUpload }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <!-- <h4 class="modal-title">Customer Dedupe Match Found</h4> -->
+        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="" method="POST">
+            <div class="table-responsive tab-content">
+              <!-- <p id="probale_title4">Probable Matches</p> -->
+      
+              <table class="table" id="exact_macth_title4_sec">
+                <thead>
+                  <tr class="table-head-bg">
+                    <td>Product Category</td>
+                    <td>Product</td>
+                    <td>Sourcing Channel</td>
+                    <td>Sourcing Type</td>
+                    <td>Sourcing Code</td>
+                    <td>Applicant First Name</td>
+                    <td>Applicant Last Name</td>
+                    <td>Applicant Phone Number</td>
+                    <td>Applicant DOB</td>
+                    <td>Branch</td>
+                    <td>Lead Handled By</td>
+                    <td>Requested Loan Amount</td>
+                    <td>Parent Loan Account Number</td>
+                    <td>Status</td>
+                    <td>Remarks</td> 
+                     
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of details">
+                    <td>{{data.productCategory}}</td>
+                    <td>{{data.product}}</td>
+                    <td>{{data.sourcingChannel}}</td>
+                    <td>{{data.sourcingType}}</td>
+                    <td>{{data.sourcingCode}}</td>
+                    <td>{{data.appFirstName}}</td>
+                    <td>{{data.appLastName}}</td>
+                    <td>{{data.appPhoneNumber}}</td>
+                    <td>{{data.appDOB}}</td>
+                    <td>{{data.loanBranch}}</td>
+                    <td>{{data.leadHandledBy}}</td>
+                    <td>{{data.totalLoanAmount}}</td>
+                    <td>{{data.parentLoanAccNum}}</td>
+                    <td *ngIf="data.status === 'true'" style="color: green;">Success</td>
+                    <td *ngIf="data.status === 'false'" style="color: red;">Fail</td>
+                    <td [ngClass]="{'status-success': data.status === 'true', 'status-fail': data.status === 'false'}">{{data.description}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+        type="button"
+        class="btn btn-danger"
+        data-dismiss="modal"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          (click)="onSave()"
+        >
+        Save Valid Records 
+        </button>
+        
+      </div>
+    </div>
+  </div>
+</div>
