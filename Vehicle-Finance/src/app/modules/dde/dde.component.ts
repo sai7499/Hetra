@@ -31,7 +31,8 @@ export class DdeComponent implements OnInit, OnChanges {
   showLoan360Components: boolean;
   isChildLoan: any;
   productId: any;
-  ShowChildValuation: boolean;
+  ShowChildValuationScreen: boolean;
+  showValuationScreen: boolean;
 
   constructor(
     public router: Router,
@@ -84,7 +85,10 @@ export class DdeComponent implements OnInit, OnChanges {
         console.log('child loan:', this.isChildLoan, 'product id:', this.productId);
       }
       if ((this.isChildLoan === '1') && ((this.productId === '1078') || (this.productId === '1078') || (this.productId === '1078'))) {
-        this.ShowChildValuation = true;
+        this.ShowChildValuationScreen = true;
+      }
+      if ((this.isChildLoan === '0') && (this.productCatCode !== 'NCV')) {
+        this.showValuationScreen = true;
       }
       this.sharedService.pslDataNext$.subscribe((val) => {
         if (val === true) {
@@ -114,7 +118,7 @@ export class DdeComponent implements OnInit, OnChanges {
       this.locationIndex = this.getLocationIndex(url);
       if (this.locationIndex >= 19) {
         this.show = 3;
-      } else if (this.locationIndex >= 8) {
+      } else if (this.locationIndex >= 9) {
         this.show = 2;
       } else {
         this.show = 1;
@@ -122,12 +126,12 @@ export class DdeComponent implements OnInit, OnChanges {
     });
 
 
-    if (this.locationIndex >= 8) {
+    // if (this.locationIndex >= 8) {
 
-      this.show = 2;
-    } else {
-      this.show = 1;
-    }
+    //   this.show = 2;
+    // } else {
+    //   this.show = 1;
+    // }
 
     if (
       this.router.url.includes('/fi-cum-pd-dashboard') ||
@@ -164,7 +168,7 @@ export class DdeComponent implements OnInit, OnChanges {
     }
     this.show = 1;
     // ((this.productCatCode != 'NCV') && ((isChildLoan ==true) &&((prodCode==1078)||(prodCode==1079) || (prodCode==1080)))
-    if (this.productCatCode != 'NCV') {
+    if ((this.showValuationScreen) || (this.ShowChildValuationScreen)) {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
     } else if (this.productCatCode == 'NCV') {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/psl-data`);
