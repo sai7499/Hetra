@@ -4,7 +4,7 @@
     <ng-container formArrayName="waiverNormsFormArray">
 
       <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit && isWaiverTrigger">
-        <button class="btn mar-right8 btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
+        <button class="btn btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
           Norms</button>
       </div>
 
@@ -105,7 +105,7 @@
 
       <ng-container *ngIf="!isLoan360">
       <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
-        <button class="btn mar-right8 btn-primary" type="button"
+        <button class="btn btn-primary" type="button"
           (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
       </div>
     </ng-container>
@@ -181,20 +181,15 @@
             </tr>
           </tbody>
         </table>
-
       </div>
-
-    </ng-container>
-
-    <div *ngIf="!isSubmitToCredit || deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
-      <hr>
-    </div>
-
+    </ng-container>   
+      <hr class="mar-5">
+   
     <ng-container formArrayName="manualDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
         <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
-          <button class="btn mar-right8 btn-primary" type="button"
+          <button class="btn mb-5 btn-primary" type="button"
             (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
         </div>
       </ng-container>

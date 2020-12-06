@@ -337,3 +337,15 @@
       width: 10%;
       text-align-last: center;
   }
+
+  .p-0{
+    padding:0px!important;
+  }
+
+  .mar-5{
+    margin:10px!important;
+  }
+
+  .mb-5{
+    margin-bottom:5px!important;
+  }

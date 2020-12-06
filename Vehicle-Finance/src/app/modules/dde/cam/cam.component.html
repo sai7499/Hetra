@@ -1,6 +1,7 @@
+<div class="content">
 <div style="text-align: center;">
-    <button class="btn btn-primary btn_div " *ngIf="isCamDetails" (click)="showCamDetails()"
-        type="button">{{labels?.generateCam}}</button>
+    <a><button class="btn btn-primary btn_div " *ngIf="isCamDetails" (click)="showCamDetails()"
+        type="button">{{labels?.generateCam}}</button></a>
 </div>
 <form class="multisteps-form__form" [formGroup]="camDetailsForm">
 <div [id]="pdfId" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true" >
@@ -2977,4 +2978,5 @@ labels?.strengthsOrMitigates
             </div>
         </div>
     </div>
+</div>
 </div>
