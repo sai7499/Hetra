@@ -164,13 +164,21 @@
                                                 <app-custom-input
                                                 formControlName="chequeNum"
                                                 [maxLength]="validationData?.chequeNumber?.maxLength"
+                                                [patternCheck]="validationData?.chequeNumber?.patternCheck"
                                                 [isRequired]="'Cheque Number Is Required'"
                                                 [isDirty]="isDirty"
                                                 (ngModelChange)="onChangeCheque( $event)"
                                                 
                                                 [type]="validationData?.chequeNumber?.type"
                                               ></app-custom-input>
+                                              <div class="invalid-feedback ShowError" 
+                                              *ngIf="chequeForm.get('chequeNum').value && chequeForm.get('chequeNum').valid && this.isInvalidChequeNum">
+                                                   Invalid Number
+                                                   
                                               </div>
+                                              </div>
+
+                                              
 
                                               
                                               
