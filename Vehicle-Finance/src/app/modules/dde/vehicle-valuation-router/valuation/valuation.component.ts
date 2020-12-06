@@ -236,7 +236,6 @@ export class ValuationComponent implements OnInit {
     // console.log('vehicle lov', this.vehicleLov);
 
   }
-
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data: any) => (this.labels = data),
@@ -599,22 +598,30 @@ export class ValuationComponent implements OnInit {
       // this.isOnline = true;
       // this.isOnline = false;
       console.log('is online valutation', this.isOnline);
-      if (this.isOnline) {
-        this.vehicleValuationForm.disable();
-        this.disableSaveBtn = true;
-        this.disableForm = true;
-      }
+      setTimeout(() => {
+        if (this.isOnline) {
+          console.log('from is disabled', this.isOnline);
+          this.vehicleValuationForm.disable();
+          this.disableSaveBtn = true;
+          this.disableForm = true;
+          // this.vehicleValuationDetails.pdfUrl = 'sampleurl.com';
+          if (this.vehicleValuationDetails.pdfUrl !== null) {
+            this.reportUrl = this.vehicleValuationDetails.pdfUrl;
+            console.log('report url', this.reportUrl);
+            this.disablePdfDownload = false;
+          } else if (this.vehicleValuationDetails.pdfUrl === null) {
+            this.disablePdfDownload = true;
+
+          }
+        }
+        console.log('after set timeout', this.disablePdfDownload);
+      });
+      console.log('after set timeout', this.isOnline);
+      // console.log('after set timeout', this.disablePdfDownload);
       // const lastvaluationsList = this.vehicleValuationDetails.valuationList;
       const lastvaluationsList = null;
       const assetsConditionList = null;
-      // this.vehicleValuationDetails.pdfUrl = 'www.google.com';
       const accConditionList = null;
-      if (this.vehicleValuationDetails.pdfUrl !== null) {
-        this.reportUrl = this.vehicleValuationDetails.pdfUrl;
-        console.log('report url', this.reportUrl);
-      } else if (this.vehicleValuationDetails.pdfUrl === null) {
-        this.disablePdfDownload = true;
-      }
       // if (this.vehicleValuationDetails.reportUrl) {
       //   this.reportUrl = this.vehicleValuationDetails.reportUrl;
       //   console.log('report url', this.reportUrl);
@@ -685,10 +692,12 @@ export class ValuationComponent implements OnInit {
       // this.onPermitChange(this.vehicleValuationDetails.permitStatus);
       // this.engineStarted(this.vehicleValuationDetails.engineStarted);
       // this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
-      if ((this.vehicleValuationDetails.preReRegNumber !== null) &&
-        (this.vehicleValuationDetails.modelUnderProduction !== null)) {
-        this.onRegTypeChange(this.vehicleValuationDetails.preReRegNumber);
-        this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
+      if ((this.vehicleValuationDetails.modelUnderProduction) && (this.vehicleValuationDetails.preReRegNumber)) {
+        if ((this.vehicleValuationDetails.preReRegNumber !== null) &&
+          (this.vehicleValuationDetails.modelUnderProduction !== null)) {
+          this.onRegTypeChange(this.vehicleValuationDetails.preReRegNumber);
+          this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
+        }
       }
       this.setFormValue();
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
@@ -1331,6 +1340,10 @@ export class ValuationComponent implements OnInit {
     this.saveUpdateVehicleValuation();
   }
   submitValuationTask() {
+    if (this.vehicleValuationForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
     const data = {
       leadId: this.leadId,
       userId: this.userId,

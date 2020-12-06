@@ -2702,11 +2702,10 @@
                   {{ labels.back }}
                 </button>
                 &nbsp;
-                <ng-container *ngIf="!isLoan360">
+                <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
                   <button
                     class="btn btn-primary"
                     (click)="onFormSubmit()"
-                    *ngIf="!disableSaveBtn"
                   >
                     {{ labels.save }}
                   </button>
