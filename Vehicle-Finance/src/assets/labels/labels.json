@@ -1215,7 +1215,7 @@
     "enquiryAmount": "Enquiry Amount",
     "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
     "noOfEmi": "No.of Emi",
-    "submitToCredit": "Are You Sure Want To Submit To Credit?",
+    "submitToCredit": "Are you sure you want to submit to credit?",
     "longitude": "Longitude",
     "latitude": "Latitude",
     "capturedLat": "Captured Latitude",
@@ -1809,6 +1809,7 @@
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
     "goToDashboard":"Go To Dashboard",
+    "submitValuation":"Are you sure you want to submit task?",
     "validationData": {
         "name": {
             "maxLength": {

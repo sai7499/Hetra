@@ -199,9 +199,9 @@ export class ValuationComponent implements OnInit {
     console.log('user name', this.userName);
     console.log('role id', this.roleId);
     console.log('role name', this.roleName);
-    // if (this.roleId === 86) {
-    //   this.extValuator = true;
-    // }
+    if (this.roleId === 86) {
+      this.extValuator = true;
+    }
     // console.log('today date', this.toDayDate);
     this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     // console.log('today date', this.toDayDate);
