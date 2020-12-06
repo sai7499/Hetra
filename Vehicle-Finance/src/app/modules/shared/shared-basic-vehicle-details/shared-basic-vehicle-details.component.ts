@@ -628,7 +628,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             vehicleType: '',
             assetBodyType: '',
             assetModel: '',
-            assetVariant: ''
+            assetVariant: '',
+            scheme: ''
           })
         } else {
           this.vehicleLov.assetMake = [];
@@ -670,7 +671,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
               vehicleType: '',
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              assetVariant: '',
+              scheme: ''
             })
 
           } else {
@@ -717,7 +719,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             obj.patchValue({
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              assetVariant: '',
+              scheme: ''
             })
 
           } else {
@@ -743,7 +746,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     obj.patchValue({
       assetModel: '',
-      assetVariant: ''
+      assetVariant: '',
+      scheme: ''
     })
   }
 
@@ -761,7 +765,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       'vehicleCode', "vehicleVariant")
 
     obj.patchValue({
-      assetVariant: ''
+      assetVariant: '',
+      scheme: ''
     })
 
   }
@@ -984,7 +989,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: [''],
       scheme: [''],
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
@@ -1035,7 +1039,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
@@ -1085,7 +1088,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
@@ -1149,7 +1151,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
