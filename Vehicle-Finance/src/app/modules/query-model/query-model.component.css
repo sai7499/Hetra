@@ -898,14 +898,11 @@ margin: 0px !important;
         /* margin: 10px 0px; */
         background-color: #d0d0d0;
     }
-    @media (min-width:761px) and (max-width: 1150px) {
-        .search-btn-msg {
-            width: 70%;
-            margin-bottom: 1px;
-            margin-left: 30%;
-        }
-    }
 
+    .back-lead-button{
+        
+        font-size: 12px;
+    }
     @media (min-width:260px) and (max-width: 760px) {
 
         #message-hide {
@@ -914,12 +911,20 @@ margin: 0px !important;
             padding: 0px 0px 10px;
         }
 
-        .search-btn-msg {
-            width: 90%;
-            margin-bottom: 1px;
-            margin-left: 10%;
-        }
+        .search-btn-msg{
+            width: 100%;
+             margin-bottom:1px;
+             margin-left:0px;           
+       }
+
        
+        .back-lead-button{
+            width: 100px;
+            margin: 10px;
+            font-size: 12px;
+        }
+
+
         .close-btn{
             font-size: 13px;
             background-color: #f57d2f;

@@ -2,14 +2,15 @@
   <app-lead-section-header></app-lead-section-header>
 
   <div class="">
-    <h3 class="margin_zero" *ngIf="applicantId == null">
-      {{ labels?.addApplicantTitle }}
-    </h3>
-    <h3 class="margin_zero" *ngIf="applicantId !== null">
-      Edit Applicant
-    </h3>
+    
     <form [formGroup]="coApplicantForm" autocomplete="off">
       <div class="content">
+        <h3 class="banner-con" *ngIf="applicantId == null">
+          {{ labels?.addApplicantTitle }}
+        </h3>
+        <h3 class="banner-con" *ngIf="applicantId !== null">
+          Edit Applicant
+        </h3>
         <div class="row">
           <div id="individual_section_leadco" class="content-box">
             <div formGroupName="dedupe">
@@ -698,7 +699,7 @@
                   </button>
                   &nbsp;&nbsp;
                   <button class="btn btn-primary mar-right8 hvr-sweep-to-left" type="button" (click)="navigateToApplicantList()">
-                    <a class="">Back</a>
+                    Back
                   </button>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
@@ -734,7 +735,7 @@
                 *ngIf="applicantType == 'INDIVENTTYP'">
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
-                    <h3 class="title">Permanent Address</h3>
+                    <h3 class="banner-con">Permanent Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox" *ngIf="showApplicantAddCheckBox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event)"
@@ -825,7 +826,7 @@
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-2 col-sm-5">
-                    <h3 class="title">Current Address</h3>
+                    <h3 class="banner-con">Current Address</h3>
                   </div>
                   <div class="col-lg-3 text-center" id="align_this_checkbox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)"
@@ -943,7 +944,7 @@
 
               <div id="non_individual_section_address" class="non_individual_section_leadco"
                 *ngIf="applicantType == 'NONINDIVENTTYP'">
-                <h3 class="title">Registered Address</h3>
+                <h3 class="banner-con">Registered Address</h3>
                 <div class="row container" formGroupName="registeredAddress">
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -1030,7 +1031,7 @@
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
-                    <h3 class="title">Office Address</h3>
+                    <h3 class="banner-con">Office Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddressCommunication($event)"

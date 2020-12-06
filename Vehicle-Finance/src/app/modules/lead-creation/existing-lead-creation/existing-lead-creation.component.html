@@ -1,15 +1,11 @@
 <main class="mar-top90">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <h3 *ngIf="!leadIdFromDashboard" class="margin_zero">{{ labels.leadCreationTitle }}</h3>
-        <h3 *ngIf="leadIdFromDashboard" class="margin_zero">Lead Approve</h3>
-      </div>
-      <div class="col-md-6 text-right"></div>
-    </div>
-
+  <div class="container-fluid"> 
     <div class="content">
       <form [formGroup]="createExternalLeadForm" >
+        <div class="row">         
+            <h3 *ngIf="!leadIdFromDashboard" class="banner-con">{{ labels.leadCreationTitle }}</h3>
+            <h3 *ngIf="leadIdFromDashboard" class="banner-con">Lead Approve</h3>                  
+        </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub>
@@ -262,7 +258,7 @@
           </div>
         </div>
         <div class="row">
-          <h3 class="subHeadColor">Vehicle Details</h3>
+          <h3 class="banner-con">Vehicle Details</h3>
         </div>
 
         <div class="row" *ngIf="isUcvUc">
