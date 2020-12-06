@@ -177,17 +177,17 @@
 <div class="row">
   <div class="col-lg-3 col-md-3 col-sm-12">
     <div class="form-group">
-            <label class="col-form-label" for="lead_handled_by">Mobile Number
+            <label class="col-form-label" for="lead_handled_by">{{customerDetails?.entityTypeKey === 'NONINDIVENTTYP' ? 'Contact Number' : 'Mobile Number'}}
         </label>
-        <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.mobileNumber}}
+        <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.entityTypeKey === 'NONINDIVENTTYP' ? customerDetails?.companyPhoneNumber : customerDetails?.mobileNumber}}
         </label>
     </div>
 </div>
   <div class="col-lg-3 col-md-3 col-sm-12">
       <div class="form-group">
-          <label class="col-form-label" for="roi">D.O.B
+          <label class="col-form-label" for="roi">{{customerDetails?.entityTypeKey === 'NONINDIVENTTYP' ? 'D.O.I' : 'D.O.B'}}
           </label>
-          <label for="roi_value" class="col-form-label-two">:&nbsp;{{customerDetails?.dob}}
+          <label for="roi_value" class="col-form-label-two">:&nbsp;{{customerDetails?.entityTypeKey === 'NONINDIVENTTYP' ? customerDetails?.doi : customerDetails?.dob}}
           </label>
       </div>
   </div>

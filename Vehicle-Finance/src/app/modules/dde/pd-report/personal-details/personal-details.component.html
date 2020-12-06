@@ -104,7 +104,7 @@
                     <sub class="star_red_col">*</sub></label>
 
                 <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'"
-                    [max]="maxDate" [activeView]="'decade'" placeholder="Date of Birth">
+                    [max]="maxDate" [disabled]="true" [activeView]="'decade'" placeholder="Date of Birth">
                 </kendo-datepicker>
 
                 <!-- <div class="invalid-feedback ShowError" *ngIf="personalDetailsForm.get('dob').touched || isDirty">

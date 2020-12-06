@@ -18,14 +18,6 @@
                 "taxBill": true,
                 "totalTaxBill": true
             },
-            "InsuranceLoan": {
-                "invoiceNumber": true,
-                "invoiceDate": true
-            },
-            "SaathiLoan": {
-                "invoiceNumber": true,
-                "invoiceDate": true
-            },
             "TopUp": {
                 "fcExpiryDate": true,
                 "taxDetails": true,
@@ -51,7 +43,9 @@
                 "costPerTyre": true,
                 "marginAmount": true,
                 "tyreSpecification": true,
-                "invoiceAmount": true
+                "invoiceAmount": true,
+                "invoiceNumber": true,
+                "invoiceDate": true
             }
         },
         "isLoanType": [

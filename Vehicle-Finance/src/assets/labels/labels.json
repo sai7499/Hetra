@@ -2145,7 +2145,12 @@
             "maxLength": {
                 "rule": 16
             },
-            "type": "alpha-numeric"
+            "type": "alpha-numeric-nospace",
+            "patternCheck": {
+                "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
+                "msg": "Should be valid"
+            }
+
         },
         "voterId": {
             "maxLength": {
@@ -2679,6 +2684,10 @@
             "maxLength": {
                 "rule": 6,
                 "msg": "Should be 6 Digits"
+            },
+            "patternCheck": {
+                "rule": "^[0-9]{6}",
+                "msg": "Invalid Number"
             },
             "type": "number"
         },

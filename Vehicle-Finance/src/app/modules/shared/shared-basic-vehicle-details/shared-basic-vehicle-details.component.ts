@@ -93,6 +93,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   vehicleRegNoChange: any;
   isShowParentLoan: boolean;
   loanDetailsData: any = [];
+  isVehicleRegistrationNumber: any;
   isVehicleRegNoChange: boolean;
   searchChildLoanData: any;
 
@@ -167,9 +168,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.initForms();
     this.getLov();
-
-
-    console.log(this.id, 'fdsg')
 
     if (this.id && this.id !== '0') {
       this.setFormValue();
@@ -310,8 +308,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     formArray.clear();
     this.roleType === 1 ? this.addSalesFormControls() : this.addCreditFormControls();
     const details = formArray.at(0) as FormGroup;
-
-    if (this.isChildLoan) {
+    if (this.isChildLoan && this.childLoanCondition) {
       this.getDynamicFormControls(details)
     }
   }
@@ -464,7 +461,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   setFormValue() {
 
-    this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
+    let data = {
+      "collateralId": this.id
+    }
+
+    this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
@@ -627,6 +628,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
 
     // this.isVehicleDedupe = VehicleDetail.isVehicleDedupe === 'Yes' ? true: false;
+    this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
 
     if (VehicleDetail.parentLoanAccountNumber) {
       this.isVehicleDedupe = true;
@@ -798,33 +800,33 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isInvalidMobileNumber: true
     })
 
-    if (value.length === 10) {
-      if (this.applicantDetails && this.applicantDetails.length > 0) {
-        this.applicantDetails.filter((mob: any) => {
-          let mobileNumber = mob.mobileNumber;
-          if (mobileNumber && mobileNumber.length === 12) {
-            mobileNumber = mob.mobileNumber.slice(2, 12);
-          }
-          setTimeout(() => {
+    // if (value.length === 10) {
+    //   if (this.applicantDetails && this.applicantDetails.length > 0) {
+    //     this.applicantDetails.filter((mob: any) => {
+    //       let mobileNumber = mob.mobileNumber;
+    //       if (mobileNumber && mobileNumber.length === 12) {
+    //         mobileNumber = mob.mobileNumber.slice(2, 12);
+    //       }
+    //       setTimeout(() => {
 
-            if (mobileNumber === value) {
-              this.basicVehicleForm.patchValue({
-                isInvalidMobileNumber: false
-              })
-              this.toasterService.showInfo('Applicant and Vehicle Owner Mobile Number Same, Please Change', 'Mobile Number')
-            } else {
-              this.basicVehicleForm.patchValue({
-                isInvalidMobileNumber: true
-              })
-            }
-          })
-        })
-      } else {
-        this.basicVehicleForm.patchValue({
-          isInvalidMobileNumber: true
-        })
-      }
-    }
+    //         if (mobileNumber === value) {
+    //           this.basicVehicleForm.patchValue({
+    //             isInvalidMobileNumber: false
+    //           })
+    //           this.toasterService.showInfo('Applicant and Vehicle Owner Mobile Number Same, Please Change', 'Mobile Number')
+    //         } else {
+    //           this.basicVehicleForm.patchValue({
+    //             isInvalidMobileNumber: true
+    //           })
+    //         }
+    //       })
+    //     })
+    //   } else {
+    //     this.basicVehicleForm.patchValue({
+    //       isInvalidMobileNumber: true
+    //     })
+    //   }
+    // }
   }
 
   getPincode(pincode) {
@@ -1023,13 +1025,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
 
-    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
-    }
-
     if (this.Product !== 'TyreLoan') {
       controls.addControl('invoiceAmount', this._fb.control(null))
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
     }
 
     formArray.push(controls);
@@ -1075,13 +1074,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId
     })
-    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
-    }
-
     if (this.Product !== 'TyreLoan') {
       controls.addControl('invoiceAmount', this._fb.control(null))
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
     }
 
     formArray.push(controls);
@@ -1262,6 +1258,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
   }
 
+  getCheckDedupe(val: string, form) {
+    if (val && val.length >= 9 && form.controls['vehicleRegNo'].valid) {
+      this.isVehicleRegistrationNumber = val;
+      this.isVehicleDedupe = true;
+    } else {
+      this.isVehicleDedupe = false;
+    }
+  }
+
   onGetSpareCost(val: string, form) {
     this.isSpareCost = val;
     if (this.isSpareCost && this.isRepairCost) {
@@ -1275,24 +1280,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   getRegistrationNumber(val: any, form) {
 
     if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
+
       if (this.vehicleRegNoChange !== val) {
+
         this.basicVehicleForm.patchValue({
           isCheckDedpue: false
         })
-
         this.isVehicleRegNoChange = true;
       } else {
         this.isVehicleRegNoChange = false;
       }
-
     }
-
   }
 
   onClose() {
     this.isShowParentLoan = false;
     this.isVehicleRegNoChange = false;
-
   }
   getparentLoanAccountNumber(obj) {
 
@@ -1305,7 +1308,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
 
     this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
-      this.vehicleRegNoChange = res.ProcessVariables.childData.vehicleRegistrationNumber;
 
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       const details = formArray.at(0) as FormGroup;
@@ -1326,7 +1328,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })
-    console.log(obj, 'obj')
   }
 
   onLoanAccNoSelect(val, index, data) {
@@ -1337,9 +1338,60 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       parentLoanAccountNumber: data.accountNumber,
       isVehicleDedupe: false
     })
-    this.isShowParentLoan = false;
-    this.isVehicleRegNoChange = false;
+  }
 
+  onCheckVehicleDetails() {
+
+    let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    let details = formArray.at(0) as FormGroup;
+
+    let data = {
+      'vehicleRegNo': details.get('vehicleRegNo').value,
+      'parentLoanAccountNumber': details.get('parentLoanAccountNumber').value,
+      "checkDedupe": true
+    }
+
+    this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+
+        this.vehicleLov.assetMake = [{
+          key: VehicleDetail.vehicleMfrUniqueCode,
+          value: VehicleDetail.vehicleMfrCode
+        }]
+
+        this.vehicleLov.assetBodyType = [{
+          key: VehicleDetail.vehicleSegmentUniqueCode,
+          value: VehicleDetail.vehicleSegmentCode
+        }]
+
+        this.vehicleLov.assetModel = [
+          {
+            key: VehicleDetail.vehicleModelCode,
+            value: VehicleDetail.vehicleModel
+          }
+        ]
+
+        this.vehicleLov.assetVariant = [{
+          key: VehicleDetail.assetVarient,
+          value: VehicleDetail.assetVarient
+        }]
+
+        this.vehicleLov.vehicleType = [{
+          key: VehicleDetail.vehicleTypeUniqueCode,
+          value: VehicleDetail.vehicleTypeCode
+        }]
+
+        this.onPatchArrayValue(formArray, VehicleDetail)
+        this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
+        this.sharedService.getFormValidation(this.basicVehicleForm)
+        this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
+        this.isShowParentLoan = false;
+        this.isVehicleRegNoChange = false;
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
+      }
+    })
   }
 
 }
