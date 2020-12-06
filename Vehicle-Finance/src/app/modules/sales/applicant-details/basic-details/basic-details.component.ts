@@ -95,6 +95,7 @@ export class BasicDetailsComponent implements OnInit {
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
   isSave: boolean = false;
+  occupation : any[]
 
 
   constructor(
@@ -452,9 +453,12 @@ export class BasicDetailsComponent implements OnInit {
   // }
 
   onCustCategoryChanged(event) {
-    this.custCatValue = event.target.value;
+    this.custCatValue = event;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
+    details.get('occupation').setValue('');
+    const lov= this.applicantLov.occupation;
+    this.occupation= this.applicantDataService.getOccupationLov(lov,this.custCatValue);
     if (this.custCatValue == 'SEMCUSTSEG') {
       this.ageOfSeniorCitizen = 65;
 
@@ -528,6 +532,7 @@ export class BasicDetailsComponent implements OnInit {
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
+      this.onCustCategoryChanged(this.custCatValue)
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
 

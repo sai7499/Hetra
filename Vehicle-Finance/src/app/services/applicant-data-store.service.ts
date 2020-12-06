@@ -225,4 +225,28 @@ export class ApplicantDataStoreService {
     return result;
   }
 
+  getOccupationLov(lov,custCat){
+    
+    const dropdown= lov.filter((data)=>{
+      if(custCat==='SALCUSTSEG'){
+        return data.key==='PROFOCPTION'
+      }else if(custCat==='SEMCUSTSEG'){
+        return data.key==='CNSLTOCPTION' ||  data.key==='SEBOCPTION' ;
+      }else if(custCat == 'FTBCUSTSEG' || custCat == 'FTUCUSTSEG' || custCat == 'TROPCUSTSEG'){
+        return data;
+      }else if(custCat==='HWCUSTSEG'){
+        return data.key==='HWFOCPTION'
+      }else if(custCat==='STUCUSTSEG'){
+        return data.key==='STDTOCPTION'
+      }else if(custCat==='PENCUSTSEG'){
+        return data.key==='EXSOCPTION' || data.key==='RTROCPTION'
+      }else if(custCat==='FARCUSTSEG'){
+        return data.key==='FAROCPTION'
+      }else if(custCat==='NEMCUSTSEG'){
+        return data.key==='OTHOCPTION' || data.key==='UEMOCPTION' || data.key==='MNROCPTION'
+      }
+    })
+    return dropdown;
+  }
+
 }
