@@ -2147,8 +2147,8 @@
             },
             "type": "alpha-numeric-nospace",
             "patternCheck": {
-                "rule": "[A-Z]{2}[A-Z0-9]{14}",
-                "msg": "Should be Valid"
+                "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
+                "msg": "Should be valid"
             }
 
         },
