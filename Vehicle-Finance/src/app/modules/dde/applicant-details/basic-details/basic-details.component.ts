@@ -1111,7 +1111,7 @@ export class BasicDetailsComponent implements OnInit {
     this.checkedRelativeEquitas = '0'
     details.get('isEquitasEmployee').enable();
     details.get('isEquitasEmployeeRelative').enable();
-    details.get('equitasEmployeeNumber').setValue('');
+    details.get('equitasEmployeeNumber').setValue(null);
     details.get('equitasEmployeeNumber').clearValidators();
     details.get('equitasEmployeeNumber').updateValueAndValidity();
   }
@@ -1119,7 +1119,8 @@ export class BasicDetailsComponent implements OnInit {
     this.custCatValue = value;
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    this.setEqutasDefaultValues(details)
+    this.setEqutasDefaultValues(details);
+    this.setNullValues(details)
     if (this.custCatValue == 'SEMCUSTSEG') {
       this.ageOfSeniorCitizen = 65;
 
@@ -1139,12 +1140,38 @@ export class BasicDetailsComponent implements OnInit {
       this.showSalaried = true;
       this.setSalriedValidators();
       this.removeSelfEmpValidators()
+    }
+    
+    else if (this.custCatValue == 'FTBCUSTSEG' || this.custCatValue == 'FTUCUSTSEG' || this.custCatValue == 'TROPCUSTSEG') {
+      //this.showSalaried = true;
+      this.setSelfEmpValidators();
+      this.removeSalariedValidators();
     } else {
       this.showSalaried = false;
       this.showSelfEmp = false;
       this.removeSalariedValidators();
       this.removeSelfEmpValidators();
     }
+    
+  }
+
+
+
+
+  setNullValues(details){
+    details.get('businessType').setValue(null);
+    details.get('businessName').setValue(null);
+    details.get('businessStartDate').setValue(null);
+    details.get('noOfYearsBussiness').setValue(null);
+    details.get('noOfMonthsBussiness').setValue(null);
+    details.get('turnOver').setValue(null);
+    details.get('employerType').setValue(null);
+    details.get('designation').setValue(null);
+    details.get('employerName').setValue(null);
+    details.get('currentEmpYears').setValue(null);
+    details.get('noOfYearsCurrEmp').setValue(null);
+    details.get('noOfMonthsCurrEmp').setValue(null);
+    details.get('employeeCode').setValue(null);
   }
 
   // removeEmployeeValidators() {
