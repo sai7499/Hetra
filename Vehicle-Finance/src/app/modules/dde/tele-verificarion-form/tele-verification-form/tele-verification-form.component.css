@@ -35,3 +35,11 @@
 div>input {
     padding-bottom: 10px;
 }
+
+.mar-5{
+    margin:10px 2px;
+}
+
+.mar-top-5{
+    margin-top:10px;
+}
