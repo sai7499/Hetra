@@ -608,7 +608,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       totalTaxBill: VehicleDetail.totalTaxBill || '',
       tyreDealer: VehicleDetail.tyreDealer || '',
       tyreManufacturer: VehicleDetail.tyreManufacturer || '',
-      tyreSpecification: VehicleDetail.tyreManufacturer || '',
+      tyreSpecification: VehicleDetail.tyreSpecification || '',
       tonnage: VehicleDetail.tonnage || '',
       typeOfPermit: VehicleDetail.typeOfPermit || '',
       typeOfPermitOthers: VehicleDetail.typeOfPermitOthers || '',
