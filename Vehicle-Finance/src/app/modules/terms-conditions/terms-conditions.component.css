@@ -76,3 +76,7 @@ li{
 .p-0{
     padding:0px;
 }
+
+.varlab {
+    font-weight: 300 !important;
+}
