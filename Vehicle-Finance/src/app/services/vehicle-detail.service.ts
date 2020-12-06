@@ -10,6 +10,7 @@ import { ApiService } from '@services/api.service';
 import { IndivVehicleInfoDetails } from '@model/lead.model';
 
 import mUrl from '../../assets/vehicle-details-data/vehicle-details-label.json';
+import { data } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +52,7 @@ export class VehicleDetailService {
 
   // 1.method for getting vehicle details
 
-  getAnVehicleDetails(collateralId) {
+  getAnVehicleDetails(data) {
 
     const processId = this.apiService.api.getAnVehicleCollateralDetails.processId;
     const workflowId = this.apiService.api.getAnVehicleCollateralDetails.workflowId;
@@ -60,9 +61,7 @@ export class VehicleDetailService {
     const body: RequestEntity = {
 
       processId: processId,
-      ProcessVariables: {
-        "collateralId": collateralId
-      },
+      ProcessVariables: data,
       workflowId: workflowId,
       projectId: projectId
 

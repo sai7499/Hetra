@@ -842,7 +842,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isBM = true;
         this.getExternalUserLeads(this.itemsPerPage, event);
         break;
-        case 61: case 62:
+      case 61: case 62:
         this.taskName = 'Vehicle Valuation';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
@@ -1537,7 +1537,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onReAssignClick(leadId?, taskId?) {
     // this.selectedArray = [];
-    this.reAssignData = {leadId, taskId};
+    this.reAssignData = { leadId, taskId };
     this.selectedArray.push({ "leadId": leadId ? leadId : '', "taskId": taskId ? taskId : '' })
     console.log(this.selectedArray);
 
