@@ -610,6 +610,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       tyreManufacturer: VehicleDetail.tyreManufacturer || '',
       tyreSpecification: VehicleDetail.tyreSpecification || '',
       tonnage: VehicleDetail.tonnage || '',
+      scheme: VehicleDetail.scheme || '',
       typeOfPermit: VehicleDetail.typeOfPermit || '',
       typeOfPermitOthers: VehicleDetail.typeOfPermitOthers || '',
       usage: VehicleDetail.usage || '',
@@ -789,6 +790,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
     })
 
+    this.getSchemeData(formArray.controls[0])
+
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       'vehicleCode', "vehicleVariant")
 
@@ -831,6 +834,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     //     })
     //   }
     // }
+  }
+
+  getSchemeData(form) {
+    console.log(form, 'form')
   }
 
   getPincode(pincode) {
@@ -894,6 +901,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetSubVarient: [''],
         exShowRoomCost: ['', Validators.required],
         finalAssetCost: [''],
+        scheme: [''],
         noOfVehicles: ['', Validators.required],
         vehicleId: 0,
         collateralId: 0,
@@ -913,6 +921,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         vehicleUsage: ['', Validators.required],
         exShowRoomCost: ['', Validators.required],
         finalAssetCost: [''],
+        scheme: [''],
         noOfVehicles: ['', Validators.required],
         vehicleId: 0,
         collateralId: 0,
@@ -936,6 +945,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetCostGrid: ['', Validators.required],
         isVehAvailInGrid: [0],
         finalAssetCost: [''],
+        scheme: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
         address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
@@ -963,6 +973,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetCostIBB: ['', Validators.required],
         assetCostCarTrade: ['', Validators.required],
         finalAssetCost: [''],
+        scheme: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
         address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
@@ -996,7 +1007,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
+      assetOther: [''],
+      scheme: [''],
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
@@ -1010,7 +1022,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manuFactureSubventionPartIRR: [null],
       manufacturesubventionPartFinCharge: [null],
       grossVehicleWeight: [''],
-
       isOrpFunding: [''],
       insurance: [''],
       oneTimeTax: [''],
@@ -1065,6 +1076,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       amcAmount: [''],
       oneTimeTax: [''],
       pac: [''],
+      scheme: [''],
       vas: [''],
       emiProtect: [''],
       loanAmount: [0],
@@ -1107,6 +1119,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: ['', Validators.required],
       finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
+      scheme: [''],
       isVehAvailInGrid: [0],
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
@@ -1175,6 +1188,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       finalAssetCost: ['', Validators.required],
       chasisNumber: [''],
       engineNumber: [''],
+      scheme: [''],
       loanAmount: [0],
       bodyCost: [''],
       vehiclePurchasedCost: [''],

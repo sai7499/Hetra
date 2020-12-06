@@ -1,4 +1,4 @@
-<form class="multisteps-form__form" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
+<form class="multisteps-form__form p-0" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
 
     <ng-container formArrayName="vehicleFormArray">
 
@@ -7,7 +7,7 @@
 
             <div id="sales_section_start" *ngIf="roleType === 1">
 
-                <h3 class="title cus-title"> {{ label.vehcileDetailsTitle }} </h3>
+                <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} </h3>
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
 
@@ -153,6 +153,16 @@
                                 ||  obj.controls['manuFacMonthYear'].value < minDate)">
                                 Invalid Date
                             </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
+                            <label for="scheme"> {{ label.scheme }} <sub class="star_red_col">*</sub>
+                            </label>
+
+                            <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'" formControlName="scheme"
+                                [isRequired]="'Scheme Required'" [isDirty]="isDirty">
+                            </app-vf-custom-select>
 
                         </div>
 

@@ -117,13 +117,13 @@ h3.margin_zero {
     font-weight: bolder;
   }
   
-  .content {
+  /* .content {
     background: #fff;
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
     margin-bottom: 20px;
-  }
+  } */
   
   label.col-form-label {
     width: 50%;
@@ -391,13 +391,13 @@ h3.margin_zero {
     font-weight: bolder;
   }
   
-  .content {
+  /* .content {
     background: #fff;
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
     margin:15px;
-  }
+  } */
   
   label.col-form-label {
     width: 50%;
