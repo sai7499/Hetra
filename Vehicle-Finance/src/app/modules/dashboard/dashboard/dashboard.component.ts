@@ -1374,7 +1374,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
       } else if (stageCode === '20') {
         this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
-      } else if (stageCode === '5') {
+      }else if(stageCode === '7'){
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
