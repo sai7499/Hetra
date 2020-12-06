@@ -900,8 +900,8 @@ html, body { height: 100%; }
     text-align:justify;
     font-size:12px;
     line-height:2em;
-    padding:15px;
-    margin:20px;
+    padding: 2px 15px;
+    margin: 0px 20px;
     }
 
 .welcmlter_text-center
