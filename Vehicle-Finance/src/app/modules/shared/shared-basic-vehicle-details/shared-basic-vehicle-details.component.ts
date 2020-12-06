@@ -311,8 +311,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.isChildLoan && this.childLoanCondition) {
       this.getDynamicFormControls(details)
     }
-  }
 
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+      this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
+    }
+
+  }
 
   getDynamicFormControls(form) {
     let keys = Object.keys(this.childLoanCondition);
@@ -1345,11 +1349,20 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     let details = formArray.at(0) as FormGroup;
 
+    this.id
+
     let data = {
       'vehicleRegNo': details.get('vehicleRegNo').value,
       'parentLoanAccountNumber': details.get('parentLoanAccountNumber').value,
       "checkDedupe": true
     }
+
+    let editFiledData = data;
+
+    this.id && this.id !== '0' ? editFiledData['collateralId'] = this.id : data;
+
+    console.log(editFiledData, 'editFiledData', data)
+
 
     this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {

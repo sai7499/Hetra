@@ -228,6 +228,18 @@
             {
                 "key": "1017",
                 "value": "SaathiLoan"
+            },
+            {
+                "key": "1078",
+                "value": "AccidentLoan"
+            },
+            {
+                "key": "1079",
+                "value": "AccidentLoan"
+            },
+            {
+                "key": "1080",
+                "value": "AccidentLoan"
             }
         ]
     }
