@@ -1264,7 +1264,7 @@ export class ValuationComponent implements OnInit {
     this.validUptoCheck();
     this.taxPaidCheck();
     const formValue = this.vehicleValuationForm.getRawValue();
-    console.log('formvalue after removind valuator type', formValue);
+    console.log('formvalue after removing valuator type', formValue);
 
     formValue.valuationDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationDate, 'DD/MM/YYYY');
     formValue.idvValidityDate = this.utilityService.convertDateTimeTOUTC(formValue.idvValidityDate, 'DD/MM/YYYY');
