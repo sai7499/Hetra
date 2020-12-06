@@ -68,7 +68,7 @@ export class CreditConditionsComponent implements OnInit {
   showModal: boolean;
 
   isLoan360: boolean;
-  isDeclinedFlow: boolean;
+  isDeclinedFlow: boolean = false;
 
   constructor(
     public labelsService: LabelsService,
@@ -517,7 +517,7 @@ export class CreditConditionsComponent implements OnInit {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/remarks`]); 
     } else if( this.userType == 2 && this.salesResponse == 'false' ){
       this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
-    } else if( this.userType == 1 && localStorage.getItem('isPreDisbursement') != 'true'){
+    } else if( this.userType == 1 && localStorage.getItem('isPreDisbursement') != 'true' && this.isDeclinedFlow == false ){
       this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/term-sheet')
     }
      if (this.roleType == '2' || this.roleType == '1' && localStorage.getItem('isPreDisbursement') != 'true'  && this.isDeclinedFlow == false) {
@@ -538,7 +538,7 @@ export class CreditConditionsComponent implements OnInit {
 
     if(this.roleType == '1' && localStorage.getItem('isPreDisbursement') == 'true' && this.isDeclinedFlow == false){
       this.router.navigate([`pages/dashboard`]);
-    } else if( this.userType == 1 && this.isDeclinedFlow == true && localStorage.getItem('isPreDisbursement') == 'false' ){
+    } else if( this.userType == 1 && this.isDeclinedFlow == false && localStorage.getItem('isPreDisbursement') == 'false' ){
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/deviations`]); 
     } else  if( this.userType == 2 && this.salesResponse == 'true' ){
       this.router.navigateByUrl('/pages/credit-decisions/' +this.leadId +'/deviations')
