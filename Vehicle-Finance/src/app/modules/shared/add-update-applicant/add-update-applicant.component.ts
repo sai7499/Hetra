@@ -753,6 +753,36 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   }
 
+  onChangeOwner(event){
+    const value= event.target.value;
+    const details = this.coApplicantForm.get('dedupe') ;
+    const appRelation= this.getSelfRelationValue()    
+    if(value==='APPAPPRELLEAD'){  
+      details.get('ownHouseAppRelationship').setValue(appRelation.key);
+    }else{
+      details.get('ownHouseAppRelationship').setValue('');
+    }
+  }
+
+  onChangeAgriOwner(event){
+    const value= event.target.value;
+    const details = this.coApplicantForm.get('dedupe') ;
+    const appRelation= this.getSelfRelationValue()    
+    if(value==='APPAPPRELLEAD'){  
+      details.get('agriAppRelationship').setValue(appRelation.key);
+    }else{
+      details.get('agriAppRelationship').setValue('');
+    }
+  }
+  getSelfRelationValue(){
+    const relationship= this.LOV.LOVS.relationship;
+    const appRelation=relationship.find((data : any)=>{
+      return data.key==='5RELATION'
+    })
+    return appRelation
+  }
+
+
   getPanValue(event?: any) {
     this.panValue = event;
     this.isPanDisabled = this.panValue === '1PANTYPE';
@@ -941,14 +971,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.mandatory['drivingLicenseExpiryDate'] = true;
     } else {
       //this.disabledDrivingDates = true;
-      if (this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value == ''
-      ) {
+      // if (this.coApplicantForm.get('dedupe').get('drivingLicenseNumber').value == ''
+      // ) {
         this.showMessage['drivingLicenseExpiry'] = false;
         this.showMessage['drivingLicenseIssue'] = false;
         this.disabledDrivingDates = true;
         this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').setValue(null);
         this.coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').setValue(null);
-      }
+      // }
 
 
       this.coApplicantForm.get('dedupe').get('drivingLicenseIssueDate').clearValidators();

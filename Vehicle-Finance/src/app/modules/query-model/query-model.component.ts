@@ -1,5 +1,5 @@
 import { DatePipe, Location } from '@angular/common';
-import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
@@ -24,7 +24,7 @@ import { PollingService } from '@services/polling.service';
   styleUrls: ['./query-model.component.css'],
   providers: [DatePipe]
 })
-export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentChecked, DoCheck {
+export class QueryModelComponent implements OnInit, OnDestroy, AfterContentChecked, DoCheck {
 
   @ViewChild('scrollMe', { static: true }) el: ElementRef;
   scrolltop: number = null;
@@ -264,14 +264,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
 
     const el: HTMLDivElement = this.el.nativeElement;
     // let height = pbox.scrollTop() + pbox.height() + $('#postbox').filter('.chat_msg:last').scrollTop();
-    div.scrollTop =div.scrollHeight - div.offsetHeight;
+    div.scrollTop = div.scrollHeight - div.offsetHeight;
     this.scrolltop = Math.max(0, el.scrollHeight - el.offsetHeight)
 
     // div.scrollTo(0, document.getElementById('chat-box').scrollHeight)
-  }
-
-  ngAfterViewInit() {
-
   }
 
   async getLeads(sendObj, chatSearchKey?: string, searchKey?: string) {
@@ -352,14 +348,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
         let findChat: any = this.chatList;
 
         let emptyLeadData = {
+          count: 0,
           key: this.routerId,
           value: test ? test.value : '',
-          count: 0
         }
-
-        // this.selectedList = emptyLeadData;
-
-        // this.chatList.unshift(emptyLeadData)
 
         findChat.find((chat, i) => {
           if (chat.key === this.routerId) {
@@ -368,41 +360,14 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
           }
         })
 
-        // if (findChat) {
-        //   console.log(findChat,'findChat')
-        // }
-
-
         this.selectedList = findChat;
         let spliceChat = findChat.splice(index, 1)
         this.chatList.unshift(spliceChat[0])
 
-        if (this.chatList[0].key === this.routerId) {
-          console.log('chat', this.chatList)
-
-        } else {
-          console.log('not chat', this.chatList)
-
+        if (this.chatList[0].key !== this.routerId) {
           this.chatList.unshift(emptyLeadData)
-
         }
         this.getQueries(this.chatList[0], true)
-
-      } else {
-
-
-        // let emptyLeadData = {
-        //   key: this.routerId,
-        //   value: test ? test.value : '',
-        //   count: 0
-        // }
-
-        // this.selectedList = emptyLeadData;
-
-        // this.chatList.unshift(emptyLeadData)
-        // this.getQueries(this.chatList[0], true);
-        // this.getUsers();
-
       }
     } else {
       this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
@@ -471,7 +436,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       this.getUsers();
       this.queryModelService.getQueries(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          lead.count = 0;
           if (this.isMobileView) {
             this.closeNav();
           }
@@ -486,7 +450,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
               queryTo: val.queryTo
             }
           })
-          // this.scrollToBottom()
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
         }
@@ -561,7 +524,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
     }
   }
 
-
   getvalue(enteredValue: string) {
 
     if (enteredValue && enteredValue.length > 0) {
@@ -617,7 +579,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
     this.replyDropdown = false;
     this.getvalue(val.queryTo);
     this.dropDown = false;
-    console.log(val, 'val')
     this.queryModalForm.patchValue({
       query: val.query,
       queryType: val.queryType,
@@ -666,7 +627,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
     });
   }
 
-
   getDocuments(searchValue: string) {
 
     this.queryModelLov.documents = this.documents.filter(e => {
@@ -711,8 +671,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
           return queryMessage
         }
       }
-      console.log(queryMessage, 'chatMessages', this.chatMessages)
-
     })
 
     this.searchChatMessages = queryMessage;
@@ -937,6 +895,64 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
     });
   }
 
+  async downloadAllFiles(documentId: string, index: number, event) {
+
+    let el = event.srcElement;
+
+    if (!documentId) {
+      return;
+    }
+
+    let collateralId = this.leadSectionData['vehicleCollateral'] ? this.leadSectionData['vehicleCollateral'][0] : this.leadSectionData['applicantDetails'][0];
+
+    if (!collateralId) {
+      return;
+    }
+
+    const bas64String = this.base64StorageService.getString(
+      collateralId.collateralId + documentId
+    );
+    if (bas64String) {
+      this.setContainerPosition(el);
+      this.showDraggableContainer = {
+        imageUrl: bas64String.imageUrl,
+        imageType: bas64String.imageType,
+      };
+      this.draggableContainerService.setContainerValue({
+        image: this.showDraggableContainer,
+        css: this.setCss,
+      });
+      return;
+    }
+    const imageValue: any = await this.getBase64String(documentId);
+    if (imageValue.imageType.includes('xls')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/vnd.ms-excel');
+      return;
+    }
+    if (imageValue.imageType.includes('doc')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
+      return;
+    }
+    if (imageValue.imageType.includes('png')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/png');
+
+    }
+
+    if (imageValue.imageType.includes('pdf')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/pdf');
+
+    }
+
+    if (imageValue.imageType.includes('jpeg')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'image/jpeg');
+    }
+
+    if (imageValue.imageType.includes('tiff')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'image/tiff');
+    }
+
+  }
+
   getBase64String(documentId) {
     return new Promise((resolve, reject) => {
       this.uploadService
@@ -1012,19 +1028,32 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
     return blob;
   }
 
-  openOptions(data, i) {
+  openOptions(selectedData, i) {
     this.isClickDropDown = null;
     this.clickedIndex = null;
-    let queryTo = this.userId === data.queryFrom ? data.queryTo : data.queryFrom;
+    let queryTo = this.userId === selectedData.queryFrom ? selectedData.queryTo : selectedData.queryFrom;
 
-    let fileterData = this.queryModelLov.queryTo.find((res: any) => {
-      return res.key === queryTo;
-    })
+    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((status: any) => {
 
-    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((status) => {
       if (status.key !== 'OPNQUESTAT') {
+        if (selectedData.parentQueryId) {
 
-        if (data.queryFrom === this.userId) {
+          let data = this.chatMessages.filter((res) => {
+
+            if (selectedData.parentQueryId === res.queryId && res.queryFrom === this.userId) {
+              return {
+                key: status.key,
+                value: status.value
+              }
+            } else if (status.key !== 'REOPNQUESTAT' && status.key !== 'CLOSEQUESTAT') {
+              return {
+                key: status.key,
+                value: status.value
+              }
+            }
+          })
+          return data
+        } else if (selectedData.queryFrom === this.userId) {
           return {
             key: status.key,
             value: status.value
@@ -1038,13 +1067,17 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       }
     })
 
+    let fileterData = this.queryModelLov.queryTo.find((res: any) => {
+      return res.key === queryTo;
+    })
+
     this.queryModalForm.patchValue({
-      queryType: data.queryType,
+      queryType: selectedData.queryType,
       queryFrom: this.userId,
       searchText: fileterData.value,
       queryTo: fileterData.key,
-      repliedTo: data.queryId,
-      queryStatus: data.queryStatus
+      repliedTo: selectedData.queryId,
+      queryStatus: ''
     })
 
     this.queryModalForm.get('queryType').disable()
@@ -1053,7 +1086,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
     this.isClickButton = i;
   }
 
-  updateStatus(data, index) {
+  updateStatus(data) {
 
     let bodyResponse = {
       "leadId": this.queryModalForm.controls['leadId'].value,
@@ -1061,15 +1094,20 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterViewInit, Af
       "queryStatus": 'CLOSEQUESTAT'
     }
 
-    console.log(this.LOV.queryStatus)
-
     this.queryModelService.updateQueryStatus(bodyResponse).subscribe((res: any) => {
-      console.log(res, 'res')
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.getLeads(this.getLeadSendObj);
       }
     })
 
+  }
+
+  autoPopulateQueryType(resVal) {
+    console.log(resVal, 'resVal')
+    this.queryModalForm.patchValue({
+      queryTo: resVal.key,
+      searchText: resVal.value
+    })
   }
 
 }

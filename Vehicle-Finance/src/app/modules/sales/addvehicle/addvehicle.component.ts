@@ -81,7 +81,7 @@ export class AddvehicleComponent implements OnInit {
       // && this.formValue.value.isCheckDedpue
 
       if (this.formValue.value.isCheckDedpue === false) {
-        this.toasterService.showError('Please click check dedupe', 'Vehicle Detail')
+        this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
         return
       }
 

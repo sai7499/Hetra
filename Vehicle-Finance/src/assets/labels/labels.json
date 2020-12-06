@@ -1155,7 +1155,7 @@
     "mothersMaidenName": "Mother's Maiden Name",
     "occupation": "Occupation",
     "nationality": "Nationality",
-    "customerCategory": "Customer Category",
+    "customerCategory": "Customer Profile",
     "emailID": "Email ID",
     "emailAddress": "E-mail Address",
     "alternateEmailID": "Alternate email ID",
@@ -1337,8 +1337,10 @@
     "monthlyIncomeAmount": "Monthly Income Amount",
     "annualIncomeAmount": "Annual Income Amount",
     "ownHouseProofAvail": "Own House Proof Available?",
-    "houseOwnerProperty": "Owner of the Property",
-    "ownHouseAppRelationship": "Owner Relationship with the Applicant ",
+    "houseOwnerProperty": "Owner of the Applicant's House ",
+    "ownHouseAppRelationship": "Owner Relationship with the Applicant's House ",
+    "agriOwnerProperty": "Owner of the Property ",
+    "agriAppRelationship": "Owner Relationship with the Applicant ",
     "averageBankBalance": "Average Bank Balance",
     "rtrType": "RTR Type",
     "prevLoanAmount": "Previous Loan Amount",
@@ -1566,6 +1568,7 @@
     "referenceInfoAddressLine3": "Reference Info - Address Line3",
     "imageSelfie": "Image/Selfie",
     "selfieImageTitle": "Selfie With Customer House",
+    "takeVehiclePhoto": "Take vehicle photo",
     "uploadIamges": "Upload Image",
     "pdStatusTitle": "PD Status",
     "PdStatus": "PD Status",
@@ -2144,7 +2147,12 @@
             "maxLength": {
                 "rule": 16
             },
-            "type": "alpha-numeric"
+            "type": "alpha-numeric-nospace",
+            "patternCheck": {
+                "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
+                "msg": "Should be valid"
+            }
+
         },
         "voterId": {
             "maxLength": {
@@ -2678,6 +2686,10 @@
             "maxLength": {
                 "rule": 6,
                 "msg": "Should be 6 Digits"
+            },
+            "patternCheck": {
+                "rule": "^[0-9]{6}",
+                "msg": "Invalid Number"
             },
             "type": "number"
         },
