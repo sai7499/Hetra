@@ -1307,8 +1307,9 @@ export class ValuationComponent implements OnInit {
     console.log("longitude::", this.longitude);
     console.log("SELFIE_IMAGE::", this.SELFIE_IMAGE);
 
-    if(this.isMobile && this.SELFIE_IMAGE && this.isOnline) {
+    if(this.isMobile && this.SELFIE_IMAGE && !this.isOnline) {
       this.toasterService.showError('Vehicle photo is required', '');
+      return;
     }
 
 
