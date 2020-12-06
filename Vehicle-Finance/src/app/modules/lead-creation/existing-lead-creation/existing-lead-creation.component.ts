@@ -749,29 +749,29 @@ export class ExistingLeadCreationComponent implements OnInit {
           this.middleName = nameTwo;
           this.lastName = nameThree;
           const mobileNumber: string = response.ProcessVariables.applicantDetails[0].mobileNumber;
-          const mobile = mobileNumber ? mobileNumber.slice(2): null;
+          const mobile = mobileNumber ? mobileNumber.slice(2) : null;
           const dob = response.ProcessVariables.applicantDetails[0].dob;
-          const dateOfBirth = dob ? this.utilityService.getDateFromString(dob.slice()): null;
+          const dateOfBirth = dob ? this.utilityService.getDateFromString(dob.slice()) : null;
           this.mobileApprove = mobile;
-          this.dobApprove = dateOfBirth;
+          this.dobApprove = dob;
 
           const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
           const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
           const sourcingCode = response.ProcessVariables.leadDetails.sourcingCode;
 
           const reqLoanAmt = response.ProcessVariables.leadDetails.reqLoanAmt;
-          const vehicleRegNo = response.ProcessVariables.vehicleCollateral?
-                              response.ProcessVariables.vehicleCollateral[0].regNo: null;
-          const region = response.ProcessVariables.vehicleCollateral?
-                  response.ProcessVariables.vehicleCollateral[0].regionCode: null;
+          const vehicleRegNo = response.ProcessVariables.vehicleCollateral ?
+            response.ProcessVariables.vehicleCollateral[0].regNo : null;
+          const region = response.ProcessVariables.vehicleCollateral ?
+            response.ProcessVariables.vehicleCollateral[0].regionCode : null;
 
           const vehilce: Array<any> = response.ProcessVariables.vehicleCollateral;
-          if (vehilce.length>0){
-          this.vehicleLov.assetMake = [{ key: vehilce[0].makeCode, value: vehilce[0].make }];
-          this.vehicleLov.vehicleType = [{ key: vehilce[0].vehicleTypeCode, value: vehilce[0].vehicleType }];
-          this.vehicleLov.assetBodyType = [{ key: vehilce[0].segmentCode, value: vehilce[0].segment }];
-          this.vehicleLov.assetModel = [{ key: vehilce[0].modelCode, value: vehilce[0].model }];
-          this.vehicleLov.assetVariant = [{ key: 'variantKey', value: vehilce[0].variant }];
+          if (vehilce && vehilce.length > 0) {
+            this.vehicleLov.assetMake = [{ key: vehilce[0].makeCode, value: vehilce[0].make }];
+            this.vehicleLov.vehicleType = [{ key: vehilce[0].vehicleTypeCode, value: vehilce[0].vehicleType }];
+            this.vehicleLov.assetBodyType = [{ key: vehilce[0].segmentCode, value: vehilce[0].segment }];
+            this.vehicleLov.assetModel = [{ key: vehilce[0].modelCode, value: vehilce[0].model }];
+            this.vehicleLov.assetVariant = [{ key: 'variantKey', value: vehilce[0].variant }];
           }
           this.selectApplicantType(entity, true);
           const assetMake = response.ProcessVariables.vehicleCollateral[0].makeCode;
@@ -817,7 +817,7 @@ export class ExistingLeadCreationComponent implements OnInit {
       mobileNumber: this.mobileApprove,
       dob: this.dobApprove
     }
-    this.createLeadService.externalApprove(this.approveApplicantDetails).subscribe(
+    this.createLeadService.externalApprove(this.approveApplicantDetails, this.leadIdFromDashboard).subscribe(
       (res: any) => {
         const response = res;
         const appiyoError = response.Error;
