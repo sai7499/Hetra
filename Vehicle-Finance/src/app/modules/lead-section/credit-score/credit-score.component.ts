@@ -48,6 +48,7 @@ export class CreditScoreComponent implements OnInit {
   }
 
   showModal: boolean;
+  isChildLoan: string;
 
   constructor(
     private aRoute: ActivatedRoute,
@@ -84,6 +85,7 @@ export class CreditScoreComponent implements OnInit {
       ) {
         this.applicantList = this.creditScore.ProcessVariables.applicantList;
         this.variable = this.creditScore.ProcessVariables;
+        this.isChildLoan = this.creditScore.ProcessVariables.isChildLoan;
         this.loanAmount = Number(this.variable.loanAmount ).toLocaleString('en-IN');
         this.eligibleAmount = Number(this.variable.eligibleAmount ).toLocaleString('en-IN');
         console.log(this.creditScore);

@@ -11,6 +11,7 @@ export class LoanViewService {
 
     private loan360 = false;
     private loanDetails: any;
+    private addressDetails: any;
 
     constructor(private httpService: HttpService, private apiService: ApiService) {}
 
@@ -28,6 +29,14 @@ export class LoanViewService {
 
     getLoanAccountDetails() {
         return this.loanDetails;
+    }
+
+    setLoanAccountAddress(value) {
+        this.addressDetails = value;
+    }
+
+    getLoanAccountAddress() {
+        return this.addressDetails;
     }
 
     getLoanDetails(leadId) {
