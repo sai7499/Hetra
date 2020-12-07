@@ -525,12 +525,27 @@ export class PSLdataComponent implements OnInit {
           this.formValues.pslCCertificate = this.data[0].key;
         }
       });
-      this.LOV.LOVS.weakerSection.filter((element) => {
+
+      this.LOV.LOVS.weakerSection.map((element) => {
+        const data = { key: element.key, value: element.value };
+        this.weakerSectionValues.push(data);
         if (element.key === '1PSLWKRSCT') {
-          const data = { key: element.key, value: element.value };
-          this.weakerSectionValues.push(data);
-        }
+              this.pslDataForm.get('agriculture').patchValue({
+                weakerSection: data[0].key
+              });
+            }
       });
+
+      // // this.LOV.LOVS.weakerSection.filter((element) => {
+
+      // //   this.weakerSectionValues.push(this.LOV.LOVS.weakerSection);
+      // //   if (element.key === '1PSLWKRSCT') {
+      // //     const data = { key: element.key, value: element.value };
+      // //     this.pslDataForm.get('agriculture').patchValue({
+      // //       weakerSection: data[0].key
+      // //     });
+      // //   }
+      // });
     } else if (
       this.landAreaInAcresValue > 1 &&
       this.landAreaInAcresValue <= 2
@@ -550,9 +565,14 @@ export class PSLdataComponent implements OnInit {
         }
       });
       this.LOV.LOVS.weakerSection.filter((element) => {
-        if (element.key === '1PSLWKRSCT') {
+        if (element) {
           const data = { key: element.key, value: element.value };
           this.weakerSectionValues.push(data);
+          if (element.key === '1PSLWKRSCT') {
+            this.pslDataForm.get('agriculture').patchValue({
+              weakerSection: data[0].key
+            });
+          }
         }
       });
     } else if (this.landAreaInAcresValue > 2) {
@@ -569,6 +589,9 @@ export class PSLdataComponent implements OnInit {
           this.pslCertificateValues = this.data;
           this.formValues.pslCCertificate = this.data[0].key;
         }
+      });
+      this.pslDataForm.get('agriculture').patchValue({
+        weakerSection: ''
       });
       this.LOV.LOVS.weakerSection.filter((element) => {
         if (element.key != '1PSLWKRSCT') {
@@ -603,15 +626,15 @@ export class PSLdataComponent implements OnInit {
         pslCCertificate: ''
       });
     }
-    if (this.weakerSectionValues.length == 1) {
-      this.pslDataForm.get('agriculture').patchValue({
-        weakerSection: this.weakerSectionValues[0].key
-      });
-    } else {
-      this.pslDataForm.get('agriculture').patchValue({
-        weakerSection: ''
-      });
-    }
+    // if (this.weakerSectionValues.length == 1) {
+    //   // this.pslDataForm.get('agriculture').patchValue({
+    //   //   weakerSection: this.weakerSectionValues[0].key
+    //   // });
+    // } else {
+    //   this.pslDataForm.get('agriculture').patchValue({
+    //     weakerSection: ''
+    //   });
+    // }
   }
   // CHANGE IN LAND AREA VALUE
   onLandAreaChange(event: any) {
