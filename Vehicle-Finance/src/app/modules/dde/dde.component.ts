@@ -29,6 +29,10 @@ export class DdeComponent implements OnInit, OnChanges {
   isLoan360: boolean;
 
   showLoan360Components: boolean;
+  isChildLoan: any;
+  productId: any;
+  ShowChildValuationScreen: boolean;
+  showValuationScreen: boolean;
 
   constructor(
     public router: Router,
@@ -71,14 +75,23 @@ export class DdeComponent implements OnInit, OnChanges {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {
         const leadData = gotLeadData.ProcessVariables;
-        // console.log("LEAD_SECTION_DATA::", leadData);
+        console.log('LEAD_SECTION_DATA::', leadData);
         this.productCatCode = leadData.leadDetails.productCatCode;
-        console.log("ProductCODE::", this.productCatCode);
+        console.log('ProductCODE::', this.productCatCode);
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
+        this.isChildLoan = leadData.leadDetails.isChildLoan;
+        this.productId = leadData.leadDetails.productId;
+        console.log('child loan:', this.isChildLoan, 'product id:', this.productId);
+      }
+      if ((this.isChildLoan === '1') && ((this.productId === '1078') || (this.productId === '1078') || (this.productId === '1078'))) {
+        this.ShowChildValuationScreen = true;
+      }
+      if ((this.isChildLoan === '0') && (this.productCatCode !== 'NCV')) {
+        this.showValuationScreen = true;
       }
       this.sharedService.pslDataNext$.subscribe((val) => {
-        if(val === true) {
+        if (val === true) {
           // this.onNext();
           this.show = 2;
           // this.location.onUrlChange((url: string) => {
@@ -99,16 +112,13 @@ export class DdeComponent implements OnInit, OnChanges {
       //   }
       // });
     }
-
-
-
     const currentUrl = this.location.path();
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
       if (this.locationIndex >= 19) {
-         this.show = 3;
-      } else if ( this.locationIndex >= 8) {
+        this.show = 3;
+      } else if (this.locationIndex >= 9) {
         this.show = 2;
       } else {
         this.show = 1;
@@ -116,35 +126,37 @@ export class DdeComponent implements OnInit, OnChanges {
     });
 
 
-    if (this.locationIndex >= 8) {
+    // if (this.locationIndex >= 8) {
 
-      this.show = 2;
-    } else {
-      this.show = 1;
-    }
+    //   this.show = 2;
+    // } else {
+    //   this.show = 1;
+    // }
 
     if (
       this.router.url.includes('/fi-cum-pd-dashboard') ||
       this.router.url.includes('/fi-dashboard') ||
       this.router.url.includes('/cheque-tracking') ||
       this.router.url.includes('/pdd-details') ||
-      this.router.url.includes('/loan-status')
+      this.router.url.includes('/loan-status') ||
+      this.router.url.includes('/valuation-dashboard')
+
     ) {
       this.showNav = false;
     } else {
       this.showNav = true;
     }
-    if(  this.router.url.includes('/rcu') && this.roleType == '6') {
+    if (this.router.url.includes('/rcu') && this.roleType == '6') {
       this.showNav = false;
-    }else if(  this.router.url.includes('/rcu') && this.roleType == '2') {
+    } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
       this.showNav = true;
     }
-    
+
   }
 
   ngOnChanges() {
     console.log('on change');
-    
+
   }
 
 
@@ -155,17 +167,18 @@ export class DdeComponent implements OnInit, OnChanges {
       return this.router.navigateByUrl(`/pages/dde/${this.leadId}/deviations`);
     }
     this.show = 1;
-    if (this.productCatCode != 'NCV') {
+    // ((this.productCatCode != 'NCV') && ((isChildLoan ==true) &&((prodCode==1078)||(prodCode==1079) || (prodCode==1080)))
+    if ((this.showValuationScreen) || (this.ShowChildValuationScreen)) {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/vehicle-valuation`);
-    } else if(this.productCatCode == 'NCV') {
+    } else if (this.productCatCode == 'NCV') {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/psl-data`);
     }
   }
   onNext() {
     if (this.show === 2 && this.isLoan360) {
-       this.router.navigateByUrl(`/pages/dde/${this.leadId}/disbursement/${this.leadId}`);
-       this.show = 3;
-       return;
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/disbursement/${this.leadId}`);
+      this.show = 3;
+      return;
       //  this.showLoan360Components = true;
     }
 
@@ -222,7 +235,7 @@ export class DdeComponent implements OnInit, OnChanges {
       return 21;
     } else if (url.includes('sanction-letter')) {
       return 22;
-    } else if (url.includes('term-sheet')) { 
+    } else if (url.includes('term-sheet')) {
       return 23;
     } else if (url.includes('welcome-letter')) {
       return 24;
@@ -230,7 +243,7 @@ export class DdeComponent implements OnInit, OnChanges {
       return 25;
     } else if (url.includes('pdd')) {
       return 26;
-    } else  if (url.includes('loan-details')) {
+    } else if (url.includes('loan-details')) {
       return -1;
     }
 
