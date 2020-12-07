@@ -531,7 +531,7 @@ export class PSLdataComponent implements OnInit {
         this.weakerSectionValues.push(data);
         if (element.key === '1PSLWKRSCT') {
               this.pslDataForm.get('agriculture').patchValue({
-                weakerSection: data[0].key
+                weakerSection: this.csvToArray(data.key)
               });
             }
       });
@@ -570,7 +570,7 @@ export class PSLdataComponent implements OnInit {
           this.weakerSectionValues.push(data);
           if (element.key === '1PSLWKRSCT') {
             this.pslDataForm.get('agriculture').patchValue({
-              weakerSection: data[0].key
+              weakerSection: this.csvToArray(data.key)
             });
           }
         }
