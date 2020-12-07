@@ -1811,6 +1811,7 @@
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
+    "wizardId" : "Wizard ID",
     "validationData": {
         "name": {
             "maxLength": {
