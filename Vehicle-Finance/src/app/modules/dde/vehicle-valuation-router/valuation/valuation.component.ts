@@ -1458,7 +1458,7 @@ export class ValuationComponent implements OnInit {
     console.log("longitude::", this.longitude);
     console.log("SELFIE_IMAGE::", this.SELFIE_IMAGE);
 
-    if (this.isMobile && this.SELFIE_IMAGE && !this.isOnline) {
+    if ((this.isMobile === true) && this.SELFIE_IMAGE && (this.isOnline === false)) {
       this.toasterService.showError('Vehicle photo is required', '');
       return;
     }
@@ -1520,7 +1520,7 @@ export class ValuationComponent implements OnInit {
   }
 
   // onFormSubmit() {
-    
+
   //   // this.vehicleValuationForm.removeControl('valuatorType');
   //   this.saveUpdateVehicleValuation();
   // }
