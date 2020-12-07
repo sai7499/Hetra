@@ -15,7 +15,7 @@
           <!-- <h4 class="title">individual</h4> -->
           <div class="btn-sec clear-both row">
             <div class="col-lg-3 col-sm-5">
-              <h3 class="title">Permanent Address</h3>
+              <h3 class="banner-con">Permanent Address</h3>
             </div>
             <div class="col-lg-3 text-left" id="Same_AppAddress" 
             *ngIf="!showAppAddressCheckBox">
@@ -125,7 +125,7 @@
           </div>
           <div class="btn-sec clear-both row">
             <div class="custom-col-22">
-              <h4 class="title">Communication Address</h4>
+              <h3 class="banner-con">Communication Address</h3>
             </div>
             <div class="custom-col-30" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)"
@@ -297,7 +297,7 @@
           </div>
           <div class="btn-sec clear-both row">
             <div class="col-sm-5">
-              <h4 class="title">Office/Business Address</h4>
+              <h4 class="banner-con">Office/Business Address</h4>
             </div>
             <div class="col-sm-7" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="officeSameAddress($event)"
@@ -696,13 +696,13 @@
 
 <div class="btn-sec clear-both row">
   <div class="col-sm-5">
-    <button class="btn btn-primary dash_href" (click)="navigateToApplicantList()">
-      <a>Back To Applicant Details</a>
+    <button class="btn btn-primary dash_href hvr-sweep-to-right" (click)="navigateToApplicantList()">
+      Back To Applicant Details
     </button>
   </div>
   <div class="col-sm-7 text-right">
     <span id="edit_vehicle_details_replace"></span>
-    <a id="back_vehicle_details"><button class="btn btn-primary" type="button" (click)="onBack()">
+    <a id="back_vehicle_details"><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
         Back
       </button></a>
       <ng-container *ngIf="!isLoan360"> 
@@ -710,7 +710,7 @@
       Save
     </p>
   </ng-container>
-    <a id="next_vehicle_details"><button class="btn btn-primary" type="button" (click)="onNext()">
+    <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
         Next
       </button></a>
     <br />

@@ -241,7 +241,9 @@ export class TermSheetComponent implements OnInit {
       return this.router.navigateByUrl(`pages/dde/${this.leadId}/sanction-letter`);
     }
 
-    if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true") {
+    if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true" ) {
+      this.router.navigate([`pages/pre-disbursement/${this.leadId}/credit-condition`]);
+    } else if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "false" ) {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/credit-condition`]);
     } else if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);

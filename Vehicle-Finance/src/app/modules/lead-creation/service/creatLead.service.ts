@@ -197,7 +197,7 @@ export class CreateLeadService {
         return this.httpService.post(url, body);
     }
 
-    externalApprove(applicantDetails) {
+    externalApprove(applicantDetails, leadId) {
         const processId = this.apiService.api.externalApprove.processId;
         const workflowId = this.apiService.api.externalApprove.workflowId;
         const projectId = this.apiService.api.externalApprove.projectId;
@@ -206,6 +206,7 @@ export class CreateLeadService {
             processId,
             ProcessVariables: {
                 applicantDetails,
+                leadId
             },
             workflowId,
             projectId

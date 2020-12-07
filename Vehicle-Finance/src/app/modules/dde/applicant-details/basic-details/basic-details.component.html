@@ -459,7 +459,7 @@
                                     <option>Occupation 1</option>
                                     <option>Occupation 2</option>
                                 </select> -->
-              <app-vf-custom-select formControlName="occupation" [values]="LOV.LOVS.occupation"
+              <app-vf-custom-select formControlName="occupation" [values]="occupation"
                 [isRequired]="'Please select one'" [isDirty]="isDirty">
                 ></app-vf-custom-select>
             </div>
@@ -882,7 +882,8 @@
                         <input formControlName="name" type="text" class="form-control" name="annual_income" id="annual_income">
                     </div> -->
           </div>
-          <div *ngIf="custCatValue=='SEMCUSTSEG'">
+          <div *ngIf="custCatValue=='SEMCUSTSEG' || custCatValue=='FTBCUSTSEG'
+           || custCatValue=='FTUCUSTSEG' || custCatValue=='TROPCUSTSEG'">
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="employee_type">Type Of Business
@@ -1482,16 +1483,16 @@
 </div>
 <div class="btn-sec clear-both row cst_btm_btns mar-btn-bot">
   <div class="col-sm-5">
-    <button class="btn btn-primary dash_href" (click)="onBackToApplicant()">
+    <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBackToApplicant()">
       Back To Applicant Details
     </button>
   </div>
   <div class="col-sm-7 text-right">
-    <button class="btn btn-primary dash_href" type="button" (click)="onBack()">
+    <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
       Back
     </button>
     <button class="btn btn-primary" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save</button>
-    <button class="btn btn-primary dash_href" type="button" (click)="onNext()">
+    <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" (click)="onNext()">
       Next
     </button>
   </div>
