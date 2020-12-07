@@ -238,6 +238,7 @@ export class VehicleValuationComponent implements OnInit {
         if (response["Error"] == 0 && response["ProcessVariables"]["error"]["code"] == 0) {
           this.toasterService.showSuccess('Valuation Initiated Successfully', '');
           const getData = response["ProcessVariables"]["collateralDetails"];
+          this.getCollateralDetailsForVehicleValuation();
           return this.collateralDetailsData.forEach(element => {
             // tslint:disable-next-line: triple-equals
             if (element.collateralId == getData.collateralId) {
