@@ -50,7 +50,7 @@
               [routerLink]="['./psl-data']" [ngClass]="{ 'js-active': locationIndex >= 7 }">
               PSL Data
             </button>
-            <button *ngIf="productCatCode != 'NCV'" class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_valuation"
+            <button *ngIf="showValuationScreen || ShowChildValuationScreen" class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_valuation"
               [routerLink]="['./vehicle-valuation']" [ngClass]="{ 'js-active': locationIndex >= 8 }">
               Vehicle Valuation
             </button>
@@ -162,7 +162,7 @@
         <div class="clearfix"></div>
       </div>
 
-      <div class="scrollmenu">
+      <div class="scrollmenu" >
  
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_sourcing_details"
               [routerLink]="['./lead-details']" [ngClass]="{ 'js-active': locationIndex >= 0 }">
@@ -196,7 +196,7 @@
               [routerLink]="['./psl-data']" [ngClass]="{ 'js-active': locationIndex >= 7 }">
               PSL Data
             </button>
-            <button *ngIf="productCatCode != 'NCV'" class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_valuation"
+            <button *ngIf="showValuationScreen || ShowChildValuationScreen" class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_valuation"
               [routerLink]="['./vehicle-valuation']" [ngClass]="{ 'js-active': locationIndex >= 8 }">
               Vehicle Valuation
             </button>
