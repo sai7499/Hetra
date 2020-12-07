@@ -470,7 +470,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
     let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     let details = formArray.at(0) as FormGroup;
-  
+
     this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
       this.getAVehicleDetails(res, formArray)
     })
@@ -753,12 +753,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
-    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    formArray.controls[0].patchValue({
-      vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
-    })
-
-    this.getSchemeData(formArray.controls[0])
+    console.log(array, 'array', this.assetVariant)
+    // const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    // formArray.controls[0].patchValue({
+    //   vehicleId: array[0].vehicleCode ? Number(array[0].vehicleCode) : 0
+    // })
 
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       'vehicleCode', "vehicleVariant")
@@ -768,6 +767,26 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       scheme: ''
     })
 
+  }
+
+  onCallTwoFunction(val: any, obj) {
+
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    formArray.controls[0].patchValue({
+      vehicleId: val ? Number(val) : 0
+    })
+
+    if (val) {
+      this.getSchemeData(formArray.controls[0])
+    }
+
+    if (this.productCatoryCode === 'UCV') {
+      this.getVehicleGridValue(formArray)
+    }
+
+    obj.patchValue({
+      scheme: ''
+    })
   }
 
   onChangeMobileNumber(value) {
@@ -806,7 +825,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   getSchemeData(form) {
-    let data =  {
+    let data = {
       "vehicleCode": form.controls.vehicleId.value,
       "leadId": Number(this.leadId)
     }
