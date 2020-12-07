@@ -519,6 +519,10 @@ margin: 0px !important;
 	margin-bottom: 12px;
 }
 
+.cus-black {
+    color: black;
+}
+
 .cus-download-ic {
     font-size: 20px;
     float: right;
@@ -647,7 +651,7 @@ margin: 0px !important;
 }
 
 .search-btn-msg{
-  width: 60%;
+   width: 60%;
    margin-bottom:1px;
    margin-left:40%;   
 }
@@ -912,7 +916,7 @@ margin: 0px !important;
         }
 
         .search-btn-msg{
-            width: 70%;
+             width: 70%;
              margin-bottom:1px;
              margin-left:30px;           
        }
@@ -1189,7 +1193,7 @@ body::-webkit-scrollbar-thumb {
   div.viewport {
     /* border: 5px solid #CCCCCC ; */
     box-sizing: border-box ;
-    height: 330px ;
+    height: 350px ;
     /* overflow: auto ; */
     /* width: 500px ; */
 }

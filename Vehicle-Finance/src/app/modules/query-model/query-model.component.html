@@ -48,9 +48,9 @@
                 <div class="panel-group " id="accordion">
                   <div class="panel panel-default tab-con">
                     <div class="panel-heading" id="headingOne">
-                      <h4 class="panel-title" style="color:#000;">
-                        <a class="collapsed cus-mob-col" data-toggle="collapse" data-parent="#accordion"
-                          href="#collapseOne" >
+                      <h4 class="panel-title">
+                        <a class="collapsed cus-black cus-mob-col" data-toggle="collapse" data-parent="#accordion"
+                          href="#collapseOne">
                           <i class="fa fa-user"></i>&nbsp; {{labels.stakeholders}} <i class="fa fa-angle-down"></i>
                         </a>
                       </h4>
@@ -88,7 +88,7 @@
                   <div class="panel panel-default tab-con">
                     <div class="panel-heading" id="headingTwo">
                       <h4 class="panel-title">
-                        <a class="collapsed cus-mob-col" data-toggle="collapse" data-parent="#accordion"
+                        <a class="collapsed cus-black cus-mob-col" data-toggle="collapse" data-parent="#accordion"
                           href="#collapseTwo">
                           <i class="fa fa-file"></i>&nbsp; {{labels.documentsShared}} <i class="fa fa-angle-down"></i>
                         </a>
@@ -171,12 +171,14 @@
                 <div class="panel panel-default tab-con">
                   <div class="panel-heading btn btn-stack" id="headingOne">
                     <h4 class="panel-title">
-                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseBriefOne">
+                      <a class="collapsed cus-black" data-toggle="collapse" data-parent="#accordion"
+                        aria-expanded="true" (click)="accordion = 'collapseBriefOne'">
+                        <!--  href="#collapseBriefOne" -->
                         <i class="fa fa-user"></i>&nbsp; {{labels.stakeholders}} <i class="fa fa-angle-down"></i>
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseBriefOne" class="panel-collapse collapse">
+                  <div id="collapseBriefOne" class="panel-collapse collapse" [ngClass]="{'show': accordion === 'collapseBriefOne'}">
                     <div class="panel-body">
 
                       <form class="clearfix">
@@ -210,12 +212,14 @@
                 <div class="panel panel-default tab-con">
                   <div class="panel-heading btn btn-stack" id="headingTwo">
                     <h4 class="panel-title">
-                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseBriefTwo">
+                      <a class="collapsed cus-black" data-toggle="collapse" data-parent="#accordion"
+                        aria-expanded="false" (click)="accordion = 'collapseBriefTwo'">
+                        <!-- href="#collapseBriefTwo"  -->
                         <i class="fa fa-file"></i>&nbsp; {{labels.documentsShared}} <i class="fa fa-angle-down"></i>
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseBriefTwo" class="panel-collapse collapse">
+                  <div id="collapseBriefTwo" class="panel-collapse collapse" [ngClass]="{'show': accordion === 'collapseBriefTwo'}">
                     <div class="panel-body">
                       <form>
                         <div class="form-group col-xs-12 bloc">
@@ -266,10 +270,10 @@
 
                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8 p-0 text-right" style="float: right;">
 
-                  <div class="input-group search-btn-msg" style="float:right;">
+                  <div class="input-group search-btn-msg" style="float: right;">
                     <input type="text" class="form-control input-search" placeholder="Query Id Search"
                       [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
-                      (keyup)="searchQueryIdMessage($event.target.value)" style="float:right;">
+                      (keyup)="searchQueryIdMessage($event.target.value)" style="float: right;">
                     <span class="input-group-addon glass-span" (click)="clearSearch()"><i
                         [ngClass]="searchQueryId.length >= 1 ? 'fa fa-close cus-close' : 'fa fa-search'"></i></span>
                   </div>

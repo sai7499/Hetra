@@ -157,7 +157,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
-                            <label for="scheme"> {{ label.scheme }}
+                            <label for="scheme"> {{ label.vehScheme }}
                             </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
@@ -477,7 +477,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
-                            <label for="scheme"> {{ label.scheme }}
+                            <label for="scheme"> {{ label.vehScheme }}
                             </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
@@ -886,7 +886,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
-                            <label for="scheme"> {{ label.scheme }}
+                            <label for="scheme"> {{ label.vehScheme }}
                             </label>
 
                             <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
@@ -1338,7 +1338,7 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
-                                <label for="scheme"> {{ label.scheme }}</label>
+                                <label for="scheme"> {{ label.vehScheme }}</label>
 
                                 <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
                                     formControlName="scheme">
@@ -1541,8 +1541,8 @@
                                 <app-custom-input formControlName="chasisNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                     [className]="'form-control'" [placeholder]="'Chassis Number'"
-                                    [inputClass]="'input-upper'"
-                                    [maxLength]="label.validationData?.chasisEngineNo.maxLength">
+                                    [inputClass]="'input-upper'" [isRequired]="'Chassis Number Required'"
+                                    [isDirty]="isDirty" [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
 
                             </div>
@@ -1553,8 +1553,8 @@
                                 <app-custom-input formControlName="engineNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
                                     [className]="'form-control'" [placeholder]="'Engine Number'"
-                                    [inputClass]="'input-upper'"
-                                    [maxLength]="label.validationData?.chasisEngineNo.maxLength">
+                                    [inputClass]="'input-upper'" [isRequired]="'Engine Number Required'"
+                                    [isDirty]="isDirty" [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
 
                             </div>
@@ -1936,7 +1936,7 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
-                                <label for="scheme"> {{ label.scheme }}
+                                <label for="scheme"> {{ label.vehScheme }}
                                 </label>
 
                                 <app-vf-custom-select [values]="vehicleLov?.scheme" [id]="'scheme'"
@@ -2093,8 +2093,8 @@
                                 <app-custom-input formControlName="chasisNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                     [className]="'form-control'" [placeholder]="'Chassis Number'"
-                                    [inputClass]="'input-upper'"
-                                    [maxLength]="label.validationData?.chasisEngineNo.maxLength">
+                                    [inputClass]="'input-upper'" [isRequired]="'Chassis Number Required'"
+                                    [isDirty]="isDirty" [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
 
                             </div>
@@ -2108,8 +2108,8 @@
                                 <app-custom-input formControlName="engineNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
                                     [className]="'form-control'" [placeholder]="'Engine Number'"
-                                    [inputClass]="'input-upper'"
-                                    [maxLength]="label.validationData?.chasisEngineNo.maxLength">
+                                    [inputClass]="'input-upper'" [isRequired]="'Engine Number Required'"
+                                    [isDirty]="isDirty" [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
                             </div>
 
