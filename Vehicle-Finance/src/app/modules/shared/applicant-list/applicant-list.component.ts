@@ -14,6 +14,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import html2pdf from 'html2pdf.js';
 import { LoanViewService } from '@services/loan-view.service';
+import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: 'app-applicant-list',
@@ -52,6 +53,7 @@ export class ApplicantListComponent implements OnInit {
   leadSectioData: any;
   locationPath: string;
   showNotCoApplicant: boolean = false;
+  isChildloan : boolean;
 
   isLoan360: boolean;
 
@@ -104,7 +106,9 @@ export class ApplicantListComponent implements OnInit {
     } else {
       this.applicantUrl = `/pages/lead-section/${this.leadId}/co-applicant`;
     }
+    this.getLeadIdByPool();
     this.getApplicantList();
+    
 
     this.applicantDataStoreService.setDedupeFlag(false);
     this.applicantDataStoreService.setPanValidate(false);
@@ -120,6 +124,17 @@ export class ApplicantListComponent implements OnInit {
     // 
     this.showeKYC = false;
   }
+  getLeadIdByPool(){
+    this.leadSectioData = this.createLeadDataService.getLeadSectionData();
+    
+    const isChildloan = this.leadSectioData['leadDetails'].isChildLoan;
+    this.isChildloan=isChildloan=='1'? true : false;
+    console.log('this.leadSectioData',this.isChildloan);
+  //  const app= this.applicantList.find((data : any, index)=>{
+  //    return data.applicantTypeKey == "APPAPPRELLEAD"
+  //  })
+  }
+  
 
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -195,6 +210,19 @@ export class ApplicantListComponent implements OnInit {
     this.index = findIndex;
     this.selectedApplicantId = applicantId;
 
+    console.log('applicant', this.applicantList[index])
+    const applicantType= this.applicantList[index].applicantTypeKey
+
+      if(this.isDelete || this.disableSaveBtn){
+        this.showModal= false;
+      }else if(this.isChildloan && applicantType=="APPAPPRELLEAD"){
+         this.showModal= false; 
+      }
+      else{
+        this.showModal = true;
+      }
+    
+
     // const data = {
     //   applicantId,
     // };
@@ -209,10 +237,18 @@ export class ApplicantListComponent implements OnInit {
       applicantId: this.selectedApplicantId,
     };
     this.applicantService.softDeleteApplicant(data).subscribe((res) => {
-      console.log('res', this.selectedApplicantId);
+      const processvariable= res['ProcessVariables']
+      if(processvariable.error.code=='0'){
+        //console.log('res', this.selectedApplicantId);
       this.applicantList.splice(this.index, 1);
       this.isDelete = this.applicantList.length === 1 ? true : false;
+      
       this.getApplicantList();
+      }else{
+        this.toasterService.showError(processvariable.error.message, '')
+      }
+      this.showModal= false;
+      
     });
   }
 

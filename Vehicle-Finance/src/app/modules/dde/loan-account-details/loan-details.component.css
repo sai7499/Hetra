@@ -94,6 +94,17 @@
       border: 1px solid #1d1a4b47;
     }
     
+    .address{
+      padding-right: 20px;
+      padding-left: 20px;
+      font-weight: bolder;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+      margin-left: 20px;
+    }
     /* #proceed_reason {
       width: 350px;
       border-radius: 1.5em;
@@ -126,7 +137,7 @@
     }
     
     label.col-form-label {
-      width: 50%;
+      width: 52% !important;
       padding-right: 20px;
       padding-left: 20px;
       font-weight: bolder;
@@ -141,7 +152,7 @@
     /* styles for info box */
     
     label.col-form-label-two {
-      width: 50%;
+      width: 48% !important;
       padding-right: 20px;
       padding-left: 20px;
       font-weight: bolder;
@@ -611,6 +622,10 @@
       display: inline-block!important;
       /* margin-top: 10px;
       margin-bottom: 10px; */
+    }
+    textarea {
+      resize: none;
+      margin-left: 0px;
     }
     } 
 

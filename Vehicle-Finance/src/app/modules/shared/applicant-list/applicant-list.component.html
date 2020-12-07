@@ -20,6 +20,7 @@
           <thead>
             <tr class="table-head-bg">
               <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels?.wizardId }} <i class="fa fa-sort"></i></th>
               <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.name }} <i class="fa fa-sort"></i></th>
               <th>{{ labels?.mobileNumber }} <i class="fa fa-sort"></i></th>
@@ -34,6 +35,7 @@
                 let i = index
               ">
               <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : '-' }}</td>
+              <td [attr.data-label]="labels?.wizardId">{{ item['wizardLeadId'] ? item['wizardLeadId'] : '-' }}</td> 
               <td [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
               <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
               <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
@@ -56,8 +58,8 @@
                   <ng-container *ngIf="!isLoan360">
                     <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"><i
                       class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
-                <div><a [ngClass]="{'pointer_non':isDelete || disableSaveBtn }"
-                    data-toggle="modal" data-target="#myModal" (click)="softDeleteApplicant(i, item.applicantId)"
+                <div><a 
+                     (click)="softDeleteApplicant(i, item.applicantId)"
                     title="Delete applicant"><i class="fa fa-trash icon p-0" aria-hidden="true"></i></a></div>
                   </ng-container>
                   <div *ngIf ="locationPath !=='lead-section'"> <a (click)="getApplicantImage(item.applicantId)" data-toggle="modal"
@@ -78,10 +80,14 @@
                   <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
                     class="fa fa-pencil icon" aria-hidden="true"></i></a>
                 &nbsp;<a class="desktop-hide"
-                  [ngClass]="{'pointer_non':isDelete || disableSaveBtn }" data-toggle="modal" data-target="#myModal"
+                  
                   (click)="softDeleteApplicant(i, item.applicantId)" title="Delete applicant"><i
                     class="fa fa-trash icon" aria-hidden="true"></i></a> &nbsp;
                 </ng-container>
+
+                <!-- [ngClass]="{'pointer_non':isDelete|| disableSaveBtn }"  -->
+
+                <!--  data-toggle="modal" data-target="#myModal" -->
                 <a *ngIf ="locationPath !=='lead-section'" (click)="getApplicantImage(item.applicantId)" class="desktop-hide" data-toggle="modal"
                   data-target="#myModalApplicantImage" title="View Bureau Report"> <strong class="icon">CB</strong></a>
                 &nbsp;
@@ -159,12 +165,14 @@
 
   <!-- </form> -->
 
-  <div class="modal" id="myModal">
+  <div class="modal" id="myModal" 
+  [ngStyle]="{'display': showModal ? 'block' : 'none' }">
+  <!-- [ngClass]="{ 'dis-block': showModal }" -->
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal">
+          <button type="button" class="close" data-dismiss="modal" (click)="showModal= false">
             &times;
           </button>
         </div>
@@ -177,7 +185,7 @@
           <button type="button" class="btn btn-success" data-dismiss="modal" (click)="callDeleteApplicant()">
             Yes
           </button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="showModal= false">
             Cancel
           </button>
         </div>

@@ -13,7 +13,7 @@
 }
 
 .btn-sec {
-  margin: 10px 2px;
+  margin: 0px 2px;
 }
 
 .row {
@@ -395,6 +395,10 @@ p-0{
 
   .tab_details p {
     font-size:13px!important;
+  }
+
+  .dis-block {
+    display: block;
   }
   /* .dontdisplayed .content-two {
     background: #fff;

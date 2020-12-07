@@ -1,13 +1,14 @@
+<div class="content">
 <div style="text-align: center;">
-    <button class="btn btn-primary btn_div " *ngIf="isCamDetails" (click)="showCamDetails()"
-        type="button">{{labels?.generateCam}}</button>
+    <a><button class="btn btn-primary btn_div " *ngIf="isCamDetails" (click)="showCamDetails()"
+        type="button">{{labels?.generateCam}}</button></a>
 </div>
 <form class="multisteps-form__form" [formGroup]="camDetailsForm">
 <div [id]="pdfId" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true" >
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.sourceDetailsTitle
           }}
@@ -87,7 +88,7 @@
 
     <!---Vechicle Details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.vehicleDetails
           }}
@@ -150,7 +151,7 @@
 
     <!---Applicants details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.applicantsdetails
           }}
@@ -188,7 +189,7 @@
 
     <!---income Details--->
     <table class="cam_table_proposed mt-3" id="page_break">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.incomeDetails
           }}
@@ -248,7 +249,7 @@
 
     <!--other income details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.otherIncomeDetailsTitle
           }}
@@ -280,7 +281,7 @@
     <!--other income details-->
     <!--obligation details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.obligationDetailsTitle
       }}
@@ -313,7 +314,7 @@
 
     <!---loan eligibility based on income-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.loanEligibilityBasedOnIncome
           }}
@@ -365,7 +366,7 @@
 
     <!--Banking details -->
     <table class="cam_table_proposed mt-3" id="page_break">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.bankingDetails
           }}
@@ -415,7 +416,7 @@
     <!--Banking details -->
     <!--CoApp-Banking details -->
     <table class="cam_table_proposed mt-3" *ngIf="coAppBankingDetails != null || coAppBankingDetails != undefined">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.coApplicantBankingDetails
           }}
@@ -465,7 +466,7 @@
     <!--Banking details -->
     <!-- final loan eligibility -->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.finalLoanEligibility
           }}
@@ -487,7 +488,7 @@
 
     <!---final loan details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.finalLoanDetails
           }}
@@ -517,7 +518,7 @@
 
     <!--Auto deviations-->
     <table class="cam_table_proposed mt-3" id="page_break">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.autoDeviation
           }}
@@ -544,7 +545,7 @@
     <!--Auto deviations-->
     <!--manual Deviations-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.manualDeviation
           }}
@@ -570,7 +571,7 @@
     <!--manual Deviations-->
     <!--creditConditions-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.creditConditions
           }}
@@ -585,7 +586,7 @@
     <!--creditConditions-->
     <!--decisionSheet-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.decisionSheet
           }}
@@ -621,18 +622,18 @@
      <!--concern Risks / strengths mitigates-->
  <table class="cam_table_proposed mt-3 text-center" id="page_break">
     <!-- <tr>
-<td class="caption"> <caption class="caption">
+<td class="caption banner-con"> <caption class="caption banner-con">
 {{
 labels?.concernsOrRisks
 }}
 </caption></td> 
-<td class="caption">   <caption class="caption">
+<td class="caption banner-con">   <caption class="caption banner-con">
 {{
 labels?.strengthsOrMitigates
 }}
 </caption></td>
 </tr> -->
-    <caption class="caption">
+    <caption class="caption banner-con">
         <div class="row">
             <div class="col-md-6"> {{ labels?.concernsOrRisks }}</div>
             <div class="col-md-6"> {{ labels?.strengthsOrMitigates }}</div>
@@ -691,10 +692,10 @@ labels?.strengthsOrMitigates
     </tbody>
 </table>
     <table class="cam_table_proposed mt-3" *ngFor="let recommendation of recommendation">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{ recommendation?.roleName }} {{labels?.recommendation}}
         </caption>
-        <!-- <caption class="caption">
+        <!-- <caption class="caption banner-con">
         {{ recommendation?.recommendation }}
     </caption> -->
         <tbody>
@@ -719,7 +720,7 @@ labels?.strengthsOrMitigates
         <!--basic table starts here-->
 
         <table class="cam_table">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.basicDetailsTitle
       }}
@@ -762,7 +763,7 @@ labels?.strengthsOrMitigates
 
         <!---sourcing table starts here-->
         <table class="cam_table mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.sourceDetailsTitle
       }}
@@ -839,7 +840,7 @@ labels?.strengthsOrMitigates
 
         <!---proposed Vechicle Details-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.proposedVehicleDetailsTitle
       }}
@@ -917,7 +918,7 @@ labels?.strengthsOrMitigates
 
         <!---party agreement details-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.partyToAgreementTitle
       }}
@@ -951,7 +952,7 @@ labels?.strengthsOrMitigates
 
         <!---cibil synopsis--->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.cibilSynopsysTitle
       }}
@@ -1011,7 +1012,7 @@ labels?.strengthsOrMitigates
 
         <!--banking synopsis-->
         <table class="cam_table_proposed mt-3" id="page_break">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.bankingSummaryTitle
       }}
@@ -1067,7 +1068,7 @@ labels?.strengthsOrMitigates
         <!--banking synopsis-->
         <table class="cam_table_proposed mt-3"
             *ngIf="coAppBankingSummaryObj != null || coAppBankingSummaryObj != undefined">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.coApplicantBankingDetails
   }}
@@ -1122,7 +1123,7 @@ labels?.strengthsOrMitigates
         <!--banking synopsis-->
         <!---fleet summary-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.fleetSummaryTitle
       }}
@@ -1198,7 +1199,7 @@ labels?.strengthsOrMitigates
 
         <!--track validation summary-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.trackValidationSummaryTitle
       }}
@@ -1313,7 +1314,7 @@ labels?.strengthsOrMitigates
         <!--track validation summary-->
         <!-- customer selection criteria -->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.customerSelectionCriteriaTitle
       }}
@@ -1363,7 +1364,7 @@ labels?.strengthsOrMitigates
         <!-- customer selection criteria -->
         <!--Auto deviations-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.autoDeviation
   }}
@@ -1390,7 +1391,7 @@ labels?.strengthsOrMitigates
         <!--Auto deviations-->
         <!---other deviation-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.otherDeviationsTitle
       }}
@@ -1427,18 +1428,18 @@ labels?.strengthsOrMitigates
         <!--concern Risks / strengths mitigates-->
         <table class="cam_table_proposed mt-3 text-center" id="page_break">
             <!-- <tr>
-  <td class="caption"> <caption class="caption">
+  <td class="caption banner-con"> <caption class="caption banner-con">
         {{
     labels?.concernsOrRisks
   }}
     </caption></td> 
- <td class="caption">   <caption class="caption">
+ <td class="caption banner-con">   <caption class="caption banner-con">
         {{
     labels?.strengthsOrMitigates
   }}
     </caption></td>
 </tr> -->
-            <caption class="caption">
+            <caption class="caption banner-con">
                 <div class="row">
                     <div class="col-md-6"> {{ labels?.concernsOrRisks }}</div>
                     <div class="col-md-6"> {{ labels?.strengthsOrMitigates }}</div>
@@ -1499,7 +1500,7 @@ labels?.strengthsOrMitigates
         <!--key financial-->
         <!--key financial-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.keyFinancialTitle
       }}
@@ -1565,7 +1566,7 @@ labels?.strengthsOrMitigates
         <!--key financial-->
         <!--credity officer remarks-->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.creditOfficersRemarks
       }}
@@ -1587,10 +1588,10 @@ labels?.strengthsOrMitigates
         <!--credity officer remarks-->
         <!--recommondation-->
         <table class="cam_table_proposed mt-3" *ngFor="let recommendation of recommendation">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{ recommendation?.roleName }} {{labels?.recommendation}}
             </caption>
-            <!-- <caption class="caption">
+            <!-- <caption class="caption banner-con">
             {{ recommendation?.recommendation }}
         </caption> -->
             <tbody>
@@ -1608,7 +1609,7 @@ labels?.strengthsOrMitigates
             </tbody>
         </table>
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.cmRecommendation
       }}
@@ -1628,7 +1629,7 @@ labels?.strengthsOrMitigates
         </tbody>
     </table> -->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.acmRecommendationApproval
       }}
@@ -1648,7 +1649,7 @@ labels?.strengthsOrMitigates
         </tbody>
     </table>
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.ncmBhApprovalRecommendation
       }}
@@ -1674,7 +1675,7 @@ labels?.strengthsOrMitigates
 
         <!---sourcing table starts here-->
         <table class="cam_table mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.sourceDetailsTitle
   }}
@@ -1783,7 +1784,7 @@ labels?.strengthsOrMitigates
 
         <!--applicantDetails-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.applicantDetailsTitle
   }}
@@ -2043,7 +2044,7 @@ labels?.strengthsOrMitigates
 
         <!---proposedVehicleDetails-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.proposedVehicleDetailsTitle
   }}
@@ -2104,7 +2105,7 @@ labels?.strengthsOrMitigates
 
         <!---existingExposure--->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.existingExposure
       }}
@@ -2179,7 +2180,7 @@ labels?.strengthsOrMitigates
 
         <!--repaymentTrackRecord-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.repaymentTrackRecord
       }}
@@ -2264,7 +2265,7 @@ labels?.strengthsOrMitigates
         <!--repaymentTrackRecord-->
         <!--fleetDetails-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.fleetDetails
   }}
@@ -2315,7 +2316,7 @@ labels?.strengthsOrMitigates
 
         <!---bankingHistory-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.bankingHistory
       }}
@@ -2431,7 +2432,7 @@ labels?.strengthsOrMitigates
 
         <!---CoAPPbankingHistory-->
         <table class="cam_table_proposed mt-3" *ngIf="coAppBankingSummary != null || coAppBankingSummary != undefined">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.coApplicantBankingHistory
       }}
@@ -2523,7 +2524,7 @@ labels?.strengthsOrMitigates
 
         <!--customerBackgroundSalesRecommendation-->
         <table class="cam_table_proposed mt-3" *ngFor="let appRecommendation of appRecommendation">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{ appRecommendation?.applicantType }} {{labels?.backgroundSalesRecommendation}}
             </caption>
             <tbody>
@@ -2544,7 +2545,7 @@ labels?.strengthsOrMitigates
 
         <!--CoApplicantBackground-->
         <!-- <table class="cam_table_proposed mt-3" *ngFor="let appRecommendation of appRecommendation">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{ appRecommendation?.applicantType }} {{labels?.backgroundSalesRecommendation}}
         </caption>
         <tbody>
@@ -2558,7 +2559,7 @@ labels?.strengthsOrMitigates
 
         <!--guarantorDetails-->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.guarantorDetails
       }}
@@ -2574,7 +2575,7 @@ labels?.strengthsOrMitigates
 
         <!--vehicleDeploymentDetails-->
         <table class="cam_table_proposed mt-3" id="page_break">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.vehicleDeploymentDetails
       }}
@@ -2595,7 +2596,7 @@ labels?.strengthsOrMitigates
         <!--vehicleDeploymentDetails-->
         <!--referenceCheck-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.referenceCheck
       }}
@@ -2626,7 +2627,7 @@ labels?.strengthsOrMitigates
         <!--referenceCheck-->
         <!--creditAppraisalSheet-->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.creditAppraisalSheet
       }}
@@ -2636,7 +2637,7 @@ labels?.strengthsOrMitigates
         <!--customerSelectionCriteriaTitle-->
 
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.customerSelectionCriteriaTitle
       }}
@@ -2668,7 +2669,7 @@ labels?.strengthsOrMitigates
         <!--customerSelectionCriteriaTitle-->
         <!--Auto deviations-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.autoDeviation
       }}
@@ -2695,7 +2696,7 @@ labels?.strengthsOrMitigates
         <!--Auto deviations-->
         <!--otherDeviationIfAny-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
             labels?.otherDeviationIfAny
           }}
@@ -2722,7 +2723,7 @@ labels?.strengthsOrMitigates
         <!--otherDeviationIfAny-->
         <!--detailsOfCibilPdFiDedupe-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
             labels?.detailsOfCibilPdFiDedupe
           }}
@@ -2794,7 +2795,7 @@ labels?.strengthsOrMitigates
         <!--detailsOfCibilPdFiDedupe-->
         <!--cibilJustificationIfAny-->
         <table class="cam_table_proposed mt-3" id="page_break">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.cibilJustificationIfAny
       }}
@@ -2816,7 +2817,7 @@ labels?.strengthsOrMitigates
         <!--cibilJustificationIfAny-->
         <!--cibilEnquiries-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.cibilEnquiries
       }}
@@ -2842,7 +2843,7 @@ labels?.strengthsOrMitigates
         <!--coRecommendationAndTvrDetailsMandatory-->
 
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.coRecommendationAndTvrDetailsMandatory
       }}
@@ -2864,10 +2865,10 @@ labels?.strengthsOrMitigates
         <!--coRecommendationAndTvrDetailsMandatory-->
         <!--cmRecommendation-->
         <table class="cam_table_proposed mt-3" *ngFor="let recommendation of recommendation">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{ recommendation?.roleName }} {{labels?.recommendation}}
             </caption>
-            <!-- <caption class="caption">
+            <!-- <caption class="caption banner-con">
             
         </caption> -->
             <tbody>
@@ -2883,7 +2884,7 @@ labels?.strengthsOrMitigates
             </tbody>
         </table>
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.acmRecommendationApproval
       }}
@@ -2904,7 +2905,7 @@ labels?.strengthsOrMitigates
         <!--ncmBhApprovalRecommendation-->
 
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.ncmBhApprovalRecommendation
       }}
@@ -2977,4 +2978,5 @@ labels?.strengthsOrMitigates
             </div>
         </div>
     </div>
+</div>
 </div>

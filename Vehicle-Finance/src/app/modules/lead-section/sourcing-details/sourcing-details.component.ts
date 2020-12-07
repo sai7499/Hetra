@@ -581,7 +581,7 @@ export class SourcingDetailsComponent implements OnInit {
     );
     console.log('placeholder', this.placeholder);
     this.sourcingDetailsForm.controls.sourcingCode.reset();
-    this.sourcingCodePlaceholder = this.placeholder[0].value;
+    this.sourcingCodePlaceholder = this.placeholder.length > 0 ? this.placeholder[0].value : '';
     if (this.sourcingCodePlaceholder === 'Not Applicable') {
       this.isSourchingCode = true;
       this.sourcingCodeKey = null;
