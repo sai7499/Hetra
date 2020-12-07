@@ -684,8 +684,8 @@
                                 style="cursor: pointer;">{{item.leadId}}</a>
                         </td>
                         <td [attr.data-label]="labels?.leadID" *ngIf="(!onReleaseTab && onAssignTab) && !userName">
-                            <a *ngIf="displayTabs?.ExternalUser != subActiveTab">{{item.leadId}}</a>
-                            <a *ngIf="displayTabs?.ExternalUser === subActiveTab" class="text-underline"
+                            <a *ngIf="displayTabs?.ExternalUser === subActiveTab">{{item.leadId}}</a>
+                            <a *ngIf="displayTabs?.ExternalUser != subActiveTab" class="text-underline"
                                 (click)="getLeadId(item); onRoute(item.leadId,item.stageCode,item.taskId); assignTaskId(item.taskId)"
                                 style="cursor: pointer;">{{item.leadId}}</a>
                         </td>
