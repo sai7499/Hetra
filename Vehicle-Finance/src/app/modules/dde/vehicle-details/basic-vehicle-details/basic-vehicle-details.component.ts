@@ -73,7 +73,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     if (this.formValue.valid === true) {
 
       if (this.formValue.value.isCheckDedpue === false) {
-        this.toasterService.showError('Please click check dedupe', 'Vehicle Detail')
+        this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
         return
       }
 

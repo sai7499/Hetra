@@ -1,304 +1,321 @@
 <main>
-    <div class="container-fluid">
-  
+  <div class="container-fluid">
 
-  
-      <div class="content">
-              
-        <div class="row "  >
-          <div >
-            <h3 class="title">Loan Account Details</h3>
+
+
+    <div class="content">
+
+      <div class="row ">
+        <div>
+          <h3 class="title">Loan Account Details</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="roi">Loan Account Number
+            </label>
+            <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.accountNumber || 'NA'}}
+            </label>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-12">
-              <div class="form-group">
-                  <label class="col-form-label" for="roi">Loan Account Number
-                  </label>
-                  <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.accountNumber}}
-                  </label>
-              </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Loan Start Date
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.loanStartDate || 'NA'}}
+            </label>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-12">
-              <div class="form-group">
-                  <label class="col-form-label" for="lead_handled_by">Loan Start Date
-                  </label>
-                  <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.loanStartDate}}
-                  </label>
-              </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Product
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.productCode || 'NA'}}
+            </label>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-12">
-              <div class="form-group">
-                      <label class="col-form-label" for="lead_handled_by">Product
-                  </label>
-                  <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.productCode}}
-                  </label>
-              </div>
-          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-12">
-            <div class="form-group">
-                <label class="col-form-label" for="roi">Total Loan Amount
-                </label>
-                <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalLoanAmount}}
-                </label>
-            </div>
+          <div class="form-group">
+            <label class="col-form-label" for="roi">Total Loan Amount
+            </label>
+            <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalLoanAmount || 'NA'}}
+            </label>
+          </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
-            <div class="form-group">
-                <label class="col-form-label" for="lead_handled_by">Outstanding Principal
-                </label>
-                <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.principalOutstanding}}
-                </label>
-            </div>
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Outstanding Principal
+            </label>
+            <label for="lead_handled_by_name"
+              class="col-form-label-two">:&nbsp;{{loanAccountDetails?.principalOutstanding || 'NA'}}
+            </label>
+          </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
-            <div class="form-group">
-                    <label class="col-form-label" for="lead_handled_by">Rate of Interest
-                </label>
-                <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.rateOfInterest}}%
-                </label>
-            </div>
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Rate of Interest
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.rateOfInterest ? loanAccountDetails?.rateOfInterest + '%' : 'NA'}}
+            </label>
+          </div>
         </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-3 col-md-3 col-sm-12">
-          <div class="form-group">
-              <label class="col-form-label" for="roi">Total Number of EMIs (Months)
-              </label>
-              <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalEMIs}}
-              </label>
-          </div>
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
           <div class="form-group">
-              <label class="col-form-label" for="lead_handled_by">EMIs Serviced (Months)
-              </label>
-              <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.emiServiced}}
-              </label>
+            <label class="col-form-label" for="roi">Total Number of EMIs (Months)
+            </label>
+            <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalEMIs || 'NA'}}
+            </label>
           </div>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
           <div class="form-group">
-                  <label class="col-form-label" for="lead_handled_by">EMIs yet to be Serviced (Months)
-              </label>
-              <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.emiYetToBeServiced}}
-              </label>
+            <label class="col-form-label" for="lead_handled_by">EMIs Serviced (Months)
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.emiServiced || 'NA'}}
+            </label>
           </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">EMIs yet to be Serviced (Months)
+            </label>
+            <label for="lead_handled_by_name"
+              class="col-form-label-two">:&nbsp;{{loanAccountDetails?.emiYetToBeServiced || 'NA'}}
+            </label>
+          </div>
+        </div>
       </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-12">
-        <div class="form-group">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
             <label class="col-form-label" for="roi">Total Tenure (Months)
             </label>
-            <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalTenure}}
+            <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalTenure || 'NA'}}
             </label>
+          </div>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-12">
-        <div class="form-group">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
             <label class="col-form-label" for="lead_handled_by">Remaining Tenure (Days)
             </label>
-            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.remainTenure}}
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.remainTenure || 'NA'}}
             </label>
+          </div>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-12">
-        <div class="form-group">
-                <label class="col-form-label" for="lead_handled_by">DPD
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">DPD
             </label>
             <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.dpd || 'NA'}}
             </label>
+          </div>
         </div>
-    </div>
-</div>
-<div class="row">
-  <div class="col-lg-3 col-md-3 col-sm-12">
-      <div class="form-group">
-          <label class="col-form-label" for="roi">First Disbursement Date
-          </label>
-          <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.firstDisbursement}}
-          </label>
       </div>
-  </div>
-  <div class="col-lg-3 col-md-3 col-sm-12">
-      <div class="form-group">
-          <label class="col-form-label" for="lead_handled_by">Last Due Date
-          </label>
-          <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.lastDueDate}}
-          </label>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="roi">First Disbursement Date
+            </label>
+            <label for="roi_value" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.firstDisbursement || 'NA'}}
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Last Due Date
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.lastDueDate || 'NA'}}
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Next Due Date
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.nextDueDate || 'NA'}}
+            </label>
+          </div>
+        </div>
       </div>
-  </div>
-  <div class="col-lg-3 col-md-3 col-sm-12">
-      <div class="form-group">
-              <label class="col-form-label" for="lead_handled_by">Next Due Date
-          </label>
-          <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.nextDueDate}}
-          </label>
-      </div>
-  </div>
-</div>
-<div class="row "  >
-  <div >
-    <h3 class="title">Customer Details</h3>
-  </div>
-  
-</div>
-<div class="row">
-  <div class="col-lg-3 col-md-3 col-sm-12">
-      <div class="form-group">
-          <label class="col-form-label" for="roi">UCIC
-          </label>
-          <label for="roi_value" class="col-form-label-two">:&nbsp;{{customerDetails?.ucic}}
-          </label>
-      </div>
-  </div>
-  <div class="col-lg-3 col-md-3 col-sm-12">
-      <div class="form-group">
-          <label class="col-form-label" for="lead_handled_by">Entity
-          </label>
-          <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.entity}}
-          </label>
-      </div>
-  </div>
-  <div class="col-lg-3 col-md-3 col-sm-12">
-    <div class="form-group">
-        <label class="col-form-label" for="lead_handled_by">Name
-        </label>
-        <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.fullName}}
-        </label>
-    </div>
-</div>
-  
-</div>
-<div class="row">
-  <div class="col-lg-3 col-md-3 col-sm-12">
-    <div class="form-group">
-            <label class="col-form-label" for="lead_handled_by">Mobile Number
-        </label>
-        <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.mobileNumber}}
-        </label>
-    </div>
-</div>
-  <div class="col-lg-3 col-md-3 col-sm-12">
-      <div class="form-group">
-          <label class="col-form-label" for="roi">D.O.B
-          </label>
-          <label for="roi_value" class="col-form-label-two">:&nbsp;{{customerDetails?.dob}}
-          </label>
-      </div>
-  </div>
-  
-</div>
+      <div class="row ">
+        <div>
+          <h3 class="title">Customer Details</h3>
+        </div>
 
-               <!-- <div class="row">
-                    <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
-                        <label for="name_of_ca">Loan Account Number</label>
-                        <span class="form-control">{{loanAccountDetails?.accountNumber}}</span>
-                    </div>
-                    <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
-                        <label for="name_of_ca_firm">Loan Start Date</label>
-                            <span class="form-control">{{loanAccountDetails?.loanStartDate}}</span>
-                    </div>
-                   
-        
-                </div>
-                <div class="row">
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="roi">UCIC
+            </label>
+            <label for="roi_value" class="col-form-label-two">:&nbsp;{{customerDetails?.ucic || 'NA'}}
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Entity
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.entity || 'NA'}}
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label" for="lead_handled_by">Name
+            </label>
+            <label for="lead_handled_by_name" class="col-form-label-two">:&nbsp;{{customerDetails?.fullName || 'NA'}}
+            </label>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label"
+              for="lead_handled_by">{{customerDetails?.entityTypeKey === 'NONINDIVENTTYP' ? 'Contact Number' : 'Mobile Number'}}
+            </label>
+            <label for="lead_handled_by_name"
+              class="col-form-label-two">:&nbsp;{{customerDetails?.entityTypeKey === 'NONINDIVENTTYP' ? customerDetails?.companyPhoneNumber : customerDetails?.mobileNumber}}
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <label class="col-form-label"
+              for="roi">{{customerDetails?.entityTypeKey === 'NONINDIVENTTYP' ? 'D.O.I' : 'D.O.B'}}
+            </label>
+            <label for="roi_value"
+              class="col-form-label-two">:&nbsp;{{customerDetails?.entityTypeKey === 'NONINDIVENTTYP' ? customerDetails?.doi : customerDetails?.dob}}
+            </label>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="form-group">
+            <!-- <h4 class="address">Address</h4> -->
+            <label class="col-form-label" for="roi">Address</label>
+            <textarea name="" id="" rows="7" cols="50" disabled='true' class="form-control">
+{{addressDetails?.line1 || 'NA'}}
+{{addressDetails?.line2}}
+{{addressDetails?.line3}}
+{{addressDetails?.city}}
+{{addressDetails?.state}} - {{addressDetails?.zip}}
+{{addressDetails?.country}}
+      </textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row">
                   <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
-                      <label for="name_of_ca">Loan Amount</label>
-                      <span class="form-control">{{loanAccountDetails?.totalLoanAmount}}</span>
+                      <label for="name_of_ca">Loan Account Number</label>
+                      <span class="form-control">{{loanAccountDetails?.accountNumber}}</span>
                   </div>
                   <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
-                      <label for="name_of_ca_firm">Total Number of EMIs :</label>
-                          <label >{{loanAccountDetails?.totalEMIs}}</label>
+                      <label for="name_of_ca_firm">Loan Start Date</label>
+                          <span class="form-control">{{loanAccountDetails?.loanStartDate}}</span>
                   </div>
                  
       
               </div>
               <div class="row">
                 <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
-                    <label for="name_of_ca">Seasoning</label>
-                    <span class="form-control">{{loanAccountDetails?.seasoning}}</span>
+                    <label for="name_of_ca">Loan Amount</label>
+                    <span class="form-control">{{loanAccountDetails?.totalLoanAmount}}</span>
                 </div>
                 <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
-                    <label for="name_of_ca_firm">Rate of Interest</label>
-                        <span class="form-control">{{loanAccountDetails?.rateOfInterest}}</span>
+                    <label for="name_of_ca_firm">Total Number of EMIs :</label>
+                        <label >{{loanAccountDetails?.totalEMIs}}</label>
                 </div>
                
     
             </div>
             <div class="row">
               <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
-                  <label for="name_of_ca">DPD</label>
-                  <span class="form-control">{{loanAccountDetails?.dpd}}</span>
-              </div>  
-          </div> -->
+                  <label for="name_of_ca">Seasoning</label>
+                  <span class="form-control">{{loanAccountDetails?.seasoning}}</span>
+              </div>
+              <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                  <label for="name_of_ca_firm">Rate of Interest</label>
+                      <span class="form-control">{{loanAccountDetails?.rateOfInterest}}</span>
+              </div>
+             
   
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-6 col-lg-6 msme" >
+                <label for="name_of_ca">DPD</label>
+                <span class="form-control">{{loanAccountDetails?.dpd}}</span>
+            </div>  
+        </div> -->
 
-  
-      
-  
+
+
+
+
       <!-- <div class="content" >       -->
-        <!-- <div class="container-fluid">         -->
-          <!-- <div class="row">
-            <div class="col-md-12">
-            <div id="wrapper">
-              <table>
-                <thead>
-                  <tr class="table-head-bg">
-                    <th>Loan Account Number </th>
-                    <th>Loan Start Date </th>
-                    <th>Loan Amount </th>
-                    <th>Number of EMIs </th>
-                    <th>Seasoning </th>
-                    <th>Rate of Interest </th>
-                    <th>DPD </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td [attr.data-label]="'Loan Account Number'">{{loanAccountDetails?.accountNumber}}</td>
-                    <td [attr.data-label]="'Loan Start Date'">{{loanAccountDetails?.loanStartDate}}</td>
-                    <td [attr.data-label]="'Loan Amount'">{{loanAccountDetails?.totalLoanAmount}}</td>
-                    <td [attr.data-label]="'Number of EMIs'">{{loanAccountDetails?.totalEMIs}}</td>
-                    <td [attr.data-label]="'Seasoning'">{{loanAccountDetails?.seasoning}}</td>
-                    <td [attr.data-label]="'Rate of Interest'">{{loanAccountDetails?.rateOfInterest}}</td>
-                    <td [attr.data-label]="'DPD'">{{loanAccountDetails?.dpd}}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="btn-sec clear-both btn-mar-reject">
-                <div class="text-right margin_top" >
-                  <button 
-                    
-                    class="btn btn-primary js-btn-next mar-right8" 
-                    type="button"
-                    (click)="onNext()"
-                    >
-                    Next
-                  </button>
-                </div>
+      <!-- <div class="container-fluid">         -->
+      <!-- <div class="row">
+          <div class="col-md-12">
+          <div id="wrapper">
+            <table>
+              <thead>
+                <tr class="table-head-bg">
+                  <th>Loan Account Number </th>
+                  <th>Loan Start Date </th>
+                  <th>Loan Amount </th>
+                  <th>Number of EMIs </th>
+                  <th>Seasoning </th>
+                  <th>Rate of Interest </th>
+                  <th>DPD </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td [attr.data-label]="'Loan Account Number'">{{loanAccountDetails?.accountNumber}}</td>
+                  <td [attr.data-label]="'Loan Start Date'">{{loanAccountDetails?.loanStartDate}}</td>
+                  <td [attr.data-label]="'Loan Amount'">{{loanAccountDetails?.totalLoanAmount}}</td>
+                  <td [attr.data-label]="'Number of EMIs'">{{loanAccountDetails?.totalEMIs}}</td>
+                  <td [attr.data-label]="'Seasoning'">{{loanAccountDetails?.seasoning}}</td>
+                  <td [attr.data-label]="'Rate of Interest'">{{loanAccountDetails?.rateOfInterest}}</td>
+                  <td [attr.data-label]="'DPD'">{{loanAccountDetails?.dpd}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="btn-sec clear-both btn-mar-reject">
+              <div class="text-right margin_top" >
+                <button 
+                  
+                  class="btn btn-primary js-btn-next mar-right8" 
+                  type="button"
+                  (click)="onNext()"
+                  >
+                  Next
+                </button>
               </div>
             </div>
           </div>
-          </div> -->
-        <!-- </div> -->
+        </div>
+        </div> -->
+      <!-- </div> -->
       <!-- </div> -->
       <div class="btn-sec clear-both btn-mar-reject">
-        <div class="text-right margin_top" >
-          <button 
-            
-            class="btn btn-primary js-btn-next mar-right8" 
-            type="button"
-            (click)="onNext()"
-            >
+        <div class="text-right margin_top">
+          <button class="btn btn-primary js-btn-next mar-right8" type="button" (click)="onNext()">
             Next
           </button>
         </div>
       </div>
     </div>
-    </div>
-  </main>
+  </div>
+</main>

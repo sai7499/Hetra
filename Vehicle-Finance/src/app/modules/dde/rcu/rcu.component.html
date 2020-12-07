@@ -1,9 +1,14 @@
+<div class="content">
+
+
 <div style="text-align: center;">
-  <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr == true" (click)="showInitiateTask()"
-    type="button">{{labels?.initiateRcu}}</button>
+  <ng-container *ngIf="!isLoan360"> <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr == true"
+      (click)="showInitiateTask()" type="button">{{labels?.initiateRcu}}</button>
+  </ng-container>
+
 </div>
 <form class="multisteps-form__form" *ngIf="!isRcuDetails && isErr == true" [formGroup]="rcuDetailsForm">
-  <h3 class="dashboard m-0">{{ labels?.rcu }}</h3>
+  <h3 class="banner-con">{{ labels?.rcu }}</h3>
   <!--progress bar-->
   <div class="content">
     <div class="flex-container form-group text-center">
@@ -20,12 +25,12 @@
             (click)="testRadio('sampled')">
           <label for="sampled"> Sampled</label>
         </div>
-      </div>     
+      </div>
       <div class="flex-con"></div>
-      
-    </div>    
+
+    </div>
     <div class="clearfix"></div>
-    <div class="form-group od-row" >
+    <div class="form-group od-row">
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.applicantNameCam}}</label></div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <select class="form-control mandatory select2" id="" formControlName="applicantId" name="applicantId"
@@ -37,38 +42,38 @@
       </div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.applicantType}}</label></div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
-        <app-custom-input [placeholder]="''" formControlName="applicantType" [isDisabled] = 'true'
-          [className]="'form-control mandatory'" 
-          [isDirty]="isDirty">
+        <app-custom-input [placeholder]="''" formControlName="applicantType" [isDisabled]='true'
+          [className]="'form-control mandatory'" [isDirty]="isDirty">
         </app-custom-input>
       </div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.loanAmount}}</label></div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
-        <app-custom-input [placeholder]="''" formControlName="loanAmount" [type]="labels?.validationData?.amountValue?.type" [isDisabled] = 'true'
-          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.amountValue?.maxLength"
-          [isDirty]="isDirty">
+        <app-custom-input [placeholder]="''" formControlName="loanAmount"
+          [type]="labels?.validationData?.amountValue?.type" [isDisabled]='true' [className]="'form-control mandatory'"
+          [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
       </div>
       <div class="clearfix"></div>
-   
+
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.vehicleMake}}</label></div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <app-custom-input [placeholder]="''" formControlName="vehicleMake" [type]="labels?.validationData?.name?.type"
-          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength" [isDisabled] = 'true'
-          [isDirty]="isDirty">
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDisabled]='true' [isDirty]="isDirty">
         </app-custom-input>
       </div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.vehicleModel}}</label></div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
         <app-custom-input [placeholder]="''" formControlName="vehicleModel" [type]="labels?.validationData?.name?.type"
-          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength" [isDisabled] = 'true'
-          [isDirty]="isDirty">
+          [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
+          [isDisabled]='true' [isDirty]="isDirty">
         </app-custom-input>
       </div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.vehicleNumber}}</label></div>
       <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
-        <app-custom-input [placeholder]="''" formControlName="vehicleNo" [type]="labels?.validationData?.receiptNo?.type" 
-          [className]="'form-control mandatory textTrans'" [maxLength]="labels?.validationData?.receiptNo?.maxLength" [inputClass]="'input-upper'" [isDisabled] = 'true'
+        <app-custom-input [placeholder]="''" formControlName="vehicleNo"
+          [type]="labels?.validationData?.receiptNo?.type" [className]="'form-control mandatory textTrans'"
+          [maxLength]="labels?.validationData?.receiptNo?.maxLength" [inputClass]="'input-upper'" [isDisabled]='true'
           [isDirty]="isDirty">
         </app-custom-input>
       </div>
@@ -79,17 +84,24 @@
     <div _ngcontent-kdl-c9="" class="row">
       <div _ngcontent-kdl-c9="" class="input-group-btn row ">
         <div _ngcontent-kdl-c9="" class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-right hetra-tabs">
-          <button _ngcontent-kdl-c9="" class="btn btn-primary active" routerlinkactive="active" type="button" ng-reflect-router-link-active="active" ng-reflect-klass="btn btn-primary" ng-reflect-ng-class="[object Object]">Show Applicant Documents</button>
+          <button _ngcontent-kdl-c9="" class="btn btn-primary active" routerlinkactive="active" type="button"
+            ng-reflect-router-link-active="active" ng-reflect-klass="btn btn-primary"
+            [ngClass]="{'active' : tab === 'tab1'}"
+            ng-reflect-ng-class="[object Object]" (click)="showDocuments('applicant')">Show Applicant
+            Documents</button>
         </div>
         <div _ngcontent-kdl-c9="" class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-left hetra-tabs">
-          <button _ngcontent-kdl-c9="" class="btn btn-primary" routerlinkactive="active" type="button" ng-reflect-router-link-active="active" ng-reflect-klass="btn btn-primary" ng-reflect-ng-class="[object Object]">Show Collateral Documents</button>
+          <button _ngcontent-kdl-c9="" class="btn btn-primary" routerlinkactive="active" type="button"
+            ng-reflect-router-link-active="active" ng-reflect-klass="btn btn-primary"
+            [ngClass]="{'active' : tab === 'tab2'}" ng-reflect-ng-class="[object Object]"
+            (click)="showDocuments('colletral')">Show Collateral Documents</button>
         </div>
       </div>
     </div>
     <!-- <div class="for_space"></div> -->
 
 
-    <div class="table-responsive application mb-10 main-table" >
+    <div class="table-responsive application mb-10 main-table">
       <table id="POITable_other" border="0" class="table">
         <thead>
           <tr class="caption">
@@ -115,7 +127,7 @@
 
         <tbody formArrayName="applicantDocuments" *ngIf="!showColletralDocuments">
           <!-- <tbody> -->
-          <tr  *ngFor="
+          <tr *ngFor="
           let item of rcuDetailsForm.controls.applicantDocuments.controls;
           let i = index
         " [formGroupName]="i">
@@ -123,41 +135,44 @@
               1
             </td>
             <td [attr.data-label]="labels?.documentName" data-title="Member">
-              <app-custom-input [placeholder]="'Document Name'"  [isDisabled] = 'true'
+              <app-custom-input [placeholder]="'Document Name'" [isDisabled]='true'
                 [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.documentCategory" data-title="Member">
-              <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled] = 'true'
+              <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled]='true'
                 [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.documentNumber" data-title="Member">
               <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
-                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control-ins mandatory'" [isDisabled] = 'true'
-                [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control-ins mandatory'"
+                [isDisabled]='true' [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.issueDate" data-title="Member">
-             
+
               <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
-            </kendo-datepicker>
+                [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
+                class="form-control form-control-cus">
+              </kendo-datepicker>
             </td>
             <td [attr.data-label]="labels?.expiryDate" data-title="Member">
-              
+
               <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
-            </kendo-datepicker>
+                [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
+                class="form-control form-control-cus">
+              </kendo-datepicker>
             </td>
-            <td [attr.data-label]="labels?.documentId" data-title="Member">
-              <input name="input" type="text" class="form-control form-control-cus file-input box-height" formControlName="dmsDocumentID" readonly
-                (click)="downloadDocs($event.target.value)" />
+            <td [attr.data-label]="labels?.documentId" data-title="Member"
+              (click)="clickForLoan360(i,'applicantDocuments')">
+              <input name="input" type="text" class="form-control form-control-cus file-input box-height"
+                formControlName="dmsDocumentID" readonly (click)="downloadDocs($event.target.value)" />
             </td>
             <td [attr.data-label]="labels?.sampled" data-title="Member">
-              
+
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
@@ -165,22 +180,23 @@
               </app-vf-custom-select>
             </td>
             <td [attr.data-label]="labels?.screened" data-title="Member">
-             
+
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
           ]" formControlName="screened" class="form-control form-control-cus">
-        </app-vf-custom-select>
+              </app-vf-custom-select>
             </td>
             <td [attr.data-label]="labels?.status" data-title="Member">
-            
-              <app-vf-custom-select [values]="rcuLov?.status" class="form-control form-control-cus" formControlName="rcuStatus">
+
+              <app-vf-custom-select [values]="rcuLov?.status" class="form-control form-control-cus"
+                formControlName="rcuStatus">
               </app-vf-custom-select>
             </td>
           </tr>
         </tbody>
-        <tbody formArrayName="collateralDocuments"  *ngIf="showColletralDocuments">
-           
+        <tbody formArrayName="collateralDocuments" *ngIf="showColletralDocuments">
+
           <tr *ngFor="
           let item of rcuDetailsForm.controls.collateralDocuments.controls;
           let i = index
@@ -189,41 +205,45 @@
               {{i+1}}
             </td>
             <td [attr.data-label]="labels?.documentName" data-title="Member">
-              <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled] = 'true'
+              <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled]='true'
                 [type]="labels?.validationData?.name?.type" [className]="'form-control form-control-cus mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.documentCategory" data-title="Member">
-              <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled] = 'true'
+              <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled]='true'
                 [type]="labels?.validationData?.name?.type" [className]="'form-control form-control-cus mandatory'"
                 [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.documentNumber" data-title="Member">
               <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
-                [type]="labels?.validationData?.amountValue?.type" [className]="'form-control form-control-cus mandatory'" [isDisabled] = 'true'
+                [type]="labels?.validationData?.amountValue?.type"
+                [className]="'form-control form-control-cus mandatory'" [isDisabled]='true'
                 [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
               </app-custom-input>
             </td>
             <td [attr.data-label]="labels?.issueDate" data-title="Member">
-            
+
               <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
-            </kendo-datepicker>
+                [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
+                class="form-control form-control-cus">
+              </kendo-datepicker>
             </td>
             <td [attr.data-label]="labels?.expiryDate" data-title="Member">
-             
+
               <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
-              [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date" class="form-control form-control-cus">
-            </kendo-datepicker>
+                [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
+                class="form-control form-control-cus">
+              </kendo-datepicker>
             </td>
-            <td [attr.data-label]="labels?.documentId" data-title="Member">
-              <input name="input" type="text" class=" form-control form-control-cus file-input" formControlName="dmsDocumentID" readonly
-                (click)="downloadDocs($event.target.value)" />
+            <td [attr.data-label]="labels?.documentId" data-title="Member"
+              (click)="clickForLoan360(i, 'collateralDocuments')">
+              <input name="input" type="text" class=" form-control form-control-cus file-input"
+                formControlName="dmsDocumentID" readonly (click)="downloadDocs($event.target.value)" />
             </td>
             <td [attr.data-label]="labels?.sampled" data-title="Member">
-              
+
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
@@ -231,32 +251,32 @@
               </app-vf-custom-select>
             </td>
             <td [attr.data-label]="labels?.screened" data-title="Member">
-             
+
               <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
           ]" formControlName="screened" class="form-control-cus">
-        </app-vf-custom-select>
+              </app-vf-custom-select>
             </td>
             <td [attr.data-label]="labels?.status" data-title="Member">
-                 <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus" class="form-control-cus">
-        </app-vf-custom-select>
+              <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus" class="form-control-cus">
+              </app-vf-custom-select>
 
             </td>
           </tr>
         </tbody>
-        
+
       </table>
 
     </div>
-    
+
 
     <div class="form-group od-row">
       <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12"><label>{{labels?.rcuReportStatus}}</label></div>
       <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12">
         <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
         </app-vf-custom-select>
-      </div> 
+      </div>
       <!-- <div class="col-md-1 fitWidth pl-top" *ngIf="roleType == '6'" ><label class="">{{labels?.rcuUpload}}</label></div>
       <div class="col-md-1 pl-top" *ngIf="roleType == '6'"  >
         
@@ -279,32 +299,35 @@
           <select _ngcontent-uth-c11="" ng-reflect-is-disabled="true" ng-reflect-model="FRDRCMSTS" class="form-control mandatory ng-untouched ng-pristine" disabled="">
             <option _ngcontent-uth-c11="" value="" ng-reflect-value="" disabled="">-- select one --</option><!--bindings={
           "ng-reflect-ng-for-of": "[object Object],[object Object"
-        }--><!--<option _ngcontent-uth-c11="" value="UTVRCMSTS" ng-reflect-value="UTVRCMSTS">Failed / Unable to verify</option><option _ngcontent-uth-c11="" value="FRDRCMSTS" ng-reflect-value="FRDRCMSTS">Fraud</option><option _ngcontent-uth-c11="" value="NEGRCMSTS" ng-reflect-value="NEGRCMSTS">Negative</option><option _ngcontent-uth-c11="" value="POSRCMSTS" ng-reflect-value="POSRCMSTS">Positive</option></select><!--bindings={
+        }-->
+      <!--<option _ngcontent-uth-c11="" value="UTVRCMSTS" ng-reflect-value="UTVRCMSTS">Failed / Unable to verify</option><option _ngcontent-uth-c11="" value="FRDRCMSTS" ng-reflect-value="FRDRCMSTS">Fraud</option><option _ngcontent-uth-c11="" value="NEGRCMSTS" ng-reflect-value="NEGRCMSTS">Negative</option><option _ngcontent-uth-c11="" value="POSRCMSTS" ng-reflect-value="POSRCMSTS">Positive</option></select><!--bindings={
           "ng-reflect-ng-if": "false"
         }</app-vf-custom-select>
     </div>-->
-    <div  *ngIf="roleType == '6'"  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
-      <label  class="">RCU Upload</label>
+      <div *ngIf="roleType == '6'" class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+        <label class="">RCU Upload</label>
+      </div>
+      <div class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+        <label><i aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+            id="add_more_documents_upload1a" (click)="uploadDoc()"></i></label>
+      </div>
+      <div class="clearfix clearfix-hide"></div>
+      <div class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
+        <label>RCU Document Id</label>
+      </div>
+      <div class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12" (click)="clickForLoan360('rcuDocumentId')">
+        <input class="form-control file-input ng-untouched ng-pristine" formControlName="rcuDocumentId" readonly
+          (click)="downloadDocs($event.target.value)">
+      </div>
+      <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+        <label>RCU Report Received Date/Time</label>
+      </div>
+      <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+        <input class="form-control ng-untouched ng-pristine" formcontrolname="rcuReportReceivedDateTime" name="input"
+          readonly="" type="text" disabled="" ng-reflect-name="rcuReportReceivedDateTime" value="{{today}}">
+      </div>
     </div>
-    <div  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
-      <label ><i  aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer" id="add_more_documents_upload1a" (click)="uploadDoc()" ></i></label>
-    </div>
-    <div class="clearfix clearfix-hide"></div>
-    <div  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12"  >
-      <label >RCU Document Id</label>
-    </div>
-    <div  class="form-group col-lg-1 col-md-3 col-sm-6 col-xs-12">
-      <input  class="form-control file-input ng-untouched ng-pristine" formControlName="rcuDocumentId" readonly
-      (click)="downloadDocs($event.target.value)">
-    </div>
-    <div  class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
-      <label >RCU Report Received Date/Time</label>
-    </div>
-    <div  class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-      <input  class="form-control ng-untouched ng-pristine" formcontrolname="rcuReportReceivedDateTime" name="input" readonly="" type="text" disabled="" ng-reflect-name="rcuReportReceivedDateTime" value="{{today}}">
-    </div>
-  </div>
-  <div class="clearfix"></div>
+    <div class="clearfix"></div>
 
 
     <div class="form-group row">
@@ -312,7 +335,7 @@
       <div class="form-group col-lg-11 col-md-11 col-sm-11 col-xs-12">
         <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="remarks"></textarea>
       </div>
-     
+
     </div>
   </div>
 </form>
@@ -320,65 +343,68 @@
 <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
-    <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details"  *ngIf="showBack == true">
+    <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details" *ngIf="showBack == true">
       Back
     </button>
-    <button class="btn btn-primary mar-right8" type="button" (click)="onSave()"  *ngIf="showSave == true">
-      Save
-    </button>
-    <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()"  *ngIf="showSave == true">
-      Submit
-    </button>
-    <button class="btn btn-primary dash_href" type="button" (click)="onNext()"  *ngIf="showBack == true">
+    <ng-container *ngIf="!isLoan360">
+      <button class="btn btn-primary mar-right8" type="button" (click)="onSave()" *ngIf="showSave == true">
+        Save
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!isLoan360">
+      <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()" *ngIf="showSave == true">
+        Submit
+      </button>
+    </ng-container>
+    <button class="btn btn-primary dash_href" type="button" (click)="onNext()" *ngIf="showBack == true">
       Next
     </button>
   </div>
 </div>
 <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
-    [docsDetails]="selectedDocDetails"></app-upload-modal>
+  [docsDetails]="selectedDocDetails"></app-upload-modal>
 
-    <div id="overlay" *ngIf="isInitiateScreen">
-      <div id="text">
-        <div class="panel">
-          <div class="panel-body p-0">        
-            <button type="button" class="close" aria-label="Close" (click)="isInitiateScreen = false" >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="modal-dialog" >
-              <div class="modal-body" style="text-align:center;">
-                <p>{{errorMessage}}</p>
-                <div class="btn-wrap">
-                  <button class="btn btn-success btn-ok" (click)="assignRcuTask()">Yes</button>&nbsp;
-                  <button class="btn btn-danger btn-ok" (click)="isInitiateScreen = false">No</button>
-                </div>
-              </div>
+<div id="overlay" *ngIf="isInitiateScreen">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body p-0">
+        <button type="button" class="close" aria-label="Close" (click)="isInitiateScreen = false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-dialog">
+          <div class="modal-body" style="text-align:center;">
+            <p>{{errorMessage}}</p>
+            <div class="btn-wrap">
+              <button class="btn btn-success btn-ok" (click)="assignRcuTask()">Yes</button>&nbsp;
+              <button class="btn btn-danger btn-ok" (click)="isInitiateScreen = false">No</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="overlay" *ngIf="errorGenerated">
-      <div id="text">
-          <div class="panel">
-              <div class="panel-body">
-                
-                  <div class="modal-dialog">
-                      <div class="modal-body" style="text-align:center;">
-                          <div class="errHead">
-                              <h3 class="m-0">{{labels?.rcu}}</h3>
-                          </div>
-                          <div class="row" >
-                              <div class="col-md-12">
-  
-                                  <div class="errText">{{errMsg}}</div>
-                              </div>
-                          </div>
-                          <div class="btn-wrap">
-                              <button class="btn btn-primary" (click)="errGenerated()">OK</button>
-                          </div>
-                      </div>
-                  </div>
+  </div>
+</div>
+<div id="overlay" *ngIf="errorGenerated">
+  <div id="text">
+    <div class="panel">
+      <div class="panel-body">
+
+        <div class="modal-dialog">
+          <div class="modal-body" style="text-align:center;">
+            <div class="errHead">
+              <h3 class="m-0">{{labels?.rcu}}</h3>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="errText">{{errMsg}}</div>
               </div>
+            </div>
+            <div class="btn-wrap">
+              <button class="btn btn-primary" (click)="errGenerated()">OK</button>
+            </div>
           </div>
+        </div>
       </div>
   </div>
+</div>

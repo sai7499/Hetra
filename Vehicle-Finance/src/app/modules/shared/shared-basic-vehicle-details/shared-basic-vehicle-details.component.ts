@@ -93,6 +93,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   vehicleRegNoChange: any;
   isShowParentLoan: boolean;
   loanDetailsData: any = [];
+  isVehicleRegistrationNumber: any;
   isVehicleRegNoChange: boolean;
   searchChildLoanData: any;
 
@@ -167,9 +168,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.initForms();
     this.getLov();
-
-
-    console.log(this.id, 'fdsg')
 
     if (this.id && this.id !== '0') {
       this.setFormValue();
@@ -310,12 +308,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     formArray.clear();
     this.roleType === 1 ? this.addSalesFormControls() : this.addCreditFormControls();
     const details = formArray.at(0) as FormGroup;
-
-    if (this.isChildLoan) {
+    if (this.isChildLoan && this.childLoanCondition) {
       this.getDynamicFormControls(details)
     }
-  }
 
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+      this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
+    }
+
+  }
 
   getDynamicFormControls(form) {
     let keys = Object.keys(this.childLoanCondition);
@@ -464,45 +465,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   setFormValue() {
 
-    this.vehicleDetailService.getAnVehicleDetails(this.id).subscribe((res: any) => {
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
-
-        this.vehicleLov.assetMake = [{
-          key: VehicleDetail.vehicleMfrUniqueCode,
-          value: VehicleDetail.vehicleMfrCode
-        }]
-
-        this.vehicleLov.assetBodyType = [{
-          key: VehicleDetail.vehicleSegmentUniqueCode,
-          value: VehicleDetail.vehicleSegmentCode
-        }]
-
-        this.vehicleLov.assetModel = [
-          {
-            key: VehicleDetail.vehicleModelCode,
-            value: VehicleDetail.vehicleModel
-          }
-        ]
-
-        this.vehicleLov.assetVariant = [{
-          key: VehicleDetail.assetVarient,
-          value: VehicleDetail.assetVarient
-        }]
-
-        this.vehicleLov.vehicleType = [{
-          key: VehicleDetail.vehicleTypeUniqueCode,
-          value: VehicleDetail.vehicleTypeCode
-        }]
-
-        const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-        this.onPatchArrayValue(formArray, VehicleDetail)
-        this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
-        this.sharedService.getFormValidation(this.basicVehicleForm)
-        this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
-      } else {
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
-      }
+    let data = {
+      "collateralId": this.id
+    }
+    let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    let details = formArray.at(0) as FormGroup;
+  
+    this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
+      this.getAVehicleDetails(res, formArray)
     })
 
   }
@@ -603,8 +573,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       totalTaxBill: VehicleDetail.totalTaxBill || '',
       tyreDealer: VehicleDetail.tyreDealer || '',
       tyreManufacturer: VehicleDetail.tyreManufacturer || '',
-      tyreSpecification: VehicleDetail.tyreManufacturer || '',
+      tyreSpecification: VehicleDetail.tyreSpecification || '',
       tonnage: VehicleDetail.tonnage || '',
+      scheme: VehicleDetail.scheme || '',
       typeOfPermit: VehicleDetail.typeOfPermit || '',
       typeOfPermitOthers: VehicleDetail.typeOfPermitOthers || '',
       usage: VehicleDetail.usage || '',
@@ -625,8 +596,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
-
-    // this.isVehicleDedupe = VehicleDetail.isVehicleDedupe === 'Yes' ? true: false;
+    this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
+    VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : ''
 
     if (VehicleDetail.parentLoanAccountNumber) {
       this.isVehicleDedupe = true;
@@ -656,7 +627,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             vehicleType: '',
             assetBodyType: '',
             assetModel: '',
-            assetVariant: ''
+            assetVariant: '',
+            scheme: ''
           })
         } else {
           this.vehicleLov.assetMake = [];
@@ -698,7 +670,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
               vehicleType: '',
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              assetVariant: '',
+              scheme: ''
             })
 
           } else {
@@ -745,7 +718,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             obj.patchValue({
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              assetVariant: '',
+              scheme: ''
             })
 
           } else {
@@ -771,7 +745,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     obj.patchValue({
       assetModel: '',
-      assetVariant: ''
+      assetVariant: '',
+      scheme: ''
     })
   }
 
@@ -783,11 +758,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
     })
 
+    this.getSchemeData(formArray.controls[0])
+
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       'vehicleCode', "vehicleVariant")
 
     obj.patchValue({
-      assetVariant: ''
+      assetVariant: '',
+      scheme: ''
     })
 
   }
@@ -798,33 +776,48 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isInvalidMobileNumber: true
     })
 
-    if (value.length === 10) {
-      if (this.applicantDetails && this.applicantDetails.length > 0) {
-        this.applicantDetails.filter((mob: any) => {
-          let mobileNumber = mob.mobileNumber;
-          if (mobileNumber && mobileNumber.length === 12) {
-            mobileNumber = mob.mobileNumber.slice(2, 12);
-          }
-          setTimeout(() => {
+    // if (value.length === 10) {
+    //   if (this.applicantDetails && this.applicantDetails.length > 0) {
+    //     this.applicantDetails.filter((mob: any) => {
+    //       let mobileNumber = mob.mobileNumber;
+    //       if (mobileNumber && mobileNumber.length === 12) {
+    //         mobileNumber = mob.mobileNumber.slice(2, 12);
+    //       }
+    //       setTimeout(() => {
 
-            if (mobileNumber === value) {
-              this.basicVehicleForm.patchValue({
-                isInvalidMobileNumber: false
-              })
-              this.toasterService.showInfo('Applicant and Vehicle Owner Mobile Number Same, Please Change', 'Mobile Number')
-            } else {
-              this.basicVehicleForm.patchValue({
-                isInvalidMobileNumber: true
-              })
-            }
-          })
-        })
-      } else {
-        this.basicVehicleForm.patchValue({
-          isInvalidMobileNumber: true
-        })
-      }
+    //         if (mobileNumber === value) {
+    //           this.basicVehicleForm.patchValue({
+    //             isInvalidMobileNumber: false
+    //           })
+    //           this.toasterService.showInfo('Applicant and Vehicle Owner Mobile Number Same, Please Change', 'Mobile Number')
+    //         } else {
+    //           this.basicVehicleForm.patchValue({
+    //             isInvalidMobileNumber: true
+    //           })
+    //         }
+    //       })
+    //     })
+    //   } else {
+    //     this.basicVehicleForm.patchValue({
+    //       isInvalidMobileNumber: true
+    //     })
+    //   }
+    // }
+  }
+
+  getSchemeData(form) {
+    let data =  {
+      "vehicleCode": form.controls.vehicleId.value,
+      "leadId": Number(this.leadId)
     }
+
+    this.vehicleDetailService.getScheme(data).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.vehicleLov.scheme = res.ProcessVariables.scheme ? res.ProcessVariables.scheme : []
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Scheme')
+      }
+    })
   }
 
   getPincode(pincode) {
@@ -888,6 +881,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetSubVarient: [''],
         exShowRoomCost: ['', Validators.required],
         finalAssetCost: [''],
+        scheme: [''],
         noOfVehicles: ['', Validators.required],
         vehicleId: 0,
         collateralId: 0,
@@ -907,6 +901,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         vehicleUsage: ['', Validators.required],
         exShowRoomCost: ['', Validators.required],
         finalAssetCost: [''],
+        scheme: [''],
         noOfVehicles: ['', Validators.required],
         vehicleId: 0,
         collateralId: 0,
@@ -930,6 +925,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetCostGrid: ['', Validators.required],
         isVehAvailInGrid: [0],
         finalAssetCost: [''],
+        scheme: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
         address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
@@ -957,6 +953,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetCostIBB: ['', Validators.required],
         assetCostCarTrade: ['', Validators.required],
         finalAssetCost: [''],
+        scheme: [''],
         rcOwnerName: ['', Validators.required],
         ownerMobileNo: ['', Validators.required],
         address: ['', Validators.compose([Validators.maxLength(120), Validators.required])],
@@ -990,7 +987,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
+      scheme: [''],
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
@@ -1004,7 +1001,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       manuFactureSubventionPartIRR: [null],
       manufacturesubventionPartFinCharge: [null],
       grossVehicleWeight: [''],
-
       isOrpFunding: [''],
       insurance: [''],
       oneTimeTax: [''],
@@ -1023,13 +1019,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     });
 
-    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
-    }
-
     if (this.Product !== 'TyreLoan') {
       controls.addControl('invoiceAmount', this._fb.control(null))
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
     }
 
     formArray.push(controls);
@@ -1044,7 +1037,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
@@ -1062,6 +1054,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       amcAmount: [''],
       oneTimeTax: [''],
       pac: [''],
+      scheme: [''],
       vas: [''],
       emiProtect: [''],
       loanAmount: [0],
@@ -1075,13 +1068,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId
     })
-    if (!(this.Product === 'InsuranceLoan' || this.Product === 'SaathiLoan')) {
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
-    }
-
     if (this.Product !== 'TyreLoan') {
       controls.addControl('invoiceAmount', this._fb.control(null))
+      controls.addControl('invoiceNumber', this._fb.control(null))
+      controls.addControl('invoiceDate', this._fb.control(''))
     }
 
     formArray.push(controls);
@@ -1096,7 +1086,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
@@ -1107,12 +1096,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: ['', Validators.required],
       finalAssetCost: ['', Validators.required],
       fitnessDate: [''],
+      scheme: [''],
       isVehAvailInGrid: [0],
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
       permitUpload: [''],
-      chasisNumber: [''],
-      engineNumber: [''],
+      chasisNumber: ['', Validators.required],
+      engineNumber: ['', Validators.required],
       vehiclePurchasedCost: [null],
       vehicleOwnerShipNumber: null,
       rcOwnerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]],
@@ -1159,7 +1149,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
@@ -1173,8 +1162,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostCarTrade: ['', Validators.required],
       assetCostLeast: '',
       finalAssetCost: ['', Validators.required],
-      chasisNumber: [''],
-      engineNumber: [''],
+      chasisNumber: ['', Validators.required],
+      engineNumber: ['', Validators.required],
+      scheme: [''],
       loanAmount: [0],
       bodyCost: [''],
       vehiclePurchasedCost: [''],
@@ -1262,6 +1252,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
   }
 
+  getCheckDedupe(val: string, form) {
+    if (val && val.length >= 9 && form.controls['vehicleRegNo'].valid) {
+      this.isVehicleRegistrationNumber = val;
+      this.isVehicleDedupe = true;
+    } else {
+      this.isVehicleDedupe = false;
+    }
+  }
+
   onGetSpareCost(val: string, form) {
     this.isSpareCost = val;
     if (this.isSpareCost && this.isRepairCost) {
@@ -1275,25 +1274,24 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   getRegistrationNumber(val: any, form) {
 
     if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
+
       if (this.vehicleRegNoChange !== val) {
+
         this.basicVehicleForm.patchValue({
           isCheckDedpue: false
         })
-
         this.isVehicleRegNoChange = true;
       } else {
         this.isVehicleRegNoChange = false;
       }
-
     }
-
   }
 
   onClose() {
     this.isShowParentLoan = false;
     this.isVehicleRegNoChange = false;
-
   }
+
   getparentLoanAccountNumber(obj) {
 
     let childData = {
@@ -1305,7 +1303,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     })
 
     this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
-      this.vehicleRegNoChange = res.ProcessVariables.childData.vehicleRegistrationNumber;
 
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
       const details = formArray.at(0) as FormGroup;
@@ -1326,10 +1323,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })
-    console.log(obj, 'obj')
   }
 
-  onLoanAccNoSelect(val, index, data) {
+  onLoanAccNoSelect(data) {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     const details = formArray.at(0) as FormGroup;
 
@@ -1337,9 +1333,70 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       parentLoanAccountNumber: data.accountNumber,
       isVehicleDedupe: false
     })
-    this.isShowParentLoan = false;
-    this.isVehicleRegNoChange = false;
+  }
 
+  onCheckVehicleDetails() {
+
+    let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    let details = formArray.at(0) as FormGroup;
+
+    this.id
+
+    let data = {
+      'vehicleRegNo': details.get('vehicleRegNo').value,
+      'parentLoanAccountNumber': details.get('parentLoanAccountNumber').value,
+      "checkDedupe": true
+    }
+
+    let editFiledData = data;
+
+    this.id && this.id !== '0' ? editFiledData['collateralId'] = this.id : data;
+
+    this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
+      this.getAVehicleDetails(res, formArray)
+    })
+  }
+
+  getAVehicleDetails(res, formArray) {
+    if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+      let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
+
+      this.vehicleLov.assetMake = [{
+        key: VehicleDetail.vehicleMfrUniqueCode,
+        value: VehicleDetail.vehicleMfrCode
+      }]
+
+      this.vehicleLov.assetBodyType = [{
+        key: VehicleDetail.vehicleSegmentUniqueCode,
+        value: VehicleDetail.vehicleSegmentCode
+      }]
+
+      this.vehicleLov.assetModel = [
+        {
+          key: VehicleDetail.vehicleModelCode,
+          value: VehicleDetail.vehicleModel
+        }
+      ]
+
+      this.vehicleLov.assetVariant = [{
+        key: VehicleDetail.assetVarient,
+        value: VehicleDetail.assetVarient
+      }]
+
+      this.vehicleLov.vehicleType = [{
+        key: VehicleDetail.vehicleTypeUniqueCode,
+        value: VehicleDetail.vehicleTypeCode
+      }]
+
+      this.onPatchArrayValue(formArray, VehicleDetail)
+      this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
+      this.sharedService.getFormValidation(this.basicVehicleForm)
+      this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
+      this.isShowParentLoan = false;
+      this.isVehicleRegNoChange = false;
+    } else {
+      this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
+    }
   }
 
 }

@@ -91,7 +91,7 @@
             <app-vf-custom-select
               formControlName="custSegment"
               [values]="applicantLov?.customerSegment"
-              (change)="onCustCategoryChanged($event)"
+              (change)="onCustCategoryChanged($event.target.value)"
               [isRequired]="'Please select one'"
               [isDirty]="isDirty"
             ></app-vf-custom-select>
@@ -480,6 +480,37 @@
               ></app-custom-input>
             </div>
           </div>
+
+
+          <div class="row" *ngIf="productCategory=='1003'">
+            <div class="form-group col-sm-6 col-md-4 col-lg-4" id="align_this_checkbox">
+              <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
+              (click)="onOwnHouseAvailable($event)" 
+              [checked]="checkedBoxHouse==true"/>
+              <span class="is_senior">{{labels?.ownHouseProofAvail}}</span>
+
+              
+
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-4">
+              <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_blue_col">*</sub></label>
+              <app-vf-custom-select [values]="ownerPropertyRelation"
+                formControlName="houseOwnerProperty"  [isDirty]="isDirty"
+                (change)="onChangeOwner($event)"
+                [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''" 
+               >
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-4">
+              <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_blue_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.relationship"
+                formControlName="ownHouseAppRelationship"
+                [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''"  
+                 
+                [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+          </div>
           
 
 
@@ -514,34 +545,7 @@
 
           </div>
 
-          <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
-            <div class="form-group col-sm-6 col-md-4 col-lg-4" id="align_this_checkbox">
-              <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
-              (click)="onOwnHouseAvailable($event)" 
-              [checked]="checkedBoxHouse==true"/>
-              <span class="is_senior">{{labels?.ownHouseProofAvail}}</span>
-
-              
-
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-4">
-              <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_blue_col">*</sub></label>
-              <app-vf-custom-select [values]="ownerPropertyRelation"
-                formControlName="houseOwnerProperty"  [isDirty]="isDirty"
-                [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''" 
-               >
-              </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-4">
-              <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_blue_col">*</sub></label>
-              <app-vf-custom-select [values]="applicantLov?.relationship"
-                formControlName="ownHouseAppRelationship"
-                [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''"  
-                 
-                [isDirty]="isDirty">
-              </app-vf-custom-select>
-            </div>
-          </div>
+          
           <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='26'">
             <div class="form-group col-sm-6 col-md-4 col-lg-4 ">
               <label for="aadharnumber">{{labels?.averageBankBalance}}
@@ -610,13 +614,14 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-              <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_red_col">*</sub></label>
+              <label for="Vechical Type">{{labels?.agriOwnerProperty}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select [values]="ownerPropertyRelation"
+              (change)="onChangeAgriOwner($event)"
                 formControlName="agriOwnerProperty" [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-              <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_red_col">*</sub></label>
+              <label for="Vechical Type">{{labels?.agriAppRelationship}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select [values]="applicantLov?.relationship"
                 formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
@@ -637,12 +642,6 @@
             </div>
           </div>
 
-
-
-
-
-
-
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="occupation"
@@ -651,7 +650,7 @@
               >
               <app-vf-custom-select
                 formControlName="occupation"
-                [values]="applicantLov?.occupation"
+                [values]="occupation"
                 [isRequired]="'Please select one'"
                 [isDirty]="isDirty"
               ></app-vf-custom-select>
@@ -893,6 +892,41 @@
             </div>
             
           </div>
+
+          <div class="row" *ngIf="productCategory=='1003'">
+
+            <div class="form-group col-sm-6 col-md-4 col-lg-4" id="align_this_checkbox"
+            >
+              <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
+              (click)="onOwnHouseAvailable($event)" 
+              [checked]="checkedBoxHouse==true" />
+              <span class="is_senior">{{labels?.ownHouseProofAvail}} </span>
+            </div>
+            
+            <div class="form-group col-sm-6 col-md-4 col-lg-4"
+            >
+              <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_blue_col">*</sub></label>
+              <app-vf-custom-select [values]="ownerPropertyRelation"
+                formControlName="houseOwnerProperty"  [isDirty]="isDirty"
+                (change)="onChangeOwner($event)"
+                [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''" >
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-4"
+            >
+              <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_blue_col">*</sub></label>
+              <app-vf-custom-select [values]="applicantLov?.relationship"
+                formControlName="ownHouseAppRelationship" 
+                [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''" 
+                 
+                [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            
+          </div>
+
+
+
           <div class="row">
           <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco">
 
@@ -927,13 +961,7 @@
               </app-custom-input>
             </div>
 
-            <div class="form-group col-sm-6 col-md-4 col-lg-4" id="align_this_checkbox"
-            *ngIf="productCategory=='1003' && fundingProgram=='26'">
-              <input type="checkbox" id="" formControlName="ownHouseProofAvail" class="senior_minor" 
-              (click)="onOwnHouseAvailable($event)" 
-              [checked]="checkedBoxHouse==true" />
-              <span class="is_senior">{{labels?.ownHouseProofAvail}} </span>
-            </div>
+            
 
             <div class="form-group col-sm-6 col-md-4 col-lg-4"
             *ngIf="productCategory=='1003' && fundingProgram=='27'">
@@ -959,26 +987,9 @@
         </div>
 
 
-          <div class="row" >
-            
-            <div class="form-group col-sm-6 col-md-4 col-lg-4"
-            *ngIf="productCategory=='1003' && fundingProgram=='26'">
-              <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_blue_col">*</sub></label>
-              <app-vf-custom-select [values]="ownerPropertyRelation"
-                formControlName="houseOwnerProperty"  [isDirty]="isDirty"
-                [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''" >
-              </app-vf-custom-select>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-4"
-            *ngIf="productCategory=='1003' && fundingProgram=='26'">
-              <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_blue_col">*</sub></label>
-              <app-vf-custom-select [values]="applicantLov?.relationship"
-                formControlName="ownHouseAppRelationship" 
-                [isRequired]="hideMsgForOwner? 'Owner Relationship is Required' : ''" 
-                 
-                [isDirty]="isDirty">
-              </app-vf-custom-select>
-            </div>
+          
+
+          <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-4 "
             *ngIf="productCategory=='1003' && fundingProgram=='26'">
               <label for="aadharnumber">{{labels?.averageBankBalance}}
@@ -1043,13 +1054,14 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-              <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_red_col">*</sub></label>
+              <label for="Vechical Type">{{labels?.agriOwnerProperty}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select [values]="ownerPropertyRelation"
+              (change)="onChangeAgriOwner($event)"
                 formControlName="agriOwnerProperty" [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
-              <label for="Vechical Type">{{labels?.ownHouseAppRelationship}} <sub class="star_red_col">*</sub></label>
+              <label for="Vechical Type">{{labels?.agriAppRelationship}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select [values]="applicantLov?.relationship"
                 formControlName="agriAppRelationship" [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
@@ -1186,14 +1198,14 @@
       </ng-container>
     </div>
   </form>
-</div>
+
 
 <div class="btn-sec clear-both row">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
     <span id="edit_vehicle_details_replace"></span>
     <a id="back_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onBack()">
+      ><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
         Back
       </button></a
     >
@@ -1206,7 +1218,7 @@
     </a>
     <a id="next_vehicle_details"
       ><button
-        class="btn btn-primary"
+        class="btn btn-primary hvr-sweep-to-right"
         type="button"
         (click)="onNext()"
       >
@@ -1218,4 +1230,5 @@
     <br />
     <br />
   </div>
+</div>
 </div>

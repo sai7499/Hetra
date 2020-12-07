@@ -16,6 +16,7 @@ import { Constant } from '@assets/constants/constant';
 import { Location } from '@angular/common';
 import { LoginStoreService } from '@services/login-store.service';
 import { formatDate } from '@angular/common';
+import { LoanViewService } from '@services/loan-view.service';
 @Component({
   selector: 'app-rcu',
   templateUrl: './rcu.component.html',
@@ -73,6 +74,8 @@ export class RcuComponent implements OnInit {
   fiCumPdStatus: boolean;
   //  public value: Date = new Date(2019, 5, 1, 22);
   //     public format = 'MM/dd/yyyy HH:mm';
+
+  isLoan360: boolean;
   constructor(
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -87,7 +90,7 @@ export class RcuComponent implements OnInit {
     private draggableContainerService: DraggableContainerService,
     private location: Location,
     private loginStoreService: LoginStoreService,
-
+    private loanViewService: LoanViewService,
     public router: Router
   ) {
     // this.leadId = this.route.snapshot.params['leadId'];
@@ -109,6 +112,7 @@ export class RcuComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
     if (this.fiCumPdStatusString == 'false') {
       this.fiCumPdStatus = false
@@ -285,6 +289,10 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
         this.rcuDetailsForm.controls.collateralDocuments.push(
           this.getRcuDocumentDetails(this.collateralDocuments[i])
         );
+      }
+
+      if (this.isLoan360) {
+        this.rcuDetailsForm.disable();
       }
       this.testRadio(event);
       // this.onUploadSuccess(event);
@@ -485,6 +493,8 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
   testRadio(event) {
     // alert("event" + event)
     // this.fileRCUStatus = this.rcuDetailsForm.controls.fileRCUStatus.value
+
+    console.log('event', event)
 
     if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
       this.screened = '0';
@@ -737,8 +747,32 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
         });
     });
   }
+
+  clickForLoan360(index, name) {
+
+    let docId;
+
+    if (!index && !name) {
+      docId = this.rcuDetailsForm.get('rcuDocumentId').value;
+    } else if (name === 'collateralDocuments') {
+      const formArray = this.rcuDetailsForm.controls.collateralDocuments.controls as FormArray;
+      docId = formArray.at(index).get('dmsDocumentID').value;
+    } else if (name === 'applicantDocuments') {
+      const formArray = this.rcuDetailsForm.controls.applicantDocuments.controls as FormArray;
+      docId = formArray.at(index).get('dmsDocumentID').value;
+    }
+
+    if (this.isLoan360) {
+        // const event = this.rcuDetailsForm.get('dmsDocumentID').value;
+        this.downloadDocs(docId);
+    } else {
+        return;
+    }
+
+  }
   //for document
   async downloadDocs(event) {
+   
     // let el = event.srcElement;
     const dmsDocumentID: any = await this.getBase64String(event);
     const showDraggableContainer = {

@@ -44,11 +44,15 @@
 
 .notification {
     position: relative;
-    top: -11px;
+    top: -9px;
     background: #f3682d;
     color: white;
-    right: 7px;
+    right: 9px;
     padding: 0.05rem .4rem;
+}
+
+.badge {
+    font-size: 9px !important;
 }
 
 .cus-bell {
