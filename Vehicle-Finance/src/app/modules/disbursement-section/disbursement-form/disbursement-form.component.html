@@ -226,17 +226,18 @@
                 </app-custom-input>
               </div>
             </div>
-            <div class="form-group" [hidden]="true">
-              <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-                <!-- <sub class="star_red_col">*</sub> -->
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="mobilePhone" id="dealermobilePhone" [(ngModel)]="dealerObjInfo['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                    [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                  </app-custom-input>
-                </div>
+            <div class="form-group">
+              <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input formControlName="mobilePhone" [(ngModel)]="dealerObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+                [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+                [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+              </app-custom-input>
+              </div>
             </div>
-          </div>
+            </div>
           <div *ngIf="showDDDetails">
             <div class="form-group">
               <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
@@ -533,15 +534,16 @@
               </app-custom-input>
             </div>
           </div>
-          <div class="form-group" [hidden]="true">
-            <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-              <!-- <sub class="star_red_col">*</sub>-->
-              </label> 
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input formControlName="mobilePhone" id="applicantMobilePhone" [(ngModel)]="applicantObjInfo['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                  [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                </app-custom-input>
-              </div>
+          <div class="form-group">
+            <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <app-custom-input formControlName="mobilePhone" [(ngModel)]="applicantObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            </app-custom-input>
+            </div>
           </div>
         </div>
           <div *ngIf="showAppDDDetails">
@@ -856,15 +858,16 @@
                   </app-custom-input>
                 </div>
               </div>
-              <div class="form-group" [hidden]="true">
-                <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-                  <!-- <sub class="star_red_col">*</sub> -->
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                      <app-custom-input formControlName="mobilePhone" id="coApp1mobilePhone" [(ngModel)]="coApplicant1['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                      [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                    </app-custom-input>
-                  </div>
+              <div class="form-group">
+                <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="mobilePhone" [(ngModel)]="coApplicant1['mobilePhone']" [className]="'form-control mandatory'"
+                  [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+                  [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+                </app-custom-input>
+                </div>
               </div>
             </div>
               <div *ngIf="showCoApp1DDDetails">
@@ -1156,15 +1159,16 @@
                   </app-custom-input>
                 </div>
               </div>
-              <div class="form-group" [hidden]="true">
-                <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-                  <!-- <sub class="star_red_col">*</sub> -->
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                      <app-custom-input formControlName="mobilePhone" id="coApp2mobilePhone" [(ngModel)]="coApplicant2['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                      [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                    </app-custom-input>
-                  </div>
+              <div class="form-group">
+                <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="mobilePhone" [(ngModel)]="coApplicant2['mobilePhone']" [className]="'form-control mandatory'"
+                  [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+                  [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+                </app-custom-input>
+                </div>
               </div>
             </div>
               <div *ngIf="showCoApp2DDDetails">
@@ -1456,15 +1460,16 @@
                   </app-custom-input>
                 </div>
               </div>
-              <div class="form-group" [hidden]="true">
-                <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-                  <!-- <sub class="star_red_col">*</sub> -->
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                      <app-custom-input formControlName="mobilePhone" id="coApp3mobilePhone" [(ngModel)]="coApplicant3['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                      [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                    </app-custom-input>
-                  </div>
+              <div class="form-group">
+                <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="mobilePhone" [(ngModel)]="coApplicant3['mobilePhone']" [className]="'form-control mandatory'"
+                  [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+                  [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+                </app-custom-input>
+                </div>
               </div>
             </div>
               <div *ngIf="showCoApp3DDDetails">
@@ -1785,6 +1790,17 @@
               </app-custom-input>
             </div>
           </div>
+          <div class="form-group">
+            <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <app-custom-input formControlName="mobilePhone" [(ngModel)]="bankerObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            </app-custom-input>
+            </div>
+          </div>
         </div>
           <div *ngIf="showBankerDDDetails">
             <div class="form-group">
@@ -2085,6 +2101,17 @@
               <app-custom-input id="finIFSC" [(ngModel)]="financierObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <app-custom-input formControlName="mobilePhone" [(ngModel)]="financierObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            </app-custom-input>
             </div>
           </div>
         </div>
@@ -2393,6 +2420,17 @@
               <app-custom-input id="tpIFSC" [(ngModel)]="thirdPartyObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <app-custom-input formControlName="mobilePhone" [(ngModel)]="thirdPartyObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            </app-custom-input>
             </div>
           </div>
         </div>
