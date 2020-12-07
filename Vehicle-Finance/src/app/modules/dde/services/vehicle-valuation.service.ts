@@ -12,8 +12,8 @@ import { LoginStoreService } from '@services/login-store.service';
 })
 export class VehicleValuationService {
 
-  constructor( private httpService: HttpService,
-               private apiService: ApiService ) { }
+  constructor(private httpService: HttpService,
+    private apiService: ApiService) { }
 
   getCollateralDetailsForVehicleValuation(data) {
     const processData = data;
@@ -26,12 +26,12 @@ export class VehicleValuationService {
     const userId = localStorage.getItem('userId')
 
     const body: RequestEntity = {
-        processId: processId,
-        ProcessVariables:{
-          leadId: processData
-        },
-        workflowId: workflowId,
-        projectId: projectId
+      processId: processId,
+      ProcessVariables: {
+        leadId: processData
+      },
+      workflowId: workflowId,
+      projectId: projectId
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -44,10 +44,10 @@ export class VehicleValuationService {
     const projectId = this.apiService.api.getVendorCode.projectId;
 
     const body: RequestEntity = {
-        processId: processId,
-        ProcessVariables: {},
-        workflowId: workflowId,
-        projectId: projectId
+      processId: processId,
+      ProcessVariables: {},
+      workflowId: workflowId,
+      projectId: projectId
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -65,12 +65,12 @@ export class VehicleValuationService {
     const userId = localStorage.getItem('userId')
 
     const body: RequestEntity = {
-        processId: processId,
-        ProcessVariables:{
-          ...processData
-        },
-        workflowId: workflowId,
-        projectId: projectId
+      processId: processId,
+      ProcessVariables: {
+        ...processData
+      },
+      workflowId: workflowId,
+      projectId: projectId
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -88,12 +88,12 @@ export class VehicleValuationService {
     const userId = localStorage.getItem('userId');
 
     const body: RequestEntity = {
-        processId: processId,
-        ProcessVariables:{
-          collateralId: processData
-        },
-        workflowId: workflowId,
-        projectId: projectId
+      processId: processId,
+      ProcessVariables: {
+        collateralId: processData
+      },
+      workflowId: workflowId,
+      projectId: projectId
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
@@ -111,14 +111,36 @@ export class VehicleValuationService {
     const userId = localStorage.getItem('userId');
 
     const body: RequestEntity = {
-        processId: processId,
-        ProcessVariables: processData,
-        workflowId: workflowId,
-        projectId: projectId
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
     };
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
+  }
+  sumbitValuationTask(data) {
+    const processData = data;
+
+    const processId = this.apiService.api.submitValuationTask.processId;
+    const workflowId = this.apiService.api.submitValuationTask.workflowId;
+    const projectId = this.apiService.api.submitValuationTask.projectId;
+
+    const email = localStorage.getItem('email');
+    const userId = localStorage.getItem('userId');
+
+    const body: RequestEntity = {
+      // tslint:disable-next-line: object-literal-shorthand
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
   }
 
 }

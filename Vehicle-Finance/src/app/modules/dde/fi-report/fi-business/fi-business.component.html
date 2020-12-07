@@ -3,6 +3,7 @@
   [formGroup]="fieldReportForm"
   *ngIf="this.fieldReportForm"
 >
+<h3 class="banner-con">FI - Business</h3>
   <div class="row">
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -60,6 +61,7 @@
           [placeholder]="'Enter initiated date'"
           [activeView]="'decade'"
           [min]="leadCreatedDateFromLead"
+          [max]="toDayDate"
         ></kendo-datepicker>
         <div
         class="invalid-feedback"
@@ -68,6 +70,16 @@
           *ngIf="
           fieldReportForm.controls['cpvInitiatedDate'].hasError('required')">
           CPV initiated date is required
+        </div>
+        <div *ngIf="
+        fieldReportForm.controls['cpvInitiatedDate'].value &&
+          fieldReportForm.controls['cpvInitiatedDate'].errors" >
+          <div *ngIf="fieldReportForm.controls['cpvInitiatedDate'].errors.minError">
+            CPV initiated date should be greater than lead created date
+          </div>
+          <div *ngIf="fieldReportForm.controls['cpvInitiatedDate'].errors.maxError">
+            CPV initiated date should not be future date
+          </div>
         </div>
         </div>
       </div>
@@ -141,6 +153,12 @@
           fieldReportForm.controls['reportSubmitDate'].hasError('required')">
           Report submit date is required
         </div>
+        <div *ngIf="
+              fieldReportForm.controls['reportSubmitDate'].value &&
+                fieldReportForm.controls['reportSubmitDate'].errors" >
+
+                Report submit date should be greater than CPV initiated date
+              </div>
         </div>
       </div>
     </div>
@@ -605,7 +623,7 @@
 
   <!-- if Bussiness -->
   <div class="row">
-    <h3>Office Observation</h3>
+    <h3 class="banner-con">Office Observation</h3>
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="approachable"
@@ -759,7 +777,7 @@
 
   <!-- if business and if residence -->
   <div class="row">
-    <h3>Comments and Recommendations</h3>
+    <h3 class="banner-con">Comments and Recommendations</h3>
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="comments"
@@ -869,7 +887,7 @@
   <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+      <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateBack()">
         {{ labels.back }}
       </button>
 

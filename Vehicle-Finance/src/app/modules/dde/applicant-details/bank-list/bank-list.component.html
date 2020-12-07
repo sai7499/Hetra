@@ -9,7 +9,7 @@
           <!-- <div class="col-sm-5">
                            <h4 class="title">Vehicle Details</h4> 
                        </div> -->
-          <div class="col-sm-12 text-right">
+          <div class="col-sm-12 text-right" *ngIf="!isLoan360">
             <button
               class="btn btn-secondary mar-right8 table-head-bg"
               id="btnColor"
@@ -74,7 +74,16 @@
                   <td [attr.data-label]="labels?.toDate">{{ item?.toDate }}</td>
                   <td [attr.data-label]="labels?.period">{{ item?.period }}</td>
                   <td class="cursor-pointer" [attr.data-label]="labels?.action">
-                    <i
+                    <ng-container *ngIf="isLoan360">
+                      <i
+                      class="fa fa-eye"
+                      (click)="routeDetails(item.applicantId)"
+                      aria-hidden="true"
+                    ></i
+                    >
+                    </ng-container>
+                    <ng-container *ngIf="!isLoan360">
+                      <i
                       class="fa fa-pencil"
                       (click)="routeDetails(item.applicantId)"
                       aria-hidden="true"
@@ -86,6 +95,7 @@
                       data-toggle="modal"
                       data-target="#myModal"
                     ></i>
+                    </ng-container>
                   </td>
                 </tr>
               </tbody>
@@ -102,13 +112,13 @@
   </form>
   <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5">
-      <button class="btn btn-primary dash_href" (click)="loadAppplicant()">
+      <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="loadAppplicant()">
         Back To Applicant Details
       </button>
     </div>
     <div class="col-sm-7 text-right">
       <button
-        class="btn btn-primary dash_href"
+        class="btn btn-primary dash_href hvr-sweep-to-left"
         type="button"
         (click)="onBack()"
       >

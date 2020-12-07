@@ -10,6 +10,9 @@ import { IfStmt } from '@angular/compiler';
 import { LoginStoreService } from '@services/login-store.service';
 import { element } from 'protractor';
 import { variable } from '@angular/compiler/src/output/output_ast';
+import { environment } from 'src/environments/environment';
+import { LoanViewService } from '@services/loan-view.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-negotiation',
   templateUrl: './negotiation.component.html',
@@ -138,6 +141,8 @@ export class NegotiationComponent implements OnInit {
   minLoanTenor: number;
   minEMIAmount: number;
   maxEMIAmount: number;
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -147,7 +152,9 @@ export class NegotiationComponent implements OnInit {
     private toasterService: ToasterService,
     private sharedData: SharedService,
     private router: Router,
-    private loginStoreService: LoginStoreService
+    private loginStoreService: LoginStoreService,
+    private loanViewService: LoanViewService,
+    private location: Location,
   ) {
     this.sharedData.leadData$.subscribe((value) => {
       this.leadData = value;
@@ -161,12 +168,25 @@ export class NegotiationComponent implements OnInit {
     // this.leadId = leadData['leadId']
     this.userId = localStorage.getItem('userId');
     this.onChangeLanguage('English');
-    this.getLeadId();
+    this.isLoan360 = this.loanViewService.checkIsLoan360()
+    if (this.isLoan360) {
+        const path = this.location.path().split('/').filter((val) => val !== ' ');
+        const leadId = path.find((value: any) => {
+          value = Number(value);
+          return !isNaN(Number(value)) && value !== 0;
+        })
+        this.leadId = Number(leadId)
+    } else {
+      this.getLeadId();
+    }
     // this.initForm();
     this.getLabels();
     this.getLOV();
     this.getInsuranceLOV();
     this.loadForm();
+
+    
+
     // setTimeout(() => {
     // }, 1500);
     // else if (!this.view)
@@ -912,9 +932,13 @@ export class NegotiationComponent implements OnInit {
                 }));
             }
           }
+          
         }
         else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
+        }
+        if (this.isLoan360) {
+          this.createNegotiationForm.disable();
         }
       });
     //  this.getNetDisbursementAmount();
@@ -927,6 +951,9 @@ export class NegotiationComponent implements OnInit {
   get a1() { return this.f.CrossSellInsurance as FormArray; }
   getLeadId() {
     return new Promise((resolve, reject) => {
+      this.activatedRoute.params.subscribe((value) => {
+        console.log('params', value)
+      })
       this.activatedRoute.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
@@ -980,10 +1007,23 @@ export class NegotiationComponent implements OnInit {
     this.EMICycleDaysLOV = [];
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     var moratoriumDays = parseInt(this.createNegotiationForm.controls.MoratoriumPeriod.value);
+    if (moratoriumDays == 1) {
+      moratoriumDays = 0;
+    } else if (moratoriumDays == 2) {
+      moratoriumDays = 30;
+    } else if (moratoriumDays == 3) {
+      moratoriumDays = 60;
+    } else if (moratoriumDays == 4) {
+      moratoriumDays = 90;
+    }
+
     var disbursementDay = new Date();
+    if (environment.hostingEnvironment == 'DEV' || environment.hostingEnvironment == 'UAT' || environment.hostingEnvironment == 'SIT') {
+      disbursementDay = new Date(environment.lmsSITDate);
+    }
     // Considering today as Negotiation day, 2 days added as buffer for disbursement
-    disbursementDay.setDate(new Date().getDate() + 2);
-    var d = new Date();
+    disbursementDay.setDate(disbursementDay.getDate() + 2);
+    var d = disbursementDay;
     d.setDate(disbursementDay.getDate() + moratoriumDays);
     for (let i = 15; i < 60; i++) {
       if (i == 15)
@@ -1029,6 +1069,7 @@ export class NegotiationComponent implements OnInit {
     else if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {
       this.getLeadId();
       const formData = this.createNegotiationForm.getRawValue();
+      this.Applicants=[];
       this.LeadReferenceDetails.forEach((element) => {
         var obj = {
           ucic: element.UCIC,
@@ -1483,6 +1524,9 @@ export class NegotiationComponent implements OnInit {
     }
   }
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/credit-conditions`);
+    }
     if (this.roleType == '1') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2') {
@@ -1491,12 +1535,20 @@ export class NegotiationComponent implements OnInit {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
+    }else if (this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
     }
     // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/disbursement/${this.leadId}`);
+    }
     if (this.roleType == '1') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
+    }else if(this.roleType == '7'){
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
+      
     }
     // else if (this.roleType == '2') {
     //   this.router.navigate([`pages/credit-decisions/${this.leadId}/credit-condition`]);

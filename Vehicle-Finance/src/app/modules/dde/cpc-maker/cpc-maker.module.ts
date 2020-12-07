@@ -17,11 +17,13 @@ import { NegotiationModule } from '@modules/negotiation/negotiation.module';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 import { WelomceLetterComponent } from './welomce-letter/welomce-letter.component';
 import { DeliveryOrderComponent } from './delivery-order/delivery-order.component';
+// import { RemarksComponent } from './remarks/remarks.component';
 
 @NgModule({
   declarations: [
     CpcMakerDdeComponent,
     PdcDetailsComponent,
+    // RemarksComponent,
     // WelomceLetterComponent,
     // DeliveryOrderComponent
     // CreditConditionsComponent,
@@ -44,6 +46,7 @@ import { DeliveryOrderComponent } from './delivery-order/delivery-order.componen
   exports: [
     CpcMakerDdeComponent,
     PdcDetailsComponent,
+    // RemarksComponent
   ]
 })
 export class CpcMakerModule { }

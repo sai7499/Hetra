@@ -5,7 +5,7 @@ import { LabelsService } from '@services/labels.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 @Component({
   selector: 'app-pd-list',
   templateUrl: './pd-list.component.html',
@@ -30,13 +30,17 @@ export class PdListComponent implements OnInit {
   isFiCumPD: boolean;
   fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
+  productCatCode: string;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
     public sharedService: SharedService,
     private loginStoreService: LoginStoreService,
     private personalDiscussionService: PersonalDiscussionService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private createLeadDataService: CreateLeadDataService,
+
+  ) { }
 
   async ngOnInit() {
     this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
@@ -63,7 +67,7 @@ export class PdListComponent implements OnInit {
         });
     this.getPdList();
 
-
+    this.getLeadSectiondata();
     if (this.router.url.includes('/fi-cum-pd-dashboard')) {   // showing/hiding the nav bar based on url
       this.show = true;
     } else if (this.router.url.includes('/dde')) {
@@ -86,6 +90,8 @@ export class PdListComponent implements OnInit {
       this.pdList = processvariables.finalPDList;
 
       for (var i in this.pdList) {
+
+        console.log('pd status value', this.pdList[i]['pdStatusValue']);
         this.pdStatusValue = this.pdList[i]['pdStatusValue']
         if (this.pdList[i]['pdStatusValue'] == "Submitted") {
           this.pdStatus[this.pdList[i]['applicantId']] = this.pdList[i]['pdStatusValue']
@@ -134,11 +140,11 @@ export class PdListComponent implements OnInit {
         // this.show = true;
         if (version !== null && version !== undefined) {
           // this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`]);
-          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`, { score: cibilScore}]);
+          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details/${version}`, { score: cibilScore }]);
           // right now version not available so
 
         } else if (version === undefined || version === null) {
-          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`, { score: cibilScore}]);
+          this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${applicantId}/personal-details`, { score: cibilScore }]);
         }
 
       } else if (this.router.url.includes('/dde')) {
@@ -173,13 +179,22 @@ export class PdListComponent implements OnInit {
     });
   }
 
+  //GET LEAD SECTION DATA
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.productCatCode = leadData['leadDetails'].productCatCode;
+    console.log("PRODUCT_CODE::", this.productCatCode);
+  }
+
   onNavigateBack() {
     if (this.fiCumPdStatus == false) {
       this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-      // this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-    } else if (this.fiCumPdStatus == true) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
 
+    } else if (this.productCatCode == 'UC' && this.fiCumPdStatus == true) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+
+    } else if (this.productCatCode != 'UC' && this.fiCumPdStatus == true) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
     }
 
   }

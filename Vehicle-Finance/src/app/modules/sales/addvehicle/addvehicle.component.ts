@@ -8,6 +8,9 @@ import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 
+
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-addvehicle',
   templateUrl: './addvehicle.component.html',
@@ -28,6 +31,8 @@ export class AddvehicleComponent implements OnInit {
 
   productCatoryCode: string;
 
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private router: Router,
@@ -37,10 +42,11 @@ export class AddvehicleComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private utilityService: UtilityService,
     private sharedService: SharedService,
-    private toasterService: ToasterService) { }
+    private toasterService: ToasterService,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
-
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -72,7 +78,39 @@ export class AddvehicleComponent implements OnInit {
     if (this.formValue.valid === true) {
       let data = this.formValue.value.vehicleFormArray[0];
 
+      // && this.formValue.value.isCheckDedpue
+
+      if (this.formValue.value.isCheckDedpue === false) {
+        this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
+        return
+      }
+
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
+
+        if (data && data.fcExpiryDate) {
+          data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
+        }
+
+        if (data.firFiled) {
+          data.firFiled = data.firFiled === true ? '1' : '0';
+        }
+
+        if (data.onlineVerification) {
+          data.onlineVerification = data.onlineVerification === true ? '1' : '0';
+        }
+
+        if (data.insuranceValidity) {
+          data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.accidentDate) {
+          data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.invoiceDate) {
+          data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
+        }
+
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
         }
@@ -96,7 +134,6 @@ export class AddvehicleComponent implements OnInit {
           this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
         }
       }
-
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)

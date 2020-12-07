@@ -27,6 +27,17 @@ import { ChequeTrackingComponent } from './cheque-tracking/cheque-tracking.compo
 import { LoanStatusComponent } from './loan-status/loan-status.component';
 import { LoanBookingComponent } from './loan-status/loan-booking/loan-booking.component';
 import { ReferenceComponent } from '@modules/shared/reference/reference.component';
+import { RcuComponent } from './rcu/rcu.component';
+import { PSLdataComponent } from './psldata/psldata.component';
+
+import { CreditConditionsComponent } from '@modules/dde/credit-conditions/credit-conditions.component';
+import { SanctionDetailsComponent } from '@modules/dde/credit-decisions/sanction-details/sanction-details.component';
+import { TermSheetComponent } from './credit-decisions/term-sheet/term-sheet.component';
+import { WelomceLetterComponent } from './cpc-maker/welomce-letter/welomce-letter.component';
+import { DeliveryOrderComponent } from './cpc-maker/delivery-order/delivery-order.component';
+import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
+
+import { PddComponent } from '@shared/pdd-screen/pdd.component';
 
 const routes: Routes = [
   {
@@ -92,7 +103,7 @@ const routes: Routes = [
       },
       {
         path: 'psl-data',
-        component: PslDataComponent,
+        component: PSLdataComponent,
       },
       {
         path: 'applicant-list',
@@ -101,6 +112,14 @@ const routes: Routes = [
       {
         path: 'tvr-details',
         component: TvrDetailsComponent,
+      },
+      {
+        path: 'rcu-initiate',
+        component: RcuComponent,
+      },
+      {
+        path: 'rcu',
+        component: RcuComponent,
       },
       {
         path: 'cam',
@@ -138,6 +157,46 @@ const routes: Routes = [
         path: 'loanbooking',
         component: LoanBookingComponent,
       },
+      {
+        path: 'negotiation',
+        loadChildren: () =>
+          import(
+            '@modules/negotiation/negotiation.module'
+          ).then((m) => m.NegotiationModule),
+      },
+      {
+        path: 'credit-conditions',
+        component: CreditConditionsComponent
+      },
+      {
+        path: 'disbursement',
+        loadChildren: () => import('@modules/disbursement-section/disbursement-section.module').then(m => m.DisbursementSectionModule)
+      },
+      {
+        path: 'sanction-letter',
+        component: SanctionDetailsComponent
+      },
+      {
+        path: 'term-sheet',
+        component: TermSheetComponent
+      },
+      {
+        path: 'welcome-letter',
+        component: WelomceLetterComponent
+      },
+      {
+        path: 'delivery-order',
+        component: DeliveryOrderComponent
+      },
+      {
+        path: 'loan-details',
+        component: LoanDetailsComponent
+      },
+      {
+        path: 'pdd',
+        component: PddComponent
+      }
+
     ],
   },
 ];

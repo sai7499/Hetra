@@ -1,0 +1,90 @@
+<div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': showUpload }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <!-- <h4 class="modal-title">Customer Dedupe Match Found</h4> -->
+        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="" method="POST">
+            <div class="table-responsive tab-content">
+              <!-- <p id="probale_title4">Probable Matches</p> -->
+      
+              <table class="table" id="exact_macth_title4_sec">
+                <thead>
+                  <tr class="table-head-bg">
+                    <td>Reg No</td>
+                    <td>Reg Owner Name</td>
+                    <td>Relation</td>
+                    <td>Region</td>
+                    <td>Make</td>
+                    <td>Vehicle Type</td>
+                    <td>Segment</td>
+                    <td>Model</td>
+                    <td>YOM</td>
+                      <td>Financial</td>
+                      <td>Loan Number</td>
+                      <td>Purchase Date</td>
+                      <td>Tenor</td>
+                      <td>Accrued</td>
+                      <td>Status</td>
+                     <td>Remarks</td> 
+                     
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of details">
+                    <td>{{data.regdNo}}</td>
+                    <td>{{data.regdOwner}}</td>
+                    <td>{{data.relation}}</td>
+                    <td>{{data.region}}</td>
+                    <td>{{data.make}}</td>
+                    <td>{{data.vehicleType}}</td>
+                    <td>{{data.segmentCode}}</td>
+                    <td>{{data.assetModel}}</td>
+                    <td>{{data.yom}}</td>
+                    <td>{{data.financier}}</td>
+                    <td>{{data.loanNo}}</td>
+                    <td>{{data.purchaseDate}}</td>
+                    <td>{{data.tenure}}</td>
+                    <td>{{data.paid}}</td>
+                    <td *ngIf="data.status" style="color: green;">Success</td>
+                    <td *ngIf="!data.status" style="color: red;">Fail</td>
+                    <td [ngClass]="{'status-success': data.status, 'status-fail': !data.status}">{{data.description}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+        type="button"
+        class="btn btn-danger"
+        data-dismiss="modal"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          (click)="onSave()"
+        >
+        Save Valid Records 
+        </button>
+        
+      </div>
+    </div>
+  </div>
+</div>

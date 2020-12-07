@@ -1,6 +1,6 @@
-<form class="multisteps-form__form" [formGroup]="incomeDetailsForm">
+<form class="multisteps-form__form p-0" [formGroup]="incomeDetailsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-    <h3 class="title">{{ labels.incomeDetails }}</h3>
+    <h3 class="banner-con">{{ labels.incomeDetails }}</h3>
     <div class="row">
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
         <label> {{ labels.grossIncome }} <sub class="star_red_col">*</sub></label>
@@ -228,7 +228,7 @@
     <div class="btn-sec clear-both row cst_btm_btns">
       <div class="col-sm-5"></div>
       <div class="col-sm-7 text-right">
-        <button class="btn btn-primary" type="button" (click)="onNavigateBack()">
+        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateBack()">
           {{ labels.back }}
         </button>
 
@@ -236,7 +236,7 @@
           {{ labels.save }}
         </button>
 
-        <button class="btn btn-primary" (click)="onNavigateNext()">
+        <button class="btn btn-primary hvr-sweep-to-right" (click)="onNavigateNext()">
           {{ labels.next }}
         </button>
       </div>

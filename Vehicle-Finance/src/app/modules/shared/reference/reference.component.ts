@@ -7,6 +7,10 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ApplicantService } from '@services/applicant.service';
 import { ToastrService } from 'ngx-toastr';
+import { ObjectComparisonService } from '@services/obj-compare.service';
+import { ToasterService } from '@services/toaster.service';
+
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-reference',
@@ -57,7 +61,7 @@ export class ReferenceComponent implements OnInit {
   isDirty: boolean;
   refOneId: any;
   refTwoId: any;
-  responseData: any;
+  responseData: any = [];
   mobileOneErrorMsg: string;
   mobileTwoErrorMsg: string;
   isMobileOneErrorMsg: boolean;
@@ -102,6 +106,9 @@ export class ReferenceComponent implements OnInit {
   ];
 
   testt: string;
+  apiValue: any;
+  finalValue: any;
+  isLoan360: boolean;
 
   constructor(
     private commonLovService: CommomLovService,
@@ -109,8 +116,11 @@ export class ReferenceComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private applicantService: ApplicantService,
     private toasterService: ToastrService,
+    private toasterServiceInfo: ToasterService,
     private location: Location,
     private router: Router,
+    private objectComparisonService: ObjectComparisonService,
+    private loanViewService: LoanViewService
   ) {
     this.refOnefirstName = '';
     this.refOnemiddleName = '';
@@ -131,6 +141,7 @@ export class ReferenceComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.currentUrl = this.location.path();
     if (this.currentUrl) {
@@ -145,8 +156,8 @@ export class ReferenceComponent implements OnInit {
     this.referenceForm = new FormGroup({
       refOneFirstName: new FormControl('', Validators.required),
       refOneMiddleName: new FormControl(''),
-      refOneLastName: new FormControl(''),
-      refOneFullName: new FormControl(''),
+      refOneLastName: new FormControl('', Validators.required),
+      refOneFullName: new FormControl({value: '', disabled: true}),
       refOneAddressLineOne: new FormControl('', Validators.required),
       refOneAddressLineTwo: new FormControl(''),
       refOneAddressLineThree: new FormControl(''),
@@ -160,8 +171,8 @@ export class ReferenceComponent implements OnInit {
 
       refTwoFirstName: new FormControl('', Validators.required),
       refTwoMiddleName: new FormControl(''),
-      refTwoLastName: new FormControl(''),
-      refTwoFullName: new FormControl(''),
+      refTwoLastName: new FormControl('', Validators.required),
+      refTwoFullName: new FormControl({value: '', disabled: true}),
       refTwoAddressLineOne: new FormControl('', Validators.required),
       refTwoAddressLineTwo: new FormControl(''),
       refTwoAddressLineThree: new FormControl(''),
@@ -243,6 +254,7 @@ export class ReferenceComponent implements OnInit {
       this.mobileOneErrorMsg = 'Mobile No. should not same as Reference 1 Mobile No.';
     } else {
       this.isMobileOneErrorMsg = false;
+      this.isMobileTwoErrorMsg = false;
     }
   }
 
@@ -254,6 +266,7 @@ export class ReferenceComponent implements OnInit {
       this.mobileTwoErrorMsg = 'Mobile No. should not same as Reference 2 Mobile No.';
     } else {
       this.isMobileTwoErrorMsg = false;
+      this.isMobileOneErrorMsg = false;
     }
   }
 
@@ -275,6 +288,9 @@ export class ReferenceComponent implements OnInit {
           const processVariables = value.ProcessVariables;
           const referenceList: any[] = processVariables.GeoMasterView;
           console.log('referenceList', referenceList);
+          // if(!this.responseData){
+          //   return;
+          // }
           if (value.Error !== '0') {
             return null;
           }
@@ -334,12 +350,15 @@ export class ReferenceComponent implements OnInit {
           if (district && district.length === 1) {
             this.referenceForm.patchValue({ refOneDistrict: district[0].key });
           }
-          if (this.responseData[0] && this.refOneBool) {
-            this.referenceForm.patchValue({
-              refOneCity: this.responseData[0].city,
-            });
-            this.refOneBool = false;
+          if(this.responseData){
+            if (this.responseData[0] && this.refOneBool) {
+              this.referenceForm.patchValue({
+                refOneCity: this.responseData[0].city,
+              });
+              this.refOneBool = false;
+            }
           }
+         
         } else {
           this.refTwoPincodeDummy = String(pincode);
           this.referenceForm.patchValue({ refTwoCountry: '' });
@@ -360,13 +379,18 @@ export class ReferenceComponent implements OnInit {
           if (district && district.length === 1) {
             this.referenceForm.patchValue({ refTwoDistrict: district[0].key });
           }
-          if (this.responseData[1] && this.refTwoBool) {
-            this.referenceForm.patchValue({
-              refTwoCity: this.responseData[1].city,
-            });
-            this.refTwoBool = false;
+          if(this.responseData){
+            if (this.responseData[1] && this.refTwoBool) {
+              this.referenceForm.patchValue({
+                refTwoCity: this.responseData[1].city,
+              });
+              this.refTwoBool = false;
+            }
           }
+         
         }
+
+        this.apiValue = this.referenceForm.getRawValue();
       });
   }
 
@@ -382,6 +406,7 @@ export class ReferenceComponent implements OnInit {
           if (appiyoError === '0' && apiError === '0') {
             console.log('FetchApplicantReference', response.ProcessVariables);
             this.responseData = response.ProcessVariables.ApplicantReference;
+            if (this.responseData != null && this.responseData.length >0){
             this.refOneId = response.ProcessVariables.ApplicantReference[0].id;
             this.refTwoId = response.ProcessVariables.ApplicantReference[1].id;
             console.log('refID', this.refOneId, this.refTwoId);
@@ -423,11 +448,16 @@ export class ReferenceComponent implements OnInit {
 
             this.refTwofirstName = `${this.responseData[1].firstName}`;
             this.refTwomiddleName = `${(this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName}`;
-    
-
+            this.refTwolastName = `${(this.responseData[1].lastName == null) ? '' : this.responseData[1].lastName}`;
+          }
+          console.log('hello')
+            
           } else {
             const message = response.ProcessVariables.error.message;
             this.toasterService.error(message, 'Reference Details');
+          }
+          if (this.loanViewService.checkIsLoan360()) {
+            this.referenceForm.disable();
           }
         },
         (err) => {
@@ -488,8 +518,11 @@ export class ReferenceComponent implements OnInit {
             const apiError = response.ProcessVariables.error.code;
 
             if (appiyoError === '0' && apiError === '0') {
+              this.refOneId = response.ProcessVariables.applicantReferences[0].id;
+              this.refTwoId = response.ProcessVariables.applicantReferences[1].id;
               this.toasterService.success('Record saved successfully', 'Reference Details');
               this.isSavedNext = false;
+              this.apiValue = this.referenceForm.getRawValue();
             } else {
               const message = response.ProcessVariables.error.message;
               this.toasterService.error(message, 'Reference Details');
@@ -516,12 +549,22 @@ export class ReferenceComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      return this.onNavigate();
+    }
     this.isDirty = true;
     if (this.referenceForm.valid === true
       && !this.isMobileOneErrorMsg
       && !this.isMobileOneErrorMsg) {
-      if (this.isSavedNext) {
-        this.onSubmit();
+      // if (this.isSavedNext) {
+      //   this.onSubmit();
+      // }
+      this.finalValue = this.referenceForm.getRawValue();
+      const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
+      console.log(this.apiValue, ' vvalue', this.finalValue);
+      if (!isValueCheck) {
+        this.toasterServiceInfo.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+        return;
       }
       this.onNavigate();
     } else {

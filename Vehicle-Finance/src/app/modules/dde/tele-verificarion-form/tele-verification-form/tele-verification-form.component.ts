@@ -12,6 +12,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-tele-verification-form',
@@ -73,6 +74,7 @@ export class TeleVerificationFormComponent implements OnInit {
     }
   };
   sourcingType: string;
+  reqLoanAmount: any;
 
   constructor(
     private fb: FormBuilder,
@@ -89,7 +91,8 @@ export class TeleVerificationFormComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private toggleDdeService: ToggleDdeService,
     private vehicleStoreService: VehicleDataStoreService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private loanViewService: LoanViewService
 
   ) {
 
@@ -102,6 +105,7 @@ export class TeleVerificationFormComponent implements OnInit {
     this.leadDetails = this.route.snapshot.data.leadData;
     this.product = this.leadDetails.ProcessVariables.leadDetails.assetProdutName;
     this.tenure = this.leadDetails.ProcessVariables.leadDetails.reqTenure;
+    this.reqLoanAmount = this.leadDetails.ProcessVariables.leadDetails.reqLoanAmt
 
     // calculating asset cost
     const vehicleCost = this.leadDetails.ProcessVariables.vehicleCollateral;
@@ -193,8 +197,8 @@ export class TeleVerificationFormComponent implements OnInit {
           firstName: [this.referenceData.length > 0 && this.referenceData[0].firstName ? this.referenceData[0].firstName : ''],
           mobileNo: [this.referenceData.length > 0 && this.referenceData[0].mobileNo ? this.referenceData[0].mobileNo : ''],
           address: [this.referenceData.length > 0 && this.referenceData[0].address ? this.referenceData[0].address : ''],
-          // tslint:disable-next-line: max-line-length
-          referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '']
+          
+          referenceStatus: [this.referenceData.length > 0 && this.referenceData[0].referenceStatus ? this.referenceData[0].referenceStatus : '', Validators.required]
         }),
         reference2: this.fb.group({
           applicantId: this.applicantId,
@@ -203,7 +207,7 @@ export class TeleVerificationFormComponent implements OnInit {
           mobileNo: [this.referenceData.length > 1 && this.referenceData[1].mobileNo ? this.referenceData[1].mobileNo : ''],
           address: [this.referenceData.length > 1 && this.referenceData[1].address ? this.referenceData[1].address : ''],
           // tslint:disable-next-line: max-line-length
-          referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '']
+          referenceStatus: [this.referenceData.length > 1 && this.referenceData[1].referenceStatus ? this.referenceData[1].referenceStatus : '', Validators.required]
         })
       })
     });
@@ -239,7 +243,10 @@ export class TeleVerificationFormComponent implements OnInit {
 
     this.getTvrDetails();
     this.initForm();
-
+    // if(this.applicantType !== 'Applicant') {
+    //   this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('N/A');
+    // this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('N/A');
+    // }
     // OTP Reactive form controls
     this.otpForm = this.fb.group({
       otp: [
@@ -283,7 +290,7 @@ export class TeleVerificationFormComponent implements OnInit {
     const nameRefTwo = event;
   }
 
-  
+
 
 
   // Getting TVR Detaails API method
@@ -298,6 +305,8 @@ export class TeleVerificationFormComponent implements OnInit {
       // this.leadId = res.ProcessVariables.leadId;
       this.tvrData = res.ProcessVariables.tvr;
       this.referenceData = res.ProcessVariables.applicationReferences ? res.ProcessVariables.applicationReferences : [];
+      console.log('referenceDAta', this.referenceData);
+
       // this.dateFormate = res.ProcessVariables.tvr.dob;
       // const financeAmt = this.tvrData.financeAmt ? this.tvrData.financeAmt.toString() : '';
       const tvr = { ...this.tvrData };
@@ -324,10 +333,20 @@ export class TeleVerificationFormComponent implements OnInit {
         }
       };
       tvr.applicationReferences = applicationReferences ? applicationReferences : '';
+      console.log('application reference', tvr.applicationReferences);
+
 
       // tslint:disable-next-line: max-line-length
       this.teleVerificationForm.get('srcOfProposal').setValue(`${this.sourcingChannelDesc} ${this.sourcingType} ${this.sourcingCode}`);
       this.teleVerificationForm.get('eCode').setValue(this.eCode);
+      // if (res.ProcessVariables.applicationReferences) {
+      //   this.teleVerificationForm.controls.applicationReferences['controls'].reference1.patchValue(this.referenceData[0]);
+      //   this.teleVerificationForm.controls.applicationReferences['controls'].reference2.patchValue(this.referenceData[1]);
+      // }
+      if (this.referenceData.length >0){
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference1.patchValue(this.referenceData[0]);
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference2.patchValue(this.referenceData[1]);
+      }
       if (tvr.dob) {
         this.teleVerificationForm.patchValue(tvr);
         if (this.valueChanges) {
@@ -388,10 +407,16 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('officePhnNo').setValue(this.mobileNumber);
         this.teleVerificationForm.get('tenureInMonth').setValue(this.tenure);
         this.teleVerificationForm.get('assetCost').setValue(this.assetCost);
+        this.teleVerificationForm.get('financeAmt').setValue(this.reqLoanAmount);
       }
 
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
+        this.teleVerificationForm.disable();
+        this.disableSaveBtn = true;
+      }
+
+      if (this.loanViewService.checkIsLoan360()) {
         this.teleVerificationForm.disable();
         this.disableSaveBtn = true;
       }
@@ -415,6 +440,23 @@ export class TeleVerificationFormComponent implements OnInit {
     });
   }
 
+  submitTVRDetails() {
+    const data = {
+      applicantId: this.applicantId
+    }
+    this.tvrService.submitTvrDetails(data).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+      if(appiyoError == '0' && apiError == '0' ) {
+        this.toasterService.showSuccess('Record Submittd Successfully !', '');
+        this.router.navigate([`pages/dde/${this.leadId}/tvr-details`]);
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, '');
+      }
+    })
+  }
+
   onBack() {
     // this.location.back();
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
@@ -423,9 +465,13 @@ export class TeleVerificationFormComponent implements OnInit {
   // Submitting TVR Form Method
   async onSave() {
     console.log(this.teleVerificationForm);
-
+    if(this.applicantType !== 'Applicant') {
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('N/A');
+    this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('N/A');
+    }
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
+
     if (this.teleVerificationForm.valid === true) {
       // console.log('success');
       this.tvrDetails = this.teleVerificationForm.value;
@@ -458,8 +504,9 @@ export class TeleVerificationFormComponent implements OnInit {
         res.ProcessVariables.referenceNo != ''
       ) {
         this.toasterService.showSuccess('OTP sent successfully !', '');
+        this.isModal = true;
       } else {
-        alert(res.ProcessVariables.error.message);
+        this.toasterService.showError(res.ProcessVariables.error.message, 'OTP');
       }
 
       console.log('send otp', response);
@@ -493,9 +540,21 @@ export class TeleVerificationFormComponent implements OnInit {
 
   // Submitting method for OTP Form
   onSubmit() {
-    this.sendOtp();
-    this.isModal = true;
+    // this.sendOtp();
+    // this.validateOtp();
+    this.submitTVRDetails();
   }
+  onSelectReferenceStatus(event,fromRef){
+    if (fromRef == 'reference1' && this.referenceData.length <= 0){
+      this.toasterService.showError("Please complete data entry in Reference screen",'')
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference1['controls'].referenceStatus.setValue('');
 
+    } else if (fromRef == 'reference2' && this.referenceData.length <= 0){
+      this.toasterService.showError("Please complete data entry in Reference screen",'')
+      this.teleVerificationForm.controls.applicationReferences['controls'].reference2['controls'].referenceStatus.setValue('');
+    }
+
+    console.log("select Staus",event.target.value,fromRef)
+  }
 
 }

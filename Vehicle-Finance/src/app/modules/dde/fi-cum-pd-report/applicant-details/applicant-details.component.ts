@@ -12,6 +12,9 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
+
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -67,6 +70,7 @@ export class ApplicantDetailComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
     private utilityService: UtilityService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
@@ -101,6 +105,12 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.applicantForm.disable();
+      this.disableSaveBtn = true;
+    }
+    
 
   }
   getLeadId() {  // fun to get lead id from router

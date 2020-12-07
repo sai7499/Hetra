@@ -1,6 +1,7 @@
-<h3 class="dashboard m-0">{{ labels?.incomeAndObligationDetailsTitle }}</h3>
+
 <!--progress bar-->
-<form class="multisteps-form__form" [formGroup]="incomeDetailsForm">
+<form class="multisteps-form__form p-0" [formGroup]="incomeDetailsForm">
+  <h3 class="banner-con">{{ labels?.incomeAndObligationDetailsTitle }}</h3>
   <div class="multisteps-form">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="container-fluid">
@@ -1268,13 +1269,13 @@
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button class="btn btn-primary dash_href" type="button" routerLink="../exposure">
+      <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" routerLink="../exposure">
         Back
       </button>
       <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">
         Save
       </button>
-      <button class="btn btn-primary dash_href" type="button" routerLink="../psl-data">
+      <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" routerLink="../psl-data">
         Next
       </button>
     </div>

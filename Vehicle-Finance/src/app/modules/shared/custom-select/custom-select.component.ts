@@ -98,7 +98,6 @@ export class CustomSelectComponent
   }
 
   ngOnChanges() {
-    console.log('this.selectedOption',this.selectedOption);
     if (this.selectedOption) {
       this.onChange(this.val);
     }

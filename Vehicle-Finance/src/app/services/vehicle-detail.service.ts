@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
@@ -9,29 +9,23 @@ import { HttpService } from './http.service';
 import { ApiService } from '@services/api.service';
 import { IndivVehicleInfoDetails } from '@model/lead.model';
 
-import  mUrl  from '../../assets/vehicle-details-data/vehicle-details-label.json';
+import mUrl from '../../assets/vehicle-details-data/vehicle-details-label.json';
+import { data } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleDetailService {
-  isMobile: any;
-
   private currentPage$ = new BehaviorSubject(0);
-
-  private url = '../assets/vehicle-details-data/vehicle-details-label.json';
 
   public vehicleVariable: any;
 
-  constructor(private http: HttpClient,
-    private httpService: HttpService, private apiService: ApiService) { 
-      this.isMobile = environment.isMobile;
-    }
+  constructor(private httpService: HttpService, private apiService: ApiService) { }
 
   getVehicleDetailLabels(): Observable<IndivVehicleInfoDetails[]> {
-      return this.createObservableObj(mUrl).pipe(
-        catchError(error => this.errorHandler)
-      );
+    return this.createObservableObj(mUrl).pipe(
+      catchError(error => this.errorHandler)
+    );
   }
   errorHandler(error: HttpErrorResponse) {
     return Observable.throw(error.message || 'SERVER Error');
@@ -58,7 +52,7 @@ export class VehicleDetailService {
 
   // 1.method for getting vehicle details
 
-  getAnVehicleDetails(collateralId) {
+  getAnVehicleDetails(data) {
 
     const processId = this.apiService.api.getAnVehicleCollateralDetails.processId;
     const workflowId = this.apiService.api.getAnVehicleCollateralDetails.workflowId;
@@ -67,9 +61,7 @@ export class VehicleDetailService {
     const body: RequestEntity = {
 
       processId: processId,
-      ProcessVariables: {
-        "collateralId": collateralId
-      },
+      ProcessVariables: data,
       workflowId: workflowId,
       projectId: projectId
 
@@ -223,7 +215,25 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
-  createObservableObj(labelsurl: IndivVehicleInfoDetails[]){
+  // 9. method for getting scheme data
+
+  getScheme(data) {
+    const processId = this.apiService.api.getScheme.processId;
+    const workflowId = this.apiService.api.getScheme.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
+  createObservableObj(labelsurl: IndivVehicleInfoDetails[]) {
     const obs = new Observable<IndivVehicleInfoDetails[]>(observer => {
       observer.next(labelsurl);
       observer.complete();

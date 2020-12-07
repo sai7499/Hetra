@@ -40,11 +40,10 @@
 
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
-                <tr class="table-head-bg m-0 p-02 text-left">
-                    <th>
-                        <h4 class="heading-mar">{{label?.income}}</h4>
-                    </th>
-                    <th></th>
+                <tr class="table-head-bg m-0 p-02 text-left">                 
+                   <td colspan="2">
+                    <h4 class="banner-con">{{label?.income}}</h4> 
+                   </td>                  
                 </tr>
                 <tbody>
                     <tr>
@@ -697,11 +696,11 @@
                                 
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Earnings Per Day Is Required'"
+                                [isRequired]="'Earnings Per Month Is Required'"
                                 [isDirty]="isDirty"
                                 [custom]="daysCheck"
                                 (keyup)="calculateStandOperator()"
-                                [placeholder]="'Enter Business Earning Per Day'"
+                                [placeholder]="'Enter Business Earning Per Month'"
                                 ></app-custom-input>
                             </td>
                     </tr>
@@ -942,10 +941,10 @@
                                 [custom]="daysCheck"
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Business Earning Per Day Is Required'"
+                                [isRequired]="'Business Earning Per Month Is Required'"
                                 [isDirty]="isDirty"
                                 
-                                [placeholder]="'Enter No of Earnings Per Day'"
+                                [placeholder]="'Enter No of Earnings Per Month'"
                                 (keyup)="calculateCaptive()"
                                 ></app-custom-input> 
                             </td>
@@ -1165,13 +1164,16 @@
 
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">
-        <button class="btn btn-primary cus-btn-sty" type="button" (click)="onBack()">{{label?.back}}</button> 
-        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
+        <button class="btn btn-primary cus-btn-sty hvr-sweep-to-left" type="button" (click)="onBack()">{{label?.back}}</button> 
+        
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
+       <ng-container *ngIf="!isLoan360">
+        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
         <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
             <p type="button" class="btn btn-primary">{{label?.submit}}</p>
         </a>
         <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal" data-target="#myModalReinitiate" *ngIf = "showReinitiate">{{label?.reinitiate}}</button>
+       </ng-container>
     </div>
 </div>
 <div class="modal" id="myModalCredit">

@@ -4,7 +4,8 @@
       <button class="btn btn-primary view-button" type="button" id="" tabindex="7" *ngIf="!showDeliveryOrder"
         (click)="viweWelcomeLetter()">View Deliver Order</button>&nbsp;
       <button class="btn btn-primary view-button" type="button" id="" tabindex="7" *ngIf="!showDeliveryOrder"
-        routerLink="../welomce-letter">Back</button>&nbsp;      
+        routerLink="../welomce-letter">Back</button>&nbsp;    
+      <button *ngIf="isLoan360" routerLink="../pdd" class="btn btn-primary view-button" type="button" id="" tabindex="7">Next</button>    
     </div>
 
     <div *ngIf="showDeliveryOrder">

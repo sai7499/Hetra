@@ -28,6 +28,7 @@ import { DraggableComponent } from './draggable-container/draggable-container.co
 import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-docs-upload.component';
 import { ApplicantKycDetailsComponent } from './applicant-kyc-details/applicant-kyc-details.component';
 import { PddComponent } from './pdd-screen/pdd.component';
+import { UploadDiscussionComponent } from './upload-discussion/upload-discussion.component';
 
 import {
   BsDatepickerModule,
@@ -40,6 +41,11 @@ import { MatTreeModule, MatIconModule } from '@angular/material';
 import { RejectReasonModalComponent } from './reject-reason-modal/reject-reason-modal.component';
 import { PageRedirectModalComponent } from './page-redirect-modal/page-redirect-modal.component';
 import { ReferenceComponent } from './reference/reference.component';
+import { WelomceLetterComponent } from '@modules/dde/cpc-maker/welomce-letter/welomce-letter.component';
+import { InAppcameraComponent } from './in-appcamera/in-appcamera.component';
+
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 setTheme('bs4');
 
 @NgModule({
@@ -68,7 +74,10 @@ setTheme('bs4');
     ApplicantKycDetailsComponent,
     PageRedirectModalComponent,
     ReferenceComponent,
-    PddComponent
+    PddComponent,
+    UploadDiscussionComponent,
+    WelomceLetterComponent,
+    InAppcameraComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +89,8 @@ setTheme('bs4');
     NgxPaginationModule,
     DatePickerModule,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
+    ImageCropperModule
   ],
   exports: [
     CustomSelectComponent,
@@ -107,7 +117,9 @@ setTheme('bs4');
     RejectReasonModalComponent,
     PageRedirectModalComponent,
     ReferenceComponent,
-    PddComponent
-  ],
+    PddComponent,
+    UploadDiscussionComponent,
+    WelomceLetterComponent
+  ]
 })
 export class SharedModule { }

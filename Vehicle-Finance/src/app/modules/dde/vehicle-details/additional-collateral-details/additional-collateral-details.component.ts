@@ -10,6 +10,7 @@ import { ToasterService } from '@services/toaster.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
     selector: 'app-additional-collateral-details',
@@ -35,9 +36,12 @@ export class AdditionalCollateralComponent implements OnInit {
     goldGramsValue: any;
     disableSaveBtn: boolean;
 
+    typeOfApplicant: any;
+
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService, private toggleDdeService: ToggleDdeService,
-        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute) {
+        private loginStoreService: LoginStoreService, private toasterService: ToasterService, private router: Router, private activatedRoute: ActivatedRoute,
+        private loanViewService: LoanViewService) {
 
         this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
 
@@ -186,11 +190,9 @@ export class AdditionalCollateralComponent implements OnInit {
         if (this.goldGramsValue) {
             const totalValue = this.currentValue * this.goldGramsValue;
             this.convertTotalValue(totalValue)
-
         } else {
             details.get('totalMarketValue').setValue(null)
         }
-
     }
 
     goldGrams(value) {
@@ -208,16 +210,70 @@ export class AdditionalCollateralComponent implements OnInit {
 
     convertTotalValue(totalValue) {
         const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
-        const details = formArray.at(0)
+        const details = formArray.at(0);
         const totalValueString = totalValue.toString();
         if (totalValueString.includes('.')) {
             const secondIndexValue = totalValueString.split('.')[1]
             const firstIndexValue = totalValueString.split('.')[0]
             const sliceValue = secondIndexValue.slice(0, 4)
             const finalValue = firstIndexValue + '.' + sliceValue;
-            details.get('totalMarketValue').setValue(finalValue)
+            const toalVal = Math.round(Number(totalValue))
+            details.get('totalMarketValue').setValue(toalVal)
         } else {
             details.get('totalMarketValue').setValue(totalValue)
+        }
+    }
+
+    getLandArea(val, obj) {
+        let marketValue = obj.controls['marketValue'].value;
+        let guideLineValue = obj.controls['guideLineValue'].value;
+        if (marketValue) {
+            const totalValue = val * marketValue;
+            this.convertTotalValue(totalValue)
+        } else {
+            obj.get('totalMarketValue').setValue(null)
+        }
+
+        if (guideLineValue) {
+            const totalValue = val * guideLineValue;
+            this.convertToGuideValue(totalValue)
+        } else {
+            obj.get('totalGuideLineValue').setValue(null)
+        }
+
+    }
+
+    getMarketValue(val, obj) {
+        let landInAcres = obj.controls[val].value;
+        let marketValue = obj.controls['marketValue'].value;
+        if (landInAcres) {
+            const totalValue = marketValue * landInAcres;
+            this.convertTotalValue(totalValue)
+        } else {
+            obj.get('totalMarketValue').setValue(null)
+        }
+    }
+
+    getGuideLine(val, obj) {
+        let landInAcres = obj.controls[val].value;
+        let guideLineValue = obj.controls['guideLineValue'].value;
+        if (landInAcres) {
+            const totalValue = guideLineValue * landInAcres;
+            this.convertToGuideValue(totalValue)
+        } else {
+            obj.get('totalGuideLineValue').setValue(null)
+        }
+    }
+
+    convertToGuideValue(totalValue) {
+        const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+        const details = formArray.at(0);
+        const totalValueString = totalValue.toString();
+        if (totalValueString.includes('.')) {
+            const toalVal = Math.round(Number(totalValue))
+            details.get('totalGuideLineValue').setValue(toalVal)
+        } else {
+            details.get('totalGuideLineValue').setValue(totalValue)
         }
     }
 
@@ -226,20 +282,33 @@ export class AdditionalCollateralComponent implements OnInit {
 
         let formArray = this.collateralForm.get('collateralFormArray') as FormArray;
         const details = formArray.at(0);
-        console.log(details, 'details')
 
         details.get('relationWithApplicant').setValue('')
 
-    
-        let typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
+        this.typeOfApplicant = this.applicantDetails.find((res => res.applicantId === Number(value)))
 
         let lovOfSelf = [{
             key: "5RELATION",
             value: "Self"
         }]
-
         let lovOfRelationship = this.LOV.relationship.filter((data) => data.key !== "5RELATION")
-        this.LOV.relationLov = typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship;
+
+        if (this.collateralType === 'PROPADDCOLTYP') {
+
+            if (this.typeOfApplicant && this.typeOfApplicant['applicantType'] === "Applicant") {
+                details.patchValue({
+                    propertyOwnerType: 'SOLEPROPOWNTYP'
+                })
+            } else {
+                details.patchValue({
+                    propertyOwnerType: 'JOINEDPROPOWNTYP'
+                })
+            }
+            details.get('propertyOwnerType').disable()
+        }
+
+        this.LOV.relationLov = this.typeOfApplicant ? this.typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship
+            : this.LOV.relationship;
     }
 
     setFormValue(id) {
@@ -250,16 +319,19 @@ export class AdditionalCollateralComponent implements OnInit {
                     this.disableSaveBtn = true;
                     this.collateralForm.disable()
                 }
+
+                if (this.loanViewService.checkIsLoan360()) {
+                    this.disableSaveBtn = true;
+                    this.collateralForm.disable();
+                }
             });
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
                 this.collateralDataService.setAdditionalCollateralList(collateralDetail);
 
-                console.log(collateralDetail, 'collateralDetail')
-                this.onFindRelationship(collateralDetail.propertyOwner) 
-
-
                 const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
+
+                this.onFindRelationship(collateralDetail.propertyOwner)
 
                 this.collateralType = collateralDetail.collateralType;
 
@@ -271,7 +343,7 @@ export class AdditionalCollateralComponent implements OnInit {
 
                 formArray.clear();
                 this.currentValue = collateralDetail.currentValuePerGram
-                this.goldGramsValue = collateralDetail.goldInGrams
+                this.goldGramsValue = collateralDetail.goldInGrams;
 
                 formArray.push(
                     this._fb.group({
@@ -296,6 +368,21 @@ export class AdditionalCollateralComponent implements OnInit {
                         totalMarketValue: collateralDetail.totalMarketValue || null,
                     })
                 )
+
+                const details = formArray.at(0);
+                if (this.collateralType === 'PROPADDCOLTYP') {
+
+                    if (this.typeOfApplicant && this.typeOfApplicant['applicantType'] === "Applicant") {
+                        details.patchValue({
+                            propertyOwnerType: 'SOLEPROPOWNTYP'
+                        })
+                    } else {
+                        details.patchValue({
+                            propertyOwnerType: 'JOINEDPROPOWNTYP'
+                        })
+                    }
+                    details.get('propertyOwnerType').disable()
+                }
             } else {
                 this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Additional CollateralAdditional Collateral Detail')
             }
@@ -314,17 +401,6 @@ export class AdditionalCollateralComponent implements OnInit {
             additionalCollaterals['collateralType'] = form.value.collateralType;
             additionalCollaterals['proofName'] = form.value.proofName;
             additionalCollaterals['proofCollected'] = form.value.proofCollected;
-
-            if (this.collateralType === 'AGRIADDCOLTYP') {
-
-                additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['landInAcres'];
-                additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['landInAcres']
-
-            } else if (this.collateralType === 'PROPADDCOLTYP') {
-
-                additionalCollaterals['totalMarketValue'] = additionalCollaterals['marketValue'] * additionalCollaterals['totalLandArea'];
-                additionalCollaterals['totalGuideLineValue'] = additionalCollaterals['guideLineValue'] * additionalCollaterals['totalLandArea']
-            }
 
             const data = {
                 "userId": this.userId,

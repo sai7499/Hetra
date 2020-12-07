@@ -15,16 +15,20 @@ import {
   providedIn: 'root',
 })
 export class ApplicantDataStoreService {
-  applicantRelation : any;
+  applicantRelation: any;
   applicant: Applicant = {};
   applicantId = '';
-  dedupeValues={};
-  dedupeFlag : boolean= false;
-  panValidate : boolean= false;
-  isSaveBasicDetails : boolean= false;
-  isSaveAddressDetails : boolean = false;
-  isNavigateDedupe : boolean = false;
-  isValueChange : boolean = false;
+  dedupeValues = {};
+  dedupeFlag: boolean = false;
+  panValidate: boolean = false;
+  isSaveBasicDetails: boolean = false;
+  isSaveAddressDetails: boolean = false;
+  isNavigateDedupe: boolean = false;
+  isValueChange: boolean = false;
+  leadSetionData: any;
+  isFemaleGender: boolean;
+  applicantList : any=[]
+
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
       ? applicant.aboutIndivProspectDetails
@@ -57,8 +61,8 @@ export class ApplicantDataStoreService {
       indivProspectProfileDetails,
       directorDetails,
       otpVerified: applicant.otpVerified,
-      ucic : applicant.ucic,
-      ekycDone : applicant.ekycDone
+      ucic: applicant.ucic,
+      ekycDone: applicant.ekycDone
     };
   }
 
@@ -106,7 +110,7 @@ export class ApplicantDataStoreService {
     this.applicant.addressDetails = value;
   }
 
-  setDirectorDetails(value : DirectorDetails[]){
+  setDirectorDetails(value: DirectorDetails[]) {
     this.applicant.directorDetails = value;
   }
 
@@ -127,45 +131,122 @@ export class ApplicantDataStoreService {
     this.applicant.indivIdentityInfoDetails = newDetails;
   }
 
-  setApplicantRelation(value){
-    this.applicantRelation= value;
+  setApplicantRelation(value) {
+    this.applicantRelation = value;
   }
-  getApplicantRelation(){
+  getApplicantRelation() {
     return this.applicantRelation;
   }
 
-  setDedupeValues(data){
-    this.dedupeValues={
+  setDedupeValues(data) {
+    this.dedupeValues = {
       ...data
     }
   }
-  getDedupeValues(){
+  getDedupeValues() {
     return this.dedupeValues
   }
-  setDedupeFlag(value : boolean){
-     this.dedupeFlag = value;
+  setDedupeFlag(value: boolean) {
+    this.dedupeFlag = value;
   }
-  getDedupeFlag(){
+  getDedupeFlag() {
     return this.dedupeFlag;
   }
-  setPanValidate(value : boolean){
+  setPanValidate(value: boolean) {
     this.panValidate = value;
   }
-  getPanValidate(){
+  getPanValidate() {
     return this.panValidate
   }
- 
-  setDetectvalueChange(value : boolean){
-    this.isValueChange= value
+
+  setDetectvalueChange(value: boolean) {
+    this.isValueChange = value
   }
-  getDetectvalueChange(){
+  getDetectvalueChange() {
     return this.isValueChange
   }
-  setNavigateForDedupe(value : boolean){
-    this.isNavigateDedupe= value
+  setNavigateForDedupe(value: boolean) {
+    this.isNavigateDedupe = value
   }
-  getNavigateForDedupe(){
+  getNavigateForDedupe() {
     return this.isNavigateDedupe
+  }
+  setApplicantList(data : any[]){
+     this.applicantList=[];
+     this.applicantList=data;
+  }
+
+  getApplicantList(){
+     return this.applicantList
+  }
+
+  checkLeadSectionDataForNCV(product, applicantDetails, isBool?) {
+    let result: boolean;
+
+    if (isBool === true) {
+      result = isBool;
+      return result;
+    } else if (isBool === false) {
+      result = false;
+      return result;
+    }
+   
+    let appDetails = [];
+    const checkProduct: string = product;
+    if (checkProduct === 'NCV') {
+      appDetails = applicantDetails;
+      appDetails.map((data) => {
+        if (data.entityTypeKey === "INDIVENTTYP") {
+          if (data.gender !== '2GENDER') {
+            result = true;
+          }
+        }
+      });
+    }
+    return result;
+  }
+
+  checkFemaleAppForNCV(data : any[]): boolean{
+
+     const applicantList = data;
+     
+     const result= applicantList.some((value : any)=>{
+      return value.gender==='2GENDER'
+     })
+     return result;
+  }
+
+  findCoApplicant(data : any[]) : boolean{
+    const applicantList = data;
+     
+    const result= applicantList.some((value : any)=>{
+     return value.applicantTypeKey == "COAPPAPPRELLEAD"
+    })
+    return result;
+  }
+
+  getOccupationLov(lov,custCat){
+    
+    const dropdown= lov.filter((data)=>{
+      if(custCat==='SALCUSTSEG'){
+        return data.key==='PROFOCPTION'
+      }else if(custCat==='SEMCUSTSEG'){
+        return data.key==='CNSLTOCPTION' ||  data.key==='SEBOCPTION' ;
+      }else if(custCat == 'FTBCUSTSEG' || custCat == 'FTUCUSTSEG' || custCat == 'TROPCUSTSEG'){
+        return data;
+      }else if(custCat==='HWCUSTSEG'){
+        return data.key==='HWFOCPTION'
+      }else if(custCat==='STUCUSTSEG'){
+        return data.key==='STDTOCPTION'
+      }else if(custCat==='PENCUSTSEG'){
+        return data.key==='EXSOCPTION' || data.key==='RTROCPTION'
+      }else if(custCat==='FARCUSTSEG'){
+        return data.key==='FAROCPTION'
+      }else if(custCat==='NEMCUSTSEG'){
+        return data.key==='OTHOCPTION' || data.key==='UEMOCPTION' || data.key==='MNROCPTION'
+      }
+    })
+    return dropdown;
   }
 
 }

@@ -8,6 +8,7 @@ import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-basic-vehicle-details',
@@ -31,7 +32,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
     private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
-    private toggleDdeService: ToggleDdeService) { }
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
 
@@ -60,24 +62,50 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     if (operationType) {
       this.disableSaveBtn = true;
     }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.disableSaveBtn = true;
+    }
   }
 
   onSubmit() {
 
     if (this.formValue.valid === true) {
 
+      if (this.formValue.value.isCheckDedpue === false) {
+        this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
+        return
+      }
+
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber && this.formValue.value.isVaildFinalAssetCost) {
         let data = this.formValue.value.vehicleFormArray[0];
 
-        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
-          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+        if (data && data.fcExpiryDate) {
+          data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
         }
 
-        data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : null;
-        data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : null;
-        data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
-        data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : null;
-        data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
+        if (data.firFiled) {
+          data.firFiled = data.firFiled === true ? '1' : '0';
+        }
+
+        if (data.onlineVerification) {
+          data.onlineVerification = data.onlineVerification === true ? '1' : '0';
+        }
+
+        if (data.accidentDate) {
+          data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
+        }
+
+        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+          data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
+        }
+
+        data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
+        data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
+        data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
+        data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : '';
+        data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
 
         data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
@@ -102,14 +130,13 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
           this.toasterService.showError('Please enter valid pincode', 'Invalid pincode')
         } else if (!(this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber)) {
           this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
-        } else if (!this.formValue.value.isVaildFinalAssetCost)  {
+        } else if (!this.formValue.value.isVaildFinalAssetCost) {
           this.toasterService.showError('Discount should not greater than Ex show room price', 'Invalid Final Asset Cost')
         }
       }
 
     } else {
       this.isDirty = true;
-      console.log('error', this.formValue)
       this.utilityService.validateAllFormFields(this.formValue)
       this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }

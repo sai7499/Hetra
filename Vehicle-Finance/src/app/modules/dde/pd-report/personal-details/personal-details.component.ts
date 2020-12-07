@@ -48,6 +48,12 @@ export class PersonalDetailsComponent implements OnInit {
   ownerNamePropertyAreaRequired: boolean;
   ownerNamePropertyAreaDisabled: boolean;
 
+  productCatoryCode: string = '';
+  leadDetails: any;
+  serviceDobOrDio: any;
+  leadData: {};
+  applicantDob: any;
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router, private createLeadDataService: CreateLeadDataService,
@@ -82,10 +88,10 @@ export class PersonalDetailsComponent implements OnInit {
 
     const leadData = this.createLeadDataService.getLeadSectionData();
 
-    this.applicantDetails = leadData['applicantDetails']
-
+    this.applicantDetails = leadData['applicantDetails'];
+    this.leadDetails = leadData['leadDetails']
+    this.productCatoryCode = this.leadDetails['productCatCode'];
     this.leadId = (await this.getLeadId()) as number;
-
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
@@ -93,18 +99,46 @@ export class PersonalDetailsComponent implements OnInit {
 
     this.monthValidation = this.monthValiationCheck();
   }
+  async getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    // console.log('leadSectionData Lead details', leadSectionData);
+    this.leadData = { ...leadSectionData };
+    const data = this.leadData;
+    console.log('in get lead section data', data['applicantDetails']);
+
+    // console.log('current app id', this.applicantId);
+
+    for (const value of data['applicantDetails']) {  // for loop to get the respective applicant details form applicant details array
+      // console.log('in for loop app id', value['applicantId']);
+
+      if (value['applicantId'] === this.applicantId) {
+
+        const applicantDetailsFromLead = value;
+        if (applicantDetailsFromLead['entityTypeKey'] === "NONINDIVENTTYP") {
+          this.serviceDobOrDio = applicantDetailsFromLead['doi']
+
+        } else if (applicantDetailsFromLead['entityTypeKey'] === "INDIVENTTYP") {
+          this.serviceDobOrDio = applicantDetailsFromLead['dob']
+          // this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.serviceDobOrDio) : '' });
+        }
+      }
+      // console.log('applicant dob', this.serviceDobOrDio);
+    }
+  }
+
+
+  reformatDate(oldDate) {
+    return oldDate.toString().split('-').reverse().join('/');
+  }
 
   houseOwnerShip(event: any) {
-    console.log('event', event);
     this.ownerShipType = event ? event : event;
     if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
       this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
       this.ownerShipType === '5HOUOWN') {
-      console.log('in owner,property enabled');
       this.ownerNamePropertyAreaRequired = true;
       this.ownerNamePropertyAreaDisabled = false;
-      // this.personalDetailsForm.get('owner').enable();
-      // this.personalDetailsForm.get('owner').setValidators(Validators.required);
+
       this.personalDetailsForm.get('areaOfProperty').enable();
       this.personalDetailsForm.get('areaOfProperty').setValidators(Validators.required);
       this.personalDetailsForm.get('propertyValue').enable();
@@ -113,17 +147,12 @@ export class PersonalDetailsComponent implements OnInit {
     } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
       this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
       this.ownerShipType !== '5HOUOWN') {
-      console.log('in owner,property disabled');
       this.ownerNamePropertyAreaRequired = false;
       this.ownerNamePropertyAreaDisabled = true;
       setTimeout(() => {
-        // this.personalDetailsForm.get('owner').setValue(null);
         this.personalDetailsForm.get('areaOfProperty').setValue(null);
         this.personalDetailsForm.get('propertyValue').setValue(null);
       });
-      // this.personalDetailsForm.get('owner').disable();
-      // this.personalDetailsForm.get('owner').clearValidators();
-      // this.personalDetailsForm.get('owner').updateValueAndValidity();
       this.personalDetailsForm.get('areaOfProperty').disable();
       this.personalDetailsForm.get('areaOfProperty').clearValidators();
       this.personalDetailsForm.get('areaOfProperty').updateValueAndValidity();
@@ -182,7 +211,7 @@ export class PersonalDetailsComponent implements OnInit {
       fatherLastName: ['', Validators.required],
       fatherFullName: [{ value: '', disabled: true }, Validators.required],
       gender: ['', Validators.required],
-      dob: ['', Validators.required],
+      dob: [''],
       maritalStatus: ['', Validators.required],
       weddingAnniversaryDate: [{ value: '', disabled: true }],
       religion: ['', Validators.required],
@@ -193,8 +222,8 @@ export class PersonalDetailsComponent implements OnInit {
       businessKey: ['', Validators.required],
       occupationType: ['', Validators.required],
       businessType: ['', Validators.required],
-      natureOfBusiness: [''],
-      educationalBackground: [''],
+      vehicleApplication: [''],
+      educationalBackgroundType: ['', Validators.required],
       isMinority: ['', Validators.required],
       community: ['', Validators.required],
       srto: ['', Validators.compose([Validators.maxLength(10), Validators.required])],
@@ -225,9 +254,21 @@ export class PersonalDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
+      this.getLeadSectionData();
       this.version = value.version ? String(value.version) : null;
       this.getPdDetails();
     });
+  }
+  getDateFormat(date) { // fun for converting the response date to the valid form date 
+
+    // console.log('in getDateFormat', date);
+    const datePart = date.match(/\d+/g);
+    const month = datePart[1];
+    const day = datePart[0];
+    const year = datePart[2];
+    const dateFormat: Date = new Date(year + '/' + month + '/' + day);
+    // console.log('formated data', dateFormat);
+    return dateFormat;
   }
 
   getPdDetails() { // function to get the pd details with respect to applicant id
@@ -238,7 +279,28 @@ export class PersonalDetailsComponent implements OnInit {
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
-        this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
+        this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ?
+          value.ProcessVariables.applicantPersonalDiscussionDetails : {};
+        if (this.personalPDDetais.dob) {
+          // if (this.personalPDDetais.dob != null) {
+          this.applicantDob = this.personalPDDetais.dob;
+          this.personalDetailsForm.patchValue({ dob: this.applicantDob ? new Date(this.getDateFormat(this.applicantDob)) : '' });
+          // console.log('in dob  present condition but  not null');
+          // console.log('applicant dob from api', this.applicantDob);
+          // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
+          //   } else if (this.personalPDDetais.dob == null) {
+          //     // console.log('in dob  present condition but null');
+          //     // console.log('applicant dob from api', this.applicantDob);
+          //     // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
+          //     this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.getDateFormat(this.serviceDobOrDio)) : ''  });
+          //   }
+        } else {
+          this.applicantDob = null;
+          // console.log('in dob not present condition');
+          // console.log('applicant dob from api', this.applicantDob);
+          // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
+          this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.getDateFormat(this.serviceDobOrDio)) : '' });
+        }
 
         if (this.personalPDDetais.applicantName) {
           this.setFormValue(this.personalPDDetais);
@@ -269,7 +331,7 @@ export class PersonalDetailsComponent implements OnInit {
                 applicantName: val.fullName ? val.fullName : '',
                 contactNo: val.mobileNumber ? val.mobileNumber.length === 12 ?
                   val.mobileNumber.slice(2, 12) : val.mobileNumber : '',
-                dob: val.dob ? new Date(val.dob) : '',
+                // dob: val.dob ? new Date(val.dob) : '',
               })
 
             }
@@ -343,8 +405,8 @@ export class PersonalDetailsComponent implements OnInit {
       businessKey: personalPDDetais.businessKey || '',
       occupationType: personalPDDetais.occupationType || '',
       businessType: personalPDDetais.businessType || '',
-      natureOfBusiness: personalPDDetais.natureOfBusiness || '',
-      educationalBackground: personalPDDetais.educationalBackground || '',
+      vehicleApplication: personalPDDetais.vehicleApplication || '',
+      educationalBackgroundType: personalPDDetais.educationalBackgroundType || '',
       weddingAnniversaryDate: personalPDDetais.weddingAnniversaryDate ?
         this.utilityService.getDateFromString(personalPDDetais.weddingAnniversaryDate) : '',
       noOfYears: noofyears,

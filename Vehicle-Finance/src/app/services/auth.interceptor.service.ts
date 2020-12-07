@@ -32,11 +32,26 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    this.ngxUiLoaderService.start();
+    // this.ngxUiLoaderService.start();
     this.apiCount++;
     let httpMethod = req.method;
+    const reqBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+
+    if (reqBody && reqBody.showLoader !== false) {
+      this.ngxUiLoaderService.start();
+    }
     console.log('Before Encryption', req.body);
     console.log('req', req);
+
+    let token = '';
+
+    if (reqBody && reqBody.headers !== undefined) {
+      token = reqBody.headers;
+    } else if (reqBody) {
+      token = localStorage.getItem('token')
+        ? localStorage.getItem('token')
+        : ''
+    }
 
     if (httpMethod == 'POST') {
       if (req.url.includes('appiyo')) {
@@ -45,11 +60,15 @@ export class AuthInterceptor implements HttpInterceptor {
             req.body,
             environment.aesPublicKey
           );
+          console.log('Body', req.body)
+
           req = req.clone({
             setHeaders: encryption.headers,
             body: encryption.rawPayload,
             responseType: 'text',
           });
+          console.log('setHeadera', req)
+
         }
       }
     } else {
@@ -68,8 +87,9 @@ export class AuthInterceptor implements HttpInterceptor {
       authReq = req.clone({
         headers: req.headers.set(
           'authentication-token',
-          localStorage.getItem('token') ? localStorage.getItem('token') : ''
+          token
         ),
+        // localStorage.getItem('token') ? localStorage.getItem('token') : ''
         //     .set('X-AUTH-SESSIONID',
         //      localStorage.getItem('X-AUTH-SESSIONID') ?
         //      localStorage.getItem('X-AUTH-SESSIONID').trim() : '')
@@ -107,8 +127,9 @@ export class AuthInterceptor implements HttpInterceptor {
               res = event.body;
             } else {
               if (
-                event.headers.get('content-type') != 'text/plain' &&
-                typeof event.body != 'object'
+                event.headers.get('content-type') != 'text/plain' && 
+                event.headers.get('content-type')!="text/html" &&
+                typeof event.body != 'object' 
               ) {
                 res = JSON.parse(event.body);
               }

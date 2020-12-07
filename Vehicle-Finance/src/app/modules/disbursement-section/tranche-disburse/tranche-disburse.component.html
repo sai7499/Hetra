@@ -1,0 +1,701 @@
+<main class="mar-top90">
+    <div class="container-fluid">
+        <h3>Disbursements Details</h3>
+        <form class="form no-pad-top">
+            <div class="container overflow-hidden">
+                <div class="row js-active" data-animation="scaleIn">
+                    <div class="panel-group lead-detail-panel hidden-xs" id="accordion3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading panel-primary" id="headingTwo1">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo3">
+                                        Reference Details
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo3" class="panel-collapse collapse in" aria-expanded="true">
+                                <div class="panel-body tranche-disburse-top-section" id="show_3_div_identity">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
+                                                        </label>
+                                                        <label for="lead_created_by_name" class="col-form-label-two">{{LoanDetails['leadID']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_created_by">{{ labels?.loanAccNumber }}
+                                                        </label>
+                                                        <label for="lead_created_by_name" class="col-form-label-two">{{LoanDetails['loanAccountNumber']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="customer_name_label">{{ labels?.applicant }}
+                                                        </label>
+                                                        <label for="customer_name" class="col-form-label-two">{{LoanDetails['applicantName']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_created_by">{{ labels?.product }}
+                                                        </label>
+                                                        <label for="lead_created_by_name" class="col-form-label-two">{{LoanDetails['productName']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="roi">{{labels?.roiinPercent}}
+                                                        </label>
+                                                        <label for="roi_value" class="col-form-label-two">{{LoanDetails['irr']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_handled_by">{{labels?.loanTenorinMonths}}
+                                                        </label>
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['loanTenore']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="roi">{{labels?.loanAmountinRs}}
+                                                        </label>
+                                                        <label for="roi_value" class="col-form-label-two">{{LoanDetails['loanAmount']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_handled_by">{{labels?.miPacVasAmount}}
+                                                        </label>
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['miPacVasAmount']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                            <label class="col-form-label" for="lead_handled_by">{{labels?.creditShieldPremium}}
+                                                        </label>
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['creditShieldAmount']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="roi">{{labels?.noOfTrancheDisburse}}
+                                                        </label>
+                                                        <label for="roi_value" class="col-form-label-two">{{LoanDetails['trancheCount']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_handled_by">{{labels?.alreadyDisbursedAmount}}
+                                                        </label>
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['disbursedAmount']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_handled_by">{{labels?.balanceToBeDisbursed}}
+                                                        </label>
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['balanceAmount']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="lead_handled_by">{{labels?.initiatedBy}}
+                                                    </label>
+                                                    <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['initiaterName']?LoanDetails['initiaterName']:'-'}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_handled_by">{{labels?.initiatedOn}}
+                                                        </label>
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['initiatedOn']?LoanDetails['initiatedOn']:'-'}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="roi">{{labels?.initiatedBranch}}
+                                                        </label>
+                                                        <label for="roi_value" class="col-form-label-two">{{LoanDetails['branchID']}}-{{LoanDetails['branchName']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="roi">{{labels?.cpcReversedBy}}
+                                                        </label>
+                                                        <label for="roi_value" class="col-form-label-two">{{LoanDetails['reversedByName'] ? LoanDetails['reversedByName']:'-'}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_handled_by">{{labels?.cpcReversedDate}}
+                                                        </label>
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['reversedOn']?LoanDetails['reversedOn']:'-'}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label" for="lead_handled_by">{{labels?.cpcReversedRemarks}}
+                                                        </label>
+                                                        <label for="lead_handled_by_name" class="col-form-label-two">{{LoanDetails['reversedRemarks']?LoanDetails['reversedRemarks']:'-'}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+    <div class="container-fluid">
+        <div class="pending-earlier-section">
+            <div class="">
+                <div class="container">
+                    <h4 class="tranch-inner-heading">Pending Disbursements</h4>
+                    <form class="form" [formGroup]="pendingTDForm">
+                        <div class="container overflow-hidden">
+                            <div class="row js-active" data-animation="scaleIn">
+                                <div class="panel-group hidden-xs" id="accordion">
+                                    <div class="panel panel-default pending-disburse-container">
+                                        <div class="pending-disburse-table-container">
+                                            <div class="panel-heading panel-primary" id="headingTwo1">
+                                                <div class="">
+                                                    <div class="form-group pending-data-label">
+                                                        <label for="document" class="label_height">{{labels?.disburseTo}}</label>
+                                                    </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label for="idate" class="label_height">{{labels?.name}}</label>
+                                                    </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label for="disburseType" class="label_height">{{labels?.disbursementType}}</label>
+                                                    </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label class="upload_label label_height">{{labels?.disbursementAmount}} </label>
+                                                    </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label class="upload_label label_height">{{labels?.disbursementMode}} </label>
+                                                    </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label for="edate" class="label_height">{{labels?.chequeNumber}}</label>
+                                                    </div>
+						     <div class="form-group pending-data-label">
+                                                            <label for="edate" class="label_height">{{labels?.serialNumber}}</label>
+                                                        </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label for="Status" class="label_height">{{labels?.chequeHandoverDate}}</label>
+                                                    </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label class="label_height">{{labels?.supportDoc}}</label>
+                                                    </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label for="isInitiated" class="label_height">{{labels?.initialDisbursement}}</label>
+                                                    </div>
+                                                    <div class="form-group pending-data-label">
+                                                        <label for="action" class="label_height">{{labels?.action}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body" id="show_1_div_identity" formArrayName="PendingTranches">
+                                                <div class="pending-disbursement-section" *ngFor="let item of pendingTDForm.get('PendingTranches')['controls'];let i = index"
+                                                    [formGroupName]="i">
+                                                    <div class="form-group pending-disb-data">
+                                                        <app-vf-custom-select [values]="disburseToLov" formControlName="payable_to" [isDisabled]="true" [isDirty]="isDirty">
+                                                        </app-vf-custom-select>
+                                                    </div>
+                                                    <div class="form-group pending-disb-data">
+                                                        <div class="input-group input-medium">
+                                                            <app-custom-input formControlName="applicant_name" [className]="'form-control mandatory'" [isDisabled]="true" [isDirty]="isDirty"></app-custom-input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group pending-disb-data">
+                                                        <app-vf-custom-select [values]="trancheDisbLov" formControlName="tranche_disbursement_type" [isDisabled]="true" [isDirty]="isDirty">
+                                                        </app-vf-custom-select>
+                                                    </div>
+                                                    <div class="form-group pending-disb-data">
+                                                        <div class="input-group input-medium">
+                                                            <app-custom-input formControlName="tranche_disbursement_amount" [isDisabled]="true" [className]="'form-control mandatory'" [isDirty]="isDirty"></app-custom-input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group pending-disb-data">
+                                                        <app-vf-custom-select [values]="paymentLov" formControlName="paymentMode" [isDisabled]="true" [isDirty]="isDirty">
+                                                        </app-vf-custom-select>
+                                                    </div>
+                                                    <div class="form-group pending-disb-data">
+                                                        <div class="input-group input-medium">
+                                                            <app-custom-input formControlName="instrument_number" [isDisabled]="item.value.paymentMode != '1MODEOFPAYMENT' || roleType == '4' || roleType == '5'" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.chequeNumber?.maxLength"
+                                                                [isDirty]="isDirty" [type]="labels?.validationData?.chequeNumber?.type"></app-custom-input>
+                                                        </div>
+                                                    </div>
+						    <div class="form-group pending-disb-data">
+                                                            <div class="input-group input-medium">
+                                                                <app-custom-input formControlName="serialno" [isDisabled]="item.value.paymentMode != '1MODEOFPAYMENT' || roleType == '4' || roleType == '5'" [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.chequeNumber?.maxLength"
+                                                                    [isDirty]="isDirty" [type]="labels?.validationData?.chequeNumber?.type"></app-custom-input>
+                                                            </div>
+                                                        </div>
+                                                    <div class="form-group pending-disb-data" >
+                                                        <div class="">
+                                                            <kendo-datepicker formControlName="chequeHandOverDate" class="form-control" [activeView]="'decade'" [format]="'dd/MM/yyyy'"
+                                                                [max]="toDayDate" [min]="disbursementDate" placeholder="Cheque Handover Date">
+                                                            </kendo-datepicker>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group pending-disb-data">
+                                                            <button type="button"id = "viewDoc{{i}}"  class="btn btn-primary" data-toggle="modal" data-target="#documentListModal"  (click)="getDocumentList(item.value.tranche_id)">View Documents</button>
+                                                        <!-- <input name="input" formControlName="dmsDocumentId" type="text" class="form-control file-input upload-input" readonly (click)="downloadDocs($event.target.value)"
+                                                        /> -->
+                                                        <p class="upload-icon"  *ngIf="roleType == '1'">
+                                                            <label>
+                                                                <i class="fa fa-upload fa-3 custom-file-label" aria-hidden="true" (click)="showModal = true" (click)="
+                                                                uploadDocument(item.value.tranche_id)"></i>
+                                                            </label>
+                                                        </p>
+                                                        <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess(i,$event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+                                                    </div>
+                                                    <div class="form-group pending-disb-data">
+                                                            <!-- !item.value.isReversed -->
+                                                        <input type="checkbox" formControlName="isInitiated" [ngClass]="(roleType == '4' || roleType == '5') ? 'disable-check' : ''">
+                                                        <!-- <button class="btn btn-primary" type="button" [disabled]="!item.value.isSubmitted" *ngIf="roleType != 5" (click)="onApprove(item.value)">
+                                                                Approve
+                                                        </button> -->
+                                                    </div>
+                                                    <div class="form-group pending-disb-data">
+                                                        <button (click)="showAppDetails(item.value.payable_to,item.value.tranche_disbursement_id)" class="pending-view-icon">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="container">
+                    <h4 class="tranch-inner-heading">Earlier Disbursements</h4>
+                    <form class="form" [formGroup]="earlierTDForm">
+                        <div class="container overflow-hidden">
+                            <div class="row js-active" data-animation="scaleIn">
+                                <div class="panel-group hidden-xs" id="accordion2">
+                                    <div class="panel panel-default earlier-disburse-container">
+                                        <div class="earlier-disburse-table-container">
+                                            <div class="panel-heading panel-primary" id="headingTwo2">
+                                                <div class="earlier-disbursement-table">
+                                                    <div class="form-group earlier-data-label">
+                                                        <label for="document" class="label_height">{{labels?.disburseTo}}</label>
+                                                    </div>
+                                                    <div class="form-group earlier-data-label">
+                                                        <label for="idate" class="label_height">{{labels?.name}}</label>
+                                                    </div>
+                                                    <div class="form-group earlier-data-label">
+                                                        <label for="disburseType" class="label_height">{{labels?.disbursementType}}</label>
+                                                    </div>
+                                                    <div class="form-group earlier-data-label">
+                                                        <label class="upload_label label_height">{{labels?.disbursementAmount}} </label>
+                                                    </div>
+                                                    <div class="form-group earlier-data-label">
+                                                        <label for="disburseDate" class="label_height">{{labels?.disbursementDate}}</label>
+                                                    </div>
+                                                    <div class="form-group earlier-data-label">
+                                                        <label class="label_height">{{labels?.status}}</label>
+                                                    </div>
+                                                    <div class="form-group earlier-data-label">
+                                                        <label for="transactionRefNumber" class="label_height">{{labels?.transactionRefNumber}}</label>
+                                                    </div>
+                                                    <div class="form-group earlier-data-label">
+                                                        <label for="initiatedBy" class="label_height">{{labels?.initiatedBy}}</label>
+                                                    </div>
+                                                    <div class="form-group  earlier-data-label">
+                                                        <label for="authorizedBy" class="label_height">{{labels?.authorizedBy}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body" id="show_2_div_identity" formArrayName="DisbursedTranches">
+                                                <div class="earlier-disbursement-section" *ngFor="let item of earlierTDForm.get('DisbursedTranches')['controls'];let i = index"
+                                                    [formGroupName]="i">
+                                                    <div class="form-group earlier-disb-data">
+                                                        <app-vf-custom-select [values]="disburseToLov" formControlName="payable_to" [isDirty]="isDirty">
+                                                        </app-vf-custom-select>
+                                                    </div>
+                                                    <div class="form-group earlier-disb-data">
+                                                        <div class="input-group input-medium">
+                                                            <app-custom-input formControlName="applicant_name" [className]="'form-control mandatory'" [isDirty]="isDirty"></app-custom-input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group  earlier-disb-data">
+                                                        <app-vf-custom-select [values]="trancheDisbLov" formControlName="tranche_disbursement_type" [isDirty]="isDirty">
+                                                        </app-vf-custom-select>
+                                                    </div>
+                                                    <div class="form-group earlier-disb-data">
+                                                        <div class="input-group input-medium">
+                                                            <app-custom-input formControlName="tranche_disbursement_amount" [className]="'form-control mandatory'" [isDirty]="isDirty"></app-custom-input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group earlier-disb-data">
+                                                        <div class="">
+                                                            <kendo-datepicker class="form-control" formControlName="actual_disbursement_date" [activeView]="'decade'" [format]="'dd/MM/yyyy'"
+                                                                [max]="toDayDate" placeholder="Disbursement Date">
+                                                            </kendo-datepicker>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group earlier-disb-data">
+                                                        <div class="input-group input-medium">
+                                                            <app-custom-input formControlName="actual_disbursement_status" [className]="'form-control mandatory'" [isDirty]="isDirty"></app-custom-input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group earlier-disb-data">
+                                                        <div class="input-group earlier-block input-medium">
+                                                            <app-custom-input formControlName="tranche_id" [className]="'form-control mandatory'" [isDirty]="isDirty"></app-custom-input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group  earlier-disb-data">
+                                                        <div class="input-group input-medium">
+                                                            <app-custom-input formControlName="initiated_by" [className]="'form-control mandatory'" [isDirty]="isDirty"></app-custom-input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group  earlier-disb-data">
+                                                        <app-custom-input formControlName="authorized_by" [className]="'form-control mandatory'" [isDirty]="isDirty">
+                                                        </app-custom-input>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <!--mobile view start-->
+                        <div class="col-xs-12 visible-xs">
+                            <div class="box">
+                                <div> Additional </div>
+                            </div>
+                        </div>
+                        <!--mobile view end-->
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="btn-sec marb-100 text-right clear-both  cst_btm_btns mar-bot">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-7">
+                <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
+                    Back
+                </button>
+                <button class="btn btn-primary" type="button" *ngIf="roleType == '1'" (click)="onUpdate()">
+                    Submit to CPC Maker
+                </button>
+                <button class="btn btn-primary" type="button" *ngIf="roleType == '4'" (click)="doAction('SubToChecker',false)">
+                    Submit to CPC Checker
+                </button>
+                <button class="btn btn-primary " type="button" *ngIf="roleType == '4' || roleType == '5'" data-toggle="modal" data-target="#remarksModal"  >
+                    Reverse
+                </button>
+                <button class="btn btn-primary" type="button" *ngIf="roleType == '5'" (click)="onApprove()">
+                    Initiate Disbursement
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+<div class="modal dealers-modal" id="myModal" [ngClass]="{ 'dis-block': !!showDisburseModal }">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="showDisburseModal = false" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Disbursement Details</h4>
+            </div>
+
+            <div class="modal-body">
+                 <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="lead_created_by">{{labels?.payableTo}}
+                                    </label>
+                                    <label for="lead_created_by_name" class="col-form-label-two">{{payableToData}}
+                                    </label>
+                                </div>
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="disbursementData['payable_to'] == '1DISBURSETO'">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.dealerCode}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['dealerCode']}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="disbursementData['payable_to'] == '4DISBURSETO'">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.selectBanker}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['banker']}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="disbursementData['payable_to'] == '5DISBURSETO'">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.selectFinancier}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['financier']}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by" *ngIf="disbursementData['payable_to'] == '1DISBURSETO'">{{labels?.dealerName}}
+                            </label>
+                            <label class="col-form-label" for="lead_created_by" *ngIf="disbursementData['payable_to'] != '1DISBURSETO'">{{labels?.appName}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['applicant_name']}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.amountToBeDisbursed}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['disbursementAmount']}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.modeOfPayment}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{modeOfPayment}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="disbursementData['paymentMode'] == '1MODEOFPAYMENT'">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.instType}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['instrument_type'] ? disbursementData['instrument_type'] : '-'}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.favourBankOfDrawee}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['favouringBankOfDraw'] ? disbursementData['favouringBankOfDraw'] : '-'}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="disbursementData['paymentMode'] == '2MODEOFPAYMENT'">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.accountNumber}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['beneficiary_account_number'] ? disbursementData['beneficiary_account_number'] : '-'}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="disbursementData['paymentMode'] == '7MODEOFPAYMENT' || disbursementData['paymentMode'] =='8MODEOFPAYMENT'">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.bnfAccount}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['beneficiary_account_number'] ? disbursementData['beneficiary_account_number'] : '-'}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.bnfBank}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['beneficiary_bank'] ? disbursementData['beneficiary_bank'] : '-'}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="disbursementData['paymentMode'] == '7MODEOFPAYMENT' || disbursementData['paymentMode'] =='8MODEOFPAYMENT' ">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.bnfBankBranch}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['beneficiary_branch'] ? disbursementData['beneficiary_branch'] : '-'}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.ifscCode}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['ifsc_code'] ? disbursementData['ifsc_code'] : '-'}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="disbursementData['paymentMode'] == '1MODEOFPAYMENT'">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">{{labels?.favourBankBranch}}
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['favouring_bank_branch'] ? disbursementData['favouring_bank_branch'] : '-'}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="disbursementData['paymentMode'] != '2MODEOFPAYMENT'">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">Address Line 1
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['addressLine1']}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="disbursementData['paymentMode'] != '2MODEOFPAYMENT'">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">Address Line 2
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['addressLine2']}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="disbursementData['paymentMode'] != '2MODEOFPAYMENT'">
+                        <div class="form-group">
+                            <label class="col-form-label" for="lead_created_by">Address Line 3
+                            </label>
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['addressLine3']}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal dealers-modal" id="documentListModal" role="dialog"  [ngClass]="{ 'dis-block': documentListModal }">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="documentListModal = false" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Document</h4>
+            </div>
+            <div class="modal-body">
+            <p *ngFor="let document of documentArr" class="file-list">
+                    <input name="input"  [value]="document.dmsDocumentId" type="text" class="form-control file-input upload-input" readonly (click)="downloadDocs(document.dmsDocumentId)">
+                    &nbsp;&nbsp;<i
+                        class="fa fa-trash cursor-pointer"
+                        aria-hidden="true"
+                        id="remove_Doc"
+                        (click)="deleteDocument(document.documentId)"
+                      ></i>
+            </p>
+              <p *ngIf="!documentArr">No Documents Found</p>                                      
+        </div>
+        <!-- <div class="modal-footer"> -->
+            <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="documentListModal = false" >Close</button> -->
+        <!-- </div> -->
+    </div>
+
+</div>
+</div>
+
+<div class="modal fade" id="remarksModal" role="dialog">
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close hvr-sweep-to-right" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Send Back To Branch</h4>
+        </div>
+        <div class="modal-body">
+            <label>Remarks</label>
+            <textarea type="text" [(ngModel)]="remarks" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+                data-target="#myModaltwo" (click)="doAction('Reverse',true)">Submit</button>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="modal dealers-modal" id="statusModal" role="dialog"  [ngClass]="{ 'dis-block': statusModal }">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="statusModal = false" data-dismiss="modal">&times;</button>
+                <h4  *ngIf = "statusFlag == 'Unable to Approve' "class="modal-title">Error</h4>
+                <h4  *ngIf = "statusFlag == 'Approved Successfully' "class="modal-title">Success</h4>
+
+            </div>
+            <div class="modal-body">
+              <p>{{message}}</p>                                      
+        </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="statusModal = false" >Close</button>
+            <button *ngIf = "statusFlag == 'Unable to Approve'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="onApprove(); approveModal= false" >Retry</button>
+            <button *ngIf = "statusFlag == 'Approved Successfully'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="navigateToDashboard(); approveModal= false" >OK</button>
+        </div> 
+    </div>
+
+</div>
+</div>

@@ -14,6 +14,7 @@ import { DisbursementFormComponent } from '@modules/disbursement-section/disburs
 import { CamComponent } from '../cam/cam.component';
 import { DeviationComponent } from '@modules/dashboard/deviation/deviation.component';
 import { DeviationsComponent } from '../deviations/deviations.component';
+import { RemarksComponent } from '../cpc-maker/remarks/remarks.component';
 
 const routes: Routes = [
     {
@@ -66,6 +67,10 @@ const routes: Routes = [
             {
                 path: 'deviations',
                 component: DeviationsComponent
+            },
+            {
+                path: 'remarks',
+                component: RemarksComponent
             }
         ]
     }

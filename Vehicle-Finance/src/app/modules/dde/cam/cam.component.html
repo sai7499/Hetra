@@ -1,13 +1,14 @@
+<div class="content">
 <div style="text-align: center;">
-    <button class="btn btn-primary btn_div " *ngIf="isCamDetails" (click)="showCamDetails()"
-        type="button">{{labels?.generateCam}}</button>
+    <a><button class="btn btn-primary btn_div " *ngIf="isCamDetails" (click)="showCamDetails()"
+        type="button">{{labels?.generateCam}}</button></a>
 </div>
-
-<div [id]="pdfId" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true">
+<form class="multisteps-form__form" [formGroup]="camDetailsForm">
+<div [id]="pdfId" class="container overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true" >
 
     <!---sourcing table starts here-->
     <table class="cam_table mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.sourceDetailsTitle
           }}
@@ -87,7 +88,7 @@
 
     <!---Vechicle Details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.vehicleDetails
           }}
@@ -142,7 +143,7 @@
                 <td class="bank_name">{{ labels?.vehicleOwnershipPrevious }}</td>
                 <td>{{ vehicleDetails?.ownership }}</td>
                 <td class="bank_name">{{ labels?.insurance }}</td>
-                <td>{{ vehicleDetails?.insurance }}</td>
+                <td>{{ vehicleDetails?.insuranceType }}</td>
             </tr>
         </tbody>
     </table>
@@ -150,7 +151,7 @@
 
     <!---Applicants details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.applicantsdetails
           }}
@@ -188,7 +189,7 @@
 
     <!---income Details--->
     <table class="cam_table_proposed mt-3" id="page_break">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.incomeDetails
           }}
@@ -248,7 +249,7 @@
 
     <!--other income details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.otherIncomeDetailsTitle
           }}
@@ -280,7 +281,7 @@
     <!--other income details-->
     <!--obligation details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.obligationDetailsTitle
       }}
@@ -313,7 +314,7 @@
 
     <!---loan eligibility based on income-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.loanEligibilityBasedOnIncome
           }}
@@ -365,7 +366,7 @@
 
     <!--Banking details -->
     <table class="cam_table_proposed mt-3" id="page_break">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.bankingDetails
           }}
@@ -415,7 +416,7 @@
     <!--Banking details -->
     <!--CoApp-Banking details -->
     <table class="cam_table_proposed mt-3" *ngIf="coAppBankingDetails != null || coAppBankingDetails != undefined">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.coApplicantBankingDetails
           }}
@@ -465,7 +466,7 @@
     <!--Banking details -->
     <!-- final loan eligibility -->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.finalLoanEligibility
           }}
@@ -474,8 +475,7 @@
             <td class="bank_name">{{ labels?.loanEligibilityasperFOIR }}</td>
             <td>{{ finalLoanEligibility?.loanEligibilityAsPerFOIR }}</td>
             <td class="bank_name">{{ labels?.loanEligibilityAsPerLtv }}</td>
-            <td>{{ finalLoanEligibility?.loanEligibilityAsPerLTV }}<span
-                    *ngIf="finalLoanEligibility?.loanEligibilityAsPerLTV != null">%</span></td>
+            <td>{{ finalLoanEligibility?.loanEligibilityAsPerLTV }}</td>
         </tr>
         <tr>
             <td class="bank_name">{{ labels?.finalLoanEligibility }}</td>
@@ -488,7 +488,7 @@
 
     <!---final loan details-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.finalLoanDetails
           }}
@@ -518,7 +518,7 @@
 
     <!--Auto deviations-->
     <table class="cam_table_proposed mt-3" id="page_break">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.autoDeviation
           }}
@@ -545,7 +545,7 @@
     <!--Auto deviations-->
     <!--manual Deviations-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.manualDeviation
           }}
@@ -571,7 +571,7 @@
     <!--manual Deviations-->
     <!--creditConditions-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.creditConditions
           }}
@@ -586,7 +586,7 @@
     <!--creditConditions-->
     <!--decisionSheet-->
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
             labels?.decisionSheet
           }}
@@ -619,21 +619,114 @@
         </tbody>
     </table>
     <!--decisionSheet-->
-</div>
-<form class="multisteps-form__form">
+     <!--concern Risks / strengths mitigates-->
+ <table class="cam_table_proposed mt-3 text-center" id="page_break">
+    <!-- <tr>
+<td class="caption banner-con"> <caption class="caption banner-con">
+{{
+labels?.concernsOrRisks
+}}
+</caption></td> 
+<td class="caption banner-con">   <caption class="caption banner-con">
+{{
+labels?.strengthsOrMitigates
+}}
+</caption></td>
+</tr> -->
+    <caption class="caption banner-con">
+        <div class="row">
+            <div class="col-md-6"> {{ labels?.concernsOrRisks }}</div>
+            <div class="col-md-6"> {{ labels?.strengthsOrMitigates }}</div>
+        </div>
+    </caption>
+    <tbody>
 
-    <div [id]="pdfId" class="container overflow-hidden" [formGroup]="camDetailsForm"
+        <tr>
+            <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area" 
+                    formControlName="concernsAndRisks"></textarea>
+                <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && submitted == true"
+                    class="invalid-feedback">
+                    <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                        Concern and risks Remarks is required
+                    </div>
+                </div> -->
+                <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && (camDetailsForm.get('concernsAndRisks').dirty || camDetailsForm.get('concernsAndRisks').touched)"
+                    class="invalid-feedback">
+                    <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                        Concerns or Risks is required.
+                    </div> -->
+                    <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.maxlength">
+                        Concerns or Risks cannot be more than 5000 characters long.
+                    </div>
+                    <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.pattern">
+                        Invalid Message / Special Characters not allowed
+
+                    </div>
+                </div>
+            </td>
+            <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
+                    formControlName="strengthAndMitigates"></textarea>
+                <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
+                    class="invalid-feedback">
+                    <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
+                        Strength And Mitigates Remarks is required
+                    </div>
+                </div> -->
+                <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && (camDetailsForm.get('strengthAndMitigates').dirty || camDetailsForm.get('strengthAndMitigates').touched)"
+                    class="invalid-feedback">
+                    <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
+                        Strengths or Mitigates is required.
+                    </div> -->
+                    <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.maxlength">
+                        Strengths or Mitigates cannot be more than 5000 characters long.
+                    </div>
+                    <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.pattern">
+                        Invalid Message / Special Characters not allowed
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+
+    </tbody>
+</table>
+    <table class="cam_table_proposed mt-3" *ngFor="let recommendation of recommendation">
+        <caption class="caption banner-con">
+            {{ recommendation?.roleName }} {{labels?.recommendation}}
+        </caption>
+        <!-- <caption class="caption banner-con">
+        {{ recommendation?.recommendation }}
+    </caption> -->
+        <tbody>
+            <tr>
+                <td colspan="6" height="80">{{ recommendation?.recommendation }}</td>
+            </tr>
+            <tr>
+                <td width="100" class="bank_name">{{ labels?.name }}</td>
+                <td width="500">{{ recommendation?.name }}</td>
+                <td width="100" class="bank_name">{{ labels?.eCode }}</td>
+                <td width="200">{{ recommendation?.eCode }}</td>
+                <td width="100" class="bank_name">{{ labels?.date }}</td>
+                <td width="200">{{ recommendation?.date }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+    <div [id]="pdfId" class="container overflow-hidden" 
         *ngIf="usedCvCam && !isCamDetails  && showCamHtml == true">
         <!--basic table starts here-->
 
         <table class="cam_table">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.basicDetailsTitle
       }}
             </caption>
 
-            <tr *ngIf="!usedCvCam">
+            <!-- <tr *ngIf="!usedCvCam">
                 <td class="bank_name">{{ labels?.leadCreatedBy }}</td>
                 <td>{{ basicDetails?.leadCreatedBy }}</td>
                 <td class="bank_name">{{ labels?.leadCreatedDate }}</td>
@@ -648,7 +741,7 @@
                 <td>{{ basicDetails?.applicant }}</td>
                 <td class="bank_name">{{ labels?.mobileNumber }}</td>
                 <td>{{ basicDetails?.mobileNumber }}</td>
-            </tr>
+            </tr> -->
             <tr>
                 <td class="bank_name">{{ labels?.leadNo }}</td>
                  <td>{{ camDetails?.leadId }}</td>
@@ -656,8 +749,8 @@
                 <td>{{ basicDetails?.proposalType }}</td>
                 <td class="bank_name">{{ labels?.customerType }}</td>
                 <td>{{ basicDetails?.customerType }}</td>
-                <td class="bank_name">{{ labels?.applicantType }}</td>
-                <td>{{ basicDetails?.applicantType }}</td>
+                <td class="bank_name">{{ labels?.applicantNameCam }}</td>
+                <td>{{ basicDetails?.applicant }}</td>
                 <td class="bank_name">{{ labels?.entityType }}</td>
                 <td>{{ basicDetails?.entityType }}</td>
             </tr>
@@ -670,7 +763,7 @@
 
         <!---sourcing table starts here-->
         <table class="cam_table mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.sourceDetailsTitle
       }}
@@ -747,7 +840,7 @@
 
         <!---proposed Vechicle Details-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.proposedVehicleDetailsTitle
       }}
@@ -800,23 +893,23 @@
                 <tr>
                     <td colspan="2" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                     <td colspan="10"><textarea class="form-control form-control-sm" placeholder="Text Area"
-                            formControlName="proposedVehicleRemarks"></textarea>
+                            formControlName="proposedVehicleRemarks" maxlength="50"></textarea>
                         <!-- <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
                                 proposed vehicle Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && (camDetailsForm.get('proposedVehicleRemarks').dirty || camDetailsForm.get('proposedVehicleRemarks').touched)"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.maxlength">
-                                proposedVehicleRemarks cannot be more than 200 characters long.
+                               Proposed Vehicle Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -825,7 +918,7 @@
 
         <!---party agreement details-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.partyToAgreementTitle
       }}
@@ -859,7 +952,7 @@
 
         <!---cibil synopsis--->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.cibilSynopsysTitle
       }}
@@ -891,26 +984,26 @@
                 <tr>
                     <td colspan="1" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
                     <td colspan="7" class=""><textarea class="form-control form-control-sm" placeholder="Text Area"
-                            formControlName="cibilSynopsisRemarks"></textarea>
+                           formControlName="cibilSynopsisRemarks"></textarea>
                         <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
                                 cibile synopsis Remarks is required
                             </div>
-                        </div>
+                        </div>  -->
                         <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && (camDetailsForm.get('cibilSynopsisRemarks').dirty || camDetailsForm.get('cibilSynopsisRemarks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
                                 cibilSynopsisRemarks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.maxlength">
-                                cibilSynopsisRemarks cannot be more than 200 characters long.
+                                Cibil Synopsis Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -919,7 +1012,7 @@
 
         <!--banking synopsis-->
         <table class="cam_table_proposed mt-3" id="page_break">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.bankingSummaryTitle
       }}
@@ -975,7 +1068,7 @@
         <!--banking synopsis-->
         <table class="cam_table_proposed mt-3"
             *ngIf="coAppBankingSummaryObj != null || coAppBankingSummaryObj != undefined">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.coApplicantBankingDetails
   }}
@@ -1030,7 +1123,7 @@
         <!--banking synopsis-->
         <!---fleet summary-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.fleetSummaryTitle
       }}
@@ -1082,20 +1175,20 @@
                             <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
                                 Fleet Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && (camDetailsForm.get('fleetRemarks').dirty || camDetailsForm.get('fleetRemarks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
                                 fleetRemarks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('fleetRemarks').errors.maxlength">
-                                fleetRemarks cannot be more than 200 characters long.
+                                Fleet Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('fleetRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
 
 
@@ -1106,7 +1199,7 @@
 
         <!--track validation summary-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.trackValidationSummaryTitle
       }}
@@ -1143,7 +1236,7 @@
                 </th> -->
                 </tr>
                 <tr>
-                    <td colspan="6"></td>
+                    <td colspan="5"></td>
                     <td class="bank_name">
                         {{ labels?.ad }}
                     </td>
@@ -1173,7 +1266,7 @@
 
                     <td>{{trackValidation?.financier}}</td>
                     <td>{{trackValidation?.asset}}</td>
-                    <td>{{trackValidation?.vehRegNo}}</td>
+                    <td>{{trackValidation?.vehRegNo | uppercase}}</td>
                     <td>{{trackValidation?.seasoning}}</td>
                     <td>{{trackValidation?.overallAD}}</td>
                     <td>{{trackValidation?.overallPD}}</td>
@@ -1196,20 +1289,20 @@
                             <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
                                 Track validation Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && (camDetailsForm.get('trackValidationRemarks').dirty || camDetailsForm.get('trackValidationRemarks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
                                 trackValidationRemarks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.maxlength">
-                                trackValidationRemarks cannot be more than 200 characters long.
+                                Track Validation Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                     <!--<td colspan="8">
                     {{ labels?.appIsInTransportFieldFromLastManyYears }}
@@ -1221,7 +1314,7 @@
         <!--track validation summary-->
         <!-- customer selection criteria -->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.customerSelectionCriteriaTitle
       }}
@@ -1271,7 +1364,7 @@
         <!-- customer selection criteria -->
         <!--Auto deviations-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.autoDeviation
   }}
@@ -1298,7 +1391,7 @@
         <!--Auto deviations-->
         <!---other deviation-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.otherDeviationsTitle
       }}
@@ -1335,18 +1428,18 @@
         <!--concern Risks / strengths mitigates-->
         <table class="cam_table_proposed mt-3 text-center" id="page_break">
             <!-- <tr>
-  <td class="caption"> <caption class="caption">
+  <td class="caption banner-con"> <caption class="caption banner-con">
         {{
     labels?.concernsOrRisks
   }}
     </caption></td> 
- <td class="caption">   <caption class="caption">
+ <td class="caption banner-con">   <caption class="caption banner-con">
         {{
     labels?.strengthsOrMitigates
   }}
     </caption></td>
 </tr> -->
-            <caption class="caption">
+            <caption class="caption banner-con">
                 <div class="row">
                     <div class="col-md-6"> {{ labels?.concernsOrRisks }}</div>
                     <div class="col-md-6"> {{ labels?.strengthsOrMitigates }}</div>
@@ -1362,20 +1455,20 @@
                             <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                                 Concern and risks Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && (camDetailsForm.get('concernsAndRisks').dirty || camDetailsForm.get('concernsAndRisks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                                 Concerns or Risks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.maxlength">
-                                Concerns or Risks cannot be more than 200 characters long.
+                                Concerns or Risks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                     <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="Text Area"
                             formControlName="strengthAndMitigates"></textarea>
@@ -1384,20 +1477,20 @@
                             <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
                                 Strength And Mitigates Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && (camDetailsForm.get('strengthAndMitigates').dirty || camDetailsForm.get('strengthAndMitigates').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
                                 Strengths or Mitigates is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.maxlength">
-                                Strengths or Mitigates cannot be more than 200 characters long.
+                                Strengths or Mitigates cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
 
@@ -1407,7 +1500,7 @@
         <!--key financial-->
         <!--key financial-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.keyFinancialTitle
       }}
@@ -1431,20 +1524,20 @@
                             <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
                                 Key Financial Remarks is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && (camDetailsForm.get('keyFinancialRemarks').dirty || camDetailsForm.get('keyFinancialRemarks').touched)"
                             class="invalid-feedback">
-                            <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
                                 keyFinancialRemarks is required.
-                            </div>
+                            </div> -->
                             <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.maxlength">
-                                keyFinancialRemarks cannot be more than 200 characters long.
+                                KeyFinancial Remarks cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
 
@@ -1473,7 +1566,7 @@
         <!--key financial-->
         <!--credity officer remarks-->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.creditOfficersRemarks
       }}
@@ -1495,10 +1588,10 @@
         <!--credity officer remarks-->
         <!--recommondation-->
         <table class="cam_table_proposed mt-3" *ngFor="let recommendation of recommendation">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{ recommendation?.roleName }} {{labels?.recommendation}}
             </caption>
-            <!-- <caption class="caption">
+            <!-- <caption class="caption banner-con">
             {{ recommendation?.recommendation }}
         </caption> -->
             <tbody>
@@ -1516,7 +1609,7 @@
             </tbody>
         </table>
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.cmRecommendation
       }}
@@ -1536,7 +1629,7 @@
         </tbody>
     </table> -->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.acmRecommendationApproval
       }}
@@ -1556,7 +1649,7 @@
         </tbody>
     </table>
     <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.ncmBhApprovalRecommendation
       }}
@@ -1582,7 +1675,7 @@
 
         <!---sourcing table starts here-->
         <table class="cam_table mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.sourceDetailsTitle
   }}
@@ -1691,7 +1784,7 @@
 
         <!--applicantDetails-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.applicantDetailsTitle
   }}
@@ -1951,7 +2044,7 @@
 
         <!---proposedVehicleDetails-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.proposedVehicleDetailsTitle
   }}
@@ -2012,7 +2105,7 @@
 
         <!---existingExposure--->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.existingExposure
       }}
@@ -2087,7 +2180,7 @@
 
         <!--repaymentTrackRecord-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.repaymentTrackRecord
       }}
@@ -2155,24 +2248,24 @@
                             <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.required">
                                 Comments On Rtr is required
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('commentsOnRtr').invalid && (camDetailsForm.get('commentsOnRtr').dirty || camDetailsForm.get('commentsOnRtr').touched)"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.maxlength">
-                                commentsOnRtr cannot be more than 200 characters long.
+                                Comments On Rtr cannot be more than 5000 characters long.
                             </div>
                             <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.pattern">
                                 Invalid Message / Special Characters not allowed
 
                             </div>
-                        </div> -->
+                        </div>
                 </tr>
             </tbody>
         </table>
         <!--repaymentTrackRecord-->
         <!--fleetDetails-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
     labels?.fleetDetails
   }}
@@ -2198,7 +2291,7 @@
             <tbody>
                 <tr *ngFor="let fleetDetails of fleetDetails; let i = index">
                     <td>{{i+1}}</td>
-                    <td>{{ fleetDetails?.regdNo }}</td>
+                    <td>{{ fleetDetails?.regdNo | uppercase }}</td>
                     <td>{{ fleetDetails?.regdOwner}}</td>
                     <td>{{ fleetDetails?.relationWithHirer }}</td>
                     <td>{{ fleetDetails?.make }}</td>
@@ -2223,7 +2316,7 @@
 
         <!---bankingHistory-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.bankingHistory
       }}
@@ -2318,20 +2411,20 @@
                         <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
                             Comments On Banking is required
                         </div>
-                    </div>
+                    </div> -->
                     <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').invalid && (camDetailsForm.get('commentsOnBankingIfAny').dirty || camDetailsForm.get('commentsOnBankingIfAny').touched)"
                         class="invalid-feedback">
-                        <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
+                        <!-- <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
                             commentsOnBankingIfAny is required.
-                        </div>
+                        </div> -->
                         <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.maxlength">
-                            commentsOnBankingIfAny cannot be more than 200 characters long.
+                            Comments On Banking If Any cannot be more than 5000 characters long.
                         </div>
                         <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.pattern">
                             Invalid Message / Special Characters not allowed
 
                         </div>
-                    </div> -->
+                    </div>
                 </td>
             </tr>
         </table>
@@ -2339,7 +2432,7 @@
 
         <!---CoAPPbankingHistory-->
         <table class="cam_table_proposed mt-3" *ngIf="coAppBankingSummary != null || coAppBankingSummary != undefined">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.coApplicantBankingHistory
       }}
@@ -2431,7 +2524,7 @@
 
         <!--customerBackgroundSalesRecommendation-->
         <table class="cam_table_proposed mt-3" *ngFor="let appRecommendation of appRecommendation">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{ appRecommendation?.applicantType }} {{labels?.backgroundSalesRecommendation}}
             </caption>
             <tbody>
@@ -2452,7 +2545,7 @@
 
         <!--CoApplicantBackground-->
         <!-- <table class="cam_table_proposed mt-3" *ngFor="let appRecommendation of appRecommendation">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{ appRecommendation?.applicantType }} {{labels?.backgroundSalesRecommendation}}
         </caption>
         <tbody>
@@ -2466,7 +2559,7 @@
 
         <!--guarantorDetails-->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.guarantorDetails
       }}
@@ -2482,7 +2575,7 @@
 
         <!--vehicleDeploymentDetails-->
         <table class="cam_table_proposed mt-3" id="page_break">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.vehicleDeploymentDetails
       }}
@@ -2503,7 +2596,7 @@
         <!--vehicleDeploymentDetails-->
         <!--referenceCheck-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.referenceCheck
       }}
@@ -2534,7 +2627,7 @@
         <!--referenceCheck-->
         <!--creditAppraisalSheet-->
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.creditAppraisalSheet
       }}
@@ -2544,7 +2637,7 @@
         <!--customerSelectionCriteriaTitle-->
 
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.customerSelectionCriteriaTitle
       }}
@@ -2576,7 +2669,7 @@
         <!--customerSelectionCriteriaTitle-->
         <!--Auto deviations-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.autoDeviation
       }}
@@ -2603,7 +2696,7 @@
         <!--Auto deviations-->
         <!--otherDeviationIfAny-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
             labels?.otherDeviationIfAny
           }}
@@ -2630,7 +2723,7 @@
         <!--otherDeviationIfAny-->
         <!--detailsOfCibilPdFiDedupe-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
             labels?.detailsOfCibilPdFiDedupe
           }}
@@ -2702,7 +2795,7 @@
         <!--detailsOfCibilPdFiDedupe-->
         <!--cibilJustificationIfAny-->
         <table class="cam_table_proposed mt-3" id="page_break">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.cibilJustificationIfAny
       }}
@@ -2724,7 +2817,7 @@
         <!--cibilJustificationIfAny-->
         <!--cibilEnquiries-->
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.cibilEnquiries
       }}
@@ -2750,7 +2843,7 @@
         <!--coRecommendationAndTvrDetailsMandatory-->
 
         <table class="cam_table_proposed mt-3">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{
         labels?.coRecommendationAndTvrDetailsMandatory
       }}
@@ -2772,10 +2865,10 @@
         <!--coRecommendationAndTvrDetailsMandatory-->
         <!--cmRecommendation-->
         <table class="cam_table_proposed mt-3" *ngFor="let recommendation of recommendation">
-            <caption class="caption">
+            <caption class="caption banner-con">
                 {{ recommendation?.roleName }} {{labels?.recommendation}}
             </caption>
-            <!-- <caption class="caption">
+            <!-- <caption class="caption banner-con">
             
         </caption> -->
             <tbody>
@@ -2791,7 +2884,7 @@
             </tbody>
         </table>
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.acmRecommendationApproval
       }}
@@ -2812,7 +2905,7 @@
         <!--ncmBhApprovalRecommendation-->
 
         <!-- <table class="cam_table_proposed mt-3">
-        <caption class="caption">
+        <caption class="caption banner-con">
             {{
         labels?.ncmBhApprovalRecommendation
       }}
@@ -2837,19 +2930,24 @@
     <div class="btn-sec clear-both row">
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right">
-            <button (click)="onBack()" class="btn btn-primary dash_href" type="button">
+            <button (click)="onBack()" class="btn btn-primary dash_href hvr-sweep-to-left" type="button">
                 {{ labels?.back }}
             </button>
-            <button *ngIf="(usedCvCam || newCvCam) && showSave == true" class="btn btn-primary mar-right8" type="button"
+            <button *ngIf="showSave == true" class="btn btn-primary mar-right8" type="button"
                 (click)=onSubmit(); [disabled]="disableSaveBtn">
                 Save
             </button>
-            <button (click)="onNext()" class="btn btn-primary dash_href" type="button">
+            <button (click)="onNext()" class="btn btn-primary dash_href hvr-sweep-to-right" type="button">
                 {{ labels?.next }}
             </button>
-            <button *ngIf="!isCamDetails" (click)="downloadpdf()" class="btn btn-primary dash_href" type="button">
-                {{ 'Download' }}
-            </button>
+            <ng-container *ngIf="!isLoan360">
+                <button (click)="sendBackToSales()" *ngIf="showSendBackToSales == true" class="btn btn-primary dash_href" type="button">
+                    {{ labels?.sendBackToSales }}
+                </button>
+                <button *ngIf="!isCamDetails" (click)="downloadpdf()" class="btn btn-primary dash_href" type="button">
+                    {{ 'Download' }}
+                </button>
+            </ng-container>
         </div>
     </div>
 </form>
@@ -2880,4 +2978,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

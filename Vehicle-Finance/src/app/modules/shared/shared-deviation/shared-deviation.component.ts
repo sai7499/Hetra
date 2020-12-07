@@ -11,6 +11,8 @@ import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-shared-deviation',
   templateUrl: './shared-deviation.component.html',
@@ -52,12 +54,17 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   public isSendBacktoCredit = false;
   locationIndex: string = '';
 
+  isLoan360: boolean;
+
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
     private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location,
-    private toggleDdeService: ToggleDdeService) { }
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -149,7 +156,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "userId": this.userId,
       "devRuleId": obj.value.devRuleId,
       "statusCode": value + '',
-      "isRevert": false
+      "isRevert": obj.value.statusCode === value ? true : false
     }
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
@@ -439,7 +446,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         waiverNormsFormArray.push(
           this._fb.group({
             approverRole: data.approverRole,
-            approverRoleName: typeofRole.name ? typeofRole.name : '',
+            approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
             devCode: data.devCode,
             devDesc: data.devDesc,
             type: type,
@@ -458,7 +465,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           manualDiviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: typeofRole.name ? typeofRole.name : '',
+              approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
               devCode: data.devCode,
               devDesc: data.devDesc,
               type: type,
@@ -475,7 +482,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           autoDeviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: typeofRole.name ? typeofRole.name : '',
+              approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
               devCode: data.devCode,
               devDesc: data.devDesc,
               devRuleId: data.devRuleId,
@@ -502,12 +509,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           localStorage.getItem('isPreDisbursement') === 'false') {
           this.isSendBacktoCredit = true;
           this.isWaiverTrigger = true;
-
-          let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
-
-          let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
-
-          let waiverNormsFormArray = (this.deviationsForm.get('waiverNormsFormArray') as FormArray);
 
           setTimeout(() => {
             this.disableInputs();

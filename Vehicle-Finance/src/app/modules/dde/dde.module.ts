@@ -37,7 +37,12 @@ import { FiReportModule } from './fi-report/fi-report.module';
 import { PddDetailsComponent } from './pdd-details/pdd-details.component';
 import { ChequeTrackingComponent} from './cheque-tracking/cheque-tracking.component';
 import { LoanBookingModule } from './loan-status/loan-booking.module';
+import { RcuComponent } from './rcu/rcu.component';
 // import { PdReportComponent } from './pd-report/pd-report.component';
+import { PSLdataComponent } from './psldata/psldata.component';
+import { MatFormField, MatSelectModule } from '@angular/material';
+import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -66,7 +71,10 @@ import { LoanBookingModule } from './loan-status/loan-booking.module';
     PdListComponent,
     PddDetailsComponent,
     ChequeTrackingComponent,
+    RcuComponent,
 
+    PSLdataComponent,
+    LoanDetailsComponent
   ],
   imports: [
     DdeRoutingModule,
@@ -83,8 +91,12 @@ import { LoanBookingModule } from './loan-status/loan-booking.module';
     CreditConditionModule,
     ViabilityDashboardModule,
     FiReportModule,
-    LoanBookingModule
+    LoanBookingModule,
+    MatSelectModule,
+    AutocompleteLibModule
+    // MatFormField
+    
   ],
-  exports: [ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
+  exports: [MatSelectModule, ViabilityDashboardModule, CreditConditionModule, ChequeTrackingComponent]
 })
 export class DdeModule { }

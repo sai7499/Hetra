@@ -3,11 +3,13 @@
   
     // Environment variables
     window["env"]["hostUrl"] = "/appiyo/";
-    window["env"]["hostEnvironment"] = "UAT";
-    // window["env"]["hostEnvironment"] = "DEV";
-    window["env"]["userConfig"] = "@esfbuat.in";
-    // window["env"]["userConfig"] = "@equitasbank.in";
+    //window["env"]["hostEnvironment"] = "UAT";
+    window["env"]["hostEnvironment"] = "DEV";
+    //window["env"]["userConfig"] = "@esfbuat.in";
+    window["env"]["userConfig"] = "@equitasbank.in";
     window["env"]["useADAuth"] = false;
-    window["env"]["version"] = "0.26"; 
-    window["env"]["buildDate"] = "24-10-2020";
+    window["env"]["version"] = "0.31.7"; 
+    window["env"]["buildDate"] = "06-12-2020";
+    
   })(this);
+  

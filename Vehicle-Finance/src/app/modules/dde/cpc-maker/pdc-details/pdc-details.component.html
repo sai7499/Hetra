@@ -24,28 +24,28 @@
                         <div class="panel-body text-center float_right" formArrayName="pdcList">
                          <div class="row test_class">
                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                            <label for="lead_id">Pre EMI / EMI Amount</label>
+                            <label  >Pre EMI / EMI Amount</label>
                             </div>
                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                <label for="lead_id">Instr Number</label>
+                                <label  >Instr Number</label>
                                 </div>
                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                <label for="lead_id">Instr.Date</label>
+                                <label  >Instr.Date</label>
                             </div>
                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                <label for="lead_id">Instr.Bank Name</label>
+                                <label  >Instr.Bank Name</label>
                                 </div>
                              <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id">Instr.Branch Name</label>
+                                    <label  >Instr.Branch Name</label>
                              </div>
                              <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                <label for="lead_id">Instr.Branch Account Number</label>
+                                <label  >Instr.Branch Account Number</label>
                                 </div>
                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id">Instr.Amount</label>
+                                    <label  >Instr.Amount</label>
                                 </div>
                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id">Action</label>
+                                    <label  >Action</label>
                             </div>
                             
                         </div>
@@ -67,7 +67,8 @@
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
                                     [placeholder]="'EMI Amount'"
-                                    
+                                    [id]="'emiAmount'+i+i"
+                                    [isDisabled]="true"
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
@@ -83,11 +84,11 @@
                                     [isDirty]="isDirty"
                                     [placeholder]="'Instr Number'"
                                     (keyup)="findUnique($event.target.value, i, 'pdcList', 'spdcList')"
-                                    
+                                    [id]="'instrNo'+i+i"
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <!-- <label for="lead_id" class="height_label"></label> -->
+                                    <!-- <label   class="height_label"></label> -->
                                      <div class="input-group input-medium">
                                           
                                           <!-- <input type="date" class="form-control date_caps" id="date" formControlName= "instrDate " >  -->
@@ -101,6 +102,9 @@
                                           
                                           ></kendo-datepicker>
                                         </div>
+                                        <span class="invalid-feedback" *ngIf = "f.pdcList.controls[i].controls.instrDate.value && f.pdcList.controls[i].controls.instrDate.invalid"> 
+                                            Invalid date </span>
+
                                         <span class="invalid-feedback" *ngIf = "submitted && f.pdcList.controls[i].controls.instrDate.invalid"> 
                                             InstrDate cannot be lesser than Offer date. </span>
                                 </div>
@@ -117,7 +121,7 @@
       
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <!-- <label for="lead_id" class="height_label"></label> -->
+                                    <!-- <label   class="height_label"></label> -->
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" 
                                         name="lead_id" value="" formControlName= "instrBranchName"> -->
                                     <app-custom-input
@@ -128,11 +132,11 @@
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
                                     [placeholder]="'Instr BranchName'"
-                                    
+                                    [id]="'instrBranchName'+i+i"
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <!-- <label for="lead_id">Instr.Branch Account Number</label> -->
+                                    <!-- <label  >Instr.Branch Account Number</label> -->
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder=""
                                      name="lead_id" value="" formControlName= "instrBranchAccountNumber"> -->
                                     <app-custom-input
@@ -143,11 +147,11 @@
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
                                     [placeholder]="'Instr Acc Number'"
-                                    
+                                    [id]="'instrBranchAccountNumber'+i+i"
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <!-- <label for="lead_id" class="height_label"></label> -->
+                                    <!-- <label   class="height_label"></label> -->
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName= "instrAmount"> -->
                                     <app-custom-input
                                     formControlName="instrAmount"
@@ -157,14 +161,14 @@
                                     [isRequired]="'*required'"
                                     [isDirty]="isDirty"
                                     [placeholder]="'Instr Amount'"
-                                    
+                                    [id]="'instrAmount'+i+i"
                                   ></app-custom-input>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3 text-center">
-                                    <!-- <label for="lead_id" class="height_label"></label> -->
+                                    <!-- <label   class="height_label"></label> -->
                                     <div class=" row" for="upload_files"  >
                                         <!-- <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addPdcUnit()" ></i> &nbsp;  -->
-                                        <a data-toggle="modal" data-target="#myModalthree" (click)="getIndex(i)"><i class="fa fa-trash fa-3 " aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
+                                        <a data-toggle="modal" data-target="#myModalthree" class="cursor-pointer" (click)="getIndex(i)"><i class="fa fa-trash fa-3 " aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -193,28 +197,28 @@
                             <div class="panel-body text-center float_right" formArrayName="spdcList">
                                 <div class="row test_class">
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label for="lead_id">Pre EMI / EMI Amount</label>
+                                    <label  >Pre EMI / EMI Amount</label>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id">Instr Number</label>
+                                        <label  >Instr Number</label>
                                         </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id">Instr.Date</label>
+                                        <label  >Instr.Date</label>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id">Instr.Bank Name</label>
+                                        <label  >Instr.Bank Name</label>
                                         </div>
                                      <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                            <label for="lead_id">Instr.Branch Name</label>
+                                            <label  >Instr.Branch Name</label>
                                      </div>
                                      <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label for="lead_id">Instr.Branch Account Number</label>
+                                        <label  >Instr.Branch Account Number</label>
                                         </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                            <label for="lead_id">Instr.Amount</label>
+                                            <label  >Instr.Amount</label>
                                         </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                            <label for="lead_id">Action</label>
+                                            <label  >Action</label>
                                     </div>
                                     
                                 </div>
@@ -228,19 +232,20 @@
            [isRequired]="'Please Select Instr Type'"></app-vf-custom-select> -->
                                     <!-- </div> -->
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label for="lead_id">Pre EMI / EMI Amount</label> -->
+                                        <!-- <label  >Pre EMI / EMI Amount</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
                                         <app-custom-input
                                         formControlName="emiAmount"
                                         [patternCheck]="inputValidation"
                                         [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                         [type]="labels?.validationData?.amountValue?.type"
-                                        [placeholder]="'EMI Amount'"
-                                        
+                                        [placeholder]="'EMI Amount'" 
+                                        [id]="'emiAmtount'+i"                            
+                                        [isDisabled]="true"
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label for="lead_id" class="height_label">Instr.No</label> -->
+                                        <!-- <label   class="height_label">Instr.No</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" 
                                             placeholder="" name="lead_id" value="" formControlName= "instrNo"> -->
                                         <app-custom-input
@@ -251,11 +256,11 @@
                                         
                                         [placeholder]="'Instr Number'"
                                         (keyup)="findUnique($event.target.value, i, 'spdcList', 'pdcList')"
-                                        
+                                        [id]="'instrNo'+i"
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label for="lead_id" class="height_label">Instr.Date</label> -->
+                                        <!-- <label   class="height_label">Instr.Date</label> -->
                                          <div class="input-group input-medium">
                                               
                                               <!-- <input type="date" class="form-control date_caps" id="date" formControlName= "instrDate " >  -->
@@ -266,9 +271,13 @@
                                               placeholder="Select Latest Month"
                                               [activeView]="'decade'"
                                               (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList')"
-                                              
+                                        
                                               ></kendo-datepicker>
                                             </div>
+                                            <span class="invalid-feedback" 
+                                            *ngIf = "f.spdcList.controls[i].controls.instrDate.value && f.spdcList.controls[i].controls.instrDate.invalid"> 
+                                            Invalid date 
+                                        </span>
                                             <span class="invalid-feedback" *ngIf = "submitted && f.spdcList.controls[i].controls.instrDate.invalid"> InstrDate cannot be lesser than Offer date. </span>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -284,7 +293,7 @@
           
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label for="lead_id" class="height_label">Instr.Branch Name</label> -->
+                                        <!-- <label   class="height_label">Instr.Branch Name</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" 
                                             name="lead_id" value="" formControlName= "instrBranchName"> -->
                                         <app-custom-input
@@ -295,11 +304,12 @@
                                         [isRequired]="'*required'"
                                         [isDirty]="isDirty"
                                         [placeholder]="'Instr.Branch Name'"
+                                        [id]="'instrBranchName'+i"
                                         
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label for="lead_id">Instr.Branch Account Number</label> -->
+                                        <!-- <label  >Instr.Branch Account Number</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder=""
                                          name="lead_id" value="" formControlName= "instrBranchAccountNumber"> -->
                                         <app-custom-input
@@ -310,11 +320,11 @@
                                         [isRequired]="'*required'"
                                         [isDirty]="isDirty"
                                         [placeholder]="'Instr.Branch Account Number'"
-                                        
+                                        [id]="'instrBranchAccountNumber'+i"
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label for="lead_id" class="height_label">Instr.Amount</label> -->
+                                        <!-- <label   class="height_label">Instr.Amount</label> -->
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName= "instrAmount"> -->
                                         <app-custom-input
                                         formControlName="instrAmount"
@@ -324,13 +334,13 @@
                                         [isRequired]="'*required'"
                                         [isDirty]="isDirty"
                                         [placeholder]="'Instr.Amount'"
-                                        
+                                        [id]="'instrAmount'+i"
                                       ></app-custom-input>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                         <label class=" row" for="upload_files">
                                             <!-- <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addSPdcUnit()" ></i> &nbsp;  -->
-                                            <a data-toggle="modal" data-target="#myModaltwo" (click)="getIndex(i)" class="text-center"><i class="fa fa-trash fa-3" aria-hidden="true"  id="add_more_documents_remove1"  ></i></a>
+                                            <a data-toggle="modal" data-target="#myModaltwo" class="cursor-pointer" (click)="getIndex(i)" class="text-center"><i class="fa fa-trash fa-3" aria-hidden="true"  id="add_more_documents_remove1"  ></i></a>
                                         </label>
                                     </div>
                                 </div>

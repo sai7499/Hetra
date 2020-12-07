@@ -39,6 +39,10 @@ h3.dedupe_head {
     margin-top: 0px;
 }
 
+.varlab {
+    font-weight: 300 !important;
+}
+
 
 /* footer */
 
@@ -324,4 +328,6 @@ only screen and
         content: attr(data-item-value);
         }
 } */
+
+
 

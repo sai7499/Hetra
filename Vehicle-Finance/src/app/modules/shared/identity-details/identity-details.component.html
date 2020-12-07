@@ -188,8 +188,8 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
-                
-                [max]="toDayDate"
+                [min]="minPassportIssueDate"
+                [max]="maxDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
                 (valueChange)="passportIssueDateChange($event)"
@@ -198,7 +198,7 @@
                 </div>
 
                 <div class="ShowError" *ngIf="showInvalidMsg['passportIssue']" >
-                    Invalid Date
+                    {{passportIssueInvalidMsg}}
                 </div>
               </div>
             </div>
@@ -219,6 +219,7 @@
                   <kendo-datepicker class="form-control" 
                 formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
                 [min]="toDayDate"
+                [max]="maxPassportExpiryDate"
                  placeholder="Expriy Date"
                  [disabled]="passportDates"
                 [activeView]="'decade'"
@@ -226,7 +227,7 @@
                 
                 ></kendo-datepicker>
                 <div class="ShowError" *ngIf="showInvalidMsg['passportExpiry']" >
-                  Invalid Date
+                  {{passportExpiryInvalidMsg}}
               </div>
                 </div>
               </div>
@@ -295,15 +296,16 @@
                   /> -->
                   <kendo-datepicker class="form-control" 
                 formControlName="drivingLicenseIssueDate" [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
+                [max]="maxDate"
                  placeholder="Issue Date"
                 [activeView]="'decade'"
                 [disabled]="drivingLicenceDates"
                 (valueChange)="drivingIssueDateChange($event)"
                 
+                
                 ></kendo-datepicker>
                 <div class="ShowError" *ngIf="showInvalidMsg['drivingIssue']" >
-                  Invalid Date
+                  {{drivingIssueInvalidMsg}}
               </div>
                   
                 </div>
@@ -335,7 +337,7 @@
                 
                 ></kendo-datepicker>
                 <div class="ShowError" *ngIf="showInvalidMsg['drivingExpiry']" >
-                  Invalid Date
+                {{drivingExpiryInvalidMsg}}
               </div>
                 </div>
               </div>
@@ -566,20 +568,21 @@
 <div class="btn-sec clear-both row">
   <div class="col-sm-5">
     <button
-      class="btn btn-primary dash_href"
+      class="btn btn-primary dash_href hvr-sweep-to-left"
       (click)="navigateToApplicantList()"
     >
-      <a>Back To Applicant Details</a>
+     Back To Applicant Details
     </button>
   </div>
   <div class="col-sm-7 text-right">
     <span id="edit_vehicle_details_replace"></span>
     <a id="back_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onBack()">
+      ><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
         Back
       </button></a
     >
-    <p
+    <ng-container *ngIf="!isLoan360">
+      <p
       class="btn btn-primary save"
       id="save_vehicle_details"
       (click)="onSubmit()"
@@ -587,8 +590,10 @@
     >
       Save
     </p>
+    </ng-container>
+    
     <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onNext()">
+      ><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
         Next
       </button></a
     >

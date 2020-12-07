@@ -24,12 +24,15 @@ import { DraggableContainerService } from '@services/draggable.service';
 import { ToasterService } from '@services/toaster.service';
 import { Constant } from '@assets/constants/constant';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-applicant-docs-upload',
   templateUrl: './applicant-docs-upload.component.html',
   styleUrls: ['./applicant-docs-upload.component.css'],
 })
 export class ApplicantDocsUploadComponent implements OnInit {
+  apiId;
   @Input() set appId(value) {
     if (!value) {
       return;
@@ -37,6 +40,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.applicantId = Number(value.id);
     this.associatedWith = value.associatedWith;
     if (this.associatedWith === 2 ) {
+      this.apiId = value.apiId;
       this.getApplicantDetails();
     }
     this.getApplicantDocumentCategory(this.applicantId);
@@ -109,7 +113,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
   isNewUpload = false;
   docError = {};
 
-
+  isLoan360: boolean;
+ 
   constructor(
     private lovData: LovDataService,
     private router: Router,
@@ -122,12 +127,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private utilityService: UtilityService,
     private base64StorageService: Base64StorageService,
     private draggableContainerService: DraggableContainerService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private loanViewService: LoanViewService
   ) {
 
   }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.uploadForm = new FormGroup({});
     this.labelsData.getLabelsData().subscribe(
       (data) => {
@@ -225,7 +232,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
         const category = categories.find((category) => {
           return category.code === Number(code);
         });
-        this.categories.push(category);
+        if (category) {
+            this.categories.push(category);
+          }
       }
     });
     console.log('this.categories', this.categories);
@@ -244,6 +253,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return;
     }
     this.constructFormForUpload();
+    
+  }
+
+  downloadForLoan360(formArrayName: string, index: number, event) {
+    if (!this.isLoan360) {
+      return;
+    }
+    this.downloadDocs(formArrayName,index,event);
   }
 
   setDocumentDetails() {
@@ -272,6 +289,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
             ) as FormArray;
             formArray.push(this.getDocsFormControls());
           });
+          if (this.isLoan360) {
+            this.uploadForm.disable();
+          }
           return;
         }
         docDetails.forEach((docs, index) => {
@@ -306,6 +326,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
             formArray.push(this.getDocsFormControls());
           }
         });
+        if (this.isLoan360) {
+          this.uploadForm.disable();
+        }
       });
   }
 
@@ -502,6 +525,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
     // this.currentlySelectedDocs = categoryCode;
   }
 
+  onDocumentNumberPress(event, index, code) {
+    if (code === 12 || code === 13 || code === 15 || code === 16) {
+      const value = event.target.value;
+      const formArray = this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray;
+      console.log('formArray.at[index]', formArray.at(index))
+      formArray.at(index).get('documentNumber').setValue(String(value).toUpperCase());
+    }
+  }
+
   setDocumentValidation() {
     // this.selectedCode = subCategoryCode;
     // if (subCategoryCode === 12) { // passport
@@ -650,6 +682,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
     });
 
     docObj = docObj || {};
+    let id;
+    if (this.associatedWith === 2) {
+      id = this.apiId;
+    } else {
+      id = this.leadId;
+    }
 
     this.selectedDocDetails = {
       formArrayIndex: index,
@@ -672,7 +710,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       docRefId: [
         {
           idTp: 'LEDID',
-          id: this.leadId,
+          id,
         },
         {
           idTp: 'BRNCH',
@@ -688,7 +726,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
   getProfileImage() { }
 
   async downloadDocs(formArrayName: string, index: number, event) {
-    console.log(event);
     
     let el = event.srcElement;
     const formArray = this.uploadForm.get(formArrayName) as FormArray;
@@ -924,7 +961,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.toasterService.showError('Please fill mandatory fields', '');
     }
     this.docError = {};
-    const formValue = this.uploadForm.value;
+    const formValue = this.uploadForm.getRawValue();
     const requestArr = [];
     let isDocNumberError = false;
     for (const key in formValue) {

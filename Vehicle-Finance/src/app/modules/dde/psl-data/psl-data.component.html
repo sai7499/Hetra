@@ -1,6 +1,6 @@
 <form class="multisteps-form__form content"  [formGroup]="pslDataForm">
     <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
-        <!-- <h3 class="title">{{labels.pslDataTitle}}</h3> -->
+        <h3 class="banner-con">{{labels.pslDataTitle}}</h3>
         <div class="row">
 
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -105,7 +105,7 @@
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
         <label for="land_area_in_acres">{{labels.landAreaInAcres}}</label>
-        <input type="text" formControlName="landArea" class="form-control" name="land_area_in_acres"
+        <input type="text" formControlName="landUnitValue" class="form-control" name="land_area_in_acres"
             id="land_area_in_acres" required="required" />
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" >
@@ -422,9 +422,30 @@
                     <app-custom-input
                     [(ngModel)]="landAreaInAcresValue"
                     (change)="onLandAreaChange($event)"
-                    formControlName="landArea"
+                    formControlName="landUnitValue"
                     [className]="'form-control mandatory'"
                     [placeholder]="'Land Area in Acres'"
+                    [maxLength]="labels?.validationData?.landArea.maxLength"
+                    [isRequired]="'Required Input is mandatory'"
+                    [type]="labels?.validationData.landArea.type"
+                    [isDirty]="isDirty"
+                    >
+                  </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
+                <label for="land_area_in_acres">{{labels.landAreaInHectares}}
+                    <sub class="star_red_col">*</sub>
+                </label>
+                <!-- <input type="number" formControlName="landArea" class="form-control" name="land_area_in_acres"
+                    id="land_area_in_acres" required="required" [(ngModel)]="landAreaInAcresValue"
+                    (change)="onLandAreaChange($event)"  
+                    /> -->
+                    <app-custom-input
+                    [(ngModel)]="landAreaInAcresValue"
+                    (change)="onLandAreaChange($event)"
+                    formControlName="landInHectare"
+                    [className]="'form-control mandatory'"
+                    [placeholder]="'Land Area in Hectares'"
                     [maxLength]="labels?.validationData?.landArea.maxLength"
                     [isRequired]="'Required Input is mandatory'"
                     [type]="labels?.validationData.landArea.type"
@@ -509,7 +530,7 @@
         </div>
 <!-----------------------------------End Of Africulture Option------------------------------->
 
-<div class="" id="micro_small__medium_enterprises" formGroupName="microSmallAndMediumEnterprises" *ngIf="activityChange === '2PSLACTVTY'">
+<div class="" id="micro_small__medium_enterprises" formGroupName="microSmallAndMediumEnterprises" *ngIf="activityChange !== '1PSLACTVTY' ">
     
     <div class="form-group col-sm-6 col-md-4 col-lg-3">
         <label for="detail_activity">{{labels.detailActivity}}
@@ -571,9 +592,9 @@
             >
         </app-vf-custom-select>
     </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
         <label for="business_activity">{{labels.businessActivity}}
-            <!-- <sub class="star_red_col">*</sub> -->
+            <sub class="star_red_col">*</sub> 
         </label>
         <app-vf-custom-select 
         [values]="businessActivity" 
@@ -582,26 +603,26 @@
         [isDirty] = "isDirty"
         > 
    </app-vf-custom-select>
-    </div>
-    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
+    </div> -->
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
         <label for="loan_amount">{{labels.loanAmount}}
             <sub class="star_red_col">*</sub>
-        </label> -->
+        </label>
         <!-- <input type="text" formControlName="loanAmount" class="form-control" name="loan_amount" id="loan_amount"
             required="required" /> -->
-        <!-- <app-custom-input
+        <app-custom-input
             formControlName="loanAmount"
             [className]="'form-control mandatory'"
             [placeholder]="'Loan Amount'"
-            [maxLength]="regexPattern.numberLength"
+            [maxLength]=""
             [isRequired]="'Required Input is mandatory'"
-            [patternCheck]="regexPattern.numberPattern"
+            [patternCheck]=""
             [isDirty]="isDirty"
             name="loan_amount"
         >
-        </app-custom-input> -->
-    <!-- </div> -->
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        </app-custom-input>
+    </div>
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="proof_of_investment">{{labels.proofOfInvestment}}
             <sub class="star_red_col">*</sub>
         </label>
@@ -614,7 +635,7 @@
             [isDirty] = "isDirty"
             >
         </app-vf-custom-select>
-    </div>
+    </div> -->
     <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="investment_proof_upload">{{labels.investmentProofUpload}}
             <sub class="star_red_col">*</sub>
@@ -720,14 +741,14 @@
         >
         </app-custom-input>  
     </div> -->
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
         <label for="other_investment_cost">{{labels.otherInvestmentCost}}
             <sub class="star_red_col">*</sub>
-        </label>
+        </label> -->
         <!-- <input type="number" formControlName="otherInvestmentCost" class="form-control"
             name="other_investment_cost" id="other_investment_cost" required="required" 
             [(ngModel)]="otherInvestmentCost" (change)="onChangeOtherInvestmentCost($event)" /> -->
-        <app-custom-input
+        <!-- <app-custom-input
             formControlName="otherInvestmentCost"
             [(ngModel)]="otherInvestmentCost" 
             (change)="onChangeOtherInvestmentCost($event)"
@@ -739,15 +760,15 @@
             [isDirty]="isDirty"
         >
         </app-custom-input>  
-    </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+    </div> -->
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="total_investment_cost">{{labels.totalInvestmentCost}}
             <sub class="star_red_col">*</sub>
-        </label>
+        </label> -->
         <!-- <input type="number" formControlName="totalInvestmentCost" class="form-control"
             name="total_investment_cost" id="total_investment_cost" required="required" Placeholder="" 
             [(ngModel)]="totalInvestmentCost" (change)="onChangeTotalInvestmentCost($event)"/> -->
-        <app-custom-input
+        <!-- <app-custom-input
             formControlName="totalInvestmentCost"
             [(ngModel)]="totalInvestmentCost"
             (change)="onChangeTotalInvestmentCost($event)" 
@@ -758,8 +779,8 @@
             [isDirty]="isDirty"
        >
         </app-custom-input>  
-    </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInEquipment" >
+    </div> -->
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInEquipment" >
         <label for="investment_in_equipment">{{labels.investInEquipment}}
             <sub class="star_red_col">*</sub>
         </label>
@@ -774,10 +795,10 @@
             [isDirty]="isDirty"
             [isDisabled]="true"
         >
-        </app-custom-input> 
+        </app-custom-input>  -->
         <!-- (keyup)="onChangeInvestmentInEquipment($event)" -->
-    </div>
-    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInPlantMachinery">
+    <!-- </div> -->
+    <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" *ngIf="isInvestmentInPlantMachinery">
         <label for="investment_plant_machinery">{{labels.investPlantMachinery}}
             <sub class="star_red_col">*</sub>
         </label>
@@ -792,9 +813,64 @@
             [isDirty]="isDirty"
             [isDisabled]="true"
         >
-        </app-custom-input> 
+        </app-custom-input>  -->
         <!-- (keyup)="onChangeInvestmentInPlantAndMachinery($event)" -->
+    <!-- </div> -->
+     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        <label for="investment_plant_machinery">{{labels.uRecessionNo}}
+            <sub class="star_red_col">*</sub>
+        </label>
+        <app-custom-input
+            formControlName="uRecessionNo"
+            
+            [className]="'form-control mandatory'"
+            [placeholder]="'Enter UDHYAM Registration number'"
+            [maxLength]="labels?.validationData?.amountValue.maxLength"
+            [isRequired]="'Required Input is mandatory'"
+            [type]="labels?.validationData?.amountValue.type"
+            [isDirty]="isDirty"
+            
+        >
+        </app-custom-input> 
+        
     </div>
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        <label for="investment_plant_machinery">{{labels.uRegisteredMobileNo}}
+            <sub class="star_red_col">*</sub>
+        </label>
+        <app-custom-input
+            formControlName="uRegisteredMobileNo"
+            
+            [className]="'form-control mandatory'"
+            [placeholder]="'Enter UDHYAM Registered mobile number'"
+            [maxLength]="labels?.validationData?.amountValue.maxLength"
+            [isRequired]="'Required Input is mandatory'"
+            [type]="labels?.validationData?.amountValue.type"
+            [isDirty]="isDirty"
+            
+        >
+        </app-custom-input> 
+        
+    </div>
+    <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
+        <label for="investment_plant_machinery">{{labels.uRegisteredEmailId}} 
+            <sub class="star_red_col">*</sub>
+        </label>
+        <app-custom-input
+            formControlName="uRegisteredEmailId"
+            
+            [className]="'form-control mandatory'"
+            [placeholder]="'Enter UDHYAM Registered email id'"
+            [maxLength]="labels?.validationData?.amountValue.maxLength"
+            [isRequired]="'Required Input is mandatory'"
+            [type]="labels?.validationData?.amountValue.type"
+            [isDirty]="isDirty"
+            
+        >
+        </app-custom-input> 
+        
+    </div>
+
     <div class="form-group col-sm-6 col-md-4 col-lg-3 msme" >
         <label for="psl_category_msme">{{labels.pslCategory}}
             <sub class="star_red_col">*</sub>
@@ -1172,12 +1248,12 @@
 <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5"> </div>
     <div class="col-sm-7 text-right"> <br> <br>
-        <button class="btn btn-primary" type="button" (click)="onBack()">
+        <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
             {{labels.back}} </button> 
         <!-- <p class="btn btn-primary save"> Save </p>  -->
         <button class="btn btn-primary" type="button" (click)="onFormSubmit()" *ngIf="!disableSaveBtn"> {{labels.save}} </button>
         
-        <button class="btn btn-primary" type="button"  (click)="navigateNext()">
+        <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button"  (click)="navigateNext()">
             {{labels.next}} </button>
     </div>
 </div>

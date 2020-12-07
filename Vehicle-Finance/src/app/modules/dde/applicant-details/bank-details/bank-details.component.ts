@@ -14,6 +14,9 @@ import { Location } from '@angular/common';
 import { ToasterService } from '@services/toaster.service';
 import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+
+import { LoanViewService } from '@services/loan-view.service';
+
 // import * as $ from 'jquery';
 
 @Component({
@@ -82,7 +85,8 @@ export class BankDetailsComponent implements OnInit {
     private location: Location,
     private toasterService: ToasterService,
     private labelsService: LabelsService,
-    private toggleDdeService: ToggleDdeService
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService
   ) {
     this.listArray = this.fb.array([]);
   }
@@ -229,6 +233,11 @@ export class BankDetailsComponent implements OnInit {
           this.bankForm.disable();
           this.disableSaveBtn = true;
         }
+
+        if (this.loanViewService.checkIsLoan360()) {
+          this.bankForm.disable();
+          this.disableSaveBtn = true;
+       }
         // }
       });
   }
@@ -274,6 +283,8 @@ export class BankDetailsComponent implements OnInit {
     for (let i = 0; i < transactionDetailsList.length; i++) {
       this.addProposedUnit(transactionDetailsList[i]);
     }
+
+
   }
 
   addProposedUnit(data?: any) {
@@ -406,43 +417,38 @@ export class BankDetailsComponent implements OnInit {
     this.getMonths();
   }
 
-  getMonths() {
+  async getMonths() {
     const tempArray: Array<any> = this.listArray.value;
     console.log('temp array', tempArray);
-    if (this.OldToDate && this.OldFromDate) {
-      const txt = confirm('Are You Sure Want To Change Dates ?');
-      if (txt === false) {
-        return;
-      }
-    }
+    // setTimeout(() => {
+    // }, 1000);
+
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
     const toDate = new Date(this.bankForm.value.toDate)
       ? new Date(this.bankForm.value.toDate)
       : null;
-    if (fromDate > toDate) {
-      this.toasterService.showWarning('Invalid Date Selection', '');
-      if (this.OldFromDate || this.OldToDate) {
-        // this.listArray.controls = [];
-        const date = new Date(this.OldFromDate);
-        this.bankForm.patchValue({
-          fromDate: this.OldFromDate,
-          toDate: this.OldFromDate,
-        });
-      }
-      return;
-    }
-    const fromDateNew = this.bankForm.value.fromDate;
-    const toDateNew = this.bankForm.value.toDate;
-    this.OldFromDate = fromDateNew;
-    this.OldToDate = toDateNew;
-    const diff = toDate.getMonth() - fromDate.getMonth();
-    const numberOfMonths = Math.round(
+    const fromDateLength = fromDate.getFullYear().toString().length;
+    const toDateLength = toDate.getFullYear().toString().length;
+    if (fromDateLength == 4 &&  toDateLength == 4) {
+      await  this.checkDates(fromDate, toDate);
+
+
+    // setTimeout(async () => {
+
+    // }, 2000);
+
+      const fromDateNew = this.bankForm.value.fromDate;
+      const toDateNew = this.bankForm.value.toDate;
+      this.OldFromDate = fromDateNew;
+      this.OldToDate = toDateNew;
+      const diff = toDate.getMonth() - fromDate.getMonth();
+      const numberOfMonths = Math.round(
       (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
       (toDate.getMonth() - fromDate.getMonth()) + 1);
 
-    if (
+      if (
       diff === undefined ||
       (diff === null && fromDate.getFullYear() > toDate.getFullYear())
     ) {
@@ -510,6 +516,7 @@ export class BankDetailsComponent implements OnInit {
         }
       }
     }
+  }
     // this.assignedArray.forEach(
     //   monName =>
     //     {
@@ -526,5 +533,26 @@ export class BankDetailsComponent implements OnInit {
 
   onBackToApplicant() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
+  }
+
+  async checkDates(fromDate: Date, toDate: Date) {
+  if (this.OldToDate && this.OldFromDate) {
+        const txt = confirm('Are You Sure Want To Change Dates ?');
+        if (txt === false) {
+          return;
+        } else if (( fromDate > toDate ) && txt === true ) {
+          if (this.OldFromDate && this.OldToDate) {
+            // this.listArray.controls = [];
+            this.toasterService.showWarning('Invalid Date Selection', '');
+            const date = new Date(this.OldFromDate);
+            this.bankForm.patchValue({
+              fromDate: this.OldFromDate,
+              toDate: this.OldFromDate,
+            });
+          }
+          return;
+        }
+      }
+
   }
 }

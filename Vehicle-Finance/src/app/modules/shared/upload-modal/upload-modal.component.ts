@@ -19,6 +19,10 @@ import { Constant } from '@assets/constants/constant';
 import { environment } from 'src/environments/environment';
 import { ToasterService } from '@services/toaster.service';
 
+// import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { DomSanitizer } from '@angular/platform-browser';
+
+
 @Component({
   selector: 'app-upload-modal',
   templateUrl: './upload-modal.component.html',
@@ -39,11 +43,16 @@ export class UploadModalComponent {
   fileInput: ElementRef;
   isMobile: any;
 
+  inAppCamera:boolean = false;
+
   constructor(
     private uploadService: UploadService,
     private utilityService: UtilityService,
     private toasterService: ToasterService,
-    private camera: Camera
+    private camera: Camera,
+    private domSanitizer: DomSanitizer
+    // private webview: WebView,
+    
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -118,7 +127,6 @@ export class UploadModalComponent {
           var binaryData = e.target.result;
           //Converting Binary Data to base 64
           var base64String = window.btoa(binaryData);
-          console.log('base64String', base64String);
           resolve(base64String)
           //showing file converted to base64
           // document.getElementById('base64').value = base64String;
@@ -192,18 +200,35 @@ export class UploadModalComponent {
 
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
-    let fileName = this.docsDetails.docSbCtgry.replace(' ', '_');
-    const name = this.docsDetails.docNm.replace('/', '_OR_');
-    fileName =
+    let name = this.docsDetails.docNm.replace(' ', '_');
+    name = name.replace('/', '_OR_');
+    let fileName = '';
+    if (this.docsDetails.docCtgryCd === 50) {
+      fileName = name + '.' + this.fileType;
+    } else {
+      fileName =
       name +
       new Date().getFullYear() +
       +new Date() +
       '.' +
       this.fileType;
+    }
     this.docsDetails.docNm = fileName;
     const addDocReq = [
       {
-        ...this.docsDetails,
+        // ...this.docsDetails,
+        docTp: this.docsDetails.docTp,
+        docSbCtgry: this.docsDetails.docSbCtgry,
+        docNm: this.docsDetails.docNm,
+        docCtgryCd: this.docsDetails.docCtgryCd,
+        docCatg: this.docsDetails.docCatg,
+        docTypCd: this.docsDetails.docTypCd,
+        flLoc: this.docsDetails.flLoc,
+        docCmnts: this.docsDetails.docCmnts,
+        bsPyld: this.docsDetails.bsPyld,
+        docSbCtgryCd: this.docsDetails.docSbCtgryCd,
+        docRefId: this.docsDetails.docRefId,
+
       },
     ];
     this.uploadService
@@ -261,6 +286,7 @@ export class UploadModalComponent {
             documentDetails.imageUrl = this.imageUrl;
             documentDetails.docsTypeForString = this.docsDetails.docsTypeForString;
           }
+          documentDetails['fileName'] = this.fileName;
           this.uploadSuccess.emit(documentDetails);
           this.imageUrl = '';
           this.fileName = '';
@@ -289,16 +315,48 @@ export class UploadModalComponent {
   }
 
   openCamera() {
-    this.takePicture().then((uri) => {
-      this.imageUrl = uri;
-      this.fileName = Math.random().toString(36).substring(2, 15);
-      this.fileSize = ""
-      this.fileType = "png";
-    });
+    this.inAppCamera = true;
+    // this.takePicture().then((uri) => {
+    //   this.imageUrl = uri;
+    //   this.fileName = Math.random().toString(36).substring(2, 15);
+    //   this.fileSize = ""
+    //   this.fileType = "png";
+    // });
   }
 
   onClose() {
     this.close.emit();
     this.removeFile();
+  }
+
+  getMobileBase64(obj) {
+    // this.imageUrl = this.webview.convertFileSrc(data.nativeURL);
+    // this.fileName = data.name;
+   // this.imageUrl = data.nativeURL;
+
+   let data = obj.base64;
+
+   this.fileName = obj.fileName;
+
+   var block = data.split(";");
+   // Get the content type
+   var dataType = block[0].split(":")[1];// In this case "image/png"
+
+   // get the real base64 content of the file
+   var realData = block[1].split(",")[1];// In this case "iVBORw0KGg...."
+   console.log("realData"+ realData);
+
+   this.fileType = "png";
+
+    this.imageUrl = realData;
+    this.inAppCamera = false;
+  }
+
+  onBackPressed(){
+    this.inAppCamera= false;
+  }
+
+  onClosePressed() {
+    this.inAppCamera= false;
   }
 }

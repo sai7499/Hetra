@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
@@ -17,12 +17,27 @@ import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import readXlsxFile from 'read-excel-file';
+import { LoanViewService } from '@services/loan-view.service';
+
+import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-fleet-details',
   templateUrl: './fleet-details.component.html',
   styleUrls: ['./fleet-details.component.css']
 })
 export class FleetDetailsComponent implements OnInit {
+  validFleetData: any;
+  @ViewChild('fileInput', { static: false })
+  fileInput: ElementRef;
+  docsFleetDetails;
+  csvData: any;
+  showError: string;
+  fileUrl;
+  fileName: string;
+  fileSize: string;
+  showUploadModal: boolean;
   disableSaveBtn: boolean;
   public fleetForm: FormGroup;
   labels: any = {};
@@ -60,6 +75,7 @@ export class FleetDetailsComponent implements OnInit {
   public regionLov: any = [];
   public allLovs: any;
   fleetLov: any = [];
+
 
   regexPattern = {
     // tensure: {
@@ -104,6 +120,8 @@ export class FleetDetailsComponent implements OnInit {
   paidTenureCheck = [];
   fleetArrayList: FormArray;
   operationType: boolean;
+  deleteRecordData: { index: number; fleets: any; };
+  isLoan360: boolean;
   constructor(
 
     private labelsData: LabelsService,
@@ -120,7 +138,8 @@ export class FleetDetailsComponent implements OnInit {
     private uiLoader: NgxUiLoaderService,
     private vehicleDetailService: VehicleDetailService,
     private sharedService: SharedService,
-    private toggleDdeService: ToggleDdeService) {
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     this.fleetArrayList = this.fb.array([]);
   }
@@ -129,6 +148,8 @@ export class FleetDetailsComponent implements OnInit {
   async ngOnInit() {
 
     // accessing lead if from route
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.leadId = (await this.getLeadId()) as number;
     console.log("leadID =>", this.leadId)
@@ -651,6 +672,7 @@ export class FleetDetailsComponent implements OnInit {
     this.fleetDetailsService.getFleetDetails(data).subscribe((res: any) => {
       if (res['Status'] == "Execution Completed" && res.ProcessVariables.fleets != null) {
         const fleets = res['ProcessVariables'].fleets;
+        this.formArr.clear();
         for (let i = 0; i < fleets.length; i++) {
           this.vehicleTypeLov[i] = this.allLovs.vehicleType;
           this.regionLov[i] = this.allLovs.assetRegion;
@@ -687,6 +709,11 @@ export class FleetDetailsComponent implements OnInit {
         this.fleetForm.disable();
         this.disableSaveBtn = true;
       }
+
+      if (this.loanViewService.checkIsLoan360()) {
+        this.fleetForm.disable();
+        this.disableSaveBtn = true;
+      }
       // console.log("in get fleets", res.ProcessVariables.fleets)
       // console.log("get fleet response", res.ProcessVariables.fleets)
       // console.log("fleet form controls", this.fleetForm.controls.Rows)
@@ -699,10 +726,48 @@ export class FleetDetailsComponent implements OnInit {
     this.regionLov[this.formArr.length - 1] = this.allLovs.assetRegion;
   }
 
+  // deleteRow(index: number, fleets: any) {
+  //   console.log("in delete row fn ", fleets, index)
+    
+  //   if (fleets.length > 1) {
+  //     this.formArr.removeAt(index);
+  //     // console.log("inside del fun", fleets)
+
+  //     // console.log("vehicleId", fleets[index].id)
+
+  //     const data = {
+  //       id: fleets[index].id,
+  //       leadId: this.leadId
+  //     }
+
+  //     this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
+
+  //       // console.log("response from delete api", res.ProcessVariables)
+  //     });
+
+  //     fleets.splice(index, 1)
+  //     this.toasterService.showSuccess("Record deleted successfully!", '')
+
+  //   } else {
+
+  //     this.toasterService.showError("atleast one record required !", '')
+
+  //   }
+  // }
+
   deleteRow(index: number, fleets: any) {
-    console.log("in delete row fn ", fleets, index)
-    this.formArr.removeAt(index);
+    console.log("in delete row fn ", fleets, index);
+    this.deleteRecordData = {
+      index,
+      fleets
+    };
+  }
+  callDeleteRecord() {
+    const index = this.deleteRecordData.index;
+    const fleets = this.deleteRecordData.fleets;
     if (fleets.length > 1) {
+    this.formArr.removeAt(index);
+
       // console.log("inside del fun", fleets)
 
       // console.log("vehicleId", fleets[index].id)
@@ -710,7 +775,7 @@ export class FleetDetailsComponent implements OnInit {
       const data = {
         id: fleets[index].id,
         leadId: this.leadId
-      }
+      };
 
       this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
 
@@ -762,6 +827,13 @@ export class FleetDetailsComponent implements OnInit {
 
   onFormSubmit(index: any) {
 
+    if (this.isLoan360) {
+      if (index === 'next') {
+        return this.router.navigateByUrl(`pages/dde/${this.leadId}/exposure`);
+      }
+      return;
+    }
+
     this.fleetDetails = this.fleetForm.value.Rows;
     console.log("fleet form value", this.fleetForm)
 
@@ -782,6 +854,260 @@ export class FleetDetailsComponent implements OnInit {
       }
     }
   }
+
+  onClose() {
+    this.showUploadModal = false;
+  }
+
+  openUploadModal() {
+    this.showUploadModal = true;
+  }
+
+  removeFile() {
+    this.fileUrl = null;
+    this.fileName = null;
+    this.fileSize = null;
+    this.showError = null;
+    this.fileInput.nativeElement.value = '';
+  }
+
+  uploadFile() {
+    if (this.showError) {
+      this.toasterService.showError('Please select valid document', '');
+    }
+    // console.log('csvData', this.csvData);
+    // return;
+    this.fleetDetailsService.validateFleetDetails({
+      allText: this.csvData,
+      userId: this.userId,
+      leadId: this.leadId
+    }).subscribe(((value: any) => {
+        console.log('validate', value);
+        if (value.Error !== '0') {
+          return this.toasterService.showError(value.ErrorMessage, '');
+        }
+        const processVariables = value.ProcessVariables;
+        const error = processVariables.error;
+        if (error && error.code !== '0') {
+           return this.toasterService.showError(error.message, '');
+        }
+        this.removeFile();
+        this.docsFleetDetails = processVariables.fleetDetails;
+    }));
+  }
+
+  onFileSelect(event) {
+    this.csvData = null;
+    const files: File = event.target.files[0];
+    let fileType = '';
+    this.fileUrl = files;
+    const target: DataTransfer = event.target;
+    if (target.files.length !== 1) {
+       return this.toasterService.showError('Cannot use multiple files', '');
+    }
+    if (!files.type) {
+      const type = files.name.split('.')[1];
+      fileType = this.getFileType(type);
+    } else {
+      fileType = this.getFileType(files.type);
+    }
+    this.fileName = files.name;
+    this.fileSize = this.bytesToSize(files.size);
+    console.log('fileType', fileType, 'event', event);
+    if (!fileType.includes('xls') && !fileType.includes('csv')) {
+      this.showError = `Only files with following extensions are allowed: xlsx,csv`;
+      return;
+    }
+    if (files.size > 2097152 ) {
+      this.showError = `File is too large. Allowed maximum size is 2 MB`;
+      return;
+    }
+    this.showError = null;
+
+    const fileToRead = files;
+    const fileReader = new FileReader();
+    if (fileType.includes('xls')) {
+       this.getDataFromXlsFile(target);
+      //   fileReader.onload =  (e: any) => {
+      //     console.log('xls', e.target.result);
+      // };
+      // fileReader.readAsBinaryString(files);
+    } else {
+      fileReader.onload = (fileLoadedEvent: any) => {
+        const textFromFileLoaded = fileLoadedEvent.target.result;
+        this.csvData = textFromFileLoaded;
+      };
+      fileReader.readAsText(fileToRead);
+    }
+
+  }
+
+  getDataFromXlsFile(target) {
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+      /* read workbook */
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', cellDates:true });
+
+      /* grab first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      /* save data */
+      let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      console.log('data', data);
+      if (data && data.length !== 0) {
+          const size = data.length;
+          const header: any = data[0];
+          let i = -1;
+          const dateHeaders = [];
+          for (const element of header) {
+               i++;
+               if (element.includes('date')) {
+                  dateHeaders.push(i);
+               }
+          }
+          data = this.getDateFormattedXlsData(data, dateHeaders);
+          const xlsData = data.map((value: any, index) => {
+            let val = value.join(',');
+            if (size - 1 !== index) {
+              val = val === '' ? '' : val + '\r\n';
+            }
+            return val;
+          });
+          let finalData = '';
+          xlsData.forEach((value) => {
+            finalData += value;
+          });
+          this.csvData = finalData;
+          console.log('this.csvData', this.csvData);
+      }
+    };
+    reader.readAsBinaryString(target.files[0]);
+    // readXlsxFile(file).then(rows => {
+    //   const size = rows.length;
+    //   const data = rows.map((value, index) => {
+    //     let val = value.join(',');
+    //     if (size - 1 !== index) {
+    //       val = val + '\r\n';
+    //     }
+    //     return val;
+    //   });
+    //   let finalData = '';
+    //   data.forEach((value) => {
+    //     finalData += value;
+    //   });
+    //   this.csvData = finalData;
+    // });
+  }
+
+  getDateFormattedXlsData(data, dateIndex: any[]) {
+    let index = -1;
+    for (const element of data) {
+        index++;
+        if (index !== 0) {
+           dateIndex.forEach((value) => {
+            const dataValue = element[value];
+            const parse = Date.parse(dataValue);
+            if ( !isNaN(parse) && parse >= 0) {
+              if (dataValue.includes('-')) {
+                 let dateValue = dataValue.split('-');
+                 if (dateValue.length === 3) {
+                   dateValue = dateValue.join('/');
+                   element[value] = dateValue;
+                   data[index] = element;
+                 }
+              } else if (dataValue.includes('/')) {
+                let dateValue = dataValue.split('/');
+                if (dateValue.length === 3) {
+                  dateValue = dateValue.join('/');
+                  element[value] = dataValue;
+                  data[index] = element;
+                }
+             } else {
+              const d = new Date(dataValue);
+              let month: any = d.getMonth() + 1;
+              const year = d.getFullYear();
+              let day: any = d.getDate();
+              day = day <= 9 ? `0${day}` : day;
+              month = month <= 9 ? `0${month}` : month;
+              element[value] = `${day}/${month}/${year}`;
+              data[index] = element;
+             } 
+            }
+           });
+        }
+    }
+    return data;
+  }
+
+  onFileLoad(fileLoadedEvent: any) {
+    const textFromFileLoaded = fileLoadedEvent.target.result;
+    this.csvData = textFromFileLoaded;
+  }
+
+  saveValidRecords() {
+    const filteredData = this.docsFleetDetails.filter((value) => {
+      return value.status;
+    });
+    if (filteredData.length === 0) {
+      return this.toasterService.showError('All are invalid records', '');
+    }
+    this.fleetDetailsService.saveValidRecords({
+      fleetDetails: filteredData,
+      userId: this.userId,
+      leadId: this.leadId
+    }).subscribe(((value: any) => {
+        console.log('save', value);
+        if (value.Error !== '0') {
+          return this.toasterService.showError(value.ErrorMessage, '');
+        }
+        const processVariables = value.ProcessVariables;
+        const error = processVariables.error;
+        if (error && error.code !== '0') {
+           return this.toasterService.showError(error.message, '');
+        }
+        this.docsFleetDetails = null;
+        this.showUploadModal = false;
+        this.toasterService.showSuccess('Saved successfully', '');
+        this.getFleetDetails();
+    }));
+  }
+
+  onModalClose() {
+    this.docsFleetDetails = null;
+  }
+
+  getFileType(type: string) {
+    const types = {
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'docx',
+      'application/vnd.ms-excel': 'xls',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        'xlsx',
+      'image/tiff': 'tiff',
+      'application/pdf': 'pdf',
+      'image/png': 'png',
+      'image/jpeg': 'jpeg',
+      'application/msword': 'docx',
+      'text/csv': 'csv',
+      csv: 'csv'
+    };
+    return types[type] || type;
+  }
+
+  private bytesToSize(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) {
+      return 'n/a';
+    }
+    const i = Number(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i === 0) {
+      return bytes + ' ' + sizes[i];
+    }
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  }
+
 }
 
 

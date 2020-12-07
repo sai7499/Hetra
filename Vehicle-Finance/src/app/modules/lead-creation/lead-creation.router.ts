@@ -3,6 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { LeadCreationComponent } from "./lead-creation/lead-creation.component";
 import { LeadDedupeComponent } from "./lead-dedupe/lead-dedupe.component";
 import { LeadComponent } from "./lead.component";
+import { ExistingLeadCreationComponent } from './existing-lead-creation/existing-lead-creation.component';
 
 const routes: Routes = [
   {
@@ -14,8 +15,16 @@ const routes: Routes = [
         component: LeadCreationComponent
       },
       {
+        path: "existing-lead-creation",
+        component: ExistingLeadCreationComponent
+      },
+      {
         path: "lead-dedupe",
         component: LeadDedupeComponent
+      },
+      {
+        path:"external-lead/:leadId",
+        component: ExistingLeadCreationComponent
       }
     ]
   }
