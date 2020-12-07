@@ -1117,8 +1117,9 @@
                   [format]="'MMMM yyyy'"
                   [min]="minDate"
                   [max]="toDayDate"
-                  placeholder="Year And Month of Manufacture"
+                  placeholder="Year And Month of Manufacturing"
                   (valueChange)="onGetDateValue($event)"
+                  (valueChange)="validateDateOfReg()"
                 >
                 </kendo-datepicker>
 
@@ -1137,7 +1138,17 @@
                       vehicleValuationForm.controls.yearOfManufacturer.errors
                     "
                   >
-                    Invalid Date
+                  <div *ngIf="vehicleValuationForm.controls.yearOfManufacturer.errors.minError">
+
+                    Month and year of manufacturing should not be more than 15 years  from today date
+                    
+                  </div>
+                  <div *ngIf="vehicleValuationForm.controls.yearOfManufacturer.errors.maxError">
+                    
+                    Month and year of manufacturing should not be future date
+                    
+                  </div>
+                    
                   </div>
                 </div>
               </div>
@@ -1192,7 +1203,12 @@
                   [format]="'dd/MM/yyyy'"
                   [max]="toDayDate"
                   placeholder="Date Of Registration"
-                  (change)="validateDateOfReg()"
+                  (valueChange)="validateDateOfReg()"
+                  (valueChange)="validateFitnessDate()"
+                  (valueChange)="validateInsuranceDate()"
+                  (valueChange)="validatePermitDate()"
+                  (valueChange)="validateTaxDate()"
+
                 >
                 </kendo-datepicker>
                 <div class="invalid-feedback">
@@ -1534,7 +1550,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
-                  (change)="validatingBeforeRegDate('permitDate')"
+                  (valueChange)="validatePermitDate()"
                 >
                 </kendo-datepicker>
                 <!-- <div class="invalid-feedback">
@@ -1566,7 +1582,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
-                  (change)="validatingBeforeRegDate('fitnessDate')"
+                  (valueChange)="validateFitnessDate()"
                 >
                 </kendo-datepicker>
               </div>
@@ -1617,7 +1633,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
-                  (change)="validatingBeforeRegDate('taxDate')"
+                  (change)="validateTaxDate()"
                 >
                 </kendo-datepicker>
               </div>
@@ -1690,7 +1706,8 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
-                  (change)="validatingBeforeRegDate('insuranceDate')"
+                  (valueChange)=" validateInsuranceDate() "
+                  (valueChange)="insuranceValidUptoCheck()"
                 >
                 </kendo-datepicker>
               </div>
@@ -1706,7 +1723,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
-                  (change)="validUptoCheck()"
+                  (valueChange)="insuranceValidUptoCheck()"
                 >
                 </kendo-datepicker>
               </div>
@@ -2387,6 +2404,7 @@
                   [isRequired]="'Valuation Amount is Required'"
                   [type]="labels?.validationData?.amountValue.type"
                   [isDirty]="isDirty"
+                  (valueChange)="taxPaidCheck()"
                 >
                 </app-custom-input>
               </div>
@@ -2706,7 +2724,7 @@
                   <button
                     class="btn btn-primary"
                     (click)="onFormSubmit()"
-                    *ngIf="isOnline"
+                    *ngIf="!isOnline"
                   >
                     {{ labels.save }}
                   </button>

@@ -202,9 +202,12 @@ export class ValuationComponent implements OnInit {
     if (this.roleId === 86) {
       this.extValuator = true;
     }
-    // console.log('today date', this.toDayDate);
+    console.log('today date', this.toDayDate);
+    console.log('min date', this.minDate);
+    this.minDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.minDate));
     this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
-    // console.log('today date', this.toDayDate);
+    console.log('min date', this.minDate);
+    console.log('today date', this.toDayDate);
     this.getLabels();
     this.initForm();
     this.getLOV();
@@ -339,6 +342,7 @@ export class ValuationComponent implements OnInit {
     //   this.customFutureDate = false;
     // }
     console.log('in on get date value fn');
+    console.log(this.vehicleValuationForm);
     this.customFutureDate = false;
     if (event > this.toDayDate) {
       this.customFutureDate = true;
@@ -391,7 +395,7 @@ export class ValuationComponent implements OnInit {
 
   // tslint:disable-next-line: no-shadowed-variable
   validatingBeforeRegDate(value?: any) {
-    // console.log('value', v.alue);
+    console.log('value', value);
     const regDate = new Date(this.vehicleValuationForm.value.dateofReg)
       ? new Date(this.vehicleValuationForm.value.dateofReg) : null;
     const permitDate = new Date(this.vehicleValuationForm.value.permitValidUpto)
@@ -423,7 +427,7 @@ export class ValuationComponent implements OnInit {
         }
       }
     } else if (value === 'taxDate') {
-      if (regDate !== null && fitnessDate !== null) {
+      if (regDate !== null && taxDate !== null) {
         if (taxDate < regDate) {
           this.invalidTaxDate = true;
           this.toasterService.showWarning('Tax Validity Date should be greater than Registration Date', '');
@@ -442,12 +446,107 @@ export class ValuationComponent implements OnInit {
       }
     }
   }
+
+  validateFitnessDate() {
+    const regDate = new Date(this.vehicleValuationForm.value.dateofReg)
+      ? new Date(this.vehicleValuationForm.value.dateofReg) : null;
+    // const permitDate = new Date(this.vehicleValuationForm.value.permitValidUpto)
+    //   ? new Date(this.vehicleValuationForm.value.permitValidUpto) : null;
+    const fitnessDate = new Date(this.vehicleValuationForm.value.fcExpiryDate)
+      ? new Date(this.vehicleValuationForm.value.fcExpiryDate) : null;
+    // const taxDate = new Date(this.vehicleValuationForm.value.taxValidUpto)
+    //   ? new Date(this.vehicleValuationForm.value.taxValidUpto) : null;
+    // const insuranceDate = new Date(this.vehicleValuationForm.value.validFrom)
+    //   ? new Date(this.vehicleValuationForm.value.validFrom) : null;
+
+
+    if (regDate !== null && fitnessDate !== null) {
+      if (fitnessDate < regDate) {
+        this.invalidFitnessDate = true;
+        this.toasterService.showWarning('Fitness Validity Date should be greater than Registration Date', '');
+      } else {
+        this.invalidFitnessDate = false;
+      }
+    }
+  }
+  validateInsuranceDate() {
+    const regDate = new Date(this.vehicleValuationForm.value.dateofReg)
+      ? new Date(this.vehicleValuationForm.value.dateofReg) : null;
+    // const permitDate = new Date(this.vehicleValuationForm.value.permitValidUpto)
+    //   ? new Date(this.vehicleValuationForm.value.permitValidUpto) : null;
+    // const fitnessDate = new Date(this.vehicleValuationForm.value.fcExpiryDate)
+    //   ? new Date(this.vehicleValuationForm.value.fcExpiryDate) : null;
+    // const taxDate = new Date(this.vehicleValuationForm.value.taxValidUpto)
+    //   ? new Date(this.vehicleValuationForm.value.taxValidUpto) : null;
+    const insuranceDate = new Date(this.vehicleValuationForm.value.validFrom)
+      ? new Date(this.vehicleValuationForm.value.validFrom) : null;
+
+
+    if (regDate !== null && insuranceDate !== null) {
+      if (insuranceDate < regDate) {
+        this.invalidInsDate = true;
+        this.toasterService.showWarning('Insurance Valid From should be greater than Registration Date', '');
+      } else {
+        this.invalidInsDate = false;
+      }
+    }
+  }
+  validatePermitDate() {
+    const regDate = new Date(this.vehicleValuationForm.value.dateofReg)
+      ? new Date(this.vehicleValuationForm.value.dateofReg) : null;
+    const permitDate = new Date(this.vehicleValuationForm.value.permitValidUpto)
+      ? new Date(this.vehicleValuationForm.value.permitValidUpto) : null;
+    // const fitnessDate = new Date(this.vehicleValuationForm.value.fcExpiryDate)
+    //   ? new Date(this.vehicleValuationForm.value.fcExpiryDate) : null;
+    // const taxDate = new Date(this.vehicleValuationForm.value.taxValidUpto)
+    //   ? new Date(this.vehicleValuationForm.value.taxValidUpto) : null;
+    // const insuranceDate = new Date(this.vehicleValuationForm.value.validFrom)
+    //   ? new Date(this.vehicleValuationForm.value.validFrom) : null;
+
+
+    if (regDate !== null && permitDate !== null) {
+      if (permitDate < regDate) {
+        this.invalidPemitDate = true;
+        this.toasterService.showWarning('Permit Validity Date should be greater than Registration Date', '');
+      } else {
+        this.invalidPemitDate = false;
+      }
+
+    }
+  }
+  validateTaxDate() {
+    const regDate = new Date(this.vehicleValuationForm.value.dateofReg)
+      ? new Date(this.vehicleValuationForm.value.dateofReg) : null;
+    // const permitDate = new Date(this.vehicleValuationForm.value.permitValidUpto)
+    //   ? new Date(this.vehicleValuationForm.value.permitValidUpto) : null;
+    // const fitnessDate = new Date(this.vehicleValuationForm.value.fcExpiryDate)
+    //   ? new Date(this.vehicleValuationForm.value.fcExpiryDate) : null;
+    const taxDate = new Date(this.vehicleValuationForm.value.taxValidUpto)
+      ? new Date(this.vehicleValuationForm.value.taxValidUpto) : null;
+    // const insuranceDate = new Date(this.vehicleValuationForm.value.validFrom)
+    //   ? new Date(this.vehicleValuationForm.value.validFrom) : null;
+
+
+    if (regDate !== null && taxDate !== null) {
+      if (taxDate < regDate) {
+        this.invalidTaxDate = true;
+        this.toasterService.showWarning('Tax Validity Date should be greater than Registration Date', '');
+      } else {
+        this.invalidTaxDate = false;
+      }
+    }
+  }
+
+
   taxPaidCheck() {
     const taxPaid = Number(this.vehicleValuationForm.value.taxPaid) ? Number(this.vehicleValuationForm.value.taxPaid) : null;
     console.log('tax paid', taxPaid);
     const valuationAmount = Number(this.vehicleValuationForm.value.valuationAmt) ?
       Number(this.vehicleValuationForm.value.valuationAmt) : null;
     console.log('valuation amount', valuationAmount);
+    // if (taxPaid === valuationAmount) {
+    //   console.log('equal amounts');
+    // }
     if (taxPaid !== null && valuationAmount !== null) {
       if (taxPaid > valuationAmount) {
         this.invalidTaxPaid = true;
@@ -462,11 +561,21 @@ export class ValuationComponent implements OnInit {
     this.accInPast = event ? event : null;
     if (this.accInPast === '0') {
       // this.currentInvoiceRequired = false;
+      this.vehicleValuationForm.get('valuatorRemarks').disable();
       this.vehicleValuationForm.get('valuatorRemarks').clearValidators();
       this.vehicleValuationForm.get('valuatorRemarks').updateValueAndValidity();
+      setTimeout(() => {
+        this.vehicleValuationForm.get('valuatorRemarks').patchValue(null);
+
+      });
     } else if (this.accInPast === '1') {
       // this.currentInvoiceDisabled = false;
       // this.currentInvoiceRequired = true;
+      setTimeout(() => {
+        this.vehicleValuationForm.get('valuatorRemarks').patchValue(null);
+
+      });
+      this.vehicleValuationForm.get('valuatorRemarks').enable();
       this.vehicleValuationForm.get('valuatorRemarks').setValidators(Validators.required);
       this.vehicleValuationForm.get('valuatorRemarks').updateValueAndValidity();
     }
@@ -508,7 +617,7 @@ export class ValuationComponent implements OnInit {
 
   }
 
-  validUptoCheck() {
+  insuranceValidUptoCheck() {
     console.log(' in valid upto');
     const insuranceValidFrom = new Date(this.vehicleValuationForm.value.validFrom)
       ? new Date(this.vehicleValuationForm.value.validFrom) : null;
@@ -1257,11 +1366,16 @@ export class ValuationComponent implements OnInit {
   }
 
   saveUpdateVehicleValuation() {
-    this.validatingBeforeRegDate('taxDate');
-    this.validatingBeforeRegDate('permitDate');
-    this.validatingBeforeRegDate('fitnessDate');
-    this.validatingBeforeRegDate('insuranceDate');
-    this.validUptoCheck();
+    // this.validatingBeforeRegDate('taxDate');
+    // this.validatingBeforeRegDate('permitDate');
+    // this.validatingBeforeRegDate('fitnessDate');
+    // this.validatingBeforeRegDate('insuranceDate');
+    this.validateFitnessDate();
+    this.validateInsuranceDate();
+    this.validatePermitDate();
+    this.validateTaxDate();
+    this.validateDateOfReg();
+    this.insuranceValidUptoCheck();
     this.taxPaidCheck();
     const formValue = this.vehicleValuationForm.getRawValue();
     console.log('formvalue after removing valuator type', formValue);

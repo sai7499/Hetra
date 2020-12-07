@@ -36,8 +36,11 @@
                 <td>{{ data.address }}</td>
                 <td>{{ data.valuationStatus }}</td>
                 <td>
-                  <span *ngIf="data.valuationStatus != 'NOT INITIATED'">
-                    {{ data.valuatorStatus == 0 ? "Offline" : "Online" }}
+                  <span *ngIf="data.valuatorStatus == 1">
+                    Online
+                  </span>
+                  <span *ngIf="data.valuatorStatus == 0">
+                    Offline
                   </span>
                 </td>
                 <td>
