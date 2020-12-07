@@ -215,6 +215,7 @@ export class SourcingDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
+    console.log('this.isLoan360', this.isLoan360)
     this.initForm();
     this.getLabels();
     this.getLOV();

@@ -749,7 +749,10 @@ export class ExistingLeadCreationComponent implements OnInit {
           this.middleName = nameTwo;
           this.lastName = nameThree;
           const mobileNumber: string = response.ProcessVariables.applicantDetails[0].mobileNumber;
-          const mobile = mobileNumber ? mobileNumber.slice(2) : null;
+          let mobile = mobileNumber;
+          if (mobileNumber && mobileNumber.length === 12) {
+            mobile = mobileNumber ? mobileNumber.slice(2) : null;
+          }
           const dob = response.ProcessVariables.applicantDetails[0].dob;
           const dateOfBirth = dob ? this.utilityService.getDateFromString(dob.slice()) : null;
           this.mobileApprove = mobile;
@@ -763,7 +766,7 @@ export class ExistingLeadCreationComponent implements OnInit {
           const vehicleRegNo = response.ProcessVariables.vehicleCollateral ?
             response.ProcessVariables.vehicleCollateral[0].regNo : null;
           const region = response.ProcessVariables.vehicleCollateral ?
-            response.ProcessVariables.vehicleCollateral[0].regionCode : null;
+            response.ProcessVariables.vehicleCollateral[0].regionCode : '';
 
           const vehilce: Array<any> = response.ProcessVariables.vehicleCollateral;
           if (vehilce && vehilce.length > 0) {
@@ -774,13 +777,24 @@ export class ExistingLeadCreationComponent implements OnInit {
             this.vehicleLov.assetVariant = [{ key: 'variantKey', value: vehilce[0].variant }];
           }
           this.selectApplicantType(entity, true);
-          const assetMake = response.ProcessVariables.vehicleCollateral[0].makeCode;
-          const vehicleType = response.ProcessVariables.vehicleCollateral[0].vehicleTypeCode;
-          const assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
-          const assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
-          const assetVariant = 'variantKey';
-          const dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
-          const manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+          let assetMake = '';
+          let vehicleType = '';
+          let assetBodyType = '';
+          let assetModel = '';
+          let assetVariant = '';
+          let dobyymm = '';
+          let manuFacMonthYear;
+          if (response.ProcessVariables.vehicleCollateral) {
+             assetMake = response.ProcessVariables.vehicleCollateral[0].makeCode;
+             vehicleType = response.ProcessVariables.vehicleCollateral[0].vehicleTypeCode;
+             assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
+             assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
+             assetVariant = 'variantKey';
+             dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
+             manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+          }
+          
+         
           this.createExternalLeadForm.patchValue({
             productCategory,
             product,
