@@ -691,7 +691,7 @@ export class ExistingLeadCreationComponent implements OnInit {
 
       const vehicleId = data.vehicleId;
       const vehicleRegNo = data.vehicleRegNo;
-      const manuFacMonthYear = data.manuFacMonthYear;
+      const manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
 
       this.createLeadService.createExternalLead(
         this.loanLeadDetails,
@@ -779,7 +779,7 @@ export class ExistingLeadCreationComponent implements OnInit {
           const assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
           const assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
           const assetVariant = 'variantKey';
-          const dobyymm = response.ProcessVariables.applicantDetails[0].dob;
+          const dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
           const manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
           this.createExternalLeadForm.patchValue({
             productCategory,

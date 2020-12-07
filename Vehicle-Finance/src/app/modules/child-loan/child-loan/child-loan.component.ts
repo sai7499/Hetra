@@ -389,7 +389,7 @@ export class ChildLoanComponent implements OnInit {
       gst: childLoanDatas.gst,
       name: childLoanDatas.name,
       mobile: childLoanDatas.mobile,
-      dateOfBirth: childLoanDatas.dateOfBirth
+      dateOfBirth: this.utilityService.getDateFormat(childLoanDatas.dateOfBirth)
     }
     console.log('this.childData', this.childData);
     this.accordian = '';
