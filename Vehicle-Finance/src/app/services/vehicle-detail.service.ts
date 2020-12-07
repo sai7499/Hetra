@@ -215,6 +215,24 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
+  // 9. method for getting scheme data
+
+  getScheme(data) {
+    const processId = this.apiService.api.getScheme.processId;
+    const workflowId = this.apiService.api.getScheme.workflowId;
+    const projectId = environment.projectIds.salesProjectId;
+
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
   createObservableObj(labelsurl: IndivVehicleInfoDetails[]) {
     const obs = new Observable<IndivVehicleInfoDetails[]>(observer => {
       observer.next(labelsurl);
