@@ -266,10 +266,10 @@
 
                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8 p-0 text-right" style="float: right;">
 
-                  <div class="input-group search-btn-msg">
+                  <div class="input-group search-btn-msg" style="float:right;">
                     <input type="text" class="form-control input-search" placeholder="Query Id Search"
                       [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
-                      (keyup)="searchQueryIdMessage($event.target.value)">
+                      (keyup)="searchQueryIdMessage($event.target.value)" style="float:right;">
                     <span class="input-group-addon glass-span" (click)="clearSearch()"><i
                         [ngClass]="searchQueryId.length >= 1 ? 'fa fa-close cus-close' : 'fa fa-search'"></i></span>
                   </div>
