@@ -1390,10 +1390,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         value: VehicleDetail.vehicleTypeCode
       }]
 
-      this.vehicleLov.scheme = [{
+      this.vehicleLov.scheme = VehicleDetail.scheme ? [{
         key: VehicleDetail.scheme,
         value: VehicleDetail.schemeDesc
-      }]
+      }] : '';
 
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
