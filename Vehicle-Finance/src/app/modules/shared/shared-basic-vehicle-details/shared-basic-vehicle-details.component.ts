@@ -628,7 +628,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             vehicleType: '',
             assetBodyType: '',
             assetModel: '',
-            assetVariant: ''
+            assetVariant: '',
+            scheme: ''
           })
         } else {
           this.vehicleLov.assetMake = [];
@@ -670,7 +671,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
               vehicleType: '',
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              assetVariant: '',
+              scheme: ''
             })
 
           } else {
@@ -717,7 +719,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             obj.patchValue({
               assetBodyType: '',
               assetModel: '',
-              assetVariant: ''
+              assetVariant: '',
+              scheme: ''
             })
 
           } else {
@@ -743,7 +746,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     obj.patchValue({
       assetModel: '',
-      assetVariant: ''
+      assetVariant: '',
+      scheme: ''
     })
   }
 
@@ -761,7 +765,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       'vehicleCode', "vehicleVariant")
 
     obj.patchValue({
-      assetVariant: ''
+      assetVariant: '',
+      scheme: ''
     })
 
   }
@@ -984,7 +989,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: [''],
       scheme: [''],
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
@@ -1035,7 +1039,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
@@ -1085,7 +1088,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
@@ -1101,8 +1103,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
       permitUpload: [''],
-      chasisNumber: [''],
-      engineNumber: [''],
+      chasisNumber: ['', Validators.required],
+      engineNumber: ['', Validators.required],
       vehiclePurchasedCost: [null],
       vehicleOwnerShipNumber: null,
       rcOwnerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]],
@@ -1149,7 +1151,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
-      assetOther: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
@@ -1163,8 +1164,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostCarTrade: ['', Validators.required],
       assetCostLeast: '',
       finalAssetCost: ['', Validators.required],
-      chasisNumber: [''],
-      engineNumber: [''],
+      chasisNumber: ['', Validators.required],
+      engineNumber: ['', Validators.required],
       scheme: [''],
       loanAmount: [0],
       bodyCost: [''],
@@ -1389,10 +1390,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         value: VehicleDetail.vehicleTypeCode
       }]
 
-      this.vehicleLov.scheme = [{
+      this.vehicleLov.scheme = VehicleDetail.scheme ? [{
         key: VehicleDetail.scheme,
         value: VehicleDetail.schemeDesc
-      }]
+      }] : '';
 
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
