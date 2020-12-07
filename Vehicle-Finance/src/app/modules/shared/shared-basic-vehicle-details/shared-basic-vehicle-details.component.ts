@@ -599,6 +599,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     // this.isVehicleDedupe = VehicleDetail.isVehicleDedupe === 'Yes' ? true: false;
     this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
+    VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : '';
 
     if (VehicleDetail.parentLoanAccountNumber) {
       this.isVehicleDedupe = true;
