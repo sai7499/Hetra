@@ -873,7 +873,7 @@ export class FleetDetailsComponent implements OnInit {
 
   uploadFile() {
     if (this.showError) {
-      this.toasterService.showError('Please select valid document', '');
+      return this.toasterService.showError('Please select valid document', '');
     }
     // console.log('csvData', this.csvData);
     // return;
@@ -954,7 +954,7 @@ export class FleetDetailsComponent implements OnInit {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
       /* save data */
-      let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      let data = XLSX.utils.sheet_to_json(ws, { header: 1,  defval: '' });
       console.log('data', data);
       if (data && data.length !== 0) {
           const size = data.length;

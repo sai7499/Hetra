@@ -1355,7 +1355,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       //   this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       //   break;
       case 61: case 62:
-        this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+        this.router.navigate([`/pages/valuation-dashboard/${this.leadId}/vehicle-valuation`]);
         break;
 
       default:
