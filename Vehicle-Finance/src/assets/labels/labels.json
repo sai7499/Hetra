@@ -1813,6 +1813,7 @@
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
     "wizardId" : "Wizard ID",
+    "vehScheme": "Scheme/promotion",
     "validationData": {
         "name": {
             "maxLength": {
