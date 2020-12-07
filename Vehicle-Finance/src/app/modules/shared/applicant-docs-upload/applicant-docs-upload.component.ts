@@ -112,7 +112,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   panCard: string;
   isNewUpload = false;
   docError = {};
-
+  isProfileSignUploaded: boolean;
   isLoan360: boolean;
  
   constructor(
@@ -896,6 +896,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   uploadPhotoOrSignature(data) {
+    this.isProfileSignUploaded = true;
     this.applicantService.uploadPhotoOrSignature(data).subscribe((value) => {
       console.log('uploadPhotoOrSignature', value, 'data', data);
     });

@@ -443,7 +443,7 @@ export class TrancheDisburseComponent implements OnInit {
       docRefId: [
         {
           idTp: 'LEDID',
-          id: this.leadId
+          id: this.LoanDetails['leadID']
         },
         {
           idTp: 'BRNCH',
@@ -562,7 +562,7 @@ export class TrancheDisburseComponent implements OnInit {
 
   onApprove(){
     this.remarks = ''
-    this.disbursementService.tdApprove(this.taskId,this.leadId,this.loanAccountNumber)
+    this.disbursementService.tdApprove(this.taskId,this.LoanDetails['leadID'],this.loanAccountNumber)
     .subscribe((res: any) => {
       if (res.Error == '0'){
         const apiError = res.ProcessVariables.error;

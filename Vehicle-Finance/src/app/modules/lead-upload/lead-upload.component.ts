@@ -164,7 +164,6 @@ export class LeadUploadComponent implements OnInit {
       const bstr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(bstr, {
         type: 'binary',
-        cellDates: true,
       });
 
       /* grab first sheet */
@@ -172,7 +171,7 @@ export class LeadUploadComponent implements OnInit {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
       /* save data */
-      let data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      let data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '', raw: false });
       console.log('data', data);
       if (data && data.length !== 0) {
         const size = data.length;
