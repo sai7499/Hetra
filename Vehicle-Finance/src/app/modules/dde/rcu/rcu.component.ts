@@ -494,6 +494,8 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
     // alert("event" + event)
     // this.fileRCUStatus = this.rcuDetailsForm.controls.fileRCUStatus.value
 
+    console.log('event', event)
+
     if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
       this.screened = '0';
       this.sampled = '1';

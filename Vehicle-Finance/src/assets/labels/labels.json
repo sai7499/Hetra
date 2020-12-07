@@ -1355,6 +1355,7 @@
     "proposalNo": "Proposal No",
     "applicationNo": "Application No",
     "scheme": "Scheme",
+    "vehScheme": "Scheme/promotion",
     "manufacturer": "Manufacturer",
     "paymentDetails": "Payment Details",
     "paymentTo": "Payment To",
@@ -1811,6 +1812,7 @@
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
+    "wizardId" : "Wizard ID",
     "validationData": {
         "name": {
             "maxLength": {
