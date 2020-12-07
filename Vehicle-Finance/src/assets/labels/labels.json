@@ -1816,6 +1816,7 @@
     "goToDashboard":"Go To Dashboard",
     "submitValuation":"Are you sure you want to submit task?",
     "wizardId" : "Wizard ID",
+    "vehScheme": "Scheme/promotion",
     "validationData": {
         "name": {
             "maxLength": {
