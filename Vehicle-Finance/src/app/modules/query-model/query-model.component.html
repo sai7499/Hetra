@@ -301,9 +301,9 @@
                     </div>
 
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
-                      <div class="logged-user">
+                      <div class="">
 
-                        <div class="row">
+                        <div class="logged-user row">
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <span class="cus-name-role"> {{message.nameWithFromRole}}
                             </span>
@@ -316,7 +316,7 @@
                           </div>
                         </div>
 
-                        <div class="row">
+                        <div class="logged-user row">
                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <span class="text-center"> <strong>Query Id : </strong>
                               {{message.queryId}}
@@ -509,7 +509,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 text-box">
                   <div class="text-box-msg col-lg-12 col-xs-12 col-md-12 col-sm-12">
                     <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span id="cus-tooltip"
-                        class="i-span input-group-addon" (click)="chooseFile()" data-tooltip="Attachment"
+                        class="i-span input-group-addon" style="padding:0px;" (click)="chooseFile()" data-tooltip="Attachment"
                         [ngClass]="queryModalForm.controls['docName'].value ? 'cus-font-size' : ''"><i
                           class="fa fa-paperclip"></i>
                       </span>
