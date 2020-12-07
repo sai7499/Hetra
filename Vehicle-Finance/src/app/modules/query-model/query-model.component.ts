@@ -93,6 +93,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   }
 
   conditionalClassArray: any = [];
+  accordion: string = 'collapseBriefOne';
 
   routerId: any;
   isMobileView: boolean = false;
