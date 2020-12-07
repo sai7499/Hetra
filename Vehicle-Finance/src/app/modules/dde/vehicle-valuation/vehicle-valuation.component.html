@@ -24,7 +24,9 @@
                 <td>{{ labels?.model }}</td>
                 <td>{{ labels?.address }}</td>
                 <td>{{ labels?.valuationStatus }}</td>
+                <!-- <td>{{ labels?.initiatedOn }}</td> -->
                 <td>{{ labels?.valuatorStatus }}</td>
+                <!-- <td>{{ labels?.requestId }}</td> -->
                 <td>{{ labels?.valuationReport }}</td>
               </tr>
             </thead>
@@ -35,19 +37,21 @@
                 <td>{{ data.model }}</td>
                 <td>{{ data.address }}</td>
                 <td>{{ data.valuationStatus }}</td>
+                <!-- <td>---</td> -->
+
                 <td>
-                  <span *ngIf="data.valuatorStatus == 1">
-                    Online
-                  </span>
-                  <span *ngIf="data.valuatorStatus == 0">
-                    Offline
-                  </span>
+                  <span *ngIf="data.valuatorStatus == 1"> Online </span>
+                  <span *ngIf="data.valuatorStatus == 0"> Offline </span>
                 </td>
+                <!-- <td>---</td> -->
                 <td>
                   <u>
                     <a
                       class="a_tag"
-                      *ngIf="data.valuatorStatus == 1"
+                      *ngIf="
+                        data.valuatorStatus == 1 &&
+                        data.valuationStatus == 'NOT INITIATED'
+                      "
                       (click)="
                         onClickValuationReport(
                           data.valuationStatus,
@@ -56,13 +60,32 @@
                       "
                       data-toggle="modal"
                       data-target="#myModal"
+                      >Initiate</a
                     >
-                      {{
-                        data.valuationStatus == "NOT INITIATED"
-                          ? "Initiate"
-                          : "View"
-                      }}
-                    </a>
+                    <a
+                    style="cursor: auto"
+                      *ngIf="
+                        data.valuatorStatus == 1 &&
+                        data.valuationStatus == 'INITIATED'
+                      "
+                    
+                      >--</a
+                    >
+                    <a
+                      class="a_tag"
+                      *ngIf="
+                        data.valuationStatus == 'SUBMITTED'
+                      "
+                      (click)="
+                        onClickValuationReport(
+                          data.valuationStatus,
+                          data.collateralId
+                        )
+                      "
+                      data-toggle="modal"
+                      data-target="#myModal"
+                      >View</a
+                    >
                     <a
                       class="a_tag"
                       *ngIf="
@@ -79,11 +102,12 @@
                       data-target="#myModal"
                       >Initiate</a
                     >
-                    <a style="cursor: auto;"
+                    <a
+                      style="cursor: auto"
                       *ngIf="
                         data.valuatorStatus == 0 &&
-                        data.valuationStatus == 'INITIATED'
-                        && !extValuator
+                        data.valuationStatus == 'INITIATED' &&
+                        !extValuator
                       "
                       >-</a
                     >
@@ -91,8 +115,8 @@
                       class="a_tag"
                       *ngIf="
                         data.valuatorStatus == 0 &&
-                        data.valuationStatus == 'INITIATED'
-                        && extValuator
+                        data.valuationStatus == 'INITIATED' &&
+                        extValuator
                       "
                       (click)="
                         onClickValuationReport(
@@ -103,10 +127,9 @@
                       >View</a
                     >
                     <!-- {{data.valuationStatus == 'INITIATED'? 'View' :}} -->
-                    <a
+                    <!-- <a
                       class="a_tag"
                       *ngIf="
-                        data.valuatorStatus == 0 &&
                         data.valuationStatus == 'SUBMITTED'
                       "
                       (click)="
@@ -118,7 +141,7 @@
                       data-toggle="modal"
                       data-target="#myModal"
                       >View</a
-                    >
+                    > -->
                   </u>
                 </td>
               </tr>
