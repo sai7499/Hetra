@@ -193,7 +193,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'fi-dashboard', // added another routing for dde module to load from pd-dashboard
+        path: 'fi-dashboard', // added another routing for dde module to load from fi-dashboard
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
@@ -204,6 +204,11 @@ const routes: Routes = [
           import(
             './modules/dde/vehicle-valuation-router/vehicle-valuation-router.module'
           ).then((m) => m.VehicleValuationRouterModule),
+      },
+      {
+        path: 'valuation-dashboard', // added another routing for dde module to load from valuation-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
         path: 'sales',

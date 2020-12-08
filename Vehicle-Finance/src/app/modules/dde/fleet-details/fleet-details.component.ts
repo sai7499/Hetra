@@ -21,6 +21,7 @@ import readXlsxFile from 'read-excel-file';
 import { LoanViewService } from '@services/loan-view.service';
 
 import * as XLSX from 'xlsx';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-fleet-details',
@@ -873,7 +874,7 @@ export class FleetDetailsComponent implements OnInit {
 
   uploadFile() {
     if (this.showError) {
-      this.toasterService.showError('Please select valid document', '');
+      return this.toasterService.showError('Please select valid document', '');
     }
     // console.log('csvData', this.csvData);
     // return;
@@ -947,15 +948,15 @@ export class FleetDetailsComponent implements OnInit {
     reader.onload = (e: any) => {
       /* read workbook */
       const bstr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', cellDates:true });
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
 
       /* grab first sheet */
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
       /* save data */
-      let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      console.log('data', data);
+      let data = XLSX.utils.sheet_to_json(ws, { header: 1,  defval: '', raw: false });
+      console.log('data', ...data);
       if (data && data.length !== 0) {
           const size = data.length;
           const header: any = data[0];
@@ -963,11 +964,11 @@ export class FleetDetailsComponent implements OnInit {
           const dateHeaders = [];
           for (const element of header) {
                i++;
-               if (element.includes('date')) {
+               if (element && element.includes('date')) {
                   dateHeaders.push(i);
                }
           }
-          data = this.getDateFormattedXlsData(data, dateHeaders);
+          // data = this.getDateFormattedXlsData(data, dateHeaders);
           const xlsData = data.map((value: any, index) => {
             let val = value.join(',');
             if (size - 1 !== index) {
@@ -1010,14 +1011,16 @@ export class FleetDetailsComponent implements OnInit {
             const dataValue = element[value];
             const parse = Date.parse(dataValue);
             if ( !isNaN(parse) && parse >= 0) {
-              if (dataValue.includes('-')) {
+              console.log('dataValue',  dataValue)
+              const valueType =  typeof dataValue;
+              if (valueType === 'string' && dataValue.includes('-')) {
                  let dateValue = dataValue.split('-');
                  if (dateValue.length === 3) {
                    dateValue = dateValue.join('/');
                    element[value] = dateValue;
                    data[index] = element;
                  }
-              } else if (dataValue.includes('/')) {
+              } else if (valueType === 'string' && dataValue.includes('/')) {
                 let dateValue = dataValue.split('/');
                 if (dateValue.length === 3) {
                   dateValue = dateValue.join('/');
@@ -1025,13 +1028,14 @@ export class FleetDetailsComponent implements OnInit {
                   data[index] = element;
                 }
              } else {
+               console.log(moment(new Date(dataValue)).format('DD/MM/YYYY'))
               const d = new Date(dataValue);
               let month: any = d.getMonth() + 1;
               const year = d.getFullYear();
               let day: any = d.getDate();
               day = day <= 9 ? `0${day}` : day;
               month = month <= 9 ? `0${month}` : month;
-              element[value] = `${day}/${month}/${year}`;
+              element[value] = moment(new Date(dataValue)).format('DD/MM/YYYY');
               data[index] = element;
              } 
             }
