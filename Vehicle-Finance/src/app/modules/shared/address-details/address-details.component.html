@@ -128,7 +128,7 @@
               <h3 class="banner-con">Communication Address</h3>
             </div>
             <div class="custom-col-30" id="align_this_texbox">
-              <input type="checkbox" id="address_section_checkbox" (change)="isSameAddress($event)"
+              <input type="checkbox" class="mar-12" id="address_section_checkbox" (change)="isSameAddress($event)"
                 [checked]="onPerAsCurChecked" [disabled]="disableCurrent || disableSaveBtn || isLoan360" />
               <span id="address_section_checkbox_text">&nbsp;Is it same as your permanent Address?
               </span>
@@ -302,7 +302,7 @@
             <div class="col-sm-7" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="officeSameAddress($event)"
                 [checked]="onCurrAsOfficeChecked" [disabled]="disableSaveBtn || isLoan360" />
-              <span id="address_section_checkbox_text">Is it same as your current Address?
+              <span id="address_section_checkbox_text">&nbsp;Is it same as your current Address?
               </span>
             </div>
           </div>
