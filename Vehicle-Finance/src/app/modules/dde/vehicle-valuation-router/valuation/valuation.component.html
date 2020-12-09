@@ -403,6 +403,7 @@
                 >
                   <div
                     *ngIf="
+                      isDirty &&
                       vehicleValuationForm.controls['inspectionDate'].hasError(
                         'required'
                       )
@@ -556,8 +557,6 @@
                 </span>
                 <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
               </div> -->
-
-             
             </div>
             <!-- inspection details ends here -->
 
@@ -1157,17 +1156,23 @@
                       vehicleValuationForm.controls.yearOfManufacturer.errors
                     "
                   >
-                  <div *ngIf="vehicleValuationForm.controls.yearOfManufacturer.errors.minError">
-
-                    Month and year of manufacturing should not be more than 15 years  from today date
-                    
-                  </div>
-                  <div *ngIf="vehicleValuationForm.controls.yearOfManufacturer.errors.maxError">
-                    
-                    Month and year of manufacturing should not be future date
-                    
-                  </div>
-                    
+                    <div
+                      *ngIf="
+                        vehicleValuationForm.controls.yearOfManufacturer.errors
+                          .minError
+                      "
+                    >
+                      Month and year of manufacturing should not be more than 15
+                      years from today date
+                    </div>
+                    <div
+                      *ngIf="
+                        vehicleValuationForm.controls.yearOfManufacturer.errors
+                          .maxError
+                      "
+                    >
+                      Month and year of manufacturing should not be future date
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1227,7 +1232,6 @@
                   (valueChange)="validateInsuranceDate()"
                   (valueChange)="validatePermitDate()"
                   (valueChange)="validateTaxDate()"
-
                 >
                 </kendo-datepicker>
                 <div class="invalid-feedback">
@@ -1343,7 +1347,7 @@
                 </app-custom-input>
               </div>
             </div>
-           
+
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="chassis_number"
@@ -1725,7 +1729,7 @@
                   [format]="'dd/MM/yyyy'"
                   placeholder="dd/mm/yyyy"
                   [activeView]="'decade'"
-                  (valueChange)=" validateInsuranceDate() "
+                  (valueChange)="validateInsuranceDate()"
                   (valueChange)="insuranceValidUptoCheck()"
                 >
                 </kendo-datepicker>
@@ -2465,38 +2469,65 @@
             </div>
             <h4 class="title">Vehicle Photo</h4>
             <div class="row">
-
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="sourceOf_margin_money">{{labels.takeVehiclePhoto}}
-                    <sub class="star_red_col">*</sub>
+                <label for="sourceOf_margin_money"
+                  >{{ labels.takeVehiclePhoto }}
+                  <sub class="star_red_col">*</sub>
                 </label>
                 <div class="photo">
-                    <img [src]="
-                                SELFIE_IMAGE ||
-                                    'assets/images/user.jpg'
-                                " alt="[Image: Photo]" width="100" />
+                  <!-- <img
+                    [src]="SELFIE_IMAGE || 'assets/images/user.jpg'"
+                    alt="[Image: Photo]"
+                    width="550"
+                    style="height: 200px"
+                  /> -->
+                  <img
+                    [src]="SELFIE_IMAGE || 'assets/images/user.jpg'"
+                    alt="[Image: Photo]"
+                    width="100"
+                  />
                 </div>
-                <span *ngIf="isMobile"> 
-                  <button class="btn btn-primary js-btn-prev" type="button"  [disabled]="disableForm"
-                        (click)="showModal = true"> Take photo
+                <span *ngIf="isMobile">
+                  <button
+                    class="btn btn-primary js-btn-prev"
+                    type="button"
+                    [disabled]="disableForm"
+                    (click)="showModal = true"
+                  >
+                    Take photo
                   </button>
                 </span>
-                <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+                <app-upload-modal
+                  [showModal]="showModal"
+                  (close)="showModal = false"
+                  (uploadSuccess)="onUploadSuccess($event)"
+                  [docsDetails]="selectedDocDetails"
+                ></app-upload-modal>
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="captured_latitude">{{labels.capturedLat}}
-                    <!-- <sub class="star_red_col">*</sub> -->
+                <label for="captured_latitude"
+                  >{{ labels.capturedLat }}
+                  <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <app-custom-input formControlName="latitude" [className]="'form-control'" [placeholder]="''">
+                <app-custom-input
+                  formControlName="latitude"
+                  [className]="'form-control'"
+                  [placeholder]="''"
+                >
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                  <label for="captured_longitude">{{labels.capturedLng}}
-                      <!-- <sub class="star_red_col">*</sub> -->
-                  </label>
-                  <app-custom-input formControlName="longitude" [className]="'form-control'" [placeholder]="''">
-                  </app-custom-input>
+                <label for="captured_longitude"
+                  >{{ labels.capturedLng }}
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input
+                  formControlName="longitude"
+                  [className]="'form-control'"
+                  [placeholder]="''"
+                >
+                </app-custom-input>
               </div>
             </div>
 
@@ -2786,7 +2817,7 @@
                   </button>
                 </ng-container>
                 &nbsp;
-                <!-- <button 
+                <!-- <button     
                   class="btn btn-primary"
                   type="button"
                   
