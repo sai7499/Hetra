@@ -113,9 +113,9 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                [isDirty]="isDirty"
-                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''">
+                                [isDirty]="isDirty" (change)="onCallTwoFunction($event.target.value, obj)">
                             </app-vf-custom-select>
+                            <!-- (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''" -->
 
                         </div>
 

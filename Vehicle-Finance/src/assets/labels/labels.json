@@ -1356,7 +1356,7 @@
     "proposalNo": "Proposal No",
     "applicationNo": "Application No",
     "scheme": "Scheme",
-    "vehScheme": "Scheme/promotion",
+    "vehScheme": "Scheme / Promotion",
     "manufacturer": "Manufacturer",
     "paymentDetails": "Payment Details",
     "paymentTo": "Payment To",
@@ -1816,7 +1816,6 @@
     "goToDashboard":"Go To Dashboard",
     "submitValuation":"Are you sure you want to submit task?",
     "wizardId" : "Wizard ID",
-    "vehScheme": "Scheme/promotion",
     "validationData": {
         "name": {
             "maxLength": {
