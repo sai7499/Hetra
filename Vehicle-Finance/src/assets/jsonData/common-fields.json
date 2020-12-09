@@ -1,0 +1,105 @@
+{
+    "screenIds": [
+      {
+        "id": "2000",
+        "name": "PD-Personal Details"
+      },
+      {
+        "id": "2001",
+        "name": "PD-Income Details"
+      },
+      {
+        "id": "2002",
+        "name": "PD-Loan Details"
+      },
+      {
+        "id": "2003",
+        "name": "PD-Reference Details"
+      }
+    ],
+    "udfFields": [
+      {
+        "name": "udf1",
+        "label": "UDF1",
+        "placeholder": "UDF1",
+        "mandatory": true,
+        "inputType": "alpha",
+        "minLength": {
+          "rule": 10,
+          "msg": "Error message"
+        },
+        "maxLength": {
+          "rule": 20,
+          "msg": "error message"
+        },
+        "pattenCheck": {
+          "rule": "rgex",
+          "msg": "error message"
+        }
+      },
+      {
+        "name": "udf2",
+        "label": "UDF2",
+        "placeholder": "UDF2",
+        "mandatory": true,
+        "inputType": "alpha",
+        "minLength": {
+          "rule": 10,
+          "msg": "Error message"
+        },
+        "maxLength": {
+          "rule": 20,
+          "msg": "error message"
+        },
+        "pattenCheck": {
+          "rule": "rgex",
+          "msg": "error message"
+        }
+      },
+      {
+        "name": "udf3",
+        "label": "UDF3",
+        "placeholder": "UDF3",
+        "mandatory": true,
+        "inputType": "number",
+        "minLength": {
+          "rule": 10,
+          "msg": "Error message"
+        },
+        "maxLength": {
+          "rule": 20,
+          "msg": "error message"
+        },
+        "pattenCheck": {
+          "rule": "rgex",
+          "msg": "error message"
+        }
+      }
+    ],
+    "screenUdfMapping": {
+      "2000": [
+        {
+          "name": "udf1",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "udf2",
+          "show": true,
+          "disable": false
+        }
+      ],
+      "2001": [
+        {
+          "name": "udf1",
+          "show": true,
+          "disable": true
+        },
+        {
+          "name": "udf3",
+          "show": true,
+          "disable": false
+        }
+      ]
+    }
+  }

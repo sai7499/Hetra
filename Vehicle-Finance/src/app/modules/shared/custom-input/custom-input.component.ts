@@ -136,6 +136,7 @@ export class CustomInputComponent
   }
 
   validate(c?: FormControl) {
+    console.log(c, 'custom', this.inputError)
     return !this.inputError
       ? null
       : {

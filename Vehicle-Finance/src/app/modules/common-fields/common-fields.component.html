@@ -1,0 +1,30 @@
+<main class="mar-top90">
+    <div class="container-fluid">
+        <!-- <div class="container-fluid"> -->
+        <!-- <app-lead-section-header></app-lead-section-header> -->
+        <div class="multisteps-form" style="margin-bottom: -30px;">
+            <div class="multisteps-form__progress main-tab">
+
+                <div class="content">
+                    <h3>hello</h3>
+
+                    <form [formGroup]="dynamicFormGroup">
+
+                        <div *ngFor="let arrayItem of arrayItems; let i=index">
+                            <!-- formArrayName="dynamicFormArray" -->
+
+                            <label class="array-item-title">{{arrayItem.label}}</label>
+
+                            <app-custom-input [formControlName]="arrayItem.name" [type]="arrayItem.inputType"
+                                [className]="'form-control'" [placeholder]="arrayItem.placeholder">
+                            </app-custom-input>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
