@@ -1356,7 +1356,7 @@
     "proposalNo": "Proposal No",
     "applicationNo": "Application No",
     "scheme": "Scheme",
-    "vehScheme": "Scheme/promotion",
+    "vehScheme": "Scheme / Promotion",
     "manufacturer": "Manufacturer",
     "paymentDetails": "Payment Details",
     "paymentTo": "Payment To",
@@ -2375,9 +2375,9 @@
         },
         "invoiceNumber": {
             "maxLength": {
-                "rule": 3
+                "rule": 20
             },
-            "type": "number"
+            "type": "alpha-numeric"
         },
         "monthOfManuf": {
             "maxLength": {
