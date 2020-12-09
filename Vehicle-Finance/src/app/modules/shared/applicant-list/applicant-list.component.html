@@ -157,9 +157,23 @@
         </div>
       </div>
     </div>
+    <div class="btn-sec clear-both row cst_btm_btns">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-7 text-right">
+        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()" >
+          Back
+        </button>
+        <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
+        <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()">
+    
+          <!-- [routerLink]="['../vehicle-list']" -->
+          Next
+        </button>
+      </div>
+    </div>
     <!-- <img [src]="imag" alt="Red dot" /> -->
   </div>
-
+  
   <!-- </div> -->
 
 
@@ -672,20 +686,7 @@
 
 
 </div>
-<div class="btn-sec clear-both row cst_btm_btns">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right">
-    <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()" >
-      Back
-    </button>
-    <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
-    <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()">
 
-      <!-- [routerLink]="['../vehicle-list']" -->
-      Next
-    </button>
-  </div>
-</div>
 <!--  <div id="mydiv" *ngIf="cibilImage" class="card" class="center"> 
     <button type="button" class="close" (click)="destroyImage()" *ngIf="cibilImage" style="overflow: auto;">×</button> -->
 <!-- Header -->
