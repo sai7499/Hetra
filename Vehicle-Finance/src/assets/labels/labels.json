@@ -2125,6 +2125,13 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
+        "applicantAdhaarNumber": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        
         "turnOver": {
             "maxLength": {
                 "rule": 10

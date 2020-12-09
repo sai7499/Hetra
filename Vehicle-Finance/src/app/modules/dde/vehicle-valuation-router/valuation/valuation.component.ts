@@ -181,6 +181,7 @@ export class ValuationComponent implements OnInit {
   OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
   OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
   dmsDocumentId: string;
+  vehiclePhotoRequired: boolean;
 
 
 
@@ -208,7 +209,7 @@ export class ValuationComponent implements OnInit {
     this.partsArray = this.fb.array([]);
     this.accessoriesArray = this.fb.array([]);
     this.isMobile = environment.isMobile;
-
+    // this.isMobile = true;
   }
 
   async ngOnInit() {
@@ -882,7 +883,9 @@ export class ValuationComponent implements OnInit {
           this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
         }
       }
-      this.setFormValue();
+      if (this.vehicleValuationDetails.valuatorRefNo) {
+        this.setFormValue();
+      }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
   }
@@ -1454,11 +1457,20 @@ export class ValuationComponent implements OnInit {
     this.validateTaxDate();
     this.validateDateOfReg();
     this.insuranceValidUptoCheck();
-    console.log("latitude::", this.latitude);
-    console.log("longitude::", this.longitude);
-    console.log("SELFIE_IMAGE::", this.SELFIE_IMAGE);
+    console.log('latitude::', this.latitude);
+    console.log('longitude::', this.longitude);
+    console.log('SELFIE_IMAGE::', this.SELFIE_IMAGE);
+    console.log('is mobile', this.isMobile);
+    // this.SELFIE_IMAGE = 'jkhkhkj';
 
-    if ((this.isMobile === true) && this.SELFIE_IMAGE && (this.isOnline === false)) {
+    console.log('length of image', this.SELFIE_IMAGE.length);
+    if (this.SELFIE_IMAGE.length == 0) {
+      this.vehiclePhotoRequired = true;
+    } else {
+      this.vehiclePhotoRequired = false;
+    }
+
+    if (this.isMobile && this.vehiclePhotoRequired) {
       this.toasterService.showError('Vehicle photo is required', '');
       return;
     }
@@ -1507,13 +1519,14 @@ export class ValuationComponent implements OnInit {
     // });
     this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
       console.log('save or update valuation Response', res);
+      const message = res.ProcessVariables.error.message;
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
         this.getVehicleValuation();
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
-        this.toasterService.showError('ivalid save', 'message');
+        this.toasterService.showError(message, '');
 
       }
     });
