@@ -3,7 +3,7 @@
 
   <div class="">
     
-    <form [formGroup]="coApplicantForm" autocomplete="off">
+    <form [formGroup]="coApplicantForm" autocomplete="off" (keydown.enter)="$event.preventDefault()">
       <div class="content">
         <h3 class="banner-con" *ngIf="applicantId == null">
           {{ labels?.addApplicantTitle }}
@@ -362,7 +362,7 @@
                     <sub class="star_red_col">*</sub></label>
                   <div class="input-group input-medium">
                     <app-custom-input formControlName="aadhar" (keyup)="storeAdhar($event)"
-                      [type]="validationData?.adhaarNumber?.type" [maxLength]="validationData?.adhaarNumber?.maxLength">
+                      [type]="validationData?.applicantAdhaarNumber?.type" [maxLength]="validationData?.applicantAdhaarNumber?.maxLength">
                       <!-- maxlength="12" -->
                       <!-- [maxLength]="validationData?.adhaarNumber?.maxLength"
                   [patternCheck]="validationData?.adhaarNumber?.patternCheck"
@@ -403,7 +403,7 @@
                   <label for="aadharnumber">{{ labels?.udyogAdhar }} </label>
                   <div class="input-group input-medium">
                     <app-custom-input formControlName="aadhar" (keyup)="storeAdhar($event)"
-                      [maxLength]="validationData?.adhaarNumber?.maxLength" [type]="validationData?.adhaarNumber?.type">
+                      [maxLength]="validationData?.applicantAdhaarNumber?.maxLength" [type]="validationData?.applicantAdhaarNumber?.type">
                     </app-custom-input>
                     <!-- [patternCheck]="validationData?.adhaarNumber?.patternCheck" -->
                     <span class="input-group-btn">
