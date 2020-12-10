@@ -1,30 +1,62 @@
 <main class="mar-top90">
     <div class="container-fluid">
         <!-- <div class="container-fluid"> -->
+
+        <h3 class="margin-zero"></h3>
+
         <!-- <app-lead-section-header></app-lead-section-header> -->
         <div class="multisteps-form" style="margin-bottom: -30px;">
-            <div class="multisteps-form__progress main-tab">
+            <!-- <div class="multisteps-form__progress main-tab">
+                <div class="col-md-10 col-xs-9 text-center" style="margin-bottom: -30px;">
 
-                <div class="content">
-                    <h3>hello</h3>
+                    <div *ngFor="let progressbar of commonFieldJson.screenIds; let j=index">
 
-                    <form [formGroup]="dynamicFormGroup">
 
-                        <div *ngFor="let arrayItem of arrayItems; let i=index">
-                            <!-- formArrayName="dynamicFormArray" -->
-
-                            <label class="array-item-title">{{arrayItem.label}}</label>
-
-                            <app-custom-input [formControlName]="arrayItem.name" [type]="arrayItem.inputType"
-                                [className]="'form-control'" [placeholder]="arrayItem.placeholder">
-                            </app-custom-input>
-
-                        </div>
-
-                    </form>
+                    <button class="multisteps-form__progress-btn " [ngClass]="{ 'js-active': locationIndex>= j}"
+                        type="button" id="applicant_basic_details" (click)="Navigate(progressbar)">
+                        {{progressbar.name}}
+                    </button>
                 </div>
+
+                </div>
+            </div> -->
+
+            <div class="multisteps-form__progress">
+                <div *ngFor="let progressbar of commonFieldJson.screenIds; let j=index">
+                    <button class="multisteps-form__progress-btn js-active" 
+                        type="button" id="applicant_basic_details" (click)="Navigate(progressbar)">
+                        <!-- [ngClass]="{ 'js-active': locationIndex>= j}" -->
+                        {{progressbar.name}}
+                    </button>
+                </div>
+                <!-- <button class="multisteps-form__progress-btn js-active" type="button" id="vehicle_basic_details"
+                    [ngClass]="{'js-active': locationIndex >= 0}" [routerLink]="['./basic-vehicle-details']">Basic
+                    Vehicle Details</button>
+                <button class="multisteps-form__progress-btn " type="button" id="vehicle_viability_details"
+                    [ngClass]="{'js-active': locationIndex >= 1}" [routerLink]="['./viability-details']">Viability
+                    Details</button> -->
             </div>
+
+            <div class="content">
+                <form [formGroup]="dynamicFormGroup">
+
+                    <div *ngFor="let arrayItem of arrayItems; let i=index">
+                        <!-- formArrayName="dynamicFormArray" -->
+
+                        <label class="array-item-title">{{arrayItem.label}}</label>
+
+                        <app-custom-input [formControlName]="arrayItem.name" [type]="arrayItem.inputType"
+                            [className]="'form-control'" [placeholder]="arrayItem.placeholder">
+                        </app-custom-input>
+
+                    </div>
+                </form>
+
+                <router-outlet></router-outlet>
+            </div>
+
         </div>
+
 
     </div>
 </main>

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
@@ -11,15 +12,19 @@ export class CommonFieldsComponent implements OnInit {
 
   dynamicFormGroup: FormGroup;
   commonFieldJson: any;
+  locationIndex: any;
   arrayItems: any = [];
 
-  constructor(private labelsData: LabelsService, private _fb: FormBuilder) { }
+  constructor(private labelsData: LabelsService, private _fb: FormBuilder, private location: Location) { }
 
   ngOnInit() {
 
     this.dynamicFormGroup = this._fb.group({
       dynamicFormArray: this._fb.array([])
     })
+
+    const currentUrl = this.location.path();
+    this.locationIndex = this.getLocationIndex(currentUrl);
 
     this.labelsData.getCommonFieldDate().subscribe((commonField: any) => {
       console.log(commonField, 'commonField')
@@ -38,6 +43,21 @@ export class CommonFieldsComponent implements OnInit {
     })
 
 
+  }
+
+  getLocationIndex(url: any) {
+
+    // this.commonFieldJson.filter((map, i) => {
+    //   if (url.includes(map.id)) {
+    //     return i;
+    //   }
+    // })
+
+    if (url.includes('common-fields')) {
+      return 0;
+    } else if (url.includes('viability-details')) {
+      return 1;
+    }
   }
 
 }
