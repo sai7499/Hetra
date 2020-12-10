@@ -141,6 +141,7 @@ export interface AddressDetails {
   district?: number;
   state?: number;
   country?: string;
+  countryId? : any;
   landlineNumber?: string;
   mobileNumber?: string;
   accommodationType?: string;
