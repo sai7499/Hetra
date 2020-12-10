@@ -10,6 +10,7 @@ import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 
 @Component({
   selector: 'app-personal-details',
@@ -54,6 +55,11 @@ export class PersonalDetailsComponent implements OnInit {
   leadData: {};
   applicantDob: any;
 
+  screenId = '2000';
+
+  udfFieldsArray: any = [];
+  screenUdfMapping: any;
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router, private createLeadDataService: CreateLeadDataService,
@@ -63,8 +69,8 @@ export class PersonalDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
+    private CollateralDataStoreService: CollateralDataStoreService,
     private utilityService: UtilityService) { }
-
 
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -75,6 +81,10 @@ export class PersonalDetailsComponent implements OnInit {
         this.errorMsg = error;
       });
     this.initForm();
+
+    this.screenUdfMapping = this.CollateralDataStoreService.findScreenField(this.screenId)
+
+    console.log('Lov', this.screenUdfMapping)
 
     this.activatedRoute.params.subscribe((value) => {
       let score = value ? value.score : 0;

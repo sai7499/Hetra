@@ -1,105 +1,110 @@
 {
-    "screenIds": [
-      {
-        "id": "2000",
-        "name": "PD-Personal Details"
+  "screenIds": [
+    {
+      "id": "2000",
+      "name": "PD-Personal Details"
+    },
+    {
+      "id": "2001",
+      "name": "PD-Income Details"
+    },
+    {
+      "id": "2002",
+      "name": "PD-Loan Details"
+    },
+    {
+      "id": "2003",
+      "name": "PD-Reference Details"
+    }
+  ],
+  "udfFields": [
+    {
+      "id": "firstName",
+      "label": "First Name",
+      "placeholder": "First Name",
+      "mandatory": true,
+      "contorlType": "textbox/selectbox/checkbox/radio",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
       },
-      {
-        "id": "2001",
-        "name": "PD-Income Details"
-      },
-      {
-        "id": "2002",
-        "name": "PD-Loan Details"
-      },
-      {
-        "id": "2003",
-        "name": "PD-Reference Details"
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
-    ],
-    "udfFields": [
-      {
-        "name": "udf1",
-        "label": "UDF1",
-        "placeholder": "UDF1",
-        "mandatory": true,
-        "inputType": "alpha",
-        "minLength": {
-          "rule": 10,
-          "msg": "Error message"
-        },
-        "maxLength": {
-          "rule": 20,
-          "msg": "error message"
-        },
-        "pattenCheck": {
-          "rule": "rgex",
-          "msg": "error message"
-        }
-      },
-      {
-        "name": "udf2",
-        "label": "UDF2",
-        "placeholder": "UDF2",
-        "mandatory": true,
-        "inputType": "alpha",
-        "minLength": {
-          "rule": 10,
-          "msg": "Error message"
-        },
-        "maxLength": {
-          "rule": 20,
-          "msg": "error message"
-        },
-        "pattenCheck": {
-          "rule": "rgex",
-          "msg": "error message"
-        }
-      },
-      {
-        "name": "udf3",
-        "label": "UDF3",
-        "placeholder": "UDF3",
-        "mandatory": true,
-        "inputType": "number",
-        "minLength": {
-          "rule": 10,
-          "msg": "Error message"
-        },
-        "maxLength": {
-          "rule": 20,
-          "msg": "error message"
-        },
-        "pattenCheck": {
-          "rule": "rgex",
-          "msg": "error message"
-        }
+    },
+    {
+      "id": "middleName",
+      "label": "Middle Name",
+      "placeholder": "Middle Name",
+      "mandatory": false,
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
       }
-    ],
-    "screenUdfMapping": {
-      "2000": [
+    },
+    {
+      "id": "lastName",
+      "label": "Last Name",
+      "placeholder": "Last Name",
+      "mandatory": true,
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "fullName",
+      "label": "Full Name",
+      "placeholder": "Full Name",
+      "mandatory": true,
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    }
+  ],
+  "screenUdfMapping": {
+    "2000": {
+      "layout": 3,
+      "fields": [
         {
-          "name": "udf1",
+          "name": "firstName",
           "show": true,
           "disable": false
         },
         {
-          "name": "udf2",
+          "name": "middleName",
           "show": true,
           "disable": false
-        }
-      ],
-      "2001": [
-        {
-          "name": "udf1",
-          "show": true,
-          "disable": true
         },
         {
-          "name": "udf3",
+          "name": "lastName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "fullName",
           "show": true,
           "disable": false
         }
       ]
-    }
+    },
+    "2001": [
+      {
+        "name": "udf1",
+        "show": true,
+        "disable": true
+      },
+      {
+        "name": "udf3",
+        "show": true,
+        "disable": false
+      }
+    ]
   }
+}

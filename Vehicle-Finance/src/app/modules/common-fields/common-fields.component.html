@@ -23,8 +23,8 @@
 
             <div class="multisteps-form__progress">
                 <div *ngFor="let progressbar of commonFieldJson.screenIds; let j=index">
-                    <button class="multisteps-form__progress-btn js-active" 
-                        type="button" id="applicant_basic_details" (click)="Navigate(progressbar)">
+                    <button class="multisteps-form__progress-btn js-active" type="button" id="applicant_basic_details"
+                        (click)="Navigate(progressbar)">
                         <!-- [ngClass]="{ 'js-active': locationIndex>= j}" -->
                         {{progressbar.name}}
                     </button>
@@ -40,23 +40,35 @@
             <div class="content">
                 <form [formGroup]="dynamicFormGroup">
 
-                    <div *ngFor="let arrayItem of arrayItems; let i=index">
-                        <!-- formArrayName="dynamicFormArray" -->
+                    <div class="row">
 
-                        <label class="array-item-title">{{arrayItem.label}}</label>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                            *ngFor="let arrayItem of arrayItems; let i=index">
+                            <!-- formArrayName="dynamicFormArray" -->
 
-                        <app-custom-input [formControlName]="arrayItem.name" [type]="arrayItem.inputType"
-                            [className]="'form-control'" [placeholder]="arrayItem.placeholder">
-                        </app-custom-input>
+                            <label class="array-item-title">{{arrayItem.label}}</label>
 
+                            <app-custom-input [formControlName]="arrayItem.name" [type]="arrayItem.inputType"
+                                [className]="'form-control'" [placeholder]="arrayItem.placeholder"
+                                [patternCheck]="arrayItem.pattenCheck" [maxLength]="arrayItem.maxLength"
+                                [minLength]="arrayItem.minLength"
+                                [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + 'Required' : ''"
+                                [isDirty]="arrayItem.mandatory">
+                            </app-custom-input>
+
+                            <app-vf-custom-select [values]="(LOV?.LOVS)['maritalStatus']"
+                                formControlName="maritalStatus" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                            </app-vf-custom-select>
+
+                        </div>
                     </div>
+
                 </form>
 
                 <router-outlet></router-outlet>
             </div>
 
         </div>
-
 
     </div>
 </main>

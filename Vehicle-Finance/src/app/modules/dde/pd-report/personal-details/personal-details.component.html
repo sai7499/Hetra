@@ -1,6 +1,13 @@
 <form class="multisteps-form__form p-0" [formGroup]="personalDetailsForm" *ngIf="labels?.validationData">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV.LOVS">
-        <h3 class="banner-con">{{ labels.personalDetailsTitle }}</h3>
+        <h3 class="banner-con">
+
+            {{ labels.personalDetailsTitle }}
+
+            <span style="float: right;"> <strong>Screen Id :</strong> {{screenId}}</span>
+        </h3>
+
+
 
         <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -451,6 +458,28 @@
                     [type]="labels?.validationData?.amountValue?.type" [isRequired]="'Credit Bureau Score is required'"
                     [isDirty]="isDirty" [isDisabled]="true">
                 </app-custom-input>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="row" *ngIf="screenUdfMapping">
+            <div class="form-group col-sm-6 col-md-4 col-lg-{{screenUdfMapping.layout}}"
+                *ngFor="let arrayItem of screenUdfMapping.fields; let i=index">
+
+                <label class="array-item-title">{{arrayItem.label}} <sub class="star_red_col"
+                        *ngIf="arrayItem.mandatory">*</sub> </label>
+
+                <app-custom-input [formControlName]="arrayItem.name" [type]="arrayItem.inputType"
+                    [className]="'form-control'" [placeholder]="arrayItem.placeholder"
+                    [patternCheck]="arrayItem.pattenCheck" [maxLength]="arrayItem.maxLength"
+                    [minLength]="arrayItem.minLength" [isDisabled]="arrayItem.disable"
+                    [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + 'Required' : ''"
+                    [isDirty]="arrayItem.mandatory">
+                </app-custom-input>
+
             </div>
         </div>
 
