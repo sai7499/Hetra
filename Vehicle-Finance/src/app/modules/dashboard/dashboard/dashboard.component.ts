@@ -1579,7 +1579,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   supervisorReAssign() {
-
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
