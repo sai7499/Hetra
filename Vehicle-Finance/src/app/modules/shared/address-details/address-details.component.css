@@ -25,10 +25,13 @@
     color: red;
     padding-top: 0.5vw;
 } 
-#Same_AppAddress{
+/* #Same_AppAddress{
     margin: 18px 0px;
-}
+} */
 
+.mar-12{
+    margin-left:12px;
+}
 .custom-col-30{
     float:left;
     width:30%;
@@ -54,4 +57,8 @@
     padding-left: 15px;
     margin-bottom: 15px;
     } 
+
+    .mar-12{
+        margin-left:0px;
+    }
 }

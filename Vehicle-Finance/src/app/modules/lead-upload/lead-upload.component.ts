@@ -79,7 +79,7 @@ export class LeadUploadComponent implements OnInit {
 
   uploadFile() {
     if (this.showError) {
-      this.toasterService.error('Please select valid document', '');
+      return this.toasterService.error('Please select valid document', '');
     }
 
     console.log('this.csvData', this.csvData);
@@ -164,7 +164,6 @@ export class LeadUploadComponent implements OnInit {
       const bstr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(bstr, {
         type: 'binary',
-        cellDates: true,
       });
 
       /* grab first sheet */
@@ -172,7 +171,7 @@ export class LeadUploadComponent implements OnInit {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
       /* save data */
-      let data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      let data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '', raw: false });
       console.log('data', data);
       if (data && data.length !== 0) {
         const size = data.length;
@@ -185,7 +184,7 @@ export class LeadUploadComponent implements OnInit {
             dateHeaders.push(i);
           }
         }
-        data = this.getDateFormattedXlsData(data, dateHeaders);
+        // data = this.getDateFormattedXlsData(data, dateHeaders);
         const xlsData = data.map((value: any, index) => {
           let val = value.join(',');
           if (size - 1 !== index) {
@@ -194,6 +193,7 @@ export class LeadUploadComponent implements OnInit {
           return val;
         });
         let finalData = '';
+        console.log('xlsData', xlsData);
         xlsData.forEach((value) => {
           finalData += value;
         });

@@ -95,3 +95,56 @@ h3 {
     font-weight: 600;
     margin: 0px 12px;
 }
+
+.title {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.mr-top-bottom-12 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.file-format {
+  margin: 6px 12px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.table tbody tr td {
+  padding: 6px !important;
+}
+
+.pad-6 {
+  padding: 6px;
+}
+
+.single-line {
+  white-space: nowrap !important;
+}
+
+* {
+  scrollbar-width: #eb652c;
+  scrollbar-color:#eb652c #fff;
+}
+
+ /* Works on Chrome/Edge/Safari */
+ ::-webkit-scrollbar {
+   height: 8px;              
+  /* width: 4px;    
+  scrollbar-width: #eb652c;            */
+  /* border: 1px solid #d5d5d5; */
+}
+*::-webkit-scrollbar-track {
+  background: #fff;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #eb652c;
+  border-radius: 20px;
+  border: 2px solid #fff;
+}
+
+.scroll-width {
+  scrollbar-width: auto;
+}

@@ -596,9 +596,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
-
-    // this.isVehicleDedupe = VehicleDetail.isVehicleDedupe === 'Yes' ? true: false;
     this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
+    VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : ''
 
     if (VehicleDetail.parentLoanAccountNumber) {
       this.isVehicleDedupe = true;
@@ -813,7 +812,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
 
     this.vehicleDetailService.getScheme(data).subscribe((res: any) => {
-      console.log(res, 'res')
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.vehicleLov.scheme = res.ProcessVariables.scheme ? res.ProcessVariables.scheme : []
       } else {
@@ -1103,8 +1101,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
       permitUpload: [''],
-      chasisNumber: [''],
-      engineNumber: [''],
+      chasisNumber: ['', Validators.required],
+      engineNumber: ['', Validators.required],
       vehiclePurchasedCost: [null],
       vehicleOwnerShipNumber: null,
       rcOwnerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]{0,99}$')]],
@@ -1164,8 +1162,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostCarTrade: ['', Validators.required],
       assetCostLeast: '',
       finalAssetCost: ['', Validators.required],
-      chasisNumber: [''],
-      engineNumber: [''],
+      chasisNumber: ['', Validators.required],
+      engineNumber: ['', Validators.required],
       scheme: [''],
       loanAmount: [0],
       bodyCost: [''],
@@ -1389,11 +1387,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         key: VehicleDetail.vehicleTypeUniqueCode,
         value: VehicleDetail.vehicleTypeCode
       }]
-
-      this.vehicleLov.scheme = VehicleDetail.scheme ? [{
-        key: VehicleDetail.scheme,
-        value: VehicleDetail.schemeDesc
-      }] : '';
 
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])

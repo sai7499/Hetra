@@ -215,6 +215,7 @@ export class SourcingDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
+    console.log('this.isLoan360', this.isLoan360)
     this.initForm();
     this.getLabels();
     this.getLOV();
@@ -329,8 +330,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeKey = data.leadDetails.dealorCode;
     this.dealorCodeValue = data.leadDetails.dealorCodeDesc;
 
-    const priorityFromLead = data.leadDetails.priority;
-    const CommunicationFromLead = data.leadDetails.priority;
+    const priorityFromLead = data.leadDetails.priority || '';
+    const CommunicationFromLead = data.loanLeadDetails.isCommSuppressed;
     this.leadId = data.leadId ? data.leadId : data.leadDetails.leadId;
 
     const sourchingType = this.leadData.leadDetails.sourcingType;

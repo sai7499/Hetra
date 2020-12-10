@@ -346,25 +346,25 @@ export class NegotiationComponent implements OnInit {
     const fastTag = Object.keys(formData.tickets).forEach(key => {
       this.totalCrossSellAmt += Number(formData.tickets[key].fastTag.LoanAmountincludingCrossSell);
     });
-    let percentDeductionValue: Number;
+    let percentDeductionValue: number;
     let selectedIndex;
     this.createNegotiationForm.patchValue(
       {
-        "LoanAmountincludingCrossSellofalltheassets": this.totalCrossSellAmt,
-        "NegotiatedLoanAmount": this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell)
+        "LoanAmountincludingCrossSellofalltheassets": Math.round(this.totalCrossSellAmt),
+        "NegotiatedLoanAmount": this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(Math.round(formData.tickets.fastTag[0].LoanAmountincludingCrossSell))
       }
     )
     for (let i = 0; i < this.DeductionDetails.length; i++) {
       if (!this.view && this.DeductionDetails[i].DeductionChargeType == "P") {
-        percentDeductionValue = (Number(this.DeductionDetails[i].DeductionChargePercentage) / 100) * (this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell));
+        percentDeductionValue = (Number(this.DeductionDetails[i].DeductionChargePercentage) / 100) * (this.totalCrossSellAmt ? Math.round(this.totalCrossSellAmt) : Math.round(Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell)));
         selectedIndex = i;
       }
       else if (this.view && this.DeductionDetails[i].charge_type == "P") {
-        percentDeductionValue = (Number(this.DeductionDetails[i].charge_ratio) / 100) * (this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell));
+        percentDeductionValue = (Number(this.DeductionDetails[i].charge_ratio) / 100) * (this.totalCrossSellAmt ? Math.round(this.totalCrossSellAmt) : Math.round(Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell)));
         selectedIndex = i;
       }
     }
-    this.createNegotiationForm.get('tickets1')['controls'][selectedIndex]['controls']['DeductionChargefixedRate'].setValue(percentDeductionValue.toFixed(2));
+    this.createNegotiationForm.get('tickets1')['controls'][selectedIndex]['controls']['DeductionChargefixedRate'].setValue(Math.round(percentDeductionValue));
     this.getNetDisbursementAmount();
     this.calculateEMI();
   }
@@ -400,7 +400,8 @@ export class NegotiationComponent implements OnInit {
       this.fastTagAmtSum += Number(ticket['controls'].fastTag['controls'].FASTagAmount.value)
     })
     this.createNegotiationForm.patchValue({
-      NetDisbursementAmount: (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) - (sumValue + this.fastTagAmtSum + this.PremiumAmntSum)).toFixed(2)
+      NetDisbursementAmount: (Math.round(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) - 
+      Math.round(sumValue + this.fastTagAmtSum + this.PremiumAmntSum)).toFixed(2)
     });
   }
   isDecimal = (event) => {
@@ -974,7 +975,7 @@ export class NegotiationComponent implements OnInit {
       );
     }
     else
-      this.createNegotiationForm.controls.NegotiatedIRR.setValue(negoIRRValue);
+      this.createNegotiationForm.controls.NegotiatedIRR.setValue(Math.round(negoIRRValue));
     this.calculateEMI();
   }
   allowvaluesforNegoAmount(event) {
@@ -986,20 +987,20 @@ export class NegotiationComponent implements OnInit {
     let negoLoanValue = event.target.value;
     let totalvalue = this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(formData.tickets[0].fastTag.LoanAmountincludingCrossSell)
     if (this.isSecured && Number(negoLoanValue) > Number(totalvalue)) {
-      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(totalvalue)
+      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(Math.round(totalvalue))
       this.toasterService.showError(
         'Negotiated Loan Amount should be less than Cross Sell Amount.',
         'Create Negotiation'
       );
     }
     else if (!this.isSecured && Number(negoLoanValue) > Number(totalvalue) * 2) {
-      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(totalvalue)
+      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(Math.round(totalvalue))
       this.toasterService.showError(
         'Negotiated Loan Amount should be less than twice of Cross Sell Amount.',
         'Create Negotiation'
       );
     } else {
-      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(negoLoanValue)
+      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(Math.round(negoLoanValue))
     }
   }
   getEMIDate() {
@@ -1053,17 +1054,20 @@ export class NegotiationComponent implements OnInit {
     }
     else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) < Number(this.minLoanAmount)) ||
       (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) > Number(this.maxLoanAmount))) {
-      this.toasterService.showError("Negotiated Loan Amount should be within the specified Limit", ''),
+      this.toasterService.showError("Negotiated Loan Amount should be within" + ' ' + this.minLoanAmount + ' ' + 
+       'and' + ' '+ this.maxLoanAmount, ''),
         this.onformsubmit = false;
     }
     else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) < Number(this.minLoanTenor)) ||
       (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) > Number(this.maxLoanTenor))) {
-      this.toasterService.showError(" Negotiated Loan Tenor should be within the specified Limit", ''),
+        this.toasterService.showError("Negotiated Loan Tenor should be within" + ' ' + this.minLoanTenor + ' ' + 
+        'and' + ' '+ this.maxLoanTenor, ''),
         this.onformsubmit = false;
     }
     else if ((Number(this.createNegotiationForm.controls.NegotiatedEMI.value) < Number(this.minEMIAmount)) ||
       (Number(this.createNegotiationForm.controls.NegotiatedEMI.value) > Number(this.maxEMIAmount))) {
-      this.toasterService.showError(" Negotiated EMI Amount should be within the specified Limit", ''),
+        this.toasterService.showError("Negotiated EMI should be within" + ' ' + this.minEMIAmount + ' ' + 
+        'and' + ' ' + this.maxEMIAmount, ''),
         this.onformsubmit = false;
     }
     else if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {
@@ -1502,17 +1506,17 @@ export class NegotiationComponent implements OnInit {
         .subscribe((res: any) => {
           if (res.Error == 0 && (!res.ProcessVariables.error || res.ProcessVariables.error.code == 0)) {
             if (event == 'motor') {
-              this.valueSelected['controls'].MIPremiumAmount.setValue(res.ProcessVariables.miPremiumAmount);
+              this.valueSelected['controls'].MIPremiumAmount.setValue(Math.round(res.ProcessVariables.miPremiumAmount));
               x.motor['controls'].MIPremiumAmount.disable();
               this.PACvalueSelected['controls'].PACPremiumAmount.setValue
-                (res.ProcessVariables.pacPremiumAmount);
+                (Math.round(res.ProcessVariables.pacPremiumAmount));
               x.pac['controls'].PACPremiumAmount.disable();
               this.VASvalueSelected['controls'].VASPremiumAmount.setValue
-                (res.ProcessVariables.vasPremiumAmount);
+                (Math.round(res.ProcessVariables.vasPremiumAmount));
               x.vas['controls'].VASPremiumAmount.disable();
             }
             else if (event == 'creditShieldInsurance') {
-              this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(res.ProcessVariables.premiumAmount);
+              this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(Math.round(res.ProcessVariables.premiumAmount));
               x.life['controls'].lifeCoverPremiumAmount.disable();
             }
             this.calculateTotal(i)

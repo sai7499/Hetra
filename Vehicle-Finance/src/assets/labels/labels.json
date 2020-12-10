@@ -994,7 +994,8 @@
     "registrationNumber": "Registration Number",
     "address": "Address",
     "valuationStatus": "Valuation Status",
-    "valuatorStatus": "Valuator Status",
+    "valuatorStatus": "Valuator Type",
+    "requestId":"Request ID",
     "valuationReport": "Valuation Report",
     "modalTitle1": "Initiate Vechicle Valuation",
     "chooseValuator": "Choose Valuator",
@@ -1215,7 +1216,7 @@
     "enquiryAmount": "Enquiry Amount",
     "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
     "noOfEmi": "No.of Emi",
-    "submitToCredit": "Are You Sure Want To Submit To Credit?",
+    "submitToCredit": "Are you sure you want to submit to credit?",
     "longitude": "Longitude",
     "latitude": "Latitude",
     "capturedLat": "Captured Latitude",
@@ -1355,6 +1356,7 @@
     "proposalNo": "Proposal No",
     "applicationNo": "Application No",
     "scheme": "Scheme",
+    "vehScheme": "Scheme / Promotion",
     "manufacturer": "Manufacturer",
     "paymentDetails": "Payment Details",
     "paymentTo": "Payment To",
@@ -1745,9 +1747,9 @@
     "regMonthAndYear": "Month & Year of Registration",
     "classOfVehicle": "Class of vehicle",
     "makeName": "Make Name",
-    "monthOfYearOfManf": "Month & Year of Manufacture",
+    "monthOfYearOfManf": "Month & Year of Manufacturing",
     "makersClassfication": "Makers Classification (Eg:petrol)",
-    "unladenWeight": "Unladen Weight(in KGs or TONs)",
+    "unladenWeight": "Unladen Weight(in KGs)",
     "hypothecation": "Hypothecation if any",
     "permitAndTaxDetails": "Permit and Tax Details",
     "fitnessValidity": "Fitness Validity",
@@ -1811,7 +1813,10 @@
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
+    "goToDashboard":"Go To Dashboard",
+    "submitValuation":"Are you sure you want to submit task?",
     "wizardId" : "Wizard ID",
+    "vehScheme": "Scheme/promotion",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2121,6 +2126,13 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
+        "applicantAdhaarNumber": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        
         "turnOver": {
             "maxLength": {
                 "rule": 10
@@ -2363,9 +2375,9 @@
         },
         "invoiceNumber": {
             "maxLength": {
-                "rule": 3
+                "rule": 20
             },
-            "type": "number"
+            "type": "alpha-numeric"
         },
         "monthOfManuf": {
             "maxLength": {
