@@ -24,9 +24,9 @@
                 <td>{{ labels?.model }}</td>
                 <td>{{ labels?.address }}</td>
                 <td>{{ labels?.valuationStatus }}</td>
-                <!-- <td>{{ labels?.initiatedOn }}</td> -->
+                <td>{{ labels?.initiatedOn }}</td>
                 <td>{{ labels?.valuatorStatus }}</td>
-                <!-- <td>{{ labels?.requestId }}</td> -->
+                <td>{{ labels?.requestId }}</td>
                 <td>{{ labels?.valuationReport }}</td>
               </tr>
             </thead>
@@ -37,13 +37,14 @@
                 <td>{{ data.model }}</td>
                 <td>{{ data.address }}</td>
                 <td>{{ data.valuationStatus }}</td>
-                <!-- <td>---</td> -->
+                <td>{{ data.initiatedOn ? data.initiatedOn:"-" }}</td>
 
                 <td>
                   <span *ngIf="data.valuatorStatus == 1"> Online </span>
                   <span *ngIf="data.valuatorStatus == 0"> Offline </span>
                 </td>
-                <!-- <td>---</td> -->
+                <!-- <td>{{ data.requestId }}</td> -->
+                <td>{{ data.requestId ? data.requestId:"-" }}</td>
                 <td>
                   <u>
                     <a

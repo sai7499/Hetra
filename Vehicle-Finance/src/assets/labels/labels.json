@@ -2125,6 +2125,13 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
+        "applicantAdhaarNumber": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        
         "turnOver": {
             "maxLength": {
                 "rule": 10
@@ -2367,9 +2374,9 @@
         },
         "invoiceNumber": {
             "maxLength": {
-                "rule": 3
+                "rule": 20
             },
-            "type": "number"
+            "type": "alpha-numeric"
         },
         "monthOfManuf": {
             "maxLength": {

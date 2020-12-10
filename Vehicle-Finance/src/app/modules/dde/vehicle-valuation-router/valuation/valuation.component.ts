@@ -181,6 +181,7 @@ export class ValuationComponent implements OnInit {
   OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
   OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
   dmsDocumentId: string;
+  vehiclePhotoRequired: boolean;
 
 
 
@@ -208,7 +209,7 @@ export class ValuationComponent implements OnInit {
     this.partsArray = this.fb.array([]);
     this.accessoriesArray = this.fb.array([]);
     this.isMobile = environment.isMobile;
-
+    // this.isMobile = true;
   }
 
   async ngOnInit() {
@@ -882,7 +883,9 @@ export class ValuationComponent implements OnInit {
           this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
         }
       }
-      this.setFormValue();
+      if (this.vehicleValuationDetails.valuatorRefNo) {
+        this.setFormValue();
+      }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
   }
@@ -1415,7 +1418,7 @@ export class ValuationComponent implements OnInit {
   }
 
   engineStarted(event: any) {
-    // console.log(event);
+    console.log(event);
     this.engineStartedType = event ? event : event;
     if (this.engineStartedType === '0') {
       this.vehicleMovedDisabled = true;
@@ -1426,6 +1429,7 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationForm.get('vehicleMoved').updateValueAndValidity();
       setTimeout(() => {
         this.vehicleValuationForm.get('vehicleMoved').patchValue(0);
+        console.log('vehilce moved', this.vehicleValuationForm.get('vehicleMoved').value);
 
       });
 
@@ -1434,31 +1438,39 @@ export class ValuationComponent implements OnInit {
       this.vehicleMovedRequired = true;
       setTimeout(() => {
         this.vehicleValuationForm.get('vehicleMoved').patchValue(null);
+        console.log('vehilce moved', this.vehicleValuationForm.get('vehicleMoved').value);
 
       });
       this.vehicleValuationForm.get('vehicleMoved').enable();
       this.vehicleValuationForm.get('vehicleMoved').setValidators(Validators.required);
       this.vehicleValuationForm.get('vehicleMoved').updateValueAndValidity();
+      // console.log('vehilce moved', this.vehicleValuationForm.get('vehicleMoved').value);
     }
 
   }
 
-  saveUpdateVehicleValuation() {
-    // this.validatingBeforeRegDate('taxDate');
-    // this.validatingBeforeRegDate('permitDate');
-    // this.validatingBeforeRegDate('fitnessDate');
-    // this.validatingBeforeRegDate('insuranceDate');
+  onFormSubmit() {
+    this.isDirty = true;
     this.validateFitnessDate();
     this.validateInsuranceDate();
     this.validatePermitDate();
     this.validateTaxDate();
     this.validateDateOfReg();
     this.insuranceValidUptoCheck();
-    console.log("latitude::", this.latitude);
-    console.log("longitude::", this.longitude);
-    console.log("SELFIE_IMAGE::", this.SELFIE_IMAGE);
+    console.log('latitude::', this.latitude);
+    console.log('longitude::', this.longitude);
+    console.log('SELFIE_IMAGE::', this.SELFIE_IMAGE);
+    console.log('is mobile', this.isMobile);
+    // this.SELFIE_IMAGE = 'jkhkhkj';
 
-    if (this.isMobile && this.SELFIE_IMAGE && !this.isOnline) {
+    console.log('length of image', this.SELFIE_IMAGE.length);
+    if (this.SELFIE_IMAGE.length == 0) {
+      this.vehiclePhotoRequired = true;
+    } else {
+      this.vehiclePhotoRequired = false;
+    }
+
+    if (this.isMobile && this.vehiclePhotoRequired) {
       this.toasterService.showError('Vehicle photo is required', '');
       return;
     }
@@ -1478,8 +1490,13 @@ export class ValuationComponent implements OnInit {
     formValue.valuationInitiatedDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationInitiatedDate, 'DD/MM/YYYY');
     formValue.fcExpiryDate = this.utilityService.convertDateTimeTOUTC(formValue.fcExpiryDate, 'DD/MM/YYYY');
     formValue.valuationInitiationDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationInitiationDate, 'DD/MM/YYYY');
-    // console.log('after converting date to utc', formValue);
+    console.log('after converting date to utc', formValue);
 
+    if (this.vehicleValuationForm.invalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      console.log('valuation form', this.vehicleValuationForm);
+      return;
+    }
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
@@ -1488,59 +1505,38 @@ export class ValuationComponent implements OnInit {
       longitude: this.longitude || '',
       vehicleImage: this.SELFIE_IMAGE,
       ...formValue,
-      // valuationDate: this.utilityService.convertDateTimeTOUTC(formValues.valuationDate, 'DD/MM/YYYY'),
-      // idvValidityDate: this.utilityService.convertDateTimeTOUTC(formValues.idvValidityDate, 'DD/MM/YYYY'),
-      // yearOfManufacturer: this.utilityService.convertDateTimeTOUTC(formValues.yearOfManufacturer, 'DD/MM/YYYY'),
-      // dateofReg: this.utilityService.convertDateTimeTOUTC(formValues.dateofReg, 'DD/MM/YYYY'),
 
     };
+    // this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
+    //   const response = res;
+    //   // console.log('VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API', response);
+    //   if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
+    //     this.toasterService.showSuccess('Record Saved Successfully', '');
+    //     this.getVehicleValuation();
+    //   } else {
+    //     this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
+    //   }
+    // });
+    this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
+      console.log('save or update valuation Response', res);
+      const message = res.ProcessVariables.error.message;
+      if (res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.getVehicleValuation();
 
-    if (this.vehicleValuationForm.invalid) {
-      this.toasterService.showWarning('please enter required details', '');
-      console.log('valuation form', this.vehicleValuationForm);
-      return;
-      // } else if (this.invalidPemitDate) {
-      //   this.toasterService.showWarning('Permit Validity Date should be greater than Registration Date', '');
-      // } else if (this.invalidFitnessDate) {
-      //   this.toasterService.showWarning('Fitness Validity Date should be greater than Registration Date', '');
-      // } else if (this.invalidTaxDate) {
-      //   this.toasterService.showWarning('Tax Validity Date should be greater than Registration Date', '');
-    }
+      } else {
+        console.log('error', res.ProcessVariables.error.message);
+        this.toasterService.showError(message, '');
 
-    if ((this.vehicleValuationForm.valid === true) && (!this.invalidFitnessDate) && (!this.invalidPemitDate) &&
-      (!this.invalidTaxDate) && (!this.invalidTaxPaid) && (!this.invalidInsDate) && (!this.invalidInsuranceValidity)) {
-      this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
-        const response = res;
-        // console.log('VEHICLE_VALUATION_RESPONSE_SAVE_OR_UPDATE_API', response);
-        if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
-          this.toasterService.showSuccess('Record Saved Successfully', '');
-          this.getVehicleValuation();
-        } else {
-          this.toasterService.showError(response['ProcessVariables'].error['message'], 'Valuation');
-        }
-      });
-    } else if (this.vehicleValuationForm.valid !== true) {
-      this.toasterService.showError('Please fill all mandatory fields', '');
-      console.log('valuation form', this.vehicleValuationForm);
-      return;
-    }
-    // } else if (this.invalidPemitDate) {
-    //   this.toasterService.showWarning('Permit Validity Date should be greater than Registration Date', '');
-    //   return;
-    // } else if (this.invalidFitnessDate) {
-    //   this.toasterService.showWarning('Fitness Validity Date should be greater than Registration Date', '');
-    //   return;
-    // } else if (this.invalidTaxDate) {
-    //   this.toasterService.showWarning('Tax Validity Date should be greater than Registration Date', '');
-    //   return;
-    // }
+      }
+    });
   }
 
-  onFormSubmit() {
-    this.isDirty = true;
-    // this.vehicleValuationForm.removeControl('valuatorType');
-    this.saveUpdateVehicleValuation();
-  }
+  // onFormSubmit() {
+
+  //   // this.vehicleValuationForm.removeControl('valuatorType');
+  //   this.saveUpdateVehicleValuation();
+  // }
   submitValuationTask() {
     if (this.vehicleValuationForm.invalid) {
       this.toasterService.showWarning('please enter required details', '');
@@ -1552,16 +1548,15 @@ export class ValuationComponent implements OnInit {
       isSubmitVal: true,
       collateralId: this.colleteralId
     };
-    this.vehicleValuationService.sumbitValuationTask(data).subscribe((value: any) => {
-      // const processVariables = value.ProcessVariables;
-      const response = value;
-      if (response["Error"] == 0 && response['ProcessVariables'].error['code'] == "0") {
+    this.vehicleValuationService.sumbitValuationTask(data).subscribe((res: any) => {
+      console.log('submit valuation Response', res);
+      if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Submitted Successfully', '');
         this.router.navigate([`/pages/dashboard`]);
-        // this.getVehicleValuation();
-        this.onBack();
       } else {
-        this.toasterService.showError(response['ProcessVariables'].error['message'], '');
+        console.log('error', res.ProcessVariables.error.message);
+        this.toasterService.showError('ivalid save', 'message');
+
       }
     });
   }

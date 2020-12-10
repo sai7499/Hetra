@@ -84,6 +84,7 @@ export class InsuranceDetailsComponent implements OnInit {
   rtoCenterName: any;
   isRtoCenter = true;
   isNomineeInvalid = false;
+  isGetApi: boolean;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -352,13 +353,13 @@ export class InsuranceDetailsComponent implements OnInit {
     const pincodeValue = pincode.value;
     if (pincodeValue.length === 6) {
       const pincodeNumber = Number(pincodeValue);
-      this.getPincodeResult(pincodeNumber, event);
+      this.getPincodeResult(pincodeNumber, event, false);
       console.log('in get pincode', pincodeNumber);
     } else {
       this.invalidPincode = false;
     }
   }
-  getPincodeResult(pincodeNumber: number, event: string) {
+  getPincodeResult(pincodeNumber: number, event: string, isGetApi: boolean) {
     console.log('event change', event);
 
     this.invalidPincode = false;
@@ -373,52 +374,102 @@ export class InsuranceDetailsComponent implements OnInit {
         console.log('res', value);
         // tslint:disable-next-line: no-string-literal
         if (value['ProcessVariables'].error.code === '0') {
-          console.log('in valid pincode', value.ProcessVariables.error);
+          console.log('in valid pincode', value.ProcessVariables);
           // tslint:disable-next-line: no-string-literal
           this.invalidPincode = false;
+          if (event === 'nominee') {
           const values = value.ProcessVariables.GeoMasterView;
-          const state = {
+          const state = [];
+          const stateArray = {
             key: Number(values[0].stateId),
             value: values[0].stateName
           };
-          this.state.push(state);
-          const district = {
+          state.push(stateArray);
+          const district = [];
+          const districtArray = {
             key: Number(values[0].districtId),
             value: values[0].districtName
           };
-          this.district.push(district);
-          const country = {
+          district.push(districtArray);
+          const country = [];
+          const countryArray = {
             key: Number(values[0].countryId),
             value: values[0].country
           };
-          this.country.push(country);
+          country.push(countryArray);
+          const city = [];
           values.map((element) => {
-            const city = {
+            const cityArray = {
               key: Number(element.cityId),
               value: element.cityName
             };
-            this.city.push(city);
-            // console.log('in geo', city);
-            if (event === 'nominee') {
-              this.nomineeCity = [];
-              this.nomineeState = [];
-              this.nomineeDistrict = [];
-              this.nomineeCountry = [];
-              this.nomineeCity = this.city;
-              this.nomineeState = this.state;
-              this.nomineeDistrict = this.district;
-              this.nomineeCountry = this.country;
+            city.push(cityArray);
+          });
+          console.log('in geo nominee', city, state, district, country);
+
+          this.nomineeCity = [];
+          this.nomineeState = [];
+          this.nomineeDistrict = [];
+          this.nomineeCountry = [];
+          this.nomineeCity = city;
+          this.nomineeState = state;
+          this.nomineeDistrict = district;
+          this.nomineeCountry = country;
+          if ( isGetApi === true && city != null) {
+            this.f.patchValue({
+              nomineeState: this.processVariables.nomineeState,
+              nomineeCity: this.processVariables.nomineeCity,
+              nomineeCountry: this.processVariables.nomineeCountry,
+              nomineeDistrict: this.processVariables.nomineeDistrict,
+            });
+          }
             } else if (event === 'guardian') {
+              const values = value.ProcessVariables.GeoMasterView;
+              const state = [];
+              const stateArray = {
+            key: Number(values[0].stateId),
+            value: values[0].stateName
+          };
+              state.push(stateArray);
+              const district = [];
+              const districtArray = {
+            key: Number(values[0].districtId),
+            value: values[0].districtName
+          };
+              district.push(districtArray);
+              const country = [];
+              const countryArray = {
+            key: Number(values[0].countryId),
+            value: values[0].country
+          };
+              country.push(countryArray);
+              const city = [];
+              values.map((element) => {
+            const cityArray = {
+              key: Number(element.cityId),
+              value: element.cityName
+            };
+            city.push(cityArray);
+          });
+              console.log('in geo guardian', city, state, district, country);
               this.gaurdianCity = [];
               this.gaurdianState = [];
               this.gaurdianDistrict = [];
               this.gaurdianCountry = [];
-              this.gaurdianCity = this.city;
-              this.gaurdianState = this.state;
-              this.gaurdianDistrict = this.district;
-              this.gaurdianCountry = this.country;
+              this.gaurdianCity = city;
+              this.gaurdianState = state;
+              this.gaurdianDistrict = district;
+              this.gaurdianCountry = country;
+              if (isGetApi === true) {
+                this.f.patchValue({
+                  guardianCity: this.processVariables.guardianCity,
+                  guardianCountry: this.processVariables.guardianCountry,
+                  guardianState: this.processVariables.guardianState,
+                  guardianDistrict: this.processVariables.guardianDistrict,
+                });
+              }
             }
-          });
+
           // tslint:disable-next-line: no-string-literal
         } else if (value['ProcessVariables'].error.code === '1') {
           if (value.ProcessVariables.error.message && value.ProcessVariables.error.message != null) {
@@ -684,32 +735,33 @@ export class InsuranceDetailsComponent implements OnInit {
 
           }
           this.selectApplicant(this.processVariables.nameOfCreditShieldPolicy);
-          if (this.processVariables.guardianPincode != null || this.processVariables.guardianPincode != undefined) {
-            this.getPincodeResult(this.processVariables.guardianPincode, 'guardian');
+          if (this.processVariables.nomineePincode != null && this.processVariables.nomineePincode != undefined) {
+            this.getPincodeResult(this.processVariables.nomineePincode, 'nominee', true);
           }
-          if (this.processVariables.nomineePincode != null || this.processVariables.nomineePincode != undefined) {
-            this.getPincodeResult(this.processVariables.nomineePincode, 'nominee');
+          if (this.processVariables.guardianPincode != null && this.processVariables.guardianPincode != undefined) {
+            this.getPincodeResult(this.processVariables.guardianPincode, 'guardian', true);
           }
+
           this.checkOnCredit(this.returnYesOrNo(this.processVariables.creditShieldRequired));
           this.checkOnMotor(this.returnYesOrNo(this.processVariables.motorInsuranceRequired));
           // this.getPincode(this.processVariables.nomineePincode, 'nominee');
+
           this.f.patchValue({
             nameOfCreditShieldPolicy: this.processVariables.nameOfCreditShieldPolicy,
             creditShieldRequired: this.returnYesOrNo(this.processVariables.creditShieldRequired),
             guardianAddLine1: this.processVariables.guardianAddLine1,
             guardianAddLine2: this.processVariables.guardianAddLine2,
             guardianAddLine3: this.processVariables.guardianAddLine3,
-            guardianCity: this.processVariables.guardianCity,
-            guardianCountry: this.processVariables.guardianCountry,
+
             guardianDOB: this.utilityService.getDateFromString(this.processVariables.guardianDOB),
-            guardianDistrict: this.processVariables.guardianDistrict,
+
             guardianFirstName: this.processVariables.guardianFirstName,
             guardianFullName: this.processVariables.guardianFullName,
             guardianLastName: this.processVariables.guardianLastName,
             guardianMiddleName: this.processVariables.guardianMiddleName,
             guardianPincode: this.processVariables.guardianPincode,
             guardianRelationWithApp: this.processVariables.guardianRelationWithApp,
-            guardianState: this.processVariables.guardianState,
+
             guardianMobileNumber: this.processVariables.guardianMobileNumber,
             nomineeMobileNumber: this.processVariables.nomineeMobileNumber,
             motorInsuranceRequired: this.returnYesOrNo(this.processVariables.motorInsuranceRequired),
@@ -717,17 +769,16 @@ export class InsuranceDetailsComponent implements OnInit {
             nomineeAddLine2: this.processVariables.nomineeAddLine2,
             nomineeAddLine3: this.processVariables.nomineeAddLine3,
             nomineeAge: this.processVariables.nomineeAge,
-            nomineeCity: this.processVariables.nomineeCity,
-            nomineeCountry: this.processVariables.nomineeCountry,
+
             nomineeDOB: this.utilityService.getDateFromString(this.processVariables.nomineeDOB),
-            nomineeDistrict: this.processVariables.nomineeDistrict,
+
             nomineeFirstName: this.processVariables.nomineeFirstName,
             nomineeFullName: this.processVariables.nomineeFullName,
             nomineeLastName: this.processVariables.nomineeLastName,
             nomineeMiddleName: this.processVariables.nomineeMiddleName,
             nomineePincode: this.processVariables.nomineePincode,
             nomineeRelationWithApp: this.processVariables.nomineeRelationWithApp,
-            nomineeState: this.processVariables.nomineeState,
+
             typeOfApplicant: this.processVariables.typeOfApplicant,
             usedCoverageAmount: this.processVariables.usedCoverageAmount,
             healthQuestion: this.processVariables.healthQuestion,
