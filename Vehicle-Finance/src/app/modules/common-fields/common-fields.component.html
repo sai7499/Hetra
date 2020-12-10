@@ -21,14 +21,28 @@
                 </div>
             </div> -->
 
-            <div class="multisteps-form__progress">
-                <div *ngFor="let progressbar of commonFieldJson.screenIds; let j=index">
+            <div class="multisteps-form">
+                <div>
+                    <ul class="timeline">
+                        <li  data-text="Lead Details"></li>
+                        <li  data-text="Lead Details"></li>
+                        <li  data-text="Lead Details"></li>
+                        <li  data-text="Lead Details"></li>
+                        <li  data-text="Lead Details"></li>
+                      </ul> 
+                </div>
+              <!--  <div *ngFor="let progressbar of commonFieldJson.screenIds; let j=index">
                     <button class="multisteps-form__progress-btn js-active" 
                         type="button" id="applicant_basic_details" (click)="Navigate(progressbar)">
-                        <!-- [ngClass]="{ 'js-active': locationIndex>= j}" -->
+                         [ngClass]="{ 'js-active': locationIndex>= j}" 
                         {{progressbar.name}}
-                    </button>
-                </div>
+                    </button>-->
+                    <!-- <button class="multisteps-form__progress-btn second-row" type="button" id="credit_sourcing_details"
+              [routerLink]="['./lead-details']" [ngClass]="{ 'js-active': locationIndex >= 0 }">
+              Lead Details
+            </button> 
+           
+                </div>-->
                 <!-- <button class="multisteps-form__progress-btn js-active" type="button" id="vehicle_basic_details"
                     [ngClass]="{'js-active': locationIndex >= 0}" [routerLink]="['./basic-vehicle-details']">Basic
                     Vehicle Details</button>
