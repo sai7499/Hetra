@@ -195,7 +195,7 @@ export class DdeComponent implements OnInit, OnChanges {
       return 2;
     } else if (url.includes('reference')) {
       return 3;
-    } else if (url.includes('fleet-details')) {
+    } else if (url.includes('fleet-details') || url.includes('track-vehicle')) {
       return 4;
     } else if (url.includes('exposure')) {
       return 5;
