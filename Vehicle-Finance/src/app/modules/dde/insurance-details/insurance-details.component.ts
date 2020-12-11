@@ -533,12 +533,13 @@ export class InsuranceDetailsComponent implements OnInit {
       setTimeout(() => {
         const event = this.calculateAgeInYears(this.utilityService.getDateFormat(date));
         console.log('testing date', event);
-        if (relation === 'nominee' && (event > 0 && event <= 100)) {
+        if (relation === 'nominee' && (event > 0 &&  event <= 100)) {
+          
           this.f.patchValue({
             nomineeAge: event
           });
           this.enableDisableGuardian(event);
-        } else if (relation === 'nominee' && (event < 0 || event > 100)) {
+        } else if (relation === 'nominee' && (event <= 0 || event > 100)) {
           this.isNomineeInvalid = true;
           this.f.controls.nomineeDOB.reset();
           this.f.controls.nomineeAge.reset();
@@ -556,19 +557,22 @@ export class InsuranceDetailsComponent implements OnInit {
   }
   public calculateAgeInYears(date) {
     if (date) {
-    const now = new Date();
+    let now = new Date();
+    now = this.utilityService.setTimeForDates(now)
     const toDayDate = this.utilityService.getDateFromString(
       date
     );
     // tslint:disable-next-line: variable-name
     const current_year = now.getFullYear();
     const yearDiff = current_year - toDayDate.getFullYear();
-    const birthdayThisyear = new Date(current_year, toDayDate.getMonth(), toDayDate.getDate());
-    const age = (now >= birthdayThisyear);
+    // const birthdayThisyear = new Date(toDayDate.getFullYear(), toDayDate.getMonth(), toDayDate.getDate());
+    // const age = (now >= birthdayThisyear);
+    // console.log('age', age)
 
-    return age
-      ? yearDiff
-      : yearDiff - 1;
+    // return age
+    //   ? yearDiff
+    //   : yearDiff - 1;
+    return yearDiff;
   }
   }
 
