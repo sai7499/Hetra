@@ -16,6 +16,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
+import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -35,6 +36,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   eligibleLoanAmount: any = 0;
 
   public basicVehicleForm: FormGroup;
+  dynamicForm: FormGroup;
   public vehicleLov: any = {};
   roleId: any;
   roleName: any;
@@ -96,6 +98,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isVehicleRegistrationNumber: any;
   isVehicleRegNoChange: boolean;
   searchChildLoanData: any;
+  screenUdfMapping: any;
+
+  @Input() screenId: any;
+  groupScreenId: number = 2000;
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
@@ -105,6 +111,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService,
+    private collateralDataStoreService: CollateralDataStoreService,
     private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
@@ -122,7 +129,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isCheckDedpue: true,
       isInvalidMobileNumber: true,
       isVaildFinalAssetCost: true,
-      vehicleFormArray: this._fb.array([])
+      vehicleFormArray: this._fb.array([]),
+      dynamicFormArray: this._fb.array([])
+    })
+
+    this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.screenId)
+
+    this.dynamicForm = this._fb.group({
+      screenId: this.screenId
     })
 
     this.labelsData.getLabelsData()
@@ -316,6 +330,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
     }
 
+    if (this.screenUdfMapping && this.screenUdfMapping.fields.length > 0) {
+      const dynamicformArray = (this.basicVehicleForm.get('dynamicFormArray') as FormArray);
+      dynamicformArray.clear();
+      const dynamic = formArray.at(0) as FormGroup;
+
+      let controls = this._fb.group({
+      })
+
+      this.screenUdfMapping.fields.map((control: any) => {
+        let fc = control.mandatory && control.mandatory === true ? this._fb.control('', Validators.required)
+          : this._fb.control('');
+        controls.addControl(control.name, fc)
+        dynamicformArray.push(controls)
+      })
+    }
+    console.log(this.basicVehicleForm, 'vehicle Form')
   }
 
   getDynamicFormControls(form) {

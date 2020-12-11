@@ -1,20 +1,69 @@
 {
+  "screenGroups": [
+    {
+      "groupId": 5000,
+      "groupName": "PD"
+    },
+    {
+      "groupId": 2000,
+      "groupName": "Vehicle Details"
+    }
+  ],
   "screenIds": [
     {
       "id": "2000",
-      "name": "PD-Personal Details"
+      "name": "PD-Personal Details - Maker",
+      "groupId": 5000
     },
     {
       "id": "2001",
-      "name": "PD-Income Details"
+      "groupId": 5000,
+      "name": "PD-Income Details - Maker"
     },
     {
       "id": "2002",
-      "name": "PD-Loan Details"
+      "groupId": 5000,
+      "name": "PD-Loan Details - Maker"
     },
     {
       "id": "2003",
-      "name": "PD-Reference Details"
+      "groupId": 5000,
+      "name": "PD-Reference Details - Maker"
+    },
+    {
+      "id": "2004",
+      "name": "PD-Personal Details  - Checker",
+      "groupId": 5000
+    },
+    {
+      "id": "2005",
+      "groupId": 5000,
+      "name": "PD-Income Details  - Checker"
+    },
+    {
+      "id": "2006",
+      "groupId": 5000,
+      "name": "PD-Loan Details   - Checker"
+    },
+    {
+      "id": "2007",
+      "groupId": 5000,
+      "name": "PD-Reference Details   - Checker"
+    },
+    {
+      "id": "1000",
+      "groupId": 2000,
+      "name": "Vehicle Details - QDE"
+    },
+    {
+      "id": "1001",
+      "groupId": 2000,
+      "name": "Vehicle Details - ADE"
+    },
+    {
+      "id": "1002",
+      "groupId": 2000,
+      "name": "Vehicle Details - DDE"
     }
   ],
   "udfFields": [
@@ -23,7 +72,7 @@
       "label": "First Name",
       "placeholder": "First Name",
       "mandatory": true,
-      "contorlType": "textbox/selectbox/checkbox/radio",
+      "contorlType": "textbox",
       "inputType": "alpha",
       "maxLength": {
         "rule": 30,
@@ -39,6 +88,7 @@
       "label": "Middle Name",
       "placeholder": "Middle Name",
       "mandatory": false,
+      "contorlType": "textbox",
       "inputType": "alpha",
       "maxLength": {
         "rule": 30,
@@ -50,6 +100,7 @@
       "label": "Last Name",
       "placeholder": "Last Name",
       "mandatory": true,
+      "contorlType": "textbox",
       "inputType": "alpha",
       "maxLength": {
         "rule": 30,
@@ -57,13 +108,197 @@
       }
     },
     {
-      "id": "fullName",
+      "id": "applicantName",
       "label": "Full Name",
       "placeholder": "Full Name",
-      "mandatory": true,
+      "mandatory": false,
+      "contorlType": "textbox",
       "inputType": "alpha",
       "maxLength": {
         "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "fatherFirstName",
+      "label": "Father First Name",
+      "placeholder": "Father First Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "fatherMiddleName",
+      "label": "Father Middle Name",
+      "placeholder": "Father Middle Name",
+      "mandatory": false,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "fatherLastName",
+      "label": "Father Last Name",
+      "placeholder": "Father Last Name",
+      "mandatory": false,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "fatherFullName",
+      "label": "Father Full Name",
+      "placeholder": "Father Full Name",
+      "mandatory": false,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "gender",
+      "label": "Gender",
+      "placeholder": "Gender Name",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "gender"
+    },
+    {
+      "id": "dob",
+      "label": "Date of Birth",
+      "placeholder": "Date of Birth",
+      "mandatory": true,
+      "contorlType": "date"
+    },
+    {
+      "id": "maritalStatus",
+      "label": "Marital Status",
+      "placeholder": "Marital Status",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "maritalStatus"
+    },
+    {
+      "id": "weddingAnniversaryDate",
+      "label": "Wedding Anniversary Date",
+      "placeholder": "Wedding Anniversary Date",
+      "mandatory": false,
+      "contorlType": "date"
+    },
+    {
+    },
+    {
+      "id": "physicallyChallenged",
+      "label": "Physically Challenged",
+      "placeholder": "Physically Challenged",
+      "mandatory": false,
+      "contorlType": "selectbox",
+      "values": [
+        {
+          "key": 1,
+          "value": "Yes"
+        },
+        {
+          "key": 2,
+          "value": "No"
+        }
+      ]
+    },
+    {
+      "id": "customerProfile",
+      "label": "Customer Profile",
+      "placeholder": "Customer Profile",
+      "mandatory": false,
+      "contorlType": "selectbox",
+      "values": [
+        {
+          "key": 1,
+          "value": "FTU"
+        },
+        {
+          "key": 2,
+          "value": "FTB"
+        }
+      ]
+    },
+    {
+      "id": "priorInfo",
+      "label": "Prior Info",
+      "placeholder": "Prior Info",
+      "mandatory": false,
+      "contorlType": "selectbox",
+      "values": [
+        {
+          "key": 1,
+          "value": "Driver cum owner"
+        },
+        {
+          "key": 2,
+          "value": "With Agricultural land"
+        },
+        {
+          "key": 3,
+          "value": "With house property"
+        },
+        {
+          "key": 4,
+          "value": "Without repayment track record"
+        },
+        {
+          "key": 5,
+          "value": "With proven repayment track record"
+        }
+      ]
+    },
+    {
+      "id": "exShowRoomCost",
+      "label": "Ex ShowRoom Cost",
+      "placeholder": "Ex ShowRoom Cost",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
+    },
+    {
+      "id": "region",
+      "label": "Region",
+      "placeholder": "Region",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "region"
+    },
+    {
+      "id": "noOfVehicles",
+      "label": "No Of Vehicles",
+      "placeholder": "No Of Vehicles",
+      "mandatory": false,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 3,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
         "msg": ""
       }
     }
@@ -88,23 +323,226 @@
           "disable": false
         },
         {
-          "name": "fullName",
+          "name": "applicantName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "fatherFirstName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "fatherMiddleName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "fatherLastName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "fatherFullName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "gender",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "maritalStatus",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "religion",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "category",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "physicallyChallenged",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "customerProfile",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "priorInfo",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "businessKey",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "occupationType",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "businessType",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "vehicleApplication",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "educationalBackgroundType",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "isMinority",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "community",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "srto",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "contactNo",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "alternateContactNo",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "email",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "residentStatus",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "accomodationType",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "noOfYears",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "noOfMonths",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "noOfYearsResidingInCurrResidence",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "noOfAdultDependant",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "noOfChildrenDependant",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "residentialLocality",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "houseOwnership",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "areaOfProperty",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "propertyValue",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "bankAccHolderName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "cibilScore",
           "show": true,
           "disable": false
         }
       ]
     },
-    "2001": [
-      {
-        "name": "udf1",
-        "show": true,
-        "disable": true
-      },
-      {
-        "name": "udf3",
-        "show": true,
-        "disable": false
-      }
-    ]
+    "1000": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "region",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "noOfVehicles",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "exShowRoomCost",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "1001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "region",
+          "show": true,
+          "disable": true
+        },
+        {
+          "name": "noOfVehicles",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "exShowRoomCost",
+          "show": true,
+          "disable": false
+        }
+      ]
+    }
   }
 }

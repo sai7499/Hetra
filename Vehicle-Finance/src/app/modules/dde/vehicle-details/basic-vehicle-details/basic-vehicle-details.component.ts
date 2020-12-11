@@ -26,6 +26,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public formValue: any;
   public isDirty: boolean;
   public subscription: any;
+  screenId = '1003';
 
   productCatoryCode: string;
 

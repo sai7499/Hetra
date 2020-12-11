@@ -42,7 +42,7 @@ export class CollateralDataStoreService {
 
   }
 
-   findScreenField(screenId) {
+  findScreenField(screenId) {
     this.getCommonFieldJson();
     return this.returnUdfFields(screenId, this.commonFieldJson)
   }
@@ -52,24 +52,29 @@ export class CollateralDataStoreService {
     let findFieldArray = [];
 
     if (json) {
-      let patchFieldDetails: any = [];
-      let fieldData = json.screenUdfMapping[id]
 
-      findFieldArray = fieldData.fields.filter((field) => {
-        json.udfFields.filter((res) => {
-          if (res.id === field.name) {
-            patchFieldDetails.push(Object.assign(res, field));
-            return res
-          }
-        })
-        console.log('patchFieldDetails', patchFieldDetails)
-
-        // const returnedTarget = Object.assign(patchFieldDetails, field);
-        return patchFieldDetails;
+      let groupId = json.screenIds.find((group) => {
+        return group.groupId
       })
-      console.log(patchFieldDetails, 'findFieldArray', findFieldArray)
+
+      let patchFieldDetails: any = [];
+      let fieldData = json.screenUdfMapping[id];
+
+      if (fieldData.fields && fieldData.fields.length > 0) {
+        findFieldArray =  fieldData.fields.filter((field) => {
+          json.udfFields.filter((res) => {
+            if (res.id === field.name) {
+              patchFieldDetails.push(Object.assign(res, field));
+              return res
+            }
+          })
+          return patchFieldDetails;
+        })
+      }
+
       let udfFields = {
         layout: fieldData.layout,
+        groupId: groupId,
         fields: patchFieldDetails
       }
       return udfFields
