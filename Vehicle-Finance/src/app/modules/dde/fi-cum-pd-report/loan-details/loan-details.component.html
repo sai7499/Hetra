@@ -5,7 +5,7 @@
 >
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
     <h3
-      class="title"
+      class="banner-con"
       *ngIf="productCatCode === 'NC' || productCatCode === 'NCV'"
     >
       {{ labels.loanDetailsForNewVehicle }}
@@ -120,7 +120,7 @@
       </div>
     </div>
     <h3
-      class="title"
+      class="banner-con"
       *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'"
     >
       {{ labels.loanDetailsUsedVehicleTitle }}
@@ -632,7 +632,7 @@
                         </div> -->
     </div>
     <h3
-      class="title"
+      class="banner-con"
       *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'"
     >
       {{ labels.assetDetailsForUsedVehicleTitle }}
@@ -1123,7 +1123,7 @@
 
         <div class="col-sm-8 text-right">
           <button
-            class="btn btn-primary"
+            class="btn btn-primary hvr-sweep-to-left"
             type="button"
             (click)="onNavigateBack()"
           >
@@ -1137,7 +1137,7 @@
             {{ labels.save }}
           </button>
           <button
-            class="btn btn-primary"
+            class="btn btn-primary hvr-sweep-to-right"
             type="button"
             (click)="onFormSubmit('next')"
           >
