@@ -13,6 +13,7 @@ import { LoanCreationService } from '@services/loan-creation.service';
 import { LeadStoreService } from '@modules/sales/services/lead.store.service';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-pdc-details',
@@ -43,6 +44,7 @@ export class PdcDetailsComponent implements OnInit {
   showPdcButton = false;
   showspdcButton: boolean;
   negotiatedEmi: any;
+  taskId: any;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -57,7 +59,8 @@ export class PdcDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private lovService: CommomLovService,
     private loanCreationService: LoanCreationService,
-    private leadDataService: CreateLeadDataService
+    private leadDataService: CreateLeadDataService,
+    private sharedService: SharedService
   ) {
     this.pdcArray = this.fb.array([]);
     this.spdcArray = this.fb.array([]);
@@ -76,6 +79,8 @@ export class PdcDetailsComponent implements OnInit {
       );
     }
     console.log(this.toDayDate, ' lead Data onit');
+
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -196,6 +201,7 @@ export class PdcDetailsComponent implements OnInit {
         isCPCMaker: false,
         isCPCChecker: true,
         sendBackToCredit: false,
+        taskId: this.taskId,
       };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -214,6 +220,7 @@ export class PdcDetailsComponent implements OnInit {
         isCPCMaker: false,
         isCPCChecker: false,
         sendBackToCredit: false,
+        taskId: this.taskId,
       };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -237,6 +244,7 @@ export class PdcDetailsComponent implements OnInit {
       isCPCMaker: false,
       isCPCChecker: false,
       sendBackToCredit: true,
+      taskId: this.taskId,
     };
     // tslint:disable-next-line: deprecation
     this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
