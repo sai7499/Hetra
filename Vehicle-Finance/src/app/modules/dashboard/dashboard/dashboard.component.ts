@@ -214,8 +214,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectOne = false;
   selectAll = false;
   selectedArray = [];
-  sortAsc = true;
-  sortDesc = false;
+  sortAsc = false;
+  sortDesc = true;
   checkedOne: any;
   checkedAll: any;
   sortByLoanAccNo = false;
@@ -881,8 +881,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.sortByDisburDate = false;
       this.sortByExpectedDate = false;
       this.sortByName = false;
-      this.sortAsc = true;
-      this.sortDesc = false;
+      this.sortAsc = false;
+      this.sortDesc = true;
       this.onTabsLoading(this.subActiveTab);
     }
 
@@ -939,8 +939,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.sortByDisburDate = false;
       this.sortByExpectedDate = false;
       this.sortByName = false;
-      this.sortAsc = true;
-      this.sortDesc = false;
+      this.sortAsc = false;
+      this.sortDesc = true;
       this.onTabsLoading(this.subActiveTab);
     }
   }
@@ -1653,6 +1653,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
+    console.log(item.taskId);
+    
     this.sharedService.setProductCatCode(item.productCatCode);
     this.sharedService.setProductCatName(item.productCatName);
     this.sharedService.getDeclinedFlow(this.declinedFlow);
