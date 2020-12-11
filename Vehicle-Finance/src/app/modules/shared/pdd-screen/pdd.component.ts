@@ -16,6 +16,7 @@ import { LabelsService } from "@services/labels.service";
 import { ObjectComparisonService } from '@services/obj-compare.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '../shared-service/shared-service';
 
 @Component({
     templateUrl: './pdd.component.html',
@@ -62,6 +63,7 @@ export class PddComponent implements OnInit {
     isShowError: boolean = false;
     rtoAgentsList = [];
     isLoan360: boolean;
+    taskId: any;
 
     constructor(
         private location: Location,
@@ -76,7 +78,8 @@ export class PddComponent implements OnInit {
         private labelsData: LabelsService,
         private router: Router,
         private objectComparisonService: ObjectComparisonService,
-        private loanViewService: LoanViewService) {
+        private loanViewService: LoanViewService,
+        private sharedService: SharedService) {
 
             this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
 
@@ -86,6 +89,7 @@ export class PddComponent implements OnInit {
         // this.toDayDate = new Date(year, month, day, 0, 0)
     }
     ngOnInit() {
+        this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
         this.isLoan360 = this.loanViewService.checkIsLoan360();
         this.getLabels();
         this.vehicleRegPattern = this.validateCustomPattern();
@@ -763,7 +767,8 @@ export class PddComponent implements OnInit {
         const data = {
             leadId: this.leadId,
             userId: localStorage.getItem('userId'),
-            isSubmit: true
+            isSubmit: true,
+            taskId: this.taskId,
         };
         if (this.isSales) {
             data.isSubmit = false;
