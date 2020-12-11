@@ -1506,13 +1506,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         myLeads: true,
         reassignDetails: this.selectedArray,
         loginId: this.selfAssignLoginId,
-        fromId: this.supervisorUserId ? this.supervisorUserId : ''
+        fromId: this.supervisorUserId ? this.supervisorUserId : '',
+        taskName: this.taskName ? this.taskName : ''
       };
     } else {
       this.dataToReassign = {
         reassignDetails: this.selectedArray,
         loginId: this.selfAssignLoginId,
-        fromId: this.supervisorUserId ? this.supervisorUserId : ''
+        fromId: this.supervisorUserId ? this.supervisorUserId : '',
+        taskName: this.taskName ? this.taskName : ''
       };
     }
     console.log(this.dataToReassign);
@@ -1577,19 +1579,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   supervisorReAssign() {
-
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
         reassignDetails: this.selectedArray,
         loginId: this.supervisorForm.value.roles,
-        fromId: this.supervisorUserId ? this.supervisorUserId : ''
+        fromId: this.supervisorUserId ? this.supervisorUserId : '',
+        taskName: this.taskName ? this.taskName : ''
       };
     } else {
       this.dataToReassign = {
         reassignDetails: this.selectedArray,
         loginId: this.supervisorForm.value.roles,
-        fromId: this.supervisorUserId ? this.supervisorUserId : ''
+        fromId: this.supervisorUserId ? this.supervisorUserId : '',
+        taskName: this.taskName ? this.taskName : ''
       };
     }
     this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
@@ -1623,7 +1626,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       leadId: (this.leadId) ? parseInt(this.leadId) : null,
       isClaim: this.isClaim,
       isRelease: this.isRelease,
-      taskName: this.taskName
+      taskName: this.taskName ? this.taskName : ''
     };
     console.log(data);
     this.taskDashboard.saveTaskLogs(data).subscribe((res: any) => {
