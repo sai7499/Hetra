@@ -502,7 +502,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     }
 
     this.isLeadShow = (value === '') ? false : true;
-    if (value.length >= 3) {
+    if (value.length >= 1) {
       this.getSearchableLead = this.queryLeads.filter(e => {
         value = value.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
@@ -531,7 +531,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       this.queryToDeductValue = true;
     }
 
-    if (enteredValue.length >= 3) {
+    if (enteredValue.length >= 1) {
       this.searchLead = this.queryModelLov.queryTo.filter(e => {
         enteredValue = enteredValue.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
