@@ -85,7 +85,9 @@ export class LeadDedupeComponent implements OnInit {
     }
     this.dedupeArray = dedupeData.leadDedupeResults;
     this.leadId = dedupeData.leadDedupeResults[0].leadID;
-    this.product = dedupeData.loanLeadDetails.product;
+    if(dedupeData.loanLeadDetails){
+      this.product = dedupeData.loanLeadDetails.product;
+    }
     console.log('dedupeData', dedupeData.leadDedupeResults);
   }
 
