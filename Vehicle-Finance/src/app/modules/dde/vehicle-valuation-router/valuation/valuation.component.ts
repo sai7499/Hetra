@@ -17,6 +17,7 @@ import { UploadService } from '@services/upload.service';
 import { GpsService } from '@services/gps.service';
 import { Constant } from '../../../../../assets/constants/constant';
 import { environment } from 'src/environments/environment';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 
 @Component({
@@ -177,6 +178,7 @@ export class ValuationComponent implements OnInit {
   OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
   dmsDocumentId: string;
   vehiclePhotoRequired: boolean;
+  taskId: any;
 
 
 
@@ -199,7 +201,8 @@ export class ValuationComponent implements OnInit {
     private loanViewService: LoanViewService,
     private uploadService: UploadService,
     private gpsService: GpsService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private sharedService: SharedService) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
     this.accessoriesArray = this.fb.array([]);
@@ -212,6 +215,8 @@ export class ValuationComponent implements OnInit {
     if (this.isMobile) {
       this.checkGpsEnabled();
     }
+
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
@@ -1538,7 +1543,8 @@ export class ValuationComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId,
       isSubmitVal: true,
-      collateralId: this.colleteralId
+      collateralId: this.colleteralId,
+      taskId: this.taskId
     };
     this.vehicleValuationService.sumbitValuationTask(data).subscribe((res: any) => {
       console.log('submit valuation Response', res);

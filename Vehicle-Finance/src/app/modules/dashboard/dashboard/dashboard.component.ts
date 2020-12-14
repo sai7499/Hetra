@@ -214,8 +214,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectOne = false;
   selectAll = false;
   selectedArray = [];
-  sortAsc = true;
-  sortDesc = false;
+  sortAsc = false;
+  sortDesc = true;
   checkedOne: any;
   checkedAll: any;
   sortByLoanAccNo = false;
@@ -881,8 +881,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.sortByDisburDate = false;
       this.sortByExpectedDate = false;
       this.sortByName = false;
-      this.sortAsc = true;
-      this.sortDesc = false;
+      this.sortAsc = false;
+      this.sortDesc = true;
       this.onTabsLoading(this.subActiveTab);
     }
 
@@ -939,8 +939,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.sortByDisburDate = false;
       this.sortByExpectedDate = false;
       this.sortByName = false;
-      this.sortAsc = true;
-      this.sortDesc = false;
+      this.sortAsc = false;
+      this.sortDesc = true;
       this.onTabsLoading(this.subActiveTab);
     }
   }
@@ -1506,13 +1506,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         myLeads: true,
         reassignDetails: this.selectedArray,
         loginId: this.selfAssignLoginId,
-        fromId: this.supervisorUserId ? this.supervisorUserId : ''
+        fromId: this.supervisorUserId ? this.supervisorUserId : '',
+        taskName: this.taskName ? this.taskName : ''
       };
     } else {
       this.dataToReassign = {
         reassignDetails: this.selectedArray,
         loginId: this.selfAssignLoginId,
-        fromId: this.supervisorUserId ? this.supervisorUserId : ''
+        fromId: this.supervisorUserId ? this.supervisorUserId : '',
+        taskName: this.taskName ? this.taskName : ''
       };
     }
     console.log(this.dataToReassign);
@@ -1577,19 +1579,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   supervisorReAssign() {
-
     if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.ExternalUser) {
       this.dataToReassign = {
         myLeads: true,
         reassignDetails: this.selectedArray,
         loginId: this.supervisorForm.value.roles,
-        fromId: this.supervisorUserId ? this.supervisorUserId : ''
+        fromId: this.supervisorUserId ? this.supervisorUserId : '',
+        taskName: this.taskName ? this.taskName : ''
       };
     } else {
       this.dataToReassign = {
         reassignDetails: this.selectedArray,
         loginId: this.supervisorForm.value.roles,
-        fromId: this.supervisorUserId ? this.supervisorUserId : ''
+        fromId: this.supervisorUserId ? this.supervisorUserId : '',
+        taskName: this.taskName ? this.taskName : ''
       };
     }
     this.supervisorService.supervisorReAssign(this.dataToReassign).subscribe((res: any) => {
@@ -1623,7 +1626,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       leadId: (this.leadId) ? parseInt(this.leadId) : null,
       isClaim: this.isClaim,
       isRelease: this.isRelease,
-      taskName: this.taskName
+      taskName: this.taskName ? this.taskName : ''
     };
     console.log(data);
     this.taskDashboard.saveTaskLogs(data).subscribe((res: any) => {
@@ -1650,6 +1653,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
+    console.log(item.taskId);
+    
     this.sharedService.setProductCatCode(item.productCatCode);
     this.sharedService.setProductCatName(item.productCatName);
     this.sharedService.getDeclinedFlow(this.declinedFlow);

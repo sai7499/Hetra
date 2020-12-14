@@ -1,10 +1,10 @@
 <main>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-6">
-        <h3>{{ labels?.vehicleValTitle }}</h3>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <h3 class="banner-con">{{ labels?.vehicleValTitle }}</h3>
       </div>
-      <div class="col-md-6 text-right"></div>
+     
     </div>
     <div class="content" id="disbursement-memo">
       <form class="multisteps-form__form" [formGroup]="vehicleValuationForm">
@@ -212,7 +212,7 @@
 
             <!-- reference details section starts here -->
 
-            <h4 class="title">{{ labels.referenceDetailsTitle }}</h4>
+            <h4 class="banner-con">{{ labels.referenceDetailsTitle }}</h4>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_name">{{
@@ -347,7 +347,7 @@
 
             <!-- inspection details starts -->
 
-            <h4 class="title">{{ labels.inspectionDetails }}</h4>
+            <h4 class="banner-con">{{ labels.inspectionDetails }}</h4>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuation_amount"
@@ -562,7 +562,7 @@
 
             <!-- vehicle identity details starts from here -->
 
-            <h4 class="title">{{ labels?.vehcileIdentityDetails }}</h4>
+            <h4 class="banner-con">{{ labels?.vehcileIdentityDetails }}</h4>
 
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -939,7 +939,7 @@
 
             <!-- vehicle registration details starts here -->
 
-            <h4 class="title">{{ labels?.registrationDetails }}</h4>
+            <h4 class="banner-con">{{ labels?.registrationDetails }}</h4>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="vechicle_number">
@@ -1525,7 +1525,7 @@
             <!-- registration details ends here -->
 
             <!-- permit and tax details starts here -->
-            <h4 class="title">{{ labels.permitAndTaxDetails }}</h4>
+            <h4 class="banner-con">{{ labels.permitAndTaxDetails }}</h4>
             <div class="row">
               <div
                 *ngIf="!disableForm"
@@ -1665,7 +1665,7 @@
 
             <!-- insurance details starts from here -->
 
-            <h4 class="title">{{ labels?.insuranceDetails }}</h4>
+            <h4 class="banner-con">{{ labels?.insuranceDetails }}</h4>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="company"
@@ -1808,7 +1808,7 @@
 
             <!-- remarks starts from here -->
 
-            <h4 class="title">{{ labels?.remark }}</h4>
+            <h4 class="banner-con">{{ labels?.remark }}</h4>
             <div class="row">
               <div
                 *ngIf="!disableForm"
@@ -2066,7 +2066,7 @@
 
             <!-- recent 3 valuations starts here -->
 
-            <h4 class="title" hidden="true">
+            <h4 class="banner-con" hidden="true">
               {{ labels?.recentLast3Valuations }}
             </h4>
             <div class="row" hidden="true">
@@ -2139,7 +2139,7 @@
                 id="applicantTable"
                 class="table-responsive table-borderless application col-lg-6 col-md-6"
               >
-                <h4 class="title">{{ labels?.assetCondition }}</h4>
+                <h4 class="banner-con">{{ labels?.assetCondition }}</h4>
                 <table class="table asset">
                   <thead>
                     <tr class="table-head-bg text-center">
@@ -2205,7 +2205,7 @@
                 id="applicantTable"
                 class="table-responsive table-borderless application col-lg-6 col-md-6"
               >
-                <h4 class="title">{{ labels?.accessoriesFound }}</h4>
+                <h4 class="banner-con">{{ labels?.accessoriesFound }}</h4>
                 <table class="table part">
                   <thead>
                     <tr class="table-head-bg text-center">
@@ -2311,7 +2311,7 @@
 
             <!-- recommendation section starts from here -->
 
-            <h4 class="title">{{ labels?.recommendation }}</h4>
+            <h4 class="banner-con">{{ labels?.recommendation }}</h4>
 
             <div class="row">
               <div
@@ -2467,7 +2467,7 @@
                 </div>
               </div>
             </div>
-            <h4 class="title">Vehicle Photo</h4>
+            <h4 class="banner-con">Vehicle Photo</h4>
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="sourceOf_margin_money"
@@ -2529,6 +2529,8 @@
                 >
                 </app-custom-input>
               </div>
+              <!-- </div> -->
+              
             </div>
 
             &nbsp;
