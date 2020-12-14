@@ -34,7 +34,7 @@ export class CollateralDataStoreService {
     return new Promise((resolve, reject) => {
       this.labelsData.getCommonFieldDate().subscribe((commonField: any) => {
         this.commonFieldJson = commonField;
-        resolve()
+        resolve(true)
       }, error => {
         reject()
       })

@@ -25,6 +25,8 @@ export class AddvehicleComponent implements OnInit {
   isDirty: boolean;
   routerId = 0;
   screenId = '1001';
+  groupScreenId: number = 2000;
+  udfDetails: any = [];
 
   // process variable for save/update vehicle collaterals
   userId: number;

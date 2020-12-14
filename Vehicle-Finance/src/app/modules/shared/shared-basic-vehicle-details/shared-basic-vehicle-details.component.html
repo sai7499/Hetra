@@ -2583,32 +2583,8 @@
 
 </form>
 
-<!-- <form class="multisteps-form__form p-0" [formGroup]="dynamicForm" *ngIf="label?.validationData">
-    <div class="row" *ngIf="screenUdfMapping">
-
-        <div class="form-group col-sm-6 col-md-4 col-lg-{{screenUdfMapping.layout}}"
-            *ngFor="let arrayItem of screenUdfMapping.fields; let i=index">
-
-            <label class="array-item-title">{{arrayItem.label}} <sub class="star_red_col"
-                    *ngIf="arrayItem.mandatory">*</sub> </label>
-
-            <app-custom-input *ngIf="arrayItem.contorlType === 'textbox'" [formControlName]="arrayItem.name"
-                [type]="arrayItem.inputType" [className]="'form-control'" [placeholder]="arrayItem.placeholder"
-                [patternCheck]="arrayItem.pattenCheck" [maxLength]="arrayItem.maxLength"
-                [minLength]="arrayItem.minLength" [isDisabled]="arrayItem.disable"
-                [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + ' is Required' : ''" [isDirty]="isDirty">
-            </app-custom-input>
-
-            <app-vf-custom-select *ngIf="arrayItem.contorlType === 'selectbox'" [values]="(LOV?.LOVS)[arrayItem.values]"
-                [formControlName]="arrayItem.name" [isRequired]="arrayItem.mandatory ? 'Please select one' : ''"
-                [isDirty]="isDirty">
-            </app-vf-custom-select>
-
-        </div>
-    </div>
-
-</form> -->
-
+<app-shared-user-defined-fields [screenId]="screenId" [groupScreenId]="groupScreenId" [udfDetails]="udfDetails"
+    (saveUserdefined)="onSaveApiDetails($event)"></app-shared-user-defined-fields>
 <!-- Check Depude Model -->
 
 <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': isShowParentLoan }">

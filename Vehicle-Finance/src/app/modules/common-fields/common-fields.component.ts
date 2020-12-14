@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
@@ -15,6 +15,9 @@ export class CommonFieldsComponent implements OnInit {
   commonFieldJson: any;
   locationIndex: any;
   arrayItems: any = [];
+
+  @Input() screenId: any;
+  @Input() groupId: any;
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private location: Location, private commonLovService: CommomLovService) { }
 

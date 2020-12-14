@@ -45,6 +45,7 @@ import { WelomceLetterComponent } from '@modules/dde/cpc-maker/welomce-letter/we
 import { InAppcameraComponent } from './in-appcamera/in-appcamera.component';
 
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { SharedUserDefinedFieldsComponent } from './shared-user-defined-fields/shared-user-defined-fields.component';
 
 setTheme('bs4');
 
@@ -77,7 +78,8 @@ setTheme('bs4');
     PddComponent,
     UploadDiscussionComponent,
     WelomceLetterComponent,
-    InAppcameraComponent
+    InAppcameraComponent,
+    SharedUserDefinedFieldsComponent
   ],
   imports: [
     CommonModule,

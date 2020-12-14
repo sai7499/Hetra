@@ -102,6 +102,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   @Input() screenId: any;
   groupScreenId: number = 2000;
+  udfDetails: any = [];
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
@@ -129,8 +130,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isCheckDedpue: true,
       isInvalidMobileNumber: true,
       isVaildFinalAssetCost: true,
-      vehicleFormArray: this._fb.array([]),
-      dynamicFormArray: this._fb.array([])
+      vehicleFormArray: this._fb.array([])
     })
 
     this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.screenId)
@@ -213,6 +213,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       form.get('marginAmount').setValue(null)
     }
+  }
+
+  onSaveApiDetails(eveny) {
+    console.log(eveny, 'eveny')
   }
 
   validateCustomPattern() {
@@ -331,21 +335,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
 
     if (this.screenUdfMapping && this.screenUdfMapping.fields.length > 0) {
-      const dynamicformArray = (this.basicVehicleForm.get('dynamicFormArray') as FormArray);
-      dynamicformArray.clear();
-      const dynamic = formArray.at(0) as FormGroup;
+      // const dynamicformArray = (this.basicVehicleForm.get('dynamicFormArray') as FormArray);
+      // dynamicformArray.clear();
 
       let controls = this._fb.group({
       })
 
       this.screenUdfMapping.fields.map((control: any) => {
-        let fc = control.mandatory && control.mandatory === true ? this._fb.control('', Validators.required)
-          : this._fb.control('');
+        let fc = control.mandatory && control.mandatory === true ? this._fb.control('value', Validators.required)
+          : this._fb.control('valye');
         controls.addControl(control.name, fc)
-        dynamicformArray.push(controls)
       })
+      // dynamicformArray.push(controls)
     }
-    console.log(this.basicVehicleForm, 'vehicle Form')
   }
 
   getDynamicFormControls(form) {
@@ -783,7 +785,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
     const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
-    console.log(array, 'array', this.assetVariant)
     // const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     // formArray.controls[0].patchValue({
     //   vehicleId: array[0].vehicleCode ? Number(array[0].vehicleCode) : 0
