@@ -855,8 +855,8 @@ export class ExistingLeadCreationComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           console.log('resext', response);
-          const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
-          if (isDedupeAvailable) {
+          const dedupeAvailable = response.ProcessVariables.dedupeAvailable;
+          if (dedupeAvailable) {
             const leadDedupeData = response.ProcessVariables;
             this.leadStoreService.setDedupeData(leadDedupeData);
             this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
