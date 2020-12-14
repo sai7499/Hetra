@@ -821,7 +821,7 @@ export class AddressDetailsComponent implements OnInit {
       city,
       district,
       state,
-      country: address.country,
+      country: address.country || address.countryId,
       addressLineOne: address.addressLineOne,
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
@@ -855,7 +855,7 @@ export class AddressDetailsComponent implements OnInit {
       ],
       country: [
         {
-          key: data.country,
+          key: data.country || data.countryId,
           value: data.countryValue,
         },
       ],

@@ -4,7 +4,7 @@
   *ngIf="referenceCheckForm"
 >
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-    <h4 class="title">{{ labels.referenceCheckTitle }}</h4>
+    <h4 class="banner-con">{{ labels.referenceCheckTitle }}</h4>
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="person_name"
@@ -135,7 +135,7 @@
       </div>
     </div>
     <h4
-      class="title"
+      class="banner-con"
       *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'"
     >
       {{ labels.marketAndFinancierReference }}
@@ -295,7 +295,7 @@
       </div>
     </div>
     &nbsp; &nbsp;
-    <h4 class="title">{{ labels.genericDetails }}</h4>
+    <h4 class="banner-con">{{ labels.genericDetails }}</h4>
     <div class="row">
       <div class="form-group col-sm-6 col-md-4 col-lg-3">
         <label for="application_no"
@@ -586,7 +586,7 @@
       <div class="btn-sec clear-both">
         <div class="col-sm-4">
           <button
-            class="btn btn-primary"
+            class="btn btn-primary hvr-sweep-to-left"
             type="button"
             (click)="onNavigateToPdSummary()"
           >

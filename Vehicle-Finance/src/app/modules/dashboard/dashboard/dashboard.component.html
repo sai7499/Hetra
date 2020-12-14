@@ -31,6 +31,7 @@
         </div>
     </div>
 
+    <!-- Filter Form Starts -->
     <div class="filter-block container-fluid mar-bottom"
         *ngIf="showFilter && (displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab)">
         <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab">
@@ -159,8 +160,9 @@
 
         </div>
     </div>
+    <!-- Filter Form Ends -->
 
-    <!-- Sales Flow -->
+    <!-- Sales Dashboard Ends -->
     <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId != '66'">
 
         <ul class="nav nav-pills nav-justified" id="background_white">
@@ -299,8 +301,9 @@
         </ul>
 
     </div>
+    <!-- Sales Dashboard Ends -->
 
-    <!-- Credit Flow  -->
+    <!-- Credit Dashboard Starts  -->
     <div class="container-fluid mar-bottom" *ngIf="roleType == '2'">
         <ul class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="onLeads(displayTabs?.DDE, displayTabs?.DDEWithMe, 'dde')"
@@ -385,6 +388,7 @@
         </ul>
 
     </div>
+    <!-- Credit Dashboard Ends -->
 
     <!-- for CPC Maker and CPC Checker Starts-->
     <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
