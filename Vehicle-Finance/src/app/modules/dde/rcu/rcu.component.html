@@ -343,7 +343,7 @@
 <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right">
-    <button class="btn btn-primary dash_href" type="button" routerLink="../tvr-details" *ngIf="showBack == true">
+    <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" routerLink="../tvr-details" *ngIf="showBack == true">
       Back
     </button>
     <ng-container *ngIf="!isLoan360">
@@ -356,7 +356,7 @@
         Submit
       </button>
     </ng-container>
-    <button class="btn btn-primary dash_href" type="button" (click)="onNext()" *ngIf="showBack == true">
+    <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" (click)="onNext()" *ngIf="showBack == true">
       Next
     </button>
   </div>

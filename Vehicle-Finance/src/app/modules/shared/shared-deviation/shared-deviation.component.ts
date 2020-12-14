@@ -588,7 +588,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         data = {
           "leadId": this.leadId,
           "userId": this.userId,
-          "recommendation": this.modalForm.controls['recommendation'].value
+          "recommendation": this.modalForm.controls['recommendation'].value,
+          "taskId": this.taskId,
         }
 
         this.deviationService.approveDeviation(data).subscribe((res: any) => {
@@ -607,7 +608,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         data = {
           "leadId": this.leadId,
           "userId": this.userId,
-          "recommendation": this.modalForm.controls['recommendation'].value
+          "recommendation": this.modalForm.controls['recommendation'].value,
+          "taskId": this.taskId
         }
 
         this.deviationService.sendBackToCredit(data).subscribe((res: any) => {
