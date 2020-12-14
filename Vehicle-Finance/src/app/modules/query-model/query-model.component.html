@@ -14,7 +14,7 @@
                   <div class="input-group search-btn">
 
                     <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
-                      [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                      [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                       queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                     </app-custom-input>
 
@@ -135,7 +135,7 @@
                 <div class="input-group search-btn">
 
                   <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
-                    [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                    [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   </app-custom-input>
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
@@ -178,7 +178,8 @@
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseBriefOne" class="panel-collapse collapse" [ngClass]="{'show': accordion === 'collapseBriefOne'}">
+                  <div id="collapseBriefOne" class="panel-collapse collapse"
+                    [ngClass]="{'show': accordion === 'collapseBriefOne'}">
                     <div class="panel-body">
 
                       <form class="clearfix">
@@ -219,7 +220,8 @@
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseBriefTwo" class="panel-collapse collapse" [ngClass]="{'show': accordion === 'collapseBriefTwo'}">
+                  <div id="collapseBriefTwo" class="panel-collapse collapse"
+                    [ngClass]="{'show': accordion === 'collapseBriefTwo'}">
                     <div class="panel-body">
                       <form>
                         <div class="form-group col-xs-12 bloc">
@@ -509,7 +511,8 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 text-box">
                   <div class="text-box-msg col-lg-12 col-xs-12 col-md-12 col-sm-12">
                     <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span id="cus-tooltip"
-                        class="i-span input-group-addon" style="padding:0px;" (click)="chooseFile()" data-tooltip="Attachment"
+                        class="i-span input-group-addon" style="padding:0px;" (click)="chooseFile()"
+                        data-tooltip="Attachment"
                         [ngClass]="queryModalForm.controls['docName'].value ? 'cus-font-size' : ''"><i
                           class="fa fa-paperclip"></i>
                       </span>

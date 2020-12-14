@@ -168,7 +168,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     const currentUrl = this.location.path();
 
     try {
-      // await this.getLeads(this.getLeadSendObj);
+      await this.getLeads(this.getLeadSendObj);
       if (currentUrl.includes('query-model') && this.isIntervalStart) {
         this.intervalId = this.getPollLeads(this.getLeadSendObj)
       }
