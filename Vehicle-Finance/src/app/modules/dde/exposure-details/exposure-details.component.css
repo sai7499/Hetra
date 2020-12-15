@@ -10,6 +10,10 @@
     margin: 10px 0;
 }
 
+.nxt-mar-15{
+    margin-bottom:15px;
+}
+
 .multisteps-form__progress {
     margin: 15px 0 !important;
 }
