@@ -1171,3 +1171,7 @@ image-cropper .overlay {
     border: 3px solid #FFF !important;
 }
 
+.cropper .resize-bar .top,
+.cropper .resize-bar .bottom {
+    height: 60px !important;
+}
