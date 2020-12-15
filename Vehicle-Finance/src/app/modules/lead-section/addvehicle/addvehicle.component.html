@@ -1,12 +1,12 @@
 <div class="content">
     <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId">
     </app-shared-basic-vehicle-details>
-</div>
+
 
 <div class="btn-sec clear-both row" id="clickbutton">
     <div class="col-sm-5"> </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-sec btn-primary js-btn-prev" type="button" [routerLink]="['../../vehicle-list']">
+        <button class="btn btn-sec btn-primary js-btn-prev hvr-sweep-to-left" type="button" [routerLink]="['../../vehicle-list']">
             {{ label.back }}
         </button>
         
@@ -14,4 +14,5 @@
             {{ label.save }} </button>
        
     </div>
+</div>
 </div>

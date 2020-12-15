@@ -17,6 +17,7 @@ import { Location } from '@angular/common';
 import { LoginStoreService } from '@services/login-store.service';
 import { formatDate } from '@angular/common';
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 @Component({
   selector: 'app-rcu',
   templateUrl: './rcu.component.html',
@@ -76,6 +77,7 @@ export class RcuComponent implements OnInit {
   //     public format = 'MM/dd/yyyy HH:mm';
 
   isLoan360: boolean;
+  taskId: any;
   constructor(
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -91,7 +93,8 @@ export class RcuComponent implements OnInit {
     private location: Location,
     private loginStoreService: LoginStoreService,
     private loanViewService: LoanViewService,
-    public router: Router
+    public router: Router,
+    private sharedService: SharedService
   ) {
     // this.leadId = this.route.snapshot.params['leadId'];
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
@@ -112,6 +115,7 @@ export class RcuComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
     if (this.fiCumPdStatusString == 'false') {
@@ -479,6 +483,7 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
     const body = {
       leadId: this.leadId,
       userId: this.userId,
+      taskId: this.taskId
     }
     this.rcuService.stopRcuTask(body).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == "0") {
@@ -493,6 +498,8 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
   testRadio(event) {
     // alert("event" + event)
     // this.fileRCUStatus = this.rcuDetailsForm.controls.fileRCUStatus.value
+
+    console.log('event', event)
 
     if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
       this.screened = '0';

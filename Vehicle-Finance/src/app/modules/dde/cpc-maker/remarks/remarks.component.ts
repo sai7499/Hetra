@@ -25,6 +25,7 @@ export class RemarksComponent implements OnInit {
   showSendCredit = false;
   roleType : any;
   isDeclinedFlow : boolean;
+  taskId: any;
 
   constructor(
     private router: Router,
@@ -49,6 +50,7 @@ export class RemarksComponent implements OnInit {
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     this.initForm();
     this.leadId = (await this.getLeadId()) as number;
     console.log('lead id', this.leadId);
@@ -181,7 +183,8 @@ export class RemarksComponent implements OnInit {
         isCPCMaker: false,
         isCPCChecker: false,
         sendBackToCredit: false,
-        isSubmitCAD: true
+        isSubmitCAD: true,
+        taskId: this.taskId,
       };
       this.cpcService.assignCPCMaker(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -229,6 +232,7 @@ export class RemarksComponent implements OnInit {
       isCPCMaker: false,
       isCPCChecker: false,
       sendBackToCredit: true,
+      taskId: this.taskId,
     };
     this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
@@ -265,7 +269,8 @@ export class RemarksComponent implements OnInit {
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
-      isReAppeal : true
+      isReAppeal : true,
+      taskId: this.taskId
     };
     this.reappealService.saveReappealData(body).subscribe((res: any) => {
     if (res && res.ProcessVariables.error.code == '0') {

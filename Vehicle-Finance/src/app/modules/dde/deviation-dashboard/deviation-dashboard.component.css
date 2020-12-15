@@ -286,7 +286,7 @@ select#select_main_button_match {
     .multisteps-form__progress {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-        margin: 30px 0;
+        margin: 12px 0;
       }
       
       .multisteps-form__progress-btn {

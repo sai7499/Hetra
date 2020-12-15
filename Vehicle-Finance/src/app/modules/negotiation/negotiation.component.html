@@ -1,15 +1,15 @@
 <main>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <h3>{{ labels?.negotiationTitle }}</h3>
-      </div>
-      <div class="col-md-6 text-right"></div>
-    </div>
+    
     <div class="content" id="disbursement-memo">
       <form [formGroup]="createNegotiationForm" class="form-horizontal" autocomplete="off">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+            <h3 class="banner-con">{{ labels?.negotiationTitle }}</h3>
+          </div>          
+        </div>
         <div>
-          <h4 class="title">{{ labels?.leadReferenceDetails }}</h4>
+          <h4 class="">{{ labels?.leadReferenceDetails }}</h4>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="productCode">{{labels?.productLMSCode}}
             </label>
@@ -96,8 +96,8 @@
           </div>
         </div>
         <div *ngFor="let ticket of t.controls; let i = index">
-          <h4 *ngIf="t.controls.length>1" class="title">{{ labels?.assetDetails }} - {{i +1}}</h4>
-          <h4 *ngIf="t.controls.length ==1" class="title">{{ labels?.assetDetails }}</h4>
+          <h4 *ngIf="t.controls.length>1" class="banner-con">{{ labels?.assetDetails }} - {{i +1}}</h4>
+          <h4 *ngIf="t.controls.length ==1" class="banner-con">{{ labels?.assetDetails }}</h4>
           <div *ngIf="this.productCategoryList" [formGroup]="ticket">
             <div class="form-group">
               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="vehicleModel">{{ labels?.VehicleModel }}
@@ -448,7 +448,7 @@
           </div>
         </div>
         <div>
-          <h4 class="title">{{ labels?.negotiationTitle }}</h4>
+          <h4 class="banner-con">{{ labels?.negotiationTitle }}</h4>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanAmount">{{ labels?.NegotiatedLoanAmount }}
               <sub class="star_red_col">*</sub>
@@ -570,7 +570,7 @@
           </div>
         </div>
         <div>
-          <h4 class="title">{{ labels?.repaymentMode}}</h4>
+          <h4 class="banner-con">{{ labels?.repaymentMode}}</h4>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentMode">{{labels?.repaymentMode}}
             </label>

@@ -13,7 +13,7 @@
 }
 
 .btn-sec {
-  margin: 10px 2px;
+  margin: 0px 2px;
 }
 
 .row {
@@ -23,6 +23,7 @@
 td a {
   cursor: pointer;
 }
+
 
 
 table {
@@ -283,11 +284,25 @@ p-0{
   .flex-container{
     font-size: 10px!important;
   } 
+
+  .pad-0{
+    padding:0px;
+  }
 }
   @media (min-width:829px) and (max-width:899px){
   .flex-container{
     font-size: 12px!important;
   } 
+
+  .pad-0{
+    padding:0px;
+  }
+}
+
+@media (min-width:900px) and (max-width: 1800px) {
+  .pad-0{
+    padding:0px;
+  }
 }
 
 @media (min-width:260px) and (max-width: 769px) {
@@ -395,6 +410,10 @@ p-0{
 
   .tab_details p {
     font-size:13px!important;
+  }
+
+  .dis-block {
+    display: block;
   }
   /* .dontdisplayed .content-two {
     background: #fff;

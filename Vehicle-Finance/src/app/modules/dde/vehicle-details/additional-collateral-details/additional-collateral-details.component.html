@@ -2,6 +2,7 @@
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
         <form class="multisteps-form__form" [formGroup]="collateralForm" *ngIf="label?.validationData">
+            <h3 class="banner-con">Collateral Details</h3>
 
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="collateral_type">
@@ -503,7 +504,7 @@
         </form>
     </div>
     <div class="btn-sec clear-both row cst_btm_btns">
-        <div class="col-sm-5"><button class="btn btn-primary dash_href"
+        <div class="col-sm-5"><button class="btn btn-primary dash_href hvr-sweep-to-left"
                 [routerLink]="['/pages/dde/'+ leadId + '/vehicle-list']">{{label.back}}
                 To Collateral Details </button></div>
         <div class="col-sm-7 text-right">

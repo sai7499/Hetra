@@ -195,7 +195,7 @@ export class LoanDetailsComponent implements OnInit {
   }
   async getLeadSectionData() {
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    // console.log('leadSectionData Lead details', leadSectionData);
+    console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
     console.log('in get lead section data', data);
@@ -447,7 +447,7 @@ export class LoanDetailsComponent implements OnInit {
   }
   RemoveAddControls() {
     const controls = this.loanDetailsForm as FormGroup;
-    console.log('in remove coontrols', controls);
+    console.log('in remove controls', controls);
     console.log('in remove controls', this.productCatCode);
 
     if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {

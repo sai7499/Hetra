@@ -22,12 +22,14 @@ export class CustomerFeedbackComponent implements OnInit {
   }
 
   showModal: boolean;
+  taskId: any;
 
   constructor(private customerService: CustomerAcceptanceServiceService, private route: ActivatedRoute,
               private router: Router, private toasterService: ToasterService, private sharedService: SharedService) { }
 
   async ngOnInit() {
     this.leadId = (await this.getLeadId()) as number;
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -44,7 +46,8 @@ export class CustomerFeedbackComponent implements OnInit {
       const body = {
         leadId: this.leadId,
         userId: localStorage.getItem('userId'),
-        isAccepted: true
+        isAccepted: true,
+        taskId: this.taskId,
       };
       this.customerService.sendAcceptanceDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -60,7 +63,8 @@ export class CustomerFeedbackComponent implements OnInit {
         leadId: this.leadId,
         userId: localStorage.getItem('userId'),
         isAccepted: false,
-        reasonCode: reasonCode
+        reasonCode: reasonCode,
+        taskId: this.taskId,
       };
       this.customerService.sendAcceptanceDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals

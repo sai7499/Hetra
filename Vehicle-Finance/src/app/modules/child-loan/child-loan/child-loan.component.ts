@@ -48,6 +48,7 @@ export class ChildLoanComponent implements OnInit {
 
   customerDetailsData = [];
   loanDetailsData = [];
+  addressDetails: any;
 
   ucicId: any;
   test: any;
@@ -102,7 +103,7 @@ export class ChildLoanComponent implements OnInit {
     const userDetails = this.loginStoreService.getRolesAndUserDetails();
     this.isSO = userDetails.roles[0].roleId;
     console.log('userDetails', userDetails);
-    console.log('bod ', this.childLoanForm.controls.dateOfBirth);    
+    console.log('bod ', this.childLoanForm.controls.dateOfBirth);
   }
 
   initForm() {
@@ -388,7 +389,7 @@ export class ChildLoanComponent implements OnInit {
       gst: childLoanDatas.gst,
       name: childLoanDatas.name,
       mobile: childLoanDatas.mobile,
-      dateOfBirth: childLoanDatas.dateOfBirth
+      dateOfBirth: this.utilityService.getDateFormat(childLoanDatas.dateOfBirth)
     }
     console.log('this.childData', this.childData);
     this.accordian = '';
@@ -402,6 +403,11 @@ export class ChildLoanComponent implements OnInit {
         if (appiyoError === '0' && apiError === '0') {
           this.customerDetailsData = response.ProcessVariables.customerDetails;
           this.loanDetailsData = response.ProcessVariables.loanDetails;
+          this.addressDetails = response.ProcessVariables.addressDetails;
+          this.loanViewService.setLoanAccountAddress(this.addressDetails);
+          if (!this.customerDetailsData) {
+            return;
+          }
           if (this.customerDetailsData.length !== 0 || this.loanDetailsData.length !== 0) {
             this.accordian = '#collapseOne';
             this.test = '#customerDetails_id';

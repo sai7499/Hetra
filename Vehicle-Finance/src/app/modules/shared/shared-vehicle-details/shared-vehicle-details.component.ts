@@ -76,10 +76,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     this.isChildLoan = this.leadData.leadDetails['isChildLoan'] ? this.leadData.leadDetails['isChildLoan'] === '1' ? true : false : false;
 
-    if (this.isChildLoan) {
-      this.disableSaveBtn = true;
-    }
-
     this.getLov();
 
     this.labelsData.getLabelsData().subscribe(data => {

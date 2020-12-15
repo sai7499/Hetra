@@ -1248,7 +1248,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       addressLineOne: address.addressLineOne,
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
-      country: address.country,
+      country: address.country || address.countryId,
       landlineNumber: address.landlineNumber,
       nearestLandmark: address.nearestLandmark
     };
@@ -2176,7 +2176,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ],
       country: [
         {
-          key: data.country,
+          key: data.country || data.countryId,
           value: data.countryValue,
         },
       ],

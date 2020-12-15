@@ -13,22 +13,25 @@
 } */
 
 .table-head-bg {
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
 }
-.showModal{
-    display: block;
+.showModal {
+  display: block;
 }
 
-.a_tag, u{
-    cursor: pointer;
-    text-decoration: none;
+.a_tag,u {
+  cursor: pointer;
+  text-decoration: none;
+}
+.no_under_line {
+  text-decoration: none;
 }
 
 .cst_btm_btns {
-    margin-bottom: 55px;
-    padding-bottom: 10px;
+  margin-bottom: 55px;
+  padding-bottom: 10px;
 }
 
 /* .btn-sec clear-both {
@@ -73,5 +76,3 @@
 .modal-body.modal_coapp {
     text-align: left!important;
 } */
-
-

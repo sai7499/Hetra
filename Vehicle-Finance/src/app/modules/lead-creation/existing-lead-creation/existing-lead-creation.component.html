@@ -1,46 +1,36 @@
 <main class="mar-top90">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <h3 *ngIf="!leadIdFromDashboard" class="margin_zero">{{ labels.leadCreationTitle }}</h3>
-        <h3 *ngIf="leadIdFromDashboard" class="margin_zero">Lead Approve</h3>
-      </div>
-      <div class="col-md-6 text-right"></div>
-    </div>
-
     <div class="content">
-      <form [formGroup]="createExternalLeadForm" >
+      <form [formGroup]="createExternalLeadForm">
+        <div class="row">
+          <h3 *ngIf="!leadIdFromDashboard" class="banner-con">{{ labels.leadCreationTitle }}</h3>
+          <h3 *ngIf="leadIdFromDashboard" class="banner-con">Lead Details</h3>
+        </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col">*</sub>
+            <label for="business_division">{{ labels.businessDivision }} <sub class="star_red_col"
+                *ngIf="!leadIdFromDashboard">*</sub>
             </label>
             <app-vf-custom-select [isDisabled]="isBusinessDivisionEnable" [values]="businessDivision"
-              formControlName="bizDivision" (change)="getProductCategory($event)" [isRequired]="'Business Division required'">
+              formControlName="bizDivision" (change)="getProductCategory($event)"
+              [isRequired]="'Business Division required'">
             </app-vf-custom-select>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{ labels.productCategory }}
-              <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [isDisabled]="isFromChild"
-              [values]="productCategoryData" 
-              (change)="productCategoryChange($event)"
-              formControlName="productCategory"
-              [isRequired]="'Product Category required'"
-              [isDirty]="isDirty">
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub></label>
+            <app-vf-custom-select [isDisabled]="isFromChild" [values]="productCategoryData"
+              (change)="productCategoryChange($event)" formControlName="productCategory"
+              [isRequired]="'Product Category required'" [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="product_type">{{ labels.product }}
-              <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [values]="productCategorySelectedList" 
-              formControlName="product"
-              (change)="productChange($event)"
-              [isRequired]="'Product required'"
-              [isDirty]="isDirty">
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub></label>
+            <app-vf-custom-select [values]="productCategorySelectedList" formControlName="product"
+              (change)="productChange($event)" [isRequired]="'Product required'" [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
         </div>
@@ -49,88 +39,63 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_channel">
               {{ labels.sourcingChannel }}
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
-            <app-vf-custom-select
-              [values]="extSourcingChannelData"
-              formControlName="sourcingChannel"
-              (change)="sourcingChannelChange($event)"
-              name="sourcingChannel"
-              [isRequired]="'Sourcing Channel required'"
-              [isDirty]="isDirty"
-              [isDisabled]="isSourcingChannel"
-            >
+            <app-vf-custom-select [values]="extSourcingChannelData" formControlName="sourcingChannel"
+              (change)="sourcingChannelChange($event)" name="sourcingChannel" [isRequired]="'Sourcing Channel required'"
+              [isDirty]="isDirty" [isDisabled]="isSourcingChannel">
             </app-vf-custom-select>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_type">
               {{ labels.sourcingType }}
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
-            <app-vf-custom-select
-              [values]="extSourcingTypeData"
-              formControlName="sourcingType"
-              (change)="sourchingTypeChange($event)"
-              [isRequired]="'Sourcing Type required'"
-              [isDirty]="isDirty"
-              [isDisabled]="isSourcingType"
-            >
+            <app-vf-custom-select [values]="extSourcingTypeData" formControlName="sourcingType"
+              (change)="sourchingTypeChange($event)" [isRequired]="'Sourcing Type required'" [isDirty]="isDirty"
+              [isDisabled]="isSourcingType">
             </app-vf-custom-select>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="sourcing_type">
               {{ labels.sourcingCode }}
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
-            <app-vf-custom-select
-              [values]="extSourcingCodeData"
-              formControlName="sourcingCode"
-              (change)="sourchingCodeChange($event) "
-              [isRequired]="'Sourcing Code required'"
-              [isDirty]="isDirty"
-              [isDisabled]="isSourcingCode"
-            >
+            <app-vf-custom-select [values]="extSourcingCodeData" formControlName="sourcingCode"
+              (change)="sourchingCodeChange($event) " [isRequired]="'Sourcing Code required'" [isDirty]="isDirty"
+              [isDisabled]="isSourcingCode">
             </app-vf-custom-select>
           </div>
-        </div>      
+        </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="account_branch">
               {{ labels.loanAccountBranch }}
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
-          <app-vf-custom-select
-              [values]="extBranchData"
-              formControlName="loanBranch"
-              (change)="onBranchChange($event) "
-              [isRequired]="'Loan Account Branch required'"
-              [isDirty]="isDirty">
-          </app-vf-custom-select>
-        </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="priority">Suppress Communication<sub class="star_red_col">*</sub></label>
-          <app-vf-custom-select 
-            [values]="[
+            <app-vf-custom-select [values]="extBranchData" formControlName="loanBranch"
+              (change)="onBranchChange($event) " [isRequired]="'Loan Account Branch required'" [isDirty]="isDirty">
+            </app-vf-custom-select>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="priority">Suppress Communication<sub class="star_red_col"
+                *ngIf="!leadIdFromDashboard">*</sub></label>
+            <app-vf-custom-select [values]="[
               { key: '1', value: 'Yes' },
               { key: '0', value: 'No' }
-            ]" 
-            formControlName="communication">
-          </app-vf-custom-select>
+            ]" formControlName="communication">
+            </app-vf-custom-select>
+          </div>
         </div>
-      </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="entity">{{ labels.entity }} <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select 
-              [isDisabled]="isFromChild"
-              [values]="LOV.LOVS.entityType" 
-              formControlName="entity" 
-              [isRequired]="'Entity Required'"
-              (change)="selectApplicantType($event, false)"
-              [isDirty]="isDirty">
+            <label for="entity">{{ labels.entity }} <sub class="star_red_col"
+                *ngIf="!leadIdFromDashboard">*</sub></label>
+            <app-vf-custom-select [isDisabled]="isFromChild" [values]="LOV.LOVS.entityType" formControlName="entity"
+              [isRequired]="'Entity Required'" (change)="selectApplicantType($event, false)" [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
         </div>
@@ -138,239 +103,206 @@
         <div class="row individual_section_leadco">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="first_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.firstName }}
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
             <label for="first_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName1 }}
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
-            <app-custom-input
-              #firstOne
-              [isDisabled]="isFromChild"
-              formControlName="nameOne"
-              [className]="'form-control mandatory'"
-              [placeholder]="firstPlaceholder"
-              [maxLength]="nameLength"
-              [isRequired]= "isFirstNameRequired ? 'First Name is mandatory' : 'Company Name 1 is mandatory' "
-              [isDirty]="isDirty"
-              [type]="namePattern"
-              (input)="onFirstName($event)"
-              >
+            <app-custom-input #firstOne [isDisabled]="isFromChild" formControlName="nameOne"
+              [className]="'form-control mandatory'" [placeholder]="firstPlaceholder" [maxLength]="nameLength"
+              [isRequired]="isFirstNameRequired ? 'First Name is mandatory' : 'Company Name 1 is mandatory' "
+              [isDirty]="isDirty" [type]="namePattern" (input)="onFirstName($event)">
             </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="middle_name" *ngIf="applicantType == 'INDIVENTTYP'">{{labels.middleName}}</label>
             <label for="middle_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName2 }}</label>
-            <app-custom-input
-              [isDisabled]="isFromChild"
-              formControlName="nameTwo"
-              [className]="'form-control mandatory'"
-              [placeholder]="secondPlaceholder"
-              [maxLength]="nameLength"
-              [isDirty]="isDirty"
-              [type]="namePattern"
-              (input)="onMiddleName($event)"
-              >
+            <app-custom-input [isDisabled]="isFromChild" formControlName="nameTwo"
+              [className]="'form-control mandatory'" [placeholder]="secondPlaceholder" [maxLength]="nameLength"
+              [isDirty]="isDirty" [type]="namePattern" (input)="onMiddleName($event)">
             </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="last_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.lastName }} 
-              <sub class="star_red_col">*</sub>
+            <label for="last_name" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.lastName }}
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
-            <label for="last_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }} 
+            <label for="last_name" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.companyName3 }}
               <sub class="star_red_col" *ngIf="applicantType == 'INDIVENTTYP'">*</sub>
             </label>
-            <app-custom-input
-              [isDisabled]="isFromChild"
-              formControlName="nameThree"
-              [className]="'form-control mandatory'"
-              [placeholder]="thirdPlaceholder"
-              [maxLength]="nameLength"
-              [isRequired]="isLastNameRequired ? 'Last Name is mandatory': '' "
-              [isDirty]="isDirty"
-              [type]="namePattern"
-              (input)="onLastName($event)"
-              >
+            <app-custom-input [isDisabled]="isFromChild" formControlName="nameThree"
+              [className]="'form-control mandatory'" [placeholder]="thirdPlaceholder" [maxLength]="nameLength"
+              [isRequired]="isLastNameRequired ? 'Last Name is mandatory': '' " [isDirty]="isDirty" [type]="namePattern"
+              (input)="onLastName($event)">
             </app-custom-input>
           </div>
         </div>
         <div class="row individual_section_leadco">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3"  *ngIf="applicantType == 'INDIVENTTYP'">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="applicantType == 'INDIVENTTYP'">
             <label for="entity">{{ labels.fullName }}</label>
-              <app-custom-input
-              [isDisabled]="true"
-              [className]="'form-control mandatory'"
-              [placeholder]="'Full Name'"
-              [type]="namePattern"
-              [value]="firstName+' '+middleName+' '+lastName"
-              >
+            <app-custom-input [isDisabled]="true" [className]="'form-control mandatory'" [placeholder]="'Full Name'"
+              [type]="namePattern" [value]="firstName+' '+middleName+' '+lastName">
             </app-custom-input>
-          </div> 
-        
+          </div>
+
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="mobile">{{ labels.mobile }} <sub class="star_red_col">*</sub></label>
-            <app-custom-input
-              formControlName="mobile"
-              [isDisabled]="isFromChild"
-              [className]="'form-control mandatory'"
-              [placeholder]="'Mobile'"
-              [maxLength]="mobileLength"
-              [isRequired]="'Contact Number mandatory'"
-              [isDirty]="isDirty"
-              [type]="'number'"
-              [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            <label for="mobile">{{ labels.mobile }} <sub class="star_red_col"
+                *ngIf="!leadIdFromDashboard">*</sub></label>
+            <app-custom-input formControlName="mobile" [isDisabled]="isFromChild" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile'" [maxLength]="mobileLength" [isRequired]="'Contact Number mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
             </app-custom-input>
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="dob" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.dateOfBirth }}
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
             <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.dateOfIncorporation }}
-              <sub class="star_red_col">*</sub>
+              <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
 
-            <kendo-datepicker class="form-control mandatory" 
-              formControlName="dateOfBirth" 
-              [disabled]="isFromChild"
-              [format]="'dd/MM/yyyy'"
-              [min]="minAge"
-              [max]="maxAge" 
-              [placeholder]="dobOrDoiPlaceHolder"
+            <kendo-datepicker class="form-control mandatory" formControlName="dateOfBirth" [disabled]="isFromChild"
+              [format]="'dd/MM/yyyy'" [min]="minAge" [max]="maxAge" [placeholder]="dobOrDoiPlaceHolder"
               [activeView]="'decade'">
-            </kendo-datepicker>  
-            <div class="invalid-feedback" >
+            </kendo-datepicker>
+            <div class="invalid-feedback">
               <div *ngIf="isDirty && !createExternalLeadForm.controls.dateOfBirth.value">
                 Date is mandatory
               </div>
-              <div *ngIf="createExternalLeadForm.controls.dateOfBirth.value && createExternalLeadForm.controls.dateOfBirth.errors">
+              <div
+                *ngIf="createExternalLeadForm.controls.dateOfBirth.value && createExternalLeadForm.controls.dateOfBirth.errors">
                 Invalid date
               </div>
             </div>
-            
+
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="spoken_code">{{ labels.requestedAmount }}</label>
-            <sub class="star_red_col">*</sub>
+            <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             <app-custom-input formControlName="reqLoanAmt" [className]="'form-control mandatory'"
-              [placeholder]="'Requested Amount'" [maxLength]="labels.validationData.amountValue.maxLength" [isRequired]="'Required Amount is mandatory'"
-              [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              [placeholder]="'Requested Amount'" [maxLength]="labels.validationData.amountValue.maxLength"
+              [isRequired]="'Required Amount is mandatory'" [patternCheck]="regexPattern.amount" [isDirty]="isDirty"
+              [type]="'number'">
             </app-custom-input>
           </div>
         </div>
-        <div class="row">
-          <h3 class="subHeadColor">Vehicle Details</h3>
-        </div>
+        <div *ngIf="isUploaded !== '1'">
+          <div class="row">
+            <h3 class="banner-con">Vehicle Details</h3>
+          </div>
 
-        <div class="row" *ngIf="isUcvUc">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
+          <div class="row" *ngIf="isUcvUc">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
               <label for="registartion_number"> {{ labels.registartionNumber }}
-                  <sub class="star_red_col">*</sub>
+                <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
               </label>
 
-              <app-custom-input formControlName="vehicleRegNo"
-                  [type]="labels.validationData?.vehicleRegNo.type" [id]="'vechical_reg'"
-                  [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
-                  [minLength]="labels.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
-                  [maxLength]="labels.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
-                  [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
+              <app-custom-input formControlName="vehicleRegNo" [type]="labels.validationData?.vehicleRegNo.type"
+                [id]="'vechical_reg'" [className]="'form-control mandatory'" [placeholder]="'Vechical Registration No'"
+                [minLength]="labels.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
+                [maxLength]="labels.validationData?.vehicleRegNo.maxLength" [custom]="vehicleRegPattern"
+                [isRequired]="'Vechical Registration No Required'" [isDirty]="isDirty">
               </app-custom-input>
 
+            </div>
           </div>
-      </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_make">
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_make">
               <label for="vechical_region"> {{ labels.vechicalRegion }}
-                  <sub class="star_red_col">*</sub>
+                <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
               </label>
-              <app-vf-custom-select [values]="LOV?.LOVS?.assetRegion" [id]="'vechical_region'"
-                  formControlName="region" [isRequired]="'Vehicle Region Required'"
-                  (change)="onVehicleRegion($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
+
+              <app-vf-custom-select [values]="LOV?.LOVS?.assetRegion" [id]="'vechical_region'" formControlName="region"
+                [isRequired]="leadIdFromDashboard ? '': 'Vehicle Region Required'"
+                (change)="onVehicleRegion($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
               </app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_region">
-              <label for="asset_make"> {{ labels.assetMake }} 
-                <sub class="star_red_col">*</sub> 
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_region">
+              <label for="asset_make"> {{ labels.assetMake }}
+                <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
               </label>
-              <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'"
-                  formControlName="assetMake" [isRequired]="'Asset Make Required'"
-                  (change)="onAssetMake($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
+              <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'" formControlName="assetMake"
+                [isRequired]="leadIdFromDashboard ? '':'Asset Make Required'"
+                (change)="onAssetMake($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
               </app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_type">
-              <label for="vechical_type"> {{ labels.vechicalType }} 
-                <sub class="star_red_col">*</sub> 
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_type">
+              <label for="vechical_type"> {{ labels.vechicalType }}
+                <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
               </label>
               <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
-                  formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
-                  (change)="onVehicleType($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
+                formControlName="vehicleType" [isRequired]="leadIdFromDashboard ? '':'Vehicle Type Required'"
+                (change)="onVehicleType($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
               </app-vf-custom-select>
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
-              <label for="asset_body_type"> {{ labels.assetSegement }} <sub class="star_red_col">*</sub>
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 " id="asset_type">
+              <label for="asset_body_type"> {{ labels.assetSegement }} <sub class="star_red_col"
+                  *ngIf="!leadIdFromDashboard">*</sub>
               </label>
               <app-vf-custom-select [values]="vehicleLov?.assetBodyType" [id]="'asset_body_type'"
-                  formControlName="assetBodyType" [isRequired]="'Asset Body Type Required'"
-                  (change)="onAssetBodyType($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
+                formControlName="assetBodyType" [isRequired]="leadIdFromDashboard ? '':'Asset Body Type Required'"
+                (change)="onAssetBodyType($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
               </app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_model">
-              <label for="asset_model"> {{ labels.assetModel }} <sub class="star_red_col">*</sub>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_model">
+              <label for="asset_model"> {{ labels.assetModel }} <sub class="star_red_col"
+                  *ngIf="!leadIdFromDashboard">*</sub>
               </label>
-              <app-vf-custom-select [values]="vehicleLov?.assetModel" [id]="'asset_model'"
-                  formControlName="assetModel" [isRequired]="'Asset Model Required'"
-                  (change)="onAssetModel($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
+              <app-vf-custom-select [values]="vehicleLov?.assetModel" [id]="'asset_model'" formControlName="assetModel"
+                [isRequired]="leadIdFromDashboard ? '':'Asset Model Required'"
+                (change)="onAssetModel($event.target.value, createExternalLeadForm)" [isDirty]="isDirty">
               </app-vf-custom-select>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_variant">
-              <label for="asset_variant"> {{ labels.assetVariant }} <sub class="star_red_col">*</sub>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_variant">
+              <label for="asset_variant"> {{ labels.assetVariant }} <sub class="star_red_col"
+                  *ngIf="!leadIdFromDashboard">*</sub>
               </label>
               <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
-                  formControlName="assetVariant" [isRequired]="'Asset Variant Required'" [isDirty]="isDirty">
+                formControlName="assetVariant" [isRequired]="leadIdFromDashboard ? '':'Asset Variant Required'"
+                [isDirty]="isDirty">
               </app-vf-custom-select>
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_sub_variant">
-            <label for="asset_sub_variant"> {{ labels.assetSubVariant }} </label>
-            <app-vf-custom-select [values]="LOV?.LOVS?.assetSubVarient" [id]="'asset_sub_variant'"
+          <div class="row">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_sub_variant">
+              <label for="asset_sub_variant"> {{ labels.assetSubVariant }} </label>
+              <app-vf-custom-select [values]="LOV?.LOVS?.assetSubVarient" [id]="'asset_sub_variant'"
                 formControlName="assetSubVarient">
-            </app-vf-custom-select>
-        </div>
-
-        <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing"
-            *ngIf="isUcvUc">
-            <label for="year_month_manufacturing"> {{ labels.yearAndMonthManufacturing }} <sub
-                    class="star_red_col">*</sub>
-            </label>
-
-            <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
-                formControlName="manuFacMonthYear" ndo-datepicker [bottomView]="'year'" [topView]="'decade'"
-                [format]="'MMMM yyyy'" [min]="minDate" [max]="maxDate"
-                placeholder="Year And Month Manufacturing" >
-            </kendo-datepicker>
-
-            <div class="invalid-feedback">
-                <div *ngIf="isDirty && !createExternalLeadForm.controls.manuFacMonthYear.value">
-                    Year and Month Manufacturing Required
-                </div>
+              </app-vf-custom-select>
             </div>
 
-            <div class="invalid-feedback" *ngIf="createExternalLeadForm.controls['manuFacMonthYear'].touched && (createExternalLeadForm.controls['manuFacMonthYear'].value  > maxDate
+            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing" *ngIf="isUcvUc">
+              <label for="year_month_manufacturing"> {{ labels.yearAndMonthManufacturing }} <sub class="star_red_col"
+                  *ngIf="!leadIdFromDashboard">*</sub>
+              </label>
+
+              <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
+                formControlName="manuFacMonthYear" ndo-datepicker [bottomView]="'year'" [topView]="'decade'"
+                [format]="'MMMM yyyy'" [min]="minDate" [max]="maxDate" placeholder="Year And Month Manufacturing">
+              </kendo-datepicker>
+
+              <div class="invalid-feedback">
+                <div *ngIf="isDirty && !createExternalLeadForm.controls.manuFacMonthYear.value">
+                  Year and Month Manufacturing Required
+                </div>
+              </div>
+
+              <div class="invalid-feedback" *ngIf="createExternalLeadForm.controls['manuFacMonthYear'].touched && (createExternalLeadForm.controls['manuFacMonthYear'].value  > maxDate
                 ||  createExternalLeadForm.controls['manuFacMonthYear'].value < minDate)">
                 Invalid Date
+              </div>
+
             </div>
-
+          </div>
         </div>
-        </div>
-
         <div class="row individual_section_leadco">
           <div class="btn-sec clear-both">
             <div class="col-sm-12 text-right">
@@ -378,12 +310,11 @@
                 {{ labels.createLead }}
               </button>
               <button *ngIf="leadIdFromDashboard" type="button" class="btn btn-primary" (click)="onApproveModel()">
-                 Approve 
+                Continue
               </button>
             </div>
           </div>
         </div>
-        
       </form>
     </div>
   </div>
@@ -398,13 +329,9 @@
       </div>
       <div class="modal-body">
         <p id="">Lead created successfully ! <strong>Lead ID:</strong> {{leadId}}</p>
-      </div> 
+      </div>
       <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-success"
-          data-dismiss="modal"
-          id="reject_dlead"
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_dlead"
           (click)="navgiateToNextPage()">
           OK
         </button>
@@ -421,23 +348,15 @@
         <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
       </div>
       <div class="modal-body">
-        <p id="">Are you sure to approve?  </p>
-      </div> 
+        <p id="">Are you sure to approve? </p>
+      </div>
       <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-success"
-          data-dismiss="modal"
-          (click)="navgiateToLead()">
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="navgiateToLead()">
           OK
         </button> &nbsp; &nbsp;
-        <button
-        type="button"
-        class="btn btn-danger"
-        data-dismiss="modal"
-        (click)="closeApprove()">
-        Cancel
-      </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="closeApprove()">
+          Cancel
+        </button>
       </div>
     </div>
   </div>
