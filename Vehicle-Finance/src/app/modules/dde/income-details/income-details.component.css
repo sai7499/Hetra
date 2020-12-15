@@ -97,54 +97,68 @@
               Label the data
           You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
               */
-  td:nth-of-type(1):before {
-    content: "SR NO";
+
+  .main-table td:before {
+    white-space: nowrap;
+    background-color: #1d1a4b;
+    color: white;
+    height: 40px;
+    padding: 10px;
+  }  
+
+  .businessTable td:nth-of-type(1):before {
+    content: "Particulars";
   }
-  td:nth-of-type(2):before {
-    content: "Regd.No";
+  .businessTable td:nth-of-type(2):before {
+    content: "2019-2020";
   }
-  td:nth-of-type(3):before {
-    content: "Regd owner";
+  .businessTable td:nth-of-type(3):before {
+    content: "2018-2019";
   }
-  td:nth-of-type(4):before {
-    content: "Relation";
+  .businessTable td:nth-of-type(4):before {
+    content: "2017-2018";
   }
-  td:nth-of-type(5):before {
-    content: "Make";
+  .businessTable td:nth-of-type(5):before {
+    content: "Action";
   }
-  td:nth-of-type(6):before {
-    content: "YOM";
+
+  /* .table.income_obli td:nth-of-type(1):before {
+    content: "Particulars";
   }
-  td:nth-of-type(7):before {
+  .table.income_obli td:nth-of-type(2):before {
+    content: "Borrower Name";
+  }
+  .table.income_obli td:nth-of-type(3):before {
+    content: "Applicant Type";
+  }
+  .table.income_obli td:nth-of-type(4):before {
+    content: "Type of Loan";
+  }
+  .table.income_obli td:nth-of-type(5):before {
     content: "Financier";
   }
-  td:nth-of-type(8):before {
-    content: "Loan NO";
+ .table.income_obli td:nth-of-type(6):before {
+    content: "Loan Amount";
   }
-  td:nth-of-type(9):before {
-    content: "Purchase Date";
+  .table.income_obli  td:nth-of-type(7):before {
+    content: "Tenor(In Months)";
   }
-  td:nth-of-type(11):before {
-    content: "Tenure";
+  .table.income_obli td:nth-of-type(8):before {
+    content: "MOB";
   }
-  td:nth-of-type(12):before {
-    content: "Paid";
+  .table.income_obli td:nth-of-type(9):before {
+    content: "EMI";
   }
-  td:nth-of-type(13):before {
-    content: "Seasoning";
+  .table.income_obli td:nth-of-type(11):before {
+    content: "Balance Tenor";
   }
-  td:nth-of-type(14):before {
-    content: "AD";
+  .table.income_obli td:nth-of-type(12):before {
+    content: "Obiligation Amount";
   }
-  td:nth-of-type(15):before {
-    content: "PD";
-  }
-  td:nth-of-type(16):before {
-    content: "Grid Value";
-  }
-  td:nth-of-type(17):before {
-    content: "RTR";
-  }
+  .table.income_obli td:nth-of-type(13):before {
+    content: "Actions";
+  } */
+  
 }
 .font-weight {
   font-weight: bold;
@@ -416,3 +430,10 @@ cursor: pointer;
 /* .caption{
   width: max-content!important;
 } */
+
+@media (min-width:260px) and (max-width:768px){
+
+  .td_none{
+    display: none!important;
+  }
+}
