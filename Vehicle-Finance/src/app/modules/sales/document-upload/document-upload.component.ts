@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentUploadService } from '@services/document-upload.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   templateUrl: './document-upload.component.html',
@@ -11,13 +12,15 @@ import { LoanViewService } from '@services/loan-view.service';
 export class DocumentUploadComponent implements OnInit {
 
   isLoan360: boolean;
+  taskId: any;
 
   constructor(
     private aRoute: ActivatedRoute,
     private router: Router,
     private doucmentUploadService: DocumentUploadService,
     private toStarService: ToasterService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private sharedService: SharedService
   ) {}
   leadId;
   isModelShow = false;
@@ -25,12 +28,14 @@ export class DocumentUploadComponent implements OnInit {
   ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.aRoute.parent.params.subscribe((val) => (this.leadId = val.leadId));
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
   }
 
   submitToCredit() {
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: Number(this.leadId),
+      taskId: this.taskId
     };
     console.log('submit call');
     this.doucmentUploadService.submitToCredit(data).subscribe((response) => {

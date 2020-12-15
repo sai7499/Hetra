@@ -105,6 +105,7 @@ export class ExistingLeadCreationComponent implements OnInit {
   showApprove: boolean;
   mobileApprove: any;
   dobApprove: any;
+  isUploaded: string;
 
   approveApplicantDetails: {
     name1: any,
@@ -746,7 +747,7 @@ export class ExistingLeadCreationComponent implements OnInit {
           const nameTwo = response.ProcessVariables.applicantDetails[0].name2;
           const nameThree = response.ProcessVariables.applicantDetails[0].name3;
           this.firstName = nameOne;
-          this.middleName = nameTwo;
+          this.middleName = nameTwo ? nameTwo: '';
           this.lastName = nameThree;
           const mobileNumber: string = response.ProcessVariables.applicantDetails[0].mobileNumber;
           let mobile = mobileNumber;
@@ -761,40 +762,8 @@ export class ExistingLeadCreationComponent implements OnInit {
           const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
           const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
           const sourcingCode = response.ProcessVariables.leadDetails.sourcingCode;
-
           const reqLoanAmt = response.ProcessVariables.leadDetails.reqLoanAmt;
-          const vehicleRegNo = response.ProcessVariables.vehicleCollateral ?
-            response.ProcessVariables.vehicleCollateral[0].regNo : null;
-          const region = response.ProcessVariables.vehicleCollateral ?
-            response.ProcessVariables.vehicleCollateral[0].regionCode : '';
 
-          const vehilce: Array<any> = response.ProcessVariables.vehicleCollateral;
-          if (vehilce && vehilce.length > 0) {
-            this.vehicleLov.assetMake = [{ key: vehilce[0].makeCode, value: vehilce[0].make }];
-            this.vehicleLov.vehicleType = [{ key: vehilce[0].vehicleTypeCode, value: vehilce[0].vehicleType }];
-            this.vehicleLov.assetBodyType = [{ key: vehilce[0].segmentCode, value: vehilce[0].segment }];
-            this.vehicleLov.assetModel = [{ key: vehilce[0].modelCode, value: vehilce[0].model }];
-            this.vehicleLov.assetVariant = [{ key: 'variantKey', value: vehilce[0].variant }];
-          }
-          this.selectApplicantType(entity, true);
-          let assetMake = '';
-          let vehicleType = '';
-          let assetBodyType = '';
-          let assetModel = '';
-          let assetVariant = '';
-          let dobyymm = '';
-          let manuFacMonthYear;
-          if (response.ProcessVariables.vehicleCollateral) {
-             assetMake = response.ProcessVariables.vehicleCollateral[0].makeCode;
-             vehicleType = response.ProcessVariables.vehicleCollateral[0].vehicleTypeCode;
-             assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
-             assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
-             assetVariant = 'variantKey';
-             dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
-             manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
-          }
-          
-         
           this.createExternalLeadForm.patchValue({
             productCategory,
             product,
@@ -809,16 +778,62 @@ export class ExistingLeadCreationComponent implements OnInit {
             sourcingChannel,
             sourcingType,
             sourcingCode,
-            reqLoanAmt,
-            vehicleRegNo,
-            region,
-            assetMake,
-            vehicleType,
-            assetBodyType,
-            assetModel,
-            assetVariant,
-            manuFacMonthYear
+            reqLoanAmt
           });
+          this.isUploaded = response.ProcessVariables.leadDetails.isUploaded;
+          if (this.isUploaded === '1') {
+            this.createExternalLeadForm.removeControl('vehicleRegNo');
+            this.createExternalLeadForm.removeControl('region');
+            this.createExternalLeadForm.removeControl('assetMake');
+            this.createExternalLeadForm.removeControl('vehicleType');
+            this.createExternalLeadForm.removeControl('assetBodyType');
+            this.createExternalLeadForm.removeControl('assetModel');
+            this.createExternalLeadForm.removeControl('assetVariant');
+            this.createExternalLeadForm.removeControl('assetSubVarient');
+            this.createExternalLeadForm.removeControl('manuFacMonthYear');
+          } else {
+            const vehicleRegNo = response.ProcessVariables.vehicleCollateral ?
+              response.ProcessVariables.vehicleCollateral[0].regNo : null;
+            const region = response.ProcessVariables.vehicleCollateral ?
+              response.ProcessVariables.vehicleCollateral[0].regionCode : '';
+
+            const vehilce: Array<any> = response.ProcessVariables.vehicleCollateral;
+            if (vehilce && vehilce.length > 0) {
+              this.vehicleLov.assetMake = [{ key: vehilce[0].makeCode, value: vehilce[0].make }];
+              this.vehicleLov.vehicleType = [{ key: vehilce[0].vehicleTypeCode, value: vehilce[0].vehicleType }];
+              this.vehicleLov.assetBodyType = [{ key: vehilce[0].segmentCode, value: vehilce[0].segment }];
+              this.vehicleLov.assetModel = [{ key: vehilce[0].modelCode, value: vehilce[0].model }];
+              this.vehicleLov.assetVariant = [{ key: 'variantKey', value: vehilce[0].variant }];
+            }
+            this.selectApplicantType(entity, true);
+            let assetMake = '';
+            let vehicleType = '';
+            let assetBodyType = '';
+            let assetModel = '';
+            let assetVariant = '';
+            let dobyymm = '';
+            let manuFacMonthYear;
+            if (response.ProcessVariables.vehicleCollateral) {
+              assetMake = response.ProcessVariables.vehicleCollateral[0].makeCode;
+              vehicleType = response.ProcessVariables.vehicleCollateral[0].vehicleTypeCode;
+              assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
+              assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
+              assetVariant = 'variantKey';
+              dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
+              manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+            }
+
+            this.createExternalLeadForm.patchValue({
+              vehicleRegNo,
+              region,
+              assetMake,
+              vehicleType,
+              assetBodyType,
+              assetModel,
+              assetVariant,
+              manuFacMonthYear
+            });
+          }
         }
       });
   }
@@ -840,8 +855,8 @@ export class ExistingLeadCreationComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           console.log('resext', response);
-          const isDedupeAvailable = response.ProcessVariables.isDedupeAvailable;
-          if (isDedupeAvailable) {
+          const dedupeAvailable = response.ProcessVariables.dedupeAvailable;
+          if (dedupeAvailable) {
             const leadDedupeData = response.ProcessVariables;
             this.leadStoreService.setDedupeData(leadDedupeData);
             this.router.navigateByUrl('pages/lead-creation/lead-dedupe');

@@ -69,6 +69,7 @@ export class CreditConditionsComponent implements OnInit {
 
   isLoan360: boolean;
   isDeclinedFlow: boolean = false;
+  taskId: any;
 
   constructor(
     public labelsService: LabelsService,
@@ -325,7 +326,8 @@ export class CreditConditionsComponent implements OnInit {
   assignCDTaskFromSales(){
     let ProcessVariables = {
       "userId":this.userId,
-      "leadId":this.leadId
+      "leadId":this.leadId,
+      "taskId": this.taskId
     }
     this.creditConditionService.assignCDTaskFromSales(ProcessVariables).subscribe(res=> {
       console.log(res);
@@ -354,6 +356,7 @@ export class CreditConditionsComponent implements OnInit {
       processData["userId"]= this.userId;
       processData["leadId"]= this.leadId;
       processData["rejectReason"] = reasonCode;
+      processData["taskId"]= this.taskId;
         this.creditConditionService.rejectCreditCondition(processData).subscribe(res=> {
       //  console.log(res);
 
@@ -437,6 +440,7 @@ export class CreditConditionsComponent implements OnInit {
     }
     processData["userId"]= this.userId;
     processData["leadId"]= this.leadId;
+    processData["taskId"] = this.taskId;
       this.creditConditionService.submitReferDeclineCreditConditions(processData).subscribe(res=> {
       console.log(res);
       if(res['ProcessVariables'].error['code'] == 0){
@@ -501,6 +505,7 @@ export class CreditConditionsComponent implements OnInit {
       this.roleType = value.roleType;
     //  console.log('role Type', this.roleType);
     });
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     this.getCreditConditions();
     this.salesResponse = localStorage.getItem('salesResponse')
 

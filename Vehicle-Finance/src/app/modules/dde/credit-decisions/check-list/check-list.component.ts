@@ -8,6 +8,7 @@ import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { TermSheetService } from '@modules/dde/services/terms-sheet.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-check-list',
@@ -29,6 +30,7 @@ export class CheckListComponent implements OnInit {
   cpcMakerFlag = true;
   salesResponse: any;
   isPreDone: any;
+  taskId: any;
   constructor(
     private commonLovService: CommomLovService,
     private checkListService: ChecklistService,
@@ -38,7 +40,8 @@ export class CheckListComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private cpcService: CpcRolesService,
     private router: Router,
-    private termSheetService: TermSheetService
+    private termSheetService: TermSheetService,
+    private sharedService: SharedService
   ) {
     // tslint:disable-next-line: deprecation
     $(document).ready(() => {
@@ -83,6 +86,8 @@ export class CheckListComponent implements OnInit {
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
+
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
 
     // tslint:disable-next-line: prefer-const
     // let childgroups = [];
@@ -304,7 +309,8 @@ export class CheckListComponent implements OnInit {
         userId: localStorage.getItem('userId'),
         isCPCMaker: true,
         isCPCChecker: false,
-        sendBackToCredit: false
+        sendBackToCredit: false,
+        taskId: this.taskId
         };
       this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res: any) => {
          // tslint:disable-next-line: triple-equals
@@ -322,7 +328,8 @@ export class CheckListComponent implements OnInit {
         userId: localStorage.getItem('userId'),
         isCPCMaker: true,
         isCPCChecker: false,
-        sendBackToCredit: false
+        sendBackToCredit: false,
+        taskId: this.taskId,
         };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -341,7 +348,8 @@ export class CheckListComponent implements OnInit {
         userId: localStorage.getItem('userId'),
         isCPCMaker: false,
         isCPCChecker: true,
-        sendBackToCredit: false
+        sendBackToCredit: false,
+        taskId: this.taskId,
         };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -360,7 +368,8 @@ export class CheckListComponent implements OnInit {
         userId: localStorage.getItem('userId'),
         isCPCMaker: false,
         isCPCChecker: false,
-        sendBackToCredit: false
+        sendBackToCredit: false,
+        taskId: this.taskId,
         };
       this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
         this.router.navigate([`pages/dashboard`]);
@@ -414,6 +423,7 @@ sendBackToMaker() {
     isCPCMaker: true,
     isCPCChecker: false,
     sendBackToCredit: false,
+    taskId: this.taskId,
   };
   this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
     // tslint:disable-next-line: triple-equals

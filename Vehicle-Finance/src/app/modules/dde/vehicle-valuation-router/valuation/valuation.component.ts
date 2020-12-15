@@ -17,6 +17,7 @@ import { UploadService } from '@services/upload.service';
 import { GpsService } from '@services/gps.service';
 import { Constant } from '../../../../../assets/constants/constant';
 import { environment } from 'src/environments/environment';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 
 @Component({
@@ -27,7 +28,6 @@ import { environment } from 'src/environments/environment';
 export class ValuationComponent implements OnInit {
 
   vehicleValuationForm: FormGroup;
-
   leadId;
   colleteralId;
   public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15));
@@ -150,7 +150,6 @@ export class ValuationComponent implements OnInit {
   permitType: any;
   permitDisabled: boolean;
   permitRequired: boolean;
-
   invalidPemitDate: boolean;
   invalidFitnessDate: boolean;
   invalidTaxDate: boolean;
@@ -166,8 +165,6 @@ export class ValuationComponent implements OnInit {
   accInPast: any;
   extValuator: boolean;
   disablePdfDownload: boolean;
-
-
   selectedDocDetails: DocRequest;
   showModal: boolean;
   isMobile: any;
@@ -176,12 +173,12 @@ export class ValuationComponent implements OnInit {
   longitude: string = null;
   documentArr: DocumentDetails[] = [];
   SELFIE_IMAGE: string;
-
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
   OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
   OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
   dmsDocumentId: string;
   vehiclePhotoRequired: boolean;
+  taskId: any;
 
 
 
@@ -204,7 +201,8 @@ export class ValuationComponent implements OnInit {
     private loanViewService: LoanViewService,
     private uploadService: UploadService,
     private gpsService: GpsService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private sharedService: SharedService) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
     this.accessoriesArray = this.fb.array([]);
@@ -217,6 +215,8 @@ export class ValuationComponent implements OnInit {
     if (this.isMobile) {
       this.checkGpsEnabled();
     }
+
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
@@ -883,6 +883,18 @@ export class ValuationComponent implements OnInit {
           this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
         }
       }
+      if ((this.vehicleValuationDetails.personInitiated !== null) && (!this.disableForm)) {
+        this.personInitiatedBy = this.vehicleValuationDetails.personInitiated;
+      } else if (this.vehicleValuationDetails.personInitiated === null) {
+        this.personInitiatedBy = this.userName;
+  
+      }
+      this.vehicleValuationForm.patchValue({
+        valuationInitiationDate: this.vehicleValuationDetails.valuationInitiationDate ?
+          this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : '',
+        // personInitiated: this.vehicleValuationDetails.personInitiated || '',
+        personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
+      })
       if (this.vehicleValuationDetails.valuatorRefNo) {
         this.setFormValue();
       }
@@ -1109,22 +1121,11 @@ export class ValuationComponent implements OnInit {
   setFormValue() {
 
     if (this.disableForm) {
-      // console.log('in disable state');
-
       this.yearMonthOfManufact = this.vehicleValuationDetails.yearOfManufacturer || '';
       this.personInitiatedBy = this.vehicleValuationDetails.personInitiated;
     } else {
       this.yearMonthOfManufacturer = this.vehicleValuationDetails.yearOfManufacturer ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '';
-      // console.log('in offline val', this.yearMonthOfManufacturer);
-    }
-    if ((this.vehicleValuationDetails.personInitiated !== null) && (!this.disableForm)) {
-      this.personInitiatedBy = this.vehicleValuationDetails.personInitiated;
-      // console.log('in not disable state and not null');
-    } else if (this.vehicleValuationDetails.personInitiated === null) {
-      this.personInitiatedBy = this.userName;
-      // console.log('in not disable state and  null');
-
     }
     this.vehicleValuationForm.patchValue({
       // valuatorType: this.vehicleValuationDetails.valuatorType || '',
@@ -1173,10 +1174,6 @@ export class ValuationComponent implements OnInit {
       seatingCapacity: this.vehicleValuationDetails.seatingCapacity || '',
       // speedometerReading: this.vehicleValuationDetails.speedometerReading || '',
       fuelUsed: this.vehicleValuationDetails.fuelUsed || '',
-      valuationInitiationDate: this.vehicleValuationDetails.valuationInitiationDate ?
-        this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : '',
-      // personInitiated: this.vehicleValuationDetails.personInitiated || '',
-      personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
       valuatorRefNo: this.vehicleValuationDetails.valuatorRefNo || '',
       borrowersName: this.vehicleValuationDetails.borrowersName || '',
       inspectionPlace: this.vehicleValuationDetails.inspectionPlace || '',
@@ -1546,7 +1543,8 @@ export class ValuationComponent implements OnInit {
       leadId: this.leadId,
       userId: this.userId,
       isSubmitVal: true,
-      collateralId: this.colleteralId
+      collateralId: this.colleteralId,
+      taskId: this.taskId
     };
     this.vehicleValuationService.sumbitValuationTask(data).subscribe((res: any) => {
       console.log('submit valuation Response', res);
