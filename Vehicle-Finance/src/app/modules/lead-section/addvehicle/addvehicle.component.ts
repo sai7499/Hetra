@@ -25,7 +25,7 @@ export class AddvehicleComponent implements OnInit {
   isDirty: boolean;
   routerId = 0;
 
-  udfScreenId = '1001';
+  udfScreenId = '1000';
   udfGroupId: number = 2000;
   udfDetails: any;
 

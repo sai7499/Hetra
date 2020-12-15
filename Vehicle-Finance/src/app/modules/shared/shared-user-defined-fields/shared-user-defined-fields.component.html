@@ -5,16 +5,16 @@
         <h3 class="banner-con">User Defined Fields</h3>
 
         <div class="form-group"
-            [ngClass]="screenUdfMapping.layout=== 3 ? 'col-sm-6 col-md-4 col-lg-3' : 'col-sm-4 col-md-4 col-lg-4'"
+            [ngClass]="screenUdfMapping.layout=== 3 ? 'form-group col-sm-6 col-md-4 col-lg-3' : 'col-sm-4 col-md-4 col-lg-4'"
             *ngFor="let arrayItem of screenUdfMapping.fields; let i=index">
 
             <label class="array-item-title">{{arrayItem.label}} <sub class="star_red_col"
                     *ngIf="arrayItem.mandatory">*</sub> </label>
 
             <app-custom-input *ngIf="arrayItem.contorlType === 'textbox'" [formControlName]="arrayItem.name"
-                [type]="arrayItem.inputType" [className]="'form-control'" [placeholder]="arrayItem.placeholder"
-                [patternCheck]="arrayItem.pattenCheck" [maxLength]="arrayItem.maxLength"
-                [minLength]="arrayItem.minLength" [isDisabled]="arrayItem.disable"
+                id="{{arrayItem.name}}_{{i}}" [type]="arrayItem.inputType" [className]="'form-control'"
+                [placeholder]="arrayItem.placeholder" [patternCheck]="arrayItem.pattenCheck"
+                [maxLength]="arrayItem.maxLength" [minLength]="arrayItem.minLength" [isDisabled]="arrayItem.disable"
                 [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + ' is Required' : ''" [isDirty]="isDirty">
             </app-custom-input>
 
@@ -23,13 +23,15 @@
                 [isDisabled]="arrayItem.disable" [isDirty]="isDirty">
             </app-vf-custom-select>
 
-            <textarea *ngIf="arrayItem.contorlType === 'textarea'" class="form-control"
-                [formControlName]="arrayItem.name" style="resize: none;"></textarea>
+            <textarea *ngIf="arrayItem.contorlType === 'textarea'" class="form-control mandatory" cols="1" rows="3"
+                [placeholder]="arrayItem.placeholder" formControlName="address" maxlength="120"
+                style="resize: none;"></textarea>
 
             <input class="ml" type="checkbox" [formControlName]="arrayItem.name"
                 *ngIf="arrayItem.contorlType === 'checkbox'" />
 
-            <input *ngIf="arrayItem.contorlType === 'radio'" type="radio" [formControlName]="arrayItem.name">
+            <input class="ml" *ngIf="arrayItem.contorlType === 'radio'" type="radio" [formControlName]="arrayItem.name"
+                [value]="arrayItem.value">
 
             <!-- <kendo-datepicker *ngIf="arrayItem.contorlType === 'date'" class="form-control mandatory"
               [formControlName]="arrayItem.name" [format]="'dd/MM/yyyy'" [activeView]="'decade'"

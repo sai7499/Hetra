@@ -24,10 +24,11 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   disableSaveBtn: boolean;
 
   public formValue: any;
-  userDefineForm:any;
+  userDefineForm: any;
 
   public isDirty: boolean;
   public subscription: any;
+  public unsubForm: any;
   udfScreenId = '1002';
   udfGroupId: number = 2000;
   udfDetails: any;
@@ -50,6 +51,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
+        return data
       },
         error => {
           console.log('error', error)
@@ -63,7 +65,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
       this.formValue = value;
     })
 
-    this.sharedService.userDefined$.subscribe((form: any)=> {
+    this.unsubForm = this.sharedService.userDefined$.subscribe((form: any) => {
       this.userDefineForm = form;
     })
 
@@ -118,7 +120,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
         data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
-        data.udfDetails =  [{
+        data.udfDetails = [{
           groupScreenID: this.udfGroupId,
           udfData: JSON.stringify(this.userDefineForm.udfData.getRawValue())
         }]
@@ -159,6 +161,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.unsubForm.unsubscribe();
   }
 
 }

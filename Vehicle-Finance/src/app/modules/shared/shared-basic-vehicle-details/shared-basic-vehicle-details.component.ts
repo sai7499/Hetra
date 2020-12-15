@@ -481,7 +481,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     let data = {
       "collateralId": this.id,
-      groupScreenID: 2000,
+      "groupScreenID": 2000,
     }
     let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     let details = formArray.at(0) as FormGroup;

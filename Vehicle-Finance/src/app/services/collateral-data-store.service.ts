@@ -53,12 +53,12 @@ export class CollateralDataStoreService {
 
     if (json) {
 
-      let groupId = json.screenIds.find((group) => {
+      let groupId = json.screenIds ? json.screenIds.find((group) => {
         return group.groupId
-      })
+      }) : {}
 
       let patchFieldDetails: any = [];
-      let fieldData = json.screenUdfMapping[id];
+      let fieldData = json.screenUdfMapping ? json.screenUdfMapping[id] : {};
 
       if (fieldData && fieldData.fields && fieldData.fields.length > 0) {
         findFieldArray = fieldData.fields.filter((field) => {

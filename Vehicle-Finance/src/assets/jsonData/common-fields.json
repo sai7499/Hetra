@@ -197,8 +197,7 @@
       "mandatory": false,
       "contorlType": "date"
     },
-    {
-    },
+    {},
     {
       "id": "physicallyChallenged",
       "label": "Physically Challenged",
@@ -329,6 +328,28 @@
         "rule": "",
         "msg": ""
       }
+    },
+    {
+      "id": "address",
+      "label": "Vehicle Address",
+      "placeholder": "Vehicle Address",
+      "mandatory": true,
+      "contorlType": "textarea"
+    },
+    {
+      "id": "fsrdFundingReq",
+      "label": "FRSD Funding Required",
+      "placeholder": "FRSD Funding Required",
+      "mandatory": false,
+      "contorlType": "checkbox"
+    },
+    {
+      "id": "vas",
+      "label": "VAS",
+      "placeholder": "VAS",
+      "mandatory": false,
+      "value": "1",
+      "contorlType": "radio"
     }
   ],
   "screenUdfMapping": {
@@ -569,6 +590,16 @@
           "name": "exShowRoomCost",
           "show": true,
           "disable": false
+        },
+        {
+          "name": "address",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "vas",
+          "show": true,
+          "disable": false
         }
       ]
     },
@@ -597,6 +628,11 @@
         },
         {
           "name": "rcOwnerName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "fsrdFundingReq",
           "show": true,
           "disable": false
         }

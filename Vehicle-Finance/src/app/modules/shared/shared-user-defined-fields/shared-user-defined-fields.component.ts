@@ -71,8 +71,8 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    
-    if (this.udfDetails && this.udfDetails.length > 0) {
+
+    if (this.udfDetails && this.udfDetails.length > 0 && this.screenUdfMapping) {
 
       this.udfGroupId = this.udfDetails[0].groupScreenID;
       let patchJsonValue = JSON.parse(this.udfDetails[0].udfData)
@@ -99,6 +99,9 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
       combineArray.map((map: any,) => {
         if (map.key && this.dynamicForm.get(map.key)) {
           this.dynamicForm.get(map.key).setValue(map.value)
+        } else {
+          let fc = this._fb.control(map.value)
+          this.dynamicForm.addControl(map.key, fc)
         }
       })
     }
