@@ -7,7 +7,7 @@
 
             {{ labels.personalDetailsTitle }}
 
-            <span style="float: right;"> <strong>Screen Id :</strong> {{screenId}}</span>
+            <span style="float: right;"> <strong>Screen Id :</strong> {{udfScreenId}}</span>
         </h3>
 
         <div class="row">
@@ -464,40 +464,8 @@
         </div>
     </form>
 
-    <form class="multisteps-form__form p-0" [formGroup]="dynamicForm" *ngIf="labels?.validationData">
-        <div class="row" *ngIf="screenUdfMapping">
-
-            <h3 class="banner-con"> User Defined Fields </h3>
-
-            <div class="form-group"
-                [ngClass]="screenUdfMapping.layout=== 3 ? 'col-sm-6 col-md-4 col-lg-3' : 'col-sm-4 col-md-4 col-lg-4'"
-                *ngFor="let arrayItem of screenUdfMapping.fields; let i=index">
-
-                <label class="array-item-title">{{arrayItem.label}} <sub class="star_red_col"
-                        *ngIf="arrayItem.mandatory">*</sub> </label>
-
-                <app-custom-input *ngIf="arrayItem.contorlType === 'textbox'" [formControlName]="arrayItem.name"
-                    [type]="arrayItem.inputType" [className]="'form-control'" [placeholder]="arrayItem.placeholder"
-                    [patternCheck]="arrayItem.pattenCheck" [maxLength]="arrayItem.maxLength"
-                    [minLength]="arrayItem.minLength" [isDisabled]="arrayItem.disable"
-                    [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + ' is Required' : ''"
-                    [isDirty]="isDirty">
-                </app-custom-input>
-
-                <app-vf-custom-select *ngIf="arrayItem.contorlType === 'selectbox'"
-                    [values]="(LOV?.LOVS)[arrayItem.values]" [formControlName]="arrayItem.name"
-                    [isRequired]="arrayItem.mandatory ? 'Please select one' : ''" [isDirty]="isDirty">
-                </app-vf-custom-select>
-
-                <!-- <kendo-datepicker *ngIf="arrayItem.contorlType === 'date'" class="form-control mandatory"
-                    [formControlName]="arrayItem.name" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
-                    [placeholder]="arrayItem.placeholder">
-                </kendo-datepicker> -->
-
-            </div>
-        </div>
-
-    </form>
+    <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
     <div class="btn-sec clear-both row cst_btm_btns">
         <div class="col-sm-4"></div>

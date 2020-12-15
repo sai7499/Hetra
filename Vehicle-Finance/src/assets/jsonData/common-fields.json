@@ -301,6 +301,34 @@
         "rule": "",
         "msg": ""
       }
+    },
+    {
+      "id": "finalAssetCost",
+      "label": "Final Asset Cost",
+      "placeholder": "Final Asset Cost",
+      "mandatory": false,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
+    },
+    {
+      "id": "rcOwnerName",
+      "label": "Vehicle Owner Name",
+      "placeholder": "Vehicle Owner Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     }
   ],
   "screenUdfMapping": {
@@ -530,6 +558,26 @@
         {
           "name": "region",
           "show": true,
+          "disable": false
+        },
+        {
+          "name": "noOfVehicles",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "exShowRoomCost",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "1002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "region",
+          "show": true,
           "disable": true
         },
         {
@@ -539,6 +587,16 @@
         },
         {
           "name": "exShowRoomCost",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "finalAssetCost",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "rcOwnerName",
           "show": true,
           "disable": false
         }

@@ -104,6 +104,7 @@ setTheme('bs4');
     AddOrUpdateApplicantComponent,
     SharedBasicVehicleDetailsComponent,
     SharedVehicleDetailsComponent,
+    SharedUserDefinedFieldsComponent,
     SharedDeviationComponent,
     SearchBarComponent,
     CustomInputComponent,

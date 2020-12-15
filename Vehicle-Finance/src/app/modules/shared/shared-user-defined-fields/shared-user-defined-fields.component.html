@@ -1,38 +1,42 @@
-<form class="multisteps-form__form p-0" [formGroup]="dynamicForm" *ngIf="labels?.validationData">
-  <div class="row" *ngIf="screenUdfMapping">
+<form class="multisteps-form__form p-0" [formGroup]="dynamicForm" *ngIf="labels?.validationData"
+    (change)="getUserDefinedForm()">
+    <div class="row" *ngIf="screenUdfMapping">
 
-      <h3 class="banner-con"> User Defined Fields </h3>
+        <h3 class="banner-con">User Defined Fields</h3>
 
-      <div class="form-group"
-          [ngClass]="screenUdfMapping.layout=== 3 ? 'col-sm-6 col-md-4 col-lg-3' : 'col-sm-4 col-md-4 col-lg-4'"
-          *ngFor="let arrayItem of screenUdfMapping.fields; let i=index">
+        <div class="form-group"
+            [ngClass]="screenUdfMapping.layout=== 3 ? 'col-sm-6 col-md-4 col-lg-3' : 'col-sm-4 col-md-4 col-lg-4'"
+            *ngFor="let arrayItem of screenUdfMapping.fields; let i=index">
 
-          <label class="array-item-title">{{arrayItem.label}} <sub class="star_red_col"
-                  *ngIf="arrayItem.mandatory">*</sub> </label>
+            <label class="array-item-title">{{arrayItem.label}} <sub class="star_red_col"
+                    *ngIf="arrayItem.mandatory">*</sub> </label>
 
-          <app-custom-input *ngIf="arrayItem.contorlType === 'textbox'" [formControlName]="arrayItem.name"
-              [type]="arrayItem.inputType" [className]="'form-control'" [placeholder]="arrayItem.placeholder"
-              [patternCheck]="arrayItem.pattenCheck" [maxLength]="arrayItem.maxLength"
-              [minLength]="arrayItem.minLength" [isDisabled]="arrayItem.disable"
-              [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + ' is Required' : ''"
-              [isDirty]="isDirty">
-          </app-custom-input>
+            <app-custom-input *ngIf="arrayItem.contorlType === 'textbox'" [formControlName]="arrayItem.name"
+                [type]="arrayItem.inputType" [className]="'form-control'" [placeholder]="arrayItem.placeholder"
+                [patternCheck]="arrayItem.pattenCheck" [maxLength]="arrayItem.maxLength"
+                [minLength]="arrayItem.minLength" [isDisabled]="arrayItem.disable"
+                [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + ' is Required' : ''" [isDirty]="isDirty">
+            </app-custom-input>
 
-          <app-vf-custom-select *ngIf="arrayItem.contorlType === 'selectbox'"
-              [values]="(LOV?.LOVS)[arrayItem.values]" [formControlName]="arrayItem.name"
-              [isRequired]="arrayItem.mandatory ? 'Please select one' : ''" [isDirty]="isDirty">
-          </app-vf-custom-select>
+            <app-vf-custom-select *ngIf="arrayItem.contorlType === 'selectbox'" [values]="(LOV?.LOVS)[arrayItem.values]"
+                [formControlName]="arrayItem.name" [isRequired]="arrayItem.mandatory ? 'Please select one' : ''"
+                [isDisabled]="arrayItem.disable" [isDirty]="isDirty">
+            </app-vf-custom-select>
 
-          <span *ngIf="last" (change)="testValue()">
+            <textarea *ngIf="arrayItem.contorlType === 'textarea'" class="form-control"
+                [formControlName]="arrayItem.name" style="resize: none;"></textarea>
 
-          </span>
+            <input class="ml" type="checkbox" [formControlName]="arrayItem.name"
+                *ngIf="arrayItem.contorlType === 'checkbox'" />
 
-          <!-- <kendo-datepicker *ngIf="arrayItem.contorlType === 'date'" class="form-control mandatory"
+            <input *ngIf="arrayItem.contorlType === 'radio'" type="radio" [formControlName]="arrayItem.name">
+
+            <!-- <kendo-datepicker *ngIf="arrayItem.contorlType === 'date'" class="form-control mandatory"
               [formControlName]="arrayItem.name" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
               [placeholder]="arrayItem.placeholder">
           </kendo-datepicker> -->
 
-      </div>
-  </div>
+        </div>
+    </div>
 
 </form>

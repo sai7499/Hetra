@@ -42,9 +42,9 @@ export class CollateralDataStoreService {
 
   }
 
-  findScreenField(screenId) {
+  findScreenField(udfScreenId) {
     this.getCommonFieldJson();
-    return this.returnUdfFields(screenId, this.commonFieldJson)
+    return this.returnUdfFields(udfScreenId, this.commonFieldJson)
   }
 
   returnUdfFields(id, json) {
@@ -60,8 +60,8 @@ export class CollateralDataStoreService {
       let patchFieldDetails: any = [];
       let fieldData = json.screenUdfMapping[id];
 
-      if (fieldData.fields && fieldData.fields.length > 0) {
-        findFieldArray =  fieldData.fields.filter((field) => {
+      if (fieldData && fieldData.fields && fieldData.fields.length > 0) {
+        findFieldArray = fieldData.fields.filter((field) => {
           json.udfFields.filter((res) => {
             if (res.id === field.name) {
               patchFieldDetails.push(Object.assign(res, field));
@@ -70,14 +70,14 @@ export class CollateralDataStoreService {
           })
           return patchFieldDetails;
         })
-      }
 
-      let udfFields = {
-        layout: fieldData.layout,
-        groupId: groupId,
-        fields: patchFieldDetails
+        let udfFields = {
+          layout: fieldData.layout,
+          groupId: groupId,
+          fields: patchFieldDetails
+        }
+        return udfFields
       }
-      return udfFields
     }
   }
 

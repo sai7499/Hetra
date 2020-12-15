@@ -90,13 +90,6 @@ const routes: Routes = [
           ).then((m) => m.QueryModelModule),
       },
       {
-        path: 'common-fields',
-        loadChildren: () =>
-          import(
-            './modules/common-fields/common-fields.module'
-          ).then((m) => m.CommonFieldsModule),
-      },
-      {
         path: 'terms-condition',
         loadChildren: () =>
           import('./modules/terms-conditions/terms-conditions.module').then(

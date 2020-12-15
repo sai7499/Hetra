@@ -1536,7 +1536,7 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="chassis_number">{{label.chassisNumber}}</label>
+                                <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub>  </label>
 
                                 <app-custom-input formControlName="chasisNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
@@ -1548,7 +1548,7 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="engine_number">{{label.engineNumber}} </label>
+                                <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub> </label>
 
                                 <app-custom-input formControlName="engineNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
@@ -1975,7 +1975,7 @@
 
                                 <app-custom-input formControlName="assetCostIBB"
                                     [type]="label.validationData?.amountValue.type"
-                                    [className]="'form-control mandatory'"
+                                    [className]="'form-control'"
                                     [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
                                     (keyup)="onCompareFinalAssetCode($event)"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
@@ -1991,7 +1991,7 @@
 
                                 <app-custom-input formControlName="assetCostCarTrade"
                                     [type]="label.validationData?.amountValue.type"
-                                    [className]="'form-control mandatory'"
+                                    [className]="'form-control'"
                                     [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
                                     (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
                                     (change)="onCompareFinalAssetCode($event)"
@@ -2089,7 +2089,7 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="chassis_number">{{label.chassisNumber}}</label>
+                                <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub> </label>
                                 <app-custom-input formControlName="chasisNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                     [className]="'form-control'" [placeholder]="'Chassis Number'"
@@ -2104,7 +2104,7 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="engine_number">{{label.engineNumber}}</label>
+                                <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub> </label>
                                 <app-custom-input formControlName="engineNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
                                     [className]="'form-control'" [placeholder]="'Engine Number'"
@@ -2583,8 +2583,8 @@
 
 </form>
 
-<app-shared-user-defined-fields [screenId]="screenId" [groupScreenId]="groupScreenId" [udfDetails]="udfDetails"
-    (saveUserdefined)="onSaveApiDetails($event)"></app-shared-user-defined-fields>
+<app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 <!-- Check Depude Model -->
 
 <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': isShowParentLoan }">

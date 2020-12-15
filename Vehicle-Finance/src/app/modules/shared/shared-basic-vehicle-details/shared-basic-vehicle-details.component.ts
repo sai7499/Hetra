@@ -98,10 +98,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isVehicleRegistrationNumber: any;
   isVehicleRegNoChange: boolean;
   searchChildLoanData: any;
-  screenUdfMapping: any;
 
-  @Input() screenId: any;
-  groupScreenId: number = 2000;
+  @Input() udfScreenId: any;
+  udfGroupId: number = 2000;
   udfDetails: any = [];
 
   constructor(
@@ -133,10 +132,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleFormArray: this._fb.array([])
     })
 
-    this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.screenId)
-
     this.dynamicForm = this._fb.group({
-      screenId: this.screenId
+      udfScreenId: this.udfScreenId
     })
 
     this.labelsData.getLabelsData()
@@ -215,8 +212,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
   }
 
-  onSaveApiDetails(eveny) {
-    console.log(eveny, 'eveny')
+  onSaveuserDefinedFields(event) {
+    this.sharedService.getUserDefinedFields(event)
   }
 
   validateCustomPattern() {
@@ -332,21 +329,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
       this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
-    }
-
-    if (this.screenUdfMapping && this.screenUdfMapping.fields.length > 0) {
-      // const dynamicformArray = (this.basicVehicleForm.get('dynamicFormArray') as FormArray);
-      // dynamicformArray.clear();
-
-      let controls = this._fb.group({
-      })
-
-      this.screenUdfMapping.fields.map((control: any) => {
-        let fc = control.mandatory && control.mandatory === true ? this._fb.control('value', Validators.required)
-          : this._fb.control('valye');
-        controls.addControl(control.name, fc)
-      })
-      // dynamicformArray.push(controls)
     }
   }
 
@@ -498,7 +480,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   setFormValue() {
 
     let data = {
-      "collateralId": this.id
+      "collateralId": this.id,
+      groupScreenID: 2000,
     }
     let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     let details = formArray.at(0) as FormGroup;
@@ -629,7 +612,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     })
     this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
-    VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : ''
+    VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : '';
+
+    this.udfDetails = VehicleDetail.udfDetails ? VehicleDetail.udfDetails : []
 
     if (VehicleDetail.parentLoanAccountNumber) {
       this.isVehicleDedupe = true;

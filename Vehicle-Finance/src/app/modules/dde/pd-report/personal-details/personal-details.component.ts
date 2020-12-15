@@ -20,7 +20,6 @@ import { CollateralDataStoreService } from '@services/collateral-data-store.serv
 export class PersonalDetailsComponent implements OnInit {
 
   public personalDetailsForm: FormGroup;
-  dynamicForm: FormGroup;
   public errorMsg: string = '';
   public labels: any = {};
   private leadId: number = 0;
@@ -57,11 +56,11 @@ export class PersonalDetailsComponent implements OnInit {
   applicantDob: any;
 
   // userDefineFields
-  screenId = '2000';
+  udfScreenId = '2000';
   udfDetails: any = [];
-  groupScreenId: number;
+  userDefineForm: any;
+  udfGroupId: number = 5000;
   udfFieldsArray: any = [];
-  screenUdfMapping: any;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -76,8 +75,6 @@ export class PersonalDetailsComponent implements OnInit {
     private utilityService: UtilityService) { }
 
   async ngOnInit() {
-    this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.screenId)
-
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -246,18 +243,6 @@ export class PersonalDetailsComponent implements OnInit {
       cibilScore: ['', Validators.required]
     });
 
-    this.dynamicForm = this._fb.group({
-      screenId: this.screenId
-    })
-
-    if (this.screenUdfMapping && this.screenUdfMapping.fields.length > 0) {
-      this.screenUdfMapping.fields.map((control: any) => {
-        let fc = control.mandatory && control.mandatory === true ? this._fb.control('', Validators.required)
-          : this._fb.control('');
-
-        this.dynamicForm.addControl(control.name, fc)
-      })
-    }
   }
 
   getLOV() { // fun call to get all lovs
@@ -340,37 +325,6 @@ export class PersonalDetailsComponent implements OnInit {
           })
         }
 
-
-        if (this.udfDetails && this.udfDetails.length > 0) {
-
-          this.groupScreenId = this.udfDetails[0].groupScreenID;
-          let patchJsonValue = JSON.parse(this.udfDetails[0].udfData)
-          let keys = Object.keys(patchJsonValue);
-          let values = Object.values(patchJsonValue);
-
-          let combineArray = [];
-
-          let arrayOfObj = {
-          }
-
-          combineArray = keys.map((control, i) => {
-            values.map((val, j) => {
-              if (i === j) {
-                arrayOfObj = {
-                  key: control,
-                  value: val
-                }
-              }
-            })
-            return arrayOfObj;
-          })
-
-          combineArray.map((map: any, ) => {
-            if(map.key && this.dynamicForm.get(map.key)) {
-              this.dynamicForm.get(map.key).setValue(map.value)
-            }
-          })
-        }
       } else {
         this.toasterService.showError(value.ErrorMessage, 'Personal Details')
       }
@@ -489,11 +443,21 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
 
+  onSaveuserDefinedFields(event) {
+    console.log(event, 'event')
+    this.userDefineForm = event;
+    // this.sharedService.getUserDefinedFields(event)
+  }
+
   onFormSubmit(url: string) {
 
     let formValue = this.personalDetailsForm.getRawValue();
 
-    let udfDetails = this.dynamicForm.getRawValue()
+    // let udfDetails = this.dynamicForm.getRawValue()
+
+    console.log(this.userDefineForm, 'formValue')
+
+    // sharedService
 
     formValue.applicantName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
     formValue.fatherFullName = formValue.fatherFirstName + ' ' + formValue.fatherMiddleName + ' ' + formValue.fatherLastName;
@@ -507,19 +471,19 @@ export class PersonalDetailsComponent implements OnInit {
 
     formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
 
-    if (this.personalDetailsForm.valid) {
+    if (this.personalDetailsForm.valid && this.userDefineForm.udfData.valid) {
 
       let data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
         userId: this.userId,
         applicantPersonalDiscussionDetails: formValue,
-        udfDetails: [
-          {
-            groupScreenID: 5000,
-            udfData: JSON.stringify(udfDetails)
-          }
-        ]
+        // udfDetails: [
+        //   {
+        //     groupScreenID: 5000,
+        //     udfData: JSON.stringify(udfDetails)
+        //   }
+        // ]
       };
 
       this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {

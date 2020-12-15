@@ -24,9 +24,13 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   disableSaveBtn: boolean;
 
   public formValue: any;
+  userDefineForm:any;
+
   public isDirty: boolean;
   public subscription: any;
-  screenId = '1003';
+  udfScreenId = '1002';
+  udfGroupId: number = 2000;
+  udfDetails: any;
 
   productCatoryCode: string;
 
@@ -59,6 +63,10 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
       this.formValue = value;
     })
 
+    this.sharedService.userDefined$.subscribe((form: any)=> {
+      this.userDefineForm = form;
+    })
+
     const operationType = this.toggleDdeService.getOperationType();
     if (operationType) {
       this.disableSaveBtn = true;
@@ -71,7 +79,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
 
-    if (this.formValue.valid === true) {
+    if (this.formValue.valid && this.userDefineForm.udfData.valid) {
 
       if (this.formValue.value.isCheckDedpue === false) {
         this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
@@ -110,6 +118,12 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
         data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
+        data.udfDetails =  [{
+          groupScreenID: this.udfGroupId,
+          udfData: JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
+
+
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
 
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
@@ -138,7 +152,6 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     } else {
       this.isDirty = true;
-      console.log('form', this.formValue)
       this.utilityService.validateAllFormFields(this.formValue)
       this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }
