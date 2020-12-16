@@ -1171,10 +1171,6 @@ image-cropper .overlay {
     border: 3px solid #FFF !important;
 }
 
-.cropper .resize-bar .top,
-.cropper .resize-bar .bottom {
-    height: 60px !important;
-}
 .banner-con{
     color: #fbfbff !important;
     margin: 0px 0px 5px;
@@ -1190,4 +1186,14 @@ image-cropper .overlay {
 
 .cst_btm_btns{
     padding-bottom: 3vw!important;
+}
+
+.cropper .resize-bar.top,
+.cropper .resize-bar.bottom {
+    height: 60px !important;
+}
+
+.cropper .resize-bar.left,
+.cropper .resize-bar.right {
+    width: 60px !important;
 }
