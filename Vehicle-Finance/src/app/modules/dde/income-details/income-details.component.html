@@ -7,24 +7,30 @@
       <div class="container-fluid">
         <div class="row">
           <div class="table-responsive application" *ngIf="usedCar">
-            <table id="POITable" border="1" class="table">
-              <caption class="caption">
+            <table id="POITable" border="1" class="table main-table businessTable">
+              <thead >
+                <th colspan="4" class="banner-con ">  <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
+                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)">
+                <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
+               
+                </thead>
+              <!-- <caption class="caption">
                 <div class="income-row">
-                  <div class="col-md-10">
+                  <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
                     <span class="caption">{{ labels?.businessIncomeDetailsTitle }}</span>
                   </div>
-                  <div class="col-md-2 text-right">
+                  <div class="col-lg-2 col-lg-2 col-md-2 col-sm-12 col-xs-12  col-sm-12 col-xs-12  text-right">
                     <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)"><i
                         class="fa fa-plus fa-fw"></i> Add Row</button>
-                  </div>
-                  </div>
+                  </div> -->
+                  <!-- </div> -->
                 <!-- {{
                   labels?.businessIncomeDetailsTitle
                 }} -->
-              </caption>
-              <thead>
-                <tr class="">
-                  <th role="columnheader">{{ labels?.sNO }}</th>
+              <!-- </caption> -->
+              <thead class="td_none">
+                <tr class="td_none">
+                  <th  role="columnheader">{{ labels?.particulars }}</th>
                   <th role="columnheader">
                     {{ labels?.applicantName }}<sub class="star_red_col">*</sub>
                   </th>
@@ -55,10 +61,10 @@
                     ];
                     let i = index
                   " [formGroupName]="i">
-                  <td data-title="S.No">
+                  <td >
                     {{ i + 1 }}
                   </td>
-                  <td data-title="Applicant Name">
+                  <td >
                     <select class="form-control mandatory select2" id="" name="applicantId"
                       class="form-control text-center" formControlName="applicantId" (change)="
                         onBusinessApplicantChange($event.target.value, i)
@@ -98,13 +104,13 @@
                     </div>
                   </td>
 
-                  <td data-title="Applicant Type">
+                  <td >
                     <app-custom-input formControlName="applicantType" [type]="labels?.validationData?.fullName?.type"
                       [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.fullName?.maxLength"
                       [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
 
-                  <td data-title="Business Entity Name">
+                  <td >
                     <app-custom-input formControlName="businessEnterpriseName" [placeholder]="'Business Entity Name'"
                       [type]="labels?.validationData?.businessEntity?.type" [className]="'form-control mandatory'"
                       [maxLength]="
@@ -126,7 +132,7 @@
                       </div>
                     </div>
                   </td>
-                  <td data-title="Net Profit">
+                  <td >
                     <app-custom-input formControlName="netProfit" [placeholder]="'Net Profit'"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
@@ -146,7 +152,7 @@
                       </div>
                     </div>
                   </td>
-                  <td data-title="Depreciation">
+                  <td >
                     <app-custom-input formControlName="depreciation" [placeholder]="'Depreciation'"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
@@ -166,7 +172,7 @@
                       </div>
                     </div>
                   </td>
-                  <td data-title="Directors salary/Interest to partners + Interest">
+                  <td >
                     <app-custom-input formControlName="directorSalary" [placeholder]="'Director Salary'"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
@@ -186,21 +192,21 @@
                       </div>
                     </div>
                   </td>
-                  <td data-title="Gross derived Income">
+                  <td >
                     <app-custom-input formControlName="grossDerivedIncome"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
-                  <td data-title="Gross monthly income">
+                  <td >
                     <app-custom-input formControlName="grossMonthlyIncome"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
-                  <td data-title="Actions" *ngIf="!disableSaveBtn">
+                  <td  *ngIf="!disableSaveBtn">
                     <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -218,29 +224,21 @@
           </div>
 
           <div class="table-responsive application" *ngIf="NewOrUsedComercialVehicle" formArrayName="keyFinanceDetails">
-            <table id="POITable" border="1" class="table">
-              <caption class="caption">
-                <div class="income-row">
-                  <div class="col-md-10">
-                    <span class="caption">{{ labels?.keyFinancialTitle }}</span>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)"><i
-                        class="fa fa-plus fa-fw"></i> Add Row</button>
-                  </div>
-                  </div>
-                <!-- {{
-                  labels?.keyFinancialTitle
-                }} -->
-              </caption>
+            <table id="POITable" border="1" class="table main-table businessTable">
+              <thead >
+              <th colspan="4" class="banner-con ">  <span >{{ labels?.keyFinancialTitle }}</span> </th>
+              <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)">
+              <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
+             
+              </thead>
               <tbody class="text-center" *ngFor="
                   let item of incomeDetailsForm.get('keyFinanceDetails')[
                     'controls'
                   ];
                   let i = index
                 " [formGroupName]="i">
-                <tr>
-                  <th role="columnheader" class="text-center">{{ labels?.particulars }}</th>
+                <tr class="td_none">
+                  <th  role="columnheader" class="text-center">{{ labels?.particulars }}</th>
                   <th role="columnheader" class="text-center">
                     {{ yearOneValue }}
                   </th>
@@ -251,7 +249,7 @@
                   <th role="columnheader" *ngIf="!disableSaveBtn" class="text-center">{{ labels?.actions }}</th>
                 </tr>
                 <tr>
-                  <td class="bank_name">{{ labels?.applicant }}</td>
+                  <td  class="bank_name">{{ labels?.applicant }}</td>
                   <td>
                     <select class="form-control mandatory select2" id="" name="applicantId"
                       class="form-control text-center" [formControl]="item.controls.yearOne.controls.applicantId"
@@ -295,7 +293,7 @@
                       [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true" [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
-                  <td data-title="Actions" *ngIf="!disableSaveBtn">
+                  <td  *ngIf="!disableSaveBtn">
                     <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -304,9 +302,9 @@
                 </tr>
 
                 <tr>
-                  <td class="bank_name">{{ labels?.applicantType }}</td>
+                  <td  class="bank_name">{{ labels?.applicantType }}</td>
 
-                  <td data-title="Applicant Type">
+                  <td >
                     <app-custom-input [formControl]="
                         item.controls.yearOne.controls.applicantType
                       " [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'"
@@ -754,24 +752,30 @@
             </table>
           </div>
           <div class="table-responsive application mt-3">
-            <table id="POITable_other" border="1" class="table">
-              <caption class="caption">
+            <table id="POITable_other" border="1" class="table main-table">
+              <thead>
+                <th colspan="7" class=" banner-con">  <span>{{ labels?.otherIncomeDetailsTitle }}</span> </th>
+                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)">
+                <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
+               
+                </thead>
+              <!-- <caption class="caption">
                 <div class="income-row">
-                  <div class="col-md-10">
+                  <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
                     <span class="caption">{{ labels?.otherIncomeDetailsTitle }}</span>
                   </div>
-                  <div class="col-md-2 text-right">
+                  <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  text-right">
                     <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)"><i
                         class="fa fa-plus fa-fw"></i> Add Row</button>
                   </div>
-                  </div>
+                  </div> -->
                 <!-- {{
                   labels?.otherIncomeDetailsTitle
                 }} -->
-              </caption>
+              <!-- </caption> -->
               <thead>
                 <tr class="">
-                  <th role="columnheader">{{ labels?.sNO }}</th>
+                  <th  role="columnheader">{{ labels?.particulars }}</th>
                   <th role="columnheader">
                     {{ labels?.applicantName }}
                     <sub class="star_red_col">*</sub>
@@ -795,8 +799,8 @@
                     ];
                     let i = index
                   " [formGroupName]="i">
-                  <td data-title="S.no">{{ i + 1 }}</td>
-                  <td>
+                  <td data-title="S.No">{{ i + 1 }}</td>
+                  <td data-title="Applicant Name">
                     <select class="form-control mandatory select2" id="" name="applicantId"
                       class="form-control text-center" formControlName="applicantId"
                       (change)="onOtherApplicantChange($event.target.value, i)">
@@ -909,49 +913,55 @@
             </div>
           </div>
           <div class="table-responsive application mt-3">
-            <table id="POITable_obligation" border="1" class="table">
-              <caption class="caption">
+            <table id="POITable_obligation" border="1" class="table main-table">
+              <thead>
+                <th colspan="11" class="banner-con">  <span >{{ labels?.obligationDetailsTitle }}</span> </th>
+                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)">
+                <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
+               
+                </thead>
+              <!-- <caption class="caption">
                 <div class="income-row">
-                  <div class="col-md-10">
+                  <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
                     <span class="caption">{{ labels?.obligationDetailsTitle }}</span>
                   </div>
-                  <div class="col-md-2 text-right">
+                  <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  text-right">
                     <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)"><i
                         class="fa fa-plus fa-fw"></i> Add Row</button>
                   </div>
-                  </div>
+                  </div> -->
                 <!-- {{
                   labels?.obligationDetailsTitle
                 }} -->
-              </caption>
+              <!-- </caption> -->
               <thead>
                 <tr class="">
-                  <th role="columnheader">{{ labels?.sNO }}</th>
-                  <th role="columnheader">
+                  <th data-title="S.No" role="columnheader">{{ labels?.particulars }}</th>
+                  <th data-title="Borrower Name" role="columnheader">
                     {{ labels?.borrowerName }}<sub class="star_red_col">*</sub>
                   </th>
-                  <th role="columnheader">{{ labels?.applicantType }}</th>
-                  <th role="columnheader">
+                  <th data-title="Applicant Type" role="columnheader">{{ labels?.applicantType }}</th>
+                  <th data-title="Type of Loan" role="columnheader">
                     {{ labels?.typeOfLoan }}<sub class="star_red_col">*</sub>
                   </th>
-                  <th role="columnheader">
+                  <th data-title="Financier" role="columnheader">
                     {{ labels?.financier }}<sub class="star_red_col">*</sub>
                   </th>
-                  <th role="columnheader">
+                  <th data-title="Loan Amount" role="columnheader">
                     {{ labels?.loanAmount }}<sub class="star_red_col">*</sub>
                   </th>
-                  <th role="columnheader">
+                  <th data-title="Tenor in Months" role="columnheader">
                     {{ labels?.tenorInMonths }}<sub class="star_red_col">*</sub>
                   </th>
-                  <th role="columnheader">
+                  <th data-title="MOB" role="columnheader">
                     {{ labels?.mob }}<sub class="star_red_col">*</sub>
                   </th>
-                  <th role="columnheader">
+                  <th data-title="EMI" role="columnheader">
                     {{ labels?.emi }}<sub class="star_red_col">*</sub>
                   </th>
-                  <th role="columnheader">{{ labels?.balanceTenor }}</th>
-                  <th role="columnheader">{{ labels?.obligationAmount }}</th>
-                  <th role="columnheader" *ngIf="!disableSaveBtn">{{ labels?.actions }}</th>
+                  <th data-title="Balance Tenor" role="columnheader">{{ labels?.balanceTenor }}</th>
+                  <th data-title="Obligation Amount" role="columnheader">{{ labels?.obligationAmount }}</th>
+                  <th data-title="Actions" role="columnheader" *ngIf="!disableSaveBtn">{{ labels?.actions }}</th>
                 </tr>
               </thead>
               <tbody formArrayName="obligationDetails">
@@ -961,8 +971,8 @@
                     ];
                     let i = index
                   " [formGroupName]="i">
-                  <td data-title="S.No">{{ i + 1 }}</td>
-                  <td>
+                  <td data-title="S.No" >{{ i + 1 }}</td>
+                  <td data-title="Borrower Name "> 
                     <select class="form-control mandatory select2" id="" name="applicantId"
                       class="form-control text-center" formControlName="applicantId" (change)="
                         onObligationApplicantChange($event.target.value, i)
@@ -1175,9 +1185,9 @@
             </div>
           </div>
           <div class="table-responsive application mt-3 oblig p-0" *ngIf="usedCar">
-            <table id="POITable" border="0" class="table income_obli">
+            <table id="POITable" border="0" class="table income_obli main-table">
               
-                <caption class="caption">
+                <caption class="banner-con">
                   {{
                     labels?.incomeObligationSummaryTitle
                   }}
@@ -1269,13 +1279,13 @@
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" routerLink="../exposure">
+      <button class="btn btn-primary hvr-sweep-to-left" type="button" routerLink="../exposure">
         Back
       </button>
-      <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+      <button class="btn btn-primary" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">
         Save
       </button>
-      <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" routerLink="../psl-data">
+      <button class="btn btn-primary hvr-sweep-to-right" type="button" routerLink="../psl-data">
         Next
       </button>
     </div>

@@ -17,7 +17,7 @@ import { LoanViewService } from '@services/loan-view.service';
 export class DdeComponent implements OnInit, OnChanges {
   locationIndex: number;
   leadId: number;
-  show: number = 1;
+  show: number ;
   showNav: boolean = false;
   fiCumPdStatusString: any;
   fiCumPdStatus: boolean;
@@ -60,7 +60,7 @@ export class DdeComponent implements OnInit, OnChanges {
     return this.router.url.includes(route);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
     if (this.fiCumPdStatusString == 'false') {
@@ -90,17 +90,10 @@ export class DdeComponent implements OnInit, OnChanges {
       if ((this.isChildLoan === '0') && (this.productCatCode !== 'NCV')) {
         this.showValuationScreen = true;
       }
-      this.sharedService.pslDataNext$.subscribe((val) => {
-        if (val === true) {
-          // this.onNext();
-          this.show = 2;
-          // this.location.onUrlChange((url: string) => {
-          //   this.locationIndex = this.getLocationIndex(url);
-          // });
-        } else {
-          this.show = 1;
-        }
-      });
+
+     this.show= (await this.getbandvalue()) as number;
+     console.log('this.show', this.show)
+      
       // this.sharedService.vehicleValuationNext$.subscribe((val) => {
       //   if (val === true) {
       //     this.onNext();
@@ -154,6 +147,24 @@ export class DdeComponent implements OnInit, OnChanges {
 
   }
 
+
+  getbandvalue(){
+    return new Promise((resolve, rejecet)=>{
+      this.sharedService.pslDataNext$.subscribe((val) => {
+        if (val === true) {
+          // this.onNext();
+          resolve( 2)
+          
+          // this.location.onUrlChange((url: string) => {
+          //   this.locationIndex = this.getLocationIndex(url);
+          // });
+        } else {
+          resolve (1)
+        }
+      });
+    })
+  }
+
   ngOnChanges() {
     console.log('on change');
 
@@ -166,6 +177,7 @@ export class DdeComponent implements OnInit, OnChanges {
       this.show = 2;
       return this.router.navigateByUrl(`/pages/dde/${this.leadId}/deviations`);
     }
+    this.sharedService.getPslDataNext(false)
     this.show = 1;
     // ((this.productCatCode != 'NCV') && ((isChildLoan ==true) &&((prodCode==1078)||(prodCode==1079) || (prodCode==1080)))
     if ((this.showValuationScreen) || (this.ShowChildValuationScreen)) {
@@ -181,7 +193,7 @@ export class DdeComponent implements OnInit, OnChanges {
       return;
       //  this.showLoan360Components = true;
     }
-
+    this.sharedService.getPslDataNext(true)
     this.show = 2;
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
   }
