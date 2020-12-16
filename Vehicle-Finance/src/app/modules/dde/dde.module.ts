@@ -43,6 +43,7 @@ import { PSLdataComponent } from './psldata/psldata.component';
 import { MatFormField, MatSelectModule } from '@angular/material';
 import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { FipdPdfComponent } from './pdf-generate/fipd-pdf/fipd-pdf.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     RcuComponent,
 
     PSLdataComponent,
-    LoanDetailsComponent
+    LoanDetailsComponent,
+    FipdPdfComponent
   ],
   imports: [
     DdeRoutingModule,
