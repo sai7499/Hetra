@@ -626,6 +626,11 @@ export class SourcingDetailsComponent implements OnInit {
     this.isSourceCode = sourcingEvent.key ? true : false;
     this.sourcingCodeKey = sourcingEvent.key;
     this.sourcingCodeValue = sourcingEvent.value;
+    if (this.sourchingTypeId === '2SOURTYP') {
+      this.onDealerCodeSearch(sourcingEvent.key);
+      this.sourcingDetailsForm.patchValue({dealerCode: sourcingEvent.value});
+      this.dealorCodeKey = sourcingEvent.key;
+    }   
   }
 
   onSourcingCodeClear(event) {
@@ -637,12 +642,15 @@ export class SourcingDetailsComponent implements OnInit {
     let inputString = event;
     let dealerCode = [];
     console.log('code', event);
-    this.createLeadService.dealerCode(inputString).subscribe((res: any) => {
+    this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
+        if (this.sourchingTypeId === '2SOURTYP') {
+          this.selectDealorEvent(this.dealerCodeData[0]);
+          }
         this.keyword = 'dealorName';
         console.log('this.dealerCodeData', this.dealerCodeData);
       }
