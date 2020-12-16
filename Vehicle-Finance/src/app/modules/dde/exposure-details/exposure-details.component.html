@@ -1,4 +1,5 @@
-<form class="multisteps-form__form" style="height: auto;" [formGroup]="exposureLiveLoan">
+<div class="content">
+<form class="multisteps-form__form" style="" [formGroup]="exposureLiveLoan">
   <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
     <div class="container">
       <div class="row">
@@ -228,6 +229,7 @@
     <button class="btn btn-primary hvr-glow" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save </button>
     <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()"> Next </button>
   </div>
+</div>
 </div>
 <div class="alert alert-success alert-dismissible fixed"
   id="alert" *ngIf="isAlert">

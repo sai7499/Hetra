@@ -176,9 +176,10 @@ i.fa.fa-minus.delete-row {
 
 /* bottom buttons css */
 
-.cst_btm_btns {
+/* .cst_btm_btns {
     margin-bottom: 55px;
-}
+} */
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
