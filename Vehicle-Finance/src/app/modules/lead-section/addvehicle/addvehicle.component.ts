@@ -7,7 +7,6 @@ import { CreateLeadDataService } from '../../lead-creation/service/createLead-da
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-
 import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
@@ -25,8 +24,8 @@ export class AddvehicleComponent implements OnInit {
   isDirty: boolean;
   routerId = 0;
 
-  udfScreenId = '1000';
-  udfGroupId: number = 2000;
+  udfScreenId: string = 'CLS004';
+  udfGroupId: string = 'CLG002';
   udfDetails: any;
 
   // process variable for save/update vehicle collaterals
@@ -121,8 +120,9 @@ export class AddvehicleComponent implements OnInit {
         }
 
         data.udfDetails =  [{
-          groupScreenID: this.udfGroupId,
-          udfData: JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          "udfGroupId": this.udfGroupId,
+          "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
         }]
 
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {

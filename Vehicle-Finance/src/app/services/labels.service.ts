@@ -128,7 +128,11 @@ export class LabelsService {
   }
 
   getCommonFieldDate(): Observable<any> {
-    return this.createObservableObj(commonLables);
+    try {
+      return this.createObservableObj(commonLables);
+    } catch (error) {
+      
+    }
   }
 
   createObservableObj(labelsurl:string){

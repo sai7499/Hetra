@@ -1,69 +1,78 @@
 {
   "screenGroups": [
     {
-      "groupId": 5000,
+      "groupId": "PDG001",
       "groupName": "PD"
     },
     {
-      "groupId": 2000,
+      "groupId": "CLG002",
       "groupName": "Vehicle Details"
+    },
+    {
+      "groupId": "APG008",
+      "groupName": "Applicant Details"
     }
   ],
   "screenIds": [
     {
-      "id": "2000",
+      "id": "PDS001",
       "name": "PD-Personal Details - Maker",
-      "groupId": 5000
+      "groupId": "PDG001"
     },
     {
-      "id": "2001",
-      "groupId": 5000,
+      "id": "PDS002",
+      "groupId": "PDG001",
       "name": "PD-Income Details - Maker"
     },
     {
-      "id": "2002",
-      "groupId": 5000,
+      "id": "PDS003",
+      "groupId": "PDG001",
       "name": "PD-Loan Details - Maker"
     },
     {
-      "id": "2003",
-      "groupId": 5000,
+      "id": "PDS004",
+      "groupId": "PDG001",
       "name": "PD-Reference Details - Maker"
     },
     {
-      "id": "2004",
+      "id": "PDS005",
       "name": "PD-Personal Details  - Checker",
-      "groupId": 5000
+      "groupId": "PDG001"
     },
     {
-      "id": "2005",
-      "groupId": 5000,
+      "id": "PDS006",
+      "groupId": "PDG001",
       "name": "PD-Income Details  - Checker"
     },
     {
-      "id": "2006",
-      "groupId": 5000,
+      "id": "PDS007",
+      "groupId": "PDG001",
       "name": "PD-Loan Details   - Checker"
     },
     {
-      "id": "2007",
-      "groupId": 5000,
+      "id": "PDS008",
+      "groupId": "PDG001",
       "name": "PD-Reference Details   - Checker"
     },
     {
-      "id": "1000",
-      "groupId": 2000,
+      "id": "CLS002",
+      "groupId": "CLG002",
       "name": "Vehicle Details - QDE"
     },
     {
-      "id": "1001",
-      "groupId": 2000,
+      "id": "CLS004",
+      "groupId": "CLG002",
       "name": "Vehicle Details - ADE"
     },
     {
-      "id": "1002",
-      "groupId": 2000,
+      "id": "CLS006",
+      "groupId": "CLG002",
       "name": "Vehicle Details - DDE"
+    },
+    {
+      "id": "APS011",
+      "groupId": "APG008",
+      "name": "Apllicant Basic Details - ADE"
     }
   ],
   "udfFields": [
@@ -350,10 +359,26 @@
       "mandatory": false,
       "value": "1",
       "contorlType": "radio"
+    },
+    {
+      "id": "rationCard",
+      "label": "Ration Card Number",
+      "placeholder": "Ration Card Number",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha-numeric",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     }
   ],
   "screenUdfMapping": {
-    "2000": {
+    "PDS001": {
       "layout": 3,
       "fields": [
         {
@@ -553,7 +578,7 @@
         }
       ]
     },
-    "1000": {
+    "CLS002": {
       "layout": 3,
       "fields": [
         {
@@ -573,7 +598,7 @@
         }
       ]
     },
-    "1001": {
+    "CLS004": {
       "layout": 3,
       "fields": [
         {
@@ -603,13 +628,13 @@
         }
       ]
     },
-    "1002": {
+    "CLS006": {
       "layout": 3,
       "fields": [
         {
           "name": "region",
           "show": true,
-          "disable": true
+          "disable": false
         },
         {
           "name": "noOfVehicles",
@@ -635,6 +660,16 @@
           "name": "fsrdFundingReq",
           "show": true,
           "disable": false
+        }
+      ]
+    },
+    "APS011": {
+      "layout": 3,
+      "fields":[
+        {
+            "name": "rationCard",
+            "show": true,
+            "disable": false
         }
       ]
     }

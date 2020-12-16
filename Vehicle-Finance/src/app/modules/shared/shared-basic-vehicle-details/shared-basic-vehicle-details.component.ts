@@ -16,7 +16,6 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
-import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -100,7 +99,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   searchChildLoanData: any;
 
   @Input() udfScreenId: any;
-  udfGroupId: number = 2000;
+  @Input() udfGroupId: any;
   udfDetails: any = [];
 
   constructor(
@@ -111,7 +110,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService,
-    private collateralDataStoreService: CollateralDataStoreService,
     private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
@@ -481,7 +479,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     let data = {
       "collateralId": this.id,
-      "groupScreenID": 2000,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          "udfScreenId": this.udfScreenId
+        }
+      ]
     }
     let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     let details = formArray.at(0) as FormGroup;
@@ -1380,7 +1383,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     let data = {
       'vehicleRegNo': details.get('vehicleRegNo').value,
       'parentLoanAccountNumber': details.get('parentLoanAccountNumber').value,
-      "checkDedupe": true
+      "checkDedupe": true,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          "udfScreenId": this.udfScreenId
+        }
+      ]
     }
 
     let editFiledData = data;

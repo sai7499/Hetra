@@ -10,7 +10,6 @@ import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
-import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 
 @Component({
   selector: 'app-personal-details',
@@ -56,11 +55,10 @@ export class PersonalDetailsComponent implements OnInit {
   applicantDob: any;
 
   // userDefineFields
-  udfScreenId = '2000';
+  udfScreenId = 'PDS001';
   udfDetails: any = [];
   userDefineForm: any;
-  udfGroupId: number = 5000;
-  udfFieldsArray: any = [];
+  udfGroupId: string = 'PDG001';
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -71,7 +69,6 @@ export class PersonalDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
-    private collateralDataStoreService: CollateralDataStoreService,
     private utilityService: UtilityService) { }
 
   async ngOnInit() {
@@ -93,6 +90,9 @@ export class PersonalDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
+    let roleType = roleAndUserDetails.roles[0].roleType;
+
+    this.udfScreenId = roleType === 1 ? 'PDS001' : 'PDS005';
 
     const leadData = this.createLeadDataService.getLeadSectionData();
 
@@ -103,7 +103,6 @@ export class PersonalDetailsComponent implements OnInit {
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
-      console.log(this.applicantLov, 'this.applicantLov')
     });
 
     this.monthValidation = this.monthValiationCheck();
@@ -270,7 +269,12 @@ export class PersonalDetailsComponent implements OnInit {
   getPdDetails() { // function to get the pd details with respect to applicant id
     let data = {
       applicantId: this.applicantId,
-      groupScreenID: 5000,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
       pdVersion: this.version ? this.version : 'undefined',
     }
 
@@ -444,21 +448,12 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onSaveuserDefinedFields(event) {
-    console.log(event, 'event')
     this.userDefineForm = event;
-    // this.sharedService.getUserDefinedFields(event)
   }
 
   onFormSubmit(url: string) {
 
     let formValue = this.personalDetailsForm.getRawValue();
-
-    // let udfDetails = this.dynamicForm.getRawValue()
-
-    console.log(this.userDefineForm, 'formValue')
-
-    // sharedService
-
     formValue.applicantName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
     formValue.fatherFullName = formValue.fatherFirstName + ' ' + formValue.fatherMiddleName + ' ' + formValue.fatherLastName;
     formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
@@ -478,19 +473,18 @@ export class PersonalDetailsComponent implements OnInit {
         applicantId: this.applicantId,
         userId: this.userId,
         applicantPersonalDiscussionDetails: formValue,
-        // udfDetails: [
-        //   {
-        //     groupScreenID: 5000,
-        //     udfData: JSON.stringify(udfDetails)
-        //   }
-        // ]
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          }
+        ]
       };
 
       this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
-        console.log(value, 'value')
 
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
-          console.log(value, 'vgh')
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
           this.getLOV();
           this.toasterService.showSuccess('Successfully Save Personal Details', 'Save/Update Personal Details');

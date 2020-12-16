@@ -14,13 +14,13 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   @Input() udfScreenId: any;
   @Input() udfGroupId: any;
   @Input() udfDetails: any;
+  @Input() isDirty: boolean;
 
   screenUdfMapping: any;
   labels: any = {};
   dynamicForm: FormGroup;
 
   @Output() saveUserdefined = new EventEmitter();
-  @Input() isDirty: boolean;
   LOV: any;
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private collateralDataStoreService: CollateralDataStoreService,
@@ -63,7 +63,7 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
 
   getUserDefinedForm() {
     let udfDetails = {
-      groupScreenID: 5000,
+      // groupScreenID: this.udfGroupId,
       udfData: this.dynamicForm
     }
     this.saveUserdefined.emit(udfDetails);
@@ -75,35 +75,38 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
     if (this.udfDetails && this.udfDetails.length > 0 && this.screenUdfMapping) {
 
       this.udfGroupId = this.udfDetails[0].groupScreenID;
-      let patchJsonValue = JSON.parse(this.udfDetails[0].udfData)
-      let keys = Object.keys(patchJsonValue);
-      let values = Object.values(patchJsonValue);
 
-      let combineArray = [];
-
-      let arrayOfObj = {
-      }
-
-      combineArray = keys.map((control, i) => {
-        values.map((val, j) => {
-          if (i === j) {
-            arrayOfObj = {
-              key: control,
-              value: val
+      if (this.udfDetails[0].udfData) {
+        let patchJsonValue = JSON.parse(this.udfDetails[0].udfData)
+        let keys = Object.keys(patchJsonValue);
+        let values = Object.values(patchJsonValue);
+  
+        let combineArray = [];
+  
+        let arrayOfObj = {
+        }
+  
+        combineArray = keys.map((control, i) => {
+          values.map((val, j) => {
+            if (i === j) {
+              arrayOfObj = {
+                key: control,
+                value: val
+              }
             }
+          })
+          return arrayOfObj;
+        })
+  
+        combineArray.map((map: any,) => {
+          if (map.key && this.dynamicForm.get(map.key)) {
+            this.dynamicForm.get(map.key).setValue(map.value)
+          } else {
+            let fc = this._fb.control(map.value)
+            this.dynamicForm.addControl(map.key, fc)
           }
         })
-        return arrayOfObj;
-      })
-
-      combineArray.map((map: any,) => {
-        if (map.key && this.dynamicForm.get(map.key)) {
-          this.dynamicForm.get(map.key).setValue(map.value)
-        } else {
-          let fc = this._fb.control(map.value)
-          this.dynamicForm.addControl(map.key, fc)
-        }
-      })
+      }
     }
   }
 

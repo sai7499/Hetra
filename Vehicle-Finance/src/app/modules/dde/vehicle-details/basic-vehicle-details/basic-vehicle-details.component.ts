@@ -29,8 +29,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public isDirty: boolean;
   public subscription: any;
   public unsubForm: any;
-  udfScreenId = '1002';
-  udfGroupId: number = 2000;
+  udfScreenId: string = 'CLS006';
+  udfGroupId: string = 'CLG002';
   udfDetails: any;
 
   productCatoryCode: string;
@@ -38,8 +38,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
     private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
-    private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService) { }
+    private toggleDdeService: ToggleDdeService, private loanViewService: LoanViewService) { }
 
   ngOnInit() {
 
@@ -109,20 +108,21 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
-          data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
+          data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : null;
         }
 
         data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
         data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
-        data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
+        data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
         data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : '';
-        data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
+        data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
 
         data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
         data.udfDetails = [{
-          groupScreenID: this.udfGroupId,
-          udfData: JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          "udfGroupId": this.udfGroupId,
+          "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
         }]
 
 
