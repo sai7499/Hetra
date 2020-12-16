@@ -93,15 +93,27 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onBack() {
-    if (this.productCatCode != 'NCV') {
+    // if (this.productCatCode != 'NCV') {
+    //   this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
+    //   // this.sharedService.getTvrDetailsPrevious(true);
+    //   this.sharedService.getPslDataNext(false);
+    // } else if (this.productCatCode == 'NCV' || this.productCatCode == 'UC') {
+    //   this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
+    //   // this.sharedService.getTvrDetailsPrevious(true);
+    //   this.sharedService.getPslDataNext(false);
+    // }
+   
+
+    if (this.productCatCode == 'UCV' || this.productCatCode == 'UC') {
       this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
       // this.sharedService.getTvrDetailsPrevious(true);
-      this.sharedService.getPslDataNext(false);
-    } else if (this.productCatCode == 'NCV') {
+      
+    }else{
       this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
-      // this.sharedService.getTvrDetailsPrevious(true);
-      this.sharedService.getPslDataNext(false);
     }
+    this.sharedService.getPslDataNext(false);
+
+
   }
 
   onNext() {
