@@ -63,7 +63,7 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
 
   getUserDefinedForm() {
     let udfDetails = {
-      // groupScreenID: this.udfGroupId,
+      groupScreenID: this.udfGroupId,
       udfData: this.dynamicForm
     }
     this.saveUserdefined.emit(udfDetails);
@@ -80,32 +80,17 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
         let patchJsonValue = JSON.parse(this.udfDetails[0].udfData)
         let keys = Object.keys(patchJsonValue);
         let values = Object.values(patchJsonValue);
-  
-        let combineArray = [];
-  
-        let arrayOfObj = {
-        }
-  
-        combineArray = keys.map((control, i) => {
-          values.map((val, j) => {
-            if (i === j) {
-              arrayOfObj = {
-                key: control,
-                value: val
-              }
+
+        for (let i = 0; i < keys.length; i++) {
+          if (keys[i]) {
+            if (this.dynamicForm.get(keys[i])) {
+              this.dynamicForm.get(keys[i]).setValue(values[i])
+            } else{
+              let fc = this._fb.control(values[i])
+              this.dynamicForm.addControl(keys[i], fc)
             }
-          })
-          return arrayOfObj;
-        })
-  
-        combineArray.map((map: any,) => {
-          if (map.key && this.dynamicForm.get(map.key)) {
-            this.dynamicForm.get(map.key).setValue(map.value)
-          } else {
-            let fc = this._fb.control(map.value)
-            this.dynamicForm.addControl(map.key, fc)
           }
-        })
+        }
       }
     }
   }

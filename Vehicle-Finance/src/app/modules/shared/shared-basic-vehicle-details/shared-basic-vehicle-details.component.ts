@@ -333,30 +333,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   getDynamicFormControls(form) {
     let keys = Object.keys(this.childLoanCondition);
     let values = Object.values(this.childLoanCondition);
-
-    let combineArray = [];
-
-    let arrayOfObj = {
-    }
-
-    combineArray = keys.map((control, i) => {
-      values.map((val, j) => {
-        if (i === j) {
-          arrayOfObj = {
-            key: control,
-            value: val
-          }
-        }
-      })
-      return arrayOfObj;
-    })
-
-    combineArray.map((controls, i) => {
-      if (controls.value === true) {
+    for (let i = 0; i < keys.length; i++) {
+      if (keys[i] && values[i] === true) {
         let fc = this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required])
-        form.addControl(controls.key, fc)
+        form.addControl(keys[i], fc)
       }
-    })
+    }
   }
 
   getLov() {
