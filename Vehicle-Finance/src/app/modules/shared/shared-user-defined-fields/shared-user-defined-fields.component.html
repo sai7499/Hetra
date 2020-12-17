@@ -24,7 +24,7 @@
             </app-vf-custom-select>
 
             <textarea *ngIf="arrayItem.contorlType === 'textarea'" class="form-control mandatory" cols="1" rows="3"
-                [placeholder]="arrayItem.placeholder" formControlName="address" maxlength="120"
+                [placeholder]="arrayItem.placeholder" [formControlName]="arrayItem.name" maxlength="120"
                 style="resize: none;"></textarea>
 
             <input class="ml" type="checkbox" [formControlName]="arrayItem.name"
