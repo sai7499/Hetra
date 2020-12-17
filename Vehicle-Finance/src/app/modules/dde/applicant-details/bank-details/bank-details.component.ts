@@ -16,6 +16,7 @@ import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { debounceTime } from 'rxjs/operators';
 
 // import * as $ from 'jquery';
 
@@ -75,6 +76,7 @@ export class BankDetailsComponent implements OnInit {
   todayDateNew: any = new Date();
   isLimitRequire = false;
   submitForm = false;
+  isToDate = false;
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -156,7 +158,7 @@ export class BankDetailsComponent implements OnInit {
     console.log(this.f);
   }
   get f() {
-    console.log(this.bankForm.controls, ' contrl f');
+    // console.log(this.bankForm.controls, ' contrl f');
     return this.bankForm.controls;
   }
   getApplicantId() {
@@ -414,10 +416,20 @@ export class BankDetailsComponent implements OnInit {
       ? this.bankForm.value.toDate
       : new Date();
     this.todayDateNew = toDate;
+    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
+      this.isToDate = true;
+    } else {
+      this.isToDate = false
+    }
     this.getMonths();
   }
 
   async getMonths() {
+    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
+      this.isToDate = true;
+    } else {
+      this.isToDate = false
+    }
     const tempArray: Array<any> = this.listArray.value;
     console.log('temp array', tempArray);
     // setTimeout(() => {
@@ -432,7 +444,7 @@ export class BankDetailsComponent implements OnInit {
     const fromDateLength = fromDate.getFullYear().toString().length;
     const toDateLength = toDate.getFullYear().toString().length;
     if (fromDateLength == 4 &&  toDateLength == 4) {
-      await  this.checkDates(fromDate, toDate);
+      // await  this.checkDates(fromDate, toDate);
 
 
     // setTimeout(async () => {

@@ -107,7 +107,6 @@ export class SourcingDetailsComponent implements OnInit {
 
   reqLoanAmount: number;
 
-
   sourcingCodeObject: {
     key: string;
     value: string;
@@ -181,6 +180,10 @@ export class SourcingDetailsComponent implements OnInit {
   productCode: any;
   isRemoveDealer: boolean;
 
+  // User defined Fields
+  udfScreenId: string = 'LDS001';
+  udfGroupId: string = 'LDS001';
+  udfDetails: any = [];
 
   constructor(
     private leadSectionService: VehicleDetailService,
