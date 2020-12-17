@@ -38,6 +38,7 @@ import { DeliveryOrderComponent } from './cpc-maker/delivery-order/delivery-orde
 import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
 
 import { PddComponent } from '@shared/pdd-screen/pdd.component';
+import { FipdPdfComponent } from './pdf-generate/fipd-pdf/fipd-pdf.component';
 
 const routes: Routes = [
   {
@@ -195,6 +196,10 @@ const routes: Routes = [
       {
         path: 'pdd',
         component: PddComponent
+      },
+      {
+        path: 'fiCumPd-pd-Pdf',
+        component: FipdPdfComponent,
       }
 
     ],
