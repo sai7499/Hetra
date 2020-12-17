@@ -35,7 +35,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   eligibleLoanAmount: any = 0;
 
   public basicVehicleForm: FormGroup;
-  dynamicForm: FormGroup;
   public vehicleLov: any = {};
   roleId: any;
   roleName: any;
@@ -128,10 +127,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isInvalidMobileNumber: true,
       isVaildFinalAssetCost: true,
       vehicleFormArray: this._fb.array([])
-    })
-
-    this.dynamicForm = this._fb.group({
-      udfScreenId: this.udfScreenId
     })
 
     this.labelsData.getLabelsData()
@@ -464,7 +459,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       "udfDetails": [
         {
           "udfGroupId": this.udfGroupId,
-          "udfScreenId": this.udfScreenId
+          // "udfScreenId": this.udfScreenId
         }
       ]
     }
@@ -495,7 +490,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: VehicleDetail.assetVarient || '',
       assetSubVarient: VehicleDetail.assetSubVarient || '',
       category: VehicleDetail.category || '',
-      chasisNumber: VehicleDetail.chasisNumber || null,
+      chasisNumber: VehicleDetail.chasisNumber || '',
       collateralId: VehicleDetail.collateralId || null,
       collateralType: VehicleDetail.collateralType || null,
       costPerTyre: VehicleDetail.costPerTyre || null,
@@ -754,7 +749,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
-    const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
+    // const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
     // const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     // formArray.controls[0].patchValue({
     //   vehicleId: array[0].vehicleCode ? Number(array[0].vehicleCode) : 0

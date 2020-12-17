@@ -459,8 +459,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
-                                [isDirty]="isDirty">
+                                (change)="onCallTwoFunction($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -868,8 +867,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
-                                [isDirty]="isDirty">
+                                (change)="onCallTwoFunction($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1298,8 +1296,7 @@
 
                                 <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                     formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                    (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
-                                    [isDirty]="isDirty">
+                                    (change)="onCallTwoFunction($event.target.value, obj)" [isDirty]="isDirty">
                                 </app-vf-custom-select>
 
                             </div>
@@ -1536,19 +1533,21 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub>  </label>
+                                <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="chasisNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                     [className]="'form-control'" [placeholder]="'Chassis Number'"
-                                    [inputClass]="'input-upper'" [isRequired]="'Chassis Number Required'"
+                                    [inputClass]="'text-uppercase'" [isRequired]="'Chassis Number Required'"
                                     [isDirty]="isDirty" [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
 
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub> </label>
+                                <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="engineNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
@@ -1868,8 +1867,7 @@
 
                                 <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                     formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                    (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
-                                    [isDirty]="isDirty">
+                                    (change)="onCallTwoFunction($event.target.value, obj)" [isDirty]="isDirty">
                                 </app-vf-custom-select>
 
                             </div>
@@ -1974,8 +1972,7 @@
                                 </label>
 
                                 <app-custom-input formControlName="assetCostIBB"
-                                    [type]="label.validationData?.amountValue.type"
-                                    [className]="'form-control'"
+                                    [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                     [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
                                     (keyup)="onCompareFinalAssetCode($event)"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
@@ -1990,8 +1987,7 @@
                                 </label>
 
                                 <app-custom-input formControlName="assetCostCarTrade"
-                                    [type]="label.validationData?.amountValue.type"
-                                    [className]="'form-control'"
+                                    [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                     [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
                                     (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
                                     (change)="onCompareFinalAssetCode($event)"
@@ -2089,11 +2085,12 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub> </label>
+                                <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub>
+                                </label>
                                 <app-custom-input formControlName="chasisNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                     [className]="'form-control'" [placeholder]="'Chassis Number'"
-                                    [inputClass]="'input-upper'" [isRequired]="'Chassis Number Required'"
+                                    [inputClass]="'text-uppercase'" [isRequired]="'Chassis Number Required'"
                                     [isDirty]="isDirty" [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
 
@@ -2104,7 +2101,8 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub> </label>
+                                <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub>
+                                </label>
                                 <app-custom-input formControlName="engineNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
                                     [className]="'form-control'" [placeholder]="'Engine Number'"

@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LabelsService } from '@services/labels.service';
-
 @Component({
   selector: 'app-shared-user-defined-fields',
   templateUrl: './shared-user-defined-fields.component.html',
@@ -39,6 +38,10 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
     this.initForm();
   }
 
+  ngOnChanges() {
+    this.getLOV()
+  }
+
   initForm() {
 
     this.dynamicForm = this._fb.group({
@@ -54,11 +57,6 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
       })
     }
     this.getUserDefinedForm()
-
-  }
-
-  ngOnChanges() {
-    this.getLOV()
   }
 
   getUserDefinedForm() {
