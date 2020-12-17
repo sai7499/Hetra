@@ -8,7 +8,7 @@
     <h3 class="banner-con" >FI - Residence</h3>
       <div class="row">
         <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="nameOfExternalAgency"
               >{{ labels?.nameOfExternalAgency }}
               <sub class="star_red_col">*</sub></label
@@ -20,7 +20,7 @@
             >
             </app-vf-custom-select>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="contactPoint"
               >{{ labels?.contactPointVerification }}
               <sub class="star_red_col">*</sub></label
@@ -33,7 +33,7 @@
             >
             </app-vf-custom-select>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="referenceNo"
               >{{ labels?.referenceNo }}
               <sub class="star_red_col">*</sub></label
@@ -49,9 +49,8 @@
             >
             </app-custom-input>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+      
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="cpv_date"
               >{{ labels?.cpvIntiatedDate }}
               <sub class="star_red_col">*</sub></label
@@ -92,7 +91,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="cpv_time"
               >{{ labels?.cpvIntiatedTime }}
               <sub class="star_red_col">*</sub></label
@@ -135,7 +134,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="report_date"
               >{{ labels?.reportSubmitDate }}
               <sub class="star_red_col">*</sub></label
@@ -173,40 +172,20 @@
 
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+       
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="report_time"
               >{{ labels?.reportSubmitTime }}
               <sub class="star_red_col">*</sub></label
             >
-            <!-- <app-custom-input
-          id="report_time"
-          [placeholder]="'Enter submit time'"
-          [type]="labels?.validationData?.cubicCapacity?.type"
-          formControlName="reportSubmitTime"
-          [isRequired]="'Time is required'"
-          [maxLength]="labels?.validationData?.cubicCapacity?.maxLength"
-          [isDirty]="isDirty"
-        >
-        </app-custom-input> -->
-            <!-- <kendo-timepicker
-          class="form-control mandatory"
-          formControlName="reportSubmitTime"
-          [format]="'HH:mm'"
-          placeholder="Enter submit time"
-        >
-        </kendo-timepicker> -->
+            
             <input
               type="time"
               class="form-control mandatory"
               placeholder="'Enter submit time'"
               formControlName="reportSubmitTime"
             />
-            <div
-              class="invalid-feedback"
-              *ngIf="!fieldReportForm.controls['reportSubmitTime'].vaild"
-            >
+            <div class="invalid-feedback" *ngIf="!fieldReportForm.controls['reportSubmitTime'].vaild" >
               <div
                 *ngIf="
                   fieldReportForm.controls['reportSubmitTime'].hasError(
@@ -215,10 +194,10 @@
                 "
               >
                 Report submitted time is required
-              </div>
+            </div>
             </div>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="applicantsName"
               >{{ labels?.applicantsName }}
               <sub class="star_red_col">*</sub></label
@@ -233,7 +212,9 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="residenceAddressline1"
               >{{ labels?.residenceAddressline1 }}
               <sub class="star_red_col">*</sub></label
@@ -249,9 +230,8 @@
             >
             </app-custom-input>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="residenceAddressline2"
               >{{ labels?.residenceAddressline2 }}
               <sub class="star_red_col">*</sub></label
@@ -267,7 +247,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="residenceAddressline3"
               >{{ labels?.residenceAddressline3 }}
               <sub class="star_red_col">*</sub></label
@@ -283,7 +263,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="pincode"
               >{{ labels?.pincode }} <sub class="star_red_col">*</sub></label
             >
@@ -301,9 +281,8 @@
               Invalid Pincode
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="city"
               >{{ labels?.city }} <sub class="star_red_col">*</sub></label
             >
@@ -316,7 +295,7 @@
             >
             </app-vf-custom-select>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="state"
               >{{ labels?.state }} <sub class="star_red_col">*</sub></label
             >
@@ -332,7 +311,7 @@
         </div>
         <!-- if Bussiness -->
         <!-- <div class="row">
-      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+      <div class="form-group col-sm-6 col-md-4 col-lg-4">
         <label for="typeofConcern"
           >{{ labels?.typeOfConcern }} <sub class="star_red_col">*</sub></label
         >
@@ -345,7 +324,7 @@
         >
         </app-vf-custom-select>
       </div>
-      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+      <div class="form-group col-sm-6 col-md-4 col-lg-4">
         <label for="designation"
           >{{ labels?.designation }} <sub class="star_red_col">*</sub></label
         >
@@ -358,7 +337,7 @@
         >
         </app-vf-custom-select>
       </div>
-      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+      <div class="form-group col-sm-6 col-md-4 col-lg-4">
         <label for="natureOfBusiness"
           >{{ labels?.natureOfBusiness }}
           <sub class="star_red_col">*</sub></label
@@ -381,7 +360,7 @@
       <div class="row">
         <h3 class="banner-con">Residence Observation</h3>
         <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="residenceApproach"
               >{{ labels?.residenceApproach }}
               <sub class="star_red_col">*</sub></label
@@ -397,7 +376,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="detailsOfResidence"
               >{{ labels?.detailsOfResidence }}
               <sub class="star_red_col">*</sub></label
@@ -412,7 +391,7 @@
             >
             </app-vf-custom-select>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="rentAmount"
               >{{ labels?.rentAmount }}
               <sub class="star_blue_col">*</sub></label
@@ -429,9 +408,8 @@
             >
             </app-custom-input>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+       
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="property_area"
               >{{ labels.propertyArea }}
               <sub class="star_blue_col">*</sub></label
@@ -453,7 +431,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="loan_amt"
               >{{ labels.propertyValue }}
               <sub class="star_blue_col">*</sub></label
@@ -474,7 +452,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="residenceName"
               >{{ labels?.residenceName }}
               <sub class="star_red_col">*</sub></label
@@ -490,9 +468,8 @@
             >
             </app-custom-input>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="verifiedFrom"
               >{{ labels?.verifiedFrom }}
               <sub class="star_red_col">*</sub></label
@@ -508,7 +485,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="personMetName"
               >{{ labels?.personMetName }}
               <sub class="star_red_col">*</sub></label
@@ -531,7 +508,7 @@
                             [isDirty]="isDirty">
                         </app-custom-input>
                     </div> -->
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="assetsVisibleAtHome"
               >{{ labels?.assetsVisibleAtHome }}
               <sub class="star_red_col">*</sub></label
@@ -547,9 +524,8 @@
             >
             </app-custom-input>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+       
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="locatingResidence"
               >{{ labels?.locatingResidence }}
               <sub class="star_red_col">*</sub></label
@@ -566,7 +542,7 @@
             </app-custom-input>
           </div>
 
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="fi_locality"
               >{{ labels?.fiLocality }} <sub class="star_red_col">*</sub></label
             >
@@ -581,7 +557,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3 pad-zero">
+          <div class="form-group col-sm-6 col-md-6 col-lg-6 pad-zero">
             <div class="col-sm-12 col-md-12 col-lg-12">
               <label for="YearsStayinCity"
                 >{{ labels?.YearsStayinCity }}
@@ -621,7 +597,7 @@
               </app-custom-input>
             </div>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3 pad-zero">
+          <div class="form-group col-sm-6 col-md-6 col-lg-6 pad-zero">
             <div class="col-sm-12 col-md-12 col-lg-12">
               <label for="YearsStayinResi"
                 >{{ labels?.YearsStayinResi }}
@@ -665,7 +641,7 @@
 
         <h3 class="banner-con">Asset & family member details</h3>
         <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="propertyOwned"
               >{{ labels?.propertyOwned }}
               <sub class="star_red_col">*</sub></label
@@ -681,7 +657,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="noOffamilyMembers"
               >{{ labels?.noOffamilyMembers }}
               <sub class="star_red_col">*</sub></label
@@ -697,7 +673,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="noOfEarningMembers"
               >{{ labels?.noOfEarningMembers }}
               <sub class="star_red_col">*</sub></label
@@ -713,9 +689,9 @@
             >
             </app-custom-input>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        
+       
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="vehiclesDetails"
               >{{ labels?.vehiclesDetails }}
               <sub class="star_red_col">*</sub></label
@@ -737,7 +713,7 @@
       <div class="row">
         <h3 class="banner-con">Comments and Recommendations</h3>
         <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="comments"
               >{{ labels?.commentsAndRecommendations }}
               <sub class="star_red_col">*</sub></label
@@ -753,7 +729,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="distance"
               >{{ labels?.distanceinKMs }}
               <sub class="star_red_col">*</sub></label
@@ -769,7 +745,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="cpvAgencyStatus"
               >{{ labels?.cpvAgencyStatus }}
               <sub class="star_red_col">*</sub></label
@@ -786,9 +762,9 @@
             >
             </app-vf-custom-select>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        
+        
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="verifiedBy"
               >{{ labels?.verifiedBy }} <sub class="star_red_col">*</sub></label
             >
@@ -803,7 +779,7 @@
             >
             </app-custom-input>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label>{{ labels.date }} <sub class="star_red_col">*</sub></label>
             <kendo-datepicker
               class="form-control mandatory"
@@ -816,7 +792,7 @@
             >
             </kendo-datepicker>
           </div>
-          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for=""
               >{{ labels?.time }} <sub class="star_red_col">*</sub></label
             >

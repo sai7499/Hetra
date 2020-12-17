@@ -118,7 +118,7 @@ h3.dedupe_head {
   padding: 5px 15px;
   border-radius: 8px;
   /* border: 1px solid #ddd; */
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 
 label.col-form-label {
@@ -292,7 +292,7 @@ margin-right: 15px!important;
 }
 
 .btn-mar-bot{
-  margin-bottom: 80px;
+  margin-bottom: 50px;
 }
 
 .pad-zero{

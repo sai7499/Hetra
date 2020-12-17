@@ -3,7 +3,10 @@
     cursor: pointer;
 }
 
-.cst_btm_btns {
-    margin-bottom: 55px;
-    padding-bottom: 10px;
+.mar-btm-15{
+  margin-bottom:15px!important;
+}
+
+.nxt-mar-10{
+    margin-bottom:15px;
 }

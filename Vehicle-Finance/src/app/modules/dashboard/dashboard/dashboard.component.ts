@@ -457,6 +457,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     }
 
+    this.sharedService.getPslDataNext(false)
+
   }
 
   getPollCount() {
