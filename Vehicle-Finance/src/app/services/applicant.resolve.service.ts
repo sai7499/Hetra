@@ -36,6 +36,12 @@ export class ApplicantResolveService implements Resolve<boolean> {
     this.previousApplicantId = applicantId;
     const data = {
       applicantId,
+      "udfDetails": [
+        {
+          "udfGroupId": 'APG008',
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     };
     return this.applicantService.getApplicantDetail(data).pipe(
       map((value: any) => {

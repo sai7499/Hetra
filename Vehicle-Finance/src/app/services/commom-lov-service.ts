@@ -12,10 +12,6 @@ export class CommomLovService {
   documentCategories: Categories[];
   searchLoanData: any;
 
-  udfFields: any = [];
-  udfFieldMapping: any = [];
-  screenIds: any = [];
-
   setLovData(LOVsData) {
     this.lovData = LOVsData;
   }
@@ -38,30 +34,6 @@ export class CommomLovService {
 
   getSearchLoan() {
     return this.searchLoanData;
-  }
-
-  setScreenIds(id: any) {
-    this.screenIds = id
-  }
-
-  setUdfMappingFields(field: any) {
-    this.udfFieldMapping = field
-  }
-
-  setUDFFields(val: any) {
-    this.udfFields = val;
-  }
-
-  getScreenIds() {
-    return this.screenIds;
-  }
-
-  getUdfMappingFields() {
-    return this.udfFieldMapping;
-  }
-
-  getUDFFields() {
-    return this.udfFields;
   }
 
 }

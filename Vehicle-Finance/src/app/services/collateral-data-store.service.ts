@@ -32,9 +32,9 @@ export class CollateralDataStoreService {
   async getCommonFieldJson() {
 
     return new Promise((resolve, reject) => {
-      this.labelsData.getCommonFieldDate().subscribe((commonField: any) => {
+      this.labelsData.getCommonFieldData().subscribe((commonField: any) => {
         this.commonFieldJson = commonField;
-        resolve(true)
+        resolve(commonField)
       }, error => {
         reject()
       })
@@ -53,10 +53,9 @@ export class CollateralDataStoreService {
 
     if (json) {
 
-      let groupId = json.screenIds ? json.screenIds.find((group) => {
-        return group.groupId
-      }) : {}
-
+      let groupId = json.screenIds ? json.screenIds.find((group) =>
+        group.id === id
+      ) : {}
       let patchFieldDetails: any = [];
       let fieldData = json.screenUdfMapping ? json.screenUdfMapping[id] : {};
 

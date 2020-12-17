@@ -375,7 +375,15 @@
         "rule": "",
         "msg": ""
       }
-    }
+    },
+     {
+      "id": "noOfChildren",
+      "label": "No. of Children Dependant",
+      "placeholder": "No. of Children Dependant",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number"
+     }
   ],
   "screenUdfMapping": {
     "PDS001": {
@@ -668,6 +676,16 @@
       "fields":[
         {
             "name": "rationCard",
+            "show": true,
+            "disable": false
+        }
+      ]
+    },
+    "PDS005": {
+      "layout": 3,
+      "fields":[
+        {
+            "name": "noOfChildren",
             "show": true,
             "disable": false
         }
