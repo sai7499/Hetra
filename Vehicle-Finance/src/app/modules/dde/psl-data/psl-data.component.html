@@ -1243,17 +1243,18 @@
 <!------------------------------END_OF_SOCIAL_INFRASTRUCTURE-------------------------------->
 
     </div>
+    <div class="btn-sec clear-both row cst_btm_btns">
+        <div class="col-sm-5"> </div>
+        <div class="col-sm-7 text-right">
+            <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
+                {{labels.back}} </button> 
+            <!-- <p class="btn btn-primary save"> Save </p>  -->
+            <button class="btn btn-primary" type="button" (click)="onFormSubmit()" *ngIf="!disableSaveBtn"> {{labels.save}} </button>
+            
+            <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button"  (click)="navigateNext()">
+                {{labels.next}} </button>
+        </div>
+    </div>
 </form>
 
-<div class="btn-sec clear-both row cst_btm_btns">
-    <div class="col-sm-5"> </div>
-    <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
-            {{labels.back}} </button> 
-        <!-- <p class="btn btn-primary save"> Save </p>  -->
-        <button class="btn btn-primary" type="button" (click)="onFormSubmit()" *ngIf="!disableSaveBtn"> {{labels.save}} </button>
-        
-        <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button"  (click)="navigateNext()">
-            {{labels.next}} </button>
-    </div>
-</div>
+
