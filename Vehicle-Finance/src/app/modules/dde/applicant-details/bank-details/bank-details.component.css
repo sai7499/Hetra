@@ -27,3 +27,7 @@ input[type=number] {
   kendo-datepicker{
     width: 100%!important;
   }
+
+  .disablField {
+    pointer-events: none;
+}
