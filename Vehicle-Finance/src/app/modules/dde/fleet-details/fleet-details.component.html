@@ -1,5 +1,5 @@
-<!-- <div class="content"> -->
-<form class="multisteps-form__form" style="height: 400px;" [formGroup]="fleetForm" *ngIf="this.fleetForm">
+ <div class="content">
+<form class="multisteps-form__form" style="" [formGroup]="fleetForm" *ngIf="this.fleetForm">
     <!-- <div class="multisteps-form__panel basic_scroll js-active" data-animation="scaleIn"> -->
     <div class="container">
         <div class="row" *ngIf="!isLoan360">
@@ -343,22 +343,23 @@
                 </table>
             </div>
         </div>
+        <div class="btn-sec clear-both row btn-mar-15 cst_btm_btns"  >
+            <div class="col-sm-5">
+    
+            </div>
+            <div class="col-sm-7 text-right nxt-mar-15 p-0">
+                <button class="btn btn-primary hvr-sweep-to-left " type="button" (click)="toReference()">Back</button>
+                <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)" *ngIf="!disableSaveBtn">Save </button>
+                <button class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" (click)="onFormSubmit('next')"> Next </button>
+            </div>
+        </div>
     </div>
     <!-- </div> -->
 
     <!-- </div> -->
 
 
-    <div class="btn-sec clear-both row btn-mar-15 cst_btm_btns"  >
-        <div class="col-sm-5">
-
-        </div>
-        <div class="col-sm-7 text-right nxt-mar-15">
-            <button class="btn btn-primary hvr-sweep-to-left " type="button" (click)="toReference()">Back</button>
-            <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)" *ngIf="!disableSaveBtn">Save </button>
-            <button class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" (click)="onFormSubmit('next')"> Next </button>
-        </div>
-    </div>
+   
     <div
   class="modal"
   data-dismiss="modal"
@@ -493,7 +494,7 @@
   </div>
 
 </form>
-
+</div>
 <app-upload-discussion *ngIf="docsFleetDetails" [showUpload]="!!docsFleetDetails" [details]="docsFleetDetails" (cancel)="onModalClose()" (save)="saveValidRecords()"></app-upload-discussion>
 
 
