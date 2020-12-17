@@ -17,9 +17,6 @@ export class DeviationService {
 
   getDeviationsDetails(leadId) {
 
-    console.log('leadId', leadId)
-
-
     const processId = this.apiService.api.getDeviations.processId;
     const workflowId = this.apiService.api.getDeviations.workflowId;
     const projectId = environment.projectIds.salesProjectId;
@@ -34,7 +31,6 @@ export class DeviationService {
       projectId: projectId
 
     };
-
 
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);

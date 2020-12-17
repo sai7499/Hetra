@@ -20,6 +20,8 @@ export class PdReportComponent implements OnInit {
   roleType: any;
   show: boolean;
 
+  
+
   constructor(
     private router: Router,
     private location: Location,
