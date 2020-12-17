@@ -49,7 +49,7 @@
                 <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
               </ng-container>
               <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
-              <td [attr.data-label]="labels?.action">
+              <td class="pad-0" [attr.data-label]="labels?.action">
                 <div class="flex-container">
                   <ng-container  *ngIf="isLoan360">
                     <div><a (click)="navigatePage(item.applicantId)" title="View applicant"><i

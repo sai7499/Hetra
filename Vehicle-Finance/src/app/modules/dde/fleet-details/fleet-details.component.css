@@ -11,6 +11,9 @@
     margin-bottom: 0px;
 }
 
+/* .cst_btm_btns{
+    margin-bottom: 2vw!important;
+} */
 
 /***fleet design starts here******/
 
@@ -228,10 +231,21 @@ form .form-control {
     width: 130px;
 } */
 
-.cst_btm_btns {
+/* .cst_btm_btns {
     margin-bottom: 55px;
-}
+} */
 
+/* .btn-mar-15{
+    margin:0px 15px;
+  } */
+
+  .p-0{
+      padding:0px;
+  }
+  
+  .nxt-mar-15{
+      margin-bottom:15px;
+  }
 .cus-mandatory-field {
     color: red;
     font-style: oblique;

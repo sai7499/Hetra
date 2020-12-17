@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { QueryDataResolverService } from '@modules/lead-section/services/queryDaraResolver.service';
 import { QueryModelComponent } from './query-model.component';
 

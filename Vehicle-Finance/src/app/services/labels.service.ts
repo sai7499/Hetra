@@ -16,7 +16,9 @@ import  mLanguageLabelsurlmarati  from '../../assets/labels/labels_marathi.json'
 import  mLanguageLabelsurlgujarati from '../../assets/labels/label_gujarati.json';
 import  mLanguageLabelsurlhindi from '../../assets/labels/label_hindi.json';
 import  mLanguageLabelsurltamil from '../../assets/labels/label_tamil.json';
-import mChildLoanLabels from '../../assets/jsonData/child-loan.json'
+import mChildLoanLabels from '../../assets/jsonData/child-loan.json';
+
+import commonLables from '../../assets/jsonData/common-fields.json';
 
 
 @Injectable({
@@ -123,6 +125,14 @@ export class LabelsService {
 
   getChildLoanConditionData(): Observable<any> {
     return this.createObservableObj(mChildLoanLabels);
+  }
+
+  getCommonFieldData(): Observable<any> {
+    try {
+      return this.createObservableObj(commonLables);
+    } catch (error) {
+      
+    }
   }
 
   createObservableObj(labelsurl:string){

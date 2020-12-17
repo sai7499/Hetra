@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -17,7 +17,7 @@ import { LoanViewService } from '@services/loan-view.service';
     templateUrl: './additional-collateral-details.component.html',
     styleUrls: ['./additional-collateral-details.component.css']
 })
-export class AdditionalCollateralComponent implements OnInit {
+export class AdditionalCollateralComponent implements OnInit, OnDestroy {
 
     collateralForm: FormGroup;
     public label: any = {};
@@ -423,4 +423,9 @@ export class AdditionalCollateralComponent implements OnInit {
             this.toasterService.showError('Please enter all mandatory field', 'Additional Collateral Detail')
         }
     }
+
+    ngOnDestroy() {
+        
+    }
+
 }

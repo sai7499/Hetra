@@ -29,6 +29,11 @@ export class SharedService {
         this.vaildateForm$.next(form)
     }
 
+    userDefined$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getUserDefinedFields(value) {
+        this.userDefined$.next(value)
+    }
+
     updateDev$: BehaviorSubject<any> = new BehaviorSubject([]);
     getUpdatedDeviation(data) {
         this.updateDev$.next(data)

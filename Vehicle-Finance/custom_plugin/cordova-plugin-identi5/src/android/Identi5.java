@@ -329,7 +329,7 @@ public class Identi5 extends CordovaPlugin {
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
                         + "<PidOptions ver =\"1.0\" >" +
                         "<Opts "
-                        + "env=\"PP\" "+ "fCount=\""+ fCount + "\" "+ "fType=\"0\" "+  "iType=\"0\" "+ "pCount=\"1\" "
+                        + "env=\"PP\" "+ "fCount=\""+ fCount + "\" "+ "fType=\"1\" "+  "iType=\"0\" "+ "pCount=\"1\" "
                         + "pType=\"0\" "+ "format=\""+(isProtoBuf? "1":"0")+ "\" "+ "pidVer=\""+ "2.0"+ "\" "+ "timeout=\""+ "10000"+ "\" "
                         + "wadh=\""+ wadthBase64 + "\" "
                         + "posh=\""+ "UNKNOWN"+ "\"/>"
@@ -414,7 +414,7 @@ public class Identi5 extends CordovaPlugin {
                 String authXML = String.format(
                         "<KycReqInfo de=\"N\" lr=\"N\" pfr=\"Y\" ra=\"F\" rc=\"Y\" ver=\"2.5\">"+
                                 "<Auth  txn=\"UKC:"+txn+"\" >"+
-                                        "<Uses bio=\"y\" bt=\"FMR\" otp=\"n\" pa=\"n\" pfa=\"n\" pi=\"n\" pin=\"n\"  />"+
+                                        "<Uses bio=\"y\" bt=\"FIR\" otp=\"n\" pa=\"n\" pfa=\"n\" pi=\"n\" pin=\"n\"  />"+
                                         "<Meta "  + "dc=\"" + dc + "\" "
                                         + "mi=\"" + mi + "\" "
                                         + "mc=\"" + mc + "\" "
