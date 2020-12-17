@@ -29,6 +29,7 @@ import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-
 import { ApplicantKycDetailsComponent } from './applicant-kyc-details/applicant-kyc-details.component';
 import { PddComponent } from './pdd-screen/pdd.component';
 import { UploadDiscussionComponent } from './upload-discussion/upload-discussion.component';
+import { CustomTextAreaComponent } from './custom-textarea/custom-textarea.component';
 
 import {
   BsDatepickerModule,
@@ -77,7 +78,8 @@ setTheme('bs4');
     PddComponent,
     UploadDiscussionComponent,
     WelomceLetterComponent,
-    InAppcameraComponent
+    InAppcameraComponent,
+    CustomTextAreaComponent
   ],
   imports: [
     CommonModule,
@@ -119,7 +121,8 @@ setTheme('bs4');
     ReferenceComponent,
     PddComponent,
     UploadDiscussionComponent,
-    WelomceLetterComponent
+    WelomceLetterComponent,
+    CustomTextAreaComponent
   ]
 })
 export class SharedModule { }
