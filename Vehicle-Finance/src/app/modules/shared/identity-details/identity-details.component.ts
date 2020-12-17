@@ -70,6 +70,11 @@ export class IdentityDetailsComponent implements OnInit {
 
   isLoan360: boolean;
 
+  // User defined
+  udfScreenId: any = 'APS011';
+  udfGroupId: any = 'APG008';
+  udfDetails: any = [];
+  userDefineForm: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -177,8 +182,8 @@ export class IdentityDetailsComponent implements OnInit {
     }
 
     if (this.loanViewService.checkIsLoan360()) {
-        this.identityForm.disable();
-      }
+      this.identityForm.disable();
+    }
   }
 
   getApplicantDetails() {
@@ -307,7 +312,7 @@ export class IdentityDetailsComponent implements OnInit {
     }
     //console.log('Date', this.drivingIssueDate)
     this.clearDrivingLicenceExpiry();
-   
+
 
   }
 
@@ -502,9 +507,10 @@ export class IdentityDetailsComponent implements OnInit {
     this.isDirty = true;
     if (!this.applicant.ucic) {
       if (this.identityForm.invalid ||
-        this.showInvalidMsg['drivingIssue']||
-        this.showInvalidMsg['drivingExpiry']||
-        this.showInvalidMsg['passportIssue']||
+        this.showInvalidMsg['drivingIssue'] ||
+        this.showInvalidMsg['drivingExpiry'] ||
+        this.showInvalidMsg['passportIssue'] ||
+        this.userDefineForm.udfData.invalid ||
         this.showInvalidMsg['passportExpiry']) {
         this.toasterService.showError(
           'Please fill all mandatory fields.',
@@ -513,6 +519,8 @@ export class IdentityDetailsComponent implements OnInit {
         return
       }
     }
+
+    // 
 
     if (this.isIndividual) {
       this.storeIndividualValueInService();
@@ -531,6 +539,11 @@ export class IdentityDetailsComponent implements OnInit {
       ...applicant,
       leadId: this.leadId,
       applicantId: this.applicantId,
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        "udfScreenId": this.udfScreenId,
+        "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+      }]
     };
     const leadId = this.leadStoreService.getLeadId();
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
@@ -573,4 +586,10 @@ export class IdentityDetailsComponent implements OnInit {
       `/pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`
     );
   }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
+  }
+
 }

@@ -168,7 +168,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     const currentUrl = this.location.path();
 
     try {
-      // await this.getLeads(this.getLeadSendObj);
+      await this.getLeads(this.getLeadSendObj);
       if (currentUrl.includes('query-model') && this.isIntervalStart) {
         this.intervalId = this.getPollLeads(this.getLeadSendObj)
       }
@@ -288,7 +288,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getCommonLeadData(res)
           this.isIntervalStart = true;
-          resolve()
+          resolve(true)
         } else {
           this.chatList = [];
           reject()
@@ -1104,7 +1104,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   }
 
   autoPopulateQueryType(resVal) {
-    console.log(resVal, 'resVal')
     this.queryModalForm.patchValue({
       queryTo: resVal.key,
       searchText: resVal.value

@@ -29,6 +29,13 @@ export class IncomeDetailsComponent implements OnInit {
   roles: any;
   isccOdLimit: boolean = false;
   public errorMsg;
+
+  // userDefineFields
+  udfScreenId = 'PDS002';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'PDG001';
+
   constructor(private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -37,11 +44,36 @@ export class IncomeDetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private personalDiscussion: PersonalDiscussionService,
     private commomLovService: CommomLovService) { }
+
+  async ngOnInit() {
+    this.getLabels();
+    this.initForm();
+    this.leadId = (await this.getLeadId()) as number;
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+    this.roles = roleAndUserDetails.roles;
+    this.roleId = this.roles[0].roleId;
+    this.roleName = this.roles[0].name;
+    this.roleType = this.roles[0].roleType;
+
+    this.udfScreenId =  this.roleType === 1 ? 'PDS002' : 'PDS006';
+
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      this.version = value.version ? String(value.version) : null;
+    });
+    this.getLOV();
+    this.getIncomeDetails();
+  }
+
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
-        // console.log('in labels data', this.labels);
       },
       error => {
         this.errorMsg = error;
@@ -57,7 +89,6 @@ export class IncomeDetailsComponent implements OnInit {
         return;
       }
       this.applicantId = Number(value.applicantId);
-      console.log(value.version);
       this.version = value.version ? String(value.version) : null;
     });
   }
@@ -80,6 +111,12 @@ export class IncomeDetailsComponent implements OnInit {
       pdVersion: this.version,
       applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
       userId: this.userId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     };
 
     this.personalDiscussion.getPdData(data).subscribe((value: any) => {
@@ -92,7 +129,7 @@ export class IncomeDetailsComponent implements OnInit {
             this.addCCOd(value.ProcessVariables['incomeDetails'].typeOfAccount)
           }
           this.setFormValue(value.ProcessVariables['incomeDetails']);
-        }        
+        }
       }
     });
 
@@ -186,7 +223,6 @@ export class IncomeDetailsComponent implements OnInit {
   onFormSubmit(url: string) {
     if (this.incomeDetailsForm.invalid) {
       this.isDirty = true;
-      console.log('in invalid ref checkform', this.incomeDetailsForm);
       this.toasterService.showWarning('please enter required details', '');
       return;
     }
@@ -201,7 +237,6 @@ export class IncomeDetailsComponent implements OnInit {
       incomeDetails: this.incomeDetailsForm.value
     };
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
-      console.log('save or update PD Response', res);
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
       } else {
@@ -210,31 +245,8 @@ export class IncomeDetailsComponent implements OnInit {
     });
   }
 
-
-  async ngOnInit() {
-    this.getLabels();
-    this.initForm();
-    this.leadId = (await this.getLeadId()) as number;
-
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.userId = roleAndUserDetails.userDetails.userId;
-    this.roles = roleAndUserDetails.roles;
-    this.roleId = this.roles[0].roleId;
-    this.roleName = this.roles[0].name;
-    this.roleType = this.roles[0].roleType;
-    console.log('this user roleType', this.roleType);
-    console.log('user id ==>', this.userId)
-
-    this.activatedRoute.params.subscribe((value) => {
-      if (!value && !value.applicantId) {
-        return;
-      }
-      this.applicantId = Number(value.applicantId);
-      console.log(value.version)
-      this.version = value.version ? String(value.version) : null;
-    });
-    this.getLOV();
-    this.getIncomeDetails();
+  onSaveuserDefinedFields(val) {
+    this.userDefineForm = val;
   }
 
 }
