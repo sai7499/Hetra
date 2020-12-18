@@ -829,6 +829,7 @@
           "name": "insuranceNumebr",
           "show": true,
           "disable": false
+          
         }
       ]
     }
