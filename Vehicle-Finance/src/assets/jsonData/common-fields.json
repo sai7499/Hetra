@@ -73,6 +73,11 @@
       "id": "APS011",
       "groupId": "APG008",
       "name": "Apllicant Basic Details - ADE"
+    },
+    {
+      "id": "CLS007",
+      "groupId": "CLG003",
+      "name": "Additional Collaterals"
     }
   ],
   "udfFields": [
@@ -376,13 +381,39 @@
         "msg": ""
       }
     },
-     {
+    {
       "id": "noOfChildren",
       "label": "No. of Children Dependant",
       "placeholder": "No. of Children Dependant",
       "mandatory": true,
       "contorlType": "textbox",
       "inputType": "number"
+     },
+     {
+      "id": "netIncome",
+      "label": "Net Income",
+      "placeholder": "Net Income",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "inputClass": "text-uppercase",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
+     },
+     {
+      "id": "income",
+      "label": "Net Income",
+      "placeholder": "Net Income",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "inputClass": "text-uppercase",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
      }
   ],
   "screenUdfMapping": {
@@ -586,6 +617,42 @@
         }
       ]
     },
+    "PDS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "netIncome",
+          "show": true,
+          "disable": false
+        }]
+    },
+    "PDS003": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "firstName",
+          "show": true,
+          "disable": false
+        }]
+    },
+    "PDS004": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "income",
+          "show": true,
+          "disable": false
+        }]
+    },
+    "PDS005": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "netIncome",
+          "show": true,
+          "disable": false
+        }]
+    },
     "CLS002": {
       "layout": 3,
       "fields": [
@@ -671,21 +738,21 @@
         }
       ]
     },
-    "APS011": {
+    "CLS007": {
       "layout": 3,
       "fields":[
         {
-            "name": "rationCard",
+            "name": "rcOwnerName",
             "show": true,
             "disable": false
         }
       ]
     },
-    "PDS005": {
+    "APS011": {
       "layout": 3,
       "fields":[
         {
-            "name": "noOfChildren",
+            "name": "rationCard",
             "show": true,
             "disable": false
         }

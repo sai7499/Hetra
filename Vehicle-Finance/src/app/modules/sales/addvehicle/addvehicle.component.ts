@@ -25,7 +25,7 @@ export class AddvehicleComponent implements OnInit {
   routerId = 0;
   udfScreenId: string = 'CLS004';
   udfGroupId: string = 'CLG002';
-  udfDetails: any;
+  udfDetails: any = [];
 
   // process variable for save/update vehicle collaterals
   userId: number;
@@ -121,7 +121,7 @@ export class AddvehicleComponent implements OnInit {
 
         data.udfDetails =  [{
           "udfGroupId": this.udfGroupId,
-          "udfScreenId": this.udfScreenId,
+          // "udfScreenId": this.udfScreenId,
           "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
         }]
 
