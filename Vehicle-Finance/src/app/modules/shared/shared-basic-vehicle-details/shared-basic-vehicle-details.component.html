@@ -1701,7 +1701,6 @@
                             </div>
 
                         </div>
-
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3"
@@ -2617,7 +2616,6 @@
                                         <td align="center" [attr.data-label]="'Select'">
                                             <input class="" type="radio" name="loanDetails"
                                                 (click)="onLoanAccNoSelect(loanDetail)" />
-                                            <!--  -->
                                         </td>
                                         <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
                                         <td [attr.data-label]="'Loan Start Date'">{{loanDetail.loanStartDate}}</td>
@@ -2629,19 +2627,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- <div class="btn-sec clear-both btn-mar-reject">
-                                <div class="text-right margin_top">
-                                    <button *ngIf="isSO === 1" [disabled]="!isCreateLoanBtn"
-                                        class="btn btn-primary js-btn-next mar-right8" type="button"
-                                        (click)="onCreateChildLoan()">
-                                        Create Child Loan Lead
-                                    </button>
-                                    <button class="btn btn-primary js-btn-next mar-right8" type="button"
-                                        [disabled]="!isCreateLoanBtn" (click)="viewLoan360()">
-                                        View Loan 360
-                                    </button>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>

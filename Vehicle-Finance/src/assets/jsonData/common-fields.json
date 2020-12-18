@@ -376,13 +376,25 @@
         "msg": ""
       }
     },
-     {
+    {
       "id": "noOfChildren",
       "label": "No. of Children Dependant",
       "placeholder": "No. of Children Dependant",
       "mandatory": true,
       "contorlType": "textbox",
       "inputType": "number"
+     },
+     {
+      "id": "netIncome",
+      "label": "Net Income",
+      "placeholder": "Net Income",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
      }
   ],
   "screenUdfMapping": {
@@ -585,6 +597,15 @@
           "disable": false
         }
       ]
+    },
+    "PDS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "netIncome",
+          "show": true,
+          "disable": false
+        }]
     },
     "CLS002": {
       "layout": 3,

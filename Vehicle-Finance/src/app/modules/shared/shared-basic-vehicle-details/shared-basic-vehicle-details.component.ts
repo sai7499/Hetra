@@ -600,6 +600,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.isVehicleDedupe = true;
     }
 
+    if (this.productCatoryCode === 'UCV') {
+      this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
+    }
+
   }
 
   onVehicleRegion(value: any, obj) {
@@ -749,12 +753,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
-    // const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
-    // const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    // formArray.controls[0].patchValue({
-    //   vehicleId: array[0].vehicleCode ? Number(array[0].vehicleCode) : 0
-    // })
-
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       'vehicleCode', "vehicleVariant")
 
@@ -1364,7 +1362,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       "udfDetails": [
         {
           "udfGroupId": this.udfGroupId,
-          "udfScreenId": this.udfScreenId
+          // "udfScreenId": this.udfScreenId
         }
       ]
     }

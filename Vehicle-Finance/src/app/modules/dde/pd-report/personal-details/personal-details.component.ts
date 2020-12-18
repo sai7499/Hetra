@@ -377,7 +377,7 @@ export class PersonalDetailsComponent implements OnInit {
       lastName: personalPDDetais.lastName || '',
       maritalStatus: personalPDDetais.maritalStatus || '',
       middleName: personalPDDetais.middleName || '',
-      contactNo: personalPDDetais.mobile || '',
+      contactNo: personalPDDetais.contactNo || '',
       noOfAdultDependant: personalPDDetais.noOfAdultDependant || '',
       noOfChildrenDependant: personalPDDetais.noOfChildrenDependant || '',
       noOfYearsResidingInCurrResidence: personalPDDetais.noOfYearsResidingInCurrResidence || '',
@@ -476,7 +476,7 @@ export class PersonalDetailsComponent implements OnInit {
         udfDetails: [
           {
             "udfGroupId": this.udfGroupId,
-            "udfScreenId": this.udfScreenId,
+            // "udfScreenId": this.udfScreenId,
             "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
           }
         ]
@@ -486,7 +486,7 @@ export class PersonalDetailsComponent implements OnInit {
 
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
-          this.getLOV();
+          // this.getLOV();
           this.toasterService.showSuccess('Successfully Save Personal Details', 'Save/Update Personal Details');
         } else {
           this.toasterService.showSuccess(value.ErrorMessage, 'Error Personal Details');
