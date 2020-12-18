@@ -2635,7 +2635,7 @@
             <div class="modal-footer text-center">
                 <button type="button" class="btn con-btn btn-info" data-dismiss="modal" id="continue"
                     (click)="onCheckVehicleDetails()">
-                    Continue with selected account number
+                    Continue with selected {{ isMobile ? 'A/C No.': 'account number'}}
                 </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" id="close" (click)="onClose()">
                     Cancel

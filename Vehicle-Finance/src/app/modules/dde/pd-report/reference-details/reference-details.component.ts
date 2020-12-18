@@ -51,6 +51,12 @@ export class ReferenceDetailsComponent implements OnInit {
   allowSave: boolean;
   indexFromHtml: number;
 
+  // User defined fields
+  udfScreenId: string = 'PDS003';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'PDG001';
+
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
     private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
     private router: Router, private personalDiscussionService: PersonalDiscussionService,
@@ -72,6 +78,9 @@ export class ReferenceDetailsComponent implements OnInit {
     this.removeReferenceControls();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
+    let roleType = roleAndUserDetails.roles[0].roleType;
+
+    this.udfScreenId = roleType === 1 ? 'PDS003' : 'PDS007';
   }
 
   getLeadSectiondata() {
@@ -130,11 +139,19 @@ export class ReferenceDetailsComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
       pdVersion: this.version,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     };
 
     this.personalDiscussionService.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
         this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
+        this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
+
         const referenceDetails = value.ProcessVariables.marketFinRefData;
         if (referenceDetails != null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
           this.populateData(value);
@@ -466,7 +483,7 @@ export class ReferenceDetailsComponent implements OnInit {
       this.marketAndFinReferenceDetails = referenceArray;
     }
     this.isDirty = true;
-    if (this.referenceDetailsForm.invalid) {
+    if (this.referenceDetailsForm.invalid && this.userDefineForm.udfData.invalid) {
       this.toasterService.showError('Please enter valid details', 'Reference Details');
       this.utilityService.validateAllFormFields(this.referenceDetailsForm);
       return;
@@ -479,6 +496,13 @@ export class ReferenceDetailsComponent implements OnInit {
       applicantId: this.applicantId,
       userId: this.userId,
       referenceCheck: formValue,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }
+      ],
       marketFinRefData: this.marketAndFinReferenceDetails
     };
 
@@ -493,6 +517,10 @@ export class ReferenceDetailsComponent implements OnInit {
         this.toasterService.showSuccess(value.ErrorMessage, 'Error Reference Details');
       }
     });
+  }
+
+  onSaveuserDefinedFields(event) {
+    this.userDefineForm = event;
   }
 
   onBack() {

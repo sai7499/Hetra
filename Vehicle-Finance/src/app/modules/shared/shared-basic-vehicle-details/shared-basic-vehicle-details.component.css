@@ -32,6 +32,8 @@ kendo-datepicker{
 
 .tab-hgt{
     height:220px;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .con-btn{

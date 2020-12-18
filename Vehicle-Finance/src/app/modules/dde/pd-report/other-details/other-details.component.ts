@@ -80,7 +80,7 @@ export class OtherDetailsComponent implements OnInit {
   distanceFromBranch: any;
 
   // User defined fields
-  udfScreenId: string = 'PDS003';
+  udfScreenId: string = 'PDS004';
   udfDetails: any = [];
   userDefineForm: any;
   udfGroupId: string = 'PDG001';
@@ -127,7 +127,7 @@ export class OtherDetailsComponent implements OnInit {
     this.roles = roleAndUserDetails.roles;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'PDS003' : 'PDS007';
+    this.udfScreenId = this.roleType === 1 ? 'PDS004' : 'PDS008';
 
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
@@ -335,14 +335,21 @@ export class OtherDetailsComponent implements OnInit {
       latitude: this.latitude || '',
       longitude: this.longitude || '',
     }
-    if (this.otherDetailsForm.valid === true) {
+    if (this.otherDetailsForm.valid && this.userDefineForm.udfData.valid) {
       const data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
         userId: this.userId,
         otherDetails: this.formValues,
         customerProfileDetails: this.custProfileDetails,
-        profilePhoto: this.SELFIE_IMAGE
+        profilePhoto: this.SELFIE_IMAGE,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          }
+        ]
       }
       this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((res: any) => {
         const response = res.ProcessVariables;
@@ -587,6 +594,10 @@ export class OtherDetailsComponent implements OnInit {
         this.documentArr[index].documentId = documentId;
         const subCategoryCode = this.documentArr[index].subCategoryCode;
       });
+  }
+
+  onSaveuserDefinedFields(val) {
+    this.userDefineForm = val;
   }
 
 }
