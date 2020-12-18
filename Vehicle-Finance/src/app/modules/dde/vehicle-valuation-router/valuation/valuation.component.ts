@@ -378,7 +378,9 @@ export class ValuationComponent implements OnInit {
     console.log('lead data', leadData);
     this.productCategoryCode = this.leadDetails['productCatCode'];
     // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
-    this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
+    let leadCreatedDate = String(leadData['leadDetails'].leadCreatedOn).slice(0, 10);   
+    this.leadCreatedDate = this.utilityService.getDateFromString(leadCreatedDate);
+    // this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
     // console.log('LEAD_CREATED_DATE::', this.leadCreatedDate);
     // console.log('MAX_DATE::', this.toDayDate);
