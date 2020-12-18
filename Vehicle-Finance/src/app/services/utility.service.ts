@@ -163,10 +163,16 @@ export class UtilityService {
     } else if (date.includes('-')) {
       dateArray = date.split('-');
     }
+    let getDate: Date
     //  dateArray = date.split('/');
-    let getDate = new Date(
+    if (dateArray[0].length>2){
+      getDate = new Date(
+        dateArray[1] + '-' + dateArray[2] + '-' + dateArray[0])
+    }else{
+      getDate = new Date(
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
+  }
 
     console.log('GETdATE', getDate)
     return getDate;
