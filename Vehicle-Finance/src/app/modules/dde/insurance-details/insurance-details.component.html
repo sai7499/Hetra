@@ -630,6 +630,12 @@
         </div>
     </div> -->
 
+    <div>
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+    
+    </div>
+
     <div class="btn-sec clear-both row cst_btm_btns">
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right">
