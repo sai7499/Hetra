@@ -75,6 +75,16 @@
       "name": "Apllicant Basic Details - ADE"
     },
     {
+      "id": "TVS001",
+      "groupId": "TVG001",
+      "name": "Tele-Verfication-form"
+    },
+    {
+      "id": "APS018",
+      "groupId": "APG010",
+      "name": "Tele-Verfication-form"
+    },
+     {
       "id": "CLS007",
       "groupId": "CLG003",
       "name": "Additional Collaterals"
@@ -381,6 +391,100 @@
         "msg": ""
       }
     },
+    {
+      "id": "employeeName",
+      "label": "Employee Name",
+      "placeholder": "Employee Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
+    },
+    {
+      "id": "employeeIncome",
+      "label": "Employee Income",
+      "placeholder": "Employee Income",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
+    },
+    {
+      "id": "bankName",
+      "label": "Bank Name",
+      "placeholder": "Bank Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
+    },
+    {
+      "id": "bankRemarks",
+      "label": "Remarks",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "textarea"
+    },
+    {
+      "id": "activityName",
+      "label": "Owner Name",
+      "placeholder": "Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
+    },
+    {
+      "id": "isFarmer",
+      "label": "Are You Farmer",
+      "placeholder": "FRSD Funding Required",
+      "mandatory": false,
+      "contorlType": "checkbox"
+    },
+    {
+      "id": "insuranceNumebr",
+      "label": "Insurance Number",
+      "placeholder": "Insurance Number",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 15,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
+    }, 
     {
       "id": "noOfChildren",
       "label": "No. of Children Dependant",
@@ -748,13 +852,59 @@
         }
       ]
     },
-    "APS011": {
+    "TVS001": {
       "layout": 3,
-      "fields":[
+      "fields": [
         {
-            "name": "rationCard",
+          "name": "employeeName",
             "show": true,
             "disable": false
+        },
+        {
+          "name": "employeeIncome",
+            "show": true,
+            "disable": false 
+        }
+      ]
+    },
+    "APS018": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "bankName",
+            "show": true,
+            "disable": false
+        },
+        {
+          "name": "bankRemarks",
+            "show": true,
+            "disable": false 
+        }
+      ]
+    },
+    "PSS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "activityName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "isFarmer",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "ISS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "insuranceNumebr",
+          "show": true,
+          "disable": false
+          
         }
       ]
     }
