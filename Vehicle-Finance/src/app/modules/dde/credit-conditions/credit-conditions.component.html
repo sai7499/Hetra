@@ -98,61 +98,62 @@
     </div>
   </form>
 
+  <div class="btn-sec clear-both mar-30">
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-8 text-right">
+      <button class="btn btn-primary hvr-sweep-to-left" (click)="onBack()" type="button">Back</button>
+      <ng-container *ngIf="!isLoan360 && !isDeclinedFlow">
+      <button  class="btn btn-primary" (click)="saveUpdate('save')" type="button" *ngIf="!isLoan360">Save</button>
+      <!-- <button class="btn btn-primary"
+       *ngIf="userType !== 2" 
+       (click)="assignCDTaskFromSales()"
+        type="button">Submit</button> -->
+      <!-- <button class="btn btn-primary"
+       *ngIf="userType == 2" 
+       (click)="creditConditionActions('submited')"
+        type="button">Submit</button> -->
+      <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Approve')" data-toggle="modal"
+        data-target="#approveModal" [disabled]="!isApproveEnable" type="button">Approve</button>
+  
+      <button class="btn btn-primary" *ngIf="userType === 2" type="button"
+       data-toggle="modal" data-target="#myModal"
+        >Refer</button>
+      <!-- <button class="btn btn-primary" *ngIf="userType === 2" type="button" 
+      (click)="alertMessage('Reject')" data-toggle="modal"
+      data-target="#approveModal"  [disabled]="!isRejectEnable"
+        >Reject</button> -->
+        
+        <button  class="btn btn-primary" *ngIf="userType === 2" type="button" 
+        (click)="reject()"  [disabled]="!isRejectEnable"
+          >Reject</button>
+        </ng-container> 
+      <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
+        (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
+      <button class="btn btn-primary"
+       *ngIf="userType === 2"        
+         type="button"
+         data-toggle="modal"
+         data-target="#myModal"
+         [disabled] ="disableControl"
+         >Refer</button>
+      <button class="btn btn-primary" *ngIf="userType === 2" 
+        (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
+  
+      <ng-container *ngIf="!isLoan360">
+        <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
+        data-target="#approveModal" type="button" [disabled]="!isDeclineEnable">Decline</button>
+      <button class="btn btn-primary hvr-sweep-to-left" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
+        data-toggle="modal" data-target="#approveModal" type="button">Send Back to DDE </button>
+      </ng-container>
+  
+      <button class="btn btn-primary hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
+    </div>
+  </div>
   <div class="bottom_20"></div>
  
 </div>
-<div class="btn-sec clear-both mar-30">
-  <div class="col-sm-4">
-  </div>
-  <div class="col-sm-8 text-right">
-    <button class="btn btn-primary hvr-sweep-to-left" (click)="onBack()" type="button">Back</button>
-    <ng-container *ngIf="!isLoan360 && !isDeclinedFlow">
-    <button  class="btn btn-primary" (click)="saveUpdate('save')" type="button" *ngIf="!isLoan360">Save</button>
-    <!-- <button class="btn btn-primary"
-     *ngIf="userType !== 2" 
-     (click)="assignCDTaskFromSales()"
-      type="button">Submit</button> -->
-    <!-- <button class="btn btn-primary"
-     *ngIf="userType == 2" 
-     (click)="creditConditionActions('submited')"
-      type="button">Submit</button> -->
-    <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Approve')" data-toggle="modal"
-      data-target="#approveModal" [disabled]="!isApproveEnable" type="button">Approve</button>
 
-    <button class="btn btn-primary" *ngIf="userType === 2" type="button"
-     data-toggle="modal" data-target="#myModal"
-      >Refer</button>
-    <!-- <button class="btn btn-primary" *ngIf="userType === 2" type="button" 
-    (click)="alertMessage('Reject')" data-toggle="modal"
-    data-target="#approveModal"  [disabled]="!isRejectEnable"
-      >Reject</button> -->
-      
-      <button  class="btn btn-primary" *ngIf="userType === 2" type="button" 
-      (click)="reject()"  [disabled]="!isRejectEnable"
-        >Reject</button>
-      </ng-container> 
-    <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
-      (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
-    <button class="btn btn-primary"
-     *ngIf="userType === 2"        
-       type="button"
-       data-toggle="modal"
-       data-target="#myModal"
-       [disabled] ="disableControl"
-       >Refer</button>
-    <button class="btn btn-primary" *ngIf="userType === 2" 
-      (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
-
-    <ng-container *ngIf="!isLoan360">
-      <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
-      data-target="#approveModal" type="button" [disabled]="!isDeclineEnable">Decline</button>
-    <button class="btn btn-primary hvr-sweep-to-left" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
-      data-toggle="modal" data-target="#approveModal" type="button">Send Back to DDE </button>
-    </ng-container>
-
-    <button class="btn btn-primary hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
-  </div>
-</div>
 <!-- modal popup -->
 
 <div class="modal" id="myModal">

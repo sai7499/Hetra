@@ -995,7 +995,7 @@
     "address": "Address",
     "valuationStatus": "Valuation Status",
     "valuatorStatus": "Valuator Type",
-    "requestId":"Request ID",
+    "requestId": "Request ID",
     "valuationReport": "Valuation Report",
     "modalTitle1": "Initiate Vechicle Valuation",
     "chooseValuator": "Choose Valuator",
@@ -1068,7 +1068,7 @@
     "vehicleConditions": "What was the application of earlier vehicle",
     "remarksOthers": "Remarks of others",
     "earlierDriving": "Which vehicle was the Applicant driving earlier?",
-    "runningAttached": "Where will this vehicle running/attached/plying?",
+    "runningAttached": "Where will vehicle be running / attached / plying?",
     "awareDue": "Is the customer aware of Due Date and EMI for the loan amount",
     "vehicleMake": "Vehicle Make",
     "model1": "Model(Year)",
@@ -1763,7 +1763,7 @@
     "validUpto": "Valid up to",
     "typeOfPolicy": "Type of policy",
     "isModelInProduction": "Is the Model Currently under Production ?",
-    "anyAccidentsInPast":"Any accidents in the past ? If yes, mention in remarks",
+    "anyAccidentsInPast": "Any accidents in the past ? If yes, mention in remarks",
     "originalInvoice": "Original Invoice Value(Ex-show)",
     "anyMajorRepairs": "Any Other Major Repairs till date",
     "currentInvoiceValue": "Current Invoice Value",
@@ -1813,10 +1813,9 @@
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
-    "goToDashboard":"Go To Dashboard",
-    "submitValuation":"Are you sure you want to submit task?",
-    "wizardId" : "Wizard ID",
-    "vehScheme": "Scheme/promotion",
+    "goToDashboard": "Go To Dashboard",
+    "submitValuation": "Are you sure you want to submit task?",
+    "wizardId": "Wizard ID",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2165,7 +2164,6 @@
                 "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
                 "msg": "Should be valid"
             }
-
         },
         "voterId": {
             "maxLength": {
@@ -2942,7 +2940,7 @@
             "maxLength": {
                 "rule": 12
             },
-            "type": "number"            
+            "type": "number"
         },
         "insuranceAddress": {
             "maxLength": {

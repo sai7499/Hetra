@@ -86,6 +86,12 @@ export class InsuranceDetailsComponent implements OnInit {
   isNomineeInvalid = false;
   isGetApi: boolean;
 
+  // User defined
+  udfScreenId: any = 'ISS001';
+  udfGroupId: any = 'ISG001';
+  udfDetails: any = [];
+  userDefineForm: any;
+
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
               private toggleDdeService: ToggleDdeService,
@@ -248,7 +254,7 @@ export class InsuranceDetailsComponent implements OnInit {
       this.isRtoCenter = false;
       this.insuranceDetailForm.controls.rtoCentre.reset();
       return;
-    } else if (this.f.invalid) {
+    } else if (this.f.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showError('Please enter mandatory fields', '');
       console.log('form group', this.f);
       return;
@@ -281,7 +287,12 @@ export class InsuranceDetailsComponent implements OnInit {
 
       insuranceDetails: {
         ...this.insuranceDetailForm.value
-      }
+      },
+      udfDetails : [{
+      "udfGroupId": this.udfGroupId,
+      // "udfScreenId": this.udfScreenId,
+      "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+    }]
 
     };
     this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
@@ -696,13 +707,20 @@ export class InsuranceDetailsComponent implements OnInit {
 }
   getInsuranceDetails() {
     const body = {
-      leadId: this.leadId
+      leadId: this.leadId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.insuranceService.getInsuranceDetails(body).subscribe((res: any) => {
       console.log(res, 'res in get');
       if (res && res.ProcessVariables.error.code === '0') {
         this.processVariables = res.ProcessVariables.insuranceDetails;
         this.healthQuestionAns = res.ProcessVariables.healthQuestions;
+        this.udfDetails = res.ProcessVariables.udfDetails;
         this.covidQuestions = res.ProcessVariables.covidQuestions;
         if (this.processVariables) {
           if (this.motar == 'yes' && this.processVariables.insuranceProvider != null) {
@@ -987,4 +1005,10 @@ export class InsuranceDetailsComponent implements OnInit {
     this.isRtoCenter = event.key ? true : false;
     this.rtoCenterName = event ? event.key : null;
   }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
+  }
+  
 }

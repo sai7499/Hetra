@@ -66,7 +66,7 @@ export class BasicDetailsComponent implements OnInit {
   checkedBoxHouse: boolean;
   custCatValue: string;
   occupationValue: string;
-  ageOfSeniorCitizen = 65;
+  ageOfSeniorCitizen : any;
   isMarried: boolean;
   applicantData = [];
   showNotApplicant: boolean;
@@ -111,7 +111,13 @@ export class BasicDetailsComponent implements OnInit {
   isExpiryDate: boolean = false;
   maxExtrIssue = new Date()
   isLoan360: boolean;
-  occupation: any[]
+  occupation: any[];
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId= 'APS014';
+  udfGroupId= 'APG008';
+  selfMaxAge: any;
+  salariedMaxAge: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -217,6 +223,10 @@ export class BasicDetailsComponent implements OnInit {
         this.minAge = new Date();
         this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
         this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+        this.salariedMaxAge = data.ages.seniorCitizen.salaried
+        this.selfMaxAge = data.ages.seniorCitizen.selfEmployment;
+        console.log(this.salariedMaxAge,'AGES',this.selfMaxAge)
+        this.ageOfSeniorCitizen= this.selfMaxAge;
       }
     );
   }
@@ -481,7 +491,7 @@ export class BasicDetailsComponent implements OnInit {
     const applicantDetails = this.applicant.applicantDetails;
 
     this.custCatValue = applicantDetails.custSegment;
-    this.ageOfSeniorCitizen = this.custCatValue !== "SEMCUSTSEG" ? 60 : 65;
+    //this.ageOfSeniorCitizen = this.custCatValue !== "SEMCUSTSEG" ? 60 : 65;
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
@@ -1030,6 +1040,7 @@ export class BasicDetailsComponent implements OnInit {
       })
 
       this.applicant = this.applicantDataService.getApplicant(); // To get Applicant details from api
+      this.udfDetails = this.applicant.udfDetails;
       this.setBasicData();
       if (this.applicant.ucic) {
         if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
@@ -1129,7 +1140,7 @@ export class BasicDetailsComponent implements OnInit {
     this.setEqutasDefaultValues(details);
     this.setNullValues(details)
     if (this.custCatValue == 'SEMCUSTSEG') {
-      this.ageOfSeniorCitizen = 65;
+      this.ageOfSeniorCitizen = this.salariedMaxAge;
 
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
 
@@ -1140,7 +1151,7 @@ export class BasicDetailsComponent implements OnInit {
       this.setSelfEmpValidators();
       this.removeSalariedValidators()
     } else if (this.custCatValue == 'SALCUSTSEG') {
-      this.ageOfSeniorCitizen = 60
+      this.ageOfSeniorCitizen = this.selfMaxAge;
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
@@ -1446,7 +1457,9 @@ export class BasicDetailsComponent implements OnInit {
 
 
     this.isDirty = true;
-    if (this.basicForm.invalid) {
+
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
+    if (this.basicForm.invalid || isUDFInvalid) {
 
       this.toasterService.showError(
         'Please fill all mandatory fields.',
@@ -1508,13 +1521,21 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       this.storeNonIndividualValueInService(value);
     }
+    const udfDetails= this.userDefineForm? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+    
 
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
+    //const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
       leadId: this.leadId,
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfDetails
+      }]
     };
 
 
@@ -1526,7 +1547,11 @@ export class BasicDetailsComponent implements OnInit {
           'Record Saved Successfully',
           ''
         );
+        this.udfDetails[0].udfData=  udfDetails;
+    
+        this.applicantDataService.setUdfDatas(this.udfDetails)
         this.apiValue = this.basicForm.getRawValue();
+
 
         if (this.isIndividual) {
           const dob = this.basicForm.getRawValue().details[0].dob
@@ -1870,5 +1895,10 @@ export class BasicDetailsComponent implements OnInit {
     }
 
 
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 }

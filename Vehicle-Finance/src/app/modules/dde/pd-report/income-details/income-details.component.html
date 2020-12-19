@@ -1,10 +1,12 @@
+<div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV?.LOVS">
+
 <form class="multisteps-form__form p-0" [formGroup]="incomeDetailsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
     <h3 class="banner-con">{{ labels.incomeDetails }}</h3>
     <div class="row">
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
         <label> {{ labels.grossIncome }} <sub class="star_red_col">*</sub></label>
-        <app-custom-input [placeholder]="'Enter Gross Income'" [type]="labels?.validationData?.amountValue?.type"
+        <app-custom-input id="'gross_income'" [placeholder]="'Enter Gross Income'" [type]="labels?.validationData?.amountValue?.type"
           formControlName="grossIncome" [isRequired]="'Gross Income is required'"
           [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty"></app-custom-input>
 
@@ -29,13 +31,10 @@
       </div>
     </div>
 
-
-
-
     <div class="row">
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
         <label> {{ labels.grossSalary }} <sub class="star_red_col">*</sub></label>
-        <app-custom-input [placeholder]="'Enter Gross Salary'" [type]="labels?.validationData?.amountValue?.type"
+        <app-custom-input id="'gross_salary'" [placeholder]="'Enter Gross Salary'" [type]="labels?.validationData?.amountValue?.type"
           formControlName="grossSalary" [isRequired]="'Gross Salary is required'"
           [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty"></app-custom-input>
 
@@ -60,11 +59,10 @@
       </div>
     </div>
 
-
     <div class="row">
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
         <label> {{ labels.bankName }} <sub class="star_red_col">*</sub></label>
-        <app-custom-input [placeholder]="'Enter Bank Name'" [type]="labels?.validationData?.bankName?.type"
+        <app-custom-input id="bank_name''" [placeholder]="'Enter Bank Name'" [type]="labels?.validationData?.bankName?.type"
           formControlName="bankName" [patternCheck]="labels?.validationData?.bankName?.pattern"
           [isRequired]="'Bank Name is required'" [maxLength]="labels?.validationData?.bankName?.maxLength"
           [isDirty]="isDirty"></app-custom-input>
@@ -75,7 +73,7 @@
         <label for="branch">{{ labels?.branch }}
           <sub class="star_red_col">*</sub>
         </label>
-        <app-custom-input [placeholder]="'Enter Branch'" [type]="labels?.validationData?.name?.type"
+        <app-custom-input id="branch''" [placeholder]="'Enter Branch'" [type]="labels?.validationData?.name?.type"
           formControlName="branch" [isRequired]="'Branch is required'"
           [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty"></app-custom-input>
 
@@ -102,7 +100,6 @@
       </div>
 
     </div>
-
 
     <div class="row">
 
@@ -143,11 +140,10 @@
       </div>
     </div>
 
-
     <div class="row">
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
         <label> {{ labels.monthlyInflows }} <sub class="star_red_col">*</sub></label>
-        <app-custom-input [placeholder]="'Enter Monthly Inflows'" [type]="labels?.validationData?.amountValue?.type"
+        <app-custom-input id="monthly_inflow''" [placeholder]="'Enter Monthly Inflows'" [type]="labels?.validationData?.amountValue?.type"
           formControlName="monthlyInflow" [isRequired]="'Monthly Inflows is required'"
           [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty"></app-custom-input>
 
@@ -165,11 +161,10 @@
 
     </div>
 
-
     <div class="row">
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
         <label> {{ labels.creditCardFirstName }} <sub class="star_red_col">*</sub></label>
-        <app-custom-input [placeholder]="'Enter Credit Card First Name'" [type]="labels?.validationData?.name?.type"
+        <app-custom-input id="credit_card_first_name''" [placeholder]="'Enter Credit Card First Name'" [type]="labels?.validationData?.name?.type"
           formControlName="ccHolderFirstName" [patternCheck]="labels?.validationData?.name?.pattern"
           [isRequired]="'Credit Card First Name is required'" [maxLength]="labels?.validationData?.name?.maxLength"
           [isDirty]="isDirty"></app-custom-input>
@@ -194,11 +189,10 @@
       </div>
     </div>
 
-
     <div class="row">
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
         <label> {{ labels.creditCardFullName }} <sub class="star_red_col">*</sub></label>
-        <app-custom-input [placeholder]="'Credit Card Full Name'" [type]="labels?.validationData?.name?.type"
+        <app-custom-input id="credit_card_full_name''" [placeholder]="'Credit Card Full Name'" [type]="labels?.validationData?.name?.type"
           formControlName="ccHolderFullName" [patternCheck]="labels?.validationData?.name?.pattern" [isDirty]="isDirty"
           [value]="incomeDetailsForm.get('ccHolderFirstName').value + ' ' +
                     incomeDetailsForm.get('ccHolderSecondName').value + ' ' +
@@ -224,23 +218,28 @@
         </app-custom-input>
       </div>
     </div>
-
-    <div class="btn-sec clear-both row cst_btm_btns">
-      <div class="col-sm-5"></div>
-      <div class="col-sm-7 text-right">
-        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateBack()">
-          {{ labels.back }}
-        </button>
-
-        <button class="btn btn-primary" (click)="onFormSubmit('save')">
-          {{ labels.save }}
-        </button>
-
-        <button class="btn btn-primary hvr-sweep-to-right" (click)="onNavigateNext()">
-          {{ labels.next }}
-        </button>
-      </div>
-    </div>
   </div>
 
 </form>
+
+<app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+<div class="btn-sec clear-both row cst_btm_btns">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-7 text-right">
+    <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateBack()">
+      {{ labels.back }}
+    </button>
+
+    <button class="btn btn-primary" (click)="onFormSubmit('save')">
+      {{ labels.save }}
+    </button>
+
+    <button class="btn btn-primary hvr-sweep-to-right" (click)="onNavigateNext()">
+      {{ labels.next }}
+    </button>
+  </div>
+</div>
+
+</div>

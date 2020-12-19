@@ -54,6 +54,12 @@ export class PersonalDetailsComponent implements OnInit {
   leadData: {};
   applicantDob: any;
 
+  // userDefineFields
+  udfScreenId = 'PDS001';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'PDG001';
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router, private createLeadDataService: CreateLeadDataService,
@@ -64,7 +70,6 @@ export class PersonalDetailsComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
     private utilityService: UtilityService) { }
-
 
   async ngOnInit() {
     this.labelsData.getLabelsData().subscribe(
@@ -85,6 +90,9 @@ export class PersonalDetailsComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
+    let roleType = roleAndUserDetails.roles[0].roleType;
+
+    this.udfScreenId = roleType === 1 ? 'PDS001' : 'PDS005';
 
     const leadData = this.createLeadDataService.getLeadSectionData();
 
@@ -101,31 +109,21 @@ export class PersonalDetailsComponent implements OnInit {
   }
   async getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    // console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
-    console.log('in get lead section data', data['applicantDetails']);
-
-    // console.log('current app id', this.applicantId);
 
     for (const value of data['applicantDetails']) {  // for loop to get the respective applicant details form applicant details array
-      // console.log('in for loop app id', value['applicantId']);
 
       if (value['applicantId'] === this.applicantId) {
-
         const applicantDetailsFromLead = value;
         if (applicantDetailsFromLead['entityTypeKey'] === "NONINDIVENTTYP") {
           this.serviceDobOrDio = applicantDetailsFromLead['doi']
-
         } else if (applicantDetailsFromLead['entityTypeKey'] === "INDIVENTTYP") {
           this.serviceDobOrDio = applicantDetailsFromLead['dob']
-          // this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.serviceDobOrDio) : '' });
         }
       }
-      // console.log('applicant dob', this.serviceDobOrDio);
     }
   }
-
 
   reformatDate(oldDate) {
     return oldDate.toString().split('-').reverse().join('/');
@@ -159,7 +157,6 @@ export class PersonalDetailsComponent implements OnInit {
       this.personalDetailsForm.get('propertyValue').disable();
       this.personalDetailsForm.get('propertyValue').clearValidators();
       this.personalDetailsForm.get('propertyValue').updateValueAndValidity();
-
     }
   }
 
@@ -244,6 +241,7 @@ export class PersonalDetailsComponent implements OnInit {
       bankAccHolderName: ['', Validators.required],
       cibilScore: ['', Validators.required]
     });
+
   }
 
   getLOV() { // fun call to get all lovs
@@ -260,45 +258,38 @@ export class PersonalDetailsComponent implements OnInit {
     });
   }
   getDateFormat(date) { // fun for converting the response date to the valid form date 
-
-    // console.log('in getDateFormat', date);
     const datePart = date.match(/\d+/g);
     const month = datePart[1];
     const day = datePart[0];
     const year = datePart[2];
     const dateFormat: Date = new Date(year + '/' + month + '/' + day);
-    // console.log('formated data', dateFormat);
     return dateFormat;
   }
 
   getPdDetails() { // function to get the pd details with respect to applicant id
-    const data = {
+    let data = {
       applicantId: this.applicantId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
       pdVersion: this.version ? this.version : 'undefined',
-    };
+    }
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ?
           value.ProcessVariables.applicantPersonalDiscussionDetails : {};
+
+        this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
+
         if (this.personalPDDetais.dob) {
-          // if (this.personalPDDetais.dob != null) {
           this.applicantDob = this.personalPDDetais.dob;
           this.personalDetailsForm.patchValue({ dob: this.applicantDob ? new Date(this.getDateFormat(this.applicantDob)) : '' });
-          // console.log('in dob  present condition but  not null');
-          // console.log('applicant dob from api', this.applicantDob);
-          // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
-          //   } else if (this.personalPDDetais.dob == null) {
-          //     // console.log('in dob  present condition but null');
-          //     // console.log('applicant dob from api', this.applicantDob);
-          //     // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
-          //     this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.getDateFormat(this.serviceDobOrDio)) : ''  });
-          //   }
         } else {
           this.applicantDob = null;
-          // console.log('in dob not present condition');
-          // console.log('applicant dob from api', this.applicantDob);
-          // console.log('applicant dob from get leadid by pool', this.serviceDobOrDio);
           this.personalDetailsForm.patchValue({ dob: this.serviceDobOrDio ? new Date(this.getDateFormat(this.serviceDobOrDio)) : '' });
         }
 
@@ -331,13 +322,13 @@ export class PersonalDetailsComponent implements OnInit {
                 applicantName: val.fullName ? val.fullName : '',
                 contactNo: val.mobileNumber ? val.mobileNumber.length === 12 ?
                   val.mobileNumber.slice(2, 12) : val.mobileNumber : '',
-                // dob: val.dob ? new Date(val.dob) : '',
               })
 
             }
             return val
           })
         }
+
       } else {
         this.toasterService.showError(value.ErrorMessage, 'Personal Details')
       }
@@ -386,7 +377,7 @@ export class PersonalDetailsComponent implements OnInit {
       lastName: personalPDDetais.lastName || '',
       maritalStatus: personalPDDetais.maritalStatus || '',
       middleName: personalPDDetais.middleName || '',
-      contactNo: personalPDDetais.mobile || '',
+      contactNo: personalPDDetais.contactNo || '',
       noOfAdultDependant: personalPDDetais.noOfAdultDependant || '',
       noOfChildrenDependant: personalPDDetais.noOfChildrenDependant || '',
       noOfYearsResidingInCurrResidence: personalPDDetais.noOfYearsResidingInCurrResidence || '',
@@ -456,10 +447,13 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
 
+  onSaveuserDefinedFields(event) {
+    this.userDefineForm = event;
+  }
+
   onFormSubmit(url: string) {
 
     let formValue = this.personalDetailsForm.getRawValue();
-
     formValue.applicantName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
     formValue.fatherFullName = formValue.fatherFirstName + ' ' + formValue.fatherMiddleName + ' ' + formValue.fatherLastName;
     formValue.dob = formValue.dob ? this.utilityService.convertDateTimeTOUTC(formValue.dob, 'DD/MM/YYYY') : null;
@@ -472,15 +466,24 @@ export class PersonalDetailsComponent implements OnInit {
 
     formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
 
-    if (this.personalDetailsForm.valid) {
+    if (this.personalDetailsForm.valid && this.userDefineForm.udfData.valid) {
 
-      const data = {
+      let data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
         userId: this.userId,
-        applicantPersonalDiscussionDetails: formValue
+        applicantPersonalDiscussionDetails: formValue,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          }
+        ]
       };
+
       this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
+
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
           this.getLOV();
