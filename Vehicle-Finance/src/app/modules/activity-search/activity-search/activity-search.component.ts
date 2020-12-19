@@ -77,7 +77,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.idleTimerService.startTimer(15, () => {
+    this.idleTimerService.startTimer(30, () => { // 30 seconds
       console.log('completed', this.isMobile);
     });
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
