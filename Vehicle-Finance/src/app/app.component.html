@@ -32,6 +32,50 @@
 </div>
 </div> -->
 
+<div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': showTimerModal }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Your session going to expiry</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">
+          You will timeout in {{timer}} seconds.
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+        type="button"
+        class="btn btn-danger"
+        data-dismiss="modal"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="ucic_lead"
+          (click)="stay()"
+        >
+
+          Stay
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <app-page-redirect-modal [showPageRedirectModal]="showModal" *ngIf="showModal" (okay)="onOkay($event)"></app-page-redirect-modal>
 
 

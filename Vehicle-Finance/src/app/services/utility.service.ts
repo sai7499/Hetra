@@ -7,11 +7,12 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DashboardService } from './dashboard/dashboard.service';
 import { ToggleDdeService } from './toggle-dde.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { IdleTimerService } from './idle-timer.service';
 
 @Injectable()
 export class UtilityService {
   constructor(private httpService: HttpService, private router: Router, private dashboardService: DashboardService,
-    private ngxUiLoaderService: NgxUiLoaderService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService) { }
+    private ngxUiLoaderService: NgxUiLoaderService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService, private idleTimerService: IdleTimerService) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
@@ -23,26 +24,29 @@ export class UtilityService {
       }
 
     );
+    this.idleTimerService.cleanUp();
     this.removeAllLocalStorage();
     this.toggleDdeService.clearToggleData();   
 
   }
 
   removeAllLocalStorage() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('roles');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('salesResponse');
-    localStorage.removeItem('isFiCumPd');
-    localStorage.removeItem('lastAction');
-    localStorage.removeItem('login_required');
-    localStorage.removeItem('branchId');
-    localStorage.removeItem('istermSheet');
-    localStorage.removeItem('outputUsers');
-    localStorage.removeItem('outputUsers');
-    localStorage.removeItem('currentUrl');
-    localStorage.removeItem('is_pred_done');
-    localStorage.removeItem('isPreDisbursement');
+    localStorage.clear();
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('roles');
+    // localStorage.removeItem('userId');
+    // localStorage.removeItem('salesResponse');
+    // localStorage.removeItem('isFiCumPd');
+    // localStorage.removeItem('lastAction');
+    // localStorage.removeItem('login_required');
+    // localStorage.removeItem('branchId');
+    // localStorage.removeItem('istermSheet');
+    // localStorage.removeItem('outputUsers');
+    // localStorage.removeItem('outputUsers');
+    // localStorage.removeItem('currentUrl');
+    // localStorage.removeItem('is_pred_done');
+    // localStorage.removeItem('isPreDisbursement');
+    // localStorage.removeItem('_expiredTime');
     this.router.navigateByUrl('/login');
     this.sharedService.getUserName('');
     this.dashboardService.routingData = '';
