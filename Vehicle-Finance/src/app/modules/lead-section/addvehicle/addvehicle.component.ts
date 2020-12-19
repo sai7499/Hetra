@@ -24,9 +24,9 @@ export class AddvehicleComponent implements OnInit {
   isDirty: boolean;
   routerId = 0;
 
-  udfScreenId: string = 'CLS004';
+  udfScreenId: string = 'CLS002';
   udfGroupId: string = 'CLG002';
-  udfDetails: any;
+  udfDetails: any = [];
 
   // process variable for save/update vehicle collaterals
   userId: number;
@@ -121,7 +121,7 @@ export class AddvehicleComponent implements OnInit {
 
         data.udfDetails =  [{
           "udfGroupId": this.udfGroupId,
-          "udfScreenId": this.udfScreenId,
+          // "udfScreenId": this.udfScreenId,
           "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
         }]
 
@@ -148,7 +148,6 @@ export class AddvehicleComponent implements OnInit {
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
-      console.log(this.formValue, 'form', this.userDefineForm)
       this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }
   }

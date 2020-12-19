@@ -69,9 +69,7 @@ export class PslDataService {
 
     const body: RequestEntity = {
         processId: processId,
-        ProcessVariables:{
-          leadId: processData
-        },
+        ProcessVariables: processData,
         workflowId: workflowId,
         projectId: projectId
     };

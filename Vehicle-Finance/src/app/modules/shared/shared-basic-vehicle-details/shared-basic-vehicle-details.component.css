@@ -30,6 +30,17 @@ kendo-datepicker{
     width: 100%!important;
 }
 
+.tab-hgt{
+    height:220px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.con-btn{
+    padding: 8px 5px;
+    margin: 3px 0px;
+}
+
 .mt {
     margin-top: 24px;
 }
@@ -74,3 +85,8 @@ kendo-datepicker{
     padding-right: 10px;
  }
   
+ @media (min-width:260px) and (max-width:767px){
+     .tab-hgt{
+         height:150px;
+     }
+ }

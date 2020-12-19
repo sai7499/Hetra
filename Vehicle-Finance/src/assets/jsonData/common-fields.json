@@ -123,6 +123,20 @@
       "id": "FLS001",
       "groupId": "FLG001",
       "name": "Fleet Details"
+    },{
+      "id": "TVS001",
+      "groupId": "TVG001",
+      "name": "Tele-Verfication-form"
+    },
+    {
+      "id": "APS018",
+      "groupId": "APG010",
+      "name": "Tele-Verfication-form"
+    },
+     {
+      "id": "CLS007",
+      "groupId": "CLG003",
+      "name": "Additional Collaterals"
     }
   ],
   "udfFields": [
@@ -442,6 +456,21 @@
         "rule": "",
         "msg": ""
       }
+    },{
+      "id": "employeeName",
+      "label": "Employee Name",
+      "placeholder": "Employee Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     },
     {
       "id": "applicantType",
@@ -473,7 +502,18 @@
       "contorlType": "textbox",
       "inputType": "alpha",
       "maxLength": {
-        "rule": 30,
+        "rule": 30
+      }
+    },{
+      
+      "id": "employeeIncome",
+      "label": "Employee Income",
+      "placeholder": "Employee Income",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
         "msg": ""
       },
       "pattenCheck": {
@@ -556,7 +596,28 @@
       "contorlType": "textbox",
       "inputType": "number",
       "maxLength": {
-        "rule": 4,
+        "rule": 4
+      }
+    },{
+      "id": "bankRemarks",
+      "label": "Remarks",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "textarea"
+    },
+    {
+      "id": "activityName",
+      "label": "Owner Name",
+      "placeholder": "Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
         "msg": ""
       }
     },
@@ -572,6 +633,23 @@
       "id": "incomeAmnt",
       "label": "Amount of Income",
       "placeholder": "Amount of Income",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12
+      }
+    },{
+      "id": "isFarmer",
+      "label": "Are You Farmer",
+      "placeholder": "FRSD Funding Required",
+      "mandatory": false,
+      "contorlType": "checkbox"
+    },
+    {
+      "id": "insuranceNumebr",
+      "label": "Insurance Number",
+      "placeholder": "Insurance Number",
       "mandatory": true,
       "contorlType": "textbox",
       "inputType": "number",
@@ -615,6 +693,31 @@
       "mandatory": true,
       "contorlType": "textbox",
       "inputType": "number",
+       "maxLength": {
+        "rule": 15,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
+    }, 
+    {
+      "id": "noOfChildren",
+      "label": "No. of Children Dependant",
+      "placeholder": "No. of Children Dependant",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number"
+     },
+     {
+      "id": "netIncome",
+      "label": "Net Income",
+      "placeholder": "Net Income",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "inputClass": "text-uppercase",
       "maxLength": {
         "rule": 12,
         "msg": ""
@@ -641,7 +744,21 @@
       "placeholder": "Register Number",
       "mandatory": true,
       "contorlType": "textbox",
+      "inputType": "alpha-numeric",
+      "inputClass": "text-uppercase",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
+     },
+     {
+      "id": "income",
+      "label": "Net Income",
+      "placeholder": "Net Income",
+      "mandatory": true,
+      "contorlType": "textbox",
       "inputType": "number",
+      "inputClass": "text-uppercase",
       "maxLength": {
         "rule": 12,
         "msg": ""
@@ -849,6 +966,42 @@
         }
       ]
     },
+    "PDS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "netIncome",
+          "show": true,
+          "disable": false
+        }]
+    },
+    "PDS003": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "firstName",
+          "show": true,
+          "disable": false
+        }]
+    },
+    "PDS004": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "income",
+          "show": true,
+          "disable": false
+        }]
+    },
+    "PDS005": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "netIncome",
+          "show": true,
+          "disable": false
+        }]
+    },
     "CLS002": {
       "layout": 3,
       "fields": [
@@ -960,6 +1113,7 @@
       ]
     },
     "APS011": {
+   
       "layout": 3,
       "fields": [
         {
@@ -1109,6 +1263,73 @@
           "disable": false
         }
 
+      ]
+    },
+    "TVS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "employeeName",
+            "show": true,
+            "disable": false
+        },
+        {
+          "name": "employeeIncome",
+            "show": true,
+            "disable": false 
+        }
+      ]
+    },
+    "APS018": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "bankName",
+            "show": true,
+            "disable": false
+        },
+        {
+          "name": "bankRemarks",
+            "show": true,
+            "disable": false 
+        }
+      ]
+    },
+    "PSS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "activityName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "isFarmer",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "ISS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "insuranceNumebr",
+          "show": true,
+          "disable": false
+          
+        }
+      ]
+    },
+    "CLS007": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "rcOwnerName",
+          "show": true,
+          "disable": false
+          
+        }
       ]
     }
   }
