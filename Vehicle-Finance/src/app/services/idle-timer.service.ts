@@ -34,6 +34,7 @@ export class IdleTimerService {
         return this.SESSION_TIMER;
     }
 
+
     getTimerObservable() {
         return this.$timer;
     }
@@ -56,6 +57,7 @@ export class IdleTimerService {
                     this.startInterVal();
                 }
             });
+
     }
 
     private startInterVal() {
@@ -112,5 +114,6 @@ export class IdleTimerService {
  
         return this.httpService.post(url, requestEntity);
     }
+
 
 }

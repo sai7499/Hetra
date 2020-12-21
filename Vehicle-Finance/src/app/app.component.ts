@@ -210,6 +210,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.timer = this.idleTimerService.getModalTimer();
 
+
     this.idleTimerService.getTimerObservable()
       .subscribe((value) => {
         if(value) {
@@ -224,6 +225,7 @@ export class AppComponent implements OnInit, OnDestroy {
             if (this.timer <= 0) {
                 this.showTimerModal = false;
                 this.timer = this.idleTimerService.getModalTimer();
+
                 clearInterval(this.sessionIntervalId);
                 this.logout();
             }
