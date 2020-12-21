@@ -411,6 +411,8 @@
         </div>
       </div>
     </div>
+    <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
     <div class="btn-sec clear-both row cst_btm_btns">
       <div class="col-sm-5">
@@ -428,6 +430,7 @@
     </div>
   </div>
 </form>
+
 <div id="overlay" *ngIf="isODModelShow">
   <div id="text">
     <div class="panel">

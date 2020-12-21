@@ -123,6 +123,10 @@ export class FleetDetailsComponent implements OnInit {
   operationType: boolean;
   deleteRecordData: { index: number; fleets: any; };
   isLoan360: boolean;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId= 'FLS001';
+  udfGroupId= 'FLG001';
   constructor(
 
     private labelsData: LabelsService,
@@ -618,10 +622,16 @@ export class FleetDetailsComponent implements OnInit {
 
     }
     //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])
+    const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       leadId: this.leadId,
       userId: this.userId,
       fleets: this.fleetDetails,
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }]
     }
     //  console.log("in save fleet", this.fleetDetails)
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
@@ -668,11 +678,17 @@ export class FleetDetailsComponent implements OnInit {
 
   getFleetDetails() {
     const data = {
-      leadId: this.leadId
+      leadId: this.leadId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
     }
     this.fleetDetailsService.getFleetDetails(data).subscribe((res: any) => {
       if (res['Status'] == "Execution Completed" && res.ProcessVariables.fleets != null) {
         const fleets = res['ProcessVariables'].fleets;
+        this.udfDetails = res['ProcessVariables'].udfDetails;
         this.formArr.clear();
         for (let i = 0; i < fleets.length; i++) {
           this.vehicleTypeLov[i] = this.allLovs.vehicleType;
@@ -843,7 +859,8 @@ export class FleetDetailsComponent implements OnInit {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
       return;
     } else {
-      if (this.fleetForm.valid === true) {
+      const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
+      if (this.fleetForm.valid === true && !isUDFInvalid ) {
         // this.fleetDetails = this.fleetForm.value.Rows
         // console.log(this.fleetDetails)
         this.saveOrUpdateFleetDetails(index);
@@ -1057,10 +1074,13 @@ export class FleetDetailsComponent implements OnInit {
     if (filteredData.length === 0) {
       return this.toasterService.showError('All are invalid records', '');
     }
+    
+    
     this.fleetDetailsService.saveValidRecords({
       fleetDetails: filteredData,
       userId: this.userId,
-      leadId: this.leadId
+      leadId: this.leadId,
+     
     }).subscribe(((value: any) => {
         console.log('save', value);
         if (value.Error !== '0') {
@@ -1110,6 +1130,11 @@ export class FleetDetailsComponent implements OnInit {
       return bytes + ' ' + sizes[i];
     }
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }
