@@ -27,6 +27,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { element } from 'protractor';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LoanViewService } from '@services/loan-view.service';
+import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -128,7 +129,8 @@ export class ReferenceCheckComponent implements OnInit {
     private toasterService: ToasterService, // service for accessing the toaster
     private toggleDdeService: ToggleDdeService,
     private commonLovService: CommomLovService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private ficumpdPdfService: FicumpdPdfService
 
   ) {
     this.listArray = this.fb.array([]);
@@ -408,6 +410,7 @@ export class ReferenceCheckComponent implements OnInit {
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
         const referenceDetails = processVariables.marketFinRefData;
+        this.ficumpdPdfService.setReferenceCheckDetails(value.ProcessVariables);
         if (referenceDetails != null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
           this.populateData(value);
 

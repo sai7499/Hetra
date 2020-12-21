@@ -14,6 +14,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
 
 @Component({
   templateUrl: './applicant-details.component.html',
@@ -70,7 +71,8 @@ export class ApplicantDetailComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
     private utilityService: UtilityService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private ficumpdPdfService: FicumpdPdfService
   ) { }
 
   async ngOnInit() {
@@ -348,6 +350,7 @@ export class ApplicantDetailComponent implements OnInit {
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
         if (this.applicantPdDetails) {
           this.setFormValue();
+          this.ficumpdPdfService.setApplicantPdDetails(this.applicantPdDetails);
           // this.pdDataService.setCustomerProfile(this.applicantPdDetails);
         }
         if (this.applicantForm.get('residenceAddressAsPerLoanApplication') != null) {

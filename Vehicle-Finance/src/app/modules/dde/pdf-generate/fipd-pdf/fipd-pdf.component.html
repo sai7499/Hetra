@@ -1,19 +1,19 @@
 <form class="multisteps-form__form">
   <div class="content">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="isFiCumPd">
-      <h3 class="banner-con margin-top" >{{ labels.applicantDetailsTitle }}</h3>
+      <h3 class="banner-con margin-top">{{ labels.applicantDetailsTitle }}</h3>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="applicant_name" class="col-form-label">
             {{ labels.fullName }}
           </label>
-          <label for="customer_name" class="col-form-label-two">: loanAmount</label>       
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.fullName}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="father_name" class="col-form-label">{{ labels.fatherNameHusbandName }}
           </label>
-          <label for="customer_name" class="col-form-label-two">: fatherNameHusbandName</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.fatherFullName}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.gender }} </label>
@@ -24,37 +24,39 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.residenceNo }} </label>
-          <label for="customer_name" class="col-form-label-two">: residenceNo</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.residancePhoneNumber}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.officeNo }} </label>
-          <label for="customer_name" class="col-form-label-two">: officeNo</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.officePhoneNumber}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.mobile }} </label>
-          <label for="customer_name" class="col-form-label-two">: mobile</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.mobile}}</label>
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.residenceAddress }} </label>
-          <label for="customer_name" class="col-form-label-two">: residenceAddress</label>
+          <label for="customer_name" class="col-form-label-two">: {{
+            applicantPdDetails?.residenceAddressAsPerLoanApplication == 1 ? 'Yes' : 'No'}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.ifNotResidenceAddress }} </label>
-          <label for="customer_name" class="col-form-label-two">: ifNotResidenceAddress</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.alternateAddr}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.landmark }} </label>
-          <label for="customer_name" class="col-form-label-two">: landmark</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.landmark}}</label>
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.addressAccessibility }} </label>
-          <label for="customer_name" class="col-form-label-two">: addressAccessibility</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{applicantPdDetails?.addressAccessibilityValue}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.locality }} </label>
@@ -88,37 +90,38 @@
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.ownerName }} </label>
-          <label for="customer_name" class="col-form-label-two">: ownerName</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.owner}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.propertyArea }} </label>
-          <label for="customer_name" class="col-form-label-two">: propertyArea</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.areaOfProperty}}</label>
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.propertyValue }} </label>
-          <label for="customer_name" class="col-form-label-two">: propertyValue</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.propertyValue}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.ownershipProof }} </label>
-          <label for="customer_name" class="col-form-label-two">: ownershipProof</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{applicantPdDetails?.ownerProofAvail == '1' ? 'Yes':'No'}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.bankName }} </label>
-          <label for="customer_name" class="col-form-label-two">: bankName</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.bankName}}</label>
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.accountNo }} </label>
-          <label for="customer_name" class="col-form-label-two">: accountNo</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.accountNumber}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.dateOfBirth }} </label>
-          <label for="customer_name" class="col-form-label-two">: dateOfBirth</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.dob}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.maritalStatus }} </label>
@@ -129,11 +132,12 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.physicallyChallenged }} </label>
-          <label for="customer_name" class="col-form-label-two">: physicallyChallenged</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{applicantPdDetails?.physicallyChallengedValue}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.dependents }} </label>
-          <label for="customer_name" class="col-form-label-two">: dependents</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.dependants}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.ratingBySo }} </label>
@@ -146,15 +150,16 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.addressRecord }} </label>
-          <label for="customer_name" class="col-form-label-two">: addressRecord</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{custProfDetails?.custProfDetails == '1' ? 'Yes':'No'}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.noEmployees }} </label>
-          <label for="customer_name" class="col-form-label-two">: noEmployees</label>
+          <label for="customer_name" class="col-form-label-two">: {{custProfDetails?.noOfEmployeesSeen}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.nameBoardSeen }} </label>
-          <label for="customer_name" class="col-form-label-two">: nameBoardSeen</label>
+          <label for="customer_name" class="col-form-label-two">: {{custProfDetails?.noOfEmployeesSeen}}</label>
         </div>
       </div>
 
@@ -176,11 +181,11 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.customerLocality }} </label>
-          <label for="customer_name" class="col-form-label-two">: customerLocality</label>
+          <label for="customer_name" class="col-form-label-two">: {{custProfDetails?.locality}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.metCustomer }} </label>
-          <label for="customer_name" class="col-form-label-two">: metCustomer</label>
+          <label for="customer_name" class="col-form-label-two">: {{custProfDetails?.mandatoryCustMeetingValue}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.ratingBySo }} </label>
@@ -191,7 +196,7 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.mismatchOfficeBusinsessAddress }} </label>
-          <label for="customer_name" class="col-form-label-two">: mismatchOfficeBusinsessAddress</label>
+          <label for="customer_name" class="col-form-label-two">: {{custProfDetails?.mismatchInAddress}}</label>
         </div>
       </div>
 
@@ -202,7 +207,7 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.costOfVehicle }} </label>
-            <label for="customer_name" class="col-form-label-two">: costOfVehicle</label>
+            <label for="customer_name" class="col-form-label-two">: {{newCvDetails?.vehicleCost}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.model }} </label>
@@ -217,11 +222,11 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.loanAmt }} </label>
-            <label for="customer_name" class="col-form-label-two">: loanAmt</label>
+            <label for="customer_name" class="col-form-label-two">: {{newCvDetails?.reqLoanAmount}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.marginMoney }} </label>
-            <label for="customer_name" class="col-form-label-two">: marginMoney</label>
+            <label for="customer_name" class="col-form-label-two">: {{newCvDetails?.marginMoney}}</label>
           </div>
         </div>
       </div>
@@ -232,7 +237,7 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.costOfVehicle }} </label>
-            <label for="customer_name" class="col-form-label-two">: costOfVehicle</label>
+            <label for="customer_name" class="col-form-label-two">: {{usedVehicleDetails?.vehicleCost}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.model }} </label>
@@ -247,22 +252,24 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.marginMoney }} </label>
-            <label for="customer_name" class="col-form-label-two">: marginMoney</label>
+            <label for="customer_name" class="col-form-label-two">: {{usedVehicleDetails?.marginMoney}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.loanAmtReq }} </label>
-            <label for="customer_name" class="col-form-label-two">: loanAmtReq</label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{usedVehicleDetails?.usedVehicleLoanAmountReq}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.sourcePurchase }} </label>
-            <label for="customer_name" class="col-form-label-two">: sourcePurchase</label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{usedVehicleDetails?.sourceOfVehiclePurchase}}</label>
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.marginMoneyPaid }} </label>
-            <label for="customer_name" class="col-form-label-two">: marginMoneyPaid</label>
+            <label for="customer_name" class="col-form-label-two">:{{usedVehicleDetails?.marginMoneySource}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.nameOfFinancer }} </label>
@@ -270,7 +277,8 @@
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.awareMarginMoney }} </label>
-            <label for="customer_name" class="col-form-label-two">: awareMarginMoney</label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{usedVehicleDetails?.coAapplicantAwareMarginMoney == '1' ? 'Yes':'No'}}</label>
           </div>
         </div>
 
@@ -281,7 +289,7 @@
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.sellerVehicle }} </label>
-            <label for="customer_name" class="col-form-label-two">: sellerVehicle</label>
+            <label for="customer_name" class="col-form-label-two">: {{usedVehicleDetails?.vehicleSellerValue}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.knowAbtVehicle }} </label>
@@ -292,30 +300,32 @@
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.moneyInvested }} </label>
-            <label for="customer_name" class="col-form-label-two">: moneyInvested</label>
+            <label for="customer_name" class="col-form-label-two">: {{usedVehicleDetails?.investmentAmount}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.moneyBorrowed }} </label>
-            <label for="customer_name" class="col-form-label-two">: moneyBorrowed</label>
+            <label for="customer_name" class="col-form-label-two">: {{usedVehicleDetails?.marginMoneyBorrowed}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.marketValue }} </label>
-            <label for="customer_name" class="col-form-label-two">: marketValue</label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{usedVehicleDetails?.marketValueProposedVehicle}}</label>
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.purchasedValue }} </label>
-            <label for="customer_name" class="col-form-label-two">: purchasedValue</label>
+            <label for="customer_name" class="col-form-label-two">: {{usedVehicleDetails?.purchasePrice}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.vehicleCondition }} </label>
-            <label for="customer_name" class="col-form-label-two">: vehicleCondition</label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{usedVehicleDetails?.vehicleConditionValue}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.usageFunds }} </label>
-            <label for="customer_name" class="col-form-label-two">: usageFunds</label>
+            <label for="customer_name" class="col-form-label-two">: {{usedVehicleDetails?.fundsUsage}}</label>
           </div>
         </div>
 
@@ -330,14 +340,16 @@
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.runningAttached }} </label>
-            <label for="customer_name" class="col-form-label-two">: runningAttached</label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{usedVehicleDetails?.vehicleAttachedPlying}}</label>
           </div>
         </div>
 
         <div class="row">
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.awareDue }} </label>
-            <label for="customer_name" class="col-form-label-two">: awareDue</label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{usedVehicleDetails?.awareDueDateEmiAmount == '1' ? 'Yes':'No'}}</label>
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.vehicleContract }} </label>
@@ -345,7 +357,116 @@
           </div>
           <div class="form-group col-sm-6 col-md-3 col-lg-3">
             <label for="gender" class="col-form-label">{{ labels.remarksOthers }} </label>
-            <label for="customer_name" class="col-form-label-two">: remarksOthers</label>
+            <label for="customer_name" class="col-form-label-two">: {{usedVehicleDetails?.othersRemarks}}</label>
+          </div>
+        </div>
+
+        <h3 class="banner-con">
+          {{ labels.assetDetailsForUsedVehicleTitle }}
+        </h3>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.vehicleMake }} </label>
+            <label for="customer_name" class="col-form-label-two">: vehicleMake</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.model1 }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.modelInYear}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.registrationNo }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.regNo}}</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.regCopyVerified }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.regCopVfdValue}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.engineNumber }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.engineNumber}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.chassisNumber }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.chasisNumber}}</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.hpaNbfc }} </label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{assetDetailsUsedVehicle?.vehicleHpaNbfcValue}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.permitDate }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.permitValidity}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.fitnessDate1 }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.fitnessValidity}}</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.taxDate }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.taxValidity}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.insuranceCopyVerfied }} </label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{assetDetailsUsedVehicle?.insuranceCopyVerifiedValue}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.insuranceDate }} </label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{assetDetailsUsedVehicle?.insuranceValidity}}</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.vehicleVerified }} </label>
+            <label for="customer_name" class="col-form-label-two">:
+              {{assetDetailsUsedVehicle?.vehiclePhsicallyVerifiedValue}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.physicalCondition }} </label>
+            <label for="customer_name" class="col-form-label-two">: physicalCondition</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.vehicleRoute }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.vehicleRoute}}</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.noTrips }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.noOfTrips}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.tripAmt }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.amtPerTrip}}</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.selfDriver }} </label>
+            <label for="customer_name" class="col-form-label-two">: selfDriver</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.isPrevExpMatched }} </label>
+            <label for="customer_name" class="col-form-label-two">: isPrevExpMatched</label>
+          </div>
+          <div class="form-group col-sm-6 col-md-3 col-lg-3">
+            <label for="gender" class="col-form-label">{{ labels.remarks }} </label>
+            <label for="customer_name" class="col-form-label-two">: {{assetDetailsUsedVehicle?.remarks}}</label>
           </div>
         </div>
 
@@ -355,55 +476,1255 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.personName }} </label>
-          <label for="customer_name" class="col-form-label-two">: personName</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.nameOfReference}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.addressOfThePerson }} </label>
-          <label for="customer_name" class="col-form-label-two">: addressOfThePerson</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.addressOfReference}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.contactNumber }} </label>
-          <label for="customer_name" class="col-form-label-two">: contactNumber</label>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="gender" class="col-form-label">{{ labels.personName }} </label>
-          <label for="customer_name" class="col-form-label-two">: personName</label>
-        </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="gender" class="col-form-label">{{ labels.addressOfThePerson }} </label>
-          <label for="customer_name" class="col-form-label-two">: addressOfThePerson</label>
-        </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="gender" class="col-form-label">{{ labels.contactNumber }} </label>
-          <label for="customer_name" class="col-form-label-two">: contactNumber</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceMobile}}</label>
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.negativeProfile }} </label>
-          <label for="customer_name" class="col-form-label-two">: negativeProfile</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{refCheckDetails?.negativeProfile == '1' ? 'Yes':'No'}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.overallReport }} </label>
-          <label for="customer_name" class="col-form-label-two">: overallReport</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{refCheckDetails?.overallFiReport == '0' ? 'Positive':'Negative'}}</label>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="gender" class="col-form-label">{{ labels.referenceRemarks }} </label>
-          <label for="customer_name" class="col-form-label-two">: referenceRemarks</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.opinionOfPdOfficer}}</label>
         </div>
       </div>
 
+      <!-- <h3 class="banner-con" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
+        {{ labels.marketAndFinancierReference }}
+      </h3> -->
+
+      <h3 class="banner-con">{{ labels.genericDetails }}</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.applicationNo }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.applicationNo}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.product }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.product}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.sourcingChannel }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.sourcingChannel}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.equitasBranchName }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.equitasBranchName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.distanceEquitasAssetBranch }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.distanceFromEquitas}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.soName }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.soName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.employeeCode }} </label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{genericDetails?.empCode ? genericDetails?.empCode : userId}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.date }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.date}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.area }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.area}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.place }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.place}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.tomeOfVerification }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.timeOfVerification}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.branchLat }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{customerProfileDetails?.branchLatitude}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.branchLng }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{customerProfileDetails?.branchLongitude}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.capturedLat }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{customerProfileDetails?.latitude}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.capturedLng }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{customerProfileDetails?.longitude}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.selfieImageTitle }} </label>
+          <label for="customer_name" class="col-form-label-two">: selfieImageTitle</label>
+          <div class="photo">
+            <img [src]="SELFIE_IMAGE || 'assets/images/user.jpg'" alt="[Image: Photo]" width="100" />
+          </div>
+        </div>
+      </div>
 
     </div>
 
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="isPd">
+      <h3 class="banner-con margin-top">{{ labels.personalDetailsTitle }}</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">
+            {{ labels?.firstName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{pdPersonalFirstName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.middleName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{pdPersonalMiddleName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.lastName }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{pdPersonalLastName}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">
+            {{ labels?.fullName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.fullName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.fatherNameHusbandFirstName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: fatherNameHusbandFirstName</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.fatherNameHusbandSecondName }} </label>
+          <label for="customer_name" class="col-form-label-two">: fatherNameHusbandSecondName</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">
+            {{ labels?.fatherNameHusbandThirdName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: fatherNameHusbandThirdName</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.fatherNameHusbandFullName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.fatherFullName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.gender }} </label>
+          <label for="customer_name" class="col-form-label-two">: gender</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">
+            {{ labels?.dateOfBirth }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.dob}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.maritalStatus }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: maritalStatus</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.weddingAnniversaryDate }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.weddingAnniversaryDate}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.religion }}</label>
+          <label for="customer_name" class="col-form-label-two">: religion</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.physicallyChallenged }}</label>
+          <label for="customer_name" class="col-form-label-two">: physicallyChallenged</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.customerProfile }} </label>
+          <label for="customer_name" class="col-form-label-two">: customerProfile</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.educationalBackground }}</label>
+          <label for="customer_name" class="col-form-label-two">: educationalBackground</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.priorExperience }}</label>
+          <label for="customer_name" class="col-form-label-two">: priorExperience</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.vehicleApplication }} </label>
+          <label for="customer_name" class="col-form-label-two">: vehicleApplication</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.businessKey }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.businessKey || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.occupationType }}</label>
+          <label for="customer_name" class="col-form-label-two">: occupationType</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.businessType }} </label>
+          <label for="customer_name" class="col-form-label-two">: businessType</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.isMinority }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.isMinority || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.community }}</label>
+          <label for="customer_name" class="col-form-label-two">: community</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.srto }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.srto || 'NA'}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.contactNumber }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.contactNo || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.alternateMobileNumber }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{applicantPdDetails?.alternateContactNo || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.emailAddress }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.email || 'NA'}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.residentStatus }}</label>
+          <label for="customer_name" class="col-form-label-two">: residentStatus</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.accomodationType }}</label>
+          <label for="customer_name" class="col-form-label-two">: accomodationType</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.noOfYearsResiding }} </label>
+          <label for="no_of_year" class="col-form-label">Years</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdPersonalNoofyears || 'NA'}}</label>
+          <label for="no_of_year" class="col-form-label">Months</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdPersonalNoofmonths || 'NA'}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.noOfAdultsDependant }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{applicantPdDetails?.noOfAdultDependant || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.noOfChildrenDependant }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{applicantPdDetails?.noOfChildrenDependant || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.locality }} </label>
+          <label for="customer_name" class="col-form-label-two">: locality</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.houseOwnership }}</label>
+          <label for="customer_name" class="col-form-label-two">: houseOwnership</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.propertyArea }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{applicantPdDetails?.areaOfProperty || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.propertyValue }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.propertyValue || 'NA'}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.bankHolderName }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{applicantPdDetails?.bankAccHolderName || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.cbs }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{applicantPdDetails?.cibilScore || 'NA' }}</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">{{ labels.incomeDetails }}</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.grossIncome }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.grossIncome || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.netIncome }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.netIncome || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.additionalSourceofIncome }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{pdIncomeDetails?.additionalSourceOfIncome || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.grossSalary }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.grossSalary || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.netsalary }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.netSalary || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.individualIncome }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.individualIncome || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.bankName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.bankName || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.branch }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.branch || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.accountType }}</label>
+          <label for="customer_name" class="col-form-label-two">: accountType</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.accountNumber }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.accountNumber || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.noOfChqReturns }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{pdIncomeDetails?.noOfChequeReturns || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.cashAndBankBalance }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.cashBankBalance || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.accountNumber }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.accountNumber || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.noOfChqReturns }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{pdIncomeDetails?.noOfChequeReturns || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.cashAndBankBalance }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.cashBankBalance || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="isccOdLimit">
+          <label for="father_name" class="col-form-label">{{ labels?.CCODLIMIT }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.ccOdLimit || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.monthlyInflows }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.monthlyInflow || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.monthlyOutflows }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.monthlyOutflow || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.creditCardFirstName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.ccHolderFirstName || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.CreditCardMiddleName }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{pdIncomeDetails?.ccHolderSecondName || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.creditCardLastName }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{pdIncomeDetails?.ccHolderThirdName || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.creditCardFullName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.ccHolderFullName || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.creditcardIssuedby }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.ccIssuedBy || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.creditcardLimit }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{pdIncomeDetails?.ccLimit || 'NA' }}</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">{{ labels.referrerDetails }}</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.referrerFirstName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererFirstName || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referrerMiddleName }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{refCheckDetails?.refererSecondName || 'NA' }}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referrerLastName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererThirdName || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.referrerFullName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererFullName || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referrerRelationship }}</label>
+          <label for="customer_name" class="col-form-label-two">: referrerRelationship</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referrerOfficePhoneNo }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{refCheckDetails?.refererOfficePhoneNo || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.referrerAddressLine1 }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{refCheckDetails?.refererAddressLine1 || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referrerAddressLine2 }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{refCheckDetails?.refererAddressLine2 || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referrerAddressLine3 }}</label>
+          <label for="customer_name" class="col-form-label-two">:
+            {{refCheckDetails?.refererAddressLine3 || 'NA' }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.pincode }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererPincode || 'NA'}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.city }}</label>
+          <label for="customer_name" class="col-form-label-two">: city</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.district }}</label>
+          <label for="customer_name" class="col-form-label-two">: district</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.state }}</label>
+          <label for="customer_name" class="col-form-label-two">: state</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.country }}</label>
+          <label for="customer_name" class="col-form-label-two">: country</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referrerAssetName }}</label>
+          <label for="customer_name" class="col-form-label-two">: referrerAssetName</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">{{ labels?.applicationReference }}</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.referenceInfoFirstName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceFirstName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.refereneceInfoMiddleName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceSecondName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referrerAssetName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceThirdName}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.referenceInfoFullName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceFullName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referenceInfoAddressLine1 }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceAddressLine1}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referenceInfoAddressLine2 }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceAddressLine2}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.referenceInfoAddressLine3 }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceAddressLine3}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.pincode }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referencePincode}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.city }}</label>
+          <label for="customer_name" class="col-form-label-two">: city</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.district }}</label>
+          <label for="customer_name" class="col-form-label-two">: district</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.state }}</label>
+          <label for="customer_name" class="col-form-label-two">: state</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.country }}</label>
+          <label for="customer_name" class="col-form-label-two">: country</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.referenceInfoOfficeNo }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceMobile}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.referenceRelationship }}</label>
+          <label for="customer_name" class="col-form-label-two">: state</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.natureOfBusiness }}</label>
+          <label for="customer_name" class="col-form-label-two">: country</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">{{ labels?.pdStatus }}</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.pdStatus }}</label>
+          <label for="customer_name" class="col-form-label-two">: pdStatus</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.opinionOfPDOfficer }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.opinionOfPdOfficer}}</label>
+        </div>
+      </div>
+      <h3 class="title" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
+        {{ labels.marketAndFinancierReference }}
+      </h3>
+
+      <div class="row" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="table-responsive application">
+            <table class="table">
+              <thead>
+                <tr class="table-head-bg text-center">
+                  <td role="columnheader">{{ labels.sNo }}</td>
+                  <td role="columnheader">
+                    {{ labels?.typeOfReference }}
+                  </td>
+                  <td role="columnheader">
+                    {{ labels?.companyName }}
+                  </td>
+                  <td role="columnheader">
+                    {{ labels?.officerName }}
+                  </td>
+                  <td role="columnheader">
+                    {{ labels?.designation }}
+                  </td>
+                  <td role="columnheader">
+                    {{ labels?.telNo }}
+                  </td>
+                  <td role="columnheader">
+                    {{ labels?.comments }}
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor=" let item of marketAndFinacier; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td style="min-width: 59px">
+                    {{item.typeReference}}
+                  </td>
+                  <td>
+                    {{item.companyName}}
+                  </td>
+                  <td>
+                    {{item.officerName}}
+                  </td>
+                  <td>
+                    {{item.designation}}
+                  </td>
+                  <td>
+                    {{item.teleNo}}
+                  </td>
+                  <td>
+                    {{item.comments}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <h3 class="banner-con">{{ labels?.otherDetailsTitle }}</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.agricultureProof }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.agricultureProof}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.income1 }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.income}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.securedLoans }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.securedLoans}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.unSecuredLoans }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.unsecuredLoans}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.creditors }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.creditors}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.debtors }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.debtors}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.fixedAssets }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.fixedAssets}}</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con"> {{labels?.genericDetails}} </h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.applicationNo }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.applicationNo}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.area }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.area}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.place }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.place}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.equitasBranchName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.equitasBranchName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.distanceEquitasAssetBranch }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.distanceFromEquitas}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.pdOfficerName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.pdOfficerName}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.employeeCode }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.empCode}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.date }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.date}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.product }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.product}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.sourcingChannel }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.sourcingChannel}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.tomeOfVerification }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.timeOfVerification}}</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con"> {{labels?.loanDetails}} </h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.loanAmount }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.loanAmount}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.marginMoney }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.marginMoney}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.emiAffordability }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{genericDetails?.emiAffordability}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.sourceOfMarginMoney1 }}</label>
+          <label for="customer_name" class="col-form-label-two">: sourceOfMarginMoney1</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.branchLat }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{customerProfileDetails?.branchLatitude}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.branchLng }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{customerProfileDetails?.branchLongitude}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.capturedLat }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{customerProfileDetails?.latitude}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.capturedLng }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{customerProfileDetails?.longitude}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="sourceOf_margin_money">{{labels.selfieImageTitle}}
+          </label>
+          <div class="photo">
+            <img [src]="SELFIE_IMAGE || 'assets/images/user.jpg'" alt="[Image: Photo]" width="100" />
+          </div>
+        </div>
+      </div>
+
     </div>
-    
+
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="isFi">
+      <h3 class="banner-con" >FI - Residence</h3>
+      
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">
+            {{ labels?.nameOfExternalAgency }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: externalAgencyName</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.contactPointVerification }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: contactPointVerification</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.referenceNo }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.referenceNo}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">
+            {{ labels?.cpvIntiatedDate }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.cpvInitiatedDate}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.cpvIntiatedTime }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.cpvInitiatedTime}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.reportSubmitDate }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.reportSubmitDate}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.reportSubmitTime }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.cpvInitiatedDate}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.applicantsName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiApplicantFullName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.residenceAddressline1 }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.addressLine1}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.residenceAddressline2 }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.addressLine2}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.residenceAddressline3 }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.addressLine3}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.pincode }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.pincode}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.city }}</label>
+          <label for="customer_name" class="col-form-label-two">: city</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.state }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: state</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">Residence Observation</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.residenceApproach }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.residenceApproach}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.detailsOfResidence }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: detailsOfResidence</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.rentAmount }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.rentAmt}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.propertyArea }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.areaOfProperty}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.propertyValue }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.propertyValue}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.residenceName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.residenceName}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.verifiedFrom }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.verifiedFrom}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.personMetName }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.personMetName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.assetsVisibleAtHome }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.visibleAssets}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.locatingResidence }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.locatingResidence}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.fiLocality }}</label>
+          <label for="customer_name" class="col-form-label-two">: fiLocality</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.YearsStayinCity }}</label>
+          <label for="applicant_name" class="col-form-label">Years</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiNoofyearsCity}}</label>
+          <label for="applicant_name" class="col-form-label">Months</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiNofmonthsCity}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.YearsStayinResi }}</label>
+          <label for="applicant_name" class="col-form-label">Years</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiNoofyearsResi}}</label>
+          <label for="applicant_name" class="col-form-label">Months</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiNoofmonthsResi}}</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">Asset & family member details</h3>
+      
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.propertyOwned }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.otherAssetsOwned}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.noOffamilyMembers }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.noOfFamilyMembers}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.noOfEarningMembers }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.noOfEarningMembers}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.vehiclesDetails }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.vehicleDetails}}</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">Comments and Recommendations</h3>
+      
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.commentsAndRecommendations }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.fiComments}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.distanceinKMs }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.distanceInKms}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.cpvAgencyStatus }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.cpvAgencyStatus == '0' ? 'Positive':'Negative'}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.verifiedBy }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.verifiedBy}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.date }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.fiDate}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.time }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiResidenceDetails?.fiTime}}</label>
+        </div>
+      </div>
+
+
+      <h3 class="banner-con" >FI - Business</h3>
+      
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">
+            {{ labels?.nameOfExternalAgency }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: externalAgencyName</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.contactPointVerification }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: contactPointVerification</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.referenceNo }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.referenceNo}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">
+            {{ labels?.cpvIntiatedDate }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.cpvInitiatedDate}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.cpvIntiatedTime }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.cpvInitiatedTime}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.reportSubmitDate }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.reportSubmitDate}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.reportSubmitTime }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.cpvInitiatedDate}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.applicantsName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiApplicantFullName}}</label>
+        </div>        
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.addressline1 }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.addressLine1}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.addressline2 }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.addressLine2}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.addressline3 }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.addressLine3}}</label>
+        </div>        
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.pincode }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.pincode}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.city }}</label>
+          <label for="customer_name" class="col-form-label-two">: city</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.state }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: state</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.designation }} </label>
+          <label for="customer_name" class="col-form-label-two">: designation</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.natureOfBusiness }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.natureOfBusiness}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.personMetName }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.personMetName}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="showTypeOfConcern">
+          <label for="father_name" class="col-form-label">{{ labels?.typeOfConcern }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.typeOfConcern}}</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">Office Observation</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.approachable }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.officeApproach}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.premises }}</label>
+          <label for="customer_name" class="col-form-label-two">: premises</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.officeLocation }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.officeLocation}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.furnishings }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.furnishings}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.sizeOfOffice }}</label>
+          <label for="customer_name" class="col-form-label-two">: officeSize</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.observations }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.observations}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.noofEmployeesWorking }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.noOfWorkingEmployees}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.noofEmployeesVisible }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.noOfVisibleEmployees}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.activityLevel }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.activityLevel}}</label>
+        </div>
+      </div>
+
+      <h3 class="banner-con">Comments and Recommendations</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.commentsAndRecommendations }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.fiComments}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.distanceinKMs }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.distanceInKms}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.cpvAgencyStatus }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.cpvAgencyStatus == '0' ? 'Positive':'Negative'}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="gender" class="col-form-label">{{ labels.verifiedBy }} </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.verifiedBy}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="applicant_name" class="col-form-label">{{ labels?.date }}</label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.distanceInKms}}</label>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="father_name" class="col-form-label">{{ labels?.time }}
+          </label>
+          <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.fiTime}}</label>
+        </div>
+      </div>
+
+
     </div>
   </div>
 </form>

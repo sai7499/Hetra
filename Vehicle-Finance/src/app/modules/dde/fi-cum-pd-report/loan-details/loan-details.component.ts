@@ -14,6 +14,7 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -101,7 +102,8 @@ export class LoanDetailsComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService) {
+    private loanViewService: LoanViewService,
+    private ficumpdPdfService: FicumpdPdfService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
   }
 
@@ -536,6 +538,7 @@ export class LoanDetailsComponent implements OnInit {
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;
         // console.log('asset details used vehilce', this.assetDetailsUsedVehicle);
         // console.log('calling get api ', this.newCvDetails, this.assetDetailsUsedVehicle, this.usedVehicleDetails);
+        this.ficumpdPdfService.setLoanDetails(value.ProcessVariables);
 
         this.setFormValue();
         if (this.loanDetailsForm.get('regCopVfd') != null) {

@@ -14,6 +14,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
 
 // import { MessageService } from '@progress/kendo-angular-l10n';
 @Component({
@@ -89,7 +90,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private personalDiscussion: PersonalDiscussionService,
     private toggleDdeService: ToggleDdeService,
     private createLeadDataService: CreateLeadDataService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private ficumpdPdfService: FicumpdPdfService
   ) { }
 
   async ngOnInit() {
@@ -282,6 +284,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.custProfDetails = value.ProcessVariables.customerProfileDetails;
+        this.ficumpdPdfService.setcustomerProfileDetails(this.custProfDetails);
+
         console.log('calling get api ', this.custProfDetails);
         if (this.entityTypeKey == "INDIVENTTYP") {
           this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;

@@ -73,10 +73,18 @@
                                 <ng-container *ngIf="pdStatusValue === 'Submitted'">
                                     <td [attr.data-label]="labels?.pdReport">
                                         <ng-container *ngFor="let version of item.pdReportValue.split(',')">
-                                            <u><a class="a_tag" style="cursor: pointer;"
-                                                    (click)="navigatePage(item.applicantId, item.cibilScore, version)">Version
-                                                    - {{ version }}</a></u><span>&nbsp;<br
-                                                    class="filter-display" /></span>
+                                            <u>
+                                                <a class="a_tag" style="cursor: pointer;"
+                                                    (click)="navigatePage(item.applicantId, item.cibilScore, version)">
+                                                    Version - {{ version }}
+                                                </a>
+                                            </u> &nbsp; &nbsp; &nbsp;
+                                            <span>
+                                                <a class="a_tag" style="cursor: pointer;" >
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                            </span>
+                                            <span>&nbsp;<br class="filter-display" /></span>
                                         </ng-container>
                                     </td>
                                 </ng-container>
