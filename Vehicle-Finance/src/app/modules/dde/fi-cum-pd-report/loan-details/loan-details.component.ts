@@ -87,6 +87,12 @@ export class LoanDetailsComponent implements OnInit {
     msg?: string;
   }[];
 
+  // userDefineFields
+  udfScreenId = 'FPS003';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'FPG001';
+
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,

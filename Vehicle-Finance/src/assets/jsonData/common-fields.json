@@ -123,7 +123,8 @@
       "id": "FLS001",
       "groupId": "FLG001",
       "name": "Fleet Details"
-    },{
+    },
+    {
       "id": "TVS001",
       "groupId": "TVG001",
       "name": "Tele-Verfication-form"
@@ -133,10 +134,15 @@
       "groupId": "APG010",
       "name": "Tele-Verfication-form"
     },
-     {
+    {
       "id": "CLS007",
       "groupId": "CLG003",
       "name": "Additional Collaterals"
+    },
+    {
+      "id": "FPS001",
+      "groupId": "FPG001",
+      "name": "FICum PD"
     }
   ],
   "udfFields": [
@@ -277,16 +283,7 @@
       "placeholder": "Physically Challenged",
       "mandatory": false,
       "contorlType": "selectbox",
-      "values": [
-        {
-          "key": 1,
-          "value": "Yes"
-        },
-        {
-          "key": 2,
-          "value": "No"
-        }
-      ]
+      "values": "commonLov"
     },
     {
       "id": "customerProfile",
@@ -294,16 +291,7 @@
       "placeholder": "Customer Profile",
       "mandatory": false,
       "contorlType": "selectbox",
-      "values": [
-        {
-          "key": 1,
-          "value": "FTU"
-        },
-        {
-          "key": 2,
-          "value": "FTB"
-        }
-      ]
+      "values": "customerProfilePersonal"
     },
     {
       "id": "priorInfo",
@@ -311,28 +299,7 @@
       "placeholder": "Prior Info",
       "mandatory": false,
       "contorlType": "selectbox",
-      "values": [
-        {
-          "key": 1,
-          "value": "Driver cum owner"
-        },
-        {
-          "key": 2,
-          "value": "With Agricultural land"
-        },
-        {
-          "key": 3,
-          "value": "With house property"
-        },
-        {
-          "key": 4,
-          "value": "Without repayment track record"
-        },
-        {
-          "key": 5,
-          "value": "With proven repayment track record"
-        }
-      ]
+      "values": "priorExperience"
     },
     {
       "id": "exShowRoomCost",
@@ -456,7 +423,8 @@
         "rule": "",
         "msg": ""
       }
-    },{
+    },
+    {
       "id": "employeeName",
       "label": "Employee Name",
       "placeholder": "Employee Name",
@@ -504,8 +472,8 @@
       "maxLength": {
         "rule": 30
       }
-    },{
-      
+    },
+    {
       "id": "employeeIncome",
       "label": "Employee Income",
       "placeholder": "Employee Income",
@@ -598,7 +566,8 @@
       "maxLength": {
         "rule": 4
       }
-    },{
+    },
+    {
       "id": "bankRemarks",
       "label": "Remarks",
       "placeholder": "",
@@ -622,7 +591,7 @@
       }
     },
     {
-      "id": "loanType",
+      "id": "typeOfLoan",
       "label": "Type of Loan",
       "placeholder": "",
       "mandatory": true,
@@ -639,7 +608,8 @@
       "maxLength": {
         "rule": 12
       }
-    },{
+    },
+    {
       "id": "isFarmer",
       "label": "Are You Farmer",
       "placeholder": "FRSD Funding Required",
@@ -693,7 +663,7 @@
       "mandatory": true,
       "contorlType": "textbox",
       "inputType": "number",
-       "maxLength": {
+      "maxLength": {
         "rule": 15,
         "msg": ""
       },
@@ -701,7 +671,7 @@
         "rule": "",
         "msg": ""
       }
-    }, 
+    },
     {
       "id": "noOfChildren",
       "label": "No. of Children Dependant",
@@ -709,8 +679,8 @@
       "mandatory": true,
       "contorlType": "textbox",
       "inputType": "number"
-     },
-     {
+    },
+    {
       "id": "netIncome",
       "label": "Net Income",
       "placeholder": "Net Income",
@@ -750,8 +720,8 @@
         "rule": 12,
         "msg": ""
       }
-     },
-     {
+    },
+    {
       "id": "income",
       "label": "Net Income",
       "placeholder": "Net Income",
@@ -763,7 +733,88 @@
         "rule": 12,
         "msg": ""
       }
+    },
+    {
+      "id": "applicationNo",
+      "label": "Application No",
+      "placeholder": "Application No",
+      "mandatory": false,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 3,
+        "msg": ""
+      }
+    },
+    {
+      "id": "loanType",
+      "label": "Loan Type",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "loanType"
+    },
+    {
+      "id": "houseOwnership",
+      "label": "House Ownership",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "fi/PdHouseOwnership"
+    },
+    {
+      "id": "requestedTenor",
+      "label": "Requested Loan Tenour",
+      "placeholder": "Requested Loan Tenour",
+      "mandatory": false,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 2,
+        "msg": ""
+      },
+      "patternCheck": {
+        "rule": "^[1-9][0-9]*$",
+        "msg": "Month Not greater than 72"
+      }
+    },
+    {
+      "id": "requestedAmount",
+      "label": "Requested Loan Amount",
+      "placeholder": "Requested Loan Amount",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
+    },
+    {
+      "id": "noOfEmployees",
+      "label": "No of Employees Seen",
+      "placeholder": "No of Employees Seen",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 5,
+        "msg": ""
+      }
+    },
+    {
+      "id": "locality",
+      "label": "Locality",
+      "placeholder": "Locality",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
     }
+    
   ],
   "screenUdfMapping": {
     "PDS001": {
@@ -973,7 +1024,8 @@
           "name": "netIncome",
           "show": true,
           "disable": false
-        }]
+        }
+      ]
     },
     "PDS003": {
       "layout": 3,
@@ -982,7 +1034,8 @@
           "name": "firstName",
           "show": true,
           "disable": false
-        }]
+        }
+      ]
     },
     "PDS004": {
       "layout": 3,
@@ -991,7 +1044,8 @@
           "name": "income",
           "show": true,
           "disable": false
-        }]
+        }
+      ]
     },
     "PDS005": {
       "layout": 3,
@@ -1000,7 +1054,8 @@
           "name": "netIncome",
           "show": true,
           "disable": false
-        }]
+        }
+      ]
     },
     "CLS002": {
       "layout": 3,
@@ -1113,7 +1168,6 @@
       ]
     },
     "APS011": {
-   
       "layout": 3,
       "fields": [
         {
@@ -1192,7 +1246,7 @@
           "disable": false
         },
         {
-          "name": "loanType",
+          "name": "typeOfLoan",
           "show": true,
           "disable": false
         }
@@ -1246,7 +1300,6 @@
           "show": true,
           "disable": false
         }
-
       ]
     },
     "FLS001": {
@@ -1262,7 +1315,6 @@
           "show": true,
           "disable": false
         }
-
       ]
     },
     "TVS001": {
@@ -1270,13 +1322,13 @@
       "fields": [
         {
           "name": "employeeName",
-            "show": true,
-            "disable": false
+          "show": true,
+          "disable": false
         },
         {
           "name": "employeeIncome",
-            "show": true,
-            "disable": false 
+          "show": true,
+          "disable": false
         }
       ]
     },
@@ -1285,13 +1337,13 @@
       "fields": [
         {
           "name": "bankName",
-            "show": true,
-            "disable": false
+          "show": true,
+          "disable": false
         },
         {
           "name": "bankRemarks",
-            "show": true,
-            "disable": false 
+          "show": true,
+          "disable": false
         }
       ]
     },
@@ -1317,7 +1369,6 @@
           "name": "insuranceNumebr",
           "show": true,
           "disable": false
-          
         }
       ]
     },
@@ -1328,7 +1379,81 @@
           "name": "rcOwnerName",
           "show": true,
           "disable": false
-          
+        }
+      ]
+    },
+    "LDS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "loanType",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "applicationNo",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "LDS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "requestedAmount",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "LDS003": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "requestedTenor",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FPS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "houseOwnership",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FPS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "noOfEmployees",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FPS005": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "gender",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FPS006": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "locality",
+          "show": true,
+          "disable": false
         }
       ]
     }

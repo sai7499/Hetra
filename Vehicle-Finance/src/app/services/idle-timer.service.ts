@@ -45,7 +45,7 @@ export class IdleTimerService {
             // console.log('alert', expiredTime - (5 * 1000));
             // console.log('new date', Date.now())
 
-            if(Date.now()   >= expiredTime - (5 * 1000)) {
+            if(Date.now()   >= expiredTime - (5 * 30000)) {
                 this.$timer.next('alert');
                 this.cleanUp();
             }
@@ -55,14 +55,14 @@ export class IdleTimerService {
                 this.callback();
                 this.cleanUp();
             }
-        }, 1000);
+        }, 30000);
     }
 
     updateExpiredTime() {
         console.log(Date.now())
         console.log('timeout',this.timeout)
-        console.log(Date.now() + this.timeout * 1000);
-        localStorage.setItem('_expiredTime', String(Date.now() + this.timeout * 1000));
+        console.log(Date.now() + this.timeout * 30000);
+        localStorage.setItem('_expiredTime', String(Date.now() + this.timeout * 30000));
     }
 
     private tracker() {

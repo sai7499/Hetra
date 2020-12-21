@@ -3,6 +3,7 @@ import {
   Resolve,
   ActivatedRoute,
   ActivatedRouteSnapshot,
+  Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import RequestEntity from '@model/request.entity';
@@ -15,14 +16,21 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 @Injectable()
 export class LeadDataResolverService implements Resolve<any> {
   leadId: any;
+  udfGroupId: string = 'LDG001';
+  udfScreenId: any;
+
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
+    private router: Router,
     private createLeadDataService: CreateLeadDataService
   ) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     this.leadId = route.params.leadId;
+    this.udfScreenId = this.router.getCurrentNavigation().extras.state ? this.router.getCurrentNavigation().extras.state : null;
+
+    console.log(this.udfScreenId, 'screen Id')
 
     const processId = this.apiService.api.getLeadById.processId;
     const workflowId = this.apiService.api.getLeadById.workflowId;
@@ -32,6 +40,10 @@ export class LeadDataResolverService implements Resolve<any> {
       processId,
       ProcessVariables: {
         leadId: Number(this.leadId),
+        udfDetails: [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId.udfScreenId
+        }]
       },
       workflowId,
       projectId,

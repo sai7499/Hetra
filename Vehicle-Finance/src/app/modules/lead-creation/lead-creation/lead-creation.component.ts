@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AgeValidationService } from '@services/age-validation.service';
 import { CommonDataService } from '@services/common-data.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
+import { param } from 'jquery';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -44,6 +45,7 @@ export class LeadCreationComponent implements OnInit {
   userId: number;
 
   LOV: any = [];
+  udfScreenId: string = 'LDS001';
 
   productCategoryData;
   productData = [];
@@ -599,9 +601,9 @@ export class LeadCreationComponent implements OnInit {
     this.isSourceCode = sourcingEvent.key ? true : false;
     if (this.sourchingTypeId === '2SOURTYP') {
       this.onDealerCodeSearch(sourcingEvent.key);
-      this.createLeadForm.patchValue({dealerCode: sourcingEvent.value});
+      this.createLeadForm.patchValue({ dealerCode: sourcingEvent.value });
       this.dealorCodeKey = sourcingEvent.key;
-    }    
+    }
   }
 
   onDealerCodeSearch(event) {
@@ -614,7 +616,7 @@ export class LeadCreationComponent implements OnInit {
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
         if (this.sourchingTypeId === '2SOURTYP') {
-        this.selectDealerEvent(this.dealerCodeData[0]);
+          this.selectDealerEvent(this.dealerCodeData[0]);
         }
         console.log('this.dealerCodeData', this.dealerCodeData);
       }
@@ -720,7 +722,7 @@ export class LeadCreationComponent implements OnInit {
     console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
     this.isMobile = this.createLeadForm.controls.mobile.value;
     this.isDirty = true;
-    
+
 
     if (
       this.createLeadForm.valid === true &&
@@ -876,6 +878,14 @@ export class LeadCreationComponent implements OnInit {
   }
 
   navgiateToNextPage() {
-    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`);
+    // let navigationExtras: NavigationExtras = {
+    //   queryParams: {...},
+    //   state: {...}
+    // };
+
+    // // Redirect the user
+    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`, { state: { udfScreenId: 'LDS001' }});    
+    // , skipLocationChange: true
+    // this.router.navigate([`pages/lead-section/${this.leadId}`], { queryParams: { udfScreenId: this.udfScreenId } });
   }
 }
