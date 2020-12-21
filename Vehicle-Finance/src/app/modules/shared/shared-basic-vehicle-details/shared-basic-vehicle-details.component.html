@@ -1701,7 +1701,6 @@
                             </div>
 
                         </div>
-
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3"
@@ -2598,7 +2597,7 @@
             <div class="modal-body">
                 <div class="row" *ngIf="loanDetailsData.length != 0">
                     <div class="col-md-12">
-                        <div class="table-responsive application">
+                        <div class="table-responsive application tab-hgt">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="table-head-bg ">
@@ -2617,7 +2616,6 @@
                                         <td align="center" [attr.data-label]="'Select'">
                                             <input class="" type="radio" name="loanDetails"
                                                 (click)="onLoanAccNoSelect(loanDetail)" />
-                                            <!--  -->
                                         </td>
                                         <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
                                         <td [attr.data-label]="'Loan Start Date'">{{loanDetail.loanStartDate}}</td>
@@ -2629,28 +2627,15 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- <div class="btn-sec clear-both btn-mar-reject">
-                                <div class="text-right margin_top">
-                                    <button *ngIf="isSO === 1" [disabled]="!isCreateLoanBtn"
-                                        class="btn btn-primary js-btn-next mar-right8" type="button"
-                                        (click)="onCreateChildLoan()">
-                                        Create Child Loan Lead
-                                    </button>
-                                    <button class="btn btn-primary js-btn-next mar-right8" type="button"
-                                        [disabled]="!isCreateLoanBtn" (click)="viewLoan360()">
-                                        View Loan 360
-                                    </button>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-info" data-dismiss="modal" id="continue"
+                <button type="button" class="btn con-btn btn-info" data-dismiss="modal" id="continue"
                     (click)="onCheckVehicleDetails()">
-                    Continue with selected account number
+                    Continue with selected {{ isMobile ? 'A/C No.': 'account number'}}
                 </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" id="close" (click)="onClose()">
                     Cancel

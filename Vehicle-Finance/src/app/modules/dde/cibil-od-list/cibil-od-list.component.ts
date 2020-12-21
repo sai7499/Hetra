@@ -62,6 +62,10 @@ export class CibilOdListComponent implements OnInit {
   isLoan360: boolean;
   isloanTypeError: boolean = false;
   isDisabledLoanType: boolean = false;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId= 'BDS001';
+  udfGroupId= 'BDG001';
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -383,10 +387,15 @@ export class CibilOdListComponent implements OnInit {
     const body = {
       userId: this.userId,
       applicantId: this.applicantId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
     };
     this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
       this.odDetails = res.ProcessVariables;
-
+      this.udfDetails = this.odDetails.udfDetails;
       this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnq30days);
       this.addLastSixtyDaysLoan(res.ProcessVariables.bureauEnq60days);
 
@@ -442,7 +451,8 @@ export class CibilOdListComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
-    if (this.odDetailsForm.invalid) {
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
+    if (this.odDetailsForm.invalid || isUDFInvalid ) {
       this.isDirty = true;
       this.toasterService.showError(
         'Fields Missing Or Invalid Pattern Detected',
@@ -508,8 +518,17 @@ export class CibilOdListComponent implements OnInit {
           addCibilScore: this.odDetailsForm.controls.addCibilScore.value,
         },
       };
+      const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+      const data= {
+        ...body,
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          //"udfScreenId": this.udfScreenId,
+          "udfData": udfData
+        }]
+      }
 
-      this.odDetailsService.saveParentOdDetails(body).subscribe((res: any) => {
+      this.odDetailsService.saveParentOdDetails(data).subscribe((res: any) => {
 
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == '0') {
@@ -673,5 +692,10 @@ export class CibilOdListComponent implements OnInit {
       document.onmouseup = null;
       document.onmousemove = null;
     }
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 }

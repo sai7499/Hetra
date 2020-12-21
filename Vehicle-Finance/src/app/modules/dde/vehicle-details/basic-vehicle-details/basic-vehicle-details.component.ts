@@ -31,7 +31,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public unsubForm: any;
   udfScreenId: string = 'CLS006';
   udfGroupId: string = 'CLG002';
-  udfDetails: any;
+  udfDetails: any = [];
 
   productCatoryCode: string;
 
@@ -121,7 +121,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
         data.udfDetails = [{
           "udfGroupId": this.udfGroupId,
-          "udfScreenId": this.udfScreenId,
+          // "udfScreenId": this.udfScreenId,
           "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
         }]
 
@@ -155,7 +155,6 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
-      console.log(this.formValue, 'formValue')
       this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }
   }
