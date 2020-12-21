@@ -334,50 +334,88 @@ export class DashboardComponent implements OnInit, OnDestroy {
     localStorage.removeItem('istermSheet');
     localStorage.removeItem('salesResponse');
     localStorage.removeItem('isFiCumPd');
-
-
     localStorage.setItem('isPreDisbursement', 'false');
+
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
       this.subActiveTab = this.dashboardService.routingData.subActiveTab;
 
       this.onTabsLoading(this.subActiveTab);
     } else {
-      if (this.roleType == '1') {
-        if (this.roleId == '66') {
-          this.activeTab = 58;
-        } else {
-          this.activeTab = 0;
-          this.subActiveTab = 3;
-        }
-        this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType == '2') {
-        this.activeTab = 18;
-        this.subActiveTab = 21;
-        this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType == '4') {
-        this.activeTab = 30;
-        this.subActiveTab = 31;
-        this.onTabsLoading(this.subActiveTab);
-        this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe, 'CPC');
-      } else if (this.roleType == '5') {
-        this.activeTab = 33;
-        this.subActiveTab = 34;
-        this.onTabsLoading(this.subActiveTab);
-        this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
-      } else if (this.roleType == '6') {
-        this.activeTab = 44;
-        this.subActiveTab = 45;
-        this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType == '7') {
-        this.activeTab = 47;
-        this.subActiveTab = 48;
-        this.onTabsLoading(this.subActiveTab);
-      } else if (this.roleType == '9') {
-        this.activeTab = 60;
-        this.subActiveTab = 61;
-        this.onTabsLoading(this.subActiveTab);
+      switch (Number(this.roleType)) {
+        case 1:
+          if (this.roleId == '66') {
+            this.activeTab = 58;
+          } else {
+            this.activeTab = 0;
+            this.subActiveTab = 3;
+          }
+          break;
+        case 2:
+          this.activeTab = 18;
+          this.subActiveTab = 21;
+          break;
+        case 4:
+          this.activeTab = 30;
+          this.subActiveTab = 31;
+          this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe, 'CPC');
+          break;
+        case 5:
+          this.activeTab = 33;
+          this.subActiveTab = 34;
+          this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
+          break;
+        case 6:
+          this.activeTab = 44;
+          this.subActiveTab = 45;
+          break;
+        case 7:
+          this.activeTab = 47;
+          this.subActiveTab = 48;
+          break;
+        case 9:
+          this.activeTab = 60;
+          this.subActiveTab = 61;
+          break;
+        default:
+          break;
       }
+      this.onTabsLoading(this.subActiveTab);
+      // if (this.roleType == '1') {
+      //   if (this.roleId == '66') {
+      //     this.activeTab = 58;
+      //   } else {
+      //     this.activeTab = 0;
+      //     this.subActiveTab = 3;
+      //   }
+      //   this.onTabsLoading(this.subActiveTab);
+      // } else if (this.roleType == '2') {
+      //   this.activeTab = 18;
+      //   this.subActiveTab = 21;
+      //   this.onTabsLoading(this.subActiveTab);
+      // } else if (this.roleType == '4') {
+      //   this.activeTab = 30;
+      //   this.subActiveTab = 31;
+      //   this.onTabsLoading(this.subActiveTab);
+      //   this.onLeads(this.displayTabs.CPCMaker, this.displayTabs.CPCMakerWithMe, 'CPC');
+      // } else if (this.roleType == '5') {
+      //   this.activeTab = 33;
+      //   this.subActiveTab = 34;
+      //   this.onTabsLoading(this.subActiveTab);
+      //   this.onLeads(this.displayTabs.CPCChecker, this.displayTabs.CPCCheckerWithMe, 'CPC');
+      // } else if (this.roleType == '6') {
+      //   this.activeTab = 44;
+      //   this.subActiveTab = 45;
+      //   this.onTabsLoading(this.subActiveTab);
+      // } else if (this.roleType == '7') {
+      //   this.activeTab = 47;
+      //   this.subActiveTab = 48;
+      //   this.onTabsLoading(this.subActiveTab);
+      // } else if (this.roleType == '9') {
+      //   this.activeTab = 60;
+      //   this.subActiveTab = 61;
+      //   this.onTabsLoading(this.subActiveTab);
+      // }
     }
 
     this.labelService.getLabelsData().subscribe(res => {
@@ -1376,7 +1414,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
       } else if (stageCode === '20') {
         this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
-      }else if(stageCode === '7'){
+      } else if (stageCode === '7') {
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
@@ -1656,7 +1694,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
     console.log(item.taskId);
-    
+
     this.sharedService.setProductCatCode(item.productCatCode);
     this.sharedService.setProductCatName(item.productCatName);
     this.sharedService.getDeclinedFlow(this.declinedFlow);

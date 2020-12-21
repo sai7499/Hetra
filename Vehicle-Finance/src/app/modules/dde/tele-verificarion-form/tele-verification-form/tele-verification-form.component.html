@@ -527,6 +527,10 @@
                         </div>
                     </div>
                 </form>
+                
+                <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+                [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+            
                 <div class="row mar-top19">
                     <div class="col-sm-5"></div>
                     <div class="col-sm-7 padding-10 text-right">
@@ -534,7 +538,7 @@
                         <button type="submit" class="btn btn-primary dash_href" (click)="onSave()" *ngIf="!disableSaveBtn"> {{labels.save}} </button>
                         <button class="btn btn-primary dash_href" [disabled]="!isSaved" type="button" (click)="onSubmit()" data-toggle="modal" data-target="#myModal">{{labels.submit}}</button>
                     </div>
-                </div>
+                </div>   
             </div>
         </div>
 

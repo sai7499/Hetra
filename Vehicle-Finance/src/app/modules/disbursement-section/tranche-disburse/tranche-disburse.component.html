@@ -424,28 +424,29 @@
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="btn-sec marb-100 text-right clear-both  cst_btm_btns mar-bot">
-            <div class="col-sm-5"></div>
-            <div class="col-sm-7">
-                <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
-                    Back
-                </button>
-                <button class="btn btn-primary" type="button" *ngIf="roleType == '1'" (click)="onUpdate()">
-                    Submit to CPC Maker
-                </button>
-                <button class="btn btn-primary" type="button" *ngIf="roleType == '4'" (click)="doAction('SubToChecker',false)">
-                    Submit to CPC Checker
-                </button>
-                <button class="btn btn-primary " type="button" *ngIf="roleType == '4' || roleType == '5'" data-toggle="modal" data-target="#remarksModal"  >
-                    Reverse
-                </button>
-                <button class="btn btn-primary" type="button" *ngIf="roleType == '5'" (click)="onApprove()">
-                    Initiate Disbursement
-                </button>
-
+            <div class="btn-sec marb-100 text-right clear-both  cst_btm_btns mar-bot">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
+                        Back
+                    </button>
+                    <button class="btn btn-primary" type="button" *ngIf="roleType == '1'" (click)="onUpdate()">
+                        Submit to CPC Maker
+                    </button>
+                    <button class="btn btn-primary" type="button" *ngIf="roleType == '4'" (click)="doAction('SubToChecker',false)">
+                        Submit to CPC Checker
+                    </button>
+                    <button class="btn btn-primary " type="button" *ngIf="roleType == '4' || roleType == '5'" data-toggle="modal" data-target="#remarksModal"  >
+                        Reverse
+                    </button>
+                    <button class="btn btn-primary" type="button" *ngIf="roleType == '5'" (click)="onApprove()">
+                        Initiate Disbursement
+                    </button>
+    
+                </div>
             </div>
         </div>
+       
     </div>
 
 </main>

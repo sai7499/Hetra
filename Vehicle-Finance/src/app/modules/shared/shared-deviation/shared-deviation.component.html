@@ -98,17 +98,16 @@
 
     <div
       *ngIf="isSendBacktoCredit && isWaiverTrigger || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
-     
     </div>
 
     <ng-container formArrayName="autoDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
-      <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
-        <button class="btn btn-primary" type="button"
-          (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
-      </div>
-    </ng-container>
+        <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
+          <button class="btn btn-primary" type="button"
+            (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
+        </div>
+      </ng-container>
 
       <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
 
@@ -182,9 +181,9 @@
           </tbody>
         </table>
       </div>
-    </ng-container>   
-      <hr class="mar-5">
-   
+    </ng-container>
+    <hr class="mar-5">
+
     <ng-container formArrayName="manualDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
@@ -193,7 +192,7 @@
             (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
         </div>
       </ng-container>
-      
+
 
       <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
 
@@ -356,8 +355,8 @@
             </app-vf-custom-select>
           </div>
         </div>
-        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!deviationsForm.controls['approverRole'].value"
+        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal"
+          data-target="#referRecommedation" [disabled]="!deviationsForm.controls['approverRole'].value"
           (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
       </div>
       <div class="col-sm-3 row text-right" *ngIf="!isLoan360">

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { Categories } from '@model/upload-model';
+import { LabelsService } from './labels.service';
 
 Injectable({
   providedIn: 'root',
@@ -34,4 +35,5 @@ export class CommomLovService {
   getSearchLoan() {
     return this.searchLoanData;
   }
+
 }
