@@ -76,6 +76,12 @@ export class TeleVerificationFormComponent implements OnInit {
   sourcingType: string;
   reqLoanAmount: any;
 
+  // User defined
+  udfScreenId: any = 'TVS001';
+  udfGroupId: any = 'TVG001';
+  udfDetails: any = [];
+  userDefineForm: any;
+
   constructor(
     private fb: FormBuilder,
     // private labelDetails: LabelsService,
@@ -297,13 +303,21 @@ export class TeleVerificationFormComponent implements OnInit {
   getTvrDetails() {
 
     const data = {
-      applicantId: this.applicantId
+      applicantId: this.applicantId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.tvrService.getTvrDetails(data).subscribe((res: any) => {
       this.applicantName = res.ProcessVariables.applicantName;
       this.soName = res.ProcessVariables.soName;
       // this.leadId = res.ProcessVariables.leadId;
       this.tvrData = res.ProcessVariables.tvr;
+      this.udfDetails = res.ProcessVariables.udfDetails;
+      
       this.referenceData = res.ProcessVariables.applicationReferences ? res.ProcessVariables.applicationReferences : [];
       console.log('referenceDAta', this.referenceData);
 
@@ -428,6 +442,12 @@ export class TeleVerificationFormComponent implements OnInit {
   saveOrUpdateTvrDetails() {
     this.tvrDetails.userId = localStorage.getItem('userId');
     this.tvrDetails.applicantId = this.applicantId;
+    
+    this.tvrDetails.udfDetails =  [{
+      "udfGroupId": this.udfGroupId,
+      // "udfScreenId": this.udfScreenId,
+      "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+    }]
     const data = this.tvrDetails;
     this.tvrService.setTvrDetails(data).subscribe((res: any) => {
       const response = res;
@@ -472,7 +492,7 @@ export class TeleVerificationFormComponent implements OnInit {
     const tvrDetails = this.teleVerificationForm.getRawValue();
     this.isDirty = true;
 
-    if (this.teleVerificationForm.valid === true) {
+    if (this.teleVerificationForm.valid === true && this.userDefineForm.udfData.valid) {
       // console.log('success');
       this.tvrDetails = this.teleVerificationForm.value;
       this.tvrDetails.dob = this.dateToFormate(this.tvrDetails.dob);
@@ -555,6 +575,11 @@ export class TeleVerificationFormComponent implements OnInit {
     }
 
     console.log("select Staus",event.target.value,fromRef)
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }

@@ -123,6 +123,10 @@ export class IncomeDetailsComponent implements OnInit {
   totalMonthlyIncome: number;
   salariedFOIRasperPolicyValue: any;
   a: any;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId : any;
+  udfGroupId : any;
 
   constructor(
     private router: Router,
@@ -201,14 +205,19 @@ export class IncomeDetailsComponent implements OnInit {
     this.incomeDetailsService.getFactoringValue(incomeData).subscribe((res: any) => {
       this.incomeTypeResponse = res.ProcessVariables['factoringList'];
     });
-    this.getAllIncome();
-this.getSalariedFoirIncome();
     if (this.productCode == "UC") {
       this.usedCar = true;
+      this.udfGroupId= 'ING001'
+      this.udfScreenId= 'INS002'
       // this.incomeDetailsForm.controls.
     } else if (this.productCode == "NCV" || this.productCode == "UCV") {
-      this.NewOrUsedComercialVehicle = true
+      this.NewOrUsedComercialVehicle = true;
+      this.udfGroupId= 'ING001'
+      this.udfScreenId= 'INS001'
     }
+    this.getAllIncome();
+this.getSalariedFoirIncome();
+    
     this.businessIncomeValidators()
   }
   businessIncomeValidators() {
@@ -804,12 +813,17 @@ this.getSalariedFoirIncome();
   getAllIncome() {
     const body = {
       leadId: this.leadId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
     };
     this.incomeDetailsService
       .getAllIncomeDetails(body)
       .subscribe((res: any) => {
         this.applicantResponse = res.ProcessVariables;
-
+        this.udfDetails= this.applicantResponse.udfDetails
         this.incomeDetailsForm.patchValue({
           salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation || "0",
         });
@@ -938,7 +952,7 @@ this.getSalariedFoirIncome();
  
   onSubmit() {
     this.submitted = true;
-
+    
     if (this.productCode == "UC" && this.businessIncomeDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0) {
       this.toasterService.showError(
         'Add atleast one entry in Business income or Other income Details',
@@ -959,7 +973,9 @@ this.getSalariedFoirIncome();
       return;
     }
     // stop here if form is invalid
-    if (this.incomeDetailsForm.invalid) {
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
+    if (this.incomeDetailsForm.invalid || isUDFInvalid) {
+      this.isDirty= true;
       this.toasterService.showError(
         'Mandatory Fields Missing Or Invalid Pattern Detected',
         'Income Details'
@@ -1051,10 +1067,19 @@ this.getSalariedFoirIncome();
         bodyForm = body
 
       }
+      const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+      const data = {
+        ...bodyForm, 
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          //"udfScreenId": this.udfScreenId,
+          "udfData": udfData
+        }]
+      }
 
 
       this.incomeDetailsService
-        .setAllIncomeDetails(bodyForm)
+        .setAllIncomeDetails(data)
         .subscribe((res: any) => {
 
           // tslint:disable-next-line: triple-equals
@@ -1372,6 +1397,12 @@ setTimeout(()=>{
     this.rowIndex = i;
     this.isKeyFinancialShow = true;
     this.errorMessage = 'Are you sure Want to remove this row ?';
+  }
+
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }

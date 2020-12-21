@@ -77,6 +77,13 @@ export class BankDetailsComponent implements OnInit {
   isLimitRequire = false;
   submitForm = false;
   isToDate = false;
+
+  // User defined
+  udfScreenId: any = 'APS018';
+  udfGroupId: any = 'APG010';
+  udfDetails: any = [];
+  userDefineForm: any;
+
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -216,11 +223,21 @@ export class BankDetailsComponent implements OnInit {
     });
   }
   getBankDetails() {
+    const data = {
+      applicantId: this.applicantId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
+    }
     this.bankTransaction
-      .getBankDetails({ applicantId: this.applicantId })
+      .getBankDetails(data)
       .subscribe((res: any) => {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
+        this.udfDetails = res.ProcessVariables.udfDetails;
         console.log(this.bankDetailsNew, ' bank details new');
         if (this.bankDetailsNew) {
           // tslint:disable-next-line: prefer-for-of
@@ -322,7 +339,7 @@ export class BankDetailsComponent implements OnInit {
   onSave() {
     this.submitForm = true;
     this.isDirty = true;
-    if (this.bankForm.invalid) {
+    if (this.bankForm.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showError(
         'Mandatory Fields Missing ',
         'Bank Transactions'
@@ -372,6 +389,11 @@ export class BankDetailsComponent implements OnInit {
     }
     this.bankForm.value.transactionDetails = transactionArray;
     // console.log(this.bankForm.value.transactionDetails);
+    this.bankForm.value.udfDetails =  [{
+      "udfGroupId": this.udfGroupId,
+      // "udfScreenId": this.udfScreenId,
+      "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+    }]
 
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
@@ -567,4 +589,10 @@ export class BankDetailsComponent implements OnInit {
       }
 
   }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
+  }
+
 }

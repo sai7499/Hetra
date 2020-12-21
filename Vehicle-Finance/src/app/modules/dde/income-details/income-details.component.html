@@ -9,8 +9,8 @@
           <div class="table-responsive application" *ngIf="usedCar">
             <table id="POITable" border="1" class="table main-table businessTable">
               <thead >
-                <th colspan="4" class="banner-con ">  <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
-                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)">
+                <th colspan="9" class="banner-con ">  <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)">
                 <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
                
                 </thead>
@@ -227,7 +227,7 @@
             <table id="POITable" border="1" class="table main-table businessTable">
               <thead >
               <th colspan="4" class="banner-con ">  <span >{{ labels?.keyFinancialTitle }}</span> </th>
-              <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)">
+              <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)">
               <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
              
               </thead>
@@ -755,7 +755,7 @@
             <table id="POITable_other" border="1" class="table main-table">
               <thead>
                 <th colspan="7" class=" banner-con">  <span>{{ labels?.otherIncomeDetailsTitle }}</span> </th>
-                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)">
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)">
                 <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
                
                 </thead>
@@ -916,7 +916,7 @@
             <table id="POITable_obligation" border="1" class="table main-table">
               <thead>
                 <th colspan="11" class="banner-con">  <span >{{ labels?.obligationDetailsTitle }}</span> </th>
-                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)">
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)">
                 <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
                
                 </thead>
@@ -1276,6 +1276,12 @@
       </div>
     </div>
   </div>
+  <app-shared-user-defined-fields *ngIf="usedCar" [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+<app-shared-user-defined-fields *ngIf="NewOrUsedComercialVehicle" [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
