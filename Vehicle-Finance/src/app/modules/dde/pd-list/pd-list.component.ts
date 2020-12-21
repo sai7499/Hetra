@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import html2pdf from 'html2pdf.js';
 
 import { LabelsService } from '@services/labels.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
@@ -32,6 +33,38 @@ export class PdListComponent implements OnInit {
   fiCumPdStatus: boolean;
   productCatCode: string;
 
+  applicantDetailsFromLead: any;
+
+  pdPersonalFirstName: string;
+  pdPersonalMiddleName: string;
+  pdPersonalLastName: string;
+  pdPersonalFullName: string;
+
+  pdPersonalNoofmonths: string;
+  pdPersonalNoofyears: string;
+  pdIncomeDetails: any;
+  marketAndFinacier = [];
+
+  applicantId: number;
+  reqLoanAmount: any;
+  applicantType: any;
+
+  applicantPdDetails: any;
+  custProfDetails: any;
+  loanDetails: any;
+  newCvDetails: any;
+  custCategory: any;
+  usedVehicleDetails: any;
+  assetDetailsUsedVehicle: any;
+  referenceCheckDetails: any;
+  refCheckDetails: any;
+  genericDetails: any;
+  customerProfileDetails: any;
+  profilePhoto: any;
+  SELFIE_IMAGE: any;
+  isccOdLimit: boolean;
+  selectedApplicantId: any;
+
   constructor(private labelsData: LabelsService,
     private router: Router,
     public sharedService: SharedService,
@@ -39,6 +72,7 @@ export class PdListComponent implements OnInit {
     private personalDiscussionService: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
+    private personalDiscussion: PersonalDiscussionService,
 
   ) { }
 
@@ -184,6 +218,44 @@ export class PdListComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData();
     this.productCatCode = leadData['leadDetails'].productCatCode;
     console.log("PRODUCT_CODE::", this.productCatCode);
+
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    const data = { ...leadSectionData };
+    const leadDetailsFromLead = data['leadDetails'];
+
+    this.applicantDetailsFromLead = data['applicantDetails'];
+    this.applicantDetailsFromLead.filter((val: any) => {
+      const splitName = val.fullName.split(' ');
+      let firstName, middleName, lastName = '';
+      firstName = splitName[0] ? splitName[0] : '';
+      this.pdPersonalFirstName = firstName;
+
+      if (splitName && splitName.length >= 3) {
+        middleName = splitName[1] ? splitName[1] : '';
+        lastName = splitName[2] ? splitName[2] : '';
+        this.pdPersonalMiddleName = middleName;
+        this.pdPersonalLastName = lastName;
+
+      } else if (splitName && splitName.length === 2) {
+        middleName = '';
+        lastName = splitName[1] ? splitName[1] : '';
+        this.pdPersonalMiddleName = middleName;
+        this.pdPersonalLastName = lastName;
+      }
+
+      if (val.applicantId === this.applicantId) {
+        this.pdPersonalFullName = val.fullName ? val.fullName : '';
+      }
+      this.getFiCumPdAndPdData();
+    });
+    this.reqLoanAmount = leadDetailsFromLead.reqLoanAmt;
+    this.productCatCode = leadDetailsFromLead.productCatCode;
+    // this.applicantType = leadDetailsFromLead.applicantTypeKey;
+    this.applicantType = 'APPAPPRELLEAD';
+
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
   }
 
   onNavigateBack() {
@@ -202,6 +274,65 @@ export class PdListComponent implements OnInit {
 
     this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
 
+  }
+
+  getFiCumPdAndPdData() {
+    const data = {
+      // applicantId: this.applicantId,
+      // pdVersion: this.version,
+      applicantId: this.selectedApplicantId,
+      pdVersion: 'undefined'
+    };
+
+    this.personalDiscussion.getPdData(data).subscribe((value: any) => {
+      const response = value.ProcessVariables;
+      if (response.error.code === '0') {
+        this.applicantPdDetails = response.applicantPersonalDiscussionDetails;
+        this.custProfDetails = response.customerProfileDetails;
+        this.newCvDetails = response.loanDetailsForNewCv;
+        this.custCategory = response.applicantPersonalDiscussionDetails.custCategory;
+        this.usedVehicleDetails = response.applicableForUsedVehicle;
+        this.assetDetailsUsedVehicle = response.applicableForAssetDetailsUsedVehicle;
+
+        this.refCheckDetails = response.referenceCheck;
+        this.genericDetails = response.otherDetails;
+        this.customerProfileDetails = response.customerProfileDetails;
+        this.SELFIE_IMAGE = response.profilePhoto;
+
+        if (this.applicantPdDetails.noOfYearsResidingInCurrResidence) {
+          this.pdPersonalNoofmonths = String(Number(this.applicantPdDetails.noOfYearsResidingInCurrResidence) % 12) || '';
+          this.pdPersonalNoofyears = String(Math.floor(Number(this.applicantPdDetails.noOfYearsResidingInCurrResidence) / 12)) || '';
+        }
+
+        this.pdIncomeDetails = response.incomeDetails;
+        if (this.pdIncomeDetails.typeOfAccount === "4BNKACCTYP") {
+          this.isccOdLimit = true;
+        } else {
+          this.isccOdLimit = false;
+        }
+
+        this.marketAndFinacier = response.marketFinRefData;
+        this.downloadpdf();
+      }
+    });
+  }
+
+
+  getPdf(event?) {
+    this.selectedApplicantId = event;
+    this.getFiCumPdAndPdData();
+  }
+
+  downloadpdf() {
+    var options = {
+      margin: [0.5, 0.3, 0.5, 0.3],
+      filename: `FIcumPD_${this.leadId}.pdf`,
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas: { scale: 3, logging: true },
+      pagebreak: { before: "#page_break" },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+    }
+    html2pdf().from(document.getElementById('pdf')).set(options).save();
   }
 
 }

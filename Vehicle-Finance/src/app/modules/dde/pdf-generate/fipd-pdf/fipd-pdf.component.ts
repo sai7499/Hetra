@@ -8,6 +8,8 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { ActivatedRoute } from '@angular/router';
 import { FieldInvestigationService } from '@services/fi/field-investigation.service';
 
+import html2pdf from 'html2pdf.js';
+
 @Component({
   selector: 'app-fipd-pdf',
   templateUrl: './fipd-pdf.component.html',
@@ -75,9 +77,9 @@ export class FipdPdfComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private fieldInvestigationService: FieldInvestigationService,
   ) {
-    this.isFiCumPd = false;
+    this.isFiCumPd = true;
     this.isPd = false;
-    this.isFi = true;
+    this.isFi = false;
   }
 
   ngOnInit() {
@@ -255,6 +257,18 @@ export class FipdPdfComponent implements OnInit {
     this.genericDetails = this.referenceCheckDetails.otherDetails;
     this.customerProfileDetails = this.referenceCheckDetails.customerProfileDetails;
     this.SELFIE_IMAGE = this.referenceCheckDetails.profilePhoto;
+  }
+
+  downloadpdf() {
+    var options = {
+      margin: [0.5, 0.3, 0.5, 0.3],
+      filename: `FIcumPD_1728.pdf`,
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas: { scale: 3, logging: true },
+      pagebreak: { before: "#page_break" },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+    }
+    html2pdf().from(document.getElementById('test')).set(options).save();
   }
 
 }
