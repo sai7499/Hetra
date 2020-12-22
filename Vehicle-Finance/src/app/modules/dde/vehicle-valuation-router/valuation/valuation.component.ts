@@ -179,6 +179,10 @@ export class ValuationComponent implements OnInit {
   dmsDocumentId: string;
   vehiclePhotoRequired: boolean;
   taskId: any;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId: any;
+  udfGroupId: any;
 
 
 
@@ -233,6 +237,13 @@ export class ValuationComponent implements OnInit {
     console.log('user name', this.userName);
     console.log('role id', this.roleId);
     console.log('role name', this.roleName);
+    if(this.roleType === 9){
+      this.udfGroupId = 'VAG001'
+      this.udfScreenId = 'VAS001'
+    }else if(this.roleType === 2){
+      this.udfGroupId = 'VAG001'
+      this.udfScreenId = 'VAS002'
+    }
     if (this.roleId === 86) {
       this.extValuator = true;
     }
@@ -745,10 +756,14 @@ export class ValuationComponent implements OnInit {
   getVehicleValuation() {
 
     const data = this.colleteralId;
+    const udfData = {
+      "udfGroupId": this.udfGroupId,
+    }
     // const data = 1695;
     // console.log('DATA::::', data);
-    this.vehicleValuationService.getVehicleValuation(data).subscribe((res: any) => {
+    this.vehicleValuationService.getVehicleValuation(data,udfData ).subscribe((res: any) => {
       const response = res;
+      this.udfDetails = response.ProcessVariables.udfDetails;
       this.SELFIE_IMAGE = response.ProcessVariables.vehicleImage;
       console.log("RESPONSE_FROM_GET_VEHICLE_VALUATION_API", response);
       this.vehicleValuationDetails = response.ProcessVariables.vehicleValutionDetails;
@@ -1490,12 +1505,13 @@ export class ValuationComponent implements OnInit {
     formValue.fcExpiryDate = this.utilityService.convertDateTimeTOUTC(formValue.fcExpiryDate, 'DD/MM/YYYY');
     formValue.valuationInitiationDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationInitiationDate, 'DD/MM/YYYY');
     console.log('after converting date to utc', formValue);
-
-    if (this.vehicleValuationForm.invalid) {
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
+    if (this.vehicleValuationForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
       console.log('valuation form', this.vehicleValuationForm);
       return;
     }
+    const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
@@ -1504,6 +1520,11 @@ export class ValuationComponent implements OnInit {
       longitude: this.longitude || '',
       vehicleImage: this.SELFIE_IMAGE,
       ...formValue,
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }]
 
     };
     // this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
@@ -1537,7 +1558,8 @@ export class ValuationComponent implements OnInit {
   //   this.saveUpdateVehicleValuation();
   // }
   submitValuationTask() {
-    if (this.vehicleValuationForm.invalid) {
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
+    if (this.vehicleValuationForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
       return;
     }
@@ -1713,5 +1735,11 @@ export class ValuationComponent implements OnInit {
           console.log('downloadDocs', value);
         });
     });
+  }
+
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 }

@@ -95,6 +95,7 @@ export class RemarksComponent implements OnInit {
         const response = res;
         const processVaribles = response.ProcessVariables;
         if (response.Error == '0' && processVaribles.error.code == '0') {
+          this.udfDetails = response.ProcessVariables.udfDetails;
           this.setRemarks(processVaribles);
         } else {
           this.toasterService.showError(response.error.message, '');
@@ -105,6 +106,7 @@ export class RemarksComponent implements OnInit {
         const response = res;
         const processVaribles = response.ProcessVariables;
         if (response.Error == '0' && processVaribles.error.code == '0') {
+          this.udfDetails = response.ProcessVariables.udfDetails
           this.setRemarks(processVaribles);
         } else {
           this.toasterService.showError(response.error.message, '');
@@ -181,7 +183,8 @@ export class RemarksComponent implements OnInit {
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue);
     // console.log('isValueCheck', isValueCheck)
     // console.log(this.apiValue,'values', this.formvalue)
-    if (this.remarksForm.invalid) {
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
+    if (this.remarksForm.invalid || isUDFInvalid) {
       this.toasterService.showError('Save before Submitting', '');
       return;
     }

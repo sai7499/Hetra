@@ -192,6 +192,17 @@
       "id": "FIS004",
       "groupId": "FIG001",
       "name": "FI Business- DDE"
+    },
+
+    {
+      "id": "VAS001",
+      "groupId": "VAG001",
+      "name": "vehicle valuation - Dashboard"
+    },
+    {
+      "id": "VAS002",
+      "groupId": "VAG001",
+      "name": "vehicle valuation - DDE"
     }
   ],
   "udfFields": [
@@ -1017,7 +1028,7 @@
     {
       "id": "personMetName",
       "label": "Person met Name",
-      "placeholder": "Observation",
+      "placeholder": "Person met Name",
       "mandatory": true,
       "contorlType": "textbox",
       "inputType": "alpha",
@@ -1034,6 +1045,34 @@
       "mandatory": true,
       "contorlType": "selectbox",
       "values": "fi/PdOfficePremisesType"
+    },
+
+    {
+      "id": "company",
+      "label": "Company",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
+    },
+    
+    {
+      "id": "borrowerName",
+      "label": "Borrower Name",
+      "placeholder": "Borrower Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
     }
   ],
   "screenUdfMapping": {
@@ -1769,6 +1808,26 @@
         },
         {
           "name": "officePremiseType",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "VAS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "company",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "VAS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "borrowerName",
           "show": true,
           "disable": false
         }

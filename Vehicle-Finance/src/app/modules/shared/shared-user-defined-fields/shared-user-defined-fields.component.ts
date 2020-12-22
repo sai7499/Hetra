@@ -13,15 +13,8 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   udfArray: any
   @Input() udfScreenId: any;
   @Input() udfGroupId: any;
-  @Input() set udfDetails(value) {
-    if (value && value.length > 0) {
-      this.udfArray = value
-    }
-    this.getOnInit();
-    this.getLOV();
-
-
-  };
+  @Input()  udfDetails : any;
+  
   @Input() isDirty: boolean;
 
   screenUdfMapping: any;
@@ -35,7 +28,8 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
     private commomLovService: CommomLovService) { }
 
   ngOnInit() {
-
+     this.getOnInit();
+     this.getLOV();
   }
 
   getOnInit() {
@@ -73,6 +67,8 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     //this.getLOV()
+    this.getOnInit();
+     this.getLOV();
   }
 
   getUserDefinedForm() {
@@ -86,12 +82,12 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
 
-    if (this.udfArray && this.udfArray.length > 0 && this.screenUdfMapping) {
+    if (this.udfDetails && this.udfDetails.length > 0 && this.screenUdfMapping) {
 
-      this.udfGroupId = this.udfArray[0].groupScreenID;
+      this.udfGroupId = this.udfDetails[0].groupScreenID;
 
-      if (this.udfArray[0].udfData) {
-        let patchJsonValue = JSON.parse(this.udfArray[0].udfData)
+      if (this.udfDetails[0].udfData) {
+        let patchJsonValue = JSON.parse(this.udfDetails[0].udfData)
         let keys = Object.keys(patchJsonValue);
         let values = Object.values(patchJsonValue);
 
