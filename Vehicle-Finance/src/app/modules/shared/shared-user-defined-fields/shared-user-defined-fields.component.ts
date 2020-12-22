@@ -11,9 +11,23 @@ import { LabelsService } from '@services/labels.service';
 })
 export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   udfArray: any
-  @Input() udfScreenId: any;
-  @Input() udfGroupId: any;
-  @Input()  udfDetails : any;
+  screenId: any;
+  groupId: any;
+  @Input() set udfScreenId(value){
+      this.screenId= value;
+      this.getOnInit();
+     this.getLOV();
+  }
+  @Input() set udfGroupId(value){
+      this.groupId = value;
+      this.getOnInit();
+     this.getLOV();
+  }
+  @Input() set udfDetails (value){
+     this.udfArray= value;
+     this.getOnInit();
+     this.getLOV();
+  }
   
   @Input() isDirty: boolean;
 
@@ -28,14 +42,13 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
     private commomLovService: CommomLovService) { }
 
   ngOnInit() {
-     this.getOnInit();
-     this.getLOV();
+     
   }
 
   getOnInit() {
-    this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.udfScreenId);
+    this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.screenId);
 
-    console.log(this.udfScreenId, 'sceee', this.screenUdfMapping)
+    console.log(this.screenId, 'sceee', this.screenUdfMapping)
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -51,7 +64,7 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   initForm() {
 
     this.dynamicForm = this._fb.group({
-      udfScreenId: this.udfScreenId
+      udfScreenId: this.screenId
     })
 
     if (this.screenUdfMapping && this.screenUdfMapping.fields.length > 0) {
@@ -67,13 +80,13 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     //this.getLOV()
-    this.getOnInit();
-     this.getLOV();
+    // this.getOnInit();
+    //  this.getLOV();
   }
 
   getUserDefinedForm() {
     let udfDetails = {
-      groupScreenID: this.udfGroupId,
+      groupScreenID: this.groupId,
       udfData: this.dynamicForm
     }
     this.saveUserdefined.emit(udfDetails);
@@ -82,12 +95,12 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
 
-    if (this.udfDetails && this.udfDetails.length > 0 && this.screenUdfMapping) {
+    if (this.udfArray && this.udfArray.length > 0 && this.screenUdfMapping) {
 
-      this.udfGroupId = this.udfDetails[0].groupScreenID;
+      this.groupId = this.udfArray[0].groupScreenID;
 
-      if (this.udfDetails[0].udfData) {
-        let patchJsonValue = JSON.parse(this.udfDetails[0].udfData)
+      if (this.udfArray[0].udfData) {
+        let patchJsonValue = JSON.parse(this.udfArray[0].udfData)
         let keys = Object.keys(patchJsonValue);
         let values = Object.values(patchJsonValue);
 
