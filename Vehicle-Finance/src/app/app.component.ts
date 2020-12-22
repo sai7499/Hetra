@@ -360,6 +360,9 @@ export class AppComponent implements OnInit, OnDestroy {
   logout() {
     this.showExpiryModal = false;
     this.utilityService.logOut();
+    this.timer = this.idleTimerService.getModalTimer();
+    clearInterval(this.sessionIntervalId);
+    this.showTimerModal = false;
   }
 
   ngOnDestroy() {

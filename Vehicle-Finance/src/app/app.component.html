@@ -41,13 +41,14 @@
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header text-center">
-        <h4 class="modal-title">Your session going to expiry</h4>
+        <h4 class="modal-title">Session expiry</h4>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         <p id="">
-          You will timeout in {{timer}} seconds.
+          Your current session will get expired in {{ timer }} seconds. 
+          Do you want to extend the session?
         </p>
       </div>
 
@@ -68,8 +69,7 @@
           id="ucic_lead"
           (click)="stay()"
         >
-
-          Stay
+        Extend my Session
         </button>
       </div>
     </div>
