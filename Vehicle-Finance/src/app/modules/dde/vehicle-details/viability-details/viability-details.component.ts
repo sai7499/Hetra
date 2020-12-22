@@ -101,6 +101,13 @@ export class ViabilityDetailsComponent implements OnInit {
   version: any;
   showReinitiate = false;
   isLoan360: boolean;
+  
+  // User defined
+  udfScreenId: any = 'VIS002';
+  udfGroupId: any = 'VIG001';
+  udfDetails: any = [];
+  userDefineForm: any;
+  roleType: any;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -128,6 +135,11 @@ export class ViabilityDetailsComponent implements OnInit {
                }
 
   async ngOnInit() {
+
+    this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
+      this.roleType = userDetails.roleType;
+    });
+
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
 
@@ -306,8 +318,12 @@ export class ViabilityDetailsComponent implements OnInit {
       this.disableSaveBtn = true;
     }
 
-  }
+    if(this.roleType == '1' && this.viabliityDataToPatch == undefined) {
+      this.udfScreenId = 'VIS002';
+    }
 
+    console.log('screenID', this.udfScreenId);
+  }
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.route.parent.params.subscribe((value) => {
@@ -357,7 +373,7 @@ export class ViabilityDetailsComponent implements OnInit {
   }
   submitViability() {
     this.isDirty = true;
-    if (this.viabilityForm.invalid) {
+    if (this.viabilityForm.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showError('Details Not Saved', 'Please Save before submitting');
       return;
     } else { this.onSave(); }
@@ -393,20 +409,30 @@ vehicle_viability_navigate(event) {
     console.log(event);
     this.vehicle_viability_value = event ? event : event;
     if (this.vehicle_viability_value === '1VHCLVBTY') {
+      if(this.roleType == '1') {
+        this.udfScreenId = 'VIS002';
+      }
       this.passengerViability();
       this.removeStandOverValidators();
       this.removeCaptiveValidators();
     } else if (this.vehicle_viability_value === '2VHCLVBTY') {
+      if(this.roleType == '1') {
+        this.udfScreenId = 'VIS003';
+      }
       this.StandOverViability();
       this.removePassengerValidators();
       this.removeCaptiveValidators();
 
     } else if (this.vehicle_viability_value === '3VHCLVBTY') {
+      if(this.roleType == '1') {
+        this.udfScreenId = 'VIS001';
+      }
       this.captiveViability();
       this.removePassengerValidators();
       this.removeStandOverValidators();
 
     }
+    console.log('screenID', this.udfScreenId);
   }
   private  passengerViability() {
    const privateViability = this.viabilityForm.controls.passanger as FormGroup;
@@ -500,7 +526,13 @@ getViability() {
     const body = {
       userId: this.userId,
       collateralId: this.collataralId,
-      version: this.version || ''
+      version: this.version || '',
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
@@ -515,6 +547,7 @@ getViability() {
       this.branchLongitude = this.viabliityDataToPatch.brLongitude;
       this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto;
       const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+      this.udfDetails = res.ProcessVariables.udfDetails;
       gpsPos.patchValue({
         latitude: this.latitude,
         longitude: this.longitude,
@@ -529,6 +562,11 @@ getViability() {
       }
 
       if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '1VHCLVBTY') {
+        if(this.roleType == '1') {
+          this.udfScreenId = 'VIS002';
+        } else if (this.roleType == '2') {
+          this.udfScreenId = 'VIS005';
+        }
         this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
@@ -541,6 +579,11 @@ getViability() {
           type: this.viabliityDataToPatch.type
          }) ;
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '2VHCLVBTY') {
+        if(this.roleType == '1') {
+          this.udfScreenId = 'VIS003';
+        } else if (this.roleType == '2') {
+          this.udfScreenId = 'VIS006';
+        }
         this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
@@ -552,6 +595,11 @@ getViability() {
         this.calculateStandOperatorB();
         this.calculateStandOperatorC();
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '3VHCLVBTY') {
+        if(this.roleType == '1') {
+          this.udfScreenId = 'VIS001';
+        } else if (this.roleType == '2') {
+          this.udfScreenId = 'VIS004';
+        }
         this.viabilityForm.patchValue ({
          type: this.viabliityDataToPatch.type
         }) ;
@@ -567,6 +615,7 @@ getViability() {
         type: this.vehicle_viability_value
       }) ;
     }
+    console.log('screenID', this.udfScreenId);
     });
     // this.patchGpsposition();
 }
@@ -576,7 +625,7 @@ getViability() {
 onSave() {
     this.isDirty = true;
     this.vehicle_viability_navigate(this.viabilityForm.value.type);
-    if (this.viabilityForm.invalid) {
+    if (this.viabilityForm.invalid || this.userDefineForm.udfData.invalid) {
       console.log(this.viabilityForm);
       this.toasterService.showError('Mandatory fields missing', '');
       return;
@@ -593,7 +642,12 @@ onSave() {
           version: this.version || '',
           ...this.convertPassenger(this.viabilityForm.value.passanger)
         },
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
       };
+      console.log(body);
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
@@ -621,7 +675,12 @@ onSave() {
           version: this.version || '',
           ...this.convertStandOperative(this.viabilityForm.value.passangerStandOperator)
         },
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
       };
+      console.log(body);
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
@@ -643,7 +702,13 @@ onSave() {
           version: this.version || '',
           ...this.convertCapitve(this.viabilityForm.value.captive)
         },
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
       };
+      console.log(body);
+      
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
@@ -1241,6 +1306,11 @@ calculateCaptiveC() {
         this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
       }
     });
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }
