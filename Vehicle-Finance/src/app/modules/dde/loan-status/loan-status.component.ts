@@ -102,5 +102,8 @@ export class LoanStatusComponent implements OnInit {
       }
     });
   }
-
+  
+  getEPolicy(){
+    this.toasterService.showError("Document is not available","Download E-Policy")
+  }
 }
