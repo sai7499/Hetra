@@ -57,6 +57,10 @@ export class FiBusinessComponent implements OnInit {
   fiList: Array<any>;
   fiStatusValue: any;
   initDate: boolean;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId: any;
+  udfGroupId: any;
 
   constructor(
     private labelService: LabelsService,
@@ -90,6 +94,13 @@ export class FiBusinessComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
     this.roleType = this.roles[0].roleType;
+    if (this.roleType === 1) { // For FI dashboard
+      this.udfGroupId = 'FIG001'
+      this.udfScreenId = 'FIS002'
+    } else if (this.roleType === 2) { // For DDE FI
+      this.udfGroupId = 'FIG001'
+      this.udfScreenId = 'FIS004'
+    }
     this.leadId = (await this.getLeadId()) as number;
     this.getLOV();
     this.getLabels();
@@ -370,13 +381,19 @@ export class FiBusinessComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
       userId: this.userId,
-      fiVersion: this.version
+      fiVersion: this.version,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
     };
 
     this.fieldInvestigationService.getFiReportDetails(data).subscribe(async (res: any) => {
       const processVariables = res.ProcessVariables;
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
+        this.udfDetails= res.ProcessVariables.udfDetails;
         if (processVariables.getFIBusinessDetails) {
           this.custSegment = processVariables.getFIBusinessDetails.custSegment;
         } else {
@@ -448,8 +465,9 @@ export class FiBusinessComponent implements OnInit {
   onFormSubmit() { // fun that submits all the pd data
     const formModal = this.fieldReportForm.value;
     const fieldReportModal = { ...formModal };
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     this.isDirty = true;
-    if (this.fieldReportForm.invalid) {
+    if (this.fieldReportForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
       return;
     } else if (this.initDate) {
@@ -492,10 +510,16 @@ export class FiBusinessComponent implements OnInit {
       fiDate: this.sendDate(this.fiDate),
       fiTime: this.fiTime,
     };
+    const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       userId: this.userId,
       applicantId: this.applicantId,
-      fIBusinessDetails: this.fIBusinessDetails
+      fIBusinessDetails: this.fIBusinessDetails,
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }]
     };
 
     this.fieldInvestigationService.saveOrUpdateFiReportDetails(data).subscribe((res: any) => {
@@ -535,6 +559,11 @@ export class FiBusinessComponent implements OnInit {
     } else {
       this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${this.applicantId}/fi-residence`]);
     }
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }
