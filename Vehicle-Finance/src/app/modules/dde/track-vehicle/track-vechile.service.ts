@@ -19,18 +19,15 @@ userId;
             this.userId =localStorage.getItem('userId');
          }
         
-    saveUpdateFleetRtr(fleetRtrDetails , fletId ,leadId){
+    saveUpdateFleetRtr(data){
         const processId = this.apiService.api.saveUpdateFleetRtr.processId;
         const workflowId = this.apiService.api.saveUpdateFleetRtr.workflowId;
         const projectId = this.apiService.api.saveUpdateFleetRtr.projectId ;
         const body: RequestEntity = {
             processId: processId,          
             ProcessVariables: {
-                "fleetRtr": fleetRtrDetails,
-                "installment": fleetRtrDetails['installment'],
-                "fleetId" : fletId , 
-                "userId": this.userId, 
-                leadId:leadId,
+                ...data,
+                userId: this.userId, 
             },
             workflowId: workflowId,
             projectId: projectId
@@ -40,15 +37,13 @@ userId;
         let url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
-    getFleetRtr(fleetId){
+    getFleetRtr(data){
         const processId = this.apiService.api.getFleetRtr.processId;
         const workflowId = this.apiService.api.getFleetRtr.workflowId;
         const projectId = this.apiService.api.getFleetRtr.projectId ;
         const body: RequestEntity = {
             processId: processId,          
-            ProcessVariables: {
-                "fleetId" : fleetId
-            },
+            ProcessVariables: data,
             workflowId: workflowId,
             projectId: projectId
         };

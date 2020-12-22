@@ -22,8 +22,9 @@ import value from '*.json';
 
 export class AppComponent implements OnInit, OnDestroy {
   sessionIntervalId;
-  timer = 5;
+  timer = 0;
   showTimerModal: boolean;
+  showExpiryModal: boolean;
   title = 'vehicle-finance';
   isMaas360Enabled:any;
 
@@ -208,6 +209,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.timer = this.idleTimerService.getModalTimer();
+
+
     this.idleTimerService.getTimerObservable()
       .subscribe((value) => {
         if(value) {
@@ -221,9 +225,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
             if (this.timer <= 0) {
                 this.showTimerModal = false;
-                this.timer = 5;
+                this.timer = this.idleTimerService.getModalTimer();
+
                 clearInterval(this.sessionIntervalId);
-                this.logout();
+                // this.logout();
+                this.showExpiryModal = true;
             }
 
           }, 1000);
@@ -346,13 +352,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
   stay() {
     this.showTimerModal = false;
-    this.timer = 5;
+    this.timer = this.idleTimerService.getModalTimer(); // seconds (2mins)
     clearInterval(this.sessionIntervalId);
     this.idleTimerService.againAddTimer();
   }
 
   logout() {
+    this.showExpiryModal = false;
     this.utilityService.logOut();
+    this.timer = this.idleTimerService.getModalTimer();
+    clearInterval(this.sessionIntervalId);
+    this.showTimerModal = false;
   }
 
   ngOnDestroy() {

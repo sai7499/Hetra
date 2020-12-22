@@ -77,7 +77,7 @@ export class VehicleValuationService {
     return this.httpService.post(url, body);
   }
 
-  getVehicleValuation(data) {
+  getVehicleValuation(data, udfData) {
     const processData = data;
 
     const processId = this.apiService.api.getVehicleValuation.processId;
@@ -90,7 +90,8 @@ export class VehicleValuationService {
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        collateralId: processData
+        collateralId: processData,
+        udfDetails : [udfData]
       },
       workflowId: workflowId,
       projectId: projectId
