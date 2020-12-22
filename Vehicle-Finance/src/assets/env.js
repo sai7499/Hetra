@@ -10,6 +10,6 @@
     window["env"]["useADAuth"] = false;
     window["env"]["version"] = "0.32.3"; 
     window["env"]["buildDate"] = "17-12-2020";
-    window["env"]["sessionTime"] = "0.5";
+    window["env"]["sessionTime"] = "14";
   })(this);
   
