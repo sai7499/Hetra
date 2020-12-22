@@ -24,7 +24,9 @@ td a {
   cursor: pointer;
 }
 
-
+.mar-btn{
+  margin-bottom:15px;
+}
 
 table {
   width: 100%;
