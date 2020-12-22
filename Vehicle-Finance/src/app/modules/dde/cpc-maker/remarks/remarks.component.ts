@@ -23,9 +23,14 @@ export class RemarksComponent implements OnInit {
   formvalue: any;
   showModalApprove = false;
   showSendCredit = false;
-  roleType : any;
-  isDeclinedFlow : boolean;
+  roleType: any;
+  isDeclinedFlow: boolean;
   taskId: any;
+  isDirty = false
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId = 'CDS001';
+  udfGroupId = 'CDG001';
 
   constructor(
     private router: Router,
@@ -36,13 +41,14 @@ export class RemarksComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private sharedService: SharedService,
     private reappealService: ReappealService
-  ) { 
+  ) {
     this.sharedService.isDeclinedFlow.subscribe((res: any) => {
-    console.log(res, ' declined flow');
-    if (res) {
+      console.log(res, ' declined flow');
+      if (res) {
         this.isDeclinedFlow = res;
-    }
-}); }
+      }
+    });
+  }
 
   async ngOnInit() {
 
@@ -77,9 +83,14 @@ export class RemarksComponent implements OnInit {
 
   getRemarks() {
     const data = {
-      leadId: this.leadId
+      leadId: this.leadId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
     };
-  if(!this.isDeclinedFlow){
+    if (!this.isDeclinedFlow) {
       this.cpcService.getAssetRemarks(data).subscribe((res: any) => {
         const response = res;
         const processVaribles = response.ProcessVariables;
@@ -89,7 +100,7 @@ export class RemarksComponent implements OnInit {
           this.toasterService.showError(response.error.message, '');
         }
       });
-    }else{
+    } else {
       this.cpcService.getDeclientRemarks(data).subscribe((res: any) => {
         const response = res;
         const processVaribles = response.ProcessVariables;
@@ -113,9 +124,9 @@ export class RemarksComponent implements OnInit {
   }
 
   onBack() {
-    if (this.roleType == '7'){
+    if (this.roleType == '7') {
       this.router.navigateByUrl(`pages/cpc-maker/${this.leadId}/check-list`);
-    } else if ( this.roleType == '1') {
+    } else if (this.roleType == '1') {
       this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/credit-condition`);
     }
 
@@ -124,38 +135,45 @@ export class RemarksComponent implements OnInit {
   onsave() {
     const formvalue = this.remarksForm.getRawValue();
     const remarks = formvalue.remarks;
+    const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       leadId: this.leadId,
       remarks: remarks,
       userId: localStorage.getItem('userId'),
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }]
     };
-    if (this.remarksForm.invalid){
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
+    if (this.remarksForm.invalid || isUDFInvalid) {
       this.toasterService.showError('Please enter any remarks', '');
-    }else{
-    if (!this.isDeclinedFlow ){
-      this.cpcService.saveAssetRemarks(data).subscribe((res: any) => {
-        const responce = res;
-        const processVaribles = responce.ProcessVariables;
-        if (responce.Error == '0' && processVaribles.error.code == '0') {
-          this.toasterService.showSuccess('Record Saved Successfully', '');
-          this.apiValue = this.remarksForm.getRawValue();
-        } else {
-          this.toasterService.showError(processVaribles.error.message, '');
-        }
-      });
-    }else{
-      this.cpcService.saveDeclientRemarks(data).subscribe((res: any) => {
-        const responce = res;
-        const processVaribles = responce.ProcessVariables;
-        if (responce.Error == '0' && processVaribles.error.code == '0') {
-          this.toasterService.showSuccess('Record Saved Successfully', '');
-          this.apiValue = this.remarksForm.getRawValue();
-        } else {
-          this.toasterService.showError(processVaribles.error.message, '');
-        }
-      });
+    } else {
+      if (!this.isDeclinedFlow) {
+        this.cpcService.saveAssetRemarks(data).subscribe((res: any) => {
+          const responce = res;
+          const processVaribles = responce.ProcessVariables;
+          if (responce.Error == '0' && processVaribles.error.code == '0') {
+            this.toasterService.showSuccess('Record Saved Successfully', '');
+            this.apiValue = this.remarksForm.getRawValue();
+          } else {
+            this.toasterService.showError(processVaribles.error.message, '');
+          }
+        });
+      } else {
+        this.cpcService.saveDeclientRemarks(data).subscribe((res: any) => {
+          const responce = res;
+          const processVaribles = responce.ProcessVariables;
+          if (responce.Error == '0' && processVaribles.error.code == '0') {
+            this.toasterService.showSuccess('Record Saved Successfully', '');
+            this.apiValue = this.remarksForm.getRawValue();
+          } else {
+            this.toasterService.showError(processVaribles.error.message, '');
+          }
+        });
+      }
     }
-  }
   }
 
   onApproval() {
@@ -176,7 +194,7 @@ export class RemarksComponent implements OnInit {
   }
 
   callApproval() {
-    if (!this.isDeclinedFlow){
+    if (!this.isDeclinedFlow) {
       const body = {
         leadId: this.leadId,
         userId: localStorage.getItem('userId'),
@@ -198,19 +216,19 @@ export class RemarksComponent implements OnInit {
           this.toasterService.showError(res.Processvariables.error.message, '');
         }
       });
-    }else{
+    } else {
       return this.submitReappeal();
     }
   }
 
-  onCancel(){
+  onCancel() {
     this.showModalApprove = false;
   }
 
-  onSendToCredit(){
+  onSendToCredit() {
     this.formvalue = this.remarksForm.getRawValue();
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue);
-    if (this.remarksForm.invalid){
+    if (this.remarksForm.invalid) {
       this.toasterService.showError('Save before Submitting', '');
       return;
     }
@@ -225,10 +243,10 @@ export class RemarksComponent implements OnInit {
   }
 
 
-  callSendBackToCredit(){
+  callSendBackToCredit() {
     const body = {
-      leadId : this.leadId,
-      userId : localStorage.getItem('userId'),
+      leadId: this.leadId,
+      userId: localStorage.getItem('userId'),
       isCPCMaker: false,
       isCPCChecker: false,
       sendBackToCredit: true,
@@ -248,7 +266,7 @@ export class RemarksComponent implements OnInit {
     });
   }
 
-  onCancelCredit(){
+  onCancelCredit() {
     this.showSendCredit = false;
   }
   onReappeal() {
@@ -262,24 +280,29 @@ export class RemarksComponent implements OnInit {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
-    this.showModalApprove = true;  
+    this.showModalApprove = true;
   }
 
-  submitReappeal(){
+  submitReappeal() {
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
-      isReAppeal : true,
+      isReAppeal: true,
       taskId: this.taskId
     };
     this.reappealService.saveReappealData(body).subscribe((res: any) => {
-    if (res && res.ProcessVariables.error.code == '0') {
-      this.toasterService.showSuccess('Succesfully reappealed', '');
-      this.router.navigateByUrl(`pages/dashboard`);
-    } else {
-      this.toasterService.showError(res.ProcessVariables.error.message, '');
-    }
+      if (res && res.ProcessVariables.error.code == '0') {
+        this.toasterService.showSuccess('Succesfully reappealed', '');
+        this.router.navigateByUrl(`pages/dashboard`);
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '');
+      }
     });
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }

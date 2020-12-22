@@ -137,6 +137,61 @@
       "id": "CLS007",
       "groupId": "CLG003",
       "name": "Additional Collaterals"
+    },
+    {
+      "id": "RTS001",
+      "groupId": "RTG001",
+      "name": "RTR"
+    },
+    {
+      "id": "CTS001",
+      "groupId": "CTG001",
+      "name": "Cheque - Tracking"
+    },
+    {
+      "id": "PDDS001",
+      "groupId": "PDDG001",
+      "name": "PDD CPC-Checker"
+    },
+    {
+      "id": "PDDS002",
+      "groupId": "PDDG001",
+      "name": "PDD Sales"
+    },
+    {
+      "id": "RDS001",
+      "groupId": "RDG001",
+      "name": "Lead Reference - ADE"
+    },
+    {
+      "id": "RDS002",
+      "groupId": "RDG001",
+      "name": "Lead Reference - DDE"
+    },
+    {
+      "id": "CDS001",
+      "groupId": "CDG001",
+      "name": "Remarks - CAD user"
+    },
+    {
+      "id": "FIS001",
+      "groupId": "FIG001",
+      "name": "FI Residence- Dashboard"
+    },
+    {
+      "id": "FIS003",
+      "groupId": "FIG001",
+      "name": "FI Residence- DDE"
+    },
+    {
+      "id": "FIS002",
+      "groupId": "FIG001",
+      "name": "FI Business- Dashboard"
+    },
+    {
+      "id": "FIS004",
+      "groupId": "FIG001",
+      "name": "FI Business- DDE"
     }
   ],
   "udfFields": [
@@ -763,6 +818,222 @@
         "rule": 12,
         "msg": ""
       }
+    },
+    {
+      "id": "clientName",
+      "label": "Name of the Client",
+      "placeholder": "Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "repaymentMode",
+      "label": "Repayment Mode",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "fleetRepaymentMode"
+    },
+    {
+      "id": "chequeNumber",
+      "label": "Cheque Number",
+      "placeholder": "Cheque Number",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 6,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "chequeAmnt",
+      "label": "Cheque Amount",
+      "placeholder": "Cheque Amount",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "chequeStatus",
+      "label": "cheque Status",
+      "placeholder": "",
+      "mandatory": false,
+      "contorlType": "selectbox",
+      "values": "chequeStatus"
+    },
+    {
+      "id": "PddApplicantName",
+      "label": "Applicant Name",
+      "placeholder": "Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "remarks",
+      "label": "Remarks",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "textarea"
+    },
+    {
+      "id": "refOneName",
+      "label": "Reference one Name",
+      "placeholder": "Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "refOneMobile",
+      "label": "Mobile number",
+      "placeholder": "Mobile Number",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 10,
+        "msg": "Should be 10 digits"
+      }
+      
+    },
+    {
+      "id": "refTwoName",
+      "label": "Reference 2 Name",
+      "placeholder": "Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "refTwoMobile",
+      "label": "Mobile Number",
+      "placeholder": "Mobile Number",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 10,
+        "msg": "Should be 10 digits"
+      }
+      
+    },
+    {
+      "id": "cadUserName",
+      "label": "CAD user Name",
+      "placeholder": "Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "agencyName",
+      "label": "Name of the Agency ",
+      "placeholder": "Name of the Agency",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "referenceNo",
+      "label": "Reference No",
+      "placeholder": "Ref NO",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "fiLocality",
+      "label": "Locality",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "fi/PdResidentialLocality"
+    },
+    {
+      "id": "observation",
+      "label": "Observation",
+      "placeholder": "Observation",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 40,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "designation",
+      "label": "Designation",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "designation"
+    },
+    {
+      "id": "personMetName",
+      "label": "Person met Name",
+      "placeholder": "Observation",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+      
+    },
+    {
+      "id": "officePremiseType",
+      "label": "office Premise Type",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "fi/PdOfficePremisesType"
     }
   ],
   "screenUdfMapping": {
@@ -1329,6 +1600,177 @@
           "show": true,
           "disable": false
           
+        }
+      ]
+    },
+    "RTS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "clientName",
+          "show": true,
+          "disable": false
+          
+        },
+        {
+          "name": "repaymentMode",
+          "show": true,
+          "disable": false
+          
+        }
+      ]
+    },
+    "CTS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "chequeNumber",
+          "show": true,
+          "disable": false
+          
+        },
+        {
+          "name": "chequeAmnt",
+          "show": true,
+          "disable": false
+          
+        },
+        {
+          "name": "chequeStatus",
+          "show": true,
+          "disable": false
+          
+        }
+      ]
+    },
+    "PDDS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "PddApplicantName",
+          "show": true,
+          "disable": false
+          
+        },
+        {
+          "name": "remarks",
+          "show": true,
+          "disable": false
+          
+        }
+      ]
+    },
+    "PDDS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "PddApplicantName",
+          "show": true,
+          "disable": false
+          
+        }
+      ]
+    },
+    "RDS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "refOneName",
+          "show": true,
+          "disable": false
+          
+        },
+        {
+          "name": "refOneMobile",
+          "show": true,
+          "disable": false
+          
+        }
+      ]
+    },
+    "RDS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "refTwoName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "refTwoMobile",
+          "show": true,
+          "disable": false
+          
+        }
+      ]
+    },
+    "CDS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "cadUserName",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FIS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "agencyName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "fiLocality",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FIS003": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "referenceNo",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "fiLocality",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FIS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "observation",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "designation",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FIS004": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "personMetName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "officePremiseType",
+          "show": true,
+          "disable": false
         }
       ]
     }
