@@ -64,7 +64,7 @@
         ></kendo-datepicker>
         <div
         class="invalid-feedback"
-        *ngIf="!fieldReportForm.controls['cpvInitiatedDate'].vaild">
+        *ngIf="!fieldReportForm.controls['cpvInitiatedDate'].valid">
         <div
           *ngIf="
           fieldReportForm.controls['cpvInitiatedDate'].hasError('required')">
@@ -105,7 +105,7 @@
         </app-custom-input> -->
         <div
         class="invalid-feedback"
-        *ngIf="!fieldReportForm.controls['cpvInitiatedTime'].vaild">
+        *ngIf="!fieldReportForm.controls['cpvInitiatedTime'].valid">
         <div
           *ngIf="
           fieldReportForm.controls['cpvInitiatedTime'].hasError('required')">
@@ -146,7 +146,7 @@
         ></kendo-datepicker>
         <div
         class="invalid-feedback"
-        *ngIf="!fieldReportForm.controls['reportSubmitDate'].vaild">
+        *ngIf="!fieldReportForm.controls['reportSubmitDate'].valid">
         <div
           *ngIf="
           fieldReportForm.controls['reportSubmitDate'].hasError('required')">
@@ -185,7 +185,7 @@
         </app-custom-input> -->
         <div
         class="invalid-feedback"
-        *ngIf="!fieldReportForm.controls['reportSubmitTime'].vaild">
+        *ngIf="!fieldReportForm.controls['reportSubmitTime'].valid">
         <div
           *ngIf="
           fieldReportForm.controls['reportSubmitTime'].hasError('required')">
@@ -861,6 +861,8 @@
       </div>
     </div>
   </div>
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
   <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-7"></div>
     <div
