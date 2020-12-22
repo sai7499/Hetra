@@ -57,7 +57,7 @@ export class IncomeDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId =  this.roleType === 1 ? 'PDS002' : 'PDS006';
+    this.udfScreenId = this.roleType === 1 ? 'PDS002' : 'PDS006';
 
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -80,10 +80,8 @@ export class IncomeDetailsComponent implements OnInit {
       });
   }
 
-
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    //  this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
         return;
@@ -107,7 +105,6 @@ export class IncomeDetailsComponent implements OnInit {
 
   getIncomeDetails() {
     const data = {
-      // leadId: this.leadId,
       pdVersion: this.version,
       applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
       userId: this.userId,
@@ -123,6 +120,7 @@ export class IncomeDetailsComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       if (value.Error === '0' && processVariables.error.code === '0') {
         this.pdDetail = value.ProcessVariables['incomeDetails'];
+        this.udfDetails =  value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
         if (this.pdDetail) {
           if (value.ProcessVariables['incomeDetails'].typeOfAccount == "4BNKACCTYP") {
             this.isccOdLimit = true;
@@ -137,7 +135,6 @@ export class IncomeDetailsComponent implements OnInit {
 
   initForm() { // initialising the form group
     this.incomeDetailsForm = new FormGroup({
-      // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
       grossIncome: new FormControl('', Validators.required),
       netIncome: new FormControl('', Validators.required),
       additionalSourceOfIncome: new FormControl('', Validators.required),
@@ -148,8 +145,6 @@ export class IncomeDetailsComponent implements OnInit {
       bankName: new FormControl('', Validators.required),
       branch: new FormControl('', Validators.required),
       accountNumber: new FormControl('', Validators.required),
-      //  ccOdLimit: new FormControl('', Validators.required),
-      // ifCcOdLimit: new FormControl('', Validators.required),
       noOfChequeReturns: new FormControl('', Validators.required),
       cashBankBalance: new FormControl('', Validators.required),
       monthlyInflow: new FormControl('', Validators.required),
@@ -176,7 +171,6 @@ export class IncomeDetailsComponent implements OnInit {
       branch: incomeDetails.branch || '',
       accountNumber: incomeDetails.accountNumber || '',
       ccOdLimit: incomeDetails.ccOdLimit || '',
-      // ifCcOdLimit: incomeDetails,
       noOfChequeReturns: incomeDetails.noOfChequeReturns || '',
       cashBankBalance: incomeDetails.cashBankBalance || '',
       monthlyInflow: incomeDetails.monthlyInflow || '',
@@ -200,10 +194,9 @@ export class IncomeDetailsComponent implements OnInit {
     } else {
       this.isccOdLimit = false;
       this.incomeDetailsForm.removeControl('ccOdLimit');
-
     }
-
   }
+
   onNavigateNext() {
     if (this.version) {
       this.router.navigate([`/pages/pd-dashboard/${this.leadId}/pd-list/${this.applicantId}/reference-details/${this.version}`]);
@@ -221,7 +214,7 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   onFormSubmit(url: string) {
-    if (this.incomeDetailsForm.invalid) {
+    if (this.incomeDetailsForm.invalid && this.userDefineForm.udfData.invalid) {
       this.isDirty = true;
       this.toasterService.showWarning('please enter required details', '');
       return;
@@ -234,7 +227,14 @@ export class IncomeDetailsComponent implements OnInit {
       // applicantId: 6,
       applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
       userId: this.userId,
-      incomeDetails: this.incomeDetailsForm.value
+      incomeDetails: this.incomeDetailsForm.value,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }
+      ]
     };
     this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
       if (res.ProcessVariables.error.code === '0') {

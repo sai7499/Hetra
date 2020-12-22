@@ -10,10 +10,18 @@ import { LabelsService } from '@services/labels.service';
   styleUrls: ['./shared-user-defined-fields.component.css']
 })
 export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
-
+  udfArray: any
   @Input() udfScreenId: any;
   @Input() udfGroupId: any;
-  @Input() udfDetails: any;
+  @Input() set udfDetails(value) {
+    if (value && value.length > 0) {
+      this.udfArray = value
+    }
+    this.getOnInit();
+    this.getLOV();
+
+
+  };
   @Input() isDirty: boolean;
 
   screenUdfMapping: any;
@@ -27,7 +35,13 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
     private commomLovService: CommomLovService) { }
 
   ngOnInit() {
-    this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.udfScreenId)
+
+  }
+
+  getOnInit() {
+    this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.udfScreenId);
+
+    console.log(this.udfScreenId, 'sceee', this.screenUdfMapping)
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -37,6 +51,7 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
         console.log('error', error)
       });
     this.initForm();
+
   }
 
   initForm() {
@@ -54,16 +69,15 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
       })
     }
     this.getUserDefinedForm()
-
   }
 
   ngOnChanges() {
-    this.getLOV()
+    //this.getLOV()
   }
 
   getUserDefinedForm() {
     let udfDetails = {
-      // groupScreenID: this.udfGroupId,
+      groupScreenID: this.udfGroupId,
       udfData: this.dynamicForm
     }
     this.saveUserdefined.emit(udfDetails);
@@ -72,40 +86,25 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
 
-    if (this.udfDetails && this.udfDetails.length > 0 && this.screenUdfMapping) {
+    if (this.udfArray && this.udfArray.length > 0 && this.screenUdfMapping) {
 
-      this.udfGroupId = this.udfDetails[0].groupScreenID;
+      this.udfGroupId = this.udfArray[0].groupScreenID;
 
-      if (this.udfDetails[0].udfData) {
-        let patchJsonValue = JSON.parse(this.udfDetails[0].udfData)
+      if (this.udfArray[0].udfData) {
+        let patchJsonValue = JSON.parse(this.udfArray[0].udfData)
         let keys = Object.keys(patchJsonValue);
         let values = Object.values(patchJsonValue);
-  
-        let combineArray = [];
-  
-        let arrayOfObj = {
-        }
-  
-        combineArray = keys.map((control, i) => {
-          values.map((val, j) => {
-            if (i === j) {
-              arrayOfObj = {
-                key: control,
-                value: val
-              }
+
+        for (let i = 0; i < keys.length; i++) {
+          if (keys[i]) {
+            if (this.dynamicForm.get(keys[i])) {
+              this.dynamicForm.get(keys[i]).setValue(values[i])
+            } else {
+              let fc = this._fb.control(values[i])
+              this.dynamicForm.addControl(keys[i], fc)
             }
-          })
-          return arrayOfObj;
-        })
-  
-        combineArray.map((map: any,) => {
-          if (map.key && this.dynamicForm.get(map.key)) {
-            this.dynamicForm.get(map.key).setValue(map.value)
-          } else {
-            let fc = this._fb.control(map.value)
-            this.dynamicForm.addControl(map.key, fc)
           }
-        })
+        }
       }
     }
   }

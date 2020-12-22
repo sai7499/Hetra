@@ -127,7 +127,7 @@ export class LabelsService {
     return this.createObservableObj(mChildLoanLabels);
   }
 
-  getCommonFieldDate(): Observable<any> {
+  getCommonFieldData(): Observable<any> {
     try {
       return this.createObservableObj(commonLables);
     } catch (error) {

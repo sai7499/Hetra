@@ -16,6 +16,7 @@ import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { debounceTime } from 'rxjs/operators';
 
 // import * as $ from 'jquery';
 
@@ -75,6 +76,14 @@ export class BankDetailsComponent implements OnInit {
   todayDateNew: any = new Date();
   isLimitRequire = false;
   submitForm = false;
+  isToDate = false;
+
+  // User defined
+  udfScreenId: any = 'APS018';
+  udfGroupId: any = 'APG010';
+  udfDetails: any = [];
+  userDefineForm: any;
+
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -156,7 +165,7 @@ export class BankDetailsComponent implements OnInit {
     console.log(this.f);
   }
   get f() {
-    console.log(this.bankForm.controls, ' contrl f');
+    // console.log(this.bankForm.controls, ' contrl f');
     return this.bankForm.controls;
   }
   getApplicantId() {
@@ -214,11 +223,21 @@ export class BankDetailsComponent implements OnInit {
     });
   }
   getBankDetails() {
+    const data = {
+      applicantId: this.applicantId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
+    }
     this.bankTransaction
-      .getBankDetails({ applicantId: this.applicantId })
+      .getBankDetails(data)
       .subscribe((res: any) => {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
+        this.udfDetails = res.ProcessVariables.udfDetails;
         console.log(this.bankDetailsNew, ' bank details new');
         if (this.bankDetailsNew) {
           // tslint:disable-next-line: prefer-for-of
@@ -320,7 +339,7 @@ export class BankDetailsComponent implements OnInit {
   onSave() {
     this.submitForm = true;
     this.isDirty = true;
-    if (this.bankForm.invalid) {
+    if (this.bankForm.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showError(
         'Mandatory Fields Missing ',
         'Bank Transactions'
@@ -370,6 +389,11 @@ export class BankDetailsComponent implements OnInit {
     }
     this.bankForm.value.transactionDetails = transactionArray;
     // console.log(this.bankForm.value.transactionDetails);
+    this.bankForm.value.udfDetails =  [{
+      "udfGroupId": this.udfGroupId,
+      // "udfScreenId": this.udfScreenId,
+      "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+    }]
 
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
@@ -414,10 +438,20 @@ export class BankDetailsComponent implements OnInit {
       ? this.bankForm.value.toDate
       : new Date();
     this.todayDateNew = toDate;
+    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
+      this.isToDate = true;
+    } else {
+      this.isToDate = false
+    }
     this.getMonths();
   }
 
   async getMonths() {
+    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
+      this.isToDate = true;
+    } else {
+      this.isToDate = false
+    }
     const tempArray: Array<any> = this.listArray.value;
     console.log('temp array', tempArray);
     // setTimeout(() => {
@@ -432,7 +466,7 @@ export class BankDetailsComponent implements OnInit {
     const fromDateLength = fromDate.getFullYear().toString().length;
     const toDateLength = toDate.getFullYear().toString().length;
     if (fromDateLength == 4 &&  toDateLength == 4) {
-      await  this.checkDates(fromDate, toDate);
+      // await  this.checkDates(fromDate, toDate);
 
 
     // setTimeout(async () => {
@@ -555,4 +589,10 @@ export class BankDetailsComponent implements OnInit {
       }
 
   }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
+  }
+
 }

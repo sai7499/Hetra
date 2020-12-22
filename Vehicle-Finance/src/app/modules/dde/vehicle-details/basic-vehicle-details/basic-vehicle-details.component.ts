@@ -31,7 +31,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public unsubForm: any;
   udfScreenId: string = 'CLS006';
   udfGroupId: string = 'CLG002';
-  udfDetails: any;
+  udfDetails: any = [];
 
   productCatoryCode: string;
 
@@ -108,20 +108,20 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
-          data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : null;
+          data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
         }
 
         data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
         data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
-        data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : null;
+        data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
         data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : '';
-        data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : null;
+        data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
 
         data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
 
         data.udfDetails = [{
           "udfGroupId": this.udfGroupId,
-          "udfScreenId": this.udfScreenId,
+          // "udfScreenId": this.udfScreenId,
           "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
         }]
 
