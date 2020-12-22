@@ -349,6 +349,12 @@
                     </div>
                 </div>
             </div>  
+
+            <div>
+                <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+                [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+            
+            </div>
             <div class="row ">
 
                 <div class="col-sm-5 text-right">
