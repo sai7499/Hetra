@@ -226,7 +226,7 @@ export class CustomInputComponent
     }
     if ((newValue === null || newValue == undefined || newValue === "") && this.isRequired) {
       // this.displayError(this.checkIsFirst ? '' : this.isRequired);
-      if (this.checkIsFirst) {
+      if (!this.checkIsFirst) {
         this.displayError(this.isRequired)
       }
       this.checkIsFirst = false;
