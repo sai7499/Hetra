@@ -68,6 +68,10 @@ export class FiResidenceComponent implements OnInit {
   ownerNamePropertyAreaDisabled: boolean;
   initDate: boolean;
   toDayDate: Date = new Date();
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId: any;
+  udfGroupId: any;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -92,6 +96,14 @@ export class FiResidenceComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
+    const roleType = roleAndUserDetails.roles[0].roleType
+    if (roleType === 1) { // For FI dashboard
+      this.udfGroupId = 'FIG001'
+      this.udfScreenId = 'FIS001'
+    } else if (roleType === 2) { // For DDE FI
+      this.udfGroupId = 'FIG001'
+      this.udfScreenId = 'FIS003'
+    }
     this.leadId = (await this.getLeadId()) as number;
     this.getLOV();
     this.getLabels();
@@ -172,7 +184,12 @@ export class FiResidenceComponent implements OnInit {
     const data = this.leadData;
 
     const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
-    this.leadCreatedDateFromLead = new Date(leadCreatedDate.split(' ')[0]);
+    let LeadDate = new Date(leadCreatedDate.split(' ')[0]);
+    var day = LeadDate.getDate();
+    var month =LeadDate.getMonth();
+    var year = LeadDate.getFullYear();
+    this.leadCreatedDateFromLead = new Date(year, month, day, 0, 0);
+    // this.leadCreatedDateFromLead = new Date(leadCreatedDate.split(' ')[0]);
   }
 
   // fun for conditional entry for rent amount
@@ -478,7 +495,12 @@ export class FiResidenceComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
       userId: this.userId,
-      fiVersion: this.version
+      fiVersion: this.version,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
     };
 
     this.fieldInvestigationService.getFiReportDetails(data).subscribe(async (res: any) => {
@@ -487,6 +509,7 @@ export class FiResidenceComponent implements OnInit {
       if (processVariables.error.code === '0') {
         this.applicantFullName = res.ProcessVariables.applicantName;
         this.fiDetails = res.ProcessVariables.getFIResidenceDetails;
+        this.udfDetails= res.ProcessVariables.udfDetails;
         this.setFormValue();
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
@@ -505,8 +528,9 @@ export class FiResidenceComponent implements OnInit {
     this.yearsOfStayInResi = String((Number(formValue.noOfYearsResi) * 12) + Number(formValue.noOfMonthsResi)) || '';
     const formModal = this.fieldReportForm.value;
     const fieldReportModal = { ...formModal };
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     this.isDirty = true;
-    if (this.fieldReportForm.invalid) {
+    if (this.fieldReportForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
       return;
     } else if (this.initDate) {
@@ -552,11 +576,16 @@ export class FiResidenceComponent implements OnInit {
       propertyValue: fieldReportModal.propertyValue || '',
       areaOfProperty: fieldReportModal.areaOfProperty || '',
     };
-
+    const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       userId: this.userId,
       applicantId: this.applicantId,
-      fiResidenceDetails: this.fiResidenceDetails
+      fiResidenceDetails: this.fiResidenceDetails,
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }]
     };
 
     this.fieldInvestigationService.saveOrUpdateFiReportDetails(data).subscribe((res: any) => {
@@ -584,6 +613,11 @@ export class FiResidenceComponent implements OnInit {
         this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${this.applicantId}/fi-business`]);
       }
     }
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }

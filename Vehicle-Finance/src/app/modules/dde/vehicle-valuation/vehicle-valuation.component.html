@@ -16,7 +16,7 @@
       </div>
       <div class="row">
         <div class="table-responsive application" id="applicantTable">
-          <table class="table">
+          <table class=" ">
             <thead>
               <tr class="table-head-bg">
                 <td>{{ labels?.registrationNumber }}</td>
@@ -32,20 +32,20 @@
             </thead>
             <tbody>
               <tr *ngFor="let data of collateralDetailsData; let i = index">
-                <td>{{ data.regNo | uppercase }}</td>
-                <td>{{ data.make }}</td>
-                <td>{{ data.model }}</td>
-                <td>{{ data.address }}</td>
-                <td>{{ data.valuationStatus }}</td>
-                <td>{{ data.initiatedOn ? data.initiatedOn:"-" }}</td>
+                <td [attr.data-label]="labels?.RegNo">{{ data.regNo | uppercase }}</td>
+                <td [attr.data-label]="labels?.make">{{ data.make }}</td>
+                <td [attr.data-label]="labels?.model">{{ data.model }}</td>
+                <td [attr.data-label]="labels?.address">{{ data.address }}</td>
+                <td [attr.data-label]="labels?.valuationStatus">{{ data.valuationStatus }}</td>
+                <td [attr.data-label]="labels?.initiatedOn">{{ data.initiatedOn ? data.initiatedOn:"-" }}</td>
 
-                <td>
+                <td [attr.data-label]="labels?.valuatorStatus">
                   <span *ngIf="data.valuatorStatus == 1"> Online </span>
                   <span *ngIf="data.valuatorStatus == 0"> Offline </span>
                 </td>
                 <!-- <td>{{ data.requestId }}</td> -->
-                <td>{{ data.requestId ? data.requestId:"-" }}</td>
-                <td>
+                <td [attr.data-label]="labels?.requestId">{{ data.requestId ? data.requestId:"-" }}</td>
+                <td [attr.data-label]="labels?.action">
                   <u>
                     <a
                       class="a_tag"

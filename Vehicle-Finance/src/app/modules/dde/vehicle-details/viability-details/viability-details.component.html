@@ -1160,7 +1160,14 @@
     </div>
 
     </form>
+    <div>
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+    
+    </div>
 </div>
+
+
 
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">

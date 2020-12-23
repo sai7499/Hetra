@@ -422,6 +422,9 @@
           </app-vf-custom-select>
         </div>
       </div>
+      
+      <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+      [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
       <div class="btn-sec clear-both row">
         <div class="col-sm-12 text-right mar-btm-10">
