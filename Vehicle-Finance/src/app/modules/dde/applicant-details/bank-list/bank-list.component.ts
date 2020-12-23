@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ToasterService } from '@services/toaster.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   templateUrl: './bank-list.component.html',
@@ -18,14 +19,17 @@ export class BankListComponent {
   userId: string;
   labels: any;
   disableAddbankDetailsBtn: boolean;
+  isLoan360: boolean;
   constructor(private bankService: BankTransactionsService,
-    private route: Router, private activatedRoute: ActivatedRoute,
-    private location: Location,
-    private labelsData: LabelsService,
-    private toggleDdeService: ToggleDdeService,
-    private toasterService: ToasterService) { }
+              private route: Router, private activatedRoute: ActivatedRoute,
+              private location: Location,
+              private labelsData: LabelsService,
+              private toggleDdeService: ToggleDdeService,
+              private toasterService: ToasterService,
+              private loanViewService: LoanViewService) { }
   // tslint:disable-next-line: use-lifecycle-interface
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.userId = localStorage.getItem('userId');
     this.leadId = (await this.getLeadId()) as number;
     this.applicantId = (await this.getApplicantId()) as number;
@@ -41,7 +45,7 @@ export class BankListComponent {
       }
     );
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.disableAddbankDetailsBtn = true;
     }
 
@@ -79,7 +83,8 @@ export class BankListComponent {
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`);
   }
   onBack() {
-    this.location.back();
+    // this.location.back();
+    this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`);
   }
   onNext() {
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/employment-details/${this.applicantId}`);

@@ -25,7 +25,9 @@ h3.dedupe_head {
 }
 
 /*  style for modal popup*/
-
+.subHeadColor{
+  color: #1d1a4b !important;
+}
 .text-center {
   text-align: center;
 }
@@ -113,6 +115,10 @@ h3.dedupe_head {
   margin-bottom: 20px;
   margin-right: 15px;
   margin-left: 15px;
+}
+
+.multisteps-form__form .child-loan-label{
+  margin-left: 5px !important;
 }
 
 label.col-form-label {
@@ -357,5 +363,5 @@ select#select_main_button_leadco {
 }
 
 .btn-mar-15{
-  margin: 15px;
+  margin:0px 20px;
 }

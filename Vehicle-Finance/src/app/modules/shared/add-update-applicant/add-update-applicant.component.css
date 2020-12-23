@@ -105,12 +105,20 @@ h3.dedupe_head {
   font-weight: bolder;
 }
 
-.content {
+/* .content {
   background: #fff;
   padding: 25px 30px;
   border-radius: 8px;
   border: 1px solid #ddd;
   margin-bottom: 20px;
+} */
+
+.content-box {
+  background: #fff;
+  padding: 5px 15px;
+  border-radius: 8px;
+  /* border: 1px solid #ddd; */
+  /* margin-bottom: 20px; */
 }
 
 label.col-form-label {
@@ -227,11 +235,8 @@ select#select_main_button_match {
 }
 
 #align_this_checkbox {
-  margin-top: 16px;
+  /* margin-top: 16px; */
   margin-bottom: 5px;
-
-
-
 
 }
 
@@ -256,7 +261,7 @@ select#select_main_button_match {
   padding-top: 0.5vw;
 } 
 #align_this_checkbox{
-  margin-top: 16px;
+  /* margin-top: 16px; */
   font-weight: 600;
 }
 .senior_minor{
@@ -287,9 +292,10 @@ margin-right: 15px!important;
 }
 
 .btn-mar-bot{
-  margin-bottom: 80px;
+  margin-bottom: 50px;
 }
 
 .pad-zero{
   padding:0px!important;
 }
+

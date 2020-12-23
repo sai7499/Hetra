@@ -12,6 +12,9 @@ import { CreateLeadDataService } from '../service/createLead-data.service';
 import { UtilityService } from '@services/utility.service';
 import { ToastrService } from 'ngx-toastr';
 import { AgeValidationService } from '@services/age-validation.service';
+import { CommonDataService } from '@services/common-data.service';
+import { ChildLoanApiService } from '@services/child-loan-api.service';
+import { param } from 'jquery';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -42,6 +45,7 @@ export class LeadCreationComponent implements OnInit {
   userId: number;
 
   LOV: any = [];
+  udfScreenId: string = 'LDS001';
 
   productCategoryData;
   productData = [];
@@ -72,13 +76,21 @@ export class LeadCreationComponent implements OnInit {
   isFirstNameRequired: boolean;
   isLastNameRequired: boolean;
   dob: any;
-  isSourceCode: boolean;
+  isSourceCode: boolean = true;
   isDealerCode: boolean;
   sourchingTypeId: string;
+  productCode: string;
+  isLoanAccountNo: boolean;
+  isFromChild: boolean;
+  productCodeFromSearch: string;
+  isLoanModal: any;
+  sourcingCodeKeyForDealer: string;
+  dealorCodeKey: string;
 
 
   obj = {};
   test = [];
+  childLoanData: any;
 
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
@@ -90,6 +102,7 @@ export class LeadCreationComponent implements OnInit {
   firstName: string = '';
   middleName: string = '';
   lastName: string = '';
+  isremoveDealerRC: boolean;
 
   loanLeadDetails: {
     bizDivision: string;
@@ -104,6 +117,8 @@ export class LeadCreationComponent implements OnInit {
     loanBranch: number;
     leadHandeledBy: number;
     sourcingCodeDescription: string;
+    parentLoanAccNum?: number;
+    isCommSuppressed: number
   };
 
   applicantDetails: {
@@ -115,6 +130,18 @@ export class LeadCreationComponent implements OnInit {
     dobOrDoc: string;
   };
 
+  childLoanDatas: {
+    firstName?: any,
+    middleName?: any,
+    lastName?: any,
+    entity?: any,
+    mobile?: any,
+    dobOrDoi?: any,
+    loanAccountNumber?: any,
+    fromChild?: boolean,
+    fromCreateLead?: boolean
+  }
+
   constructor(
     private router: Router,
     private leadStoreService: LeadStoreService,
@@ -125,18 +152,110 @@ export class LeadCreationComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private utilityService: UtilityService,
     private toasterService: ToastrService,
-    private ageValidationService: AgeValidationService
-  ) { }
+    private ageValidationService: AgeValidationService,
+    private commonDataService: CommonDataService,
+    private childLoanApiService: ChildLoanApiService,
+  ) {
+    this.isremoveDealerRC = true;
+    console.log('this.isremoveDealerRC', this.isremoveDealerRC)
+  }
 
   ngOnInit() {
     this.onChangeLanguage('English');
     this.initForm();
     this.getLabels();
     this.getLOV();
-    this.getUserDetailsData();
     this.getSourcingChannel();
     this.createLeadForm.patchValue({ entity: 'INDIVENTTYP' });
     this.selectApplicantType('INDIVENTTYP', true);
+    const dataFromSearchLoan = this.commonLovService.getSearchLoan();
+    this.childLoanData = dataFromSearchLoan;
+    console.log('456', this.childLoanData)
+    if (this.childLoanData) {
+      this.updateChildLoan(this.childLoanData);
+    }
+    // if (this.childLoanData && this.childLoanData.fromChild) {
+    //   this.isLoanAccountNo = true;
+    //   this.isFromChild = this.childLoanData.fromChild;
+    //   this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
+    //   this.createLeadForm.updateValueAndValidity();
+    //   this.getChildLoanEntity();
+    //   if (this.childLoanData.fromChild) {
+    //     this.isFromChild = true;
+    //     this.removeDealerRClimit();
+    //     this.productCodeFromSearch = this.childLoanData.productCode;
+    //   } else {
+    //     this.isFromChild = false;
+    //   }
+    // } else {
+    //   this.createLeadForm.removeControl('loanAccountNumber');
+    // }
+  }
+
+  updateChildLoan(data) {
+    console.log('this.childLoanDatas', data)
+    this.childLoanData = data;
+    if (this.childLoanData && this.childLoanData.fromChild) {
+      this.isLoanAccountNo = true;
+      this.isFromChild = this.childLoanData.fromChild;
+      // if (!data.fromCreateLead) {
+      this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
+      this.createLeadForm.updateValueAndValidity();
+      // }
+
+      this.getChildLoanEntity();
+      if (this.childLoanData.fromChild) {
+        this.isFromChild = true;
+        this.removeDealerRClimit();
+        this.productCodeFromSearch = this.childLoanData.productCode;
+        if (data.fromCreateLead == true) {
+          this.filterProduct(this.productCodeFromSearch);
+          this.createLeadForm.patchValue({
+            productCategory: this.productCodeFromSearch
+          });
+        }
+
+      } else {
+        this.isFromChild = false;
+      }
+    } else {
+      this.createLeadForm.removeControl('loanAccountNumber');
+    }
+  }
+
+  removeDealerRClimit() {
+    this.createLeadForm.removeControl('dealerCode');
+    this.createLeadForm.removeControl('rcLimit');
+    this.createLeadForm.removeControl('rcUtilizedLimit');
+    this.createLeadForm.removeControl('rcUnutilizedLimit');
+    this.isremoveDealerRC = false;
+  }
+  addDealerRClimit() {
+    this.createLeadForm.addControl('dealerCode', new FormControl(''));
+    this.createLeadForm.addControl('rcLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.addControl('rcUtilizedLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.addControl('rcUnutilizedLimit', new FormControl({ value: '', disabled: true }));
+    this.createLeadForm.updateValueAndValidity();
+
+  }
+
+  getChildLoanEntity() {
+    const entity = this.childLoanData.entity;
+    this.selectApplicantType(`${entity}`, true);
+  }
+
+  getChildLoanData() {
+    this.createLeadForm.patchValue({
+      nameOne: this.childLoanData.firstName,
+      nameTwo: this.childLoanData.middleName,
+      nameThree: this.childLoanData.lastName,
+      mobile: this.childLoanData.mobile,
+      dateOfBirth: this.utilityService.getDateFromString(this.childLoanData.dobOrDoi),
+      loanAccountNumber: this.childLoanData.loanAccountNumber
+    });
+    this.firstName = this.childLoanData.firstName ? this.childLoanData.firstName : '';
+    this.middleName = this.childLoanData.middleName ? this.childLoanData.middleName : '';
+    this.lastName = this.childLoanData.lastName ? this.childLoanData.lastName : '';
   }
 
   getLabels() {
@@ -200,13 +319,18 @@ export class LeadCreationComponent implements OnInit {
       nameThree: new FormControl('', Validators.required),
       mobile: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
+      communication: new FormControl('0'),
+      // loanAccountNumber: new FormControl('', Validators.required)
     });
   }
 
   getLOV() {
     this.commonLovService
       .getLovData()
-      .subscribe((lov: any) => (this.LOV = lov));
+      .subscribe((lov: any) => {
+        (this.LOV = lov);
+        this.getUserDetailsData();
+      });
   }
 
   getUserDetailsData() {
@@ -272,17 +396,38 @@ export class LeadCreationComponent implements OnInit {
           'productCatCode',
           'prodcutCatName'
         );
+        if (this.isFromChild) {
+          this.filterProduct(this.productCodeFromSearch);
+          this.createLeadForm.patchValue({
+            productCategory: this.productCodeFromSearch
+          });
+        }
+
       });
+
   }
 
   productCategoryChange(event) {
+    console.log('productCategoryChange', (event.target != undefined) ? event.target.value : event);
+    const productCategorySelected = event.target ? event.target.value : event;
+    this.filterProduct(productCategorySelected)
+  }
+
+  filterProduct(productCategorySelected) {
     this.productCategorySelectedList = [];
-    console.log('productCategoryChange', event.target.value);
-    const productCategorySelected = event.target.value;
+    let filterList = [];
+    if (!this.isFromChild) {
+      filterList = this.productCategoryList.filter(
+        // (data) => data.productCatCode === productCategorySelected 
+        (data) => data.productCatCode === productCategorySelected && data.isChildLoan == 0
+      )
+    } else {
+      filterList = this.productCategoryList.filter(
+        (data) => data.productCatCode === productCategorySelected && data.isChildLoan == 1
+      )
+    }
     this.productCategorySelectedList = this.utilityService.getValueFromJSON(
-      this.productCategoryList.filter(
-        (data) => data.productCatCode === productCategorySelected
-      ),
+      filterList,
       'assetProdcutCode',
       'assetProdutName'
     );
@@ -293,6 +438,26 @@ export class LeadCreationComponent implements OnInit {
     this.fundingProgramData = [];
     console.log('productChange', event.target.value);
     const productChange = event.target.value;
+    this.productCode = event.target.value;
+
+    // const isChild = this.productCategoryList.find((value: any) => {
+    //   return value.assetProdcutCode === productChange;
+    // });
+    // console.log('isChildd', isChild.isChildLoan);
+    // this.isLoanAccountNo = (isChild.isChildLoan == 0) ? false : true;
+    // if (isChild.isChildLoan == 0) {
+    //   this.isLoanAccountNo = false;
+    //   this.isremoveDealerRC = true;
+    //   this.addDealerRClimit();
+    //   this.createLeadForm.removeControl('loanAccountNumber');
+    // } else {
+    //   this.isLoanAccountNo = true;
+    //   this.isremoveDealerRC = false;
+    //   this.removeDealerRClimit();
+    //   this.createLeadForm.addControl('loanAccountNumber', new FormControl('', Validators.required));
+    //   this.createLeadForm.updateValueAndValidity();
+    // }
+
     this.createLeadService
       .fundingPrograming(productChange)
       .subscribe((res: any) => {
@@ -359,26 +524,28 @@ export class LeadCreationComponent implements OnInit {
 
   sourchingTypeChange(event) {
     this.sourchingTypeId = event.target ? event.target.value : event;
-    if (this.sourchingTypeId === '2SOURTYP') {
-      this.createLeadForm.controls['dealerCode'].setValidators(Validators.required);
-      this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
-      this.createLeadForm.controls['rcLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUtilizedLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUnutilizedLimit'].setValidators(Validators.required);
-      this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
-      this.isDealerCode = true;
-    } else {
-      this.createLeadForm.controls['dealerCode'].setValidators([]);
-      this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
-      this.createLeadForm.controls['rcLimit'].setValidators([]);
-      this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
-      this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
-      this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
-      this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
-      this.isDealerCode = false;
+    if (this.isremoveDealerRC) {
+      if (this.sourchingTypeId === '2SOURTYP') {
+        this.createLeadForm.controls['dealerCode'].setValidators(Validators.required);
+        this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+        this.createLeadForm.controls['rcLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUtilizedLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUnutilizedLimit'].setValidators(Validators.required);
+        this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+        this.isDealerCode = true;
+      } else {
+        this.createLeadForm.controls['dealerCode'].setValidators([]);
+        this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+        this.createLeadForm.controls['rcLimit'].setValidators([]);
+        this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
+        this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+        this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
+        this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+        this.isDealerCode = false;
+      }
     }
     this.socuringTypeData = this.sourcingData.filter(
       (data) => data.sourcingTypeId === this.sourchingTypeId
@@ -414,7 +581,7 @@ export class LeadCreationComponent implements OnInit {
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
     this.createLeadService
-      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString)
+      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
       .subscribe((res: any) => {
         const response = res;
         const appiyoError = response.Error;
@@ -432,29 +599,37 @@ export class LeadCreationComponent implements OnInit {
   selectSourcingEvent(event) {
     const sourcingEvent = event;
     this.isSourceCode = sourcingEvent.key ? true : false;
+    if (this.sourchingTypeId === '2SOURTYP') {
+      this.onDealerCodeSearch(sourcingEvent.key);
+      this.createLeadForm.patchValue({ dealerCode: sourcingEvent.value });
+      this.dealorCodeKey = sourcingEvent.key;
+    }
   }
 
   onDealerCodeSearch(event) {
     let inputString = event;
     console.log('inputStringDelr', event);
-    this.createLeadService.dealerCode(inputString).subscribe((res: any) => {
+    this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
+        if (this.sourchingTypeId === '2SOURTYP') {
+          this.selectDealerEvent(this.dealerCodeData[0]);
+        }
         console.log('this.dealerCodeData', this.dealerCodeData);
       }
     });
   }
 
   onDealerCodeCleared(event) {
-    if(this.sourchingTypeId === '2SOURTYP'){
+    if (this.sourchingTypeId === '2SOURTYP') {
       this.isDealerCode = true;
     } else {
       this.isDealerCode = false;
     }
-   
+
   }
 
   selectDealerEvent(event) {
@@ -477,6 +652,9 @@ export class LeadCreationComponent implements OnInit {
       this.createLeadForm.controls['nameOne'].setValue(nameOne || '');
       const nameThree = this.createLeadForm.controls['nameThree'].value;
       this.createLeadForm.controls['nameThree'].setValue(nameThree || '');
+      if (this.childLoanData) {
+        this.getChildLoanData();
+      }
     });
     this.ageCount++;
     this.getAgeValidation();
@@ -540,10 +718,11 @@ export class LeadCreationComponent implements OnInit {
   onSubmit() {
     const formValue = this.createLeadForm.getRawValue();
     console.log('this.createLeadForm.valid', this.createLeadForm.valid);
-    console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
+    // console.log('isNgAutoCompleteDealer', this.createLeadForm.controls.dealerCode.value);
     console.log('isNgAutoCompleteSourcing', this.createLeadForm.controls.sourcingCode.value);
     this.isMobile = this.createLeadForm.controls.mobile.value;
     this.isDirty = true;
+
 
     if (
       this.createLeadForm.valid === true &&
@@ -555,6 +734,11 @@ export class LeadCreationComponent implements OnInit {
     ) {
       const leadModel: any = { ...formValue };
       this.leadStoreService.setLeadCreation(leadModel);
+      if (this.sourchingTypeId === '2SOURTYP') {
+        this.dealorCodeKey = this.dealorCodeKey;
+      } else {
+        this.dealorCodeKey = leadModel.dealerCode ? leadModel.dealerCode.dealorCode : '';
+      }
 
       this.loanLeadDetails = {
         bizDivision: leadModel.bizDivision,
@@ -566,12 +750,14 @@ export class LeadCreationComponent implements OnInit {
         sourcingCode: leadModel.sourcingCode
           ? leadModel.sourcingCode.key
           : '',
-        dealorCode: leadModel.dealerCode.dealorCode,
+        dealorCode: this.dealorCodeKey,
         // spokeCode: Number(leadModel.spokeCode),
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
-        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : ''
+        sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : '',
+        parentLoanAccNum: leadModel.loanAccountNumber,
+        isCommSuppressed: Number(leadModel.communication)
       };
 
       this.applicantDetails = {
@@ -647,7 +833,53 @@ export class LeadCreationComponent implements OnInit {
     }
   }
 
+  onLoanAccNoSearch() {
+    const data = {
+      loanAccountNumber: this.createLeadForm.controls.loanAccountNumber.value
+    }
+    this.childLoanApiService.searchChildLoanApi(data).subscribe(
+      (res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        const errorMessage = response.ProcessVariables.error.message;
+
+        if (appiyoError === '0' && apiError === '0') {
+          const customerDetailsData = response.ProcessVariables.customerDetails;
+          const loanDetailsData = response.ProcessVariables.loanDetails;
+          console.log(customerDetailsData, '123', loanDetailsData);
+          this.childLoanDatas = {
+            firstName: customerDetailsData[0].firstName,
+            middleName: customerDetailsData[0].middleName,
+            lastName: customerDetailsData[0].lastName,
+            entity: customerDetailsData[0].entityTypeID,
+            mobile: customerDetailsData[0].mobileNumber,
+            dobOrDoi: customerDetailsData[0].dobORdoi,
+            loanAccountNumber: loanDetailsData[0].accountNumber,
+            fromChild: true,
+            fromCreateLead: true
+          }
+
+          this.updateChildLoan(this.childLoanDatas);
+
+        } else {
+          this.isLoanModal = true;
+        }
+
+      })
+  }
+
+  navgiateToSearchLoan() {
+    this.router.navigateByUrl(`/pages/child-loan`);
+  }
+
+  childLoanModalClose() {
+    this.isLoanModal = false;
+  }
+
   navgiateToNextPage() {
-    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`);
+    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`, { state: { udfScreenId: 'LDS001' }});    
+    // , skipLocationChange: true
+    // this.router.navigate([`pages/lead-section/${this.leadId}`], { queryParams: { udfScreenId: this.udfScreenId } });
   }
 }

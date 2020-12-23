@@ -7,6 +7,12 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 
 export class SharedService {
 
+    popStateActivity$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    
+    browserPopState(data) {
+        this.popStateActivity$.next(data)
+    }
+
     leadData$: BehaviorSubject<string> = new BehaviorSubject(null);
 
     leadDataToHeader(data) {
@@ -21,6 +27,11 @@ export class SharedService {
     vaildateForm$: BehaviorSubject<any> = new BehaviorSubject([]);
     getFormValidation(form) {
         this.vaildateForm$.next(form)
+    }
+
+    userDefined$: BehaviorSubject<any> = new BehaviorSubject([]);
+    getUserDefinedFields(value) {
+        this.userDefined$.next(value)
     }
 
     updateDev$: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -77,5 +88,25 @@ export class SharedService {
     productCatName$:BehaviorSubject<string> = new BehaviorSubject(null);
     setProductCatName(data){
         this.productCatName$.next(data);
+    }
+    userName$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isSUpervisorUserName = this.userName$.asObservable();
+    getUserName(data) {
+        this.userName$.next(data);
+    }
+    userRoleId$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isSupervisorRoleId = this.userRoleId$.asObservable();
+    getUserRoleId(data) {
+        this.userRoleId$.next(data);
+    }
+    supervisorName$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isSupervisorName = this.supervisorName$.asObservable();
+    getSupervisorName(data) {
+        this.supervisorName$.next(data)
+    }
+    declinedFlow$: BehaviorSubject<any> = new BehaviorSubject(null);
+    isDeclinedFlow = this.declinedFlow$.asObservable();
+    getDeclinedFlow(data) {
+        this.declinedFlow$.next(data);
     }
 }

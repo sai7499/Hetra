@@ -111,10 +111,10 @@ h3.dedupe_head {
 
 .content {
     background: #fff;
-    padding: 25px 30px;
+    padding: 5px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
+    margin-bottom: 2px 15px;
 }
 
 label.col-form-label {
@@ -264,10 +264,10 @@ h3.dedupe_head {
 
 .content {
     background: #fff;
-    padding: 25px 30px;
+    padding: 0px 30px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
-    margin:15px;
+    margin:0px 15px 15px;
     /* height: 400px; */
 }
 
@@ -361,7 +361,7 @@ select#select_main_button_leadco {
 }
 #clickButton{
     margin-right: 2px;
-    margin-bottom: 85px;
+    margin-bottom: 50px;
 }
 
 table th, table td{
@@ -379,3 +379,7 @@ table th, table td{
         margin-bottom: 30px!important;
     }
 }
+
+.dis-block {
+    display: block;
+  }

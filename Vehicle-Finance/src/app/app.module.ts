@@ -55,6 +55,13 @@ import { NumberOnlyDirective } from './services/directives/number-only.directive
 import { LettersOnlyDirective } from './services/directives/letters-only.directive';
 import { CanActivateService } from '@services/can-activate.service';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
+import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CameraPreview } from '@ionic-native/camera-preview/ngx';
+import { QueryDataResolverService } from '@modules/lead-section/services/queryDataResolver.service';
+
+import { LeadUploadDiscussionComponent } from '@modules/lead-upload-discussion/lead-upload-discussion.component';
+import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
 
 setTheme('bs4');
 
@@ -70,7 +77,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective],
+  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective,LeadUploadComponent, LeadUploadDiscussionComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -78,6 +85,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgxPaginationModule,
     SharedModule,
     // BsDatepickerModule.forRoot(),
     LoginModule,
@@ -97,7 +105,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AutocompleteLibModule,
     CreditConditionModule,
     // DateInputsModule,
-    DatePickerModule
+    DatePickerModule,
+    ChildLoanModule
   ],
   providers: [
     HTTP,
@@ -112,6 +121,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CommonModule,
     LovResolverService,
     LeadDataResolverService,
+    QueryDataResolverService,
     CommomLovService,
     UtilityService,
     Authguard,
@@ -124,7 +134,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     File,
     FileTransfer,
     FileTransferObject,
-    CanActivateService
+    CanActivateService,
+    CameraPreview,
   ],
   bootstrap: [AppComponent],
 })

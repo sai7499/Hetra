@@ -63,4 +63,28 @@ updatePddDetails(data) {
   return this.httpService.post(url, requestEntity);
   
 }
+ 
+submitPDD(data) {
+  const processId = this.apiService.api.submitPDD.processId;
+  const workflowId = this.apiService.api.submitPDD.workflowId;
+  const projectId = this.apiService.api.submitPDD.projectId;
+
+  this.userId = localStorage.getItem('userId');
+
+  const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: {
+        userId: this.userId,
+        ...data
+      },
+      workflowId,
+      projectId
+  };
+  console.log(requestEntity);
+  
+  let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+  console.log(url);
+  return this.httpService.post(url, requestEntity);
+}
+
 }

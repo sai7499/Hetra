@@ -5,6 +5,8 @@ import { TvrDetailsService } from '@services/tvr/tvr-details.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-tvr-details',
   templateUrl: './tvr-details.component.html',
@@ -21,6 +23,7 @@ export class TvrDetailsComponent implements OnInit {
   fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
   productCatCode: string;
+  isLoan360: boolean;
 
   constructor(
     private labelDetails: LabelsService,
@@ -29,10 +32,11 @@ export class TvrDetailsComponent implements OnInit {
     private tvrService: TvrDetailsService,
     private sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
-
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
     if (this.fiCumPdStatusString == 'false') {
       this.fiCumPdStatus = false
@@ -89,24 +93,44 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onBack() {
-    if(this.productCatCode != 'NCV') {
+    // if (this.productCatCode != 'NCV') {
+    //   this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
+    //   // this.sharedService.getTvrDetailsPrevious(true);
+    //   this.sharedService.getPslDataNext(false);
+    // } else if (this.productCatCode == 'NCV' || this.productCatCode == 'UC') {
+    //   this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
+    //   // this.sharedService.getTvrDetailsPrevious(true);
+    //   this.sharedService.getPslDataNext(false);
+    // }
+   
+
+    if (this.productCatCode == 'UCV' || this.productCatCode == 'UC') {
       this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
       // this.sharedService.getTvrDetailsPrevious(true);
-      this.sharedService.getPslDataNext(false);
-    } else if(this.productCatCode == 'NCV') {
+      
+    }else{
       this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
-      // this.sharedService.getTvrDetailsPrevious(true);
-      this.sharedService.getPslDataNext(false);
     }
+    this.sharedService.getPslDataNext(false);
+
+
   }
 
   onNext() {
-    if (this.fiCumPdStatus == false) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-    } else if (this.fiCumPdStatus == true) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-list`)
     }
+    if (this.productCatCode == 'UC') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+    } else {
+      if (this.fiCumPdStatus == false) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+      } else if (this.fiCumPdStatus == true) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+
+      }
+    }
+
   }
 
 }

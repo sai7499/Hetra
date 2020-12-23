@@ -1,8 +1,8 @@
-<div class="mb-50" style="padding-bottom: 20px;">
+<div class="content" >
   <div class="row">
     <div class="col-xs-12">
       <div *ngIf="userType === 2">
-        <button style="float:right" (click)="addOtherUnit()" class="btn btn-primary text-right" type="button">Add new
+        <button style="float:right" *ngIf="!isLoan360" (click)="addOtherUnit()" class="btn btn-primary text-right" type="button">Add new
           row</button>
 
       </div>
@@ -25,6 +25,7 @@
       <label class="action"> {{labels.action}} </label>
     </div>
   </div>
+ 
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
     <div formArrayName="Rows">
 
@@ -87,7 +88,7 @@
           </div>
         </div>
         <div class="col-xs-6 col-sm-1" *ngIf="userType == 2">
-          <div>
+          <div *ngIf="!isLoan360">
             <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
         (click)="addOtherUnit()"></i>&nbsp; -->
             <i type="button" class="fa fa-trash" title="Delete" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -98,13 +99,16 @@
     </div>
   </form>
 
-  <div class="bottom_20"></div>
-  <div class="btn-sec clear-both">
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+  [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+  <div class="btn-sec clear-both mar-30">
     <div class="col-sm-4">
     </div>
     <div class="col-sm-8 text-right">
-      <button class="btn btn-primary" (click)="onBack()" type="button">Back</button>
-      <button class="btn btn-primary" (click)="saveUpdate('save')" type="button">Save</button>
+      <button class="btn btn-primary hvr-sweep-to-left" (click)="onBack()" type="button">Back</button>
+      <ng-container *ngIf="!isLoan360 && !isDeclinedFlow">
+      <button  class="btn btn-primary" (click)="saveUpdate('save')" type="button" *ngIf="!isLoan360">Save</button>
       <!-- <button class="btn btn-primary"
        *ngIf="userType !== 2" 
        (click)="assignCDTaskFromSales()"
@@ -115,7 +119,7 @@
         type="button">Submit</button> -->
       <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Approve')" data-toggle="modal"
         data-target="#approveModal" [disabled]="!isApproveEnable" type="button">Approve</button>
-
+  
       <button class="btn btn-primary" *ngIf="userType === 2" type="button"
        data-toggle="modal" data-target="#myModal"
         >Refer</button>
@@ -123,9 +127,11 @@
       (click)="alertMessage('Reject')" data-toggle="modal"
       data-target="#approveModal"  [disabled]="!isRejectEnable"
         >Reject</button> -->
-        <button class="btn btn-primary" *ngIf="userType === 2" type="button" 
+        
+        <button  class="btn btn-primary" *ngIf="userType === 2" type="button" 
         (click)="reject()"  [disabled]="!isRejectEnable"
           >Reject</button>
+        </ng-container> 
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"
@@ -137,15 +143,19 @@
          >Refer</button>
       <button class="btn btn-primary" *ngIf="userType === 2" 
         (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
-
-      <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
+  
+      <ng-container *ngIf="!isLoan360">
+        <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
         data-target="#approveModal" type="button" [disabled]="!isDeclineEnable">Decline</button>
-      <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
+      <button class="btn btn-primary hvr-sweep-to-left" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
         data-toggle="modal" data-target="#approveModal" type="button">Send Back to DDE </button>
-
-      <button class="btn btn-primary" (click)="onNext()" type="button">Next</button>
+      </ng-container>
+  
+      <button class="btn btn-primary hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
     </div>
   </div>
+  <div class="bottom_20"></div>
+ 
 </div>
 
 <!-- modal popup -->

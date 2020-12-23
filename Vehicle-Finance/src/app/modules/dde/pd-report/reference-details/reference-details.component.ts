@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
@@ -12,7 +11,7 @@ import { LovDataService } from '@services/lov-data.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { LoginStoreService } from '@services/login-store.service';
-
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 @Component({
   selector: 'app-reference-details',
   templateUrl: './reference-details.component.html',
@@ -21,7 +20,6 @@ import { LoginStoreService } from '@services/login-store.service';
 export class ReferenceDetailsComponent implements OnInit {
   referenceDetailsForm: FormGroup;
   refCheckDetails: any = {};
-  //isDirty: boolean;
   applicantLov: any;
   refererPincode: {
     state?: any[];
@@ -45,12 +43,28 @@ export class ReferenceDetailsComponent implements OnInit {
   isDirty = false;
   userId: any;
   isValidPincode: boolean;
+  productCatCode: any;
+  listArray: FormArray;
+  referenceDetails: any;
+  marketAndFinReferenceDetails: any;
+  applicantType: any;
+  allowSave: boolean;
+  indexFromHtml: number;
+
+  // User defined fields
+  udfScreenId: string = 'PDS003';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'PDG001';
 
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
     private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
     private router: Router, private personalDiscussionService: PersonalDiscussionService,
-    private aRoute: ActivatedRoute, private toastrService: ToasterService, private loginStoreService: LoginStoreService,
-    private commomLovService: CommomLovService, private utilityService: UtilityService) { }
+    private aRoute: ActivatedRoute, private toasterService: ToasterService, private loginStoreService: LoginStoreService,
+    private commomLovService: CommomLovService, private createLeadDataService: CreateLeadDataService,
+    private utilityService: UtilityService, private fb: FormBuilder) {
+    this.listArray = this.fb.array([]);
+  }
 
   ngOnInit() {
     this.getLabels();
@@ -61,8 +75,24 @@ export class ReferenceDetailsComponent implements OnInit {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
     });
     this.initForm();
+    this.removeReferenceControls();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     this.userId = roleAndUserDetails.userDetails.userId;
+    let roleType = roleAndUserDetails.roles[0].roleType;
+
+    this.udfScreenId = roleType === 1 ? 'PDS003' : 'PDS007';
+  }
+
+  getLeadSectiondata() {
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    const leadDetailsFromLead = leadData['leadDetails'];
+    this.productCatCode = leadDetailsFromLead.productCatCode;
+    for (const value of leadData['applicantDetails']) {
+      if (value['applicantId'] === this.applicantId) {
+        const applicantDetailsFromLead = value;
+        this.applicantType = applicantDetailsFromLead['applicantTypeKey']
+      }
+    }
   }
 
   getLabels() {
@@ -75,11 +105,12 @@ export class ReferenceDetailsComponent implements OnInit {
           }
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
-          this.getReferenceDetails()
+          this.getLeadSectiondata();
+          this.getReferenceDetails();
         });
       },
       error => {
-        console.log('error', error)
+        console.log('error', error);
       });
   }
 
@@ -90,7 +121,7 @@ export class ReferenceDetailsComponent implements OnInit {
     });
   }
 
-  //GET APPLICANTID
+  // GET APPLICANTID
   getApplicantId() {
     this.aRoute.params.subscribe((value: any) => {
       this.applicantId = Number(value.applicantId);
@@ -98,7 +129,7 @@ export class ReferenceDetailsComponent implements OnInit {
     });
   }
 
-  //GET ALL LOVS
+  // GET ALL LOVS
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
   }
@@ -108,25 +139,101 @@ export class ReferenceDetailsComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
       pdVersion: this.version,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     };
 
     this.personalDiscussionService.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
-
         this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
+        this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
+
+        const referenceDetails = value.ProcessVariables.marketFinRefData;
+        if (referenceDetails != null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+          this.populateData(value);
+        } else if (referenceDetails == null && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+          const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
+          control.push(this.initRows(null));
+        }
         if (this.refCheckDetails) {
           this.setFormValue(this.refCheckDetails);
           this.pdDataService.setCustomerProfile(this.refCheckDetails);
         }
       } else {
-        this.toastrService.showError(value.ErrorMessage, 'Personal Details')
+        this.toasterService.showError(value.ErrorMessage, '');
       }
-    })
+    });
+  }
 
+  public populateData(data?: any) {
+    const referenceDetailsList = data.ProcessVariables.marketFinRefData;
+    for (let i = 0; i < referenceDetailsList.length; i++) {
+      this.addProposedUnit(referenceDetailsList[i]);
+    }
+  }
+
+  addProposedUnit(data?: any) {
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
+    control.push(this.populateRowData(data));
+  }
+
+  addNewRow(rowData) {
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
+    control.push(this.initRows(rowData));
+  }
+
+  deleteRow(index: number, references: any) {
+    const control = this.referenceDetailsForm.controls.marketFinRefData as FormArray;
+
+    let referenceId = references[index].id;
+    let i = 0;
+    let j = 0;
+    references.forEach(element => {
+      if (element.typeReference === 'FINREFREFERNS') {
+        i = i + 1;
+      } else if (element.typeReference === 'MKTREFREFERNS') {
+        j = j + 1;
+      }
+    });
+    if (references.length > 2) {
+      const data = {
+        id: referenceId
+      };
+      if ((referenceId !== 0 && i > 1 && j === 1) && (references[index].typeReference === 'MKTREFREFERNS')) {
+        this.toasterService.showError(' atleast one market reference is required', '');
+
+      } else if ((referenceId !== 0 && i === 1 && j > 1) && (references[index].typeReference === 'FINREFREFERNS')) {
+        this.toasterService.showError(' atleast one finance reference is required', '');
+      } else if ((referenceId !== 0) && (i > 1 || j > 1)) {
+        this.personalDiscussionService.deleteMarFinReference(data).subscribe((res: any) => {
+          const processVariables = res.ProcessVariables;
+          const message = processVariables.error.message;
+          if (processVariables.error.code === '0') {
+            this.toasterService.showSuccess(message, '');
+            this.listArray.controls = [];
+            this.getReferenceDetails();
+          } else {
+            this.toasterService.showSuccess(message, '');
+          }
+        });
+      } else if (referenceId === 0) {
+        control.removeAt(index);
+        this.toasterService.showSuccess('Reference details deleted successfully', '');
+      }
+    } else if (referenceId !== 0 && (i === 1 && j === 1)) {
+      this.toasterService.showError('atleast one market and finance reference required', '');
+    }
+  }
+
+  delete(index: number) {
+    this.indexFromHtml = index;
   }
 
   setFormValue(referenceDetails) {
-
     this.referenceDetailsForm.patchValue({
       refererFirstName: referenceDetails.refererFirstName || '',
       refererSecondName: referenceDetails.refererSecondName || '',
@@ -162,14 +269,16 @@ export class ReferenceDetailsComponent implements OnInit {
       uploadImages: referenceDetails.uploadImages || '',
       pdStatus: referenceDetails.pdStatus || '',
       opinionOfPdOfficer: referenceDetails.opinionOfPdOfficer || '',
-    })
-
-    this.getPincodeResult(Number(referenceDetails.referencePincode), 'referencePincode')
-    this.getPincodeResult(Number(referenceDetails.refererPincode), 'refererPincode')
-
+    });
+    if (referenceDetails.referencePincode != null) {
+      this.getPincodeResult(Number(referenceDetails.referencePincode), 'referencePincode');
+    }
+    if (referenceDetails.referencePincode != null) {
+      this.getPincodeResult(Number(referenceDetails.refererPincode), 'refererPincode');
+    }
   }
 
-  //FORMGROUP
+  // FORMGROUP
   initForm() {
     this.referenceDetailsForm = this.formBuilder.group({
       refererFirstName: ["", Validators.required],
@@ -201,11 +310,45 @@ export class ReferenceDetailsComponent implements OnInit {
       referencePincode: ["", Validators.required],
       referenceMobile: ["", Validators.required],
       referenceRelationship: ["", Validators.required],
-      natureOfBusiness: [""],
+      natureOfBusiness: ["", Validators.required],
       selfieWithCustomer: [""],
       uploadImages: [""],
       pdStatus: ["", Validators.required],
       opinionOfPdOfficer: ["", Validators.required],
+      marketFinRefData: this.listArray
+    });
+  }
+
+  removeReferenceControls() {
+    const controls = this.referenceDetailsForm as FormGroup;
+    if ((this.productCatCode !== 'NCV') || (this.productCatCode === 'NCV' && this.applicantType !== 'APPAPPRELLEAD')) {
+      controls.removeControl('marketFinRefData');
+    }
+  }
+
+  public populateRowData(rowData) {
+    return this.fb.group({
+      typeReference: rowData.typeReference ? rowData.typeReference : null,
+      companyName: rowData.companyName ? rowData.companyName : null,
+      officerName: rowData.officerName ? rowData.officerName : null,
+      designation: rowData.designation ? rowData.designation : null,
+      teleNo: rowData.teleNo ? rowData.teleNo : null,
+      comments: rowData.comments ? rowData.comments : null,
+      id: rowData.id ? rowData.id : null,
+      applicantId: rowData.applicantId ? rowData.applicantId : this.applicantId
+    });
+  }
+
+  public initRows(index: number) {
+    return this.fb.group({
+      typeReference: new FormControl('', [Validators.required]),
+      companyName: new FormControl('', [Validators.required]),
+      officerName: new FormControl('', [Validators.required]),
+      designation: new FormControl('', [Validators.required]),
+      teleNo: new FormControl('', [Validators.required]),
+      comments: new FormControl('', [Validators.required]),
+      id: 0,
+      applicantId: this.applicantId
     });
   }
 
@@ -214,7 +357,6 @@ export class ReferenceDetailsComponent implements OnInit {
     const pincodeValue = val.value;
     this.isValidPincode = false;
     if (pincodeValue.length === 6) {
-
       const pincodeNumber = Number(pincodeValue);
       this.getPincodeResult(pincodeNumber, id);
     }
@@ -230,7 +372,7 @@ export class ReferenceDetailsComponent implements OnInit {
           const processVariables = value.ProcessVariables;
           const addressList: any[] = processVariables.GeoMasterView ? processVariables.GeoMasterView : [];
           if (!addressList) {
-            this.toastrService.showError('Invalid pincode', '');
+            this.toasterService.showError('Invalid pincode', '');
             this.isValidPincode = true;
             if (id === 'refererPincode') {
               this.referenceDetailsForm.patchValue({
@@ -284,7 +426,6 @@ export class ReferenceDetailsComponent implements OnInit {
         })
       )
       .subscribe((value) => {
-        console.log('value', value)
         if (!value) {
           return;
         }
@@ -295,7 +436,7 @@ export class ReferenceDetailsComponent implements OnInit {
             refererDistrict: value.district[0].key,
             refererState: value.state[0].key,
             refererCountry: value.country[0].key
-          })
+          });
         } else if (id === 'referencePincode') {
 
           this.referencePincode = value;
@@ -304,47 +445,82 @@ export class ReferenceDetailsComponent implements OnInit {
             referenceDistrict: value.district[0].key,
             referenceState: value.state[0].key,
             referenceCountry: value.country[0].key
-          })
+          });
         }
-
-        setTimeout(() => {
-          // this.setDefaultValueForAddress(value, formGroupName);
-        });
       });
   }
 
-  onFormSubmit() {
+  onFormSubmit(references: any) {
 
     let formValue = this.referenceDetailsForm.getRawValue();
 
     formValue.refererFullName = formValue.refererFirstName || '' + ' ' + formValue.refererSecondName || '' + ' ' + (formValue.refererThirdName || '');
     formValue.referenceFullName = formValue.referenceFirstName || '' + ' ' + formValue.referenceSecondName || '' + ' ' + formValue.referenceThirdName || '';
+    if (this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+      const referenceArray = (this.referenceDetailsForm.value.marketFinRefData as FormArray);
+      for (let i = 0; i < referenceArray.length; i++) {
+        referenceArray[i]['typeReference'] = referenceArray[i]['typeReference'];
+        referenceArray[i]['companyName'] = referenceArray[i]['companyName'];
+        referenceArray[i]['officerName'] = referenceArray[i]['officerName'];
+        referenceArray[i]['designation'] = referenceArray[i]['designation'];
+        referenceArray[i]['teleNo'] = referenceArray[i]['teleNo'];
+        referenceArray[i]['comments'] = referenceArray[i]['comments'];
+      }
+      this.referenceDetailsForm.value.marketFinRefData = referenceArray;
 
-    if (this.referenceDetailsForm.valid) {
-      const data = {
-        leadId: this.leadId,
-        applicantId: this.applicantId,
-        userId: this.userId,
-        referenceCheck: formValue
-      };
-
-      this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((value: any) => {
-        if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
-          this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
-          this.getLOV();
-          this.toastrService.showSuccess('Successfully Save Reference Details', 'Save/Update Reference Details');
-          this.getReferenceDetails()
-        } else {
-          this.toastrService.showSuccess(value.ErrorMessage, 'Error Reference Details');
+      let i = 0;
+      let j = 0;
+      references.forEach(element => {
+        if (element.typeReference === 'FINREFREFERNS') {
+          i = i + 1;
+        } else if (element.typeReference === 'MKTREFREFERNS') {
+          j = j + 1;
         }
-      })
-
-    } else {
-      this.isDirty = true;
-      this.toastrService.showError('Please enter valid details', 'Reference Details');
-      this.utilityService.validateAllFormFields(this.referenceDetailsForm);
+      });
+      if (i >= 1 && j >= 1) {
+        this.allowSave = true;
+      }
+      this.marketAndFinReferenceDetails = referenceArray;
     }
+    this.isDirty = true;
+    if (this.referenceDetailsForm.invalid && this.userDefineForm.udfData.invalid) {
+      this.toasterService.showError('Please enter valid details', 'Reference Details');
+      this.utilityService.validateAllFormFields(this.referenceDetailsForm);
+      return;
+    } else if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+      this.toasterService.showWarning('atleast one market and finance reference required', '');
+      return;
+    }
+    const data = {
+      leadId: this.leadId,
+      applicantId: this.applicantId,
+      userId: this.userId,
+      referenceCheck: formValue,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }
+      ],
+      marketFinRefData: this.marketAndFinReferenceDetails
+    };
 
+    this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((value: any) => {
+      if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
+        this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
+        this.getLOV();
+        this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.listArray.controls = [];
+        this.getReferenceDetails();
+      } else {
+        this.toasterService.showSuccess(value.ErrorMessage, 'Error Reference Details');
+      }
+    });
+  }
+
+  onSaveuserDefinedFields(event) {
+    this.userDefineForm = event;
   }
 
   onBack() {

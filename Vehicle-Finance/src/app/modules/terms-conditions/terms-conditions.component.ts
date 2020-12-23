@@ -28,6 +28,7 @@ export class TermsConditionsComponent implements OnInit {
    
   }
   showModal:boolean;
+  isChildLoan: string;
 
   constructor(
     private labelsData: LabelsService,
@@ -101,6 +102,7 @@ export class TermsConditionsComponent implements OnInit {
        res.ProcessVariables.error.code === '0'
       ) {
         this.processData = res.ProcessVariables;
+        this.isChildLoan = this.processData.isChildLoan;
         this.loanAmount = Number(this.processData.loanAmount ).toLocaleString('en-IN');
         this.eligibleAmount = Number(this.processData.eligibleAmount ).toLocaleString('en-IN');
       }

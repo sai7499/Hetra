@@ -5,6 +5,7 @@ import { OtpServiceService } from '../services/otp-details.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 
 @Component({
   selector: 'app-otp-section',
@@ -28,7 +29,8 @@ export class OtpSectionComponent implements OnInit {
     private otpService: OtpServiceService,
     private applicantService: ApplicantService,
     private router: Router,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private applicantDataService: ApplicantDataStoreService
   ) { }
 
   getLeadIdAndApplicantId() {
@@ -46,17 +48,6 @@ export class OtpSectionComponent implements OnInit {
   async ngOnInit() {
     // accessing applicant id if from route
 
-    this.applicantId = (await this.getLeadIdAndApplicantId()) as string;
-    console.log(this.applicantId);
-    this.leadId = (await this.getLeadId()) as number;
-
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.userId = roleAndUserDetails.userDetails.userId;
-
-    // / calling send otp method
-
-    // await this.getApplicantList()
-
     this.otpForm = this._fb.group({
       otp: [
         '',
@@ -68,6 +59,19 @@ export class OtpSectionComponent implements OnInit {
         ]),
       ],
     });
+
+    this.applicantId = (await this.getLeadIdAndApplicantId()) as string;
+    console.log(this.applicantId);
+    this.leadId = (await this.getLeadId()) as number;
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+
+    // / calling send otp method
+
+    // await this.getApplicantList()
+
+
     this.sendOtp();
   }
 
@@ -142,7 +146,7 @@ export class OtpSectionComponent implements OnInit {
       }
       else {
         // alert(res.ProcessVariables.error.message);
-        this.toasterService.showError(res.ProcessVariables.error.message,'')
+        this.toasterService.showError(res.ProcessVariables.error.message, '')
       }
     });
   }
@@ -162,13 +166,14 @@ export class OtpSectionComponent implements OnInit {
         this.toasterService.showSuccess('OTP Verified Successfully !', '');
         // alert("otp verified successfully")
 
-        if (res.ProcessVariables.leadStage == '20') {
+        if (res.ProcessVariables.leadStage == '10') {
+
           this.router.navigate([
-            'pages/sales/' + this.leadId + '/applicant-list',
+            'pages/lead-section/' + this.leadId + '/applicant-details',
           ]);
         } else {
           this.router.navigate([
-            'pages/lead-section/' + this.leadId + '/applicant-details',
+            'pages/sales/' + this.leadId + '/applicant-list',
           ]);
         }
       } else {
@@ -176,5 +181,19 @@ export class OtpSectionComponent implements OnInit {
         this.toasterService.showError('Invalid OTP !', '');
       }
     });
+  }
+
+  onBack() {
+    const sales = this.applicantDataService.getNavigateForDedupe()
+    if (!sales) {
+      this.router.navigateByUrl(
+        `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+      );
+    } else {
+      this.router.navigateByUrl(
+        `/pages/sales-applicant-details/${this.leadId}/add-applicant/${this.applicantId}`
+      );
+    }
+
   }
 }

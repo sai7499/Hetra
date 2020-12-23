@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
-
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { Router } from '@angular/router';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
@@ -12,6 +11,8 @@ import { CollateralService } from '@services/collateral.service';
 import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-shared-vehicle-details',
@@ -40,6 +41,9 @@ export class SharedVehicleDetailsComponent implements OnInit {
   collateralLOV: any = [];
   isCollateralSrting: string = 'Collateral';
 
+  isLoan360: boolean;
+  isChildLoan: boolean;
+
   constructor(
     private loginStoreService: LoginStoreService, private toggleDdeService: ToggleDdeService,
     private labelsData: LabelsService, private collateralService: CollateralService,
@@ -48,9 +52,11 @@ export class SharedVehicleDetailsComponent implements OnInit {
     public vehicleDataStoreService: VehicleDataStoreService,
     public createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService,
-    private location: Location) { }
+    private location: Location,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -67,6 +73,9 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
+
+    this.isChildLoan = this.leadData.leadDetails['isChildLoan'] ? this.leadData.leadDetails['isChildLoan'] === '1' ? true : false : false;
+
     this.getLov();
 
     this.labelsData.getLabelsData().subscribe(data => {
@@ -76,10 +85,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
     });
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
-        this.disableSaveBtn = true;
+    if (operationType) {
+      this.disableSaveBtn = true;
     }
 
+    if (this.loanViewService.checkIsLoan360()) {
+      this.disableSaveBtn = true;
+    }
   }
 
   getLov() {
@@ -90,17 +102,22 @@ export class SharedVehicleDetailsComponent implements OnInit {
     });
   }
 
-
   getLocationIndex(url) {
     if (url.includes('lead-section')) {
       return 'lead-section';
     } else if (url.includes('sales')) {
       return 'sales';
+    } else if (url.includes('dde')) {
+      return 'dde';
     }
   }
 
-  editVehicle(collateralId: number) {
-    this.router.navigate(['/pages/' + this.locationIndex + '/' + this.leadId + '/add-vehicle', { vehicleId: collateralId }]);
+  editVehicle(collateralId: number, loanAmount) {
+    this.vehicleDataStoreService.setLoanAmount(loanAmount)
+    if (this.isLoan360) {
+      return this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', + collateralId]);
+    }
+    this.router.navigate(['/pages/' + this.locationIndex + '/' + this.leadId + '/add-vehicle', + collateralId]);
   }
 
   editCollateralDetails(collateralId: number) {
@@ -108,7 +125,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   onEditVehicleDetails(collateralId: number, loanAmount: any) {
-    this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', { vehicleId: collateralId, eligibleLoanAmount: loanAmount }]);
+    this.vehicleDataStoreService.setLoanAmount(loanAmount)
+    this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', + collateralId])
   }
 
   getVehicleDetails(id: number) {
@@ -147,7 +165,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
         this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails);
         this.collateralDataStoreService.setCollateralDetails(res.ProcessVariables.additionalCollaterals)
       } else {
-        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.messageen, 'Delete Vehicle Details')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Delete Vehicle Details')
       }
     }, error => {
       console.log(error, 'error');
@@ -164,13 +182,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
     if (this.isCollateralSrting === 'Collateral') {
       this.vehicleDetailsService.getDeleteVehicleDetails(this.selectCollateralId, this.userId).subscribe((res: any) => {
-        const apiError = res.ProcessVariables.error.message;
+        let apiError = res.ProcessVariables.error.message;
 
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
           this.getVehicleDetails(this.leadId)
         } else {
-          this.toasterService.showError(apiError, 'Delete Vehicle Details')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : apiError, 'Delete Vehicle Details')
         }
       }, error => {
         console.log('error', error);
@@ -184,7 +202,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
           this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
           this.getVehicleDetails(this.leadId)
         } else {
-          this.toasterService.showError(apiError, 'Delete Vehicle Details')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : apiError, 'Delete Vehicle Details')
         }
       }, error => {
         console.log('error', error);

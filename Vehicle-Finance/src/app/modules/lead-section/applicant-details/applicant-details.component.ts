@@ -9,6 +9,7 @@ import { ApplicantList } from '@model/applicant.model';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
 import { ToasterService } from '@services/toaster.service';
+import { CommonDataService } from '@services/common-data.service';
 
 @Component({
   selector: 'app-applicant-details',
@@ -26,6 +27,11 @@ export class ApplicantDetailsComponent implements OnInit {
   index: number;
   leadId: number;
   showNotApplicant: boolean;
+  isDelete: boolean = false;
+  appDetails = [];
+  isFemaleForNCV: boolean;
+  leadSectioData: any;
+  showNotCoApplicant: boolean;
 
   constructor(
     private route: Router,
@@ -36,21 +42,18 @@ export class ApplicantDetailsComponent implements OnInit {
     private applicantService: ApplicantService,
     private applicantDataStoreService: ApplicantDataStoreService,
     private createLeadDataService: CreateLeadDataService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private commonDataService: CommonDataService
   ) { }
 
   getLeadId() {
-    //   const currentUrl = this.location.path().split('/');
-    //   let id;
-    //   currentUrl.find((value) => {
+    this.leadSectioData = this.createLeadDataService.getLeadSectionData();
+    const product = this.leadSectioData.leadDetails.productCatCode;
+    const applicantDetails = this.leadSectioData.applicantDetails;
+    this.isFemaleForNCV = this.applicantDataStoreService.checkLeadSectionDataForNCV(product, applicantDetails);
 
-    //     if(Number(value)) {
-    //         id =  Number(value);
-    //     }
-    // });
-    const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
-    return leadSectioData.leadId;
-    console.log('Id inside getLead ID', leadSectioData.leadId);
+    return this.leadSectioData.leadId;
+    console.log('Id inside getLead ID', this.leadSectioData.leadId);
   }
   ngOnInit() {
     this.leadId = this.getLeadId();
@@ -83,21 +86,8 @@ export class ApplicantDetailsComponent implements OnInit {
     this.getApplicantList();
     this.applicantDataStoreService.setDedupeFlag(false);
     this.applicantDataStoreService.setPanValidate(false);
+    this.applicantDataStoreService.setDetectvalueChange(false)
   }
-
-  // getData() {
-  //   this.applicantDetails = this.leadStoreService.getApplicantList();
-  //   console.log('applicant Details', this.applicantDetails);
-  //   // console.log(this.applicantDetails[0].entity)
-
-  //   // this.applicantDetails.findIndex(x => x.entity === this.values.entity.forEach(element=>{
-  //   //   if(parseInt(x.entity)=== element.key){
-  //   //     x.entity = element;
-  //   //     console.log(x.entity)
-  //   //   }
-  //   // }))
-
-  // }
 
   getApplicantList() {
     const data = {
@@ -109,45 +99,61 @@ export class ApplicantDetailsComponent implements OnInit {
       //console.log('ProcessVariables', processVariables);
       this.applicantList = processVariables.applicantListForLead;
       console.log('applicantList', this.applicantList);
+      // const checkProduct: string = this.leadSectioData.leadDetails.productCatCode;
+      // if (checkProduct === 'NCV') {
+      //   this.leadSectioData = this.createLeadDataService.getLeadSectionData();
+      //   const product = this.leadSectioData.leadDetails.productCatCode;
+      //   const applicantDetails = this.leadSectioData.applicantDetails;
+      //   this.applicantList.map((data: any) => {
+      //     if (data.entityTypeKey === "INDIVENTTYP") {
+      //       if (data.gender !== '2GENDER') {
+      //         this.isFemaleForNCV = true;
+      //         this.applicantDataStoreService.checkLeadSectionDataForNCV(product, this.applicantList, this.isFemaleForNCV);
+      //       } else {
+      //         this.isFemaleForNCV = false;
+      //         this.applicantDataStoreService.checkLeadSectionDataForNCV(product, this.applicantList, this.isFemaleForNCV);
+      //         return;
+      //       }
+      //     }
+      //   });
+      // }
 
-      // for(var i=0; i<=this.applicantList.length; i++){
-      //   const mobile= this.applicantList[i].mobileNumber;
-      //   if(this.applicantList[i].entityTypeKey=='INDIVENTTYP' && mobile.length==12){
-      //     this.applicantList[i].mobileNumber= mobile.slice(2,12)
-      //   }
-      // }
-      // for(var i=0; i<=this.applicantList.length; i++){
-      //   const companyPhoneNumber= this.applicantList[i].companyPhoneNumber;
-      //   if(this.applicantList[i].entityTypeKey=='NONINDIVENTTYP' && companyPhoneNumber.length==12){
-      //     this.applicantList[i].companyPhoneNumber= companyPhoneNumber.slice(2,12)
-      //   }
-      // }
-      this.applicantList.map((data) => {
-        if (data.mobileNumber && data.mobileNumber.length === 12) {
-          data.mobileNumber = data.mobileNumber.slice(2, 12)
-        }
-        if (data.companyPhoneNumber && data.companyPhoneNumber.length === 12) {
-          data.companyPhoneNumber = data.companyPhoneNumber.slice(2, 12)
-        }
-        return data;
-      })
+      this.applicantDataStoreService.setApplicantList(this.applicantList)
+
+
+      if (this.applicantList) {
+        this.isDelete = this.applicantList.length === 1 ? true : false;
+        this.applicantList.map((data) => {
+          if (data.mobileNumber && data.mobileNumber.length === 12) {
+            data.mobileNumber = data.mobileNumber.slice(2, 12)
+          }
+          if (data.companyPhoneNumber && data.companyPhoneNumber.length === 12) {
+            data.companyPhoneNumber = data.companyPhoneNumber.slice(2, 12)
+          }
+          return data;
+        })
+      }
+
 
     });
   }
   navigateAddApplicant() {
     console.log('applicant list', this.applicantList)
     //this.findAddressType();
-    if (this.applicantList.length > 4) {
-      this.toasterService.showWarning('Maximum 5 Applicants', '')
-      return;
+    if (this.applicantList) {
+      if (this.applicantList.length > 4) {
+        this.toasterService.showWarning('Maximum 5 Applicants', '')
+        return;
+      }
     }
 
+
     this.route.navigateByUrl(`/pages/lead-section/${this.leadId}/co-applicant`);
-    if (this.applicantList.length > 0) {
-      this.applicantList.filter((val: any) => {
-        this.applicantDataStoreService.setApplicantRelation(val['applicantType'])
-      })
-    }
+    // if (this.applicantList.length > 0) {
+    //   this.applicantList.filter((val: any) => {
+    //     this.applicantDataStoreService.setApplicantRelation(val['applicantType'])
+    //   })
+    // }
   }
 
 
@@ -179,6 +185,8 @@ export class ApplicantDetailsComponent implements OnInit {
     const findIndex = this.p === 1 ? index : (this.p - 1) * 5 + index;
     this.index = findIndex;
     this.selectedApplicant = applicantId;
+
+
   }
 
   callDeleteApplicant() {
@@ -188,13 +196,38 @@ export class ApplicantDetailsComponent implements OnInit {
     this.applicantService.softDeleteApplicant(data).subscribe((res) => {
       console.log('res', this.selectedApplicant);
       this.applicantList.splice(this.index, 1);
+      console.log('this.apploicantlist', this.applicantList.length)
+
+      this.isDelete = this.applicantList.length === 1 ? true : false;
+      this.getApplicantList();
+      // const data = {
+      //   app: this.applicantList,
+      //   bool: true
+      // }
+      // this.commonDataService.applicantListEdited(data);
     });
   }
 
   forFindingApplicantType() {
-    const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
-    console.log('findApplicant', findApplicant)
-    this.showNotApplicant = findApplicant == undefined ? true : false;
+    if (this.applicantList) {
+      const findApplicant = this.applicantList.find((data) => data.applicantTypeKey == "APPAPPRELLEAD")
+      console.log('findApplicant', findApplicant)
+      this.showNotApplicant = findApplicant == undefined ? true : false;
+    } else {
+      this.showNotApplicant = true;
+    }
+
+  }
+
+  forFindingCoApplicantType() {
+    if (this.applicantList) {
+      const findCoApplicant = this.applicantList.find((data) => data.applicantTypeKey == "COAPPAPPRELLEAD")
+      console.log('findApplicant', findCoApplicant)
+      this.showNotCoApplicant = findCoApplicant == undefined ? true : false;
+    } else {
+      this.showNotCoApplicant = true;
+    }
+
   }
 
   onNext() {
@@ -204,9 +237,27 @@ export class ApplicantDetailsComponent implements OnInit {
       this.toasterService.showError('There should be one applicant for this lead', '')
       return;
     }
+    this.leadSectioData = this.createLeadDataService.getLeadSectionData();
+    const product = this.leadSectioData.leadDetails.productCatCode;
+    if (product === 'NCV' || product === 'UCV' || product === 'UC') {
+      this.forFindingCoApplicantType()
+      if (this.showNotCoApplicant) {
+         this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+      }
+    }
 
 
-    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-details`)
+
+    if (product === 'NCV') {
+      const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+      console.log("result", result);
+
+      if (!result) {
+        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+      }
+    }
+
+    this.route.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-list`)
   }
 
   onBack() {

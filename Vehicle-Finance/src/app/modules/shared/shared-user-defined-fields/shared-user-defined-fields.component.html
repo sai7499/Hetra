@@ -1,0 +1,46 @@
+<form class="multisteps-form__form p-0" [formGroup]="dynamicForm" *ngIf="labels?.validationData"
+    (change)="getUserDefinedForm()">
+    <div class="row" *ngIf="screenUdfMapping">
+
+        <h3 class="banner-con">User Defined Fields</h3>
+
+        <div class="form-group"
+            [ngClass]="screenUdfMapping.layout=== 3 ? 'form-group col-sm-6 col-md-4 col-lg-3' : 'col-sm-4 col-md-4 col-lg-4'"
+            *ngFor="let arrayItem of screenUdfMapping.fields; let i=index">
+
+            <label class="array-item-title">{{arrayItem.label}} <sub class="star_red_col"
+                    *ngIf="arrayItem.mandatory">*</sub> </label>
+
+            <app-custom-input *ngIf="arrayItem.contorlType === 'textbox'" [inputClass]="arrayItem.inputClass"
+                [formControl]="dynamicForm.controls[arrayItem.name]" id="{{arrayItem.name}}_{{i}}"
+                [type]="arrayItem.inputType" [className]="'form-control'" [placeholder]="arrayItem.placeholder"
+                [patternCheck]="arrayItem.pattenCheck" [maxLength]="arrayItem.maxLength"
+                [minLength]="arrayItem.minLength" [isDisabled]="arrayItem.disable"
+                [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + ' is Required' : ''" [isDirty]="isDirty">
+            </app-custom-input>
+
+            <app-vf-custom-select *ngIf="arrayItem.contorlType === 'selectbox'" [values]="(LOV?.LOVS)[arrayItem.values]"
+                [formControl]="dynamicForm.controls[arrayItem.name]"
+                [isRequired]="arrayItem.mandatory ? 'Please select one' : ''" [isDisabled]="arrayItem.disable"
+                [isDirty]="isDirty">
+            </app-vf-custom-select>
+
+            <textarea *ngIf="arrayItem.contorlType === 'textarea'" class="form-control mandatory" cols="1" rows="3"
+                [placeholder]="arrayItem.placeholder" [formControl]="dynamicForm.controls[arrayItem.name]"
+                maxlength="120" style="resize: none;"></textarea>
+
+            <input class="ml" type="checkbox" [formControl]="dynamicForm.controls[arrayItem.name]"
+                *ngIf="arrayItem.contorlType === 'checkbox'" />
+
+            <input class="ml" *ngIf="arrayItem.contorlType === 'radio'" type="radio"
+                [formControl]="dynamicForm.controls[arrayItem.name]" [value]="arrayItem.value">
+
+            <!-- <kendo-datepicker *ngIf="arrayItem.contorlType === 'date'" class="form-control mandatory"
+              [formControl]="dynamicForm.controls[arrayItem.name]" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+              [placeholder]="arrayItem.placeholder">
+          </kendo-datepicker> -->
+
+        </div>
+    </div>
+
+</form>

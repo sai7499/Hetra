@@ -1,0 +1,150 @@
+.dis-block {
+    display: block;
+}
+
+.upload-btn {
+    border: 1px solid #1d1a4b;
+    background-color: #1d1a4b;
+    color: #fff;
+    margin: 10px 0;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+
+.remove-btn {
+    background: #dc1818;
+    color: #f6f6f6;
+    margin-left: 5px;
+  }
+  
+  .file-info {
+    word-break: break-all;
+    padding: 5px 5px 5px 0;
+  }
+  
+  .preview-panel {
+    padding-left: 15px;
+  }
+  
+  .btn-info {
+    color: #fff;
+    background-color: #1d1a4b;
+    border-color: #161338;
+  }
+  
+  .show-error {
+    color: red;
+  }
+
+  .mid-half{
+    /* width:50%;
+    margin:auto; */
+  }
+  
+  .mid-mar{
+    margin: 0 8%;
+    /* text-align:center; */
+  }
+  
+  .mid-text{
+    /* text-align: center; */
+    margin: 0 20%;
+  }
+  
+  .top-space{
+    top:10%;
+  }
+  
+  .wid-30{
+    width:30%;
+  }
+  
+  .wid-70{
+    width:70%;
+  }
+  @media (min-width:200px) and (max-width:767px) {
+    .mid-mar{
+    margin: 0 auto;
+    text-align:center;
+  }
+  
+  .mid-text{
+    text-align: center;
+    margin: 0 20%;
+  }
+  }
+
+  .FixedHeightContainer
+{
+  float:right;
+  height: 250px;
+  width:250px; 
+  padding:3px; 
+    background:#f00;
+}
+.Content
+{
+  height:224px;
+   overflow:auto;
+    background:#fff;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0px 12px;
+}
+
+.title {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.mr-top-bottom-12 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.file-format {
+  margin: 6px 12px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.table tbody tr td {
+  padding: 6px !important;
+}
+
+.pad-6 {
+  padding: 6px;
+}
+
+.single-line {
+  white-space: nowrap !important;
+}
+
+* {
+  scrollbar-width: #eb652c;
+  scrollbar-color:#eb652c #fff;
+}
+
+ /* Works on Chrome/Edge/Safari */
+ ::-webkit-scrollbar {
+   height: 8px;              
+  /* width: 4px;    
+  scrollbar-width: #eb652c;            */
+  /* border: 1px solid #d5d5d5; */
+}
+*::-webkit-scrollbar-track {
+  background: #fff;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #eb652c;
+  border-radius: 20px;
+  border: 2px solid #fff;
+}
+
+.scroll-width {
+  scrollbar-width: auto;
+}

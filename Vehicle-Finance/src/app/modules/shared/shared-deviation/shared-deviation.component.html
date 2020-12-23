@@ -1,211 +1,86 @@
-<form class="multisteps-form__form" [formGroup]="deviationsForm">
+<form class="multisteps-form__form p-0" [formGroup]="deviationsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
     <ng-container formArrayName="waiverNormsFormArray">
 
       <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit && isWaiverTrigger">
-        <button class="btn mar-right8 btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
+        <button class="btn btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
           Norms</button>
       </div>
 
       <div *ngIf="deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
 
-        <h3 class="cus-title margin_zero">{{labels?.waiverDeviation}}</h3>
+        <h3 class="banner-con">{{labels?.waiverDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
             <tr>
               <td>{{labels?.deviation}}</td>
               <td>{{labels?.referenceRemarks}}</td>
-              <!-- <td *ngIf="productCatoryCode === 'UC'">{{labels?.otherMitigation}}</td>
-              <td *ngIf="productCatoryCode==='UC'">{{labels?.mitigationMet}}</td> -->
               <td>{{labels?.approvalLevel}}</td>
               <td>{{labels?.action}}</td>
             </tr>
           </thead>
-        </table>
 
-        <tbody *ngFor="let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let i=index;let l=last"
-          [formGroupName]="i">
-          <tr>
-            <td>
-              <p>{{obj.controls['devDesc'].value}}</p>
-            </td>
-            <td>
-              <p>{{obj.controls['rulesRemarks'].value}}</p>
-            </td>
-            <!-- <td *ngIf="productCatoryCode === 'UC'">
-                <p>{{obj.controls['otherMitigant'].value}}</p>
-              </td>
-              <td *ngIf="productCatoryCode === 'UC'">
-                <p>{{obj.controls['rulesRemarks'].value}}</p>
-              </td> -->
-            <td>
-              <p>{{obj.controls['approverRoleName'].value}}</p>
-            </td>
-            <td rowspan="6">
-              <div class="row m-0 radio-inline"
-              [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
-              <label for="approve_action">
-                <input type="radio" id="approve_action_waiver_{{i}}" formControlName="statusCode" value="1"
-                  (click)="onApproveDeclineAction(1, waiver)">{{labels?.approve}}
-              </label>
-              <label for=" refer_action">
-                <input type="radio" id="refer_action_waiver_{{i}}" formControlName="statusCode" value="2"
-                  (click)="onApproveDeclineAction(2, waiver)">{{labels?.referToNextLevel}}
-              </label>
-              <label for="decline_action">
-                <input type="radio" id="decline_action_waiver_{{i}}" formControlName="statusCode" value="0"
-                  (click)="onApproveDeclineAction(0, waiver)">{{labels?.decline}}
-              </label>
-            </div>
-            </td>
-          </tr>
-          <tr>
-            <td [attr.colspan]="3">
-              <div class="row">
-                <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
-                <div class="col-sm-10 col-md-10 col-lg-10">
-                  <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
-                    style="resize: none;"></textarea>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-
-        <!-- <div class="row">
-          <div class="form-group col-sm-4 col-md-4 col-lg-4">
-            <label for="acp">{{labels?.deviation}}</label>
-          </div>
-          <div class="form-group col-sm-2 col-md-2 col-lg-2">
-            <label for="acp">{{labels?.approvalLevel}}</label>
-          </div>
-          <div class="form-group col-sm-4 col-md-4 col-lg-4">
-            <label for="activity">{{labels?.justification}}</label>
-          </div>
-
-          <div class="form-group col-sm-2 col-md-2 col-lg-2">
-            <label for="end" class="action">{{labels?.action}}</label>
-          </div>
-        </div>
-
-        <div *ngFor="let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let i=index;let l=last"
-          [formGroupName]="i">
-
-          <div class="row">
-            <div class="form-group col-sm-4 col-md-4 col-lg-4">
-              <p>{{waiver.controls['devDesc'].value}}</p>
-            </div>
-            <div class="form-group  col-sm-2 col-md-2 col-lg-2">
-              <p>{{waiver.controls['approverRoleName'].value}}</p>
-            </div>
-            <div class="form-group col-sm-4 col-md-4 col-lg-4">
-              <textarea class="form-control" value="Justification" formControlName="justification"
-                [readonly]="isSubmitToCredit"></textarea>
-
-              <div class="invalid-feedback"
-                *ngIf="waiver.controls['justification'].touched && !waiver.controls['justification'].valid">
-                <div *ngIf="waiver.controls['justification'].hasError('required')">
-                  Justfication Required
-                </div>
-              </div>
-
-            </div>
-
-            <div class="form-group col-sm-2 col-md-2 col-lg-2">
-
-              <div class="row m-0 radio-inline"
-                [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
-                <label for="approve_action">
-                  <input type="radio" id="approve_action_waiver_{{i}}" formControlName="statusCode" value="1"
-                    (click)="onApproveDeclineAction(1, waiver)">{{labels?.approve}}
-                </label>
-                <label for=" refer_action">
-                  <input type="radio" id="refer_action_waiver_{{i}}" formControlName="statusCode" value="2"
-                    (click)="onApproveDeclineAction(2, waiver)">{{labels?.referToNextLevel}}
-                </label>
-                <label for="decline_action">
-                  <input type="radio" id="decline_action_waiver_{{i}}" formControlName="statusCode" value="0"
-                    (click)="onApproveDeclineAction(0, waiver)">{{labels?.decline}}
-                </label>
-              </div>
-
-            </div>
-
-          </div>
-        </div> -->
-
-      </div>
-    </ng-container>
-
-    <div
-      *ngIf="isSendBacktoCredit && isWaiverTrigger || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
-      <hr>
-    </div>
-
-    <ng-container formArrayName="autoDeviationFormArray">
-
-      <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
-        <button class="btn mar-right8 btn-primary" type="button"
-          (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
-      </div>
-
-      <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
-
-        <h3 class="cus-title margin_zero">{{labels?.autoDeviation}}</h3>
-
-        <table class="table table-responsive table-bordered text-left">
-          <thead class="text-center">
+          <tbody *ngFor=" let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let k=index;let l=last"
+            [formGroupName]="k">
             <tr>
-              <td>{{labels?.deviation}}</td>
-              <td>{{labels?.referenceRemarks}}</td>
-              <!-- <td *ngIf="productCatoryCode === 'UC'">{{labels?.otherMitigation}}</td>
-              <td *ngIf="productCatoryCode==='UC'">{{labels?.mitigationMet}}</td> -->
-              <td>{{labels?.approvalLevel}}</td>
-              <td>{{labels?.action}}</td>
-            </tr>
-          </thead>
-          <tbody *ngFor=" let obj of deviationsForm.get('autoDeviationFormArray')['controls']; let i=index;let l=last"
-            [formGroupName]="i">
-            <tr>
-              <td>
-                <p>{{obj.controls['devDesc'].value}}</p>
+              <td class="wid-30">
+                <p>{{waiver.controls['devDesc'].value}}</p>
               </td>
-              <td>
-                <p>{{obj.controls['rulesRemarks'].value}}</p>
+              <td class="wid-30">
+                <p>{{waiver.controls['rulesRemarks'].value}}</p>
               </td>
-              <!-- <td *ngIf="productCatoryCode === 'UC'">
-                <p>{{obj.controls['otherMitigant'].value}}</p>
+              <td class="wid-10">
+                <p>{{waiver.controls['approverRoleName'].value}}</p>
               </td>
-              <td *ngIf="productCatoryCode === 'UC'">
-                <p>{{obj.controls['rulesRemarks'].value}}</p>
-              </td> -->
-              <td>
-                <p>{{obj.controls['approverRoleName'].value}}</p>
-              </td>
-              <td rowspan="6">
+              <td rowspan="6" style="width: 10%;">
                 <div class="row m-0 radio-inline"
-                  [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
-                  <label for="approve_action">
-                    <input type="radio" id="approve_action_auto_{{i}}" formControlName="statusCode" value="1"
-                      (click)="onApproveDeclineAction(1, obj)">{{labels?.approve}}
+                  [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+                  <!-- <label for="approve_action">
+                    <input type="radio" id="approve_action_waiver_{{k}}" formControlName="statusCode" value="1"
+                      (click)="onApproveDeclineAction(1, waiver)">{{labels?.approve}}
                   </label>
                   <label for=" refer_action">
-                    <input type="radio" id="refer_action_auto_{{i}}" formControlName="statusCode" value="2"
-                      (click)="onApproveDeclineAction(2, obj)">{{labels?.referToNextLevel}}
+                    <input type="radio" id="refer_action_waiver_{{k}}" formControlName="statusCode" value="2"
+                      (click)="onApproveDeclineAction(2, waiver)">{{labels?.referToNextLevel}}
                   </label>
                   <label for="decline_action">
-                    <input type="radio" id="decline_action_auto_{{i}}" formControlName="statusCode" value="0"
-                      (click)="onApproveDeclineAction(0, obj)">{{labels?.decline}}
-                  </label>
+                    <input type="radio" id="decline_action_waiver__{{k}}" formControlName="statusCode" value="0"
+                      (click)="onApproveDeclineAction(0, waiver)">{{labels?.decline}}
+                  </label> -->
+                  <div>
+                    <input type="radio" class="approve" id="approve_action_waiver_{{k}}" formControlName="statusCode"
+                      value="1"
+                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="approve"
+                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, waiver)"><span></span>{{labels?.approve}}</label>
+                  </div>
+
+                  <div>
+                    <input class="refer" type="radio" id="refer_action_waiver_{{k}}" formControlName="statusCode"
+                      value="2"
+                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="refer"
+                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, waiver)"><span></span>{{labels?.referToNextLevel}}</label>
+                  </div>
+
+                  <div>
+                    <input class="decline" type="radio" id="decline_action_waiver_{{k}}" formControlName="statusCode"
+                      value="0"
+                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="decline"
+                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, waiver)"><span></span>{{labels?.decline}}</label>
+                  </div>
+
                 </div>
               </td>
             </tr>
             <tr>
               <td [attr.colspan]="3">
-                <!-- productCatoryCode == 'UC' ? '5' : '3' -->
-
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
                   <div class="col-sm-10 col-md-10 col-lg-10">
@@ -219,34 +94,118 @@
         </table>
 
       </div>
-
     </ng-container>
 
-    <div *ngIf="!isSubmitToCredit || deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
-      <hr>
+    <div
+      *ngIf="isSendBacktoCredit && isWaiverTrigger || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
     </div>
 
-    <ng-container formArrayName="manualDeviationFormArray">
+    <ng-container formArrayName="autoDeviationFormArray">
 
-      <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
-        <button class="btn mar-right8 btn-primary" type="button"
-          (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
-      </div>
+      <ng-container *ngIf="!isLoan360">
+        <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
+          <button class="btn btn-primary" type="button"
+            (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
+        </div>
+      </ng-container>
 
-      <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
+      <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
+        <h3 class="banner-con">{{labels?.autoDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
             <tr>
               <td>{{labels?.deviation}}</td>
               <td>{{labels?.referenceRemarks}}</td>
-              <!-- <td *ngIf="productCatoryCode === 'UC'">{{labels?.otherMitigation}}</td>
-              <td *ngIf="productCatoryCode==='UC'">{{labels?.mitigationMet}}</td> -->
               <td>{{labels?.approvalLevel}}</td>
               <td>{{labels?.action}}</td>
-              <td> {{labels?.more}}</td>
+            </tr>
+          </thead>
+          <tbody *ngFor=" let obj of deviationsForm.get('autoDeviationFormArray')['controls']; let i=index;let l=last"
+            [formGroupName]="i">
+            <tr>
+              <td class="wid-30">
+                <p>{{obj.controls['devDesc'].value}}</p>
+              </td>
+              <td class="wid-30">
+                <p>{{obj.controls['rulesRemarks'].value}}</p>
+              </td>
+              <td class="wid-10">
+                <p>{{obj.controls['approverRoleName'].value}}</p>
+              </td>
+              <td rowspan="6" style="width: 10%;">
+                <div class="row m-0 radio-inline"
+                  [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
+                  <div>
+                    <input type="radio" class="approve" id="approve_action_auto_{{i}}" formControlName="statusCode"
+                      value="1"
+                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="approve"
+                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, obj)"><span></span>{{labels?.approve}}</label>
+                  </div>
+
+                  <div>
+                    <input class="refer" type="radio" id="refer_action_auto_{{i}}" formControlName="statusCode"
+                      value="2"
+                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="refer"
+                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, obj)"><span></span>{{labels?.referToNextLevel}}</label>
+                  </div>
+
+                  <div>
+                    <input class="decline" type="radio" id="decline_action_auto_{{i}}" formControlName="statusCode"
+                      value="0"
+                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="decline"
+                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, obj)"><span></span>{{labels?.decline}}</label>
+                  </div>
+
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td [attr.colspan]="3">
+                <div class="row">
+                  <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
+                  <div class="col-sm-10 col-md-10 col-lg-10">
+                    <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+                      style="resize: none;"></textarea>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+    <hr class="mar-5">
+
+    <ng-container formArrayName="manualDeviationFormArray">
+
+      <ng-container *ngIf="!isLoan360">
+        <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
+          <button class="btn mb-5 btn-primary" type="button"
+            (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
+        </div>
+      </ng-container>
+
+
+      <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
+
+        <h3 class="banner-con">{{labels?.manualDeviation}}</h3>
+
+        <table class="table table-responsive table-bordered text-left">
+          <thead class="text-center">
+            <tr>
+              <td>{{labels?.deviation}}</td>
+              <td>{{labels?.referenceRemarks}}</td>
+              <td>{{labels?.approvalLevel}}</td>
+              <td>{{labels?.action}}</td>
+              <td *ngIf="!isSubmitToCredit"> {{labels?.more}}</td>
             </tr>
           </thead>
 
@@ -255,53 +214,65 @@
             [formGroupName]="j">
 
             <tr>
-              <td style="width: 30%;">
+              <td class="wid-30">
                 <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
                   [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
                   (change)="onGetDeviationCode($event, j)">
                 </app-vf-custom-select>
+                <div class="invalid-feedback" *ngIf="findDuplicate(item, j) && j > 0">
+                  Duplicate Deviation
+                </div>
               </td>
-              <td style="width: 30%;">
+              <td class="wid-30">
                 <p>
                   {{item.controls['rulesRemarks'].value}}
                 </p>
               </td>
-              <!-- <td *ngIf="productCatoryCode === 'UC'" style="width: 19%;">
-                <p>
-                  {{item.controls['otherMitigant'].value}}
-                </p>
-              </td>
-              <td *ngIf="productCatoryCode === 'UC'">
-                <p>
-                  {{item.controls['rulesRemarks'].value}}
-                </p>
-              </td> -->
               <td>
                 <app-vf-custom-select [values]="deviationLov?.approvalLevel" [id]="'approval_level'"
                   formControlName="approverRole" [isRequired]="'Approver Level Required'" [isDirty]="isDirty"
                   (change)="onGetApprovalLevel($event, j)" [isDisabled]="isSubmitToCredit">
                 </app-vf-custom-select>
+                <div class="invalid-feedback" *ngIf="findDuplicate(item, j) && j > 0">
+                  Duplicate Role
+                </div>
               </td>
               <td rowspan="6">
                 <div class="row m-0 radio-inline"
                   [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
-                  <label for="approve_action">
-                    <input type="radio" id="approve_action_manual_{{j}}" formControlName="statusCode" value="1"
-                      (click)="onApproveDeclineAction(1, item)">{{labels?.approve}}
-                  </label>
-                  <label for=" refer_action">
-                    <input type="radio" id="refer_action_manual_{{j}}" formControlName="statusCode" value="2"
-                      (click)="onApproveDeclineAction(2, item)">{{labels?.referToNextLevel}}
-                  </label>
-                  <label for="decline_action">
-                    <input type="radio" id="decline_action_manual_{{j}}" formControlName="statusCode" value="0"
-                      (click)="onApproveDeclineAction(0, item)">{{labels?.decline}}
-                  </label>
+
+                  <div>
+                    <input type="radio" class="approve" id="approve_action_manual_{{j}}" formControlName="statusCode"
+                      value="1"
+                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="approve"
+                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, item)"><span></span>{{labels?.approve}}</label>
+                  </div>
+
+                  <div>
+                    <input class="refer" type="radio" id="refer_action_manual_{{j}}" formControlName="statusCode"
+                      value="2"
+                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="refer"
+                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, item)"><span></span>{{labels?.referToNextLevel}}</label>
+                  </div>
+
+                  <div>
+                    <input class="decline" type="radio" id="decline_action_manual_{{j}}" formControlName="statusCode"
+                      value="0"
+                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
+                    <label for="decline"
+                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="!(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, item)"><span></span>{{labels?.decline}}</label>
+                  </div>
+
                 </div>
               </td>
-              <td rowspan="6">
+              <td rowspan="6" *ngIf="!isSubmitToCredit">
                 <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="operationType !== '2'">
+                  <div class="col-sm-12 col-md-12 col-lg-12">
                     <label class="image-upload" for="upload_files">
                       <i></i> &nbsp;
                       <a data-toggle="modal" data-target="#exampleModal"
@@ -335,7 +306,7 @@
 
     <div class="row" *ngIf="recommendationArray.length > 0">
 
-      <h3 class="margin_zero">{{labels?.recommendation}}</h3>
+      <h3 class="banner-con">{{labels?.recommendation}}</h3>
 
       <div class="table-responsive">
         <table class="table" id="recommendation_table">
@@ -384,11 +355,11 @@
             </app-vf-custom-select>
           </div>
         </div>
-        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!deviationsForm.controls['approverRole'].value"
+        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal"
+          data-target="#referRecommedation" [disabled]="!deviationsForm.controls['approverRole'].value"
           (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
       </div>
-      <div class="col-sm-3 row text-right">
+      <div class="col-sm-3 row text-right" *ngIf="!isLoan360">
 
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
           [disabled]="!deviationsForm.get('enableApprove').value"
@@ -421,7 +392,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Are you sure want {{selectDeviationId === 0 ? 'remove ' : 'delete '}} deviation
+        Are you sure you want to {{selectDeviationId === 0 ? 'remove ' : 'delete '}} deviation?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-dismiss="modal"
@@ -440,7 +411,7 @@
 
 <div class="modal fade" id="referRecommedation" role="dialog">
   <div class="modal-dialog">
-    <form class="multisteps-form__form" [formGroup]="modalForm">
+    <form class="multisteps-form__form p-0" [formGroup]="modalForm">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>

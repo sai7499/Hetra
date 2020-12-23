@@ -19,6 +19,10 @@ import { UploadService } from '@services/upload.service';
 import { UtilityService } from '@services/utility.service';
 import { map } from 'rxjs/operators';
 import { DocumentDetails } from '@model/upload-model';
+
+import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+
 @Component({
   selector: 'app-cam',
   templateUrl: './cam.component.html',
@@ -109,6 +113,13 @@ export class CamComponent implements OnInit {
   appArray: any = []
   coAppArray: any = []
   guarntorArray: any = []
+  showSendBackToSales: boolean = false
+  body: any;
+  isLoan360: boolean;
+  isDeclinedFlow = false;
+  isChildLoan: boolean;
+  taskId: any;
+
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -119,16 +130,26 @@ export class CamComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private router: Router, private uploadService: UploadService,
     private location: Location, private utilityService: UtilityService,
+    private loanViewService: LoanViewService,
+    private sharedService: SharedService
   ) {
     this.salesResponse = localStorage.getItem('salesResponse');
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
     });
+    this.sharedService.isDeclinedFlow.subscribe((res: any) => {
+      console.log(res, ' declined flow');
+      if (res) {
+        this.isDeclinedFlow = res;
+      }
+    });
 
   }
 
   ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -137,12 +158,19 @@ export class CamComponent implements OnInit {
       error => {
       }
     );
+    
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+    console.log(this.taskId);
+    
     this.getLeadId();
     this.userId = localStorage.getItem("userId");
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
     this.vehicleDetailsArray = leadData['vehicleCollateral'];
     this.productCategoryCode = leadSectionData.leadDetails['productCatCode'];
+    this.isChildLoan = leadSectionData.leadDetails['isChildLoan'] ? leadSectionData.leadDetails['isChildLoan'] === '1' ?
+      true : false : false;
+
     if (this.productCategoryCode == "UC") {
       const body = {
         "leadId": this.leadId,
@@ -161,111 +189,327 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamUsedCarDetails(this.generateCam)
           this.showCamHtml = true
-          this.showSave = false
-
-        }
-      })
-    }
-    if (this.productCategoryCode == "UCV") {
-      const body = {
-        "leadId": this.leadId,
-        "generateCam": this.generateCam
-      }
-      this.camService.getCamUsedCvDetails(body).subscribe((res: any) => {
-        this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
-        if (this.isCamGeneratedValue == false) {
-          this.isCamDetails = true
-          this.showSave = false
-
-
-        } else if (this.isCamGeneratedValue == true) {
-          this.isCamDetails = false
-          this.usedCvCam = true
-          this.generateCam = true
-          this.getCamUsedCvDetails(this.generateCam)
-          this.showCamHtml = true
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
-          }
-        }
-      })
-    }
-    if (this.productCategoryCode == "NCV") {
-      const body = {
-        "leadId": this.leadId,
-        "generateCam": this.generateCam
-      }
-      this.camService.getCamNewCvDetails(body).subscribe((res: any) => {
+            this.showSendBackToSales = true
 
-        this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
-        if (this.isCamGeneratedValue == false) {
-
-          this.isCamDetails = true
-          this.showSave = false
-
-
-        } else if (this.isCamGeneratedValue == true) {
-          this.isCamDetails = false
-          this.newCvCam = true
-          this.generateCam = true
-          this.getCamNewCvDetails(this.generateCam)
-          this.showCamHtml = true
-          if (this.currentUrl.includes('dde')) {
-            this.showSave = true
           }
 
         }
       })
     }
 
-    if (this.productCategoryCode == "UCV") {
+    if (this.isChildLoan) {
 
-      this.camDetailsForm = this.formBuilder.group({
-        proposedVehicleRemarks: [],
-        cibilSynopsisRemarks: [],
-        trackValidationRemarks: [],
-        fleetRemarks: [],
-        concernsAndRisks: [],
-        strengthAndMitigates: [],
-        keyFinancialRemarks: [],
-        commentsOnBankingIfAny: new FormControl(),
-        commentsOnRtr: new FormControl(),
-      })
-    } else if (this.productCategoryCode == "NCV") {
-      this.camDetailsForm = this.formBuilder.group({
-        proposedVehicleRemarks: [],
-        cibilSynopsisRemarks: [],
-        trackValidationRemarks: [],
-        fleetRemarks: [],
-        concernsAndRisks: [],
-        strengthAndMitigates: [],
-        keyFinancialRemarks: [],
-        commentsOnBankingIfAny:[],
-        // commentsOnBankingIfAny: new FormControl(null, [
-        //   Validators.required,
-        //   Validators.maxLength(200),
-        //   Validators.pattern(
-        //     /^[a-zA-Z0-9 ]*$/
-        //   ),
-        // ]),
-        commentsOnRtr: []
+      if (this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV") {
+        const body = {
+          "leadId": this.leadId,
+          "generateCam": this.generateCam
+        }
+        this.camService.getCamUsedCvDetails(body).subscribe((res: any) => {
+          this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+          if (this.isCamGeneratedValue == false) {
+            this.isCamDetails = true
+            this.showSave = false
 
+
+          } else if (this.isCamGeneratedValue == true) {
+            this.isCamDetails = false
+            this.usedCvCam = true
+            this.generateCam = true
+            this.getCamUsedCvDetails(this.generateCam)
+            this.showCamHtml = true
+            if (this.currentUrl.includes('dde')) {
+              this.showSave = true
+              this.showSendBackToSales = true
+
+            }
+          }
+        })
+
+        this.camDetailsForm = this.formBuilder.group({
+          proposedVehicleRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          cibilSynopsisRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          trackValidationRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          fleetRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          concernsAndRisks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          strengthAndMitigates: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          keyFinancialRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          commentsOnBankingIfAny: new FormControl(),
+          commentsOnRtr: new FormControl(),
+        })
+
+      }
+
+    } else {
+      if (this.productCategoryCode == "UCV") {
+        const body = {
+          "leadId": this.leadId,
+          "generateCam": this.generateCam
+        }
+        this.camService.getCamUsedCvDetails(body).subscribe((res: any) => {
+          this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+          if (this.isCamGeneratedValue == false) {
+            this.isCamDetails = true
+            this.showSave = false
+
+
+          } else if (this.isCamGeneratedValue == true) {
+            this.isCamDetails = false
+            this.usedCvCam = true
+            this.generateCam = true
+            this.getCamUsedCvDetails(this.generateCam)
+            this.showCamHtml = true
+            if (this.currentUrl.includes('dde')) {
+              this.showSave = true
+              this.showSendBackToSales = true
+
+            }
+          }
+        })
+      }
+      if (this.productCategoryCode == "NCV") {
+        const body = {
+          "leadId": this.leadId,
+          "generateCam": this.generateCam
+        }
+        this.camService.getCamNewCvDetails(body).subscribe((res: any) => {
+
+          this.isCamGeneratedValue = res.ProcessVariables['isCamGenerated']
+          if (this.isCamGeneratedValue == false) {
+
+            this.isCamDetails = true
+            this.showSave = false
+
+
+          } else if (this.isCamGeneratedValue == true) {
+            this.isCamDetails = false
+            this.newCvCam = true
+            this.generateCam = true
+            this.getCamNewCvDetails(this.generateCam)
+            this.showCamHtml = true
+            if (this.currentUrl.includes('dde')) {
+              this.showSave = true
+              this.showSendBackToSales = true
+
+            }
+
+          }
+        })
+      }
+      if (this.productCategoryCode == "UCV") {
+
+        this.camDetailsForm = this.formBuilder.group({
+          proposedVehicleRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          cibilSynopsisRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          trackValidationRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          fleetRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          concernsAndRisks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          strengthAndMitigates: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          keyFinancialRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          commentsOnBankingIfAny: new FormControl(),
+          commentsOnRtr: new FormControl(),
+        })
+      } else if (this.productCategoryCode == "NCV") {
+        this.camDetailsForm = this.formBuilder.group({
+          proposedVehicleRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          cibilSynopsisRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          trackValidationRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          fleetRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          concernsAndRisks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          strengthAndMitigates: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          keyFinancialRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          // commentsOnBankingIfAny:new FormControl(null, [
+          // Validators.required,
+          //   Validators.maxLength(5000),
+          //   Validators.pattern(
+          //     /^[a-zA-Z0-9 ]*$/
+          //   ),
+          // ]),
+          commentsOnBankingIfAny: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          commentsOnRtr: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ])
+  
+        })
+      }
+    }
+
+    if (this.productCategoryCode == "UC") {
+      this.camDetailsForm = this.formBuilder.group({
+
+        concernsAndRisks: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
+        strengthAndMitigates: new FormControl(null, [
+          // Validators.required,
+          Validators.maxLength(5000),
+          Validators.pattern(
+            /^[a-zA-Z0-9 ]*$/
+          ),
+        ]),
       })
     }
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.camDetailsForm.disable();
       this.disableSaveBtn = true;
     }
 
     this.currentUrl = this.location.path();
     if (this.currentUrl.includes('credit-decisions')) {
       this.showSave = false
-      if(this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV"){
+      if (this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV" || this.productCategoryCode == "UC") {
         this.camDetailsForm.disable();
       }
     } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
+      this.showSendBackToSales = true
     }
 
   }
@@ -279,10 +523,12 @@ export class CamComponent implements OnInit {
       this.showCamHtml = true
       if (this.currentUrl.includes('dde')) {
         this.showSave = true
+        this.showSendBackToSales = true
+
       }
       this.pdfId = "UCpdfgeneration" // pdf generation 
-    } else
-      if (this.productCategoryCode == "UCV") {
+    } else {
+      if (this.isChildLoan) {
         this.usedCvCam = true
         this.isCamDetails = false
         this.generateCam = true
@@ -290,20 +536,38 @@ export class CamComponent implements OnInit {
         this.showCamHtml = true
         if (this.currentUrl.includes('dde')) {
           this.showSave = true
+          this.showSendBackToSales = true
+
         }
         this.pdfId = "UCVpdfgeneration" // pdf generation
-      } else
-        if (this.productCategoryCode == "NCV") {
-          this.newCvCam = true
+      } else {
+        if (this.productCategoryCode == "UCV") {
+          this.usedCvCam = true
           this.isCamDetails = false
           this.generateCam = true
-          this.getCamNewCvDetails(this.generateCam, 'isUpload')
+          this.getCamUsedCvDetails(this.generateCam, 'isUpload')
           this.showCamHtml = true
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
+            this.showSendBackToSales = true
+  
           }
-          this.pdfId = "NCVpdfgeneration" // pdf generation
+          this.pdfId = "UCVpdfgeneration" // pdf generation
+        } else if (this.productCategoryCode == "NCV") {
+            this.newCvCam = true
+            this.isCamDetails = false
+            this.generateCam = true
+            this.getCamNewCvDetails(this.generateCam, 'isUpload')
+            this.showCamHtml = true
+            if (this.currentUrl.includes('dde')) {
+              this.showSave = true
+              this.showSendBackToSales = true
+            }
+            this.pdfId = "NCVpdfgeneration" // pdf generation
         }
+      }
+    }
+      
   }
   getCamUsedCvDetails(generateCam, isUpload?: string) {
     const data = {
@@ -400,7 +664,13 @@ export class CamComponent implements OnInit {
         this.autoDeviation = res.ProcessVariables['autoDeviations']
         this.manualDeviation = res.ProcessVariables['manualDeviation']
         this.vehicleDetails = res.ProcessVariables['vehicleDetails']
-        this.recommendation = res.ProcessVariables['recommendation']
+        this.recommendation = res.ProcessVariables['recommendations']
+        this.camDetailsForm.patchValue({
+          concernsAndRisks: this.camDetails.concernsAndRisks ? this.camDetails.concernsAndRisks : null,
+        })
+        this.camDetailsForm.patchValue({
+          strengthAndMitigates: this.camDetails.strengthAndMitigates ? this.camDetails.strengthAndMitigates : null,
+        })
         setTimeout(() => {
           if (isUpload === 'isUpload') {
             // this.uploadPdf()
@@ -515,7 +785,7 @@ export class CamComponent implements OnInit {
     })
   }
   onSubmit() {
-console.log(this.camDetailsForm);
+    console.log("form", this.camDetailsForm);
 
 
     // this.submitted = true;
@@ -537,12 +807,12 @@ console.log(this.camDetailsForm);
     //     }
 
     // } else {
-      // this.submitted = true;
+    // this.submitted = true;
 
-      const body = {
+    if (this.isChildLoan && this.productCategoryCode === "UCV" || this.productCategoryCode === "NCV") {
+      this.body = {
         leadId: this.leadId,
         userId: this.userId,
-
         anyOtherRemarks: {
           proposedVehicleRemarks: this.camDetailsForm.controls.proposedVehicleRemarks.value,
           cibilSynopsisRemarks: this.camDetailsForm.controls
@@ -556,16 +826,72 @@ console.log(this.camDetailsForm);
           commentsOnRtr: this.camDetailsForm.controls.commentsOnRtr.value
         }
       };
+    } else {
+      if (this.productCategoryCode == "UCV") {
+        this.body = {
+          leadId: this.leadId,
+          userId: this.userId,
+          anyOtherRemarks: {
+            proposedVehicleRemarks: this.camDetailsForm.controls.proposedVehicleRemarks.value,
+            cibilSynopsisRemarks: this.camDetailsForm.controls
+              .cibilSynopsisRemarks.value,
+            trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
+            fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
+            keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value,
+            concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+            strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+            commentsOnBankingIfAny: this.camDetailsForm.controls.commentsOnBankingIfAny.value,
+            commentsOnRtr: this.camDetailsForm.controls.commentsOnRtr.value
+          }
+        };
+      }
+      if (this.productCategoryCode == "NCV") {
+        this.body = {
+          leadId: this.leadId,
+          userId: this.userId,
+          anyOtherRemarks: {
+            proposedVehicleRemarks: this.camDetailsForm.controls.proposedVehicleRemarks.value,
+            cibilSynopsisRemarks: this.camDetailsForm.controls
+              .cibilSynopsisRemarks.value,
+            trackValidationRemarks: this.camDetailsForm.controls.trackValidationRemarks.value,
+            fleetRemarks: this.camDetailsForm.controls.fleetRemarks.value,
+            keyFinancialRemarks: this.camDetailsForm.controls.keyFinancialRemarks.value,
+            concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+            strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+            commentsOnBankingIfAny: this.camDetailsForm.controls.commentsOnBankingIfAny.value,
+            commentsOnRtr: this.camDetailsForm.controls.commentsOnRtr.value
+          }
+        };
+      }
+    }
 
-      this.camService.saveCamRemarks(body).subscribe((res: any) => {
+    if (this.productCategoryCode == "UC") {
+      this.body = {
+        leadId: this.leadId,
+        userId: this.userId,
+        anyOtherRemarks: {
 
-        // tslint:disable-next-line: triple-equals
-        if (res && res.ProcessVariables.error.code == "0") {
-          // tslint:disable-next-line: prefer-const
-          this.toasterService.showSuccess(
-            "Saved Successfully",
-            "Cam Remarks"
-          );
+          concernsAndRisks: this.camDetailsForm.controls.concernsAndRisks.value,
+          strengthAndMitigates: this.camDetailsForm.controls.strengthAndMitigates.value,
+
+        }
+      };
+    }
+    this.camService.saveCamRemarks(this.body).subscribe((res: any) => {
+      console.log("res", res);
+
+      // tslint:disable-next-line: triple-equals
+      if (res && res.ProcessVariables.error.code == "0") {
+        // tslint:disable-next-line: prefer-const
+        this.toasterService.showSuccess(
+          "Saved Successfully",
+          "Cam Remarks"
+        );
+
+        if (this.isChildLoan && this.productCategoryCode === "UCV" || this.productCategoryCode === "NCV") {
+          this.generateCam = true
+          this.getCamUsedCvDetails(this.generateCam);
+        } else {
           if (this.productCategoryCode == "UCV") {
             this.generateCam = true
             this.getCamUsedCvDetails(this.generateCam);
@@ -573,9 +899,14 @@ console.log(this.camDetailsForm);
             if (this.productCategoryCode == "NCV") {
               this.generateCam = true
               this.getCamNewCvDetails(this.generateCam);
-            }
+          } 
         }
-      });
+        if (this.productCategoryCode == "UC") {
+              this.generateCam = true
+              this.getCamUsedCarDetails(this.generateCam);
+          }
+      }
+    });
     // }
   }
   getLeadId() {
@@ -590,30 +921,55 @@ console.log(this.camDetailsForm);
     });
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigate([`pages/dde/${this.leadId}/score-card`]);;
+    }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
-      this.router.navigate([`pages/dde/${this.leadId}/score-card`]);
+      this.router.navigate([`pages/dde/${this.leadId}/insurance-details`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
       this.router.navigate([`pages/dashboard`]);
+    } else if (this.roleType == '1' && this.isDeclinedFlow == true) {
+      this.router.navigate([`pages/dashboard`]);
     }
   }
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
+    }
     if (this.roleType == '2' && this.currentUrl.includes('dde')) {
       this.router.navigate([`pages/dde/${this.leadId}/deviations`]);
     } else if (this.roleType == '2' && this.salesResponse == 'true') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     } else if (this.roleType == '2' && this.salesResponse == 'false') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
+    } else if (this.roleType == '1' && this.isDeclinedFlow == true) {
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/deviations`]);
     }
+  }
+  sendBackToSales() {
+    const data = {
+      leadId: this.leadId,
+      userId: this.userId,
+      taskId: this.taskId
+    };
+    this.camService.getBackToSales(data).subscribe((res: any) => {
+      if (res && res.ProcessVariables.error.code == "0") {
+        this.toasterService.showSuccess("CAM Lead Is Successfully Submitted Back To Sales", "CAM Details");
+        this.router.navigateByUrl('/pages/dashboard');
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'CAM Details');
+      }
+    })
   }
   downloadpdf() {
     var options = {
-      margin: [0.5,0.3,0.5,0.3],
+      margin: [0.5, 0.3, 0.5, 0.3],
       filename: `CamDetails_${this.leadId}.pdf`,
       image: { type: 'jpeg', quality: 0.99 },
-      html2canvas:{scale:3, logging: true},   
-      pagebreak: { before:"#page_break" },
+      html2canvas: { scale: 3, logging: true },
+      pagebreak: { before: "#page_break" },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById(this.pdfId)).set(options).save();

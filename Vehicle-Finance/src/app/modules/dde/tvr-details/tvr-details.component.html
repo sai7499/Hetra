@@ -1,5 +1,7 @@
+
 <form class="multisteps-form__form">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+        
         <div class="container">
             <div class="row">
                 <div class="table-responsive application" id="applicantTable">
@@ -32,10 +34,10 @@
     </div>
 </form>
 
-<div class="btn-sec clear-both">
+<div class="btn-sec clear-both mar-btm-15">
     <div class="col-sm-5"> </div>
-    <div class="col-sm-7 text-right cst_btm_btns"> <br> <br>
-        <button class="btn btn-primary" type="button" (click)=onBack()> {{labels.back}} </button> &nbsp;
-        <button class="btn btn-primary" type="button" (click)="onNext()"> {{labels.next}} </button>
+    <div class="col-sm-7 text-right cst_btm_btns nxt-mar-10"> 
+        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)=onBack()> {{labels.back}} </button>
+        <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()"> {{labels.next}} </button>
     </div>
 </div>

@@ -14,6 +14,8 @@ import html2pdf from 'html2pdf.js';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { UploadService } from '@services/upload.service';
 import { map } from 'rxjs/operators';
+import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 declare var $;
 
 @Component({
@@ -45,6 +47,8 @@ export class SanctionDetailsComponent implements OnInit {
   isApplicant: boolean = false;
   isCoApplicant: boolean = false;
   isDocumentId: boolean;
+  isLoan360: boolean;
+  taskId: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -54,10 +58,13 @@ export class SanctionDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private loanViewService: LoanViewService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.getLabels();
     this.getLeadId();
     // this.getSanctionDetails();
@@ -73,6 +80,7 @@ export class SanctionDetailsComponent implements OnInit {
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     if (this.roleType == 1) {
       this.getSanctionDetails();
     }
@@ -182,6 +190,7 @@ export class SanctionDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
       onSubmit: true,
+      taskId: this.taskId,
     };
     this.sanctionDetailsService.submitToSanctionLeads(data).subscribe((res: any) => {
       const response = res;
@@ -202,7 +211,8 @@ export class SanctionDetailsComponent implements OnInit {
       userId: localStorage.getItem('userId'),
       isCPCMaker: true,
       isCPCChecker: false,
-      sendBackToCredit: false
+      sendBackToCredit: false,
+      taskId: this.taskId
     };
     this.sanctionDetailsService.assignTaskToTSAndCPC(data).subscribe((res: any) => {
       const response = res;
@@ -220,7 +230,8 @@ export class SanctionDetailsComponent implements OnInit {
   submitToCD() {
     const data = {
       leadId: this.leadId,
-      userId: localStorage.getItem('userId')
+      userId: localStorage.getItem('userId'),
+      taskId: this.taskId
     };
     this.sanctionDetailsService.submitToCC(data).subscribe((res: any) => {
       const response = res;
@@ -235,6 +246,9 @@ export class SanctionDetailsComponent implements OnInit {
   }
 
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/term-sheet`);
+    }
     if (this.roleType == '1') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/customer-feedback`]);
     } else if (this.roleType == '2' && this.isPreDone == "true" && this.salesResponse == "true") {
@@ -248,9 +262,15 @@ export class SanctionDetailsComponent implements OnInit {
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/pdc-details`]);
     }
+    else if (this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/negotiation`]);
+    }
   }
 
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/credit-conditions`);
+    }
     if (this.roleType == '1' && this.isPreDisbursement == "true") {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/term-sheet`]);
     } else if (this.roleType == '1') {
@@ -263,13 +283,15 @@ export class SanctionDetailsComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/term-sheet`]);
+    }else if (this.roleType == '7') {
+      this.router.navigate([`/pages/cpc-maker/${this.leadId}/term-sheet`]);
     }
   }
   downloadpdf() {
     var options = {
       margin: .5,
       filename: `SanctionDetail${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 0.99 },
+      image: { type: 'jpeg', quality: 0.50 },
       html2canvas:{scale:3, logging: true},   
       pagebreak: { before:["#vf_sheet_text_tag","#page_break"] },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }

@@ -12,3 +12,10 @@
 .input_value {
   width: 90px;
 }
+
+.input-search{
+  height: 45px;
+  border-radius: 25px!important;
+  position: initial;
+  z-index: 1;
+}

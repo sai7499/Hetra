@@ -4,7 +4,7 @@
     method="POST">
     
     <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
-      <!-- <h4 class="title">Document upload</h4> -->
+      <!-- <h4 class="banner-con">Document upload</h4> -->
       <!-- <div class="panel-group" id="accordion"> -->
         <!---<div class="panel panel-default active">
                     <div class="panel-heading" id="headingOne">
@@ -826,11 +826,11 @@
     <!-- </div> -->
     
   </form>
-  <div class="btn-sec clear-both row">
+  <div class="btn-sec clear-both row mar-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button class="btn btn-primary dash_href" type="button">
-        <a [routerLink]="['../vehicle-list']">Back</a>
+      <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button">
+        <a [routerLink]="['../reference']">Back</a>
       </button>
       <!-- <button class="btn btn-primary" id="submit">Save</button> -->
       <button
@@ -839,6 +839,7 @@
         data-toggle="modal"
         data-target="#myModal"
         (click)="submitToCredit()"
+        *ngIf="!isLoan360"
       >
         Submit To Credit
       </button>

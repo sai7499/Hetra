@@ -1,8 +1,8 @@
 <main class="mar-top90">
   <div class="container overflow-hidden">
     <app-lead-section-header></app-lead-section-header>
-      <div class="multisteps-form">
-          <div class="multisteps-form__progress1">         
+      <div class="multisteps-form" >
+          <div class="multisteps-form__progress1" *ngIf="hideProgress">         
               <button class="multisteps-form__progress-btn "  (click)="onNavigate('loan-booking-status')"
                [ngClass]="{'js-active': locationIndex >= 0}"
                   type="button" id="applicant_bank_details">
@@ -13,11 +13,11 @@
               </button>
               <!-- {{productCatCode}}test -->
               <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 2}"
-                type="button" id="applicant_identity_details" (click)="onNavigate('delivery-order')" *ngIf="productCode!='UCV'">
+                type="button" id="applicant_identity_details" (click)="onNavigate('delivery-order')" *ngIf="productCode=='NCV'">
                 Delivery Order
             </button>
           </div>
-          <div class="content" >
+          <div class="content" [ngClass]="{'m-top-10': !hideProgress}">
               <router-outlet></router-outlet>
           </div>
 

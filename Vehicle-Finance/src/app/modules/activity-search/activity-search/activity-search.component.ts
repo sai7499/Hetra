@@ -13,6 +13,8 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { environment } from 'src/environments/environment';
 import { storage } from '../../../storage/localstorage';
 
+import { IdleTimerService } from '@services/idle-timer.service';
+
 
 
 
@@ -66,13 +68,19 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     private route: Router,
     private camera: Camera,
     private transfer: FileTransfer,
-    private biometricService: BiometricService
-    ) {
-      this.isMobile = environment.isMobile;
+    private biometricService: BiometricService,
+    private commomLovService: CommomLovService,
+    private idleTimerService: IdleTimerService
+  ) {
+    this.isMobile = environment.isMobile;
 
   }
 
   ngOnInit() {
+    this.idleTimerService.startTimer(this.idleTimerService.getSessionTimer(), () => { 
+
+      console.log('completed', this.isMobile);
+    });
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userName = roleAndUserDetails.userDetails.firstName;
     this.firstLetter = this.userName.slice(0, 1);
@@ -120,36 +128,36 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
   }
 
 
-  initIdenti5(){
+  initIdenti5() {
     let applicantId = 1005;
     let aadhar = "802172334890";
-    this.biometricService.initIdenti5(aadhar, applicantId, function(result) {
-      console.log("KYC result&&&&@@@"+result);
+    this.biometricService.initIdenti5(aadhar, applicantId, function (result) {
+      console.log("KYC result&&&&@@@" + result);
     });
   }
 
-//   <KycRequest>
-//     <TransactionInfo>
-//         <UID type="U">974280197025</UID>
-//         <Transm_Date_time>0306070758</Transm_Date_time>
-//         <Local_Trans_Time>070758</Local_Trans_Time>
-//         <Local_date>null</Local_date>
-//         <Mcc>6012</Mcc>
-//         <CA_TID>11205764</CA_TID>
-//         <CA_ID>EQT000000000001</CA_ID>
-//         <CA_TA>CSB NERUL MUMBAI MHIN</CA_TA>
-//         <Stan>168205</Stan>
-//     </TransactionInfo>
-//     <KycReqInfo ver="2.5" ra="O" rc="Y" pfr="Y" lr="Y"  de="N" >
-//         <Auth  txn="UKC:795251"  ver="2.5">
-//             <Uses pi="n" pa="n" pfa="n"  bio="n" otp="y"/>
-//             <Meta/>
-//             <Skey ci="20201030">Zf3X+c3ff6Zxto8wGJcfbgZuRQAhkgqgoOO0ekQZjJ1/q3Fli9iAClD/1vwoUTLx7eoEnc6xMwvFdYGmX7tI9luDpiI5HLXbS1nbXxwtWiRYjD7f5gjPFkdnm6A0DUfvGCtblSN/eVxAhvAKX15D0VyIblO//mI6hwN9LgSZPBmR04DdR5aDfkhQNccJkIwXRbARp7dVX83gCoIdqYa3q822Qp0o6F37Z24vrZkRVlI1FmeeZcrS4ck9xpuSiOGDCLEvv6rGJRFu682rYAPE26bAl8/L/nnJmV03vz75s/Fu2Idm4+M+BrlkMY8Fv1izSno445bWH6+cILtGW835DA==</Skey>
-//             <Data type="P">MjAyMC0wMy0wNlQyMDozNzo1OEwc9fx9kiQ2lksxYBftRk6tJVxfRdM+4DaO9Lpc+DPU1ouk/Yp8z43MffJqmRgZVrmEarAkQw==</Data>
-//             <Hmac>tfQEIbXddB6HC9YrtBoMBLqpL2oYiDcIwemxtXH5SmMSJfgrlqyLJxAkA9P3Gcy1</Hmac>
-//         </Auth>
-//     </KycReqInfo>
-// </KycRequest>
+  //   <KycRequest>
+  //     <TransactionInfo>
+  //         <UID type="U">974280197025</UID>
+  //         <Transm_Date_time>0306070758</Transm_Date_time>
+  //         <Local_Trans_Time>070758</Local_Trans_Time>
+  //         <Local_date>null</Local_date>
+  //         <Mcc>6012</Mcc>
+  //         <CA_TID>11205764</CA_TID>
+  //         <CA_ID>EQT000000000001</CA_ID>
+  //         <CA_TA>CSB NERUL MUMBAI MHIN</CA_TA>
+  //         <Stan>168205</Stan>
+  //     </TransactionInfo>
+  //     <KycReqInfo ver="2.5" ra="O" rc="Y" pfr="Y" lr="Y"  de="N" >
+  //         <Auth  txn="UKC:795251"  ver="2.5">
+  //             <Uses pi="n" pa="n" pfa="n"  bio="n" otp="y"/>
+  //             <Meta/>
+  //             <Skey ci="20201030">Zf3X+c3ff6Zxto8wGJcfbgZuRQAhkgqgoOO0ekQZjJ1/q3Fli9iAClD/1vwoUTLx7eoEnc6xMwvFdYGmX7tI9luDpiI5HLXbS1nbXxwtWiRYjD7f5gjPFkdnm6A0DUfvGCtblSN/eVxAhvAKX15D0VyIblO//mI6hwN9LgSZPBmR04DdR5aDfkhQNccJkIwXRbARp7dVX83gCoIdqYa3q822Qp0o6F37Z24vrZkRVlI1FmeeZcrS4ck9xpuSiOGDCLEvv6rGJRFu682rYAPE26bAl8/L/nnJmV03vz75s/Fu2Idm4+M+BrlkMY8Fv1izSno445bWH6+cILtGW835DA==</Skey>
+  //             <Data type="P">MjAyMC0wMy0wNlQyMDozNzo1OEwc9fx9kiQ2lksxYBftRk6tJVxfRdM+4DaO9Lpc+DPU1ouk/Yp8z43MffJqmRgZVrmEarAkQw==</Data>
+  //             <Hmac>tfQEIbXddB6HC9YrtBoMBLqpL2oYiDcIwemxtXH5SmMSJfgrlqyLJxAkA9P3Gcy1</Hmac>
+  //         </Auth>
+  //     </KycReqInfo>
+  // </KycRequest>
 
 
   async takePicture() {
@@ -167,7 +175,7 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     return this.camera.getPicture(options);
   }
 
-   openCamera() {
+  openCamera() {
     this.takePicture().then((uri) => {
       console.log('imageData', uri);
       this.imageURI = uri;
@@ -188,14 +196,14 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
       let applicantId = "56";
 
       this.fileName =
-      applicationId +
-      '-' +
-      applicantId +
-      '-' +
-      new Date().getTime();
+        applicationId +
+        '-' +
+        applicantId +
+        '-' +
+        new Date().getTime();
 
       console.log('fileName', this.fileName);
-      
+
       let response: any;
 
 
@@ -231,20 +239,20 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     console.log("fileTransfer", fileTransfer);
 
     let options: FileUploadOptions = {
-        fileKey: 'file',
-        fileName: fileName,
-        chunkedMode: false,
-        headers: {
-        "X-Requested-With":"XMLHttpRequest",
+      fileKey: 'file',
+      fileName: fileName,
+      chunkedMode: false,
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
         'authentication-token':
-        storage.getToken() ? storage.getToken() : ''
-        }
+          storage.getToken() ? storage.getToken() : ''
+      }
     }
 
 
     console.log("FileUploadOptions", fileTransfer);
 
-    return fileTransfer.upload(imageURI, encodeURI(environment.host + environment.appiyoDrive) , options, true)
+    return fileTransfer.upload(imageURI, encodeURI(environment.host + environment.appiyoDrive), options, true)
 
   }
 }

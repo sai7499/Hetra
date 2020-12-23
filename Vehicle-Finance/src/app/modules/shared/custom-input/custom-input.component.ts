@@ -53,7 +53,7 @@ export class CustomInputComponent
       msg: value.msg
     };
   };
-  @Input() className = 'form-control';
+   @Input() className = 'form-control  form-control-cus';
   @Input() minLength: {
     rule?: number;
     msg?: string;
@@ -225,7 +225,10 @@ export class CustomInputComponent
       return;
     }
     if ((newValue === null || newValue == undefined || newValue === "") && this.isRequired) {
-      this.displayError(this.checkIsFirst ? '' : this.isRequired);
+      // this.displayError(this.checkIsFirst ? '' : this.isRequired);
+      if (!this.checkIsFirst) {
+        this.displayError(this.isRequired)
+      }
       this.checkIsFirst = false;
       return;
     }

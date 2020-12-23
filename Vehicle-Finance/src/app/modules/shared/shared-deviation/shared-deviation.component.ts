@@ -11,6 +11,8 @@ import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-shared-deviation',
   templateUrl: './shared-deviation.component.html',
@@ -52,12 +54,17 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   public isSendBacktoCredit = false;
   locationIndex: string = '';
 
+  isLoan360: boolean;
+
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
     private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location,
-    private toggleDdeService: ToggleDdeService) { }
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -96,6 +103,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.taskId = id ? id : '';
     })
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
+    this.sharedService.getFormValidation(this.deviationsForm)
   }
 
   disableInputs() {
@@ -121,6 +129,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       isSaveEdit: false,
       enableApprove: false,
       enableSendBack: false,
+      isDuplicateDeviation: true,
       autoDeviationFormArray: this._fb.array([]),
       waiverNormsFormArray: this._fb.array([]),
       manualDeviationFormArray: this._fb.array([])
@@ -130,14 +139,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       typeOfModal: [''],
       recommendation: ['', Validators.required]
     })
-    this.sharedService.getFormValidation(this.deviationsForm)
-
   }
 
   ngOnChanges() {
     this.sharedService.updateDev$.subscribe((value: any) => {
       if (value && value.length > 0) {
-        this.getDeviationDetails()
+        this.getDeviationMaster()
       }
     })
   }
@@ -149,7 +156,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       "userId": this.userId,
       "devRuleId": obj.value.devRuleId,
       "statusCode": value + '',
-      "isRevert": false
+      "isRevert": obj.value.statusCode === value ? true : false
     }
 
     this.deviationService.approveDeclineDeviation(data).subscribe((res: any) => {
@@ -158,7 +165,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.toasterService.showSuccess('Deviation status updated successfully', 'Deviation approval')
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Deviation approval')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Deviation approval')
       }
     })
 
@@ -232,7 +239,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
         this.getDeviationDetails()
       } else {
-        this.toasterService.showError(res.ErrorMessage, 'Get Deviation Master')
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Deviation Master')
       }
     }, err => {
       console.log('err', err)
@@ -251,7 +258,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     })
 
     formArray.controls[i].patchValue({
-      shortDeDesc: item.value,
       devDesc: obj.dev_desc
     })
   }
@@ -268,12 +274,22 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   }
 
   findDuplicate(name, p): boolean {
+    this.deviationsForm.patchValue({
+      isDuplicateDeviation: true
+    })
     let myArray = this.deviationsForm.controls.manualDeviationFormArray['controls'];
-    let test = myArray.filter(data => data.controls.devCode.value == name && name != null)
+    let test = myArray.filter(data => data.controls.devCode.value == name.controls.devCode.value && name.controls.devCode.value != null)
+    let role = myArray.filter(data => data.controls.approverRole.value == name.controls.approverRole.value && name.controls.approverRole.value != null)
 
-    if (test.length > 1) {
+    if (test.length > 1 && role.length > 1) {
+      this.deviationsForm.patchValue({
+        isDuplicateDeviation: false
+      })
       return true;
     } else {
+      this.deviationsForm.patchValue({
+        isDuplicateDeviation: true
+      })
       return false
     }
   }
@@ -283,7 +299,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       approverRole: ['', Validators.required],
       approverRoleName: [''],
       approverRoles: [''],
-      shortDeDesc: [''],
       devCode: ['', Validators.required],
       devDesc: [""],
       otherMitigant: [''],
@@ -324,7 +339,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.toasterService.showSuccess('Delete Devision Successfully', 'Delete Deviation');
           this.getDeviationDetails();
         } else {
-          this.toasterService.showError(res.ErrorMessage, 'Delete Deviation')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Delete Deviation')
         }
       })
     } else {
@@ -408,10 +423,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
     let typeofRole;
     let splitData = [];
-    let description;
 
     array.map((data: any) => {
-
       let approverRole = data.approverRoles && data.approverRoles !== "undefined" ? data.approverRoles : data.approverRole ? data.approverRole : '';
 
       splitData = approverRole.split('|');
@@ -425,12 +438,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         return typeofRole;
       })
 
-      description = this.manualDeviationMaster.find((dev: any) => {
-        if (Number(data.devCode) === dev.dev_code) {
-          return dev
-        }
-      })
-
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
 
@@ -439,7 +446,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         waiverNormsFormArray.push(
           this._fb.group({
             approverRole: data.approverRole,
-            approverRoleName: typeofRole.name,
+            approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
             devCode: data.devCode,
             devDesc: data.devDesc,
             type: type,
@@ -448,8 +455,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             hierarchy: hierarchy,
             isWaiverNormsDev: data.isWaiverNormsDev,
             justification: data.justification,
-            shortDeDesc: data.short_dev_desc,
-            otherMitigant: description.other_mitigant,
+            otherMitigant: data.other_mitigant,
             rulesRemarks: data.rulesRemarks,
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
@@ -459,33 +465,31 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           manualDiviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: typeofRole.name,
+              approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
               devCode: data.devCode,
               devDesc: data.devDesc,
               type: type,
               devRuleId: data.devRuleId,
               isManualDev: data.isManualDev,
               hierarchy: hierarchy,
-              otherMitigant: description.other_mitigant,
+              otherMitigant: data.other_mitigant,
               rulesRemarks: data.rulesRemarks,
               justification: data.justification,
               isWaiverNormsDev: data.isWaiverNormsDev,
-              shortDeDesc: description.short_dev_desc,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
         } else if (data.isManualDev === '0') {
           autoDeviationFormArray.push(
             this._fb.group({
               approverRole: data.approverRole,
-              approverRoleName: typeofRole.name,
+              approverRoleName: typeofRole ? typeofRole.name ? typeofRole.name : '' : '',
               devCode: data.devCode,
               devDesc: data.devDesc,
               devRuleId: data.devRuleId,
               isManualDev: data.isManualDev,
-              shortDeDesc: description.short_dev_desc,
               type: type,
               isWaiverNormsDev: data.isWaiverNormsDev,
-              otherMitigant: description.other_mitigant,
+              otherMitigant: data.other_mitigant,
               rulesRemarks: data.rulesRemarks,
               hierarchy: hierarchy,
               justification: data.justification,
@@ -505,12 +509,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           localStorage.getItem('isPreDisbursement') === 'false') {
           this.isSendBacktoCredit = true;
           this.isWaiverTrigger = true;
-
-          let autoDeviationFormArray = (this.deviationsForm.get('autoDeviationFormArray') as FormArray);
-
-          let manualDiviationFormArray = (this.deviationsForm.get('manualDeviationFormArray') as FormArray);
-
-          let waiverNormsFormArray = (this.deviationsForm.get('waiverNormsFormArray') as FormArray);
 
           setTimeout(() => {
             this.disableInputs();
@@ -590,7 +588,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         data = {
           "leadId": this.leadId,
           "userId": this.userId,
-          "recommendation": this.modalForm.controls['recommendation'].value
+          "recommendation": this.modalForm.controls['recommendation'].value,
+          "taskId": this.taskId,
         }
 
         this.deviationService.approveDeviation(data).subscribe((res: any) => {
@@ -609,7 +608,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         data = {
           "leadId": this.leadId,
           "userId": this.userId,
-          "recommendation": this.modalForm.controls['recommendation'].value
+          "recommendation": this.modalForm.controls['recommendation'].value,
+          "taskId": this.taskId
         }
 
         this.deviationService.sendBackToCredit(data).subscribe((res: any) => {

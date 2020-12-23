@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 // import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { DdeStoreService } from '@services/dde-store.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
     templateUrl: './credit-decision.component.html',
@@ -23,12 +24,21 @@ export class CreditDecisionComponent implements OnInit {
     salesResponse = 'false';
     istermSheet = 'false';
     isPreDone: string;
+    isDeclinedFlow = false;
     constructor(
         private router: Router,
         private location: Location,
         private loginStoreService: LoginStoreService,
         private ddeStoreService: DdeStoreService,
-        private activatedRoute: ActivatedRoute) { }
+        private activatedRoute: ActivatedRoute,
+        private sharedService: SharedService) {
+            this.sharedService.isDeclinedFlow.subscribe((res: any) => {
+                console.log(res, ' declined flow');
+                if (res) {
+                    this.isDeclinedFlow = res;
+                }
+            });
+        }
 
     ngOnInit() {
         this.salesResponse = localStorage.getItem('salesResponse');
@@ -84,7 +94,7 @@ export class CreditDecisionComponent implements OnInit {
     }
     getLocationIndex(url: string) {
         // tslint:disable-next-line: triple-equals
-        if (this.roleType == '1') {
+        if (this.roleType == '1' && this.isDeclinedFlow == false) {
             if (url.includes('credit-condition')) {
                 return 0;
                 // tslint:disable-next-line: triple-equals
@@ -109,7 +119,18 @@ export class CreditDecisionComponent implements OnInit {
             //         return 1;
             //     }
 
-        } else if (this.roleType == '2' && this.salesResponse == 'false') {
+        } else if (this.roleType == '1' && this.isDeclinedFlow == true) {
+            if (url.includes('cam')) {
+                return 0;
+            } else if (url.includes('deviations')) {
+                return 1;
+            } else if (url.includes('credit-condition')) {
+                return 2;
+            } else if (url.includes('remarks')) {
+                return 3;
+            }
+
+        } else if (this.roleType == '2' && this.salesResponse == 'false' && this.isDeclinedFlow == false) {
             if (url.includes('cam')) {
                 return 0;
             } else if (url.includes('deviations')) {
@@ -122,7 +143,7 @@ export class CreditDecisionComponent implements OnInit {
                 return 4;
             }
             // tslint:disable-next-line: triple-equals
-        } else if (this.roleType == '2' && this.salesResponse == 'true') {
+        } else if (this.roleType == '2' && this.salesResponse == 'true' && this.isDeclinedFlow == false) {
             if (url.includes('negotiation')) {
                 return 0;
             } else if (url.includes('disbursement')) {

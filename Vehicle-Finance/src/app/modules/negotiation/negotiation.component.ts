@@ -10,6 +10,9 @@ import { IfStmt } from '@angular/compiler';
 import { LoginStoreService } from '@services/login-store.service';
 import { element } from 'protractor';
 import { variable } from '@angular/compiler/src/output/output_ast';
+import { environment } from 'src/environments/environment';
+import { LoanViewService } from '@services/loan-view.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-negotiation',
   templateUrl: './negotiation.component.html',
@@ -138,6 +141,8 @@ export class NegotiationComponent implements OnInit {
   minLoanTenor: number;
   minEMIAmount: number;
   maxEMIAmount: number;
+  isLoan360: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,
@@ -147,7 +152,9 @@ export class NegotiationComponent implements OnInit {
     private toasterService: ToasterService,
     private sharedData: SharedService,
     private router: Router,
-    private loginStoreService: LoginStoreService
+    private loginStoreService: LoginStoreService,
+    private loanViewService: LoanViewService,
+    private location: Location,
   ) {
     this.sharedData.leadData$.subscribe((value) => {
       this.leadData = value;
@@ -161,12 +168,25 @@ export class NegotiationComponent implements OnInit {
     // this.leadId = leadData['leadId']
     this.userId = localStorage.getItem('userId');
     this.onChangeLanguage('English');
-    this.getLeadId();
+    this.isLoan360 = this.loanViewService.checkIsLoan360()
+    if (this.isLoan360) {
+        const path = this.location.path().split('/').filter((val) => val !== ' ');
+        const leadId = path.find((value: any) => {
+          value = Number(value);
+          return !isNaN(Number(value)) && value !== 0;
+        })
+        this.leadId = Number(leadId)
+    } else {
+      this.getLeadId();
+    }
     // this.initForm();
     this.getLabels();
     this.getLOV();
     this.getInsuranceLOV();
     this.loadForm();
+
+    
+
     // setTimeout(() => {
     // }, 1500);
     // else if (!this.view)
@@ -326,25 +346,25 @@ export class NegotiationComponent implements OnInit {
     const fastTag = Object.keys(formData.tickets).forEach(key => {
       this.totalCrossSellAmt += Number(formData.tickets[key].fastTag.LoanAmountincludingCrossSell);
     });
-    let percentDeductionValue: Number;
+    let percentDeductionValue: number;
     let selectedIndex;
     this.createNegotiationForm.patchValue(
       {
-        "LoanAmountincludingCrossSellofalltheassets": this.totalCrossSellAmt,
-        "NegotiatedLoanAmount": this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell)
+        "LoanAmountincludingCrossSellofalltheassets": Math.round(this.totalCrossSellAmt),
+        "NegotiatedLoanAmount": this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(Math.round(formData.tickets.fastTag[0].LoanAmountincludingCrossSell))
       }
     )
     for (let i = 0; i < this.DeductionDetails.length; i++) {
       if (!this.view && this.DeductionDetails[i].DeductionChargeType == "P") {
-        percentDeductionValue = (Number(this.DeductionDetails[i].DeductionChargePercentage) / 100) * (this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell));
+        percentDeductionValue = (Number(this.DeductionDetails[i].DeductionChargePercentage) / 100) * (this.totalCrossSellAmt ? Math.round(this.totalCrossSellAmt) : Math.round(Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell)));
         selectedIndex = i;
       }
       else if (this.view && this.DeductionDetails[i].charge_type == "P") {
-        percentDeductionValue = (Number(this.DeductionDetails[i].charge_ratio) / 100) * (this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell));
+        percentDeductionValue = (Number(this.DeductionDetails[i].charge_ratio) / 100) * (this.totalCrossSellAmt ? Math.round(this.totalCrossSellAmt) : Math.round(Number(formData.tickets.fastTag[0].LoanAmountincludingCrossSell)));
         selectedIndex = i;
       }
     }
-    this.createNegotiationForm.get('tickets1')['controls'][selectedIndex]['controls']['DeductionChargefixedRate'].setValue(percentDeductionValue.toFixed(2));
+    this.createNegotiationForm.get('tickets1')['controls'][selectedIndex]['controls']['DeductionChargefixedRate'].setValue(Math.round(percentDeductionValue));
     this.getNetDisbursementAmount();
     this.calculateEMI();
   }
@@ -380,7 +400,8 @@ export class NegotiationComponent implements OnInit {
       this.fastTagAmtSum += Number(ticket['controls'].fastTag['controls'].FASTagAmount.value)
     })
     this.createNegotiationForm.patchValue({
-      NetDisbursementAmount: (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) - (sumValue + this.fastTagAmtSum + this.PremiumAmntSum)).toFixed(2)
+      NetDisbursementAmount: (Math.round(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) - 
+      Math.round(sumValue + this.fastTagAmtSum + this.PremiumAmntSum)).toFixed(2)
     });
   }
   isDecimal = (event) => {
@@ -402,23 +423,32 @@ export class NegotiationComponent implements OnInit {
         if (isBool === true && productCategorySelected == 4) {
           this.showapplicable = true;
           x.fundingRequiredforMI.setValue(this.FundingRequiredLOV[2].key),
-            x.MIPremiumAmount.setValue('0')
+            x.MIPremiumAmount.setValue(null)
           x.fundingRequiredforMI.disable();
           x.MIPremiumAmount.disable();
-          x.MITenure.setValue('0'),
+          x.fundingRequiredforMI.setErrors(null);
+          x.MIPremiumAmount.setErrors(null);
+          x.MITenure.setValue(null),
             x.MITenure.disable(),
+            x.MITenure.setErrors(null),
             y.creditShieldPAC.setValue(productCategorySelected)
           y.fundingRequiredforPAC.setValue(this.FundingRequiredLOV[2].key),
-            y.PACPremiumAmount.setValue('0');
+            y.PACPremiumAmount.setValue(null);
           y.creditShieldPAC.disable();
           y.fundingRequiredforPAC.disable();
           y.PACPremiumAmount.disable();
+          y.creditShieldPAC.setErrors(null)
+          y.fundingRequiredforPAC.setErrors(null),
+            y.PACPremiumAmount.setErrors(null);
           z.VAS.setValue(productCategorySelected)
           z.fundingRequiredforVAS.setValue(this.FundingRequiredLOV[2].key),
-            z.VASPremiumAmount.setValue('0')
+            z.VASPremiumAmount.setValue(null)
           z.VAS.disable();
           z.fundingRequiredforVAS.disable();
           z.VASPremiumAmount.disable();
+          z.VAS.setErrors(null)
+          z.fundingRequiredforVAS.setErrors(null),
+            z.VASPremiumAmount.setErrors(null)
         }
         else if (isBool === true && productCategorySelected != 4) {
           this.showapplicable = false;
@@ -462,9 +492,11 @@ export class NegotiationComponent implements OnInit {
         if (isBool === true && productCategorySelected == 4) {
           this.showapplicable = true;
           y.fundingRequiredforPAC.setValue(this.FundingRequiredLOV[2].key),
-            y.PACPremiumAmount.setValue('0')
+            y.PACPremiumAmount.setValue(null)
           y.fundingRequiredforPAC.disable();
           y.PACPremiumAmount.disable();
+          y.fundingRequiredforPAC.setErrors(null);
+          y.PACPremiumAmount.setErrors(null);
         }
         else if (isBool === true && productCategorySelected != 4) {
           this.showapplicable = false;
@@ -480,9 +512,11 @@ export class NegotiationComponent implements OnInit {
         if (isBool === true && productCategorySelected == 4) {
           this.showapplicable = true;
           z.fundingRequiredforVAS.setValue(this.FundingRequiredLOV[2].key),
-            z.VASPremiumAmount.setValue('0')
+            z.VASPremiumAmount.setValue(null)
           z.fundingRequiredforVAS.disable();
           z.VASPremiumAmount.disable();
+          z.fundingRequiredforVAS.setErrors(null)
+          z.VASPremiumAmount.setErrors(null)
         }
         else if (isBool === true && productCategorySelected != 4) {
           this.showapplicable = false;
@@ -494,12 +528,15 @@ export class NegotiationComponent implements OnInit {
         this.vASInsuranceProvidersName = event.target.value
       }
       else if (value == 'creditShield') {
-        a.lifeCoverPremiumAmount.setValue('0')
+        a.lifeCoverPremiumAmount.setValue(null)
         if (isBool === true && productCategorySelected == 4) {
           this.showapplicable = true;
+          a.fundingRequiredforlifeCover.setErrors(null);
+          a.lifeCoverPremiumAmount.setErrors(null);
+          a.fundingforLifeCover.setErrors(null);
           a.fundingforLifeCover.setValue(this.InsuranceSlabLOV[6].key)
           a.fundingRequiredforlifeCover.setValue(this.FundingRequiredLOV[2].key),
-            a.lifeCoverPremiumAmount.setValue('0')
+            a.lifeCoverPremiumAmount.setValue(null)
           a.fundingRequiredforlifeCover.disable();
           a.lifeCoverPremiumAmount.disable();
           a.fundingforLifeCover.disable();
@@ -526,7 +563,7 @@ export class NegotiationComponent implements OnInit {
         if (isBool === true && productCategorySelected == 2) {
           this.showapplicable = true;
           b.fundingRequiredforFASTag.setValue(this.FundingRequiredLOV[2].key),
-            b.FASTagAmount.setValue('0')
+            b.FASTagAmount.setValue(null)
           b.fundingRequiredforFASTag.disable();
           b.FASTagAmount.disable();
           b.FASTagAmount.setErrors(null);
@@ -896,9 +933,13 @@ export class NegotiationComponent implements OnInit {
                 }));
             }
           }
+          
         }
         else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
+        }
+        if (this.isLoan360) {
+          this.createNegotiationForm.disable();
         }
       });
     //  this.getNetDisbursementAmount();
@@ -911,6 +952,9 @@ export class NegotiationComponent implements OnInit {
   get a1() { return this.f.CrossSellInsurance as FormArray; }
   getLeadId() {
     return new Promise((resolve, reject) => {
+      this.activatedRoute.params.subscribe((value) => {
+        console.log('params', value)
+      })
       this.activatedRoute.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
@@ -931,7 +975,7 @@ export class NegotiationComponent implements OnInit {
       );
     }
     else
-      this.createNegotiationForm.controls.NegotiatedIRR.setValue(negoIRRValue);
+      this.createNegotiationForm.controls.NegotiatedIRR.setValue(Math.round(negoIRRValue));
     this.calculateEMI();
   }
   allowvaluesforNegoAmount(event) {
@@ -943,20 +987,20 @@ export class NegotiationComponent implements OnInit {
     let negoLoanValue = event.target.value;
     let totalvalue = this.totalCrossSellAmt ? this.totalCrossSellAmt : Number(formData.tickets[0].fastTag.LoanAmountincludingCrossSell)
     if (this.isSecured && Number(negoLoanValue) > Number(totalvalue)) {
-      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(totalvalue)
+      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(Math.round(totalvalue))
       this.toasterService.showError(
         'Negotiated Loan Amount should be less than Cross Sell Amount.',
         'Create Negotiation'
       );
     }
     else if (!this.isSecured && Number(negoLoanValue) > Number(totalvalue) * 2) {
-      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(totalvalue)
+      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(Math.round(totalvalue))
       this.toasterService.showError(
         'Negotiated Loan Amount should be less than twice of Cross Sell Amount.',
         'Create Negotiation'
       );
     } else {
-      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(negoLoanValue)
+      this.createNegotiationForm.controls.NegotiatedLoanAmount.setValue(Math.round(negoLoanValue))
     }
   }
   getEMIDate() {
@@ -964,10 +1008,23 @@ export class NegotiationComponent implements OnInit {
     this.EMICycleDaysLOV = [];
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     var moratoriumDays = parseInt(this.createNegotiationForm.controls.MoratoriumPeriod.value);
+    if (moratoriumDays == 1) {
+      moratoriumDays = 0;
+    } else if (moratoriumDays == 2) {
+      moratoriumDays = 30;
+    } else if (moratoriumDays == 3) {
+      moratoriumDays = 60;
+    } else if (moratoriumDays == 4) {
+      moratoriumDays = 90;
+    }
+
     var disbursementDay = new Date();
+    if (environment.hostingEnvironment == 'DEV' || environment.hostingEnvironment == 'UAT' || environment.hostingEnvironment == 'SIT') {
+      disbursementDay = new Date(environment.lmsSITDate);
+    }
     // Considering today as Negotiation day, 2 days added as buffer for disbursement
-    disbursementDay.setDate(new Date().getDate() + 2);
-    var d = new Date();
+    disbursementDay.setDate(disbursementDay.getDate() + 2);
+    var d = disbursementDay;
     d.setDate(disbursementDay.getDate() + moratoriumDays);
     for (let i = 15; i < 60; i++) {
       if (i == 15)
@@ -996,23 +1053,27 @@ export class NegotiationComponent implements OnInit {
         this.onformsubmit = false;
     }
     else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) < Number(this.minLoanAmount)) ||
-      (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) >  Number(this.maxLoanAmount))) {
-      this.toasterService.showError("Negotiated Loan Amount should be within the specified Limit", ''),
+      (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) > Number(this.maxLoanAmount))) {
+      this.toasterService.showError("Negotiated Loan Amount should be within" + ' ' + this.minLoanAmount + ' ' + 
+       'and' + ' '+ this.maxLoanAmount, ''),
         this.onformsubmit = false;
     }
-    else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) <  Number(this.minLoanTenor)) ||
+    else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) < Number(this.minLoanTenor)) ||
       (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) > Number(this.maxLoanTenor))) {
-      this.toasterService.showError(" Negotiated Loan Tenor should be within the specified Limit", ''),
+        this.toasterService.showError("Negotiated Loan Tenor should be within" + ' ' + this.minLoanTenor + ' ' + 
+        'and' + ' '+ this.maxLoanTenor, ''),
         this.onformsubmit = false;
     }
     else if ((Number(this.createNegotiationForm.controls.NegotiatedEMI.value) < Number(this.minEMIAmount)) ||
-      (Number(this.createNegotiationForm.controls.NegotiatedEMI.value) >  Number(this.maxEMIAmount))) {
-      this.toasterService.showError(" Negotiated EMI Amount should be within the specified Limit", ''),
+      (Number(this.createNegotiationForm.controls.NegotiatedEMI.value) > Number(this.maxEMIAmount))) {
+        this.toasterService.showError("Negotiated EMI should be within" + ' ' + this.minEMIAmount + ' ' + 
+        'and' + ' ' + this.maxEMIAmount, ''),
         this.onformsubmit = false;
     }
     else if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {
       this.getLeadId();
       const formData = this.createNegotiationForm.getRawValue();
+      this.Applicants=[];
       this.LeadReferenceDetails.forEach((element) => {
         var obj = {
           ucic: element.UCIC,
@@ -1097,6 +1158,7 @@ export class NegotiationComponent implements OnInit {
       var array1 = [];
       var data = {};
       var data1 = {};
+      this.finalAsset=[];
       const crossSellIns = formData.tickets.forEach((ticket, index) => {
         var obj = {
           collateral_id: this.AssetDetailsList[index].CollateralId ? this.AssetDetailsList[index].CollateralId : "",
@@ -1150,7 +1212,7 @@ export class NegotiationComponent implements OnInit {
         "ApplicantJson": JSON.stringify(this.Applicants),
         "CombinedLoanJson": JSON.stringify(this.CombinedLoan),
         "AssetsJson": JSON.stringify(this.finalAsset),
-        "IsCombinedLoan": "N"
+        "IsCombinedLoan": "Y"
       }
       console.log("negotiationformvalues", this.createNegotiationForm)
       this.NegotiationService
@@ -1185,6 +1247,7 @@ export class NegotiationComponent implements OnInit {
     this.createNegotiationForm.controls.SelectAppropriateLMSScheduleCode.setValue(null);
   }
   fetchValue() {
+    this.isDirty = false;
     this.NegotiationService
       .viewNegotiationData(this.leadId).subscribe((res: any) => {
         if (res.Error == 0 && (!res.ProcessVariables.error || res.ProcessVariables.error.code == 0)) {
@@ -1244,6 +1307,43 @@ export class NegotiationComponent implements OnInit {
             this.fastTagvalueSelected['controls'].fundingRequiredforFASTag.setValue(this.CrossSellIns[index].cross_sell_others.fndreq);
             this.fastTagvalueSelected['controls'].FASTagAmount.setValue(this.CrossSellIns[index].cross_sell_others.amount);
             this.fastTagvalueSelected['controls'].LoanAmountincludingCrossSell.setValue(this.CrossSellIns[index].cross_sell_others.loan_amnt_incl_cross_sel);
+            if (this.valueSelected['controls'].motorInsurance.value == "4") {
+              this.showapplicable = true;
+              this.valueSelected['controls'].MITenure.disable();
+              this.valueSelected['controls'].MIPremiumAmount.disable();
+              this.valueSelected['controls'].fundingRequiredforMI.disable();
+              this.PACvalueSelected['controls'].creditShieldPAC.disable();
+              this.PACvalueSelected['controls'].PACPremiumAmount.disable();
+              this.PACvalueSelected['controls'].fundingRequiredforPAC.disable();
+              this.VASvalueSelected['controls'].VAS.disable();
+              this.VASvalueSelected['controls'].VASPremiumAmount.disable();
+              this.VASvalueSelected['controls'].fundingRequiredforVAS.disable();
+            }
+            if (this.PACvalueSelected['controls'].creditShieldPAC.value == "4") {
+              this.showapplicable = true;
+              this.PACvalueSelected['controls'].creditShieldPAC.disable();
+              this.PACvalueSelected['controls'].PACPremiumAmount.disable();
+              this.PACvalueSelected['controls'].fundingRequiredforPAC.disable();
+            }
+            if (this.VASvalueSelected['controls'].VAS.value == "4") {
+              this.showapplicable = true;
+              this.VASvalueSelected['controls'].VAS.disable();
+              this.VASvalueSelected['controls'].VASPremiumAmount.disable();
+              this.VASvalueSelected['controls'].fundingRequiredforVAS.disable();
+            }
+            if (this.lifecovervalueSelected['controls'].creditShieldLifeCover.value == "4") {
+              this.showapplicable = true;
+              this.lifecovervalueSelected['controls'].creditShieldLifeCover.disable();
+              this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.disable();
+              this.lifecovervalueSelected['controls'].fundingRequiredforlifeCover.disable();
+              this.lifecovervalueSelected['controls'].fundingforLifeCover.disable();
+            }
+            if (this.fastTagvalueSelected['controls'].EquitasFASTagRequired.value == "2") {
+              this.showapplicable = true;
+              this.fastTagvalueSelected['controls'].EquitasFASTagRequired.disable();
+              this.fastTagvalueSelected['controls'].fundingRequiredforFASTag.disable();
+              this.fastTagvalueSelected['controls'].FASTagAmount.disable()
+            }
           })
         }
       });
@@ -1406,17 +1506,17 @@ export class NegotiationComponent implements OnInit {
         .subscribe((res: any) => {
           if (res.Error == 0 && (!res.ProcessVariables.error || res.ProcessVariables.error.code == 0)) {
             if (event == 'motor') {
-              this.valueSelected['controls'].MIPremiumAmount.setValue(res.ProcessVariables.miPremiumAmount);
+              this.valueSelected['controls'].MIPremiumAmount.setValue(Math.round(res.ProcessVariables.miPremiumAmount));
               x.motor['controls'].MIPremiumAmount.disable();
               this.PACvalueSelected['controls'].PACPremiumAmount.setValue
-                (res.ProcessVariables.pacPremiumAmount);
+                (Math.round(res.ProcessVariables.pacPremiumAmount));
               x.pac['controls'].PACPremiumAmount.disable();
               this.VASvalueSelected['controls'].VASPremiumAmount.setValue
-                (res.ProcessVariables.vasPremiumAmount);
+                (Math.round(res.ProcessVariables.vasPremiumAmount));
               x.vas['controls'].VASPremiumAmount.disable();
             }
             else if (event == 'creditShieldInsurance') {
-              this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(res.ProcessVariables.premiumAmount);
+              this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(Math.round(res.ProcessVariables.premiumAmount));
               x.life['controls'].lifeCoverPremiumAmount.disable();
             }
             this.calculateTotal(i)
@@ -1428,6 +1528,9 @@ export class NegotiationComponent implements OnInit {
     }
   }
   onNext() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/credit-conditions`);
+    }
     if (this.roleType == '1') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/disbursement`]);
     } else if (this.roleType == '2') {
@@ -1436,12 +1539,20 @@ export class NegotiationComponent implements OnInit {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
+    }else if (this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
     }
     // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
   }
   onBack() {
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`pages/dde/${this.leadId}/disbursement/${this.leadId}`);
+    }
     if (this.roleType == '1') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
+    }else if(this.roleType == '7'){
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
+      
     }
     // else if (this.roleType == '2') {
     //   this.router.navigate([`pages/credit-decisions/${this.leadId}/credit-condition`]);

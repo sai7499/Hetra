@@ -13,6 +13,7 @@ export class VehicleDataStoreService {
   collateralId: number;
   CreditTaskID: number;
   SalesLeadId: number;
+  loanAmount: number;
 
   constructor() { }
 
@@ -63,4 +64,13 @@ export class VehicleDataStoreService {
   deleteVehicle(index: number) {
     this.vehicleList.splice(index, 1);
   }
+
+  setLoanAmount(amount: number) {
+    this.loanAmount = amount;
+  }
+
+  getLoanAmount() {
+    return this.loanAmount
+  }
+
 }

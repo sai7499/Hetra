@@ -1,0 +1,22 @@
+.ShowError{
+    font-size: 12px;
+    font-family: zurich-bold;
+    letter-spacing: 0.5px;
+    color: red;
+    padding-top: 0.5vw;
+  } 
+
+  .mar-bot{
+    margin-bottom:30px;
+}
+
+.col-lgg-3{
+  width: 24.333333%;
+}
+.dis-block {
+  display: block;
+}
+
+.mt-0{
+  margin-top:0px;
+}

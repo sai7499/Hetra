@@ -223,7 +223,7 @@
                     formControlName="loanMaturityDate"
                     [format]="'dd/MM/yyyy'" 
                      placeholder="dd/mm/yyyy"
-                     [min]="maturedDate"
+                     
                     [activeView]="'decade'"
               ></kendo-datepicker>
               <span *ngIf="submitted && f.loanMaturityDate.errors"style= "color:red;" class="invalid-feedback">
@@ -402,7 +402,7 @@
                             <td>{{labels?.rcptAmount}} </td>
                             <td>{{labels?.delayDays}} </td>
                             <td>{{labels?.paymentsExcess}} </td>
-                            <td>{{labels?.action}} </td>
+                            <!-- <td>{{labels?.action}} </td> -->
                         </tr>
                     </thead>
                     <tbody formArrayName="installment" >
@@ -431,6 +431,7 @@
                                     <div class='input-group date' id='datetimepicker1'>
                                         <kendo-datepicker class="form-control mandatory" 
                                             formControlName="dueDate"
+                                            disabled
                                             [format]="'dd/MM/yyyy'"
                                             placeholder="dd/mm/yyyy"
                                             [activeView]="'decade'"
@@ -466,7 +467,8 @@
                                             [format]="'dd/MM/yyyy'" 
                                             [max]="toDayDate" 
                                             placeholder="dd/MM/yyyy"
-                                            (blur)="delayDays($event ,i , itemrow)"
+                                  
+                                            (valueChange)="delayDays($event ,i , itemrow)"
                                             [focusedDate]="focusedDate ? focusedDate[i] : ''">
                                         </kendo-datepicker>
                                         <!-- [focusedDate]="focusedDate" -->
@@ -526,12 +528,12 @@
                                 >
                               </app-custom-input>
                             </td>
-                            <td ><button type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"  
+                            <!-- <td ><button type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"  
                                     [disabled]="disableActionBtn"                                  
                                     (click)="addNewRow()"></button>
                                 <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" 
                                     [disabled]="disableActionBtn"                                   
-                                    (click)="deleteRow(i,itemrow)"></button></td>
+                                    (click)="deleteRow(i,itemrow)"></button></td> -->
                         </tr>
 
                     </tbody>
@@ -540,8 +542,11 @@
             </div>
         </div>
 
-
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
     </div>
+    
+
 
 
     <div class="btn-sec clear-both row cst_btm_btns">

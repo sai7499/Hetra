@@ -10,6 +10,8 @@ import { ToasterService } from '@services/toaster.service';
 import { element } from 'protractor';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
+import { LoanViewService } from '@services/loan-view.service';
+
 @Component({
   selector: 'app-exposure-details',
   templateUrl: './exposure-details.component.html',
@@ -29,6 +31,11 @@ export class ExposureDetailsComponent implements OnInit {
   rowIndex;
   isModelShow: boolean;
   errorMessage;
+  isLoan360: boolean;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId= 'EXS001';
+  udfGroupId= 'EXG001';
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -36,7 +43,8 @@ export class ExposureDetailsComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private location: Location,
               private toStarService: ToasterService,
-              private toggleDdeService: ToggleDdeService ) {
+              private toggleDdeService: ToggleDdeService,
+              private loanViewService: LoanViewService ) {
                 this.yearCheck = [{rule: val => val>this.currentYear,
                                    msg:'Future year not accepted'}];
                 this.labelService.getLabelsData().subscribe(res => {
@@ -71,6 +79,7 @@ export class ExposureDetailsComponent implements OnInit {
    }
   ];
    ngOnInit() {
+     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.exposureLiveLoan = this.formBuilder.group({
       loanTable: this.formBuilder.array([]),      
     });
@@ -79,8 +88,17 @@ export class ExposureDetailsComponent implements OnInit {
 
   async getExposure() {
     this.leadId = (await this.getLeadId()) as number;
-    this.exposureservice.getExposureDetails({leadId : this.leadId}).subscribe((res: any) => {
+    const body = {
+      leadId : this.leadId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
+    }
+    this.exposureservice.getExposureDetails(body).subscribe((res: any) => {
       this.getExposureDetails = res.ProcessVariables.exposure;
+      this.udfDetails= res.ProcessVariables.udfDetails;
       console.log(this.getExposureDetails);
       if (this.getExposureDetails && this.getExposureDetails.length > 0 ) {        
         for (let i = 0; i < this.getExposureDetails.length; i++) {         
@@ -93,10 +111,15 @@ export class ExposureDetailsComponent implements OnInit {
         // this.addProposedUnit(null);
        }
        const operationType = this.toggleDdeService.getOperationType();
-       if (operationType === '1' || operationType === '2') {
+       if (operationType) {
            this.exposureLiveLoan.disable();
            this.disableSaveBtn  = true;
          }
+
+        if (this.loanViewService.checkIsLoan360()) {
+          this.exposureLiveLoan.disable();
+           this.disableSaveBtn  = true;
+        } 
     });
   }
   getLeadId() {
@@ -234,7 +257,8 @@ removeProposedIndex(i?: any) {
 onSubmit() {
     // tslint:disable-next-line: prefer-const
     this.isDirty = true;
-    if (this.exposureLiveLoan.valid && !this.validYom){
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
+    if (this.exposureLiveLoan.valid && !this.validYom && !isUDFInvalid){
       let arrayData = [];
 
       // tslint:disable-next-line: prefer-for-of
@@ -252,13 +276,19 @@ onSubmit() {
         ele.emiPaid = ele.emiPaid;
         })
 
-
+      const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
       const body = {
         leadId: this.leadId,
         userId: this.userId,
-        exposures : arrayData
+        exposures : arrayData,
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          //"udfScreenId": this.udfScreenId,
+          "udfData": udfData
+        }]
       };
-      if (this.exposureLiveLoan.invalid) {
+     
+      if (this.exposureLiveLoan.invalid ) {
       return;
       }
       this.exposureservice.setExposureDetails(body).subscribe((res: any) => {
@@ -284,7 +314,8 @@ onSubmit() {
 
 
   onBack() {
-  this.location.back();
+  // this.location.back();
+  this.route.navigateByUrl(`/pages/dde/${this.leadId}/fleet-details`);
   }
   onNext() {
     this.route.navigateByUrl(`/pages/dde/${this.leadId}/income-details`);
@@ -306,5 +337,9 @@ onSubmit() {
   this.rowIndex=i;
   this.isModelShow = true;
   this.errorMessage = "Are sure to remove row";
+  }
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 }

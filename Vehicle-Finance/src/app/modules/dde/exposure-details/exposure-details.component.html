@@ -1,4 +1,5 @@
-<form class="multisteps-form__form" style="height: auto;" [formGroup]="exposureLiveLoan">
+<div class="content">
+<form class="multisteps-form__form" style="" [formGroup]="exposureLiveLoan">
   <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
     <div class="container">
       <div class="row">
@@ -16,7 +17,7 @@
                 <td>{{labels?.currentPos}} </td>
                 <td>{{labels?.tenure}} </td>
                 <td>{{labels?.emiPaid}} </td>
-                <td>{{labels?.action}} </td>
+                <td *ngIf="!isLoan360">{{labels?.action}} </td>
 
               </tr>
             </thead>
@@ -127,7 +128,7 @@
                     [isDirty]="isDirty">
                   </app-custom-input>
                   </td>
-                <td>                  
+                <td *ngIf="!isLoan360">                  
                   <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant" 
                     *ngIf= " exposureLiveLoan.get('loanTable')['controls'].length >1"
                     style="color: red;" (click)="showModel(i)" title="Delete exposure"></i>&nbsp;                   
@@ -217,17 +218,21 @@
   </div> -->
 
 </form>
+<app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
 <!-- </div> -->
 <!-- </div> -->
 <div class="btn-sec clear-both row cst_btm_btns">
   <div class="col-sm-5">
 
   </div>
-  <div class="col-sm-7 text-right">
-    <button class="btn btn-primary " type="button" (click)="onBack()">Back </button>
-    <button class="btn btn-primary " type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save </button>
-    <button class="btn btn-primary js-btn-next" type="button" (click)="onNext()"> Next </button>
+  <div class="col-sm-7 text-right nxt-mar-15">
+    <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">Back </button>
+    <button class="btn btn-primary hvr-glow" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save </button>
+    <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()"> Next </button>
   </div>
+</div>
 </div>
 <div class="alert alert-success alert-dismissible fixed"
   id="alert" *ngIf="isAlert">

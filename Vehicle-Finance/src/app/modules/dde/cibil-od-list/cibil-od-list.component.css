@@ -1,224 +1,224 @@
 .controlWidth {
-    width: 100%;
-  }
-  .star_blue_col
-{
-    color:#0000FF;
-    font-size: 25px;
-    margin-left: 4px;
+  width: 100%;
 }
-  .pagination > .active > a {
-    z-index: 0;
-  }
-  
-  /* bottom buttons css */
-  
-  .cst_btm_btns {
-    margin-bottom: 55px;
-  }
-  
-  .row{
-    margin-left: 15px;
-    margin-right: 15px;
-  }
-  .od-row{
-    margin-left: -15px;
-    margin-right: -15px;
-  }
-  .mb-5{margin-bottom:5px !important;}
-  .text-bold{font-weight: bold;}
-  .table{width:100%;}
+.star_blue_col
+{
+  color:#0000FF;
+  font-size: 25px;
+  margin-left: 4px;
+}
+.pagination > .active > a {
+  z-index: 0;
+}
+
+/* bottom buttons css */
+
+.cst_btm_btns {
+  margin-bottom: 55px;
+}
+
+.row{
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.od-row{
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.mb-5{margin-bottom:5px !important;}
+.text-bold{font-weight: bold;}
+.table{width:100%;}
 .table_proposed{width:100%;margin-top:0px;}
 .table > tbody > tr > td {padding:1px;width:16.6%;}
 .table_proposed > tbody > tr > td {padding:1px;}
 .table.mt-3{margin-top:0px;}
 .table > tbody > tr > td:nth-child(odd) { background-color : #f7f7f7; }
 .table.mb-0 {
-  margin-bottom: 0px;
+margin-bottom: 0px;
 }
 td{border:1px solid #ddd;
 font-size: medium;
 }
 th{border:1px solid #ddd;}
 .readonly {
-  background: #ddd;
-  text-align: center;
+background: #ddd;
+text-align: center;
 }
 /* css need to be check */
 .height_alter {
-  height: 26px;
+height: 26px;
 }
 
 .content {
-  padding-top: 0px !important;
+padding-top: 0px !important;
 }
 
 .add_button {
-  margin: 10px 0;
+margin: 10px 0;
 }
 
 .multisteps-form__progress {
-  margin: 15px 0 !important;
+margin: 15px 0 !important;
 }
 .row.top_bar {
-  margin: 0px;
-  border: 1px solid #ddd;
-  font-weight: 100;
-  border-radius: 6px;
-  padding-top: 5px;
-  padding-bottom: 0px;
-  background: white;
+margin: 0px;
+border: 1px solid #ddd;
+font-weight: 100;
+border-radius: 6px;
+padding-top: 5px;
+padding-bottom: 0px;
+background: white;
 }
 .fixed-btn {
-  position: fixed;
-  position: fixed;
-  top: 300px;
-  right: -12px;
-  height: 100px;
-  z-index: 999;
+position: fixed;
+position: fixed;
+top: 300px;
+right: -12px;
+height: 100px;
+z-index: 999;
 }
 .star_red_col
 {
-    color: #da3939;
-    font-size: 25px;
-    margin-left: 4px;
-   
+  color: #da3939;
+  font-size: 25px;
+  margin-left: 4px;
+ 
 }
 /***fleet design starts here******/
 /*#track > tbody > tr > td{padding:10px;}*/
 /*
-          Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
-          */
+        Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
+        */
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-  .table tbody tr td {
-    border-top: 1px solid #e6e6e6;
-    padding: 10px;
-    padding-left: 50%;
-  }
-  /* Force table to not be like tables anymore */
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
+.table tbody tr td {
+  border-top: 1px solid #e6e6e6;
+  padding: 10px;
+  padding-left: 50%;
+}
+/* Force table to not be like tables anymore */
+table,
+thead,
+tbody,
+th,
+td,
+tr {
+  display: block;
+}
 
-  /* Hide table headers (but not display: none;, for accessibility) */
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
+/* Hide table headers (but not display: none;, for accessibility) */
+thead tr {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
 
-  /*  tr {
-            /*margin: 0 0 1rem 0;*/
-  /* } */
+/*  tr {
+          /*margin: 0 0 1rem 0;*/
+/* } */
 
-  tr:nth-child(odd) {
-    background: #ccc;
-  }
+tr:nth-child(odd) {
+  background: #ccc;
+}
 
-  td {
-    /* Behave  like a "row" */
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50%;
-    height: 40px;
-  }
+td {
+  /* Behave  like a "row" */
+  border: none;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding-left: 50%;
+  height: 40px;
+}
 
-  td:before {
-    /* Now like a table header */
-    position: absolute;
-    /* Top/left values mimic padding */
-    top: 0;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-  }
+td:before {
+  /* Now like a table header */
+  position: absolute;
+  /* Top/left values mimic padding */
+  top: 0;
+  left: 6px;
+  width: 45%;
+  padding-right: 10px;
+  white-space: nowrap;
+}
 
-  /*
-              Label the data
-          You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
-              */
-  td:nth-of-type(1):before {
-    content: "SR NO";
-  }
-  td:nth-of-type(2):before {
-    content: "Regd.No";
-  }
-  td:nth-of-type(3):before {
-    content: "Regd owner";
-  }
-  td:nth-of-type(4):before {
-    content: "Relation";
-  }
-  td:nth-of-type(5):before {
-    content: "Make";
-  }
-  td:nth-of-type(6):before {
-    content: "YOM";
-  }
-  td:nth-of-type(7):before {
-    content: "Financier";
-  }
-  td:nth-of-type(8):before {
-    content: "Loan NO";
-  }
-  td:nth-of-type(9):before {
-    content: "Purchase Date";
-  }
-  td:nth-of-type(11):before {
-    content: "Tenure";
-  }
-  td:nth-of-type(12):before {
-    content: "Paid";
-  }
-  td:nth-of-type(13):before {
-    content: "Seasoning";
-  }
-  td:nth-of-type(14):before {
-    content: "AD";
-  }
-  td:nth-of-type(15):before {
-    content: "PD";
-  }
-  td:nth-of-type(16):before {
-    content: "Grid Value";
-  }
-  td:nth-of-type(17):before {
-    content: "RTR";
-  }
+/*
+            Label the data
+        You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+            */
+td:nth-of-type(1):before {
+  content: "SR NO";
+}
+td:nth-of-type(2):before {
+  content: "Regd.No";
+}
+td:nth-of-type(3):before {
+  content: "Regd owner";
+}
+td:nth-of-type(4):before {
+  content: "Relation";
+}
+td:nth-of-type(5):before {
+  content: "Make";
+}
+td:nth-of-type(6):before {
+  content: "YOM";
+}
+td:nth-of-type(7):before {
+  content: "Financier";
+}
+td:nth-of-type(8):before {
+  content: "Loan NO";
+}
+td:nth-of-type(9):before {
+  content: "Purchase Date";
+}
+td:nth-of-type(11):before {
+  content: "Tenure";
+}
+td:nth-of-type(12):before {
+  content: "Paid";
+}
+td:nth-of-type(13):before {
+  content: "Seasoning";
+}
+td:nth-of-type(14):before {
+  content: "AD";
+}
+td:nth-of-type(15):before {
+  content: "PD";
+}
+td:nth-of-type(16):before {
+  content: "Grid Value";
+}
+td:nth-of-type(17):before {
+  content: "RTR";
+}
 }
 .font-weight {
-  font-weight: bold;
-  background-color: #efefef;
+font-weight: bold;
+background-color: #efefef;
 }
 .track {
-  margin-bottom: 30px;
+margin-bottom: 30px;
 }
 .input_value {
-  width: 90px;
+width: 90px;
 }
 i.fa.fa-plus.add-row {
-  background-color: #ddd;
-  padding: 10px;
-  cursor: pointer;
+background-color: #ddd;
+padding: 10px;
+cursor: pointer;
 }
 i.fa.fa-trash.delete-row {
-  background-color: #ddd;
-  padding: 10px;
-  cursor: pointer;
+background-color: #ddd;
+padding: 10px;
+cursor: pointer;
 }
 .table.income_obli > tbody > tr > td {
-  width: 50% !important;
+width: 50% !important;
 }
 .oblig {
-  padding: 0px;
-  margin: 0px -5px 0px -6px;
+padding: 0px;
+margin: 0px -5px 0px -6px;
 }
 
 /* css from sytle.css  written by satish on 27th april in newDdeCredit branch*/
@@ -226,287 +226,295 @@ i.fa.fa-trash.delete-row {
 
 /* income-details */
 i.fa.fa-plus.add-row {
-  /*  background-color: #ddd;
-      padding: 10px;*/
-  cursor: pointer;
-  color: #333;
+/*  background-color: #ddd;
+    padding: 10px;*/
+cursor: pointer;
+color: #333;
 }
 i.fa.fa-trash.delete-row {
-  /*background-color: #ddd;
-      padding: 10px;*/
-  cursor: pointer;
-  color: #333;
+/*background-color: #ddd;
+    padding: 10px;*/
+cursor: pointer;
+color: #333;
 }
 .text-right {
-  text-align: right;
+text-align: right;
 }
 #POITable {
-  margin-bottom: 0px;
+margin-bottom: 0px;
 }
 td {
-  padding: 10px;
+padding: 10px;
 }
 .m-0 {
-  margin: 0;
+margin: 0;
 }
 .mb-15{margin-bottom: 15px !important;}
 .no-border{
-  border: none;
+border: none;
 }
 .caption {
-  background-color: #272264;
-  color: white;
-  padding: 5px;
-  font-size: 15px;
+background-color: #272264;
+color: white;
+padding: 5px;
+font-size: 15px;
 }
 td {
-  /* border-top: 1px solid #333 !important; */
-  padding: 5px !important;
+/* border-top: 1px solid #333 !important; */
+padding: 5px !important;
 }
 .table-responsive{overflow-x:hidden;}
 th {
-  padding: 5px !important;
+padding: 5px !important;
 }
 .mt-3 {
-  margin-top: 20px;
+margin-top: 20px;
 }
 .table.income_obli > tbody > tr > td {
-  width: 50% !important;
+width: 50% !important;
 }
 .mt-7 {
-  margin-top: 7px !important;
+margin-top: 7px !important;
 }
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-  .table.income_obli > tbody > tr > td {
-    width: 100% !important;
-    padding-left: 2% !important;
-  }
-  .td_none {
-    display: none !important;
-  }
-  .table tbody tr td {
-    border-top: 1px solid #e6e6e6;
-    padding: 10px;
-    padding-left: 50% !important;
-  }
-  /* Force table to not be like tables anymore */
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
+.table.income_obli > tbody > tr > td {
+  width: 100% !important;
+  padding-left: 2% !important;
+}
+.td_none {
+  display: none !important;
+}
+.table tbody tr td {
+  border-top: 1px solid #e6e6e6;
+  padding: 10px;
+  padding-left: 50% !important;
+}
+/* Force table to not be like tables anymore */
+table,
+thead,
+tbody,
+th,
+td,
+tr {
+  display: block;
+}
 
-  /* Hide table headers (but not display: none;, for accessibility) */
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
+/* Hide table headers (but not display: none;, for accessibility) */
+thead tr {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
 
-  tr:nth-child(odd) {
-    background: #ccc;
-  }
+tr:nth-child(odd) {
+  background: #ccc;
+}
 
-  td {
-    /* Behave  like a "row" */
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50% !important;
-    height: 40px;
-  }
+td {
+  /* Behave  like a "row" */
+  border: none;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding-left: 50% !important;
+  height: 40px;
+}
 
-  td:before {
-    /* Now like a table header */
-    position: absolute;
-    /* Top/left values mimic padding */
-    top: 0;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    content: attr(data-title);
-  }
+td:before {
+  /* Now like a table header */
+  position: absolute;
+  /* Top/left values mimic padding */
+  top: 0;
+  left: 6px;
+  width: 45%;
+  padding-right: 10px;
+  white-space: nowrap;
+  content: attr(data-title);
+}
 
-  /*
-          Label the data
-      You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
-          */
+/*
+        Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+        */
 }
 
 .mt-5 {
-  margin-top: 10px;
+margin-top: 10px;
 }
 .margin_zero {
-  margin: 0px;
-  padding-bottom: 15px;
+margin: 0px;
+padding-bottom: 15px;
 }
 /*.m-50{width:336px;}*/
 .col-md-3.input-group.input-medium.m-50 {
-  max-width: 310px;
+max-width: 310px;
 }
 .row.mr-10 {
-  margin-right: 10px;
+margin-right: 10px;
 }
 .driving_height {
-  height: 30px;
+height: 30px;
 }
 #add_more_documents_upload1 {
-  font-size: 20px;
+font-size: 20px;
 }
 .form-group.col-sm-12.col-md-3.col-lg-3.third_width {
-  max-width: 27%;
+max-width: 27%;
 }
 .form-group.col-sm-1.col-md-1.col-lg-1 {
-  text-align: end;
+text-align: end;
 }
 .no_border_autopop {
-  border: 1px solid white !important;
+border: 1px solid white !important;
 }
 
 /* #POITable > tbody > tr >td{min-width:100px !important;max-width:100px !important;}
-  #POITable > tbody > tr >th{min-width:100px !important;max-width:100px !important;} */
+#POITable > tbody > tr >th{min-width:100px !important;max-width:100px !important;} */
 .row.top_bar {
-  margin: 0px;
-  border: 1px solid #ddd;
-  font-weight: 100;
-  border-radius: 6px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background: white;
+margin: 0px;
+border: 1px solid #ddd;
+font-weight: 100;
+border-radius: 6px;
+padding-top: 5px;
+padding-bottom: 5px;
+background: white;
 }
 label.col-form-label {
-  width: 50%;
-  padding-right: 20px;
-  padding-left: 20px;
-  font-weight: bolder;
-  font-size: 14px;
+width: 50%;
+padding-right: 20px;
+padding-left: 20px;
+font-weight: bolder;
+font-size: 14px;
 }
 .margin_zero {
-  margin: 0px;
-  padding-bottom: 15px;
+margin: 0px;
+padding-bottom: 15px;
 }
 .multisteps-form__progress.mt-7 {
-  margin: 10px !important;
+margin: 10px !important;
 }
 label.col-form-label-two {
-  width: 50%;
-  padding-right: 20px;
-  padding-left: 20px;
-  font-weight: bolder;
-  font-size: 14px;
-  float: right;
+width: 50%;
+padding-right: 20px;
+padding-left: 20px;
+font-weight: bolder;
+font-size: 14px;
+float: right;
 }
 .form-group.mb-0 {
-  margin-bottom: 0px;
+margin-bottom: 0px;
 }
 #latbox {
-  width: 100px !important;
+width: 100px !important;
 }
 #lngbox {
-  width: 100px !important;
+width: 100px !important;
 }
 #latbox2 {
-  width: 100px !important;
+width: 100px !important;
 }
 #latbox3 {
-  width: 100px !important;
+width: 100px !important;
 }
 .form-control.mandatory.select2 {
-  width: 100px;
+width: 100px;
 }
 .table > thead > tr > th {
-  border: 1px solid #ddd !important;
+border: 1px solid #ddd !important;
 }
 .table > thead > tr > td {
-  border-right: 1px solid #ddd !important;
+border-right: 1px solid #ddd !important;
 }
 .row.bottom_common.m-0 {
-  background-color: #ddd;
-  padding: 5px;
+background-color: #ddd;
+padding: 5px;
 }
 .dash_href {
-  margin: 5px;
+margin: 5px;
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+-webkit-appearance: none;
+margin: 0;
 }
 /* Firefox */
 input[type=number] {
-    -moz-appearance: textfield;
-  }
-  .error {
-    color: red;
+  -moz-appearance: textfield;
+}
+.error {
+  color: red;
 }
 
 .modal-style{
-  width:85%;
-  margin:auto;
+width:85%;
+margin:auto;
 }
 
 .center-align{
-  text-align: center;
+text-align: center;
 }
 /* overlay css */
 #mydiv {
-  /* position: absolute; */
-  z-index: 9999;
-  background-color: #ffff;
-  border: 1px solid #d3d3d3;
-  text-align:center;
-  height: 400px;
-  width: 1024px;
-  padding: 10px;
-  border-radius: 5px;
-  overflow: scroll
+/* position: absolute; */
+z-index: 9999;
+background-color: #ffff;
+border: 1px solid #d3d3d3;
+text-align:center;
+height: 400px;
+width: 1024px;
+padding: 10px;
+border-radius: 5px;
+overflow: scroll
 }
 
 #mydivheader {
-  padding: 10px;
-  cursor: move;
-  z-index: 10;
-  background-color: #2196f3;
-  color: #fff;
+padding: 10px;
+cursor: move;
+z-index: 10;
+background-color: #2196f3;
+color: #fff;
 }
 
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .container {
-  height: 100%;
-  width: 100%;
+height: 100%;
+width: 100%;
 }
 
 .header {
-  padding: 5px;
+padding: 5px;
 }
 
 .image-content {
-  height: 90%;
-  width: 100%;
+height: 90%;
+width: 100%;
 }
 
 .center {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+position: fixed;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
 }
 @media(max-width: 769px) {
-  #mydiv {
-    height: 150px;
-    width: 450px;
-  }
+#mydiv {
+  height: 150px;
+  width: 450px;
 }
+}
+
+.ShowError{
+font-size: 12px;
+font-family: zurich-bold;
+letter-spacing: 0.5px;
+color: red;
+padding-top: 0.5vw;
+} 

@@ -92,7 +92,7 @@
                    </div>
                 </div>
              </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div [ngClass]="{'disablField': !f.fromDate.value}" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="to_date">{{labels?.toDate}}</label>
                 <div class="form-group date">
                    <div class="input-group date" id="datetimepicker1">
@@ -106,11 +106,14 @@
                    formControlName="toDate" 
                    [format]="'dd/MM/yyyy'"
                    [max]="toDayDate"
+                   [min]="bankForm.get('fromDate').value"
                    placeholder="Select Latest Month"
                    [activeView]="'decade'"
                    (valueChange)="setToDateMax()"
                    ></kendo-datepicker>
                 </div>
+                <span class="invalid-feedback" *ngIf ="isToDate && f.toDate.value"> 
+                  Invalid Date </span>
              </div>
             </div>
              <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -300,14 +303,22 @@
     <!-- </div> -->
        
    </form>
+
+   <div>
+    <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+   </div>
+   
+   
    <div class="btn-sec clear-both row cst_btm_btns">
 
     <div class="col-sm-5">
-        <button  class="btn btn-primary dash_href" 
+        <button  class="btn btn-primary dash_href hvr-sweep-to-left" 
         (click)="onBackToApplicant()"> {{labels?.backToApplicantDetails}} </button>
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href" type="button" (click)="onBack()">{{labels?.back}}</button>
+        <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">{{labels?.back}}</button>
         <button class="btn btn-primary" (click)="onSave()" *ngIf="!disableSaveBtn"> {{labels?.save}} </button>
         <!-- <button class="btn btn-primary dash_href " type="button" >Next</button> -->
         <!-- (click)="onSave()"  -->

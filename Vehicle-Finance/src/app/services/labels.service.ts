@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpService } from '@services/http.service';
 import { environment } from './../../environments/environment';
@@ -17,11 +16,9 @@ import  mLanguageLabelsurlmarati  from '../../assets/labels/labels_marathi.json'
 import  mLanguageLabelsurlgujarati from '../../assets/labels/label_gujarati.json';
 import  mLanguageLabelsurlhindi from '../../assets/labels/label_hindi.json';
 import  mLanguageLabelsurltamil from '../../assets/labels/label_tamil.json';
+import mChildLoanLabels from '../../assets/jsonData/child-loan.json';
 
-
-
-
-
+import commonLables from '../../assets/jsonData/common-fields.json';
 
 
 @Injectable({
@@ -124,6 +121,18 @@ export class LabelsService {
     // }
     return this.createObservableObj(mLanguageLabelsurl);
     //return this.httpService.get(this.languageLabelsurl);
+  }
+
+  getChildLoanConditionData(): Observable<any> {
+    return this.createObservableObj(mChildLoanLabels);
+  }
+
+  getCommonFieldData(): Observable<any> {
+    try {
+      return this.createObservableObj(commonLables);
+    } catch (error) {
+      
+    }
   }
 
   createObservableObj(labelsurl:string){

@@ -17,6 +17,7 @@ import { Constant } from '../../../../../assets/constants/constant';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { environment } from 'src/environments/environment';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 
 
@@ -96,7 +97,17 @@ export class ViabilityDetailsComponent implements OnInit {
   dmsDocumentId: string;
   applicantName: any;
   disableSaveBtn: boolean;
-
+  daysCheck = [];
+  version: any;
+  showReinitiate = false;
+  isLoan360: boolean;
+  
+  // User defined
+  udfScreenId: any = 'VIS002';
+  udfGroupId: any = 'VIG001';
+  udfDetails: any = [];
+  userDefineForm: any;
+  roleType: any;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -111,16 +122,26 @@ export class ViabilityDetailsComponent implements OnInit {
               private applicantService: ApplicantService,
               private loginService: LoginService,
               private base64StorageService: Base64StorageService,
-              private toggleDdeService: ToggleDdeService
+              private toggleDdeService: ToggleDdeService,
+              private loanViewService: LoanViewService
               ) {
                 this.route.queryParams.subscribe((res: any) => {
                   this.taskId = res.taskId;
                 });
                 this.isMobile = environment.isMobile;
-
+                // tslint:disable-next-line: triple-equals
+                this.daysCheck = [{rule: val => ((val  > 0  && val > 31) || val == 0 ),
+                  msg: 'Should be between 1-31'}];
                }
 
   async ngOnInit() {
+
+    this.loginStoreService.isCreditDashboard.subscribe((userDetails: any) => {
+      this.roleType = userDetails.roleType;
+    });
+
+
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     if (this.isMobile) {
       this.gpsService.getLatLong().subscribe((position) => {
@@ -232,8 +253,9 @@ export class ViabilityDetailsComponent implements OnInit {
       })
     });
     this.leadId = (await this.getLeadId()) as number;
+    this.version = (await this.getVersion());
     this.collataralId = (await this.getCollateralId()) as number;
-    console.log(this.collataralId);
+    console.log(this.version, 'version');
     this.getViability();
     // this.getViabilityList(Number(this.leadId));
     console.log(this.viabilityForm.controls);
@@ -286,18 +308,37 @@ export class ViabilityDetailsComponent implements OnInit {
     };
 
     const operationType = this.toggleDdeService.getOperationType();
-    if (operationType === '1' || operationType === '2') {
+    if (operationType) {
       this.viabilityForm.disable();
       this.disableSaveBtn = true;
     }
 
-  }
+    if (this.loanViewService.checkIsLoan360()) {
+      this.viabilityForm.disable();
+      this.disableSaveBtn = true;
+    }
 
+    if(this.roleType == '1' && this.viabliityDataToPatch == undefined) {
+      this.udfScreenId = 'VIS002';
+    }
+
+    console.log('screenID', this.udfScreenId);
+  }
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.route.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
+        }
+        resolve(null);
+      });
+    });
+  }
+  getVersion() {
+    return new Promise((resolve, reject) => {
+      this.route.parent.firstChild.params.subscribe((value) => {
+        if (value && value.version) {
+          resolve((value.version));
         }
         resolve(null);
       });
@@ -332,7 +373,7 @@ export class ViabilityDetailsComponent implements OnInit {
   }
   submitViability() {
     this.isDirty = true;
-    if (this.viabilityForm.invalid) {
+    if (this.viabilityForm.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showError('Details Not Saved', 'Please Save before submitting');
       return;
     } else { this.onSave(); }
@@ -368,20 +409,30 @@ vehicle_viability_navigate(event) {
     console.log(event);
     this.vehicle_viability_value = event ? event : event;
     if (this.vehicle_viability_value === '1VHCLVBTY') {
+      if(this.roleType == '1') {
+        this.udfScreenId = 'VIS002';
+      }
       this.passengerViability();
       this.removeStandOverValidators();
       this.removeCaptiveValidators();
     } else if (this.vehicle_viability_value === '2VHCLVBTY') {
+      if(this.roleType == '1') {
+        this.udfScreenId = 'VIS003';
+      }
       this.StandOverViability();
       this.removePassengerValidators();
       this.removeCaptiveValidators();
 
     } else if (this.vehicle_viability_value === '3VHCLVBTY') {
+      if(this.roleType == '1') {
+        this.udfScreenId = 'VIS001';
+      }
       this.captiveViability();
       this.removePassengerValidators();
       this.removeStandOverValidators();
 
     }
+    console.log('screenID', this.udfScreenId);
   }
   private  passengerViability() {
    const privateViability = this.viabilityForm.controls.passanger as FormGroup;
@@ -413,7 +464,7 @@ vehicle_viability_navigate(event) {
   //  privateViability.get('netCashFlow').setValidators(Validators.required);
    privateViability.get('emi').setValidators(Validators.required);
    privateViability.get('totalExpenses').setValidators(Validators.required);
-
+  //  privateViability.get('busMonthlyIncome').setValidators(Validators.required);
   }
    private StandOverViability() {
     const privateStandViability = this.viabilityForm.controls.passangerStandOperator as FormGroup;
@@ -438,7 +489,7 @@ vehicle_viability_navigate(event) {
     captive.get('busTyreAvgExpenses').setValidators(Validators.required);
     captive.get('busInsurenceExpenses').setValidators(Validators.required);
     captive.get('busMiscellaneousExpenses').setValidators(Validators.required);
-    captive.get('busMonthlyIncome').setValidators(null);
+    captive.get('busMonthlyIncome').setValidators(Validators.required);
     captive.get('totalExpenses').setValidators(Validators.required);
     captive.get('netCashFlow').setValidators(Validators.required);
     captive.get('emi').setValidators(Validators.required);
@@ -447,8 +498,12 @@ vehicle_viability_navigate(event) {
     const privateViability = this.viabilityForm.controls.passanger as FormGroup;
     // tslint:disable-next-line: forin
     for (const key in privateViability.controls) {
-      privateViability.get(key).clearValidators();
+    if (key != 'busMonthlyIncome') {
+      console.log(key);
+      privateViability.get(key).setValidators(null);
       privateViability.get(key).updateValueAndValidity();
+    }
+
     }
 }
 public removeStandOverValidators() {
@@ -470,7 +525,14 @@ public removeStandOverValidators() {
 getViability() {
     const body = {
       userId: this.userId,
-      collateralId: this.collataralId
+      collateralId: this.collataralId,
+      version: this.version || '',
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.viabilityService.getViabilityDetails(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
@@ -478,12 +540,14 @@ getViability() {
       this.viabliityDataToPatch = res.ProcessVariables.vehicleViability;
       this.applicantName = res.ProcessVariables.vehicleViability.applicantName;
       this.vehicleModelMake = res.ProcessVariables.vehicleViability.vehicleModel;
+      this.showReinitiate = res.ProcessVariables.showReinitiate;
       this.latitude = this.viabliityDataToPatch.latitude;
       this.longitude = this.viabliityDataToPatch.longitude;
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
       this.branchLongitude = this.viabliityDataToPatch.brLongitude;
       this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto;
       const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
+      this.udfDetails = res.ProcessVariables.udfDetails;
       gpsPos.patchValue({
         latitude: this.latitude,
         longitude: this.longitude,
@@ -498,6 +562,11 @@ getViability() {
       }
 
       if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '1VHCLVBTY') {
+        if(this.roleType == '1') {
+          this.udfScreenId = 'VIS002';
+        } else if (this.roleType == '2') {
+          this.udfScreenId = 'VIS005';
+        }
         this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
@@ -510,6 +579,11 @@ getViability() {
           type: this.viabliityDataToPatch.type
          }) ;
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '2VHCLVBTY') {
+        if(this.roleType == '1') {
+          this.udfScreenId = 'VIS003';
+        } else if (this.roleType == '2') {
+          this.udfScreenId = 'VIS006';
+        }
         this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
         this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
@@ -521,6 +595,11 @@ getViability() {
         this.calculateStandOperatorB();
         this.calculateStandOperatorC();
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '3VHCLVBTY') {
+        if(this.roleType == '1') {
+          this.udfScreenId = 'VIS001';
+        } else if (this.roleType == '2') {
+          this.udfScreenId = 'VIS004';
+        }
         this.viabilityForm.patchValue ({
          type: this.viabliityDataToPatch.type
         }) ;
@@ -536,13 +615,17 @@ getViability() {
         type: this.vehicle_viability_value
       }) ;
     }
+    console.log('screenID', this.udfScreenId);
     });
     // this.patchGpsposition();
-  }
+}
+// getVersion() {
+//   this.version = 
+// }
 onSave() {
     this.isDirty = true;
     this.vehicle_viability_navigate(this.viabilityForm.value.type);
-    if (this.viabilityForm.invalid) {
+    if (this.viabilityForm.invalid || this.userDefineForm.udfData.invalid) {
       console.log(this.viabilityForm);
       this.toasterService.showError('Mandatory fields missing', '');
       return;
@@ -556,9 +639,15 @@ onSave() {
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
+          version: this.version || '',
           ...this.convertPassenger(this.viabilityForm.value.passanger)
         },
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
       };
+      console.log(body);
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
@@ -583,9 +672,15 @@ onSave() {
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
+          version: this.version || '',
           ...this.convertStandOperative(this.viabilityForm.value.passangerStandOperator)
         },
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
       };
+      console.log(body);
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
@@ -604,9 +699,16 @@ onSave() {
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
+          version: this.version || '',
           ...this.convertCapitve(this.viabilityForm.value.captive)
         },
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
       };
+      console.log(body);
+      
       // tslint:disable-next-line: deprecation
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if ( res.ProcessVariables.error.code === '0') {
@@ -623,7 +725,7 @@ onSave() {
 patchViability(data: any) {
    const passanger = this.viabilityForm.controls.passanger as FormGroup;
    passanger.patchValue({
-     route: data.route ,
+    //  route: data.route ,
         onwardRoute : data.onwardRoute ,
         returnRoute: data.returnRoute ,
         natureOfGoods: data.natureOfGoods  ,
@@ -695,7 +797,7 @@ patchViability(data: any) {
        busMiscellaneousExpenses:  Number(data.busMiscellaneousExpenses) ,
        busInsurenceExpenses: data.busInsurenceExpenses ? Number(data.busInsurenceExpenses) : null,
        busMonthlyIncome:  Number(this.monthlyIncome) ,
-       netCashFlow:  this.netFlowCash ,
+       netCashFlow:  String(this.netFlowCash) ,
        emi: data.emi ? Number(data.emi) : null,
        totalExpenses: data.totalExpenses ? Number(data.totalExpenses) : null,
        otherExpenses: data.otherExpenses ? data.otherExpenses : null,
@@ -941,7 +1043,7 @@ if (this.router.url.includes('/dde')) {
   console.log(passengerStandGroup);
   const businessEarningPerDay = Number(passengerStandGroup.value.businessEarningPerDay);
   const grossIncomePerDay = Number(passengerStandGroup.value.grossIncomePerDay);
-  if (businessEarningPerDay <= 31) {
+  if (businessEarningPerDay > 0 && businessEarningPerDay <= 31) {
     this.montlyStandOperatorIncome = businessEarningPerDay * grossIncomePerDay;
   }
 
@@ -997,10 +1099,10 @@ calculateCaptive() {
   // tslint:disable-next-line: max-line-length
   const businessEarningPerDay = passengerStandGroup.value.businessEarningPerDay ? Number(passengerStandGroup.value.businessEarningPerDay) : 0;
   const grossIncomePerDay = (passengerStandGroup.value.businessIncomePerDay) ? Number(passengerStandGroup.value.businessIncomePerDay) : 0;
-  if (businessEarningPerDay <= 31) {
+  if (businessEarningPerDay > 0 && businessEarningPerDay <= 31) {
     this.montlyCaptiveIncome = businessEarningPerDay * grossIncomePerDay;
   }
- 
+
   // this.calculateCaptive();
   this.calculateCaptiveB();
   // this.calculateCaptiveC();
@@ -1184,6 +1286,31 @@ calculateCaptiveC() {
           console.log('downloadDocs', value);
         });
     });
+  }
+
+  reInitiateViability() {
+    if (this.viabilityForm.invalid) {
+      this.toasterService.showWarning('Save before submitting', ' ');
+    }
+    const body = {
+      leadId: this.leadId,
+      collateralId: this.collataralId,
+      isReinitiated: true
+    };
+    this.viabilityService.reinitiateViabilityDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Vehicle viability task assigned succesfully', '');
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-list`);
+      } else {
+        this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+      }
+    });
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }

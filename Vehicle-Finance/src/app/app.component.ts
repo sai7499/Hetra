@@ -1,6 +1,5 @@
-import { environment } from 'src/environments/environment.prod';
-import { Component, OnInit } from '@angular/core';
-
+import { environment } from '../environments/environment';
+import { Component, OnInit,HostListener, OnDestroy } from '@angular/core';
 
 
 declare var cordova:any;
@@ -8,7 +7,12 @@ declare var cordova:any;
 // declare var channel:any
 
 import { DraggableContainerService } from '@services/draggable.service';
-import { Router } from '@angular/router';
+import { Router,NavigationStart,NavigationEnd } from '@angular/router';
+import { UtilityService } from '@services/utility.service';
+import {SharedService} from './modules/shared/shared-service/shared-service'
+import { filter } from 'rxjs/operators'
+import { IdleTimerService } from '@services/idle-timer.service';
+import value from '*.json';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +20,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  sessionIntervalId;
+  timer = 0;
+  showTimerModal: boolean;
+  showExpiryModal: boolean;
   title = 'vehicle-finance';
   isMaas360Enabled:any;
 
-  // movable image div
+  showConfirmFlag: boolean;
+  showModal: boolean;
 
   imageList = [];
   imageObj = {};
@@ -201,9 +210,36 @@ export class AppComponent implements OnInit {
   };
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router) {}
+              private router: Router,private utilityService: UtilityService,private sharedService: SharedService, private idleTimerService: IdleTimerService) {}
 
   ngOnInit() {
+
+    this.timer = this.idleTimerService.getModalTimer();
+
+
+    this.idleTimerService.getTimerObservable()
+      .subscribe((value) => {
+        if(value) {
+
+          this.showTimerModal = true;
+          this.sessionIntervalId = setInterval(() => {
+
+            console.log('timer 2')
+
+            this.timer -= 1;
+
+            if (this.timer <= 0) {
+                this.showTimerModal = false;
+                this.timer = this.idleTimerService.getModalTimer();
+
+                clearInterval(this.sessionIntervalId);
+                // this.logout();
+                this.showExpiryModal = true;
+            }
+
+          }, 1000);
+        }
+      })
 
     let that = this;
 
@@ -236,6 +272,35 @@ export class AppComponent implements OnInit {
            }
       }
   });
+
+  window.addEventListener('popstate', (event) => {
+    if(!window.location.href.includes('/login') && localStorage.getItem('token') && environment.production) {
+          history.go(1);
+          this.sharedService.browserPopState(false);
+          this.showModal = false;
+          setTimeout(()=> {
+            this.showModal = true;
+          },200)
+          
+    }
+  });
+
+      window.addEventListener('unload',(event)=> {
+        if(environment.production) {
+        this.utilityService.logOut();
+        }
+      })
+    
+      window.addEventListener('beforeunload', (event) => {
+        if(environment.production) {
+        if(!window.location.href.includes('/login')) {
+            event.preventDefault()
+            event.returnValue = ""
+            return false;
+        }
+      }
+      });
+
   }
 
   clearListener() {
@@ -312,6 +377,14 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('window:mousemove') refreshUserState() {
+  
+    setTimeout(()=> {
+      this.showConfirmFlag = false;;
+      this.sharedService.browserPopState(true)
+      })
+  }
+
   initMaaS360() {
     let value = this.initM360SDKWithAnalytics(this.developerId, this.licenseKey, true, this.maas360sdkEventHandler);
 
@@ -343,5 +416,30 @@ export class AppComponent implements OnInit {
       }
       sdkHandler.registerObserver(eventHandler);
       sdkHandler.initWithAnalytics(developerKey, licenseKey, enableAnalytics);
+  }
+
+  onOkay(event) {
+    this.showModal =false;
+    this.utilityService.logOut()
+  }
+
+  stay() {
+    this.showTimerModal = false;
+    this.timer = this.idleTimerService.getModalTimer(); // seconds (2mins)
+    clearInterval(this.sessionIntervalId);
+    this.idleTimerService.againAddTimer();
+  }
+
+  logout() {
+    this.showExpiryModal = false;
+    this.utilityService.logOut();
+    this.timer = this.idleTimerService.getModalTimer();
+    clearInterval(this.sessionIntervalId);
+    this.showTimerModal = false;
+  }
+
+  ngOnDestroy() {
+    this.idleTimerService.cleanUp();
+    clearInterval(this.sessionIntervalId);
   }
 }

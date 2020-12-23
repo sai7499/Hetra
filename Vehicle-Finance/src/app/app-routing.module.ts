@@ -4,7 +4,10 @@ import { HeaderComponent } from './modules/header/header.component';
 import { LovResolverService } from './services/Lov-resolver.service';
 import { Authguard } from '@services/authguard';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
-import {TermSheetFromDashboardComponent} from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
+import { TermSheetFromDashboardComponent } from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
+import { DetectBrowserActivityService } from '@services/detect-browser-activity.service'
+import { PddComponent } from '@modules/shared/pdd-screen/pdd.component';
+import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
 const routes: Routes = [
   {
     path: '',
@@ -16,9 +19,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/login/login.module').then((m) => m.LoginModule),
   },
+  // {
+  //   path: 'child-loan',
+  //   loadChildren: () =>
+  //     import('./modules/child-loan/child-loan.module').then((m) => m.ChildLoanModule),
+  // },
   {
     path: 'activity-search',
     canActivate: [Authguard],
+    canActivateChild: [DetectBrowserActivityService],
     loadChildren: () =>
       import('./modules/activity-search/activity-search.module').then(
         (m) => m.ActivitySearchModule
@@ -28,15 +37,35 @@ const routes: Routes = [
     path: 'pages',
     component: HeaderComponent,
     canActivate: [Authguard],
+    canActivateChild: [DetectBrowserActivityService],
     resolve: {
       getLOV: LovResolverService,
     },
     children: [
       {
+        path: 'lead-upload',
+        component: LeadUploadComponent
+      },
+      {
+        path: 'loan-360',
+        loadChildren: () => import('./modules/loan-360/loan-view.module').then(m => m.LoanViewModule)
+      },
+      {
+        path: 'cheque-tracking',
+        loadChildren: () => import('./modules/cheque-tracking/cheque-tracking.module').then((m) => m.ChequeTrackingModule)
+      },
+      {
         path: 'lead-creation',
         loadChildren: () =>
           import('./modules/lead-creation/lead-creation.module').then(
             (m) => m.LeadCreationModule
+          ),
+      },
+      {
+        path: 'child-loan',
+        loadChildren: () =>
+          import('./modules/child-loan/child-loan.module').then(
+            (m) => m.ChildLoanModule
           ),
       },
       {
@@ -54,6 +83,13 @@ const routes: Routes = [
           ).then((m) => m.DocumentViewuploadModule),
       },
       {
+        path: 'query-model',
+        loadChildren: () =>
+          import(
+            './modules/query-model/query-model.module'
+          ).then((m) => m.QueryModelModule),
+      },
+      {
         path: 'terms-condition',
         loadChildren: () =>
           import('./modules/terms-conditions/terms-conditions.module').then(
@@ -66,6 +102,17 @@ const routes: Routes = [
           import('./modules/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
+        // canDeactivate: [can]
+
+      },
+      {
+        path: 'supervisor/dashboard',
+        loadChildren: () =>
+          import('./modules/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+        // canDeactivate: [can]
+
       },
       {
         path: 'terms-condition',
@@ -146,7 +193,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'fi-dashboard', // added another routing for dde module to load from pd-dashboard
+        path: 'fi-dashboard', // added another routing for dde module to load from fi-dashboard
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
@@ -157,6 +204,11 @@ const routes: Routes = [
           import(
             './modules/dde/vehicle-valuation-router/vehicle-valuation-router.module'
           ).then((m) => m.VehicleValuationRouterModule),
+      },
+      {
+        path: 'valuation-dashboard', // added another routing for dde module to load from valuation-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
         path: 'sales',
@@ -177,7 +229,7 @@ const routes: Routes = [
             './modules/dde/viability-dashboard/viability-dashboard.module'
           ).then((m) => m.ViabilityDashboardModule),
       },
- //supervisorRelated starts
+      //supervisorRelated starts
       {
         path: 'supervisor',
         loadChildren: () =>
@@ -186,11 +238,12 @@ const routes: Routes = [
           ),
       },
       {
-              path: 'negotiation',
-              loadChildren: () =>
-                import(
-                  './modules/negotiation/negotiation.module'
-                ).then((m) => m.NegotiationModule),
+        path: 'negotiation',
+        loadChildren: () =>
+          import(
+            './modules/negotiation/negotiation.module'
+          ).then((m) => m.NegotiationModule),
+
       },
       {
         path: 'cpc-maker',
@@ -223,14 +276,20 @@ const routes: Routes = [
           import('./modules/disbursement-section/disbursement-section.module').then(
             (m) => m.DisbursementSectionModule
           ),
-        },
-        {
-          path: 'pre-disbursement',
-          loadChildren: () =>
-            import('./modules/dde/pre-disbursement/pre-disbursement.module').then(
-              (m) => m.PreDisbursementModule
-            ),
-        },
+      },
+      {
+        path: 'pre-disbursement',
+        loadChildren: () =>
+          import('./modules/dde/pre-disbursement/pre-disbursement.module').then(
+            (m) => m.PreDisbursementModule
+          ),
+
+      },
+      {
+        path: 'pdd/:leadId',
+        component: PddComponent,
+        resolve: { leadData: LeadDataResolverService },
+      }
     ],
   },
 ];

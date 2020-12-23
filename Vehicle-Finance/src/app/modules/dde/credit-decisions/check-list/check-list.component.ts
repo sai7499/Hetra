@@ -8,6 +8,7 @@ import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { TermSheetService } from '@modules/dde/services/terms-sheet.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-check-list',
@@ -29,6 +30,15 @@ export class CheckListComponent implements OnInit {
   cpcMakerFlag = true;
   salesResponse: any;
   isPreDone: any;
+  taskId: any;
+
+  // User defined
+  udfScreenId: any;
+  udfGroupId: any = "CLG001";
+  udfDetails: any = [];
+  userDefineForm: any;
+  isDirty;
+
   constructor(
     private commonLovService: CommomLovService,
     private checkListService: ChecklistService,
@@ -38,7 +48,8 @@ export class CheckListComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private cpcService: CpcRolesService,
     private router: Router,
-    private termSheetService: TermSheetService
+    private termSheetService: TermSheetService,
+    private sharedService: SharedService
   ) {
     // tslint:disable-next-line: deprecation
     $(document).ready(() => {
@@ -71,12 +82,13 @@ export class CheckListComponent implements OnInit {
   }
 
   async ngOnInit() {
+    
     this.salesResponse = localStorage.getItem('salesResponse');
     this.isPreDone = localStorage.getItem('is_pred_done');
     this.commonLovService.getLovData().subscribe((res: any) => {
       console.log(res, 'cmn lov service');
       this.checklistObject = res.LOVS.checklistans;
-      this.checkListMaster = res.LOVS.checklistMstView.sort((a, b) => Number(a.key) - Number(b.key));
+      // this.checkListMaster = res.LOVS.checklistMstView.sort((a, b) => Number(a.key) - Number(b.key));
     });
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -84,8 +96,41 @@ export class CheckListComponent implements OnInit {
       console.log('role Type', this.roleType);
     });
 
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+    if(this.roleType == '7') {
+      this.udfScreenId = "CLS001";
+    } else if(this.roleType == '4') {
+      this.udfScreenId = "CLS002";
+    } else if(this.roleType == '5') {
+      this.udfScreenId = "CLS003";
+    }
+
     // tslint:disable-next-line: prefer-const
+    // let childgroups = [];
+    // // tslint:disable-next-line: prefer-for-of
+    // for (let i = 0; i < this.checkListMaster.length; i++) {
+    //   childgroups.push(this.creategroup(this.checkListMaster[i]));
+    // }
+    // // childgroups.sort()
+    this.checklistForm = this.formBuilder.group({
+      checklistArray: this.formBuilder.array([])
+    });
+    // console.log(this.checklistForm, typeof(this.checklistForm.controls));
+    this.applicantId = (await this.getApplicantId()) as number;
+    this.leadId = (await this.getLeadId()) as number;
+    this.checklistForm = this.formBuilder.group({
+      checklistArray: this.formBuilder.array([])
+    });
+    this.getCheckList();
+    // this.getCheckList();
+    
+    
+
+    // tslint:disable-next-line: triple-equals
+  }
+  initForm(event) {
     let childgroups = [];
+    this.checkListMaster = event;
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.checkListMaster.length; i++) {
       childgroups.push(this.creategroup(this.checkListMaster[i]));
@@ -94,14 +139,9 @@ export class CheckListComponent implements OnInit {
     this.checklistForm = this.formBuilder.group({
       checklistArray: this.formBuilder.array(childgroups)
     });
-    console.log(this.checklistForm, typeof(this.checklistForm.controls));
-    this.applicantId = (await this.getApplicantId()) as number;
-    this.leadId = (await this.getLeadId()) as number;
-    this.getCheckList();
-    this.addValidatorsCO();
     for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
       // tslint:disable-next-line: triple-equals
-      if (this.roleType == '4' ) {
+      if (this.roleType == '4' || this.roleType == '7' ) {
        this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
@@ -109,17 +149,24 @@ export class CheckListComponent implements OnInit {
        this.checklistForm.controls.checklistArray.controls[i].controls.cpcMaker.disable();
       }
     }
-
-    // tslint:disable-next-line: triple-equals
+    this.addValidatorsCO();
   }
   getCheckList() {
     const body = {
       leadId: this.leadId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.checkListService.getCheckListDetails(body).subscribe((res: any) => {
       console.log(res, ' checklist get response');
+      this.udfDetails = res.ProcessVariables.udfDetails;
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.checkList ) {
+        this.initForm(res.ProcessVariables.checkList);
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < res.ProcessVariables.checkList.length; i++) {
           this.patchChecklist(res.ProcessVariables.checkList[i]);
@@ -135,9 +182,11 @@ export class CheckListComponent implements OnInit {
         const applicantId = value.applicantId;
         if (applicantId) {
           resolve(Number(applicantId));
+          
         }
         resolve(null);
       });
+      
     });
   }
   getLeadId() {
@@ -145,6 +194,7 @@ export class CheckListComponent implements OnInit {
       this.route.parent.params.subscribe((value) => {
         if (value && value.leadId) {
           resolve(Number(value.leadId));
+          this.getCheckList();
         }
         resolve(null);
       });
@@ -152,8 +202,8 @@ export class CheckListComponent implements OnInit {
   }
   creategroup(list: any) {
     return this.formBuilder.group({
-      checkListId: [Number(list.key)],
-      checklistName: [list.value],
+      checkListId: [Number(list.checkListId)],
+      checklistName: [list.checkListName],
       coAnswer: [null ],
       cpcChecker: [null ],
       cpcMaker: [null ]
@@ -176,7 +226,12 @@ export class CheckListComponent implements OnInit {
         const body = {
           checkListId: data.checkListId,
           checklistName: data.checklistName,
-          coAnswer: data.coAnswer
+          coAnswer: data.coAnswer,
+          udfDetails :  [{
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          }],
         };
 
         this.checkListFormArray.push(body);
@@ -208,7 +263,7 @@ export class CheckListComponent implements OnInit {
       leadId: this.leadId,
       checkList: this.checkListFormArray
     };
-  if ( this.checklistForm.invalid) {
+  if ( this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
           console.log(this.checklistForm);
           this.toasterService.showError('Select Mandatory Fields', ' ');
           return ;
@@ -248,7 +303,7 @@ export class CheckListComponent implements OnInit {
   addValidatorsCO() {
     const group: any = this.checklistForm.controls.checklistArray as FormGroup;
     // const groupLength: any = group.controls.length;
-    for (let i = 0; i < 29 ; i ++) {
+    for (let i = 0; i < this.checklistForm.controls.checklistArray.length ; i ++) {
       // tslint:disable-next-line: triple-equals
       if (this.roleType == '2') {
         group.at(i).controls.coAnswer.setValidators(Validators.required);
@@ -282,7 +337,8 @@ export class CheckListComponent implements OnInit {
         userId: localStorage.getItem('userId'),
         isCPCMaker: true,
         isCPCChecker: false,
-        sendBackToCredit: false
+        sendBackToCredit: false,
+        taskId: this.taskId
         };
       this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res: any) => {
          // tslint:disable-next-line: triple-equals
@@ -300,7 +356,8 @@ export class CheckListComponent implements OnInit {
         userId: localStorage.getItem('userId'),
         isCPCMaker: true,
         isCPCChecker: false,
-        sendBackToCredit: false
+        sendBackToCredit: false,
+        taskId: this.taskId,
         };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -319,7 +376,8 @@ export class CheckListComponent implements OnInit {
         userId: localStorage.getItem('userId'),
         isCPCMaker: false,
         isCPCChecker: true,
-        sendBackToCredit: false
+        sendBackToCredit: false,
+        taskId: this.taskId,
         };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -338,7 +396,8 @@ export class CheckListComponent implements OnInit {
         userId: localStorage.getItem('userId'),
         isCPCMaker: false,
         isCPCChecker: false,
-        sendBackToCredit: false
+        sendBackToCredit: false,
+        taskId: this.taskId,
         };
       this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
         this.router.navigate([`pages/dashboard`]);
@@ -360,6 +419,9 @@ onNext()  {
     } else if ( this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
     }
+    else if ( this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/remarks`]);
+      }
   } else {
     this.toasterService.showError('Select Mandatory Fields', ' ');
   }
@@ -375,7 +437,9 @@ onBack() {
     // tslint:disable-next-line: triple-equals
     } else if ( this.roleType == '5') {
     this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
-    }
+    } else if ( this.roleType == '7') {
+      this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
+      }
 
 }
 
@@ -387,6 +451,7 @@ sendBackToMaker() {
     isCPCMaker: true,
     isCPCChecker: false,
     sendBackToCredit: false,
+    taskId: this.taskId,
   };
   this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
     // tslint:disable-next-line: triple-equals
@@ -398,4 +463,10 @@ sendBackToMaker() {
     }
   });
 }
+
+onSaveuserDefinedFields(value) {
+  this.userDefineForm = value;
+  console.log('identify', value)
+}
+
 }

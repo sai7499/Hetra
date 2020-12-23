@@ -8,13 +8,14 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.compo
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { AddvehicleComponent } from './addvehicle/addvehicle.component';
+import { ReferenceComponent } from '@shared/reference/reference.component';
 
 const routes: Routes = [
   {
     path: ':leadId',
     component: SalesComponent,
     resolve: {
-      leadData:LeadDataResolverService,
+      leadData: LeadDataResolverService,
     },
     children: [
       {
@@ -34,8 +35,12 @@ const routes: Routes = [
         component: DocumentUploadComponent,
       },
       {
-        path: 'add-vehicle',
+        path: 'add-vehicle/:vehicleId',
         component: AddvehicleComponent
+      },
+      {
+        path: 'reference',
+        component: ReferenceComponent
       }
     ],
   },
@@ -45,4 +50,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SalesRoutingModule {}
+export class SalesRoutingModule { }

@@ -229,6 +229,7 @@ td, th {
 .pointer_non {
     pointer-events: none;
     cursor: not-allowed;
+    color: #ccc;
   }
 
 /*Mobile View*/
@@ -257,9 +258,6 @@ only screen and
 		top: -9999px;
 		left: -9999px;
 	}
-	tr {
-        /* border: 1px solid #E74C3C;  */
-    }
     tr + tr{
         margin-top: 1.5em;
     }
@@ -274,11 +272,6 @@ only screen and
         /* padding: 1px;*/
         border: 1px solid #929294;
     }
-   
-
-    
-    
-
 	td:before { 
         content: attr(data-label);
         display: inline-block;
@@ -301,3 +294,11 @@ only screen and
         content: attr(data-item-value);
         }
 } */
+
+.fa-pencil {
+    padding-right: 35px;
+}
+
+.fa-trash {
+    padding-right: 35px;
+}

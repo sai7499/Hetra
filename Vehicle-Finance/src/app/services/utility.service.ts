@@ -6,11 +6,13 @@ import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DashboardService } from './dashboard/dashboard.service';
 import { ToggleDdeService } from './toggle-dde.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { IdleTimerService } from './idle-timer.service';
 
 @Injectable()
 export class UtilityService {
   constructor(private httpService: HttpService, private router: Router, private dashboardService: DashboardService,
-    private ngxUiLoaderService: NgxUiLoaderService, private toggleDdeService: ToggleDdeService) { }
+    private ngxUiLoaderService: NgxUiLoaderService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService, private idleTimerService: IdleTimerService) { }
 
   logOut() {
     this.httpService.logOut().subscribe(
@@ -22,27 +24,31 @@ export class UtilityService {
       }
 
     );
+    this.idleTimerService.cleanUp();
     this.removeAllLocalStorage();
     this.toggleDdeService.clearToggleData();   
 
   }
 
   removeAllLocalStorage() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('roles');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('salesResponse');
-    localStorage.removeItem('isFiCumPd');
-    localStorage.removeItem('lastAction');
-    localStorage.removeItem('login_required');
-    localStorage.removeItem('branchId');
-    localStorage.removeItem('istermSheet');
-    localStorage.removeItem('outputUsers');
-    localStorage.removeItem('outputUsers');
-    localStorage.removeItem('currentUrl');
-    localStorage.removeItem('is_pred_done');
-    localStorage.removeItem('isPreDisbursement');
+    localStorage.clear();
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('roles');
+    // localStorage.removeItem('userId');
+    // localStorage.removeItem('salesResponse');
+    // localStorage.removeItem('isFiCumPd');
+    // localStorage.removeItem('lastAction');
+    // localStorage.removeItem('login_required');
+    // localStorage.removeItem('branchId');
+    // localStorage.removeItem('istermSheet');
+    // localStorage.removeItem('outputUsers');
+    // localStorage.removeItem('outputUsers');
+    // localStorage.removeItem('currentUrl');
+    // localStorage.removeItem('is_pred_done');
+    // localStorage.removeItem('isPreDisbursement');
+    // localStorage.removeItem('_expiredTime');
     this.router.navigateByUrl('/login');
+    this.sharedService.getUserName('');
     this.dashboardService.routingData = '';
     console.clear();  
   }
@@ -161,10 +167,16 @@ export class UtilityService {
     } else if (date.includes('-')) {
       dateArray = date.split('-');
     }
+    let getDate: Date
     //  dateArray = date.split('/');
-    let getDate = new Date(
+    if (dateArray[0].length>2){
+      getDate = new Date(
+        dateArray[1] + '-' + dateArray[2] + '-' + dateArray[0])
+    }else{
+      getDate = new Date(
       dateArray[1] + '-' + dateArray[0] + '-' + dateArray[2]
     );
+  }
 
     console.log('GETdATE', getDate)
     return getDate;
@@ -228,5 +240,12 @@ export class UtilityService {
     } else {
       return '';
     }
+  }
+
+  setTimeForDates(value){
+    var date = value.getDate()
+    var month = value.getMonth()
+    var year = value.getFullYear()
+    return new Date(year, month, date, 0 , 0)
   }
 }

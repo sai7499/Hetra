@@ -24,6 +24,7 @@ export class ViabilityListComponent {
   taskId: any;
   fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
+  inititate = false;
 
   constructor(private labelsData: LabelsService,
               private router: Router,
@@ -71,23 +72,17 @@ export class ViabilityListComponent {
       this.showNext = false;
     }
     console.log(this.route, 'queryParams Check');
-    
+
   }
-  getViability(data: any, make: any, model: any, applicantName: any) {
-    const body = {
-      data: Number(data),
-      // tslint:disable-next-line: object-literal-shorthand
-    };
-    const details = { make, model, applicantName };
-    console.log(body);
+  getViability(colletaralId: any, version: any) {
     // this.viabilityService.CollateralId(body);
-    this.viabilityService.CollateralId(details);
+    // this.viabilityService.CollateralId(details);
     // tslint:disable-next-line: triple-equals
     if (this.router.url.includes('/dde')) {
-      this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-details/${data}`);
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-details/${colletaralId}/${version}`);
       // tslint:disable-next-line: triple-equals
     } else {
-      this.router.navigate([`pages/viability-list/${this.leadId}/viability-details/${data}`]);
+      this.router.navigate([`pages/viability-list/${this.leadId}/viability-details/${colletaralId}`]);
     }
   }
   onBack() {
@@ -120,8 +115,25 @@ export class ViabilityListComponent {
     this.viabilityService.getViabilityList(body).subscribe((res: any) => {
       if (res.ProcessVariables.error.code === '0') {
         this.viabilityData = res.ProcessVariables.vehicleViabilityDashboardList;
+        this.inititate = res.ProcessVariables.initiate;
       } else {
         this.toasterService.showWarning('No Viablity Found', 'Contact Sales');
+      }
+    });
+  }
+  reInitiateViability() {
+    const body = {
+      leadId: this.leadId,
+      // collateralId: this.collataralId,
+      isReinitiated: false
+    };
+    this.viabilityService.reinitiateViabilityDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+      this.toasterService.showSuccess('Vehicle viability task assigned succesfully', '');
+      // this.router.navigateByUrl(`pages/dashboard`);
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
     });
   }

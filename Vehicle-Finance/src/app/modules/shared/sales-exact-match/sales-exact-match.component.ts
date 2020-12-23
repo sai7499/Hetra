@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SalesDedupeService } from '@services/sales-dedupe.service';
@@ -12,6 +12,7 @@ import { ApplicantDataStoreService } from '@services/applicant-data-store.servic
   styleUrls: ['./sales-exact-match.component.css'],
 })
 export class SalesExactMatchComponent implements OnInit {
+  
   currentAction: string;
   showNegativeListModal: boolean;
   negativeModalInput: {
@@ -31,6 +32,8 @@ export class SalesExactMatchComponent implements OnInit {
   isIndividual: boolean;
   panValidate: boolean = false;
   applicantId;
+  isNavigateToApplicant: boolean = false;
+  getApplicantId: any;
   constructor(
     private salesDedupeService: SalesDedupeService,
     private applicantService: ApplicantService,
@@ -43,8 +46,11 @@ export class SalesExactMatchComponent implements OnInit {
   ngOnInit() {
     this.dedupeDetails = this.salesDedupeService.getDedupeDetails();
     this.dedupeParameter = this.salesDedupeService.getDedupeParameter();
+    console.log(this.dedupeParameter.applicantId)
+    this.getApplicantId = this.dedupeParameter.applicantId;
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
+    this.isNavigateToApplicant=this.applicantDataStoreService.getNavigateForDedupe()
     console.log('dedupeDetails', this.dedupeDetails)
   }
 
@@ -53,11 +59,13 @@ export class SalesExactMatchComponent implements OnInit {
   continueAsNewApplicant() {
     this.currentAction = 'new';
     this.modalName = 'newLeadModal';
+    this.applicantDataStoreService.setDetectvalueChange(true);
   }
 
   continueWithSelectedUCIC() {
     this.currentAction = 'ucic';
     this.modalName = 'ucicModal2';
+    this.applicantDataStoreService.setDetectvalueChange(true)
   }
 
   onProbableChange(event, value) {
@@ -139,7 +147,24 @@ export class SalesExactMatchComponent implements OnInit {
       isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
       custSegment: this.dedupeDetails.custSegment,
       contactPerson: this.dedupeDetails.contactPerson,
-      // entityType : this.dedupeDetails.entityType
+    //   monthlyIncomeAmount: this.dedupeDetails.monthlyIncomeAmount || '',
+    //   annualIncomeAmount: this.dedupeDetails.annualIncomeAmount || '',
+    //  ownHouseProofAvail:this.dedupeDetails.ownHouseProofAvail,
+    //   houseOwnerProperty: this.dedupeDetails.houseOwnerProperty || '',
+    //   ownHouseAppRelationship: this.dedupeDetails.ownHouseAppRelationship || '',
+    //   averageBankBalance: this.dedupeDetails.averageBankBalance || '',
+    //   rtrType: this.dedupeDetails.rtrType || '',
+    //   prevLoanAmount: this.dedupeDetails.prevLoanAmount || '',
+    //   loanTenorServiced: this.dedupeDetails.loanTenorServiced
+    //     ? Number(this.dedupeDetails.loanTenorServiced)
+    //     : 0,
+    //   currentEMILoan: this.dedupeDetails.currentEMILoan || '',
+    //   agriNoOfAcres: this.dedupeDetails.agriNoOfAcres
+    //     ? Number(this.dedupeDetails.agriNoOfAcres)
+    //     : 0,
+    //   agriOwnerProperty: this.dedupeDetails.agriOwnerProperty || '',
+    //   agriAppRelationship: this.dedupeDetails.agriAppRelationship || '',
+    //   grossReceipt: this.dedupeDetails.grossReceipt || '',
     };
 
     this.applicantService
@@ -167,10 +192,16 @@ export class SalesExactMatchComponent implements OnInit {
       if (responce['ProcessVariables'].error.code == '0') {
         this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
           'PAN Validation Successful');
+        if(!this.isNavigateToApplicant){
+          this.router.navigateByUrl(
+            `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+          );
+        }else{
+          this.router.navigateByUrl(
+            `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
+          );
+        }
         
-        this.router.navigateByUrl(
-          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
-        );
 
       } else {
         //this.panValidate = true;
@@ -191,7 +222,21 @@ export class SalesExactMatchComponent implements OnInit {
 
   onBack() {
     this.applicantDataStoreService.setDedupeFlag(true)
-    this.location.back()
+    const leadId = this.dedupeParameter.leadId;
+    const applicantId= this.dedupeParameter.applicantId
+    // this.location.back()
+    if(!this.isNavigateToApplicant){
+      this.router.navigateByUrl(
+        `/pages/lead-section/${leadId}/co-applicant/${applicantId}`
+      );
+    }else{
+      this.router.navigateByUrl(
+        `/pages/sales-applicant-details/${leadId}/add-applicant/${applicantId}`
+      );
+    }
+    // this.router.navigateByUrl(
+    //   `/pages/lead-section/${leadId}/co-applicant/${applicantId}` 
+    // );
   }
 
   async negativeListModalListener(event) {
@@ -210,32 +255,65 @@ export class SalesExactMatchComponent implements OnInit {
       // } else {
       //   this.callApiForSelectedUcic();
       // }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
-      );
+      if(!this.isNavigateToApplicant){
+        this.router.navigateByUrl(
+          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+        );
+      }else{
+        this.router.navigateByUrl(
+          `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
+        );
+      }
+      // this.router.navigateByUrl(
+      //   `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+      // );
     }
     else if (event.name === 'next' && this.currentAction === 'new') {
       const panType=this.dedupeParameter.panType==='1PANTYPE'
       if(panType){
         this.getPanValidation();
       }else{
-        this.router.navigateByUrl(
-          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
-        );
+        if(!this.isNavigateToApplicant){
+          this.router.navigateByUrl(
+            `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+          );
+        }else{
+          this.router.navigateByUrl(
+            `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
+          );
+        }
+        // this.router.navigateByUrl(
+        //   `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+        // );
       }
       
     } else if (event.name === 'next') {
-      this.router.navigateByUrl(
-        `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
-      );
+      if(!this.isNavigateToApplicant){
+        this.router.navigateByUrl(
+          `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
+        );
+      }else{
+        this.router.navigateByUrl(
+          `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
+        );
+      }
     } else if (event.name === 'reject') {
       if (this.dedupeParameter.loanApplicationRelation === 'APPAPPRELLEAD') {
         this.router.navigateByUrl('/pages/dashboard');
         return;
       }
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.dedupeParameter.leadId}/applicant-details`
-      );
+      if(!this.isNavigateToApplicant){
+        this.router.navigateByUrl(
+          `/pages/lead-section/${this.dedupeParameter.leadId}/co-applicant`
+        );
+      }else{
+        this.router.navigateByUrl(
+          `/pages/sales-applicant-details/${this.dedupeParameter.leadId}/add-applicant`
+        );
+      }
+      // this.router.navigateByUrl(
+      //   `/pages/lead-section/${this.dedupeParameter.leadId}/applicant-details`
+      // );
     }
   }
 

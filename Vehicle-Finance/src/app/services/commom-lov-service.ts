@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { Categories } from '@model/upload-model';
+import { LabelsService } from './labels.service';
 
 Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ Injectable({
 export class CommomLovService {
   lovData: any;
   documentCategories: Categories[];
+  searchLoanData: any;
 
   setLovData(LOVsData) {
     this.lovData = LOVsData;
@@ -25,4 +27,13 @@ export class CommomLovService {
   getDocumentCategories() {
     return this.documentCategories;
   }
+
+  setSearchLoan(value) {
+    this.searchLoanData = value;
+  }
+
+  getSearchLoan() {
+    return this.searchLoanData;
+  }
+
 }

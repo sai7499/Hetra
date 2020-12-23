@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <h4>{{labels?.leadID}} {{leadID}}</h4>
+     
       <div class="disbursement-top-section">
         <!-- <div class="row">
             <div class="col-md-12">
@@ -13,6 +13,7 @@
           </div> -->
 
         <div class="row">
+          <h4 class="banner-con">{{labels?.leadID}} {{leadID}}</h4>
           <div class="col-lg-4 col-md-4 col-sm-12">
             <div class="form-group mb-0">
               <label for="lead_created_by">{{labels?.approvedLoanAmount}}</label>
@@ -38,7 +39,7 @@
 
         <div class="row">
           <div class="col-md-12">
-            <h4>Deductions</h4>
+            <h4 class="banner-con">Deductions</h4>
           </div>
         </div>
 
@@ -71,12 +72,12 @@
 
 </div>
 <div class="content" id="disbursement-memo">
-  <form class="multisteps-form__form form-horizontal" autocomplete="off">
+  <form class="multisteps-form__form form-horizontal p-0" autocomplete="off">
     <!-- default container -->
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="row">
         <div class="text-right">
-          <form [formGroup]="disbursementDetailsForm">
+          <form class="p-0" [formGroup]="disbursementDetailsForm">
           <div class="form-group">
             <label for="disburse_To" class="control-label disburse-label">{{labels?.disburseTo}}</label>
             <div class="disburse-select">
@@ -98,9 +99,9 @@
         </div>
       </div>
       <!--container 1-->
-      <form [formGroup]="dealerDetailsForm" *ngIf="disburseToDealer">
+      <form class="p-0" [formGroup]="dealerDetailsForm" *ngIf="disburseToDealer">
         <div>
-          <h4 class="title">Dealer Details</h4>
+          <h4 class="banner-con">Dealer Details</h4>
           <div class="form-group">
             <label for="sourcing_code" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.dealerCode}}
               <sub class="star_red_col">*</sub>
@@ -225,17 +226,18 @@
                 </app-custom-input>
               </div>
             </div>
-            <div class="form-group" [hidden]="true">
-              <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-                <!-- <sub class="star_red_col">*</sub> -->
-                </label>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="mobilePhone" id="dealermobilePhone" [(ngModel)]="dealerObjInfo['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                    [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                  </app-custom-input>
-                </div>
+            <div class="form-group">
+              <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input formControlName="mobilePhone" [(ngModel)]="dealerObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+                [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+                [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+              </app-custom-input>
+              </div>
             </div>
-          </div>
+            </div>
           <div *ngIf="showDDDetails">
             <div class="form-group">
               <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
@@ -360,7 +362,7 @@
             </div>
           </div>
           <div class="row" *ngIf="showTrancheTable">
-            <form [formGroup]="trancheDealerForm">
+            <form class="p-0" [formGroup]="trancheDealerForm">
               <div class="disbursement-table-section">
                   <table formArrayName="trancheDealerArray" class="table disbursement-table">
                       <thead>
@@ -370,7 +372,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -414,7 +416,7 @@
                            placeholder="tranche Date" [activeView]="'decade'" [disabled]='true'></kendo-datepicker> -->
                             </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,1)" title="delete">
                               <img src="assets/images/delete-icon.png" />
@@ -433,15 +435,15 @@
         </div>
       </form>
       <!--container 2-->
-      <form [formGroup]="appDetailsForm" *ngIf="disburseToApp">
+      <form class="p-0" [formGroup]="appDetailsForm" *ngIf="disburseToApp">
         <div>
-          <h4 class="title">Applicant Details</h4>
+          <h4 class="banner-con">Applicant Details</h4>
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryName']" id="appBeneficiaryName" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+              <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryName']" id="appBeneficiaryName" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
               [type]="'text'" [isDirty]="isDirty">
               </app-custom-input>
             </div>
@@ -532,15 +534,16 @@
               </app-custom-input>
             </div>
           </div>
-          <div class="form-group" [hidden]="true">
-            <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-              <!-- <sub class="star_red_col">*</sub>-->
-              </label> 
-              <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input formControlName="mobilePhone" id="applicantMobilePhone" [(ngModel)]="applicantObjInfo['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                  [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                </app-custom-input>
-              </div>
+          <div class="form-group">
+            <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <app-custom-input formControlName="mobilePhone" [(ngModel)]="applicantObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            </app-custom-input>
+            </div>
           </div>
         </div>
           <div *ngIf="showAppDDDetails">
@@ -664,7 +667,7 @@
             </div>
           </div>
           <div class="row" *ngIf="showAppTrancheTable">
-            <form [formGroup]="trancheAppForm">
+            <form class="p-0" [formGroup]="trancheAppForm">
               <div class="disbursement-table-section">
                   <table formArrayName="trancheAppArray" class="table disbursement-table">
                       <thead>
@@ -674,7 +677,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -718,7 +721,7 @@
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,2)" title="delete">
                                 <img src="assets/images/delete-icon.png" />
@@ -738,9 +741,9 @@
         </div>
       </form>
       <!--container 3-->
-      <form [formGroup]="coAppDetailsForm" *ngIf="disburseToCoApp">
+      <form class="p-0" [formGroup]="coAppDetailsForm" *ngIf="disburseToCoApp">
         <div>
-          <h4 class="title">Co-Applicant Details</h4>
+          <h4 class="banner-con">Co-Applicant Details</h4>
 
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.coAppName}}
@@ -756,15 +759,15 @@
             </div>
           </div>
           <!-- container coApp1 starts -->
-          <form [formGroup]="coApp1Form" *ngIf="coApp1">
+          <form class="p-0" [formGroup]="coApp1Form" *ngIf="coApp1">
             <div>
-              <h4 class="title coAppTitle">CoApplicant-1</h4>
+              <h4 class="banner-con">CoApplicant-1</h4>
               <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp1BeneficiaryName" [(ngModel)]="coApplicant1['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  <app-custom-input id="coApp1BeneficiaryName" [(ngModel)]="coApplicant1['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
                   [type]="'text'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
@@ -855,15 +858,16 @@
                   </app-custom-input>
                 </div>
               </div>
-              <div class="form-group" [hidden]="true">
-                <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-                  <!-- <sub class="star_red_col">*</sub> -->
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                      <app-custom-input formControlName="mobilePhone" id="coApp1mobilePhone" [(ngModel)]="coApplicant1['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                      [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                    </app-custom-input>
-                  </div>
+              <div class="form-group">
+                <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="mobilePhone" [(ngModel)]="coApplicant1['mobilePhone']" [className]="'form-control mandatory'"
+                  [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+                  [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+                </app-custom-input>
+                </div>
               </div>
             </div>
               <div *ngIf="showCoApp1DDDetails">
@@ -983,7 +987,7 @@
                 </div>
               </div>
               <div class="row" *ngIf="showCoApp1TrancheTable">
-                <form [formGroup]="trancheCoApp1Form">
+                <form class="p-0" [formGroup]="trancheCoApp1Form">
                   <div class="disbursement-table-section">
                       <table formArrayName="trancheCoApp1Array" class="table disbursement-table">
                           <thead>
@@ -993,7 +997,7 @@
                               <th>{{labels?.disbursementPercent}}</th>
                               <th>{{labels?.disbursementAmount}}</th>
                               <th>{{labels?.disbursementDate}}</th>
-                              <th>{{labels?.action}}</th>                   
+                              <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                             </tr>
                           </thead>
                           <tbody>
@@ -1056,15 +1060,15 @@
        
 
           <!-- container coApp2 starts -->
-          <form [formGroup]="coApp2Form" *ngIf="coApp2">
+          <form class="p-0" [formGroup]="coApp2Form" *ngIf="coApp2">
             <div>
-              <h4 class="title coAppTitle">CoApplicant-2</h4>
+              <h4 class="banner-con">CoApplicant-2</h4>
               <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp2BeneficiaryName" [(ngModel)]="coApplicant2['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  <app-custom-input id="coApp2BeneficiaryName" [(ngModel)]="coApplicant2['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
                   [type]="'text'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
@@ -1155,15 +1159,16 @@
                   </app-custom-input>
                 </div>
               </div>
-              <div class="form-group" [hidden]="true">
-                <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-                  <!-- <sub class="star_red_col">*</sub> -->
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                      <app-custom-input formControlName="mobilePhone" id="coApp2mobilePhone" [(ngModel)]="coApplicant2['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                      [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                    </app-custom-input>
-                  </div>
+              <div class="form-group">
+                <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="mobilePhone" [(ngModel)]="coApplicant2['mobilePhone']" [className]="'form-control mandatory'"
+                  [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+                  [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+                </app-custom-input>
+                </div>
               </div>
             </div>
               <div *ngIf="showCoApp2DDDetails">
@@ -1283,7 +1288,7 @@
                 </div>
               </div>
               <div class="row" *ngIf="showCoApp2TrancheTable">
-                <form [formGroup]="trancheCoApp2Form">
+                <form class="p-0" [formGroup]="trancheCoApp2Form">
                   <div class="disbursement-table-section">
                       <table formArrayName="trancheCoApp2Array" class="table disbursement-table">
                           <thead>
@@ -1293,7 +1298,7 @@
                               <th>{{labels?.disbursementPercent}}</th>
                               <th>{{labels?.disbursementAmount}}</th>
                               <th>{{labels?.disbursementDate}}</th>
-                              <th>{{labels?.action}}</th>                   
+                              <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                             </tr>
                           </thead>
                           <tbody>
@@ -1333,7 +1338,7 @@
                                    name="trancheCoApp2List[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
                             </div>
                               </td>
-                              <td class="text-center" width="10%">
+                              <td class="text-center" width="10%" *ngIf="!isLoan360">
                                 <div>
                                   <button class="delete-btn mr-8" (click)="deleteRow(i,9)" title="delete">
                                     <img src="assets/images/delete-icon.png" />
@@ -1355,15 +1360,15 @@
           <!-- container coApp2 ends -->
 
           <!-- container coApp3 starts -->
-          <form [formGroup]="coApp3Form" *ngIf="coApp3">
+          <form class="p-0" [formGroup]="coApp3Form" *ngIf="coApp3">
             <div>
-              <h4 class="title coAppTitle">CoApplicant-3</h4>
+              <h4 class="banner-con">CoApplicant-3</h4>
               <div class="form-group">
-                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                 <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp3BeneficiaryName" [(ngModel)]="coApplicant3['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Applicant Name'"
+                  <app-custom-input id="coApp3BeneficiaryName" [(ngModel)]="coApplicant3['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
                   [type]="'text'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
@@ -1455,15 +1460,16 @@
                   </app-custom-input>
                 </div>
               </div>
-              <div class="form-group" [hidden]="true">
-                <label for="mobile_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels?.mobileNumber }}
-                  <!-- <sub class="star_red_col">*</sub> -->
-                  </label>
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                      <app-custom-input formControlName="mobilePhone" id="coApp3mobilePhone" [(ngModel)]="coApplicant3['mobilePhone']" [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isDirty]="isDirty" [type]="'number'"
-                      [patternCheck]="labels.validationData?.mobileNumber.pattern">
-                    </app-custom-input>
-                  </div>
+              <div class="form-group">
+                <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input formControlName="mobilePhone" [(ngModel)]="coApplicant3['mobilePhone']" [className]="'form-control mandatory'"
+                  [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+                  [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+                </app-custom-input>
+                </div>
               </div>
             </div>
               <div *ngIf="showCoApp3DDDetails">
@@ -1583,7 +1589,7 @@
                 </div>
               </div>
               <div class="row" *ngIf="showCoApp3TrancheTable">
-                <form [formGroup]="trancheCoApp3Form">
+                <form class="p-0" [formGroup]="trancheCoApp3Form">
                   <div class="disbursement-table-section">
                       <table formArrayName="trancheCoApp3Array" class="table disbursement-table">
                           <thead>
@@ -1593,7 +1599,7 @@
                               <th>{{labels?.disbursementPercent}}</th>
                               <th>{{labels?.disbursementAmount}}</th>
                               <th>{{labels?.disbursementDate}}</th>
-                              <th>{{labels?.action}}</th>                   
+                              <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                             </tr>
                           </thead>
                           <tbody>
@@ -1633,7 +1639,7 @@
                                    name="trancheCoApp3List[i].trancheDisburseDate" formControlName="trancheDisburseDate" [readOnly]='true'/>
                             </div>
                               </td>
-                              <td class="text-center" width="10%">
+                              <td class="text-center" width="10%" *ngIf="!isLoan360">
                                 <div>
                                   <button class="delete-btn mr-8" (click)="deleteRow(i,10)" title="delete">
                                     <img src="assets/images/delete-icon.png" />
@@ -1656,11 +1662,11 @@
         </div>
       </form>
       <!--container 4-->
-      <form [formGroup]="bankerDetailsForm" *ngIf="disburseToBanker">
+      <form class="p-0" [formGroup]="bankerDetailsForm" *ngIf="disburseToBanker">
         <div>
-          <h4 class="title">Banker Details</h4>
+          <h4 class="banner-con">Banker Details</h4>
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.selectBanker}}
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.selectBank}}
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
@@ -1675,7 +1681,7 @@
                   [itemTemplate]="bankerTemplate"
                   [notFoundTemplate]="notFoundTemplate"
                   formControlName="bankerId"
-                  [placeHolder]="'Select Banker'"
+                  [placeHolder]="'Select Bank'"
                   [minQueryLength]="3">                                 
                 </ng-autocomplete>               
                 <ng-template #bankerTemplate let-item>
@@ -1688,12 +1694,12 @@
           </div>
 
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="bankerAppName" [(ngModel)]="bankerObjInfo['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'"
-                [placeholder]="'Applicant Name'" [isDirty]="isDirty" [type]="'text'">
+                <app-custom-input id="bankerAppName" [(ngModel)]="bankerObjInfo['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'"
+                [placeholder]="'Beneficiary Name'" [isDirty]="isDirty" [type]="'text'">
               </app-custom-input>
             </div>
           </div>
@@ -1782,6 +1788,17 @@
               <app-custom-input id="bankerIFSC" [(ngModel)]="bankerObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <app-custom-input formControlName="mobilePhone" [(ngModel)]="bankerObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            </app-custom-input>
             </div>
           </div>
         </div>
@@ -1901,7 +1918,7 @@
             </div>
           </div>
           <div class="row" *ngIf="showBankerTrancheTable">
-            <form [formGroup]="trancheBankerForm">
+            <form class="p-0" [formGroup]="trancheBankerForm">
               <div class="disbursement-table-section">
                   <table formArrayName="trancheBankerArray" class="table disbursement-table">
                       <thead>
@@ -1911,7 +1928,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -1955,7 +1972,7 @@
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,4)" title="delete">
                                 <img src="assets/images/delete-icon.png" />
@@ -1974,9 +1991,9 @@
         </div>
       </form>
       <!--container 5-->
-      <form [formGroup]="financierDetailsForm" *ngIf="disburseToFinancier">
+      <form class="p-0" [formGroup]="financierDetailsForm" *ngIf="disburseToFinancier">
         <div>
-          <h4 class="title">Financier Details</h4>
+          <h4 class="banner-con">Financier Details</h4>
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.selectFinancier}}
             <sub class="star_red_col">*</sub>
@@ -1988,12 +2005,12 @@
           </div>
 
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.appName}}
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
             <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <app-custom-input id="finBeneficiaryName" [(ngModel)]="financierObjInfo['beneficiaryName']" [isRequired]="'Applicant Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
-                [placeholder]="'Applicant Name'" [isDirty]="isDirty" [type]="'text'">
+                <app-custom-input id="finBeneficiaryName" [(ngModel)]="financierObjInfo['beneficiaryName']" [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                [placeholder]="'Beneficiary Name'" [isDirty]="isDirty" [type]="'text'">
               </app-custom-input>
             </div>
           </div>
@@ -2084,6 +2101,17 @@
               <app-custom-input id="finIFSC" [(ngModel)]="financierObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <app-custom-input formControlName="mobilePhone" [(ngModel)]="financierObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            </app-custom-input>
             </div>
           </div>
         </div>
@@ -2205,7 +2233,7 @@
           </div>
 
           <div class="row" *ngIf="showFinancierTrancheTable">
-            <form [formGroup]="trancheFinancierForm">
+            <form class="p-0" [formGroup]="trancheFinancierForm">
               <div class="disbursement-table-section">
                   <table formArrayName="trancheFinancierArray" class="table disbursement-table">
                       <thead>
@@ -2215,7 +2243,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -2259,7 +2287,7 @@
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,5)" title="delete">
                                 <img src="assets/images/delete-icon.png" />
@@ -2279,9 +2307,9 @@
         </div>
       </form>
       <!--container 6-->
-      <form [formGroup]="thirdPartyDetailsForm" *ngIf="disburseToThirdParty">
+      <form class="p-0" [formGroup]="thirdPartyDetailsForm" *ngIf="disburseToThirdParty">
         <div>
-          <h4 class="title">Third Party</h4>
+          <h4 class="banner-con">Third Party</h4>
 
           <!-- <div class="form-group">
           <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Beneficiary Name</label>
@@ -2302,7 +2330,7 @@
           <sub class="star_red_col">*</sub>
           </label>
           <div class="col-sm-6 col-md-4 col-lg-3">
-            <app-custom-input id="tpBeneficiaryName" [(ngModel)]="thirdPartyObjInfo['beneficiaryName']" [isRequired]="'Third Party is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'"
+            <app-custom-input id="tpBeneficiaryName" [(ngModel)]="thirdPartyObjInfo['beneficiaryName']" [isRequired]="'Third Party is required'" formControlName="beneficiaryName" [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" [className]="'form-control mandatory'" [placeholder]="'Third Party Name'"
               [isDirty]="isDirty" [type]="'text'">
             </app-custom-input>
           </div>
@@ -2392,6 +2420,17 @@
               <app-custom-input id="tpIFSC" [(ngModel)]="thirdPartyObjInfo['ifscCode']" [isRequired]="'IFSC Code is required'" formControlName="ifscCode" [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                 [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
               </app-custom-input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }} 
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <app-custom-input formControlName="mobilePhone" [(ngModel)]="thirdPartyObjInfo['mobilePhone']" [className]="'form-control mandatory'"
+              [placeholder]="'Mobile Number'" [maxLength]="mobileLength" [isRequired]="'Mobile Number is mandatory'"
+              [isDirty]="isDirty" [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern">
+            </app-custom-input>
             </div>
           </div>
         </div>
@@ -2513,7 +2552,7 @@
           </div>
 
           <div class="row" *ngIf="showThirdPartyTrancheTable">
-            <form [formGroup]="trancheTPForm">
+            <form class="p-0" [formGroup]="trancheTPForm">
               <div class="disbursement-table-section">
                   <table formArrayName="trancheTpArray" class="table disbursement-table">
                       <thead>
@@ -2523,7 +2562,7 @@
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
                           <th>{{labels?.disbursementDate}}</th>
-                          <th>{{labels?.action}}</th>                   
+                          <th *ngIf="!isLoan360">{{labels?.action}}</th>                   
                         </tr>
                       </thead>
                       <tbody>
@@ -2567,7 +2606,7 @@
                            placeholder="tranche Date" [activeView]="'decade'"></kendo-datepicker> -->
                            </div>
                           </td>
-                          <td class="text-center" width="10%">
+                          <td class="text-center" width="10%" *ngIf="!isLoan360">
                             <div>
                               <button class="delete-btn mr-8" (click)="deleteRow(i,6)" title="delete">
                                 <img src="assets/images/delete-icon.png" />
@@ -2590,9 +2629,9 @@
 
       <!--container 7-->
       <!-- *ngIf="disburseToIBT" -->
-      <form [formGroup]="ibtDetailsForm" *ngIf="false">
+      <form class="p-0" [formGroup]="ibtDetailsForm" *ngIf="false">
         <div>
-          <h4 class="title">Internal BT</h4>
+          <h4 class="banner-con">Internal BT</h4>
 
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Favoring Name
@@ -2634,11 +2673,19 @@
     <div class="col-sm-5">
     </div>
     <div class="col-sm-7 text-right">
-      <button (click)="onBack()" class="btn btn-primary " type="button" *ngIf="showSaveButton == true">Back </button>
+      <button (click)="onBack()" class="btn btn-primary hvr-sweep-to-left" type="button" *ngIf="showSaveButton == true">Back </button>
+      <ng-container *ngIf="!isLoan360">
       <button (click)="saveAndUpdate()" class="btn btn-primary " type="button" *ngIf="roleType != 4 && roleType != 5" >Save </button>
       
       <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button" *ngIf="roleType == '5'">Book Loan </button>
-      <button (click)="onNext()" class="btn btn-primary js-btn-next" type="button" > Next </button>
+      <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" *ngIf="roleType != 4 && roleType != 5 && roleType !== 7" > Next </button>
+  </ng-container>
+     <ng-container *ngIf="!isLoan360">
+      <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" *ngIf="roleType == 4 || roleType == 7" > Next </button>
+      </ng-container>
+      <ng-container *ngIf="isLoan360">
+        <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" > Next </button>
+        </ng-container>
     </div>
   </div>
 </div>
