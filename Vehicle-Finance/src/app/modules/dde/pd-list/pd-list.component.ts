@@ -7,6 +7,9 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { async } from '@angular/core/testing';
+import { CommomLovService } from '@services/commom-lov-service';
+import { LovDataService } from '@services/lov-data.service';
 @Component({
   selector: 'app-pd-list',
   templateUrl: './pd-list.component.html',
@@ -49,6 +52,10 @@ export class PdListComponent implements OnInit {
   reqLoanAmount: any;
   applicantType: any;
 
+  husFathFirstName: string;
+  husFathSecondName: string;
+  husFathThirdName: string;
+
   applicantPdDetails: any;
   custProfDetails: any;
   loanDetails: any;
@@ -64,6 +71,57 @@ export class PdListComponent implements OnInit {
   SELFIE_IMAGE: any;
   isccOdLimit: boolean;
   selectedApplicantId: any;
+  LOV: any;
+  pdApplicantLov: any;
+  customerProfileLov: any;
+  loanDetailsLov: any;
+
+  pdGender: string;
+  pdMaritalStatus: string;
+  pdReligion: string;
+  pdEducationalQualification: string;
+  pdVehicleApplication: string;
+  pdOccupation: string;
+  pdBusinessType: string;
+  pdCommunity: string;
+  pdCustomerProfile: string;
+  pdPriorExperience: string;
+  pdResidentStatus: string;
+  pdAccomodationType: string;
+  pdResidentialLocality: string;
+  pdNatureOfBussiness: string;
+  PdHouseOwnership: string;
+  pdBankAccountType: string;
+  pdrelationship: string;
+  pdReferrerAssetName: string;
+  pdReferenceRelationship: string;
+  pdPdStatus: string;
+
+  pdResidentialType: string;
+  pdHouseStandard: string;
+  pdHouseSize: string;
+  pdStandardOfLiving: string;
+  pdRatingbySO: string;
+  pdOfficePremisesType: string;
+  pdOfficeSize: string;
+  pdCustomerHouseSelfie: string;
+  pdCustomerProfileRatingSo: string;
+  pdNewVehModel: string;
+  pdNewVehicleType: string;
+  pdUsedVehModel: string;
+  pdUsedVehicleType: string;
+  pdNameOfFinancer: string;
+  pdNameOfChannel: string;
+  pdKnowAbtVehicle: string;
+  pdEarlierVehicleApp: string;
+  pdApplicantEarlierVehicle: string;
+  pdVehicleContract: string;
+
+  pdVehicleMake: string;
+  pdConditionOfVehicle: string;
+  pdSelfDriven: string;
+  pdPrevExpMatched: string;
+  fileName: string;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
@@ -73,15 +131,19 @@ export class PdListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private createLeadDataService: CreateLeadDataService,
     private personalDiscussion: PersonalDiscussionService,
+    private commomLovService: CommomLovService,
+    private lovDataService: LovDataService
 
   ) { }
 
   async ngOnInit() {
     this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
     if (this.fiCumPdStatusString == 'false') {
-      this.fiCumPdStatus = false
+      this.fiCumPdStatus = false;
+      this.fileName = 'PD';
     } else if (this.fiCumPdStatusString == 'true') {
       this.fiCumPdStatus = true
+      this.fileName = 'FIcumPD';
     }
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -95,13 +157,13 @@ export class PdListComponent implements OnInit {
     this.getLabels = this.labelsData.getLabelsData()
       .subscribe(data => {
         this.labels = data;
+        this.getLOV();
+        this.getPdLOV();
       },
         error => {
           this.errorMsg = error;
         });
-    this.getPdList();
 
-    this.getLeadSectiondata();
     if (this.router.url.includes('/fi-cum-pd-dashboard')) {   // showing/hiding the nav bar based on url
       this.show = true;
     } else if (this.router.url.includes('/dde')) {
@@ -109,6 +171,25 @@ export class PdListComponent implements OnInit {
     } else {
       this.show = false;
     }
+  }
+
+  getPdLOV() {
+    this.lovDataService.getLovData().subscribe((value: any) => {
+      this.pdApplicantLov = value ? value[0].applicantDetails[0] : {};
+      console.log('pd value', value);
+      this.customerProfileLov = value ? value[0].customerProfile[0] : {};
+      console.log('ficumpd value', value);
+      this.loanDetailsLov = value ? value[0].loanDetail[0] : {};
+      console.log('ficumpd loanDetailsLov', value);
+    });
+  }
+
+  getLOV() { // fun call to get all lovs
+    this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    this.pdStandardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
+    console.log('PDlov', this.LOV);
+    this.getPdList();
+    this.getLeadSectiondata();
   }
 
   getPdList() { // function to get all the pd report list respect to particular lead
@@ -284,7 +365,7 @@ export class PdListComponent implements OnInit {
       pdVersion: 'undefined'
     };
 
-    this.personalDiscussion.getPdData(data).subscribe((value: any) => {
+    this.personalDiscussion.getPdData(data).subscribe(async (value: any) => {
       const response = value.ProcessVariables;
       if (response.error.code === '0') {
         this.applicantPdDetails = response.applicantPersonalDiscussionDetails;
@@ -299,6 +380,14 @@ export class PdListComponent implements OnInit {
         this.customerProfileDetails = response.customerProfileDetails;
         this.SELFIE_IMAGE = response.profilePhoto;
 
+        if (this.applicantPdDetails.fatherFullName || this.applicantPdDetails.husbandFullName) {
+          const fullName = this.applicantPdDetails.fatherFullName ? this.applicantPdDetails.fatherFullName : this.applicantPdDetails.husbandFullName;
+          const nameOfSplit = fullName.split(' ');
+          this.husFathFirstName = nameOfSplit[0];
+          this.husFathSecondName = nameOfSplit[1] ? nameOfSplit[1] : '';
+          this.husFathThirdName = nameOfSplit[2] ? nameOfSplit[2] : '';
+        }
+
         if (this.applicantPdDetails.noOfYearsResidingInCurrResidence) {
           this.pdPersonalNoofmonths = String(Number(this.applicantPdDetails.noOfYearsResidingInCurrResidence) % 12) || '';
           this.pdPersonalNoofyears = String(Math.floor(Number(this.applicantPdDetails.noOfYearsResidingInCurrResidence) / 12)) || '';
@@ -312,7 +401,65 @@ export class PdListComponent implements OnInit {
         }
 
         this.marketAndFinacier = response.marketFinRefData;
-        this.downloadpdf();
+
+
+        this.pdGender = this.LOV.LOVS.gender.find((value) => value.key == this.applicantPdDetails.gender);
+        this.pdMaritalStatus = this.LOV.LOVS.maritalStatus.find((value) => value.key == this.applicantPdDetails.maritalStatus);
+        this.pdReligion = this.LOV.LOVS.religion.find((value) => value.key == this.applicantPdDetails.religion);
+        this.pdEducationalQualification = this.LOV.LOVS.educationalQualification.find((value) => value.key == this.applicantPdDetails.educationalBackgroundType);
+        this.pdVehicleApplication = this.LOV.LOVS.vehicleApplication.find((value) => value.key == this.applicantPdDetails.vehicleApplication);
+        this.pdOccupation = this.LOV.LOVS.occupation.find((value) => value.key == this.applicantPdDetails.occupationType);
+        this.pdBusinessType = this.LOV.LOVS.businessType.find((value) => value.key == this.applicantPdDetails.businessType);
+        this.pdCommunity = this.LOV.LOVS.community.find((value) => value.key == this.applicantPdDetails.community);
+        this.pdResidentialLocality = this.LOV.LOVS['fi/PdResidentialLocality'].find((value) => value.key == this.applicantPdDetails.residentialLocality);
+        this.PdHouseOwnership = this.LOV.LOVS['fi/PdHouseOwnership'].find((value) => value.key == this.applicantPdDetails.houseOwnership);
+        this.pdBankAccountType = this.LOV.LOVS.bankAccountType.find((value) => value.key == this.pdIncomeDetails.typeOfAccount);
+        this.pdrelationship = this.LOV.LOVS.relationship.find((value) => value.key == this.refCheckDetails.refererRelationship);
+        this.pdReferenceRelationship = this.LOV.LOVS.relationship.find((value) => value.key == this.refCheckDetails.referenceRelationship);
+        this.pdNatureOfBussiness = this.LOV.LOVS.natureOfBussiness.find((value) => value.key == this.refCheckDetails.natureOfBusiness);
+
+        this.pdCustomerProfile = this.pdApplicantLov.customerProfilePersonal.find((value) => value.key == this.applicantPdDetails.customerProfile);
+        this.pdPriorExperience = this.pdApplicantLov.priorExperience.find((value) => value.key == this.applicantPdDetails.customerProfile);
+        this.pdResidentStatus = this.pdApplicantLov.residentStatus.find((value) => value.key == this.applicantPdDetails.residentStatus);
+        this.pdAccomodationType = this.pdApplicantLov.accomodationType.find((value) => value.key == this.applicantPdDetails.accomodationType);
+        this.pdReferrerAssetName = this.pdApplicantLov.referrerAssetName.find((value) => value.key == this.refCheckDetails.refererAssetName);
+        this.pdPdStatus = this.pdApplicantLov.pdStatus.find((value) => value.key == this.refCheckDetails.pdStatus);
+
+
+        this.pdResidentialType = this.LOV.LOVS['fi/PdResidentialType'].find((value) => value.key == this.applicantPdDetails.residentialType);
+        this.pdHouseStandard = this.LOV.LOVS['fi/PdHouseStandard'].find((value) => value.key == this.applicantPdDetails.houseType);
+        this.pdHouseSize = this.LOV.LOVS['fi/PdHouseSize'].find((value) => value.key == this.applicantPdDetails.sizeOfHouse);
+        this.pdStandardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].find((value) => value.key == this.applicantPdDetails.standardOfLiving);
+        this.pdRatingbySO = this.LOV.LOVS['fi/PdRating'].find((value) => value.key == this.applicantPdDetails.ratingbySO);
+
+        this.pdOfficePremisesType = this.LOV.LOVS['fi/PdOfficePremisesType'].find((value) => value.key == this.custProfDetails.officePremises);
+        this.pdOfficeSize = this.LOV.LOVS['fi/PdOfficeSize'].find((value) => value.key == this.custProfDetails.sizeofOffice);
+        this.pdCustomerHouseSelfie = this.customerProfileLov.commonLov.find((value) => value.key == this.custProfDetails.customerHouseSelfie);
+        this.pdCustomerProfileRatingSo = this.LOV.LOVS['fi/PdRating'].find((value) => value.key == this.custProfDetails.customerProfileRatingSo);
+
+        this.pdNewVehModel = this.LOV.LOVS.vehicleManufacturer.find((value) => value.key == this.newCvDetails.model);
+        this.pdNewVehicleType = this.LOV.LOVS.vehicleType.find((value) => value.key == this.newCvDetails.type);
+        this.pdUsedVehModel = this.LOV.LOVS.vehicleManufacturer.find((value) => value.key == this.usedVehicleDetails.model);
+        this.pdUsedVehicleType = this.LOV.LOVS.vehicleType.find((value) => value.key == this.usedVehicleDetails.type);
+        this.pdNameOfFinancer = this.LOV.LOVS.vehicleFinanciers.find((value) => value.key == this.usedVehicleDetails.financierName);
+
+        this.pdNameOfChannel = this.loanDetailsLov.nameOfChannel.find((value) => value.key == this.usedVehicleDetails.channelSourceName);
+        this.pdKnowAbtVehicle = this.LOV.LOVS['howDoYouKnowAboutProposedVehicle'].find((value) => value.key == this.usedVehicleDetails.proposedVehicle);
+        this.pdEarlierVehicleApp = this.LOV.LOVS['fi/PdEarlierVehicleApplication'].find((value) => value.key == this.usedVehicleDetails.earlierVehicleApplication);
+        this.pdApplicantEarlierVehicle = this.LOV.LOVS['fi/PdApplicantEarlierVehicle'].find((value) => value.key == this.usedVehicleDetails.drivingVehicleEarlier);
+        this.pdVehicleContract = this.LOV.LOVS['vehicleContract'].find((value) => value.key == this.usedVehicleDetails.vehicleContractKey);
+
+        this.pdVehicleMake = this.LOV.LOVS['vehicleManufacturer'].find((value) => value.key == this.assetDetailsUsedVehicle.vehicleMake);
+        this.pdConditionOfVehicle = this.loanDetailsLov.physicalCondition.find((value) => value.key == this.assetDetailsUsedVehicle.conditionOfVehicle);
+        this.pdSelfDriven = this.LOV.LOVS['fi/PdSelfDrivenOrDriver'].find((value) => value.key == this.assetDetailsUsedVehicle.selfDrivenOrDriver);
+        this.pdPrevExpMatched = this.loanDetailsLov.commonLov.find((value) => value.key == this.assetDetailsUsedVehicle.isPrevExpMatched);
+
+
+
+        console.log('this.pdGender', this.pdGender)
+        setTimeout(() => {
+          this.downloadpdf();
+        });
       }
     });
   }
@@ -326,10 +473,10 @@ export class PdListComponent implements OnInit {
   downloadpdf() {
     var options = {
       margin: [0.5, 0.3, 0.5, 0.3],
-      filename: `FIcumPD_${this.leadId}.pdf`,
+      filename: `${this.fileName}_${this.leadId}.pdf`,
       image: { type: 'jpeg', quality: 0.99 },
       html2canvas: { scale: 3, logging: true },
-      pagebreak: { before: "#page_break" },
+      pagebreak: { before: "#page-break" },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById('pdf')).set(options).save();
