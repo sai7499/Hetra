@@ -878,12 +878,6 @@ export class LeadCreationComponent implements OnInit {
   }
 
   navgiateToNextPage() {
-    // let navigationExtras: NavigationExtras = {
-    //   queryParams: {...},
-    //   state: {...}
-    // };
-
-    // // Redirect the user
     this.router.navigateByUrl(`pages/lead-section/${this.leadId}`, { state: { udfScreenId: 'LDS001' }});    
     // , skipLocationChange: true
     // this.router.navigate([`pages/lead-section/${this.leadId}`], { queryParams: { udfScreenId: this.udfScreenId } });

@@ -30,8 +30,6 @@ export class LeadDataResolverService implements Resolve<any> {
     this.leadId = route.params.leadId;
     this.udfScreenId = this.router.getCurrentNavigation().extras.state ? this.router.getCurrentNavigation().extras.state : null;
 
-    console.log(this.udfScreenId, 'screen Id')
-
     const processId = this.apiService.api.getLeadById.processId;
     const workflowId = this.apiService.api.getLeadById.workflowId;
     const projectId = this.apiService.api.getLeadById.projectId;

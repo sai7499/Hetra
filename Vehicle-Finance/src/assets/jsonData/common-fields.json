@@ -5,7 +5,7 @@
       "groupName": "PD"
     },
     {
-      "groupId": "CLG002",
+      "groupId": "VLG002",
       "groupName": "Vehicle Details"
     },
     {
@@ -55,18 +55,18 @@
       "name": "PD-Reference Details   - Checker"
     },
     {
-      "id": "CLS002",
-      "groupId": "CLG002",
+      "id": "VLS002",
+      "groupId": "VLG002",
       "name": "Vehicle Details - QDE"
     },
     {
-      "id": "CLS004",
-      "groupId": "CLG002",
+      "id": "VLS004",
+      "groupId": "VLG002",
       "name": "Vehicle Details - ADE"
     },
     {
-      "id": "CLS006",
-      "groupId": "CLG002",
+      "id": "VLS006",
+      "groupId": "VLG002",
       "name": "Vehicle Details - DDE"
     },
     {
@@ -1281,6 +1281,54 @@
         "rule": 30,
         "msg": ""
       }
+    },
+    {
+      "id": "costOfVehicle",
+      "label": "Cost Of Vehicle",
+      "placeholder": "Cost Of Vehicle",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "number",
+      "maxLength": {
+        "rule": 12,
+        "msg": ""
+      }
+    },
+    {
+      "id": "personName",
+      "label": "Person Name",
+      "placeholder": "Person Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "creditCondition",
+      "label": "Credit Condition",
+      "placeholder": "Credit Condition",
+      "mandatory": true,
+      "contorlType": "textarea",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "salesResponse",
+      "label": "Sales Response",
+      "placeholder": "Sales Response",
+      "mandatory": true,
+      "contorlType": "textarea",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
     }
   ],
   "screenUdfMapping": {
@@ -1524,7 +1572,7 @@
         }
       ]
     },
-    "CLS002": {
+    "VLS002": {
       "layout": 3,
       "fields": [
         {
@@ -1544,7 +1592,7 @@
         }
       ]
     },
-    "CLS004": {
+    "VLS004": {
       "layout": 3,
       "fields": [
         {
@@ -1574,7 +1622,7 @@
         }
       ]
     },
-    "CLS006": {
+    "VLS006": {
       "layout": 3,
       "fields": [
         {
@@ -2084,6 +2132,26 @@
         }
       ]
     },
+    "FPS003": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "costOfVehicle",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "FPS004": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "personName",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
     "FPS005": {
       "layout": 3,
       "fields": [
@@ -2177,7 +2245,7 @@
     "VAS001": {
       "layout": 3,
       "fields": [
-        {                                                                   
+        {
           "name": "company",
           "show": true,
           "disable": false
@@ -2189,6 +2257,36 @@
       "fields": [
         {
           "name": "borrowerName",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "CCS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "creditCondition",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "CCS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "salesResponse",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "CCS003": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "creditCondition",
           "show": true,
           "disable": false
         }
