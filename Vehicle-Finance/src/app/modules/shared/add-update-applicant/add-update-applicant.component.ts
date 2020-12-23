@@ -538,6 +538,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       } else {
         this.setDedupeForNonIndividual()
       }
+      setTimeout(() => {
+        this.listenerForUnique();
+        this.setDedupeValidators();
+  
+      });
     }
   }
 
@@ -2430,7 +2435,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       isCheckboxChange = true;
     }
-    if (!this.applicant.ucic) {
+    if (this.applicant ? !this.applicant.ucic : true) {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
         !formValue.permentAddress.addressLineOne ||
@@ -2507,7 +2512,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       isCheckboxChange = true;
     }
-    if (!this.applicant.ucic) {
+    if (this.applicant ? !this.applicant.ucic : true) {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
         !formValue.registeredAddress.addressLineOne ||
@@ -2842,9 +2847,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
     };
-
+   
     if (this.applicantType === 'INDIVENTTYP') {
-      if (!this.applicant.ucic) {
+      
+      if (this.applicant ? !this.applicant.ucic : true) {
         if (
           this.coApplicantForm.get('dedupe').invalid ||
           // this.coApplicantForm.get('permentAddress').invalid ||
@@ -2903,7 +2909,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.storeIndividualValueInService(coApplicantModel);
       this.applicantDataService.setCorporateProspectDetails(null);
     } else {
-      if (!this.applicant.ucic) {
+      if (this.applicant ? !this.applicant.ucic : true) {
         if (
           this.coApplicantForm.get('dedupe').invalid ||
           !formValue.registeredAddress.addressLineOne ||
