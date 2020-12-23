@@ -75,14 +75,14 @@ export class IdleTimerService {
                 this.callback();
                 this.cleanUp();
             }
-        }, 30000);
+        }, 1000);
     }
 
     updateExpiredTime() {
         console.log(Date.now())
         console.log('timeout',this.timeout)
-        console.log(Date.now() + this.timeout * 30000);
-        localStorage.setItem('_expiredTime', String(Date.now() + this.timeout * 30000));
+        console.log(Date.now() + this.timeout * 1000);
+        localStorage.setItem('_expiredTime', String(Date.now() + this.timeout * 1000));
     }
 
     private tracker() {
