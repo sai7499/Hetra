@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { DraggableContainerService } from '@services/draggable.service';
 import { LabelsService } from '@services/labels.service';
-import { PddDetailsService } from '@services/pdd-details.service';
 import { RcuService } from '@services/rcu.service';
 import { ToasterService } from '@services/toaster.service';
-import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UploadService } from '@services/upload.service';
 import { UtilityService } from '@services/utility.service';
 import { Constant } from '@assets/constants/constant';
-import { Location } from '@angular/common';
 import { LoginStoreService } from '@services/login-store.service';
 import { formatDate } from '@angular/common';
 import { LoanViewService } from '@services/loan-view.service';
@@ -73,11 +70,16 @@ export class RcuComponent implements OnInit {
   errMsg: any;
   fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
-  //  public value: Date = new Date(2019, 5, 1, 22);
-  //     public format = 'MM/dd/yyyy HH:mm';
 
   isLoan360: boolean;
   taskId: any;
+
+  // userDefineFields
+  udfScreenId = 'RCS002';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'RCG001';
+
   constructor(
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -90,13 +92,11 @@ export class RcuComponent implements OnInit {
     private utilityService: UtilityService,
     private uploadService: UploadService,
     private draggableContainerService: DraggableContainerService,
-    private location: Location,
     private loginStoreService: LoginStoreService,
     private loanViewService: LoanViewService,
     public router: Router,
     private sharedService: SharedService
   ) {
-    // this.leadId = this.route.snapshot.params['leadId'];
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
@@ -141,7 +141,6 @@ export class RcuComponent implements OnInit {
       vehicleModel: [''],
       vehicleNo: [''],
       rcuReportStatus: [''],
-      // rcuUpload: [''],
       rcuDocumentId: [''],
       rcuReportReceivedDateTime: this.getTodayDate(null),
       remarks: [''],
@@ -159,21 +158,21 @@ export class RcuComponent implements OnInit {
       //  this.rcuInitiated = true
       this.getAllRcuDetails();
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
-   
+
       // this.isErr = false
       // this.isRcuDetails = true;
 
       this.getAllRcuDetails();
       // this.rcuDetailsForm.disable()
-      setTimeout((  ) => {
-this.rcuDetailsForm.disable()
+      setTimeout(() => {
+        this.rcuDetailsForm.disable()
 
-this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
-        
-      
-      },1000)
-     
-      
+        this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
+
+
+      }, 1000)
+
+
       this.showSave = false
       this.showBack = true
 
@@ -183,40 +182,28 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
 
     // this.assignRcuTask()
   }
+
   getTodayDate(today) {
     if (today != null && today != '') {
-      // let date = formatDate(today, 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530')
       return today;
-      // console.log(date)
     } else {
       let todayDate = this.today;
-      // return todayDate
-      console.log(todayDate);
       return todayDate;
-      
+
     }
   }
+
   showDocuments(check) {
-    //    console.log(check);
     this.selectDocument = check;
-    if (check == 'applicant' ) {
+    if (check == 'applicant') {
       this.tab = 'tab1';
       this.showColletralDocuments = false;
-    //  if(this.roleType == '2'){
-    //   this.rcuDetailsForm.disable()
-    //  }
     } else if (check == 'colletral') {
       this.tab = 'tab2';
       this.showColletralDocuments = true;
-      // if(this.roleType == '2'){
-      //   this.rcuDetailsForm.disable()
-      //  }
     }
-    // this.getAllRcuDetails()
     let event = this.rcuDetailsForm.controls.fileRCUStatus.value
-    console.log('value',event);
     this.testRadio(event)
-    
   }
 
   onSwitch(check) {
@@ -271,8 +258,6 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
       rcuReportStatus: this.response.rcuReportStatus,
       rcuUpload: this.response.rcuUpload,
       rcuDocumentId: this.response.rcuDocumentId,
-
-      // rcuReportReceivedDateTime: formatDate(this.response.rcuReportReceivedDateTime, 'dd-MM-yyyy hh:mm:ss a', 'en-US', '+0530'),
       rcuReportReceivedDateTime: this.getTodayDate(
         this.response.rcuReportReceivedDateTime
       ),
@@ -361,12 +346,17 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
 
     const data = {
       applicantId: this.applicantId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     };
     this.rcuService.getRcuDetails(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
         this.isGetapiCalled = true;
         this.response = res.ProcessVariables;
-        console.log(this.response.rcuInitiated == true);
         if (this.router.url.includes('/rcu') && this.roleType == '2' && this.response.rcuInitiated == true) {
 
           if (this.response.stage == "NotInitiated") {
@@ -383,7 +373,6 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
 
           }
 
-
         } else if (this.router.url.includes('/rcu') && this.roleType == '2' && this.response.rcuInitiated == false) {
           this.isRcuDetails = true;
           this.isErr = true;
@@ -394,6 +383,9 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
         this.collateralDocuments = this.response.collateralDocuments;
         this.populateApplicantDocuments(this.response.fileRCUStatus);
         this.isGetapiCalled = false;
+
+        this.udfDetails = res.ProcessVariables.udfDetails ? res.ProcessVariables.udfDetails : [];
+
       } else if (res && res.ProcessVariables.error.code == '1') {
         // this.showCamHtml == false
         // this.errorGenerated = true;
@@ -404,12 +396,16 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
       }
     });
   }
+
+  onSaveuserDefinedFields(event) {
+    this.userDefineForm = event;
+  }
+
   onSave() {
-   console.log(this.rcuDetailsForm);
-    
+
     this.submitted = true;
     // stop here if form is invalid
-    if (this.rcuDetailsForm.invalid) {
+    if (this.rcuDetailsForm.invalid && this.userDefineForm.udfData.invalid) {
       this.toasterService.showError(
         'Fields Missing Or Invalid Pattern Detected',
         'RCU Details'
@@ -457,6 +453,13 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
         rcuReportReceivedDateTime: this.rcuDetailsForm.controls
           .rcuReportReceivedDateTime.value,
         remarks: this.rcuDetailsForm.controls.remarks.value,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          }
+        ]
       };
       this.rcuService.saveUpdateRcuDetails(data).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -496,10 +499,6 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
 
   }
   testRadio(event) {
-    // alert("event" + event)
-    // this.fileRCUStatus = this.rcuDetailsForm.controls.fileRCUStatus.value
-
-    console.log('event', event)
 
     if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
       this.screened = '0';
@@ -511,23 +510,19 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
       ) {
         const control = this.rcuDetailsForm.controls.applicantDocuments
           .controls as FormArray;
-        // let screenValue = this.rcuDetailsForm.controls.applicantDocuments[i].controls.screened.value
 
         control[i].patchValue({
           screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '1',
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '0',
         });
-        if(this.roleType == '6'){
-          // control[i].controls.sampled.disable()
-          // control[i].controls.screened.enable()
+        if (this.roleType == '6') {
           control[i].controls.screened.disable()
           control[i].controls.sampled.enable()
         }
-       
 
       }
-    } 
-     if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
+    }
+    if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
       this.screened = '0';
       this.sampled = '1';
       // tslint:disable-next-line: prefer-for-of
@@ -542,15 +537,15 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '1',
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '0',
         });
-        if(this.roleType == '6'){
-        // control[i].controls.sampled.disable()
-        // control[i].controls.screened.enable()
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        if (this.roleType == '6') {
+          // control[i].controls.sampled.disable()
+          // control[i].controls.screened.enable()
+          control[i].controls.screened.disable()
+          control[i].controls.sampled.enable()
         }
       }
     }
-     if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
+    if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
       this.screened = '1';
       this.sampled = '0';
       // tslint:disable-next-line: prefer-for-of
@@ -565,15 +560,15 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '0',
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '1',
         })
-        if(this.roleType == '6'){
-        // control[i].controls.screened.disable()
-        // control[i].controls.sampled.enable()
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        if (this.roleType == '6') {
+          // control[i].controls.screened.disable()
+          // control[i].controls.sampled.enable()
+          control[i].controls.sampled.disable()
+          control[i].controls.screened.enable()
         }
       }
-    } 
-     if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
+    }
+    if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
       this.screened = '1';
       this.sampled = '0';
       // tslint:disable-next-line: prefer-for-of
@@ -590,15 +585,15 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '0',
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
         });
-        if(this.roleType == '6'){
-        // control[i].controls.screened.disable()
-        // control[i].controls.sampled.enable()
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        if (this.roleType == '6') {
+          // control[i].controls.screened.disable()
+          // control[i].controls.sampled.enable()
+          control[i].controls.sampled.disable()
+          control[i].controls.screened.enable()
         }
       }
-    } 
-     if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
+    }
+    if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
       this.screened = '0';
       this.sampled = '1';
       for (
@@ -612,15 +607,15 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           screened: '1',
           sampled: '0',
         });
-        if(this.roleType == '6'){
-        // control[i].controls.sampled.disable()
-        // control[i].controls.screened.enable()
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        if (this.roleType == '6') {
+          // control[i].controls.sampled.disable()
+          // control[i].controls.screened.enable()
+          control[i].controls.screened.disable()
+          control[i].controls.sampled.enable()
         }
       }
-    } 
-     if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
+    }
+    if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
       this.screened = '0';
       this.sampled = '1';
       for (
@@ -634,15 +629,15 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           screened: '1',
           sampled: '0',
         });
-        if(this.roleType == '6'){
-        // control[i].controls.sampled.disable()
-        // control[i].controls.screened.enable()
-        control[i].controls.screened.disable()
-        control[i].controls.sampled.enable()
+        if (this.roleType == '6') {
+          // control[i].controls.sampled.disable()
+          // control[i].controls.screened.enable()
+          control[i].controls.screened.disable()
+          control[i].controls.sampled.enable()
         }
       }
-    } 
-     if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
+    }
+    if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
       this.screened = '1';
       this.sampled = '0';
       for (
@@ -656,15 +651,15 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           screened: '0',
           sampled: '1',
         });
-        if(this.roleType == '6'){
-        // control[i].controls.screened.disable()
-        // control[i].controls.sampled.enable()
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        if (this.roleType == '6') {
+          // control[i].controls.screened.disable()
+          // control[i].controls.sampled.enable()
+          control[i].controls.sampled.disable()
+          control[i].controls.screened.enable()
         }
       }
-    } 
-     if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
+    }
+    if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
       this.screened = '1';
       this.sampled = '0';
       for (
@@ -678,11 +673,11 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
           screened: '0',
           sampled: '1',
         });
-        if(this.roleType == '6'){
-        // control[i].controls.screened.disable()
-        // control[i].controls.sampled.enable()
-        control[i].controls.sampled.disable()
-        control[i].controls.screened.enable()
+        if (this.roleType == '6') {
+          // control[i].controls.screened.disable()
+          // control[i].controls.sampled.enable()
+          control[i].controls.sampled.disable()
+          control[i].controls.screened.enable()
         }
       }
     }
@@ -768,16 +763,16 @@ this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
     }
 
     if (this.isLoan360) {
-        // const event = this.rcuDetailsForm.get('dmsDocumentID').value;
-        this.downloadDocs(docId);
+      // const event = this.rcuDetailsForm.get('dmsDocumentID').value;
+      this.downloadDocs(docId);
     } else {
-        return;
+      return;
     }
 
   }
   //for document
   async downloadDocs(event) {
-   
+
     // let el = event.srcElement;
     const dmsDocumentID: any = await this.getBase64String(event);
     const showDraggableContainer = {

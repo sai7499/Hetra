@@ -14,6 +14,7 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   screenId: any;
   groupId: any;
   @Input() set udfScreenId(value) {
+    console.log('value', value)
     this.screenId = value;
     this.getOnInit();
     this.getLOV();
@@ -56,7 +57,6 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
         console.log('error', error)
       });
     this.initForm();
-
   }
 
   initForm() {
@@ -74,6 +74,9 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
       })
     }
     this.getUserDefinedForm()
+
+    console.log(this.screenUdfMapping, 'screenUdfMapping', this.screenId)
+
   }
 
   ngOnChanges() {

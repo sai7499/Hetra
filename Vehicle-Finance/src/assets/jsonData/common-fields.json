@@ -2272,6 +2272,16 @@
         }
       ]
     },
+    "RCS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "remarks",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
     "CCS002": {
       "layout": 3,
       "fields": [
