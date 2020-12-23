@@ -139,14 +139,15 @@
     <ng-container *ngIf="isBeforeEligibility">
       
     <div class="row view-pad-top" *ngIf="!isButtonNameChange">
-      <button *ngIf="!isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
+      <a class="btn btn-primary view-button" *ngIf="!isLoan360" (click)="saveCurrentUrl()" [routerLink]="['/pages/document-viewupload', leadId]" target="_blank"> {{isLoan360 ? 'View Document': 'View/Upload Document'}}</a>
+      <!-- <button *ngIf="!isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
         (click)="saveCurrentUrl()">
         View/Upload Document
-      </button>
-      <button  *ngIf="isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
+      </button> -->
+      <!-- <button  *ngIf="isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
       (click)="saveCurrentUrl()">
       View Document
-    </button>
+    </button> -->
     </div>
   </ng-container>
   <div class="row view-pad-top" *ngIf="isButtonNameChange">
