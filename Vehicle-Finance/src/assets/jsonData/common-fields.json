@@ -133,7 +133,7 @@
       "groupId": "APG010",
       "name": "Tele-Verfication-form"
     },
-     {
+    {
       "id": "CLS007",
       "groupId": "CLG003",
       "name": "Additional Collaterals"
@@ -703,8 +703,21 @@
       "contorlType": "textbox",
       "inputType": "number",
       "maxLength": {
-        "rule": 12
+        "rule": 12,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
+    },
+    {
+      "id": "bankName",
+      "label": "Bank Name",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "bankMaster"
     },{
       "id": "isFarmer",
       "label": "Are You Farmer",
@@ -725,14 +738,6 @@
       }
     },
     {
-      "id": "bankName",
-      "label": "Bank Name",
-      "placeholder": "",
-      "mandatory": true,
-      "contorlType": "selectbox",
-      "values": "bankMaster"
-    },
-    {
       "id": "obligationAmnt",
       "label": "Obligation Amount",
       "placeholder": "Obligation Amount",
@@ -743,8 +748,7 @@
         "rule": 10,
         "msg": ""
       }
-    },
-    {
+    }, {
       "id": "exposureLoanType",
       "label": "Type of Loan",
       "placeholder": "",
@@ -767,7 +771,7 @@
         "rule": "",
         "msg": ""
       }
-    }, 
+    },
     {
       "id": "noOfChildren",
       "label": "No. of Children Dependant",
@@ -775,8 +779,8 @@
       "mandatory": true,
       "contorlType": "textbox",
       "inputType": "number"
-     },
-     {
+    },
+    {
       "id": "netIncome",
       "label": "Net Income",
       "placeholder": "Net Income",
@@ -831,6 +835,22 @@
       }
     },
     {
+      "id": "bankLocation",
+      "label": "Location",
+      "placeholder": "Location",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
+    },
+    {
       "id": "clientName",
       "label": "Name of the Client",
       "placeholder": "Name",
@@ -840,8 +860,42 @@
       "maxLength": {
         "rule": 30,
         "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
-      
+    },
+    {
+      "id": "remarksAboutBank",
+      "label": "Remarks",
+      "placeholder": "",
+      "mandatory": true,
+      "contorlType": "textarea"
+    },
+    {
+      "id": "knowAboutBank",
+      "label": "How you know about the bank",
+      "placeholder": "Select any one",
+      "mandatory": true,
+      "contorlType": "selectbox",
+      "values": "howDidCustomerKnowEquitasBank"
+    },
+    {
+      "id": "bankArea",
+      "label": "City",
+      "placeholder": "City",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     },
     {
       "id": "repaymentMode",
@@ -895,8 +949,27 @@
       "maxLength": {
         "rule": 30,
         "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
-      
+    },
+    {
+      "id": "captiveSalesName",
+      "label": "Captive Name(sales)",
+      "placeholder": "Captive",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     },
     {
       "id": "remarks",
@@ -915,8 +988,27 @@
       "maxLength": {
         "rule": 30,
         "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
-      
+    },
+    {
+      "id": "goodsSalesName",
+      "label": "Goods Name(sales)",
+      "placeholder": "Goods",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     },
     {
       "id": "refOneMobile",
@@ -941,8 +1033,27 @@
       "maxLength": {
         "rule": 30,
         "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
-      
+    },
+    {
+      "id": "passengerSalesName",
+      "label": "Passenger Name(sales)",
+      "placeholder": "Passenger",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     },
     {
       "id": "refTwoMobile",
@@ -967,8 +1078,27 @@
       "maxLength": {
         "rule": 30,
         "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
-      
+    },
+    {
+      "id": "captiveCreditName",
+      "label": "Captive Name(Credit)",
+      "placeholder": "Captive",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     },
     {
       "id": "agencyName",
@@ -980,8 +1110,27 @@
       "maxLength": {
         "rule": 30,
         "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
-      
+    },
+    {
+      "id": "goodsCreditName",
+      "label": "Goods Name(Credit)",
+      "placeholder": "Goods",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     },
     {
       "id": "referenceNo",
@@ -1012,10 +1161,29 @@
       "contorlType": "textbox",
       "inputType": "alpha",
       "maxLength": {
-        "rule": 40,
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
         "msg": ""
       }
-      
+    },
+    {
+      "id": "passengerCreditName",
+      "label": "Passenger Name(Credit)",
+      "placeholder": "Passenger",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
+      }
     },
     {
       "id": "designation",
@@ -1057,9 +1225,12 @@
       "maxLength": {
         "rule": 30,
         "msg": ""
+      },
+      "pattenCheck": {
+        "rule": "",
+        "msg": ""
       }
-      
-    },
+      },
     
     {
       "id": "borrowerName",
@@ -1283,7 +1454,8 @@
           "name": "netIncome",
           "show": true,
           "disable": false
-        }]
+        }
+      ]
     },
     "PDS003": {
       "layout": 3,
@@ -1292,7 +1464,8 @@
           "name": "firstName",
           "show": true,
           "disable": false
-        }]
+        }
+      ]
     },
     "PDS004": {
       "layout": 3,
@@ -1301,7 +1474,8 @@
           "name": "income",
           "show": true,
           "disable": false
-        }]
+        }
+      ]
     },
     "PDS005": {
       "layout": 3,
@@ -1310,7 +1484,8 @@
           "name": "netIncome",
           "show": true,
           "disable": false
-        }]
+        }
+      ]
     },
     "CLS002": {
       "layout": 3,
@@ -1417,6 +1592,91 @@
         },
         {
           "name": "Recommendation",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "TVS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "employeeName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "employeeIncome",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "APS018": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "bankName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "bankRemarks",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "PSS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "activityName",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "isFarmer",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "ISS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "insuranceNumebr",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "PCS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "bankLocation",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "remarksAboutBank",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "PCS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "bankArea",
+          "show": true,
+          "disable": false
+        },
+        {
+          "name": "knowAboutBank",
           "show": true,
           "disable": false
         }
@@ -1575,62 +1835,67 @@
 
       ]
     },
-    "TVS001": {
+    "VIS001": {
       "layout": 3,
       "fields": [
         {
-          "name": "employeeName",
-            "show": true,
-            "disable": false
-        },
-        {
-          "name": "employeeIncome",
-            "show": true,
-            "disable": false 
-        }
-      ]
-    },
-    "APS018": {
-      "layout": 3,
-      "fields": [
-        {
-          "name": "bankName",
-            "show": true,
-            "disable": false
-        },
-        {
-          "name": "bankRemarks",
-            "show": true,
-            "disable": false 
-        }
-      ]
-    },
-    "PSS001": {
-      "layout": 3,
-      "fields": [
-        {
-          "name": "activityName",
+          "name": "captiveSalesName",
           "show": true,
           "disable": false
-        },
+        }
+      ]
+         
+    },
+    "VIS002": {
+      "layout": 3,
+      "fields": [
         {
-          "name": "isFarmer",
+          "name": "goodsSalesName",
           "show": true,
           "disable": false
         }
       ]
     },
-    "ISS001": {
+    "VIS003": {
       "layout": 3,
       "fields": [
         {
-          "name": "insuranceNumebr",
+          "name": "passengerSalesName",
           "show": true,
           "disable": false
-          
         }
       ]
     },
+    "VIS004": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "captiveCreditName",
+          "show": true,
+          "disable": false
+        }
+      ]
+    }, 
+    "VIS005": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "goodsCreditName",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "VIS006": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "passengerCreditName",
+          "show": true,
+          "disable": false
+        }
+        ]
+      },
     "CLS007": {
       "layout": 3,
       "fields": [
@@ -1823,6 +2088,7 @@
         }
       ]
     },
+   
     "VAS002": {
       "layout": 3,
       "fields": [
