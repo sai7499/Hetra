@@ -261,6 +261,8 @@
               </div>
             </form>
           </ng-container>
+          <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
           <div class="btn-sec clear-both row" *ngIf="isSales">
             <!-- <div class="col-sm-4 text-right">
               <a id="back_vehicle_details"

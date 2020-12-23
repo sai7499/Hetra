@@ -1386,6 +1386,7 @@ export class DisbursementFormComponent implements OnInit {
               this.dealerDetailsForm.get(key).setErrors(null);
             });
           }
+          this.setIntType(null, 'dealer');
           this.chequeDDformArray.forEach(key => {
             this.dealerDetailsForm.get(key).setValidators([Validators.required])
           });
@@ -1437,6 +1438,7 @@ export class DisbursementFormComponent implements OnInit {
               this.appDetailsForm.get(key).setErrors(null);
             });
           }
+          this.setIntType(null, 'applicant');
           this.chequeDDformArray.forEach(key => {
             this.appDetailsForm.get(key).setValidators([Validators.required])
           });
@@ -1488,6 +1490,7 @@ export class DisbursementFormComponent implements OnInit {
               this.bankerDetailsForm.get(key).setErrors(null);
             });
           }
+          this.setIntType(null, 'banker');
           this.chequeDDformArray.forEach(key => {
             this.bankerDetailsForm.get(key).setValidators([Validators.required])
           });
@@ -1539,6 +1542,7 @@ export class DisbursementFormComponent implements OnInit {
               this.financierDetailsForm.get(key).setErrors(null);
             }); 
           }
+          this.setIntType(null, 'financier');
           this.chequeDDformArray.forEach(key => {
             this.financierDetailsForm.get(key).setValidators([Validators.required])
           });
@@ -1591,6 +1595,7 @@ export class DisbursementFormComponent implements OnInit {
               this.thirdPartyDetailsForm.get(key).setErrors(null);
             });
           }
+          this.setIntType(null, 'thirdParty');
           this.chequeDDformArray.forEach(key => {
             this.thirdPartyDetailsForm.get(key).setValidators([Validators.required])
           });
@@ -1699,6 +1704,7 @@ export class DisbursementFormComponent implements OnInit {
               this.coApp1Form.get(key).setErrors(null);
             });
           }
+          this.setIntType(null, 'coApp1');
           this.chequeDDformArray.forEach(key => {
             this.coApp1Form.get(key).setValidators([Validators.required])
           });
@@ -1749,6 +1755,7 @@ export class DisbursementFormComponent implements OnInit {
               this.coApp2Form.get(key).setErrors(null);
             });
           }
+          this.setIntType(null, 'coApp2');
           this.chequeDDformArray.forEach(key => {
             this.coApp2Form.get(key).setValidators([Validators.required])
           });
@@ -1799,6 +1806,7 @@ export class DisbursementFormComponent implements OnInit {
               this.coApp3Form.get(key).setErrors(null);
             });
           }
+          this.setIntType(null, 'coApp3');
           this.chequeDDformArray.forEach(key => {
             this.coApp3Form.get(key).setValidators([Validators.required])
           });

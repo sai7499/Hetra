@@ -41,13 +41,14 @@
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header text-center">
-        <h4 class="modal-title">Your session going to expiry</h4>
+        <h4 class="modal-title">Session expiry</h4>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         <p id="">
-          You will timeout in {{timer}} seconds.
+          Your current session will get expired in {{ timer }} seconds. 
+          Do you want to extend the session?
         </p>
       </div>
 
@@ -68,9 +69,42 @@
           id="ucic_lead"
           (click)="stay()"
         >
-
-          Stay
+        Extend my Session
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="ucicModel2"
+  [ngClass]="{ 'dis-block': showExpiryModal }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">Session expiry</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="">
+          Your current session has expired due to inactivity. You need to login to use the application.
+        </p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+        <button
+        type="button"
+        class="btn btn-danger"
+        data-dismiss="modal"
+        (click)="logout()"
+      >
+        Okay
+      </button>
       </div>
     </div>
   </div>

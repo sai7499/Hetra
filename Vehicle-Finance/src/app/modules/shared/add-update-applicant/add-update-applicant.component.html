@@ -118,8 +118,7 @@
                     ">
                   </app-custom-input>
                 </div>
-              </div>
-              <div class="row">
+              
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.mobile }}
                     <sub class="star_red_col">*</sub></label>
@@ -453,9 +452,7 @@
                   </div>
 
                 </div>
-              </div>
-              <!-- [patternCheck]="validationData?.drivingLicense?.patternCheck" -->
-              <div class="row">
+             
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
                   <app-custom-input formControlName="drivingLicenseNumber" [maxLength]="validationData?.drivingLicense?.maxLength"
@@ -570,8 +567,7 @@
                     [inputClass]="'text-uppercase'">
                   </app-custom-input>
                 </div>
-              </div>
-              <div class="row">
+             
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportNumber }}</label>
                   <!-- [patternCheck]="validationData?.passportNumber?.patternCheck" -->
@@ -662,8 +658,7 @@
                    Passport expiry date should be 10 years from Issuance date
                   </div> -->
                 </div>
-              </div>
-              <div class="row">
+             
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
                   <!-- [patternCheck]="validationData?.voterId?.patternCheck" -->
@@ -763,8 +758,7 @@
                       <app-custom-input formControlName="addressLineThree"
                         [maxLength]="validationData?.addressLine?.maxLength"></app-custom-input>
                     </div>
-                  </div>
-                  <div class="row">
+                  
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="pincode" required>{{ labels?.code }}
                         <!-- <sub class="star_red_col">*</sub>--></label>
@@ -788,8 +782,8 @@
                         [isDirty]="isDirty" [isRequired]="'District is required'">
                       </app-vf-custom-select>
                     </div>
-                  </div>
-                  <div class="row">
+                 
+
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="permanent_address_state">{{ labels?.state
                         }}<sub class="star_red_col">*</sub></label>
@@ -811,8 +805,7 @@
                       [id]="'nearestLandmark'"
                         [maxLength]="validationData?.landMark?.maxLength"></app-custom-input>
                     </div>
-                  </div>
-                  <div class="row">
+                 
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="landline">{{
                         labels?.permanentAddressLandline
@@ -879,8 +872,7 @@
                       <app-custom-input formControlName="addressLineThree"
                         [maxLength]="validationData?.addressLine?.maxLength"></app-custom-input>
                     </div>
-                  </div>
-                  <div class="row">
+                 
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_pincode">{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label>
@@ -903,8 +895,7 @@
                         [isRequired]="'District is required'" [isDirty]="isDirty">
                       </app-vf-custom-select>
                     </div>
-                  </div>
-                  <div class="row">
+                  
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_state">{{ labels?.state
                         }}<sub class="star_red_col">*</sub></label>
@@ -927,8 +918,7 @@
                       [id]="'nearestLandmark'"
                         [maxLength]="validationData?.landMark?.maxLength"></app-custom-input>
                     </div>
-                  </div>
-                  <div class="row">
+                  
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_landline">{{
                         labels?.landlineNumber
@@ -969,8 +959,7 @@
                       <app-custom-input formControlName="addressLineThree"
                         [maxLength]="validationData?.addressLine?.maxLength"></app-custom-input>
                     </div>
-                  </div>
-                  <div class="row">
+                 
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_pincode">{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label>
@@ -994,8 +983,7 @@
                         [isDirty]="isDirty" [isRequired]="'District is required'">
                       </app-vf-custom-select>
                     </div>
-                  </div>
-                  <div class="row">
+                  
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_state">{{ labels?.state
                         }}<sub class="star_red_col">*</sub></label>
@@ -1016,8 +1004,7 @@
                       <app-custom-input formControlName="nearestLandmark"
                         [maxLength]="validationData?.landMark?.maxLength"></app-custom-input>
                     </div>
-                  </div>
-                  <div class="row">
+                  
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="reg_mobile">{{
                         labels?.landLineNumber
@@ -1064,8 +1051,7 @@
                       <app-custom-input formControlName="addressLineThree"
                         [maxLength]="validationData?.addressLine?.maxLength"></app-custom-input>
                     </div>
-                  </div>
-                  <div class="row">
+                  
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_pincode">{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label>
@@ -1088,8 +1074,7 @@
                         [isDirty]="isDirty" [isRequired]="'District is required'">
                       </app-vf-custom-select>
                     </div>
-                  </div>
-                  <div class="row">
+                  
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_address_state">{{ labels?.state
                         }}<sub class="star_red_col">*</sub></label>

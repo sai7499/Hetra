@@ -16,8 +16,8 @@ export class IdleTimerService {
     eventHandler: any
 
     MODAL_TIMER = 120 // seconds;
-    SESSION_TIMER = 15 * 60; // 15 * 60 seconds (900 seconds)
-
+    // SESSION_TIMER = 15 * 60; // 15 * 60 seconds (900 seconds)window["env"]["userConfig"]
+    SESSION_TIMER = Number(window["env"]["sessionTime"]) * 60;
     $timer = new BehaviorSubject(null);
 
 
