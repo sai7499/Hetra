@@ -93,8 +93,8 @@ setTheme('bs4');
     DatePickerModule,
     MatTreeModule,
     MatIconModule,
-    WindowModule
-    ImageCropperModule
+    WindowModule,
+    ImageCropperModule,
   ],
   exports: [
     CustomSelectComponent,

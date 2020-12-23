@@ -338,6 +338,7 @@ export class AppComponent implements OnInit, OnDestroy {
   openImage(list) {
      this.imageList.push(list);
      this.removeMinimizeList(list);
+     console.log('imageList', this.imageList)
   }
 
 
@@ -349,7 +350,7 @@ export class AppComponent implements OnInit, OnDestroy {
           return;
         }
         const imageName = value.image.name;
-        if (!this.imageList[imageName]) {
+        if (!this.imageObj[imageName]) {
           this.imageObj[imageName] = {...value.image};
           this.imageList.push(value.image);
         }
@@ -370,11 +371,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   removeImage(fileName: string) {
+    
     delete this.imageObj[fileName];
-    this.imageList = [];
-    for ( const [key, image] of Object.entries(this.imageObj)) {
-        this.imageList.push(image);
-    }
+    // this.imageList = [];
+    // for(const key in this.imageObj) {}
+    // for ( const [key, image] of Object.entries(this.imageObj)) {
+    //     this.imageList.push(image);
+    // }
+    this.imageList = this.imageList.filter((value) => {
+      return value.name !== fileName
+    })
+    console.log('imageList', this.imageList)
   }
 
   @HostListener('window:mousemove') refreshUserState() {

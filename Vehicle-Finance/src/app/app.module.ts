@@ -62,6 +62,7 @@ import { QueryDataResolverService } from '@modules/lead-section/services/queryDa
 
 import { LeadUploadDiscussionComponent } from '@modules/lead-upload-discussion/lead-upload-discussion.component';
 import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
+import { WindowModule } from '@progress/kendo-angular-dialog';
 
 setTheme('bs4');
 
@@ -106,7 +107,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CreditConditionModule,
     // DateInputsModule,
     DatePickerModule,
-    ChildLoanModule
+    ChildLoanModule,
+    WindowModule
   ],
   providers: [
     HTTP,
