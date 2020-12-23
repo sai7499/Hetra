@@ -11,6 +11,7 @@ export interface Applicant {
   corporateProspectDetails?: CorporateProspectDetails;
   addressDetails?: AddressDetails[];
   directorDetails?: DirectorDetails[];
+  udfDetails? : any;
 }
 
 export interface ApplicantList {

@@ -31,6 +31,14 @@ export class CheckListComponent implements OnInit {
   salesResponse: any;
   isPreDone: any;
   taskId: any;
+
+  // User defined
+  udfScreenId: any;
+  udfGroupId: any = "CLG001";
+  udfDetails: any = [];
+  userDefineForm: any;
+  isDirty;
+
   constructor(
     private commonLovService: CommomLovService,
     private checkListService: ChecklistService,
@@ -74,6 +82,7 @@ export class CheckListComponent implements OnInit {
   }
 
   async ngOnInit() {
+    
     this.salesResponse = localStorage.getItem('salesResponse');
     this.isPreDone = localStorage.getItem('is_pred_done');
     this.commonLovService.getLovData().subscribe((res: any) => {
@@ -88,6 +97,13 @@ export class CheckListComponent implements OnInit {
     });
 
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+    if(this.roleType == '7') {
+      this.udfScreenId = "CLS001";
+    } else if(this.roleType == '4') {
+      this.udfScreenId = "CLS002";
+    } else if(this.roleType == '5') {
+      this.udfScreenId = "CLS003";
+    }
 
     // tslint:disable-next-line: prefer-const
     // let childgroups = [];
@@ -138,9 +154,16 @@ export class CheckListComponent implements OnInit {
   getCheckList() {
     const body = {
       leadId: this.leadId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.checkListService.getCheckListDetails(body).subscribe((res: any) => {
       console.log(res, ' checklist get response');
+      this.udfDetails = res.ProcessVariables.udfDetails;
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.checkList ) {
         this.initForm(res.ProcessVariables.checkList);
@@ -203,7 +226,12 @@ export class CheckListComponent implements OnInit {
         const body = {
           checkListId: data.checkListId,
           checklistName: data.checklistName,
-          coAnswer: data.coAnswer
+          coAnswer: data.coAnswer,
+          udfDetails :  [{
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          }],
         };
 
         this.checkListFormArray.push(body);
@@ -235,7 +263,7 @@ export class CheckListComponent implements OnInit {
       leadId: this.leadId,
       checkList: this.checkListFormArray
     };
-  if ( this.checklistForm.invalid) {
+  if ( this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
           console.log(this.checklistForm);
           this.toasterService.showError('Select Mandatory Fields', ' ');
           return ;
@@ -435,4 +463,10 @@ sendBackToMaker() {
     }
   });
 }
+
+onSaveuserDefinedFields(value) {
+  this.userDefineForm = value;
+  console.log('identify', value)
+}
+
 }

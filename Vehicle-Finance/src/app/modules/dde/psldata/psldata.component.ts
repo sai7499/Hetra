@@ -62,6 +62,11 @@ export class PSLdataComponent implements OnInit {
   landAreaInhectare: number;
   submitted = false;
 
+  // User defined
+  udfScreenId: any = 'PSS001';
+  udfGroupId: any = 'PSG001';
+  udfDetails: any = [];
+  userDefineForm: any;
 
   constructor( private formBuilder: FormBuilder,
                private labelsData: LabelsService,
@@ -991,8 +996,13 @@ export class PSLdataComponent implements OnInit {
           // landArea: Number(this.formValues.landArea),
           // landHolding: Number(this.formValues.landHolding)
         },
+        udfDetails : [{
+      "udfGroupId": this.udfGroupId,
+      // "udfScreenId": this.udfScreenId,
+      "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+    }]
       };
-      if (this.pslDataForm.controls.agriculture.valid === true) {
+      if (this.pslDataForm.controls.agriculture.valid === true && this.userDefineForm.udfData.valid) {
 
         this.pslDataService.saveOrUpadtePslData(data).subscribe((res: any) => {
           const response = res;
@@ -1054,10 +1064,15 @@ export class PSLdataComponent implements OnInit {
           // investmentInEquipment: Number(this.formValues.investmentInEquipment),
           // investmentInPlantAndMachinery: Number(this.formValues.investmentInPlantAndMachinery)
         },
+        udfDetails : [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
       };
 
       // const data = this.pslDataForm.get('microSmallAndMediumEnterprises').value;
-      if (this.pslDataForm.controls.nonAgriculture.valid === true) {
+      if (this.pslDataForm.controls.nonAgriculture.valid === true && this.userDefineForm.udfData.valid) {
         this.pslDataService.saveOrUpadtePslData(data).subscribe((res: any) => {
           const response = res;
           // console.log("PSL_DATA_RESPONSE_SAVE_OR_UPDATE_API", response);
@@ -1108,17 +1123,27 @@ onChangeWeakerSection(event: any) {
   }
    // CALLING_GET_API_FOR_PSL-DATA&&PATCHING_VALUES
    getPslData() {
-    const data = this.leadId;
+    const data =  {
+      leadId: this.leadId,
+      udfDetails :  [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
+    };
+    
     this.pslDataService.getPslData(data).subscribe((res: any) => {
       // console.log("RESPONSE FROM APPIYO_SERVER_GET_PSL_DATA_API", res);
       const response = res;
       this.pslData = response.ProcessVariables.pslData;
       this.loanAmount = response.ProcessVariables.loanAmount;
+      this.udfDetails = res.ProcessVariables.udfDetails;
       console.log('PSLDATA::::', this.pslData);
       response.ProcessVariables.hectaresConversionDetails.map((element) => {
       const body = {
         key: element.landUnit,
-        value: element.landUnitDesc,
+        value: element.landUnit,
         factor: element.multiplicationFactor
       };
       this.landUnitType.push(body);
@@ -1336,5 +1361,11 @@ onChangeWeakerSection(event: any) {
       pslCCertificate : this.data[0].key
      });
     }
+
+    onSaveuserDefinedFields(value) {
+      this.userDefineForm = value;
+      console.log('identify', value)
+    }
+
   }
 

@@ -16,6 +16,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -35,7 +36,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   eligibleLoanAmount: any = 0;
 
   public basicVehicleForm: FormGroup;
-  dynamicForm: FormGroup;
   public vehicleLov: any = {};
   roleId: any;
   roleName: any;
@@ -74,7 +74,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public leadId: number;
 
   public toDayDate = new Date();
-
+  isMobile: boolean;
   isMaxDate: boolean;
 
   public vehicleRegPattern: {
@@ -117,7 +117,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     var day = this.toDayDate.getDate();
     var month = this.toDayDate.getMonth();
     var year = this.toDayDate.getFullYear();
-    this.toDayDate = new Date(year, month, day, 0, 0)
+    this.toDayDate = new Date(year, month, day, 0, 0);
+    // Mobile View
+    this.isMobile = environment.isMobile;
+
   }
 
   ngOnInit() {
@@ -128,10 +131,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isInvalidMobileNumber: true,
       isVaildFinalAssetCost: true,
       vehicleFormArray: this._fb.array([])
-    })
-
-    this.dynamicForm = this._fb.group({
-      udfScreenId: this.udfScreenId
     })
 
     this.labelsData.getLabelsData()
@@ -198,7 +197,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.vehicleDataService.getLoanAmount()) {
       this.eligibleLoanAmount = Number(this.vehicleDataService.getLoanAmount())
     }
-
   }
 
   onGetMarginAmount(value, form) {
@@ -464,7 +462,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       "udfDetails": [
         {
           "udfGroupId": this.udfGroupId,
-          "udfScreenId": this.udfScreenId
+          // "udfScreenId": this.udfScreenId
         }
       ]
     }
@@ -495,7 +493,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: VehicleDetail.assetVarient || '',
       assetSubVarient: VehicleDetail.assetSubVarient || '',
       category: VehicleDetail.category || '',
-      chasisNumber: VehicleDetail.chasisNumber || null,
+      chasisNumber: VehicleDetail.chasisNumber || '',
       collateralId: VehicleDetail.collateralId || null,
       collateralType: VehicleDetail.collateralType || null,
       costPerTyre: VehicleDetail.costPerTyre || null,
@@ -599,10 +597,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
     VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : '';
 
-    this.udfDetails = VehicleDetail.udfDetails ? VehicleDetail.udfDetails : []
+    this.udfDetails = VehicleDetail.udfDetails ? VehicleDetail.udfDetails : [];
 
     if (VehicleDetail.parentLoanAccountNumber) {
       this.isVehicleDedupe = true;
+    }
+
+    if (this.productCatoryCode === 'UCV') {
+      this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
     }
 
   }
@@ -754,12 +756,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
-    const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
-    // const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    // formArray.controls[0].patchValue({
-    //   vehicleId: array[0].vehicleCode ? Number(array[0].vehicleCode) : 0
-    // })
-
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       'vehicleCode', "vehicleVariant")
 
@@ -1369,7 +1365,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       "udfDetails": [
         {
           "udfGroupId": this.udfGroupId,
-          "udfScreenId": this.udfScreenId
+          // "udfScreenId": this.udfScreenId
         }
       ]
     }

@@ -377,7 +377,7 @@ export class PersonalDetailsComponent implements OnInit {
       lastName: personalPDDetais.lastName || '',
       maritalStatus: personalPDDetais.maritalStatus || '',
       middleName: personalPDDetais.middleName || '',
-      contactNo: personalPDDetais.mobile || '',
+      contactNo: personalPDDetais.contactNo || '',
       noOfAdultDependant: personalPDDetais.noOfAdultDependant || '',
       noOfChildrenDependant: personalPDDetais.noOfChildrenDependant || '',
       noOfYearsResidingInCurrResidence: personalPDDetais.noOfYearsResidingInCurrResidence || '',
@@ -476,7 +476,7 @@ export class PersonalDetailsComponent implements OnInit {
         udfDetails: [
           {
             "udfGroupId": this.udfGroupId,
-            "udfScreenId": this.udfScreenId,
+            // "udfScreenId": this.udfScreenId,
             "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
           }
         ]

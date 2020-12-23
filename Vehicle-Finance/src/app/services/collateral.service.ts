@@ -4,7 +4,6 @@ import { HttpService } from './http.service';
 import { ApiService } from './api.service';
 import { environment } from '../../environments/environment';
 import RequestEntity from '@model/request.entity';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +15,7 @@ export class CollateralService {
 
   // 1.method for getting additional collaterals details
 
-  getAdditionalCollateralsDetails(collateralId) {
+  getAdditionalCollateralsDetails(data) {
 
     const processId = this.apiService.api.getAdditionalCollateralsDetails.processId;
     const workflowId = this.apiService.api.getAdditionalCollateralsDetails.workflowId;
@@ -24,9 +23,7 @@ export class CollateralService {
 
     const body: RequestEntity = {
       processId: processId,
-      ProcessVariables: {
-        "collateralId": collateralId
-      },
+      ProcessVariables: data,
       workflowId: workflowId,
       projectId: projectId
     }
