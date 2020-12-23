@@ -97,7 +97,7 @@ export class CheckListComponent implements OnInit {
     });
 
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
-    if(this.roleType == '7') {
+    if(this.roleType == '7' || this.roleType == '2') {
       this.udfScreenId = "CLS001";
     } else if(this.roleType == '4') {
       this.udfScreenId = "CLS002";
@@ -226,12 +226,7 @@ export class CheckListComponent implements OnInit {
         const body = {
           checkListId: data.checkListId,
           checklistName: data.checklistName,
-          coAnswer: data.coAnswer,
-          udfDetails :  [{
-            "udfGroupId": this.udfGroupId,
-            // "udfScreenId": this.udfScreenId,
-            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
-          }],
+          coAnswer: data.coAnswer
         };
 
         this.checkListFormArray.push(body);
@@ -261,7 +256,12 @@ export class CheckListComponent implements OnInit {
   const bodyReq = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
-      checkList: this.checkListFormArray
+      checkList: this.checkListFormArray,
+      udfDetails :  [{
+        "udfGroupId": this.udfGroupId,
+        // "udfScreenId": this.udfScreenId,
+        "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+      }],
     };
   if ( this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
           console.log(this.checklistForm);
