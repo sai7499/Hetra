@@ -37,6 +37,7 @@ export class CheckListComponent implements OnInit {
   udfGroupId: any = "CLG001";
   udfDetails: any = [];
   userDefineForm: any;
+  isDirty;
 
   constructor(
     private commonLovService: CommomLovService,
