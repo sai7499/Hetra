@@ -586,7 +586,7 @@
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value > maxDate">
+                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value && obj.controls['invoiceDate'].value > maxDate">
                                 Invalid Date
                             </div>
 
