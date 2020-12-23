@@ -29,8 +29,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public isDirty: boolean;
   public subscription: any;
   public unsubForm: any;
-  udfScreenId: string = 'CLS006';
-  udfGroupId: string = 'CLG002';
+  udfScreenId: string = 'VLS006';
+  udfGroupId: string = 'VLG002';
   udfDetails: any = [];
 
   productCatoryCode: string;
