@@ -24,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   sessionIntervalId;
   timer = 0;
   showTimerModal: boolean;
+  showExpiryModal: boolean;
   title = 'vehicle-finance';
   isMaas360Enabled:any;
 
@@ -227,7 +228,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.timer = this.idleTimerService.getModalTimer();
 
                 clearInterval(this.sessionIntervalId);
-                this.logout();
+                // this.logout();
+                this.showExpiryModal = true;
             }
 
           }, 1000);
@@ -356,7 +358,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.showExpiryModal = false;
     this.utilityService.logOut();
+    this.timer = this.idleTimerService.getModalTimer();
+    clearInterval(this.sessionIntervalId);
+    this.showTimerModal = false;
   }
 
   ngOnDestroy() {
