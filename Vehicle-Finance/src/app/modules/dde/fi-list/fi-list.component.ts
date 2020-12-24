@@ -47,8 +47,13 @@ export class FiListComponent implements OnInit {
   fiBpremises: any;
   fiBofficeSize: any;
 
-  fiApplicantFullName: any;
-  showTypeOfConcern: any;
+  showTypeOfConcern: boolean;
+  custSegment: any;
+
+  currentDate: Date = new Date();
+  stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
+  currentTime: any;
+  isFiModal: boolean;
 
   constructor(
     private labelDetails: LabelsService,
@@ -59,7 +64,10 @@ export class FiListComponent implements OnInit {
     private personalDiscussionService: PersonalDiscussionService,
     private createLeadDataService: CreateLeadDataService,
     private commonLovService: CommomLovService
-  ) { }
+  ) {
+    this.currentTime = this.stringTime[0] + ':' + this.stringTime[1];
+    this.showTypeOfConcern = true;
+   }
 
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -232,6 +240,9 @@ export class FiListComponent implements OnInit {
         this.applicantFullName = res.ProcessVariables.applicantName;
         this.fiResidenceDetails = res.ProcessVariables.getFIResidenceDetails;
         this.fiBusinessDetails = res.ProcessVariables.getFIBusinessDetails;
+        this.custSegment = this.fiBusinessDetails.custSegment;
+        this.getConcernType();
+
 
         if (this.fiResidenceDetails) {
           this.fiRnoofmonthsCity = String(Number(this.fiResidenceDetails.yrsOfStayInCity) % 12) || '';
@@ -255,9 +266,20 @@ export class FiListComponent implements OnInit {
     });
   }
 
+  getConcernType() {
+    if (this.custSegment == "SALCUSTSEG" && this.custSegment != null) {
+      this.showTypeOfConcern = true;
+    } else if (this.custSegment == "SEMCUSTSEG" && this.custSegment != null) {
+      this.showTypeOfConcern = true;
+    } else {
+      this.showTypeOfConcern = false;
+    }
+  }
+
   getPdf(event?) {
     this.selectedApplicantId = event;
     this.getFiData();
+    this.isFiModal = true;
   }
 
   downloadpdf() {
@@ -270,5 +292,6 @@ export class FiListComponent implements OnInit {
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById('pdf')).set(options).save();
+    this.isFiModal = false;
   }
 }

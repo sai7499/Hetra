@@ -83,8 +83,7 @@
                                                 </a>
                                             </u> &nbsp; &nbsp; &nbsp;
                                             <span>
-                                                <a class="a_tag" style="cursor: pointer;" data-toggle="modal"
-                                                    data-target="#fiCumPdModal" (click)="getPdf(item.applicantId)">
+                                                <a class="a_tag" style="cursor: pointer;" (click)="getPdf(item.applicantId)">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             </span>
@@ -186,7 +185,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="fiCumPdModal">
+<div class="modal fade" id="fiCumPdModal" *ngIf="isFiCumPdModal">
     <div class="modal-dialog modal-dialog-centered HeaderModalWidth">
         <div class="modal-content">
             <div class="modal-header ">
@@ -1333,22 +1332,22 @@
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="father_name" class="col-form-label">{{ labels?.city }}</label>
-                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererCityValue || 'NA'}}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererCity || 'NA'}}</label>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="father_name" class="col-form-label">{{ labels?.district }}</label>
-                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererDistrictValue || 'NA'}}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererDistrict || 'NA'}}</label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="applicant_name" class="col-form-label">{{ labels?.state }}</label>
-                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererStateValue || 'NA'}}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererState || 'NA'}}</label>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="father_name" class="col-form-label">{{ labels?.country }}</label>
-                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererCountryValue || 'NA'}}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.refererCountry || 'NA'}}</label>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="father_name" class="col-form-label">{{ labels?.referrerAssetName }}</label>
@@ -1413,22 +1412,22 @@
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="father_name" class="col-form-label">{{ labels?.city }}</label>
-                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceCityValue || 'NA'}}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceCity || 'NA'}}</label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="applicant_name" class="col-form-label">{{ labels?.district }}</label>
-                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceDistrictValue || 'NA'}}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceDistrict || 'NA'}}</label>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="father_name" class="col-form-label">{{ labels?.state }}</label>
-                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceStateValue || 'NA'}}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceState || 'NA'}}</label>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="father_name" class="col-form-label">{{ labels?.country }}</label>
-                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceCountryValue || 'NA'}}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{refCheckDetails?.referenceCountry || 'NA'}}</label>
                             </div>
                         </div>
 
@@ -1498,7 +1497,7 @@
                                             <tr *ngFor=" let item of marketAndFinacier; let i = index">
                                                 <td>{{ i + 1 }}</td>
                                                 <td style="min-width: 59px">
-                                                    {{item.typeReference || 'NA'}}
+                                                    {{item.typeReference == 'FINREFREFERNS' ? 'Finance References' : 'Market References'}}
                                                 </td>
                                                 <td>
                                                     {{item.companyName || 'NA'}}
@@ -1704,7 +1703,7 @@
                 <!--PDF end-->
             </div>
             <div class="HeaderFooter text-center">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button> -->
             </div>
         </div>
     </div>
