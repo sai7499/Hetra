@@ -506,12 +506,12 @@
       }
     },
     {
-      "id": "applicantType",
-      "label": "Type of Applicant",
+      "id": "applicantRelationshipWithLead",
+      "label": "Relationship with Lead",
       "placeholder": "",
       "mandatory": true,
       "contorlType": "selectbox",
-      "values": "assetRegion"
+      "values": "applicantRelationshipWithLead"
     },
     {
       "id": "isMajor",
@@ -1702,7 +1702,7 @@
           "disable": false
         },
         {
-          "name": "applicantType",
+          "name": "applicantRelationshipWithLead",
           "show": true,
           "disable": false
         },

@@ -107,11 +107,6 @@ export class RcuComponent implements OnInit {
       'en-US',
       '+0530'
     );
-
-    // this.radioItems = [{ value: 'Screened' }, { value: 'Sampled' }]
-    // this.getSelecteditem()
-    // this.documentArray = this.formBuilder.array([this.childgroups])
-    //   { id: 11, name: 'Dr Nice' },[{value: 'Screened'},{value: 'Sampled'}];
   }
 
   ngOnInit() {
@@ -147,7 +142,6 @@ export class RcuComponent implements OnInit {
       applicantDocuments: this.formBuilder.array([]),
       collateralDocuments: this.formBuilder.array([]),
     });
-    // this.testRadio('screened')
     this.getApplicantList();
 
     if (this.router.url.includes('/rcu') && this.roleType == '6') {
@@ -163,15 +157,10 @@ export class RcuComponent implements OnInit {
       // this.isRcuDetails = true;
 
       this.getAllRcuDetails();
-      // this.rcuDetailsForm.disable()
       setTimeout(() => {
         this.rcuDetailsForm.disable()
-
         this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
-
-
       }, 1000)
-
 
       this.showSave = false
       this.showBack = true
@@ -270,8 +259,6 @@ export class RcuComponent implements OnInit {
           this.getRcuDocumentDetails(this.applicantDocuments[i])
         );
       }
-
-      // this.onUploadSuccess(event);
     }
     if (this.collateralDocuments != null) {
       for (let i = 0; i < this.collateralDocuments.length; i++) {
@@ -284,16 +271,9 @@ export class RcuComponent implements OnInit {
         this.rcuDetailsForm.disable();
       }
       this.testRadio(event);
-      // this.onUploadSuccess(event);
     }
 
     this.testRadio(event);
-
-    // if(event !== null && event !== ""){
-    //   this.testRadio(event)
-    // }else {
-    //   this.testRadio('screened')
-    // }
   }
 
   // getting labels from labels.json
@@ -306,6 +286,7 @@ export class RcuComponent implements OnInit {
       (error) => { }
     );
   }
+
   //getting leadID from Pdd Dashboard
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -318,6 +299,7 @@ export class RcuComponent implements OnInit {
       });
     });
   }
+
   //getting LOV's from commonLovService
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
@@ -327,11 +309,6 @@ export class RcuComponent implements OnInit {
     });
   }
 
-  // showRcuDetails() {
-  //   this.isRcuDetails = false;
-  //   this.isErr = false
-
-  // }
   getSelecteditem() {
     this.radioSel = this.radioItems.find(
       (value) => value === this.model.option
@@ -387,9 +364,6 @@ export class RcuComponent implements OnInit {
         this.udfDetails = res.ProcessVariables.udfDetails ? res.ProcessVariables.udfDetails : [];
 
       } else if (res && res.ProcessVariables.error.code == '1') {
-        // this.showCamHtml == false
-        // this.errorGenerated = true;
-        // this.errorMessage = message;
         this.isRcuDetails = true;
         this.isErr = true
 
@@ -405,13 +379,8 @@ export class RcuComponent implements OnInit {
 
     this.submitted = true;
     // stop here if form is invalid
-    if (this.rcuDetailsForm.invalid && this.userDefineForm.udfData.invalid) {
-      this.toasterService.showError(
-        'Fields Missing Or Invalid Pattern Detected',
-        'RCU Details'
-      );
-      return;
-    } else {
+    if (this.rcuDetailsForm.valid && this.userDefineForm.udfData.valid) {
+
       this.submitted = true;
       this.rcuDetailsForm.value.applicantDocuments.forEach((ele) => {
         ele.issueDate = this.utilityService.convertDateTimeTOUTC(
@@ -423,17 +392,7 @@ export class RcuComponent implements OnInit {
           'DD/MM/YYYY'
         );
       });
-      // this.rcuDetailsForm.value.collateralDocuments.forEach((ele) => {
-      //   ele.issueDate = this.utilityService.convertDateTimeTOUTC(
-      //     ele.issueDate,
-      //     'DD/MM/YYYY'
-      //   );
-      //   ele.expiryDate = this.utilityService.convertDateTimeTOUTC(
-      //     ele.expiryDate,
-      //     'DD/MM/YYYY'
-      //   );
 
-      // });
       const data = {
         userId: this.userId,
         applicantDocuments: this.rcuDetailsForm.controls.applicantDocuments
@@ -449,7 +408,6 @@ export class RcuComponent implements OnInit {
         vehicleNo: this.rcuDetailsForm.controls.vehicleNo.value,
         rcuReportStatus: this.rcuDetailsForm.controls.rcuReportStatus.value,
         rcuDocumentId: this.rcuDetailsForm.controls.rcuDocumentId.value,
-        // rcuUpload: this.rcuDetailsForm.controls.rcuUpload.value,
         rcuReportReceivedDateTime: this.rcuDetailsForm.controls
           .rcuReportReceivedDateTime.value,
         remarks: this.rcuDetailsForm.controls.remarks.value,
@@ -476,12 +434,19 @@ export class RcuComponent implements OnInit {
             'Updated Successfully',
             'RCU Details'
           );
-
           this.getAllRcuDetails();
         }
       });
+    } else {
+      this.toasterService.showError(
+        'Fields Missing Or Invalid Pattern Detected',
+        'RCU Details'
+      );
+      return;
+
     }
   }
+
   onSubmit() {
     const body = {
       leadId: this.leadId,
@@ -496,8 +461,8 @@ export class RcuComponent implements OnInit {
         this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
       }
     })
-
   }
+
   testRadio(event) {
 
     if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
@@ -538,8 +503,6 @@ export class RcuComponent implements OnInit {
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '0',
         });
         if (this.roleType == '6') {
-          // control[i].controls.sampled.disable()
-          // control[i].controls.screened.enable()
           control[i].controls.screened.disable()
           control[i].controls.sampled.enable()
         }
@@ -561,8 +524,6 @@ export class RcuComponent implements OnInit {
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '1',
         })
         if (this.roleType == '6') {
-          // control[i].controls.screened.disable()
-          // control[i].controls.sampled.enable()
           control[i].controls.sampled.disable()
           control[i].controls.screened.enable()
         }
@@ -580,14 +541,10 @@ export class RcuComponent implements OnInit {
         const control = this.rcuDetailsForm.controls.collateralDocuments
           .controls as FormArray;
         control[i].patchValue({
-          // screened: '0',
-          // sampled: '1',
           screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '0',
           sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
         });
         if (this.roleType == '6') {
-          // control[i].controls.screened.disable()
-          // control[i].controls.sampled.enable()
           control[i].controls.sampled.disable()
           control[i].controls.screened.enable()
         }
@@ -608,8 +565,6 @@ export class RcuComponent implements OnInit {
           sampled: '0',
         });
         if (this.roleType == '6') {
-          // control[i].controls.sampled.disable()
-          // control[i].controls.screened.enable()
           control[i].controls.screened.disable()
           control[i].controls.sampled.enable()
         }
@@ -630,8 +585,6 @@ export class RcuComponent implements OnInit {
           sampled: '0',
         });
         if (this.roleType == '6') {
-          // control[i].controls.sampled.disable()
-          // control[i].controls.screened.enable()
           control[i].controls.screened.disable()
           control[i].controls.sampled.enable()
         }
@@ -652,8 +605,6 @@ export class RcuComponent implements OnInit {
           sampled: '1',
         });
         if (this.roleType == '6') {
-          // control[i].controls.screened.disable()
-          // control[i].controls.sampled.enable()
           control[i].controls.sampled.disable()
           control[i].controls.screened.enable()
         }
@@ -674,14 +625,13 @@ export class RcuComponent implements OnInit {
           sampled: '1',
         });
         if (this.roleType == '6') {
-          // control[i].controls.screened.disable()
-          // control[i].controls.sampled.enable()
           control[i].controls.sampled.disable()
           control[i].controls.screened.enable()
         }
       }
     }
   }
+
   getApplicantList() {
     const data = {
       leadId: this.leadId,
@@ -692,27 +642,21 @@ export class RcuComponent implements OnInit {
       this.applicantDetails = processVariables.applicantListForLead;
     });
   }
+
   onRcuApplicantChange(event, i?: number) {
 
     // tslint:disable-next-line: triple-equals
-
     const applicantType = this.applicantDetails.find(
       // tslint:disable-next-line: triple-equals
       (res) => res.applicantId == event
     ).applicantType;
-    // const control = this.rcuDetailsForm.controls
-    //   .obligationDetails as FormArray;
-
     this.rcuDetailsForm.get('applicantType').setValue(applicantType);
   }
+
   assignRcuTask() {
     this.isInitiateScreen = false;
     this.isRcuDetails = true;
-    // this.isErr = false
 
-    // this.rcuInitiated = true;
-    // this.getAllRcuDetails();
-    // this.isRcuDetails = true
     const data = {
       leadId: this.leadId,
       userId: this.userId,
@@ -730,6 +674,7 @@ export class RcuComponent implements OnInit {
       // this.applicantDetails = processVariables.applicantListForLead;
     });
   }
+
   // to View uploaded Document
   getBase64String(dmsDocumentId) {
     return new Promise((resolve, reject) => {
@@ -763,13 +708,12 @@ export class RcuComponent implements OnInit {
     }
 
     if (this.isLoan360) {
-      // const event = this.rcuDetailsForm.get('dmsDocumentID').value;
       this.downloadDocs(docId);
     } else {
       return;
     }
-
   }
+
   //for document
   async downloadDocs(event) {
 
@@ -783,6 +727,7 @@ export class RcuComponent implements OnInit {
       image: showDraggableContainer,
     });
   }
+
   uploadDoc() {
     this.showModal = true;
     const docNm = 'ACCOUNT_OPENING_FORM';
@@ -817,10 +762,10 @@ export class RcuComponent implements OnInit {
       ],
     };
   }
+
   onUploadSuccess(event) {
     this.showModal = false;
     this.toasterService.showSuccess('Document uploaded successfully', '');
-
     // this.dmsDocumentId = event.dmsDocumentId,
     this.rcuDetailsForm.patchValue({
       rcuDocumentId: event.dmsDocumentId,
@@ -834,15 +779,17 @@ export class RcuComponent implements OnInit {
     // }
     // this.rcuDetailsForm.controls.collateralDocuments.controls.at[0].controls.dmsDocumentId.setValue(this.dmsDocumentId)
   }
+
   showInitiateTask() {
-    // this.rowIndex = i;
     this.isInitiateScreen = true;
     this.errorMessage = 'Are you sure you want to initiate RCU?';
   }
+
   errGenerated() {
     this.errorGenerated = false
     this.isErr = false
   }
+
   onNext() {
     if (this.fiCumPdStatus == false) {
       this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);

@@ -273,11 +273,6 @@ export class CustomerProfileDetailsComponent implements OnInit {
     const formModal = this.customerProfileForm.value;
     let customerProfileModel = { ...formModal };
 
-    // if (this.customerProfileForm.invalid && this.userDefineForm.udfData.invalid) {
-    //     this.isDirty = true;
-    //   this.toasterService.showWarning('please enter required details', '');
-    //   return;
-    // }
     const customerProfileFormModal = { ...formModal };
     this.custProfileDetails = {
       offAddSameAsRecord: customerProfileFormModal.offAddSameAsRecord,
@@ -292,21 +287,26 @@ export class CustomerProfileDetailsComponent implements OnInit {
       locality: customerProfileFormModal.locality
     };
 
-    const data = {
-      leadId: this.leadId,
-      applicantId: this.applicantId,
-      userId: this.userId,
-      customerProfileDetails: this.custProfileDetails,
-      udfDetails: [
-        {
-          "udfGroupId": this.udfGroupId,
-          // "udfScreenId": this.udfScreenId,
-          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
-        }
-      ]
-    };
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
 
-    if (this.customerProfileForm.valid && this.userDefineForm.udfData.valid) {
+    if (this.customerProfileForm.valid && isUdfField) {
+
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        customerProfileDetails: this.custProfileDetails,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
+          }
+        ]
+      };
 
       this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
         if (res.ProcessVariables.error.code === '0') {

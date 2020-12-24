@@ -51,9 +51,6 @@ export class CollateralDataStoreService {
 
     let findFieldArray = [];
 
-    console.log(json, 'ud', id)
-
-
     if (json) {
 
       let groupId = json.screenIds ? json.screenIds.find((group) =>

@@ -7,10 +7,13 @@
 
   </div>
 
-  <ng-container *ngIf="!isRcuDetails && isErr == true" >
-    
+  <ng-container *ngIf="!isRcuDetails && isErr == true">
+
     <form class="multisteps-form__form" [formGroup]="rcuDetailsForm">
-      <h3 class="banner-con">{{ labels?.rcu }}</h3>
+      <h3 class="banner-con">{{ labels?.rcu }} ({{udfScreenId}})
+        <!-- <span style="float: right;"> <strong>Screen Id :</strong> {{udfScreenId}}</span> -->
+
+      </h3>
       <!--progress bar-->
       <div class="content">
         <div class="flex-container form-group text-center">
@@ -29,7 +32,7 @@
             </div>
           </div>
           <div class="flex-con"></div>
-  
+
         </div>
         <div class="clearfix"></div>
         <div class="form-group od-row">
@@ -57,12 +60,12 @@
             </app-custom-input>
           </div>
           <div class="clearfix"></div>
-  
+
           <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.vehicleMake}}</label></div>
           <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
-            <app-custom-input [placeholder]="''" formControlName="vehicleMake" [type]="labels?.validationData?.name?.type"
-              [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
-              [isDisabled]='true' [isDirty]="isDirty">
+            <app-custom-input [placeholder]="''" formControlName="vehicleMake"
+              [type]="labels?.validationData?.name?.type" [className]="'form-control mandatory'"
+              [maxLength]="labels?.validationData?.name?.maxLength" [isDisabled]='true' [isDirty]="isDirty">
             </app-custom-input>
           </div>
           <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.vehicleModel}}</label></div>
@@ -76,14 +79,14 @@
           <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
             <app-custom-input [placeholder]="''" formControlName="vehicleNo"
               [type]="labels?.validationData?.receiptNo?.type" [className]="'form-control mandatory textTrans'"
-              [maxLength]="labels?.validationData?.receiptNo?.maxLength" [inputClass]="'input-upper'" [isDisabled]='true'
-              [isDirty]="isDirty">
+              [maxLength]="labels?.validationData?.receiptNo?.maxLength" [inputClass]="'input-upper'"
+              [isDisabled]='true' [isDirty]="isDirty">
             </app-custom-input>
           </div>
           <div class="clearfix"></div>
         </div>
-  
-  
+
+
         <div _ngcontent-kdl-c9="" class="row">
           <div _ngcontent-kdl-c9="" class="input-group-btn row ">
             <div _ngcontent-kdl-c9="" class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-right hetra-tabs">
@@ -102,7 +105,7 @@
           </div>
         </div>
         <!-- <div class="for_space"></div> -->
-  
+
         <div class="table-responsive application mb-10 main-table">
           <table id="POITable_other" border="0" class="table">
             <thead>
@@ -123,10 +126,10 @@
                 <th role="columnheader">{{labels?.screened}}</th>
                 <th role="columnheader">{{labels?.sampled}}</th>
                 <th role="columnheader">{{labels?.status}}</th>
-  
+
               </tr>
             </thead>
-  
+
             <tbody formArrayName="applicantDocuments" *ngIf="!showColletralDocuments">
               <!-- <tbody> -->
               <tr *ngFor="
@@ -143,26 +146,28 @@
                   </app-custom-input>
                 </td>
                 <td [attr.data-label]="labels?.documentCategory" data-title="Member">
-                  <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled]='true'
-                    [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
-                    [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                  <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName"
+                    [isDisabled]='true' [type]="labels?.validationData?.name?.type"
+                    [className]="'form-control-ins mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
+                    [isDirty]="isDirty">
                   </app-custom-input>
                 </td>
                 <td [attr.data-label]="labels?.documentNumber" data-title="Member">
                   <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
                     [type]="labels?.validationData?.amountValue?.type" [className]="'form-control-ins mandatory'"
-                    [isDisabled]='true' [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty">
+                    [isDisabled]='true' [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [isDirty]="isDirty">
                   </app-custom-input>
                 </td>
                 <td [attr.data-label]="labels?.issueDate" data-title="Member">
-  
+
                   <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
                     class="form-control form-control-cus">
                   </kendo-datepicker>
                 </td>
                 <td [attr.data-label]="labels?.expiryDate" data-title="Member">
-  
+
                   <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
                     class="form-control form-control-cus">
@@ -174,7 +179,7 @@
                     formControlName="dmsDocumentID" readonly (click)="downloadDocs($event.target.value)" />
                 </td>
                 <td [attr.data-label]="labels?.sampled" data-title="Member">
-  
+
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
@@ -182,7 +187,7 @@
                   </app-vf-custom-select>
                 </td>
                 <td [attr.data-label]="labels?.screened" data-title="Member">
-  
+
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
@@ -190,7 +195,7 @@
                   </app-vf-custom-select>
                 </td>
                 <td [attr.data-label]="labels?.status" data-title="Member">
-  
+
                   <app-vf-custom-select [values]="rcuLov?.status" class="form-control form-control-cus"
                     formControlName="rcuStatus">
                   </app-vf-custom-select>
@@ -198,7 +203,7 @@
               </tr>
             </tbody>
             <tbody formArrayName="collateralDocuments" *ngIf="showColletralDocuments">
-  
+
               <tr *ngFor="
             let item of rcuDetailsForm.controls.collateralDocuments.controls;
             let i = index
@@ -213,8 +218,9 @@
                   </app-custom-input>
                 </td>
                 <td [attr.data-label]="labels?.documentCategory" data-title="Member">
-                  <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName" [isDisabled]='true'
-                    [type]="labels?.validationData?.name?.type" [className]="'form-control form-control-cus mandatory'"
+                  <app-custom-input [placeholder]="'Document Category'" formControlName="categoryName"
+                    [isDisabled]='true' [type]="labels?.validationData?.name?.type"
+                    [className]="'form-control form-control-cus mandatory'"
                     [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                   </app-custom-input>
                 </td>
@@ -226,14 +232,14 @@
                   </app-custom-input>
                 </td>
                 <td [attr.data-label]="labels?.issueDate" data-title="Member">
-  
+
                   <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
                     class="form-control form-control-cus">
                   </kendo-datepicker>
                 </td>
                 <td [attr.data-label]="labels?.expiryDate" data-title="Member">
-  
+
                   <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
                     class="form-control form-control-cus">
@@ -245,7 +251,7 @@
                     formControlName="dmsDocumentID" readonly (click)="downloadDocs($event.target.value)" />
                 </td>
                 <td [attr.data-label]="labels?.sampled" data-title="Member">
-  
+
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
@@ -253,7 +259,7 @@
                   </app-vf-custom-select>
                 </td>
                 <td [attr.data-label]="labels?.screened" data-title="Member">
-  
+
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
@@ -263,16 +269,16 @@
                 <td [attr.data-label]="labels?.status" data-title="Member">
                   <app-vf-custom-select [values]="rcuLov?.status" formControlName="rcuStatus" class="form-control-cus">
                   </app-vf-custom-select>
-  
+
                 </td>
               </tr>
             </tbody>
-  
+
           </table>
-  
+
         </div>
-  
-  
+
+
         <div class="form-group od-row">
           <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12"><label>{{labels?.rcuReportStatus}}</label></div>
           <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12">
@@ -325,25 +331,72 @@
             <label>RCU Report Received Date/Time</label>
           </div>
           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-            <input class="form-control ng-untouched ng-pristine" formcontrolname="rcuReportReceivedDateTime" name="input"
-              readonly="" type="text" disabled="" ng-reflect-name="rcuReportReceivedDateTime" value="{{today}}">
+            <input class="form-control ng-untouched ng-pristine" formcontrolname="rcuReportReceivedDateTime"
+              name="input" readonly="" type="text" disabled="" ng-reflect-name="rcuReportReceivedDateTime"
+              value="{{today}}">
           </div>
         </div>
         <div class="clearfix"></div>
-  
-  
+
+
         <div class="form-group row">
           <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12"><label>{{labels?.remark}}</label></div>
           <div class="form-group col-lg-11 col-md-11 col-sm-11 col-xs-12">
             <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="remarks"></textarea>
           </div>
-  
+
         </div>
       </div>
     </form>
 
+    <div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Collapsible Group Item #1
+            </button>
+          </h2>
+        </div>
+    
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Collapsible Group Item #2
+            </button>
+          </h2>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingThree">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Collapsible Group Item #3
+            </button>
+          </h2>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+          <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          </div>
+        </div>
+      </div>
+    </div>
+
     <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+      [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
   </ng-container>
 

@@ -5,9 +5,9 @@
         <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
 
-            <div id="sales_section_start" *ngIf="roleType === 1">
+            <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} ({{udfScreenId}}) </h3>
 
-                <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} </h3>
+            <div id="sales_section_start" *ngIf="roleType === 1">
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
 
