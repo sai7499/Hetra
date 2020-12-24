@@ -84,6 +84,7 @@
                     <th>Stage / Action <i class="fa fa-sort"></i></th>
                     <th>Performed by <i class="fa fa-sort"></i></th>
                     <th>Performed on <i class="fa fa-sort"></i></th>
+                    <th>TAT <i class="fa fa-sort"></i></th>
                     <th>Status <i class="fa fa-sort"></i></th>
                     <!-- <th>Remarks <i class="fa fa-sort"></i></th> -->
                   </tr>
@@ -95,6 +96,7 @@
                     <td [attr.data-label]="labels?.action">{{leadHistory?.stage}}</td>
                     <td [attr.data-label]="labels?.performed_by">{{leadHistory?.createdBy}}</td>
                     <td [attr.data-label]="labels?.performed_on">{{leadHistory?.createdDate}}</td>
+                    <td [attr.data-label]="labels?.status">{{leadHistory?.tat}}</td>
                     <td [attr.data-label]="labels?.status">{{leadHistory?.response}}</td>
                     <!-- <td [attr.data-label]="labels?.remark">Remarks</td> -->
                   </tr>
