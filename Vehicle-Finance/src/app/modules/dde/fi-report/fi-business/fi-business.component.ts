@@ -166,7 +166,12 @@ export class FiBusinessComponent implements OnInit {
     const data = this.leadData;
 
     const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
-    this.leadCreatedDateFromLead = new Date(leadCreatedDate.split(' ')[0]);
+    let LeadDate = new Date(leadCreatedDate.split(' ')[0]);
+    var day = LeadDate.getDate();
+    var month =LeadDate.getMonth();
+    var year = LeadDate.getFullYear();
+    this.leadCreatedDateFromLead = new Date(year, month, day, 0, 0);
+    // this.leadCreatedDateFromLead = new Date(leadCreatedDate.split(' ')[0]);
   }
 
   getPincode(pincode) {
