@@ -47,6 +47,10 @@ export class ChequeTrackingComponent implements OnInit {
   disburseDate : Date;
   minHandoverDate: Date;
   isInvalidChequeNum : boolean= false;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId= 'CTS001';
+  udfGroupId= 'CTG001';
 
   constructor(
     private labelsData: LabelsService,
@@ -161,6 +165,11 @@ export class ChequeTrackingComponent implements OnInit {
   getChequeTrckingData() {
     const data = {
       leadId: this.leadId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
 
     }
     this.chequeTrackingService.getChequeTracking(data).subscribe((res) => {
@@ -175,6 +184,7 @@ export class ChequeTrackingComponent implements OnInit {
 
         //   }
         // })
+        this.udfDetails = res['ProcessVariables'].udfDetails;
         setTimeout(() => {
           this.chequeData = data;
 
@@ -414,8 +424,9 @@ export class ChequeTrackingComponent implements OnInit {
 
   checkFormUpdate() {
     const value = this.chequeForm.value;
-    console.log('value', value)
-    if (this.chequeForm.invalid || this.isInvalidChequeNum) {
+    console.log('value', value);
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
+    if (this.chequeForm.invalid || this.isInvalidChequeNum || isUDFInvalid) {
       this.isDirty = true;
       this.toasterService.showError('Please fill mandatory fields.',
         'Cheque Tracking')
@@ -456,12 +467,17 @@ export class ChequeTrackingComponent implements OnInit {
 
 
     }
-
+    const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       leadId: this.leadId,
       chequeData: {
         ...chequeData
-      }
+      },
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }]
     }
     this.chequeTrackingService.saveUpdateChequeTracking(data).subscribe((res) => {
 
@@ -498,6 +514,11 @@ export class ChequeTrackingComponent implements OnInit {
 
   onNext() {
     this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}/welcome-letter`);
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }
