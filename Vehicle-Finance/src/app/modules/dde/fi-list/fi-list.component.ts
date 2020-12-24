@@ -54,6 +54,7 @@ export class FiListComponent implements OnInit {
   currentDate: Date = new Date();
   stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
   currentTime: any;
+  isFiModal: boolean;
 
   constructor(
     private labelDetails: LabelsService,
@@ -279,6 +280,7 @@ export class FiListComponent implements OnInit {
   getPdf(event?) {
     this.selectedApplicantId = event;
     this.getFiData();
+    this.isFiModal = true;
   }
 
   downloadpdf() {
@@ -291,5 +293,6 @@ export class FiListComponent implements OnInit {
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById('pdf')).set(options).save();
+    this.isFiModal = false;
   }
 }
