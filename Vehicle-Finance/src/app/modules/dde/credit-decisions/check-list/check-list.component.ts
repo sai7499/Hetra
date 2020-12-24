@@ -98,7 +98,7 @@ export class CheckListComponent implements OnInit {
 
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     if(this.roleType == '7' || this.roleType == '2') {
-      this.udfScreenId = "CLS001";
+      this.udfScreenId = "CLS001"; 
     } else if(this.roleType == '4') {
       this.udfScreenId = "CLS002";
     } else if(this.roleType == '5') {
@@ -143,6 +143,7 @@ export class CheckListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (this.roleType == '4' || this.roleType == '7' ) {
        this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
+       this.userDefineForm.udfData.disable();
       // tslint:disable-next-line: triple-equals
       } else if ( this.roleType == '5') {
        this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
