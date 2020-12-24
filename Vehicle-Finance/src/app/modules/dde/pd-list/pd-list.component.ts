@@ -122,6 +122,7 @@ export class PdListComponent implements OnInit {
   pdSelfDriven: string;
   pdPrevExpMatched: string;
   fileName: string;
+  isFiCumPdModal: boolean;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
@@ -468,6 +469,7 @@ export class PdListComponent implements OnInit {
   getPdf(event?) {
     this.selectedApplicantId = event;
     this.getFiCumPdAndPdData();
+    this.isFiCumPdModal = true;
   }
 
   downloadpdf() {
@@ -480,6 +482,7 @@ export class PdListComponent implements OnInit {
       jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
     }
     html2pdf().from(document.getElementById('pdf')).set(options).save();
+    this.isFiCumPdModal = false;
   }
 
 }

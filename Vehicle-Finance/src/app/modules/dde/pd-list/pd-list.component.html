@@ -83,8 +83,7 @@
                                                 </a>
                                             </u> &nbsp; &nbsp; &nbsp;
                                             <span>
-                                                <a class="a_tag" style="cursor: pointer;" data-toggle="modal"
-                                                    data-target="#fiCumPdModal" (click)="getPdf(item.applicantId)">
+                                                <a class="a_tag" style="cursor: pointer;" (click)="getPdf(item.applicantId)">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             </span>
@@ -186,7 +185,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="fiCumPdModal">
+<div class="modal fade" id="fiCumPdModal" *ngIf="isFiCumPdModal">
     <div class="modal-dialog modal-dialog-centered HeaderModalWidth">
         <div class="modal-content">
             <div class="modal-header ">
@@ -1498,7 +1497,7 @@
                                             <tr *ngFor=" let item of marketAndFinacier; let i = index">
                                                 <td>{{ i + 1 }}</td>
                                                 <td style="min-width: 59px">
-                                                    {{item.typeReference || 'NA'}}
+                                                    {{item.typeReference == 'FINREFREFERNS' ? 'Finance References' : 'Market References'}}
                                                 </td>
                                                 <td>
                                                     {{item.companyName || 'NA'}}
@@ -1704,7 +1703,7 @@
                 <!--PDF end-->
             </div>
             <div class="HeaderFooter text-center">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button> -->
             </div>
         </div>
     </div>
