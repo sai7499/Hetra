@@ -103,6 +103,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
+      console.log('pd value', value);
     });
 
     this.monthValidation = this.monthValiationCheck();
@@ -246,6 +247,7 @@ export class PersonalDetailsComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    console.log('PDlov',this.LOV);
     this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {

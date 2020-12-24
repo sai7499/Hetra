@@ -11,6 +11,9 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
+import { UtilityService } from '@services/utility.service';
+
 @Component({
   templateUrl: './applicant-details.component.html',
   styleUrls: ['./applicant-details.component.css']
@@ -70,7 +73,9 @@ export class ApplicantDetailComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private utilityService: UtilityService,
+    private loanViewService: LoanViewService,
+    private ficumpdPdfService: FicumpdPdfService
   ) { }
 
   async ngOnInit() {
@@ -316,6 +321,8 @@ export class ApplicantDetailComponent implements OnInit {
 
         if (this.applicantPdDetails) {
           this.setFormValue();
+          this.ficumpdPdfService.setApplicantPdDetails(this.applicantPdDetails);
+          // this.pdDataService.setCustomerProfile(this.applicantPdDetails);
         }
         if (this.applicantForm.get('residenceAddressAsPerLoanApplication') != null) {
           this.resAddress(this.applicantForm.get('residenceAddressAsPerLoanApplication').value);
