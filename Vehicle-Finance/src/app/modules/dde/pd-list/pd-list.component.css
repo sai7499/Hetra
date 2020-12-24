@@ -75,12 +75,12 @@ h3.dedupe_head {
 .modal_content {
     font-size: 18px;
     font-family: fantasy;
-    text-align: center;
+    text-align: left;
     color: #94999b;
 }
 
 .modal-body {
-    text-align: center;
+    text-align: left;
 }
 
 .modal-body.modal_coapp {
@@ -159,9 +159,24 @@ label.col-form-label-two {
     width: 50%;
     padding-right: 20px;
     padding-left: 20px;
-    font-weight: bolder;
+    font-weight: 300;
     font-size: 14px;
     float: right;
+    word-break: break-all;
+}
+
+.pd-table-head-bg {
+    background-color: #272264 !important;
+    color: #fff !important;
+    font-size: 14px!important;
+}
+
+#page-break {
+    page-break-before: always;
+}
+
+.full-width {
+    width: 100% !important;
 }
 
 .col-lg-12.col-md-12.col-sm-12.lead_top {

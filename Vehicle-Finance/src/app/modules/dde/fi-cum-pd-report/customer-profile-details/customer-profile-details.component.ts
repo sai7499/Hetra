@@ -12,6 +12,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
 
 @Component({
   selector: 'app-customer-profile-details',
@@ -70,7 +71,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
     private personalDiscussion: PersonalDiscussionService,
     private toggleDdeService: ToggleDdeService,
     private createLeadDataService: CreateLeadDataService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private ficumpdPdfService: FicumpdPdfService
   ) { }
 
   async ngOnInit() {
@@ -220,6 +222,9 @@ export class CustomerProfileDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.custProfDetails = value.ProcessVariables.customerProfileDetails;
+        this.ficumpdPdfService.setcustomerProfileDetails(this.custProfDetails);
+
+        console.log('calling get api ', this.custProfDetails);
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
 
         if (this.entityTypeKey == "INDIVENTTYP") {

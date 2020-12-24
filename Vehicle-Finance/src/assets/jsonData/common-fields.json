@@ -1329,6 +1329,42 @@
         "rule": 30,
         "msg": ""
       }
+    },
+    {
+      "id": "creditOfficer",
+      "label": "CAD Credit Officer",
+      "placeholder": "Officer Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "cpcMaker",
+      "label": "CPC Maker Name",
+      "placeholder": "Officer Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
+    },
+    {
+      "id": "cpcChecker",
+      "label": "CPC Checker Name",
+      "placeholder": "Officer Name",
+      "mandatory": true,
+      "contorlType": "textbox",
+      "inputType": "alpha",
+      "maxLength": {
+        "rule": 30,
+        "msg": ""
+      }
     }
   ],
   "screenUdfMapping": {
@@ -2297,6 +2333,36 @@
       "fields": [
         {
           "name": "creditCondition",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "CLS001": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "creditOfficer",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "CLS002": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "cpcMaker",
+          "show": true,
+          "disable": false
+        }
+      ]
+    },
+    "CLS003": {
+      "layout": 3,
+      "fields": [
+        {
+          "name": "cpcChecker",
           "show": true,
           "disable": false
         }
