@@ -25,6 +25,7 @@
       <label class="action"> {{labels.action}} </label>
     </div>
   </div>
+ 
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
     <div formArrayName="Rows">
 
@@ -97,6 +98,9 @@
       </div>
     </div>
   </form>
+
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+  [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
   <div class="btn-sec clear-both mar-30">
     <div class="col-sm-4">

@@ -184,7 +184,12 @@ export class FiResidenceComponent implements OnInit {
     const data = this.leadData;
 
     const leadCreatedDate = data['leadDetails']['leadCreatedOn'];
-    this.leadCreatedDateFromLead = new Date(leadCreatedDate.split(' ')[0]);
+    let LeadDate = new Date(leadCreatedDate.split(' ')[0]);
+    var day = LeadDate.getDate();
+    var month =LeadDate.getMonth();
+    var year = LeadDate.getFullYear();
+    this.leadCreatedDateFromLead = new Date(year, month, day, 0, 0);
+    // this.leadCreatedDateFromLead = new Date(leadCreatedDate.split(' ')[0]);
   }
 
   // fun for conditional entry for rent amount
@@ -452,8 +457,8 @@ export class FiResidenceComponent implements OnInit {
       distanceInKms: fiModel.distanceInKms ? fiModel.distanceInKms : null,
       cpvAgencyStatus: fiModel.cpvAgencyStatus ? fiModel.cpvAgencyStatus : null,
       verifiedBy: fiModel.verifiedBy ? fiModel.verifiedBy : null,
-      fiDate: this.fiDate ? this.fiDate : null,
-      fiTime: this.fiTime ? this.fiTime : null,
+      fiDate: this.fiDate ? this.utilityService.getDateFromString(fiModel.fiDate) : this.fiDate,
+      fiTime: this.fiTime ? fiModel.fiTime : this.fiTime,
       noOfMonthsCity: noofmonthsCity,
       noOfYearsCity: noofyearsCity,
       noOfMonthsResi: noofmonthsResi,

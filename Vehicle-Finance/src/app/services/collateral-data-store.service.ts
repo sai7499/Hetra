@@ -60,8 +60,6 @@ export class CollateralDataStoreService {
       let patchFieldDetails: any = [];
       let fieldData = json.screenUdfMapping ? json.screenUdfMapping[id] : {};
 
-      console.log(json, 'json', json.screenUdfMapping, id)
-
       if (fieldData && fieldData.fields && fieldData.fields.length > 0) {
         findFieldArray = fieldData.fields.filter((field) => {
           json.udfFields.filter((res) => {
