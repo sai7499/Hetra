@@ -27,6 +27,7 @@ import { ControlPosition } from '@agm/core';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-identity-details',
@@ -77,6 +78,8 @@ export class IdentityDetailsComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -90,7 +93,8 @@ export class IdentityDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private objectComparisonService: ObjectComparisonService
   ) {
 
     const url = this.location.path();
@@ -580,6 +584,7 @@ export class IdentityDetailsComponent implements OnInit {
       this.udfDetails[0].udfData = udfDetails;
 
       this.applicantDataService.setUdfDatas(this.udfDetails)
+      this.initUDFValues = this.userDefineForm.udfData.getRawValue();
       const currentUrl = this.location.path();
       if (currentUrl.includes('sales')) {
         // this.router.navigate([
@@ -604,6 +609,18 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onNext() {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (isUDFInvalid) {
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
+    }
+    if (!isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+
     const url = this.location.path();
     if (url.includes('sales')) {
       this.router.navigateByUrl(
@@ -619,7 +636,10 @@ export class IdentityDetailsComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+    console.log('identifyValue', value)
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 
 }

@@ -73,7 +73,7 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
         this.dynamicForm.addControl(control.name, fc)
       })
     }
-    this.getUserDefinedForm()
+    
   }
 
   ngOnChanges() {
@@ -82,8 +82,9 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
     // this.getUserDefinedForm()
   }
 
-  getUserDefinedForm() {
+  getUserDefinedForm(value? : string) {
     let udfDetails = {
+      event : value,
       groupScreenID: this.groupId,
       udfData: this.dynamicForm
     }
@@ -114,6 +115,7 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
         }
       }
     }
+    this.getUserDefinedForm('init')
   }
 
 }
