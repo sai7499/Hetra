@@ -123,6 +123,8 @@ export class AddressDetailsComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
 
 
   constructor(
@@ -1506,6 +1508,7 @@ export class AddressDetailsComponent implements OnInit {
         ''
       );
       this.udfDetails[0].udfData=  udfDetails;
+      this.initUDFValues = this.userDefineForm.udfData.getRawValue();
     
     this.applicantDataService.setUdfDatas(this.udfDetails)
       this.apiValue = this.addressForm.getRawValue();
@@ -1704,13 +1707,14 @@ export class AddressDetailsComponent implements OnInit {
       }
     }
 
-
-
-    if (this.addressForm.invalid) {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.addressForm.invalid || isUDFInvalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if (!isValueCheck || !isCheckBoxValue) {
+    if (!isValueCheck || !isCheckBoxValue || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
@@ -1731,7 +1735,10 @@ export class AddressDetailsComponent implements OnInit {
   }
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+    console.log('identifyValue', value)
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 }
 
