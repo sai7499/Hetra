@@ -2,17 +2,14 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
-import { DdeStoreService } from '@services/dde-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { FleetDetailsService } from '../services/fleet-details.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
-import { CommentStmt } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-import { TypeaheadOptions } from 'ngx-bootstrap/typeahead/public_api';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToggleDdeService } from '@services/toggle-dde.service';
@@ -125,8 +122,8 @@ export class FleetDetailsComponent implements OnInit {
   isLoan360: boolean;
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId= 'FLS001';
-  udfGroupId= 'FLG001';
+  udfScreenId = 'FLS001';
+  udfGroupId = 'FLG001';
   constructor(
 
     private labelsData: LabelsService,
@@ -295,6 +292,7 @@ export class FleetDetailsComponent implements OnInit {
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
         id: rowData.id,
         vehicleId: rowData.vehicleId,
+        yomDate: new FormControl('')
       })
     }
     else return this.fb.group({
@@ -483,16 +481,20 @@ export class FleetDetailsComponent implements OnInit {
     })
   }
   // YOM changes 
-  onGetDateValue(event, index) {
+  onGetDateValue(event, index, obj) {
     if (event.target.value > this.toDayDate) {
       this.customFutureDate = true;
     } else {
       this.customFutureDate = false;
       const formArray = (this.fleetForm.get('Rows') as FormArray);
-
+      var day = this.toDayDate.getDate();
+      var month = this.toDayDate.getMonth();
+      let yomDate = new Date(event.target.value, month, day, 0, 0);
+      obj.patchValue({
+        yomDate: yomDate
+      })
       this.getVehicleGridValue(formArray, index)
     }
-
 
   }
   // get grid value
@@ -622,12 +624,12 @@ export class FleetDetailsComponent implements OnInit {
 
     }
     //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])
-    const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+    const udfData = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       leadId: this.leadId,
       userId: this.userId,
       fleets: this.fleetDetails,
-      udfDetails : [{
+      udfDetails: [{
         "udfGroupId": this.udfGroupId,
         //"udfScreenId": this.udfScreenId,
         "udfData": udfData
@@ -670,7 +672,7 @@ export class FleetDetailsComponent implements OnInit {
       } else if (res['Error'] == "1") {
         this.toasterService.showError(res['ErrorMessage'], '');
       }
-   
+
     });
   }
 
@@ -707,6 +709,7 @@ export class FleetDetailsComponent implements OnInit {
           }
           if (i == 0) {
             this.formArr.push(this.initRows(fleets[i]))
+            // this.onGetDateValue(fleets[i].yom, i, this.formArr)
           }
           else {
             this.addNewRow(fleets[i]);
@@ -745,7 +748,7 @@ export class FleetDetailsComponent implements OnInit {
 
   // deleteRow(index: number, fleets: any) {
   //   console.log("in delete row fn ", fleets, index)
-    
+
   //   if (fleets.length > 1) {
   //     this.formArr.removeAt(index);
   //     // console.log("inside del fun", fleets)
@@ -783,7 +786,7 @@ export class FleetDetailsComponent implements OnInit {
     const index = this.deleteRecordData.index;
     const fleets = this.deleteRecordData.fleets;
     if (fleets.length > 1) {
-    this.formArr.removeAt(index);
+      this.formArr.removeAt(index);
 
       // console.log("inside del fun", fleets)
 
@@ -859,8 +862,8 @@ export class FleetDetailsComponent implements OnInit {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
       return;
     } else {
-      const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
-      if (this.fleetForm.valid === true && !isUDFInvalid ) {
+      const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+      if (this.fleetForm.valid === true && !isUDFInvalid) {
         // this.fleetDetails = this.fleetForm.value.Rows
         // console.log(this.fleetDetails)
         this.saveOrUpdateFleetDetails(index);
@@ -900,17 +903,17 @@ export class FleetDetailsComponent implements OnInit {
       userId: this.userId,
       leadId: this.leadId
     }).subscribe(((value: any) => {
-        console.log('validate', value);
-        if (value.Error !== '0') {
-          return this.toasterService.showError(value.ErrorMessage, '');
-        }
-        const processVariables = value.ProcessVariables;
-        const error = processVariables.error;
-        if (error && error.code !== '0') {
-           return this.toasterService.showError(error.message, '');
-        }
-        this.removeFile();
-        this.docsFleetDetails = processVariables.fleetDetails;
+      console.log('validate', value);
+      if (value.Error !== '0') {
+        return this.toasterService.showError(value.ErrorMessage, '');
+      }
+      const processVariables = value.ProcessVariables;
+      const error = processVariables.error;
+      if (error && error.code !== '0') {
+        return this.toasterService.showError(error.message, '');
+      }
+      this.removeFile();
+      this.docsFleetDetails = processVariables.fleetDetails;
     }));
   }
 
@@ -921,7 +924,7 @@ export class FleetDetailsComponent implements OnInit {
     this.fileUrl = files;
     const target: DataTransfer = event.target;
     if (target.files.length !== 1) {
-       return this.toasterService.showError('Cannot use multiple files', '');
+      return this.toasterService.showError('Cannot use multiple files', '');
     }
     if (!files.type) {
       const type = files.name.split('.')[1];
@@ -936,7 +939,7 @@ export class FleetDetailsComponent implements OnInit {
       this.showError = `Only files with following extensions are allowed: xlsx,csv`;
       return;
     }
-    if (files.size > 2097152 ) {
+    if (files.size > 2097152) {
       this.showError = `File is too large. Allowed maximum size is 2 MB`;
       return;
     }
@@ -945,7 +948,7 @@ export class FleetDetailsComponent implements OnInit {
     const fileToRead = files;
     const fileReader = new FileReader();
     if (fileType.includes('xls')) {
-       this.getDataFromXlsFile(target);
+      this.getDataFromXlsFile(target);
       //   fileReader.onload =  (e: any) => {
       //     console.log('xls', e.target.result);
       // };
@@ -972,33 +975,33 @@ export class FleetDetailsComponent implements OnInit {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
       /* save data */
-      let data = XLSX.utils.sheet_to_json(ws, { header: 1,  defval: '', raw: false });
+      let data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '', raw: false });
       console.log('data', ...data);
       if (data && data.length !== 0) {
-          const size = data.length;
-          const header: any = data[0];
-          let i = -1;
-          const dateHeaders = [];
-          for (const element of header) {
-               i++;
-               if (element && element.includes('date')) {
-                  dateHeaders.push(i);
-               }
+        const size = data.length;
+        const header: any = data[0];
+        let i = -1;
+        const dateHeaders = [];
+        for (const element of header) {
+          i++;
+          if (element && element.includes('date')) {
+            dateHeaders.push(i);
           }
-          // data = this.getDateFormattedXlsData(data, dateHeaders);
-          const xlsData = data.map((value: any, index) => {
-            let val = value.join(',');
-            if (size - 1 !== index) {
-              val = val === '' ? '' : val + '\r\n';
-            }
-            return val;
-          });
-          let finalData = '';
-          xlsData.forEach((value) => {
-            finalData += value;
-          });
-          this.csvData = finalData;
-          console.log('this.csvData', this.csvData);
+        }
+        // data = this.getDateFormattedXlsData(data, dateHeaders);
+        const xlsData = data.map((value: any, index) => {
+          let val = value.join(',');
+          if (size - 1 !== index) {
+            val = val === '' ? '' : val + '\r\n';
+          }
+          return val;
+        });
+        let finalData = '';
+        xlsData.forEach((value) => {
+          finalData += value;
+        });
+        this.csvData = finalData;
+        console.log('this.csvData', this.csvData);
       }
     };
     reader.readAsBinaryString(target.files[0]);
@@ -1022,30 +1025,30 @@ export class FleetDetailsComponent implements OnInit {
   getDateFormattedXlsData(data, dateIndex: any[]) {
     let index = -1;
     for (const element of data) {
-        index++;
-        if (index !== 0) {
-           dateIndex.forEach((value) => {
-            const dataValue = element[value];
-            const parse = Date.parse(dataValue);
-            if ( !isNaN(parse) && parse >= 0) {
-              console.log('dataValue',  dataValue)
-              const valueType =  typeof dataValue;
-              if (valueType === 'string' && dataValue.includes('-')) {
-                 let dateValue = dataValue.split('-');
-                 if (dateValue.length === 3) {
-                   dateValue = dateValue.join('/');
-                   element[value] = dateValue;
-                   data[index] = element;
-                 }
-              } else if (valueType === 'string' && dataValue.includes('/')) {
-                let dateValue = dataValue.split('/');
-                if (dateValue.length === 3) {
-                  dateValue = dateValue.join('/');
-                  element[value] = dataValue;
-                  data[index] = element;
-                }
-             } else {
-               console.log(moment(new Date(dataValue)).format('DD/MM/YYYY'))
+      index++;
+      if (index !== 0) {
+        dateIndex.forEach((value) => {
+          const dataValue = element[value];
+          const parse = Date.parse(dataValue);
+          if (!isNaN(parse) && parse >= 0) {
+            console.log('dataValue', dataValue)
+            const valueType = typeof dataValue;
+            if (valueType === 'string' && dataValue.includes('-')) {
+              let dateValue = dataValue.split('-');
+              if (dateValue.length === 3) {
+                dateValue = dateValue.join('/');
+                element[value] = dateValue;
+                data[index] = element;
+              }
+            } else if (valueType === 'string' && dataValue.includes('/')) {
+              let dateValue = dataValue.split('/');
+              if (dateValue.length === 3) {
+                dateValue = dateValue.join('/');
+                element[value] = dataValue;
+                data[index] = element;
+              }
+            } else {
+              console.log(moment(new Date(dataValue)).format('DD/MM/YYYY'))
               const d = new Date(dataValue);
               let month: any = d.getMonth() + 1;
               const year = d.getFullYear();
@@ -1054,10 +1057,10 @@ export class FleetDetailsComponent implements OnInit {
               month = month <= 9 ? `0${month}` : month;
               element[value] = moment(new Date(dataValue)).format('DD/MM/YYYY');
               data[index] = element;
-             } 
             }
-           });
-        }
+          }
+        });
+      }
     }
     return data;
   }
@@ -1074,27 +1077,27 @@ export class FleetDetailsComponent implements OnInit {
     if (filteredData.length === 0) {
       return this.toasterService.showError('All are invalid records', '');
     }
-    
-    
+
+
     this.fleetDetailsService.saveValidRecords({
       fleetDetails: filteredData,
       userId: this.userId,
       leadId: this.leadId,
-     
+
     }).subscribe(((value: any) => {
-        console.log('save', value);
-        if (value.Error !== '0') {
-          return this.toasterService.showError(value.ErrorMessage, '');
-        }
-        const processVariables = value.ProcessVariables;
-        const error = processVariables.error;
-        if (error && error.code !== '0') {
-           return this.toasterService.showError(error.message, '');
-        }
-        this.docsFleetDetails = null;
-        this.showUploadModal = false;
-        this.toasterService.showSuccess('Saved successfully', '');
-        this.getFleetDetails();
+      console.log('save', value);
+      if (value.Error !== '0') {
+        return this.toasterService.showError(value.ErrorMessage, '');
+      }
+      const processVariables = value.ProcessVariables;
+      const error = processVariables.error;
+      if (error && error.code !== '0') {
+        return this.toasterService.showError(error.message, '');
+      }
+      this.docsFleetDetails = null;
+      this.showUploadModal = false;
+      this.toasterService.showSuccess('Saved successfully', '');
+      this.getFleetDetails();
     }));
   }
 
