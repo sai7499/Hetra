@@ -59,8 +59,7 @@
                                                     {{ version }}</a>
                                             </u> &nbsp; &nbsp; &nbsp;
                                             <span>
-                                                <a class="a_tag" style="cursor: pointer;" data-toggle="modal"
-                                                    data-target="#fiModal" (click)="getPdf(item.applicantId)">
+                                                <a class="a_tag" style="cursor: pointer;" (click)="getPdf(item.applicantId)">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             </span>
@@ -118,7 +117,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="fiModal">
+<div class="modal fade" id="fiModal" *ngIf="isFiModal">
     <div class="modal-dialog modal-dialog-centered HeaderModalWidth">
         <div class="modal-content">
             <div class="modal-header ">
@@ -185,7 +184,7 @@
                                 <label for="father_name" class="col-form-label">{{ labels?.applicantsName }}
                                 </label>
                                 <label for="customer_name" class="col-form-label-two">:
-                                    {{fiApplicantFullName || 'NA'}}</label>
+                                    {{applicantFullName || 'NA'}}</label>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="gender" class="col-form-label">{{ labels.residenceAddressline1 }} </label>
@@ -224,7 +223,7 @@
                                 <label for="father_name" class="col-form-label">{{ labels?.state }}
                                 </label>
                                 <label for="customer_name" class="col-form-label-two">:
-                                    {{fiResidenceDetails?.State || 'NA'}}</label>
+                                    {{fiResidenceDetails?.stateValue || 'NA'}}</label>
                             </div>
                         </div>
 
@@ -393,7 +392,7 @@
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="applicant_name" class="col-form-label">{{ labels?.date }}</label>
                                 <label for="customer_name" class="col-form-label-two">:
-                                    {{fiResidenceDetails?.fiDate || 'NA'}}</label>
+                                    {{fiResidenceDetails?.fiDate ? fiResidenceDetails?.fiDate : currentTime}}</label>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="applicant_name" class="col-form-label">{{ labels?.time }}</label>
@@ -456,7 +455,7 @@
                                 <label for="father_name" class="col-form-label">{{ labels?.applicantsName }}
                                 </label>
                                 <label for="customer_name" class="col-form-label-two">:
-                                    {{fiApplicantFullName || 'NA'}}</label>
+                                    {{applicantFullName || 'NA'}}</label>
                             </div>
                         </div>
 
@@ -487,12 +486,12 @@
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="applicant_name" class="col-form-label">{{ labels?.city }}</label>
-                                <label for="customer_name" class="col-form-label-two">: city</label>
+                                <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.cityValue}}</label>
                             </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                 <label for="father_name" class="col-form-label">{{ labels?.state }}
                                 </label>
-                                <label for="customer_name" class="col-form-label-two">: state</label>
+                                <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.stateValue}}</label>
                             </div>
                         </div>
 
@@ -626,7 +625,7 @@
                 <!--PDF end-->
             </div>
             <div class="HeaderFooter text-center">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button> -->
             </div>
         </div>
     </div>
