@@ -10,6 +10,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { Router } from '@angular/router';
 import { storage } from '../storage/localstorage';
+import { ToastrService } from 'ngx-toastr';
 
 export declare class myOptions {
   method: any;
@@ -43,7 +44,8 @@ export class HttpService {
     private deviceService: DeviceDetectorService,
     private encrytionService: EncryptService,
     private errorListenerService: ErrorListenerService,
-    private router: Router
+    private router: Router,
+    private toasterService: ToastrService,
   ) {
     this.isMobile = environment.isMobile;
   }
@@ -302,8 +304,13 @@ export class HttpService {
         .catch((error) => {
           console.log('~~~***Response error***~~~', error);
 
-          if (error['status'] == '-3') {
+          if (error['status'] == '-3' || error['status'] == '-4') {
             data = JSON.parse(error['error']);
+            this.toasterService.error(`${error['status']}: ${error['error']}`, 'Technical error..');
+            this.ngxService.stop();
+            observer.error(data);
+            observer.complete();
+            this.activeRequests--;  
           }
 
           if (error['headers']['content-type'] && error['headers']['content-type'] == 'text/plain') {
