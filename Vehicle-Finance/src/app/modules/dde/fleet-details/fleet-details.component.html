@@ -272,8 +272,8 @@
                                        [isRequired]="'Accrued is mandatory'"
                                         [type]="validationData?.tenurePaid['type']" 
                                         [isDirty]="isDirty"
-                                        (keyup)="checkPaid(event ,i)"
-                                        (change) = "calcSeasoning(event ,i)">
+                                        (keyup)="checkPaid($event ,i)"
+                                        (change) = "calcSeasoning($event ,i)">
                                     </app-custom-input>
 
                                     <div class="cus-mandatory-field" *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
@@ -343,6 +343,9 @@
                 </table>
             </div>
         </div>
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+        
         <div class="btn-sec clear-both row btn-mar-15 cst_btm_btns"  >
             <div class="col-sm-5">
     

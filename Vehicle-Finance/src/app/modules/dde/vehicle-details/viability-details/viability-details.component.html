@@ -848,7 +848,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>{{label?.netCashFlowEMI}}</strong></td>
+                        <td><strong>{{label?.netEmi}}</strong></td>
                         <td class="wrd-brk" colspan="1"><strong>{{standOperatorEmi}}</strong></td>
                     </tr>
                     <tr>
@@ -1110,7 +1110,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td><strong>{{label?.netCashFlowEMI}}</strong></td>
+                        <td><strong>{{label?.netEmi}}</strong></td>
                         <td class="wrd-brk" colspan="1"><strong>{{captiveEmi}}</strong></td>
                     </tr>
                     <tr>
@@ -1160,7 +1160,14 @@
     </div>
 
     </form>
+    <div>
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+    
+    </div>
 </div>
+
+
 
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">

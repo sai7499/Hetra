@@ -9,8 +9,8 @@
           <div class="table-responsive application" *ngIf="usedCar">
             <table id="POITable" border="1" class="table main-table businessTable">
               <thead >
-                <th colspan="4" class="banner-con ">  <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
-                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)">
+                <th colspan="9" class="banner-con ">  <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)">
                 <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
                
                 </thead>
@@ -227,7 +227,7 @@
             <table id="POITable" border="1" class="table main-table businessTable">
               <thead >
               <th colspan="4" class="banner-con ">  <span >{{ labels?.keyFinancialTitle }}</span> </th>
-              <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)">
+              <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)">
               <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
              
               </thead>
@@ -755,7 +755,7 @@
             <table id="POITable_other" border="1" class="table main-table">
               <thead>
                 <th colspan="7" class=" banner-con">  <span>{{ labels?.otherIncomeDetailsTitle }}</span> </th>
-                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)">
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)">
                 <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
                
                 </thead>
@@ -849,7 +849,7 @@
                       (change)="appendFactoredIncome($event.target.value, i)" [isDirty]="isDirty"
                       [isRequired]="' Income Type is required.'">
                     </app-vf-custom-select>
-                    <div *ngIf="
+                    <!-- <div *ngIf="
                         incomeDetailsForm.get('otherIncomeDetails').controls[i]
                           .controls.incomeType.invalid && submitted == true
                       " class="invalid-feedback">
@@ -860,7 +860,7 @@
                         ">
                         Income Type is required.
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td data-title="Gross Income">
                     <app-custom-input formControlName="grossIncome" [placeholder]="'Gross Income'"
@@ -870,7 +870,7 @@
                       " [isRequired]="'Gross Income mandatory'" [isDirty]="isDirty"
                       (keyup)="getOtherFactoredIncome(i)">
                     </app-custom-input>
-                    <div *ngIf="
+                    <!-- <div *ngIf="
                         incomeDetailsForm.get('otherIncomeDetails').controls[i]
                           .controls.grossIncome.invalid && submitted == true
                       " class="invalid-feedback">
@@ -881,7 +881,7 @@
                         ">
                         Gross Income is required.
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td data-title="Factoring %">
                     <app-custom-input formControlName="factoring" [type]="labels?.validationData?.amountValue?.type"
@@ -916,7 +916,7 @@
             <table id="POITable_obligation" border="1" class="table main-table">
               <thead>
                 <th colspan="11" class="banner-con">  <span >{{ labels?.obligationDetailsTitle }}</span> </th>
-                <th colspan="1"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)">
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)">
                 <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
                
                 </thead>
@@ -1018,7 +1018,7 @@
                     <app-vf-custom-select [values]="incomeLov?.typeOfLoan" [isRequired]="'Please select one'"
                       [isDirty]="isDirty" formControlName="loanType" id="latbox">
                     </app-vf-custom-select>
-                    <div *ngIf="
+                    <!-- <div *ngIf="
                         incomeDetailsForm.get('obligationDetails').controls[i]
                           .controls.loanType.invalid && submitted == true
                       " class="invalid-feedback">
@@ -1044,14 +1044,14 @@
                         ">
                         Loan Type is required.
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td data-title="Financier">
                     <app-vf-custom-select [values]="incomeLov?.vehicleFinanciers" [isRequired]="'Please select one'"
                       [isDirty]="isDirty" [ngClass]="{ 'is-invalid': submitted || isDirty }"
                       formControlName="financier">
                     </app-vf-custom-select>
-                    <div *ngIf="
+                    <!-- <div *ngIf="
                         incomeDetailsForm.get('obligationDetails').controls[i]
                           .controls.financier.invalid && submitted == true
                       " class="invalid-feedback">
@@ -1077,7 +1077,7 @@
                         ">
                         Financier is required.
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td data-title="Loan Amount">
                     <app-custom-input formControlName="loanAmount" [placeholder]="'Loan Amount'"
@@ -1086,7 +1086,7 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isRequired]="'Loan Amount mandatory'" [isDirty]="isDirty">
                     </app-custom-input>
-                    <div *ngIf="
+                    <!-- <div *ngIf="
                         incomeDetailsForm.get('obligationDetails').controls[i]
                           .controls.loanAmount.invalid && submitted == true
                       " class="invalid-feedback">
@@ -1096,7 +1096,7 @@
                         ">
                         Loan Amount is required.
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td data-title="Tenor(In Months)">
                     <app-custom-input formControlName="tenure" [placeholder]="'Tenor'"
@@ -1105,7 +1105,7 @@
                         labels?.validationData?.tenurePaid?.maxLength
                       " [isRequired]="'Tenor mandatory'" [isDirty]="isDirty"
                       (keyup)="onTenure($event.target.value, i)"></app-custom-input>
-                    <div *ngIf="
+                    <!-- <div *ngIf="
                         incomeDetailsForm.get('obligationDetails').controls[i]
                           .controls.tenure.invalid && submitted == true
                       " class="invalid-feedback">
@@ -1115,7 +1115,7 @@
                         ">
                         Tenor is required.
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td data-title="MOB">
                     <app-custom-input formControlName="mob" [placeholder]="'MOB'"
@@ -1124,7 +1124,7 @@
                         labels?.validationData?.tenurePaid?.maxLength
                       " [isRequired]="'MOB mandatory'" [isDirty]="isDirty" (keyup)="onTenure($event.target.value, i)">
                     </app-custom-input>
-                    <div *ngIf="
+                    <!-- <div *ngIf="
                         incomeDetailsForm.get('obligationDetails').controls[i]
                           .controls.mob.invalid && submitted == true
                       " class="invalid-feedback">
@@ -1134,7 +1134,7 @@
                         ">
                         MOB is required.
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td data-title="EMI">
                     <app-custom-input formControlName="emi" [placeholder]="'EMI'"
@@ -1143,7 +1143,7 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isRequired]="'EMI mandatory'" [isDirty]="isDirty" (keyup)="onEmi($event.target.value, i)">
                     </app-custom-input>
-                    <div *ngIf="
+                    <!-- <div *ngIf="
                         incomeDetailsForm.get('obligationDetails').controls[i]
                           .controls.emi.invalid && submitted == true
                       " class="invalid-feedback">
@@ -1153,7 +1153,7 @@
                         ">
                         EMI is required.
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td data-title="Balance Tenor">
                     <app-custom-input formControlName="balanceTenure" [type]="labels?.validationData?.amountValue?.type"
@@ -1276,6 +1276,12 @@
       </div>
     </div>
   </div>
+  <app-shared-user-defined-fields *ngIf="usedCar" [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+<app-shared-user-defined-fields *ngIf="NewOrUsedComercialVehicle" [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">

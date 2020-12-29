@@ -171,8 +171,8 @@ export class SourcingDetailsComponent implements OnInit {
     tenor?: string,
     remainingTenor?: string,
     seasoning?: string,
-    isCommSuppressed: number
-
+    isCommSuppressed: number,
+    udfDetails?: any
   };
   operationType: boolean;
   apiValue: any;
@@ -182,8 +182,9 @@ export class SourcingDetailsComponent implements OnInit {
 
   // User defined Fields
   udfScreenId: string = 'LDS001';
-  udfGroupId: string = 'LDS001';
+  udfGroupId: string = 'LDG001';
   udfDetails: any = [];
+  userDefineForm: any;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -225,6 +226,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.getSourcingChannel();
     this.tenureMonthlyValidation = this.loanTenureMonth();
     this.operationType = this.toggleDdeService.getOperationType();
+    const currentUrl = this.location.path();
+    this.udfScreenId = currentUrl.includes('sales') ? 'LDS002': currentUrl.includes('dde') ? 'LDS003' : 'LDS001';
   }
 
   navigateToPrevious() {
@@ -289,6 +292,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.applicantDataStoreService.setApplicantList(applicantList);
     this.leadData = { ...this.leadSectionData };
     const data = this.leadData;
+
+    this.udfDetails = this.leadSectionData.udfDetails ? this.leadSectionData.udfDetails : [];
 
     this.isChildLoan = data.leadDetails.isChildLoan;
     if (this.isChildLoan === '0') {
@@ -628,9 +633,9 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingCodeValue = sourcingEvent.value;
     if (this.sourchingTypeId === '2SOURTYP') {
       this.onDealerCodeSearch(sourcingEvent.key);
-      this.sourcingDetailsForm.patchValue({dealerCode: sourcingEvent.value});
+      this.sourcingDetailsForm.patchValue({ dealerCode: sourcingEvent.value });
       this.dealorCodeKey = sourcingEvent.key;
-    }   
+    }
   }
 
   onSourcingCodeClear(event) {
@@ -650,7 +655,7 @@ export class SourcingDetailsComponent implements OnInit {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
         if (this.sourchingTypeId === '2SOURTYP') {
           this.selectDealorEvent(this.dealerCodeData[0]);
-          }
+        }
         this.keyword = 'dealorName';
         console.log('this.dealerCodeData', this.dealerCodeData);
       }
@@ -783,7 +788,8 @@ export class SourcingDetailsComponent implements OnInit {
       dealer = true;
     }
     this.isDirty = true;
-    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && dealer) {
+    let check = ''
+    if (this.sourcingDetailsForm.valid === true && this.isSourceCode && dealer && this.userDefineForm.udfData.valid) {
       const saveAndUpdate: any = { ...formValue };
       console.log(formValue, 'FormValue');
       this.saveUpdate = {
@@ -819,9 +825,15 @@ export class SourcingDetailsComponent implements OnInit {
         rateOfInterest: saveAndUpdate.rateOfInterest,
         tenor: saveAndUpdate.tenor,
         remainingTenor: saveAndUpdate.remainingTenor,
-        seasoning: saveAndUpdate.seasoning
+        seasoning: saveAndUpdate.seasoning,
+        udfDetails: [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+        }]
       };
       console.log('this.saveUpdate', this.saveUpdate);
+
       // this.leadDetail.saveAndUpdateLead(this.saveUpdate).subscribe((res: any) => {
       //   const response = res;
       //   console.log('saveUpdate Response', response);
@@ -872,6 +884,7 @@ export class SourcingDetailsComponent implements OnInit {
               leadDetails: dataa,
             };
             this.createLeadDataService.setLeadDetailsData(data);
+            this.udfDetails = response.ProcessVariables.udfDetails ? response.ProcessVariables.udfDetails : [];
             this.isSaved = true;
             this.apiValue = this.sourcingDetailsForm.getRawValue();
           } else {
@@ -927,16 +940,20 @@ export class SourcingDetailsComponent implements OnInit {
   onNavigate() {
     const currentUrl = this.location.path();
     if (currentUrl.includes('sales')) {
+      // this.udfScreenId = 'LDS002';
       this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`);
       return;
     }
     if (currentUrl.includes('dde')) {
+      // this.udfScreenId = 'LDS003';
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
       return;
     }
+
     this.router.navigateByUrl(
       `/pages/lead-section/${this.leadId}/applicant-details`
     );
+    console.log(this.udfScreenId, 'Screen Id')
   }
 
   getLeadId() {
@@ -949,4 +966,9 @@ export class SourcingDetailsComponent implements OnInit {
       });
     });
   }
+
+  onSaveuserDefinedFields(event) {
+    this.userDefineForm = event;
+  }
+
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { QueryDataResolverService } from '@modules/lead-section/services/queryDaraResolver.service';
+import { QueryDataResolverService } from '@modules/lead-section/services/queryDataResolver.service';
 import { QueryModelComponent } from './query-model.component';
 
 const routes: Routes = [

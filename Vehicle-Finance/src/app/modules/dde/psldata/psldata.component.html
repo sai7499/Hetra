@@ -433,7 +433,7 @@
                     (keyup) = "onChangelandUnitType()"
                     formControlName="landUnitValue"
                     [className]="'form-control mandatory'"
-                    [placeholder]="'Land Area in Acres'"
+                    [placeholder]="'Land Area'"
                     [maxLength]="labels?.validationData?.landArea.maxLength"
                     [isRequired]="'Required Input is mandatory'"
                     [type]="labels?.validationData.landArea.type"
@@ -806,6 +806,11 @@
             </div>
             <!---------------------------------End of MSME Section ----------------------------------->
 
+        </div>
+        <div>
+            <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+                [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+            
         </div>
         <div class="btn-sec clear-both row cst_btm_btns">
             <div class="col-sm-5"> </div>

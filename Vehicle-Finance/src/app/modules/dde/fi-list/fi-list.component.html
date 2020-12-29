@@ -1,6 +1,6 @@
 <form class="multisteps-form__form">
-    <div class="row">     
-       <h3>Field Investigation</h3>                  
+    <div class="row">
+        <h3>Field Investigation</h3>
     </div>
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <div class="container">
@@ -32,26 +32,37 @@
                         <tbody>
                             <tr *ngFor="let item of fiList">
                                 <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : "-" }}</td>
-                                <td [attr.data-label]="labels?.applicantName">{{ item.applicantName ? item.applicantName : "-" }}</td>
+                                <td [attr.data-label]="labels?.applicantName">
+                                    {{ item.applicantName ? item.applicantName : "-" }}</td>
                                 <td [attr.data-label]="labels?.mobileNumber">
                                     {{ item.mobileNumber ? item.mobileNumber : item.companyPhoneNumber }}</td>
-                                <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : "-" }}</td>
+                                <td [attr.data-label]="labels?.applicantType">
+                                    {{ item.applicantType ? item.applicantType : "-" }}</td>
                                 <td [attr.data-label]="labels?.flStatus" *ngIf="showStatus">
                                     <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;" *ngIf="show && item.fiStatusValue != 'Submitted'" (click)="navigatePage(item.applicantId)">
+                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;"
+                                    *ngIf="show && item.fiStatusValue != 'Submitted'"
+                                    (click)="navigatePage(item.applicantId)">
                                     <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                                 </td>
-                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;" *ngIf="show && item.fiStatusValue === 'Submitted'">
+                                <td [attr.data-label]="labels?.flStatus" style="cursor: pointer;"
+                                    *ngIf="show && item.fiStatusValue === 'Submitted'">
                                     <u>{{ item.fiStatusValue ? item.fiStatusValue : "-" }}</u>
                                 </td>
                                 <ng-container *ngIf="fiStatusValue === '3' && showStatus">
                                     <td [attr.data-label]="labels?.flReport">
                                         <ng-container *ngFor="let version of item.fiReportValue">
                                             <u>
-                        <a class="a_tag" style="cursor: pointer;"
-                          (click)="navigatePage(item.applicantId, version)">Version - {{ version }}</a>
-                      </u>
+                                                <a class="a_tag" style="cursor: pointer;"
+                                                    (click)="navigatePage(item.applicantId, version)">Version -
+                                                    {{ version }}</a>
+                                            </u> &nbsp; &nbsp; &nbsp;
+                                            <span>
+                                                <a class="a_tag" style="cursor: pointer;" (click)="getPdf(item.applicantId)">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                            </span>
                                             <br />
                                         </ng-container>
                                     </td>
@@ -82,10 +93,10 @@
 <div class="btn-sec clear-both" *ngIf="show">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right cst_btm_btns">
-       
+
         <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateToFiSummary()">
-      Back to FI Summary
-    </button>
+            Back to FI Summary
+        </button>
         <!-- <button class="btn btn-primary " type="button " (click)=onNavigateBack()> {{labels.back}} </button> &nbsp; -->
         <!-- <p class="btn btn-primary save "> Save </p> -->
         <!-- <button class="btn btn-primary " type="button " (click)="onNavigateNext() "> {{labels.next}} </button> -->
@@ -97,11 +108,525 @@
     <div class="col-sm-7 text-right cst_btm_btns" *ngIf="showStatus">
 
         <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigate('back')">
-      {{ labels?.back }}
-    </button>
+            {{ labels?.back }}
+        </button>
 
         <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNavigate('next')">
-      {{ labels?.next }}
-    </button>
+            {{ labels?.next }}
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="fiModal" *ngIf="isFiModal">
+    <div class="modal-dialog modal-dialog-centered HeaderModalWidth">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                <h4 class="modal-title text-center ">Field Investigation</h4>
+            </div>
+            <div class="modal-body ">
+                <!--PDF start-->
+
+                <form class="multisteps-form__form" id="pdf">
+                    <!-- <div class="content"> -->
+                    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+                        <h3 class="banner-con">FI - Residence</h3>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">
+                                    {{ labels?.nameOfExternalAgency }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">: NA</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.contactPointVerification }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiContactPointVerification?.value || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.referenceNo }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.referenceNo || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">
+                                    {{ labels?.cpvIntiatedDate }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.cpvInitiatedDate || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.cpvIntiatedTime }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.cpvInitiatedTime || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.reportSubmitDate }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.reportSubmitDate || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name"
+                                    class="col-form-label">{{ labels?.reportSubmitTime }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.cpvInitiatedDate || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.applicantsName }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{applicantFullName || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.residenceAddressline1 }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.addressLine1 || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name"
+                                    class="col-form-label">{{ labels?.residenceAddressline2 }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.addressLine2 || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.residenceAddressline3 }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.addressLine3 || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.pincode }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.pincode || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.city }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.cityValue || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.state }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.stateValue || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <h3 class="banner-con">Residence Observation</h3>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name"
+                                    class="col-form-label">{{ labels?.residenceApproach }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.residenceApproach || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.detailsOfResidence }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiDetailsOfResidence?.value || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.rentAmount }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.rentAmt || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.propertyArea }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.areaOfProperty || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.propertyValue }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.propertyValue || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.residenceName }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.residenceName || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.verifiedFrom }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.verifiedFrom || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.personMetName }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.personMetName || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name"
+                                    class="col-form-label">{{ labels?.assetsVisibleAtHome }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.visibleAssets || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name"
+                                    class="col-form-label">{{ labels?.locatingResidence }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.locatingResidence || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.fiLocality }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiLocality?.value || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12">
+                                        <label for="applicant_name"
+                                            class="col-form-label">{{ labels?.YearsStayinCity }}</label>
+                                    </div>
+                                </div>
+                                <label for="applicant_name" class="col-form-label">Years</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiRnoofyearsCity || 'NA'}}</label>
+                                <label for="applicant_name" class="col-form-label">Months</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiRnoofmonthsCity || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12">
+                                        <label for="applicant_name"
+                                            class="col-form-label">{{ labels?.YearsStayinResi }}</label>
+                                    </div>
+                                </div>
+                                <label for="applicant_name" class="col-form-label">Years</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiRnoofyearsResi || 'NA'}}</label>
+                                <label for="applicant_name" class="col-form-label">Months</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiRnoofmonthsResi || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <h3 class="banner-con">Asset & family member details</h3>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.propertyOwned }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.otherAssetsOwned || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.noOffamilyMembers }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.noOfFamilyMembers || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.noOfEarningMembers }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.noOfEarningMembers || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.vehiclesDetails }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.vehicleDetails || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <h3 class="banner-con">Comments and Recommendations</h3>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name"
+                                    class="col-form-label">{{ labels?.commentsAndRecommendations }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.fiComments || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.distanceinKMs }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.distanceInKms || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.cpvAgencyStatus }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.cpvAgencyStatus == '0' ? 'Positive':'Negative'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.verifiedBy }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.verifiedBy || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.date }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.fiDate ? fiResidenceDetails?.fiDate : currentTime}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.time }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiResidenceDetails?.fiTime || 'NA'}}</label>
+                            </div>
+                        </div>
+
+
+                        <h3 class="banner-con">FI - Business</h3>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">
+                                    {{ labels?.nameOfExternalAgency }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">: 'NA'</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.contactPointVerification }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">: {{fiBContactPointVerification?.value || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.referenceNo }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.referenceNo || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">
+                                    {{ labels?.cpvIntiatedDate }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.cpvInitiatedDate || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.cpvIntiatedTime }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.cpvInitiatedTime || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.reportSubmitDate }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.reportSubmitDate || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name"
+                                    class="col-form-label">{{ labels?.reportSubmitTime }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.cpvInitiatedDate || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.applicantsName }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{applicantFullName || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.addressline1 }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.addressLine1}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.addressline2 }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.addressLine2}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.addressline3 }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.addressLine3}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.pincode }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.pincode}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.city }}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.cityValue}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.state }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">: {{fiBusinessDetails?.stateValue}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.designation }} </label>
+                                <label for="customer_name" class="col-form-label-two">: designation</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name"
+                                    class="col-form-label">{{ labels?.natureOfBusiness }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.natureOfBusiness || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.personMetName }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.personMetName || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="showTypeOfConcern">
+                                <label for="father_name" class="col-form-label">{{ labels?.typeOfConcern }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.typeOfConcern || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <h3 class="banner-con">Office Observation</h3>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.approachable }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.officeApproach || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.premises }}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{fiBpremises?.value || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.officeLocation }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.officeLocation || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.furnishings }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.furnishings || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.sizeOfOffice }}</label>
+                                <label for="customer_name" class="col-form-label-two">: {{fiBofficeSize?.value || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.observations }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.observations || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.noofEmployeesWorking }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.noOfWorkingEmployees || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name"
+                                    class="col-form-label">{{ labels?.noofEmployeesVisible }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.noOfVisibleEmployees || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.activityLevel }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.activityLevel || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                        <h3 class="banner-con">Comments and Recommendations</h3>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.commentsAndRecommendations }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.fiComments || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.distanceinKMs }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.distanceInKms || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.cpvAgencyStatus }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.cpvAgencyStatus == '0' ? 'Positive':'Negative'}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="gender" class="col-form-label">{{ labels.verifiedBy }} </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.verifiedBy || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="applicant_name" class="col-form-label">{{ labels?.date }}</label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.distanceInKms || 'NA'}}</label>
+                            </div>
+                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <label for="father_name" class="col-form-label">{{ labels?.time }}
+                                </label>
+                                <label for="customer_name" class="col-form-label-two">:
+                                    {{fiBusinessDetails?.fiTime || 'NA'}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- </div> -->
+                </form>
+                <!--PDF end-->
+            </div>
+            <div class="HeaderFooter text-center">
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button> -->
+            </div>
+        </div>
     </div>
 </div>

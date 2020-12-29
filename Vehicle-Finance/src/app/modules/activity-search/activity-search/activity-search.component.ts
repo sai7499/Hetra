@@ -13,6 +13,8 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { environment } from 'src/environments/environment';
 import { storage } from '../../../storage/localstorage';
 
+import { IdleTimerService } from '@services/idle-timer.service';
+
 
 
 
@@ -67,13 +69,18 @@ export class ActivitySearchComponent implements OnInit, OnDestroy {
     private camera: Camera,
     private transfer: FileTransfer,
     private biometricService: BiometricService,
-    private commomLovService: CommomLovService
+    private commomLovService: CommomLovService,
+    private idleTimerService: IdleTimerService
   ) {
     this.isMobile = environment.isMobile;
 
   }
 
   ngOnInit() {
+    // this.idleTimerService.startTimer(this.idleTimerService.getSessionTimer(), () => { 
+
+    //   console.log('completed', this.isMobile);
+    // });
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userName = roleAndUserDetails.userDetails.firstName;
     this.firstLetter = this.userName.slice(0, 1);

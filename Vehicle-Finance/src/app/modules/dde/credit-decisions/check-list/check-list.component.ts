@@ -9,6 +9,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { TermSheetService } from '@modules/dde/services/terms-sheet.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-check-list',
@@ -31,6 +32,16 @@ export class CheckListComponent implements OnInit {
   salesResponse: any;
   isPreDone: any;
   taskId: any;
+
+  // User defined
+  udfScreenId: any;
+  udfGroupId: any = "CLG001";
+  udfDetails: any = [];
+  userDefineForm: any;
+  isDirty;
+  initUDFValues: any;
+  editedUDFValues: any;
+
   constructor(
     private commonLovService: CommomLovService,
     private checkListService: ChecklistService,
@@ -41,7 +52,8 @@ export class CheckListComponent implements OnInit {
     private cpcService: CpcRolesService,
     private router: Router,
     private termSheetService: TermSheetService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private objectComparisonService: ObjectComparisonService,
   ) {
     // tslint:disable-next-line: deprecation
     $(document).ready(() => {
@@ -74,6 +86,7 @@ export class CheckListComponent implements OnInit {
   }
 
   async ngOnInit() {
+    
     this.salesResponse = localStorage.getItem('salesResponse');
     this.isPreDone = localStorage.getItem('is_pred_done');
     this.commonLovService.getLovData().subscribe((res: any) => {
@@ -88,6 +101,13 @@ export class CheckListComponent implements OnInit {
     });
 
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+    if(this.roleType == '7' || this.roleType == '2') {
+      this.udfScreenId = "CLS001"; 
+    } else if(this.roleType == '4') {
+      this.udfScreenId = "CLS002";
+    } else if(this.roleType == '5') {
+      this.udfScreenId = "CLS003";
+    }
 
     // tslint:disable-next-line: prefer-const
     // let childgroups = [];
@@ -124,6 +144,9 @@ export class CheckListComponent implements OnInit {
       checklistArray: this.formBuilder.array(childgroups)
     });
     for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
+      if (this.roleType == '7') {
+        this.userDefineForm.udfData.disable();
+       }
       // tslint:disable-next-line: triple-equals
       if (this.roleType == '4' || this.roleType == '7' ) {
        this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
@@ -138,9 +161,16 @@ export class CheckListComponent implements OnInit {
   getCheckList() {
     const body = {
       leadId: this.leadId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.checkListService.getCheckListDetails(body).subscribe((res: any) => {
       console.log(res, ' checklist get response');
+      this.udfDetails = res.ProcessVariables.udfDetails;
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.checkList ) {
         this.initForm(res.ProcessVariables.checkList);
@@ -233,9 +263,14 @@ export class CheckListComponent implements OnInit {
   const bodyReq = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
-      checkList: this.checkListFormArray
+      checkList: this.checkListFormArray,
+      udfDetails :  [{
+        "udfGroupId": this.udfGroupId,
+        // "udfScreenId": this.udfScreenId,
+        "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+      }],
     };
-  if ( this.checklistForm.invalid) {
+  if ( this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
           console.log(this.checklistForm);
           this.toasterService.showError('Select Mandatory Fields', ' ');
           return ;
@@ -245,6 +280,7 @@ export class CheckListComponent implements OnInit {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
        this.toasterService.showSuccess('Record Saved Successfully', ' ');
+       this.initUDFValues = this.userDefineForm.udfData.getRawValue();
 
        // tslint:disable-next-line: triple-equals
        if (btnType == 'submitTocpc') {
@@ -297,8 +333,15 @@ export class CheckListComponent implements OnInit {
 
   submitTocpc(data: string) {
     const verifyString = data;
-    if ( this.checklistForm.invalid) {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    if(!isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+    if ( this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
       console.log(this.checklistForm);
+      
       this.toasterService.showError('Select Mandatory Fields', 'Save Checklist ');
       return ;
     }
@@ -380,7 +423,7 @@ export class CheckListComponent implements OnInit {
 onNext()  {
   // this.onSave();
   // tslint:disable-next-line: triple-equals
-  if (this.checklistForm.valid) {
+  if (this.checklistForm.valid && this.userDefineForm.udfData.valid) {
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '2') {
     this.router.navigate([`pages/dashboard`]);
@@ -428,11 +471,20 @@ sendBackToMaker() {
   this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
     // tslint:disable-next-line: triple-equals
     if (res.ProcessVariables.error.code == '0') {
-      this.toasterService.showSuccess('Submitted Suucessfully', '');
+      this.toasterService.showSuccess('Submitted Sucessfully', '');
       this.router.navigate([`pages/dashboard`]);
     } else {
       this.toasterService.showError(res.Processvariables.error.message, '');
     }
   });
 }
+
+onSaveuserDefinedFields(value) {
+  this.userDefineForm = value;
+  console.log('identify', value)
+  if(value.event === 'init'){
+    this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+  }
+}
+
 }
