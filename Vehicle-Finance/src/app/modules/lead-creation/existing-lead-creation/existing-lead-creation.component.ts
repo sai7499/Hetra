@@ -822,8 +822,10 @@ export class ExistingLeadCreationComponent implements OnInit {
               assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
               assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
               assetVariant = 'variantKey';
-              dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
-              manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+              if(response.ProcessVariables.leadDetails.productCatCode != 'NCV'){
+                dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
+                manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+              }
             }
 
             this.createExternalLeadForm.patchValue({
