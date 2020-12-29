@@ -309,8 +309,13 @@ h1 {
 
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
+    /* border-collapse: collapse;
+    margin: 0 auto; */
+    overflow-x:hidden;
+}
+
+table>td{
+    position: sticky;
 }
 
 
@@ -372,7 +377,7 @@ th {
 
 /*Mobile View*/
 
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 767px) {
     table {
         table-layout: fixed;
     }
@@ -439,7 +444,12 @@ th {
     padding-bottom: 10px;
 }
 
-@media (min-width:260px) and (max-width:760px){
+.container-fluid{
+    padding-left:5px!important;
+    padding-right:5px!important;
+}
+
+@media (min-width:260px) and (max-width:767px){
 .btn-re{
     padding:2px!important;
     margin:3px!important;
