@@ -16,6 +16,7 @@ import { CommonDataService } from '@services/common-data.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToasterService } from '@services/toaster.service';
+import { THRESHOLD_DIFF } from '@progress/kendo-angular-popup/dist/es2015/services/scrollable.service';
 
 @Component({
   selector: 'app-existing-lead-creation',
@@ -160,7 +161,8 @@ export class ExistingLeadCreationComponent implements OnInit {
     private toasterService: ToasterService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private leadStoreService: LeadStoreService
+    private leadStoreService: LeadStoreService,  
+    private createLeadDataService: CreateLeadDataService,
   ) { }
 
   ngOnInit() {
@@ -737,6 +739,7 @@ export class ExistingLeadCreationComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           console.log('byPool', response);
+         
           const productCategory = response.ProcessVariables.leadDetails.productCatCode;
           this.productCategoryChange(productCategory);
           const product = response.ProcessVariables.leadDetails.productId;
@@ -819,8 +822,10 @@ export class ExistingLeadCreationComponent implements OnInit {
               assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
               assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
               assetVariant = 'variantKey';
-              dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
-              manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+              if(response.ProcessVariables.leadDetails.productCatCode != 'NCV'){
+                dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
+                manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+              }
             }
 
             this.createExternalLeadForm.patchValue({
@@ -834,6 +839,7 @@ export class ExistingLeadCreationComponent implements OnInit {
               manuFacMonthYear
             });
           }
+          this.createLeadDataService.setLeadSectionData(response.ProcessVariables);
         }
       });
   }

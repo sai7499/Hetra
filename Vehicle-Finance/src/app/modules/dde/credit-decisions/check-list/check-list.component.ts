@@ -471,7 +471,7 @@ sendBackToMaker() {
   this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
     // tslint:disable-next-line: triple-equals
     if (res.ProcessVariables.error.code == '0') {
-      this.toasterService.showSuccess('Submitted Suucessfully', '');
+      this.toasterService.showSuccess('Submitted Sucessfully', '');
       this.router.navigate([`pages/dashboard`]);
     } else {
       this.toasterService.showError(res.Processvariables.error.message, '');
