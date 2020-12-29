@@ -47,86 +47,51 @@
                 <td [attr.data-label]="labels?.requestId">{{ data.requestId ? data.requestId:"-" }}</td>
                 <td [attr.data-label]="labels?.action">
                   <u>
-                    <a
-                      class="a_tag"
-                      *ngIf="
+                    <a class="a_tag" *ngIf="
                         data.valuatorStatus == 1 &&
                         data.valuationStatus == 'NOT INITIATED'
-                      "
-                      (click)="
+                      " (click)="
                         onClickValuationReport(
                           data.valuationStatus,
                           data.collateralId
                         )
-                      "
-                      data-toggle="modal"
-                      data-target="#myModal"
-                      >Initiate</a
-                    >
-                    <a
-                    style="cursor: auto"
-                      *ngIf="
+                      " data-toggle="modal" data-target="#myModal">Initiate</a>
+                    <a style="cursor: auto" *ngIf="
                         data.valuatorStatus == 1 &&
                         data.valuationStatus == 'INITIATED'
-                      "
-                    
-                      >--</a
-                    >
-                    <a
-                      class="a_tag"
-                      *ngIf="
+                      ">--</a>
+                    <a class="a_tag" *ngIf="
                         data.valuationStatus == 'SUBMITTED'
-                      "
-                      (click)="
+                      " (click)="
                         onClickValuationReport(
                           data.valuationStatus,
                           data.collateralId
                         )
-                      "
-                      data-toggle="modal"
-                      data-target="#myModal"
-                      >View</a
-                    >
-                    <a
-                      class="a_tag"
-                      *ngIf="
+                      " data-toggle="modal" data-target="#myModal">View</a>
+                    <a class="a_tag" *ngIf="
                         data.valuatorStatus == 0 &&
                         data.valuationStatus == 'NOT INITIATED'
-                      "
-                      (click)="
+                      " (click)="
                         onClickValuationReport(
                           data.valuationStatus,
                           data.collateralId
                         )
-                      "
-                      data-toggle="modal"
-                      data-target="#myModal"
-                      >Initiate</a
-                    >
-                    <a
-                      style="cursor: auto"
-                      *ngIf="
+                      " data-toggle="modal" data-target="#myModal">Initiate</a>
+                    <a style="cursor: auto" *ngIf="
                         data.valuatorStatus == 0 &&
                         data.valuationStatus == 'INITIATED' &&
                         !extValuator
-                      "
-                      >-</a
-                    >
-                    <a
-                      class="a_tag"
-                      *ngIf="
+                      ">-</a>
+                    <a class="a_tag" *ngIf="
                         data.valuatorStatus == 0 &&
                         data.valuationStatus == 'INITIATED' &&
                         extValuator
-                      "
-                      (click)="
+                      " (click)="
                         onClickValuationReport(
                           data.valuationStatus,
                           data.collateralId
                         )
-                      "
-                      >View</a
-                    >
+                      ">View</a>
                     <!-- {{data.valuationStatus == 'INITIATED'? 'View' :}} -->
                     <!-- <a
                       class="a_tag"
@@ -157,55 +122,32 @@
 <div class="btn-sec clear-both row cst_btm_btns">
   <div class="col-sm-5"></div>
   <div class="col-sm-7 text-right mar-btm-15" *ngIf="!extValuator">
-   
-    <button
-      class="btn btn-primary hvr-sweep-to-left"
-      type="button"
-      (click)="onBack()"
-    >
+
+    <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
       {{ labels.back }}
     </button>
 
     <!-- <p class="btn btn-primary save"> Save </p> -->
-    <button
-      class="btn btn-primary hvr-sweep-to-right"
-      type="button"
-      (click)="onNext()"
-    >
+    <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
       {{ labels.next }}
     </button>
   </div>
   <div class="col-sm-7 text-right mar-btm-15 " *ngIf="extValuator">
-  
-    <button
-      class="btn btn-primary hvr-sweep-to-left"
-      type="button"
-      (click)="onNavigateToValuationSummary()"
-    >
+
+    <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateToValuationSummary()">
       {{ labels.goToDashboard }}
     </button>
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="myModal"
-  role="dialog"
-  data-backdrop="static"
-  *ngIf="isModal"
-  [ngClass]="{ in: isModal, showModal: isModal }"
->
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" *ngIf="isModal"
+  [ngClass]="{ in: isModal, showModal: isModal }">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header table-head-bg">
-        <button
-          type="button"
-          (click)="isModal = false"
-          class="close"
-          data-dismiss="modal"
-          style="color: white; opacity: 1"
-        >
+        <button type="button" (click)="isModal = false" class="close" data-dismiss="modal"
+          style="color: white; opacity: 1">
           &times;
         </button>
         <!-- <button type="button" (click)="isModal = false" class="close" data-dismiss="modal">&times;</button> -->
@@ -217,69 +159,36 @@
             <label for="registration_cost">
               {{ labels.registrationNumber }}
             </label>
-            <input
-              type="text"
-              class="form-control"
-              name="registration_cost"
-              id="registration_cost"
-              required="required"
-              [value]="regNo | uppercase"
-              disabled
-            />
+            <input id type="text" class="form-control" name="registration_number" id="registration_number"
+              required="required" [value]="regNo | uppercase" disabled />
           </div>
 
           <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
             <label for="registration_cost"> {{ labels.make }}</label>
-            <input
-              type="text"
-              class="form-control"
-              name="registration_cost"
-              id="registration_cost"
-              required="required"
-              [value]="make"
-              disabled
-            />
+            <input type="text" class="form-control" name="make" id="make" required="required" [value]="make" disabled />
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
             <label for="registration_cost"> {{ labels.model }} </label>
-            <input
-              type="text"
-              class="form-control"
-              name="registration_cost"
-              id="registration_cost"
-              required="required"
-              [value]="model"
-              disabled
-            />
+            <input type="text" class="form-control" name="model" id="model" required="required" [value]="model"
+              disabled />
           </div>
           <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
             <label for="registration_cost">{{ labels.address }}</label>
-            <input
-              type="text"
-              class="form-control"
-              name="registration_cost"
-              id="registration_cost"
-              required="required"
-              [value]="address"
-              disabled
-            />
+            <input type="text" class="form-control" name="address" id="address" required="required" [value]="address"
+              disabled />
           </div>
           <form class="multisteps-form__form" [formGroup]="modalDataForm">
             <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
-              <label for="remarks"
-                >{{ labels.referenceRemarks }}
+              <label for="remarks">{{ labels.referenceRemarks }}
                 <sub class="star_red_col">*</sub>
               </label>
               <textarea class="form-control" formControlName="remarks">
               </textarea>
-              <div
-                *ngIf="
+              <div *ngIf="
                   modalDataForm.controls['remarks'].invalid &&
                   (modalDataForm.controls['remarks'].dirty ||
                     modalDataForm.controls['remarks'].touched)
-                "
-                class="invalid-feedback"
-              >
+                " class="invalid-feedback">
                 <div *ngIf="modalDataForm.controls['remarks'].errors.required">
                   Remarks is required
                 </div>
@@ -293,36 +202,19 @@
                 {{ labels.chooseValuator }}
                 <sub class="star_red_col">*</sub>
               </label>
-              <app-vf-custom-select
-                [values]="vendorDetailsData"
-                formControlName="valuatorCode"
-                [isRequired]="'Please Select One Option'"
-                (change)="onChangeVendorName($event)"
-                [isDirty]="isDirty"
-              >
+              <app-vf-custom-select [values]="vendorDetailsData" formControlName="valuatorCode"
+                [isRequired]="'Please Select One Option'" (change)="onChangeVendorName($event)" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-primary table-head-bg"
-          data-dismiss="modal"
-          data-toggle="modal"
-          data-target="#myModal_one"
-          (click)="okModal()"
-          id="model_ok"
-        >
+        <button type="button" class="btn btn-primary table-head-bg" data-dismiss="modal" data-toggle="modal"
+          data-target="#myModal_one" (click)="okModal()" id="model_ok">
           {{ labels.ok }}
         </button>
-        <button
-          type="button"
-          (click)="closeModal()"
-          class="btn btn-primary table-head-bg"
-          data-dismiss="modal"
-        >
+        <button type="button" (click)="closeModal()" class="btn btn-primary table-head-bg" data-dismiss="modal">
           {{ labels.cancel }}
         </button>
       </div>
@@ -330,24 +222,13 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="myModal_one"
-  role="dialog"
-  *ngIf="isOk"
-  [ngClass]="{ in: isModal, showModal: isModal }"
->
+<div class="modal fade" id="myModal_one" role="dialog" *ngIf="isOk" [ngClass]="{ in: isModal, showModal: isModal }">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header table-head-bg">
-        <button
-          type="button"
-          (click)="isModal = false"
-          class="close"
-          data-dismiss="modal"
-          style="color: white; opacity: 1"
-        >
+        <button type="button" (click)="isModal = false" class="close" data-dismiss="modal"
+          style="color: white; opacity: 1">
           &times;
         </button>
         <h4 class="modal-title">{{ labels.modalTitle1 }}</h4>
@@ -356,23 +237,11 @@
         <p>{{ labels.modalBody }} {{ vendorName }}?</p>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-primary table-head-bg"
-          data-dismiss="modal"
-          data-toggle="modal"
-          data-target="#myModal_two"
-          (click)="initiateVehicleValuation()"
-          id="model_ok"
-        >
+        <button type="button" class="btn btn-primary table-head-bg" data-dismiss="modal" data-toggle="modal"
+          data-target="#myModal_two" (click)="initiateVehicleValuation()" id="model_ok">
           {{ labels.yes }}
         </button>
-        <button
-          type="button"
-          (click)="closeModal()"
-          class="btn btn-primary table-head-bg"
-          data-dismiss="modal"
-        >
+        <button type="button" (click)="closeModal()" class="btn btn-primary table-head-bg" data-dismiss="modal">
           {{ labels.cancel }}
         </button>
       </div>
@@ -380,24 +249,13 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="myModal_two"
-  role="dialog"
-  *ngIf="isYes"
-  [ngClass]="{ in: isModal, showModal: isModal }"
->
+<div class="modal fade" id="myModal_two" role="dialog" *ngIf="isYes" [ngClass]="{ in: isModal, showModal: isModal }">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header table-head-bg">
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          (click)="isModal = false"
-          style="color: white; opacity: 1"
-        >
+        <button type="button" class="close" data-dismiss="modal" (click)="isModal = false"
+          style="color: white; opacity: 1">
           &times;
         </button>
         <h4 class="modal-title">{{ labels.modalTitle1 }}</h4>
@@ -406,20 +264,10 @@
         <p>{{ labels.modalBody2 }} {{ vendorName }}</p>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-primary table-head-bg"
-          (click)="okModal()"
-          data-dismiss="modal"
-        >
+        <button type="button" class="btn btn-primary table-head-bg" (click)="okModal()" data-dismiss="modal">
           {{ labels.ok }}
         </button>
-        <button
-          type="button"
-          class="btn btn-primary table-head-bg"
-          (click)="closeModal()"
-          data-dismiss="modal"
-        >
+        <button type="button" class="btn btn-primary table-head-bg" (click)="closeModal()" data-dismiss="modal">
           {{ labels.cancel }}
         </button>
       </div>
