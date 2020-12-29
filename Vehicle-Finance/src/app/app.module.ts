@@ -58,7 +58,7 @@ import { DisbursementSectionModule } from '@modules/disbursement-section/disburs
 import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
-import { QueryDataResolverService } from '@modules/lead-section/services/queryDaraResolver.service';
+import { QueryDataResolverService } from '@modules/lead-section/services/queryDataResolver.service';
 
 import { LeadUploadDiscussionComponent } from '@modules/lead-upload-discussion/lead-upload-discussion.component';
 import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';

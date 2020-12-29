@@ -13,22 +13,22 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
   udfArray: any
   screenId: any;
   groupId: any;
-  @Input() set udfScreenId(value){
-      this.screenId= value;
-      this.getOnInit();
-     this.getLOV();
+  @Input() set udfScreenId(value) {
+    this.screenId = value;
+    this.getOnInit();
+    this.getLOV();
   }
-  @Input() set udfGroupId(value){
-      this.groupId = value;
-      this.getOnInit();
-     this.getLOV();
+  @Input() set udfGroupId(value) {
+    this.groupId = value;
+    this.getOnInit();
+    this.getLOV();
   }
-  @Input() set udfDetails (value){
-     this.udfArray= value;
-     this.getOnInit();
-     this.getLOV();
+  @Input() set udfDetails(value) {
+    this.udfArray = value;
+    this.getOnInit();
+    this.getLOV();
   }
-  
+
   @Input() isDirty: boolean;
 
   screenUdfMapping: any;
@@ -42,13 +42,11 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
     private commomLovService: CommomLovService) { }
 
   ngOnInit() {
-     
+
   }
 
   getOnInit() {
     this.screenUdfMapping = this.collateralDataStoreService.findScreenField(this.screenId);
-
-    console.log(this.screenId, 'sceee', this.screenUdfMapping)
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -75,17 +73,18 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
         this.dynamicForm.addControl(control.name, fc)
       })
     }
-    this.getUserDefinedForm()
+    
   }
 
   ngOnChanges() {
     //this.getLOV()
     // this.getOnInit();
-    //  this.getLOV();
+    // this.getUserDefinedForm()
   }
 
-  getUserDefinedForm() {
+  getUserDefinedForm(value? : string) {
     let udfDetails = {
+      event : value,
       groupScreenID: this.groupId,
       udfData: this.dynamicForm
     }
@@ -116,6 +115,7 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
         }
       }
     }
+    this.getUserDefinedForm('init')
   }
 
 }
