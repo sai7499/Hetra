@@ -39,9 +39,9 @@
                 <td [attr.data-label]="labels?.valuationStatus">{{ data.valuationStatus }}</td>
                 <td [attr.data-label]="labels?.initiatedOn">{{ data.initiatedOn ? data.initiatedOn:"-" }}</td>
 
-                <td [attr.data-label]="labels?.valuatorStatus">
-                  <span *ngIf="data.valuatorStatus == 1"> Online </span>
-                  <span *ngIf="data.valuatorStatus == 0"> Offline </span>
+                <td [attr.data-label]="labels?.valuatorStatus">{{data?.valuatorType}}
+                  <!-- <span *ngIf="data.valuatorStatus == 1"> Online </span>
+                  <span *ngIf="data.valuatorStatus == 0"> Offline </span> -->
                 </td>
                 <!-- <td>{{ data.requestId }}</td> -->
                 <td [attr.data-label]="labels?.requestId">{{ data.requestId ? data.requestId:"-" }}</td>

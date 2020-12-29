@@ -30,6 +30,7 @@ export class CreateLeadDataService {
     }
 
     setLeadSectionData(data) {
+        console.log("set lead Called",data);
         this.leadSectionData = data;
         // const requestAmount = this.leadSectionData['leadDetails']['reqLoanAmt'] ?
         //     this.leadSectionData['leadDetails']['reqLoanAmt'] : 0;

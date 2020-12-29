@@ -199,8 +199,16 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   navigateToLeadSection() {
-    if (this.showModal === 'proceedModal_without') {
-      this.proceedAsNewLead();
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    const data: any = { ...leadData };
+    console.log("get Lead Data",data);
+    if (this.showModal === 'proceedModal_without') {   
+      if(data.leadDetails.stage == 7) {
+        this.leadId = data.leadId;
+        return this.proceedWithSelectedLead();        
+      }else{
+        this.proceedAsNewLead();
+      }    
     } else if (this.showModal === 'proceedModal_with') {
       this.proceedWithSelectedLead();
     } else if (this.showModal === 'rejectModal') {
