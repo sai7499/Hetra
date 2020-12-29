@@ -27,6 +27,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LoanViewService } from '@services/loan-view.service';
 import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -115,6 +116,8 @@ export class ReferenceCheckComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   udfGroupId: string = 'FPG001';
+  initUDFValues: any;
+  editedUDFValues: any;
 
   constructor(
     private labelsData: LabelsService, // service to access labels
@@ -135,7 +138,8 @@ export class ReferenceCheckComponent implements OnInit {
     private toggleDdeService: ToggleDdeService,
     private commonLovService: CommomLovService,
     private loanViewService: LoanViewService,
-    private ficumpdPdfService: FicumpdPdfService
+    private ficumpdPdfService: FicumpdPdfService,
+    private objectComparisonService: ObjectComparisonService
 
   ) {
     this.listArray = this.fb.array([]);
@@ -514,6 +518,9 @@ export class ReferenceCheckComponent implements OnInit {
 
   onSaveuserDefinedFields(event) {
     this.userDefineForm = event;
+    if(event.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 
   onFormSubmit(references: any) { // function that calls sumbit pd report api to save the respective pd report
@@ -607,6 +614,7 @@ export class ReferenceCheckComponent implements OnInit {
         if (res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', '');
           this.listArray.controls = [];
+          this.initUDFValues = this.userDefineForm.udfData.getRawValue();
           this.getPdDetails();
         } else {
           this.toasterService.showError('ivalid save', 'message');
@@ -655,10 +663,16 @@ export class ReferenceCheckComponent implements OnInit {
   }
 
   submitToCredit() { // fun calling submit to credit api for submitting pd report
-
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     this.isDirty = true;
-    if (this.referenceCheckForm.invalid) {
+    if (this.referenceCheckForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
+    if (!isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
 

@@ -113,6 +113,8 @@ export class ReferenceComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
 
   constructor(
     private commonLovService: CommomLovService,
@@ -547,6 +549,7 @@ export class ReferenceComponent implements OnInit {
               this.toasterService.success('Record saved successfully', 'Reference Details');
               this.isSavedNext = false;
               this.apiValue = this.referenceForm.getRawValue();
+              this.initUDFValues = this.userDefineForm.udfData.getRawValue();
             } else {
               const message = response.ProcessVariables.error.message;
               this.toasterService.error(message, 'Reference Details');
@@ -576,17 +579,21 @@ export class ReferenceComponent implements OnInit {
     if (this.isLoan360) {
       return this.onNavigate();
     }
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     this.isDirty = true;
     if (this.referenceForm.valid === true
       && !this.isMobileOneErrorMsg
-      && !this.isMobileOneErrorMsg) {
+      && !this.isMobileOneErrorMsg &&
+      !isUDFInvalid) {
       // if (this.isSavedNext) {
       //   this.onSubmit();
       // }
       this.finalValue = this.referenceForm.getRawValue();
       const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
       console.log(this.apiValue, ' vvalue', this.finalValue);
-      if (!isValueCheck) {
+      if (!isValueCheck || !isUDFCheck) {
         this.toasterServiceInfo.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
         return;
       }
@@ -621,7 +628,10 @@ export class ReferenceComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+    console.log('identify', value);
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 
 }

@@ -10,6 +10,7 @@ import { FieldInvestigation } from '@model/dde.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
 import { UtilityService } from '@services/utility.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 @Component({
   selector: 'app-fi-business',
   templateUrl: './fi-business.component.html',
@@ -61,6 +62,8 @@ export class FiBusinessComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
 
   constructor(
     private labelService: LabelsService,
@@ -72,7 +75,8 @@ export class FiBusinessComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService, // service for accessing the toaster
     private applicantService: ApplicantService,
-    private utilityService: UtilityService) {
+    private utilityService: UtilityService,
+    private objectComparisonService: ObjectComparisonService) {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
@@ -419,8 +423,15 @@ export class FiBusinessComponent implements OnInit {
 
   submitFiReportDetails() {
     this.isDirty = true;
-    if (this.fieldReportForm.invalid) {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.fieldReportForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
+    if (!isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
     const data = {
@@ -532,9 +543,10 @@ export class FiBusinessComponent implements OnInit {
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.initUDFValues = this.userDefineForm.udfData.getRawValue();
         this.getFiReportDetails();
       } else {
-        this.toasterService.showError('', 'message');
+        this.toasterService.showError('', message);
       }
     });
   }
@@ -568,7 +580,10 @@ export class FiBusinessComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+    console.log('identify', value);
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 
 }
