@@ -23,7 +23,7 @@
                 </div>
 
                 <br /><br />
-                <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox">
+                <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox" >
                   <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                     <div class="text-center">
                       <div class="" (click)="getQueries(chat)" [ngClass]="selectedList === chat ? 'side-border' : ''">
@@ -143,7 +143,7 @@
               </div>
 
               <br /><br />
-              <div class="panel-group  scroll-box " id="scrollBox">
+              <div class="panel-group  scroll-box " id="scrollBox" style="height:200px;">
                 <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="" style="padding: 0px 15px;">
 
@@ -193,7 +193,7 @@
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
                           </div>
                         </div>
-                        <div class="stakeholder-list">
+                        <div class="stakeholder-list" style="height:90px;">
                           <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
                             <div class="radio" (click)="autoPopulateQueryType(stack)">
                               <label>
@@ -283,7 +283,7 @@
                 </div>
 
               </div>
-              <div class="chat-box message-box viewport viewport-a" id="chat-box" #scrollMe
+              <div class="chat-box message-box viewport viewport-a" id="chat-box" style="height:300px;" #scrollMe
                 [scrollTop]="scrollMe.scrollHeight">
                 <!-- [scrollTop]="scrollMe.scrollHeight" -->
 

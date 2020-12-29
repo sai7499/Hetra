@@ -1,3 +1,7 @@
+body{
+    overflow-x:hidden!important;
+}
+
 .actionbtn {
     padding: 20px 0 0 200px
 }
@@ -322,9 +326,12 @@ th {
     font-weight: 600;
 }
 
+tr:hover {background-color:#ddd;}
+
 td,
 th {
-    padding: 12px;
+    padding-top:10px;
+    padding-bottom:10px;
     border: 1px solid #ccc;
     text-align: left;
     text-align: center
