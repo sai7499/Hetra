@@ -118,6 +118,8 @@ export class BasicDetailsComponent implements OnInit {
   udfGroupId= 'APG008';
   selfMaxAge: any;
   salariedMaxAge: any;
+  initUDFValues: any;
+  editedUDFValues: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -1551,6 +1553,7 @@ export class BasicDetailsComponent implements OnInit {
     
         this.applicantDataService.setUdfDatas(this.udfDetails)
         this.apiValue = this.basicForm.getRawValue();
+        this.initUDFValues = this.userDefineForm.udfData.getRawValue();
 
 
         if (this.isIndividual) {
@@ -1854,12 +1857,15 @@ export class BasicDetailsComponent implements OnInit {
     // console.log(JSON.stringify(this.apiValue));
     // console.log(JSON.stringify(this.finalValue));
     // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
-    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
-    if (this.basicForm.invalid) {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.basicForm.invalid || isUDFInvalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if (!isValueCheck) {
+    if (!isValueCheck|| !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
@@ -1899,6 +1905,9 @@ export class BasicDetailsComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+    console.log('identifyValue', value)
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 }
