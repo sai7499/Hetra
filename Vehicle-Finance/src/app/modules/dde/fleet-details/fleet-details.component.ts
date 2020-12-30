@@ -130,7 +130,8 @@ export class FleetDetailsComponent implements OnInit {
 
     this.fleetForm = this.fb.group(
       {
-        Rows: this.fleetArrayList
+        Rows: this.fleetArrayList,
+        isValidPurchaseDate: new FormControl(true)
       }
     );
 
@@ -210,8 +211,7 @@ export class FleetDetailsComponent implements OnInit {
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
         id: rowData.id,
         vehicleId: rowData.vehicleId,
-        yomDate: new FormControl(''),
-        isValidPurchaseDate: new FormControl(true)
+        yomDate: new FormControl('')
       })
     }
     else return this.fb.group({
@@ -234,8 +234,7 @@ export class FleetDetailsComponent implements OnInit {
       pd: new FormControl({ value: '', disabled: true }),
       gridValue: new FormControl({ value: '', disabled: true }),
       vehicleId: '',
-      yomDate: new FormControl(''),
-      isValidPurchaseDate: new FormControl(true)
+      yomDate: new FormControl('')
     });
   }
 
@@ -405,6 +404,12 @@ export class FleetDetailsComponent implements OnInit {
       this.customFutureDate = false;
       const formArray = (this.fleetForm.get('Rows') as FormArray);
       this.getVehicleGridValue(formArray, index)
+      let yomDate = new Date(formArray.controls[index].get('yom').value, 12, 0, 0, 0);
+      this.minDate = yomDate;
+
+      formArray.controls[index].patchValue({
+        yomDate: yomDate
+      })
       this.onCheckPurchaseDate(formArray.controls[index].get('purchaseDate').value, index, formArray.controls[index])
     }
   }
@@ -416,21 +421,17 @@ export class FleetDetailsComponent implements OnInit {
 
       if (event <= this.toDayDate) {
 
-        var day = this.toDayDate.getDate();
-        var month = this.toDayDate.getMonth();
-        let yomDate = new Date(obj.get('yom').value, month, day, 0, 0);
-        this.minDate = yomDate;
-
-        formArray.controls[index].patchValue({
-          yomDate: yomDate,
-          isValidPurchaseDate: false
-        })
-
-        formArray.controls[index]['addControl']('isValidPurchaseDate', this.fb.control(true))
+        if (event < obj.controls['yomDate'].value) {
+          console.log(obj, 'my obj')
+          this.fleetForm.patchValue({
+            isValidPurchaseDate: false
+          })
+        } else {
+          console.log(obj.controls['yomDate'].value, 'invalid')
+        }
 
       } else {
-        formArray.controls[index].patchValue({
-          yomDate: '',
+        this.fleetForm.patchValue({
           isValidPurchaseDate: true
         })
       }
@@ -696,9 +697,9 @@ export class FleetDetailsComponent implements OnInit {
     } else {
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
-      console.log(this.fleetForm, 'Fleet Form yom')
+      console.log(this.fleetForm, 'Fleet Form yom', this.fleetDetails)
 
-      if (this.fleetForm.valid && !isUDFInvalid) {
+      if (this.fleetForm.valid && !isUDFInvalid && this.fleetForm.get('isValidPurchaseDate').value === true) {
         this.saveOrUpdateFleetDetails(index);
       } else {
         this.isDirty = true;

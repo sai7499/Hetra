@@ -185,179 +185,183 @@
                                             </div>
                                         </div>
 
-                                        {{ itemrow.controls['purchaseDate'].value < itemrow.controls['yomDate'].value}}
-                                            <div class="cus-mandatory-field"
-                                            *ngIf="
+                                        <div class="cus-mandatory-field" *ngIf="
                                             itemrow.controls['purchaseDate'].value !== null && 
-                                            itemrow.controls['purchaseDate'].value < itemrow.controls['yomDate'].value">
+                                            fleetForm.controls['isValidPurchaseDate'].value === false">
                                             Invalid Date
+                                        </div>
+
+                                    </div>
+                                </td>
+                                <td style="min-width: 120px;">
+
+                                    <app-custom-input [id]="'tenure'" formControlName="tenure"
+                                        [className]="'form-control mandatory'" [placeholder]="'Tenure'"
+                                        [maxLength]="validationData?.tenurePaid['maxLength']"
+                                        [isRequired]="'Tenure is mandatory'" [type]="validationData?.tenurePaid['type']"
+                                        [isDirty]="isDirty">
+                                    </app-custom-input>
+
+                                </td>
+                                <td style="min-width: 120px;">
+                                    <div>
+                                        <app-custom-input [id]="'paid'" formControlName="paid"
+                                            [className]="'form-control mandatory'" [placeholder]="'paid'"
+                                            [maxLength]="validationData?.tenurePaid['maxLength']"
+                                            [isRequired]="'Accrued is mandatory'"
+                                            [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
+                                            (keyup)="checkPaid($event ,i)" (change)="calcSeasoning($event ,i)">
+                                        </app-custom-input>
+
+                                        <div class="cus-mandatory-field"
+                                            *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
+                                            Accrued not greater than Tenure
+                                        </div>
+
+                                    </div>
+                                </td>
+                                <td style="min-width: 120px;">
+                                    <app-custom-input [id]="'seasoning'" formControlName="seasoning"
+                                        [className]="'form-control mandatory'" [placeholder]="''">
+                                    </app-custom-input>
+                                </td>
+                                <td style="min-width: 120px;">
+                                    <app-custom-input [id]="'ad'" formControlName="ad"
+                                        [className]="'form-control mandatory'" [placeholder]="''">
+                                    </app-custom-input>
+                                </td>
+                                <td style="min-width: 120px;">
+                                    <app-custom-input [id]="'pd'" formControlName="pd"
+                                        [className]="'form-control mandatory'" [placeholder]="''">
+                                    </app-custom-input>
+                                </td>
+                                <td style="min-width: 120px;">
+                                    <app-custom-input [id]="'gridValue'" formControlName="gridValue"
+                                        [className]="'form-control mandatory'" [placeholder]="''">
+                                    </app-custom-input>
+                                </td>
+                                <td><u><button class="a_tag" (click)="onFormSubmit(i)">RTR</button></u></td>
+
+                                <td *ngIf="!isLoan360">
+                                    <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton_{{i}}"
+                                        value="Add" [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
+                                    <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton"
+                                        data-toggle="modal" data-target="#deleteModal" [disabled]="disableSaveBtn"
+                                        value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+                [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
+            </app-shared-user-defined-fields>
+
+            <div class="btn-sec clear-both row btn-mar-15 cst_btm_btns">
+                <div class="col-sm-5">
+
+                </div>
+                <div class="col-sm-7 text-right nxt-mar-15 p-0">
+                    <button class="btn btn-primary hvr-sweep-to-left " type="button"
+                        (click)="toReference()">Back</button>
+                    <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)"
+                        *ngIf="!disableSaveBtn">Save
+                    </button>
+                    <button class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
+                        (click)="onFormSubmit('next')"> Next </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showUploadModal }">
+            <div class="modal-dialog top-space">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" (click)="onClose()">
+                            ×
+                        </button>
+                        <h4 class="modal-title">Upload Document</h4>
+                    </div>
+
+                    <div class="modal-body ">
+                        <div class="row">
+
+                            <br />
+
+                            <div class="row ">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+
+                                    <div class="col-12 mid-text">
+                                        <button class="btn upload-btn" (click)="fileInput.click()" *ngIf="!fileUrl">
+                                            Select Document
+                                        </button>
+                                        <button class="btn upload-btn" (click)="removeFile(); fileInput.click()"
+                                            *ngIf="fileUrl">
+                                            Change Document</button>
+                                        <button class="btn upload-btn remove-btn" (click)="removeFile()"
+                                            *ngIf="fileUrl">
+                                            Remove
+                                        </button>
+
                                     </div>
 
-                </div>
-                </td>
-                <td style="min-width: 120px;">
+                                </div>
 
-                    <app-custom-input [id]="'tenure'" formControlName="tenure" [className]="'form-control mandatory'"
-                        [placeholder]="'Tenure'" [maxLength]="validationData?.tenurePaid['maxLength']"
-                        [isRequired]="'Tenure is mandatory'" [type]="validationData?.tenurePaid['type']"
-                        [isDirty]="isDirty">
-                    </app-custom-input>
-
-                </td>
-                <td style="min-width: 120px;">
-                    <div>
-                        <app-custom-input [id]="'paid'" formControlName="paid" [className]="'form-control mandatory'"
-                            [placeholder]="'paid'" [maxLength]="validationData?.tenurePaid['maxLength']"
-                            [isRequired]="'Accrued is mandatory'" [type]="validationData?.tenurePaid['type']"
-                            [isDirty]="isDirty" (keyup)="checkPaid($event ,i)" (change)="calcSeasoning($event ,i)">
-                        </app-custom-input>
-
-                        <div class="cus-mandatory-field"
-                            *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
-                            Accrued not greater than Tenure
+                                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="col-6">Name : {{ fileName }} </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="col-6">Size : {{ fileSize }}</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                    </div>
-                </td>
-                <td style="min-width: 120px;">
-                    <app-custom-input [id]="'seasoning'" formControlName="seasoning"
-                        [className]="'form-control mandatory'" [placeholder]="''">
-                    </app-custom-input>
-                </td>
-                <td style="min-width: 120px;">
-                    <app-custom-input [id]="'ad'" formControlName="ad" [className]="'form-control mandatory'"
-                        [placeholder]="''">
-                    </app-custom-input>
-                </td>
-                <td style="min-width: 120px;">
-                    <app-custom-input [id]="'pd'" formControlName="pd" [className]="'form-control mandatory'"
-                        [placeholder]="''">
-                    </app-custom-input>
-                </td>
-                <td style="min-width: 120px;">
-                    <app-custom-input [id]="'gridValue'" formControlName="gridValue"
-                        [className]="'form-control mandatory'" [placeholder]="''">
-                    </app-custom-input>
-                </td>
-                <td><u><button class="a_tag" (click)="onFormSubmit(i)">RTR</button></u></td>
-
-                <td *ngIf="!isLoan360">
-                    <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton_{{i}}" value="Add"
-                        [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
-                    <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" data-toggle="modal"
-                        data-target="#deleteModal" [disabled]="disableSaveBtn" value="Delete"
-                        (click)="deleteRow(i,fleetForm.value.Rows)"></button>
-                </td>
-                </tr>
-                </tbody>
-                </table>
-            </div>
-        </div>
-        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-            [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
-        </app-shared-user-defined-fields>
-
-        <div class="btn-sec clear-both row btn-mar-15 cst_btm_btns">
-            <div class="col-sm-5">
-
-            </div>
-            <div class="col-sm-7 text-right nxt-mar-15 p-0">
-                <button class="btn btn-primary hvr-sweep-to-left " type="button" (click)="toReference()">Back</button>
-                <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)" *ngIf="!disableSaveBtn">Save
-                </button>
-                <button class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
-                    (click)="onFormSubmit('next')"> Next </button>
-            </div>
-        </div>
-</div>
-
-<div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showUploadModal }">
-    <div class="modal-dialog top-space">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" (click)="onClose()">
-                    ×
-                </button>
-                <h4 class="modal-title">Upload Document</h4>
-            </div>
-
-            <div class="modal-body ">
-                <div class="row">
-
-                    <br />
-
-                    <div class="row ">
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
-
-                            <div class="col-12 mid-text">
-                                <button class="btn upload-btn" (click)="fileInput.click()" *ngIf="!fileUrl">
-                                    Select Document
-                                </button>
-                                <button class="btn upload-btn" (click)="removeFile(); fileInput.click()"
-                                    *ngIf="fileUrl">
-                                    Change Document</button>
-                                <button class="btn upload-btn remove-btn" (click)="removeFile()" *ngIf="fileUrl">
-                                    Remove
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="col-6">Name : {{ fileName }} </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="col-6">Size : {{ fileSize }}</div>
-                            </div>
+                        <div *ngIf="showError" class="show-error">
+                            {{ showError }}
                         </div>
                     </div>
-                </div>
-                <div *ngIf="showError" class="show-error">
-                    {{ showError }}
+
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead"
+                            (click)="uploadFile()" [disabled]="!fileUrl">
+                            Upload
+                        </button>
+
+                    </div>
                 </div>
             </div>
+            <input #fileInput type="file" style="visibility: hidden;" (input)="onFileSelect($event)" />
+        </div>
 
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead" (click)="uploadFile()"
-                    [disabled]="!fileUrl">
-                    Upload
-                </button>
+        <div class="modal" id="deleteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"></h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
+                    </div>
 
+                    <div class="modal-body">
+                        Are you sure you want to Delete?
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="callDeleteRecord()">
+                            Yes
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <input #fileInput type="file" style="visibility: hidden;" (input)="onFileSelect($event)" />
-</div>
 
-<div class="modal" id="deleteModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"></h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    &times;
-                </button>
-            </div>
-
-            <div class="modal-body">
-                Are you sure you want to Delete?
-            </div>
-
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="callDeleteRecord()">
-                    Yes
-                </button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-</form>
+    </form>
 </div>
 <app-upload-discussion *ngIf="docsFleetDetails" [showUpload]="!!docsFleetDetails" [details]="docsFleetDetails"
     (cancel)="onModalClose()" (save)="saveValidRecords()"></app-upload-discussion>

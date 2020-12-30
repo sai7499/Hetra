@@ -157,8 +157,8 @@ export class LeadDedupeComponent implements OnInit {
       });
   }
 
-  proceedWithSelectedLead() {
-    this.createLeadService.getLeadById(this.leadId).subscribe((res: any) => {
+  proceedWithSelectedLead(isChangeStatus?:boolean) {
+    this.createLeadService.getLeadById(this.leadId,isChangeStatus).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
@@ -205,7 +205,7 @@ export class LeadDedupeComponent implements OnInit {
     if (this.showModal === 'proceedModal_without') {   
       if(data.leadDetails.stage == 7) {
         this.leadId = data.leadId;
-        return this.proceedWithSelectedLead();        
+        return this.proceedWithSelectedLead(true);        
       }else{
         this.proceedAsNewLead();
       }    

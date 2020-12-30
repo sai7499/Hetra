@@ -120,8 +120,7 @@ export class VehicleValuationComponent implements OnInit {
   initForm() {
     this.modalDataForm = this.formBuilder.group({
       remarks: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$')]],
-      valuatorCode: ['', [Validators.required]],
-      collateralId: ['']
+      valuatorCode: ['', [Validators.required]]
     });
   }
 
@@ -198,12 +197,10 @@ export class VehicleValuationComponent implements OnInit {
   initiateVehicleValuation() {
     this.isDirty = true;
     const formValues = this.modalDataForm.getRawValue();
-    let myFormValueData = formValues.collateralId;
-    delete formValues['collateralId']
 
     const data = {
       userId: localStorage.getItem('userId'),
-      collateralId: myFormValueData.collateralId,
+      collateralId: this.colleteralId,
       ...formValues
     };
 
@@ -234,14 +231,12 @@ export class VehicleValuationComponent implements OnInit {
   }
 
   onClickValuationReport(status, collateralId) {
-
+    console.log('COLLATERAL_ID::', collateralId);
+    this.colleteralId = collateralId;
+    console.log('vStatus', status);
     const data = this.collateralDetailsData.find((element) => {
       return element.collateralId === collateralId;
     });
-
-    this.modalDataForm.patchValue({
-      collateralId: data
-    })
 
     if (status == 'NOT INITIATED') {
       this.regNo = data.regNo;

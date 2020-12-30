@@ -647,7 +647,9 @@ export class SourcingDetailsComponent implements OnInit {
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
         if (this.sourchingTypeId === '2SOURTYP') {
+          if (this.dealerCodeData != null){
           this.selectDealorEvent(this.dealerCodeData[0]);
+          }
         }
         this.keyword = 'dealorName';
       }
