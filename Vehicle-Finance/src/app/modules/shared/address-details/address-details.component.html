@@ -1,6 +1,11 @@
 <div class="content">
   <form class="" [formGroup]="addressForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+
+      <h3 class="banner-con">
+        Address Details ({{udfScreenId}})
+      </h3>
+
       <div class="btn-sec clear-both row">
         <div class="col-sm-3">
           <app-vf-custom-select formControlName="entity" [values]="LOV.LOVS.entityType"
@@ -17,12 +22,9 @@
             <div class="col-lg-3 col-sm-5">
               <h3 class="banner-con">Permanent Address</h3>
             </div>
-            <div class="col-lg-3 text-left" id="Same_AppAddress" 
-            *ngIf="!showAppAddressCheckBox">
-              <input type="checkbox" id="address_section_checkbox" 
-                (click)="onAddSameAsApplicant($event)" 
-                [checked]="sameAsAppAddress"
-                [disabled]="disableSameAppAddress || isLoan360"/>
+            <div class="col-lg-3 text-left" id="Same_AppAddress" *ngIf="!showAppAddressCheckBox">
+              <input type="checkbox" id="address_section_checkbox" (click)="onAddSameAsApplicant($event)"
+                [checked]="sameAsAppAddress" [disabled]="disableSameAppAddress || isLoan360" />
               <span id="address_section_checkbox_text"> Address From Main Applicant?
               </span>
             </div>
@@ -45,7 +47,8 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
-                <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.addressLine?.maxLength">
+                <app-custom-input formControlName="addressLineThree"
+                  [maxLength]="validationData?.addressLine?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -66,8 +69,7 @@
                                         <option>City 3</option>
                                     </select> -->
                 <app-vf-custom-select formControlName="city" [values]="permanantPincode?.city"
-                  [isRequired]="'Please select one'" 
-                  (change)="cityChange($event)" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" (change)="cityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -136,24 +138,21 @@
             <div class="custom-col-17" id="align_this_checkbox" *ngIf="showModCurrCheckBox">
               <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
                 [checked]="checkedModifyCurrent" [disabled]=" disableSaveBtn || isLoan360" />
-              <span id="address_section_checkbox_text">&nbsp;Modify Current Address 
+              <span id="address_section_checkbox_text">&nbsp;Modify Current Address
               </span>
             </div>
 
             <div class="form-group custom-col-30" *ngIf="showSrField">
               <label for="line1">SR Number</label>
-              <app-custom-input formControlName="srNumber"
-              (keyup)="validateSrNumber($event)"
-               [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
-               [patternCheck]="validationData.srNumber.patternCheck"
-                      [maxLength]="validationData.srNumber.maxLength"
+              <app-custom-input formControlName="srNumber" (keyup)="validateSrNumber($event)"
+                [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
+                [patternCheck]="validationData.srNumber.patternCheck" [maxLength]="validationData.srNumber.maxLength"
                 [type]="validationData.srNumber.type"></app-custom-input>
 
-                <div class="ShowError" 
-                    *ngIf="!SRNumberValidate &&
+              <div class="ShowError" *ngIf="!SRNumberValidate &&
                   addressForm.get('details')['controls'][0].get('srNumber') !==''">
-                      Invalid SR Number
-                    </div>
+                Invalid SR Number
+              </div>
             </div>
           </div>
           <!-- <div class="row">
@@ -177,7 +176,8 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.addressLine?.maxLength">
+                <app-custom-input formControlName="addressLineThree"
+                  [maxLength]="validationData?.addressLine?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -198,8 +198,7 @@
                                         <option>City 3</option>
                                     </select> -->
                 <app-vf-custom-select formControlName="city" [values]="currentPincode?.city"
-                  [isRequired]="'Please select one'" 
-                  (change)="currentCityChange($event)" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" (change)="currentCityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -249,7 +248,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="current_landline">{{
                   labels.landLineNumber
-                }}</label>
+                  }}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control"
                                 id="current_landline" /> -->
                 <app-custom-input formControlName="landlineNumber"
@@ -260,7 +259,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="alternate_mobile">{{
                   labels?.alternateContactNumber
-                }}</label>
+                  }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                 id="alternate_mobile" /> -->
                 <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
@@ -270,7 +269,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{
                   labels.periodOfCurrentStayInYears
-                }}</label>
+                  }}</label>
                 <!-- <select class="form-control">
                                     <option>5 years</option>
                                     <option>2 years</option>
@@ -328,7 +327,8 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="passport" /> -->
-                <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.addressLine?.maxLength">
+                <app-custom-input formControlName="addressLineThree"
+                  [maxLength]="validationData?.addressLine?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -446,13 +446,9 @@
                 <label for="alternate_mobile_num">Office Address PO Box</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                     id="alternate_mobile_num" /> -->
-                <app-custom-input formControlName="pobox" 
-                [patternCheck]="validationData?.pobox?.patternCheck"
-                     
-                [maxLength]="validationData?.pobox?.maxLength"
-                
-                [type]="validationData?.pobox?.type"
-                  ></app-custom-input>
+                <app-custom-input formControlName="pobox" [patternCheck]="validationData?.pobox?.patternCheck"
+                  [maxLength]="validationData?.pobox?.maxLength" [type]="validationData?.pobox?.type">
+                </app-custom-input>
               </div>
 
 
@@ -480,7 +476,8 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.addressline3 }}</label>
                 <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.addressLine?.maxLength">
+                <app-custom-input formControlName="addressLineThree"
+                  [maxLength]="validationData?.addressLine?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -506,8 +503,7 @@
                                     <option>City 3</option>
                                 </select> -->
                 <app-vf-custom-select formControlName="city" [values]="registeredPincode?.city"
-                  [isRequired]="'Please select one'" 
-                  (change)="cityChange($event)" [isDirty]="isDirty">
+                  [isRequired]="'Please select one'" (change)="cityChange($event)" [isDirty]="isDirty">
                 </app-vf-custom-select>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -558,7 +554,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{
                   labels.landlineNumber
-                }}</label>
+                  }}</label>
                 <!-- <input formControlName="landlineNumber" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input formControlName="landlineNumber"
                   [maxLength]="validationData?.landlineNumber?.maxLength" [type]="validationData?.landlineNumber?.type"
@@ -567,8 +563,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="passport">{{ labels.alternateContactNumber }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control" id="line3" /> -->
-                <app-custom-input formControlName="mobileNumber" 
-                [maxLength]="validationData?.landlineNumber?.maxLength"
+                <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
                   [type]="validationData?.landlineNumber?.type">
                 </app-custom-input>
               </div>
@@ -594,20 +589,23 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="pan">{{ labels.addressline1 }} <sub class="star_red_col">*</sub></label>
                   <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="line1" /> -->
-                  <app-custom-input formControlName="addressLineOne" [maxLength]="validationData?.addressLine?.maxLength"
-                    [isRequired]="'Address is required'" [isDirty]="isDirty">
+                  <app-custom-input formControlName="addressLineOne"
+                    [maxLength]="validationData?.addressLine?.maxLength" [isRequired]="'Address is required'"
+                    [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="passport">{{ labels.addressline2 }}</label>
                   <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="line2" /> -->
-                  <app-custom-input formControlName="addressLineTwo" [maxLength]="validationData?.addressLine?.maxLength">
+                  <app-custom-input formControlName="addressLineTwo"
+                    [maxLength]="validationData?.addressLine?.maxLength">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="passport">{{ labels.addressline3 }}</label>
                   <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="line3" /> -->
-                  <app-custom-input formControlName="addressLineThree" [maxLength]="validationData?.addressLine?.maxLength">
+                  <app-custom-input formControlName="addressLineThree"
+                    [maxLength]="validationData?.addressLine?.maxLength">
                   </app-custom-input>
                 </div>
               </div>
@@ -676,13 +674,9 @@
                   <label for="alternate_mobile_num">Office Address PO Box</label>
                   <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                       id="alternate_mobile_num" /> -->
-                  <app-custom-input formControlName="pobox" 
-                  [patternCheck]="validationData?.pobox?.patternCheck"
-                     
-                  [maxLength]="validationData?.pobox?.maxLength"
-                  
-                  [type]="validationData?.pobox?.type"
-                    ></app-custom-input>
+                  <app-custom-input formControlName="pobox" [patternCheck]="validationData?.pobox?.patternCheck"
+                    [maxLength]="validationData?.pobox?.maxLength" [type]="validationData?.pobox?.type">
+                  </app-custom-input>
                 </div>
               </div>
 
@@ -693,8 +687,8 @@
     </div>
   </form>
   <!-- {{udfDetails | json}} -->
-  <app-shared-user-defined-fields  [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-  [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 </div>
 
 <div class="btn-sec clear-both row">
@@ -708,11 +702,11 @@
     <a id="back_vehicle_details"><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
         Back
       </button></a>
-      <ng-container *ngIf="!isLoan360"> 
-    <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
-      Save
-    </p>
-  </ng-container>
+    <ng-container *ngIf="!isLoan360">
+      <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+        Save
+      </p>
+    </ng-container>
     <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
         Next
       </button></a>

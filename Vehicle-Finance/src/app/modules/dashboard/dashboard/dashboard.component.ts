@@ -1338,7 +1338,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/fi-dashboard/${this.leadId}/fi-list`);
         break;
       case 21: case 22:
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/lead-details`);
+        // this.router.navigateByUrl(`/pages/dde/${this.leadId}/lead-details`);
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/lead-details`, { state: { udfScreenId: 'LDS003' }});
         break;
       case 23: case 24:
         this.router.navigateByUrl(`/pages/deviation-dashboard/${this.leadId}/dashboard-deviation-details`);
@@ -1374,7 +1375,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
       case 42: case 43:
-        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+        // this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`, { state: { udfScreenId: 'LDS002' }});
+
         break;
       case 45: case 46:
         this.router.navigateByUrl(`/pages/dde/${this.leadId}/rcu`);
@@ -1411,9 +1414,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.leadId = leadId;
     if (!this.onAssignTab && !this.onReleaseTab) {
       if (stageCode === '10') {
-        this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
+        // this.router.navigateByUrl(`/pages/lead-section/${leadId}`);
+        this.router.navigateByUrl(`pages/lead-section/${this.leadId}`, { state: { udfScreenId: 'LDS001' }});    
       } else if (stageCode === '20') {
-        this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
+        //  this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`);
+        this.router.navigateByUrl(`/pages/sales/${leadId}/lead-details`, { state: { udfScreenId: 'LDS002' }});
       } else if (stageCode === '7') {
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }

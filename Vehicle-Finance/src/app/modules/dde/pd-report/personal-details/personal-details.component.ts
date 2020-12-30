@@ -103,6 +103,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
+      console.log('pd value', value);
     });
 
     this.monthValidation = this.monthValiationCheck();
@@ -246,6 +247,7 @@ export class PersonalDetailsComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    console.log('PDlov',this.LOV);
     this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -466,7 +468,9 @@ export class PersonalDetailsComponent implements OnInit {
 
     formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
 
-    if (this.personalDetailsForm.valid && this.userDefineForm.udfData.valid) {
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
+  
+    if (this.personalDetailsForm.valid && isUdfField) {
 
       let data = {
         leadId: this.leadId,
@@ -477,7 +481,10 @@ export class PersonalDetailsComponent implements OnInit {
           {
             "udfGroupId": this.udfGroupId,
             // "udfScreenId": this.udfScreenId,
-            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
           }
         ]
       };
