@@ -693,8 +693,10 @@ export class ExistingLeadCreationComponent implements OnInit {
       }
 
       const vehicleId = data.vehicleId;
-      const vehicleRegNo = data.vehicleRegNo;
-      const manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+      const vehicleRegNo = data.vehicleRegNo; 
+      //check product type 
+      const manuFacMonthYear = data.productCategory!='NCV'?
+          this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY'): null;
 
       this.createLeadService.createExternalLead(
         this.loanLeadDetails,

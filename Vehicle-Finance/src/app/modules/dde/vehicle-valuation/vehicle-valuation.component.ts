@@ -261,6 +261,7 @@ export class VehicleValuationComponent implements OnInit {
 
   onClickValuationReport(status, collateralId) {
     console.log('COLLATERAL_ID::', collateralId);
+    this.colleteralId = collateralId;
     console.log('vStatus', status);
     const data = this.collateralDetailsData.find((element) => {
       console.log('Element::', element.collateralId === collateralId);
