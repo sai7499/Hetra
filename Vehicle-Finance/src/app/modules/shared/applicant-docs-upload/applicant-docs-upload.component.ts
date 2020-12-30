@@ -112,7 +112,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   panCard: string;
   isNewUpload = false;
   docError = {};
-
+  isProfileSignUploaded: boolean;
   isLoan360: boolean;
  
   constructor(
@@ -525,6 +525,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
     // this.currentlySelectedDocs = categoryCode;
   }
 
+  onDocumentNumberPress(event, index, code) {
+    if (code === 12 || code === 13 || code === 15 || code === 16) {
+      const value = event.target.value;
+      const formArray = this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray;
+      console.log('formArray.at[index]', formArray.at(index))
+      formArray.at(index).get('documentNumber').setValue(String(value).toUpperCase());
+    }
+  }
+
   setDocumentValidation() {
     // this.selectedCode = subCategoryCode;
     // if (subCategoryCode === 12) { // passport
@@ -887,6 +896,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   uploadPhotoOrSignature(data) {
+    this.isProfileSignUploaded = true;
     this.applicantService.uploadPhotoOrSignature(data).subscribe((value) => {
       console.log('uploadPhotoOrSignature', value, 'data', data);
     });
@@ -1036,7 +1046,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
 
 
-    if (this.documentArr.length === 0) {
+    if (this.documentArr.length === 0 ) {
+      if (this.isProfileSignUploaded) {
+        this.isProfileSignUploaded = false;
+        return this.toasterService.showSuccess('Documents saved successfully', '');
+      }
       this.toasterService.showWarning('No documents uploaded to save', '');
       return;
     }
@@ -1070,11 +1084,21 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
 
     if (this.isNewUpload) {
+      if (!isValueChange && this.isProfileSignUploaded) {
+          this.isProfileSignUploaded = false;
+          this.isNewUpload = false;
+          return this.toasterService.showSuccess('Documents saved successfully', '');
+      }
        return this.callAppiyoUploadApi();
     }
 
     if (!isValueChange) {
+      if (this.isProfileSignUploaded) {
+        this.isProfileSignUploaded = false;
+        return this.toasterService.showSuccess('Documents saved successfully', '');
+      }
       return this.toasterService.showWarning('No changes done to save', '');
+      
     }
     this.callAppiyoUploadApi();
   }
@@ -1088,6 +1112,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         if (value.Error !== '0') {
           return;
         }
+        this.isProfileSignUploaded = false;
         this.toasterService.showSuccess('Documents saved successfully', '');
         this.isNewUpload = false;
         this.apiRes = [...this.documentArr];

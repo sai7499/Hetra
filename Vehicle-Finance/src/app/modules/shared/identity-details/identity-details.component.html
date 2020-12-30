@@ -1,12 +1,11 @@
 <div class="content">
-  <form
-    
-    [formGroup]="identityForm"
-  >
-    <div
-      class="multisteps-form__panel js-active"
-      data-animation="scaleIn"
-    >
+  <form [formGroup]="identityForm">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+
+      <h3 class="banner-con">
+        Identity Details ({{udfScreenId}})
+      </h3>
+
       <div class="btn-sec clear-both row">
         <div class="col-sm-3">
           <!-- <h4 class="title">Identity Details</h4> -->
@@ -30,23 +29,15 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label>{{labels?.aadharnumber}}</label>
               <div class="input-group input-medium">
-                <input
-                  formControlName="aadhar"
-                  type="text"
-                  class="form-control date_caps"
-                  id="passport_expiry_date"
-                  name="passport_expiry_date"                                 
-                />
+                <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date"
+                  name="passport_expiry_date" />
                 <span class="input-group-btn">
-                  <button class="btn btn-default"
-                  (click)="onRetreiveAdhar()"
-                  (mouseleave)="onRelieve()"
-                  (blur)="onRelieve()"
-                  >
-                
+                  <button class="btn btn-default" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
+                    (blur)="onRelieve()">
+
                     <i class="fa fa-credit-card"></i>
                   </button>
-                 
+
                 </span>
               </div>
             </div>
@@ -99,24 +90,13 @@
                                     <option value="PAN" selected="selected">PAN</option>
                                     <option value="form60">Form 60</option>
                                 </select> -->
-              <app-vf-custom-select
-                formControlName="panType"
-                [values]="lov?.LOVS?.applicantPanType"
-                
-                
-              ></app-vf-custom-select>
+              <app-vf-custom-select formControlName="panType" [values]="lov?.LOVS?.applicantPanType">
+              </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="pan_number">{{labels?.pannumber}}</label>
-              <input
-                formControlName="pan"
-                type="text"
-                class="form-control m-50"
-                id="pan_number"
-                name="pan_number"
-                value="ECCAA4865C"
-                disabled=""
-              />
+              <input formControlName="pan" type="text" class="form-control m-50" id="pan_number" name="pan_number"
+                value="ECCAA4865C" disabled="" />
               <!-- <app-custom-input
                   formControlName="pan"
                   [patternCheck]="panPattern"
@@ -130,7 +110,7 @@
               <input type="text" class="form-control m-50" />
             </div> -->
 
-             <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
+            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
                   >PAN_1219</label
@@ -163,14 +143,8 @@
             <div class="clearfix"></div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="passport_number">{{labels?.passportNumber}}</label>
-              <input
-                formControlName="passportNumber"
-                type="text"
-                class="form-control m-50"
-                name="passport_number"
-                value="95855311"
-                disabled=""
-              />
+              <input formControlName="passportNumber" type="text" class="form-control m-50" name="passport_number"
+                value="95855311" disabled="" />
             </div>
             <div class="form-group  col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="passport_expiry_date">{{labels?.issueDate}}</label>
@@ -186,19 +160,13 @@
                     type="date"
                     class="form-control"
                   /> -->
-                  <kendo-datepicker class="form-control" 
-                formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
-                [min]="minPassportIssueDate"
-                [max]="maxDate"
-                 placeholder="Issue Date"
-                [activeView]="'decade'"
-                (valueChange)="passportIssueDateChange($event)"
-                [disabled]="passportDates"
-                ></kendo-datepicker>
+                  <kendo-datepicker class="form-control" formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
+                    [min]="minPassportIssueDate" [max]="maxDate" placeholder="Issue Date" [activeView]="'decade'"
+                    (valueChange)="passportIssueDateChange($event)" [disabled]="passportDates"></kendo-datepicker>
                 </div>
 
-                <div class="ShowError" *ngIf="showInvalidMsg['passportIssue']" >
-                    {{passportIssueInvalidMsg}}
+                <div class="ShowError" *ngIf="showInvalidMsg['passportIssue']">
+                  {{passportIssueInvalidMsg}}
                 </div>
               </div>
             </div>
@@ -216,19 +184,12 @@
                     type="date"
                     class="form-control"
                   /> -->
-                  <kendo-datepicker class="form-control" 
-                formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
-                [min]="toDayDate"
-                [max]="maxPassportExpiryDate"
-                 placeholder="Expriy Date"
-                 [disabled]="passportDates"
-                [activeView]="'decade'"
-                (valueChange)="PassportExpiryDateChange($event)"
-                
-                ></kendo-datepicker>
-                <div class="ShowError" *ngIf="showInvalidMsg['passportExpiry']" >
-                  {{passportExpiryInvalidMsg}}
-              </div>
+                  <kendo-datepicker class="form-control" formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
+                    [min]="toDayDate" [max]="maxPassportExpiryDate" placeholder="Expriy Date" [disabled]="passportDates"
+                    [activeView]="'decade'" (valueChange)="PassportExpiryDateChange($event)"></kendo-datepicker>
+                  <div class="ShowError" *ngIf="showInvalidMsg['passportExpiry']">
+                    {{passportExpiryInvalidMsg}}
+                  </div>
                 </div>
               </div>
             </div>
@@ -265,23 +226,12 @@
             </div> -->
             <div class="clearfix"></div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
-              <label for="ration_card_number" class="driving_height"
-                >{{labels?.drivingLicenseNumber}}</label
-              >
-              <input
-                formControlName="drivingLicenseNumber"
-                type="text"
-                class="form-control m-50"
-                id="ration_card_number"
-                name="ration_card_number"
-                value="TN99 20205678234"
-                disabled=""
-              />
+              <label for="ration_card_number" class="driving_height">{{labels?.drivingLicenseNumber}}</label>
+              <input formControlName="drivingLicenseNumber" type="text" class="form-control m-50"
+                id="ration_card_number" name="ration_card_number" value="TN99 20205678234" disabled="" />
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
-              <label for="issuance_date" class="driving_height"
-                >{{labels?.issueDate}}</label
-              >
+              <label for="issuance_date" class="driving_height">{{labels?.issueDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
                   <!-- <span class="input-group-addon"
@@ -294,27 +244,18 @@
                     type="date"
                     class="form-control"
                   /> -->
-                  <kendo-datepicker class="form-control" 
-                formControlName="drivingLicenseIssueDate" [format]="'dd/MM/yyyy'"
-                [max]="maxDate"
-                 placeholder="Issue Date"
-                [activeView]="'decade'"
-                [disabled]="drivingLicenceDates"
-                (valueChange)="drivingIssueDateChange($event)"
-                
-                
-                ></kendo-datepicker>
-                <div class="ShowError" *ngIf="showInvalidMsg['drivingIssue']" >
-                  {{drivingIssueInvalidMsg}}
-              </div>
-                  
+                  <kendo-datepicker class="form-control" formControlName="drivingLicenseIssueDate"
+                    [format]="'dd/MM/yyyy'" [max]="maxDate" placeholder="Issue Date" [activeView]="'decade'"
+                    [disabled]="drivingLicenceDates" (valueChange)="drivingIssueDateChange($event)"></kendo-datepicker>
+                  <div class="ShowError" *ngIf="showInvalidMsg['drivingIssue']">
+                    {{drivingIssueInvalidMsg}}
+                  </div>
+
                 </div>
               </div>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
-              <label for="expiry_date" class="driving_height"
-                >{{labels?.expiryDate}}</label
-              >
+              <label for="expiry_date" class="driving_height">{{labels?.expiryDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
                   <!-- <span class="input-group-addon"
@@ -327,18 +268,12 @@
                     type="date"
                     class="form-control"
                   /> -->
-                  <kendo-datepicker class="form-control" 
-                formControlName="drivingLicenseExpiryDate" [format]="'dd/MM/yyyy'"
-                [min]="toDayDate"
-                 placeholder="Expiry Date"
-                 [disabled]="drivingLicenceDates"
-                [activeView]="'decade'"
-                (valueChange)="drivingExpiryDateChange($event)"
-                
-                ></kendo-datepicker>
-                <div class="ShowError" *ngIf="showInvalidMsg['drivingExpiry']" >
-                {{drivingExpiryInvalidMsg}}
-              </div>
+                  <kendo-datepicker class="form-control" formControlName="drivingLicenseExpiryDate"
+                    [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Expiry Date" [disabled]="drivingLicenceDates"
+                    [activeView]="'decade'" (valueChange)="drivingExpiryDateChange($event)"></kendo-datepicker>
+                  <div class="ShowError" *ngIf="showInvalidMsg['drivingExpiry']">
+                    {{drivingExpiryInvalidMsg}}
+                  </div>
                 </div>
               </div>
             </div>
@@ -375,14 +310,8 @@
             <div class="clearfix"></div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="passport_number">{{labels?.voterIdNumber}}</label>
-              <input
-                formControlName="voterIdNumber"
-                type="text"
-                class="form-control m-50"
-                name="passport_number"
-                value="TRQ06734124"
-                disabled=""
-              />
+              <input formControlName="voterIdNumber" type="text" class="form-control m-50" name="passport_number"
+                value="TRQ06734124" disabled="" />
             </div>
 
             <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
@@ -416,7 +345,7 @@
               </div>
             </div> -->
 
-            
+
             <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
               <a href="#"
                 ><label for="upload_aadhaar" class="upload_down"
@@ -465,97 +394,60 @@
             <input class="form-control btn-primary" type="button" value="Add Here" id="add_banks" />
         </div> -->
 
-        <div
-          id="non_individual_section_start"
-          
-          *ngIf="!isIndividual"
-          formGroupName="0"
-        >
+        <div id="non_individual_section_start" *ngIf="!isIndividual" formGroupName="0">
           <!-- <div class="row" > -->
-            <div class="row">
+          <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date">{{labels?.udyogAdhar}}</label>
               <div class="input-group input-medium">
-                <input
-                  formControlName="aadhar"
-                  type="text"
-                  class="form-control date_caps"
-                  id="passport_expiry_date"
-                  name="passport_expiry_date"
-                  value=""
-                  disabled
-                />
+                <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date"
+                  name="passport_expiry_date" value="" disabled />
                 <span class="input-group-btn">
-                  <button class="btn btn-default" 
-                  (click)="onRetreiveAdhar()"
-                  (mouseleave)="onRelieve()"
-                  (blur)="onRelieve()"
-                  >
+                  <button class="btn btn-default" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
+                    (blur)="onRelieve()">
                     <i class="fa fa-credit-card"></i>
-                    
+
                   </button>
-                 
+
                 </span>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 " >
-              <label for="identity_number"
-                >{{ labels?.panform }}
-                </label
-              >
-              <app-vf-custom-select
-                [values]="lov?.LOVS?.applicantPanType"
-                formControlName="panType"
-                
-              >
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 ">
+              <label for="identity_number">{{ labels?.panform }}
+              </label>
+              <app-vf-custom-select [values]="lov?.LOVS?.applicantPanType" formControlName="panType">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="mobile">{{ labels?.pannumber }}</label>
-              <app-custom-input
-                formControlName="panNumber"
-               isDisabled
-              ></app-custom-input>
+              <app-custom-input formControlName="panNumber" isDisabled></app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.cinRegisteredNumber}}</label>
-              <app-custom-input
-                formControlName="corporateIdentificationNumber"
-                [inputClass]="'text-uppercase'"
-                isDisabled
-                
-              ></app-custom-input>
+              <app-custom-input formControlName="corporateIdentificationNumber" [inputClass]="'text-uppercase'"
+                isDisabled></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.cstVatNumber}}</label>
-              <app-custom-input
-                formControlName="cstVatNumber"
-                [inputClass]="'text-uppercase'"
-                isDisabled
-              ></app-custom-input>
+              <app-custom-input formControlName="cstVatNumber" [inputClass]="'text-uppercase'" isDisabled>
+              </app-custom-input>
             </div>
-            
+
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.gstNumber}}</label>
-              <app-custom-input
-                formControlName="gstNumber"
-                [inputClass]="'text-uppercase'"
-                isDisabled
-              ></app-custom-input>
+              <app-custom-input formControlName="gstNumber" [inputClass]="'text-uppercase'" isDisabled>
+              </app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.tanNumber}}</label>
-              <app-custom-input
-                formControlName="tanNumber"
-                [inputClass]="'text-uppercase'"
-                isDisabled
-              ></app-custom-input>
+              <app-custom-input formControlName="tanNumber" [inputClass]="'text-uppercase'" isDisabled>
+              </app-custom-input>
             </div>
           </div>
           <!-- </div> -->
@@ -563,40 +455,32 @@
       </ng-container>
     </div>
   </form>
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+
 </div>
 
 <div class="btn-sec clear-both row">
   <div class="col-sm-5">
-    <button
-      class="btn btn-primary dash_href"
-      (click)="navigateToApplicantList()"
-    >
-      <a>Back To Applicant Details</a>
+    <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="navigateToApplicantList()">
+      Back To Applicant Details
     </button>
   </div>
   <div class="col-sm-7 text-right">
     <span id="edit_vehicle_details_replace"></span>
-    <a id="back_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onBack()">
+    <a id="back_vehicle_details"><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
         Back
-      </button></a
-    >
+      </button></a>
     <ng-container *ngIf="!isLoan360">
-      <p
-      class="btn btn-primary save"
-      id="save_vehicle_details"
-      (click)="onSubmit()"
-      *ngIf="!disableSaveBtn"
-    >
-      Save
-    </p>
+      <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+        Save
+      </p>
     </ng-container>
-    
-    <a id="next_vehicle_details"
-      ><button class="btn btn-primary" type="button" (click)="onNext()">
+
+    <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
         Next
-      </button></a
-    >
+      </button></a>
     <br />
     <br />
     <br />

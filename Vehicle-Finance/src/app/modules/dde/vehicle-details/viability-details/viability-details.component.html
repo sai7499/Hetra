@@ -40,11 +40,10 @@
 
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
-                <tr class="table-head-bg m-0 p-02 text-left">
-                    <th>
-                        <h4 class="heading-mar">{{label?.income}}</h4>
-                    </th>
-                    <th></th>
+                <tr class="table-head-bg m-0 p-02 text-left">                 
+                   <td colspan="2">
+                    <h4 class="banner-con">{{label?.income}}</h4> 
+                   </td>                  
                 </tr>
                 <tbody>
                     <tr>
@@ -849,7 +848,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>{{label?.netCashFlowEMI}}</strong></td>
+                        <td><strong>{{label?.netEmi}}</strong></td>
                         <td class="wrd-brk" colspan="1"><strong>{{standOperatorEmi}}</strong></td>
                     </tr>
                     <tr>
@@ -1111,7 +1110,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <td><strong>{{label?.netCashFlowEMI}}</strong></td>
+                        <td><strong>{{label?.netEmi}}</strong></td>
                         <td class="wrd-brk" colspan="1"><strong>{{captiveEmi}}</strong></td>
                     </tr>
                     <tr>
@@ -1161,7 +1160,14 @@
     </div>
 
     </form>
+    <div>
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+    
+    </div>
 </div>
+
+
 
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">

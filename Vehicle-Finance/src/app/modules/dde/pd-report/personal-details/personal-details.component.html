@@ -1,6 +1,13 @@
-<form class="multisteps-form__form" [formGroup]="personalDetailsForm" *ngIf="labels?.validationData">
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV.LOVS">
-        <h3 class="cus-title title">{{ labels.personalDetailsTitle }}</h3>
+<div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV.LOVS">
+
+    <form class="multisteps-form__form p-0" [formGroup]="personalDetailsForm" *ngIf="labels?.validationData">
+
+        <h3 class="banner-con">
+
+            {{ labels.personalDetailsTitle }}
+
+            <!-- <span style="float: right;"> <strong>Screen Id :</strong> {{udfScreenId}}</span> -->
+        </h3>
 
         <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -104,14 +111,14 @@
                     <sub class="star_red_col">*</sub></label>
 
                 <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'"
-                    [max]="maxDate" [activeView]="'decade'" placeholder="Date of Birth">
+                    [max]="maxDate" [disabled]="true" [activeView]="'decade'" placeholder="Date of Birth">
                 </kendo-datepicker>
 
-                <div class="invalid-feedback ShowError" *ngIf="personalDetailsForm.get('dob').touched || isDirty">
+                <!-- <div class="invalid-feedback ShowError" *ngIf="personalDetailsForm.get('dob').touched || isDirty">
                     <div *ngIf="personalDetailsForm.get('dob').invalid">
                         Invalid date
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -262,7 +269,7 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="srto">{{ labels.srto }}
                     <sub class="star_red_col">*</sub></label>
-                <app-custom-input formControlName="srto" [isRequired]="'SRTO is Required'"
+                <app-custom-input id="srto'" formControlName="srto" [isRequired]="'SRTO is Required'"
                     [maxLength]="labels.validationData?.srto?.maxLength" [isDirty]="isDirty"
                     [placeholder]="'Enter SRTO'" [type]="labels.validationData?.srto?.type"></app-custom-input>
             </div>
@@ -275,7 +282,7 @@
                 <label for="contact_number">{{ labels.contactNumber }}
                     <sub class="star_red_col">*</sub></label>
 
-                <app-custom-input formControlName="contactNo"
+                <app-custom-input formControlName="contactNo" id="'contact_number'"
                     [patternCheck]="labels.validationData?.mobile?.patternCheck"
                     [isRequired]="'Contact Number is Required'" [maxLength]="labels.validationData?.mobile?.maxLength"
                     [isDirty]="isDirty" [type]="labels.validationData?.mobile?.type"
@@ -300,7 +307,7 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="email_id">{{ labels?.emailAddress }}
                     <sub class="star_red_col">*</sub></label>
-                <app-custom-input formControlName="email" [isRequired]="'Email Address is Required'"
+                <app-custom-input id="'email_id'" formControlName="email" [isRequired]="'Email Address is Required'"
                     [patternCheck]="labels.validationData?.emailPattern?.patternCheck" [isDirty]="isDirty"
                     [maxlength]="labels.validationData?.emailPattern?.maxLength" [placeholder]="'Enter Email Address'">
                 </app-custom-input>
@@ -369,7 +376,7 @@
 
                 <app-custom-input formControlName="noOfAdultDependant"
                     [isRequired]="'No. of Adults Dependant is Required'"
-                    [type]="labels.validationData?.seatingCapacity.type" [id]="'seating_capacity'"
+                    [type]="labels.validationData?.seatingCapacity.type" [id]="'no_of_adults_dependant'"
                     [className]="'form-control'" [maxLength]="labels.validationData?.seatingCapacity.maxLength"
                     [placeholder]="'Enter No of Adults Dependant'" [isDirty]="isDirty">
                 </app-custom-input>
@@ -381,7 +388,7 @@
                     <sub class="star_red_col">*</sub></label>
                 <app-custom-input formControlName="noOfChildrenDependant"
                     [isRequired]="'No of Children Dependant is Required'"
-                    [type]="labels.validationData?.seatingCapacity.type" [id]="'seating_capacity'"
+                    [type]="labels.validationData?.seatingCapacity.type" [id]="'no_of_children_dependant'"
                     [className]="'form-control'" [maxLength]="labels.validationData?.seatingCapacity.maxLength"
                     [placeholder]="'Enter No of Children Dependant'" [isDirty]="isDirty">
                 </app-custom-input>
@@ -452,24 +459,28 @@
                     [isDirty]="isDirty" [isDisabled]="true">
                 </app-custom-input>
             </div>
+
         </div>
+    </form>
 
-        <div class="btn-sec clear-both row cst_btm_btns">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-8 text-right">
-                <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateBack()">
-                    {{ labels.back }}
-                </button>
+    <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
-                <button class="btn btn-primary" (click)="onFormSubmit('save')">
-                    {{ labels.save }}
-                </button>
+    <div class="btn-sec clear-both row cst_btm_btns">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-8 text-right">
+            <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onNavigateBack()">
+                {{ labels.back }}
+            </button>
 
-                <button class="btn btn-primary hvr-sweep-to-right" (click)="onNavigateNext()">
-                    {{ labels.next }}
-                </button>
-            </div>
+            <button class="btn btn-primary" (click)="onFormSubmit('save')">
+                {{ labels.save }}
+            </button>
+
+            <button class="btn btn-primary hvr-sweep-to-right" (click)="onNavigateNext()">
+                {{ labels.next }}
+            </button>
         </div>
-
     </div>
-</form>
+
+</div>

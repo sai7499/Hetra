@@ -69,3 +69,7 @@
 .fa-plus  , .fa-trash{
 	cursor: pointer;
 }
+
+.mar-30{
+	margin-bottom:45px!important;
+}

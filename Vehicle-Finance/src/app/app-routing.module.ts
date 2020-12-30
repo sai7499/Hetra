@@ -7,6 +7,7 @@ import { LeadDataResolverService } from '@modules/lead-section/services/leadData
 import { TermSheetFromDashboardComponent } from './modules/dde/credit-decisions/term-sheet-from-dashboard/term-sheet-from-dashboard.component'
 import { DetectBrowserActivityService } from '@services/detect-browser-activity.service'
 import { PddComponent } from '@modules/shared/pdd-screen/pdd.component';
+import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
 const routes: Routes = [
   {
     path: '',
@@ -41,6 +42,10 @@ const routes: Routes = [
       getLOV: LovResolverService,
     },
     children: [
+      {
+        path: 'lead-upload',
+        component: LeadUploadComponent
+      },
       {
         path: 'loan-360',
         loadChildren: () => import('./modules/loan-360/loan-view.module').then(m => m.LoanViewModule)
@@ -188,7 +193,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'fi-dashboard', // added another routing for dde module to load from pd-dashboard
+        path: 'fi-dashboard', // added another routing for dde module to load from fi-dashboard
         loadChildren: () =>
           import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
@@ -199,6 +204,11 @@ const routes: Routes = [
           import(
             './modules/dde/vehicle-valuation-router/vehicle-valuation-router.module'
           ).then((m) => m.VehicleValuationRouterModule),
+      },
+      {
+        path: 'valuation-dashboard', // added another routing for dde module to load from valuation-dashboard
+        loadChildren: () =>
+          import('./modules/dde/dde.module').then((m) => m.DdeModule),
       },
       {
         path: 'sales',

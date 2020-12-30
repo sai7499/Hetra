@@ -16,6 +16,7 @@ import { LabelsService } from "@services/labels.service";
 import { ObjectComparisonService } from '@services/obj-compare.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '../shared-service/shared-service';
 
 @Component({
     templateUrl: './pdd.component.html',
@@ -62,6 +63,11 @@ export class PddComponent implements OnInit {
     isShowError: boolean = false;
     rtoAgentsList = [];
     isLoan360: boolean;
+    taskId: any;
+    udfDetails: any = [];
+    userDefineForm: any;
+    udfScreenId: any;
+    udfGroupId: any;
 
     constructor(
         private location: Location,
@@ -76,9 +82,10 @@ export class PddComponent implements OnInit {
         private labelsData: LabelsService,
         private router: Router,
         private objectComparisonService: ObjectComparisonService,
-        private loanViewService: LoanViewService) {
+        private loanViewService: LoanViewService,
+        private sharedService: SharedService) {
 
-            this.toDayDate= this.utilityService.setTimeForDates(this.toDayDate)
+        this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
 
         // var day = this.toDayDate.getDate();
         // var month = this.toDayDate.getMonth();
@@ -86,6 +93,7 @@ export class PddComponent implements OnInit {
         // this.toDayDate = new Date(year, month, day, 0, 0)
     }
     ngOnInit() {
+        this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
         this.isLoan360 = this.loanViewService.checkIsLoan360();
         this.getLabels();
         this.vehicleRegPattern = this.validateCustomPattern();
@@ -98,11 +106,18 @@ export class PddComponent implements OnInit {
                 this.isSales = roles.roles[0].roleType === 1;
             }
             this.initForm();
+            if(this.isSales){
+                this.udfGroupId= 'PDDG001'
+                this.udfScreenId= 'PDDS002'
+            }else{
+                this.udfGroupId= 'PDDG001'
+                this.udfScreenId= 'PDDS001'
+            }
             if (this.isLoan360) {
                 this.activatedRoute.parent.params.subscribe((paramValue) => {
                     this.leadId = Number(paramValue.leadId || 0);
                 });
-                
+
             }
             this.lovService.getLovData().subscribe((lov: any) => {
                 this.lovs = lov;
@@ -167,13 +182,19 @@ export class PddComponent implements OnInit {
     getPddDetailsData() {
         const data = {
             leadId: this.leadId,
-            userId: localStorage.getItem('userId')
+            userId: localStorage.getItem('userId'),
+            "udfDetails": [
+                {
+                  "udfGroupId": this.udfGroupId,
+                }
+              ]
         };
 
         this.pddDetailsService.getPddDetails(data)
             .subscribe((res: any) => {
                 console.log('res', res);
                 const response = res.ProcessVariables;
+                this.udfDetails= response.udfDetails;
                 this.pddDocumentDetails = response.pddDocumentDetails;
                 this.modifiedOrcStatusList = response.modifiedOrcStatusList;
                 this.pddDocumentList = response.pddDocumentList;
@@ -367,10 +388,10 @@ export class PddComponent implements OnInit {
     }
 
     getCollectedDate(index) {
-        
+
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         const value = formArray['controls'][index].get('collectedDate').value;
-        if(this.toDayDate< value){
+        if (this.toDayDate < value) {
             return null;
         }
         return value;
@@ -455,19 +476,20 @@ export class PddComponent implements OnInit {
     }
 
     checkValidation() {
+        const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
         if (this.isSales) {
             const formValues = this.pddForm.getRawValue();
             const processForm = formValues.processForm;
             const controls = this.pddForm.get('processForm')
 
             if (controls.get('orcStatus').invalid ||
-                controls.get('orcReceivedDate').invalid) {
+                controls.get('orcReceivedDate').invalid || isUDFInvalid) {
                 this.isDirty = true;
                 return true;
 
             } else if (controls.get('rtoAgent').invalid ||
                 controls.get('endorsementDate').invalid ||
-                this.isShowError) {
+                this.isShowError || isUDFInvalid) {
                 this.isDirty = true;
 
                 return true;
@@ -475,17 +497,23 @@ export class PddComponent implements OnInit {
             // ( processForm.orcStatus=="RECDFRMRTOAGNTPDDDOCS" && !processForm.endorsementDate)
         } else {
             const numberForm = this.pddForm.get('numberForm').value;
-            if (!numberForm.regNumber || !numberForm.engNumber || !numberForm.chasNumber) {
+            if (!numberForm.regNumber || !numberForm.engNumber || !numberForm.chasNumber || isUDFInvalid) {
                 return true;
             }
         }
     }
 
     callUpdateAPI(value, check?: any) {
+        const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
         const data = {
             leadId: this.leadId,
             userId: localStorage.getItem('userId'),
-            ...value
+            ...value,
+             udfDetails : [{
+                "udfGroupId": this.udfGroupId,
+                //"udfScreenId": this.udfScreenId,
+                "udfData": udfData
+              }]
         };
         this.pddDetailsService.updatePddDetails(data)
             .subscribe((value: any) => {
@@ -763,7 +791,8 @@ export class PddComponent implements OnInit {
         const data = {
             leadId: this.leadId,
             userId: localStorage.getItem('userId'),
-            isSubmit: true
+            isSubmit: true,
+            taskId: this.taskId,
         };
         if (this.isSales) {
             data.isSubmit = false;
@@ -886,4 +915,9 @@ export class PddComponent implements OnInit {
         const blob = new Blob(byteArrays, { type: contentType });
         return blob;
     }
+
+    onSaveuserDefinedFields(value) {
+        this.userDefineForm = value;
+        console.log('identify', value)
+      }
 }

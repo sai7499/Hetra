@@ -1,7 +1,7 @@
 <div class="content">
   <form class="multisteps-form__form" [formGroup]="uploadForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-      <h4 class="title">Document upload</h4>
+      <h4 class="banner-con">Document upload</h4>
       <div class="panel-group" id="accordion">
         <div
           class="panel panel-default"
@@ -126,7 +126,8 @@
                       *ngIf="subCat.code !== 3"
                     >
                       <label for="documentnumber">Document Number</label>
-                      <input formControlName="documentNumber" class="form-control" [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null"/>
+                      <input formControlName="documentNumber" [maxlength]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.maxLength || null" 
+                      class="form-control" [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null" (keyup)="onDocumentNumberPress($event, i, subCat.code)"/>
                       <div class="invalid-feedback" *ngIf="(docsList(subCat.code)?.controls[i]?.get('documentNumber')?.touched  || docsList(subCat.code)?.controls[i]?.get('documentNumber')?.dirty)">
                         <div *ngIf="docsList(subCat.code)?.controls[i]?.get('documentNumber').errors?.pattern">
                           {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
@@ -311,7 +312,7 @@
   </div>
   <div class="col-sm-7 text-right">
     <button
-      class="btn btn-primary js-btn-prev dash_href"
+      class="btn btn-primary js-btn-prev dash_href hvr-sweep-to-left"
       type="button"
       (click)="navigateBack()"
     >

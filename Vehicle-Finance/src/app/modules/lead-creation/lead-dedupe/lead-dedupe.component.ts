@@ -85,7 +85,9 @@ export class LeadDedupeComponent implements OnInit {
     }
     this.dedupeArray = dedupeData.leadDedupeResults;
     this.leadId = dedupeData.leadDedupeResults[0].leadID;
-    this.product = dedupeData.loanLeadDetails.product;
+    if(dedupeData.loanLeadDetails){
+      this.product = dedupeData.loanLeadDetails.product;
+    }
     console.log('dedupeData', dedupeData.leadDedupeResults);
   }
 
@@ -155,8 +157,8 @@ export class LeadDedupeComponent implements OnInit {
       });
   }
 
-  proceedWithSelectedLead() {
-    this.createLeadService.getLeadById(this.leadId).subscribe((res: any) => {
+  proceedWithSelectedLead(isChangeStatus?:boolean) {
+    this.createLeadService.getLeadById(this.leadId,isChangeStatus).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
@@ -197,8 +199,16 @@ export class LeadDedupeComponent implements OnInit {
   }
 
   navigateToLeadSection() {
-    if (this.showModal === 'proceedModal_without') {
-      this.proceedAsNewLead();
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    const data: any = { ...leadData };
+    console.log("get Lead Data",data);
+    if (this.showModal === 'proceedModal_without') {   
+      if(data.leadDetails.stage == 7) {
+        this.leadId = data.leadId;
+        return this.proceedWithSelectedLead(true);        
+      }else{
+        this.proceedAsNewLead();
+      }    
     } else if (this.showModal === 'proceedModal_with') {
       this.proceedWithSelectedLead();
     } else if (this.showModal === 'rejectModal') {

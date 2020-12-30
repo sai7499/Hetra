@@ -7,7 +7,6 @@ import { CreateLeadDataService } from '../../lead-creation/service/createLead-da
 import { UtilityService } from '@services/utility.service';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-
 import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
@@ -20,9 +19,14 @@ export class AddvehicleComponent implements OnInit {
   public label: any = {};
   public errorMsg: string;
   formValue: any;
+  userDefineForm: any;
 
   isDirty: boolean;
   routerId = 0;
+
+  udfScreenId: string = 'VLS002';
+  udfGroupId: string = 'VLG002';
+  udfDetails: any = [];
 
   // process variable for save/update vehicle collaterals
   userId: number;
@@ -69,13 +73,27 @@ export class AddvehicleComponent implements OnInit {
       this.formValue = value;
     })
 
+    this.sharedService.userDefined$.subscribe((form: any) => {
+      this.userDefineForm = form;
+    })
 
   }
 
   onFormSubmit() {
 
-    if (this.formValue.valid === true) {
+    let isUdfField = true;
+
+    if (this.userDefineForm) {
+     isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+    }
+
+    if (this.formValue.valid && isUdfField) {
       let data = this.formValue.value.vehicleFormArray[0];
+
+      if (this.formValue.value.isCheckDedpue === false) {
+        this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
+        return
+      }
 
       if (this.formValue.value.isValidPincode && this.formValue.value.isInvalidMobileNumber) {
 
@@ -106,6 +124,16 @@ export class AddvehicleComponent implements OnInit {
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
         }
+
+        data.udfDetails = [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(
+            this.userDefineForm && this.userDefineForm.udfData ?
+              this.userDefineForm.udfData.getRawValue() : {}
+          )
+        }]
+
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');

@@ -1,5 +1,5 @@
 import { DatePipe, Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocRequest } from '@model/upload-model';
@@ -24,7 +24,11 @@ import { PollingService } from '@services/polling.service';
   styleUrls: ['./query-model.component.css'],
   providers: [DatePipe]
 })
-export class QueryModelComponent implements OnInit, OnDestroy {
+export class QueryModelComponent implements OnInit, OnDestroy, AfterContentChecked, DoCheck {
+
+  @ViewChild('scrollMe', { static: true }) el: ElementRef;
+  scrolltop: number = null;
+
   showModal: boolean = false;
   selectedDocDetails;
   queryModalForm: FormGroup;
@@ -79,6 +83,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   LOV: any;
+  initalQueryStatus: any = []
 
   getChatSendObj = {
     leadId: this.leadId,
@@ -88,6 +93,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   conditionalClassArray: any = [];
+  accordion: string = 'collapseBriefOne';
 
   routerId: any;
   isMobileView: boolean = false;
@@ -109,13 +115,14 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   replySearchArray: any = [];
   replyDropdown: boolean;
   getDisableQueryTo: any;
-  searchQueryId: any ='';
+  searchQueryId: any = '';
   searchChatMessages: any = [];
 
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
-    private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute, private location: Location, private pollingService: PollingService) { }
+    private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute, private location: Location, private pollingService: PollingService,
+    private changeDetector: ChangeDetectorRef) { }
 
   async ngOnInit() {
 
@@ -145,6 +152,14 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     })
 
     this.getLov();
+
+    const gotLeadData = this.activatedRoute.snapshot.data.data;
+    if (gotLeadData.Error === '0') {
+      const leadData = gotLeadData.ProcessVariables;
+      this.getCommonLeadData(gotLeadData)
+      this.isIntervalStart = true;
+    }
+
     if (environment.isMobile === true) { // 768px portrait
       this.isMobileView = true;
       document.getElementById("mySidenav").style.visibility = "visible";
@@ -162,6 +177,15 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngAfterContentChecked() {
+    this.changeDetector.detectChanges();
+  }
+
+  ngDoCheck() {
+    this.changeDetector.detectChanges();
+    // this.scrollToBottom();
+  }
+
   isCheckFropdownBut(chat, index) {
 
     if (this.isClickDropDown === index) {
@@ -176,7 +200,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   openOptionDropDown(index) {
     this.isClickDropDown = index;
     this.clickedIndex = null;
-    document.getElementById("chat-box").style.overflowY = "hidden";
+    // document.getElementById("chat-box").style.overflowY = "hidden";
   }
 
   getLov() {
@@ -184,14 +208,12 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       this.LOV = value.LOVS;
       this.queryModelLov.queryStatus = value.LOVS.queryStatus;
       this.queryModelLov.queryType = value.LOVS.queryType;
-      // this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((data) => {
-      //   if (data.key === 'OPNQUESTAT') {
-      //     return {
-      //       key: 'OPNQUESTAT,
-      //       value: 'Opened'
-      //     }
-      //   }
-      // })
+
+      this.initalQueryStatus = [{
+        key: 'OPNQUESTAT',
+        value: 'Opened'
+      }]
+      this.queryModelLov.queryStatus = this.initalQueryStatus;
     });
   }
 
@@ -237,6 +259,18 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     }
   }
 
+  scrollToBottom() {
+
+    let div = document.getElementById('chat-box');
+
+    const el: HTMLDivElement = this.el.nativeElement;
+    // let height = pbox.scrollTop() + pbox.height() + $('#postbox').filter('.chat_msg:last').scrollTop();
+    div.scrollTop = div.scrollHeight - div.offsetHeight;
+    this.scrolltop = Math.max(0, el.scrollHeight - el.offsetHeight)
+
+    // div.scrollTo(0, document.getElementById('chat-box').scrollHeight)
+  }
+
   async getLeads(sendObj, chatSearchKey?: string, searchKey?: string) {
 
     let data = {
@@ -253,15 +287,8 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       this.queryModelService.getLeads(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getCommonLeadData(res)
-          this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
-          if (this.selectedList) {
-            this.selectedList = this.chatList.find(obj => obj.key === this.selectedList.key)
-            this.getQueries(this.selectedList, true)
-          } else {
-            this.getQueries(this.chatList[0], true)
-          }
           this.isIntervalStart = true;
-          resolve()
+          resolve(true)
         } else {
           this.chatList = [];
           reject()
@@ -287,16 +314,16 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getCommonLeadData(res)
-          this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
-          if (this.selectedList) {
-            this.selectedList = this.chatList.find(obj => obj.key === this.selectedList.key)
-            this.getQueries(this.selectedList, true)
-          } else {
-            clearInterval(this.intervalId)
-          }
+          // this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
+          // if (this.selectedList) {
+          //   this.selectedList = this.chatList.find(obj => obj.key === this.selectedList.key)
+          //   this.getQueries(this.selectedList, true)
+          // }
+        } else {
+          clearInterval(this.intervalId)
         }
       })
-    }, 300000)
+    }, 600000)
   }
 
   getCommonLeadData(res) {
@@ -305,6 +332,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     this.queryLeads = res.ProcessVariables.queryLeads ? res.ProcessVariables.queryLeads : [];
 
     if (this.routerId && this.queryLeads.length > 0) {
+
       const test = this.queryLeads.find((val) => {
         return (val.key === this.routerId)
       })
@@ -314,9 +342,17 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         leadId: Number(this.routerId)
       })
 
+      this.getUsers();
+
       if (res.ProcessVariables.chatLeads && res.ProcessVariables.chatLeads.length > 0) {
         let index;
         let findChat: any = this.chatList;
+
+        let emptyLeadData = {
+          count: 0,
+          key: this.routerId,
+          value: test ? test.value : '',
+        }
 
         findChat.find((chat, i) => {
           if (chat.key === this.routerId) {
@@ -324,11 +360,26 @@ export class QueryModelComponent implements OnInit, OnDestroy {
             return chat;
           }
         })
+
+        this.selectedList = findChat;
         let spliceChat = findChat.splice(index, 1)
         this.chatList.unshift(spliceChat[0])
-      } else {
-        this.getUsers();
+
+        if (this.chatList[0].key !== this.routerId) {
+          this.chatList.unshift(emptyLeadData)
+        }
+        this.getQueries(this.chatList[0], true)
       }
+    } else {
+      this.selectedList = this.conditionalClassArray[this.conditionalClassArray.length - 1];
+
+      if (this.selectedList) {
+        this.selectedList = this.chatList.find(obj => obj.key === this.selectedList.key)
+        this.getQueries(this.selectedList, true)
+      } else {
+        this.getQueries(this.chatList[0], true)
+      }
+      this.isIntervalStart = true;
     }
   }
 
@@ -386,13 +437,12 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       this.getUsers();
       this.queryModelService.getQueries(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          lead.count = 0;
           if (this.isMobileView) {
             this.closeNav();
           }
           this.getChatsObj = res.ProcessVariables;
           this.chatMessages = res.ProcessVariables.assetQueries ? res.ProcessVariables.assetQueries : [];
-          this.searchChatMessages =  this.chatMessages;
+          this.searchChatMessages = this.chatMessages;
           this.isReplyToArray = this.chatMessages.filter((val, i) => {
             val.time = this.myDateParser(val.createdOn)
             return {
@@ -452,7 +502,7 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     }
 
     this.isLeadShow = (value === '') ? false : true;
-    if (value.length >= 3) {
+    if (value.length >= 1) {
       this.getSearchableLead = this.queryLeads.filter(e => {
         value = value.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
@@ -475,14 +525,13 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     }
   }
 
-
   getvalue(enteredValue: string) {
 
     if (enteredValue && enteredValue.length > 0) {
       this.queryToDeductValue = true;
     }
 
-    if (enteredValue.length >= 3) {
+    if (enteredValue.length >= 1) {
       this.searchLead = this.queryModelLov.queryTo.filter(e => {
         enteredValue = enteredValue.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
@@ -518,6 +567,10 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         repliedTo: null
       })
       this.replyDropdown = false;
+      this.queryModalForm.get('searchText').enable();
+      this.queryModalForm.get('queryType').enable();
+
+      this.queryModelLov.queryStatus = this.initalQueryStatus;
     }
 
   }
@@ -528,10 +581,32 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     this.getvalue(val.queryTo);
     this.dropDown = false;
     this.queryModalForm.patchValue({
+      query: val.query,
+      queryType: val.queryType,
+      queryFrom: this.userId,
+      searchText: this.getDisableQueryTo.value,
+      queryTo: val.key,
       repliedTo: val.queryId,
-      queryTo: val.queryTo,
-      searchText: this.getDisableQueryTo.value
+      queryStatus: val.queryStatus
     })
+
+    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((status) => {
+      if (status.key !== 'OPNQUESTAT') {
+
+        if (val.queryFrom === this.userId) {
+          return {
+            key: status.key,
+            value: status.value
+          }
+        } else if (status.key !== 'REOPNQUESTAT' && status.key !== 'CLOSEQUESTAT') {
+          return {
+            key: status.key,
+            value: status.value
+          }
+        }
+      }
+    })
+    this.queryModalForm.get('queryType').disable()
     this.queryModalForm.get('searchText').disable()
   }
 
@@ -553,7 +628,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     });
   }
 
-
   getDocuments(searchValue: string) {
 
     this.queryModelLov.documents = this.documents.filter(e => {
@@ -573,19 +647,34 @@ export class QueryModelComponent implements OnInit, OnDestroy {
   }
 
   searchQueryIdMessage(val: string) {
+    let queryMessage = [];
 
-    this.searchChatMessages = this.chatMessages.filter((mes: any) => {
+    let messge;
+
+    this.searchChatMessages = this.chatMessages.filter((mes: any, i) => {
       val = val.toString().toLowerCase();
-      console.log(mes, 'mes')
-
       if (mes.queryId) {
-        const eName = mes.queryId.toString().toLowerCase();
-        if (eName.includes(val)) {
-          return mes;
+        const eQueryId = mes.queryId.toString().toLowerCase();
+        if (eQueryId.includes(val)
+        ) {
+
+          queryMessage = this.chatMessages.filter((res) => {
+            if (mes.parentQueryId) {
+              if (mes.parentQueryId === res.parentQueryId || mes.parentQueryId === res.queryId) {
+                return res;
+              }
+            } else if (mes.queryId === res.parentQueryId || mes.queryId === res.queryId) {
+              return res
+            } else {
+              mes
+            }
+          })
+          return queryMessage
         }
       }
-
     })
+
+    this.searchChatMessages = queryMessage;
 
   }
 
@@ -643,8 +732,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
 
     if (form.valid && form.controls['query'].value.trim().length !== 0) {
 
-      // let assetQueries = [];
-
       let assetQueries = [{
         query: form.controls['query'].value.trim(),
         queryType: form.controls['queryType'].value,
@@ -656,7 +743,6 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         queryStatus: form.controls['queryStatus'].value,
       }]
 
-
       let data = {
         "leadId": Number(form.value.leadId),
         "assetQueries": assetQueries
@@ -666,14 +752,32 @@ export class QueryModelComponent implements OnInit, OnDestroy {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.queryModalForm.patchValue({
             queryFrom: localStorage.getItem('userId'),
-            query: ''
+            query: ' ',
+            docId: '',
+            docName: ''
           })
           this.queryModalForm.get('queryType').enable()
           this.queryModalForm.get('searchText').enable()
           this.queryModalForm.get('repliedTo').enable()
           this.queryModalForm.get('queryTo').enable()
-          this.getLeads(this.getLeadSendObj);
 
+          const test = this.queryLeads.find((val) => {
+            return (val.key === this.routerId)
+          })
+
+          // this.queryModalForm.patchValue({
+          //   searchLeadId: test ? test.value : '',
+          //   leadId: Number(form.value.leadId)
+          // })
+
+          // let emptyLeadData = {
+          //   key: form.value.leadId,
+          //   value: test ? test.value : '',
+          //   count: 0
+          // }
+
+          // this.selectedList = emptyLeadData;
+          this.getLeads(this.getLeadSendObj);
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Query Model Save/Update')
         }
@@ -792,6 +896,64 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     });
   }
 
+  async downloadAllFiles(documentId: string, index: number, event) {
+
+    let el = event.srcElement;
+
+    if (!documentId) {
+      return;
+    }
+
+    let collateralId = this.leadSectionData['vehicleCollateral'] ? this.leadSectionData['vehicleCollateral'][0] : this.leadSectionData['applicantDetails'][0];
+
+    if (!collateralId) {
+      return;
+    }
+
+    const bas64String = this.base64StorageService.getString(
+      collateralId.collateralId + documentId
+    );
+    if (bas64String) {
+      this.setContainerPosition(el);
+      this.showDraggableContainer = {
+        imageUrl: bas64String.imageUrl,
+        imageType: bas64String.imageType,
+      };
+      this.draggableContainerService.setContainerValue({
+        image: this.showDraggableContainer,
+        css: this.setCss,
+      });
+      return;
+    }
+    const imageValue: any = await this.getBase64String(documentId);
+    if (imageValue.imageType.includes('xls')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/vnd.ms-excel');
+      return;
+    }
+    if (imageValue.imageType.includes('doc')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
+      return;
+    }
+    if (imageValue.imageType.includes('png')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/png');
+
+    }
+
+    if (imageValue.imageType.includes('pdf')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/pdf');
+
+    }
+
+    if (imageValue.imageType.includes('jpeg')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'image/jpeg');
+    }
+
+    if (imageValue.imageType.includes('tiff')) {
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'image/tiff');
+    }
+
+  }
+
   getBase64String(documentId) {
     return new Promise((resolve, reject) => {
       this.uploadService
@@ -867,19 +1029,32 @@ export class QueryModelComponent implements OnInit, OnDestroy {
     return blob;
   }
 
-  openOptions(data, i) {
+  openOptions(selectedData, i) {
     this.isClickDropDown = null;
     this.clickedIndex = null;
-    let queryTo = this.userId === data.queryFrom ? data.queryTo : data.queryFrom;
+    let queryTo = this.userId === selectedData.queryFrom ? selectedData.queryTo : selectedData.queryFrom;
 
-    let fileterData = this.queryModelLov.queryTo.find((res: any) => {
-      return res.key === queryTo;
-    })
+    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((status: any) => {
 
-    this.queryModelLov.queryStatus = this.LOV.queryStatus.filter((status) => {
       if (status.key !== 'OPNQUESTAT') {
+        if (selectedData.parentQueryId) {
 
-        if (data.queryFrom === this.userId) {
+          let data = this.chatMessages.filter((res) => {
+
+            if (selectedData.parentQueryId === res.queryId && res.queryFrom === this.userId) {
+              return {
+                key: status.key,
+                value: status.value
+              }
+            } else if (status.key !== 'REOPNQUESTAT' && status.key !== 'CLOSEQUESTAT') {
+              return {
+                key: status.key,
+                value: status.value
+              }
+            }
+          })
+          return data
+        } else if (selectedData.queryFrom === this.userId) {
           return {
             key: status.key,
             value: status.value
@@ -893,23 +1068,46 @@ export class QueryModelComponent implements OnInit, OnDestroy {
       }
     })
 
+    let fileterData = this.queryModelLov.queryTo.find((res: any) => {
+      return res.key === queryTo;
+    })
+
     this.queryModalForm.patchValue({
-      query: data.query,
-      queryType: data.queryType,
+      queryType: selectedData.queryType,
       queryFrom: this.userId,
       searchText: fileterData.value,
       queryTo: fileterData.key,
-      repliedTo: data.queryId,
-      queryStatus: data.queryStatus
+      repliedTo: selectedData.queryId,
+      queryStatus: ''
     })
 
     this.queryModalForm.get('queryType').disable()
     this.queryModalForm.get('searchText').disable()
-    this.queryModalForm.get('repliedTo').disable()
 
     this.isClickButton = i;
-    document.getElementById("chat-box").style.overflowY = "auto";
+  }
 
+  updateStatus(data) {
+
+    let bodyResponse = {
+      "leadId": this.queryModalForm.controls['leadId'].value,
+      "queryId": data.queryId,
+      "queryStatus": 'CLOSEQUESTAT'
+    }
+
+    this.queryModelService.updateQueryStatus(bodyResponse).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.getLeads(this.getLeadSendObj);
+      }
+    })
+
+  }
+
+  autoPopulateQueryType(resVal) {
+    this.queryModalForm.patchValue({
+      queryTo: resVal.key,
+      searchText: resVal.value
+    })
   }
 
 }

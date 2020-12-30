@@ -109,6 +109,10 @@ export class ReferenceComponent implements OnInit {
   apiValue: any;
   finalValue: any;
   isLoan360: boolean;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId: any;
+  udfGroupId: any;
 
   constructor(
     private commonLovService: CommomLovService,
@@ -144,6 +148,13 @@ export class ReferenceComponent implements OnInit {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.currentUrl = this.location.path();
+    if (this.currentUrl.includes('sales')) {
+      this.udfGroupId = 'RDG001'
+      this.udfScreenId = 'RDS001'
+    } else if (this.currentUrl.includes('dde')) {
+      this.udfGroupId = 'RDG001'
+      this.udfScreenId = 'RDS002'
+    }
     if (this.currentUrl) {
       this.leadId = (await this.getLeadId()) as number;
     };
@@ -157,7 +168,7 @@ export class ReferenceComponent implements OnInit {
       refOneFirstName: new FormControl('', Validators.required),
       refOneMiddleName: new FormControl(''),
       refOneLastName: new FormControl('', Validators.required),
-      refOneFullName: new FormControl({value: '', disabled: true}),
+      refOneFullName: new FormControl({ value: '', disabled: true }),
       refOneAddressLineOne: new FormControl('', Validators.required),
       refOneAddressLineTwo: new FormControl(''),
       refOneAddressLineThree: new FormControl(''),
@@ -172,7 +183,7 @@ export class ReferenceComponent implements OnInit {
       refTwoFirstName: new FormControl('', Validators.required),
       refTwoMiddleName: new FormControl(''),
       refTwoLastName: new FormControl('', Validators.required),
-      refTwoFullName: new FormControl({value: '', disabled: true}),
+      refTwoFullName: new FormControl({ value: '', disabled: true }),
       refTwoAddressLineOne: new FormControl('', Validators.required),
       refTwoAddressLineTwo: new FormControl(''),
       refTwoAddressLineThree: new FormControl(''),
@@ -350,7 +361,7 @@ export class ReferenceComponent implements OnInit {
           if (district && district.length === 1) {
             this.referenceForm.patchValue({ refOneDistrict: district[0].key });
           }
-          if(this.responseData){
+          if (this.responseData) {
             if (this.responseData[0] && this.refOneBool) {
               this.referenceForm.patchValue({
                 refOneCity: this.responseData[0].city,
@@ -358,7 +369,7 @@ export class ReferenceComponent implements OnInit {
               this.refOneBool = false;
             }
           }
-         
+
         } else {
           this.refTwoPincodeDummy = String(pincode);
           this.referenceForm.patchValue({ refTwoCountry: '' });
@@ -379,7 +390,7 @@ export class ReferenceComponent implements OnInit {
           if (district && district.length === 1) {
             this.referenceForm.patchValue({ refTwoDistrict: district[0].key });
           }
-          if(this.responseData){
+          if (this.responseData) {
             if (this.responseData[1] && this.refTwoBool) {
               this.referenceForm.patchValue({
                 refTwoCity: this.responseData[1].city,
@@ -387,7 +398,7 @@ export class ReferenceComponent implements OnInit {
               this.refTwoBool = false;
             }
           }
-         
+
         }
 
         this.apiValue = this.referenceForm.getRawValue();
@@ -395,7 +406,10 @@ export class ReferenceComponent implements OnInit {
   }
 
   getReferencesData() {
-    this.applicantService.getApplicantReference(this.leadId)
+    const udfData= {
+        udfGroupId: this.udfGroupId,
+    }
+    this.applicantService.getApplicantReference(this.leadId, udfData)
       .subscribe(
         (res: any) => {
           const response = res;
@@ -405,53 +419,54 @@ export class ReferenceComponent implements OnInit {
 
           if (appiyoError === '0' && apiError === '0') {
             console.log('FetchApplicantReference', response.ProcessVariables);
+            this.udfDetails = response.ProcessVariables.udfDetails;
             this.responseData = response.ProcessVariables.ApplicantReference;
-            if (this.responseData != null && this.responseData.length >0){
-            this.refOneId = response.ProcessVariables.ApplicantReference[0].id;
-            this.refTwoId = response.ProcessVariables.ApplicantReference[1].id;
-            console.log('refID', this.refOneId, this.refTwoId);
+            if (this.responseData != null && this.responseData.length > 0) {
+              this.refOneId = response.ProcessVariables.ApplicantReference[0].id;
+              this.refTwoId = response.ProcessVariables.ApplicantReference[1].id;
+              console.log('refID', this.refOneId, this.refTwoId);
 
-            const refOne = 'refOnePincode_id';
-            const refOnecode = this.responseData[0].pincode;
-            const refTwo = 'refTwoPincode_id';
-            const refTwocode = this.responseData[1].pincode;
-            this.getPincodeResult(refOnecode, refOne);
-            this.getPincodeResult(refTwocode, refTwo);
+              const refOne = 'refOnePincode_id';
+              const refOnecode = this.responseData[0].pincode;
+              const refTwo = 'refTwoPincode_id';
+              const refTwocode = this.responseData[1].pincode;
+              this.getPincodeResult(refOnecode, refOne);
+              this.getPincodeResult(refTwocode, refTwo);
 
-            this.referenceForm.patchValue({
-              refOneFirstName: this.responseData[0].firstName,
-              refOneMiddleName: (this.responseData[0].middleName == null) ? '' : this.responseData[0].middleName,
-              refOneLastName: (this.responseData[0].lastName == null) ? '' : this.responseData[0].lastName,
-              // refOneFullName: this.responseData[0].fullName,
-              refOneAddressLineOne: this.responseData[0].addLine1,
-              refOneAddressLineTwo: this.responseData[0].addLine2,
-              refOneAddressLineThree: this.responseData[0].addLine3,
-              refOnePincode: this.responseData[0].pincode,
-              refOnePhoneNumber: this.responseData[0].phoneNumber,
-              refOneRelationship: this.responseData[0].relationWithApplicant,
+              this.referenceForm.patchValue({
+                refOneFirstName: this.responseData[0].firstName,
+                refOneMiddleName: (this.responseData[0].middleName == null) ? '' : this.responseData[0].middleName,
+                refOneLastName: (this.responseData[0].lastName == null) ? '' : this.responseData[0].lastName,
+                // refOneFullName: this.responseData[0].fullName,
+                refOneAddressLineOne: this.responseData[0].addLine1,
+                refOneAddressLineTwo: this.responseData[0].addLine2,
+                refOneAddressLineThree: this.responseData[0].addLine3,
+                refOnePincode: this.responseData[0].pincode,
+                refOnePhoneNumber: this.responseData[0].phoneNumber,
+                refOneRelationship: this.responseData[0].relationWithApplicant,
 
-              refTwoFirstName: this.responseData[1].firstName,
-              refTwoMiddleName: (this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName,
-              refTwoLastName: (this.responseData[1].lastName == null) ? '' : this.responseData[1].lastName,
-              // refTwoFullName: this.responseData[1].fullName,
-              refTwoAddressLineOne: this.responseData[1].addLine1,
-              refTwoAddressLineTwo: this.responseData[1].addLine2,
-              refTwoAddressLineThree: this.responseData[1].addLine3,
-              refTwoPincode: this.responseData[1].pincode,
-              refTwoPhoneNumber: this.responseData[1].phoneNumber,
-              refTwoRelationship: this.responseData[1].relationWithApplicant
-            });
+                refTwoFirstName: this.responseData[1].firstName,
+                refTwoMiddleName: (this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName,
+                refTwoLastName: (this.responseData[1].lastName == null) ? '' : this.responseData[1].lastName,
+                // refTwoFullName: this.responseData[1].fullName,
+                refTwoAddressLineOne: this.responseData[1].addLine1,
+                refTwoAddressLineTwo: this.responseData[1].addLine2,
+                refTwoAddressLineThree: this.responseData[1].addLine3,
+                refTwoPincode: this.responseData[1].pincode,
+                refTwoPhoneNumber: this.responseData[1].phoneNumber,
+                refTwoRelationship: this.responseData[1].relationWithApplicant
+              });
 
-            this.refOnefirstName = `${this.responseData[0].firstName}`;
-            this.refOnemiddleName = `${(this.responseData[0].middleName == null) ? '' : this.responseData[0].middleName}`;
-            this.refOnelastName = `${(this.responseData[0].lastName == null) ? '' : this.responseData[0].lastName}`;
+              this.refOnefirstName = `${this.responseData[0].firstName}`;
+              this.refOnemiddleName = `${(this.responseData[0].middleName == null) ? '' : this.responseData[0].middleName}`;
+              this.refOnelastName = `${(this.responseData[0].lastName == null) ? '' : this.responseData[0].lastName}`;
 
-            this.refTwofirstName = `${this.responseData[1].firstName}`;
-            this.refTwomiddleName = `${(this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName}`;
-            this.refTwolastName = `${(this.responseData[1].lastName == null) ? '' : this.responseData[1].lastName}`;
-          }
-          console.log('hello')
-            
+              this.refTwofirstName = `${this.responseData[1].firstName}`;
+              this.refTwomiddleName = `${(this.responseData[1].middleName == null) ? '' : this.responseData[1].middleName}`;
+              this.refTwolastName = `${(this.responseData[1].lastName == null) ? '' : this.responseData[1].lastName}`;
+            }
+            console.log('hello')
+
           } else {
             const message = response.ProcessVariables.error.message;
             this.toasterService.error(message, 'Reference Details');
@@ -470,9 +485,11 @@ export class ReferenceComponent implements OnInit {
     const formValue = this.referenceForm.getRawValue();
     console.log('referenceformValue', formValue);
     this.isDirty = true;
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     if (this.referenceForm.valid === true
       && !this.isMobileOneErrorMsg
-      && !this.isMobileOneErrorMsg) {
+      && !this.isMobileOneErrorMsg 
+      && !isUDFInvalid) {
       const data: any = { ...formValue };
       this.applicantReferences = [
         {
@@ -509,8 +526,15 @@ export class ReferenceComponent implements OnInit {
         }
       ];
 
+      const udfData = this.userDefineForm? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : "";
+      const udf ={
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }
+
       console.log('applicantReference', this.applicantReferences);
-      this.applicantService.saveUpdateApplicantReference(this.leadId, this.applicantReferences)
+      this.applicantService.saveUpdateApplicantReference(this.leadId, this.applicantReferences, udf)
         .subscribe(
           (res: any) => {
             const response = res;
@@ -593,6 +617,11 @@ export class ReferenceComponent implements OnInit {
         resolve(null);
       });
     });
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
   }
 
 }

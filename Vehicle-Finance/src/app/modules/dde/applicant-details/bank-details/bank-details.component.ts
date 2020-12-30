@@ -16,6 +16,7 @@ import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { debounceTime } from 'rxjs/operators';
 
 // import * as $ from 'jquery';
 
@@ -75,6 +76,14 @@ export class BankDetailsComponent implements OnInit {
   todayDateNew: any = new Date();
   isLimitRequire = false;
   submitForm = false;
+  isToDate = false;
+
+  // User defined
+  udfScreenId: any = 'APS018';
+  udfGroupId: any = 'APG010';
+  udfDetails: any = [];
+  userDefineForm: any;
+
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -156,7 +165,7 @@ export class BankDetailsComponent implements OnInit {
     console.log(this.f);
   }
   get f() {
-    console.log(this.bankForm.controls, ' contrl f');
+    // console.log(this.bankForm.controls, ' contrl f');
     return this.bankForm.controls;
   }
   getApplicantId() {
@@ -214,11 +223,21 @@ export class BankDetailsComponent implements OnInit {
     });
   }
   getBankDetails() {
+    const data = {
+      applicantId: this.applicantId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
+    }
     this.bankTransaction
-      .getBankDetails({ applicantId: this.applicantId })
+      .getBankDetails(data)
       .subscribe((res: any) => {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
+        this.udfDetails = res.ProcessVariables.udfDetails;
         console.log(this.bankDetailsNew, ' bank details new');
         if (this.bankDetailsNew) {
           // tslint:disable-next-line: prefer-for-of
@@ -320,7 +339,7 @@ export class BankDetailsComponent implements OnInit {
   onSave() {
     this.submitForm = true;
     this.isDirty = true;
-    if (this.bankForm.invalid) {
+    if (this.bankForm.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showError(
         'Mandatory Fields Missing ',
         'Bank Transactions'
@@ -370,6 +389,11 @@ export class BankDetailsComponent implements OnInit {
     }
     this.bankForm.value.transactionDetails = transactionArray;
     // console.log(this.bankForm.value.transactionDetails);
+    this.bankForm.value.udfDetails =  [{
+      "udfGroupId": this.udfGroupId,
+      // "udfScreenId": this.udfScreenId,
+      "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+    }]
 
     this.bankTransaction
       .setTransactionDetails(this.bankForm.value)
@@ -414,52 +438,51 @@ export class BankDetailsComponent implements OnInit {
       ? this.bankForm.value.toDate
       : new Date();
     this.todayDateNew = toDate;
+    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
+      this.isToDate = true;
+    } else {
+      this.isToDate = false
+    }
     this.getMonths();
   }
 
-  getMonths() {
+  async getMonths() {
+    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
+      this.isToDate = true;
+    } else {
+      this.isToDate = false
+    }
     const tempArray: Array<any> = this.listArray.value;
     console.log('temp array', tempArray);
-    setTimeout(() => {
-      if (this.OldToDate && this.OldFromDate) {
-        const txt = confirm('Are You Sure Want To Change Dates ?');
-        if (txt === false) {
-          return;
-        }
-      }
-    }, 1000);
-    
+    // setTimeout(() => {
+    // }, 1000);
+
     const fromDate = new Date(this.bankForm.value.fromDate)
       ? new Date(this.bankForm.value.fromDate)
       : null;
     const toDate = new Date(this.bankForm.value.toDate)
       ? new Date(this.bankForm.value.toDate)
       : null;
-    setTimeout(() => {
-      if (fromDate > toDate) {
-        this.toasterService.showWarning('Invalid Date Selection', '');
-        if (this.OldFromDate || this.OldToDate) {
-          // this.listArray.controls = [];
-          const date = new Date(this.OldFromDate);
-          this.bankForm.patchValue({
-            fromDate: this.OldFromDate,
-            toDate: this.OldFromDate,
-          });
-        }
-        return;
-      }
-    }, 2000);
+    const fromDateLength = fromDate.getFullYear().toString().length;
+    const toDateLength = toDate.getFullYear().toString().length;
+    if (fromDateLength == 4 &&  toDateLength == 4) {
+      // await  this.checkDates(fromDate, toDate);
 
-    const fromDateNew = this.bankForm.value.fromDate;
-    const toDateNew = this.bankForm.value.toDate;
-    this.OldFromDate = fromDateNew;
-    this.OldToDate = toDateNew;
-    const diff = toDate.getMonth() - fromDate.getMonth();
-    const numberOfMonths = Math.round(
+
+    // setTimeout(async () => {
+
+    // }, 2000);
+
+      const fromDateNew = this.bankForm.value.fromDate;
+      const toDateNew = this.bankForm.value.toDate;
+      this.OldFromDate = fromDateNew;
+      this.OldToDate = toDateNew;
+      const diff = toDate.getMonth() - fromDate.getMonth();
+      const numberOfMonths = Math.round(
       (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
       (toDate.getMonth() - fromDate.getMonth()) + 1);
 
-    if (
+      if (
       diff === undefined ||
       (diff === null && fromDate.getFullYear() > toDate.getFullYear())
     ) {
@@ -527,6 +550,7 @@ export class BankDetailsComponent implements OnInit {
         }
       }
     }
+  }
     // this.assignedArray.forEach(
     //   monName =>
     //     {
@@ -544,4 +568,31 @@ export class BankDetailsComponent implements OnInit {
   onBackToApplicant() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
+
+  async checkDates(fromDate: Date, toDate: Date) {
+  if (this.OldToDate && this.OldFromDate) {
+        const txt = confirm('Are You Sure Want To Change Dates ?');
+        if (txt === false) {
+          return;
+        } else if (( fromDate > toDate ) && txt === true ) {
+          if (this.OldFromDate && this.OldToDate) {
+            // this.listArray.controls = [];
+            this.toasterService.showWarning('Invalid Date Selection', '');
+            const date = new Date(this.OldFromDate);
+            this.bankForm.patchValue({
+              fromDate: this.OldFromDate,
+              toDate: this.OldFromDate,
+            });
+          }
+          return;
+        }
+      }
+
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
+  }
+
 }

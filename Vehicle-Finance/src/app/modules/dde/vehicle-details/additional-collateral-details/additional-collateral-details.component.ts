@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -17,7 +17,7 @@ import { LoanViewService } from '@services/loan-view.service';
     templateUrl: './additional-collateral-details.component.html',
     styleUrls: ['./additional-collateral-details.component.css']
 })
-export class AdditionalCollateralComponent implements OnInit {
+export class AdditionalCollateralComponent implements OnInit, OnDestroy {
 
     collateralForm: FormGroup;
     public label: any = {};
@@ -37,6 +37,13 @@ export class AdditionalCollateralComponent implements OnInit {
     disableSaveBtn: boolean;
 
     typeOfApplicant: any;
+    subscription: any;
+
+    // user defined Fields
+    udfScreenId: string = 'CLS007';
+    udfGroupId: string = 'CLG003';
+    udfDetails: any = [];
+    userDefineForm: any;
 
     constructor(private _fb: FormBuilder, private labelsData: LabelsService, private createLeadDataService: CreateLeadDataService, private collateralDataService: CollateralDataStoreService,
         private commonLovService: CommomLovService, private utilityService: UtilityService, private collateralService: CollateralService, private toggleDdeService: ToggleDdeService,
@@ -312,7 +319,18 @@ export class AdditionalCollateralComponent implements OnInit {
     }
 
     setFormValue(id) {
-        this.collateralService.getAdditionalCollateralsDetails(Number(id)).subscribe((res: any) => {
+
+        let data = {
+            "collateralId": Number(id),
+            "udfDetails": [
+                {
+                    "udfGroupId": this.udfGroupId,
+                    // "udfScreenId": this.udfScreenId
+                }
+            ]
+        }
+
+        this.subscription = this.collateralService.getAdditionalCollateralsDetails(data).subscribe((res: any) => {
             setTimeout(() => {
                 const operationType = this.toggleDdeService.getOperationType();
                 if (operationType) {
@@ -328,6 +346,8 @@ export class AdditionalCollateralComponent implements OnInit {
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                 let collateralDetail = res.ProcessVariables.aAdditionalCollaterals ? res.ProcessVariables.aAdditionalCollaterals : {};
                 this.collateralDataService.setAdditionalCollateralList(collateralDetail);
+
+                this.udfDetails = res.ProcessVariables.udfDetails ? res.ProcessVariables.udfDetails : [];
 
                 const formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
 
@@ -393,7 +413,7 @@ export class AdditionalCollateralComponent implements OnInit {
 
         let formArray = (this.collateralForm.get('collateralFormArray') as FormArray);
 
-        if (form.valid && formArray.controls[0].valid) {
+        if (form.valid && formArray.controls[0].valid && this.userDefineForm.udfData.valid) {
             let additionalCollaterals = {}
 
             additionalCollaterals = formArray.controls[0].value;
@@ -405,7 +425,12 @@ export class AdditionalCollateralComponent implements OnInit {
             const data = {
                 "userId": this.userId,
                 "leadId": this.leadId,
-                "additionalCollaterals": additionalCollaterals
+                "additionalCollaterals": additionalCollaterals,
+                "udfDetails": [{
+                    "udfGroupId": this.udfGroupId,
+                    // "udfScreenId": this.udfScreenId,
+                    "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+                }]
             }
 
             this.collateralService.saveOrUpdateAdditionalCollaterals(data).subscribe((res: any) => {
@@ -423,4 +448,13 @@ export class AdditionalCollateralComponent implements OnInit {
             this.toasterService.showError('Please enter all mandatory field', 'Additional Collateral Detail')
         }
     }
+
+    onSaveuserDefinedFields(event) {
+        this.userDefineForm = event;
+    }
+
+    ngOnDestroy() {
+        // this.subscription.unsubscribe()
+    }
+
 }

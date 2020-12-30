@@ -1,15 +1,13 @@
 <main [ngClass]="{'mar-top90': !isLoan360}">
   <app-lead-section-header *ngIf="!isLoan360"></app-lead-section-header>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-6">
-          <h3 class="margin_zero">Post Disbursement Documentation</h3>
-        </div>
-        <div class="col-md-6 text-right"></div>
-      </div>
+    <div class="container-fluid mar-top">
+     
   
       <div class="content" [formGroup]="pddForm">
         <form formGroupName="loanForm">
+          <div class="row">       
+            <h3 class="banner-con">Post Disbursement Documentation</h3>        
+          </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
               <label for="middle_name">Loan Number</label>
@@ -162,15 +160,15 @@
         <ng-container >
         <div  formGroupName="processForm">
           <div class="row" >
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          
               <!-- <label for="middle_name">ORC Process</label> -->
-              <h3 class="h3-margin">ORC Process</h3>
+              <h3 class="banner-con">ORC Process</h3>
               <!-- <app-custom-input
                 formControlName="orcProcess"
                 [className]="'form-control mandatory'"
                 >
               </app-custom-input> -->
-            </div>
+           
           </div>
           <div class="row" *ngIf="isSales">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -263,6 +261,8 @@
               </div>
             </form>
           </ng-container>
+          <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
           <div class="btn-sec clear-both row" *ngIf="isSales">
             <!-- <div class="col-sm-4 text-right">
               <a id="back_vehicle_details"

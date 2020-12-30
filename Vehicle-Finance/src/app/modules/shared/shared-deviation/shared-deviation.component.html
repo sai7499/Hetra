@@ -1,16 +1,16 @@
-<form class="multisteps-form__form" [formGroup]="deviationsForm">
+<form class="multisteps-form__form p-0" [formGroup]="deviationsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
     <ng-container formArrayName="waiverNormsFormArray">
 
       <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit && isWaiverTrigger">
-        <button class="btn mar-right8 btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
+        <button class="btn btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
           Norms</button>
       </div>
 
       <div *ngIf="deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
 
-        <h3 class="cus-title margin_zero">{{labels?.waiverDeviation}}</h3>
+        <h3 class="banner-con">{{labels?.waiverDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -98,21 +98,20 @@
 
     <div
       *ngIf="isSendBacktoCredit && isWaiverTrigger || deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
-      <hr>
     </div>
 
     <ng-container formArrayName="autoDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
-      <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
-        <button class="btn mar-right8 btn-primary" type="button"
-          (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
-      </div>
-    </ng-container>
+        <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
+          <button class="btn btn-primary" type="button"
+            (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
+        </div>
+      </ng-container>
 
       <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="cus-title margin_zero">{{labels?.autoDeviation}}</h3>
+        <h3 class="banner-con">{{labels?.autoDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -181,28 +180,23 @@
             </tr>
           </tbody>
         </table>
-
       </div>
-
     </ng-container>
-
-    <div *ngIf="!isSubmitToCredit || deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
-      <hr>
-    </div>
+    <hr class="mar-5">
 
     <ng-container formArrayName="manualDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
         <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
-          <button class="btn mar-right8 btn-primary" type="button"
+          <button class="btn mb-5 btn-primary" type="button"
             (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
         </div>
       </ng-container>
-      
+
 
       <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="cus-title margin_zero">{{labels?.manualDeviation}}</h3>
+        <h3 class="banner-con">{{labels?.manualDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -312,7 +306,7 @@
 
     <div class="row" *ngIf="recommendationArray.length > 0">
 
-      <h3 class="margin_zero">{{labels?.recommendation}}</h3>
+      <h3 class="banner-con">{{labels?.recommendation}}</h3>
 
       <div class="table-responsive">
         <table class="table" id="recommendation_table">
@@ -361,8 +355,8 @@
             </app-vf-custom-select>
           </div>
         </div>
-        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!deviationsForm.controls['approverRole'].value"
+        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal"
+          data-target="#referRecommedation" [disabled]="!deviationsForm.controls['approverRole'].value"
           (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
       </div>
       <div class="col-sm-3 row text-right" *ngIf="!isLoan360">
@@ -398,7 +392,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Are you sure want {{selectDeviationId === 0 ? 'remove ' : 'delete '}} deviation
+        Are you sure you want to {{selectDeviationId === 0 ? 'remove ' : 'delete '}} deviation?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-dismiss="modal"
@@ -417,7 +411,7 @@
 
 <div class="modal fade" id="referRecommedation" role="dialog">
   <div class="modal-dialog">
-    <form class="multisteps-form__form" [formGroup]="modalForm">
+    <form class="multisteps-form__form p-0" [formGroup]="modalForm">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>

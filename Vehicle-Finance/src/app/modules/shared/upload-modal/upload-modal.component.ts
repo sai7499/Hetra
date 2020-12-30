@@ -355,4 +355,8 @@ export class UploadModalComponent {
   onBackPressed(){
     this.inAppCamera= false;
   }
+
+  onClosePressed() {
+    this.inAppCamera= false;
+  }
 }

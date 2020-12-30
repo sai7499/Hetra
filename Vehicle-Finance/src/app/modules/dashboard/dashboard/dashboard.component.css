@@ -1,3 +1,7 @@
+body{
+    overflow-x:hidden!important;
+}
+
 .actionbtn {
     padding: 20px 0 0 200px
 }
@@ -44,11 +48,15 @@
 
 .notification {
     position: relative;
-    top: -11px;
+    top: -9px;
     background: #f3682d;
     color: white;
-    right: 7px;
+    right: 9px;
     padding: 0.05rem .4rem;
+}
+
+.badge {
+    font-size: 9px !important;
 }
 
 .cus-bell {
@@ -301,8 +309,13 @@ h1 {
 
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
+    /* border-collapse: collapse;
+    margin: 0 auto; */
+    overflow-x:hidden;
+}
+
+table>td{
+    position: sticky;
 }
 
 
@@ -318,9 +331,12 @@ th {
     font-weight: 600;
 }
 
+tr:hover {background-color:#ddd;}
+
 td,
 th {
-    padding: 12px;
+    padding-top:10px;
+    padding-bottom:10px;
     border: 1px solid #ccc;
     text-align: left;
     text-align: center
@@ -361,7 +377,7 @@ th {
 
 /*Mobile View*/
 
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 767px) {
     table {
         table-layout: fixed;
     }
@@ -428,7 +444,12 @@ th {
     padding-bottom: 10px;
 }
 
-@media (min-width:260px) and (max-width:760px){
+.container-fluid{
+    padding-left:5px!important;
+    padding-right:5px!important;
+}
+
+@media (min-width:260px) and (max-width:767px){
 .btn-re{
     padding:2px!important;
     margin:3px!important;

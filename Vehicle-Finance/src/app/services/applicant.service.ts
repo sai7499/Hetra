@@ -394,6 +394,9 @@ export class ApplicantService {
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    console.log("Biometric Body"+body);
+    console.log("URL"+url);
+
     return this.httpService.post(url, body);
   }
 
@@ -451,7 +454,7 @@ export class ApplicantService {
     return this.httpService.post(url, body);
   }
 
-  saveUpdateApplicantReference(leadId, data) {
+  saveUpdateApplicantReference(leadId, data, udfData) {
     const projectId = this.applicantReferenceData.projectId;
     const processId = this.applicantReferenceData.processId;
     const workflowId = this.applicantReferenceData.workflowId;
@@ -464,14 +467,15 @@ export class ApplicantService {
       ProcessVariables: {
         userId: userId,
         lead_id: leadId,
-        applicantReferences: [...data]
+        applicantReferences: [...data],
+        udfDetails : [udfData]
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
 
-  getApplicantReference(leadId) {
+  getApplicantReference(leadId, udfData) {
     const projectId = this.getApplicantReferenceData.projectId;
     const processId = this.getApplicantReferenceData.processId;
     const workflowId = this.getApplicantReferenceData.workflowId;
@@ -482,7 +486,8 @@ export class ApplicantService {
       workflowId,
       projectId,
       ProcessVariables: {
-        leadId
+        leadId,
+        udfDetails : [udfData]
       },
     };
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;

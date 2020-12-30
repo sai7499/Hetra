@@ -6,7 +6,7 @@
                 <h4 class="cus-title title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
             </div>
             <div class="col-sm-7 text-right" id="add_vehicle_details_btn">
-                <button class="btn btn-primary" type="button" [disabled]="disableSaveBtn"
+                <button class="btn btn-primary" type="button" [disabled]="disableSaveBtn || isChildLoan"
                     [routerLink]="roleType === 1 ? ['../add-vehicle/0'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details/0']">{{label.addVehicle}}</button>
             </div>
         </div>
@@ -45,21 +45,26 @@
 
                         <ng-container *ngIf="isLoan360">
                             <a (click)="roleType === 1 ? editVehicle(item.collateralId, item.eligibleLoanAmount) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
-                            title="Edit collateral"><i class="fa fa-eye cursor-pointer" aria-hidden="true"></i></a>
+                                title="Edit collateral"><i class="fa fa-eye cursor-pointer" aria-hidden="true"></i></a>
                         </ng-container>
 
                         <ng-container *ngIf="!isLoan360">
                             <a (click)="roleType === 1 ? editVehicle(item.collateralId, item.eligibleLoanAmount) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
-                            title="Edit collateral"><i class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
-                        <a data-toggle="modal" data-target="#exampleModal" [ngClass]="{'pointer_non': disableSaveBtn }"
-                            (click)="softDeleteCollateral(i, item.collateralId, 'Collateral')"
-                            title="Delete collateral"><i class="fa fa-trash cursor-pointer" aria-hidden="true"></i></a>
+                                title="Edit collateral"><i class="fa fa-pencil cursor-pointer"
+                                    aria-hidden="true"></i></a>
+                            <a data-toggle="modal" data-target="#exampleModal"
+                                [ngClass]="{'pointer_non': disableSaveBtn || isChildLoan }"
+                                (click)="softDeleteCollateral(i, item.collateralId, 'Collateral')"
+                                title="Delete collateral"><i class="fa fa-trash cursor-pointer"
+                                    aria-hidden="true"></i></a>
                         </ng-container>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <!-- Additional Collateral -->
 
     <div style="margin-top: 15px;" *ngIf="roleType !== 1">
 
@@ -91,33 +96,33 @@
                         <td [attr.data-label]="label?.collateralType" data-title="Collateral Type">
                             {{obj.collateralType}}
                         </td>
-                        <td [attr.data-label]="label?.column2" data-title="Column 2">
+                        <td [attr.data-label]="label?.ownerName" data-title="Owner Name">
                             {{obj.ownerName}}
                         </td>
-                        <td [attr.data-label]="label?.column3" data-title="Column 3">
+                        <td [attr.data-label]="label?.applicantType" data-title="Applicant Type">
                             {{obj.applicantType}}
                         </td>
-                        <td [attr.data-label]="label?.column2" data-title="Column 2">
+                        <td [attr.data-label]="label?.relationshipWithApplicant" data-title="Relationship Type">
                             {{obj.relationship}}
                         </td>
-                        <td [attr.data-label]="label?.column3" data-title="Column 3">
+                        <td [attr.data-label]="label?.value" data-title="Value">
                             {{obj.value}}
                         </td>
                         <td [attr.data-label]="label?.action" data-title="Action">
 
                             <ng-container *ngIf="isLoan360">
                                 <a title="Edit collateral" (click)="editCollateralDetails(obj.collateralId)"><i
-                                    class="fa fa-eye cursor-pointer" aria-hidden="true"></i></a>
+                                        class="fa fa-eye cursor-pointer" aria-hidden="true"></i></a>
                             </ng-container>
 
                             <ng-container *ngIf="!isLoan360">
                                 <a title="Edit collateral" (click)="editCollateralDetails(obj.collateralId)"><i
-                                    class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
-                            <a data-toggle="modal" data-target="#exampleModal"
-                                [ngClass]="{'pointer_non': disableSaveBtn }"
-                                (click)="softDeleteCollateral(i, obj.collateralId, 'Additional Collateral')"
-                                title="Delete collateral"><i class="fa fa-trash cursor-pointer"
-                                    aria-hidden="true"></i></a>
+                                        class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
+                                <a data-toggle="modal" data-target="#exampleModal"
+                                    [ngClass]="{'pointer_non': disableSaveBtn }"
+                                    (click)="softDeleteCollateral(i, obj.collateralId, 'Additional Collateral')"
+                                    title="Delete collateral"><i class="fa fa-trash cursor-pointer"
+                                        aria-hidden="true"></i></a>
                             </ng-container>
                         </td>
                     </tr>
@@ -143,7 +148,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                Are you sure want delete {{ isCollateralSrting }} details
+                Are you sure you want to delete {{ isCollateralSrting }}?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-dismiss="modal" (click)="DeleteVehicleDetails()">

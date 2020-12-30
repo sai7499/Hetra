@@ -5,6 +5,8 @@ import { FieldInvestigationService } from '@services/fi/field-investigation.serv
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { CommomLovService } from '@services/commom-lov-service';
+import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-fi-list',
@@ -13,6 +15,7 @@ import { LoginStoreService } from '@services/login-store.service';
 })
 export class FiListComponent implements OnInit {
 
+  LOV: any;
   labels: any;
   leadId: number;
   fiList: Array<any>;
@@ -26,6 +29,32 @@ export class FiListComponent implements OnInit {
   pdStatusValue;
   productCatCode: string;
 
+  selectedApplicantId: any;
+  version:any;
+  applicantFullName: any;
+  fiResidenceDetails: any;
+  fiBusinessDetails: any;
+
+  fiContactPointVerification: any;
+  fiDetailsOfResidence: any;
+  fiLocality: any;
+  fiRnoofmonthsCity: string;
+  fiRnoofyearsCity: string;
+  fiRnoofmonthsResi: string;
+  fiRnoofyearsResi: string;
+
+  fiBContactPointVerification: any;
+  fiBpremises: any;
+  fiBofficeSize: any;
+
+  showTypeOfConcern: boolean;
+  custSegment: any;
+
+  currentDate: Date = new Date();
+  stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
+  currentTime: any;
+  isFiModal: boolean;
+
   constructor(
     private labelDetails: LabelsService,
     private router: Router,
@@ -33,8 +62,12 @@ export class FiListComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private fieldInvestigationService: FieldInvestigationService,
     private personalDiscussionService: PersonalDiscussionService,
-    private createLeadDataService: CreateLeadDataService
-  ) { }
+    private createLeadDataService: CreateLeadDataService,
+    private commonLovService: CommomLovService
+  ) {
+    this.currentTime = this.stringTime[0] + ':' + this.stringTime[1];
+    this.showTypeOfConcern = true;
+   }
 
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -55,7 +88,9 @@ export class FiListComponent implements OnInit {
     this.labelDetails.getLabelsData().subscribe(
       data => {
         this.labels = data;
+        this.getLOV();
       }
+      
     );
     this.leadId = (await this.getLeadId()) as number;
     this.getFiList();
@@ -72,6 +107,11 @@ export class FiListComponent implements OnInit {
     }
 
 
+  }
+
+  getLOV() { // fun call to get all lovs
+    this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+    console.log('Filov', this.LOV);
   }
 
   // getting lead data from create lead data service
@@ -184,5 +224,74 @@ export class FiListComponent implements OnInit {
 
     this.router.navigate([`/pages/dashboard`]);
 
+  }
+
+  getFiData(){
+    const data = {
+      applicantId: this.applicantId,
+      userId: this.userId,
+      fiVersion: this.version
+    };
+
+    this.fieldInvestigationService.getFiReportDetails(data).subscribe(async (res: any) => {
+      const processVariables = res.ProcessVariables;
+      const message = processVariables.error.message;
+      if (processVariables.error.code === '0') {
+        this.applicantFullName = res.ProcessVariables.applicantName;
+        this.fiResidenceDetails = res.ProcessVariables.getFIResidenceDetails;
+        this.fiBusinessDetails = res.ProcessVariables.getFIBusinessDetails;
+        this.custSegment = this.fiBusinessDetails.custSegment;
+        this.getConcernType();
+
+
+        if (this.fiResidenceDetails) {
+          this.fiRnoofmonthsCity = String(Number(this.fiResidenceDetails.yrsOfStayInCity) % 12) || '';
+          this.fiRnoofyearsCity = String(Math.floor(Number(this.fiResidenceDetails.yrsOfStayInCity) / 12)) || '';
+        }
+        if (this.fiResidenceDetails) {    
+          this.fiRnoofmonthsResi = String(Number(this.fiResidenceDetails.yrsOfStayInResi) % 12) || '';
+          this.fiRnoofyearsResi = String(Math.floor(Number(this.fiResidenceDetails.yrsOfStayInResi) / 12)) || '';
+        }
+        this.fiContactPointVerification = this.LOV.LOVS.contactPointVerification.find((value) => value.key == this.fiResidenceDetails.contactPointVerification);
+        this.fiDetailsOfResidence = this.LOV.LOVS['fi/PdHouseOwnership'].find((value) => value.key == this.fiResidenceDetails.residenceDetails);
+        this.fiLocality = this.LOV.LOVS['fi/PdResidentialLocality'].find((value) => value.key == this.fiResidenceDetails.locality);
+
+        this.fiBContactPointVerification = this.LOV.LOVS.contactPointVerification.find((value) => value.key == this.fiBusinessDetails.contactPointVerification);
+        this.fiBpremises = this.LOV.LOVS['fi/PdOfficePremisesType'].find((value) => value.key == this.fiResidenceDetails.officePremises);
+        this.fiBofficeSize = this.LOV.LOVS['fi/PdOfficeSize'].find((value) => value.key == this.fiResidenceDetails.officeSize);
+        setTimeout(() => {
+          this.downloadpdf();
+        });
+      }
+    });
+  }
+
+  getConcernType() {
+    if (this.custSegment == "SALCUSTSEG" && this.custSegment != null) {
+      this.showTypeOfConcern = true;
+    } else if (this.custSegment == "SEMCUSTSEG" && this.custSegment != null) {
+      this.showTypeOfConcern = true;
+    } else {
+      this.showTypeOfConcern = false;
+    }
+  }
+
+  getPdf(event?) {
+    this.selectedApplicantId = event;
+    this.getFiData();
+    this.isFiModal = true;
+  }
+
+  downloadpdf() {
+    var options = {
+      margin: [0.5, 0.3, 0.5, 0.3],
+      filename: `FI_${this.leadId}.pdf`,
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas: { scale: 3, logging: true },
+      pagebreak: { before: "#page-break" },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+    }
+    html2pdf().from(document.getElementById('pdf')).set(options).save();
+    this.isFiModal = false;
   }
 }

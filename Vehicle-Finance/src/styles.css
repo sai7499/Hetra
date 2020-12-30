@@ -27,7 +27,7 @@ a:focus {
 h3 {
     font-size: 18px;
     font-weight: 600;
-    margin: 18px 12px;
+    margin: 8px 12px;
 }
 
 .clear-both {
@@ -275,7 +275,7 @@ h3 {
 
 .content {
     background: #fff;
-    padding: 25px 30px;
+    padding: 8px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
     margin-bottom: 20px;
@@ -283,15 +283,23 @@ h3 {
     margin-left: 8px;
 }
 
+.mar-btn{
+    margin-bottom:20px;
+  }
+
 @media (min-width:300px) and (max-width:767px) {
     .content {
         background: #fff;
-        padding: 18px!important; 
+        padding:3px 15px!important; 
         border-radius: 8px;
         border: 1px solid #ddd;
         margin-bottom: 20px;
          /* margin-right: 8px;
         margin-left: 8px; */
+    }
+
+    .cst_btm_btns{
+        padding-bottom: 3vw!important;
     }
 }
 
@@ -900,8 +908,8 @@ html, body { height: 100%; }
     text-align:justify;
     font-size:12px;
     line-height:2em;
-    padding:15px;
-    margin:20px;
+    padding: 2px 15px;
+    margin: 0px 20px;
     }
 
 .welcmlter_text-center
@@ -1014,7 +1022,7 @@ font-size:10px;
   }
 
   .btn-default{
-    border: 1px solid #ddd; 
+    border: 1px solid #ddd!important; 
     box-shadow: none!important
   }
 
@@ -1158,4 +1166,50 @@ font-size:10px;
 
 image-cropper .overlay {
     outline: solid #000 100vw !important;
+}
+
+.cropper .move {
+    width: 100%;
+    cursor: move;
+    border: 3px solid #fff !important;
+}
+
+.cropper .resize .square{
+    background: #FFF !important;
+    border: 3px solid #FFF !important;
+}
+
+.banner-con{
+    color: #fbfbff !important;
+    margin: 0px 0px 5px;
+    background-color: #221d61;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+    box-shadow: 0 1rem 1.25rem 0 rgb(22 75 195 / 8%),
+     0 -0.25rem 1.5rem rgb(228 206 239 / 0%) inset, 
+     0 0.75rem 0.5rem rgb(255 255 255 / 22%) inset, 
+    0 0.25rem 0.5rem 0 rgb(180 70 207 / 8%) inset;
+}
+
+
+
+.cropper .resize-bar.top,
+.cropper .resize-bar.bottom {
+    height: 60px !important;
+}
+
+.cropper .resize-bar.left,
+.cropper .resize-bar.right {
+    width: 60px !important;
+}
+
+tr:hover {background-color:#ddd;}
+
+th {
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+    border: 1px solid #ccc;
+    text-align: left;
+    text-align: center
 }

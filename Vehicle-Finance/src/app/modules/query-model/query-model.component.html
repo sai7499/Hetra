@@ -13,8 +13,8 @@
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                   <div class="input-group search-btn">
 
-                    <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
-                      [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                    <app-custom-input [id]="'mob_search'" formControlName="searchName" [className]="'form-control input-search'"
+                      [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                       queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                     </app-custom-input>
 
@@ -23,18 +23,15 @@
                 </div>
 
                 <br /><br />
-                <div class="panel-group mar-20 scroll-box cus-mob-bac" id="scrollBox">
-                  <div class="panel-group mar-20" id="accordion"
-                    *ngFor="let chat of chatList; let i=index; let last=last">
-                    <div class="flex-container">
-                      <div class="divs btn" (click)="getQueries(chat)"
-                        [ngClass]="selectedList === chat ? 'selected-back' : ''">
+                <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox" >
+                  <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
+                    <div class="text-center">
+                      <div class="" (click)="getQueries(chat)" [ngClass]="selectedList === chat ? 'side-border' : ''">
                         <p class="mar-em">{{chat.value}}</p>
+                        <!-- <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i> -->
+                        <span class="notification badge badge-pill badge-danger"
+                          *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
                       </div>
-
-                      <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
-                        class="notification badge badge-pill badge-danger"
-                        *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
                     </div>
                     <hr>
                   </div>
@@ -48,11 +45,11 @@
 
                 </div>
 
-                <div class="panel-group mar-20" id="accordion">
+                <div class="panel-group " id="accordion">
                   <div class="panel panel-default tab-con">
                     <div class="panel-heading" id="headingOne">
                       <h4 class="panel-title">
-                        <a class="collapsed cus-mob-col" data-toggle="collapse" data-parent="#accordion"
+                        <a class="collapsed cus-black cus-mob-col" data-toggle="collapse" data-parent="#accordion"
                           href="#collapseOne">
                           <i class="fa fa-user"></i>&nbsp; {{labels.stakeholders}} <i class="fa fa-angle-down"></i>
                         </a>
@@ -64,7 +61,7 @@
                         <form class="clearfix">
                           <div class="form-group col-xs-12">
                             <div class="input-group">
-                              <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                              <app-custom-input [className]="'form-control'" [id]="'mob_stake_holder'" [placeholder]="'Search'" [type]="'text'"
                                 [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
                                 (keyup)="getvalueCheck($event.target.value)">
                               </app-custom-input>
@@ -73,8 +70,11 @@
                           </div>
                           <div class="stakeholder-list">
                             <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
-                              <div class="radio"><label><input class="select-user" type="radio" name="radio">
-                                  {{stack.value}} <span class="checkmark"></span></label></div>
+                              <div class="radio"><label>
+                                  {{stack.value}}
+                                  <!-- <input class="select-user" type="radio" name="radio">
+                                  {{stack.value}} <span class="checkmark"></span> -->
+                                </label></div>
                             </div>
                             <div class="empty-list" *ngIf="queryModelLov.queryTo && queryModelLov.queryTo.length === 0">
                               No stakeholder in the stakeholders list
@@ -88,7 +88,7 @@
                   <div class="panel panel-default tab-con">
                     <div class="panel-heading" id="headingTwo">
                       <h4 class="panel-title">
-                        <a class="collapsed cus-mob-col" data-toggle="collapse" data-parent="#accordion"
+                        <a class="collapsed cus-black cus-mob-col" data-toggle="collapse" data-parent="#accordion"
                           href="#collapseTwo">
                           <i class="fa fa-file"></i>&nbsp; {{labels.documentsShared}} <i class="fa fa-angle-down"></i>
                         </a>
@@ -99,7 +99,7 @@
                         <form>
                           <div class="form-group col-xs-12 bloc">
                             <div class="input-group bloc-search">
-                              <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                              <app-custom-input [id]="'mob_documents'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
                                 [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
                                 (keyup)="getDocuments($event.target.value)">
                               </app-custom-input>
@@ -113,7 +113,10 @@
                             <p *ngIf="document.docId"><a (click)="downloadDocs(document.docId, k, $event)">ID:
                                 {{document.docId}} <span *ngIf="document.docName"> -
                                   {{document.docName}}</span>
-                              </a></p>
+                              </a>
+                              <i class="fa fa-cloud-download cus-download-ic"
+                                (click)="downloadAllFiles(document.docId, k, $event)"></i>
+                            </p>
                           </div>
                           <div class="empty-list" *ngIf="documents && documents.length === 0">
                             No document in the documents list
@@ -127,12 +130,12 @@
 
             </div>
 
-            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="message-hide">
+            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-12 left" id="message-hide">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
 
-                  <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
-                    [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  <app-custom-input [id]="'search'" formControlName="searchName" [className]="'form-control input-search'"
+                    [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   </app-custom-input>
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
@@ -140,18 +143,18 @@
               </div>
 
               <br /><br />
-              <div class="panel-group mar-20 scroll-box " id="scrollBox">
-                <div class="panel-group mar-20" id="accordion"
-                  *ngFor="let chat of chatList; let i=index; let last=last">
-                  <div class="flex-container">
-                    <div class="divs btn" (click)="getQueries(chat, true)"
-                      [ngClass]="selectedList === chat ? 'selected-back' : ''">
-                      <p class="mar-em">{{chat.value}}</p>
-                    </div>
+              <div class="panel-group  scroll-box " id="scrollBox" style="height:200px;">
+                <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
+                  <div class="" style="padding: 0px 15px;">
 
-                    <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i><span
-                      class="notification badge badge-pill badge-danger"
-                      *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
+                    <div class="" (click)="getQueries(chat, true)"
+                      [ngClass]="selectedList === chat ? 'side-border' : ''">
+                      <!-- <p class="col-lg-1 dot-style"></p> -->
+                      <p class=" mar-em">{{chat.value}}</p>
+                      <!-- <i class="fa fa-comment count-list font-medium-3" *ngIf="chat.count && chat.count !== 0"></i> -->
+                      <span class="notification badge badge-pill badge-danger"
+                        *ngIf="chat.count && chat.count !== 0">{{chat.count}}</span>
+                    </div>
                   </div>
                   <hr>
                 </div>
@@ -164,33 +167,39 @@
 
               </div>
 
-              <div class="panel-group mar-20" id="accordion">
+              <div class="panel-group " id="accordion">
                 <div class="panel panel-default tab-con">
                   <div class="panel-heading btn btn-stack" id="headingOne">
                     <h4 class="panel-title">
-                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseBriefOne">
+                      <a class="collapsed cus-black" data-toggle="collapse" data-parent="#accordion"
+                        aria-expanded="true" (click)="accordion = 'collapseBriefOne'">
+                        <!--  href="#collapseBriefOne" -->
                         <i class="fa fa-user"></i>&nbsp; {{labels.stakeholders}} <i class="fa fa-angle-down"></i>
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseBriefOne" class="panel-collapse collapse">
+                  <div id="collapseBriefOne" class="panel-collapse collapse"
+                    [ngClass]="{'show': accordion === 'collapseBriefOne'}">
                     <div class="panel-body">
 
                       <form class="clearfix">
                         <div class="form-group col-xs-12">
                           <div class="input-group">
 
-                            <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                            <app-custom-input [id]="'stake_holder'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
                               [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
                               (keyup)="getvalueCheck($event.target.value)">
                             </app-custom-input>
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
                           </div>
                         </div>
-                        <div class="stakeholder-list">
+                        <div class="stakeholder-list" style="height:90px;">
                           <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
-                            <div class="radio"><label><input type="radio" name="radio"> {{stack.value}} <span
-                                  class="checkmark"></span></label></div>
+                            <div class="radio" (click)="autoPopulateQueryType(stack)">
+                              <label>
+                                {{stack.value}}
+                              </label>
+                            </div>
                           </div>
                           <div class="empty-list" *ngIf="queryModelLov.queryTo && queryModelLov.queryTo.length === 0">
                             No stakeholder in the stakeholders list
@@ -204,17 +213,20 @@
                 <div class="panel panel-default tab-con">
                   <div class="panel-heading btn btn-stack" id="headingTwo">
                     <h4 class="panel-title">
-                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseBriefTwo">
+                      <a class="collapsed cus-black" data-toggle="collapse" data-parent="#accordion"
+                        aria-expanded="false" (click)="accordion = 'collapseBriefTwo'">
+                        <!-- href="#collapseBriefTwo"  -->
                         <i class="fa fa-file"></i>&nbsp; {{labels.documentsShared}} <i class="fa fa-angle-down"></i>
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseBriefTwo" class="panel-collapse collapse">
+                  <div id="collapseBriefTwo" class="panel-collapse collapse"
+                    [ngClass]="{'show': accordion === 'collapseBriefTwo'}">
                     <div class="panel-body">
                       <form>
                         <div class="form-group col-xs-12 bloc">
                           <div class="input-group bloc-search">
-                            <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                            <app-custom-input [id]="'document'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
                               [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
                               (keyup)="getDocuments($event.target.value)">
                             </app-custom-input>
@@ -228,7 +240,12 @@
                           <p *ngIf="document.docId"><a (click)="downloadDocs(document.docId, k, $event)">ID:
                               {{document.docId}} <span *ngIf="document.docName"> -
                                 {{document.docName}}</span>
-                            </a></p>
+                            </a>
+                            <!-- <span style="float: right"> -->
+                            <i class="fa fa-cloud-download cus-download-ic"
+                              (click)="downloadAllFiles(document.docId, k, $event)"></i>
+                            <!-- </span> -->
+                          </p>
                         </div>
                         <div class="empty-list" *ngIf="documents && documents.length === 0">
                           No documents in the documents list
@@ -241,82 +258,85 @@
 
             </div>
 
-            <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12 right msg-space">
+            <div class="col-sm-9 col-lg-9 col-md-9 col-xs-12 right msg-space">
               <div class="row view-pad-bottom">
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0 back-div"><button
                     class="btn btn-warning back-arrow view-button" type="button" (click)="openNav()"><i
                       class="fa fa-angle-double-left"></i>
                   </button></div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11">
-                  <!-- <span _ngcontent-iiu-c8="" class="btn btn-primary btn-fa">
-                    <i _ngcontent-iiu-c8="" class="fa fa-search"></i></span> -->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                   <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
                       class="fa fa-arrow-left"></i>
-                    {{labels.backToLead}}</button></div>
+                    {{labels.backToLead}}</button>
+                </div>
 
-              </div>
-              <div class="chat-box message-box viewport viewport-a" id="chat-box">
-                <div style="width:100%;">
+                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8 p-0 text-right" style="float: right;">
 
-                  <div class="input-group search-btn" style="margin:0px 0px 5px 60%;width:40%;">
-                    <input type="text" class="form-control input-search" placeholder="Query Id Search"
+                  <div class="input-group search-btn-msg" style="float: right;">
+                    <input id="query_id_search" type="text" class="form-control input-search" placeholder="Query Id Search"
                       [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
-                      (keyup)="searchQueryIdMessage($event.target.value)">
+                      (keyup)="searchQueryIdMessage($event.target.value)" style="float: right;">
                     <span class="input-group-addon glass-span" (click)="clearSearch()"><i
                         [ngClass]="searchQueryId.length >= 1 ? 'fa fa-close cus-close' : 'fa fa-search'"></i></span>
-                    <!-- class="fa fa-search" -->
                   </div>
 
                 </div>
 
+              </div>
+              <div class="chat-box message-box viewport viewport-a" id="chat-box" style="height:300px;" #scrollMe
+                [scrollTop]="scrollMe.scrollHeight">
+                <!-- [scrollTop]="scrollMe.scrollHeight" -->
+
                 <div *ngFor="let message of searchChatMessages; let j=index;let last=last;"
                   (mouseenter)="isCheckFropdownBut(message, j)" (mouseleave)="clickedIndex = null">
-                  <div class="wt-80" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
+                  <div class="wt-90" [ngClass]="message.queryFrom === userId ? 'sender' : 'receiver'">
 
                     <span class="active-dropdown" *ngIf="clickedIndex === j && message.queryStatusDesc !== 'Closed'"
                       (click)="openOptionDropDown(j)">
                       <i class="fa fa-angle-down" aria-hidden="true"></i>
                     </span>
 
-                    <div class="message-dropdown-content right" id="myDropdown"
-                      [ngClass]="message.queryFrom === userId ? 'content-send' : 'content-receiver'"
-                      *ngIf="isClickDropDown === j" (click)="openOptions(message, j)">Reply
-                      <a (click)="foo.focus()"><span class="box tr"></span></a>
+                    <div id="myDropdown" class="cus-mes-dropdown-content" *ngIf="isClickDropDown === j"
+                      [ngClass]="message.queryFrom === userId  ? 'cus-left-rep' : 'cus-right-rep'">
+                      <a (click)="openOptions(message, j)">Reply</a>
+                      <a (click)="updateStatus(message)" *ngIf="message.queryFrom === userId">Mark as Closed</a>
                     </div>
 
                     <div [ngClass]="message.queryFrom === userId ? 'send-message' : 'receive-message'">
-                      <div class="logged-user row">
+                      <div class="">
 
-                        <div class="col-md-4">
-                          <span class="cus-name-role"> {{message.nameWithFromRole}}
-                          </span>
+                        <div class="logged-user row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span class="cus-name-role"> {{message.nameWithFromRole}}
+                            </span>
+                          </div>
+
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span class="date-time"> <strong>{{labels.queryType}} : </strong>
+                              {{message.queryTypeDesc}}
+                            </span>
+                          </div>
                         </div>
 
-                        <div class="col-md-4">
-                          <span class="text-center"> <strong>Query Id : </strong>
-                            {{message.queryId}}
-                          </span>
-                        </div>
+                        <div class="logged-user row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span class="text-center"> <strong>Query Id : </strong>
+                              {{message.queryId}}
+                            </span>
+                          </div>
 
-                        <div class="col-md-4">
-                          <span class="date-time"> <strong>{{labels.queryType}} : </strong> {{message.queryTypeDesc}}
-                          </span>
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" *ngIf="message.leadStageDesc">
+                            <span class="date-time"> <strong> Lead Stage : </strong>
+                              {{message.leadStageDesc}}
+                            </span>
+                          </div>
                         </div>
 
                       </div>
 
                       <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                          <p>{{message.query}}</p>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                          <!-- <button #foo class="btn btn-cus"
-                            *ngIf="isClickButton === j && userId === message.queryFrom">Marked as Closed</button> -->
-                        </div>
-                        <div class="collg-4 col-md-4 col-sm-4 col-xs-12">
-                          <span class="date-time"> <strong> Lead Status : </strong>
-                            {{message.leadStageDesc}}
-                          </span>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <p class="cus-query">{{message.query}}</p>
                         </div>
                       </div>
 
@@ -339,7 +359,7 @@
                           </div>
 
                           <div class="col-md-4">
-                            <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
+                            <span class="date-time"> {{message.time | date: 'dd-MMM-yyyy | h:mm a': 'US' }}
                             </span>
                           </div>
 
@@ -361,15 +381,14 @@
                 <div class="wt-mid text-center" *ngIf="searchChatMessages && searchChatMessages.length === 0">
                   <p>No chats available</p>
                 </div>
-
               </div>
 
               <div class="form-group row">
 
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12" for="lead_id">{{labels.leadID}}</label>
-                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
+                    <label class="col-sm-5 col-lg-5 col-md-5 col-xs-12" for="lead_id">{{labels.leadID}}</label>
+                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
 
                       <app-custom-input id="'lead_id'" autocomplete="off" formControlName="searchLeadId"
                         (keyup)="getleadIdvalue($event.target.value)" (blur)="onBlurleadId()">
@@ -393,10 +412,10 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.queryType}}</label>
-                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12">
+                    <label class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.queryType}}</label>
+                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12">
                       <app-vf-custom-select [values]="queryModelLov?.queryType" [id]="'query_type'"
                         formControlName="queryType" [isRequired]="'Query Type Required'" [isDirty]="isDirty">
                       </app-vf-custom-select>
@@ -404,15 +423,11 @@
                   </div>
                 </div>
 
-              </div>
-
-              <div class="form-group row">
-
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
 
-                    <label for="reply_to" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.replyTo}}</label>
-                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12">
+                    <label for="reply_to" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.replyTo}}</label>
+                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12">
 
                       <app-custom-input id="leadId" autocomplete="off" formControlName="repliedTo"
                         [className]="'form-control'" [placeholder]="'Reply To'" [type]="'text'"
@@ -439,26 +454,15 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                  <div class="form-group">
-                    <label for="status" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.status}}</label>
-                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12">
-                      <app-vf-custom-select [values]="queryModelLov?.queryStatus" [id]="'status'"
-                        formControlName="queryStatus" [isRequired]="'Status Required'" [isDirty]="isDirty">
-                      </app-vf-custom-select>
-                    </div>
-                  </div>
-                </div>
-
               </div>
 
               <div class="form-group row">
 
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 ">
                   <div class="form-group">
 
-                    <label for="query_to" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.tagQueryTo}}</label>
-                    <div class="col-sm-8 col-lg-8 col-md-8 col-xs-12" (mouseleave)="mouseLeave()">
+                    <label for="query_to" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.tagQueryTo}}</label>
+                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12" (mouseleave)="mouseLeave()">
 
                       <app-custom-input #foo id="'query_to'" autocomplete="off" formControlName="searchText"
                         [className]="'form-control'" [placeholder]="'Tag Query To'" [type]="'text'"
@@ -486,48 +490,58 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+
+                </div>
+
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
-                    <label for="file-upload" class="col-sm-4 col-lg-4 col-md-4 col-xs-12">{{labels.attachment}}</label>
-                    <div class="upload-btn-wrapper col-sm-8 col-lg-8 col-md-8 col-xs-12">
-
-                      <a id="file-upload"><button class="btn-upload btn" aria-hidden="true" type="button"
-                          (click)="chooseFile()">
-                          {{queryModalForm.controls['docName'].value ? 'Change' : 'Choose'}} file
-                        </button></a>
+                    <label for="status" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.status}}</label>
+                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12">
+                      <app-vf-custom-select [values]="queryModelLov?.queryStatus" [id]="'status'"
+                        formControlName="queryStatus" [isRequired]="'Status Required'" [isDirty]="isDirty">
+                      </app-vf-custom-select>
                     </div>
-
-                    <label for="file-name" class="col-sm-8 col-lg-8 col-md-8 col-xs-12"
-                      *ngIf="queryModalForm.controls['docName'].value">
-                      {{queryModalForm.controls['docName'].value}} </label>
                   </div>
                 </div>
               </div>
 
               <div class="form-group row">
 
-                <div class="col-sm-10 col-md-10 col-lg-10 text-box">
-                  <div class="form-group col-lg-12 col-xs-12 col-md-12 col-sm-12">
-                    <textarea class="form-control cus-chat" formControlName="query"
-                      (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea>
+                <div class="col-sm-12 col-md-12 col-lg-12 text-box">
+                  <div class="text-box-msg col-lg-12 col-xs-12 col-md-12 col-sm-12">
+                    <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span id="cus-tooltip"
+                        class="i-span input-group-addon" style="padding:0px;" (click)="chooseFile()"
+                        data-tooltip="Attachment"
+                        [ngClass]="queryModalForm.controls['docName'].value ? 'cus-font-size' : ''"><i
+                          class="fa fa-paperclip"></i>
+                      </span>
+                      <span *ngIf="queryModalForm.controls['docName'].value" style="font-size: 11px;">
+                        {{queryModalForm.controls['docName'].value}}</span>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 p-0"> <textarea class="form-control cus-chat"
+                        style="height:50px;" formControlName="query" (keyup.enter)="onFormSubmit(queryModalForm)"
+                        placeholder="Type your message here"></textarea>
+                    </div>
+                    <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span data-tooltip="Send"
+                        class="i-span input-group-addon" (click)="onFormSubmit(queryModalForm)"><i
+                          class="fa fa-send"></i></span></div>
 
-                    <div class="invalid-feedback"
-                      *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
-                      <div *ngIf="queryModalForm.controls['query'].hasError('required')">
-                        Query Required
-                      </div>
+                  </div>
+                  <div class="invalid-feedback"
+                    *ngIf="queryModalForm.controls['query'].touched && !queryModalForm.controls['query'].valid">
+                    <div *ngIf="queryModalForm.controls['query'].hasError('required')">
+                      Query Required
                     </div>
                   </div>
                 </div>
 
-                <div class="col-sm-2 col-md-2 col-lg-2 text-left mob-send">
-
+                <!-- <div class="col-sm-2 col-md-2 col-lg-2 text-left mob-send">
                   <button type="button" class="btn btn-primary d-lg-flex btn-pad"
                     (click)="onFormSubmit(queryModalForm)"><i class="fa fa-send"></i><span
                       class="d-none d-lg-block ml-1 cus-hide-mob">
                       {{labels.send}}</span></button>
-
-                </div>
+                </div> -->
               </div>
 
             </div>
@@ -535,7 +549,7 @@
             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="search-message" style="display:none;">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
-                  <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
+                  <input id="chat_search" type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
                     (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
@@ -545,6 +559,7 @@
 
               </div>
             </div>
+
           </div>
         </form>
 

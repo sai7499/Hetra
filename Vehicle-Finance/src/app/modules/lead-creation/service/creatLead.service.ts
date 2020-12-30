@@ -156,7 +156,85 @@ export class CreateLeadService {
         return this.httpService.post(url, body);
     }
 
-    getLeadById(leadId) {
+    getExternalSourcingChannel(userId) {
+        const processId = this.apiService.api.externalSourcingChannel.processId;
+        const workflowId = this.apiService.api.externalSourcingChannel.workflowId;
+        const projectId = this.apiService.api.externalSourcingChannel.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                userId
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
+
+    createExternalLead(loanLeadDetails, applicantDetails, userId, vehicleId, vehicleRegNo?, manuFacMonthYear?) {
+        const processId = this.apiService.api.createExternalLead.processId;
+        const workflowId = this.apiService.api.createExternalLead.workflowId;
+        const projectId = this.apiService.api.createExternalLead.projectId;
+
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                loanLeadDetails,
+                applicantDetails,
+                userId,
+                vehicleRegNo,
+                vehicleId,
+                manuFacMonthYear
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
+
+    externalApprove(applicantDetails, leadId) {
+        const processId = this.apiService.api.externalApprove.processId;
+        const workflowId = this.apiService.api.externalApprove.workflowId;
+        const projectId = this.apiService.api.externalApprove.projectId;
+
+        const body: RequestEntity = {
+            processId,
+            ProcessVariables: {
+                applicantDetails,
+                leadId
+            },
+            workflowId,
+            projectId
+        };
+
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
+
+    // resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    leadIdByPool(leadId) {
+        const processId = this.apiService.api.getLeadById.processId;
+        const workflowId = this.apiService.api.getLeadById.workflowId;
+        const projectId = this.apiService.api.getLeadById.projectId;
+
+        const body: RequestEntity = {
+            processId,
+            ProcessVariables: {
+                leadId: Number(leadId),
+            },
+            workflowId,
+            projectId,
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
+
+    getLeadById(leadId,isChangeStatus?) {
         const processId = this.apiService.api.getLeadById.processId;
         const workflowId = this.apiService.api.getLeadById.workflowId;
         const projectId = this.apiService.api.getLeadById.projectId;
@@ -164,7 +242,8 @@ export class CreateLeadService {
         const body = {
             processId: processId,
             ProcessVariables: {
-                'leadId': leadId
+                'leadId': leadId,
+                'isChangeStatus':isChangeStatus ? true: false
             },
             workflowId: workflowId,
             projectId: projectId,
@@ -211,7 +290,7 @@ export class CreateLeadService {
         return this.httpService.post(url, body);
     }
 
-    dealerCode(code) {
+    dealerCode(code, productCatCode?) {
         const processId = this.apiService.api.dealerCode.processId;
         const workflowId = this.apiService.api.dealerCode.workflowId;
         const projectId = this.apiService.api.dealerCode.projectId;
@@ -219,7 +298,8 @@ export class CreateLeadService {
         const body: RequestEntity = {
             processId: processId,
             ProcessVariables: {
-                "code": code
+                code,
+                productCatCode
             },
             workflowId: workflowId,
             projectId: projectId

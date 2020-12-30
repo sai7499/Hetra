@@ -1,5 +1,5 @@
 import { environment } from '../environments/environment';
-import { Component, OnInit,HostListener } from '@angular/core';
+import { Component, OnInit,HostListener, OnDestroy } from '@angular/core';
 
 
 declare var cordova:any;
@@ -11,6 +11,9 @@ import { Router,NavigationStart,NavigationEnd } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
 import {SharedService} from './modules/shared/shared-service/shared-service'
 import { filter } from 'rxjs/operators'
+import { IdleTimerService } from '@services/idle-timer.service';
+import value from '*.json';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +21,11 @@ import { filter } from 'rxjs/operators'
   styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  sessionIntervalId;
+  timer = 0;
+  showTimerModal: boolean;
+  showExpiryModal: boolean;
   title = 'vehicle-finance';
   isMaas360Enabled:any;
 
@@ -199,9 +206,46 @@ export class AppComponent implements OnInit {
   };
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router,private utilityService: UtilityService,private sharedService: SharedService) {}
+              private router: Router,private utilityService: UtilityService,private sharedService: SharedService, private idleTimerService: IdleTimerService,
+              private location: Location) {}
 
   ngOnInit() {
+
+    this.timer = this.idleTimerService.getModalTimer();
+
+
+    this.location.onUrlChange((url) => {
+      console.log('url', url);
+      if(url.includes('login')) {
+        this.showExpiryModal = false;
+        this.showTimerModal = false;
+      }
+    })
+
+
+    this.idleTimerService.getTimerObservable()
+      .subscribe((value) => {
+        if(value) {
+
+          this.showTimerModal = true;
+          this.sessionIntervalId = setInterval(() => {
+
+            console.log('timer 2')
+
+            this.timer -= 1;
+
+            if (this.timer <= 0) {
+                this.showTimerModal = false;
+                this.timer = this.idleTimerService.getModalTimer();
+
+                clearInterval(this.sessionIntervalId);
+                // this.logout();
+                this.showExpiryModal = true;
+            }
+
+          }, 1000);
+        }
+      })
 
     let that = this;
 
@@ -315,5 +359,26 @@ export class AppComponent implements OnInit {
   onOkay(event) {
     this.showModal =false;
     this.utilityService.logOut()
+  }
+
+  stay() {
+    this.showTimerModal = false;
+    this.timer = this.idleTimerService.getModalTimer(); // seconds (2mins)
+    clearInterval(this.sessionIntervalId);
+    this.idleTimerService.againAddTimer();
+  }
+
+  logout() {
+    this.showExpiryModal = false;
+    this.showTimerModal = false;
+    this.timer = this.idleTimerService.getModalTimer();
+    clearInterval(this.sessionIntervalId);
+    this.utilityService.logOut();   
+   
+  }
+
+  ngOnDestroy() {
+    this.idleTimerService.cleanUp();
+    clearInterval(this.sessionIntervalId);
   }
 }

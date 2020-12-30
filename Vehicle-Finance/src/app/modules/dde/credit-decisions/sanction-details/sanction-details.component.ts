@@ -15,6 +15,7 @@ import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { UploadService } from '@services/upload.service';
 import { map } from 'rxjs/operators';
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 declare var $;
 
 @Component({
@@ -47,6 +48,7 @@ export class SanctionDetailsComponent implements OnInit {
   isCoApplicant: boolean = false;
   isDocumentId: boolean;
   isLoan360: boolean;
+  taskId: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -57,7 +59,8 @@ export class SanctionDetailsComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
     private uploadService: UploadService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
@@ -77,6 +80,7 @@ export class SanctionDetailsComponent implements OnInit {
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     if (this.roleType == 1) {
       this.getSanctionDetails();
     }
@@ -186,11 +190,12 @@ export class SanctionDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
       onSubmit: true,
+      taskId: this.taskId,
     };
     this.sanctionDetailsService.submitToSanctionLeads(data).subscribe((res: any) => {
       const response = res;
       // console.log("RESPONSE_SUBMIT_TO_SALES::", response);
-      if (response["Error"] == 0) {
+      if (response["Error"] == 0 && response["ProcessVariables"].error.code == 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
         this.router.navigateByUrl('/pages/dashboard');
       } else {
@@ -206,12 +211,13 @@ export class SanctionDetailsComponent implements OnInit {
       userId: localStorage.getItem('userId'),
       isCPCMaker: true,
       isCPCChecker: false,
-      sendBackToCredit: false
+      sendBackToCredit: false,
+      taskId: this.taskId
     };
     this.sanctionDetailsService.assignTaskToTSAndCPC(data).subscribe((res: any) => {
       const response = res;
       // console.log("RESPONSE_SUBMIT_FOR_APPROVAL::", response);
-      if (response["Error"] == 0) {
+      if (response["Error"] == 0  && response["ProcessVariables"].error.code == 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
         this.router.navigateByUrl('/pages/dashboard');
       } else {
@@ -224,7 +230,8 @@ export class SanctionDetailsComponent implements OnInit {
   submitToCD() {
     const data = {
       leadId: this.leadId,
-      userId: localStorage.getItem('userId')
+      userId: localStorage.getItem('userId'),
+      taskId: this.taskId
     };
     this.sanctionDetailsService.submitToCC(data).subscribe((res: any) => {
       const response = res;

@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AgeValidationService } from '@services/age-validation.service';
 import { CommonDataService } from '@services/common-data.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
+import { param } from 'jquery';
 // import Qde from '@model/lead.model';
 @Component({
   selector: 'app-lead-creation',
@@ -44,6 +45,7 @@ export class LeadCreationComponent implements OnInit {
   userId: number;
 
   LOV: any = [];
+  udfScreenId: string = 'LDS001';
 
   productCategoryData;
   productData = [];
@@ -82,6 +84,8 @@ export class LeadCreationComponent implements OnInit {
   isFromChild: boolean;
   productCodeFromSearch: string;
   isLoanModal: any;
+  sourcingCodeKeyForDealer: string;
+  dealorCodeKey: string;
 
 
   obj = {};
@@ -114,6 +118,7 @@ export class LeadCreationComponent implements OnInit {
     leadHandeledBy: number;
     sourcingCodeDescription: string;
     parentLoanAccNum?: number;
+    isCommSuppressed: number
   };
 
   applicantDetails: {
@@ -314,6 +319,7 @@ export class LeadCreationComponent implements OnInit {
       nameThree: new FormControl('', Validators.required),
       mobile: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
+      communication: new FormControl('0'),
       // loanAccountNumber: new FormControl('', Validators.required)
     });
   }
@@ -593,17 +599,28 @@ export class LeadCreationComponent implements OnInit {
   selectSourcingEvent(event) {
     const sourcingEvent = event;
     this.isSourceCode = sourcingEvent.key ? true : false;
+    if (this.sourchingTypeId === '2SOURTYP') {
+      this.onDealerCodeSearch(sourcingEvent.key);
+      this.createLeadForm.patchValue({ dealerCode: sourcingEvent.value });
+      this.dealorCodeKey = sourcingEvent.key;
+      this.isDealerCode = false;
+    }
   }
 
   onDealerCodeSearch(event) {
     let inputString = event;
     console.log('inputStringDelr', event);
-    this.createLeadService.dealerCode(inputString).subscribe((res: any) => {
+    this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
+        if (this.sourchingTypeId === '2SOURTYP') {
+          if (this.dealerCodeData != null){
+          this.selectDealerEvent(this.dealerCodeData[0]);
+          }
+        }
         console.log('this.dealerCodeData', this.dealerCodeData);
       }
     });
@@ -709,6 +726,7 @@ export class LeadCreationComponent implements OnInit {
     this.isMobile = this.createLeadForm.controls.mobile.value;
     this.isDirty = true;
 
+
     if (
       this.createLeadForm.valid === true &&
       !this.isNgAutoCompleteDealer &&
@@ -719,6 +737,11 @@ export class LeadCreationComponent implements OnInit {
     ) {
       const leadModel: any = { ...formValue };
       this.leadStoreService.setLeadCreation(leadModel);
+      if (this.sourchingTypeId === '2SOURTYP') {
+        this.dealorCodeKey = this.dealorCodeKey;
+      } else {
+        this.dealorCodeKey = leadModel.dealerCode ? leadModel.dealerCode.dealorCode : '';
+      }
 
       this.loanLeadDetails = {
         bizDivision: leadModel.bizDivision,
@@ -730,13 +753,14 @@ export class LeadCreationComponent implements OnInit {
         sourcingCode: leadModel.sourcingCode
           ? leadModel.sourcingCode.key
           : '',
-        dealorCode: leadModel.dealerCode ? leadModel.dealerCode.dealorCode : '',
+        dealorCode: this.dealorCodeKey,
         // spokeCode: Number(leadModel.spokeCode),
         spokeCode: 1,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
         sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : '',
-        parentLoanAccNum: leadModel.loanAccountNumber
+        parentLoanAccNum: leadModel.loanAccountNumber,
+        isCommSuppressed: Number(leadModel.communication)
       };
 
       this.applicantDetails = {
@@ -857,6 +881,8 @@ export class LeadCreationComponent implements OnInit {
   }
 
   navgiateToNextPage() {
-    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`);
+    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`, { state: { udfScreenId: 'LDS001' }});    
+    // , skipLocationChange: true
+    // this.router.navigate([`pages/lead-section/${this.leadId}`], { queryParams: { udfScreenId: this.udfScreenId } });
   }
 }

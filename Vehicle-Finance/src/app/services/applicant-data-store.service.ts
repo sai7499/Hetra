@@ -51,6 +51,10 @@ export class ApplicantDataStoreService {
     const directorDetails = applicant.directorDetails
       ? applicant.directorDetails
       : [];
+      const udfDetails = applicant.udfDetails
+      ? applicant.udfDetails
+      : [];
+      
 
     this.applicant = {
       aboutIndivProspectDetails,
@@ -62,7 +66,8 @@ export class ApplicantDataStoreService {
       directorDetails,
       otpVerified: applicant.otpVerified,
       ucic: applicant.ucic,
-      ekycDone: applicant.ekycDone
+      ekycDone: applicant.ekycDone,
+      udfDetails
     };
   }
 
@@ -112,6 +117,10 @@ export class ApplicantDataStoreService {
 
   setDirectorDetails(value: DirectorDetails[]) {
     this.applicant.directorDetails = value;
+  }
+  setUdfDatas(value) {
+    console.log('udfValue', value)
+    this.applicant.udfDetails = value;
   }
 
   setApplicantId(applicantId) {
@@ -223,6 +232,30 @@ export class ApplicantDataStoreService {
      return value.applicantTypeKey == "COAPPAPPRELLEAD"
     })
     return result;
+  }
+
+  getOccupationLov(lov,custCat){
+    
+    const dropdown= lov.filter((data)=>{
+      if(custCat==='SALCUSTSEG'){
+        return data.key==='PROFOCPTION'
+      }else if(custCat==='SEMCUSTSEG'){
+        return data.key==='CNSLTOCPTION' ||  data.key==='SEBOCPTION' ;
+      }else if(custCat == 'FTBCUSTSEG' || custCat == 'FTUCUSTSEG' || custCat == 'TROPCUSTSEG'){
+        return data;
+      }else if(custCat==='HWCUSTSEG'){
+        return data.key==='HWFOCPTION'
+      }else if(custCat==='STUCUSTSEG'){
+        return data.key==='STDTOCPTION'
+      }else if(custCat==='PENCUSTSEG'){
+        return data.key==='EXSOCPTION' || data.key==='RTROCPTION'
+      }else if(custCat==='FARCUSTSEG'){
+        return data.key==='FAROCPTION'
+      }else if(custCat==='NEMCUSTSEG'){
+        return data.key==='OTHOCPTION' || data.key==='UEMOCPTION' || data.key==='MNROCPTION'
+      }
+    })
+    return dropdown;
   }
 
 }

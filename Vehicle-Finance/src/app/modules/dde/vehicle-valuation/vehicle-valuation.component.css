@@ -13,65 +13,144 @@
 } */
 
 .table-head-bg {
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
 }
-.showModal{
-    display: block;
+.showModal {
+  display: block;
 }
 
-.a_tag, u{
-    cursor: pointer;
-    text-decoration: none;
+.a_tag,u {
+  cursor: pointer;
+  text-decoration: none;
+}
+.no_under_line {
+  text-decoration: none;
 }
 
 .cst_btm_btns {
-    margin-bottom: 55px;
-    padding-bottom: 10px;
+  margin-bottom: 55px;
+  padding-bottom: 10px;
 }
 
-/* .btn-sec clear-both {
-    width: 1100px; 
-    height: 450px;
+.mar-btm-15{
+  margin-bottom:15px;
+}
+
+
+/* tr:nth-of-type(odd) {
+  background: #f2f2f2;
 } */
 
-/*  style for modal popup*/
-
-/* .text-center {
-    text-align: center;
+table{
+  width:100%;
 }
 
-.box_shadow {
-    box-shadow: 0px 8px 6px -9px black;
+th {
+  background-color: #1d1a4b;
+  color: #fff;
+  font-weight: 600;
 }
 
-.img-container {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+td,
+th {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+  text-align: center
 }
 
-.modal_title {
-    font-size: 25px;
-    font-family: fantasy;
-    text-align: center;
-    color: #1d1a4b;
+/* Tooltip */
+
+[data-tooltip]:before {
+  /* needed - do not touch */
+  content: attr(data-tooltip);
+  position: absolute;
+  opacity: 0;
+  
+  /* customizable */
+  transition: all 0.40s ease;
+  padding: 5px;
+  color: #333;
+  border-radius: 3px;
+  box-shadow: 2px 2px 1px silver;  
+  width:100px;  
 }
 
-.modal_content {
-    font-size: 18px;
-    font-family: fantasy;
-    text-align: center;
-    color: #494e50;
+[data-tooltip]:hover:before {
+  /* needed - do not touch */
+  opacity: 1;
+  
+  /* customizable */
+  background: #f68b34b8;
+  margin-top: 10px;  
+  margin-left: -110px;
+  color: #fff;
+  font-size:12px;
 }
 
-.modal-body {
-    text-align: center;
+[data-tooltip]:not([data-tooltip-persistent]):before {
+  pointer-events: none;
 }
 
-.modal-body.modal_coapp {
-    text-align: left!important;
-} */
+/*Mobile View*/
 
+@media only screen and (max-width: 760px) {
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  td,
+  tr {
+      display: block;
+  }
+  td,
+  th {
+      border: 1px solid #ccc;
+      text-align: left;
+      text-align: center;
+      /* margin: 12px; */
+      line-height: 1.5;
+      /* color: white; */
+      padding: 2px;
+      font-size: 15px;
+  }
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+  }
 
+  tr+tr {
+      margin-top: 1.5em;
+  }
+  td {
+      /* make like a "row" */
+      border: none;
+      border-bottom: 1px solid #eee;
+      /* position: relative; */
+      padding-left: 50%;
+      /* background-color: #F8D9D5; */
+      text-align: left;
+      /* padding: 1px;*/
+      border: 1px solid #929294;
+  }
+  td:before {
+      content: attr(data-label);
+      display: inline-block;
+      line-height: 1.5;
+      margin-left: -100%;
+      margin-right: 12px;
+      width: 70%;
+      white-space: nowrap;
+      background-color: #1d1a4b;
+      color: white;
+      height: 40px;
+      padding: 10px;
+  }
+  .filter-disable {
+      display: none;
+  }
+}

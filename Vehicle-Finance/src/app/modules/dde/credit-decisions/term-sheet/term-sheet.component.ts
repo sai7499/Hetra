@@ -12,6 +12,7 @@ import { DocumentDetails } from '@model/upload-model';
 import { map } from 'rxjs/operators';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 declare var $;
 @Component({
   selector: 'app-term-sheet',
@@ -61,6 +62,7 @@ export class TermSheetComponent implements OnInit {
   vehicleDetailsArray: any = [];
   isDocumentId: boolean;
   isLoan360: boolean;
+  taskId: any;
 
   constructor(
     public labelsService: LabelsService,
@@ -71,7 +73,8 @@ export class TermSheetComponent implements OnInit {
     public termSheetService: TermSheetService,
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private sharedService: SharedService
   ) {
 
   }
@@ -157,7 +160,8 @@ export class TermSheetComponent implements OnInit {
   assignTaskToTSAndCPC() {
     const ProcessVariables = {
       "leadId": this.leadId,
-      "userId": this.userId
+      "userId": this.userId,
+      "taskId": this.taskId,
     };
     this.termSheetService.assignTaskToTSAndCPC(ProcessVariables).subscribe((res) => {
       if (res['ProcessVariables'].error['code'] == "0") {
@@ -202,6 +206,7 @@ export class TermSheetComponent implements OnInit {
         this.isTermSheet = true
       }
     });
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     if (this.roleType != '2' && !this.isApprove) {
       this.getTermSheet(this.leadId);
     } else if (this.isApprove && this.isLeadId) {
@@ -241,7 +246,9 @@ export class TermSheetComponent implements OnInit {
       return this.router.navigateByUrl(`pages/dde/${this.leadId}/sanction-letter`);
     }
 
-    if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true") {
+    if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "true" ) {
+      this.router.navigate([`pages/pre-disbursement/${this.leadId}/credit-condition`]);
+    } else if (this.roleType == '1' && localStorage.getItem('is_pred_done') == "false" ) {
       this.router.navigate([`pages/pre-disbursement/${this.leadId}/credit-condition`]);
     } else if (this.roleType == '2') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/credit-condition`]);

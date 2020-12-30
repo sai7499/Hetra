@@ -11,6 +11,7 @@ export interface Applicant {
   corporateProspectDetails?: CorporateProspectDetails;
   addressDetails?: AddressDetails[];
   directorDetails?: DirectorDetails[];
+  udfDetails? : any;
 }
 
 export interface ApplicantList {
@@ -141,6 +142,7 @@ export interface AddressDetails {
   district?: number;
   state?: number;
   country?: string;
+  countryId? : any;
   landlineNumber?: string;
   mobileNumber?: string;
   accommodationType?: string;

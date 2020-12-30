@@ -547,7 +547,7 @@
     "applicationNumber": "Application Number",
     "amtInRupees": "Amt in Rupees",
     "proposalDate": "Proposal Date",
-    "propsoedAsset": "Propsoed Asset",
+    "propsoedAsset": "Proposed Asset",
     "area": "Area",
     "agriClassification": "Agri Classification",
     "classifiedBasis": "Classified Basis",
@@ -819,7 +819,7 @@
     "totalExpenses": "Total Expenses (B)",
     "netCashFlow": "Net Cash Flow (NCF) (A-B)",
     "emiFull": "Equated Monthly Instalments (EMI)",
-    "netEmi": "Net Cash flow (NCF)/ EMI",
+    "netEmi": "Net Cash flow (NCF) / EMI",
     "vehicleModel": "Vehicle Model",
     "application": "Application / Area of Operation",
     "grossIncomePerDay": "Gross income per day",
@@ -994,7 +994,8 @@
     "registrationNumber": "Registration Number",
     "address": "Address",
     "valuationStatus": "Valuation Status",
-    "valuatorStatus": "Valuator Status",
+    "valuatorStatus": "Valuator Type",
+    "requestId": "Request ID",
     "valuationReport": "Valuation Report",
     "modalTitle1": "Initiate Vechicle Valuation",
     "chooseValuator": "Choose Valuator",
@@ -1067,7 +1068,7 @@
     "vehicleConditions": "What was the application of earlier vehicle",
     "remarksOthers": "Remarks of others",
     "earlierDriving": "Which vehicle was the Applicant driving earlier?",
-    "runningAttached": "Where will this vehicle running/attached/plying?",
+    "runningAttached": "Where will vehicle be running / attached / plying?",
     "awareDue": "Is the customer aware of Due Date and EMI for the loan amount",
     "vehicleMake": "Vehicle Make",
     "model1": "Model(Year)",
@@ -1155,7 +1156,7 @@
     "mothersMaidenName": "Mother's Maiden Name",
     "occupation": "Occupation",
     "nationality": "Nationality",
-    "customerCategory": "Customer Category",
+    "customerCategory": "Customer Profile",
     "emailID": "Email ID",
     "emailAddress": "E-mail Address",
     "alternateEmailID": "Alternate email ID",
@@ -1215,7 +1216,7 @@
     "enquiryAmount": "Enquiry Amount",
     "loanEnquiriesInLast60DaysWithTypeOfLoan": "Loan enquiries in last 60 Days with type of loan",
     "noOfEmi": "No.of Emi",
-    "submitToCredit": "Are You Sure Want To Submit To Credit?",
+    "submitToCredit": "Are you sure you want to submit to credit?",
     "longitude": "Longitude",
     "latitude": "Latitude",
     "capturedLat": "Captured Latitude",
@@ -1337,8 +1338,10 @@
     "monthlyIncomeAmount": "Monthly Income Amount",
     "annualIncomeAmount": "Annual Income Amount",
     "ownHouseProofAvail": "Own House Proof Available?",
-    "houseOwnerProperty": "Owner of the Property",
-    "ownHouseAppRelationship": "Owner Relationship with the Applicant ",
+    "houseOwnerProperty": "Owner of the Applicant's House ",
+    "ownHouseAppRelationship": "Owner Relationship with the Applicant's House ",
+    "agriOwnerProperty": "Owner of the Property ",
+    "agriAppRelationship": "Owner Relationship with the Applicant ",
     "averageBankBalance": "Average Bank Balance",
     "rtrType": "RTR Type",
     "prevLoanAmount": "Previous Loan Amount",
@@ -1353,6 +1356,7 @@
     "proposalNo": "Proposal No",
     "applicationNo": "Application No",
     "scheme": "Scheme",
+    "vehScheme": "Scheme / Promotion",
     "manufacturer": "Manufacturer",
     "paymentDetails": "Payment Details",
     "paymentTo": "Payment To",
@@ -1566,6 +1570,7 @@
     "referenceInfoAddressLine3": "Reference Info - Address Line3",
     "imageSelfie": "Image/Selfie",
     "selfieImageTitle": "Selfie With Customer House",
+    "takeVehiclePhoto": "Take vehicle photo",
     "uploadIamges": "Upload Image",
     "pdStatusTitle": "PD Status",
     "PdStatus": "PD Status",
@@ -1742,9 +1747,9 @@
     "regMonthAndYear": "Month & Year of Registration",
     "classOfVehicle": "Class of vehicle",
     "makeName": "Make Name",
-    "monthOfYearOfManf": "Month & Year of Manufacture",
+    "monthOfYearOfManf": "Month & Year of Manufacturing",
     "makersClassfication": "Makers Classification (Eg:petrol)",
-    "unladenWeight": "Unladen Weight(in KGs or TONs)",
+    "unladenWeight": "Unladen Weight(in KGs)",
     "hypothecation": "Hypothecation if any",
     "permitAndTaxDetails": "Permit and Tax Details",
     "fitnessValidity": "Fitness Validity",
@@ -1808,6 +1813,10 @@
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
+    "goToDashboard": "Go To Dashboard",
+    "submitValuation": "Are you sure you want to submit task?",
+    "wizardId": "Wizard ID",
+    "relationshipType":"Relationship Type",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2108,7 +2117,8 @@
         },
         "adhaarNumber": {
             "maxLength": {
-                "rule": 12
+                "rule": 12,
+                "msg": "Aadhaar number should be 12 digits"
             },
             "type": "number",
             "patternCheck": {
@@ -2116,6 +2126,13 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
+        "applicantAdhaarNumber": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        
         "turnOver": {
             "maxLength": {
                 "rule": 10
@@ -2143,10 +2160,10 @@
             "maxLength": {
                 "rule": 16
             },
-            "type": "alpha-numeric",
+            "type": "alpha-numeric-nospace",
             "patternCheck": {
-                "rule": "[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{11}",
-                "msg": "Invalid Driving License.Valid format-AA12A12345678901"
+                "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
+                "msg": "Should be valid"
             }
         },
         "voterId": {
@@ -2357,9 +2374,9 @@
         },
         "invoiceNumber": {
             "maxLength": {
-                "rule": 3
+                "rule": 20
             },
-            "type": "number"
+            "type": "alpha-numeric"
         },
         "monthOfManuf": {
             "maxLength": {
@@ -2682,6 +2699,10 @@
                 "rule": 6,
                 "msg": "Should be 6 Digits"
             },
+            "patternCheck": {
+                "rule": "^[0-9]{6}",
+                "msg": "Invalid Number"
+            },
             "type": "number"
         },
         "micrFormat": {
@@ -2920,7 +2941,7 @@
             "maxLength": {
                 "rule": 12
             },
-            "type": "number"            
+            "type": "number"
         },
         "insuranceAddress": {
             "maxLength": {

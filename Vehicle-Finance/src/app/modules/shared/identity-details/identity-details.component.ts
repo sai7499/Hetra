@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -27,6 +27,7 @@ import { ControlPosition } from '@agm/core';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-identity-details',
@@ -70,6 +71,15 @@ export class IdentityDetailsComponent implements OnInit {
 
   isLoan360: boolean;
 
+  // User defined
+  // udfScreenId: any = 'APS011';
+  // udfGroupId: any = 'APG008';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId: any;
+  udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -83,10 +93,20 @@ export class IdentityDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private objectComparisonService: ObjectComparisonService
   ) {
 
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.udfScreenId = 'APS011';
+      this.udfGroupId = 'APG008';
+    } else {
+      this.udfScreenId = 'APS015';
+      this.udfGroupId = 'APG008';
+    }
 
+    console.log(this.udfScreenId, 'udf', this.udfScreenId)
     this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
 
     this.minPassportIssueDate.setFullYear(this.minPassportIssueDate.getFullYear() - 10)
@@ -177,13 +197,15 @@ export class IdentityDetailsComponent implements OnInit {
     }
 
     if (this.loanViewService.checkIsLoan360()) {
-        this.identityForm.disable();
-      }
+      this.identityForm.disable();
+    }
   }
 
   getApplicantDetails() {
     this.applicant = this.applicantDataService.getApplicant();
+
     console.log('COMINGVALUES', this.applicant);
+    this.udfDetails = this.applicant.udfDetails
   }
 
   getIndivIdentityInfoDetails() {
@@ -307,7 +329,7 @@ export class IdentityDetailsComponent implements OnInit {
     }
     //console.log('Date', this.drivingIssueDate)
     this.clearDrivingLicenceExpiry();
-   
+
 
   }
 
@@ -500,11 +522,13 @@ export class IdentityDetailsComponent implements OnInit {
 
   onSubmit() {
     this.isDirty = true;
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     if (!this.applicant.ucic) {
       if (this.identityForm.invalid ||
-        this.showInvalidMsg['drivingIssue']||
-        this.showInvalidMsg['drivingExpiry']||
-        this.showInvalidMsg['passportIssue']||
+        this.showInvalidMsg['drivingIssue'] ||
+        this.showInvalidMsg['drivingExpiry'] ||
+        this.showInvalidMsg['passportIssue'] ||
+        isUDFInvalid ||
         this.showInvalidMsg['passportExpiry']) {
         this.toasterService.showError(
           'Please fill all mandatory fields.',
@@ -512,7 +536,17 @@ export class IdentityDetailsComponent implements OnInit {
         );
         return
       }
+    } else {
+      if (isUDFInvalid) {
+        this.toasterService.showError(
+          'Please fill all mandatory fields.',
+          'Address Details'
+        );
+        return
+      }
     }
+
+    // 
 
     if (this.isIndividual) {
       this.storeIndividualValueInService();
@@ -522,21 +556,35 @@ export class IdentityDetailsComponent implements OnInit {
       this.applicantDataService.setIndivIdentityInfoDetails(null);
     }
 
+    const udfDetails = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+
     const applicantDetails: ApplicantDetails = {};
     applicantDetails.entityType = this.applicantDataService.getApplicant().applicantDetails.entityTypeKey;
     this.applicantDataService.setApplicantDetails(applicantDetails);
 
     const applicant = this.applicantDataService.getApplicant();
+    console.log('applicant', applicant)
+    //const apiUdfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       ...applicant,
       leadId: this.leadId,
       applicantId: this.applicantId,
+      udfDetails: [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfDetails
+      }]
     };
+    //console.log('udfDetails', JSON.stringify(this.userDefineForm.udfData.getRawValue()))
     const leadId = this.leadStoreService.getLeadId();
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       if (res.ProcessVariables.error.code !== '0') {
         return;
       }
+      this.udfDetails[0].udfData = udfDetails;
+
+      this.applicantDataService.setUdfDatas(this.udfDetails)
+      this.initUDFValues = this.userDefineForm.udfData.getRawValue();
       const currentUrl = this.location.path();
       if (currentUrl.includes('sales')) {
         // this.router.navigate([
@@ -561,6 +609,18 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onNext() {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (isUDFInvalid) {
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
+    }
+    if (!isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+
     const url = this.location.path();
     if (url.includes('sales')) {
       this.router.navigateByUrl(
@@ -573,4 +633,13 @@ export class IdentityDetailsComponent implements OnInit {
       `/pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`
     );
   }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identifyValue', value)
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
+  }
+
 }

@@ -30,6 +30,17 @@ kendo-datepicker{
     width: 100%!important;
 }
 
+.tab-hgt{
+    height:220px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.con-btn{
+    padding: 8px 5px;
+    margin: 3px 0px;
+}
+
 .mt {
     margin-top: 24px;
 }
@@ -37,7 +48,10 @@ kendo-datepicker{
 .ml {
     margin-left: 10px;
 }
-
+.modal-dialog {
+    width: 75%!important;
+    margin: 30px auto;
+}
 /* modal */
 
 .dis-block {
@@ -52,4 +66,27 @@ kendo-datepicker{
 
 .top-space {
     top:10%;
-}
+  }
+  
+  .wid-30{
+    width:30%;
+  }
+  
+  .wid-70{
+    width:70%;
+  }
+
+  .main-table td .flex-container{
+    padding:0px!important; 
+ }
+
+ .table thead th {
+    padding-left: 10px;
+    padding-right: 10px;
+ }
+  
+ @media (min-width:260px) and (max-width:767px){
+     .tab-hgt{
+         height:150px;
+     }
+ }

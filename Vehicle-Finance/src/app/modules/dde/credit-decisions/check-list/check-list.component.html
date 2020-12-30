@@ -124,6 +124,11 @@
                     </div>
                     <!--mobile view end-->
                 </div>
+                <div>
+                    <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+                    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+                
+                </div>
                 <div class="row buttonsAdjust">
 
                     <div class="col-sm-5 text-right">
@@ -131,7 +136,7 @@
                     </div>
                     <div class="col-sm-7 text-right">
                         <button class="btn btn-primary dash_href adjustMargins " type="button" (click)="onBack()"><a>Back</a></button>
-                        <button class="btn btn-primary dash_href adjustMargins" (click)="onSave('save')"> Save </button>
+                        <button *ngIf="roleType != '7'" class="btn btn-primary dash_href adjustMargins" (click)="onSave('save')"> Save </button>
                         
                         <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a data-toggle="modal"
                             data-target="#myModalfour">Send Back to CPC Maker</a></button>

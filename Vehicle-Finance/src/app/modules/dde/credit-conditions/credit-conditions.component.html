@@ -1,4 +1,4 @@
-<div class="mb-50" style="padding-bottom: 20px;">
+<div class="content" >
   <div class="row">
     <div class="col-xs-12">
       <div *ngIf="userType === 2">
@@ -25,6 +25,7 @@
       <label class="action"> {{labels.action}} </label>
     </div>
   </div>
+ 
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
     <div formArrayName="Rows">
 
@@ -98,8 +99,10 @@
     </div>
   </form>
 
-  <div class="bottom_20"></div>
-  <div class="btn-sec clear-both">
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+  [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+  <div class="btn-sec clear-both mar-30">
     <div class="col-sm-4">
     </div>
     <div class="col-sm-8 text-right">
@@ -116,7 +119,7 @@
         type="button">Submit</button> -->
       <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Approve')" data-toggle="modal"
         data-target="#approveModal" [disabled]="!isApproveEnable" type="button">Approve</button>
-
+  
       <button class="btn btn-primary" *ngIf="userType === 2" type="button"
        data-toggle="modal" data-target="#myModal"
         >Refer</button>
@@ -140,17 +143,19 @@
          >Refer</button>
       <button class="btn btn-primary" *ngIf="userType === 2" 
         (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
-
+  
       <ng-container *ngIf="!isLoan360">
         <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
         data-target="#approveModal" type="button" [disabled]="!isDeclineEnable">Decline</button>
       <button class="btn btn-primary hvr-sweep-to-left" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
         data-toggle="modal" data-target="#approveModal" type="button">Send Back to DDE </button>
       </ng-container>
-
+  
       <button class="btn btn-primary hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
     </div>
   </div>
+  <div class="bottom_20"></div>
+ 
 </div>
 
 <!-- modal popup -->

@@ -4,9 +4,8 @@ import { Base64StorageService } from '@services/base64-storage.service';
 import { UploadService } from './../../../../services/upload.service';
 import { GpsService } from './../../../../services/gps.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { LabelsService } from '@services/labels.service';
 import { CommomLovService } from "@services/commom-lov-service";
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
@@ -20,9 +19,6 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { environment } from 'src/environments/environment';
 import { LoginService } from '@modules/login/login/login.service';
-import { StringifyOptions } from 'querystring';
-
-
 @Component({
   selector: 'app-other-details',
   templateUrl: './other-details.component.html',
@@ -61,7 +57,6 @@ export class OtherDetailsComponent implements OnInit {
 
   SELFIE_IMAGE: string;
 
-
   setCss = {
     top: '',
     left: '',
@@ -72,9 +67,7 @@ export class OtherDetailsComponent implements OnInit {
     imageType: string;
   };
 
-
   documentArr: DocumentDetails[] = [];
-
 
   latitude: string = null;
   longitude: string = null;
@@ -85,6 +78,12 @@ export class OtherDetailsComponent implements OnInit {
   pdList: [];
   pdStatusValue: any;
   distanceFromBranch: any;
+
+  // User defined fields
+  udfScreenId: string = 'PDS004';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'PDG001';
 
   constructor(
     private labelsData: LabelsService,
@@ -105,7 +104,6 @@ export class OtherDetailsComponent implements OnInit {
     private base64StorageService: Base64StorageService,
     private draggableContainerService: DraggableContainerService,
     private applicantService: ApplicantService
-
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
       this.taskId = value;
@@ -123,12 +121,13 @@ export class OtherDetailsComponent implements OnInit {
     this.getLabels();
     this.leadId = (await this.getLeadId()) as number;
     this.getLOV();
-    // this.getPdDetails();
     this.getLeadSectiondata();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
     this.roleType = this.roles[0].roleType;
+
+    this.udfScreenId = this.roleType === 1 ? 'PDS004' : 'PDS008';
 
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
@@ -155,23 +154,14 @@ export class OtherDetailsComponent implements OnInit {
         },
       ],
     };
-
-    // let documentId = "537402";
-    // this.downloadDocs(documentId);
-
   }
 
   async checkGpsEnabled() {
     this.gpsService.getLatLong().subscribe((position) => {
-      console.log("getLatLong", position);
       this.gpsService.initLatLong().subscribe((res) => {
-        console.log("gpsService", res);
         if (res) {
           this.gpsService.getLatLong().subscribe((position) => {
-            console.log("getLatLong", position);
           });
-        } else {
-          console.log("error initLatLong", res);
         }
       });
     });
@@ -187,8 +177,6 @@ export class OtherDetailsComponent implements OnInit {
           }
           this.applicantId = Number(value.applicantId);
           this.version = String(value.version);
-          console.log('APPLICANT_ID::', this.applicantId)
-          console.log('VERSION::', this.version)
           if (this.version !== 'undefined') {
             this.showSubmit = false;
           }
@@ -204,7 +192,6 @@ export class OtherDetailsComponent implements OnInit {
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.aRoute.parent.params.subscribe((value) => {
-        console.log("LEAD_ID::", value.leadId);
         if (value && value.leadId) {
           resolve(Number(value.leadId));
         }
@@ -273,20 +260,25 @@ export class OtherDetailsComponent implements OnInit {
       applicantId: this.applicantId,
       userId: localStorage.getItem('userId'),
       pdVersion: this.version,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     };
-    console.log('REQUEST DATA VERSION::', this.version);
+
     this.personalDiscussionService.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {
         this.showReinitiate = value.ProcessVariables.showReinitiate;
-        console.log('in other details show renitiate', this.showReinitiate);
+        this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
         this.otherDetails = value.ProcessVariables.otherDetails;
         this.branchLongitude = value.ProcessVariables.customerProfileDetails.branchLongitude
         this.branchLatitude = value.ProcessVariables.customerProfileDetails.branchLatitude;
         this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
-        console.log('GET_OTHER_DETAILS:: ', this.otherDetails);
       }
       if (this.otherDetails) {
         this.setFormValue(); //SsaveOrUpdateOtherDetailsET_FORM_VALUES_ON_INITIALISATION
@@ -300,7 +292,7 @@ export class OtherDetailsComponent implements OnInit {
 
   //PATCH_FORM_VALUES
   setFormValue() {
-    // const otherDetailsFormModal = this.otherDetails || {};
+
     this.otherDetailsForm.patchValue({
       agricultureProof: this.otherDetails.agricultureProof || '',
       income: this.otherDetails.income || '',
@@ -335,29 +327,38 @@ export class OtherDetailsComponent implements OnInit {
 
   //SAVE_OR_UPDATE_OTHER-DETAILS
   async saveOrUpdateOtherDetails() {
-    console.log("latitude::", this.latitude);
-    console.log("longitude::", this.longitude);
 
     this.formValues = this.otherDetailsForm.getRawValue();
-    console.log("FORMVALUES::", this.otherDetailsForm);
     this.formValues.date = this.formValues.date ? this.utilityService.convertDateTimeTOUTC(this.formValues.date, 'DD/MM/YYYY') : null;
 
     this.custProfileDetails = {
       latitude: this.latitude || '',
       longitude: this.longitude || '',
     }
-    if (this.otherDetailsForm.valid === true) {
+
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
+
+    if (this.otherDetailsForm.valid && isUdfField) {
       const data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
         userId: this.userId,
         otherDetails: this.formValues,
         customerProfileDetails: this.custProfileDetails,
-        profilePhoto: this.SELFIE_IMAGE
+        profilePhoto: this.SELFIE_IMAGE,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
+          }
+        ]
       }
       this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((res: any) => {
         const response = res.ProcessVariables;
-        // console.log("RESPONSE_SAVEUPDATE_API::", response)
         if (res['ProcessVariables'] && res['ProcessVariables'].error['code'] == "0") {
           this.toasterService.showSuccess("Record Saved Successfully", "Other Details");
         } else {
@@ -425,9 +426,6 @@ export class OtherDetailsComponent implements OnInit {
         if (this.pdList[i]['pdStatusValue'] == "Submitted") {
           n = n + 1;
         }
-        console.log('number n ', n);
-        console.log('length', arrayLength);
-
       }
       if (n === arrayLength) {
         this.router.navigate([`/pages/dashboard`]);
@@ -445,7 +443,6 @@ export class OtherDetailsComponent implements OnInit {
     };
     this.personalDiscussionService.reinitiatePd(data).subscribe((res: any) => {
       const processVariables = res.ProcessVariables;
-      console.log('response reinitiate pd', processVariables);
       const message = processVariables.error.message;
       if (processVariables.error.code === '0') {
         this.toasterService.showSuccess('Report Reinitiated Successfully', '');
@@ -469,8 +466,6 @@ export class OtherDetailsComponent implements OnInit {
     this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`]);
   }
 
-
-
   async getLatLong() {
     /* Get latitude and longitude from mobile */
 
@@ -479,24 +474,11 @@ export class OtherDetailsComponent implements OnInit {
       if (this.isMobile) {
 
         this.gpsService.getLatLong().subscribe((position) => {
-          console.log("Mobile position", position);
           resolve(position);
         });
 
-        // this.gpsService.initLatLong().subscribe((res) => {
-        //   console.log("Error position", res);
-        //   if (res) {
-        //     this.gpsService.getLatLong().subscribe((position) => {
-        //       console.log("Mobile position", position);
-        //       resolve(position);
-        //     });
-        //   } else {
-        //     console.log("Error position", res);
-        //   }
-        // });
       } else {
         this.gpsService.getBrowserLatLong().subscribe((position) => {
-          console.log("Browser position", position);
           if (position["code"]) {
             this.toasterService.showError(position["message"], "GPS Alert");
           }
@@ -517,14 +499,11 @@ export class OtherDetailsComponent implements OnInit {
       longitude: this.longitude
     }
 
-    console.log("branchPos", branchPos);
-    console.log("currentPos", currentPos);
     this.loginService.getPolyLine(function (result, distance) {
       that.base64Image = result;
       that.showRouteMap = true;
       that.distanceFromBranch = distance;
 
-      console.log('distance from bank', that.distanceFromBranch);
       if (that.distanceFromBranch) {
         that.otherDetailsForm.get('distanceFromEquitas').setValue(that.distanceFromBranch);
         that.otherDetailsForm.get('distanceFromEquitas').updateValueAndValidity;
@@ -532,16 +511,10 @@ export class OtherDetailsComponent implements OnInit {
         that.otherDetailsForm.get('distanceFromEquitas').setValue(null);
         that.otherDetailsForm.get('distanceFromEquitas').updateValueAndValidity;
       }
-      // console.log("getPolyLine", that.base64Image);
     }, currentPos, branchPos);
   }
 
   async downloadDocs(documentId: string) {
-    console.log(event);
-
-    // let el = event.srcElement;
-    // const formArray = this.uploadForm.get(formArrayName) as FormArray;
-    // const documentId = formArray.at(index).get('file').value;
     if (!documentId) {
       return;
     }
@@ -549,32 +522,10 @@ export class OtherDetailsComponent implements OnInit {
       this.applicantId + documentId
     );
     if (bas64String) {
-      // this.setContainerPosition(el);
-      // this.showDraggableContainer = {
-      //   imageUrl: bas64String.imageUrl,
-      //   imageType: bas64String.imageType,
-      // };
-      // this.draggableContainerService.setContainerValue({
-      //   image: this.showDraggableContainer,
-      //   css: this.setCss,
-      // });
       this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + bas64String.imageUrl;
       return;
     }
     const imageValue: any = await this.getBase64String(documentId);
-    // this.setContainerPosition(el);
-    // this.showDraggableContainer = {
-    //   imageUrl: imageValue.imageUrl,
-    //   imageType: imageValue.imageType,
-    // };
-    // this.draggableContainerService.setContainerValue({
-    //   image: this.showDraggableContainer,
-    //   css: this.setCss,
-    // });
-    // this.base64StorageService.storeString(this.applicantId + documentId, {
-    //   imageUrl: imageValue.imageUrl,
-    //   imageType: imageValue.imageType,
-    // });
     this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + imageValue.imageUrl;
 
   }
@@ -592,14 +543,12 @@ export class OtherDetailsComponent implements OnInit {
             imageUrl,
             imageType,
           });
-          console.log('downloadDocs', value);
+
         });
     });
   }
 
-
   async onUploadSuccess(event: DocumentDetails) {
-    // this.toasterService.showSuccess('Document uploaded successfully', '');
     this.showModal = false;
     this.SELFIE_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
     const data = {
@@ -607,20 +556,14 @@ export class OtherDetailsComponent implements OnInit {
       isPhoto: true,
       applicantId: this.applicantId,
     };
-    //this.uploadPhotoOrSignature(data);
 
     event.imageUrl = '';
 
-    // const formArray = this.uploadForm.get(
-    //   `${this.FORM_ARRAY_NAME}_${event.subCategoryCode}`
-    // ) as FormArray;
-    // formArray.at(this.selectedIndex).get('file').setValue(event.dmsDocumentId);
     let index = 0;
     if (this.documentArr.length === 0) {
       this.documentArr.push(event);
       index = 0;
     }
-    console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
 
     let position = await this.getLatLong();
@@ -641,10 +584,8 @@ export class OtherDetailsComponent implements OnInit {
 
   uploadPhotoOrSignature(data) {
     this.applicantService.uploadPhotoOrSignature(data).subscribe((value) => {
-      console.log('uploadPhotoOrSignature', value, 'data', data);
     });
   }
-
 
   individualImageUpload(request: DocumentDetails, index: number) {
     this.uploadService
@@ -654,15 +595,15 @@ export class OtherDetailsComponent implements OnInit {
           return;
         }
         this.toasterService.showSuccess('Document uploaded successfully', '');
-        console.log('saveOrUpdateDocument', value);
         const processVariables = value.ProcessVariables;
         const documentId = processVariables.documentIds[0];
-        console.log("documentId******", documentId);
         this.documentArr[index].documentId = documentId;
         const subCategoryCode = this.documentArr[index].subCategoryCode;
       });
   }
 
-
+  onSaveuserDefinedFields(val) {
+    this.userDefineForm = val;
+  }
 
 }

@@ -54,7 +54,7 @@
                     <td>{{data.loanNo}}</td>
                     <td>{{data.purchaseDate}}</td>
                     <td>{{data.tenure}}</td>
-                    <td>{{data.regdNo}}</td>
+                    <td>{{data.paid}}</td>
                     <td *ngIf="data.status" style="color: green;">Success</td>
                     <td *ngIf="!data.status" style="color: red;">Fail</td>
                     <td [ngClass]="{'status-success': data.status, 'status-fail': !data.status}">{{data.description}}</td>
