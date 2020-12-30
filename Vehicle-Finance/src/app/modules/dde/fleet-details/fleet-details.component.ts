@@ -406,30 +406,41 @@ export class FleetDetailsComponent implements OnInit {
       this.customFutureDate = false;
       const formArray = (this.fleetForm.get('Rows') as FormArray);
       this.getVehicleGridValue(formArray, index)
+      
+      this.onCheckPurchaseDate(formArray.controls[index].get('purchaseDate').value, index, formArray.controls[index])
+    }
+  }
+
+  onCheckPurchaseDate(dateOfPurchase, index, obj) {
+
+    if (dateOfPurchase) {
+      const formArray = (this.fleetForm.get('Rows') as FormArray);
       let yomDate = new Date(formArray.controls[index].get('yom').value, 12, 0, 0, 0);
       this.minDate = yomDate;
 
       formArray.controls[index].patchValue({
         yomDate: yomDate
       })
-      this.onCheckPurchaseDate(formArray.controls[index].get('purchaseDate').value, index, formArray.controls[index])
-    }
-  }
-
-  onCheckPurchaseDate(event, index, obj) {
-
-    if (event) {
-      const formArray = (this.fleetForm.get('Rows') as FormArray);
-
+      const event = new Date(dateOfPurchase)
       if (event <= this.toDayDate) {
-
-        if (event < obj.controls['yomDate'].value) {
+        if (event < obj.controls['yomDate'].value ) {
+            const purchaseYear = event.getFullYear();
+            const yomYear = (obj.controls['yomDate'].value).getFullYear();
+            if(purchaseYear == yomYear){
+              this.fleetForm.patchValue({
+                isValidPurchaseDate: true
+              })
+              return;
+            }
           console.log(obj, 'my obj')
           this.fleetForm.patchValue({
             isValidPurchaseDate: false
           })
         } else {
-          console.log(obj.controls['yomDate'].value, 'invalid')
+          console.log(obj.controls['yomDate'].value, 'invalid');
+          this.fleetForm.patchValue({
+            isValidPurchaseDate: true
+          })
         }
 
       } else {

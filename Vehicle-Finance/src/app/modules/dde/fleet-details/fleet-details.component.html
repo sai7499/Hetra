@@ -169,7 +169,7 @@
                                                 formControlName="purchaseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
                                                 placeholder="dd/mm/yyyy" [activeView]="'decade'"
                                                 (keyup)="onCheckPurchaseDate($event.target.value, i, itemrow)"
-                                                (change)="onCheckPurchaseDate($event.target.value, i, itemrow)">
+                                                (valueChange)="onCheckPurchaseDate($event, i, itemrow)">
                                             </kendo-datepicker>
 
                                         </div>
