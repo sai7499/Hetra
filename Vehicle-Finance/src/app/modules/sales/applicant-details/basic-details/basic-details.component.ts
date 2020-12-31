@@ -1227,6 +1227,8 @@ export class BasicDetailsComponent implements OnInit {
 
 
     if (this.mobileNumberChange) {
+      const currentUrl = this.location.path();
+      this.applicantDataService.setUrl(currentUrl);
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
       );
