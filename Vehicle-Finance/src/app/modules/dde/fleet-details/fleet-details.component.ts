@@ -159,7 +159,7 @@ export class FleetDetailsComponent implements OnInit {
     let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
     if (paid > tenure) {
       this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
-    }else{
+    } else {
       this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': false })
     }
   }
@@ -406,7 +406,7 @@ export class FleetDetailsComponent implements OnInit {
       this.customFutureDate = false;
       const formArray = (this.fleetForm.get('Rows') as FormArray);
       this.getVehicleGridValue(formArray, index)
-      
+
       this.onCheckPurchaseDate(formArray.controls[index].get('purchaseDate').value, index, formArray.controls[index])
     }
   }
@@ -423,21 +423,19 @@ export class FleetDetailsComponent implements OnInit {
       })
       const event = new Date(dateOfPurchase)
       if (event <= this.toDayDate) {
-        if (event < obj.controls['yomDate'].value ) {
-            const purchaseYear = event.getFullYear();
-            const yomYear = (obj.controls['yomDate'].value).getFullYear();
-            if(purchaseYear == yomYear){
-              this.fleetForm.patchValue({
-                isValidPurchaseDate: true
-              })
-              return;
-            }
-          console.log(obj, 'my obj')
+        if (event < obj.controls['yomDate'].value) {
+          const purchaseYear = event.getFullYear();
+          const yomYear = (obj.controls['yomDate'].value).getFullYear();
+          if (purchaseYear == yomYear) {
+            this.fleetForm.patchValue({
+              isValidPurchaseDate: true
+            })
+            return;
+          }
           this.fleetForm.patchValue({
             isValidPurchaseDate: false
           })
         } else {
-          console.log(obj.controls['yomDate'].value, 'invalid');
           this.fleetForm.patchValue({
             isValidPurchaseDate: true
           })
@@ -474,14 +472,12 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   getLov() {
-
     this.commonLovService.getLovData().subscribe((value: any) => {
       this.fleetLov.applicantRelationshipWithLead = value.LOVS.applicantRelationshipWithLead;
       this.allLovs = value.LOVS;
 
       this.fleetLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
     });
-
   }
 
   relationShipChange(event) {
@@ -569,7 +565,6 @@ export class FleetDetailsComponent implements OnInit {
         this.fleetIDs = res.ProcessVariables.ids
         this.toasterService.showSuccess('Record saved successfully!', '');
         const fleetList: Array<any> = res.ProcessVariables.fleets;
-        console.log(fleetList, 'value')
         for (let i = 0; i < fleetList.length; i++) {
           this.onGetDateValue(fleetList[i], i)
         }
@@ -710,9 +705,9 @@ export class FleetDetailsComponent implements OnInit {
     } else {
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
-      console.log(this.fleetForm, 'Fleet Form yom', this.fleetDetails)
+      //  && this.fleetForm.get('isValidPurchaseDate').value === true
 
-      if (this.fleetForm.valid && !isUDFInvalid && this.fleetForm.get('isValidPurchaseDate').value === true) {
+      if (this.fleetForm.valid && !isUDFInvalid) {
         this.saveOrUpdateFleetDetails(index);
       } else {
         this.isDirty = true;
