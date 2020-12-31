@@ -313,8 +313,10 @@ export class FiBusinessComponent implements OnInit {
       distanceInKms: fiModel.distanceInKms ? fiModel.distanceInKms : null,
       cpvAgencyStatus: fiModel.cpvAgencyStatus ? fiModel.cpvAgencyStatus : null,
       verifiedBy: fiModel.verifiedBy ? fiModel.verifiedBy : null,
-      fiDate: this.fiDate ? this.fiDate : null,
-      fiTime: this.fiTime ? this.fiTime : null
+      // fiDate: this.fiDate ? this.fiDate : null,
+      // fiTime: this.fiTime ? this.fiTime : null
+      fiDate: fiModel.fiDate ? this.utilityService.getDateFromString(fiModel.fiDate) : this.fiDate,
+      fiTime: fiModel.fiTime ? fiModel.fiTime : this.fiTime,
     });
   }
 
