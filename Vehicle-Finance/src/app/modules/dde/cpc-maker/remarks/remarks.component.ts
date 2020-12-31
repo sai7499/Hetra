@@ -152,7 +152,7 @@ export class RemarksComponent implements OnInit {
     };
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     if (this.remarksForm.invalid || isUDFInvalid) {
-      this.toasterService.showError('Please Enter Required Details', '');
+      this.toasterService.showError('Please enter any remarks', '');
     } else {
       if (!this.isDeclinedFlow) {
         this.cpcService.saveAssetRemarks(data).subscribe((res: any) => {
@@ -288,7 +288,7 @@ export class RemarksComponent implements OnInit {
     // console.log(this.apiValue,'values', this.formvalue)
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     if (this.remarksForm.invalid || isUDFInvalid) {
-      this.toasterService.showError('Please Enter Required Details', '');
+      this.toasterService.showError('Please enter any remarks', '');
       return;
     }
     if (!isValueCheck || !isUDFCheck) {
