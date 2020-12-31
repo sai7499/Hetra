@@ -68,19 +68,12 @@ export class VehicleValuationComponent implements OnInit {
 
   ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
-    //  details from loginstore service
-    // this.userId = roleAndUserDetails.userDetails.userId;
+
     this.roles = roleAndUserDetails.roles;
-    // this.userDetails = roleAndUserDetails.userDetails;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    // this.userName = this.userDetails.firstName;
-    console.log('user details ==> ', roleAndUserDetails);
-    // console.log('user id ==>', this.userId);
-    // console.log('user name', this.userName);
-    console.log('role id', this.roleId);
-    console.log('role name', this.roleName);
+
     if (this.roleId === 86) {
       this.extValuator = true;
     } else {
@@ -109,7 +102,6 @@ export class VehicleValuationComponent implements OnInit {
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => (this.labels = data),
-      // (error) => console.log("Vehicle Valuation Label Error", error)
     );
   }
 
@@ -117,14 +109,12 @@ export class VehicleValuationComponent implements OnInit {
     this.aRoute.parent.params.subscribe((val) => {
       this.leadId = Number(val.leadId);
     });
-    console.log('LEADID::', this.leadId);
   }
 
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
     });
-    console.log(' LOV::', this.LOV);
   }
 
   initForm() {
@@ -149,12 +139,9 @@ export class VehicleValuationComponent implements OnInit {
             this.make = element.make;
             this.model = element.model;
             this.address = element.address;
-            console.log('COLLETERALID::', this.colleteralId);
+
           });
         }
-        // console.log("COLLETERALID::", this.colleteralId);
-        console.log('COLLATERALDETAILSDATA::', this.collateralDetailsData);
-        // this.getModalData();
         this.getValuatorStatus();
         this.getValuationReport();
       });
@@ -184,21 +171,9 @@ export class VehicleValuationComponent implements OnInit {
     }
   }
 
-  // getModalData() {
-  //   if(this.collateralDetailsData) {
-  //     this.collateralDetailsData.filter( (element) => {
-  //       this.regNo = element.regNo;
-  //       this.make = element.make;
-  //       this.model = element.model;
-  //       this.address = element.address;
-  //     });
-  //   }
-  //   console.log("MODEL-DATA::::", this.regNo, this.make, this.model, this.address);
-  // }
-
   getVendorCode() {
     this.vehicleValuationService.getVendorCode().subscribe((res: any) => {
-      // const response = res;
+
       this.vendorDetails = res.ProcessVariables.vendorDetails;
       this.vendorDetails.filter((element) => {
         const data = {
@@ -207,45 +182,41 @@ export class VehicleValuationComponent implements OnInit {
         };
         this.vendorDetailsData.push(data);
       });
-      console.log('VENDOR-LIST::::', this.vendorDetailsData);
     });
   }
 
   onChangeVendorName(event: any) {
     const vendorNameChange = event.target.value;
     this.vendorDetailsData.filter(element => {
-      // tslint:disable-next-line: triple-equals
       if (element.key == vendorNameChange) {
         this.vendorName = element.value;
       }
-      console.log('VENDOR-NAME::', this.vendorName);
     });
   }
+
   initiateVehicleValuation() {
     this.isDirty = true;
     const formValues = this.modalDataForm.getRawValue();
-    console.log('FORMVALUES::', formValues);
+
     const data = {
       userId: localStorage.getItem('userId'),
       collateralId: this.colleteralId,
       ...formValues
     };
+
     if (this.modalDataForm.valid === true) {
       this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
         const response = res;
-        // console.log("RESPONSE_FROM_INITIATE_VEHICLE_VALUATION_API", response);
-        // tslint:disable-next-line: triple-equals
+
         if (response["Error"] == 0 && response["ProcessVariables"]["error"]["code"] == 0) {
           this.toasterService.showSuccess('Valuation Initiated Successfully', '');
           const getData = response["ProcessVariables"]["collateralDetails"];
           this.getCollateralDetailsForVehicleValuation();
           return this.collateralDetailsData.forEach(element => {
-            // tslint:disable-next-line: triple-equals
             if (element.collateralId == getData.collateralId) {
               element.valuationStatus = getData.valuationStatus;
               element.valuatorStatus = getData.valuatorStatus;
             }
-            console.log("collateralDetailsData", this.collateralDetailsData)
           });
 
         } else {
@@ -264,11 +235,9 @@ export class VehicleValuationComponent implements OnInit {
     this.colleteralId = collateralId;
     console.log('vStatus', status);
     const data = this.collateralDetailsData.find((element) => {
-      console.log('Element::', element.collateralId === collateralId);
       return element.collateralId === collateralId;
     });
-    console.log('DATA::', data);
-    // tslint:disable-next-line: triple-equals
+
     if (status == 'NOT INITIATED') {
       this.regNo = data.regNo;
       this.make = data.make;

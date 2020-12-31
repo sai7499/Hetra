@@ -551,7 +551,9 @@ export class ReferenceCheckComponent implements OnInit {
     };
     const formModel = this.referenceCheckForm.value;
 
-    if (this.referenceCheckForm.valid && this.userDefineForm.udfData.valid) {
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
+
+    if (this.referenceCheckForm.valid && isUdfField) {
 
       if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
         this.toasterService.showWarning('atleast one market and finance reference required', '');
@@ -598,7 +600,10 @@ export class ReferenceCheckComponent implements OnInit {
           {
             "udfGroupId": this.udfGroupId,
             // "udfScreenId": this.udfScreenId,
-            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
           }
         ]
       };

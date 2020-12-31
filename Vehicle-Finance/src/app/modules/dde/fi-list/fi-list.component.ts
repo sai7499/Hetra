@@ -29,7 +29,6 @@ export class FiListComponent implements OnInit {
   pdStatusValue;
   productCatCode: string;
 
-
   selectedApplicantId: any;
   version:any;
   applicantFullName: any;
