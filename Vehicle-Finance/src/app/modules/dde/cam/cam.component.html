@@ -163,7 +163,7 @@
                 <th class="bank_name">{{ labels?.dobDoi }}</th>
                 <th class="bank_name">{{ labels?.age }}</th>
                 <th class="bank_name">{{ labels?.relationshipToApplicant }}</th>
-                <th class="bank_name">{{ labels?.cibilScore }}</th>
+                <th class="bank_name">{{ labels?.bureauScore }}</th>
             </tr>
         </thead>
         <tbody>
@@ -960,7 +960,7 @@ labels?.strengthsOrMitigates
             <thead>
                 <tr class="">
                     <th class="bank_name">{{ labels?.entity }}</th>
-                    <th class="bank_name">{{ labels?.cibilScore }}</th>
+                    <th class="bank_name">{{ labels?.bureauScore }}</th>
                     <th class="bank_name">{{ labels?.odIndividual }}</th>
                     <th class="bank_name">{{ labels?.odInJointAc }}</th>
                     <th class="bank_name">{{ labels?.odAsGuarantor }}</th>
@@ -2014,7 +2014,7 @@ labels?.strengthsOrMitigates
 
                 </tr>
                 <tr>
-                    <td class="bank_name">{{ labels?.cibilScore }}</td>
+                    <td class="bank_name">{{ labels?.bureauScore }}</td>
                     <td *ngFor="let appArray of appArray">{{appArray?.cibilScore}}</td>
                     <td *ngFor="let coAppArray of coAppArray">{{coAppArray?.cibilScore}}</td>
                     <td *ngFor="let guarntorArray of guarntorArray">{{guarntorArray?.cibilScore}}</td>
@@ -2030,7 +2030,7 @@ labels?.strengthsOrMitigates
                     </td>
                 </tr>
                 <tr>
-                    <td class="bank_name">{{ labels?.cibilScoreIfAdditionalMatchFound }}</td>
+                    <td class="bank_name">{{ labels?.bureauScoreIfAdditionalMatchFound }}</td>
                     <td *ngFor="let appArray of appArray">
                         {{appArray?.cibilScoreIfAdditionalMatchFound}}</td>
                     <td *ngFor="let coAppArray of coAppArray">
@@ -2737,7 +2737,7 @@ labels?.strengthsOrMitigates
                         <td colspan="3">{{ detailsOfCibilFiPD?.name }}</td>
                     </tr>
                     <tr>
-                        <td class="bank_name">{{ labels?.cibilScore }}</td>
+                        <td class="bank_name">{{ labels?.bureauScore }}</td>
                         <td>{{ detailsOfCibilFiPD?.cibilScore }}</td>
                         <td class="bank_name">{{ labels?.status }}</td>
                         <td>{{ detailsOfCibilFiPD?.status }}</td>
