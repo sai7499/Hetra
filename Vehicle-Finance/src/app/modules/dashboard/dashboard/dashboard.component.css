@@ -335,11 +335,13 @@ tr:hover {background-color:#ddd;}
 
 td,
 th {
-    padding-top:10px;
-    padding-bottom:10px;
+    /* padding-top:10px;
+    padding-bottom:10px; */
     border: 1px solid #ccc;
     text-align: left;
-    text-align: center
+    text-align: center;
+    padding: 10px 5px;
+   
 }
 
 /* Tooltip */

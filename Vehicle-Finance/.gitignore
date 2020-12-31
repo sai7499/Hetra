@@ -4,3 +4,4 @@ android.zip
 /www
 /dist
 package-lock.json
+!custom_plugin/cordova-plugin-camera-preview/www

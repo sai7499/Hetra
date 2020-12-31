@@ -9,7 +9,7 @@
     window["env"]["userConfig"] = "@equitasbank.in";
     window["env"]["useADAuth"] = false;
     window["env"]["version"] = "0.33.1"; 
-    window["env"]["buildDate"] = "29-12-2020";
+    window["env"]["buildDate"] = "31-12-2020";
     window["env"]["sessionTime"] = "14";
     window["env"]["expriyAlertTime"] = "30";
   })(this);
