@@ -305,9 +305,9 @@ export class HttpService {
           console.log('~~~***Response error***~~~', error);
 
           if (error['status'] == '-3' || error['status'] == '-4') {
-            data = JSON.parse(error['error']);
             this.toasterService.error(`${error['status']}: ${error['error']}`, 'Technical error..');
             this.ngxService.stop();
+            data = JSON.parse(error['error']);
             observer.error(data);
             observer.complete();
             this.activeRequests--;  
