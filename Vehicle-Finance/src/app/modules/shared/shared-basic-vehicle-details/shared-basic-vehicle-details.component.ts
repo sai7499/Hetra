@@ -117,6 +117,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     var day = this.toDayDate.getDate();
     var month = this.toDayDate.getMonth();
     var year = this.toDayDate.getFullYear();
+    let myYear = this.toDayDate.getFullYear() - 15;
+    this.minDate = new Date(myYear, month, day, 0, 0)
     this.toDayDate = new Date(year, month, day, 0, 0);
     // Mobile View
     this.isMobile = environment.isMobile;
@@ -233,14 +235,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onGetDateValue(event) {
 
+    console.log(event, 'minDate', this.minDate)
+
     if (!(event > this.maxDate || event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      formArray.controls[0].patchValue({
-        ageOfAsset: Number(this.utilityService.ageFromAsset(event))
-      })
+
+      let ageOfAssetYear = this.utilityService.ageOfAssetYear(event)['_data'];
+
+      let ageOfLoanTenure = Number(this.loanTenor) + Number(this.utilityService.ageFromAsset(event));
+
+      let ageOfAsset = Number(this.utilityService.ageFromAsset(event)) + '    ( ' + ageOfAssetYear.years + ' Years ' + ageOfAssetYear.months + ' Months ' + ' ) ';
+
+      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.round(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.round(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
 
       formArray.controls[0].patchValue({
-        ageAfterTenure: Number(this.loanTenor) + formArray.value[0].ageOfAsset
+        ageOfAsset: ageOfAsset,
+        ageAfterTenure: ageAfterTenure
       })
 
       if (this.productCatoryCode === 'UCV') {

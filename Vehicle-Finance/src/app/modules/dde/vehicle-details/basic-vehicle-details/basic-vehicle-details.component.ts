@@ -83,7 +83,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     let isUdfField = true;
 
     if (this.userDefineForm) {
-     isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+      isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
     }
 
     if (this.formValue.valid && isUdfField) {
@@ -115,6 +115,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
+          data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
+          data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
         }
 
         data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';

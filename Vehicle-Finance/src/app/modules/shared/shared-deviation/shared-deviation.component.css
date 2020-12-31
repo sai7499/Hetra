@@ -273,6 +273,10 @@
         -moz-border-radius: 50%;
         border-radius: 50%;
       }
+
+      input[type="radio"] + label {
+        font-size: 11px;
+      }
       
       input[type="radio"] + label span {
         background-color: white;
