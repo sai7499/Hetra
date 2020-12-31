@@ -323,6 +323,9 @@ export class CustomInputComponent
         this.valuePatternCheck(event, /[^a-zA-Z ]/g);
         // this.allowAlphaOnly(event);
         break;
+      case 'custom-special-alpha-numeric':
+        this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n\$\^\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g);
+        break;
       case 'special-alpha-numeric':
         this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g);
         // this.allowSpecialAlphaNumericOnly(event);

@@ -90,6 +90,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   showDraggableContainer: {
     imageUrl: string;
     imageType: string;
+    name: string
   };
   documentArr: DocumentDetails[] = [];
   apiRes: any[];
@@ -739,8 +740,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if (bas64String) {
       this.setContainerPosition(el);
       this.showDraggableContainer = {
-        imageUrl: bas64String.imageUrl,
-        imageType: bas64String.imageType,
+        ...bas64String
       };
       this.draggableContainerService.setContainerValue({
         image: this.showDraggableContainer,
@@ -763,6 +763,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.showDraggableContainer = {
       imageUrl: imageValue.imageUrl,
       imageType: imageValue.imageType,
+      name: imageValue.documentName
     };
     this.draggableContainerService.setContainerValue({
       image: this.showDraggableContainer,
@@ -771,6 +772,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.base64StorageService.storeString(this.applicantId + documentId, {
       imageUrl: imageValue.imageUrl,
       imageType: imageValue.imageType,
+      name: imageValue.documentName
     });
   }
 
@@ -816,8 +818,16 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.uploadService
         .getDocumentBase64String(documentId)
         .subscribe((value) => {
-          const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
-          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+
+          const dwnldDocumentRep = value['dwnldDocumentRep'];
+
+          if (dwnldDocumentRep.msgHdr.rslt === 'ERROR') {
+             this.toasterService.showError(dwnldDocumentRep.msgHdr.error[0].rsn, '')
+             return;
+          }
+
+          const imageUrl = dwnldDocumentRep.msgBdy.bsPyld;
+          const documentName = dwnldDocumentRep.msgBdy.docNm || '';
           const imageType = documentName.split('.')[1].toLowerCase();
 
           resolve({

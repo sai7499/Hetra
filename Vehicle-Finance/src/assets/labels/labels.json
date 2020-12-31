@@ -2915,7 +2915,7 @@
             "maxLength": {
                 "rule": 40
             },
-            "type": "number"
+            "type": "custom-special-alpha-numeric"
         },
         "valuationEngChasisNumber": {
             "maxLength": {
