@@ -68,6 +68,8 @@ export class PddComponent implements OnInit {
     userDefineForm: any;
     udfScreenId: any;
     udfGroupId: any;
+    initUDFValues: any;
+    editedUDFValues: any;
 
     constructor(
         private location: Location,
@@ -530,6 +532,7 @@ export class PddComponent implements OnInit {
                     }
 
                     if (error.code === '0') {
+                        this.initUDFValues = this.userDefineForm.udfData.getRawValue();
                         this.toasterService.showSuccess('Updated successfully', '');
                     }
                     else {
@@ -784,6 +787,15 @@ export class PddComponent implements OnInit {
             }
 
         }
+        this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+        const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+
+        if (!isUDFCheck) {
+            this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+            return;
+          }
+
+
         this.showDialog = true;
     }
 
@@ -919,5 +931,8 @@ export class PddComponent implements OnInit {
     onSaveuserDefinedFields(value) {
         this.userDefineForm = value;
         console.log('identify', value)
+        if(value.event === 'init'){
+            this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+          }
       }
 }

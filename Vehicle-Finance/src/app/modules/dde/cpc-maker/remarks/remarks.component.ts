@@ -31,6 +31,8 @@ export class RemarksComponent implements OnInit {
   userDefineForm: any;
   udfScreenId = 'CDS001';
   udfGroupId = 'CDG001';
+  initUDFValues: any;
+  editedUDFValues: any;
 
   constructor(
     private router: Router,
@@ -159,6 +161,7 @@ export class RemarksComponent implements OnInit {
           if (responce.Error == '0' && processVaribles.error.code == '0') {
             this.toasterService.showSuccess('Record Saved Successfully', '');
             this.apiValue = this.remarksForm.getRawValue();
+            this.initUDFValues = this.userDefineForm.udfData.getRawValue();
           } else {
             this.toasterService.showError(processVaribles.error.message, '');
           }
@@ -170,6 +173,7 @@ export class RemarksComponent implements OnInit {
           if (responce.Error == '0' && processVaribles.error.code == '0') {
             this.toasterService.showSuccess('Record Saved Successfully', '');
             this.apiValue = this.remarksForm.getRawValue();
+            this.initUDFValues = this.userDefineForm.udfData.getRawValue();
           } else {
             this.toasterService.showError(processVaribles.error.message, '');
           }
@@ -181,6 +185,9 @@ export class RemarksComponent implements OnInit {
   onApproval() {
     this.formvalue = this.remarksForm.getRawValue();
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue);
+
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     // console.log('isValueCheck', isValueCheck)
     // console.log(this.apiValue,'values', this.formvalue)
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
@@ -188,7 +195,7 @@ export class RemarksComponent implements OnInit {
       this.toasterService.showError('Save before Submitting', '');
       return;
     }
-    if (!isValueCheck) {
+    if (!isValueCheck || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
@@ -229,16 +236,16 @@ export class RemarksComponent implements OnInit {
   }
 
   onSendToCredit() {
-    this.formvalue = this.remarksForm.getRawValue();
-    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue);
-    if (this.remarksForm.invalid) {
-      this.toasterService.showError('Save before Submitting', '');
-      return;
-    }
-    if (!isValueCheck) {
-      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
-      return;
-    }
+    // this.formvalue = this.remarksForm.getRawValue();
+    // const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue);
+    // if (this.remarksForm.invalid) {
+    //   this.toasterService.showError('Save before Submitting', '');
+    //   return;
+    // }
+    // if (!isValueCheck) {
+    //   this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+    //   return;
+    // }
 
     this.showSendCredit = true;
 
@@ -275,11 +282,16 @@ export class RemarksComponent implements OnInit {
   onReappeal() {
     this.formvalue = this.remarksForm.getRawValue();
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.formvalue);
-    if (this.remarksForm.invalid) {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    // console.log('isValueCheck', isValueCheck)
+    // console.log(this.apiValue,'values', this.formvalue)
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
+    if (this.remarksForm.invalid || isUDFInvalid) {
       this.toasterService.showError('Please enter any remarks', '');
       return;
     }
-    if (!isValueCheck) {
+    if (!isValueCheck || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
@@ -305,7 +317,10 @@ export class RemarksComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+    console.log('identify', value);
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 
 }
