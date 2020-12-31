@@ -603,6 +603,7 @@ export class LeadCreationComponent implements OnInit {
       this.onDealerCodeSearch(sourcingEvent.key);
       this.createLeadForm.patchValue({ dealerCode: sourcingEvent.value });
       this.dealorCodeKey = sourcingEvent.key;
+      this.isDealerCode = false;
     }
   }
 
@@ -616,7 +617,9 @@ export class LeadCreationComponent implements OnInit {
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
         if (this.sourchingTypeId === '2SOURTYP') {
+          if (this.dealerCodeData != null){
           this.selectDealerEvent(this.dealerCodeData[0]);
+          }
         }
         console.log('this.dealerCodeData', this.dealerCodeData);
       }

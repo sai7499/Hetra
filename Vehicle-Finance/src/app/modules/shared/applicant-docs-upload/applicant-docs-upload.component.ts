@@ -1046,7 +1046,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
 
 
-    if (this.documentArr.length === 0) {
+    if (this.documentArr.length === 0 ) {
+      if (this.isProfileSignUploaded) {
+        this.isProfileSignUploaded = false;
+        return this.toasterService.showSuccess('Documents saved successfully', '');
+      }
       this.toasterService.showWarning('No documents uploaded to save', '');
       return;
     }
@@ -1080,11 +1084,21 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
 
     if (this.isNewUpload) {
+      if (!isValueChange && this.isProfileSignUploaded) {
+          this.isProfileSignUploaded = false;
+          this.isNewUpload = false;
+          return this.toasterService.showSuccess('Documents saved successfully', '');
+      }
        return this.callAppiyoUploadApi();
     }
 
     if (!isValueChange) {
+      if (this.isProfileSignUploaded) {
+        this.isProfileSignUploaded = false;
+        return this.toasterService.showSuccess('Documents saved successfully', '');
+      }
       return this.toasterService.showWarning('No changes done to save', '');
+      
     }
     this.callAppiyoUploadApi();
   }
@@ -1098,6 +1112,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         if (value.Error !== '0') {
           return;
         }
+        this.isProfileSignUploaded = false;
         this.toasterService.showSuccess('Documents saved successfully', '');
         this.isNewUpload = false;
         this.apiRes = [...this.documentArr];

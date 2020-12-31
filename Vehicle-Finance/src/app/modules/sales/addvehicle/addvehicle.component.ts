@@ -81,7 +81,13 @@ export class AddvehicleComponent implements OnInit {
 
   onFormSubmit() {
 
-    if (this.formValue.valid && this.userDefineForm.udfData.valid) {
+    let isUdfField = true;
+
+    if (this.userDefineForm) {
+     isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+    }
+
+    if (this.formValue.valid && isUdfField) {
       let data = this.formValue.value.vehicleFormArray[0];
 
       if (this.formValue.value.isCheckDedpue === false) {
@@ -119,10 +125,12 @@ export class AddvehicleComponent implements OnInit {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
         }
 
-        data.udfDetails =  [{
+        data.udfDetails = [{
           "udfGroupId": this.udfGroupId,
           // "udfScreenId": this.udfScreenId,
-          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          "udfData": JSON.stringify(
+            this.userDefineForm && this.userDefineForm.udfData ?
+              this.userDefineForm.udfData.getRawValue() : {})
         }]
 
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {

@@ -83,8 +83,7 @@
                                                 </a>
                                             </u> &nbsp; &nbsp; &nbsp;
                                             <span>
-                                                <a class="a_tag" style="cursor: pointer;" data-toggle="modal"
-                                                    data-target="#fiCumPdModal" (click)="getPdf(item.applicantId)">
+                                                <a class="a_tag" style="cursor: pointer;" (click)="getPdf(item.applicantId)">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             </span>
@@ -186,7 +185,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="fiCumPdModal">
+<div class="modal fade" id="fiCumPdModal" *ngIf="isFiCumPdModal">
     <div class="modal-dialog modal-dialog-centered HeaderModalWidth">
         <div class="modal-content">
             <div class="modal-header ">
@@ -1186,24 +1185,6 @@
                                 <label for="customer_name" class="col-form-label-two">:
                                     {{pdIncomeDetails?.cashBankBalance || 'NA' }}</label>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="applicant_name" class="col-form-label">{{ labels?.accountNumber }}</label>
-                                <label for="customer_name" class="col-form-label-two">:
-                                    {{pdIncomeDetails?.accountNumber || 'NA'}}</label>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="father_name" class="col-form-label">{{ labels?.noOfChqReturns }}</label>
-                                <label for="customer_name" class="col-form-label-two">:
-                                    {{pdIncomeDetails?.noOfChequeReturns || 'NA' }}</label>
-                            </div>
-                            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                <label for="father_name" class="col-form-label">{{ labels?.cashAndBankBalance }}</label>
-                                <label for="customer_name" class="col-form-label-two">:
-                                    {{pdIncomeDetails?.cashBankBalance || 'NA' }}</label>
-                            </div>
                             <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="isccOdLimit">
                                 <label for="father_name" class="col-form-label">{{ labels?.CCODLIMIT }}</label>
                                 <label for="customer_name" class="col-form-label-two">:
@@ -1498,7 +1479,7 @@
                                             <tr *ngFor=" let item of marketAndFinacier; let i = index">
                                                 <td>{{ i + 1 }}</td>
                                                 <td style="min-width: 59px">
-                                                    {{item.typeReference || 'NA'}}
+                                                    {{item.typeReference == 'FINREFREFERNS' ? 'Finance References' : 'Market References'}}
                                                 </td>
                                                 <td>
                                                     {{item.companyName || 'NA'}}
@@ -1704,7 +1685,7 @@
                 <!--PDF end-->
             </div>
             <div class="HeaderFooter text-center">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button> -->
             </div>
         </div>
     </div>

@@ -120,7 +120,7 @@ export class IncomeDetailsComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       if (value.Error === '0' && processVariables.error.code === '0') {
         this.pdDetail = value.ProcessVariables['incomeDetails'];
-        this.udfDetails =  value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
+        this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
         if (this.pdDetail) {
           if (value.ProcessVariables['incomeDetails'].typeOfAccount == "4BNKACCTYP") {
             this.isccOdLimit = true;
@@ -214,35 +214,42 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   onFormSubmit(url: string) {
-    if (this.incomeDetailsForm.invalid && this.userDefineForm.udfData.invalid) {
+
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
+
+    if (this.incomeDetailsForm.valid && isUdfField) {
+
+      this.incomeDetailsForm.value['ccHolderFullName'] = this.incomeDetailsForm['controls']['ccHolderFirstName'].value + ' '
+        + this.incomeDetailsForm['controls']['ccHolderSecondName'].value + ' ' +
+        this.incomeDetailsForm['controls']['ccHolderThirdName'].value
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
+        userId: this.userId,
+        incomeDetails: this.incomeDetailsForm.value,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
+          }
+        ]
+      };
+      this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
+        if (res.ProcessVariables.error.code === '0') {
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+        } else {
+          this.toasterService.showError('ivalid save', 'message');
+        }
+      });
+    } else {
       this.isDirty = true;
       this.toasterService.showWarning('please enter required details', '');
       return;
     }
-    this.incomeDetailsForm.value['ccHolderFullName'] = this.incomeDetailsForm['controls']['ccHolderFirstName'].value + ' '
-      + this.incomeDetailsForm['controls']['ccHolderSecondName'].value + ' ' +
-      this.incomeDetailsForm['controls']['ccHolderThirdName'].value
-    const data = {
-      leadId: this.leadId,
-      // applicantId: 6,
-      applicantId: this.applicantId, /* Uncomment this after getting applicant Id from Lead */
-      userId: this.userId,
-      incomeDetails: this.incomeDetailsForm.value,
-      udfDetails: [
-        {
-          "udfGroupId": this.udfGroupId,
-          // "udfScreenId": this.udfScreenId,
-          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
-        }
-      ]
-    };
-    this.personalDiscussion.saveOrUpdatePdData(data).subscribe((res: any) => {
-      if (res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess('Record Saved Successfully', '');
-      } else {
-        this.toasterService.showError('ivalid save', 'message');
-      }
-    });
   }
 
   onSaveuserDefinedFields(val) {

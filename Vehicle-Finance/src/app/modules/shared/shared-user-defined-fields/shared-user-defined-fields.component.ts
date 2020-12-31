@@ -56,7 +56,6 @@ export class SharedUserDefinedFieldsComponent implements OnInit, OnChanges {
         console.log('error', error)
       });
     this.initForm();
-
   }
 
   initForm() {

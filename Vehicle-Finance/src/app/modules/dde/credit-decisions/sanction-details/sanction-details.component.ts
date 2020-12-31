@@ -195,7 +195,7 @@ export class SanctionDetailsComponent implements OnInit {
     this.sanctionDetailsService.submitToSanctionLeads(data).subscribe((res: any) => {
       const response = res;
       // console.log("RESPONSE_SUBMIT_TO_SALES::", response);
-      if (response["Error"] == 0) {
+      if (response["Error"] == 0 && response["ProcessVariables"].error.code == 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
         this.router.navigateByUrl('/pages/dashboard');
       } else {
@@ -217,7 +217,7 @@ export class SanctionDetailsComponent implements OnInit {
     this.sanctionDetailsService.assignTaskToTSAndCPC(data).subscribe((res: any) => {
       const response = res;
       // console.log("RESPONSE_SUBMIT_FOR_APPROVAL::", response);
-      if (response["Error"] == 0) {
+      if (response["Error"] == 0  && response["ProcessVariables"].error.code == 0) {
         this.toasterService.showSuccess("Sanctioned Leads Submitted Successfully", "Sanction Details");
         this.router.navigateByUrl('/pages/dashboard');
       } else {

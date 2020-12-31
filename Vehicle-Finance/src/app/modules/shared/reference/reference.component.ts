@@ -528,7 +528,7 @@ export class ReferenceComponent implements OnInit {
         }
       ];
 
-      const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : "";
+      const udfData = this.userDefineForm? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : "";
       const udf ={
         "udfGroupId": this.udfGroupId,
         //"udfScreenId": this.udfScreenId,

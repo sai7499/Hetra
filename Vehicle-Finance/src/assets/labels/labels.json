@@ -819,7 +819,7 @@
     "totalExpenses": "Total Expenses (B)",
     "netCashFlow": "Net Cash Flow (NCF) (A-B)",
     "emiFull": "Equated Monthly Instalments (EMI)",
-    "netEmi": "Net Cash flow (NCF)/ EMI",
+    "netEmi": "Net Cash flow (NCF) / EMI",
     "vehicleModel": "Vehicle Model",
     "application": "Application / Area of Operation",
     "grossIncomePerDay": "Gross income per day",
@@ -1816,6 +1816,7 @@
     "goToDashboard": "Go To Dashboard",
     "submitValuation": "Are you sure you want to submit task?",
     "wizardId": "Wizard ID",
+    "relationshipType":"Relationship Type",
     "validationData": {
         "name": {
             "maxLength": {

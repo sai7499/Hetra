@@ -13,6 +13,7 @@ import {SharedService} from './modules/shared/shared-service/shared-service'
 import { filter } from 'rxjs/operators'
 import { IdleTimerService } from '@services/idle-timer.service';
 import value from '*.json';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -205,11 +206,21 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router,private utilityService: UtilityService,private sharedService: SharedService, private idleTimerService: IdleTimerService) {}
+              private router: Router,private utilityService: UtilityService,private sharedService: SharedService, private idleTimerService: IdleTimerService,
+              private location: Location) {}
 
   ngOnInit() {
 
     this.timer = this.idleTimerService.getModalTimer();
+
+
+    this.location.onUrlChange((url) => {
+      console.log('url', url);
+      if(url.includes('login')) {
+        this.showExpiryModal = false;
+        this.showTimerModal = false;
+      }
+    })
 
 
     this.idleTimerService.getTimerObservable()
@@ -359,10 +370,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logout() {
     this.showExpiryModal = false;
-    this.utilityService.logOut();
+    this.showTimerModal = false;
     this.timer = this.idleTimerService.getModalTimer();
     clearInterval(this.sessionIntervalId);
-    this.showTimerModal = false;
+    this.utilityService.logOut();   
+   
   }
 
   ngOnDestroy() {
