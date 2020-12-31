@@ -184,16 +184,19 @@ export class OtpSectionComponent implements OnInit {
   }
 
   onBack() {
-    const sales = this.applicantDataService.getNavigateForDedupe()
-    if (!sales) {
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
-      );
-    } else {
-      this.router.navigateByUrl(
-        `/pages/sales-applicant-details/${this.leadId}/add-applicant/${this.applicantId}`
-      );
-    }
+    const sales = this.applicantDataService.getUrl()
+    this.router.navigateByUrl(
+          `${sales}`
+        );
+    // if (!sales) {
+    //   this.router.navigateByUrl(
+    //     `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+    //   );
+    // } else {
+    //   this.router.navigateByUrl(
+    //     `/pages/sales-applicant-details/${this.leadId}/add-applicant/${this.applicantId}`
+    //   );
+    // }
 
   }
 }
