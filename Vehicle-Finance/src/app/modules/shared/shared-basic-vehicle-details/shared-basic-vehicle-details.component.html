@@ -5,9 +5,9 @@
         <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
 
-            <div id="sales_section_start" *ngIf="roleType === 1">
+            <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} ({{udfScreenId}}) </h3>
 
-                <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} </h3>
+            <div id="sales_section_start" *ngIf="roleType === 1">
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
 
@@ -581,12 +581,12 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value && obj.controls['invoiceDate'].value > maxDate">
+                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value && obj.controls['invoiceDate'].value > toDayDate">
                                 Invalid Date
                             </div>
 
@@ -1009,12 +1009,12 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value > maxDate">
+                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value > toDayDate">
                                 Invalid Date
                             </div>
                         </div>
@@ -1521,12 +1521,12 @@
                                 </label>
 
                                 <kendo-datepicker class="form-control mandatory" formControlName="permitExpiryDate"
-                                    [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                    [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
                                     placeholder="Permit Expire Date">
                                 </kendo-datepicker>
 
                                 <div class="invalid-feedback"
-                                    *ngIf="obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < maxDate">
+                                    *ngIf="obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < toDayDate">
                                     Invalid Date
                                 </div>
 
@@ -1589,12 +1589,12 @@
                                 <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
 
                                 <kendo-datepicker class="form-control mandatory" formControlName="vehicleRegDate"
-                                    [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                     placeholder="Vehicle Registration Date">
                                 </kendo-datepicker>
 
                                 <div class="invalid-feedback"
-                                    *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
+                                    *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > toDayDate">
                                     Invalid Date
                                 </div>
 
@@ -2138,12 +2138,12 @@
                                 <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
 
                                 <kendo-datepicker class="form-control mandatory" formControlName="vehicleRegDate"
-                                    [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                     placeholder="Vehicle Registration Date">
                                 </kendo-datepicker>
 
                                 <div class="invalid-feedback"
-                                    *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
+                                    *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > toDayDate">
                                     Invalid Date
                                 </div>
 
@@ -2560,13 +2560,13 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.invoiceDate">
                         <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                         <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                            [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                            [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                             placeholder="Proforma Invoice Date">
                         </kendo-datepicker>
 
                         <div class="invalid-feedback"
                             *ngIf="roleType !==1 && obj.controls['invoiceDate'].touched && 
-                           obj.controls['invoiceDate'].hasError('required') || obj.controls['invoiceDate'].value > maxDate">
+                           obj.controls['invoiceDate'].hasError('required') || obj.controls['invoiceDate'].value > toDayDate">
                             Invalid Date
                         </div>
 

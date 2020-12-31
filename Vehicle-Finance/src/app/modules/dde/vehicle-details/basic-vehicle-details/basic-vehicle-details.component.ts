@@ -80,7 +80,13 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
 
-    if (this.formValue.valid && this.userDefineForm.udfData.valid) {
+    let isUdfField = true;
+
+    if (this.userDefineForm) {
+      isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+    }
+
+    if (this.formValue.valid && isUdfField) {
 
       if (this.formValue.value.isCheckDedpue === false) {
         this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
@@ -109,6 +115,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
+          data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
+          data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
         }
 
         data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
@@ -122,7 +130,9 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         data.udfDetails = [{
           "udfGroupId": this.udfGroupId,
           // "udfScreenId": this.udfScreenId,
-          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+          "udfData": JSON.stringify(
+            this.userDefineForm && this.userDefineForm.udfData ?
+              this.userDefineForm.udfData.getRawValue() : {})
         }]
 
 

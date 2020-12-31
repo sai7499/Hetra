@@ -143,7 +143,6 @@ export class LeadSectionHeaderComponent implements OnInit {
 
     this.isBeforeEligibility = leadSectionData.leadDetails.stage !== '10';
 
-
     this.stageDescription = leadSectionData.leadDetails.stageDesc;
 
     this.sharedService.leadData$.subscribe((value) => {

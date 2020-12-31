@@ -1212,6 +1212,10 @@ export class BasicDetailsComponent implements OnInit {
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues , this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
 
+    // console.log(JSON.stringify(this.initUDFValues));
+    //  console.log(JSON.stringify(this.editedUDFValues));
+    // console.log(this.objectComparisonService.compare(this.editedUDFValues , this.initUDFValues));
+
     if (this.basicForm.invalid || isUDFInvalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
@@ -1223,6 +1227,8 @@ export class BasicDetailsComponent implements OnInit {
 
 
     if (this.mobileNumberChange) {
+      const currentUrl = this.location.path();
+      this.applicantDataService.setUrl(currentUrl);
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
       );

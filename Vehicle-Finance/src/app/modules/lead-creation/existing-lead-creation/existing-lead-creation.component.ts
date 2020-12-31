@@ -693,8 +693,10 @@ export class ExistingLeadCreationComponent implements OnInit {
       }
 
       const vehicleId = data.vehicleId;
-      const vehicleRegNo = data.vehicleRegNo;
-      const manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+      const vehicleRegNo = data.vehicleRegNo; 
+      //check product type 
+      const manuFacMonthYear = data.productCategory!='NCV'?
+          this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY'): null;
 
       this.createLeadService.createExternalLead(
         this.loanLeadDetails,
@@ -822,8 +824,10 @@ export class ExistingLeadCreationComponent implements OnInit {
               assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
               assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
               assetVariant = 'variantKey';
-              dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
-              manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+              if(response.ProcessVariables.leadDetails.productCatCode != 'NCV'){
+                dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
+                manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+              }
             }
 
             this.createExternalLeadForm.patchValue({

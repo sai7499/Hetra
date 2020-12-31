@@ -1203,3 +1203,17 @@ image-cropper .overlay {
 .cropper .resize-bar.right {
     width: 60px !important;
 }
+
+.k-dialog-titlebar {
+    background-color: #1d1a4b !important;
+}
+
+tr:hover {background-color:#ddd;}
+
+th {
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+    border: 1px solid #ccc;
+    text-align: left;
+    text-align: center
+}

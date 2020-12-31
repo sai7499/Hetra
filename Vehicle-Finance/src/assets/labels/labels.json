@@ -610,6 +610,7 @@
     "existingCustomerOfEquitassince": "Existing Customer of Equitas since**",
     "additionalMatchFound": "Additional Match Found",
     "cibilScoreIfAdditionalMatchFound": "CIBIL Score if Additional Match Found",
+    "bureauScoreIfAdditionalMatchFound": "Bureau Score if Additional Match Found",
     "totalCostOfAsset": "Total Cost of Asset",
     "proposedAmount": "Proposed Amount",
     "proposedLtv": "Proposed LTV",
@@ -659,7 +660,7 @@
     "catC": "CAT C",
     "actualWithProofOfDetailsToBeMentioned": "Actual with Proof of details to be mentioned",
     "otherDeviationIfAny": "Other Deviation if Any",
-    "detailsOfCibilPdFiDedupe": "Details of CIBIL/ PD/FI/Dedupe",
+    "detailsOfCibilPdFiDedupe": "Details of Bureau/ PD/FI/Dedupe",
     "wizardDedupe": "Wizard Dedupe",
     "shellDeudupeStatusMatchFound": "Shell Deudupe Status - Match Found (Y/N)",
     "internalDeudupeStatusMatchFound": "Internal Deudupe Status - Match Found (Y/N)",
@@ -668,10 +669,10 @@
     "strikeOffCompanyStatusMatchFound": "Strike off Company Status - Match Found (Y/N)",
     "directorsDinNumberForPvtLtdCompanies": "Directors DIN number (for pvt ltd companies)",
     "pdExecutedBy": "PD Executed By (Name & E code with Designation)",
-    "cibilJustificationIfAny": "CIBIL Justification if any",
+    "cibilJustificationIfAny": "Bureau Justification if any",
     "odProofObtained": "OD Proof Obtained",
     "remarksJustification": "Remarks/Justification",
-    "cibilEnquiries": "CIBIL Enquiries",
+    "cibilEnquiries": "Bureau Enquiries",
     "withinThirtyDays": "Within 30 Days",
     "withinSixtydays": "Within 60 days",
     "justificationOrReasonToFund": "Justification/Reason to Fund",
@@ -685,7 +686,7 @@
     "basicDetailsTitle": "Basic Details",
     "proposedVehicleDetailsTitle": "Proposed Vehicle Details",
     "partyToAgreementTitle": "PARTY TO AGREEMENT",
-    "cibilSynopsysTitle": "CIBIL SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPARATE SHEET)",
+    "cibilSynopsysTitle": "Bureau SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPARATE SHEET)",
     "bankingSummaryTitle": "BANKING SUMMARY",
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
@@ -724,7 +725,7 @@
     "justification": "Justification",
     "refer": "Refer",
     "referTo": "Refer To",
-    "referToNextLevel": "Refer To next level",
+    "referToNextLevel": "Refer to Higher Level",
     "decline": "Decline",
     "referText2": "For Cat B,C,D & E Repayment <12 Months from us or other financier on CV loans",
     "referText1": "Co-Borrower / Guarantor - Waiver",
@@ -1195,7 +1196,7 @@
     "selectIdDetails": "Select Id Details",
     "UCIC": "UCIC",
     "score": "Score",
-    "odDetails": "OD Details",
+    "odDetails": "Bureau Details",
     "odType": "OD Type",
     "odAmount": "OD Amount",
     "typeOfloan": "Type of loan",
@@ -1816,6 +1817,7 @@
     "goToDashboard": "Go To Dashboard",
     "submitValuation": "Are you sure you want to submit task?",
     "wizardId": "Wizard ID",
+    "relationshipType":"Relationship Type",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2915,7 +2917,7 @@
             "maxLength": {
                 "rule": 40
             },
-            "type": "number"
+            "type": "custom-special-alpha-numeric"
         },
         "valuationEngChasisNumber": {
             "maxLength": {
