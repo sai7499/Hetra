@@ -87,7 +87,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    
+
     this.udfScreenId = this.roleType === 1 ? 'FPS001' : 'FPS005';
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
@@ -382,7 +382,9 @@ export class ApplicantDetailComponent implements OnInit {
       alternateAddr: applicantFormModal.alternateAddr
     };
 
-    if (this.applicantForm.valid && this.userDefineForm.udfData.valid) {
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
+
+    if (this.applicantForm.valid && isUdfField) {
 
       const data = {
         leadId: this.leadId,
@@ -393,7 +395,10 @@ export class ApplicantDetailComponent implements OnInit {
           {
             "udfGroupId": this.udfGroupId,
             // "udfScreenId": this.udfScreenId,
-            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
           }
         ]
       };

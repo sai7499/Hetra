@@ -143,6 +143,11 @@ export class NegotiationComponent implements OnInit {
   maxEMIAmount: number;
   isLoan360: boolean;
 
+  udfGroupId: string = 'NEG001';
+  udfScreenId: string = 'NES001';
+  udfDetails: any = [];
+  userDefineForm: any;
+
   constructor(
     private labelsData: LabelsService,
     private NegotiationService: NegotiationService,

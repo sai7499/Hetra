@@ -7,29 +7,30 @@
           </label>
           <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">{{
             leadId
-          }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal" (click)="onLeadHistory()"></i>
-        </label>
+            }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
+              (click)="onLeadHistory()"></i>
+          </label>
         </div>
       </div>
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{
             labels?.product
-          }}</label>
+            }}</label>
           <label for="lead_created_by_name" class="col-form-label-two">{{
             productId
-          }}</label>
+            }}</label>
         </div>
       </div>
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="customer_name_label">{{
-            labels?.loanAmount 
-          }}</label>
+            labels?.loanAmount
+            }}</label>
           <label for="customer_name" class="col-form-label-two">{{
-            loanAmount    
-            
-          }}</label>
+            loanAmount
+
+            }}</label>
           <!-- : 'symbol':'1.0':'en-IN' -->
         </div>
       </div>
@@ -39,10 +40,10 @@
         <div class="form-group mb-0">
           <label class="col-form-label" for="roi">{{
             labels?.applicant
-          }}</label>
+            }}</label>
           <label for="roi_value" class="col-form-label-two">{{
             applicantName
-          }}</label>
+            }}</label>
         </div>
       </div>
       <div class="row col-lg-4 col-md-4 col-sm-12">
@@ -51,18 +52,20 @@
           </label>
           <label for="lead_handled_by_name" class="col-form-label-two">{{
             stageDescription
-          }}</label>
+            }}</label>
         </div>
       </div>
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_handled_by">{{
             labels?.queue
-          }}</label>
-          <label for="lead_handled_by_name" class="col-form-label-two">New Lead<!--<a
+            }}</label>
+          <label for="lead_handled_by_name" class="col-form-label-two">New Lead
+            <!--<a
             *ngIf="router.url == '/pages/lead-section'" data-toggle="tooltip" data-placement="bottom"
             title="Click to View Lead Journey">
-            <span class="fa fa-history"></span></a>--></label> 
+            <span class="fa fa-history"></span></a>-->
+          </label>
         </div>
       </div>
     </div>
@@ -73,28 +76,29 @@
           </label>
           <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">:{{
             leadId
-          }}  <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal" (click)="onLeadHistory()"></i></label>
+            }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
+              (click)="onLeadHistory()"></i></label>
         </div>
       </div>
       <div class=" col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{
             labels?.product
-          }}</label>
+            }}</label>
           <label for="lead_created_by_name" class="col-form-label-two">:{{
             productId
-          }}</label>
+            }}</label>
         </div>
       </div>
       <div class=" col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="customer_name_label">{{
-            labels?.loanAmount 
-          }}</label>
+            labels?.loanAmount
+            }}</label>
           <label for="customer_name" class="col-form-label-two">:{{
-            loanAmount    
-            
-          }}</label>
+            loanAmount
+
+            }}</label>
           <!-- : 'symbol':'1.0':'en-IN' -->
         </div>
       </div>
@@ -104,10 +108,10 @@
         <div class="form-group mb-0">
           <label class="col-form-label" for="roi">{{
             labels?.applicant
-          }}</label>
+            }}</label>
           <label for="roi_value" class="col-form-label-two">:{{
             applicantName
-          }}</label>
+            }}</label>
         </div>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12">
@@ -116,14 +120,14 @@
           </label>
           <label for="lead_handled_by_name" class="col-form-label-two">:{{
             stageDescription
-          }}</label>
+            }}</label>
         </div>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_handled_by">{{
             labels?.queue
-          }}</label>
+            }}</label>
           <label for="lead_handled_by_name" class="col-form-label-two">:New Lead </label>
         </div>
       </div>
@@ -137,28 +141,28 @@
 
   <div class="col-lg-2 col-md-2 col-sm-2 btn-width">
     <ng-container *ngIf="isBeforeEligibility">
-      
-    <div class="row view-pad-top" *ngIf="!isButtonNameChange">
-      <!-- <a class="btn btn-primary view-button" *ngIf="!isLoan360" (click)="saveCurrentUrl()" [routerLink]="['/pages/document-viewupload', leadId]" target="_blank"> {{isLoan360 ? 'View Document': 'View/Upload Document'}}</a> -->
-      <button *ngIf="!isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
-        (click)="saveCurrentUrl()">
-        View/Upload Document
-      </button> 
-      <button  *ngIf="isLoan360" class="btn btn-primary view-button" [routerLink]="['/pages/document-viewupload', leadId]" type="button"
-      (click)="saveCurrentUrl()">
-      View Document
-    </button>
+
+      <div class="row view-pad-top" *ngIf="!isButtonNameChange">
+        <!-- <a class="btn btn-primary view-button" *ngIf="!isLoan360" (click)="saveCurrentUrl()" [routerLink]="['/pages/document-viewupload', leadId]" target="_blank"> {{isLoan360 ? 'View Document': 'View/Upload Document'}}</a> -->
+        <button *ngIf="!isLoan360" class="btn btn-primary view-button"
+          [routerLink]="['/pages/document-viewupload', leadId]" type="button" (click)="saveCurrentUrl()">
+          View/Upload Document
+        </button>
+        <button *ngIf="isLoan360" class="btn btn-primary view-button"
+          [routerLink]="['/pages/document-viewupload', leadId]" type="button" (click)="saveCurrentUrl()">
+          View Document
+        </button>
+      </div>
+    </ng-container>
+    <div class="row view-pad-top" *ngIf="isButtonNameChange">
+      <button class="btn btn-primary view-button hvr-sweep-to-left" type="button" (click)="onBackDocumentUpload()">
+        Back to Lead
+      </button>
+
     </div>
-  </ng-container>
-  <div class="row view-pad-top" *ngIf="isButtonNameChange">
-    <button class="btn btn-primary view-button hvr-sweep-to-left"  type="button"
-      (click)="onBackDocumentUpload()">       
-       Back to Lead
-    </button>
 
-  </div>
-
-    <div class="row view-pad-bottom" *ngIf="isEnableInitiateQuery">
+    <div class="row view-pad-bottom" *ngIf="isEnableInitiateQuery && stageDescription !== 'Eligibility Accepted' && stageDescription !== 'Lead Created'
+    && stageDescription !== 'New Lead'">
       <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
         Initiate Query &nbsp;
         <i class="fa fa-bell cus-bell font-medium-3"></i><span class="notification badge badge-pill badge-danger"
@@ -168,7 +172,7 @@
 
     <div class="row view-pad-bottom" *ngIf="isEnableDdeButton">
       <button class="btn btn-primary view-button" type="button" (click)="viewOrEditDde()">
-        View/Edit DDE
+        View DDE
       </button>
     </div>
     <div class="row view-pad-bottom" *ngIf="isNeedBackButton">

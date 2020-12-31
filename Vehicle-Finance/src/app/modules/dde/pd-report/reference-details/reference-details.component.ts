@@ -483,40 +483,49 @@ export class ReferenceDetailsComponent implements OnInit {
       this.marketAndFinReferenceDetails = referenceArray;
     }
     this.isDirty = true;
-    if (this.referenceDetailsForm.invalid && this.userDefineForm.udfData.invalid) {
+
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
+
+    if (this.referenceDetailsForm.valid && isUdfField) {
+
+      if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+        this.toasterService.showWarning('atleast one market and finance reference required', '');
+        return;
+      }
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        referenceCheck: formValue,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
+          }
+        ],
+        marketFinRefData: this.marketAndFinReferenceDetails
+      };
+
+      this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((value: any) => {
+        if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
+          this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
+          this.getLOV();
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.listArray.controls = [];
+          this.getReferenceDetails();
+        } else {
+          this.toasterService.showSuccess(value.ErrorMessage, 'Error Reference Details');
+        }
+      });
+    } else {
       this.toasterService.showError('Please enter valid details', 'Reference Details');
       this.utilityService.validateAllFormFields(this.referenceDetailsForm);
       return;
-    } else if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
-      this.toasterService.showWarning('atleast one market and finance reference required', '');
-      return;
     }
-    const data = {
-      leadId: this.leadId,
-      applicantId: this.applicantId,
-      userId: this.userId,
-      referenceCheck: formValue,
-      udfDetails: [
-        {
-          "udfGroupId": this.udfGroupId,
-          // "udfScreenId": this.udfScreenId,
-          "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
-        }
-      ],
-      marketFinRefData: this.marketAndFinReferenceDetails
-    };
-
-    this.personalDiscussionService.saveOrUpdatePdData(data).subscribe((value: any) => {
-      if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
-        this.refCheckDetails = value.ProcessVariables.referenceCheck ? value.ProcessVariables.referenceCheck : {};
-        this.getLOV();
-        this.toasterService.showSuccess('Record Saved Successfully', '');
-        this.listArray.controls = [];
-        this.getReferenceDetails();
-      } else {
-        this.toasterService.showSuccess(value.ErrorMessage, 'Error Reference Details');
-      }
-    });
   }
 
   onSaveuserDefinedFields(event) {

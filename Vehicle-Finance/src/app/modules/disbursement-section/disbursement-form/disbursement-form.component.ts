@@ -267,6 +267,11 @@ export class DisbursementFormComponent implements OnInit {
   flagFinance
   isLoan360: boolean;
 
+  udfScreenId: string = 'DIS002';
+  udfGroupId: string = 'DIG001';
+  udfDetails: any = [];
+  userDefineForm: any;
+
   constructor(
     private fb: FormBuilder,
     private labelsData: LabelsService,
