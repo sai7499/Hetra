@@ -2158,12 +2158,16 @@
         },
         "drivingLicense": {
             "maxLength": {
-                "rule": 16
+                "rule": 18
+            },
+            "minLength": {
+                "rule": 12,
+                "msg":"Min 12 digits required"
             },
             "type": "alpha-numeric-nospace",
             "patternCheck": {
-                "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
-                "msg": "Should be valid"
+                "rule": "[A-Z1-9]{12}",
+                "msg": "Minimum 12 digits alpha-numeric required"
             }
         },
         "voterId": {
