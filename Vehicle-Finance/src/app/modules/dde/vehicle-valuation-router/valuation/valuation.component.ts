@@ -18,6 +18,7 @@ import { GpsService } from '@services/gps.service';
 import { Constant } from '../../../../../assets/constants/constant';
 import { environment } from 'src/environments/environment';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 
 @Component({
@@ -183,6 +184,8 @@ export class ValuationComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
 
 
 
@@ -206,7 +209,8 @@ export class ValuationComponent implements OnInit {
     private uploadService: UploadService,
     private gpsService: GpsService,
     private fb: FormBuilder,
-    private sharedService: SharedService) {
+    private sharedService: SharedService,
+    private objectComparisonService: ObjectComparisonService) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
     this.accessoriesArray = this.fb.array([]);
@@ -1542,6 +1546,7 @@ export class ValuationComponent implements OnInit {
       const message = res.ProcessVariables.error.message;
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.initUDFValues = this.userDefineForm.udfData.getRawValue();
         this.getVehicleValuation();
 
       } else {
@@ -1558,9 +1563,15 @@ export class ValuationComponent implements OnInit {
   //   this.saveUpdateVehicleValuation();
   // }
   submitValuationTask() {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     if (this.vehicleValuationForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
+    if (!isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
     const data = {
@@ -1740,6 +1751,9 @@ export class ValuationComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+    console.log('identify', value);
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 }

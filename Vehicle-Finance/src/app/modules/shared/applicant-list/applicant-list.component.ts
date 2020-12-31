@@ -354,7 +354,7 @@ export class ApplicantListComponent implements OnInit {
   }
 
   onNext() {
-
+    const currentUrl = this.location.path();
     this.forFindingApplicantType()
     if (this.showNotApplicant) {
       this.toasterService.showError('There should be one applicant for this lead', '')
@@ -363,7 +363,7 @@ export class ApplicantListComponent implements OnInit {
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
     const product = this.leadSectioData.leadDetails.productCatCode;
 
-    if (product === 'NCV' || product === 'UCV' || product === 'UC') {
+    if ((product === 'NCV' || product === 'UCV' || product === 'UC') && !currentUrl.includes('dde') ) {
       // this.forFindingCoApplicantType()
       this.showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
       if (!this.showNotCoApplicant) {
