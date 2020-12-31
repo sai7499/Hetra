@@ -163,6 +163,10 @@ export class CreditScoreComponent implements OnInit {
   onCancel() {
     this.showModal = false;
   }
+  onBack(){
+    this.router.navigateByUrl(`/pages/lead-section/${this.leadId}`);
+    
+  }
 
 
 }
