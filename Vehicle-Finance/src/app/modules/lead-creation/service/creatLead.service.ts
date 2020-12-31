@@ -234,7 +234,7 @@ export class CreateLeadService {
         return this.httpService.post(url, body);
     }
 
-    getLeadById(leadId) {
+    getLeadById(leadId,isChangeStatus?) {
         const processId = this.apiService.api.getLeadById.processId;
         const workflowId = this.apiService.api.getLeadById.workflowId;
         const projectId = this.apiService.api.getLeadById.projectId;
@@ -242,7 +242,8 @@ export class CreateLeadService {
         const body = {
             processId: processId,
             ProcessVariables: {
-                'leadId': leadId
+                'leadId': leadId,
+                'isChangeStatus':isChangeStatus ? true: false
             },
             workflowId: workflowId,
             projectId: projectId,
