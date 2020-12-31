@@ -288,7 +288,7 @@ export class RemarksComponent implements OnInit {
     // console.log(this.apiValue,'values', this.formvalue)
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     if (this.remarksForm.invalid || isUDFInvalid) {
-      this.toasterService.showError('Please enter any remarks', '');
+      this.toasterService.showError('Please Enter Required Details', '');
       return;
     }
     if (!isValueCheck || !isUDFCheck) {
