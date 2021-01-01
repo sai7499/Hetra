@@ -184,9 +184,9 @@ export class OtpSectionComponent implements OnInit {
   }
 
   onBack() {
-    const sales = this.applicantDataService.getUrl()
+    const url = this.applicantDataService.getUrl()
     this.router.navigateByUrl(
-          `${sales}`
+          `${url}`
         );
     // if (!sales) {
     //   this.router.navigateByUrl(
