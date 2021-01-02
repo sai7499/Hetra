@@ -299,9 +299,6 @@ export class SanctionDetailsComponent implements OnInit {
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
     }
     html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
-    let htmlPdf = html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options);
-    console.log('htmlPDF', htmlPdf);
-  
   }
 
   uploadPdf() {
