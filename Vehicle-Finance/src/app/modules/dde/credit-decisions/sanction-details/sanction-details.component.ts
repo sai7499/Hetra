@@ -49,6 +49,7 @@ export class SanctionDetailsComponent implements OnInit {
   isDocumentId: boolean;
   isLoan360: boolean;
   taskId: any;
+  pdfType: String;
 
   constructor(
     private labelsData: LabelsService,
@@ -287,7 +288,8 @@ export class SanctionDetailsComponent implements OnInit {
       this.router.navigate([`/pages/cpc-maker/${this.leadId}/term-sheet`]);
     }
   }
-  downloadpdf() {
+  downloadpdf(type) {
+    document.getElementById('typeId').innerHTML = `${type} copy`;
     var options = {
       margin: .5,
       filename: `SanctionDetail${this.leadId}.pdf`,
@@ -297,7 +299,9 @@ export class SanctionDetailsComponent implements OnInit {
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
     }
     html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
-
+    let htmlPdf = html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options);
+    console.log('htmlPDF', htmlPdf);
+  
   }
 
   uploadPdf() {
