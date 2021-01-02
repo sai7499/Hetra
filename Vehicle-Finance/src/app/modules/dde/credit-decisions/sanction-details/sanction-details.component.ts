@@ -289,7 +289,7 @@ export class SanctionDetailsComponent implements OnInit {
     }
   }
   downloadpdf(type) {
-    document.getElementById('typeId').innerHTML = `${type} copy`;
+    // document.getElementById('typeId').innerHTML = `${type} Copy`;
     var options = {
       margin: .5,
       filename: `SanctionDetail${this.leadId}.pdf`,
