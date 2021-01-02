@@ -2166,8 +2166,8 @@
             },
             "type": "alpha-numeric-nospace",
             "patternCheck": {
-                "rule": "[A-Z1-9]{12}",
-                "msg": "Minimum 12 digits alpha-numeric required"
+                "rule": "^(?!0{12})[A-Z0-9]{12}",
+                "msg": "Minimum 12 alpha-numeric characters are required"
             }
         },
         "voterId": {
