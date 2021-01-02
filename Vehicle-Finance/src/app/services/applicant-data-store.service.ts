@@ -28,6 +28,7 @@ export class ApplicantDataStoreService {
   leadSetionData: any;
   isFemaleGender: boolean;
   applicantList : any=[]
+  applicantUrl: any;
 
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
@@ -256,6 +257,15 @@ export class ApplicantDataStoreService {
       }
     })
     return dropdown;
+  }
+
+
+  setUrl(value ){
+    this.applicantUrl = value
+  }
+
+  getUrl(){
+   return this.applicantUrl
   }
 
 }

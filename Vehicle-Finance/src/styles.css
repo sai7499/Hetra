@@ -1204,6 +1204,10 @@ image-cropper .overlay {
     width: 60px !important;
 }
 
+.k-dialog-titlebar {
+    background-color: #1d1a4b !important;
+}
+
 tr:hover {background-color:#ddd;}
 
 th {

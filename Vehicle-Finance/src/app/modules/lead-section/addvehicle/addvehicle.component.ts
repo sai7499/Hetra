@@ -122,7 +122,9 @@ export class AddvehicleComponent implements OnInit {
         }
 
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
-          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY')
+          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+          data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
+          data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
         }
 
         data.udfDetails = [{

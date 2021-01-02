@@ -1084,7 +1084,7 @@ export class ValuationComponent implements OnInit {
       assetVariant: [''],
       colour: ['', Validators.required],
       odometerReading: ['', Validators.required],
-      estimatedReading: ['', Validators.required],
+      estimatedReading: [''],
       vehicleUsedFor: ['', Validators.required],
       regOwnerName: ['', Validators.required],
       regAddress: ['', Validators.required],
