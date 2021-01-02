@@ -1,13 +1,13 @@
 <div class="">
   <!-- <form class="multisteps-form__form" method="post" style="height: 400px;"> -->
   <div class="multisteps-form__panel js-active content" data-animation="scaleIn">
-    <div class="container controlWidth">
+    <div class="">
       <div class="btn-sec clear-both row">
-        <div class="col-sm-5">
-          <h4 class="title">Applicant Details</h4>
+        <div class="col-sm-11 col-lg-11 p-0">
+          <h4 class="banner-con mar-8">Applicant Details</h4>
         </div>
-        <div class="col-sm-7 text-right">
-          <button *ngIf="showAddApplicant" class="btn btn-primary mar-right8" type="button"
+        <div class="col-sm-1 col-lg-1 p-0 text-right">
+          <button *ngIf="showAddApplicant" class="btn btn-primary " type="button"
             (click)="navigateAddapplicant()">
             Add Applicant
           </button>
@@ -36,8 +36,8 @@
               ">
               <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : '-' }}</td>
               <td [attr.data-label]="labels?.wizardId">{{ item['wizardLeadId'] ? item['wizardLeadId'] : '-' }}</td> 
-              <td [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
-              <td [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
+              <td class="text-left" [attr.data-label]="labels?.entity">{{ item.entity ? item.entity : '-' }}</td>
+              <td class="text-left" [attr.data-label]="labels?.name">{{ item.fullName ? item.fullName : '-' }}</td>
               <ng-container *ngIf="item.entityTypeKey !== 'NONINDIVENTTYP'">
                 <td [attr.data-label]="labels?.mobileNumber">{{ item.mobileNumber ? item.mobileNumber : '-' }}</td>
                 <td [attr.data-label]="labels?.dobDoi">{{ item.dob ? item.dob : '-' }}</td>
@@ -48,7 +48,7 @@
                 </td>
                 <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
               </ng-container>
-              <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
+              <td class="text-left" [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td class="pad-0" [attr.data-label]="labels?.action">
                 <div class="flex-container">
                   <ng-container  *ngIf="isLoan360">
@@ -309,7 +309,7 @@
                           <tr>
                             <td [attr.data-label]="labels?.foundnl">{{appicanteKYCDetails?.foundNL}}</td>
                             <td [attr.data-label]="labels?.foundnltr">{{appicanteKYCDetails?.foundNLTR}}</td>
-                            <td [attr.data-label]="labels?.remark">{{appicanteKYCDetails?.nlRemarks}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.remark">{{appicanteKYCDetails?.nlRemarks}}</td>
                           </tr>
 
                         </tbody>
@@ -472,9 +472,9 @@
                               let dedupeMatchedCriteria of dedupeMatchedCriteria;                  
                               let i = index
                             ">
-                            <td [attr.data-label]="labels?.name">{{dedupeMatchedCriteria?.firstName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.name">{{dedupeMatchedCriteria?.firstName}}</td>
                             <td [attr.data-label]="labels?.dob">{{dedupeMatchedCriteria?.dob}}</td>
-                            <td [attr.data-label]="labels?.maidenName">{{dedupeMatchedCriteria?.motherMaidenName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.maidenName">{{dedupeMatchedCriteria?.motherMaidenName}}</td>
                             <td [attr.data-label]="labels?.mobileNumber">{{dedupeMatchedCriteria?.mobilePhone}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{dedupeMatchedCriteria?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{dedupeMatchedCriteria?.aadhar}}</td>
@@ -517,10 +517,10 @@
                               let i = index
                             ">
                             <td [attr.data-label]="labels?.ucicId">{{exactitem?.ucic}}</td>
-                            <td [attr.data-label]="labels?.firstName">{{exactitem?.firstName}}</td>
-                            <td [attr.data-label]="labels?.matchedCriteria">{{exactitem?.matchedCriteria}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.firstName">{{exactitem?.firstName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.matchedCriteria">{{exactitem?.matchedCriteria}}</td>
                             <td [attr.data-label]="labels?.dob">{{exactitem?.dob}}</td>
-                            <td [attr.data-label]="labels?.maidenName">{{exactitem?.motherMaidenName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.maidenName">{{exactitem?.motherMaidenName}}</td>
                             <td [attr.data-label]="labels?.mobileNumber">{{exactitem?.mobilePhone}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{exactitem?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{exactitem?.aadhar}}</td>
@@ -564,10 +564,10 @@
                               let i = index
                             ">
                             <td [attr.data-label]="labels?.ucicId">{{probableitem?.ucic}}</td>
-                            <td [attr.data-label]="labels?.firstName">{{probableitem?.firstName}}</td>
-                            <td [attr.data-label]="labels?.matchedCriteria">{{probableitem?.motherMaidenName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.firstName">{{probableitem?.firstName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.matchedCriteria">{{probableitem?.motherMaidenName}}</td>
                             <td [attr.data-label]="labels?.dob">{{probableitem?.dob}}</td>
-                            <td [attr.data-label]="labels?.maidenName">{{probableitem?.motherMaidenName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.maidenName">{{probableitem?.motherMaidenName}}</td>
                             <td [attr.data-label]="labels?.mobileNumber">{{probableitem?.mobilePhone}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{probableitem?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{probableitem?.aadhar}}</td>

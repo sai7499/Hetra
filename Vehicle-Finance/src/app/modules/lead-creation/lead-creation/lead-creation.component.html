@@ -353,15 +353,15 @@
             </app-custom-input>
           </div>
 
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="dob" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.dateOfBirth }}
+          <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+            <label for="dob" class="kento-date" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.dateOfBirth }}
               <sub class="star_red_col">*</sub>
             </label>
-            <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.dateOfIncorporation }}
+            <label for="dob" class="kento-date"  *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.dateOfIncorporation }}
               <sub class="star_red_col">*</sub>
             </label>
 
-            <kendo-datepicker class="form-control mandatory" 
+            <kendo-datepicker class="form-control mandatory " 
               formControlName="dateOfBirth" 
               [disabled]="isFromChild"
               [format]="'dd/MM/yyyy'"
