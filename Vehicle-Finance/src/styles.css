@@ -121,7 +121,11 @@ h3 {
 }
 
 .mar-top90 {
-    margin-top: 90px;
+    margin-top: 80px;
+}
+
+.form-group {
+    margin-bottom: 5px;
 }
 
 .logo {
@@ -275,7 +279,7 @@ h3 {
 
 .content {
     background: #fff;
-    padding: 8px 30px;
+    padding: 1px 30px 25px!important;
     border-radius: 8px;
     border: 1px solid #ddd;
     margin-bottom: 20px;
