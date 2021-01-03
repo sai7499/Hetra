@@ -1,7 +1,7 @@
 <!-- <div class="content"> -->
 <form class="multisteps-form__form" method="post">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-        <div class="container">
+        <div class="">
             <div class="btn-sec clear-both row">
                 <!-- <div class="col-sm-5">
                         <h3 class="title"> {{ labels.flAndpdTitle }} </h3>
@@ -12,11 +12,11 @@
                 </div>
             </div>
             <div>
-                <h3>{{fiCumPdStatusString == 'true' ? 'FI cum PD Dashboard' : 'PD Dashboard'}}</h3>
+                <h3 class="banner-con">{{fiCumPdStatusString == 'true' ? 'FI cum PD Dashboard' : 'PD Dashboard'}}</h3>
             </div>
-            <div class="row">
+            <div class="row container">
                 <div id="applicantTable">
-                    <table>
+                    <table class="main-table" >
                         <thead>
                             <tr class="table-head-bg">
                                 <th>
@@ -51,13 +51,13 @@
                                 <td [attr.data-label]="labels?.ucicId">
                                     {{ item.ucic ? item.ucic : "-" }}
                                 </td>
-                                <td [attr.data-label]="labels?.applicantName">
+                                <td class="text-left"[attr.data-label]="labels?.applicantName">
                                     {{ item.applicantName ? item.applicantName : "-" }}
                                 </td>
                                 <td [attr.data-label]="labels?.mobileNumber">
                                     {{ item.mobileNumber ? item.mobileNumber : item.companyPhoneNo }}
                                 </td>
-                                <td [attr.data-label]="labels?.applicantType">
+                                <td class="text-left" [attr.data-label]="labels?.applicantType">
                                     {{ item.applicantType ? item.applicantType : "-" }}
                                 </td>
                                 <td [attr.data-label]="labels?.pdStatus" *ngIf="showStatus">
@@ -1451,7 +1451,7 @@
                         <div class="row" style="margin: 15px 0" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="table-responsive application">
-                                    <table class="table">
+                                    <table class="table main-table">
                                         <thead>
                                             <tr class="pd-table-head-bg text-center">
                                                 <td role="columnheader">{{ labels.sNo }}</td>
