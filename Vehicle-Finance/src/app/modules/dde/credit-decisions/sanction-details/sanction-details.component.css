@@ -1,3 +1,6 @@
+body{
+    overflow-x:hidden;
+}
 .top-border{
     border-top: 2px solid;
 }
