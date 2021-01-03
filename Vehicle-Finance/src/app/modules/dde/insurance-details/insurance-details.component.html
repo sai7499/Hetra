@@ -124,7 +124,7 @@
         <!-- Nominee Details Starts -->
         <div class="row">
             <div class="row">
-                <h5 class="banner-con">Credit Insurance Details</h5>
+                <h5 class="banner-sub">Credit Insurance Details</h5>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="sourcing_type" class="asset_type">{{labels?.creditShieldRequired}}<sub
                             class="star_red_col">*</sub></label>
@@ -182,7 +182,7 @@
             </div>
             </div>
             <div class="row" *ngIf="showCreditDetails">
-                <h5 class="banner-con">{{labels?.nomineeDetails}}</h5>
+                <h5 class="banner-sub">{{labels?.nomineeDetails}}</h5>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}} <sub
@@ -378,7 +378,7 @@
 
             <!-- Guardian Details Starts -->
             <div class="row" *ngIf="isShowGuardian">
-                <h5 class="banner-con">{{labels?.guardianDetails}}</h5>
+                <h5 class="banner-sub">{{labels?.guardianDetails}}</h5>
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label class="ellipsify">{{labels?.firstName}}<sub class="star_red_col">*</sub></label>
@@ -586,7 +586,7 @@
         </div>
        
             <div class="row" *ngIf="showCreditDetails">
-                <h5 class="banner-con">Health questions</h5>
+                <h5 class="banner-sub">Health questions</h5>
                 <!-- <div class="row" *ngFor="let ans  of healthQuestionAns; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>
             </div> -->
@@ -598,7 +598,7 @@
 
             </div>
             <div class="row" *ngIf="showCreditDetails">
-                <h5 class="banner-con">Covid related questions</h5>
+                <h5 class="banner-sub">Covid related questions</h5>
                 <!-- <div class="row" *ngFor="let ans  of covidQuestions; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>      
             </div> -->
