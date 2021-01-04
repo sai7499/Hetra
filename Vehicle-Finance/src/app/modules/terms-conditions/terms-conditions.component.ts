@@ -150,4 +150,8 @@ export class TermsConditionsComponent implements OnInit {
     this.showModal = false;
   }
 
+  onBack(){
+    this.router.navigateByUrl(`/pages/lead-section/${this.leadId}/credit-score`);
+  }
+
 }

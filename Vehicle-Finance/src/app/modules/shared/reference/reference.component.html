@@ -2,43 +2,28 @@
   <form class="multisteps-form__form" [formGroup]="referenceForm" [autocomplete]="'off'">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
-      <div class="row">
-        <h3 class="banner-con">Reference Details ({{udfScreenId}}) </h3>
-      </div>
-
       <div class="btn-sec clear-both row">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-            <h3 class="banner-con">Reference 1</h3>
+            <h3 class="banner-con">Reference 1 ({{udfScreenId}}) </h3>
           </div>
-        </div>  
+        </div>
       </div>
-   
+
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.firstName }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            formControlName="refOneFirstName" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'First Name'"
-            [isRequired]="'First Name Required'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="namePattern"
-            (input)='onRefOneFirstName($event)'>
+          <app-custom-input formControlName="refOneFirstName" [className]="'form-control mandatory'"
+            [placeholder]="'First Name'" [isRequired]="'First Name Required'" [maxLength]='nameLength'
+            [isDirty]="isDirty" [type]="namePattern" (input)='onRefOneFirstName($event)'>
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.middleName }}</label>
-          <app-custom-input 
-            formControlName="refOneMiddleName" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Middle Name'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="namePattern"
+          <app-custom-input formControlName="refOneMiddleName" [className]="'form-control mandatory'"
+            [placeholder]="'Middle Name'" [maxLength]='nameLength' [isDirty]="isDirty" [type]="namePattern"
             (input)='onRefOneMiddleName($event)'>
           </app-custom-input>
         </div>
@@ -46,15 +31,9 @@
           <label for="account_branch">{{ labels.lastName }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            formControlName="refOneLastName" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Last Name'"
-            [isRequired]="'Last Name Required'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="namePattern"
-            (input)='onRefOneLastName($event)'>
+          <app-custom-input formControlName="refOneLastName" [className]="'form-control mandatory'"
+            [placeholder]="'Last Name'" [isRequired]="'Last Name Required'" [maxLength]='nameLength' [isDirty]="isDirty"
+            [type]="namePattern" (input)='onRefOneLastName($event)'>
           </app-custom-input>
         </div>
       </div>
@@ -62,16 +41,9 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.fullName }}</label>
-          <app-custom-input 
-            formControlName="refOneFullName"
-            [className]="'form-control mandatory'" 
-            
-            [placeholder]="'Full Name'"
-            [maxLength]='150'
-            [isDirty]="isDirty" 
-            [type]="namePattern"
-            [value]="refOnefirstName+' '+refOnemiddleName+' '+refOnelastName"
-            >
+          <app-custom-input formControlName="refOneFullName" [className]="'form-control mandatory'"
+            [placeholder]="'Full Name'" [maxLength]='150' [isDirty]="isDirty" [type]="namePattern"
+            [value]="refOnefirstName+' '+refOnemiddleName+' '+refOnelastName">
           </app-custom-input>
         </div>
       </div>
@@ -81,36 +53,21 @@
           <label for="account_branch">{{ labels.addressline1 }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            formControlName="refOneAddressLineOne" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Address Line 1'"
-            [isRequired]="'Address Line 1 Required'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="'text'">
+          <app-custom-input formControlName="refOneAddressLineOne" [className]="'form-control mandatory'"
+            [placeholder]="'Address Line 1'" [isRequired]="'Address Line 1 Required'" [maxLength]='nameLength'
+            [isDirty]="isDirty" [type]="'text'">
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.addressline2 }}</label>
-          <app-custom-input 
-            formControlName="refOneAddressLineTwo" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Address Line 2'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="'text'">
+          <app-custom-input formControlName="refOneAddressLineTwo" [className]="'form-control mandatory'"
+            [placeholder]="'Address Line 2'" [maxLength]='nameLength' [isDirty]="isDirty" [type]="'text'">
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.addressline3 }}</label>
-          <app-custom-input 
-            formControlName="refOneAddressLineThree" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Address Line 3'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="'text'">
+          <app-custom-input formControlName="refOneAddressLineThree" [className]="'form-control mandatory'"
+            [placeholder]="'Address Line 3'" [maxLength]='nameLength' [isDirty]="isDirty" [type]="'text'">
           </app-custom-input>
         </div>
       </div>
@@ -120,40 +77,26 @@
           <label for="account_branch">{{ labels.code }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            id="refOnePincode_id"
-            formControlName="refOnePincode" 
-            [className]="'form-control mandatory'"
-            [placeholder]="'Pincode'"
-            [isRequired]="'Pincode Required'"
-            [maxLength]="validationData?.pincode?.maxLength"
-            [patternCheck]="validationData?.pincode?.patternCheck"
-            (keyup)='inputPincode($event)'
-            [isDirty]="isDirty" 
-            autocomplete="off"
-            [type]="'number'">
+          <app-custom-input id="refOnePincode_id" formControlName="refOnePincode" [className]="'form-control mandatory'"
+            [placeholder]="'Pincode'" [isRequired]="'Pincode Required'" [maxLength]="validationData?.pincode?.maxLength"
+            [patternCheck]="validationData?.pincode?.patternCheck" (keyup)='inputPincode($event)' [isDirty]="isDirty"
+            autocomplete="off" [type]="'number'">
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.city }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-vf-custom-select 
-            [values]="refOnePincode?.city" 
-            formControlName="refOneCity" 
-            [isRequired]="'City Required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="refOnePincode?.city" formControlName="refOneCity"
+            [isRequired]="'City Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.district }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-vf-custom-select 
-            [values]="refOnePincode?.district" 
-            formControlName="refOneDistrict" 
-            [isRequired]="'District Required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="refOnePincode?.district" formControlName="refOneDistrict"
+            [isRequired]="'District Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
       </div>
@@ -163,22 +106,16 @@
           <label for="account_branch">{{ labels.state }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-vf-custom-select 
-            [values]="refOnePincode?.state" 
-            formControlName="refOneState" 
-            [isRequired]="'State Required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="refOnePincode?.state" formControlName="refOneState"
+            [isRequired]="'State Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.country }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-vf-custom-select 
-            [values]="refOnePincode?.country" 
-            formControlName="refOneCountry" 
-            [isRequired]="'Country Required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="refOnePincode?.country" formControlName="refOneCountry"
+            [isRequired]="'Country Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
       </div>
@@ -188,18 +125,10 @@
           <label for="account_branch">{{ labels.mobile }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            id='refOnePhoneNumber_id'
-            formControlName="refOnePhoneNumber" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Mobile Number'"
-            [maxLength]='mobileLength'
-            [isRequired]="mobileTwoErrorMsg"
-            [isDirty]="isDirty"  
-            [type]="'number'" 
-            [maxLength]='mobileLength'
-            [patternCheck]="validationData?.mobileNumber.pattern"
-            (input)='onRefOneMobile($event)'>
+          <app-custom-input id='refOnePhoneNumber_id' formControlName="refOnePhoneNumber"
+            [className]="'form-control mandatory'" [placeholder]="'Mobile Number'" [maxLength]='mobileLength'
+            [isRequired]="mobileTwoErrorMsg" [isDirty]="isDirty" [type]="'number'" [maxLength]='mobileLength'
+            [patternCheck]="validationData?.mobileNumber.pattern" (input)='onRefOneMobile($event)'>
           </app-custom-input>
           <div class="invalid-feedback" *ngIf="isMobileTwoErrorMsg">
             <div>
@@ -209,48 +138,34 @@
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">Relationship</label>
-          <app-vf-custom-select 
-            [values]="relationShipLOV" 
-            formControlName="refOneRelationship"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="relationShipLOV" formControlName="refOneRelationship" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
       </div>
     </div>
 
-    <div class="multisteps-form__panel js-active" data-animation="scaleIn"> 
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="btn-sec clear-both row">
         <div class="row">
           <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
             <h3 class="banner-con">Reference 2</h3>
           </div>
-        </div>  
+        </div>
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.firstName }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            formControlName="refTwoFirstName" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'First Name'"
-            [isRequired]="'First Name Required'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="namePattern"
-            (input)='onRefTwoFirstName($event)'>
+          <app-custom-input formControlName="refTwoFirstName" [className]="'form-control mandatory'"
+            [placeholder]="'First Name'" [isRequired]="'First Name Required'" [maxLength]='nameLength'
+            [isDirty]="isDirty" [type]="namePattern" (input)='onRefTwoFirstName($event)'>
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.middleName }}</label>
-          <app-custom-input 
-            formControlName="refTwoMiddleName" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Middle Name'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="namePattern"
+          <app-custom-input formControlName="refTwoMiddleName" [className]="'form-control mandatory'"
+            [placeholder]="'Middle Name'" [maxLength]='nameLength' [isDirty]="isDirty" [type]="namePattern"
             (input)='onRefTwoMiddleName($event)'>
           </app-custom-input>
         </div>
@@ -258,15 +173,9 @@
           <label for="account_branch">{{ labels.lastName }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            formControlName="refTwoLastName" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Last Name'"
-            [isRequired]="'Last Name Required'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="namePattern"
-            (input)='onRefTwoLastName($event)'>
+          <app-custom-input formControlName="refTwoLastName" [className]="'form-control mandatory'"
+            [placeholder]="'Last Name'" [isRequired]="'Last Name Required'" [maxLength]='nameLength' [isDirty]="isDirty"
+            [type]="namePattern" (input)='onRefTwoLastName($event)'>
           </app-custom-input>
         </div>
       </div>
@@ -274,16 +183,9 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.fullName }}</label>
-          <app-custom-input 
-            formControlName="refTwoFullName" 
-            [className]="'form-control mandatory'" 
-            
-            [placeholder]="'Full Name'"
-            [maxLength]='150'
-            [isDirty]="isDirty" 
-            [type]="namePattern"
-            [value]="refTwofirstName+' '+refTwomiddleName+' '+refTwolastName"
-            >
+          <app-custom-input formControlName="refTwoFullName" [className]="'form-control mandatory'"
+            [placeholder]="'Full Name'" [maxLength]='150' [isDirty]="isDirty" [type]="namePattern"
+            [value]="refTwofirstName+' '+refTwomiddleName+' '+refTwolastName">
           </app-custom-input>
         </div>
       </div>
@@ -293,36 +195,21 @@
           <label for="account_branch">{{ labels.addressline1 }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            formControlName="refTwoAddressLineOne" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Address Line 1'"
-            [isRequired]="'Address Line 1 Required'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="'text'">
+          <app-custom-input formControlName="refTwoAddressLineOne" [className]="'form-control mandatory'"
+            [placeholder]="'Address Line 1'" [isRequired]="'Address Line 1 Required'" [maxLength]='nameLength'
+            [isDirty]="isDirty" [type]="'text'">
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.addressline2 }}</label>
-          <app-custom-input 
-            formControlName="refTwoAddressLineTwo" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Address Line 2'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="'text'">
+          <app-custom-input formControlName="refTwoAddressLineTwo" [className]="'form-control mandatory'"
+            [placeholder]="'Address Line 2'" [maxLength]='nameLength' [isDirty]="isDirty" [type]="'text'">
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.addressline3 }}</label>
-          <app-custom-input 
-            formControlName="refTwoAddressLineThree" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Address Line 3'"
-            [maxLength]='nameLength'
-            [isDirty]="isDirty" 
-            [type]="'text'">
+          <app-custom-input formControlName="refTwoAddressLineThree" [className]="'form-control mandatory'"
+            [placeholder]="'Address Line 3'" [maxLength]='nameLength' [isDirty]="isDirty" [type]="'text'">
           </app-custom-input>
         </div>
       </div>
@@ -332,16 +219,9 @@
           <label for="account_branch">{{ labels.code }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            id="refTwoPincode_id"
-            formControlName="refTwoPincode" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Pincode'"
-            [isRequired]="'Pincode Required'"
-            [maxLength]="validationData?.pincode?.maxLength"
-            [patternCheck]="validationData?.pincode?.patternCheck"
-            (keyup)='inputPincode($event)'
-            [isDirty]="isDirty" 
+          <app-custom-input id="refTwoPincode_id" formControlName="refTwoPincode" [className]="'form-control mandatory'"
+            [placeholder]="'Pincode'" [isRequired]="'Pincode Required'" [maxLength]="validationData?.pincode?.maxLength"
+            [patternCheck]="validationData?.pincode?.patternCheck" (keyup)='inputPincode($event)' [isDirty]="isDirty"
             [type]="'number'">
           </app-custom-input>
         </div>
@@ -349,22 +229,16 @@
           <label for="account_branch">{{ labels.city }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-vf-custom-select 
-            [values]="refTwoPincode?.city" 
-            formControlName="refTwoCity" 
-            [isRequired]="'City Required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="refTwoPincode?.city" formControlName="refTwoCity"
+            [isRequired]="'City Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.district }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-vf-custom-select 
-            [values]="refTwoPincode?.district" 
-            formControlName="refTwoDistrict" 
-            [isRequired]="'District Required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="refTwoPincode?.district" formControlName="refTwoDistrict"
+            [isRequired]="'District Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
       </div>
@@ -374,22 +248,16 @@
           <label for="account_branch">{{ labels.state }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-vf-custom-select 
-            [values]="refTwoPincode?.state" 
-            formControlName="refTwoState" 
-            [isRequired]="'State Required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="refTwoPincode?.state" formControlName="refTwoState"
+            [isRequired]="'State Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">{{ labels.country }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-vf-custom-select 
-            [values]="refTwoPincode?.country" 
-            formControlName="refTwoCountry" 
-            [isRequired]="'Country Required'"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="refTwoPincode?.country" formControlName="refTwoCountry"
+            [isRequired]="'Country Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
       </div>
@@ -399,18 +267,10 @@
           <label for="account_branch">{{ labels.mobile }}
             <sub class="star_red_col">*</sub>
           </label>
-          <app-custom-input 
-            id='refTwoPhoneNumber_id'
-            formControlName="refTwoPhoneNumber" 
-            [className]="'form-control mandatory'" 
-            [placeholder]="'Mobile Number'"
-            [maxLength]='mobileLength'
-            [isRequired]="mobileTwoErrorMsg"
-            [isDirty]="isDirty"  
-            [type]="'number'" 
-            [maxLength]='mobileLength'
-            [patternCheck]="validationData?.mobileNumber.pattern"
-            (input)='onRefTwoMobile($event)'>
+          <app-custom-input id='refTwoPhoneNumber_id' formControlName="refTwoPhoneNumber"
+            [className]="'form-control mandatory'" [placeholder]="'Mobile Number'" [maxLength]='mobileLength'
+            [isRequired]="mobileTwoErrorMsg" [isDirty]="isDirty" [type]="'number'" [maxLength]='mobileLength'
+            [patternCheck]="validationData?.mobileNumber.pattern" (input)='onRefTwoMobile($event)'>
           </app-custom-input>
           <div class="invalid-feedback" *ngIf="isMobileOneErrorMsg">
             <div>
@@ -420,30 +280,27 @@
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_branch">Relationship</label>
-          <app-vf-custom-select 
-            [values]="relationShipLOV" 
-            formControlName="refTwoRelationship"
-            [isDirty]="isDirty">
+          <app-vf-custom-select [values]="relationShipLOV" formControlName="refTwoRelationship" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
       </div>
-      
+
       <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-      [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
       <div class="btn-sec clear-both row">
         <div class="col-sm-12 text-right mar-btm-10">
           <button type="button" class="btn btn-primary hvr-sweep-to-left" value="submit" (click)="onBack()">
             Back
-          </button> 
+          </button>
           <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" *ngIf="!isLoan360">
             Save
-          </button> 
+          </button>
           <button type="button" class="btn btn-primary hvr-sweep-to-right" value="submit" (click)="onNext()">
             Next
           </button>
         </div>
       </div>
-    </div> 
+    </div>
   </form>
 </div>

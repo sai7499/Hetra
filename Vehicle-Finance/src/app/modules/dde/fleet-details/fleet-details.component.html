@@ -1,10 +1,11 @@
 <div class="content">
     <form class="multisteps-form__form" [formGroup]="fleetForm" *ngIf="this.fleetForm">
         <div class="container">
-            <div class="row" *ngIf="!isLoan360">
-                <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h3 class="banner-con">Fleet Details ({{udfScreenId}}) </h3>
                 </div>
-                <div class="col-sm-6 text-right">
+                <div class="col-sm-2 text-right" *ngIf="!isLoan360">
                     <span id="edit_vehicle_details_replace"></span>
                     <a id="back_vehicle_details"><button class="btn btn-primary mrg-10" type="button"
                             (click)="openUploadModal()">
@@ -199,8 +200,7 @@
                                         [className]="'form-control mandatory'" [placeholder]="'Tenure'"
                                         [maxLength]="validationData?.tenurePaid['maxLength']"
                                         [isRequired]="'Tenure is mandatory'" [type]="validationData?.tenurePaid['type']"
-                                        (keyup)="checkPaid($event ,i)"
-                                        [isDirty]="isDirty">
+                                        (keyup)="checkPaid($event ,i)" [isDirty]="isDirty">
                                     </app-custom-input>
 
                                 </td>
