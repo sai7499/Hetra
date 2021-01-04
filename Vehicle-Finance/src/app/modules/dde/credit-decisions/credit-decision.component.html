@@ -16,7 +16,7 @@
                         Negotiation</button>
                 <button class="multisteps-form__progress-btn "  (click)="onNavigate('disbursement')" [ngClass]="{'js-active': locationIndex >= 3}"
                         type="button" id="applicant_bank_details" *ngIf = "roleType == '1' ">
-                        Disbursement</button>
+                        Disbursement Details</button>
                 <button class="multisteps-form__progress-btn " [ngClass]="{'js-active': locationIndex >= 4}"
                     type="button" id="applicant_identity_details" (click)="onNavigate('sanction-details')" >
                     Sanction Details
@@ -93,7 +93,7 @@
                     Negotiation</button>
                     <button class="multisteps-form__progress-btn "  (click)="onNavigate('disbursement')" [ngClass]="{'js-active': locationIndex >= 1}"
                         type="button" id="applicant_bank_details" >
-                        Disbursement</button>
+                        Disbursement Details</button>
                 <button  class="multisteps-form__progress-btn " 
                     [ngClass]="{'js-active': locationIndex >= 2}"  
                     type="button" id="checklist_identity_details" (click)="onNavigate('cam')"  >

@@ -10,6 +10,10 @@ body{
     pointer-events: none;
 }
 
+.failedLeads {
+    background-color: #f56273 !important;
+}
+
 
 /* li:active {
     background-color: #272264;
@@ -20,7 +24,7 @@ body{
 .nav>li>a {
     position: relative;
     display: block;
-    padding: 10px 8px !important;
+    padding: 6px 8px !important;
 }
 
 .nav-pills>li>a {
@@ -28,7 +32,11 @@ body{
 }
 
 .mar-bottom {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.mar-right{
+    margin-right:10px;
 }
 
 .nav>li>a:hover {

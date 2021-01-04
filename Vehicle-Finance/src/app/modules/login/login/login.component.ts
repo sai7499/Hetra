@@ -11,6 +11,7 @@ import { LabelsService } from 'src/app/services/labels.service';
 import { LoginStoreService } from '../../../services/login-store.service';
 import { storage } from '../../../storage/localstorage';
 import { CommonDataService } from '@services/common-data.service';
+import { DraggableContainerService } from '@services/draggable.service';
 
 import * as moment from 'moment';
 import { GoogleMapsAPIWrapper } from '@agm/core';
@@ -83,12 +84,15 @@ export class LoginComponent implements OnInit {
     private camera: Camera,
     private dashboardService: DashboardService,
     private ngxUiLoaderService: NgxUiLoaderService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private draggableContainerService: DraggableContainerService
   ) {
     this.isMobile = environment.isMobile;
   }
 
   ngOnInit() {
+    this.draggableContainerService
+        .clearAll();
     console.log("base url",window.location.origin);
     this.appVersion = environment.version;
     this.buildDate = environment.buildDate;

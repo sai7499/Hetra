@@ -2483,19 +2483,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     if (this.dedupeMobile || !this.applicant.otpVerified) {
       const currentUrl = this.location.path();
-      if (currentUrl.includes('sales')) {
-        this.applicantDataService.setNavigateForDedupe(true)
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      } else {
-        this.applicantDataService.setNavigateForDedupe(false)
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      }
-      // console.log("GO NEXT")
-
+      this.applicantDataService.setUrl(currentUrl);
+      this.router.navigateByUrl(
+            `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+          );
     } else {
       // console.log("GO NEXT")
       this.navigateToApplicantList();
@@ -2554,18 +2545,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     if (this.dedupeMobile || !this.applicant.otpVerified) {
       const currentUrl = this.location.path();
-      if (currentUrl.includes('sales')) {
-        this.applicantDataService.setNavigateForDedupe(true)
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      } else {
-        this.applicantDataService.setNavigateForDedupe(false)
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      }
-      //console.log("GO NEXT")
+      this.applicantDataService.setUrl(currentUrl);
+      this.router.navigateByUrl(
+            `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+          );
     } else {
       this.navigateToApplicantList();
       //console.log("GO NEXT")
@@ -3913,11 +3896,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         const upperCaseValue = value ? value.toUpperCase() : value;
         this.enableDedupeBasedOnChanges(upperCaseValue !== this.passportNumber);
         this.isPassportChanged = upperCaseValue !== this.passportNumber;
-        if (!this.isPanDisabled) {
-          this.isVoterRequired = false;
-          dedupe.get('voterIdNumber').clearValidators();
-          dedupe.get('voterIdNumber').updateValueAndValidity()
-        }
+        // if (!this.isPanDisabled) {
+        //   this.isVoterRequired = false;
+        //   dedupe.get('voterIdNumber').clearValidators();
+        //   dedupe.get('voterIdNumber').updateValueAndValidity()
+        // }
       } else {
         this.isPassportChanged = true;
       }

@@ -33,6 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
   showConfirmFlag: boolean;
   showModal: boolean;
 
+  imageList = [];
+  imageObj = {};
+  minimizeList = [];
+
+
   // Equitas
 
   developerId = "40026336";
@@ -258,15 +263,9 @@ export class AppComponent implements OnInit, OnDestroy {
         that.initMaaS360();
     }
     
-    this.draggableContainerService
-      .getContainerValue()
-      .subscribe((value: any) => {
-        if (!value) {
-          return;
-        }
-        this.showDraggableContainer = value.image;
-        this.setCss = value.css;
-      });
+    this.draggableContainerListener();
+    this.getMinimizeList();
+    this.clearListener();
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
     });
@@ -317,6 +316,87 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       });
 
+  }
+
+  clearListener() {
+    this.draggableContainerService
+      .getClearListener()
+      .subscribe((value) => {
+          if (value) {
+            this.minimizeList = [];
+            this.imageList = [];
+            this.imageObj = {};
+          }
+      });
+  }
+
+  getMinimizeList() {
+    this.draggableContainerService
+        .getMinimizeList()
+        .subscribe((value) => {
+            if(!value) {
+              return;
+            }
+            const index = this.minimizeList.findIndex(list => list.name === value.name);
+            if (index !== -1) {
+              return;
+            }
+            this.minimizeList.push(value);
+        });
+  }
+
+  removeMinimizeList(list) {
+    const index = this.minimizeList.findIndex(value => value.name === list.name);
+    this.minimizeList.splice(index, 1);
+  }
+
+  openImage(list) {
+     this.imageList.push(list);
+     this.removeMinimizeList(list);
+     console.log('imageList', this.imageList)
+  }
+
+
+  draggableContainerListener() {
+    this.draggableContainerService
+      .getContainerValue()
+      .subscribe((value: any) => {
+        if (!value) {
+          return;
+        }
+        const imageName = value.image.name;
+        if (!this.imageObj[imageName]) {
+          this.imageObj[imageName] = {...value.image};
+          this.imageList.push(value.image);
+        }
+        console.log(this.imageObj);
+
+        this.showDraggableContainer = value.image;
+        this.setCss = value.css;
+      });
+
+    this.draggableContainerService
+      .imageRemoveListener()
+      .subscribe((value: any) => {
+        if (value === null) {
+          return;
+        }
+        this.removeImage(value);
+      });
+  }
+
+  removeImage(fileName: string) {
+    
+    delete this.imageObj[fileName];
+    // this.imageList = [];
+    // for(const key in this.imageObj) {}
+    // for ( const [key, image] of Object.entries(this.imageObj)) {
+    //     this.imageList.push(image);
+    // }
+    this.imageList = this.imageList.filter((value) => {
+      return value.name !== fileName
+    })
+    console.log('imageList', this.imageList)
   }
 
   @HostListener('window:mousemove') refreshUserState() {

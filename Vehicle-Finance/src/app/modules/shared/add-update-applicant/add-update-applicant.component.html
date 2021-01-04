@@ -382,7 +382,7 @@
                coApplicantForm.get('dedupe').get('aadhar').touched ||
                isDirty
              " class="ShowError">
-                    <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value == '' 
+                    <div *ngIf="!coApplicantForm.get('dedupe').get('aadhar').value 
                   ">Aadhaar Number is required</div>
                   </div>
 
@@ -735,7 +735,7 @@
                 *ngIf="applicantType == 'INDIVENTTYP'">
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
-                    <h3 class="banner-con">Permanent Address</h3>
+                    <h3 class="banner-sub">Permanent Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox" *ngIf="showApplicantAddCheckBox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event)"
@@ -826,7 +826,7 @@
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-2 col-sm-5">
-                    <h3 class="banner-con">Current Address</h3>
+                    <h3 class="banner-sub">Current Address</h3>
                   </div>
                   <div class="col-lg-3 text-center" id="align_this_checkbox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)"
@@ -944,7 +944,7 @@
 
               <div id="non_individual_section_address" class="non_individual_section_leadco"
                 *ngIf="applicantType == 'NONINDIVENTTYP'">
-                <h3 class="banner-con">Registered Address</h3>
+                <h3 class="banner-sub">Registered Address</h3>
                 <div class="row container" formGroupName="registeredAddress">
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -1031,7 +1031,7 @@
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
-                    <h3 class="banner-con">Office Address</h3>
+                    <h3 class="banner-sub">Office Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddressCommunication($event)"

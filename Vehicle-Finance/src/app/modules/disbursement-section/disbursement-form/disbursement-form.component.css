@@ -350,9 +350,13 @@ select#select_main_button_leadco {
   overflow-x: hidden;
 }
 
+.mar-top{
+  margin: 7px 0px;
+}
+
 #clickButton {
   margin-right: 2px;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
 }
 .fixed {
   position: fixed !important;
