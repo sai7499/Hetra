@@ -2,19 +2,25 @@
   <!-- <form class="multisteps-form__form" method="post" style="height: 400px;"> -->
   <div class="multisteps-form__panel js-active content" data-animation="scaleIn">
     <div class="">
-      <div class="btn-sec clear-both row">
+      <div class="btn-sec clear-both row" *ngIf="!showAddApplicant">
+        <div class="col-sm-12 col-lg-12 p-0">
+          <h4 class="banner-con mar-8">Applicant Details</h4>
+        </div>
+      </div>
+      
+      <div class="btn-sec clear-both row" *ngIf="showAddApplicant">
         <div class="col-sm-11 col-lg-11 p-0">
           <h4 class="banner-con mar-8">Applicant Details</h4>
         </div>
         <div class="col-sm-1 col-lg-1 p-0 text-right">
-          <button *ngIf="showAddApplicant" class="btn btn-primary " type="button"
+          <button  class="btn btn-primary " type="button"
             (click)="navigateAddapplicant()">
             Add Applicant
           </button>
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="">
       <div class="" id="applicantTable">
         <table class="main-table">
           <thead>
