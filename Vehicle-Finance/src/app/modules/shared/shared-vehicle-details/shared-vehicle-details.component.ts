@@ -44,6 +44,10 @@ export class SharedVehicleDetailsComponent implements OnInit {
   isLoan360: boolean;
   isChildLoan: boolean;
 
+  // User defined Fields
+  udfScreenId: string = 'VLS001';
+  udfGroupId: string = 'VLG001';
+
   constructor(
     private loginStoreService: LoginStoreService, private toggleDdeService: ToggleDdeService,
     private labelsData: LabelsService, private collateralService: CollateralService,
@@ -104,10 +108,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getLocationIndex(url) {
     if (url.includes('lead-section')) {
+      this.udfScreenId = 'VLS001';
       return 'lead-section';
     } else if (url.includes('sales')) {
+      this.udfScreenId = 'VLS003';
       return 'sales';
     } else if (url.includes('dde')) {
+      this.udfScreenId = 'VLS005';
       return 'dde';
     }
   }

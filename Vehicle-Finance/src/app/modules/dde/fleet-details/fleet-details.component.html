@@ -200,7 +200,7 @@
                                         [className]="'form-control mandatory'" [placeholder]="'Tenure'"
                                         [maxLength]="validationData?.tenurePaid['maxLength']"
                                         [isRequired]="'Tenure is mandatory'" [type]="validationData?.tenurePaid['type']"
-                                        (keyup)="checkPaid($event ,i)" [isDirty]="isDirty">
+                                        (keyup)="checkPaid($event ,i, itemrow)" [isDirty]="isDirty">
                                     </app-custom-input>
 
                                 </td>
@@ -211,7 +211,7 @@
                                             [maxLength]="validationData?.tenurePaid['maxLength']"
                                             [isRequired]="'Accrued is mandatory'"
                                             [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
-                                            (keyup)="checkPaid($event ,i)" (change)="calcSeasoning($event ,i)">
+                                            (keyup)="checkPaid($event ,i, itemrow)" (change)="calcSeasoning($event ,i)">
                                         </app-custom-input>
 
                                         <div class="cus-mandatory-field"

@@ -34,6 +34,10 @@ export class SalesExactMatchComponent implements OnInit {
   applicantId;
   isNavigateToApplicant: boolean = false;
   getApplicantId: any;
+
+  negativeDedupeUdfScreenId: string  = 'APS004';
+  negativeDedupeUGroupId: string = 'APG004';
+
   constructor(
     private salesDedupeService: SalesDedupeService,
     private applicantService: ApplicantService,
@@ -329,7 +333,7 @@ export class SalesExactMatchComponent implements OnInit {
         .applicantNLUpdatingRemarks(data)
         .subscribe((value) => {
           this.showNegativeListModal = false;
-          resolve();
+          resolve(true);
         });
     });
   }
