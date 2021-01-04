@@ -154,14 +154,15 @@ export class FleetDetailsComponent implements OnInit {
     })
   }
 
-  checkPaid(event, i) {
-    let tenure = parseInt(this.formArr.controls[i]['controls']['tenure'].value);
-    let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
+  checkPaid(event, i, obj) {
+
+    let tenure = obj.controls['tenure'].value ? Number(obj.controls['tenure'].value) : 0;
+    let paid = obj.controls['paid'].value ? Number(obj.controls['paid'].value) : 0
+
     if (paid > tenure) {
       this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
-    } else {
-      this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': false })
     }
+
   }
 
   getLeadId() {
@@ -706,6 +707,7 @@ export class FleetDetailsComponent implements OnInit {
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
       //  && this.fleetForm.get('isValidPurchaseDate').value === true
+      console.log(this.fleetForm, 'form')
 
       if (this.fleetForm.valid && !isUDFInvalid) {
         this.saveOrUpdateFleetDetails(index);
