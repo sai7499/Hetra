@@ -16,6 +16,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -73,7 +74,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   public leadId: number;
 
   public toDayDate = new Date();
-
+  isMobile: boolean;
   isMaxDate: boolean;
 
   public vehicleRegPattern: {
@@ -97,6 +98,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isVehicleRegNoChange: boolean;
   searchChildLoanData: any;
 
+  @Input() udfScreenId: any;
+  @Input() udfGroupId: any;
+  udfDetails: any = [];
+
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
@@ -112,7 +117,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     var day = this.toDayDate.getDate();
     var month = this.toDayDate.getMonth();
     var year = this.toDayDate.getFullYear();
-    this.toDayDate = new Date(year, month, day, 0, 0)
+    let myYear = this.toDayDate.getFullYear() - 15;
+    this.minDate = new Date(myYear, month, day, 0, 0)
+    this.toDayDate = new Date(year, month, day, 0, 0);
+    // Mobile View
+    this.isMobile = environment.isMobile;
+
   }
 
   ngOnInit() {
@@ -189,7 +199,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.vehicleDataService.getLoanAmount()) {
       this.eligibleLoanAmount = Number(this.vehicleDataService.getLoanAmount())
     }
-
   }
 
   onGetMarginAmount(value, form) {
@@ -199,6 +208,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       form.get('marginAmount').setValue(null)
     }
+  }
+
+  onSaveuserDefinedFields(event) {
+    this.sharedService.getUserDefinedFields(event)
   }
 
   validateCustomPattern() {
@@ -222,14 +235,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onGetDateValue(event) {
 
+    console.log(event, 'minDate', this.minDate)
+
     if (!(event > this.maxDate || event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      formArray.controls[0].patchValue({
-        ageOfAsset: Number(this.utilityService.ageFromAsset(event))
-      })
+
+      let ageOfAssetYear = this.utilityService.ageOfAssetYear(event)['_data'];
+
+      let ageOfLoanTenure = Number(this.loanTenor) + Number(this.utilityService.ageFromAsset(event));
+
+      let ageOfAsset = Number(this.utilityService.ageFromAsset(event)) + '    ( ' + ageOfAssetYear.years + ' Years ' + ageOfAssetYear.months + ' Months ' + ' ) ';
+
+      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.round(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.round(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
 
       formArray.controls[0].patchValue({
-        ageAfterTenure: Number(this.loanTenor) + formArray.value[0].ageOfAsset
+        ageOfAsset: ageOfAsset,
+        ageAfterTenure: ageAfterTenure
       })
 
       if (this.productCatoryCode === 'UCV') {
@@ -315,36 +336,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
       this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
     }
-
   }
 
   getDynamicFormControls(form) {
     let keys = Object.keys(this.childLoanCondition);
     let values = Object.values(this.childLoanCondition);
-
-    let combineArray = [];
-
-    let arrayOfObj = {
-    }
-
-    combineArray = keys.map((control, i) => {
-      values.map((val, j) => {
-        if (i === j) {
-          arrayOfObj = {
-            key: control,
-            value: val
-          }
-        }
-      })
-      return arrayOfObj;
-    })
-
-    combineArray.map((controls, i) => {
-      if (controls.value === true) {
+    for (let i = 0; i < keys.length; i++) {
+      if (keys[i] && values[i] === true) {
         let fc = this.roleType === 1 ? this._fb.control('') : this._fb.control('', [Validators.required])
-        form.addControl(controls.key, fc)
+        form.addControl(keys[i], fc)
       }
-    })
+    }
   }
 
   getLov() {
@@ -466,11 +468,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   setFormValue() {
 
     let data = {
-      "collateralId": this.id
+      "collateralId": this.id,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     }
     let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
     let details = formArray.at(0) as FormGroup;
-  
+
     this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
       this.getAVehicleDetails(res, formArray)
     })
@@ -495,7 +503,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: VehicleDetail.assetVarient || '',
       assetSubVarient: VehicleDetail.assetSubVarient || '',
       category: VehicleDetail.category || '',
-      chasisNumber: VehicleDetail.chasisNumber || null,
+      chasisNumber: VehicleDetail.chasisNumber || '',
       collateralId: VehicleDetail.collateralId || null,
       collateralType: VehicleDetail.collateralType || null,
       costPerTyre: VehicleDetail.costPerTyre || null,
@@ -508,8 +516,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       discount: VehicleDetail.discount || '',
       duplicateRC: VehicleDetail.duplicateRC || '',
       emiProtect: VehicleDetail.emiProtect || '',
-      emiProtectAmount: VehicleDetail.emiProtectAmount || null,
-      engineNumber: VehicleDetail.engineNumber || null,
+      emiProtectAmount: VehicleDetail.emiProtectAmount || '',
+      engineNumber: VehicleDetail.engineNumber || '',
       exShowRoomCost: Number(VehicleDetail.exShowRoomCost) || null,
       fastTag: VehicleDetail.fastTag || '',
       fastTagAmount: VehicleDetail.fastTagAmount || null,
@@ -597,10 +605,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     })
     this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
-    VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : ''
+    VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : '';
+
+    this.udfDetails = VehicleDetail.udfDetails ? VehicleDetail.udfDetails : [];
 
     if (VehicleDetail.parentLoanAccountNumber) {
       this.isVehicleDedupe = true;
+    }
+
+    if (this.productCatoryCode === 'UCV') {
+      this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
     }
 
   }
@@ -752,14 +766,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onAssetModel(value: any, obj) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
-    const array = this.utilityService.getCommonUniqueValue(this.assetVariant, 'vehicleVariant')
-    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    formArray.controls[0].patchValue({
-      vehicleId: array.length > 0 ? Number(array[0].vehicleCode) : 0
-    })
-
-    this.getSchemeData(formArray.controls[0])
-
     this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
       'vehicleCode', "vehicleVariant")
 
@@ -768,6 +774,26 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       scheme: ''
     })
 
+  }
+
+  onCallTwoFunction(val: any, obj) {
+
+    const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+    formArray.controls[0].patchValue({
+      vehicleId: val ? Number(val) : 0
+    })
+
+    if (val) {
+      this.getSchemeData(formArray.controls[0])
+    }
+
+    if (this.productCatoryCode === 'UCV') {
+      this.getVehicleGridValue(formArray)
+    }
+
+    obj.patchValue({
+      scheme: ''
+    })
   }
 
   onChangeMobileNumber(value) {
@@ -806,7 +832,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   getSchemeData(form) {
-    let data =  {
+    let data = {
       "vehicleCode": form.controls.vehicleId.value,
       "leadId": Number(this.leadId)
     }
@@ -1345,7 +1371,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     let data = {
       'vehicleRegNo': details.get('vehicleRegNo').value,
       'parentLoanAccountNumber': details.get('parentLoanAccountNumber').value,
-      "checkDedupe": true
+      "checkDedupe": true,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     }
 
     let editFiledData = data;

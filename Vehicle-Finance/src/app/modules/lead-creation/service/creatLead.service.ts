@@ -234,7 +234,7 @@ export class CreateLeadService {
         return this.httpService.post(url, body);
     }
 
-    getLeadById(leadId) {
+    getLeadById(leadId,isChangeStatus?) {
         const processId = this.apiService.api.getLeadById.processId;
         const workflowId = this.apiService.api.getLeadById.workflowId;
         const projectId = this.apiService.api.getLeadById.projectId;
@@ -242,7 +242,8 @@ export class CreateLeadService {
         const body = {
             processId: processId,
             ProcessVariables: {
-                'leadId': leadId
+                'leadId': leadId,
+                'isChangeStatus':isChangeStatus ? true: false
             },
             workflowId: workflowId,
             projectId: projectId,
@@ -289,7 +290,7 @@ export class CreateLeadService {
         return this.httpService.post(url, body);
     }
 
-    dealerCode(code) {
+    dealerCode(code, productCatCode?) {
         const processId = this.apiService.api.dealerCode.processId;
         const workflowId = this.apiService.api.dealerCode.workflowId;
         const projectId = this.apiService.api.dealerCode.projectId;
@@ -297,7 +298,8 @@ export class CreateLeadService {
         const body: RequestEntity = {
             processId: processId,
             ProcessVariables: {
-                "code": code
+                code,
+                productCatCode
             },
             workflowId: workflowId,
             projectId: projectId

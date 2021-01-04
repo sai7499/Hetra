@@ -28,6 +28,7 @@ export class ApplicantDataStoreService {
   leadSetionData: any;
   isFemaleGender: boolean;
   applicantList : any=[]
+  applicantUrl: any;
 
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
@@ -51,6 +52,10 @@ export class ApplicantDataStoreService {
     const directorDetails = applicant.directorDetails
       ? applicant.directorDetails
       : [];
+      const udfDetails = applicant.udfDetails
+      ? applicant.udfDetails
+      : [];
+      
 
     this.applicant = {
       aboutIndivProspectDetails,
@@ -62,7 +67,8 @@ export class ApplicantDataStoreService {
       directorDetails,
       otpVerified: applicant.otpVerified,
       ucic: applicant.ucic,
-      ekycDone: applicant.ekycDone
+      ekycDone: applicant.ekycDone,
+      udfDetails
     };
   }
 
@@ -112,6 +118,10 @@ export class ApplicantDataStoreService {
 
   setDirectorDetails(value: DirectorDetails[]) {
     this.applicant.directorDetails = value;
+  }
+  setUdfDatas(value) {
+    console.log('udfValue', value)
+    this.applicant.udfDetails = value;
   }
 
   setApplicantId(applicantId) {
@@ -247,6 +257,15 @@ export class ApplicantDataStoreService {
       }
     })
     return dropdown;
+  }
+
+
+  setUrl(value ){
+    this.applicantUrl = value
+  }
+
+  getUrl(){
+   return this.applicantUrl
   }
 
 }

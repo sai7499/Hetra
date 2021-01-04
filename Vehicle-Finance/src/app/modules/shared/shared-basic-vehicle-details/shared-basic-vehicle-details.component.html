@@ -5,9 +5,9 @@
         <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
 
-            <div id="sales_section_start" *ngIf="roleType === 1">
+            <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} ({{udfScreenId}}) </h3>
 
-                <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} </h3>
+            <div id="sales_section_start" *ngIf="roleType === 1">
 
                 <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
 
@@ -113,9 +113,9 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                [isDirty]="isDirty"
-                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''">
+                                [isDirty]="isDirty" (change)="onCallTwoFunction($event.target.value, obj)">
                             </app-vf-custom-select>
+                            <!-- (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''" -->
 
                         </div>
 
@@ -459,8 +459,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
-                                [isDirty]="isDirty">
+                                (change)="onCallTwoFunction($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -582,12 +581,12 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value > maxDate">
+                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value && obj.controls['invoiceDate'].value > toDayDate">
                                 Invalid Date
                             </div>
 
@@ -868,8 +867,7 @@
 
                             <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                 formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
-                                [isDirty]="isDirty">
+                                (change)="onCallTwoFunction($event.target.value, obj)" [isDirty]="isDirty">
                             </app-vf-custom-select>
 
                         </div>
@@ -1011,12 +1009,12 @@
                         <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="Product !== 'TyreLoan'">
                             <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                             <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                                [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                 placeholder="Proforma Invoice Date">
                             </kendo-datepicker>
 
                             <div class="invalid-feedback"
-                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value > maxDate">
+                                *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value > toDayDate">
                                 Invalid Date
                             </div>
                         </div>
@@ -1298,8 +1296,7 @@
 
                                 <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                     formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                    (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
-                                    [isDirty]="isDirty">
+                                    (change)="onCallTwoFunction($event.target.value, obj)" [isDirty]="isDirty">
                                 </app-vf-custom-select>
 
                             </div>
@@ -1524,31 +1521,33 @@
                                 </label>
 
                                 <kendo-datepicker class="form-control mandatory" formControlName="permitExpiryDate"
-                                    [min]="maxDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
+                                    [min]="toDayDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
                                     placeholder="Permit Expire Date">
                                 </kendo-datepicker>
 
                                 <div class="invalid-feedback"
-                                    *ngIf="obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < maxDate">
+                                    *ngIf="obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < toDayDate">
                                     Invalid Date
                                 </div>
 
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="chassis_number">{{label.chassisNumber}}</label>
+                                <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="chasisNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                     [className]="'form-control'" [placeholder]="'Chassis Number'"
-                                    [inputClass]="'input-upper'" [isRequired]="'Chassis Number Required'"
+                                    [inputClass]="'text-uppercase'" [isRequired]="'Chassis Number Required'"
                                     [isDirty]="isDirty" [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
 
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="engine_number">{{label.engineNumber}} </label>
+                                <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="engineNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
@@ -1590,12 +1589,12 @@
                                 <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
 
                                 <kendo-datepicker class="form-control mandatory" formControlName="vehicleRegDate"
-                                    [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                     placeholder="Vehicle Registration Date">
                                 </kendo-datepicker>
 
                                 <div class="invalid-feedback"
-                                    *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
+                                    *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > toDayDate">
                                     Invalid Date
                                 </div>
 
@@ -1702,7 +1701,6 @@
                             </div>
 
                         </div>
-
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3"
@@ -1868,8 +1866,7 @@
 
                                 <app-vf-custom-select [values]="vehicleLov?.assetVariant" [id]="'asset_variant'"
                                     formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
-                                    (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''"
-                                    [isDirty]="isDirty">
+                                    (change)="onCallTwoFunction($event.target.value, obj)" [isDirty]="isDirty">
                                 </app-vf-custom-select>
 
                             </div>
@@ -1974,8 +1971,7 @@
                                 </label>
 
                                 <app-custom-input formControlName="assetCostIBB"
-                                    [type]="label.validationData?.amountValue.type"
-                                    [className]="'form-control mandatory'"
+                                    [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                     [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
                                     (keyup)="onCompareFinalAssetCode($event)"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
@@ -1990,8 +1986,7 @@
                                 </label>
 
                                 <app-custom-input formControlName="assetCostCarTrade"
-                                    [type]="label.validationData?.amountValue.type"
-                                    [className]="'form-control mandatory'"
+                                    [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                     [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
                                     (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
                                     (change)="onCompareFinalAssetCode($event)"
@@ -2089,11 +2084,12 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="chassis_number">{{label.chassisNumber}}</label>
+                                <label for="chassis_number">{{label.chassisNumber}} <sub class="star_red_col">*</sub>
+                                </label>
                                 <app-custom-input formControlName="chasisNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'chassis_number'"
                                     [className]="'form-control'" [placeholder]="'Chassis Number'"
-                                    [inputClass]="'input-upper'" [isRequired]="'Chassis Number Required'"
+                                    [inputClass]="'text-uppercase'" [isRequired]="'Chassis Number Required'"
                                     [isDirty]="isDirty" [maxLength]="label.validationData?.chasisEngineNo.maxLength">
                                 </app-custom-input>
 
@@ -2104,7 +2100,8 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3  ">
-                                <label for="engine_number">{{label.engineNumber}}</label>
+                                <label for="engine_number">{{label.engineNumber}} <sub class="star_red_col">*</sub>
+                                </label>
                                 <app-custom-input formControlName="engineNumber"
                                     [type]="label.validationData?.chasisEngineNo.type" [id]="'engine_number'"
                                     [className]="'form-control'" [placeholder]="'Engine Number'"
@@ -2141,12 +2138,12 @@
                                 <label for="vehicle_registration_date">{{label.vehicleRegistrationDate}} </label>
 
                                 <kendo-datepicker class="form-control mandatory" formControlName="vehicleRegDate"
-                                    [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                                    [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                     placeholder="Vehicle Registration Date">
                                 </kendo-datepicker>
 
                                 <div class="invalid-feedback"
-                                    *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > maxDate">
+                                    *ngIf="obj.controls['vehicleRegDate'].touched && obj.controls['vehicleRegDate'].value > toDayDate">
                                     Invalid Date
                                 </div>
 
@@ -2563,13 +2560,13 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.invoiceDate">
                         <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
                         <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                            [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
+                            [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                             placeholder="Proforma Invoice Date">
                         </kendo-datepicker>
 
                         <div class="invalid-feedback"
                             *ngIf="roleType !==1 && obj.controls['invoiceDate'].touched && 
-                           obj.controls['invoiceDate'].hasError('required') || obj.controls['invoiceDate'].value > maxDate">
+                           obj.controls['invoiceDate'].hasError('required') || obj.controls['invoiceDate'].value > toDayDate">
                             Invalid Date
                         </div>
 
@@ -2583,6 +2580,8 @@
 
 </form>
 
+<app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 <!-- Check Depude Model -->
 
 <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': isShowParentLoan }">
@@ -2598,7 +2597,7 @@
             <div class="modal-body">
                 <div class="row" *ngIf="loanDetailsData.length != 0">
                     <div class="col-md-12">
-                        <div class="table-responsive application">
+                        <div class="table-responsive application tab-hgt">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="table-head-bg ">
@@ -2617,7 +2616,6 @@
                                         <td align="center" [attr.data-label]="'Select'">
                                             <input class="" type="radio" name="loanDetails"
                                                 (click)="onLoanAccNoSelect(loanDetail)" />
-                                            <!--  -->
                                         </td>
                                         <td [attr.data-label]="'Loan Account Number'">{{loanDetail.accountNumber}}</td>
                                         <td [attr.data-label]="'Loan Start Date'">{{loanDetail.loanStartDate}}</td>
@@ -2629,28 +2627,15 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- <div class="btn-sec clear-both btn-mar-reject">
-                                <div class="text-right margin_top">
-                                    <button *ngIf="isSO === 1" [disabled]="!isCreateLoanBtn"
-                                        class="btn btn-primary js-btn-next mar-right8" type="button"
-                                        (click)="onCreateChildLoan()">
-                                        Create Child Loan Lead
-                                    </button>
-                                    <button class="btn btn-primary js-btn-next mar-right8" type="button"
-                                        [disabled]="!isCreateLoanBtn" (click)="viewLoan360()">
-                                        View Loan 360
-                                    </button>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-info" data-dismiss="modal" id="continue"
+                <button type="button" class="btn con-btn btn-info" data-dismiss="modal" id="continue"
                     (click)="onCheckVehicleDetails()">
-                    Continue with selected account number
+                    Continue with selected {{ isMobile ? 'A/C No.': 'account number'}}
                 </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" id="close" (click)="onClose()">
                     Cancel

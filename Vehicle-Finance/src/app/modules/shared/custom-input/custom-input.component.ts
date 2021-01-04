@@ -225,7 +225,10 @@ export class CustomInputComponent
       return;
     }
     if ((newValue === null || newValue == undefined || newValue === "") && this.isRequired) {
-      this.displayError(this.checkIsFirst ? '' : this.isRequired);
+      // this.displayError(this.checkIsFirst ? '' : this.isRequired);
+      if (!this.checkIsFirst) {
+        this.displayError(this.isRequired)
+      }
       this.checkIsFirst = false;
       return;
     }
@@ -319,6 +322,9 @@ export class CustomInputComponent
       case 'alpha':
         this.valuePatternCheck(event, /[^a-zA-Z ]/g);
         // this.allowAlphaOnly(event);
+        break;
+      case 'custom-special-alpha-numeric':
+        this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n\-\\|:]/g);;
         break;
       case 'special-alpha-numeric':
         this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g);

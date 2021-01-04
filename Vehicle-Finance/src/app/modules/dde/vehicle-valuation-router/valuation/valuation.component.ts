@@ -17,6 +17,8 @@ import { UploadService } from '@services/upload.service';
 import { GpsService } from '@services/gps.service';
 import { Constant } from '../../../../../assets/constants/constant';
 import { environment } from 'src/environments/environment';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 
 @Component({
@@ -27,7 +29,6 @@ import { environment } from 'src/environments/environment';
 export class ValuationComponent implements OnInit {
 
   vehicleValuationForm: FormGroup;
-
   leadId;
   colleteralId;
   public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15));
@@ -150,7 +151,6 @@ export class ValuationComponent implements OnInit {
   permitType: any;
   permitDisabled: boolean;
   permitRequired: boolean;
-
   invalidPemitDate: boolean;
   invalidFitnessDate: boolean;
   invalidTaxDate: boolean;
@@ -166,8 +166,6 @@ export class ValuationComponent implements OnInit {
   accInPast: any;
   extValuator: boolean;
   disablePdfDownload: boolean;
-
-
   selectedDocDetails: DocRequest;
   showModal: boolean;
   isMobile: any;
@@ -176,11 +174,18 @@ export class ValuationComponent implements OnInit {
   longitude: string = null;
   documentArr: DocumentDetails[] = [];
   SELFIE_IMAGE: string;
-
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
   OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
   OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
   dmsDocumentId: string;
+  vehiclePhotoRequired: boolean;
+  taskId: any;
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId: any;
+  udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
 
 
 
@@ -203,12 +208,14 @@ export class ValuationComponent implements OnInit {
     private loanViewService: LoanViewService,
     private uploadService: UploadService,
     private gpsService: GpsService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private sharedService: SharedService,
+    private objectComparisonService: ObjectComparisonService) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
     this.accessoriesArray = this.fb.array([]);
     this.isMobile = environment.isMobile;
-
+    // this.isMobile = true;
   }
 
   async ngOnInit() {
@@ -216,6 +223,8 @@ export class ValuationComponent implements OnInit {
     if (this.isMobile) {
       this.checkGpsEnabled();
     }
+
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
@@ -232,6 +241,13 @@ export class ValuationComponent implements OnInit {
     console.log('user name', this.userName);
     console.log('role id', this.roleId);
     console.log('role name', this.roleName);
+    if(this.roleType === 9){
+      this.udfGroupId = 'VAG001'
+      this.udfScreenId = 'VAS001'
+    }else if(this.roleType === 2){
+      this.udfGroupId = 'VAG001'
+      this.udfScreenId = 'VAS002'
+    }
     if (this.roleId === 86) {
       this.extValuator = true;
     }
@@ -377,7 +393,9 @@ export class ValuationComponent implements OnInit {
     console.log('lead data', leadData);
     this.productCategoryCode = this.leadDetails['productCatCode'];
     // this.leadCreatedDate = new Date(leadData['leadDetails'].leadCreatedOn);
-    this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
+    let leadCreatedDate = String(leadData['leadDetails'].leadCreatedOn).slice(0, 10);   
+    this.leadCreatedDate = this.utilityService.getDateFromString(leadCreatedDate);
+    // this.leadCreatedDate = this.utilityService.getDateFromString(leadData['leadDetails'].leadCreatedOn);
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
     // console.log('LEAD_CREATED_DATE::', this.leadCreatedDate);
     // console.log('MAX_DATE::', this.toDayDate);
@@ -742,10 +760,14 @@ export class ValuationComponent implements OnInit {
   getVehicleValuation() {
 
     const data = this.colleteralId;
+    const udfData = {
+      "udfGroupId": this.udfGroupId,
+    }
     // const data = 1695;
     // console.log('DATA::::', data);
-    this.vehicleValuationService.getVehicleValuation(data).subscribe((res: any) => {
+    this.vehicleValuationService.getVehicleValuation(data,udfData ).subscribe((res: any) => {
       const response = res;
+      this.udfDetails = response.ProcessVariables.udfDetails;
       this.SELFIE_IMAGE = response.ProcessVariables.vehicleImage;
       console.log("RESPONSE_FROM_GET_VEHICLE_VALUATION_API", response);
       this.vehicleValuationDetails = response.ProcessVariables.vehicleValutionDetails;
@@ -882,7 +904,21 @@ export class ValuationComponent implements OnInit {
           this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
         }
       }
-      this.setFormValue();
+      if ((this.vehicleValuationDetails.personInitiated !== null) && (!this.disableForm)) {
+        this.personInitiatedBy = this.vehicleValuationDetails.personInitiated;
+      } else if (this.vehicleValuationDetails.personInitiated === null) {
+        this.personInitiatedBy = this.userName;
+  
+      }
+      this.vehicleValuationForm.patchValue({
+        valuationInitiationDate: this.vehicleValuationDetails.valuationInitiationDate ?
+          this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : '',
+        // personInitiated: this.vehicleValuationDetails.personInitiated || '',
+        personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
+      })
+      if (this.vehicleValuationDetails.valuatorRefNo) {
+        this.setFormValue();
+      }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
   }
@@ -1048,7 +1084,7 @@ export class ValuationComponent implements OnInit {
       assetVariant: [''],
       colour: ['', Validators.required],
       odometerReading: ['', Validators.required],
-      estimatedReading: ['', Validators.required],
+      estimatedReading: [''],
       vehicleUsedFor: ['', Validators.required],
       regOwnerName: ['', Validators.required],
       regAddress: ['', Validators.required],
@@ -1106,22 +1142,11 @@ export class ValuationComponent implements OnInit {
   setFormValue() {
 
     if (this.disableForm) {
-      // console.log('in disable state');
-
       this.yearMonthOfManufact = this.vehicleValuationDetails.yearOfManufacturer || '';
       this.personInitiatedBy = this.vehicleValuationDetails.personInitiated;
     } else {
       this.yearMonthOfManufacturer = this.vehicleValuationDetails.yearOfManufacturer ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '';
-      // console.log('in offline val', this.yearMonthOfManufacturer);
-    }
-    if ((this.vehicleValuationDetails.personInitiated !== null) && (!this.disableForm)) {
-      this.personInitiatedBy = this.vehicleValuationDetails.personInitiated;
-      // console.log('in not disable state and not null');
-    } else if (this.vehicleValuationDetails.personInitiated === null) {
-      this.personInitiatedBy = this.userName;
-      // console.log('in not disable state and  null');
-
     }
     this.vehicleValuationForm.patchValue({
       // valuatorType: this.vehicleValuationDetails.valuatorType || '',
@@ -1170,10 +1195,6 @@ export class ValuationComponent implements OnInit {
       seatingCapacity: this.vehicleValuationDetails.seatingCapacity || '',
       // speedometerReading: this.vehicleValuationDetails.speedometerReading || '',
       fuelUsed: this.vehicleValuationDetails.fuelUsed || '',
-      valuationInitiationDate: this.vehicleValuationDetails.valuationInitiationDate ?
-        this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : '',
-      // personInitiated: this.vehicleValuationDetails.personInitiated || '',
-      personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
       valuatorRefNo: this.vehicleValuationDetails.valuatorRefNo || '',
       borrowersName: this.vehicleValuationDetails.borrowersName || '',
       inspectionPlace: this.vehicleValuationDetails.inspectionPlace || '',
@@ -1454,11 +1475,20 @@ export class ValuationComponent implements OnInit {
     this.validateTaxDate();
     this.validateDateOfReg();
     this.insuranceValidUptoCheck();
-    console.log("latitude::", this.latitude);
-    console.log("longitude::", this.longitude);
-    console.log("SELFIE_IMAGE::", this.SELFIE_IMAGE);
+    console.log('latitude::', this.latitude);
+    console.log('longitude::', this.longitude);
+    console.log('SELFIE_IMAGE::', this.SELFIE_IMAGE);
+    console.log('is mobile', this.isMobile);
+    // this.SELFIE_IMAGE = 'jkhkhkj';
 
-    if ((this.isMobile === true) && this.SELFIE_IMAGE && (this.isOnline === false)) {
+    console.log('length of image', this.SELFIE_IMAGE.length);
+    if (this.SELFIE_IMAGE.length == 0) {
+      this.vehiclePhotoRequired = true;
+    } else {
+      this.vehiclePhotoRequired = false;
+    }
+
+    if (this.isMobile && this.vehiclePhotoRequired) {
       this.toasterService.showError('Vehicle photo is required', '');
       return;
     }
@@ -1479,12 +1509,13 @@ export class ValuationComponent implements OnInit {
     formValue.fcExpiryDate = this.utilityService.convertDateTimeTOUTC(formValue.fcExpiryDate, 'DD/MM/YYYY');
     formValue.valuationInitiationDate = this.utilityService.convertDateTimeTOUTC(formValue.valuationInitiationDate, 'DD/MM/YYYY');
     console.log('after converting date to utc', formValue);
-
-    if (this.vehicleValuationForm.invalid) {
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
+    if (this.vehicleValuationForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
       console.log('valuation form', this.vehicleValuationForm);
       return;
     }
+    const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
@@ -1493,6 +1524,11 @@ export class ValuationComponent implements OnInit {
       longitude: this.longitude || '',
       vehicleImage: this.SELFIE_IMAGE,
       ...formValue,
+      udfDetails : [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }]
 
     };
     // this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
@@ -1507,13 +1543,15 @@ export class ValuationComponent implements OnInit {
     // });
     this.vehicleValuationService.saveUpdateVehicleValuation(data).subscribe((res: any) => {
       console.log('save or update valuation Response', res);
+      const message = res.ProcessVariables.error.message;
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
+        this.initUDFValues = this.userDefineForm.udfData.getRawValue();
         this.getVehicleValuation();
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
-        this.toasterService.showError('ivalid save', 'message');
+        this.toasterService.showError(message, '');
 
       }
     });
@@ -1525,15 +1563,23 @@ export class ValuationComponent implements OnInit {
   //   this.saveUpdateVehicleValuation();
   // }
   submitValuationTask() {
-    if (this.vehicleValuationForm.invalid) {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
+    if (this.vehicleValuationForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
+      return;
+    }
+    if (!isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
     const data = {
       leadId: this.leadId,
       userId: this.userId,
       isSubmitVal: true,
-      collateralId: this.colleteralId
+      collateralId: this.colleteralId,
+      taskId: this.taskId
     };
     this.vehicleValuationService.sumbitValuationTask(data).subscribe((res: any) => {
       console.log('submit valuation Response', res);
@@ -1700,5 +1746,14 @@ export class ValuationComponent implements OnInit {
           console.log('downloadDocs', value);
         });
     });
+  }
+
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value);
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 }

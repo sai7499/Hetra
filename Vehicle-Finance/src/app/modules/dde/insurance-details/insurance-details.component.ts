@@ -86,6 +86,12 @@ export class InsuranceDetailsComponent implements OnInit {
   isNomineeInvalid = false;
   isGetApi: boolean;
 
+  // User defined
+  udfScreenId: any = 'ISS001';
+  udfGroupId: any = 'ISG001';
+  udfDetails: any = [];
+  userDefineForm: any;
+
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
               private toggleDdeService: ToggleDdeService,
@@ -248,7 +254,7 @@ export class InsuranceDetailsComponent implements OnInit {
       this.isRtoCenter = false;
       this.insuranceDetailForm.controls.rtoCentre.reset();
       return;
-    } else if (this.f.invalid) {
+    } else if (this.f.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showError('Please enter mandatory fields', '');
       console.log('form group', this.f);
       return;
@@ -281,7 +287,12 @@ export class InsuranceDetailsComponent implements OnInit {
 
       insuranceDetails: {
         ...this.insuranceDetailForm.value
-      }
+      },
+      udfDetails : [{
+      "udfGroupId": this.udfGroupId,
+      // "udfScreenId": this.udfScreenId,
+      "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+    }]
 
     };
     this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
@@ -533,12 +544,13 @@ export class InsuranceDetailsComponent implements OnInit {
       setTimeout(() => {
         const event = this.calculateAgeInYears(this.utilityService.getDateFormat(date));
         console.log('testing date', event);
-        if (relation === 'nominee' && (event > 0 && event <= 100)) {
+        if (relation === 'nominee' && (event > 0 &&  event <= 100)) {
+          
           this.f.patchValue({
             nomineeAge: event
           });
           this.enableDisableGuardian(event);
-        } else if (relation === 'nominee' && (event < 0 || event > 100)) {
+        } else if (relation === 'nominee' && (event <= 0 || event > 100)) {
           this.isNomineeInvalid = true;
           this.f.controls.nomineeDOB.reset();
           this.f.controls.nomineeAge.reset();
@@ -556,19 +568,22 @@ export class InsuranceDetailsComponent implements OnInit {
   }
   public calculateAgeInYears(date) {
     if (date) {
-    const now = new Date();
+    let now = new Date();
+    now = this.utilityService.setTimeForDates(now)
     const toDayDate = this.utilityService.getDateFromString(
       date
     );
     // tslint:disable-next-line: variable-name
     const current_year = now.getFullYear();
     const yearDiff = current_year - toDayDate.getFullYear();
-    const birthdayThisyear = new Date(current_year, toDayDate.getMonth(), toDayDate.getDate());
-    const age = (now >= birthdayThisyear);
+    // const birthdayThisyear = new Date(toDayDate.getFullYear(), toDayDate.getMonth(), toDayDate.getDate());
+    // const age = (now >= birthdayThisyear);
+    // console.log('age', age)
 
-    return age
-      ? yearDiff
-      : yearDiff - 1;
+    // return age
+    //   ? yearDiff
+    //   : yearDiff - 1;
+    return yearDiff;
   }
   }
 
@@ -692,13 +707,20 @@ export class InsuranceDetailsComponent implements OnInit {
 }
   getInsuranceDetails() {
     const body = {
-      leadId: this.leadId
+      leadId: this.leadId,
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.insuranceService.getInsuranceDetails(body).subscribe((res: any) => {
       console.log(res, 'res in get');
       if (res && res.ProcessVariables.error.code === '0') {
         this.processVariables = res.ProcessVariables.insuranceDetails;
         this.healthQuestionAns = res.ProcessVariables.healthQuestions;
+        this.udfDetails = res.ProcessVariables.udfDetails;
         this.covidQuestions = res.ProcessVariables.covidQuestions;
         if (this.processVariables) {
           if (this.motar == 'yes' && this.processVariables.insuranceProvider != null) {
@@ -983,4 +1005,10 @@ export class InsuranceDetailsComponent implements OnInit {
     this.isRtoCenter = event.key ? true : false;
     this.rtoCenterName = event ? event.key : null;
   }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
+  }
+  
 }

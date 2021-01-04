@@ -14,6 +14,7 @@ import { map, tap, first, catchError } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UtilityService } from './utility.service';
 import { ToastrService } from 'ngx-toastr';
+import { IdleTimerService } from '@services/idle-timer.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private ngxUiLoaderService: NgxUiLoaderService,
     private utilityService: UtilityService,
     private toasterService: ToastrService,
+    private idleTimerService: IdleTimerService
   ) { }
 
   intercept(
@@ -33,6 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // this.ngxUiLoaderService.start();
+    this.idleTimerService.updateExpiredTime();
     this.apiCount++;
     let httpMethod = req.method;
     const reqBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
@@ -96,6 +99,8 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     } else {
       authReq = req;
+    console.log('wizard api', JSON.stringify(req));
+
     }
     console.log('authReq', req);
     return next.handle(authReq).pipe(

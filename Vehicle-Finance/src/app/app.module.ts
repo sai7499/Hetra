@@ -58,11 +58,11 @@ import { DisbursementSectionModule } from '@modules/disbursement-section/disburs
 import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
-import { QueryDataResolverService } from '@modules/lead-section/services/queryDaraResolver.service';
-import { ScrollToBottomDirective } from '@services/directives/scroll-to-bottom.directive';
+import { QueryDataResolverService } from '@modules/lead-section/services/queryDataResolver.service';
 
 import { LeadUploadDiscussionComponent } from '@modules/lead-upload-discussion/lead-upload-discussion.component';
 import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
+import { WindowModule } from '@progress/kendo-angular-dialog';
 
 setTheme('bs4');
 
@@ -78,7 +78,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective,LeadUploadComponent, LeadUploadDiscussionComponent,ScrollToBottomDirective],
+  declarations: [AppComponent, HeaderComponent, NumberOnlyDirective, LettersOnlyDirective,LeadUploadComponent, LeadUploadDiscussionComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -107,7 +107,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     CreditConditionModule,
     // DateInputsModule,
     DatePickerModule,
-    ChildLoanModule
+    ChildLoanModule,
+    WindowModule
   ],
   providers: [
     HTTP,

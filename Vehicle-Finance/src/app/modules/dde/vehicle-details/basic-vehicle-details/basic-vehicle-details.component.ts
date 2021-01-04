@@ -24,16 +24,21 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   disableSaveBtn: boolean;
 
   public formValue: any;
+  userDefineForm: any;
+
   public isDirty: boolean;
   public subscription: any;
+  public unsubForm: any;
+  udfScreenId: string = 'VLS006';
+  udfGroupId: string = 'VLG002';
+  udfDetails: any = [];
 
   productCatoryCode: string;
 
   constructor(private createLeadDataService: CreateLeadDataService, public vehicleDataStoreService: VehicleDataStoreService, private toasterService: ToasterService,
     private vehicleDetailService: VehicleDetailService, private utilityService: UtilityService, private router: Router,
     private activatedRoute: ActivatedRoute, private sharedService: SharedService, private labelsData: LabelsService,
-    private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService) { }
+    private toggleDdeService: ToggleDdeService, private loanViewService: LoanViewService) { }
 
   ngOnInit() {
 
@@ -45,6 +50,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
+        return data
       },
         error => {
           console.log('error', error)
@@ -56,6 +62,10 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
+    })
+
+    this.unsubForm = this.sharedService.userDefined$.subscribe((form: any) => {
+      this.userDefineForm = form;
     })
 
     const operationType = this.toggleDdeService.getOperationType();
@@ -70,7 +80,13 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   onSubmit() {
 
-    if (this.formValue.valid === true) {
+    let isUdfField = true;
+
+    if (this.userDefineForm) {
+      isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+    }
+
+    if (this.formValue.valid && isUdfField) {
 
       if (this.formValue.value.isCheckDedpue === false) {
         this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
@@ -99,6 +115,8 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
+          data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
+          data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
         }
 
         data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
@@ -108,6 +126,15 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
 
         data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
+
+        data.udfDetails = [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(
+            this.userDefineForm && this.userDefineForm.udfData ?
+              this.userDefineForm.udfData.getRawValue() : {})
+        }]
+
 
         this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
 
@@ -144,6 +171,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.unsubForm.unsubscribe();
   }
 
 }

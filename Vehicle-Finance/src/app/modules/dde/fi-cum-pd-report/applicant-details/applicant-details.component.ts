@@ -6,14 +6,13 @@ import { LabelsService } from '@services/labels.service';
 import { LovDataService } from '@services/lov-data.service';
 import { PersonalDiscussionService } from '@services/personal-discussion.service';
 import { ApplicantDetails } from '@model/dde.model';
-import { PdDataService } from '../pd-data.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-import { UtilityService } from '@services/utility.service';
-
 import { LoanViewService } from '@services/loan-view.service';
+import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
+import { UtilityService } from '@services/utility.service';
 
 @Component({
   templateUrl: './applicant-details.component.html',
@@ -58,6 +57,12 @@ export class ApplicantDetailComponent implements OnInit {
   dobOrDio: any;
   serviceDobOrDio: any;
 
+  // userDefineFields
+  udfScreenId = 'FPS001';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'FPG001';
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
@@ -65,12 +70,12 @@ export class ApplicantDetailComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private personaldiscussion: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute,
-    private pdDataService: PdDataService,
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
     private utilityService: UtilityService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private ficumpdPdfService: FicumpdPdfService
   ) { }
 
   async ngOnInit() {
@@ -82,11 +87,12 @@ export class ApplicantDetailComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    // console.log('this user roleType', this.roleType);
+
+    this.udfScreenId = this.roleType === 1 ? 'FPS001' : 'FPS005';
+
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
-        // console.log('in labels data', this.labels);
       },
       error => {
         this.errorMsg = error;
@@ -94,11 +100,9 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.initForm();
     this.leadId = (await this.getLeadId()) as number; // calling get lead id fun at line 148
-    // console.log('Lead ID in Aplicant Details', this.leadId);
     this.getLOV();
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
-      //  this.setFormValue();
     });
     this.operationType = this.toggleDdeService.getOperationType();
     if (this.operationType) {
@@ -110,9 +114,8 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }
-    
-
   }
+
   getLeadId() {  // fun to get lead id from router
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
@@ -126,7 +129,6 @@ export class ApplicantDetailComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('LOVs', this.LOV);
     this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -134,35 +136,19 @@ export class ApplicantDetailComponent implements OnInit {
       }
       this.applicantId = Number(value.applicantId);
       this.version = String(value.version);
-      // if (this.version === 'undefined') {
-      //   this.version = '0';
-      //   console.log('in undefined condition version', this.version);
-
-      // }
       this.getLeadSectionData(); // calling get lead section data function
       this.getPdDetails();
-      // console.log('applicant form', this.applicantForm);
-      console.log('Applicant Id In applicant Details Component', this.applicantId);
-      console.log('Version In applicant Details Component', this.version);
-
     });
   }
-
 
   // getting lead data from create lead data service
 
   async getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
-    // console.log('leadSectionData Lead details', leadSectionData);
     this.leadData = { ...leadSectionData };
     const data = this.leadData;
-    console.log('in get lead section data', data['applicantDetails']);
-
-    // console.log('current app id', this.applicantId);
 
     for (const value of data['applicantDetails']) {  // for loop to get the respective applicant details form applicant details array
-      // console.log('in for loop app id', value['applicantId']);
-
       if (value['applicantId'] === this.applicantId) {
 
         const applicantDetailsFromLead = value;
@@ -176,22 +162,18 @@ export class ApplicantDetailComponent implements OnInit {
           this.serviceDobOrDio = this.reformatDate((applicantDetailsFromLead['dob']).slice(0, 10));
         }
       }
-      console.log('applicant dob', this.serviceDobOrDio);
-      console.log('appplicant mobile no', this.serviceMoblieNo);
     }
   }
+
   reformatDate(oldDate) {
     return oldDate.toString().split('-').reverse().join('/');
   }
 
-
   houseOwnerShip(event: any) {
-    console.log('event', event);
     this.ownerShipType = event ? event : event;
     if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
       this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
       this.ownerShipType === '5HOUOWN') {
-      console.log('in owner,property enabled');
       this.ownerNamePropertyAreaRequired = true;
       this.ownerNamePropertyAreaDisabled = false;
       this.applicantForm.get('owner').enable();
@@ -204,7 +186,6 @@ export class ApplicantDetailComponent implements OnInit {
     } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
       this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
       this.ownerShipType !== '5HOUOWN') {
-      console.log('in owner,property disabled');
       this.ownerNamePropertyAreaRequired = false;
       this.ownerNamePropertyAreaDisabled = true;
       setTimeout(() => {
@@ -223,33 +204,28 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.get('propertyValue').updateValueAndValidity();
     }
   }
+
   resAddress(event: any) {
-    console.log('event', event);
     this.resAddressType = event ? event : event;
     if (this.resAddressType === '2') {
       this.addressRequired = true;
-      console.log('in enable', this.addressRequired);
       this.applicantForm.get('alternateAddr').enable();
       this.applicantForm.get('alternateAddr').setValidators(Validators.required);
       this.applicantForm.get('alternateAddr').updateValueAndValidity();
-
     } else {
       this.addressRequired = false;
       setTimeout(() => {
         this.applicantForm.get('alternateAddr').setValue(null);
       });
 
-      // console.log('in disable', this.addressRequired);
       this.applicantForm.get('alternateAddr').disable();
       this.applicantForm.get('alternateAddr').clearValidators();
       this.applicantForm.get('alternateAddr').updateValueAndValidity();
 
     }
-    // console.log('in res address', this.addressRequired);
   }
   initForm() { // initialising the form group
     this.applicantForm = new FormGroup({
-      // applicantName: new FormControl({ value: this.applicantFullName, disabled: true }),
       applicantName: new FormControl({ value: '', disabled: true }),
       fatherFullName: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
@@ -259,7 +235,6 @@ export class ApplicantDetailComponent implements OnInit {
       dependants: new FormControl('', Validators.required),
       residancePhoneNumber: new FormControl('', Validators.required),
       officePhoneNumber: new FormControl('', Validators.required),
-      // mobile: new FormControl({ value: this.mobileNo, disabled: true }),
       mobile: new FormControl({ value: '', disabled: true }),
       residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
       alternateAddr: new FormControl(''),
@@ -282,24 +257,15 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   setFormValue() { // patching the form values
-    // console.log("in set form value")
-    // const applicantModal = this.ddeStoreService.getApplicantDetails() || {};
     const applicantModal = this.applicantPdDetails || {};
-    console.log(' db applicant details', this.applicantDetails);
 
     if (this.applicantDetails) {
       this.dobOrDio = this.applicantDetails.dob ? this.applicantDetails.dob : this.serviceDobOrDio;
-      // this.doi = this.applicantDetails.doi ? this.utilityService.getDateFromString(this.applicantDetails.doi) : this.doi;
       this.applicantFullName = this.applicantDetails.applicantName ? this.applicantDetails.applicantName : this.serviceApplicantFullName;
       this.mobileNo = this.applicantDetails.mobile ? this.applicantDetails.mobile : this.serviceMoblieNo;
-      console.log('in set form db mobile number', this.mobileNo);
-      console.log('in set form db dob/doi', this.dobOrDio);
     } else {
       this.dobOrDio = this.serviceDobOrDio;
-      // this.dob = this.serviceDob;
       this.mobileNo = this.serviceMoblieNo;
-      console.log('in service mobile number', this.mobileNo);
-      console.log('in service dob/doi', this.dobOrDio);
     }
 
     this.applicantForm.patchValue({
@@ -331,14 +297,18 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantModal.ratingbySO || '',
       alternateAddr: applicantModal.alternateAddr || ''
     });
-    // 0 this.resAddress(this.applicantForm.get('residenceAddressAsPerLoanApplication').value);
-    // this.houseOwnerShip(this.applicantForm.get('houseOwnership').value);
   }
 
   getPdDetails() { // function to get the pd details with respect to applicant id
     const data = {
       applicantId: this.applicantId,
       pdVersion: this.version,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ]
     };
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
@@ -346,8 +316,12 @@ export class ApplicantDetailComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
+
+        this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
+
         if (this.applicantPdDetails) {
           this.setFormValue();
+          this.ficumpdPdfService.setApplicantPdDetails(this.applicantPdDetails);
           // this.pdDataService.setCustomerProfile(this.applicantPdDetails);
         }
         if (this.applicantForm.get('residenceAddressAsPerLoanApplication') != null) {
@@ -360,6 +334,10 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
 
+  onSaveuserDefinedFields(event) {
+    this.userDefineForm = event;
+  }
+
   onFormSubmit(action) { // fun that submits all the pd data
     if (this.operationType) {
       this.onNavigateNext();
@@ -367,13 +345,12 @@ export class ApplicantDetailComponent implements OnInit {
     }
     const formModal = this.applicantForm.value;
     const applicantFormModal = { ...formModal };
-    // console.log('Form Data', applicantFormModal);
-    // console.log('Status', this.applicantForm.get('physicallyChallenged').invalid);
-    this.isDirty = true;
-    if (this.applicantForm.invalid) {
-      this.toasterService.showWarning('please enter required details', '');
-      return;
-    }
+
+    // if (this.applicantForm.invalid && this.userDefineForm.udfData.invalid) {
+    //   this.isDirty = true;
+    //   this.toasterService.showWarning('please enter required details', '');
+    //   return;
+    // }
 
     this.applicantDetails = {
       applicantName: this.applicantFullName,
@@ -404,78 +381,60 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantFormModal.ratingbySO,
       alternateAddr: applicantFormModal.alternateAddr
     };
-    // if (this.resAddressType === '1') {
-    //   delete this.applicantDetails['alternateAddr'];
-    // }
-    // if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
-    //   this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
-    //   this.ownerShipType !== '5HOUOWN') {
-    //   delete this.applicantDetails['owner'];
-    //   delete this.applicantDetails['areaOfProperty'];
-    // }
-    const data = {
-      leadId: this.leadId,
-      applicantId: this.applicantId,
-      userId: this.userId,
-      applicantPersonalDiscussionDetails: this.applicantDetails,
-      // customerProfileDetails: null,
-      // loanDetailsForNewCv: null,
-      // applicableForUsedVehicle: null,
-      // applicableForAssetDetailsUsedVehicle: null,
 
-    };
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
 
-    this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
-      const processVariables = value.ProcessVariables;
-      // console.log(processVariables)
-      if (processVariables.error.code === '0') {
-        const message = processVariables.error.message;
-        this.toasterService.showSuccess('Record Saved Successfully', '');
-        this.getPdDetails();
-        // this.toasterService.showSuccess(message, '');
-        if (action === 'save') {
+    if (this.applicantForm.valid && isUdfField) {
 
-        } else if (action === 'next') {
-
-          if (this.version != 'undefined') {
-
-            // tslint:disable-next-line: max-line-length
-            this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
-
-          } else {
-
-            this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
-
+      const data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        applicantPersonalDiscussionDetails: this.applicantDetails,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
           }
+        ]
+      };
 
+      this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
+        const processVariables = value.ProcessVariables;
+        if (processVariables.error.code === '0') {
+          const message = processVariables.error.message;
+          this.toasterService.showSuccess('Record Saved Successfully', '');
+          this.getPdDetails();
+          if (action === 'next') {
+            if (this.version != 'undefined') {
+              this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+            } else {
+              this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
+            }
+          }
+        } else {
+          this.toasterService.showError('ivalid save', 'message');
         }
-
-      } else {
-        // console.log('error', processVariables.error.message);
-        this.toasterService.showError('ivalid save', 'message');
-
-      }
-    });
-  }
-  onNavigateNext() {
-
-
-    if (this.version != 'undefined') {
-      console.log('in  routing defined version condition', this.version);
-      // tslint:disable-next-line: max-line-length
-      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
-
+      });
     } else {
-
-      console.log('in routing undefined version condition', this.version);
-      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
-
+      this.isDirty = true;
+      this.toasterService.showWarning('please enter required details', '');
     }
   }
 
+  onNavigateNext() {
+    if (this.version != 'undefined') {
+      this.router.navigate([`/pages/dde/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile/${this.version}`]);
+    } else {
+      this.router.navigate([`/pages/fi-cum-pd-dashboard/${this.leadId}/fi-cum-pd-list/${this.applicantId}/customer-profile`]);
+    }
+  }
 
   onNavigateBack() {
-    console.log('in nav back', this.version);
     if (this.version != 'undefined') {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
     } else {

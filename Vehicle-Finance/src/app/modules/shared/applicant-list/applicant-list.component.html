@@ -49,7 +49,7 @@
                 <td [attr.data-label]="labels?.dobDoi">{{ item.doi ? item.doi : '-' }}</td>
               </ng-container>
               <td [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
-              <td [attr.data-label]="labels?.action">
+              <td class="pad-0" [attr.data-label]="labels?.action">
                 <div class="flex-container">
                   <ng-container  *ngIf="isLoan360">
                     <div><a (click)="navigatePage(item.applicantId)" title="View applicant"><i
@@ -157,9 +157,23 @@
         </div>
       </div>
     </div>
+    <div class="btn-sec clear-both row mar-btn cst_btm_btns">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-7 text-right">
+        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()" >
+          Back
+        </button>
+        <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
+        <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()">
+    
+          <!-- [routerLink]="['../vehicle-list']" -->
+          Next
+        </button>
+      </div>
+    </div>
     <!-- <img [src]="imag" alt="Red dot" /> -->
   </div>
-
+  
   <!-- </div> -->
 
 
@@ -672,20 +686,7 @@
 
 
 </div>
-<div class="btn-sec clear-both row cst_btm_btns">
-  <div class="col-sm-5"></div>
-  <div class="col-sm-7 text-right">
-    <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()" >
-      Back
-    </button>
-    <!-- <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button> -->
-    <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()">
 
-      <!-- [routerLink]="['../vehicle-list']" -->
-      Next
-    </button>
-  </div>
-</div>
 <!--  <div id="mydiv" *ngIf="cibilImage" class="card" class="center"> 
     <button type="button" class="close" (click)="destroyImage()" *ngIf="cibilImage" style="overflow: auto;">×</button> -->
 <!-- Header -->

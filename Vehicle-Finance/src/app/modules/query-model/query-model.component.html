@@ -13,8 +13,8 @@
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                   <div class="input-group search-btn">
 
-                    <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
-                      [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                    <app-custom-input [id]="'mob_search'" formControlName="searchName" [className]="'form-control input-search'"
+                      [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                       queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                     </app-custom-input>
 
@@ -23,7 +23,7 @@
                 </div>
 
                 <br /><br />
-                <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox">
+                <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox" >
                   <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                     <div class="text-center">
                       <div class="" (click)="getQueries(chat)" [ngClass]="selectedList === chat ? 'side-border' : ''">
@@ -61,7 +61,7 @@
                         <form class="clearfix">
                           <div class="form-group col-xs-12">
                             <div class="input-group">
-                              <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                              <app-custom-input [className]="'form-control'" [id]="'mob_stake_holder'" [placeholder]="'Search'" [type]="'text'"
                                 [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
                                 (keyup)="getvalueCheck($event.target.value)">
                               </app-custom-input>
@@ -99,7 +99,7 @@
                         <form>
                           <div class="form-group col-xs-12 bloc">
                             <div class="input-group bloc-search">
-                              <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                              <app-custom-input [id]="'mob_documents'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
                                 [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
                                 (keyup)="getDocuments($event.target.value)">
                               </app-custom-input>
@@ -134,8 +134,8 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
 
-                  <app-custom-input formControlName="searchName" [className]="'form-control input-search'"
-                    [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  <app-custom-input [id]="'search'" formControlName="searchName" [className]="'form-control input-search'"
+                    [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   </app-custom-input>
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
@@ -143,7 +143,7 @@
               </div>
 
               <br /><br />
-              <div class="panel-group  scroll-box " id="scrollBox">
+              <div class="panel-group  scroll-box " id="scrollBox" style="height:200px;">
                 <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                   <div class="" style="padding: 0px 15px;">
 
@@ -178,21 +178,22 @@
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseBriefOne" class="panel-collapse collapse" [ngClass]="{'show': accordion === 'collapseBriefOne'}">
+                  <div id="collapseBriefOne" class="panel-collapse collapse"
+                    [ngClass]="{'show': accordion === 'collapseBriefOne'}">
                     <div class="panel-body">
 
                       <form class="clearfix">
                         <div class="form-group col-xs-12">
                           <div class="input-group">
 
-                            <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                            <app-custom-input [id]="'stake_holder'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
                               [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
                               (keyup)="getvalueCheck($event.target.value)">
                             </app-custom-input>
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
                           </div>
                         </div>
-                        <div class="stakeholder-list">
+                        <div class="stakeholder-list" style="height:90px;">
                           <div *ngFor="let stack of queryModelLov.filterStackHolders | search ">
                             <div class="radio" (click)="autoPopulateQueryType(stack)">
                               <label>
@@ -219,12 +220,13 @@
                       </a>
                     </h4>
                   </div>
-                  <div id="collapseBriefTwo" class="panel-collapse collapse" [ngClass]="{'show': accordion === 'collapseBriefTwo'}">
+                  <div id="collapseBriefTwo" class="panel-collapse collapse"
+                    [ngClass]="{'show': accordion === 'collapseBriefTwo'}">
                     <div class="panel-body">
                       <form>
                         <div class="form-group col-xs-12 bloc">
                           <div class="input-group bloc-search">
-                            <app-custom-input [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
+                            <app-custom-input [id]="'document'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
                               [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
                               (keyup)="getDocuments($event.target.value)">
                             </app-custom-input>
@@ -271,7 +273,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8 p-0 text-right" style="float: right;">
 
                   <div class="input-group search-btn-msg" style="float: right;">
-                    <input type="text" class="form-control input-search" placeholder="Query Id Search"
+                    <input id="query_id_search" type="text" class="form-control input-search" placeholder="Query Id Search"
                       [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
                       (keyup)="searchQueryIdMessage($event.target.value)" style="float: right;">
                     <span class="input-group-addon glass-span" (click)="clearSearch()"><i
@@ -281,7 +283,7 @@
                 </div>
 
               </div>
-              <div class="chat-box message-box viewport viewport-a" id="chat-box" #scrollMe
+              <div class="chat-box message-box viewport viewport-a" id="chat-box" style="height:300px;" #scrollMe
                 [scrollTop]="scrollMe.scrollHeight">
                 <!-- [scrollTop]="scrollMe.scrollHeight" -->
 
@@ -357,7 +359,7 @@
                           </div>
 
                           <div class="col-md-4">
-                            <span class="date-time"> {{message.time |  date: 'dd-MMM-yyyy | h:mm a': 'US' }}
+                            <span class="date-time"> {{message.time | date: 'dd-MMM-yyyy | h:mm a': 'US' }}
                             </span>
                           </div>
 
@@ -509,7 +511,8 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 text-box">
                   <div class="text-box-msg col-lg-12 col-xs-12 col-md-12 col-sm-12">
                     <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span id="cus-tooltip"
-                        class="i-span input-group-addon" style="padding:0px;" (click)="chooseFile()" data-tooltip="Attachment"
+                        class="i-span input-group-addon" style="padding:0px;" (click)="chooseFile()"
+                        data-tooltip="Attachment"
                         [ngClass]="queryModalForm.controls['docName'].value ? 'cus-font-size' : ''"><i
                           class="fa fa-paperclip"></i>
                       </span>
@@ -546,7 +549,7 @@
             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="search-message" style="display:none;">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
-                  <input type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
+                  <input id="chat_search" type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
                     (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>

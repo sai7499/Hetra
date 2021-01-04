@@ -1,317 +1,254 @@
 <div class="content">
-    <form class="multisteps-form__form" style="height: auto"  [formGroup]="bankForm">
-       <div class="multisteps-form__panel js-active " data-animation="scaleIn">
-          <div class="row">
-             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="account_holder_name">{{labels?.accountHolderName}}</label>
-                <!-- <input formControlName="accountHolderName" type="text" class="form-control"
+  <form class="multisteps-form__form" style="height: auto" [formGroup]="bankForm">
+    <div class="multisteps-form__panel js-active " data-animation="scaleIn">
+
+      <h3 class="banner-con">
+        Bank Details ({{udfScreenId}})
+      </h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="account_holder_name">{{labels?.accountHolderName}}</label>
+          <!-- <input formControlName="accountHolderName" type="text" class="form-control"
                      name="account_holder_name" id="account_holder_name" required="required" appLettersOnly> -->
-                <app-custom-input
-                  formControlName="accountHolderName"
-                  [patternCheck]="namePattern"
-                  [maxLength]="labels?.validationData?.name?.maxLength"
-                    [type]="labels?.validationData?.name?.type"
-                  [isRequired]="'Account Holdername is required '"
-                  [isDirty]="isDirty"
-                ></app-custom-input>
-             </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="bank_name">{{labels?.bankName}}</label>
-                <app-vf-custom-select formControlName="bankId" [values]="lovData?.bankMaster"
-                 [isRequired]="'Please Select Bank Name'"></app-vf-custom-select>
+          <app-custom-input formControlName="accountHolderName" [patternCheck]="namePattern"
+            [maxLength]="labels?.validationData?.name?.maxLength" [type]="labels?.validationData?.name?.type"
+            [isRequired]="'Account Holdername is required '" [isDirty]="isDirty"></app-custom-input>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="bank_name">{{labels?.bankName}}</label>
+          <app-vf-custom-select formControlName="bankId" [values]="lovData?.bankMaster"
+            [isRequired]="'Please Select Bank Name'"></app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_number">{{labels?.accountBranchname}}</label>
-         
-          <app-custom-input
-              formControlName="accountBranch"              
-              [maxLength]="labels?.validationData?.branchName?.maxLength"
-              
-              [isRequired]="'Account Branch is required'"
-              [isDirty]="isDirty"
-              [inputClass]="'input-upper'" 
-        ></app-custom-input>
-        <!-- [type]="labels?.validationData?.branchName?.type" -->
-        <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
-       </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="account_number">{{labels?.accountNo}}</label>
-               
-                <app-custom-input
-                    formControlName="accountNumber"
-                    
-                    [maxLength]="labels?.validationData?.accountNumber?.maxLength"
-                    [type]="labels?.validationData?.accountNumber?.type"
-                    [isRequired]="'Account Number is required'"
-                    [isDirty]="isDirty"
-                    [inputClass]="'input-upper'" 
-              ></app-custom-input>
-              <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
-             </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="account_type">{{labels?.accountType}}</label>
-               
-                <app-vf-custom-select formControlName="accountType" [values]="lovData?.bankAccountType" 
-                [isRequired]="'Please Select Account Type'"></app-vf-custom-select>
-             </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLimitRequire">
-              <label for="limit">{{labels?.limit}}</label>
-              <app-custom-input
-              formControlName="limit"
-              [patternCheck]="limitNumberPattern"
-              [maxLength]="labels?.validationData?.limitAmount?.maxLength"
-              [type]="labels?.validationData?.limitAmount?.type"
-              [isRequired]="'Limit is required'" 
-              [isDirty]="isDirty"
-            ></app-custom-input>
-            <!-- [isRequired]="'Limit is required'" -->
-              <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
-           </div>
-            
-            
+
+          <app-custom-input formControlName="accountBranch" [maxLength]="labels?.validationData?.branchName?.maxLength"
+            [isRequired]="'Account Branch is required'" [isDirty]="isDirty" [inputClass]="'input-upper'">
+          </app-custom-input>
+          <!-- [type]="labels?.validationData?.branchName?.type" -->
+          <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
         </div>
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="from_date">{{labels?.fromDate}}</label>
-                <div class="form-group date">
-                   <div class="input-group date" id="datetimepicker1">
-                      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                      </span>
-                      <!-- <input formControlName="fromDate" date-format= 'dd/MM/yyyy' type="date" class="form-control "   
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="account_number">{{labels?.accountNo}}</label>
+
+          <app-custom-input formControlName="accountNumber"
+            [maxLength]="labels?.validationData?.accountNumber?.maxLength"
+            [type]="labels?.validationData?.accountNumber?.type" [isRequired]="'Account Number is required'"
+            [isDirty]="isDirty" [inputClass]="'input-upper'"></app-custom-input>
+          <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="account_type">{{labels?.accountType}}</label>
+
+          <app-vf-custom-select formControlName="accountType" [values]="lovData?.bankAccountType"
+            [isRequired]="'Please Select Account Type'"></app-vf-custom-select>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLimitRequire">
+          <label for="limit">{{labels?.limit}}</label>
+          <app-custom-input formControlName="limit" [patternCheck]="limitNumberPattern"
+            [maxLength]="labels?.validationData?.limitAmount?.maxLength"
+            [type]="labels?.validationData?.limitAmount?.type" [isRequired]="'Limit is required'" [isDirty]="isDirty">
+          </app-custom-input>
+          <!-- [isRequired]="'Limit is required'" -->
+          <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="from_date">{{labels?.fromDate}}</label>
+          <div class="form-group date">
+            <div class="input-group date" id="datetimepicker1">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
+              </span>
+              <!-- <input formControlName="fromDate" date-format= 'dd/MM/yyyy' type="date" class="form-control "   
                       (input)= "getMonths()" > -->
-                      <kendo-datepicker class="form-control" 
-                      formControlName="fromDate" 
-                      [format]="'dd/MM/yyyy'"
-                       placeholder="Select Start Month"
-                      [activeView]="'decade'"
-                      (valueChange)="getMonths()"
-                      [max]="todayDateNew"
-                      ></kendo-datepicker>
-                   </div>
-                </div>
-             </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="to_date">{{labels?.toDate}}</label>
-                <div class="form-group date">
-                   <div class="input-group date" id="datetimepicker1">
-                      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-                      </span>
-                      <!-- <input  formControlName="toDate"    type="date" 
+              <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'"
+                placeholder="Select Start Month" [activeView]="'decade'" (valueChange)="getMonths()"
+                [max]="todayDateNew"></kendo-datepicker>
+            </div>
+          </div>
+        </div>
+        <div [ngClass]="{'disablField': !f.fromDate.value}" class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="to_date">{{labels?.toDate}}</label>
+          <div class="form-group date">
+            <div class="input-group date" id="datetimepicker1">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
+              </span>
+              <!-- <input  formControlName="toDate"    type="date" 
                         class="form-control date datepicker" 
                          disabled>
                    </div> -->
-                   <kendo-datepicker class="form-control" 
-                   formControlName="toDate" 
-                   [format]="'dd/MM/yyyy'"
-                   [max]="toDayDate"
-                   placeholder="Select Latest Month"
-                   [activeView]="'decade'"
-                   (valueChange)="setToDateMax()"
-                   ></kendo-datepicker>
-                </div>
-             </div>
+              <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                [min]="bankForm.get('fromDate').value" placeholder="Select Latest Month" [activeView]="'decade'"
+                (valueChange)="setToDateMax()"></kendo-datepicker>
             </div>
-             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="period">{{labels?.period}}</label>
-                <input formControlName="period" type="number" class="form-control" name="period" id="period" min= "0" required="required" disabled>
-             </div>
-             
-             
+            <span class="invalid-feedback" *ngIf="isToDate && f.toDate.value">
+              Invalid Date </span>
           </div>
-          <div class="row">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3" >
-              <label for="limit">{{labels?.micrNo}}</label>
-              <app-custom-input
-              formControlName="micrNumber"
-              [patternCheck]="labels?.validationData?.micrFormat?.pattern"
-              [maxLength]="labels?.validationData?.micrFormat?.maxLength"
-              [type]="labels?.validationData?.micrFormat?.type"
-              [isRequired]="'MICR No is required'"
-              [placeholder]="'MICR No'"
-              [isDirty]="isDirty"
-              [inputClass]="'input-upper'" 
-            ></app-custom-input>
-            <!-- [isRequired]="'Limit is required'" -->
-              <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
-           </div>
-           <div class="form-group col-sm-6 col-md-4 col-lg-3" >
-            <label for="limit">{{labels?.totalCredits}}</label>
-            <app-custom-input 
-            formControlName="totalCredits" 
-            [patternCheck]="limitNumberPattern"
-            [maxLength]="limitLength20"
-            [type]="labels?.validationData?.amountValue?.type"
-            
-            [placeholder]="'Total number of credits'"
-            
-          ></app-custom-input>
-          <!-- [isRequired]="'Limit is required'" -->
-            <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
-         </div>
-          </div>
-          <div class="">
-          <div class="table-responsive application">
-              <table class="table">
-              <thead>
-              <tr class="table-head-bg">
-                 
-                  <td role="columnheader">
-                    {{labels?.month}}
-                  </td>
-                  <td role="columnheader">
-                    {{labels?.inflow}}
-                  </td>
-                  <td role="columnheader">
-                    {{labels?.outflow}}
-                  </td>
-                  <td role="columnheader">
-                    {{labels?.noOfInwardBounces}}
-                  </td>
-                  <td role="columnheader">
-                    {{labels?.noOfOutwardBounces}}
-                  </td>
-                  <td role="columnheader">
-                    {{labels?.balanceOn5th}}
-                  </td>
-                  <td role="columnheader">
-                    {{labels?.balanceOn15th}}
-                  </td>
-                  <td role="columnheader">
-                    {{labels?.balanceOn20th}}
-                  </td>
-                  <td role="columnheader">
-                    {{labels?.abbOfMonth}}
-                  </td>
-                  <!-- <td role="columnheader">Any Other Remarks</td> -->
-              </tr>
-              </thead>
-              <tbody  formArrayName="transactionDetails">
-              <tr *ngFor="let item of bankForm.get('transactionDetails')['controls']; let i= index " [formGroupName]="i">
-                  <td >
-                      <input class="form-control" formControlName = "month"  disabled > 
-                      <!-- value="{{assignedArray[i ] ? assignedArray[i ] : assignedArray[i].month[0]}}" -->
-                  </td>
-                  <td>
-                      <!-- <input type="number" class="form-control input_value"   min= "0" formControlName="inflow"> -->
-                      <app-custom-input
-                      formControlName="inflow"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                      [type]="labels?.validationData?.amountValue?.type"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="savetransactionData() "
-                    ></app-custom-input>
-                  </td>
-                  <td>
-                      <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="outflow"> -->
-                      <app-custom-input
-                      formControlName="outflow"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                      [type]="labels?.validationData?.amountValue?.type"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="savetransactionData() "
-                    ></app-custom-input>
-                  </td>
-                  <td>
-                     
-                    <!-- <input type="number" class="form-control input_value"   min= "0" formControlName="noOfInWardBounces"> -->
-                    <app-custom-input
-                    formControlName="noOfInWardBounces"
-                    [patternCheck]="inputValidation"
-                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                    [type]="labels?.validationData?.amountValue?.type"
-                    [isRequired]="'*required'"
-                    [isDirty]="isDirty"
-                    (keyup)="savetransactionData() "
-                  ></app-custom-input> 
-                </td>
-                  <td>
-                      <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="noOfOutWardBounces"> -->
-                      <app-custom-input
-                      formControlName="noOfOutWardBounces"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                      [type]="labels?.validationData?.amountValue?.type"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="savetransactionData() "
-                    ></app-custom-input>
-                    </td>
-                  <td>
-                      <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn5th"> -->
-                      <app-custom-input
-                      formControlName="balanceOn5th"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                      [type]="labels?.validationData?.amountValue?.type"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="calculateAbb(i)"
-                    ></app-custom-input>
-                  </td>
-                  <td>
-                      <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn15th"> -->
-                      <app-custom-input
-                      formControlName="balanceOn15th"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                      [type]="labels?.validationData?.amountValue?.type"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="calculateAbb(i)"
-                    ></app-custom-input>
-                  </td>
-                  <td>
-                      <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn20th"> -->
-                      <app-custom-input
-                      formControlName="balanceOn20th"
-                      [patternCheck]="inputValidation"
-                      [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                      [type]="labels?.validationData?.amountValue?.type"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      (keyup)="calculateAbb(i)"
-                    ></app-custom-input>
-                  </td>
-                  <td>
-                      <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="abbOfTheMonth" disabled>  -->
-                      <app-custom-input
-                      formControlName="abbOfTheMonth"
-                      [patternCheck]="inputValidation"
-                      [maxLength]=" inputLength10"
-                      [isRequired]="'*required'"
-                      [isDirty]="isDirty"
-                      [isDisabled]="true"
-                    ></app-custom-input>
-                  </td>
-                  <!--  <td><input type="text" class="form-control input_value" value=""></td> -->
-              </tr>
-              
-              </tbody>
-              </table>
-          </div>
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="period">{{labels?.period}}</label>
+          <input formControlName="period" type="number" class="form-control" name="period" id="period" min="0"
+            required="required" disabled>
+        </div>
+
+
       </div>
-       </div>
+      <div class="row">
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="limit">{{labels?.micrNo}}</label>
+          <app-custom-input formControlName="micrNumber" [patternCheck]="labels?.validationData?.micrFormat?.pattern"
+            [maxLength]="labels?.validationData?.micrFormat?.maxLength"
+            [type]="labels?.validationData?.micrFormat?.type" [isRequired]="'MICR No is required'"
+            [placeholder]="'MICR No'" [isDirty]="isDirty" [inputClass]="'input-upper'"></app-custom-input>
+          <!-- [isRequired]="'Limit is required'" -->
+          <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
+        </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="limit">{{labels?.totalCredits}}</label>
+          <app-custom-input formControlName="totalCredits" [patternCheck]="limitNumberPattern"
+            [maxLength]="limitLength20" [type]="labels?.validationData?.amountValue?.type"
+            [placeholder]="'Total number of credits'"></app-custom-input>
+          <!-- [isRequired]="'Limit is required'" -->
+          <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
+        </div>
+      </div>
+      <div class="">
+        <div class="table-responsive application">
+          <table class="table">
+            <thead>
+              <tr class="table-head-bg">
+
+                <td role="columnheader">
+                  {{labels?.month}}
+                </td>
+                <td role="columnheader">
+                  {{labels?.inflow}}
+                </td>
+                <td role="columnheader">
+                  {{labels?.outflow}}
+                </td>
+                <td role="columnheader">
+                  {{labels?.noOfInwardBounces}}
+                </td>
+                <td role="columnheader">
+                  {{labels?.noOfOutwardBounces}}
+                </td>
+                <td role="columnheader">
+                  {{labels?.balanceOn5th}}
+                </td>
+                <td role="columnheader">
+                  {{labels?.balanceOn15th}}
+                </td>
+                <td role="columnheader">
+                  {{labels?.balanceOn20th}}
+                </td>
+                <td role="columnheader">
+                  {{labels?.abbOfMonth}}
+                </td>
+                <!-- <td role="columnheader">Any Other Remarks</td> -->
+              </tr>
+            </thead>
+            <tbody formArrayName="transactionDetails">
+              <tr *ngFor="let item of bankForm.get('transactionDetails')['controls']; let i= index "
+                [formGroupName]="i">
+                <td>
+                  <input class="form-control" formControlName="month" disabled>
+                  <!-- value="{{assignedArray[i ] ? assignedArray[i ] : assignedArray[i].month[0]}}" -->
+                </td>
+                <td>
+                  <!-- <input type="number" class="form-control input_value"   min= "0" formControlName="inflow"> -->
+                  <app-custom-input formControlName="inflow" [patternCheck]="inputValidation"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type" [isRequired]="'*required'" [isDirty]="isDirty"
+                    (keyup)="savetransactionData() "></app-custom-input>
+                </td>
+                <td>
+                  <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="outflow"> -->
+                  <app-custom-input formControlName="outflow" [patternCheck]="inputValidation"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type" [isRequired]="'*required'" [isDirty]="isDirty"
+                    (keyup)="savetransactionData() "></app-custom-input>
+                </td>
+                <td>
+
+                  <!-- <input type="number" class="form-control input_value"   min= "0" formControlName="noOfInWardBounces"> -->
+                  <app-custom-input formControlName="noOfInWardBounces" [patternCheck]="inputValidation"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type" [isRequired]="'*required'" [isDirty]="isDirty"
+                    (keyup)="savetransactionData() "></app-custom-input>
+                </td>
+                <td>
+                  <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="noOfOutWardBounces"> -->
+                  <app-custom-input formControlName="noOfOutWardBounces" [patternCheck]="inputValidation"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type" [isRequired]="'*required'" [isDirty]="isDirty"
+                    (keyup)="savetransactionData() "></app-custom-input>
+                </td>
+                <td>
+                  <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn5th"> -->
+                  <app-custom-input formControlName="balanceOn5th" [patternCheck]="inputValidation"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type" [isRequired]="'*required'" [isDirty]="isDirty"
+                    (keyup)="calculateAbb(i)"></app-custom-input>
+                </td>
+                <td>
+                  <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn15th"> -->
+                  <app-custom-input formControlName="balanceOn15th" [patternCheck]="inputValidation"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type" [isRequired]="'*required'" [isDirty]="isDirty"
+                    (keyup)="calculateAbb(i)"></app-custom-input>
+                </td>
+                <td>
+                  <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="balanceOn20th"> -->
+                  <app-custom-input formControlName="balanceOn20th" [patternCheck]="inputValidation"
+                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                    [type]="labels?.validationData?.amountValue?.type" [isRequired]="'*required'" [isDirty]="isDirty"
+                    (keyup)="calculateAbb(i)"></app-custom-input>
+                </td>
+                <td>
+                  <!-- <input type="number" class="form-control input_value"  min= "0" formControlName="abbOfTheMonth" disabled>  -->
+                  <app-custom-input formControlName="abbOfTheMonth" [patternCheck]="inputValidation"
+                    [maxLength]=" inputLength10" [isRequired]="'*required'" [isDirty]="isDirty" [isDisabled]="true">
+                  </app-custom-input>
+                </td>
+                <!--  <td><input type="text" class="form-control input_value" value=""></td> -->
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     <!-- </div> -->
-       
-   </form>
-   <div class="btn-sec clear-both row cst_btm_btns">
+
+  </form>
+
+  <div>
+    <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+      [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+  </div>
+
+
+  <div class="btn-sec clear-both row cst_btm_btns">
 
     <div class="col-sm-5">
-        <button  class="btn btn-primary dash_href hvr-sweep-to-left" 
-        (click)="onBackToApplicant()"> {{labels?.backToApplicantDetails}} </button>
+      <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBackToApplicant()">
+        {{labels?.backToApplicantDetails}} </button>
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">{{labels?.back}}</button>
-        <button class="btn btn-primary" (click)="onSave()" *ngIf="!disableSaveBtn"> {{labels?.save}} </button>
-        <!-- <button class="btn btn-primary dash_href " type="button" >Next</button> -->
-        <!-- (click)="onSave()"  -->
+      <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button"
+        (click)="onBack()">{{labels?.back}}</button>
+      <button class="btn btn-primary" (click)="onSave()" *ngIf="!disableSaveBtn"> {{labels?.save}} </button>
+      <!-- <button class="btn btn-primary dash_href " type="button" >Next</button> -->
+      <!-- (click)="onSave()"  -->
     </div>
 
+  </div>
 </div>
- </div>

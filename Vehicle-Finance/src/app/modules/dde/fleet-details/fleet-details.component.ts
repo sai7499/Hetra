@@ -2,17 +2,14 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { LabelsService } from 'src/app/services/labels.service';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LovDataService } from '@services/lov-data.service';
-import { DdeStoreService } from '@services/dde-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { FleetDetailsService } from '../services/fleet-details.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '../../lead-creation/service/createLead-data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
-import { CommentStmt } from '@angular/compiler';
 import { UtilityService } from '@services/utility.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
-import { TypeaheadOptions } from 'ngx-bootstrap/typeahead/public_api';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToggleDdeService } from '@services/toggle-dde.service';
@@ -28,6 +25,7 @@ import * as moment from 'moment';
   templateUrl: './fleet-details.component.html',
   styleUrls: ['./fleet-details.component.css']
 })
+
 export class FleetDetailsComponent implements OnInit {
   validFleetData: any;
   @ViewChild('fileInput', { static: false })
@@ -52,11 +50,12 @@ export class FleetDetailsComponent implements OnInit {
   fleetArray = [];
   formValue: any;
   toDayDate: Date = new Date();
-  // relationSelected = []
+  minDate: Date = new Date();
+
   relation: any[];
   make: any = [];
   financierName: any = [];
-  // vehicleId: any;
+
   fleetIDs: any = [];
   fleetId: any;
   validationData: any;
@@ -77,45 +76,6 @@ export class FleetDetailsComponent implements OnInit {
   public allLovs: any;
   fleetLov: any = [];
 
-
-  regexPattern = {
-    // tensure: {
-    //   rule: "^[1-9][0-9]*$",
-    //   msg: 'Alphabets and Special Characters not allowed'
-    // },
-    // length: {
-    //   rule: '3',
-    //   msg: ''
-    // },
-    // contact: {
-    //   rule: /^\d{10}$/,
-    //   msg: 'Invalid Number / Alphabets and Special Characters not allowed'
-    // },
-    // contLength: {
-    //   rule: '10'
-    // },
-    // maxLoanLength:{
-    //   rule: '20'
-    // },
-    // minLoanLength:{
-    //   rule: '4'
-    // },
-    // name: {
-    //   rule: /^[a-zA-Z ]*$/,
-    //   msg: 'Invalid Name / Numbers and Special Characters not allowed'
-    // },
-    // nameLength:{
-    //   rule: '30'
-    // },
-    // vachilePattern: {
-    //   rule: /^[^*|\":<>[\]{}`\\()';@&$]+$/,
-    //   msg: 'Invalid Name / Special Characters not allowed'
-    // },
-    // loanNoPattern: {
-    //   rule: /^[ A-Za-z0-9_@./#&+-]*$/,
-    //   msg: 'Invalid Vechile No / Special Characters not allowed'
-    // }
-  }
   currentYear = new Date().getFullYear();
   yearCheck = [];
   paidTenureCheck = [];
@@ -123,8 +83,12 @@ export class FleetDetailsComponent implements OnInit {
   operationType: boolean;
   deleteRecordData: { index: number; fleets: any; };
   isLoan360: boolean;
-  constructor(
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId = 'FLS001';
+  udfGroupId = 'FLG001';
 
+  constructor(
     private labelsData: LabelsService,
     private fb: FormBuilder,
     private lovData: LovDataService,
@@ -145,39 +109,31 @@ export class FleetDetailsComponent implements OnInit {
     this.fleetArrayList = this.fb.array([]);
   }
 
-
   async ngOnInit() {
 
     // accessing lead if from route
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-
     this.leadId = (await this.getLeadId()) as number;
-    console.log("leadID =>", this.leadId)
 
     // method for getting all vehicle details related to a lead
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
-    // const leadData = this.createLeadDataService.getLeadSectionData();
 
     this.leadDetails = leadData['leadDetails']
-    // this.leadId = leadData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
-    // this.leadId = leadData['leadId']
-
-    console.log("user id ==>", this.userId)
 
     this.getLov();
     this.getFleetDetails();
 
     this.fleetForm = this.fb.group(
       {
-        Rows: this.fleetArrayList
+        Rows: this.fleetArrayList,
+        isValidPurchaseDate: new FormControl(true)
       }
     );
-
 
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].fleetDetails[0];
@@ -196,36 +152,29 @@ export class FleetDetailsComponent implements OnInit {
     this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
     })
-
   }
+
   checkPaid(event, i) {
     let tenure = parseInt(this.formArr.controls[i]['controls']['tenure'].value);
     let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
     if (paid > tenure) {
       this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
-
     } else {
-      // this.formArr.controls[i]['controls']['paid'].setErrors({'incorrect': false})
-
+      this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': false })
     }
-    // this.paidTenureCheck = [{rule: val => val>tenure,msg:'Paid not grater tenure'}]
-    // this.sharedService.vaildateForm$.subscribe((value) => {
-    //   this.formValue = value;
-    // })
   }
+
   getLeadId() {
-    // console.log("in getleadID")
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
         if (value && value.leadId) {
-          // console.log("in if", value.leadId)
           resolve(Number(value.leadId));
-          // console.log("after resolve", value.leadId)
         }
         resolve(null);
       });
     });
   }
+
   get formArr() {
     return this.fleetForm.get('Rows') as
       FormArray;
@@ -236,38 +185,11 @@ export class FleetDetailsComponent implements OnInit {
     const year = dateFormat.getFullYear();
     let yom = parseInt(event.target.value);
     if (yom > year) {
-      // formData.form.controls['email'].setErrors({'incorrect': true});
       this.formArr.controls[i]['controls']['yom'].setErrors({ 'incorrect': true })
-      // alert("invalid")
-    } else {
-
     }
   }
 
   initRows(rowData) {
-    // if (rowData) {
-    //   return this.fb.group({
-    //     regdNo: [rowData.regdNo],
-    //     regdOwner: [rowData.regdOwner],
-    //     relation: [rowData.relation],
-    //     make: [rowData.make],
-    //     yom: [rowData.yom],
-    //     financier: [rowData.financier],
-    //     loanNo: [rowData.loanNo],
-    //     purchaseDate: [rowData.purchaseDate ? this.dateDbFormat(rowData.purchaseDate) : ""],
-    //     tenure: [rowData.tenure],
-    //     paid: [rowData.paid],
-    //     seasoning: [rowData.seasoning],
-    //     // ad: [{ value: rowData.ad, disabled: true }],
-    //     ad: [rowData.ad],
-    //     // pd: [{ value: rowData.pd, disabled: true }],
-    //     pd: [rowData.pd],
-    //     // gridValue: [{ value: rowData.gridValue, disabled: true }],
-    //     gridValue: [rowData.gridValue],
-    //     id: [rowData.id]
-    //   })
-    // }
-
 
     if (rowData) {
       return this.fb.group({
@@ -291,10 +213,10 @@ export class FleetDetailsComponent implements OnInit {
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
         id: rowData.id,
         vehicleId: rowData.vehicleId,
+        yomDate: new FormControl('')
       })
     }
     else return this.fb.group({
-      // id: [],
       regdNo: new FormControl('', Validators.compose([Validators.required])),
       regdOwner: new FormControl('', Validators.compose([Validators.required])),
       relation: new FormControl('', [Validators.required]),
@@ -314,8 +236,10 @@ export class FleetDetailsComponent implements OnInit {
       pd: new FormControl({ value: '', disabled: true }),
       gridValue: new FormControl({ value: '', disabled: true }),
       vehicleId: '',
+      yomDate: new FormControl('')
     });
   }
+
   // make field changes 
   onAssetMake(value, obj, index) {
     let VehicleTypeArray = []
@@ -358,8 +282,8 @@ export class FleetDetailsComponent implements OnInit {
         this.uiLoader.stop();
       });
     }
-
   }
+
   //  vechile type change event
   onVehicleType(value, obj, index) {
 
@@ -408,6 +332,7 @@ export class FleetDetailsComponent implements OnInit {
       });
     }
   }
+
   // asst body tye event
   onAssetBodyType(value: any, obj, index) {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
@@ -418,6 +343,7 @@ export class FleetDetailsComponent implements OnInit {
       yom: ''
     })
   }
+
   // get vechile Id
   onAssetModel(value: any, obj, index) {
     this.assetVariant = this.assetModelType.filter((data) => data.vehicleModelCode === value)
@@ -428,15 +354,8 @@ export class FleetDetailsComponent implements OnInit {
       yom: ' '
 
     })
-
-    // this.vehicleLov.assetVariant = this.utilityService.getValueFromJSON(this.assetVariant,
-    //   0, "vehicleVariant")
-
-    // obj.patchValue({
-    //   yom : ''
-    // })
-
   }
+
   // region change event
   onVehicleRegion(value: any, obj, index) {
     const region = value ? value : '';
@@ -478,26 +397,64 @@ export class FleetDetailsComponent implements OnInit {
       this.uiLoader.stop();
     })
   }
+
   // YOM changes 
   onGetDateValue(event, index) {
-    if (event.target.value > this.toDayDate) {
+    if (event > this.toDayDate) {
       this.customFutureDate = true;
     } else {
       this.customFutureDate = false;
       const formArray = (this.fleetForm.get('Rows') as FormArray);
-
       this.getVehicleGridValue(formArray, index)
+
+      this.onCheckPurchaseDate(formArray.controls[index].get('purchaseDate').value, index, formArray.controls[index])
     }
-
-
   }
+
+  onCheckPurchaseDate(dateOfPurchase, index, obj) {
+
+    if (dateOfPurchase) {
+      const formArray = (this.fleetForm.get('Rows') as FormArray);
+      let yomDate = new Date(formArray.controls[index].get('yom').value, 12, 0, 0, 0);
+      this.minDate = yomDate;
+
+      formArray.controls[index].patchValue({
+        yomDate: yomDate
+      })
+      const event = new Date(dateOfPurchase)
+      if (event <= this.toDayDate) {
+        if (event < obj.controls['yomDate'].value) {
+          const purchaseYear = event.getFullYear();
+          const yomYear = (obj.controls['yomDate'].value).getFullYear();
+          if (purchaseYear == yomYear) {
+            this.fleetForm.patchValue({
+              isValidPurchaseDate: true
+            })
+            return;
+          }
+          this.fleetForm.patchValue({
+            isValidPurchaseDate: false
+          })
+        } else {
+          this.fleetForm.patchValue({
+            isValidPurchaseDate: true
+          })
+        }
+
+      } else {
+        this.fleetForm.patchValue({
+          isValidPurchaseDate: true
+        })
+      }
+    }
+  }
+
   // get grid value
   getVehicleGridValue(formArray: any, index) {
 
     if (formArray.value[index].vehicleId !== 0) {
 
       const date = this.utilityService.convertDateTimeTOUTC(formArray.value[index].manufactureYear, 'YYYY')
-
       const data = { "manufactureYear": date, "vehicleCode": formArray.value[index].vehicleId + '' };
 
       this.vehicleDetailService.getVehicleGridValue(data).subscribe((res: any) => {
@@ -515,30 +472,26 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   getLov() {
-
     this.commonLovService.getLovData().subscribe((value: any) => {
       this.fleetLov.applicantRelationshipWithLead = value.LOVS.applicantRelationshipWithLead;
       this.allLovs = value.LOVS;
 
       this.fleetLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
     });
-
   }
 
   relationShipChange(event) {
     this.relation = [];
-    console.log('relationShipChange', event.target.value);
     const relation = event.target.value;
   }
 
   makeChange(event) {
     this.make = [];
-    console.log('make ', event.target.value);
     const make = event.target.value;
   }
+
   financierChange(event) {
     this.financierName = [];
-    console.log('financier name', event.target.value);
     const financierName = event.target.value;
   }
 
@@ -546,32 +499,18 @@ export class FleetDetailsComponent implements OnInit {
     let tenure = parseInt(this.formArr.controls[i]['controls']['tenure'].value);
     let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
     this.formArr.controls[i]['controls']['seasoning'].patchValue((paid / tenure) * 100)
-
   }
 
   getDateFormat(date) {
-
-    // console.log("in getDateFormat", date)
-
     var datePart = date.match(/\d+/g);
     var month = datePart[1];
     var day = datePart[0];
     var year = datePart[2];
     const dateFormat: Date = new Date(year + '/' + month + '/' + day);
-
-    // year = dateFormat.getFullYear();
-    // month = Number(dateFormat.getMonth()) + 1;
-    // let month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
-    // day = dateFormat.getDate().toString();
-    // day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
-    // const formattedDate = year + '-' + month1 + '-' + day;
-    // //   const formattedDate = day + '-' + month1 + '-' + year;
-    // console.log("formattedDate", formattedDate)
     return dateFormat;
   }
 
   dateDbFormat(date) {
-    // console.log("in dataDbFormat", date)
     const dateFormat: Date = new Date(date);
     const year = dateFormat.getFullYear();
     const month = Number(dateFormat.getMonth()) + 1;
@@ -579,8 +518,6 @@ export class FleetDetailsComponent implements OnInit {
     let day = dateFormat.getDate().toString();
     day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
     const formattedDate = year + '-' + month1 + '-' + day;
-    // const formattedDate = day + '-' + month1 + '-' + year;
-    // console.log("res", formattedDate)
     return formattedDate;
   }
 
@@ -595,13 +532,11 @@ export class FleetDetailsComponent implements OnInit {
 
     const formattedDate = day + "/" + month1 + "/" + year;
     return formattedDate;
-
   }
 
   // method for saving and updating fleet details
 
   saveOrUpdateFleetDetails(index) {
-    //console.log(this.fleetDetails);
     const formArray = (this.fleetForm.get('Rows') as FormArray);
 
     for (let i = 0; i < this.fleetDetails.length; i++) {
@@ -612,55 +547,42 @@ export class FleetDetailsComponent implements OnInit {
       this.fleetDetails[i]['seasoning'] = formArray.controls[i]['controls']['seasoning'].value;
       this.fleetDetails[i]['ad'] = formArray.controls[i]['controls']['ad'].value;
       this.fleetDetails[i]['pd'] = formArray.controls[i]['controls']['pd'].value;
-      //  this.fleetDetails[i]['gridValue'] = formArray.controls[i]['controls']['pd'].value;
-
-
-
     }
-    //  this.fleetDetails['purchaseDate'] = this.sendDate(this.fleetDetails['purchaseDate'])
+    const udfData = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       leadId: this.leadId,
       userId: this.userId,
       fleets: this.fleetDetails,
+      udfDetails: [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfData
+      }]
     }
-    //  console.log("in save fleet", this.fleetDetails)
+
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
       if (res['ProcessVariables'].error['code'] == "0") {
-        console.log("saveFleetDetailsResponse", res.ProcessVariables.ids)
         this.fleetIDs = res.ProcessVariables.ids
-        console.log("saveFleetDetailsResponse", this.fleetIDs)
         this.toasterService.showSuccess('Record saved successfully!', '');
         const fleetList: Array<any> = res.ProcessVariables.fleets;
+        for (let i = 0; i < fleetList.length; i++) {
+          this.onGetDateValue(fleetList[i], i)
+        }
         this.fleetArrayList.controls = [];
-        fleetList.forEach(val =>
+        fleetList.map((val: any, i) =>
           this.fleetArrayList.push(this.initRows(val)));
-        console.log("fletds", this.fleetArrayList);
         if (index != null && index != 'next') {
-          console.log(" in rtr function index", index);
-          // console.log("fletds", this.fleetIDs)
-
           this.fleetId = this.fleetIDs[index];
-          console.log("this fleet id", this.fleetId);
           this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
-
-        }
-        else if (index == 'next') {
-
+        } else if (index == 'next') {
           this.router.navigate(['pages/dde/' + this.leadId + '/exposure'])
-
         }
-        else {
-          console.log("in save function")
-        }
-
-      }
-      else if (res['ProcessVariables'].error['code'] == "1") {
+      } else if (res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
-
       } else if (res['Error'] == "1") {
         this.toasterService.showError(res['ErrorMessage'], '');
       }
-   
+      return false
     });
   }
 
@@ -668,11 +590,18 @@ export class FleetDetailsComponent implements OnInit {
 
   getFleetDetails() {
     const data = {
-      leadId: this.leadId
+      leadId: this.leadId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+          //"udfScreenId": this.udfScreenId
+        }
+      ]
     }
     this.fleetDetailsService.getFleetDetails(data).subscribe((res: any) => {
       if (res['Status'] == "Execution Completed" && res.ProcessVariables.fleets != null) {
         const fleets = res['ProcessVariables'].fleets;
+        this.udfDetails = res['ProcessVariables'].udfDetails;
         this.formArr.clear();
         for (let i = 0; i < fleets.length; i++) {
           this.vehicleTypeLov[i] = this.allLovs.vehicleType;
@@ -695,6 +624,7 @@ export class FleetDetailsComponent implements OnInit {
           else {
             this.addNewRow(fleets[i]);
           }
+          this.onGetDateValue(fleets[i].yom, i)
         }
       } else {
         if (res['Error'] == "1") {
@@ -715,63 +645,26 @@ export class FleetDetailsComponent implements OnInit {
         this.fleetForm.disable();
         this.disableSaveBtn = true;
       }
-      // console.log("in get fleets", res.ProcessVariables.fleets)
-      // console.log("get fleet response", res.ProcessVariables.fleets)
-      // console.log("fleet form controls", this.fleetForm.controls.Rows)
     })
   }
-
 
   addNewRow(rowData) {
     this.formArr.push(this.initRows(rowData));
     this.regionLov[this.formArr.length - 1] = this.allLovs.assetRegion;
   }
 
-  // deleteRow(index: number, fleets: any) {
-  //   console.log("in delete row fn ", fleets, index)
-    
-  //   if (fleets.length > 1) {
-  //     this.formArr.removeAt(index);
-  //     // console.log("inside del fun", fleets)
-
-  //     // console.log("vehicleId", fleets[index].id)
-
-  //     const data = {
-  //       id: fleets[index].id,
-  //       leadId: this.leadId
-  //     }
-
-  //     this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
-
-  //       // console.log("response from delete api", res.ProcessVariables)
-  //     });
-
-  //     fleets.splice(index, 1)
-  //     this.toasterService.showSuccess("Record deleted successfully!", '')
-
-  //   } else {
-
-  //     this.toasterService.showError("atleast one record required !", '')
-
-  //   }
-  // }
-
   deleteRow(index: number, fleets: any) {
-    console.log("in delete row fn ", fleets, index);
     this.deleteRecordData = {
       index,
       fleets
     };
   }
+
   callDeleteRecord() {
     const index = this.deleteRecordData.index;
     const fleets = this.deleteRecordData.fleets;
     if (fleets.length > 1) {
-    this.formArr.removeAt(index);
-
-      // console.log("inside del fun", fleets)
-
-      // console.log("vehicleId", fleets[index].id)
+      this.formArr.removeAt(index);
 
       const data = {
         id: fleets[index].id,
@@ -780,7 +673,6 @@ export class FleetDetailsComponent implements OnInit {
 
       this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
 
-        // console.log("response from delete api", res.ProcessVariables)
       });
 
       fleets.splice(index, 1)
@@ -788,43 +680,12 @@ export class FleetDetailsComponent implements OnInit {
 
     } else {
       this.toasterService.showError("atleast one record required !", '')
-
     }
-  }
-
-  getRtr(index: number) {
-
-    // if (this.fleetIDs! = null) {
-    //   this.fleetId = (this.fleetIDs)
-
-
-    //   console.log("fleet id", this.fleetId)
-    // }
-    // else {
-    //   console.log("fleets not recieved")
-    // }
-
-    // if (this.fleetId) {
-    //   // console.log("in getRtr", fleetid)
-    //   // this.router.navigateByUrl('pages/dde/' + this.leadId + '/track-vehicle' , { state: { id:fleetid } });
-    //   this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId])
-
-    // }
-    // else {
-    //   this.toasterService.showError("fleet not saved!", '')
-    // }
-
-
   }
 
   toReference() {
     this.router.navigate(['pages/dde/' + this.leadId + '/reference']);
   }
-  toExposure() {
-
-
-  }
-
 
   onFormSubmit(index: any) {
 
@@ -836,20 +697,20 @@ export class FleetDetailsComponent implements OnInit {
     }
 
     this.fleetDetails = this.fleetForm.value.Rows;
-    console.log("fleet form value", this.fleetForm)
 
     this.isDirty = true;
     if (this.operationType && index === 'next') {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
       return;
     } else {
-      if (this.fleetForm.valid === true) {
-        // this.fleetDetails = this.fleetForm.value.Rows
-        // console.log(this.fleetDetails)
+      const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
+
+      //  && this.fleetForm.get('isValidPurchaseDate').value === true
+
+      if (this.fleetForm.valid && !isUDFInvalid) {
         this.saveOrUpdateFleetDetails(index);
       } else {
         this.isDirty = true;
-        // console.log('Error', this.fleetForm)
         this.toasterService.showError('Please enter valid details', '');
         this.utilityService.validateAllFormFields(this.fleetForm);
       }
@@ -876,24 +737,22 @@ export class FleetDetailsComponent implements OnInit {
     if (this.showError) {
       return this.toasterService.showError('Please select valid document', '');
     }
-    // console.log('csvData', this.csvData);
-    // return;
+
     this.fleetDetailsService.validateFleetDetails({
       allText: this.csvData,
       userId: this.userId,
       leadId: this.leadId
     }).subscribe(((value: any) => {
-        console.log('validate', value);
-        if (value.Error !== '0') {
-          return this.toasterService.showError(value.ErrorMessage, '');
-        }
-        const processVariables = value.ProcessVariables;
-        const error = processVariables.error;
-        if (error && error.code !== '0') {
-           return this.toasterService.showError(error.message, '');
-        }
-        this.removeFile();
-        this.docsFleetDetails = processVariables.fleetDetails;
+      if (value.Error !== '0') {
+        return this.toasterService.showError(value.ErrorMessage, '');
+      }
+      const processVariables = value.ProcessVariables;
+      const error = processVariables.error;
+      if (error && error.code !== '0') {
+        return this.toasterService.showError(error.message, '');
+      }
+      this.removeFile();
+      this.docsFleetDetails = processVariables.fleetDetails;
     }));
   }
 
@@ -904,7 +763,7 @@ export class FleetDetailsComponent implements OnInit {
     this.fileUrl = files;
     const target: DataTransfer = event.target;
     if (target.files.length !== 1) {
-       return this.toasterService.showError('Cannot use multiple files', '');
+      return this.toasterService.showError('Cannot use multiple files', '');
     }
     if (!files.type) {
       const type = files.name.split('.')[1];
@@ -914,12 +773,12 @@ export class FleetDetailsComponent implements OnInit {
     }
     this.fileName = files.name;
     this.fileSize = this.bytesToSize(files.size);
-    console.log('fileType', fileType, 'event', event);
+
     if (!fileType.includes('xls') && !fileType.includes('csv')) {
       this.showError = `Only files with following extensions are allowed: xlsx,csv`;
       return;
     }
-    if (files.size > 2097152 ) {
+    if (files.size > 2097152) {
       this.showError = `File is too large. Allowed maximum size is 2 MB`;
       return;
     }
@@ -928,11 +787,7 @@ export class FleetDetailsComponent implements OnInit {
     const fileToRead = files;
     const fileReader = new FileReader();
     if (fileType.includes('xls')) {
-       this.getDataFromXlsFile(target);
-      //   fileReader.onload =  (e: any) => {
-      //     console.log('xls', e.target.result);
-      // };
-      // fileReader.readAsBinaryString(files);
+      this.getDataFromXlsFile(target);
     } else {
       fileReader.onload = (fileLoadedEvent: any) => {
         const textFromFileLoaded = fileLoadedEvent.target.result;
@@ -940,7 +795,6 @@ export class FleetDetailsComponent implements OnInit {
       };
       fileReader.readAsText(fileToRead);
     }
-
   }
 
   getDataFromXlsFile(target) {
@@ -955,80 +809,63 @@ export class FleetDetailsComponent implements OnInit {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
       /* save data */
-      let data = XLSX.utils.sheet_to_json(ws, { header: 1,  defval: '', raw: false });
-      console.log('data', ...data);
+      let data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '', raw: false });
+
       if (data && data.length !== 0) {
-          const size = data.length;
-          const header: any = data[0];
-          let i = -1;
-          const dateHeaders = [];
-          for (const element of header) {
-               i++;
-               if (element && element.includes('date')) {
-                  dateHeaders.push(i);
-               }
+        const size = data.length;
+        const header: any = data[0];
+        let i = -1;
+        const dateHeaders = [];
+        for (const element of header) {
+          i++;
+          if (element && element.includes('date')) {
+            dateHeaders.push(i);
           }
-          // data = this.getDateFormattedXlsData(data, dateHeaders);
-          const xlsData = data.map((value: any, index) => {
-            let val = value.join(',');
-            if (size - 1 !== index) {
-              val = val === '' ? '' : val + '\r\n';
-            }
-            return val;
-          });
-          let finalData = '';
-          xlsData.forEach((value) => {
-            finalData += value;
-          });
-          this.csvData = finalData;
-          console.log('this.csvData', this.csvData);
+        }
+
+        const xlsData = data.map((value: any, index) => {
+          let val = value.join(',');
+          if (size - 1 !== index) {
+            val = val === '' ? '' : val + '\r\n';
+          }
+          return val;
+        });
+        let finalData = '';
+        xlsData.forEach((value) => {
+          finalData += value;
+        });
+        this.csvData = finalData;
+
       }
     };
     reader.readAsBinaryString(target.files[0]);
-    // readXlsxFile(file).then(rows => {
-    //   const size = rows.length;
-    //   const data = rows.map((value, index) => {
-    //     let val = value.join(',');
-    //     if (size - 1 !== index) {
-    //       val = val + '\r\n';
-    //     }
-    //     return val;
-    //   });
-    //   let finalData = '';
-    //   data.forEach((value) => {
-    //     finalData += value;
-    //   });
-    //   this.csvData = finalData;
-    // });
   }
 
   getDateFormattedXlsData(data, dateIndex: any[]) {
     let index = -1;
     for (const element of data) {
-        index++;
-        if (index !== 0) {
-           dateIndex.forEach((value) => {
-            const dataValue = element[value];
-            const parse = Date.parse(dataValue);
-            if ( !isNaN(parse) && parse >= 0) {
-              console.log('dataValue',  dataValue)
-              const valueType =  typeof dataValue;
-              if (valueType === 'string' && dataValue.includes('-')) {
-                 let dateValue = dataValue.split('-');
-                 if (dateValue.length === 3) {
-                   dateValue = dateValue.join('/');
-                   element[value] = dateValue;
-                   data[index] = element;
-                 }
-              } else if (valueType === 'string' && dataValue.includes('/')) {
-                let dateValue = dataValue.split('/');
-                if (dateValue.length === 3) {
-                  dateValue = dateValue.join('/');
-                  element[value] = dataValue;
-                  data[index] = element;
-                }
-             } else {
-               console.log(moment(new Date(dataValue)).format('DD/MM/YYYY'))
+      index++;
+      if (index !== 0) {
+        dateIndex.forEach((value) => {
+          const dataValue = element[value];
+          const parse = Date.parse(dataValue);
+          if (!isNaN(parse) && parse >= 0) {
+            const valueType = typeof dataValue;
+            if (valueType === 'string' && dataValue.includes('-')) {
+              let dateValue = dataValue.split('-');
+              if (dateValue.length === 3) {
+                dateValue = dateValue.join('/');
+                element[value] = dateValue;
+                data[index] = element;
+              }
+            } else if (valueType === 'string' && dataValue.includes('/')) {
+              let dateValue = dataValue.split('/');
+              if (dateValue.length === 3) {
+                dateValue = dateValue.join('/');
+                element[value] = dataValue;
+                data[index] = element;
+              }
+            } else {
               const d = new Date(dataValue);
               let month: any = d.getMonth() + 1;
               const year = d.getFullYear();
@@ -1037,10 +874,10 @@ export class FleetDetailsComponent implements OnInit {
               month = month <= 9 ? `0${month}` : month;
               element[value] = moment(new Date(dataValue)).format('DD/MM/YYYY');
               data[index] = element;
-             } 
             }
-           });
-        }
+          }
+        });
+      }
     }
     return data;
   }
@@ -1054,27 +891,29 @@ export class FleetDetailsComponent implements OnInit {
     const filteredData = this.docsFleetDetails.filter((value) => {
       return value.status;
     });
-    if (filteredData.length === 0) {
+
+    if (filteredData.length === 0 && this.fleetForm.invalid) {
       return this.toasterService.showError('All are invalid records', '');
     }
+
     this.fleetDetailsService.saveValidRecords({
       fleetDetails: filteredData,
       userId: this.userId,
-      leadId: this.leadId
+      leadId: this.leadId,
+
     }).subscribe(((value: any) => {
-        console.log('save', value);
-        if (value.Error !== '0') {
-          return this.toasterService.showError(value.ErrorMessage, '');
-        }
-        const processVariables = value.ProcessVariables;
-        const error = processVariables.error;
-        if (error && error.code !== '0') {
-           return this.toasterService.showError(error.message, '');
-        }
-        this.docsFleetDetails = null;
-        this.showUploadModal = false;
-        this.toasterService.showSuccess('Saved successfully', '');
-        this.getFleetDetails();
+      if (value.Error !== '0') {
+        return this.toasterService.showError(value.ErrorMessage, '');
+      }
+      const processVariables = value.ProcessVariables;
+      const error = processVariables.error;
+      if (error && error.code !== '0') {
+        return this.toasterService.showError(error.message, '');
+      }
+      this.docsFleetDetails = null;
+      this.showUploadModal = false;
+      this.toasterService.showSuccess('Saved successfully', '');
+      this.getFleetDetails();
     }));
   }
 
@@ -1112,6 +951,8 @@ export class FleetDetailsComponent implements OnInit {
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
   }
 
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+  }
+
 }
-
-

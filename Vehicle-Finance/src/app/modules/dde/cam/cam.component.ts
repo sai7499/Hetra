@@ -118,6 +118,7 @@ export class CamComponent implements OnInit {
   isLoan360: boolean;
   isDeclinedFlow = false;
   isChildLoan: boolean;
+  taskId: any;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -157,6 +158,10 @@ export class CamComponent implements OnInit {
       error => {
       }
     );
+    
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+    console.log(this.taskId);
+    
     this.getLeadId();
     this.userId = localStorage.getItem("userId");
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -947,6 +952,7 @@ export class CamComponent implements OnInit {
     const data = {
       leadId: this.leadId,
       userId: this.userId,
+      taskId: this.taskId
     };
     this.camService.getBackToSales(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == "0") {

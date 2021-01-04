@@ -1,37 +1,42 @@
 <div class="content" [formGroup]="remarksForm">
  
-    <h4 class="banner-con">Remarks</h4> 
+    <h4 class="banner-con">Remarks ({{udfScreenId}}) </h4> 
      
         <textarea class="form-control" id="recommendations"
             cols="1" rows="9" [placeholder]="'Remarks'" formControlName="remarks"
             maxlength="10000" style="resize: none;">
         </textarea>
-        </div>
-<div class="btn-sec clear-both row btn-mar-15" id="clickButton" >
-  <div class="col-sm-4"></div>
-  <div class="col-sm-7 tab-mar text-right p-0" >
-    <button  class="btn btn-primary" type="button"
-     (click)="onBack()" >
-      Back
-    </button>
-    <button  class="btn btn-primary" type="button"
-     (click)="onsave()">
-      Save
-    </button>
-    <button  class="btn btn-primary -btn-next" type="button" 
-    (click)="onApproval()" *ngIf="!isDeclinedFlow">
-      Approve
-    </button>
-    <button  class="btn btn-primary -btn-next" type="button"
-    (click)="onSendToCredit()" *ngIf="!isDeclinedFlow">
-     Send Back To Credit
-    </button>
-    <button  class="btn btn-primary -btn-next" type="button" 
-    (click)="onReappeal()" *ngIf="isDeclinedFlow">
-      Re-Appeal
-    </button>
-  </div>
+
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+        <div class="btn-sec clear-both row btn-mar-15" id="clickButton" >
+            <div class="col-sm-4"></div>
+            <div class="col-sm-8 tab-mar text-right p-0" >
+              <button  class="btn btn-primary" type="button"
+               (click)="onBack()" >
+                Back
+              </button>
+              <button  class="btn btn-primary" type="button"
+               (click)="onsave()">
+                Save
+              </button>
+              <button  class="btn btn-primary -btn-next" type="button" 
+              (click)="onApproval()" *ngIf="!isDeclinedFlow">
+                Approve
+              </button>
+              <button  class="btn btn-primary -btn-next" type="button"
+              (click)="onSendToCredit()" *ngIf="!isDeclinedFlow">
+               Send Back To Credit
+              </button>
+              <button  class="btn btn-primary -btn-next" type="button" 
+              (click)="onReappeal()" *ngIf="isDeclinedFlow">
+                Re-Appeal
+              </button>
+            </div>
+        </div>    
 </div>
+
 
 
 <div class="modal" id="approveModal" [ngClass]="{ 'dis-block': showModalApprove }">

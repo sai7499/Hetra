@@ -27,7 +27,7 @@ a:focus {
 h3 {
     font-size: 18px;
     font-weight: 600;
-    margin: 18px 12px;
+    margin: 8px 12px;
 }
 
 .clear-both {
@@ -283,6 +283,10 @@ h3 {
     margin-left: 8px;
 }
 
+.mar-btn{
+    margin-bottom:20px;
+  }
+
 @media (min-width:300px) and (max-width:767px) {
     .content {
         background: #fff;
@@ -292,6 +296,10 @@ h3 {
         margin-bottom: 20px;
          /* margin-right: 8px;
         margin-left: 8px; */
+    }
+
+    .cst_btm_btns{
+        padding-bottom: 3vw!important;
     }
 }
 
@@ -1182,4 +1190,30 @@ image-cropper .overlay {
      0 -0.25rem 1.5rem rgb(228 206 239 / 0%) inset, 
      0 0.75rem 0.5rem rgb(255 255 255 / 22%) inset, 
     0 0.25rem 0.5rem 0 rgb(180 70 207 / 8%) inset;
+}
+
+
+
+.cropper .resize-bar.top,
+.cropper .resize-bar.bottom {
+    height: 60px !important;
+}
+
+.cropper .resize-bar.left,
+.cropper .resize-bar.right {
+    width: 60px !important;
+}
+
+.k-dialog-titlebar {
+    background-color: #1d1a4b !important;
+}
+
+tr:hover {background-color:#ddd;}
+
+th {
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+    border: 1px solid #ccc;
+    text-align: left;
+    text-align: center
 }

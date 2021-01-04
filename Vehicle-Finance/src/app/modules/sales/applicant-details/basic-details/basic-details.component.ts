@@ -88,14 +88,22 @@ export class BasicDetailsComponent implements OnInit {
   checkedBoxHouse: boolean;
   validation: any;
   custCatValue: string;
-  ageOfSeniorCitizen = 65;
+  ageOfSeniorCitizen: any;
   applicantData = [];
   showNotApplicant: boolean;
   hideMsgForOwner: boolean = false;
   public maxAge: Date = new Date();
   public minAge: Date = new Date();
   isSave: boolean = false;
-  occupation : any[]
+  occupation: any[];
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId = 'APS010';
+  udfGroupId = 'APG008';
+  salariedMaxAge: any;
+  selfMaxAge: any;
+  editedUDFValues: any;
+  initUDFValues: any;
 
 
   constructor(
@@ -170,6 +178,10 @@ export class BasicDetailsComponent implements OnInit {
         this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
         this.minAge = this.utilityService.setTimeForDates(this.minAge)
         this.maxAge = this.utilityService.setTimeForDates(this.maxAge)
+        this.salariedMaxAge = data.ages.seniorCitizen.salaried
+        this.selfMaxAge = data.ages.seniorCitizen.selfEmployment;
+        this.ageOfSeniorCitizen = this.selfMaxAge;
+        //console.log(this.salariedMaxAge,'AGES',this.selfMaxAge)
       }
     );
   }
@@ -343,6 +355,8 @@ export class BasicDetailsComponent implements OnInit {
   getApplicantDetails() {
 
     this.applicant = this.applicantDataService.getApplicant();
+    console.log('this.applicant', this.applicant)
+    this.udfDetails = this.applicant.udfDetails;
     this.setBasicData();
     if (this.applicant.ucic) {
       if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
@@ -457,10 +471,10 @@ export class BasicDetailsComponent implements OnInit {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
     details.get('occupation').setValue('');
-    const lov= this.applicantLov.occupation;
-    this.occupation= this.applicantDataService.getOccupationLov(lov,this.custCatValue);
-    if (this.custCatValue == 'SEMCUSTSEG') {
-      this.ageOfSeniorCitizen = 65;
+    const lov = this.applicantLov.occupation;
+    this.occupation = this.applicantDataService.getOccupationLov(lov, this.custCatValue);
+    if (this.custCatValue == 'SALCUSTSEG') {
+      this.ageOfSeniorCitizen = this.salariedMaxAge;
 
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
 
@@ -470,7 +484,7 @@ export class BasicDetailsComponent implements OnInit {
 
 
     } else {
-      this.ageOfSeniorCitizen = 60
+      this.ageOfSeniorCitizen = this.selfMaxAge
       this.checkingSenior = this.showAge >= this.ageOfSeniorCitizen;
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
 
@@ -528,7 +542,7 @@ export class BasicDetailsComponent implements OnInit {
     const applicantDetails = this.applicant.applicantDetails;
 
     this.custCatValue = applicantDetails.custSegment;
-    this.ageOfSeniorCitizen = this.custCatValue !== "SEMCUSTSEG" ? 60 : 65;
+    //this.ageOfSeniorCitizen = this.custCatValue !== "SEMCUSTSEG" ? 65 : 60;
     if (this.isIndividual) {
       this.clearFormArray();
       this.addIndividualFormControls();
@@ -883,8 +897,8 @@ export class BasicDetailsComponent implements OnInit {
       })
     }
     this.isDirty = true;
-
-    if (this.basicForm.invalid) {
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.basicForm.invalid || isUDFInvalid) {
       this.toasterService.showError(
         'Please fill all mandatory fields.',
         'Applicant Details'
@@ -916,18 +930,24 @@ export class BasicDetailsComponent implements OnInit {
       this.storeNonIndividualValueInService(rawValue);
       this.applicantDataService.setIndividualProspectDetails(null);
     }
+    const udfDetails = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
 
     //  if(){
 
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
     this.leadId = leadId;
-
+    //const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
 
     const data = {
       applicantId: this.applicantId,
       ...applicantData,
       leadId,
+      udfDetails: [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfDetails
+      }]
     };
     this.applicantService.saveApplicant(data).subscribe((res: any) => {
       if (res.ProcessVariables.error.code === '0') {
@@ -941,7 +961,10 @@ export class BasicDetailsComponent implements OnInit {
           'Record Saved Successfully',
           ''
         );
+        this.udfDetails[0].udfData = udfDetails;
+        this.applicantDataService.setUdfDatas(this.udfDetails)
         this.apiValue = this.basicForm.getRawValue();
+        this.initUDFValues = this.userDefineForm.udfData.getRawValue();
         if (this.isIndividual) {
           const dob = this.basicForm.getRawValue().details[0].dob
           this.apiValue.details[0].dob = this.utilityService.getDateFormat(dob)
@@ -1138,6 +1161,16 @@ export class BasicDetailsComponent implements OnInit {
     this.applicantDataService.setCorporateProspectDetails(prospectDetails);
   }
 
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identifyValue', value)
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
+  }
+
+
   onBack() {
     //this.location.back();
     this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
@@ -1174,17 +1207,28 @@ export class BasicDetailsComponent implements OnInit {
     // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
 
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
-    if (this.basicForm.invalid) {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues , this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+
+    // console.log(JSON.stringify(this.initUDFValues));
+    //  console.log(JSON.stringify(this.editedUDFValues));
+    // console.log(this.objectComparisonService.compare(this.editedUDFValues , this.initUDFValues));
+
+    if (this.basicForm.invalid || isUDFInvalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if (!isValueCheck) {
+    if (!isValueCheck || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
 
 
     if (this.mobileNumberChange) {
+      const currentUrl = this.location.path();
+      this.applicantDataService.setUrl(currentUrl);
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
       );

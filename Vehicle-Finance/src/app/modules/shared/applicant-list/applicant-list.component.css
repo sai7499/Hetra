@@ -8,9 +8,9 @@
 
 /* bottom buttons css */
 
-.cst_btm_btns {
+/* .cst_btm_btns {
   margin-bottom: 55px!important;
-}
+} */
 
 .btn-sec {
   margin: 0px 2px;
@@ -24,6 +24,9 @@ td a {
   cursor: pointer;
 }
 
+.mar-btn{
+  margin-bottom:15px;
+}
 
 table {
   width: 100%;
@@ -283,11 +286,25 @@ p-0{
   .flex-container{
     font-size: 10px!important;
   } 
+
+  .pad-0{
+    padding:0px;
+  }
 }
   @media (min-width:829px) and (max-width:899px){
   .flex-container{
     font-size: 12px!important;
   } 
+
+  .pad-0{
+    padding:0px;
+  }
+}
+
+@media (min-width:900px) and (max-width: 1800px) {
+  .pad-0{
+    padding:0px;
+  }
 }
 
 @media (min-width:260px) and (max-width: 769px) {

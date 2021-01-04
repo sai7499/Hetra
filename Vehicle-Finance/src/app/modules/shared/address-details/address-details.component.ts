@@ -119,6 +119,13 @@ export class AddressDetailsComponent implements OnInit {
 
   isLoan360: boolean;
 
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfScreenId: any;
+  udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
+
 
   constructor(
     private lovData: LovDataService,
@@ -135,7 +142,16 @@ export class AddressDetailsComponent implements OnInit {
     private toggleDdeService: ToggleDdeService,
     private objectComparisonService: ObjectComparisonService,
     private loanViewService: LoanViewService
-  ) { }
+  ) {
+    const url = this.location.path();
+    if (url.includes('sales')) {
+      this.udfScreenId = 'APS012';
+      this.udfGroupId = 'APG008';
+    } else {
+      this.udfScreenId = 'APS016';
+      this.udfGroupId = 'APG008';
+    }
+  }
 
   async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
@@ -145,8 +161,8 @@ export class AddressDetailsComponent implements OnInit {
     this.hasRoute();
     this.leadId = (await this.getLeadId()) as number;
 
-    this.lovData.getLovData().subscribe((res: any) => {
-      this.values = res[0].addApplicant[0];
+    // this.lovData.getLovData().subscribe((res: any) => {
+      //this.values = res[0].addApplicant[0];
       this.listenerForOfficeAddress();
       this.activatedRoute.params.subscribe((value) => {
         if (!value && !value.applicantId) {
@@ -155,7 +171,7 @@ export class AddressDetailsComponent implements OnInit {
         this.applicantId = Number(value.applicantId);
         this.getAddressDetails();
       });
-    });
+    // });
   }
 
   listenerForOfficeAddress() {
@@ -555,18 +571,26 @@ export class AddressDetailsComponent implements OnInit {
   getAddressDetails() {
     const data = {
       applicantId: this.applicantId,
+      "udfDetails": [
+        {
+          "udfGroupId": this.udfGroupId,
+        }
+      ]
     };
     this.applicantService.getApplicantDetail(data).subscribe((res: any) => {
       this.address = res.ProcessVariables;
 
+      this.applicantDataService.setApplicant(this.address)
+      this.udfDetails = this.address.udfDetails;
       if (this.address.ucic) {
         this.showModCurrCheckBox = true;
       }
+       setTimeout(() => {
+      this.setAddressData();
+      
+       })
 
-
-      setTimeout(() => {
-        this.setAddressData();
-      })
+       
 
 
     })
@@ -615,7 +639,7 @@ export class AddressDetailsComponent implements OnInit {
       })
     } else {
       this.clearFormArray();
-       this.addNonIndividualFormControls();
+      this.addNonIndividualFormControls();
       if (this.address.ucic) {
 
         this.disableRegister = true;
@@ -623,8 +647,8 @@ export class AddressDetailsComponent implements OnInit {
         this.disableAddress('registeredAddress');
         this.disableAddress('communicationAddress');
       }
-      
-     
+
+
 
       this.setValuesForNonIndividual();
       setTimeout(() => {
@@ -821,7 +845,7 @@ export class AddressDetailsComponent implements OnInit {
       city,
       district,
       state,
-      country: address.country,
+      country: address.country || address.countryId,
       addressLineOne: address.addressLineOne,
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
@@ -855,7 +879,7 @@ export class AddressDetailsComponent implements OnInit {
       ],
       country: [
         {
-          key: data.country,
+          key: data.country || data.countryId,
           value: data.countryValue,
         },
       ],
@@ -1439,52 +1463,65 @@ export class AddressDetailsComponent implements OnInit {
   onSubmit() {
 
     this.isDirty = true;
-    setTimeout(() => {
-      if (this.addressForm.invalid || this.checkOfficeAddressValidation()
-        || !this.SRNumberValidate) {
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.addressForm.invalid || this.checkOfficeAddressValidation()
+      || !this.SRNumberValidate ||
+      isUDFInvalid) {
+      this.toasterService.showError(
+        'Please fill all mandatory fields.',
+        'Applicant Details'
+      );
+      return;
+    }
+    const value = this.addressForm.value;
+    if (this.isIndividual) {
+      this.storeIndividualValueInService(value);
+    } else {
+      this.storeNonIndividualValueInService(value);
+    }
+    const udfDetails= this.userDefineForm? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+    
+    // if(this.addressForm.valid){
+    //const apiUdfData = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+    const applicantData = this.applicantDataService.getApplicant();
+    const data = {
+      applicantId: this.applicantId,
+      ...applicantData,
+      leadId: this.leadId,
+      udfDetails: [{
+        "udfGroupId": this.udfGroupId,
+        //"udfScreenId": this.udfScreenId,
+        "udfData": udfDetails
+      }]
+    };
+    this.applicantService.saveApplicant(data).subscribe((res: any) => {
+      if (res.ProcessVariables.error.code !== '0') {
         this.toasterService.showError(
-          'Please fill all mandatory fields.',
-          'Applicant Details'
+          res.ProcessVariables.error.message,
+          'Address Details'
         );
         return;
       }
-      const value = this.addressForm.value;
+
+      this.toasterService.showSuccess(
+        'Record Saved Successfully',
+        ''
+      );
+      this.udfDetails[0].udfData=  udfDetails;
+      this.initUDFValues = this.userDefineForm.udfData.getRawValue();
+    
+    this.applicantDataService.setUdfDatas(this.udfDetails)
+      this.apiValue = this.addressForm.getRawValue();
       if (this.isIndividual) {
-        this.storeIndividualValueInService(value);
+        this.apiAddressLead = this.sameAsAppAddress ? '1' : '0'
+        this.apiCurrentCheckBox = this.isCurrAddSameAsPermAdd
+        this.apiOfficeCheckBox = this.isCurrAddSameAsOffAdd
       } else {
-        this.storeNonIndividualValueInService(value);
+        this.apiCommunicationCheckBox = this.isRegSameAsCommAdd
       }
-      // if(this.addressForm.valid){
-      const applicantData = this.applicantDataService.getApplicant();
-      const data = {
-        applicantId: this.applicantId,
-        ...applicantData,
-        leadId: this.leadId,
-      };
-      this.applicantService.saveApplicant(data).subscribe((res: any) => {
-        if (res.ProcessVariables.error.code !== '0') {
-          this.toasterService.showError(
-            res.ProcessVariables.error.message,
-            'Address Details'
-          );
-          return;
-        }
 
-        this.toasterService.showSuccess(
-          'Record Saved Successfully',
-          ''
-        );
-        this.apiValue = this.addressForm.getRawValue();
-        if (this.isIndividual) {
-          this.apiAddressLead = this.sameAsAppAddress ? '1' : '0'
-          this.apiCurrentCheckBox = this.isCurrAddSameAsPermAdd
-          this.apiOfficeCheckBox = this.isCurrAddSameAsOffAdd
-        } else {
-          this.apiCommunicationCheckBox = this.isRegSameAsCommAdd
-        }
-
-      });
     });
+
   }
 
   getAddressFormValues(address: AddressDetails) {
@@ -1670,13 +1707,14 @@ export class AddressDetailsComponent implements OnInit {
       }
     }
 
-
-
-    if (this.addressForm.invalid) {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.addressForm.invalid || isUDFInvalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if (!isValueCheck || !isCheckBoxValue) {
+    if (!isValueCheck || !isCheckBoxValue || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
@@ -1694,6 +1732,13 @@ export class AddressDetailsComponent implements OnInit {
     }
 
 
+  }
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identifyValue', value)
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 }
 

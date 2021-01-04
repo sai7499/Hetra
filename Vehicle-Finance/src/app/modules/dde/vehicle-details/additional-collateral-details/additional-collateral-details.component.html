@@ -2,7 +2,7 @@
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
         <form class="multisteps-form__form" [formGroup]="collateralForm" *ngIf="label?.validationData">
-            <h3 class="banner-con">Collateral Details</h3>
+            <h3 class="banner-con">Collateral Details ({{udfScreenId}}) </h3>
 
             <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="collateral_type">
@@ -502,6 +502,11 @@
             </ng-container>
 
         </form>
+
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+            [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
+        </app-shared-user-defined-fields>
+
     </div>
     <div class="btn-sec clear-both row cst_btm_btns">
         <div class="col-sm-5"><button class="btn btn-primary dash_href hvr-sweep-to-left"

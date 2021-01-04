@@ -4,4 +4,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './identity-details.component.html',
   styleUrls: ['./identity-details.component.css'],
 })
-export class IdentityDetailsComponent {}
+export class IdentityDetailsComponent {
+  
+}

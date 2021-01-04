@@ -13,6 +13,7 @@ import { LoanCreationService } from '@services/loan-creation.service';
 import { LeadStoreService } from '@modules/sales/services/lead.store.service';
 import { LeadDataResolverService } from '@modules/lead-section/services/leadDataResolver.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-pdc-details',
@@ -43,6 +44,13 @@ export class PdcDetailsComponent implements OnInit {
   showPdcButton = false;
   showspdcButton: boolean;
   negotiatedEmi: any;
+  taskId: any;
+
+  // User defined
+  udfScreenId: any;
+  udfGroupId: any = 'PCG001';
+  udfDetails: any = [];
+  userDefineForm: any;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -57,7 +65,8 @@ export class PdcDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private lovService: CommomLovService,
     private loanCreationService: LoanCreationService,
-    private leadDataService: CreateLeadDataService
+    private leadDataService: CreateLeadDataService,
+    private sharedService: SharedService
   ) {
     this.pdcArray = this.fb.array([]);
     this.spdcArray = this.fb.array([]);
@@ -77,6 +86,8 @@ export class PdcDetailsComponent implements OnInit {
     }
     console.log(this.toDayDate, ' lead Data onit');
 
+    this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
@@ -90,6 +101,11 @@ export class PdcDetailsComponent implements OnInit {
     this.labelsService.getLabelsData().subscribe((res: any) => {
       this.labels = res;
     });
+    if(this.roleType == '4') {
+      this.udfScreenId = 'PCS001';
+    } else if(this.roleType == '5') {
+      this.udfScreenId = 'PCS002';
+    }
     this.getPdcDetails();
     // if (this.pdcForm.controls.pdcList.controls.length === 0) {
     //   this.showPdc = true;
@@ -196,11 +212,12 @@ export class PdcDetailsComponent implements OnInit {
         isCPCMaker: false,
         isCPCChecker: true,
         sendBackToCredit: false,
+        taskId: this.taskId,
       };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
-          this.toasterService.showSuccess('Submitted Suucessfully', '');
+          this.toasterService.showSuccess('Submitted Sucessfully', '');
           this.router.navigate([`pages/dashboard`]);
         } else {
           this.toasterService.showError(res.Processvariables.error.message, '');
@@ -214,11 +231,12 @@ export class PdcDetailsComponent implements OnInit {
         isCPCMaker: false,
         isCPCChecker: false,
         sendBackToCredit: false,
+        taskId: this.taskId,
       };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
-          this.toasterService.showSuccess('Submitted Suucessfully', '');
+          this.toasterService.showSuccess('Submitted Sucessfully', '');
           this.router.navigate([`pages/dashboard`]);
         } else {
           this.toasterService.showError(res.Processvariables.error.message, '');
@@ -237,12 +255,13 @@ export class PdcDetailsComponent implements OnInit {
       isCPCMaker: false,
       isCPCChecker: false,
       sendBackToCredit: true,
+      taskId: this.taskId,
     };
     // tslint:disable-next-line: deprecation
     this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
-        this.toasterService.showSuccess('Submitted Suucessfully', '');
+        this.toasterService.showSuccess('Submitted Sucessfully', '');
         this.router.navigate([`pages/dashboard`]);
       } else {
         this.toasterService.showError(res.Processvariables.error.message, '');
@@ -275,8 +294,13 @@ export class PdcDetailsComponent implements OnInit {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
       ...this.pdcForm.value,
+      udfDetails:  [{
+        "udfGroupId": this.udfGroupId,
+        // "udfScreenId": this.udfScreenId,
+        "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+      }]
     };
-    if (this.pdcForm.invalid) {
+    if (this.pdcForm.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showWarning('Mandatory Fields Missing', '');
       return;
     }
@@ -485,9 +509,16 @@ export class PdcDetailsComponent implements OnInit {
       leadId: this.leadId,
       // userId: localStorage.getItem('userId'),
       // ...this.pdcForm.value
+      udfDetails: [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId
+        }
+      ],
     };
     this.pdcService.getPdcDetails(body).subscribe((res: any) => {
       console.log(res);
+      this.udfDetails = res.ProcessVariables.udfDetails;
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
         this.pdcForm.controls.pdcList.controls = [];
@@ -621,4 +652,10 @@ export class PdcDetailsComponent implements OnInit {
     this.rowIndex = null;
     this.rowIndex = i;
   }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
+  }
+
 }

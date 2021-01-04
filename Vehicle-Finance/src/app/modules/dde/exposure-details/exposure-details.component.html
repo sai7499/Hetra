@@ -1,155 +1,120 @@
-<form class="multisteps-form__form" style="height: auto;" [formGroup]="exposureLiveLoan">
-  <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
-    <div class="container">
-      <div class="row">
-        <div class=" application">
-          <table class="table table-responsive">
-            <thead>
-              <tr class="table-head-bg text-center">
-                <td>{{labels?.sNO}} </td>
-                <td>{{labels?.type}} </td>
-                <td>{{labels?.loanNo}}</td>
-                <td>{{labels?.assets}}</td>
-                <td>{{labels?.yom}} </td>
-                <td>{{labels?.gridValue}} </td>
-                <td>{{labels?.ltv}} </td>
-                <td>{{labels?.currentPos}} </td>
-                <td>{{labels?.tenure}} </td>
-                <td>{{labels?.emiPaid}} </td>
-                <td *ngIf="!isLoan360">{{labels?.action}} </td>
+<div class="content">
+  <form class="multisteps-form__form" [formGroup]="exposureLiveLoan">
+    <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
+      <h3 class="banner-con">Exposure Details ({{udfScreenId}}) </h3>
 
-              </tr>
-            </thead>
-            <tbody formArrayName="loanTable">
-              <tr class=" text-center" id="applicant_1_row"
-                *ngFor="let item of exposureLiveLoan.get('loanTable')['controls']; let i= index" [formGroupName]="i">
-                <td>{{i+1}}</td>
-                <td>               
-                  <app-vf-custom-select
-                  [values]= "lovData"
-                  formControlName="loanType"
-                  [isRequired]="'Select any type'"
-                  [isDirty]="isDirty"
-                  >
-                  </app-vf-custom-select>
-                
-                </td>
-                <td>                 
-                    <app-custom-input
-                      formControlName="loanNo"
-                      [className]="'form-control mandatory'"
-                      [placeholder]="'loan no'"
-                      [maxLength]="labels?.validationData.loanNumber.maxLength"                      
-                      [isRequired]="'loan number mandatory'"                     
-                      [type]="labels?.validationData.loanNumber.type"                      
+      <div class="container">
+        <div class="row">
+          <div class=" application">
+            <table class="table table-responsive">
+              <thead>
+                <tr class="table-head-bg text-center">
+                  <td>{{labels?.sNO}} </td>
+                  <td>{{labels?.type}} </td>
+                  <td>{{labels?.loanNo}}</td>
+                  <td>{{labels?.assets}}</td>
+                  <td>{{labels?.yom}} </td>
+                  <td>{{labels?.gridValue}} </td>
+                  <td>{{labels?.ltv}} </td>
+                  <td>{{labels?.currentPos}} </td>
+                  <td>{{labels?.tenure}} </td>
+                  <td>{{labels?.emiPaid}} </td>
+                  <td *ngIf="!isLoan360">{{labels?.action}} </td>
+
+                </tr>
+              </thead>
+              <tbody formArrayName="loanTable">
+                <tr class=" text-center" id="applicant_1_row"
+                  *ngFor="let item of exposureLiveLoan.get('loanTable')['controls']; let i= index" [formGroupName]="i">
+                  <td>{{i+1}}</td>
+                  <td>
+                    <app-vf-custom-select [values]="lovData" formControlName="loanType" [isRequired]="'Select any type'"
                       [isDirty]="isDirty">
-                    </app-custom-input>                 
+                    </app-vf-custom-select>
+
                   </td>
-                <td>
-                <app-vf-custom-select
-                  [values]= "productCategory"
-                  formControlName="assetType"
-                  [isRequired]="'Select any Asset Type'"
-                  [isDirty]="isDirty"
-                  >
-                  </app-vf-custom-select>
-                </td>
-                <td>                  
-                    <app-custom-input
-                      formControlName="yom"
-                      [className]="'form-control mandatory'"
-                      [placeholder]="'YOM'"
-                      [maxLength]="labels?.validationData.yom.maxLength"                      
-                      [isRequired]="'YOM mandatory'"                     
-                      [type]="labels?.validationData.yom.type"
-                      [custom]="yearCheck"
+                  <td>
+                    <app-custom-input formControlName="loanNo" [className]="'form-control mandatory'"
+                      [placeholder]="'loan no'" [maxLength]="labels?.validationData.loanNumber.maxLength"
+                      [isRequired]="'loan number mandatory'" [type]="labels?.validationData.loanNumber.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
-                   
+                  </td>
+                  <td>
+                    <app-vf-custom-select [values]="productCategory" formControlName="assetType"
+                      [isRequired]="'Select any Asset Type'" [isDirty]="isDirty">
+                    </app-vf-custom-select>
+                  </td>
+                  <td>
+                    <app-custom-input formControlName="yom" [className]="'form-control mandatory'" [placeholder]="'YOM'"
+                      [maxLength]="labels?.validationData.yom.maxLength" [isRequired]="'YOM mandatory'"
+                      [type]="labels?.validationData.yom.type" [custom]="yearCheck" [isDirty]="isDirty">
+                    </app-custom-input>
+
                     <div *ngIf="validYom" class="invalid-feedback">
-                      Invalid YOM                     
-                    </div>                
+                      Invalid YOM
+                    </div>
                   </td>
-                <td>                
-                    <app-custom-input
-                      formControlName="gridValue"
-                      [className]="'form-control mandatory'"
-                      [placeholder]="'Grid Value'"
-                      [maxLength]="labels?.validationData.amountValue.maxLength"                      
-                      [isRequired]="'Grid Value mandatory'"                     
-                      [type]="labels?.validationData.amountValue.type"                     
+                  <td>
+                    <app-custom-input formControlName="gridValue" [className]="'form-control mandatory'"
+                      [placeholder]="'Grid Value'" [maxLength]="labels?.validationData.amountValue.maxLength"
+                      [isRequired]="'Grid Value mandatory'" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
-                <td>                 
-                    <app-custom-input
-                      formControlName="ltv"
-                      [className]="'form-control mandatory'"
-                      [placeholder]="'LTV'"
-                      [maxLength]="labels?.validationData.percentage.maxLength"                      
-                      [isRequired]="'Ltv mandatory'"                     
-                      [type]="labels?.validationData.percentage.type"                     
+                  <td>
+                    <app-custom-input formControlName="ltv" [className]="'form-control mandatory'" [placeholder]="'LTV'"
+                      [maxLength]="labels?.validationData.percentage.maxLength" [isRequired]="'Ltv mandatory'"
+                      [type]="labels?.validationData.percentage.type" [isDirty]="isDirty">
+                    </app-custom-input>
+                  </td>
+                  <td>
+                    <app-custom-input formControlName="currentPos" [className]="'form-control mandatory'"
+                      [placeholder]="'Current Pos'" [maxLength]="labels?.validationData.amountValue.maxLength"
+                      [isRequired]="'Current Pos mandatory'" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
-                <td>                 
-                    <app-custom-input
-                    formControlName="currentPos"
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Current Pos'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
-                    [isRequired]="'Current Pos mandatory'"                     
-                    [type]="labels?.validationData.amountValue.type"                     
-                    [isDirty]="isDirty">
-                  </app-custom-input>
+                  <td>
+                    <app-custom-input formControlName="tenure" [className]="'form-control mandatory'"
+                      [placeholder]="'Tenure'" [maxLength]="labels?.validationData.percentage.maxLength"
+                      [isRequired]="'Tenure mandatory'" [type]="labels?.validationData.percentage.type"
+                      [isDirty]="isDirty">
+                    </app-custom-input>
                   </td>
-                <td>                
-                    <app-custom-input
-                    formControlName="tenure"
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'Tenure'"
-                    [maxLength]="labels?.validationData.percentage.maxLength"                      
-                    [isRequired]="'Tenure mandatory'"                     
-                    [type]="labels?.validationData.percentage.type"                     
-                    [isDirty]="isDirty">
-                  </app-custom-input>
-                  </td>
-                <td>
-                  <!-- <input type="number" class="input_value" value="40" name="emiPaid" class="form-control text-center"
+                  <td>
+                    <!-- <input type="number" class="input_value" value="40" name="emiPaid" class="form-control text-center"
                     formControlName="emiPaid"  min="0"> -->
-                    <app-custom-input
-                    formControlName="emiPaid"
-                    [className]="'form-control mandatory'"
-                    [placeholder]="'EMI Paid'"
-                    [maxLength]="labels?.validationData.amountValue.maxLength"                      
-                    [isRequired]="'EMI Paid mandatory'"                     
-                    [type]="labels?.validationData.amountValue.type"                     
-                    [isDirty]="isDirty">
-                  </app-custom-input>
+                    <app-custom-input formControlName="emiPaid" [className]="'form-control mandatory'"
+                      [placeholder]="'EMI Paid'" [maxLength]="labels?.validationData.amountValue.maxLength"
+                      [isRequired]="'EMI Paid mandatory'" [type]="labels?.validationData.amountValue.type"
+                      [isDirty]="isDirty">
+                    </app-custom-input>
                   </td>
-                <td *ngIf="!isLoan360">                  
-                  <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant" 
-                    *ngIf= " exposureLiveLoan.get('loanTable')['controls'].length >1"
-                    style="color: red;" (click)="showModel(i)" title="Delete exposure"></i>&nbsp;                   
+                  <td *ngIf="!isLoan360">
+                    <i type="button" class="fa fa-trash" aria-hidden="true" id="remove_item_applicant"
+                      *ngIf=" exposureLiveLoan.get('loanTable')['controls'].length >1" style="color: red;"
+                      (click)="showModel(i)" title="Delete exposure"></i>&nbsp;
                     <button type="button" class="fa fa-plus" [disabled]="disableSaveBtn" style="margin-top: 6px;"
-                        *ngIf="exposureLiveLoan.get('loanTable')['controls'].length == i+1" title="Add exposure"
-                       aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></button></td>
-              </tr>
-             
-            </tbody>
-          </table>
-          <!-- <i type="button" class="fa fa-plus add-row" aria-hidden="true"></i>
+                      *ngIf="exposureLiveLoan.get('loanTable')['controls'].length == i+1" title="Add exposure"
+                      aria-hidden="true" id="remove_item_applicant" (click)="addUnit()"></button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <!-- <i type="button" class="fa fa-plus add-row" aria-hidden="true"></i>
                <i type="button" class="fa fa-minus delete-row" aria-hidden="true"></i> -->
+          </div>
         </div>
       </div>
+
+
     </div>
 
-
-  </div>
-
-<!-- </form>
+    <!-- </form>
 <form class="multisteps-form__form" style="height: auto;" [formGroup]="exposureProposedLoan"> -->
-  <!-- <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
+    <!-- <div class="multisteps-form__panel basic_scroll" data-animation="scaleIn">
     <div class="container">
       <div class="row">
         <div class=" application">
@@ -216,29 +181,26 @@
 
   </div> -->
 
-</form>
-<!-- </div> -->
-<!-- </div> -->
-<div class="btn-sec clear-both row cst_btm_btns">
-  <div class="col-sm-5">
+  </form>
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
-  </div>
-  <div class="col-sm-7 text-right">
-    <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">Back </button>
-    <button class="btn btn-primary hvr-glow" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save </button>
-    <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()"> Next </button>
+  <!-- </div> -->
+  <!-- </div> -->
+  <div class="btn-sec clear-both row cst_btm_btns">
+    <div class="col-sm-5">
+
+    </div>
+    <div class="col-sm-7 text-right nxt-mar-15">
+      <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">Back </button>
+      <button class="btn btn-primary hvr-glow" type="button" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save </button>
+      <button class="btn btn-primary js-btn-next hvr-sweep-to-right " type="button" (click)="onNext()"> Next </button>
+    </div>
   </div>
 </div>
-<div class="alert alert-success alert-dismissible fixed"
-  id="alert" *ngIf="isAlert">
-<button
-  type="button"
-  class="close"
-  data-dismiss="alert"
-  aria-label="Close"
->
-  <span aria-hidden="true">&times;</span></button
->Saved!
+<div class="alert alert-success alert-dismissible fixed" id="alert" *ngIf="isAlert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span></button>Saved!
 </div>
 <!-- {{exposureLiveLoan.valid}} -->
 <!-- <div class="alert alert-success alert-dismissible" id="alert">
@@ -249,11 +211,11 @@
 <div id="overlay" *ngIf="isModelShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="isModelShow = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="isModelShow = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">

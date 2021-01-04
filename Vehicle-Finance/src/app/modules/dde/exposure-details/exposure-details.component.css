@@ -10,6 +10,10 @@
     margin: 10px 0;
 }
 
+.nxt-mar-15{
+    margin-bottom:15px;
+}
+
 .multisteps-form__progress {
     margin: 15px 0 !important;
 }
@@ -172,9 +176,10 @@ i.fa.fa-minus.delete-row {
 
 /* bottom buttons css */
 
-.cst_btm_btns {
+/* .cst_btm_btns {
     margin-bottom: 55px;
-}
+} */
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

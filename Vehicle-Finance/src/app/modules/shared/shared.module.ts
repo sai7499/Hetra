@@ -45,7 +45,9 @@ import { WelomceLetterComponent } from '@modules/dde/cpc-maker/welomce-letter/we
 import { InAppcameraComponent } from './in-appcamera/in-appcamera.component';
 
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { SharedUserDefinedFieldsComponent } from './shared-user-defined-fields/shared-user-defined-fields.component';
 
+import { WindowModule } from '@progress/kendo-angular-dialog';
 setTheme('bs4');
 
 @NgModule({
@@ -77,7 +79,8 @@ setTheme('bs4');
     PddComponent,
     UploadDiscussionComponent,
     WelomceLetterComponent,
-    InAppcameraComponent
+    InAppcameraComponent,
+    SharedUserDefinedFieldsComponent
   ],
   imports: [
     CommonModule,
@@ -90,7 +93,8 @@ setTheme('bs4');
     DatePickerModule,
     MatTreeModule,
     MatIconModule,
-    ImageCropperModule
+    WindowModule,
+    ImageCropperModule,
   ],
   exports: [
     CustomSelectComponent,
@@ -102,6 +106,7 @@ setTheme('bs4');
     AddOrUpdateApplicantComponent,
     SharedBasicVehicleDetailsComponent,
     SharedVehicleDetailsComponent,
+    SharedUserDefinedFieldsComponent,
     SharedDeviationComponent,
     SearchBarComponent,
     CustomInputComponent,

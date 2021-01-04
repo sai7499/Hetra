@@ -30,7 +30,7 @@ export class OtpSectionComponent implements OnInit {
     private applicantService: ApplicantService,
     private router: Router,
     private toasterService: ToasterService,
-    private applicantDataService : ApplicantDataStoreService
+    private applicantDataService: ApplicantDataStoreService
   ) { }
 
   getLeadIdAndApplicantId() {
@@ -48,17 +48,6 @@ export class OtpSectionComponent implements OnInit {
   async ngOnInit() {
     // accessing applicant id if from route
 
-    this.applicantId = (await this.getLeadIdAndApplicantId()) as string;
-    console.log(this.applicantId);
-    this.leadId = (await this.getLeadId()) as number;
-
-    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    this.userId = roleAndUserDetails.userDetails.userId;
-
-    // / calling send otp method
-
-    // await this.getApplicantList()
-
     this.otpForm = this._fb.group({
       otp: [
         '',
@@ -70,6 +59,19 @@ export class OtpSectionComponent implements OnInit {
         ]),
       ],
     });
+
+    this.applicantId = (await this.getLeadIdAndApplicantId()) as string;
+    console.log(this.applicantId);
+    this.leadId = (await this.getLeadId()) as number;
+
+    const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    this.userId = roleAndUserDetails.userDetails.userId;
+
+    // / calling send otp method
+
+    // await this.getApplicantList()
+
+
     this.sendOtp();
   }
 
@@ -144,7 +146,7 @@ export class OtpSectionComponent implements OnInit {
       }
       else {
         // alert(res.ProcessVariables.error.message);
-        this.toasterService.showError(res.ProcessVariables.error.message,'')
+        this.toasterService.showError(res.ProcessVariables.error.message, '')
       }
     });
   }
@@ -165,7 +167,7 @@ export class OtpSectionComponent implements OnInit {
         // alert("otp verified successfully")
 
         if (res.ProcessVariables.leadStage == '10') {
-         
+
           this.router.navigate([
             'pages/lead-section/' + this.leadId + '/applicant-details',
           ]);
@@ -181,17 +183,20 @@ export class OtpSectionComponent implements OnInit {
     });
   }
 
-  onBack(){
-    const sales=this.applicantDataService.getNavigateForDedupe()
-    if(!sales){
-      this.router.navigateByUrl(
-        `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
-      );
-    }else{
-      this.router.navigateByUrl(
-        `/pages/sales-applicant-details/${this.leadId}/add-applicant/${this.applicantId}`
-      );
-    }
-   
+  onBack() {
+    const url = this.applicantDataService.getUrl()
+    this.router.navigateByUrl(
+          `${url}`
+        );
+    // if (!sales) {
+    //   this.router.navigateByUrl(
+    //     `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`
+    //   );
+    // } else {
+    //   this.router.navigateByUrl(
+    //     `/pages/sales-applicant-details/${this.leadId}/add-applicant/${this.applicantId}`
+    //   );
+    // }
+
   }
 }

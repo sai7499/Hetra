@@ -2,7 +2,7 @@
     <form [formGroup]="insuranceDetailForm " class="heading-style">
         <div class="row">            
             <div class="row">
-                <h5 class="banner-con">Motor Insurance Details</h5>
+                <h5 class="banner-con">Motor Insurance Details  ({{udfScreenId}}) </h5>
                 <div class=" form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="spoke_code_location" class="asset_type">{{labels?.motorInsuranceRequired}}<sub
                             class="star_red_col">*</sub></label>
@@ -629,6 +629,12 @@
             <button type="button" class="btn btn-primary" (click) ="saveUpdateInsurance()">Submit</button>
         </div>
     </div> -->
+
+    <div>
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+    
+    </div>
 
     <div class="btn-sec clear-both row cst_btm_btns">
         <div class="col-sm-5"></div>

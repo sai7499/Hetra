@@ -538,6 +538,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       } else {
         this.setDedupeForNonIndividual()
       }
+      setTimeout(() => {
+        this.listenerForUnique();
+        this.setDedupeValidators();
+  
+      });
     }
   }
 
@@ -1248,7 +1253,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       addressLineOne: address.addressLineOne,
       addressLineTwo: address.addressLineTwo,
       addressLineThree: address.addressLineThree,
-      country: address.country,
+      country: address.country || address.countryId,
       landlineNumber: address.landlineNumber,
       nearestLandmark: address.nearestLandmark
     };
@@ -2176,7 +2181,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ],
       country: [
         {
-          key: data.country,
+          key: data.country || data.countryId,
           value: data.countryValue,
         },
       ],
@@ -2390,6 +2395,15 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     currentAddress.disable();
 
   }
+
+  checkUcic(){
+    if(this.applicant ){
+      return !this.applicant.ucic? true : false;
+    } else{
+      return true;
+    }
+  }
+
   onNext() {
     const formValue = this.coApplicantForm.getRawValue();
 
@@ -2430,7 +2444,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       isCheckboxChange = true;
     }
-    if (!this.applicant.ucic) {
+    if (this.checkUcic()) {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
         !formValue.permentAddress.addressLineOne ||
@@ -2469,19 +2483,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     if (this.dedupeMobile || !this.applicant.otpVerified) {
       const currentUrl = this.location.path();
-      if (currentUrl.includes('sales')) {
-        this.applicantDataService.setNavigateForDedupe(true)
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      } else {
-        this.applicantDataService.setNavigateForDedupe(false)
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      }
-      // console.log("GO NEXT")
-
+      this.applicantDataService.setUrl(currentUrl);
+      this.router.navigateByUrl(
+            `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+          );
     } else {
       // console.log("GO NEXT")
       this.navigateToApplicantList();
@@ -2507,7 +2512,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     } else {
       isCheckboxChange = true;
     }
-    if (!this.applicant.ucic) {
+    if (this.checkUcic()) {
       if (
         this.coApplicantForm.get('dedupe').invalid ||
         !formValue.registeredAddress.addressLineOne ||
@@ -2540,18 +2545,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     if (this.dedupeMobile || !this.applicant.otpVerified) {
       const currentUrl = this.location.path();
-      if (currentUrl.includes('sales')) {
-        this.applicantDataService.setNavigateForDedupe(true)
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      } else {
-        this.applicantDataService.setNavigateForDedupe(false)
-        this.router.navigateByUrl(
-          `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
-        );
-      }
-      //console.log("GO NEXT")
+      this.applicantDataService.setUrl(currentUrl);
+      this.router.navigateByUrl(
+            `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
+          );
     } else {
       this.navigateToApplicantList();
       //console.log("GO NEXT")
@@ -2842,9 +2839,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       ...formValue,
       entity: this.getEntityObject(formValue.entity),
     };
-
+    
+   
     if (this.applicantType === 'INDIVENTTYP') {
-      if (!this.applicant.ucic) {
+      
+      if (this.checkUcic()) {
         if (
           this.coApplicantForm.get('dedupe').invalid ||
           // this.coApplicantForm.get('permentAddress').invalid ||
@@ -2903,7 +2902,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.storeIndividualValueInService(coApplicantModel);
       this.applicantDataService.setCorporateProspectDetails(null);
     } else {
-      if (!this.applicant.ucic) {
+      if (this.checkUcic()) {
         if (
           this.coApplicantForm.get('dedupe').invalid ||
           !formValue.registeredAddress.addressLineOne ||

@@ -547,7 +547,7 @@
     "applicationNumber": "Application Number",
     "amtInRupees": "Amt in Rupees",
     "proposalDate": "Proposal Date",
-    "propsoedAsset": "Propsoed Asset",
+    "propsoedAsset": "Proposed Asset",
     "area": "Area",
     "agriClassification": "Agri Classification",
     "classifiedBasis": "Classified Basis",
@@ -610,6 +610,7 @@
     "existingCustomerOfEquitassince": "Existing Customer of Equitas since**",
     "additionalMatchFound": "Additional Match Found",
     "cibilScoreIfAdditionalMatchFound": "CIBIL Score if Additional Match Found",
+    "bureauScoreIfAdditionalMatchFound": "Bureau Score if Additional Match Found",
     "totalCostOfAsset": "Total Cost of Asset",
     "proposedAmount": "Proposed Amount",
     "proposedLtv": "Proposed LTV",
@@ -659,7 +660,7 @@
     "catC": "CAT C",
     "actualWithProofOfDetailsToBeMentioned": "Actual with Proof of details to be mentioned",
     "otherDeviationIfAny": "Other Deviation if Any",
-    "detailsOfCibilPdFiDedupe": "Details of CIBIL/ PD/FI/Dedupe",
+    "detailsOfCibilPdFiDedupe": "Details of Bureau/ PD/FI/Dedupe",
     "wizardDedupe": "Wizard Dedupe",
     "shellDeudupeStatusMatchFound": "Shell Deudupe Status - Match Found (Y/N)",
     "internalDeudupeStatusMatchFound": "Internal Deudupe Status - Match Found (Y/N)",
@@ -668,10 +669,10 @@
     "strikeOffCompanyStatusMatchFound": "Strike off Company Status - Match Found (Y/N)",
     "directorsDinNumberForPvtLtdCompanies": "Directors DIN number (for pvt ltd companies)",
     "pdExecutedBy": "PD Executed By (Name & E code with Designation)",
-    "cibilJustificationIfAny": "CIBIL Justification if any",
+    "cibilJustificationIfAny": "Bureau Justification if any",
     "odProofObtained": "OD Proof Obtained",
     "remarksJustification": "Remarks/Justification",
-    "cibilEnquiries": "CIBIL Enquiries",
+    "cibilEnquiries": "Bureau Enquiries",
     "withinThirtyDays": "Within 30 Days",
     "withinSixtydays": "Within 60 days",
     "justificationOrReasonToFund": "Justification/Reason to Fund",
@@ -685,7 +686,7 @@
     "basicDetailsTitle": "Basic Details",
     "proposedVehicleDetailsTitle": "Proposed Vehicle Details",
     "partyToAgreementTitle": "PARTY TO AGREEMENT",
-    "cibilSynopsysTitle": "CIBIL SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPARATE SHEET)",
+    "cibilSynopsysTitle": "Bureau SYNOPSYS(ACCOUNT WISE OD DETAILS CAN BE MENTIONED IN SEPARATE SHEET)",
     "bankingSummaryTitle": "BANKING SUMMARY",
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
@@ -724,7 +725,7 @@
     "justification": "Justification",
     "refer": "Refer",
     "referTo": "Refer To",
-    "referToNextLevel": "Refer To next level",
+    "referToNextLevel": "Refer to Higher Level",
     "decline": "Decline",
     "referText2": "For Cat B,C,D & E Repayment <12 Months from us or other financier on CV loans",
     "referText1": "Co-Borrower / Guarantor - Waiver",
@@ -819,7 +820,7 @@
     "totalExpenses": "Total Expenses (B)",
     "netCashFlow": "Net Cash Flow (NCF) (A-B)",
     "emiFull": "Equated Monthly Instalments (EMI)",
-    "netEmi": "Net Cash flow (NCF)/ EMI",
+    "netEmi": "Net Cash flow (NCF) / EMI",
     "vehicleModel": "Vehicle Model",
     "application": "Application / Area of Operation",
     "grossIncomePerDay": "Gross income per day",
@@ -995,7 +996,7 @@
     "address": "Address",
     "valuationStatus": "Valuation Status",
     "valuatorStatus": "Valuator Type",
-    "requestId":"Request ID",
+    "requestId": "Request ID",
     "valuationReport": "Valuation Report",
     "modalTitle1": "Initiate Vechicle Valuation",
     "chooseValuator": "Choose Valuator",
@@ -1068,7 +1069,7 @@
     "vehicleConditions": "What was the application of earlier vehicle",
     "remarksOthers": "Remarks of others",
     "earlierDriving": "Which vehicle was the Applicant driving earlier?",
-    "runningAttached": "Where will this vehicle running/attached/plying?",
+    "runningAttached": "Where will vehicle be running / attached / plying?",
     "awareDue": "Is the customer aware of Due Date and EMI for the loan amount",
     "vehicleMake": "Vehicle Make",
     "model1": "Model(Year)",
@@ -1195,7 +1196,7 @@
     "selectIdDetails": "Select Id Details",
     "UCIC": "UCIC",
     "score": "Score",
-    "odDetails": "OD Details",
+    "odDetails": "Bureau Details",
     "odType": "OD Type",
     "odAmount": "OD Amount",
     "typeOfloan": "Type of loan",
@@ -1356,7 +1357,7 @@
     "proposalNo": "Proposal No",
     "applicationNo": "Application No",
     "scheme": "Scheme",
-    "vehScheme": "Scheme/promotion",
+    "vehScheme": "Scheme / Promotion",
     "manufacturer": "Manufacturer",
     "paymentDetails": "Payment Details",
     "paymentTo": "Payment To",
@@ -1763,7 +1764,7 @@
     "validUpto": "Valid up to",
     "typeOfPolicy": "Type of policy",
     "isModelInProduction": "Is the Model Currently under Production ?",
-    "anyAccidentsInPast":"Any accidents in the past ? If yes, mention in remarks",
+    "anyAccidentsInPast": "Any accidents in the past ? If yes, mention in remarks",
     "originalInvoice": "Original Invoice Value(Ex-show)",
     "anyMajorRepairs": "Any Other Major Repairs till date",
     "currentInvoiceValue": "Current Invoice Value",
@@ -1813,10 +1814,11 @@
     "initiatedBranch": "Initiated Branch",
     "initiatedOn": "Initiated On",
     "relationshipWithNominee": "Relationship with nominee ",
-    "goToDashboard":"Go To Dashboard",
-    "submitValuation":"Are you sure you want to submit task?",
-    "wizardId" : "Wizard ID",
-    "vehScheme": "Scheme/promotion",
+    "goToDashboard": "Go To Dashboard",
+    "submitValuation": "Are you sure you want to submit task?",
+    "wizardId": "Wizard ID",
+    "affordableEMI": "Affordable EMI",
+    "relationshipType":"Relationship Type",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2126,6 +2128,13 @@
                 "msg": "Aadhar Number Should be Valid"
             }
         },
+        "applicantAdhaarNumber": {
+            "maxLength": {
+                "rule": 12
+            },
+            "type": "number"
+        },
+        
         "turnOver": {
             "maxLength": {
                 "rule": 10
@@ -2158,7 +2167,6 @@
                 "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
                 "msg": "Should be valid"
             }
-
         },
         "voterId": {
             "maxLength": {
@@ -2368,9 +2376,9 @@
         },
         "invoiceNumber": {
             "maxLength": {
-                "rule": 3
+                "rule": 20
             },
-            "type": "number"
+            "type": "alpha-numeric"
         },
         "monthOfManuf": {
             "maxLength": {
@@ -2910,7 +2918,7 @@
             "maxLength": {
                 "rule": 40
             },
-            "type": "number"
+            "type": "custom-special-alpha-numeric"
         },
         "valuationEngChasisNumber": {
             "maxLength": {
@@ -2935,7 +2943,7 @@
             "maxLength": {
                 "rule": 12
             },
-            "type": "number"            
+            "type": "number"
         },
         "insuranceAddress": {
             "maxLength": {
