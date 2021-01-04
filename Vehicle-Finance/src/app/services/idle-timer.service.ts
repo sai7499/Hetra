@@ -9,9 +9,6 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class IdleTimerService {
-
-    timeout: number;
-    callback: Function;
     interval: any;
     eventHandler: any
 
@@ -40,9 +37,9 @@ export class IdleTimerService {
         return this.$timer;
     }
 
-    startTimer(timeout, callback) {
-        this.timeout = timeout;
-        this.callback = callback;
+    startTimer() {
+        // this.timeout = timeout;
+        // this.callback = callback;
         this.eventHandler = this.updateExpiredTime.bind(this);
         //this.tracker();
         this.startInterVal();
@@ -73,7 +70,6 @@ export class IdleTimerService {
 
             if (expiredTime < Date.now()) {
                 console.log('time out');
-                this.callback();
                 this.cleanUp();
             }
         }, 1000);
@@ -81,9 +77,8 @@ export class IdleTimerService {
 
     updateExpiredTime() {
         console.log(Date.now())
-        console.log('timeout',this.timeout)
-        console.log(Date.now() + this.timeout * 1000);
-        localStorage.setItem('_expiredTime', String(Date.now() + this.timeout * 1000));
+     
+        localStorage.setItem('_expiredTime', String(Date.now() + this.SESSION_TIMER * 1000));
     }
 
     private tracker() {

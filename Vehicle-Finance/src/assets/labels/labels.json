@@ -1281,13 +1281,13 @@
     "toSanction": "To",
     "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
     "proposalNumber": "Proposal Number",
-    "vehicleDetails": "VEHICLE DETAILS",
+    "vehicleDetails": "Vehicle Details",
     "yearOfManufacture": "Year of Manufacture",
     "vehicleRegistrationNo": "Vehicle Registration No.",
     "engineNo": "Engine No.",
     "chasisNo": "Chassis No.",
     "assetCostRs": "Asset Cost (Rs.)",
-    "loanApprovedDetails": "LOAN APPROVED DETAILS",
+    "loanApprovedDetails": "Loan Approved Details",
     "loanAmountRs": "Loan Amount (Rs.)",
     "loanTenorMonths": "Loan Tenor (Months)",
     "repay": "Repay (Months)",
@@ -1817,6 +1817,7 @@
     "goToDashboard": "Go To Dashboard",
     "submitValuation": "Are you sure you want to submit task?",
     "wizardId": "Wizard ID",
+    "affordableEMI": "Affordable EMI",
     "relationshipType":"Relationship Type",
     "validationData": {
         "name": {
@@ -2917,7 +2918,7 @@
             "maxLength": {
                 "rule": 40
             },
-            "type": "number"
+            "type": "custom-special-alpha-numeric"
         },
         "valuationEngChasisNumber": {
             "maxLength": {

@@ -1,10 +1,33 @@
 <!-- <app-header></app-header> -->
 <router-outlet></router-outlet>
 <ngx-ui-loader></ngx-ui-loader>
-<app-draggable-container
-  [imageUrl]="showDraggableContainer"
-  [setCss]="setCss"
+
+<ng-container *ngFor="let image of imageList">
+  <app-draggable-container
+  [imageUrl]="image"
 ></app-draggable-container>
+
+</ng-container>
+
+<!-- <div class="row min-max-row">
+  <div class="col-sm-4 col-lg-4 col-xs-12 col-md-4 min-max" *ngFor="let list of minimizeList" >
+      {{list.name}}
+      <i class="fa fa-window-maximize fa-icon" (click)="openImage(list)"></i>
+      <i class="fa fa-window-close fa-icon" (click)="removeMinimizeList(list)"></i>
+  </div>
+</div> -->
+
+<div class="row row-min-max">
+  <div class="col-sm-3 col-lg-3 col-xs-12 col-md-3 min-max" *ngFor="let list of minimizeList">
+   <div class="row">
+     <div class="col-lg-9 col-sm-9 col-md-9 col-xs-12 wid-80 "> {{list.name}}</div>
+     <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12 wid-20 ">
+      <i class="fa fa-window-maximize fa-icon" (click)="openImage(list)"></i>
+      <i class="fa fa-times fa-icon" (click)="removeMinimizeList(list)"></i></div>
+   </div>
+  </div>
+</div>
+
 <!-- <div class="row row-min-max">
     <div class="col-sm-3 col-lg-3 col-xs-12 col-md-3 min-max" >
      <div class="row">
@@ -111,5 +134,6 @@
 </div>
 
 <app-page-redirect-modal [showPageRedirectModal]="showModal" *ngIf="showModal" (okay)="onOkay($event)"></app-page-redirect-modal>
+
 
 

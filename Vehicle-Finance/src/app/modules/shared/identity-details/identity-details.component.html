@@ -32,7 +32,7 @@
                 <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date"
                   name="passport_expiry_date" />
                 <span class="input-group-btn">
-                  <button class="btn btn-default" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
+                  <button class="btn btn-default pad-6" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
                     (blur)="onRelieve()">
 
                     <i class="fa fa-credit-card"></i>
@@ -403,7 +403,7 @@
                 <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date"
                   name="passport_expiry_date" value="" disabled />
                 <span class="input-group-btn">
-                  <button class="btn btn-default" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
+                  <button class="btn btn-default pad-6" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
                     (blur)="onRelieve()">
                     <i class="fa fa-credit-card"></i>
 
@@ -454,6 +454,29 @@
         </div>
       </ng-container>
     </div>
+    <div class="btn-sec clear-both row">
+      <div class="col-sm-5">
+        <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="navigateToApplicantList()">
+          Back To Applicant Details
+        </button>
+      </div>
+      <div class="col-sm-7 text-right">
+        <span id="edit_vehicle_details_replace"></span>
+        <a id="back_vehicle_details"><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
+            Back
+          </button></a>
+        <ng-container *ngIf="!isLoan360">
+          <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+            Save
+          </p>
+        </ng-container>
+    
+        <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
+            Next
+          </button></a>
+        
+      </div>
+    </div>
   </form>
   <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
     [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
@@ -461,28 +484,3 @@
 
 </div>
 
-<div class="btn-sec clear-both row">
-  <div class="col-sm-5">
-    <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="navigateToApplicantList()">
-      Back To Applicant Details
-    </button>
-  </div>
-  <div class="col-sm-7 text-right">
-    <span id="edit_vehicle_details_replace"></span>
-    <a id="back_vehicle_details"><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
-        Back
-      </button></a>
-    <ng-container *ngIf="!isLoan360">
-      <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
-        Save
-      </p>
-    </ng-container>
-
-    <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
-        Next
-      </button></a>
-    <br />
-    <br />
-    <br />
-  </div>
-</div>
