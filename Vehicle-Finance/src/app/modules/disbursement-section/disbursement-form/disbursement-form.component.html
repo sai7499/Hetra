@@ -39,7 +39,7 @@
 
         <div class="row">
           <div class="col-md-12">
-            <h4 class="banner-con">Deductions</h4>
+            <h4 class="banner-sub">Deductions</h4>
           </div>
         </div>
 
@@ -77,7 +77,7 @@
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="row">
         <div class="text-right">
-          <form class="p-0" [formGroup]="disbursementDetailsForm">
+          <form class="p-0 mar-top" [formGroup]="disbursementDetailsForm">
             <div class="form-group">
               <label for="disburse_To" class="control-label disburse-label">{{labels?.disburseTo}}</label>
               <div class="disburse-select">
@@ -101,7 +101,7 @@
       <!--container 1-->
       <form class="p-0" [formGroup]="dealerDetailsForm" *ngIf="disburseToDealer">
         <div>
-          <h4 class="banner-con">Dealer Details</h4>
+          <h4 class="banner-sub">Dealer Details</h4>
           <div class="form-group">
             <label for="sourcing_code" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.dealerCode}}
               <sub class="star_red_col">*</sub>
@@ -458,7 +458,7 @@
       <!--container 2-->
       <form class="p-0" [formGroup]="appDetailsForm" *ngIf="disburseToApp">
         <div>
-          <h4 class="banner-con">Applicant Details</h4>
+          <h4 class="banner-sub">Applicant Details</h4>
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
               <sub class="star_red_col">*</sub>
@@ -797,7 +797,7 @@
       <!--container 3-->
       <form class="p-0" [formGroup]="coAppDetailsForm" *ngIf="disburseToCoApp">
         <div>
-          <h4 class="banner-con">Co-Applicant Details</h4>
+          <h4 class="banner-sub">Co-Applicant Details</h4>
 
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.coAppName}}
@@ -816,7 +816,7 @@
           <!-- container coApp1 starts -->
           <form class="p-0" [formGroup]="coApp1Form" *ngIf="coApp1">
             <div>
-              <h4 class="banner-con">CoApplicant-1</h4>
+              <h4 class="banner-sub">CoApplicant-1</h4>
               <div class="form-group">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                   <sub class="star_red_col">*</sub>
@@ -1160,7 +1160,7 @@
           <!-- container coApp2 starts -->
           <form class="p-0" [formGroup]="coApp2Form" *ngIf="coApp2">
             <div>
-              <h4 class="banner-con">CoApplicant-2</h4>
+              <h4 class="banner-sub">CoApplicant-2</h4>
               <div class="form-group">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                   <sub class="star_red_col">*</sub>
@@ -1503,7 +1503,7 @@
           <!-- container coApp3 starts -->
           <form class="p-0" [formGroup]="coApp3Form" *ngIf="coApp3">
             <div>
-              <h4 class="banner-con">CoApplicant-3</h4>
+              <h4 class="banner-sub">CoApplicant-3</h4>
               <div class="form-group">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
                   <sub class="star_red_col">*</sub>
@@ -1848,7 +1848,7 @@
       <!--container 4-->
       <form class="p-0" [formGroup]="bankerDetailsForm" *ngIf="disburseToBanker">
         <div>
-          <h4 class="banner-con">Banker Details</h4>
+          <h4 class="banner-sub">Banker Details</h4>
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.selectBank}}
               <sub class="star_red_col">*</sub>
@@ -2207,7 +2207,7 @@
       <!--container 5-->
       <form class="p-0" [formGroup]="financierDetailsForm" *ngIf="disburseToFinancier">
         <div>
-          <h4 class="banner-con">Financier Details</h4>
+          <h4 class="banner-sub">Financier Details</h4>
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.selectFinancier}}
               <sub class="star_red_col">*</sub>
@@ -2561,7 +2561,7 @@
       <!--container 6-->
       <form class="p-0" [formGroup]="thirdPartyDetailsForm" *ngIf="disburseToThirdParty">
         <div>
-          <h4 class="banner-con">Third Party</h4>
+          <h4 class="banner-sub">Third Party</h4>
 
           <!-- <div class="form-group">
           <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Beneficiary Name</label>
@@ -2917,7 +2917,7 @@
       <!-- *ngIf="disburseToIBT" -->
       <form class="p-0" [formGroup]="ibtDetailsForm" *ngIf="false">
         <div>
-          <h4 class="banner-con">Internal BT</h4>
+          <h4 class="banner-sub">Internal BT</h4>
 
           <div class="form-group">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Favoring Name

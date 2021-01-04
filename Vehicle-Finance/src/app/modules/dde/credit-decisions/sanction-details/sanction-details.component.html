@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="row">
-            <h4 id="vf_sheet_tag4" class="text-center banner-con"><i>{{labels?.sanctionLetter}}</i></h4>
+            <h4 id="" class="text-center banner-con">{{labels?.sanctionLetter}}</h4>
         </div>
         <!-- <div id="vf_sheet_tag5">
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
@@ -91,7 +91,7 @@
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
         <div id="">
             <div id="" class="table-responsive">
-                <p id=" " class="banner-con text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
+                <h3 id=" " class="banner-sub ">{{labels?.vehicleDetails}}</h3>
                 <table class="table table-align">
                     <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
                         <tr class="top-border">
@@ -117,7 +117,7 @@
                 </table>
             </div>
             <div class="align-justify table-responsive" id="vf_sheet_second_table">
-                <p id="vf_sheet_tag33" class="banner-con text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
+                <h3 id="" class="banner-sub ">{{labels?.loanApprovedDetails}}</h3>
                 <table class="table " id="table-align">
                     <tbody>
                         <tr>
@@ -228,7 +228,7 @@
                 </div>
             </div>
         </div>
-        <p class="banner-con" id="vf_sheet_text_tag"> <strong>{{labels?.generalTermsAndConditions}}</strong> </p>
+        <h3 class="banner-sub" id="">{{labels?.generalTermsAndConditions}} </h3>
         <div style="line-height:2em;" [innerHTML]="generalTermsAndConditions"></div>
         <div class="align-justify" id="vf_sheet_row_space">
             <div class="row">
@@ -253,9 +253,9 @@
             </div>
         </div>
         <div class="align-justify table-responsive" id="page_break">
-            <h4 class="banner-con text-center">
+            <h3 class="banner-sub ">
                {{labels?.vfSheetTag75}}
-            </h4>
+            </h3>
             <p id="vf_sheet_tag76"><strong> {{labels?.vfSheetTag76}} </strong></p>
             <p id="vf_sheet_tag77"> {{labels?.vfSheetTag77}} </p>
             <p id="vf_sheet_tag78"> {{labels?.vfSheetTag78}} </p>

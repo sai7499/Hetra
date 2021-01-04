@@ -13,6 +13,9 @@
       margin-bottom: 3px;
     }
     
+    .headingTwo{
+        padding:3px;
+    }
     label.col-form-label {
       width: 62%;
       padding-right: 0px;
@@ -339,7 +342,7 @@
     background: #1d1a4b url(../../../../assets/images/action-eye-hover-icon.png) no-repeat 5px;
   }
   .marb-100 {
-      margin-bottom: 100px;
+      margin-bottom: 50px;
   }
 
 .tranch-inner-heading {

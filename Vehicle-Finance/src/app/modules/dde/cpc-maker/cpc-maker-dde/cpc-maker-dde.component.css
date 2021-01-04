@@ -428,6 +428,7 @@ select#select_main_button_match {
 
 .scrollmenu{
     visibility: hidden;
+    display: none;
   }
 
   div.scrollmenu {
@@ -459,6 +460,7 @@ div.scrollmenu a:hover {
     
     .scrollmenu{
         visibility:visible!important;
+        display: block;
       }
     
       .main-tab{

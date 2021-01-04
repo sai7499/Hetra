@@ -7,6 +7,9 @@
 .form-group.mb-0 {
     margin-bottom: 0px;
 }
+.btn-div{
+    margin-top:10px;
+}
 .table.mb-0 {
     margin-bottom: 0px;
 }
@@ -48,7 +51,7 @@ th{border:1px solid #d6d0d0f5;}
 	color: #fff;
 text-align: center;
 border: 1px solid #ddd;
-background-color: #272264;
+/* background-color: #272264; */
 padding: 1px;
 font-size: 16px;
 }
@@ -58,7 +61,7 @@ font-size: 16px;
 .cam_table_proposed > tbody > tr > td {padding:1px;}
 .cam_table.mt-3{margin-top:0px;}
 .cam_table > tbody > tr > td:nth-child(odd) { background-color : #f7f7f7; }
-.for_space{height:100px;}
+.for_space{height:20px;}
 .credit_officer{width:100%;}
 .for_100{width:100% !important;}
 
@@ -95,7 +98,7 @@ font-size: 16px;
 .footer{display:none;}
 }
 .btn-sec{
-    padding: 0px 0 30px 0;
+    padding: 0px 0 10px 0;
 }
 .btn-sec .btn {
     margin: 10px 4px;
