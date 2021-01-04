@@ -382,7 +382,7 @@
                coApplicantForm.get('dedupe').get('aadhar').touched ||
                isDirty
              " class="ShowError">
-                    <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value == '' 
+                    <div *ngIf="!coApplicantForm.get('dedupe').get('aadhar').value 
                   ">Aadhaar Number is required</div>
                   </div>
 
