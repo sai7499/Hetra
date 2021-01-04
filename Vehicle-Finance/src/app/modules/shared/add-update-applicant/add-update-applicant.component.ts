@@ -3896,11 +3896,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         const upperCaseValue = value ? value.toUpperCase() : value;
         this.enableDedupeBasedOnChanges(upperCaseValue !== this.passportNumber);
         this.isPassportChanged = upperCaseValue !== this.passportNumber;
-        if (!this.isPanDisabled) {
-          this.isVoterRequired = false;
-          dedupe.get('voterIdNumber').clearValidators();
-          dedupe.get('voterIdNumber').updateValueAndValidity()
-        }
+        // if (!this.isPanDisabled) {
+        //   this.isVoterRequired = false;
+        //   dedupe.get('voterIdNumber').clearValidators();
+        //   dedupe.get('voterIdNumber').updateValueAndValidity()
+        // }
       } else {
         this.isPassportChanged = true;
       }
