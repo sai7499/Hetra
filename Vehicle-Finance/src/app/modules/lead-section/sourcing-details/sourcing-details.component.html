@@ -1,9 +1,11 @@
 <div class="content">
   <form class="multisteps-form__form" [formGroup]="sourcingDetailsForm" autocomplete="off">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-     
+
       <div class="row">
-        <h3 class="banner-con">Lead Details ({{udfScreenId}}) </h3>
+        <h3 class="banner-con">{{labels.leadDetails}}
+          <span class="float-right">{{udfScreenId}}</span>
+        </h3>
       </div>
 
       <div class="row">
