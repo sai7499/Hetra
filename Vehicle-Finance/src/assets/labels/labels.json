@@ -1817,6 +1817,7 @@
     "goToDashboard": "Go To Dashboard",
     "submitValuation": "Are you sure you want to submit task?",
     "wizardId": "Wizard ID",
+    "affordableEMI": "Affordable EMI",
     "relationshipType":"Relationship Type",
     "validationData": {
         "name": {

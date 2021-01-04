@@ -469,7 +469,7 @@ export class TeleVerificationFormComponent implements OnInit {
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
       if(appiyoError == '0' && apiError == '0' ) {
-        this.toasterService.showSuccess('Record Submittd Successfully !', '');
+        this.toasterService.showSuccess('Record Submitted Successfully !', '');
         this.router.navigate([`pages/dde/${this.leadId}/tvr-details`]);
       } else {
         this.toasterService.showError(response.ProcessVariables.error.message, '');

@@ -21,6 +21,16 @@ body{
     width:200%;
  }
 
+ .typeId {
+    width: 100;
+    position: absolute;
+    width: 100%;
+    color: gray;
+    left: 87px;
+    /* font-weight: bolder; */
+    opacity: 0.5;
+ }
+
 @media (min-width:300px) and (max-width:767px) {
     .img-style {
        width:100%;

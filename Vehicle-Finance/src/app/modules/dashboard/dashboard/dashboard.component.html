@@ -588,10 +588,10 @@
                         <th  >{{labels?.product}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                                 (click)="onSort(sortTables?.ByProduct)"> </i> </th>
-                        <th>{{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                 (click)="onSort(sortTables?.ByLoanAmt)"> </i> </th>
-                        <th>{{labels?.applicant+'s'}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.applicant+'s'}} </th>
                         <th>{{labels?.createdOn}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByDate === sortTab}"
                                 (click)="onSort(sortTables?.ByDate)"> </i> </th>
@@ -601,7 +601,8 @@
                         <th >{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"
                                 (click)="onSort(sortTables?.ByStage)"> </i> </th>
-                        <th>{{labels?.history}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.history}} </th>
+                        <th *ngIf="roleId == 86 || roleId == 65 || roleId == 83 || roleId == 66">{{labels?.branchName}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -714,6 +715,7 @@
                                 data-placement="bottom" (click)="onLeadHistory(item.leadId)"> <i
                                     class="fa fa-history"></i></a>
                         </td>
+                        <td *ngIf="roleId == 86 || roleId == 65 || roleId == 83 || roleId == 66">{{item.branchName ? item.branchName : '--'}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -765,8 +767,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr
-                            *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+                        <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index" 
+                        [ngClass]="{'failedLeads': item.isLoanBookingFailed && displayTabs?.LoanBooking === activeTab}">
                             <td [attr.data-label]="labels?.action"
                                 *ngIf="onReleaseTab && displayTabs?.PDDforCPC === activeTab">
                                 <input type="button" class="btn btn-primary"
