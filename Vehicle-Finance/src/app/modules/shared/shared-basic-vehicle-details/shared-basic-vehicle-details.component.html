@@ -149,7 +149,7 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > maxDate
+                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > toDayDate
                                 ||  obj.controls['manuFacMonthYear'].value < minDate)">
                                 Invalid Date
                             </div>
@@ -225,9 +225,9 @@
                             <app-custom-input formControlName="assetCostIBB"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
-                                (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_indian'"
-                                (change)="onCompareFinalAssetCode($event)"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
+                                (keyup)="onCompareFinalAssetCode($event, obj)"
+                                (change)="onCompareFinalAssetCode($event, obj)" [id]="'asset_cost_indian'"
                                 [placeholder]="'Asset Cost basis Indian Bluebook'">
                             </app-custom-input>
 
@@ -241,8 +241,8 @@
                             <app-custom-input formControlName="assetCostCarTrade"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
-                                (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
-                                (change)="onCompareFinalAssetCode($event)"
+                                (keyup)="onCompareFinalAssetCode($event, obj)"
+                                (change)="onCompareFinalAssetCode($event, obj)" [id]="'asset_cost_car'"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Asset Cost basis Carwale'">
                             </app-custom-input>
