@@ -9,7 +9,7 @@
           </div>
         </div>
         <div>
-          <h4 class="">{{ labels?.leadReferenceDetails }}</h4>
+          <h4 class="banner-sub">{{ labels?.leadReferenceDetails }}</h4>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="productCode">{{labels?.productLMSCode}}
             </label>
@@ -96,8 +96,8 @@
           </div>
         </div>
         <div *ngFor="let ticket of t.controls; let i = index">
-          <h4 *ngIf="t.controls.length>1" class="banner-con">{{ labels?.assetDetails }} - {{i +1}}</h4>
-          <h4 *ngIf="t.controls.length ==1" class="banner-con">{{ labels?.assetDetails }}</h4>
+          <h4 *ngIf="t.controls.length>1" class="banner-sub">{{ labels?.assetDetails }} - {{i +1}}</h4>
+          <h4 *ngIf="t.controls.length ==1" class="banner-sub">{{ labels?.assetDetails }}</h4>
           <div *ngIf="this.productCategoryList" [formGroup]="ticket">
             <div class="form-group">
               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="vehicleModel">{{ labels?.VehicleModel }}
@@ -201,7 +201,7 @@
               </div>
             </div>
             <div class="form-group">
-              <b>{{ labels?.crossSellInsurance }}</b>
+              <b class="banner-sub">{{ labels?.crossSellInsurance }}</b>
             </div>
             <div *ngIf="InsuranceProvidersLabel" formGroupName="CrossSellInsurance">
               <!-- <div *ngFor="let ins of createNegotiationForm.controls.CrossSellInsurance['controls'][i].controls"> -->
@@ -416,7 +416,7 @@
             <!-- </div> -->
             <!-- </div> -->
             <div class="form-group">
-              <b>{{ labels?.CrossSellFASTag }}</b>
+              <h3 class="banner-sub">{{ labels?.CrossSellFASTag }}</h3>
             </div>
             <div>
             </div>
@@ -489,7 +489,7 @@
           </div>
         </div>
         <div>
-          <h4 class="banner-con">{{ labels?.negotiationTitle }}</h4>
+          <h4 class="banner-sub">{{ labels?.negotiationTitle }}</h4>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanAmount">{{
               labels?.NegotiatedLoanAmount }}
@@ -602,7 +602,7 @@
             </label>
           </div>
           <div class="form-group">
-            <b>{{ labels?.DeductionsCharges }}</b>
+            <h3 class="banner-sub">{{ labels?.DeductionsCharges }}</h3>
           </div>
           <div *ngFor="let ticket1 of t1.controls; let i = index">
             <div [formGroup]="ticket1">
@@ -632,7 +632,7 @@
           </div>
         </div>
         <div>
-          <h4 class="banner-con">{{ labels?.repaymentMode}}</h4>
+          <h4 class="banner-sub">{{ labels?.repaymentMode}}</h4>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentMode">{{labels?.repaymentMode}}
             </label>
