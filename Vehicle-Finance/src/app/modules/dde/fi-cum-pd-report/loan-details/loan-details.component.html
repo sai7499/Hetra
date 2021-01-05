@@ -361,7 +361,7 @@
           <label for="fitness_date">{{ labels.fitnessDate1 }} <sub class="star_red_col">*</sub></label>
 
           <kendo-datepicker width="100%" class="form-control mandatory" formControlName="fitnessValidity"
-            [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'" [min]="toDayDate">
+            [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'">
           </kendo-datepicker>
           <div class="invalid-feedback">
             <div *ngIf="
@@ -374,12 +374,12 @@
                 fitness validity is required
               </div>
             </div>
-            <div *ngIf="
+            <!-- <div *ngIf="
             loanDetailsForm.controls['fitnessValidity'].value &&
             loanDetailsForm.controls['fitnessValidity'].errors
           ">
               Validity date should not be past date
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
