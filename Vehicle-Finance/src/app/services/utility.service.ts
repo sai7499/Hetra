@@ -15,6 +15,7 @@ export class UtilityService {
     private ngxUiLoaderService: NgxUiLoaderService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService, private idleTimerService: IdleTimerService) { }
 
   logOut() {
+    this.idleTimerService.cleanUp();
     this.httpService.logOut().subscribe(
       (res) => {
         this.ngxUiLoaderService.stop();
@@ -23,8 +24,7 @@ export class UtilityService {
         this.ngxUiLoaderService.stop();
       }
 
-    );
-    this.idleTimerService.cleanUp();
+    );    
     this.removeAllLocalStorage();
     this.toggleDdeService.clearToggleData();   
 
@@ -50,7 +50,7 @@ export class UtilityService {
     this.router.navigateByUrl('/login');
     this.sharedService.getUserName('');
     this.dashboardService.routingData = '';
-    console.clear();  
+    // console.clear();  
   }
 
   getDateFormat(date) {

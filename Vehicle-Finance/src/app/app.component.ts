@@ -457,6 +457,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showTimerModal = false;
     this.timer = this.idleTimerService.getModalTimer();
     clearInterval(this.sessionIntervalId);
+    this.idleTimerService.cleanUp();
     this.utilityService.logOut();   
    
   }
