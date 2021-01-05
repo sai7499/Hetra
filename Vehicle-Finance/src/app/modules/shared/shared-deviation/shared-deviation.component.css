@@ -345,6 +345,14 @@
       text-align-last: center;
   }
 
+  .cus-left-align {
+    text-align-last: inherit !important;
+  }
+
+  .action-color {
+    background-color: #08f36166;
+  }
+
   .wid-10 {
       width: 10%;
       text-align-last: center;
