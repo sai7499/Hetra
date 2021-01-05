@@ -175,12 +175,12 @@ export class NegotiationComponent implements OnInit {
     this.onChangeLanguage('English');
     this.isLoan360 = this.loanViewService.checkIsLoan360()
     if (this.isLoan360) {
-        const path = this.location.path().split('/').filter((val) => val !== ' ');
-        const leadId = path.find((value: any) => {
-          value = Number(value);
-          return !isNaN(Number(value)) && value !== 0;
-        })
-        this.leadId = Number(leadId)
+      const path = this.location.path().split('/').filter((val) => val !== ' ');
+      const leadId = path.find((value: any) => {
+        value = Number(value);
+        return !isNaN(Number(value)) && value !== 0;
+      })
+      this.leadId = Number(leadId)
     } else {
       this.getLeadId();
     }
@@ -190,7 +190,7 @@ export class NegotiationComponent implements OnInit {
     this.getInsuranceLOV();
     this.loadForm();
 
-    
+
 
     // setTimeout(() => {
     // }, 1500);
@@ -269,7 +269,7 @@ export class NegotiationComponent implements OnInit {
       NegotiatedLoanTenor: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(3)]],
       NegotiatedIRR: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(5)]],
       NegotiatedEMI: ['', [Validators.required]],
-      MoratoriumPeriod: ['', [Validators.required]],
+      MoratoriumPeriod: ['',[Validators.required]],
       EMICycle: ['', [Validators.required]],
       // EMIStartDateAfterDisbursement: [''],
       PaymentModeforGapDaysInterest: ['', [Validators.required]],
@@ -405,8 +405,8 @@ export class NegotiationComponent implements OnInit {
       this.fastTagAmtSum += Number(ticket['controls'].fastTag['controls'].FASTagAmount.value)
     })
     this.createNegotiationForm.patchValue({
-      NetDisbursementAmount: (Math.round(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) - 
-      Math.round(sumValue + this.fastTagAmtSum + this.PremiumAmntSum)).toFixed(2)
+      NetDisbursementAmount: (Math.round(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) -
+        Math.round(sumValue + this.fastTagAmtSum + this.PremiumAmntSum)).toFixed(2)
     });
   }
   isDecimal = (event) => {
@@ -676,6 +676,7 @@ export class NegotiationComponent implements OnInit {
           this.EMIStartDateLOV = this.EMIStartDateLOV;
           this.FASTagReqLOV = this.FASTagReqLOV
           this.MoratoriumDaysLOV = res.ProcessVariables.MoratoriumDaysLOV;
+
           this.RepaymentLOV = res.ProcessVariables.RepaymentLOV;
         }
         else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
@@ -875,6 +876,7 @@ export class NegotiationComponent implements OnInit {
               this.PACButtonFlag.push(false);
               this.lifeButtonFlag.push(false);
               this.VASButtonFlag.push(false);
+              console.log("mopr0",this.MoratoriumDaysLOV)
               this.t.push(
                 this.fb.group({
                   vehicleModel: [{ value: this.AssetDetailsList[i].VehicleModel, disabled: true }],
@@ -897,7 +899,7 @@ export class NegotiationComponent implements OnInit {
                   NegotiatedLoanTenor: ['',],
                   NegotiatedIRR: ['',],
                   NegotiatedEMI: ['',],
-                  MoratoriumPeriod: ['',],
+                  MoratoriumPeriod: [{ value: this.MoratoriumDaysLOV[0].key, disabled: true }],
                   EMICycle: ['',],
                   // EMIStartDateAfterDisbursement: ['',],
                   PaymentModeforGapDaysInterest: ['',],
@@ -930,15 +932,19 @@ export class NegotiationComponent implements OnInit {
                     })
                   }),
                   fastTag: this.fb.group({
-                    EquitasFASTagRequired: this.view == false ? this.FASTagReqLOV[0].key : null,
-                    FASTagAmount: [this.view == false ? '' : null, [Validators.maxLength(10)]],
-                    fundingRequiredforFASTag: this.view == false ? this.tempDataFundingRequiredLOV[0].key : null,
+                    EquitasFASTagRequired: this.view == false ? this.FASTagReqLOV[1].key : null,
+                    FASTagAmount: [this.view == false ? {value:'', disabled : true} : null, [Validators.maxLength(10)]],
+                    fundingRequiredforFASTag: [this.view == false ? { value: this.tempDataFundingRequiredLOV[1].key, disabled: true } : null],
                     LoanAmountincludingCrossSell: [{ value: '', disabled: true }],
                   }),
+
                 }));
+               
             }
-          }
+            this.createNegotiationForm.get('MoratoriumPeriod').setValue(this.MoratoriumDaysLOV[0].key);
           
+          }
+
         }
         else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
@@ -1059,26 +1065,26 @@ export class NegotiationComponent implements OnInit {
     }
     else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) < Number(this.minLoanAmount)) ||
       (Number(this.createNegotiationForm.controls.NegotiatedLoanAmount.value) > Number(this.maxLoanAmount))) {
-      this.toasterService.showError("Negotiated Loan Amount should be within" + ' ' + this.minLoanAmount + ' ' + 
-       'and' + ' '+ this.maxLoanAmount, ''),
+      this.toasterService.showError("Negotiated Loan Amount should be within" + ' ' + this.minLoanAmount + ' ' +
+        'and' + ' ' + this.maxLoanAmount, ''),
         this.onformsubmit = false;
     }
     else if ((Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) < Number(this.minLoanTenor)) ||
       (Number(this.createNegotiationForm.controls.NegotiatedLoanTenor.value) > Number(this.maxLoanTenor))) {
-        this.toasterService.showError("Negotiated Loan Tenor should be within" + ' ' + this.minLoanTenor + ' ' + 
-        'and' + ' '+ this.maxLoanTenor, ''),
+      this.toasterService.showError("Negotiated Loan Tenor should be within" + ' ' + this.minLoanTenor + ' ' +
+        'and' + ' ' + this.maxLoanTenor, ''),
         this.onformsubmit = false;
     }
     else if ((Number(this.createNegotiationForm.controls.NegotiatedEMI.value) < Number(this.minEMIAmount)) ||
       (Number(this.createNegotiationForm.controls.NegotiatedEMI.value) > Number(this.maxEMIAmount))) {
-        this.toasterService.showError("Negotiated EMI should be within" + ' ' + this.minEMIAmount + ' ' + 
+      this.toasterService.showError("Negotiated EMI should be within" + ' ' + this.minEMIAmount + ' ' +
         'and' + ' ' + this.maxEMIAmount, ''),
         this.onformsubmit = false;
     }
     else if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {
       this.getLeadId();
       const formData = this.createNegotiationForm.getRawValue();
-      this.Applicants=[];
+      this.Applicants = [];
       this.LeadReferenceDetails.forEach((element) => {
         var obj = {
           ucic: element.UCIC,
@@ -1163,7 +1169,7 @@ export class NegotiationComponent implements OnInit {
       var array1 = [];
       var data = {};
       var data1 = {};
-      this.finalAsset=[];
+      this.finalAsset = [];
       const crossSellIns = formData.tickets.forEach((ticket, index) => {
         var obj = {
           collateral_id: this.AssetDetailsList[index].CollateralId ? this.AssetDetailsList[index].CollateralId : "",
@@ -1544,7 +1550,7 @@ export class NegotiationComponent implements OnInit {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
     } else if (this.roleType == '5') {
       this.router.navigate([`pages/cpc-checker/${this.leadId}/check-list`]);
-    }else if (this.roleType == '7') {
+    } else if (this.roleType == '7') {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
     }
     // this.router.navigateByUrl(`pages/credit-decisions/${this.leadId}/disbursement`)
@@ -1555,9 +1561,9 @@ export class NegotiationComponent implements OnInit {
     }
     if (this.roleType == '1') {
       this.router.navigate([`pages/credit-decisions/${this.leadId}/term-sheet`]);
-    }else if(this.roleType == '7'){
+    } else if (this.roleType == '7') {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/sanction-details`]);
-      
+
     }
     // else if (this.roleType == '2') {
     //   this.router.navigate([`pages/credit-decisions/${this.leadId}/credit-condition`]);
