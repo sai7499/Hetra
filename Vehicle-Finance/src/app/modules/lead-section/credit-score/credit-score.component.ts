@@ -21,6 +21,9 @@ interface CibilData {
   productId?: string;
   totalAmount: number;
   ageAfterTenure: number;
+  ageOfAssetInMonths: any;
+  loanTenorInMonths: any;
+  ageOfLoanTenureInMonths: any;
 }
 @Component({
   selector: 'app-credit-score',
