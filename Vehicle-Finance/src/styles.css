@@ -1247,3 +1247,7 @@ th {
     text-align: left;
     text-align: center
 }
+
+.float-right {
+    float: right;
+}

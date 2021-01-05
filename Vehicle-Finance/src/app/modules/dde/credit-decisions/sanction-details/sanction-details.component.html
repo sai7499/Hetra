@@ -12,7 +12,6 @@
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="text-align: left;" id="vf_sheet_tag8">
                 <img class="img-style" src="assets\images\equitas-logo.png">
-            <!-- <div id="typeId" class="typeId"></div> -->
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 font-fam" style="text-align: right; ">
                 <p><span
@@ -90,6 +89,7 @@
         <!-- <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}</strong>&nbsp;&nbsp;<sup>{{this.leadId}}</sup></p> -->
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
         <div id="">
+        <p id="typeId" class="typeId"></p>
             <div id="" class="table-responsive">
                 <h3 id=" " class="banner-sub ">{{labels?.vehicleDetails}}</h3>
                 <table class="table table-align">
@@ -219,6 +219,7 @@
                         <!-- <p id="vf_sheet_tag43"><strong> {{labels?.coBorrower2Signature}} </strong></p> -->
                     </div>
                 </div>
+        <p id="typeId1" class="typeId"></p>
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
                     <div class="mar-top" *ngFor="let guarantor of guarantorList; let i = index">
                         <p id="vf_sheet_tag44"><strong> {{guarantor?.applicantType}} {{i+1}} {{labels?.signature}}
@@ -256,6 +257,7 @@
             <h3 class="banner-sub ">
                {{labels?.vfSheetTag75}}
             </h3>
+        <p id="typeId2" class="typeId"></p>
             <p id="vf_sheet_tag76"><strong> {{labels?.vfSheetTag76}} </strong></p>
             <p id="vf_sheet_tag77"> {{labels?.vfSheetTag77}} </p>
             <p id="vf_sheet_tag78"> {{labels?.vfSheetTag78}} </p>
@@ -341,8 +343,8 @@
             <!-- <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submit}}</button> -->
                 <!-- <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf()" type="button">{{'Download'}}</button> -->
-                <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf('Customer')" type="button">{{'Download Customer Copy'}}</button>
-                <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf('Bank')" type="button">{{'Download Bank Copy'}}</button>
+                <button class="btn btn-primary btn_div" id="btn" *ngIf="!isLoan360" (click)="downloadpdf('CUSTOMER')" type="button">{{'Download Customer Copy'}}</button>
+                <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf('BANK')" type="button">{{'Download Bank Copy'}}</button>
 
 
         </div>

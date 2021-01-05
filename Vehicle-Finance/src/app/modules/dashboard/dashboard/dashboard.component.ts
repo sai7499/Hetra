@@ -168,8 +168,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isLog;
   isAmountChange: boolean;
   isLoadLead = true;
-  onAssignTab: boolean;
-  onReleaseTab: boolean;
+  onAssignTab = false;
+  onReleaseTab = false;
 
   // Query Model
   leadCount: number = 0;
@@ -764,6 +764,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 58:
         this.isBM = false;
         this.getExternalUserLeads(this.itemsPerPage, event);
+        console.log(this.onReleaseTab);
+        
       default:
         break;
     }
@@ -943,7 +945,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.toggleDdeService.clearToggleData();
     }
 
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads ||
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads || this.activeTab === this.displayTabs.ExternalUserDashboard ||
       this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;

@@ -61,7 +61,7 @@ export class IdleTimerService {
     private startInterVal() {
         this.updateExpiredTime();
         this.interval = setInterval(() => {
-            console.log('timer 1');
+            // console.log('timer 1');
             const expiredTime = Number(localStorage.getItem('_expiredTime'));
             if(Date.now()   >= expiredTime - (this.MODAL_TIMER * 1000)) {
                 this.$timer.next('alert');
