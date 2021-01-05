@@ -22,9 +22,9 @@
             </tr>
           </thead>
 
-          <tbody *ngFor=" let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let k=index;let l=last"
+          <tbody  *ngFor=" let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let k=index;let l=last"
             [formGroupName]="k">
-            <tr>
+            <tr >
               <td class="wid-30">
                 <p>{{waiver.controls['devDesc'].value}}</p>
               </td>
@@ -124,7 +124,7 @@
           </thead>
           <tbody *ngFor=" let obj of deviationsForm.get('autoDeviationFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
-            <tr>
+            <tr class="accepted-box">
               <td class="wid-30">
                 <p>{{obj.controls['devDesc'].value}}</p>
               </td>
