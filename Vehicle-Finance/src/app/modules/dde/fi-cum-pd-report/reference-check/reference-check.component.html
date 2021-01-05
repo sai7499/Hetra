@@ -2,7 +2,9 @@
   <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV?.LOVS">
 
     <form class="multisteps-form__form" [formGroup]="referenceCheckForm" *ngIf="referenceCheckForm">
-      <h4 class="banner-con">{{ labels.referenceCheckTitle }} ({{udfScreenId}}) </h4>
+      <h4 class="banner-con">{{ labels.referenceCheckTitle }}
+        <span class="float-right">{{udfScreenId}}</span>
+      </h4>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="person_name">{{ labels.personName }} <sub class="star_red_col">*</sub></label>
