@@ -595,10 +595,10 @@
                         <th>{{labels?.createdOn}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByDate === sortTab}"
                                 (click)="onSort(sortTables?.ByDate)"> </i> </th>
-                        <th>{{labels?.createdBy}} </th>
-                        <th>{{labels?.priority}} </th>
-                        <th>{{labels?.promoCode}} </th>
-                        <th >{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.createdBy}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.priority}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.promoCode}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" >{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"
                                 (click)="onSort(sortTables?.ByStage)"> </i> </th>
                         <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.history}} </th>
@@ -701,16 +701,18 @@
                         <td class="text-left" [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}
                         </td>
                         <td class="text-left" [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
-                        <td class="text-right" [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
-                        <td [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-right" [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
                         <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
-                        <td class="text-left"[attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
-                        <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-left"[attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
+                        <ng-container  *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">
+                            <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
                         <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '0' || item.priority == null">
                             No</td>
-                        <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
-                        <td class="text-left" [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
-                        <td [attr.data-label]="labels?.history">
+                        </ng-container>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-left" [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" [attr.data-label]="labels?.history">
                             <a data-toggle="modal" data-target="#leadHistoryModal" data-tooltip="Lead History"
                                 data-placement="bottom" (click)="onLeadHistory(item.leadId)"> <i
                                     class="fa fa-history"></i></a>
