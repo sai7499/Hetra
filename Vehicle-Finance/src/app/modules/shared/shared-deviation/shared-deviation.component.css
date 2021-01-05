@@ -11,6 +11,10 @@
   border-top: 0px;
   }
 
+  .accepted-box{
+    background-color:rgb(111, 245, 111);
+  }
+
   #get_role_details_btn{
     padding:2px;
   }

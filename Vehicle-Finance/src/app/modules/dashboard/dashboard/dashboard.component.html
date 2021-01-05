@@ -1,6 +1,6 @@
 <main class="mar-top90 main-tab">
     <div class="container-fluid">
-        <div *ngIf="supervisorName" style="float: left; margin-left: 5px;">
+        <div *ngIf="supervisorName" >
             <h4 class="banner-con">Viewing {{supervisorName}}'s Dashboard</h4>
         </div>
         <div class="pull-right dropdown nav">
@@ -14,7 +14,7 @@
               <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter Applied</button>
           </div> -->
 
-            <div class="pull-right dropdown nav" style="margin-right: 10px">
+            <div class="pull-right dropdown nav" >
                 <button *ngIf="supervisorName" class=" mar-right" (click)="onBack()" class="btn btn-primary">
                     Back
                 </button>
