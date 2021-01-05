@@ -14,6 +14,7 @@ import { filter } from 'rxjs/operators'
 import { IdleTimerService } from '@services/idle-timer.service';
 import value from '*.json';
 import { Location } from '@angular/common';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-root',
@@ -211,8 +212,11 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router,private utilityService: UtilityService,private sharedService: SharedService, private idleTimerService: IdleTimerService,
-              private location: Location) {}
+              private router: Router,private utilityService: UtilityService,
+              private sharedService: SharedService,
+              private idleTimerService: IdleTimerService,
+              private location: Location,
+              private labelsData: LabelsService) {}
 
   ngOnInit() {
 
@@ -459,6 +463,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.idleTimerService.cleanUp();
-    clearInterval(this.sessionIntervalId);
+    clearInterval(this.sessionIntervalId);    
   }
 }
