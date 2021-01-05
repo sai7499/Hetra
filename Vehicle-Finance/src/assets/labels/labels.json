@@ -695,7 +695,7 @@
     "bankingSummaryTitle": "BANKING SUMMARY",
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
-    "keyFinancialTitle": "KEY FINANCIAL",
+    "keyFinancialTitle": "Key Financial",
     "shareCapital": "Share Capital",
     "lorryHireChargesPaid": "Lorry hire charges paid (Freight charges )",
     "netProfitAfterTaxA": "Net Profit after Tax (A)",
@@ -2165,7 +2165,7 @@
         },
         "drivingLicense": {
             "maxLength": {
-                "rule": 18
+                "rule": 17
             },
             "minLength": {
                 "rule": 12,
@@ -2711,7 +2711,7 @@
                 "msg": "Should be 6 Digits"
             },
             "patternCheck": {
-                "rule": "^[0-9]{6}",
+                "rule": "^(?!0{6})[0-9]{6}",
                 "msg": "Invalid Number"
             },
             "type": "number"

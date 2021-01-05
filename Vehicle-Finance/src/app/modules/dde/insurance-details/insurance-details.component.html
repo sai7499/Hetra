@@ -1,8 +1,11 @@
 <div class="content">
     <form [formGroup]="insuranceDetailForm " class="heading-style">
-        <div class="row">            
+        <div class="row">
             <div class="row">
-                <h5 class="banner-con">Motor Insurance Details  ({{udfScreenId}}) </h5>
+                <h5 class="banner-con">Insurance Details
+                    <span class="float-right">{{udfScreenId}}</span>
+                </h5>
+                <h5 class="banner-sub">Motor Insurance Details </h5>
                 <div class=" form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="spoke_code_location" class="asset_type">{{labels?.motorInsuranceRequired}}<sub
                             class="star_red_col">*</sub></label>
@@ -34,7 +37,7 @@
 
                     </app-vf-custom-select>
                 </div>
-               
+
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="needForProposedVehicle" class="ellipsify">Vehicle Type <sub
                             class="star_red_col">*</sub></label>
@@ -98,19 +101,14 @@
 
                     </app-vf-custom-select> -->
                     <div class="ng-autocomplete" style="width:100%">
-                        <ng-autocomplete [data]="rtoCentreList" 
-                            [searchKeyword]="'value'"
-                            (inputChanged)='getRtoDetails($event)' 
-                            [itemTemplate]="dealerCodeTemplate"
-                            [notFoundTemplate]="notFoundTemplate" 
-                            formControlName="rtoCentre"
-                            [placeHolder]="'Rto Center'" 
-                            [minQueryLength]="4"
-                            (selected)='selectRtoEvent($event)'>
+                        <ng-autocomplete [data]="rtoCentreList" [searchKeyword]="'value'"
+                            (inputChanged)='getRtoDetails($event)' [itemTemplate]="dealerCodeTemplate"
+                            [notFoundTemplate]="notFoundTemplate" formControlName="rtoCentre"
+                            [placeHolder]="'Rto Center'" [minQueryLength]="4" (selected)='selectRtoEvent($event)'>
                         </ng-autocomplete>
                         <div class="invalid-feedback" *ngIf="!isRtoCenter">
-                          <div > Rto center required.</div>
-                        </div>           
+                            <div> Rto center required.</div>
+                        </div>
                         <ng-template #dealerCodeTemplate let-item>
                             <a [innerHTML]="item.value"></a>
                         </ng-template>
@@ -161,25 +159,20 @@
                         <app-custom-input id="typeOfApplicant" formControlName="typeOfApplicant" [isDisabled]="true">
                         </app-custom-input>
                     </div>
-               
 
-                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                    <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}} <sub
-                            class="star_red_col">*</sub></label>
-                    <!-- formControlName="contractDetails" -->
-                    <app-custom-input 
-                        id="usedCoverageAmount1" 
-                        formControlName="usedCoverageAmount"
-                        [className]="'form-control mandatory'" 
-                        [placeholder]="'Enter used coverage amount'"
-                        [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                        [isRequired]="'Please enter  used coverage amount'"
-                        [type]="labels?.validationData.amountValue?.type" 
-                        [isDirty]="isDirty"
-                       >
-                    </app-custom-input>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                        <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}} <sub
+                                class="star_red_col">*</sub></label>
+                        <!-- formControlName="contractDetails" -->
+                        <app-custom-input id="usedCoverageAmount1" formControlName="usedCoverageAmount"
+                            [className]="'form-control mandatory'" [placeholder]="'Enter used coverage amount'"
+                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                            [isRequired]="'Please enter  used coverage amount'"
+                            [type]="labels?.validationData.amountValue?.type" [isDirty]="isDirty">
+                        </app-custom-input>
+                    </div>
                 </div>
-            </div>
             </div>
             <div class="row" *ngIf="showCreditDetails">
                 <h5 class="banner-sub">{{labels?.nomineeDetails}}</h5>
@@ -187,40 +180,29 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}} <sub
                                 class="star_red_col">*</sub></label>
-                        <app-custom-input id="needForProposedVehicle" 
-                            formControlName="nomineeFirstName"
-                            [className]="'form-control mandatory'" 
-                            [placeholder]="'Enter nominee first name'"
+                        <app-custom-input id="needForProposedVehicle" formControlName="nomineeFirstName"
+                            [className]="'form-control mandatory'" [placeholder]="'Enter nominee first name'"
                             [maxLength]="labels?.validationData?.name?.maxLength"
-                            [isRequired]="'Please enter nominee first name'"
-                            [type]="labels?.validationData.name?.type" 
-                            [isDirty]="isDirty"
-                            (keyup)="concatNomineeName()">
+                            [isRequired]="'Please enter nominee first name'" [type]="labels?.validationData.name?.type"
+                            [isDirty]="isDirty" (keyup)="concatNomineeName()">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="routeOfOperation" class="ellipsify">{{labels?.middleName}}</label>
-                        <app-custom-input id="routeOfOperation" 
-                            formControlName="nomineeMiddleName"
-                            [className]="'form-control mandatory'" 
-                            [placeholder]="'Enter nominee middle name'"
+                        <app-custom-input id="routeOfOperation" formControlName="nomineeMiddleName"
+                            [className]="'form-control mandatory'" [placeholder]="'Enter nominee middle name'"
                             [maxLength]="labels?.validationData?.name?.maxLength"
-                            [type]="labels?.validationData.name?.type" 
-                            (keyup)="concatNomineeName()">
+                            [type]="labels?.validationData.name?.type" (keyup)="concatNomineeName()">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.lastName}} <sub
                                 class="star_red_col">*</sub></label>
-                        <app-custom-input id="contractDetails" 
-                            formControlName="nomineeLastName"
-                            [className]="'form-control mandatory'" 
-                            [placeholder]="'Enter nominee last name'"
+                        <app-custom-input id="contractDetails" formControlName="nomineeLastName"
+                            [className]="'form-control mandatory'" [placeholder]="'Enter nominee last name'"
                             [maxLength]="labels?.validationData?.name?.maxLength"
-                            [isRequired]="'Please enter nominee last name'"
-                            [type]="labels?.validationData.name?.type" 
-                            [isDirty]="isDirty"
-                            (keyup)="concatNomineeName()">
+                            [isRequired]="'Please enter nominee last name'" [type]="labels?.validationData.name?.type"
+                            [isDirty]="isDirty" (keyup)="concatNomineeName()">
 
                         </app-custom-input>
                     </div>
@@ -228,10 +210,8 @@
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
-                        <app-custom-input id="needForProposedVehicle" 
-                            formControlName="nomineeFullName"
-                            [className]="'form-control mandatory'" 
-                            [placeholder]="'Enter nominee full name'"                            
+                        <app-custom-input id="needForProposedVehicle" formControlName="nomineeFullName"
+                            [className]="'form-control mandatory'" [placeholder]="'Enter nominee full name'"
                             [isDisabled]="true">
                         </app-custom-input>
                     </div>
@@ -306,23 +286,19 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.addressline2 }}</label>
                         <!-- <input formControlName="addressLineTwo" type="text" class="form-control" id="address2" /> -->
-                        <app-custom-input formControlName="nomineeAddLine2" 
-                            [className]="'form-control mandatory'"
+                        <app-custom-input formControlName="nomineeAddLine2" [className]="'form-control mandatory'"
                             [placeholder]="'Enter nominee address'"
-                            [maxLength]="labels?.validationData?.insuranceAddress?.maxLength"                            
-                            [type]="labels?.validationData?.insuranceAddress?.type"                             
-                            [isDirty]="isDirty">
+                            [maxLength]="labels?.validationData?.insuranceAddress?.maxLength"
+                            [type]="labels?.validationData?.insuranceAddress?.type" [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.addressline3 }}</label>
                         <!-- <input formControlName="addressLineThree" type="text" class="form-control" id="address3" /> -->
-                        <app-custom-input formControlName="nomineeAddLine3" 
-                            [className]="'form-control mandatory'"
+                        <app-custom-input formControlName="nomineeAddLine3" [className]="'form-control mandatory'"
                             [placeholder]="'Enter nominee address'"
-                            [maxLength]="labels?.validationData?.insuranceAddress?.maxLength"                           
-                            [type]="labels?.validationData?.insuranceAddress?.type"                             
-                            [isDirty]="isDirty">
+                            [maxLength]="labels?.validationData?.insuranceAddress?.maxLength"
+                            [type]="labels?.validationData?.insuranceAddress?.type" [isDirty]="isDirty">
                         </app-custom-input>
                     </div>
                 </div>
@@ -584,41 +560,41 @@
             </div>
             <!-- Guardian Address Ends -->
         </div>
-       
-            <div class="row" *ngIf="showCreditDetails">
-                <h5 class="banner-sub">Health questions</h5>
-                <!-- <div class="row" *ngFor="let ans  of healthQuestionAns; let i=index">
+
+        <div class="row" *ngIf="showCreditDetails">
+            <h5 class="banner-sub">Health questions</h5>
+            <!-- <div class="row" *ngFor="let ans  of healthQuestionAns; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>
             </div> -->
-                <ol class="line-hgt">
-                    <li class="text-justify" *ngFor="let ans of healthQuestionAns; let i = index">
-                        {{ ans }}
-                    </li>
-                </ol>
+            <ol class="line-hgt">
+                <li class="text-justify" *ngFor="let ans of healthQuestionAns; let i = index">
+                    {{ ans }}
+                </li>
+            </ol>
 
-            </div>
-            <div class="row" *ngIf="showCreditDetails">
-                <h5 class="banner-sub">Covid related questions</h5>
-                <!-- <div class="row" *ngFor="let ans  of covidQuestions; let i=index">
+        </div>
+        <div class="row" *ngIf="showCreditDetails">
+            <h5 class="banner-sub">Covid related questions</h5>
+            <!-- <div class="row" *ngFor="let ans  of covidQuestions; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>      
             </div> -->
-                <ol class="line-hgt">
-                    <li class="text-justify" *ngFor="let ans of covidQuestions; let i = index">
-                        {{ ans }}
-                    </li>
-                </ol>
+            <ol class="line-hgt">
+                <li class="text-justify" *ngFor="let ans of covidQuestions; let i = index">
+                    {{ ans }}
+                </li>
+            </ol>
+        </div>
+        <div class="row" *ngIf="showCreditDetails">
+            <div class="row mar-type row">
+                <p class=" col-lg-6 col-md-6 col-sm-6">Is the answer to any of the below mentioned medical questions
+                    is YES? Select Yes </p>
+
+
+                <app-vf-custom-select class="col-sm-2 col-lg-2 col-md-2" [isRequired]="'Please select one option'"
+                    formControlName="healthQuestion" [values]="healthAns" [isDirty]="isDirty">
+                </app-vf-custom-select>
+
             </div>
-            <div class="row"  *ngIf="showCreditDetails">
-                <div class="row mar-type row">
-                    <p class=" col-lg-6 col-md-6 col-sm-6">Is the answer to any of the below mentioned medical questions
-                        is YES? Select Yes </p>
-
-
-                    <app-vf-custom-select class="col-sm-2 col-lg-2 col-md-2" [isRequired]="'Please select one option'"
-                        formControlName="healthQuestion" [values]="healthAns" [isDirty]="isDirty">
-                    </app-vf-custom-select>
-
-                </div>
         </div>
     </form>
     <!-- <div class="col-lg-12 col-md-12 col-sm-12">
@@ -632,8 +608,9 @@
 
     <div>
         <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-    
+            [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
+        </app-shared-user-defined-fields>
+
     </div>
 
     <div class="btn-sec clear-both row cst_btm_btns">

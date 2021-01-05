@@ -3,7 +3,8 @@
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
       <h3 class="banner-con">
-        Address Details ({{udfScreenId}})
+        Address Details
+        <span class="float-right">{{udfScreenId}}</span>
       </h3>
 
       <div class="btn-sec clear-both row">
@@ -19,7 +20,10 @@
         <div id="individual_section_start" *ngIf="isIndividual" [formGroupName]="0">
           <!-- <h4 class="title">individual</h4> -->
           <div class="btn-sec clear-both row">
-            <div class="col-lg-3 col-sm-5">
+            <div class="col-lg-12 col-sm-12" *ngIf="showAppAddressCheckBox" >
+              <h3 class="banner-sub">Permanent Address</h3>
+            </div>
+            <div class="col-lg-3 col-sm-5" *ngIf="!showAppAddressCheckBox">
               <h3 class="banner-sub">Permanent Address</h3>
             </div>
             <div class="col-lg-3 text-left" id="Same_AppAddress" *ngIf="!showAppAddressCheckBox">
@@ -126,7 +130,10 @@
             </div>
           </div>
           <div class="btn-sec clear-both row">
-            <div class="custom-col-22">
+            <!-- <div class="col-sm-12 col-lg-12"  *ngIf="!showModCurrCheckBox && !showSrField">
+              <h3 class="banner-sub ">Communication Address</h3>
+            </div> -->
+            <div class="custom-col-22 pad-12" >
               <h3 class="banner-sub">Communication Address</h3>
             </div>
             <div class="custom-col-30" id="align_this_texbox">
