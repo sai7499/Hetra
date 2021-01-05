@@ -88,6 +88,7 @@ export class IdleTimerService {
     }
 
     cleanUp() {
+        this.$timer.next('clear');
         clearInterval(this.interval);
         window.removeEventListener('mousemove', this.eventHandler);
         window.removeEventListener('scroll', this.eventHandler);

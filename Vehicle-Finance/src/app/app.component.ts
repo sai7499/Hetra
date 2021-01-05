@@ -236,6 +236,11 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if(value) {
 
+          if (value === 'clear') {
+            clearInterval(this.sessionIntervalId)
+            return
+          }
+
           this.showTimerModal = true;
           this.sessionIntervalId = setInterval(() => {
 
