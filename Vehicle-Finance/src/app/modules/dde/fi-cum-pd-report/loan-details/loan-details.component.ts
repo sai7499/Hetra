@@ -430,7 +430,8 @@ export class LoanDetailsComponent implements OnInit {
       controls.removeControl('remarks');
       controls.removeControl('vehicleContract');
       controls.removeControl('isPrevExpMatched');
-    } else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+    } else if (this.productCatCode !== 'NCV') {
+      // this.productCatCode === 'UCV' || this.productCatCode === 'UC'
       controls.removeControl('newVehicleCost');
       controls.removeControl('newVehModel');
       controls.removeControl('newVehicleType');
@@ -496,7 +497,9 @@ export class LoanDetailsComponent implements OnInit {
         newVehicleReqLoanAmount: newCvModel.reqLoanAmount || '',
         newVehicleMarginMoney: newCvModel.marginMoney || ''
       });
-    } else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+    } else if (this.productCatCode !== 'NCV') {
+
+      // this.productCatCode === 'UCV' || this.productCatCode === 'UC'
 
       this.loanDetailsForm.patchValue({
         // used cv details patching
@@ -664,7 +667,9 @@ export class LoanDetailsComponent implements OnInit {
           }
         });
 
-      } else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+      } else if (this.productCatCode !== 'NCV') {
+
+        // this.productCatCode === 'UCV' || this.productCatCode === 'UC'
 
         // used  vehicle details
 
