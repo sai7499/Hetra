@@ -4,10 +4,12 @@
 
         <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
-
-            <h3 class="banner-con"> {{ label.vehcileDetailsTitle }}
-                <span class="float-right">{{udfScreenId}}</span>
-            </h3>
+            <div class="row">
+                <h3 class="banner-con"> {{ label.vehcileDetailsTitle }}
+                    <span class="float-right">{{udfScreenId}}</span>
+                </h3>
+            </div>
+           
 
             <div id="sales_section_start" *ngIf="roleType === 1">
 

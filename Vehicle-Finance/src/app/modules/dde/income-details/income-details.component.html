@@ -1,5 +1,9 @@
 <!--progress bar-->
+<div class="">
+ 
+
 <form class="multisteps-form__form content p-0" [formGroup]="incomeDetailsForm">
+  <div class="container">
   <h3 class="banner-con">{{ labels?.incomeAndObligationDetailsTitle }}
     <span class="float-right">{{udfScreenId}}</span>
   </h3>
@@ -1293,7 +1297,7 @@
     [udfGroupId]="udfGroupId" [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
   </app-shared-user-defined-fields>
 
-  <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
+  <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
       <button class="btn btn-primary hvr-sweep-to-left" type="button" routerLink="../exposure">
@@ -1307,6 +1311,7 @@
       </button>
     </div>
   </div>
+</div>
 </form>
 
 <div id="overlay" *ngIf="isbusinessIncomeShow">
@@ -1388,4 +1393,6 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>

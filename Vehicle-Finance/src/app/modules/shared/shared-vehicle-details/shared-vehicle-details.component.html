@@ -1,13 +1,13 @@
 <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
-    <div class="container controlWidth">
+    <div class="">
         <div class="btn-sec clear-both row">
-            <div class="col-sm-12 col-lg-12 p-0 ">
+            <div class="col-sm-12 col-lg-12  ">
                 <h4 class="banner-con">{{label.vehcileDetailsTitle}} 
                     <span class="float-right">{{udfScreenId}}</span>
                 </h4>
             </div>
-            <div class="col-sm-12 col-lg-12 text-right p-0" id="add_vehicle_details_btn">
+            <div class="col-sm-12 col-lg-12 text-right " id="add_vehicle_details_btn">
                 <button class="btn btn-primary btn-spc" type="button" [disabled]="disableSaveBtn || isChildLoan"
                     [routerLink]="roleType === 1 ? ['../add-vehicle/0'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details/0']">{{label.addVehicle}}</button>
             </div>
@@ -70,7 +70,7 @@
 
     <div style="margin-top: 15px;" *ngIf="roleType !== 1">
 
-        <div class="container controlWidth">
+        <div class="">
             <div class="btn-sec clear-both row">
                 <div class="col-sm-12 text-right">
                     <button class="btn btn-primary" type="button"

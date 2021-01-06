@@ -1,6 +1,6 @@
-<div class="content">
-    <form class="multisteps-form__form" [formGroup]="fleetForm" *ngIf="this.fleetForm">
-        <div class="container">
+
+    <form class="multisteps-form__form content" [formGroup]="fleetForm" *ngIf="this.fleetForm">
+        <div class="">
             <div class="row">
                 <div class="col-sm-12 p-0">
                     <h3 class="banner-con">Fleet Details
@@ -366,6 +366,6 @@
         </div>
 
     </form>
-</div>
+
 <app-upload-discussion *ngIf="docsFleetDetails" [showUpload]="!!docsFleetDetails" [details]="docsFleetDetails"
     (cancel)="onModalClose()" (save)="saveValidRecords()"></app-upload-discussion>
