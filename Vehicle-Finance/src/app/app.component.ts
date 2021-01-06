@@ -236,6 +236,11 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if(value) {
 
+          if (value === 'clear') {
+            clearInterval(this.sessionIntervalId)
+            return
+          }
+
           this.showTimerModal = true;
           this.sessionIntervalId = setInterval(() => {
 
@@ -245,7 +250,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
             if (this.timer <= 0) {
                 this.showTimerModal = false;
-                this.timer = this.idleTimerService.getModalTimer();
+                // this.timer = this.idleTimerService.getModalTimer();
 
                 clearInterval(this.sessionIntervalId);
                 // this.logout();
@@ -452,12 +457,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.idleTimerService.againAddTimer();
   }
 
-  logout() {
-    this.showExpiryModal = false;
-    this.showTimerModal = false;
+  logout() {    
     this.timer = this.idleTimerService.getModalTimer();
     clearInterval(this.sessionIntervalId);
-    this.utilityService.logOut();   
+    this.idleTimerService.cleanUp();
+    this.utilityService.logOut();  
+    this.showExpiryModal = false;
+    this.showTimerModal = false; 
    
   }
 

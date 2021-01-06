@@ -243,8 +243,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       let ageOfAsset = Number(this.utilityService.ageFromAsset(event)) + '    ( ' + ageOfAssetYear.years + ' Years ' + ageOfAssetYear.months + ' Months ' + ' ) ';
 
-      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.round(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.round(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
-
+      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.floor(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.floor(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
+     
       formArray.controls[0].patchValue({
         ageOfAsset: ageOfAsset,
         ageAfterTenure: ageAfterTenure
@@ -329,7 +329,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.getDynamicFormControls(details)
     }
 
-    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
       this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
     }
   }
@@ -931,7 +931,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         userId: this.userId
       });
 
-    } else if (this.productCatoryCode === 'UCV') {
+    } else if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
       controls = this._fb.group({
         vehicleRegNo: ['', Validators.required],
         region: ['', Validators.required],
@@ -996,7 +996,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   addCreditFormControls() {
     this.productCatoryCode === 'NCV' ? this.addNewCVFormControls() : this.productCatoryCode === 'NC' ? this.addNewcarFormControls :
-      this.productCatoryCode === 'UCV' ? this.addUserCVFormControls() : this.addUserCarFormControls();
+      this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR' ? this.addUserCVFormControls() : this.addUserCarFormControls();
     this.sharedService.getFormValidation(this.basicVehicleForm)
   }
 

@@ -4,7 +4,9 @@
 
         <div class="row">
 
-            <h3 class="banner-con">Viability Details ({{udfScreenId}}) </h3>
+            <h3 class="banner-con">Viability Details 
+                <span class="float-right">{{udfScreenId}}</span>
+            </h3>
 
             <select class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-mar" id="vehicle_viability_navigate"
                 formControlName="type" (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">

@@ -838,7 +838,7 @@
     "netCashFlowEMI": " Net Cash Flow  EMI",
     "obligationsBusinessMonth": "Obligations in business (Loans) per month",
     "viabilityStatus": "Viability Status",
-    "referenceCheckTitle": "Reference Check",
+    "referenceCheckTitle": "PD Reference Check",
     "personName": "Person Name",
     "addressOfThePerson": "Address of the person",
     "contactNumber": "Contact Number",
@@ -1824,6 +1824,7 @@
     "wizardId": "Wizard ID",
     "affordableEMI": "Affordable EMI",
     "relationshipType":"Relationship Type",
+    "pdDoneAt": "PD done at",
     "validationData": {
         "name": {
             "maxLength": {

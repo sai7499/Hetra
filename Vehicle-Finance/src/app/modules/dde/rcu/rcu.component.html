@@ -10,9 +10,8 @@
   <ng-container *ngIf="!isRcuDetails && isErr == true">
 
     <form class="multisteps-form__form" [formGroup]="rcuDetailsForm">
-      <h3 class="banner-con">{{ labels?.rcu }} ({{udfScreenId}})
-        <!-- <span style="float: right;"> <strong>Screen Id :</strong> {{udfScreenId}}</span> -->
-
+      <h3 class="banner-con">{{ labels?.rcu }}
+        <span class="float-right">{{udfScreenId}}</span>
       </h3>
       <!--progress bar-->
       <div class="content">
