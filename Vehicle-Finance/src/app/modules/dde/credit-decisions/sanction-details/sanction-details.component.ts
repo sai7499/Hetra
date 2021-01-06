@@ -11,7 +11,6 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import html2canvas from 'html2canvas';
 import html2pdf from 'html2pdf.js';
-import html2PDF from 'jspdf-html2canvas';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { UploadService } from '@services/upload.service';
 import { map } from 'rxjs/operators';
