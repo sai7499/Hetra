@@ -2,15 +2,16 @@
     <form class="multisteps-form__form" [formGroup]="fleetForm" *ngIf="this.fleetForm">
         <div class="container">
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-sm-11 col-lg-11 p-0">
                     <h3 class="banner-con">Fleet Details ({{udfScreenId}}) </h3>
                 </div>
-                <div class="col-sm-2 text-right" *ngIf="!isLoan360">
-                    <span id="edit_vehicle_details_replace"></span>
-                    <a id="back_vehicle_details"><button class="btn btn-primary mrg-10" type="button"
+                
+                <div class="col-sm-1 col-lg-1 text-center p-0" *ngIf="!isLoan360">
+                    <span id="edit_vehicle_details_replace">
+                    <a id="back_vehicle_details"><button class="btn btn-primary wid-full" type="button"
                             (click)="openUploadModal()">
                             Upload
-                        </button></a>
+                        </button></a></span>
                 </div>
             </div>
             <div class="row">

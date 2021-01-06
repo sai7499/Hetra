@@ -1,0 +1,8 @@
+{
+    "createNewLead": "LC0101",
+    "createLeadExternalVendor": "LC2301",
+    "leadDedupe": "LL0102",
+    "leadDetailsQDE": "LD0103",
+    "leadDetailsADE": "LD0201",
+    "leadDetailsDDE": "LD0901"
+}

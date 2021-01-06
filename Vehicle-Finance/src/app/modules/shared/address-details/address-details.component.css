@@ -18,6 +18,10 @@
   padding-top: 0.5vw;
 }
 
+.pad-12{
+    padding-left:12px;
+}
+
 .ShowError{
     font-size: 12px;
     font-family: zurich-bold;
