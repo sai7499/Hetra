@@ -69,6 +69,7 @@ export class IdleTimerService {
             }
 
             if (expiredTime < Date.now()) {
+                this.$timer.next('clear');
                 console.log('time out');                
                 this.cleanUp();
             }
@@ -88,7 +89,6 @@ export class IdleTimerService {
     }
 
     cleanUp() {
-        this.$timer.next('clear');
         console.log('interval value',this.interval);
         this.interval.forEach(element => {
             clearInterval(element); 
