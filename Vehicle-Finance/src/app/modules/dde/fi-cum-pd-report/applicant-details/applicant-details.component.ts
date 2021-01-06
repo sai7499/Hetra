@@ -270,7 +270,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.applicantForm.patchValue({
       applicantName: this.serviceApplicantFullName ? this.serviceApplicantFullName : null,
-      fatherFullName: applicantModal.fatherFullName || '',
+      fatherFullName: applicantModal.fatherFullName ? applicantModal.fatherFullName : applicantModal.husbandFullName,
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
       dob: this.dobOrDio ? this.dobOrDio : null,
@@ -354,7 +354,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.applicantDetails = {
       applicantName: this.applicantFullName,
-      fatherFullName: applicantFormModal.fatherFullName,
+      fatherFullName: applicantFormModal.fatherFullName ? applicantFormModal.fatherFullName : applicantFormModal.husbandFullName,
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,
       physicallyChallenged: applicantFormModal.physicallyChallenged,
