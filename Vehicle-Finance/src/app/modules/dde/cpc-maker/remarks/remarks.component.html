@@ -1,6 +1,8 @@
 <div class="content" [formGroup]="remarksForm">
  
-    <h4 class="banner-con">Remarks ({{udfScreenId}}) </h4> 
+    <h4 class="banner-con">Remarks
+        <span class="float-right">{{udfScreenId}}</span>
+    </h4> 
      
         <textarea class="form-control" id="recommendations"
             cols="1" rows="9" [placeholder]="'Remarks'" formControlName="remarks"

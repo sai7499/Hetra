@@ -22,13 +22,13 @@
             </tr>
           </thead>
 
-          <tbody *ngFor=" let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let k=index;let l=last"
-            [formGroupName]="k">
+          <tbody *ngFor="let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let k=index;let l=last"
+            [ngClass]="waiver.controls['isSameRole'].value ? 'action-color': ''" [formGroupName]="k">
             <tr>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>{{waiver.controls['devDesc'].value}}</p>
               </td>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>{{waiver.controls['rulesRemarks'].value}}</p>
               </td>
               <td class="wid-10">
@@ -123,12 +123,12 @@
             </tr>
           </thead>
           <tbody *ngFor=" let obj of deviationsForm.get('autoDeviationFormArray')['controls']; let i=index;let l=last"
-            [formGroupName]="i">
+            [formGroupName]="i" [ngClass]="obj.controls['isSameRole'].value ? 'action-color': ''">
             <tr>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>{{obj.controls['devDesc'].value}}</p>
               </td>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>{{obj.controls['rulesRemarks'].value}}</p>
               </td>
               <td class="wid-10">
@@ -211,10 +211,10 @@
 
           <tbody class="panel-body row" id="show_1_div_identity"
             *ngFor="let item of deviationsForm.get('manualDeviationFormArray')['controls']; let j = index"
-            [formGroupName]="j">
+            [formGroupName]="j" [ngClass]="item.controls['isSameRole'].value ? 'action-color': ''">
 
             <tr>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
                   [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
                   (change)="onGetDeviationCode($event, j)">
@@ -223,7 +223,7 @@
                   Duplicate Deviation
                 </div>
               </td>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>
                   {{item.controls['rulesRemarks'].value}}
                 </p>
@@ -306,7 +306,7 @@
 
     <div class="row" *ngIf="recommendationArray.length > 0">
 
-      <h3 class="banner-con">{{labels?.recommendation}}</h3>
+      <h3 class="banner-sub">{{labels?.recommendation}}</h3>
 
       <div class="table-responsive">
         <table class="table" id="recommendation_table">
@@ -416,7 +416,8 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">
-            {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' : labels?.commend}}
+            {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' :
+            labels?.commend}}
           </h4>
         </div>
         <div class="modal-body">
@@ -426,7 +427,8 @@
           <div class="invalid-feedback"
             *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
             <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
-              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks ' : 'Comments '}}
+              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks ' : 'Comments
+              '}}
               Required
             </div>
           </div>

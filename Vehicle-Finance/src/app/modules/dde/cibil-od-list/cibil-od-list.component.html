@@ -4,10 +4,10 @@
 
     <table class="table center-align">
       <tr>
-        <td>{{ labels?.applicant }}</td>
-        <td>{{odApplicantData?.applicantName}}</td>
-        <td>{{ labels?.applicantType }}</td>
-        <td>{{odApplicantData?.applicantType}}</td>
+        <td class="text-left">{{ labels?.applicant }}</td>
+        <td class="text-left">{{odApplicantData?.applicantName}}</td>
+        <td class="text-left">{{ labels?.applicantType }}</td>
+        <td class="text-left">{{odApplicantData?.applicantType}}</td>
         <td>{{ labels?.bureauScore }}</td>
         <td>{{odApplicantData?.bureauScore}}</td>
         <td colspan="1">
@@ -30,7 +30,9 @@
           <div class="table-responsive application">
             <div class="od-row">
               <div class="col-md-12">
-                <h3 class="banner-con">{{labels?.odDetails}} ({{udfScreenId}}) </h3>
+                <h3 class="banner-con">{{labels?.odDetails}} 
+                  <span class="float-right">{{udfScreenId}}</span>
+                </h3>
               </div>
               <div class="row text-right">
                 <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOdDetails()"><i

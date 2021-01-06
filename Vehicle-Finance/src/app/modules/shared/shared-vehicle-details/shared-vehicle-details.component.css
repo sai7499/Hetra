@@ -18,6 +18,9 @@ h3.dedupe_head {
     border-color: #161338;
 }
 
+.mar-5{
+    margin-top:5px;
+}
 /* footer */
 
 .ok_footer {
@@ -301,4 +304,8 @@ only screen and
 
 .fa-trash {
     padding-right: 35px;
+}
+
+.p-0{
+    padding:0px;
 }

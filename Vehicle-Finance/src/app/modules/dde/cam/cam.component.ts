@@ -201,7 +201,7 @@ export class CamComponent implements OnInit {
 
     if (this.isChildLoan) {
 
-      if (this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV") {
+      if (this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV" || this.productCategoryCode === 'UTCR') {
         const body = {
           "leadId": this.leadId,
           "generateCam": this.generateCam
@@ -284,7 +284,7 @@ export class CamComponent implements OnInit {
       }
 
     } else {
-      if (this.productCategoryCode == "UCV") {
+      if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR') {
         const body = {
           "leadId": this.leadId,
           "generateCam": this.generateCam
@@ -339,7 +339,7 @@ export class CamComponent implements OnInit {
           }
         })
       }
-      if (this.productCategoryCode == "UCV") {
+      if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR') {
 
         this.camDetailsForm = this.formBuilder.group({
           proposedVehicleRemarks: new FormControl(null, [
@@ -504,7 +504,7 @@ export class CamComponent implements OnInit {
     this.currentUrl = this.location.path();
     if (this.currentUrl.includes('credit-decisions')) {
       this.showSave = false
-      if (this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV" || this.productCategoryCode == "UC") {
+      if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR' || this.productCategoryCode == "NCV" || this.productCategoryCode == "UC") {
         this.camDetailsForm.disable();
       }
     } else if (this.currentUrl.includes('dde')) {
@@ -541,7 +541,7 @@ export class CamComponent implements OnInit {
         }
         this.pdfId = "UCVpdfgeneration" // pdf generation
       } else {
-        if (this.productCategoryCode == "UCV") {
+        if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR') {
           this.usedCvCam = true
           this.isCamDetails = false
           this.generateCam = true
@@ -827,7 +827,7 @@ export class CamComponent implements OnInit {
         }
       };
     } else {
-      if (this.productCategoryCode == "UCV") {
+      if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR') {
         this.body = {
           leadId: this.leadId,
           userId: this.userId,
@@ -892,7 +892,7 @@ export class CamComponent implements OnInit {
           this.generateCam = true
           this.getCamUsedCvDetails(this.generateCam);
         } else {
-          if (this.productCategoryCode == "UCV") {
+          if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR') {
             this.generateCam = true
             this.getCamUsedCvDetails(this.generateCam);
           } else

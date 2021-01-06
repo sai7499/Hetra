@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class IdleTimerService {
-    interval: any;
+    interval: any = [];
     eventHandler: any
 
     // MODAL_TIMER = 120 // seconds;window["env"]["expriyAlertTime"] = "30";
@@ -58,10 +58,10 @@ export class IdleTimerService {
 
     }
 
-    private startInterVal() {
+    private startInterVal() {        
         this.updateExpiredTime();
-        this.interval = setInterval(() => {
-            console.log('timer 1');
+        this.interval.push(setInterval(() => {
+            // console.log('timer 1');
             const expiredTime = Number(localStorage.getItem('_expiredTime'));
             if(Date.now()   >= expiredTime - (this.MODAL_TIMER * 1000)) {
                 this.$timer.next('alert');
@@ -69,10 +69,11 @@ export class IdleTimerService {
             }
 
             if (expiredTime < Date.now()) {
-                console.log('time out');
+                this.$timer.next('clear');
+                console.log('time out');                
                 this.cleanUp();
             }
-        }, 1000);
+        }, 1000));
     }
 
     updateExpiredTime() {
@@ -88,10 +89,15 @@ export class IdleTimerService {
     }
 
     cleanUp() {
-        clearInterval(this.interval);
-        window.removeEventListener('mousemove', this.eventHandler);
-        window.removeEventListener('scroll', this.eventHandler);
-        window.removeEventListener('keydown', this.eventHandler);
+        console.log('interval value',this.interval);
+        this.interval.forEach(element => {
+            clearInterval(element); 
+        });
+        this.interval = [];
+             
+        // window.removeEventListener('mousemove', this.eventHandler);
+        // window.removeEventListener('scroll', this.eventHandler);
+        // window.removeEventListener('keydown', this.eventHandler);
     }
 
     private updateToken() {

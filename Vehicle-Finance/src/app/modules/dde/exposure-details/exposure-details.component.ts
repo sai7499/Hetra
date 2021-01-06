@@ -301,7 +301,7 @@ onSubmit() {
           this.liveloanArray = [];
           this.proposedArray = [];
           this.getExposure();
-        this.toStarService.showSuccess("Exposure Saved Successfuly","Exposuer Details")
+        this.toStarService.showSuccess("Exposure Details Saved Successfully","Exposuer Details")
         }else{
           this.toStarService.showError(res.ProcessVariables.error.message,"Exposuer Details")
         }

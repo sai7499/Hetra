@@ -3,23 +3,12 @@
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
       <h3 class="banner-con">
-        Identity Details ({{udfScreenId}})
+        Identity Details
+        <span class="float-right">{{udfScreenId}}</span>
       </h3>
 
       <div class="btn-sec clear-both row">
         <div class="col-sm-3">
-          <!-- <h4 class="title">Identity Details</h4> -->
-          <!-- <select id="select_main_button" class="dropdown_individual" name="" (change)="onIndividualChange($event)">
-                        <option value="individual"> Individual </option>
-                        <option value="non-individual"> Non-Individual </option>
-                    </select> -->
-
-          <!-- <app-vf-custom-select
-            formControlName="entity"
-            [values]="lov.LOVS.entityType"
-            (change)="onIndividualChange($event)"
-          >
-          </app-vf-custom-select> -->
         </div>
         <div class="col-sm-7 text-right"></div>
       </div>
@@ -29,10 +18,14 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label>{{labels?.aadharnumber}}</label>
               <div class="input-group input-medium">
-                <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date"
-                  name="passport_expiry_date" />
+                <app-custom-input formControlName="aadhar" 
+                      [type]="validationData?.applicantAdhaarNumber?.type" [maxLength]="validationData?.applicantAdhaarNumber?.maxLength">
+
+                    </app-custom-input>
+                <!-- <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date"
+                  name="passport_expiry_date" /> -->
                 <span class="input-group-btn">
-                  <button class="btn btn-default" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
+                  <button class="btn btn-default pad-6" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
                     (blur)="onRelieve()">
 
                     <i class="fa fa-credit-card"></i>
@@ -41,152 +34,72 @@
                 </span>
               </div>
             </div>
-            <!--<div class="form-group col-md-3 col-lg-3 third_width"
-              style="visibility: hidden;"
-            >
-              <label for="pan_number">{{labels?.pannumber}}</label>
-              <input type="text" class="form-control m-50" />
-            </div>
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width"
-              style="visibility: hidden;"
-            >
-              <label for="pan_number">{{labels?.pannumber}}</label>
-              <input type="text" class="form-control m-50" />
-            </div>-->
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <a href="#">
-                <label for="upload_aadhaar" class="upload_down"
-                  >AA_1098
-                </label></a
-              >
-            </div> -->
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1 col-xs-12">
-              <div class="image-upload">
-                <label style="cursor: pointer;" for="file_upload">
-                  <img src="" alt="" class="uploaded-image" />
-
-                  <div class="dplay-tbl">
-                    <div class="dplay-tbl-cell">
-                      <i class="fa fa-upload"></i>
-                    </div>
-                  </div> 
-
-                  
-                  <input
-                    data-required="image"
-                    type="file"
-                    name="image_name"
-                    class="image-input"
-                    data-traget-resolution="image_resolution"
-                    value=""
-                  />
-                </label>
-              </div>
-            </div> -->
+            
             <div class="clearfix"></div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="pan_form">{{labels?.panform}}</label>
-              <!-- <select class="form-control m-50" id="pan_form" name="pan_form" disabled="">
-                                    <option value="PAN" selected="selected">PAN</option>
-                                    <option value="form60">Form 60</option>
-                                </select> -->
+              
               <app-vf-custom-select formControlName="panType" [values]="lov?.LOVS?.applicantPanType">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="pan_number">{{labels?.pannumber}}</label>
-              <input formControlName="pan" type="text" class="form-control m-50" id="pan_number" name="pan_number"
-                value="ECCAA4865C" disabled="" />
-              <!-- <app-custom-input
-                  formControlName="pan"
-                  [patternCheck]="panPattern"
-                  [isRequired]="'Pan number is required'"
-                ></app-custom-input> -->
+              <!-- <input formControlName="pan" type="text" class="form-control m-50" id="pan_number" name="pan_number"
+                value="ECCAA4865C" disabled="" /> -->
+                <app-custom-input formControlName="pan"
+                [patternCheck]="validationData?.panNumber?.patternCheck"
+                [inputClass]="'text-uppercase'" [maxLength]="validationData?.panNumber?.maxLength"
+                [type]="validationData?.panNumber?.type"></app-custom-input>
             </div>
-            <!--<div  class="form-group col-md-3 col-lg-3 third_width"
-              style="visibility: hidden;"
-            >
-              <label for="pan_number">PAN Number</label>
-              <input type="text" class="form-control m-50" />
-            </div> -->
-
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <a href="#"
-                ><label for="upload_aadhaar" class="upload_down"
-                  >PAN_1219</label
-                ></a
-              >
-            </div>  -->
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <div class="image-upload">
-                <label style="cursor: pointer;" for="file_upload">
-                  <img src="" alt="" class="uploaded-image" />
-
-                   <div class="dplay-tbl">
-                    <div class="dplay-tbl-cell">
-                      <i class="fa fa-upload"></i>
-                    </div>
-                  </div>
-
-                  upload-content
-                  <input
-                    data-required="image"
-                    type="file"
-                    name="image_name"
-                    class="image-input"
-                    data-traget-resolution="image_resolution"
-                    value=""
-                  />
-                </label>
-              </div>
-            </div> -->
+            
             <div class="clearfix"></div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="passport_number">{{labels?.passportNumber}}</label>
-              <input formControlName="passportNumber" type="text" class="form-control m-50" name="passport_number"
-                value="95855311" disabled="" />
+              <!-- <input formControlName="passportNumber" type="text" class="form-control m-50" name="passport_number"
+                value="95855311" disabled="" /> -->
+                <app-custom-input formControlName="passportNumber" [patternCheck]="validationData?.passportNumber?.patternCheck"  
+                [inputClass]="'text-uppercase'"
+                [maxLength]="validationData?.passportNumber?.maxLength" [type]="validationData?.passportNumber?.type">
+                  </app-custom-input>
             </div>
             <div class="form-group  col-sm-4 col-md-4 col-lg-4 col-xs-12 col-xs-12 third_width">
               <label for="passport_expiry_date">{{labels?.issueDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <!-- <span class="input-group-addon"
-                    ><span
-                      class="glyphicon glyphicon-calendar fa fa-calendar"
-                    ></span>
-                  </span>
-                  <input
-                    formControlName="passportIssueDate"
-                    type="date"
-                    class="form-control"
-                  /> -->
                   <kendo-datepicker class="form-control" formControlName="passportIssueDate" [format]="'dd/MM/yyyy'"
                     [min]="minPassportIssueDate" [max]="maxDate" placeholder="Issue Date" [activeView]="'decade'"
                     (valueChange)="passportIssueDateChange($event)" [disabled]="passportDates"></kendo-datepicker>
+                    <div class="ShowError" *ngIf="
+                    isDirty &&
+                    validateForm().get('passportNumber').value &&
+                      !validateForm().get('passportIssueDate').value
+                
+                  ">
+                  Select Date
                 </div>
-
-                <div class="ShowError" *ngIf="showInvalidMsg['passportIssue']">
-                  {{passportIssueInvalidMsg}}
+                    <div class="ShowError" *ngIf="showInvalidMsg['passportIssue']">
+                      {{passportIssueInvalidMsg}}
+                    </div>
                 </div>
+                 
+                
               </div>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date">{{labels?.expiryDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <!-- <span class="input-group-addon"
-                    ><span
-                      class="glyphicon glyphicon-calendar fa fa-calendar"
-                    ></span>
-                  </span>
-                  <input
-                    formControlName="passportExpiryDate"
-                    type="date"
-                    class="form-control"
-                  /> -->
                   <kendo-datepicker class="form-control" formControlName="passportExpiryDate" [format]="'dd/MM/yyyy'"
                     [min]="toDayDate" [max]="maxPassportExpiryDate" placeholder="Expriy Date" [disabled]="passportDates"
                     [activeView]="'decade'" (valueChange)="PassportExpiryDateChange($event)"></kendo-datepicker>
+                    <div class="ShowError" *ngIf="
+                      isDirty &&
+                      validateForm().get('passportNumber').value &&
+                        !validateForm().get('passportExpiryDate').value
+                  
+                    ">
+                    Select Date
+                  </div>
                   <div class="ShowError" *ngIf="showInvalidMsg['passportExpiry']">
                     {{passportExpiryInvalidMsg}}
                   </div>
@@ -194,59 +107,34 @@
               </div>
             </div>
 
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <a href="#"
-                ><label for="upload_aadhaar" class="upload_down"
-                  >PP_1089</label
-                ></a
-              >
-            </div> -->
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <div class="image-upload">
-                <label style="cursor: pointer;" for="file_upload">
-                  <img src="" alt="" class="uploaded-image" />
-
-                  <!-- <div class="dplay-tbl">
-                    <div class="dplay-tbl-cell">
-                      <i class="fa fa-upload"></i>
-                    </div>
-                  </div> 
-
-                  <!--upload-content
-                  <input
-                    data-required="image"
-                    type="file"
-                    name="image_name"
-                    class="image-input"
-                    data-traget-resolution="image_resolution"
-                    value=""
-                  />
-                </label>
-              </div>
-            </div> -->
+            
             <div class="clearfix"></div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="ration_card_number" class="driving_height">{{labels?.drivingLicenseNumber}}</label>
-              <input formControlName="drivingLicenseNumber" type="text" class="form-control m-50"
-                id="ration_card_number" name="ration_card_number" value="TN99 20205678234" disabled="" />
+              <!-- <input formControlName="drivingLicenseNumber" type="text" class="form-control m-50"
+                id="ration_card_number" name="ration_card_number" value="TN99 20205678234" disabled="" /> -->
+                <app-custom-input formControlName="drivingLicenseNumber" [maxLength]="validationData?.drivingLicense?.maxLength"
+                  [minLength]="validationData?.drivingLicense?.minLength"
+                  [patternCheck]="validationData?.drivingLicense?.patternCheck"
+                    [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type" >
+                  </app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date" class="driving_height">{{labels?.issueDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <!-- <span class="input-group-addon"
-                    ><span
-                      class="glyphicon glyphicon-calendar fa fa-calendar"
-                    ></span>
-                  </span>
-                  <input
-                    formControlName="drivingLicenseIssueDate"
-                    type="date"
-                    class="form-control"
-                  /> -->
+                  
                   <kendo-datepicker class="form-control" formControlName="drivingLicenseIssueDate"
                     [format]="'dd/MM/yyyy'" [max]="maxDate" placeholder="Issue Date" [activeView]="'decade'"
                     [disabled]="drivingLicenceDates" (valueChange)="drivingIssueDateChange($event)"></kendo-datepicker>
+                    <div class="ShowError" *ngIf="
+                      isDirty &&
+                      validateForm().get('drivingLicenseNumber').value &&
+                        !validateForm().get('drivingLicenseIssueDate').value
+                  
+                    ">
+                    Select Date
+                  </div>
                   <div class="ShowError" *ngIf="showInvalidMsg['drivingIssue']">
                     {{drivingIssueInvalidMsg}}
                   </div>
@@ -258,141 +146,39 @@
               <label for="expiry_date" class="driving_height">{{labels?.expiryDate}}</label>
               <div class="form-group">
                 <div class="input-group date" id="datetimepicker1">
-                  <!-- <span class="input-group-addon"
-                    ><span
-                      class="glyphicon glyphicon-calendar fa fa-calendar"
-                    ></span>
-                  </span>
-                  <input
-                    formControlName="drivingLicenseExpiryDate"
-                    type="date"
-                    class="form-control"
-                  /> -->
                   <kendo-datepicker class="form-control" formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Expiry Date" [disabled]="drivingLicenceDates"
                     [activeView]="'decade'" (valueChange)="drivingExpiryDateChange($event)"></kendo-datepicker>
+                    <div class="ShowError" *ngIf="
+                      isDirty &&
+                      validateForm().get('drivingLicenseNumber').value &&
+                        !validateForm().get('drivingLicenseExpiryDate').value
+                  
+                    ">
+                    Select Date
+                  </div>
                   <div class="ShowError" *ngIf="showInvalidMsg['drivingExpiry']">
                     {{drivingExpiryInvalidMsg}}
                   </div>
                 </div>
               </div>
             </div>
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <a href="#"
-                ><label for="upload_aadhaar" class="upload_down"
-                  >DL_3467</label
-                ></a
-              >
-            </div> -->
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <div class="image-upload">
-                <label style="cursor: pointer;" for="file_upload">
-                  <img src="" alt="" class="uploaded-image" />
-
-                  <!-- <div class="dplay-tbl">
-                    <div class="dplay-tbl-cell">
-                      <i class="fa fa-upload"></i>
-                    </div>
-                  </div> 
-
-                  <!--upload-content
-                  <input
-                    data-required="image"
-                    type="file"
-                    name="image_name"
-                    class="image-input"
-                    data-traget-resolution="image_resolution"
-                    value=""
-                  />
-                </label>
-              </div>
-            </div> -->
+            
             <div class="clearfix"></div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="passport_number">{{labels?.voterIdNumber}}</label>
-              <input formControlName="voterIdNumber" type="text" class="form-control m-50" name="passport_number"
-                value="TRQ06734124" disabled="" />
+              <!-- <input formControlName="voterIdNumber" type="text" class="form-control m-50" name="passport_number"
+                value="TRQ06734124" disabled="" /> -->
+                <app-custom-input formControlName="voterIdNumber" [maxLength]="validationData?.voterId?.maxLength"
+                    [patternCheck]="validationData?.voterId?.patternCheck" 
+                    [inputClass]="'text-uppercase'"
+                    [type]="validationData?.voterId?.type"></app-custom-input>
             </div>
 
-            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
-              <label for="issuance_date">Issuance Date</label>
-              <div class="form-group">
-                <div class="input-group date" id="datetimepicker1">
-                 
-                  <kendo-datepicker class="form-control" 
-                formControlName="voterIdIssueDate" [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
-                 placeholder="Issue Date"
-                [activeView]="'decade'"
-                
-                ></kendo-datepicker>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
-              <label for="expiry_date">Expiry Date</label>
-              <div class="form-group">
-                <div class="input-group date" id="datetimepicker1">
-                 
-                  <kendo-datepicker class="form-control" 
-                formControlName="voterIdExpiryDate" [format]="'dd/MM/yyyy'"
-                [max]="toDayDate"
-                 placeholder="Expiry Date"
-                [activeView]="'decade'"
-                
-                ></kendo-datepicker>
-                </div>
-              </div>
-            </div> -->
-
-
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              <a href="#"
-                ><label for="upload_aadhaar" class="upload_down"
-                  >VOTE_8321</label
-                ></a
-              >
-            </div> -->
-            <!-- <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
-
-            </div>
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
-
-            </div> -->
-            <!-- <div class="form-group col-sm-1 col-md-1 col-lg-1">
-              
-                  <div class="image-upload">
-                    <label style="cursor: pointer;" for="file_upload">
-                      <img src="" alt="" class="" />
-    
-                      <!-- <div class="dplay-tbl">
-                        <div class="dplay-tbl-cell">
-                          <i class="fa fa-upload"></i>
-                        </div>
-                      </div> 
-    
-                      
-                      <input
-                        data-required="image"
-                        type="file"
-                        name="image_name"
-                        class="image-input"
-                        data-traget-resolution="image_resolution"
-                        value=""
-                      />
-                    </label>
-                  
-              </div>
-              
-            </div> -->
+            
           </div>
         </div>
 
-        <!-- <div id="add_multiple_banks"></div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="">Add Multiple Identity Card Details</label>
-            <input class="form-control btn-primary" type="button" value="Add Here" id="add_banks" />
-        </div> -->
 
         <div id="non_individual_section_start" *ngIf="!isIndividual" formGroupName="0">
           <!-- <div class="row" > -->
@@ -400,10 +186,15 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 third_width">
               <label for="issuance_date">{{labels?.udyogAdhar}}</label>
               <div class="input-group input-medium">
-                <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date"
-                  name="passport_expiry_date" value="" disabled />
+                <!-- <input formControlName="aadhar" type="text" class="form-control date_caps" id="passport_expiry_date"
+                  name="passport_expiry_date" value="" disabled /> -->
+                  <app-custom-input formControlName="aadhar" 
+                      [type]="validationData?.applicantAdhaarNumber?.type" 
+                      [maxLength]="validationData?.applicantAdhaarNumber?.maxLength">
+
+                    </app-custom-input>
                 <span class="input-group-btn">
-                  <button class="btn btn-default" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
+                  <button class="btn btn-default pad-6" (click)="onRetreiveAdhar()" (mouseleave)="onRelieve()"
                     (blur)="onRelieve()">
                     <i class="fa fa-credit-card"></i>
 
@@ -422,37 +213,60 @@
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="mobile">{{ labels?.pannumber }}</label>
-              <app-custom-input formControlName="panNumber" isDisabled></app-custom-input>
+              <app-custom-input formControlName="panNumber" [inputClass]="'text-uppercase'"></app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.cinRegisteredNumber}}</label>
               <app-custom-input formControlName="corporateIdentificationNumber" [inputClass]="'text-uppercase'"
-                isDisabled></app-custom-input>
+                ></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.cstVatNumber}}</label>
-              <app-custom-input formControlName="cstVatNumber" [inputClass]="'text-uppercase'" isDisabled>
+              <app-custom-input formControlName="cstVatNumber" [inputClass]="'text-uppercase'" >
               </app-custom-input>
             </div>
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.gstNumber}}</label>
-              <app-custom-input formControlName="gstNumber" [inputClass]="'text-uppercase'" isDisabled>
+              <app-custom-input formControlName="gstNumber" [inputClass]="'text-uppercase'" >
               </app-custom-input>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="adhar">{{labels?.tanNumber}}</label>
-              <app-custom-input formControlName="tanNumber" [inputClass]="'text-uppercase'" isDisabled>
+              <app-custom-input formControlName="tanNumber" [inputClass]="'text-uppercase'" >
               </app-custom-input>
             </div>
           </div>
           <!-- </div> -->
         </div>
       </ng-container>
+    </div>
+    <div class="btn-sec clear-both row">
+      <div class="col-sm-5">
+        <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="navigateToApplicantList()">
+          Back To Applicant Details
+        </button>
+      </div>
+      <div class="col-sm-7 text-right">
+        <span id="edit_vehicle_details_replace"></span>
+        <a id="back_vehicle_details"><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
+            Back
+          </button></a>
+        <ng-container *ngIf="!isLoan360">
+          <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+            Save
+          </p>
+        </ng-container>
+    
+        <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
+            Next
+          </button></a>
+        
+      </div>
     </div>
   </form>
   <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
@@ -461,28 +275,3 @@
 
 </div>
 
-<div class="btn-sec clear-both row">
-  <div class="col-sm-5">
-    <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="navigateToApplicantList()">
-      Back To Applicant Details
-    </button>
-  </div>
-  <div class="col-sm-7 text-right">
-    <span id="edit_vehicle_details_replace"></span>
-    <a id="back_vehicle_details"><button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="onBack()">
-        Back
-      </button></a>
-    <ng-container *ngIf="!isLoan360">
-      <p class="btn btn-primary save" id="save_vehicle_details" (click)="onSubmit()" *ngIf="!disableSaveBtn">
-        Save
-      </p>
-    </ng-container>
-
-    <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
-        Next
-      </button></a>
-    <br />
-    <br />
-    <br />
-  </div>
-</div>
