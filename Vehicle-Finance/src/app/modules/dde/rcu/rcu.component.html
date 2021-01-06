@@ -140,7 +140,7 @@
                   1
                 </td>
                 <td [attr.data-label]="labels?.documentName" data-title="Member">
-                  <app-custom-input [placeholder]="'Document Name'" [isDisabled]='true'
+                  <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled]='true'
                     [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
                     [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                   </app-custom-input>
@@ -284,6 +284,12 @@
           <div class="col-md-3 col-lg-2 col-sm-6 col-xs-12">
             <app-vf-custom-select [values]="rcuLov?.rcuStatus" formControlName="rcuReportStatus">
             </app-vf-custom-select>
+            <span *ngIf="submitted">
+              <span class="invalid-feedback" *ngIf="f.rcuReportStatus.errors?.required">
+                Status is required
+              </span>
+            </span>
+            
           </div>
           <!-- <div class="col-md-1 fitWidth pl-top" *ngIf="roleType == '6'" ><label class="">{{labels?.rcuUpload}}</label></div>
         <div class="col-md-1 pl-top" *ngIf="roleType == '6'"  >
