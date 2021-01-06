@@ -1,8 +1,8 @@
-<form class="multisteps-form__form" [formGroup]="odDetailsForm">
+<form class="multisteps-form__form content" [formGroup]="odDetailsForm">
 
-  <div class="container-fluid row">
+  <div class="container-fluid row mt-3">
 
-    <table class="table center-align">
+    <table class="table center-align mb-0">
       <tr>
         <td class="text-left">{{ labels?.applicant }}</td>
         <td class="text-left">{{odApplicantData?.applicantName}}</td>
@@ -35,7 +35,7 @@
                 </h3>
               </div>
               <div class="row text-right">
-                <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOdDetails()"><i
+                <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-spc" (click)="addOdDetails()"><i
                     class="fa fa-plus fa-fw"></i> Add Row</button>
               </div>
             </div>
@@ -265,10 +265,10 @@
               </div>
               <div class="clearfix"></div>
             </div>
-            <hr>
-            <div class="table-responsive application mt-3">
+            <hr class="m-0">
+            <div class="table-responsive application ">
               <div class="banner-con">{{labels?.loanEnquiriesInLast30DaysWithTypeOfLoan}}</div>
-              <div class="text-right"><button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm"
+              <div class="text-right"><button [disabled]="disableSaveBtn" type="button" class="btn caption btn-spc"
                   (click)="addLastThirtyDaysLoan()"><i class="fa fa-plus fa-fw"></i> Add Row</button></div>
               <table id="POITable_other" border="0" class="table">
                 <thead>
@@ -330,9 +330,9 @@
               </table>
 
             </div>
-            <div class="table-responsive application mt-3">
+            <div class="table-responsive application ">
               <div class="banner-con">{{labels?.loanEnquiriesInLast60DaysWithTypeOfLoan}}</div>
-              <div class="text-right"><button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm"
+              <div class="text-right"><button [disabled]="disableSaveBtn" type="button" class="btn caption btn-spc"
                   (click)="addLastSixtyDaysLoan()"><i class="fa fa-plus fa-fw"></i> Add Row</button></div>
               <table id="POITable_other" border="0" class="table">
                 <thead>

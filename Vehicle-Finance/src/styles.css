@@ -13,7 +13,9 @@ body {
     /* Non-prefixed version, currently*/
     /* overflow-x: hidden; */
 }
-
+.btn-spc{
+    margin: 0px 0px 4px!important;
+  }
 a:hover,
 a:focus {
     text-decoration: none;
@@ -494,6 +496,7 @@ h4.table-head-bg.m-0.p-02 {
     margin: 0px;
     padding: 5px;
 }
+
 
 .star_red_col {
     color: #da3939;

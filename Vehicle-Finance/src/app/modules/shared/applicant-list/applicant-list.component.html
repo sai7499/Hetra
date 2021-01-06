@@ -11,13 +11,13 @@
       </div>
       
       <div class="btn-sec clear-both row" *ngIf="showAddApplicant">
-        <div class="col-sm-11 col-lg-11 p-0">
+        <div class="col-sm-12 col-lg-12 p-0">
           <h4 class="banner-con ">{{labels?.applicantDetailsTitle}}
             <span class="float-right">{{udfScreenId}}</span>
           </h4>
         </div>
-        <div class="col-sm-1 col-lg-1 p-0 text-right">
-          <button  class="btn btn-primary " type="button"
+        <div class="col-sm-12 col-lg-12 p-0 text-right">
+          <button  class="btn btn-primary btn-spc " type="button"
             (click)="navigateAddapplicant()">
             Add Applicant
           </button>
@@ -29,14 +29,14 @@
         <table class="main-table">
           <thead>
             <tr class="table-head-bg">
-              <th>{{ labels?.ucicId }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.wizardId }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels.entity }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.name }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.mobileNumber }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels.dobDoi }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.applicantType }} <i class="fa fa-sort"></i></th>
-              <th>{{ labels?.action }} <i class="fa fa-sort"></i></th>
+              <th>{{ labels?.ucicId }} </th>
+              <th>{{ labels?.wizardId }} </th>
+              <th>{{ labels.entity }} </th>
+              <th>{{ labels?.name }} </th>
+              <th>{{ labels?.mobileNumber }} </th>
+              <th>{{ labels.dobDoi }} </th>
+              <th>{{ labels?.applicantType }} </th>
+              <th>{{ labels?.action }} </th>
             </tr>
           </thead>
           <tbody>
