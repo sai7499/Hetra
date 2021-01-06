@@ -5,7 +5,9 @@
       <form [formGroup]="createNegotiationForm" class="form-horizontal" autocomplete="off">
         <div class="row">
           <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-            <h3 class="banner-con">{{ labels?.negotiationTitle }} ({{udfScreenId}}) </h3>
+            <h3 class="banner-con">{{ labels?.negotiationTitle }}
+              <span class="float-right">{{udfScreenId}}</span>
+            </h3>
           </div>
         </div>
         <div>

@@ -1,367 +1,278 @@
 <form class="multisteps-form">
-    <h3 class="banner-con">Repayment Track Record ({{udfScreenId}}) </h3>
-    <div class="tab_content " [formGroup]="trackVehicleForm">
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.nameOfTheClient}} <sub class="star_red_col">*</sub></label>
-                <app-custom-input
-                formControlName="clientName"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Client Name'"
-                [isDisabled]="true"
-                [isDirty]="isDirty"
-                >
-              </app-custom-input>
-                <!-- <input type="text" class="form-control" id="client_name" formControlName="clientName">
+  <h3 class="banner-con">Repayment Track Record
+    <span class="float-right">{{udfScreenId}}</span>
+  </h3>
+  <div class="tab_content " [formGroup]="trackVehicleForm">
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.nameOfTheClient}} <sub class="star_red_col">*</sub></label>
+        <app-custom-input formControlName="clientName" [className]="'form-control mandatory'"
+          [placeholder]="'Client Name'" [isDisabled]="true" [isDirty]="isDirty">
+        </app-custom-input>
+        <!-- <input type="text" class="form-control" id="client_name" formControlName="clientName">
                 <span *ngIf="submitted && f.clientName.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.clientName.errors.required">Client Name is required</span>
                     <span *ngIf="f.clientName.errors.pattern">Numbers and Special Characters not allowed</span>
                 </span> -->
-             </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.nameOfTheFinancier}}<sub class="star_red_col">*</sub></label>
-                <app-custom-input
-                formControlName="financierName"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Financier'"                
-                [isDirty]="isDirty"
-                >
-              </app-custom-input>
-                <!-- <input type="text" class="form-control" id="financier_name" formControlName="financierName">
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.nameOfTheFinancier}}<sub class="star_red_col">*</sub></label>
+        <app-custom-input formControlName="financierName" [className]="'form-control mandatory'"
+          [placeholder]="'Financier'" [isDirty]="isDirty">
+        </app-custom-input>
+        <!-- <input type="text" class="form-control" id="financier_name" formControlName="financierName">
                 <span *ngIf="submitted && f.financierName.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.financierName.errors.required">{{labels?.nameOfTheFinancier}} is required</span>
                 </span> -->
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.assetFinanced}}<sub class="star_red_col">*</sub></label>
-                <app-custom-input
-                formControlName="assetFinancied"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Asset Financier'"                
-                [isDirty]="isDirty"
-                >
-              </app-custom-input>
-                <!-- <input type="text" class="form-control" id="asset_financed" formControlName="assetFinancied">
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.assetFinanced}}<sub class="star_red_col">*</sub></label>
+        <app-custom-input formControlName="assetFinancied" [className]="'form-control mandatory'"
+          [placeholder]="'Asset Financier'" [isDirty]="isDirty">
+        </app-custom-input>
+        <!-- <input type="text" class="form-control" id="asset_financed" formControlName="assetFinancied">
                 <span *ngIf="submitted && f.assetFinancied.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.assetFinancied.errors.required">{{labels?.assetFinanced}} is required</span>
                 </span> -->
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.repaymentMode}}<sub class="star_red_col">*</sub></label>
-                <!-- <select class="form-control" formControlName="repaymentMode">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.repaymentMode}}<sub class="star_red_col">*</sub></label>
+        <!-- <select class="form-control" formControlName="repaymentMode">
                     <option>{{labels?.ecs}}</option>
                     <option>{{labels?.ach}}</option>
                     <option>{{labels?.pdc}}</option>
                     <option>{{labels?.cash}}</option>
                     <option>{{labels?.others}}</option>
                 </select> -->
-                <app-vf-custom-select [values]="fleetRtrLov?.fleetRepaymentMode" formControlName="repaymentMode">
-                </app-vf-custom-select>
-                <span *ngIf="submitted && f.repaymentMode.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.repaymentMode.errors.required">{{labels?.repaymentMode}} is required</span>
-                </span>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.financeAmount}}<sub class="star_red_col">*</sub></label>
-                <!-- <input type="text" class="form-control" id="finance_amount" 
+        <app-vf-custom-select [values]="fleetRtrLov?.fleetRepaymentMode" formControlName="repaymentMode">
+        </app-vf-custom-select>
+        <span *ngIf="submitted && f.repaymentMode.errors" style="color:red;" class="invalid-feedback">
+          <span *ngIf="f.repaymentMode.errors.required">{{labels?.repaymentMode}} is required</span>
+        </span>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.financeAmount}}<sub class="star_red_col">*</sub></label>
+        <!-- <input type="text" class="form-control" id="finance_amount" 
                     formControlName="financeAmount"
                     
                     maxlength="10"> -->
-                <app-custom-input
-                    formControlName="financeAmount"
-                    [className]="'form-control mandatory input-upper'"
-                    [placeholder]="'Finance Amount'"
-                    [maxLength]="validationData?.amountValue.maxLength"
-                    [isRequired]="'Finance Amount is mandatory'"
-                    [isDirty]="isDirty"
-                    [type] = "validationData?.amountValue.type"
-                ></app-custom-input>
-                <!-- [inputClass]="'text-uppercase'" -->
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.financeCharges}}<sub class="star_red_col">*</sub></label>
-                <!-- <input type="number" class="form-control" id="finance_charges" formControlName="financeCharges"> -->
-                <app-custom-input
-                formControlName="financeCharges"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Finance Charges'"
-                [isRequired]="'Finance Charges is mandatory'"
-                [maxLength]="validationData?.amountValue['maxLength']"
-                [isDirty]="isDirty"
-                [type] = "validationData?.amountValue['type']"
-                (keyup) = "checkFinanceCharge()"
-                >
-              </app-custom-input>
-                    <div class="cus-mandatory-field" *ngIf="f.financeCharges.errors && f.financeCharges.errors['incorrect']">
-                        Finance Charges not grater finance amount
-                    </div>
-                
-            </div>
+        <app-custom-input formControlName="financeAmount" [className]="'form-control mandatory input-upper'"
+          [placeholder]="'Finance Amount'" [maxLength]="validationData?.amountValue.maxLength"
+          [isRequired]="'Finance Amount is mandatory'" [isDirty]="isDirty" [type]="validationData?.amountValue.type">
+        </app-custom-input>
+        <!-- [inputClass]="'text-uppercase'" -->
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.financeCharges}}<sub class="star_red_col">*</sub></label>
+        <!-- <input type="number" class="form-control" id="finance_charges" formControlName="financeCharges"> -->
+        <app-custom-input formControlName="financeCharges" [className]="'form-control mandatory'"
+          [placeholder]="'Finance Charges'" [isRequired]="'Finance Charges is mandatory'"
+          [maxLength]="validationData?.amountValue['maxLength']" [isDirty]="isDirty"
+          [type]="validationData?.amountValue['type']" (keyup)="checkFinanceCharge()">
+        </app-custom-input>
+        <div class="cus-mandatory-field" *ngIf="f.financeCharges.errors && f.financeCharges.errors['incorrect']">
+          Finance Charges not grater finance amount
         </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.contractValue}}<sub class="star_red_col">*</sub></label>
-                <!-- <input type="number" class="form-control" id="contract_value" formControlName="contractValue"> -->
-                <app-custom-input
-                formControlName="contractValue"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Contract Value'"
-                [isRequired]="'Contract Value is mandatory'"
-                [maxLength]="validationData?.contractValue.maxLength"
-                [isDirty]="isDirty"
-                [type] = "validationData?.contractValue.type"
-                >
-              </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.contNo}}<sub class="star_red_col">*</sub></label>
-                <app-custom-input
-                formControlName="contNo"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Contract Number'"
-                [inputClass]="'input-upper'"
-                [isDirty]="isDirty"
-                >
-              </app-custom-input>
-                <!-- <input type="number" class="form-control" id="cont_no" formControlName="contNo">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.contractValue}}<sub class="star_red_col">*</sub></label>
+        <!-- <input type="number" class="form-control" id="contract_value" formControlName="contractValue"> -->
+        <app-custom-input formControlName="contractValue" [className]="'form-control mandatory'"
+          [placeholder]="'Contract Value'" [isRequired]="'Contract Value is mandatory'"
+          [maxLength]="validationData?.contractValue.maxLength" [isDirty]="isDirty"
+          [type]="validationData?.contractValue.type">
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.contNo}}<sub class="star_red_col">*</sub></label>
+        <app-custom-input formControlName="contNo" [className]="'form-control mandatory'"
+          [placeholder]="'Contract Number'" [inputClass]="'input-upper'" [isDirty]="isDirty">
+        </app-custom-input>
+        <!-- <input type="number" class="form-control" id="cont_no" formControlName="contNo">
                 <span *ngIf="submitted && f.contNo.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.contNo.errors.required"> contNo is required</span>
                     <span *ngIf="f.contNo.errors.pattern"> Please Enter valid contact number</span>
 
                 </span> -->
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.vehicleNo}}<sub class="star_red_col">*</sub></label>
-                <app-custom-input
-                formControlName="vehicleNo"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Vehicle Number'"
-                [inputClass]="'input-upper'"
-                >
-              </app-custom-input>
-                <!-- <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.vehicleNo}}<sub class="star_red_col">*</sub></label>
+        <app-custom-input formControlName="vehicleNo" [className]="'form-control mandatory'"
+          [placeholder]="'Vehicle Number'" [inputClass]="'input-upper'">
+        </app-custom-input>
+        <!-- <input type="text" class="form-control" id="vehicle_no" formControlName="vehicleNo">
                 <span *ngIf="submitted && f.vehicleNo.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.vehicleNo.errors.required">vehicle Number is required</span>
                 </span> -->
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.typesOfFinance}}<sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select [values]="fleetRtrLov?.typesOfFinance" formControlName="financeType">
-                </app-vf-custom-select>
-                <span *ngIf="submitted && f.financeType.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.financeType.errors.required">{{labels?.typesOfFinance}} is required</span>
-                </span>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.accountStatus}}<sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select [values]="fleetRtrLov?.accountStatus" formControlName="accountStatus">
-                </app-vf-custom-select>
-                <span *ngIf="submitted && f.accountStatus.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.accountStatus.errors.required">{{labels?.accountStatus}} is required</span>
-                </span>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.loanStartDate}}<sub class="star_red_col">*</sub></label>
-                <div class="form-group date">
-                    <div class='input-group date' id='loan_start_date'>
-                        <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.typesOfFinance}}<sub class="star_red_col">*</sub></label>
+        <app-vf-custom-select [values]="fleetRtrLov?.typesOfFinance" formControlName="financeType">
+        </app-vf-custom-select>
+        <span *ngIf="submitted && f.financeType.errors" style="color:red;" class="invalid-feedback">
+          <span *ngIf="f.financeType.errors.required">{{labels?.typesOfFinance}} is required</span>
+        </span>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.accountStatus}}<sub class="star_red_col">*</sub></label>
+        <app-vf-custom-select [values]="fleetRtrLov?.accountStatus" formControlName="accountStatus">
+        </app-vf-custom-select>
+        <span *ngIf="submitted && f.accountStatus.errors" style="color:red;" class="invalid-feedback">
+          <span *ngIf="f.accountStatus.errors.required">{{labels?.accountStatus}} is required</span>
+        </span>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.loanStartDate}}<sub class="star_red_col">*</sub></label>
+        <div class="form-group date">
+          <div class='input-group date' id='loan_start_date'>
+            <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span> -->
-                        <kendo-datepicker style="width:100%" 
-                            class="form-control mandatory" 
-                            formControlName="loanStartDate"
-                            [format]="'dd/MM/yyyy'" 
-                            placeholder="dd/mm/yyyy" 
-                            [max]="toDayDate" 
-                            [activeView]="'decade'"
-                            (valueChange) = "setMinEmiStartDate($event)"
-                         >
-                        </kendo-datepicker>
-                        <div *ngIf="submitted && f.loanStartDate.errors"style= "color:red;" class="invalid-feedback">
-                            <span *ngIf="f.loanStartDate.errors.required">loanStartDate is required</span>
-                        </div>
-                        <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
-                            (change)="loanStartDate($event)" /> -->
-                    </div>
-                </div>
-
+            <kendo-datepicker style="width:100%" class="form-control mandatory" formControlName="loanStartDate"
+              [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [max]="toDayDate" [activeView]="'decade'"
+              (valueChange)="setMinEmiStartDate($event)">
+            </kendo-datepicker>
+            <div *ngIf="submitted && f.loanStartDate.errors" style="color:red;" class="invalid-feedback">
+              <span *ngIf="f.loanStartDate.errors.required">loanStartDate is required</span>
             </div>
+            <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
+                            (change)="loanStartDate($event)" /> -->
+          </div>
         </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.emistartDate}}<sub class="star_red_col">*</sub></label>
-                <div class="form-group date">
-                    <div class='input-group date' id='loan_start_date'>
-                        <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.emistartDate}}<sub class="star_red_col">*</sub></label>
+        <div class="form-group date">
+          <div class='input-group date' id='loan_start_date'>
+            <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span> -->
-                        <kendo-datepicker style="width:100%" 
-                            class="form-control mandatory" 
-                            formControlName="emiStartDate"
-                            [format]="'dd/MM/yyyy'" 
-                            placeholder="dd/mm/yyyy" 
-                            [max]="toDayDate" 
-                            [min]= "minEmiStartDate ? minEmiStartDate : null"
-                            [activeView]="'decade'"
-                            (valueChange)="openEmiStartDateModal($event)">
-                        </kendo-datepicker>
-                        <div *ngIf="submitted && f.emiStartDate.errors"style= "color:red;" class="invalid-feedback">
-                            <span *ngIf="f.emiStartDate.errors.required">Emi Start Date is required</span>
-                        </div>
-                        <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
+            <kendo-datepicker style="width:100%" class="form-control mandatory" formControlName="emiStartDate"
+              [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [max]="toDayDate"
+              [min]="minEmiStartDate ? minEmiStartDate : null" [activeView]="'decade'"
+              (valueChange)="openEmiStartDateModal($event)">
+            </kendo-datepicker>
+            <div *ngIf="submitted && f.emiStartDate.errors" style="color:red;" class="invalid-feedback">
+              <span *ngIf="f.emiStartDate.errors.required">Emi Start Date is required</span>
+            </div>
+            <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
                             (change)="loanStartDate($event)" /> -->
-                    </div>
-                </div>
-
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.loanMaturityDate}}<sub class="star_red_col">*</sub></label>
-                <kendo-datepicker width="100%" 
-                    class="form-control mandatory" 
-                    formControlName="loanMaturityDate"
-                    [format]="'dd/MM/yyyy'" 
-                     placeholder="dd/mm/yyyy"
-                     
-                    [activeView]="'decade'"
-              ></kendo-datepicker>
-              <span *ngIf="submitted && f.loanMaturityDate.errors"style= "color:red;" class="invalid-feedback">
-                <span *ngIf="f.loanMaturityDate.errors.required">{{labels?.loanMaturityDate}} is required</span>
-            </span>
-                <!-- <input type="date" class="form-control" id="laon_maturity_date" formControlName="loanMaturityDate"> -->
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.count}}</label>
-                <div class="row twos">
-                    <!-- <input type="number" class="form-control w-50" id="count_30" formControlName="thirtyDpdCount"> -->
-                    <app-custom-input
-                    formControlName="thirtyDpdCount"
-                    [className]="'form-control w-50'"
-                    [placeholder]="''"
-                    >
-                  </app-custom-input>
-                    <!-- <input type="number" class="form-control w-50" id="count_90" formControlName="ninetyDpdCount"> -->
-                    <app-custom-input
-                    formControlName="ninetyDpdCount"
-                    [className]="'form-control w-50'"
-                    [placeholder]="''"
-                    >
-                  </app-custom-input>
-                </div>
-            </div>
-          
+          </div>
         </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.tenure}}<sub class="star_red_col">*</sub></label>
-                <app-custom-input
-                formControlName="noOfEmi"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Total number of Emis'"
-                >
-              </app-custom-input>
-                <!-- <input type="number" class="form-control" id="no_of_emis" formControlName="noOfEmi">
+
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.loanMaturityDate}}<sub class="star_red_col">*</sub></label>
+        <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanMaturityDate"
+          [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'"></kendo-datepicker>
+        <span *ngIf="submitted && f.loanMaturityDate.errors" style="color:red;" class="invalid-feedback">
+          <span *ngIf="f.loanMaturityDate.errors.required">{{labels?.loanMaturityDate}} is required</span>
+        </span>
+        <!-- <input type="date" class="form-control" id="laon_maturity_date" formControlName="loanMaturityDate"> -->
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.count}}</label>
+        <div class="row twos">
+          <!-- <input type="number" class="form-control w-50" id="count_30" formControlName="thirtyDpdCount"> -->
+          <app-custom-input formControlName="thirtyDpdCount" [className]="'form-control w-50'" [placeholder]="''">
+          </app-custom-input>
+          <!-- <input type="number" class="form-control w-50" id="count_90" formControlName="ninetyDpdCount"> -->
+          <app-custom-input formControlName="ninetyDpdCount" [className]="'form-control w-50'" [placeholder]="''">
+          </app-custom-input>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.tenure}}<sub class="star_red_col">*</sub></label>
+        <app-custom-input formControlName="noOfEmi" [className]="'form-control mandatory'"
+          [placeholder]="'Total number of Emis'">
+        </app-custom-input>
+        <!-- <input type="number" class="form-control" id="no_of_emis" formControlName="noOfEmi">
                 <span *ngIf="submitted && f.noOfEmi.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.noOfEmi.errors.required">{{labels?.totalNoOfEmis}} is required</span>
                 </span> -->
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.noOfEmisAccrued}}<sub class="star_red_col">*</sub></label>
-                <app-custom-input
-                formControlName="emisPaid"
-                [className]="'form-control mandatory'"
-                [placeholder]="'Total number of Emis paid'"
-                (change) = "openNoOfEmisAccruedModal($event)"
-                >
-              </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.noOfEmisAccrued}}<sub class="star_red_col">*</sub></label>
+        <app-custom-input formControlName="emisPaid" [className]="'form-control mandatory'"
+          [placeholder]="'Total number of Emis paid'" (change)="openNoOfEmisAccruedModal($event)">
+        </app-custom-input>
 
-              <div class="cus-mandatory-field" *ngIf="f.emisPaid.errors && f.emisPaid.errors['incorrect']">
-                Accrued not greater than Tenure
-            </div>
-                <!-- <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
+        <div class="cus-mandatory-field" *ngIf="f.emisPaid.errors && f.emisPaid.errors['incorrect']">
+          Accrued not greater than Tenure
+        </div>
+        <!-- <input type="number" class="form-control" id="no_of_emis_paid" formControlName="emisPaid">
                 <span *ngIf="submitted && f.emisPaid.errors"style= "color:red;" class="invalid-feedback">
                     <span *ngIf="f.emisPaid.errors.required">{{labels?.noOfEmisPaid}} is required</span>
                 </span> -->
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.balanceTenor}}</label>
-                <!-- <input type="number" class="form-control" id="balance_tenor" formControlName="balanceTenor"> -->
-                <app-custom-input
-                formControlName="balanceTenor"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
-            </div>
-            
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.totalDelay}}</label>
-                <!-- <input type="number" class="form-control" id="total_delay" formControlName="totalDelay"> -->
-                <app-custom-input
-                formControlName="totalDelay"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.peakDelay}}</label>
-                <!-- <input type="number" class="form-control" id="peak_delay" formControlName="peakDelay"> -->
-                <app-custom-input
-                formControlName="peakDelay"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.minDelay}}</label>
-                <!-- <input type="number" class="form-control" id="avg_delay" formControlName="avgDelay"> -->
-                <app-custom-input
-                formControlName="minDelay"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.avgDelay}}</label>
-                <!-- <input type="number" class="form-control" id="avg_delay" formControlName="avgDelay"> -->
-                <app-custom-input
-                formControlName="avgDelay"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.trackStatus}}</label>
-                <!-- <input type="number" class="form-control" id="track_status" formControlName="trackStatus"> -->
-                <app-custom-input
-                formControlName="trackStatus"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.emiOverdue}}<sub class="star_red_col">*</sub></label>
-               
-                <app-vf-custom-select [values]="overdueLov" formControlName="emiOverdue">
-                </app-vf-custom-select>
-                <span *ngIf="submitted && f.emiOverdue.errors"style= "color:red;" class="invalid-feedback">
-                    <span *ngIf="f.emiOverdue.errors.required">{{labels?.emiOverdue}} is required</span>
-                </span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
-                <!-- <input type="number" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid"> -->
-                <app-custom-input
-                formControlName="totalAmtPaid"
-                [className]="'form-control mandatory'"
-                >
-              </app-custom-input>
-            </div>
-            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.balanceTenor}}</label>
+        <!-- <input type="number" class="form-control" id="balance_tenor" formControlName="balanceTenor"> -->
+        <app-custom-input formControlName="balanceTenor" [className]="'form-control mandatory'">
+        </app-custom-input>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.totalDelay}}</label>
+        <!-- <input type="number" class="form-control" id="total_delay" formControlName="totalDelay"> -->
+        <app-custom-input formControlName="totalDelay" [className]="'form-control mandatory'">
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.peakDelay}}</label>
+        <!-- <input type="number" class="form-control" id="peak_delay" formControlName="peakDelay"> -->
+        <app-custom-input formControlName="peakDelay" [className]="'form-control mandatory'">
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.minDelay}}</label>
+        <!-- <input type="number" class="form-control" id="avg_delay" formControlName="avgDelay"> -->
+        <app-custom-input formControlName="minDelay" [className]="'form-control mandatory'">
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.avgDelay}}</label>
+        <!-- <input type="number" class="form-control" id="avg_delay" formControlName="avgDelay"> -->
+        <app-custom-input formControlName="avgDelay" [className]="'form-control mandatory'">
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.trackStatus}}</label>
+        <!-- <input type="number" class="form-control" id="track_status" formControlName="trackStatus"> -->
+        <app-custom-input formControlName="trackStatus" [className]="'form-control mandatory'">
+        </app-custom-input>
+      </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.emiOverdue}}<sub class="star_red_col">*</sub></label>
+
+        <app-vf-custom-select [values]="overdueLov" formControlName="emiOverdue">
+        </app-vf-custom-select>
+        <span *ngIf="submitted && f.emiOverdue.errors" style="color:red;" class="invalid-feedback">
+          <span *ngIf="f.emiOverdue.errors.required">{{labels?.emiOverdue}} is required</span>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
+        <!-- <input type="number" class="form-control" id="total_amount_paid" formControlName="totalAmtPaid"> -->
+        <app-custom-input formControlName="totalAmtPaid" [className]="'form-control mandatory'">
+        </app-custom-input>
+      </div>
+      <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
                 <label for="Vechical Type">{{labels.totalAmtPaid}}</label>
                 <app-custom-input
                 formControlName="installment"
@@ -369,312 +280,253 @@
                 >
               </app-custom-input>
             </div> -->
-            <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                <label for="Vechical Type">{{labels?.emiAmount}}</label>
-                <app-custom-input
-                formControlName="emiAmount"
-                [className]="'form-control mandatory'"
-                (change)="openEmiAmountModal($event)"
-                [isRequired]="'Emi Amount is mandatory'"
-                [maxLength]="validationData?.amountValue.maxLength"
-                [isDirty]="isDirty"
-                [type] = "validationData?.amountValue.type"
-                                    
-                >
-              </app-custom-input>
-            </div>
-        </div>
+      <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <label for="Vechical Type">{{labels?.emiAmount}}</label>
+        <app-custom-input formControlName="emiAmount" [className]="'form-control mandatory'"
+          (change)="openEmiAmountModal($event)" [isRequired]="'Emi Amount is mandatory'"
+          [maxLength]="validationData?.amountValue.maxLength" [isDirty]="isDirty"
+          [type]="validationData?.amountValue.type">
+        </app-custom-input>
+      </div>
+    </div>
 
 
-        <!-- table starts here -->
+    <!-- table starts here -->
 
 
-        <div class="row">
-            <div class="table-responsive application">
-                <table class="table" id="POITable">
-                    <thead>
-                        <tr class="table-head-bg">
-                            <td>{{labels?.installmentNo}}</td>
-                            <td>{{labels?.installmentAmt}}</td>
-                            <td>{{labels?.dueDate}} </td>
-                            <td>{{labels?.rcptNo}} </td>
-                            <td>{{labels?.recdDate}} </td>
-                            <td>{{labels?.rcptAmount}} </td>
-                            <td>{{labels?.delayDays}} </td>
-                            <td>{{labels?.paymentsExcess}} </td>
-                            <!-- <td>{{labels?.action}} </td> -->
-                        </tr>
-                    </thead>
-                    <tbody formArrayName="installment" >
+    <div class="row">
+      <div class="table-responsive application">
+        <table class="table" id="POITable">
+          <thead>
+            <tr class="table-head-bg">
+              <td>{{labels?.installmentNo}}</td>
+              <td>{{labels?.installmentAmt}}</td>
+              <td>{{labels?.dueDate}} </td>
+              <td>{{labels?.rcptNo}} </td>
+              <td>{{labels?.recdDate}} </td>
+              <td>{{labels?.rcptAmount}} </td>
+              <td>{{labels?.delayDays}} </td>
+              <td>{{labels?.paymentsExcess}} </td>
+              <!-- <td>{{labels?.action}} </td> -->
+            </tr>
+          </thead>
+          <tbody formArrayName="installment">
 
-                        <tr id="applicant_1_row"
-                            *ngFor="let itemrow of trackVehicleForm.get('installment')['controls']; let i=index;let l=last"
-                            [formGroupName]="i">
-                            <td>{{i+1}}</td>
-                            <td>
-                                <!-- <input type="number" class="form-control input_value" value="10000"
+            <tr id="applicant_1_row"
+              *ngFor="let itemrow of trackVehicleForm.get('installment')['controls']; let i=index;let l=last"
+              [formGroupName]="i">
+              <td>{{i+1}}</td>
+              <td>
+                <!-- <input type="number" class="form-control input_value" value="10000"
                                     formControlName="installmentAmt"> -->
-                                    <app-custom-input
-                                    formControlName="installmentAmt"
-                                    [className]="'form-control mandatory'"
-                                    [placeholder]="'Installment Amount'"
-                                    [isRequired]="'Installment Amount is mandatory'"
-                                    [maxLength]="validationData?.amountValue.maxLength"
-                                    [isDirty]="isDirty"
-                                    [type] = "validationData?.amountValue.type"
-                                    (change)="paymentExcessOrShort($event ,i)"
-                                    >
-                                  </app-custom-input>
-                            </td>
-                            <td>
-                                <div class="form-group date">
-                                    <div class='input-group date' id='datetimepicker1'>
-                                        <kendo-datepicker class="form-control mandatory" 
-                                            formControlName="dueDate"
-                                            disabled
-                                            [format]="'dd/MM/yyyy'"
-                                            placeholder="dd/mm/yyyy"
-                                            [activeView]="'decade'"
-                                        ></kendo-datepicker>
-<!--                                   
+                <app-custom-input formControlName="installmentAmt" [className]="'form-control mandatory'"
+                  [placeholder]="'Installment Amount'" [isRequired]="'Installment Amount is mandatory'"
+                  [maxLength]="validationData?.amountValue.maxLength" [isDirty]="isDirty"
+                  [type]="validationData?.amountValue.type" (change)="paymentExcessOrShort($event ,i)">
+                </app-custom-input>
+              </td>
+              <td>
+                <div class="form-group date">
+                  <div class='input-group date' id='datetimepicker1'>
+                    <kendo-datepicker class="form-control mandatory" formControlName="dueDate" disabled
+                      [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'"></kendo-datepicker>
+                    <!--                                   
                                         <input type='date' class="form-control" value="01-01-2018"
                                             formControlName="dueDate" /> -->
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <!-- <input type="number" class="form-control input_value" value="1001"
+                  </div>
+                </div>
+              </td>
+              <td>
+                <!-- <input type="number" class="form-control input_value" value="1001"
                                     formControlName="receiptNo" (change)="receiptNumber($event ,i)"></td> -->
-                                    <app-custom-input
-                                    formControlName="receiptNo"
-                                    [className]="'form-control mandatory'"
-                                    [placeholder]="'Receipt No'"
-                                    [maxLength]="validationData?.receiptNo.maxLength"
-                                    [isRequired]="'Receipt No is mandatory'"
-                                    [inputClass]="'input-upper'"
-                                    [isDirty]="isDirty"
-                                    [type] = "validationData?.receiptNo.type"
-                                    (change)="receiptNumber($event ,i)"
-                                    >
-                                  </app-custom-input>
-                            </td>
-                                    <td>
-                                <div class="form-group date">
-                                    <div class='input-group date'>
-                                        <kendo-datepicker
-                                            class="form-control mandatory" 
-                                            formControlName="receivedDate"
-                                            [format]="'dd/MM/yyyy'" 
-                                            [max]="toDayDate" 
-                                            placeholder="dd/MM/yyyy"
-                                  
-                                            (valueChange)="delayDays($event ,i , itemrow)"
-                                            [focusedDate]="focusedDate ? focusedDate[i] : ''">
-                                        </kendo-datepicker>
-                                        <!-- [focusedDate]="focusedDate" -->
-                                        <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].touched && !itemrow.controls['receivedDate'].vaild">
-                                            <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
-                                                Received date is mandatory
-                                            </div>
-                                            <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].errors && itemrow.controls['receivedDate'].errors['minError']">
-                                                Please Enter Valid Date
-                                            </div>
-                                            <div class="cus-mandatory-field" *ngIf="dateExceeded">
-                                                Future date not accepted
-                                               </div>
-                                        </div>
-                                       
-                                        <div class="isDirty" *ngIf="submitted && !itemrow.controls['receivedDate'].vaild && !itemrow.controls['receivedDate'].touched">
-                                            <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
-                                                Received date is mandatory
-                                            </div>
-                                        </div>
+                <app-custom-input formControlName="receiptNo" [className]="'form-control mandatory'"
+                  [placeholder]="'Receipt No'" [maxLength]="validationData?.receiptNo.maxLength"
+                  [isRequired]="'Receipt No is mandatory'" [inputClass]="'input-upper'" [isDirty]="isDirty"
+                  [type]="validationData?.receiptNo.type" (change)="receiptNumber($event ,i)">
+                </app-custom-input>
+              </td>
+              <td>
+                <div class="form-group date">
+                  <div class='input-group date'>
+                    <kendo-datepicker class="form-control mandatory" formControlName="receivedDate"
+                      [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/MM/yyyy"
+                      (valueChange)="delayDays($event ,i , itemrow)" [focusedDate]="focusedDate ? focusedDate[i] : ''">
+                    </kendo-datepicker>
+                    <!-- [focusedDate]="focusedDate" -->
+                    <div class="cus-mandatory-field"
+                      *ngIf="itemrow.controls['receivedDate'].touched && !itemrow.controls['receivedDate'].vaild">
+                      <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
+                        Received date is mandatory
+                      </div>
+                      <div class="cus-mandatory-field"
+                        *ngIf="itemrow.controls['receivedDate'].errors && itemrow.controls['receivedDate'].errors['minError']">
+                        Please Enter Valid Date
+                      </div>
+                      <div class="cus-mandatory-field" *ngIf="dateExceeded">
+                        Future date not accepted
+                      </div>
+                    </div>
 
-                                        <!-- <input type='date' class="form-control"  data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09"
+                    <div class="isDirty"
+                      *ngIf="submitted && !itemrow.controls['receivedDate'].vaild && !itemrow.controls['receivedDate'].touched">
+                      <div class="cus-mandatory-field" *ngIf="itemrow.controls['receivedDate'].hasError('required')">
+                        Received date is mandatory
+                      </div>
+                    </div>
+
+                    <!-- <input type='date' class="form-control"  data-date="" data-date-format="DD MMMM YYYY" value="2015-08-09"
                                             formControlName="receivedDate" (change)="delayDays($event ,i , itemrow)" /> -->
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <!-- <input type="number" class="form-control input_value" value="10000"
+                  </div>
+                </div>
+              </td>
+              <td>
+                <!-- <input type="number" class="form-control input_value" value="10000"
                                     formControlName="receivedAmt" (change)="paymentExcessOrShort($event ,i)"> -->
-                                    <app-custom-input
-                                    formControlName="receivedAmt"
-                                    [className]="'form-control mandatory'"
-                                    [placeholder]="'Received Amt'"
-                                    [isRequired]="'Received Amt is mandatory'"
-                                    [maxLength]="validationData?.amountValue.maxLength"
-                                    [isDirty]="isDirty"
-                                    [type] = "validationData?.amountValue.type"
-                                    (change)="paymentExcessOrShort($event ,i)"
-                                    >
-                                  </app-custom-input>
-                                </td>
-                            <td>
-                                <input type="number" class="form-control input_value auto_cal"
-                                    formControlName="delayDays">
-                                    <!-- <app-custom-input
+                <app-custom-input formControlName="receivedAmt" [className]="'form-control mandatory'"
+                  [placeholder]="'Received Amt'" [isRequired]="'Received Amt is mandatory'"
+                  [maxLength]="validationData?.amountValue.maxLength" [isDirty]="isDirty"
+                  [type]="validationData?.amountValue.type" (change)="paymentExcessOrShort($event ,i)">
+                </app-custom-input>
+              </td>
+              <td>
+                <input type="number" class="form-control input_value auto_cal" formControlName="delayDays">
+                <!-- <app-custom-input
                                     formControlName="delayDays"
                                     [className]="'form-control mandatory'"
                                     [type] = "'text'"
                                     >
                                   </app-custom-input> -->
-                            </td>
-                            <td>
-                                <!-- <input type="number" class="form-control input_value auto_cal" formControlName="payment"> -->
-                                <app-custom-input
-                                formControlName="payment"
-                                [className]="'form-control mandatory'"
-                                >
-                              </app-custom-input>
-                            </td>
-                            <!-- <td ><button type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"  
+              </td>
+              <td>
+                <!-- <input type="number" class="form-control input_value auto_cal" formControlName="payment"> -->
+                <app-custom-input formControlName="payment" [className]="'form-control mandatory'">
+                </app-custom-input>
+              </td>
+              <!-- <td ><button type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"  
                                     [disabled]="disableActionBtn"                                  
                                     (click)="addNewRow()"></button>
                                 <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete" 
                                     [disabled]="disableActionBtn"                                   
                                     (click)="deleteRow(i,itemrow)"></button></td> -->
-                        </tr>
+            </tr>
 
-                    </tbody>
-                </table>
+          </tbody>
+        </table>
 
-            </div>
-        </div>
-
-        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+      </div>
     </div>
-    
+
+    <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+      [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+  </div>
 
 
 
-    <div class="btn-sec clear-both row cst_btm_btns">
-        <div class="col-sm-5">
 
-        </div>
-        <div class="col-sm-7 text-right">
-            <button class="btn btn-primary mar-right8" type="button"
-                routerLink="/pages/dde/{{leadId}}/fleet-details">Back </button>
-            <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button>
-            <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()"> Next </button>
-        </div>
+  <div class="btn-sec clear-both row cst_btm_btns">
+    <div class="col-sm-5">
+
     </div>
+    <div class="col-sm-7 text-right">
+      <button class="btn btn-primary mar-right8" type="button" routerLink="/pages/dde/{{leadId}}/fleet-details">Back
+      </button>
+      <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button>
+      <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()"> Next </button>
+    </div>
+  </div>
 </form>
 
 <!-- modal popup -->
 <!-- Emi Amount Modal -->
 
 <div class="modal" id="emiAmountModal" [style.display]="showEmiAmountModal ? 'block' : 'none'">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal" (click) = "hideModal('emiAmountModal')">
-            &times;
-          </button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body" style="text-align: center;">
-         <label>Are you sure you want to Change the Emi Amount</label>
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer text-center">
-          
-          <button
-          type="button"
-          class="btn btn-success"
-          id="reject_yes_val"
-          (click) = "changeEmiAmount()"
-        >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="hideModal('emiAmountModal')">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="text-align: center;">
+        <label>Are you sure you want to Change the Emi Amount</label>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+
+        <button type="button" class="btn btn-success" id="reject_yes_val" (click)="changeEmiAmount()">
           {{ labels.yes }}
         </button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hideModal('emiAmountModal')">
-            {{ labels.cancel }}
-          </button>
-        </div>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="hideModal('emiAmountModal')">
+          {{ labels.cancel }}
+        </button>
       </div>
     </div>
   </div>
+</div>
 <!-- NoOfEmisAccruedModal Modal -->
-  <div class="modal" id="noOfEmisPaidModal" [style.display]="showNoOfEmisAccruedModal ? 'block' : 'none'">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal" (click) = "hideModal('noOfEmisAccruedModal')">
-            &times;
-          </button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body" style="text-align: center;">
-         <label>Are you sure you want to Change the No of Emis Accrued</label>
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer text-center">
-          
-          <button
-          type="button"
-          class="btn btn-success"
-          id="reject_yes_val"
-          (click) = "changeAccrued($event)"
-        >
+<div class="modal" id="noOfEmisPaidModal" [style.display]="showNoOfEmisAccruedModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="hideModal('noOfEmisAccruedModal')">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="text-align: center;">
+        <label>Are you sure you want to Change the No of Emis Accrued</label>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+
+        <button type="button" class="btn btn-success" id="reject_yes_val" (click)="changeAccrued($event)">
           {{ labels.yes }}
         </button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hideModal('noOfEmisAccruedModal')">
-            {{ labels.cancel }}
-          </button>
-        </div>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="hideModal('noOfEmisAccruedModal')">
+          {{ labels.cancel }}
+        </button>
       </div>
     </div>
   </div>
+</div>
 
 
 <!-- showEmiStartDateModal Modal -->
 <div class="modal" id="emiStartDateModal" [style.display]="showEmiStartDateModal ? 'block' : 'none'">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title"></h4>
-          <button type="button" class="close" data-dismiss="modal" (click) = "hideModal('emiStartDateModal')">
-            &times;
-          </button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body" style="text-align: center;">
-         <label>Are you sure you want to Change the Emi Start Date</label>
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer text-center">
-          
-          <button
-          type="button"
-          class="btn btn-success"
-          id="reject_yes_val"
-          (click) = "loanStartDate($event)"
-        >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="hideModal('emiStartDateModal')">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="text-align: center;">
+        <label>Are you sure you want to Change the Emi Start Date</label>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer text-center">
+
+        <button type="button" class="btn btn-success" id="reject_yes_val" (click)="loanStartDate($event)">
           {{ labels.yes }}
         </button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hideModal('emiStartDateModal')">
-            {{ labels.cancel }}
-          </button>
-        </div>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="hideModal('emiStartDateModal')">
+          {{ labels.cancel }}
+        </button>
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
+</div>

@@ -695,7 +695,7 @@
     "bankingSummaryTitle": "BANKING SUMMARY",
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
-    "keyFinancialTitle": "KEY FINANCIAL",
+    "keyFinancialTitle": "Key Financial",
     "shareCapital": "Share Capital",
     "lorryHireChargesPaid": "Lorry hire charges paid (Freight charges )",
     "netProfitAfterTaxA": "Net Profit after Tax (A)",
@@ -838,7 +838,7 @@
     "netCashFlowEMI": " Net Cash Flow  EMI",
     "obligationsBusinessMonth": "Obligations in business (Loans) per month",
     "viabilityStatus": "Viability Status",
-    "referenceCheckTitle": "Reference Check",
+    "referenceCheckTitle": "PD Reference Check",
     "personName": "Person Name",
     "addressOfThePerson": "Address of the person",
     "contactNumber": "Contact Number",
@@ -1726,7 +1726,7 @@
     "backToFiCumPdList": "Back to FI cum PD List",
     "fiCumPdStatus": "FI cum PD Status",
     "fiCumPdReport": "FI cum PD Report",
-    "valuationInitiatedDate": "Valuation Initiation Date",
+    "valuationInitiatedDateTime": "Valuation Initiation Date & Time",
     "personInitiated": "Person Initiated",
     "refNo": "Ref No.",
     "inspectionDetails": "Inspection Details",
@@ -1824,6 +1824,7 @@
     "wizardId": "Wizard ID",
     "affordableEMI": "Affordable EMI",
     "relationshipType":"Relationship Type",
+    "pdDoneAt": "PD done at",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2165,12 +2166,16 @@
         },
         "drivingLicense": {
             "maxLength": {
-                "rule": 16
+                "rule": 17
+            },
+            "minLength": {
+                "rule": 12,
+                "msg":"Min 12 digits required"
             },
             "type": "alpha-numeric-nospace",
             "patternCheck": {
-                "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
-                "msg": "Should be valid"
+                "rule": "^(?!0{12})[A-Z0-9]{12}",
+                "msg": "Minimum 12 alpha-numeric characters are required"
             }
         },
         "voterId": {
@@ -2707,7 +2712,7 @@
                 "msg": "Should be 6 Digits"
             },
             "patternCheck": {
-                "rule": "^[0-9]{6}",
+                "rule": "^(?!0{6})[0-9]{6}",
                 "msg": "Invalid Number"
             },
             "type": "number"

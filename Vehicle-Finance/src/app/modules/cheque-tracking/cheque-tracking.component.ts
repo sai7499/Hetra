@@ -224,17 +224,17 @@ export class ChequeTrackingComponent implements OnInit {
   // }
 
   onChangeCheque(event) {
-    const isValid=this.chequeForm.get('chequeNum').valid;
-    if(isValid){
-      const value = Number(event)
-      if(value === 0){
-        this.isInvalidChequeNum = true;
-        console.log('INVALID')
-      }else{
-        this.isInvalidChequeNum = false;
-        console.log("Valid")
-      }
-    }
+    // const isValid=this.chequeForm.get('chequeNum').valid;
+    // if(isValid){
+    //   const value = Number(event)
+    //   if(value === 0){
+    //     this.isInvalidChequeNum = true;
+    //     console.log('INVALID')
+    //   }else{
+    //     this.isInvalidChequeNum = false;
+    //     console.log("Valid")
+    //   }
+    // }
     this.selectedData.chequeNum = event;
   }
 
@@ -426,7 +426,7 @@ export class ChequeTrackingComponent implements OnInit {
     const value = this.chequeForm.value;
     console.log('value', value);
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
-    if (this.chequeForm.invalid || this.isInvalidChequeNum || isUDFInvalid) {
+    if (this.chequeForm.invalid  || isUDFInvalid) {
       this.isDirty = true;
       this.toasterService.showError('Please fill mandatory fields.',
         'Cheque Tracking')

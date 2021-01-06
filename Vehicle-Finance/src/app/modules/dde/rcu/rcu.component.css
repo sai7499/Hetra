@@ -47,6 +47,15 @@
     padding: 10px 15px;
 }
 
+.content {
+    background: #fff;
+    padding: 1px 30px 10px!important;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 40px!important;
+    margin-right: 15px;
+    margin-left: 15px;
+}
 .nav-pills>li>a {
     border: 1px solid #5f3232 !important;
 }

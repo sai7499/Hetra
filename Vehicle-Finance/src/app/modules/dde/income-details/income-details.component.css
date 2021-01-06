@@ -6,6 +6,10 @@
   padding-top: 0px !important;
 }
 
+.cst_btm_btns {
+  margin-bottom: 27px!important;
+}
+
 .add_button {
   margin: 10px 0;
 }
@@ -236,10 +240,10 @@ td {
 }
 td {
   border-top: 1px solid #ddd !important;
-  padding: 5px !important;
+  padding: 2px !important;
 }
 th {
-  padding: 5px !important;
+  padding: 2px !important;
 }
 .mt-3 {
   margin-top: 20px;

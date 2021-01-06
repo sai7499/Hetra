@@ -308,9 +308,9 @@ export class SanctionDetailsComponent implements OnInit {
     }
     html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
     setTimeout(() => {
-      // document.getElementById('typeId2').style.display = 'none';
-      // document.getElementById('typeId1').style.display = 'none';
-      // document.getElementById('typeId').style.display = 'none';
+      document.getElementById('typeId2').style.display = 'none';
+      document.getElementById('typeId1').style.display = 'none';
+      document.getElementById('typeId').style.display = 'none';
     }, 0);
   }
 
