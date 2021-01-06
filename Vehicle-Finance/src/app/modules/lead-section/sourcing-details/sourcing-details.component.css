@@ -107,7 +107,7 @@ h3.dedupe_head {
   font-weight: bolder;
 }
 
-.content {
+/* .content {
   background: #fff;
   padding: 25px 30px;
   border-radius: 8px;
@@ -115,7 +115,7 @@ h3.dedupe_head {
   margin-bottom: 20px;
   margin-right: 15px;
   margin-left: 15px;
-}
+} */
 
 .multisteps-form__form .child-loan-label{
   margin-left: 5px !important;
@@ -262,13 +262,13 @@ h3.dedupe_head {
   font-weight: bolder;
 }
 
-.content {
+/* .content {
   background: #fff;
   padding: 25px 30px;
   border-radius: 8px;
   border: 1px solid #ddd;
   margin-bottom: 20px;
-}
+} */
 
 label.col-form-label {
   width: 50%;

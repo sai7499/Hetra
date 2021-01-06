@@ -6,10 +6,13 @@
         <div class="multisteps-form">
             <div class="content">
                 <form [formGroup]="teleVerificationForm">
+                   <div class="row">
                     <h3 class="banner-con">Tele Verification Form
                         <span class="float-right">{{udfScreenId}}</span>
                     </h3>
-                    <div class="row">
+                   </div>
+                    
+                    <div class="">
                         <div class="row">
                             <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                 <label for="leadNumber">{{labels?.leadNumber}}</label>
@@ -108,9 +111,11 @@
 
 
                     <!-- Vehicle and loan related fields -->
-                    <div>
+                    <div class="row">
                         <h3 class="banner-sub">Vehicle and Loan related Fields</h3>
-                        <div class="row">
+                        
+                    </div>
+                    <div class="col-12">
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="needForProposedVehicle"
@@ -178,16 +183,17 @@
                             </div>
 
                         </div>
-                    </div>
-
-
-
+                   
                     <!-- Tele Verification -->
                     <div>
 
-                        <h3 class="banner-sub">Tele Verification</h3>
-                        <div class="row">
-                            <h4>Residence</h4>
+                        <!-- <h3 class="banner-sub">Tele Verification</h3> -->
+                        <div class="">
+                            <div class="row">
+                                 <h4 class="banner-sub">Residence</h4>
+
+                            </div>
+                           
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="otherVehicles">{{labels?.otherVehicles}}</label>
@@ -366,7 +372,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4>Office</h4>
+                            <div class="row">
+                                <h4 class="banner-sub">Office</h4>
+                            </div>
+                            
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="workExperience">{{labels?.workExperience}}</label>
@@ -522,7 +531,11 @@
 
                     <!-- Reference Details -->
                     <div class="row" *ngIf="applicantType === 'Applicant'">
-                        <h3 class="banner-sub">Reference Details</h3>
+                        <div class="">
+                            <h3 class="banner-sub">Reference Details</h3>
+
+                        </div>
+                        
                         <table class="table table-bordered cam_table_proposed mar-5 mt-3">
                             <thead>
                                 <tr class="">
@@ -621,7 +634,7 @@
                     <div class="row">
                         <h3 class="banner-sub">{{labels?.referenceRemarks}}</h3>
                         <textarea type="text" class="form-control text_area mar-5" maxlength="200" formControlName="remarks" required></textarea>
-                        <div *ngIf="isDirty || teleVerificationForm.get('remarks').touched">
+                        <div class="col-sm-12 col-lg-12" *ngIf="isDirty || teleVerificationForm.get('remarks').touched">
 
                             <div style="color:red" *ngIf="teleVerificationForm.get('remarks').errors?.required">
                                 Remarks is required

@@ -511,18 +511,30 @@ export class IdentityDetailsComponent implements OnInit {
     }
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const value = this.indivIdentityInfoDetails;
+    const value = this.getIdentityDetails();
+    
     this.referenceNo = value.aadhar;
     this.applicantService.retreiveAdhar(this.referenceNo).subscribe((res) => {
       if (res['ProcessVariables'].error.code == "0") {
         const uid = res['ProcessVariables'].uid;
         details.get('aadhar').setValue(uid)
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error.message, '')
       }
     })
   }
 
+  getIdentityDetails(){
+    let value;
+    if (this.isIndividual) {
+      return value = this.indivIdentityInfoDetails;   
+    } else {
+      return value = this.corporateProspectDetails;
+    }
+  }
+
   onRelieve() {
-    const value = this.indivIdentityInfoDetails;
+    const value = this.getIdentityDetails();
     this.referenceNo = value.aadhar;
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);

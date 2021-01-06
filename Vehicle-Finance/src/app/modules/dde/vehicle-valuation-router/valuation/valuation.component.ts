@@ -188,6 +188,7 @@ export class ValuationComponent implements OnInit {
   udfGroupId: any;
   initUDFValues: any;
   editedUDFValues: any;
+  public format = 'dd/MM/yyyy HH:mm';
 
 
 
@@ -914,9 +915,20 @@ export class ValuationComponent implements OnInit {
         this.personInitiatedBy = this.userName;
   
       }
+     const valuationTime=  this.vehicleValuationDetails.valuationInitiationTime;
+     const hour = valuationTime? valuationTime.split(':')[0] : 0;
+     const minute = valuationTime? valuationTime.split(':')[1] : 0;
+    //  console.log('valuationTime', valuationTime)
+      let valuationDate= this.vehicleValuationDetails.valuationInitiationDate ?
+      this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : null;
+      const date = valuationDate.getDate();
+      const month = valuationDate.getMonth();
+      const year = valuationDate.getFullYear();  
+      valuationDate =  new Date(year, month, date, hour, minute)
       this.vehicleValuationForm.patchValue({
-        valuationInitiationDate: this.vehicleValuationDetails.valuationInitiationDate ?
-          this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : '',
+        // valuationInitiationDate: this.vehicleValuationDetails.valuationInitiationDate ?
+        //   this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : '',
+        valuationInitiationDate : valuationDate,
         // personInitiated: this.vehicleValuationDetails.personInitiated || '',
         personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
       })
