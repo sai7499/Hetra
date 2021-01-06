@@ -1,10 +1,8 @@
-import { Component, OnInit, Output, EventEmitter,  } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { OdDetailsService } from '@services/od-details.service';
 import { LoanViewService } from '@services/loan-view.service';
-
 @Component({
   selector: 'app-cibil-od',
   templateUrl: './cibil-od.component.html',
@@ -18,11 +16,11 @@ export class CibilOdComponent implements OnInit {
   applicantUrl: string;
   isLoan360: boolean;
 
-  constructor(private location: Location,
+  constructor(
     private router: Router,
     private labelService: LabelsService,
     private activatedRoute: ActivatedRoute,
-    private odDetailsService:OdDetailsService,
+    private odDetailsService: OdDetailsService,
     private loanViewService: LoanViewService
   ) { }
 
@@ -36,6 +34,7 @@ export class CibilOdComponent implements OnInit {
     this.userId = localStorage.getItem('userId');
     this.getParentOdDetails();
   }
+
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
@@ -47,30 +46,28 @@ export class CibilOdComponent implements OnInit {
       });
     });
   }
-  getParentOdDetails(){
+
+  getParentOdDetails() {
     const body = {
-     leadId : this.leadId
+      leadId: this.leadId
 
     };
     this.odDetailsService.getOdApplicantList(body).subscribe((res: any) => {
-        console.log('get od details by applicnat id........>',res)
-        this.odApplicantList = res.ProcessVariables.applicantList
-        console.log(this.odApplicantList);
-        
-      });
+      this.odApplicantList = res.ProcessVariables.applicantList
+    });
   }
-  navigatePage(applicantId){
-  console.log(
-          'applicantId', 
-          `${this.applicantUrl}/${applicantId}`
-        );
-  this.router.navigate([`${this.applicantUrl}/${applicantId}`]);
+
+  navigatePage(data) {
+    console.log(data, 'navigate data')
+    this.router.navigate([`${this.applicantUrl}/${data.applicantId}`], { queryParams: data, skipLocationChange: true });
   }
+
   onBack() {
-    // this.location.back();/viability-list
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
   }
+
   onNext() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/score-card`);
   }
+
 }
