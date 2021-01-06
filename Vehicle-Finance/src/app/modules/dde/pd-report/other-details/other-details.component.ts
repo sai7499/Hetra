@@ -335,7 +335,10 @@ export class OtherDetailsComponent implements OnInit {
       latitude: this.latitude || '',
       longitude: this.longitude || '',
     }
-    if (this.otherDetailsForm.valid && this.userDefineForm.udfData.valid) {
+
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
+
+    if (this.otherDetailsForm.valid && isUdfField) {
       const data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
@@ -347,7 +350,10 @@ export class OtherDetailsComponent implements OnInit {
           {
             "udfGroupId": this.udfGroupId,
             // "udfScreenId": this.udfScreenId,
-            "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
           }
         ]
       }

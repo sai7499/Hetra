@@ -1,26 +1,31 @@
- <div class="text-left" *ngIf="label">
+<div class="text-left" *ngIf="label">
 
     <form [formGroup]="viabilityForm">
 
         <div class="row">
-            <select class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-mar" id="vehicle_viability_navigate" formControlName="type"
-            (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
-            <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
+
+            <h3 class="banner-con">Viability Details ({{udfScreenId}}) </h3>
+
+            <select class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-mar" id="vehicle_viability_navigate"
+                formControlName="type" (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
+                <option value="{{item.key}}" *ngFor="let item of viabilityObj.vehicleViability">{{item?.value}}</option>
             </select>
         </div>
-        
+
         <!-- <app-vf-custom-select class="btn" id="vehicle_viability_navigate" [values]="viabilityObj?.vehicleViability"
             formControlName="type" (change)="vehicle_viability_navigate($event.target.value)">
         </app-vf-custom-select> -->
 
         <div id="passanger" *ngIf="vehicle_viability_value === '1VHCLVBTY'" formGroupName="passanger">
             <div class=" form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 ">
-            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
-             
-            
-                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName ? viabilityDataObj?.applicantName  : applicantName }} </p> 
-                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model ? viabilityDataObj?.model : vehicleModelMake }}</p>
-            
+                <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
+
+
+                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName ? viabilityDataObj?.applicantName :
+                    applicantName }} </p>
+                <p id="">{{label?.vehicleModel}}:{{ viabilityDataObj?.model ? viabilityDataObj?.model : vehicleModelMake
+                    }}</p>
+
             </div>
             <!-- <form action="" method="POST"> -->
             <div class="selfie_margin_l form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-center">
@@ -33,37 +38,40 @@
                                 'assets/images/user.jpg'
                             " alt="[Image: Photo]" width="100" />
                 </div>
-                <span *ngIf = "isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button"
+                        (click)="showModal = true"> Take selfie
                     </button></span>
                 <!-- <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal> -->
             </div>
 
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
-                <tr class="table-head-bg m-0 p-02 text-left">                 
-                   <td colspan="2">
-                    <h4 class="banner-con">{{label?.income}}</h4> 
-                   </td>                  
+                <tr class="table-head-bg m-0 p-02 text-left">
+                    <td colspan="2">
+                        <h4 class="banner-con">{{label?.income}}</h4>
+                    </td>
                 </tr>
                 <tbody>
                     <tr>
                         <td class="text-left">{{label?.onwardRoute}}</td>
                         <td>
                             <!-- <input type="text" name="route" class="form-control" formControlName="route" /> -->
-                            <app-custom-input formControlName="onwardRoute" [patternCheck]="label?.validationData?.name?.type"
-                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'" [isDirty]="isDirty"
-                                [placeholder]="'Enter Onward Route Details'"
-                                [type]="'alpha'"></app-custom-input>
+                            <app-custom-input formControlName="onwardRoute"
+                                [patternCheck]="label?.validationData?.name?.type"
+                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'"
+                                [isDirty]="isDirty" [placeholder]="'Enter Onward Route Details'" [type]="'alpha'">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
                         <td class="text-left"> {{label?.returnRoute}}</td>
                         <td>
                             <!-- <input type="text" name="route" class="form-control" formControlName="route" /> -->
-                            <app-custom-input formControlName="returnRoute" [patternCheck]="label?.validationData?.name?.type"
-                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'" [isDirty]="isDirty"
-                                [placeholder]="'Enter  Return Route Details'"
-                                [type]="'alpha'"></app-custom-input>
+                            <app-custom-input formControlName="returnRoute"
+                                [patternCheck]="label?.validationData?.name?.type"
+                                [maxLength]="label?.validationData?.name?.maxLength" [isRequired]="'Route Required'"
+                                [isDirty]="isDirty" [placeholder]="'Enter  Return Route Details'" [type]="'alpha'">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -71,10 +79,12 @@
                         <td>
                             <!-- <input type="number" name="nature_goods" class="form-control" id="nature_goods"
                                 formControlName="natureOfGoods" /> -->
-                            <app-custom-input formControlName="natureOfGoods" [maxLength]="label?.validationData?.newlimitAmount?.maxLength"
-                                [isRequired]="'Nature Of Goods is Required'" [placeholder]="'Enter Nature of Goods'" [isDirty]="isDirty"
-                                [type]="label?.validationData?.newlimitAmount?.type"></app-custom-input>
-                                <!-- <app-vf-custom-select formControlName="natureOfGoods" [values]="viabilityObj?.businessType"
+                            <app-custom-input formControlName="natureOfGoods"
+                                [maxLength]="label?.validationData?.newlimitAmount?.maxLength"
+                                [isRequired]="'Nature Of Goods is Required'" [placeholder]="'Enter Nature of Goods'"
+                                [isDirty]="isDirty" [type]="label?.validationData?.newlimitAmount?.type">
+                            </app-custom-input>
+                            <!-- <app-vf-custom-select formControlName="natureOfGoods" [values]="viabilityObj?.businessType"
                                 [isRequired]="'Please Select Nature Of Goods'"></app-vf-custom-select> -->
                         </td>
                     </tr>
@@ -83,11 +93,11 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="distance_km" id="distance_km"
                                 formControlName="distanceInKm" /> -->
-                            <app-custom-input formControlName="distanceInKm" 
-                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength" [isRequired]="'Distance in kms is Required'"
-                                [placeholder]="'Enter Distance In Kms'"
-                                (keyup)="calculatePassenger()"
-                                [isDirty]="isDirty" [type]="label?.validationData?. amountFiveCharc?.type"></app-custom-input>
+                            <app-custom-input formControlName="distanceInKm"
+                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                                [isRequired]="'Distance in kms is Required'" [placeholder]="'Enter Distance In Kms'"
+                                (keyup)="calculatePassenger()" [isDirty]="isDirty"
+                                [type]="label?.validationData?. amountFiveCharc?.type"></app-custom-input>
 
                         </td>
                     </tr>
@@ -96,16 +106,11 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="no_trips_per_month" id="no_trips_per_month"
                                 formControlName="tripsPerMonth" /></td> -->
-                                <app-custom-input
-                                formControlName="tripsPerMonth"
-                                [patternCheck]=" "
+                            <app-custom-input formControlName="tripsPerMonth" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
-                                [isRequired]="'TripsPerMonth is Required'"
-                                [placeholder]="'Enter Trips Per Month'"
-                                [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountFiveCharc?.type"
-                                (keyup)="calculatePassenger()"
-                                ></app-custom-input>
+                                [isRequired]="'TripsPerMonth is Required'" [placeholder]="'Enter Trips Per Month'"
+                                [isDirty]="isDirty" [type]="label?.validationData?. amountFiveCharc?.type"
+                                (keyup)="calculatePassenger()"></app-custom-input>
                     </tr>
                     <tr>
                         <td>(c) {{label?.monthlyRunningInKm}}</td>
@@ -113,51 +118,36 @@
                             <!-- <input type="number" class="form-control" name="monthly_running_km" id="monthly_running_km"
                                 value="monthlyRunningKm" formControlName="monthlyRunningKm" disabled/></td> -->
 
-                                <app-custom-input
-                                formControlName="monthlyRunningKm"
-                                [patternCheck]=" "
+                            <app-custom-input formControlName="monthlyRunningKm" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
-                                [isRequired]="'monthlyRunningKm is Required'"
-                                [isDirty]="isDirty"
+                                [isRequired]="'monthlyRunningKm is Required'" [isDirty]="isDirty"
                                 [placeholder]="' Monthly Running Kms'"
-                                [type]="label?.validationData?. amountFiveCharc?.type"
-                                [isDisabled]=" true"
-                                ></app-custom-input>
+                                [type]="label?.validationData?. amountFiveCharc?.type" [isDisabled]=" true">
+                            </app-custom-input>
                     </tr>
                     <tr>
                         <td>(d) {{label?.averageLoadInPerTon}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="average_load_ton" id="average_load_ton"
                                 formControlName="avgLoadPerTon" /> -->
-                                <app-custom-input
-                                [id]="average_load_ton"
-                                formControlName="avgLoadPerTon"
-                                [patternCheck]=""
+                            <app-custom-input [id]="average_load_ton" formControlName="avgLoadPerTon" [patternCheck]=""
                                 [maxLength]="label?.validationData?.amountFiveCharc?.maxLength"
-                                [isRequired]="'Average Load Per Ton is Required'"
-                                [isDirty]="isDirty"
+                                [isRequired]="'Average Load Per Ton is Required'" [isDirty]="isDirty"
                                 [placeholder]="'Enter Average Load Per Ton'"
-                                [type]="label?.validationData?.amountFiveCharc?.type"
-                                (keyup)="calculatePassenger()"
-                                ></app-custom-input>
-                            </td>
+                                [type]="label?.validationData?.amountFiveCharc?.type" (keyup)="calculatePassenger()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>(e) {{label?.rate}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="rate_tonne_kl" id="rate_tonne_kl"
                                 formControlName="rateTonne" /> -->
-                                <app-custom-input
-                                [id]="rate_tonne_kl"
-                                formControlName="rateTonne"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="rate_tonne_kl" formControlName="rateTonne" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
-                                [isRequired]="'Tonnage Rate is Required'"
-                                [placeholder]="'Enter Rate of Tonne'"
-                                [isDirty]="isDirty"
-                                [type]="label?.validationData?. amountFiveCharc?.type"
-                                (keyup)="calculatePassenger()"
-                                ></app-custom-input>
+                                [isRequired]="'Tonnage Rate is Required'" [placeholder]="'Enter Rate of Tonne'"
+                                [isDirty]="isDirty" [type]="label?.validationData?. amountFiveCharc?.type"
+                                (keyup)="calculatePassenger()"></app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -165,16 +155,11 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="rate_tonne_kl" id="rate_tonne_kl"
                                 formControlName="otherIncome" placeholder="Enter Rate of Tonne" (keyup)="calculatePassenger()" /> -->
-                                <app-custom-input
-                                [id]="rate_tonne_kl"
-                                formControlName="otherIncome"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"  
+                            <app-custom-input [id]="rate_tonne_kl" formControlName="otherIncome" [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [placeholder]="'Enter Other Revenue'"
-                               
-                                [type]="label?.validationData?. amountDecimal?.type"
-                                (keyup)="calculatePassenger()"
-                                ></app-custom-input>
+                                [type]="label?.validationData?. amountDecimal?.type" (keyup)="calculatePassenger()">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -182,17 +167,10 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="rate_tonne_kl" id="rate_tonne_kl"    
                                 formControlName="otherIncomeRemarks" placeholder="Enter Other Renvenue Remarks" /> -->
-                                <app-custom-input
-                                [id]="rate_tonne_kl"
-                                formControlName="otherIncomeRemarks"
+                            <app-custom-input [id]="rate_tonne_kl" formControlName="otherIncomeRemarks"
                                 [patternCheck]="label?.validationData?.landMark?.pattern"
                                 [maxLength]="label?.validationData?.landMark?.maxLength"
-                                
-                                [placeholder]="'Enter Other Renvenue Remarks If Any'"
-                               
-                               
-                                
-                                ></app-custom-input>
+                                [placeholder]="'Enter Other Renvenue Remarks If Any'"></app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -208,51 +186,35 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="fuel_average_km" id="fuel_average_km"
                                 formControlName="fuelAvgPerKm" /></td> -->
-                                <app-custom-input
-                                [id]="fuel_average_km"
-                                formControlName="fuelAvgPerKm"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="fuel_average_km" formControlName="fuelAvgPerKm" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. viabilityFiveDigit?.maxLength"
-                                [isRequired]="'Fuel Avg Per Km is Required'"
-                                [isDirty]="isDirty"
+                                [isRequired]="'Fuel Avg Per Km is Required'" [isDirty]="isDirty"
                                 [type]="label?.validationData?. viabilityFiveDigit?.type"
-                                [placeholder]="'Enter Fuel Avg Per Km'"
-                                (keyup)=" calculatePassengerB()"
-                                ></app-custom-input>
+                                [placeholder]="'Enter Fuel Avg Per Km'" (keyup)=" calculatePassengerB()">
+                            </app-custom-input>
                     </tr>
                     <tr>
                         <td>(h) {{label?.fuelLitreCost}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="cost_litre_fuel" id="cost_litre_fuel"
                                 formControlName="costPerLtr" /></td> -->
-                                <app-custom-input
-                                [id]="cost_litre_fuel"
-                                formControlName="costPerLtr"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="cost_litre_fuel" formControlName="costPerLtr" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. viabilityFiveDigit?.maxLength"
-                                [isRequired]="'Cost Per Litre is Required'"
-                                [isDirty]="isDirty"
+                                [isRequired]="'Cost Per Litre is Required'" [isDirty]="isDirty"
                                 [type]="label?.validationData?. viabilityFiveDigit?.type"
-                                [placeholder]="'Enter Cost Per Litre'"
-                                (keyup) = " calculatePassengerB()"
-                                ></app-custom-input>
+                                [placeholder]="'Enter Cost Per Litre'" (keyup)=" calculatePassengerB()">
+                            </app-custom-input>
                     </tr>
                     <tr>
                         <td>(i) {{label?.noOfTyres}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="num_tyres" id="num_tyres"
                                 formControlName="noOfTyres" /> -->
-                                <app-custom-input
-                                [id]="num_tyres"
-                                formControlName="noOfTyres"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="num_tyres" formControlName="noOfTyres" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. noOfTyres?.maxLength"
-                                [isRequired]="'No Of Tyres is Required'"
-                                [isDirty]="isDirty"
-                                [type]="label?.validationData?. noOfTyres?.type"
-                                [placeholder]="'Enter No of Tyres'"
-                                (keyup)=" calculatePassengerB()"
-                                ></app-custom-input>
+                                [isRequired]="'No Of Tyres is Required'" [isDirty]="isDirty"
+                                [type]="label?.validationData?. noOfTyres?.type" [placeholder]="'Enter No of Tyres'"
+                                (keyup)=" calculatePassengerB()"></app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -260,17 +222,12 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="cost_tyre" id="cost_tyre"
                                 formControlName="perTyreCost" /> -->
-                                <app-custom-input
-                                [id]="cost_tyre"
-                                formControlName="perTyreCost"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="cost_tyre" formControlName="perTyreCost" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [isRequired]="'Cost Per Tyre is Required'"
-                                [isDirty]="isDirty"
+                                [isRequired]="'Cost Per Tyre is Required'" [isDirty]="isDirty"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [placeholder]="'Enter Cost Per Tyre'"
-                                (keyup)=" calculatePassengerB()"
-                                ></app-custom-input>
+                                [placeholder]="'Enter Cost Per Tyre'" (keyup)=" calculatePassengerB()">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -278,17 +235,12 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="life_new_tyres_km" name="life_new_tyres_km"
                                 formControlName="newTyreLifeKm" /></td> -->
-                                <app-custom-input
-                                [id]="cost_tyre"
-                                formControlName="newTyreLifeKm"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="cost_tyre" formControlName="newTyreLifeKm" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Life Of Tyre Is Required'"
-                                [isDirty]="isDirty"
-                                [placeholder]="'Enter Life of New Tyre'"
-                                (keyup)=" calculatePassengerB()"
-                                ></app-custom-input>
+                                [isRequired]="'Life Of Tyre Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Life of New Tyre'" (keyup)=" calculatePassengerB()">
+                            </app-custom-input>
                     </tr>
                     <tr>
                         <td><strong>{{label?.expenses}}</strong></td>
@@ -299,18 +251,12 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="fuel_cost" id="fuel_cost"
                                 formControlName="fuelCost" /> -->
-                                <app-custom-input
-                                [id]="fuel_cost"
-                                formControlName="fuelCost"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="fuel_cost" formControlName="fuelCost" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Fuel Cost Is Required'"
-                                [isDirty]="isDirty"
-                                [placeholder]="'Enter Fuel Cost'"
-                                [isDisabled]= "true"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
+                                [isRequired]="'Fuel Cost Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Fuel Cost'" [isDisabled]="true" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -318,19 +264,12 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="tyre_cost" id="tyre_cost"
                                 formControlName="tyreCost" /> -->
-                                <app-custom-input
-                                [id]="fuel_cost"
-                                formControlName="tyreCost"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="fuel_cost" formControlName="tyreCost" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'tyre Cost Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Cost of Tyre'"
-                                [isDisabled]= "true" 
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
+                                [isRequired]="'tyre Cost Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Cost of Tyre'" [isDisabled]="true"
+                                (keyup)="calculatePassengerC()"></app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -338,57 +277,38 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="drivers_salary_allowances"
                                 id="drivers_salary_allowances" formControlName="driversSalary" /> -->
-                                <app-custom-input
-                                [id]="drivers_salary_allowances"
-                                formControlName="driversSalary"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="drivers_salary_allowances" formControlName="driversSalary"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Drivers Salary Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Driver Salary'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
-                               
-                            </td>
+                                [isRequired]="'Drivers Salary Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Driver Salary'" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
+
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.cleanerSalary}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="cleaners_salary_allowances"
                                 id="cleaners_salary_allowances" formControlName="cleanersSalary" /> -->
-                                <app-custom-input
-                                [id]="cleaners_salary_allowances"
-                                formControlName="cleanersSalary"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="cleaners_salary_allowances" formControlName="cleanersSalary"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Cleaners Salary Is Required'"
-                                [isDirty]="isDirty"
-                               
-                                [placeholder]="'Enter Cleaner Salary'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
-                             </td>
+                                [isRequired]="'Cleaners Salary Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Cleaner Salary'" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.permitCost}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="permit_cost" id="permit_cost"
                                 formControlName="permitCost" /> -->
-                                <app-custom-input
-                                [id]="permit_cost"
-                                formControlName="permitCost"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="permit_cost" formControlName="permitCost" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Permit Cost Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Permit Cost'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
+                                [isRequired]="'Permit Cost Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Permit Cost'" (keyup)="calculatePassengerC()"></app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -396,17 +316,12 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="fc_charge" id="fc_charge"
                                 formControlName="fcCharge" /> -->
-                                <app-custom-input
-                                [id]="fc_charge"
-                                formControlName="fcCharge"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="fc_charge" formControlName="fcCharge" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'FC-Charge Cost Is Required'"
-                                [isDirty]="isDirty"
-                                [placeholder]="'Enter FC-Charge Cost'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
+                                [isRequired]="'FC-Charge Cost Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter FC-Charge Cost'" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -414,18 +329,12 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="toll_tax_paid" id="toll_tax_paid"
                                 formControlName="paidTollTax" /> -->
-                                <app-custom-input
-                                [id]="toll_tax_paid"
-                                formControlName="paidTollTax"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="toll_tax_paid" formControlName="paidTollTax" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Paid TollTax Cost Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Toll Tax Paid'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
+                                [isRequired]="'Paid TollTax Cost Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Toll Tax Paid'" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -433,18 +342,10 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="taxes" id="taxes" formControlName="taxes"
                                 formControlName="taxes" /> -->
-                                <app-custom-input
-                                [id]="taxes"
-                                (keyup)="calculatePassengerC()"
-                                formControlName="taxes"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Taxes Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Taxes'"
-                                ></app-custom-input>
+                            <app-custom-input [id]="taxes" (keyup)="calculatePassengerC()" formControlName="taxes"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type" [isRequired]="'Taxes Is Required'"
+                                [isDirty]="isDirty" [placeholder]="'Enter Taxes'"></app-custom-input>
 
                         </td>
                     </tr>
@@ -453,18 +354,12 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="maintenance" id="maintenance"
                                 formControlName="maintanence" /> -->
-                                <app-custom-input
-                                [id]="maintanence"
-                                (keyup)="calculatePassengerC()"
-                                formControlName="maintanence"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="maintanence" (keyup)="calculatePassengerC()"
+                                formControlName="maintanence" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Maintanence Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Maintanence'"
-                                ></app-custom-input>
+                                [isRequired]="'Maintanence Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Maintanence'"></app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -472,114 +367,77 @@
                         <td>
                             <!-- <input type="number" class="form-control" name="miscellaneous" id="miscellaneous"
                                 formControlName="busMiscellaneousExpenses" /> -->
-                                <app-custom-input
-                                [id]="miscellaneous"
-                                formControlName="busMiscellaneousExpenses"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="miscellaneous" formControlName="busMiscellaneousExpenses"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Miscellaneous Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Miscellaneous'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Miscellaneous Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Miscellaneous'" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.insuranceExpenses}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="insurance_expenses" id="insurance_expenses"
                                 formControlName="busInsurenceExpenses" /> -->
-                                <app-custom-input
-                                [id]="insurance_expenses"
-                                formControlName="busInsurenceExpenses"
-                                [patternCheck]=" "
-                                [maxLength]="inputLength10"
-                                [isRequired]="'Insurance Expenses Is Required'"
-                                [isDirty]="isDirty"
-                                [type]="'decimal'"
-                                [placeholder]="'Enter Insurance Expenses'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
-                            </td>
+                            <app-custom-input [id]="insurance_expenses" formControlName="busInsurenceExpenses"
+                                [patternCheck]=" " [maxLength]="inputLength10"
+                                [isRequired]="'Insurance Expenses Is Required'" [isDirty]="isDirty" [type]="'decimal'"
+                                [placeholder]="'Enter Insurance Expenses'" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.otherExpenses}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="insurance_expenses" id="insurance_expenses"
                                 formControlName="busInsurenceExpenses" /> -->
-                                <app-custom-input
-                                [id]="insurance_expenses"
-                                formControlName="otherExpenses"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [isRequired]="'Other Expenses Is Required'"
-                                [isDirty]="isDirty"
+                            <app-custom-input [id]="insurance_expenses" formControlName="otherExpenses"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [isRequired]="'Other Expenses Is Required'" [isDirty]="isDirty"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [placeholder]="'Enter Other Expenses If Any'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
-                            </td>
+                                [placeholder]="'Enter Other Expenses If Any'" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
+                        </td>
                     </tr>
-                   
+
                     <tr>
                         <td>{{label?.otherExpesesRemark}}</td>
                         <td>
                             <!-- <input type="textarea" class="form-control" name="insurance_expenses" id="insurance_expenses"
                                 formControlName="otherExpensesRemarks" /> -->
-                                <app-custom-input
-                                [id]="insurance_expenses"
-                                formControlName="otherExpensesRemarks"
-                                
-                                [maxLength]="label?.validationData?.remark?.maxLength"
-                                
-                                [type]="'alpha-numeric'"
-                                [placeholder]="'Enter Other Expenses Remarks If Any'"
-                                
-                                ></app-custom-input>
-                            </td>
-                    </tr> 
+                            <app-custom-input [id]="insurance_expenses" formControlName="otherExpensesRemarks"
+                                [maxLength]="label?.validationData?.remark?.maxLength" [type]="'alpha-numeric'"
+                                [placeholder]="'Enter Other Expenses Remarks If Any'"></app-custom-input>
+                        </td>
+                    </tr>
                     <tr>
                         <td>{{label?.operationExpenses}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="insurance_expenses" id="insurance_expenses"
                                 formControlName="busInsurenceExpenses" /> -->
-                                <app-custom-input
-                                [id]="insurance_expenses"
-                                formControlName="operationsExpenses"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                               
-                                
+                            <app-custom-input [id]="insurance_expenses" formControlName="operationsExpenses"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [placeholder]="'Enter Operational Expenses If  Any'"
-                                (keyup)="calculatePassengerC()"
-                                ></app-custom-input>
-                            </td>
+                                [placeholder]="'Enter Operational Expenses If  Any'" (keyup)="calculatePassengerC()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.totalExpenses}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="total_expenses" id="total_expenses"
                                 formControlName="totalExpenses" /> -->
-                                <app-custom-input
-                                [id]="total_expensess"
-                                formControlName="totalExpenses"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="total_expensess" formControlName="totalExpenses" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Total Expenses Is Required'"
-                                [isDirty]="isDirty"
-                               
-                                [placeholder]="'Enter Total Expenses'"
-                                [isDisabled]="true"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Total Expenses Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Total Expenses'" [isDisabled]="true"></app-custom-input>
+                        </td>
                     </tr>
-                    
+
                     <tr>
-                        <td >&nbsp;</td>
+                        <td>&nbsp;</td>
                         <td></td>
                     </tr>
                     <tr>
@@ -590,17 +448,11 @@
                         <td>{{label?.emiFull}}</td>
                         <td>
                             <!-- <input type="number" class="form-control" name="emi" id="emi" formControlName="emi" /> -->
-                            <app-custom-input
-                                [id]="emi"
-                                formControlName="emi"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="emi" formControlName="emi" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Emi Is Required'"
-                                [isDirty]="isDirty"
-                                [placeholder]="'Enter EMI '"
-                                (keyup)="calculatePassengerD()"
-                                ></app-custom-input>
+                                [type]="label?.validationData?. amountDecimal?.type" [isRequired]="'Emi Is Required'"
+                                [isDirty]="isDirty" [placeholder]="'Enter EMI '" (keyup)="calculatePassengerD()">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -619,12 +471,12 @@
         <div id="passanger_stand_operator" formGroupName="passangerStandOperator"
             *ngIf="vehicle_viability_value === '2VHCLVBTY'">
             <div class=" form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 ">
-            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
+                <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
 
-            <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
-                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
-            <!---	<h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
-            <!-- <form action="" method="POST"> -->
+                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName }} </p>
+                <p id="">{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
+                <!---	<h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
+                <!-- <form action="" method="POST"> -->
             </div>
             <div class="selfie_margin_l form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-center">
                 <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
@@ -636,11 +488,12 @@
                                 'assets/images/user.jpg'
                             " alt="[Image: Photo]" width="100" />
                 </div>
-                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button"
+                        (click)="showModal = true"> Take selfie
                     </button></span>
                 <!-- <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal> -->
             </div>
-    
+
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
@@ -655,16 +508,10 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="application" id="application"
                                 formControlName="application" /> -->
-                                <app-custom-input
-                                [id]="application"
-                                formControlName="application"
-                                [patternCheck]="namePattern"
-                                [maxLength]="label?.validationData?.name?.maxLength"
-                                [type]="label?.validationData?.name?.type"
-                                [isRequired]="'Application Is Required'"
-                                [isDirty]="isDirty"
-                                [placeholder]="'Enter Application Details'"
-                                ></app-custom-input>
+                            <app-custom-input [id]="application" formControlName="application"
+                                [patternCheck]="namePattern" [maxLength]="label?.validationData?.name?.maxLength"
+                                [type]="label?.validationData?.name?.type" [isRequired]="'Application Is Required'"
+                                [isDirty]="isDirty" [placeholder]="'Enter Application Details'"></app-custom-input>
                         </td>
                     </tr>
                     <tr>
@@ -672,37 +519,26 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="gross_income_perday" id="gross_income_perday"
                                 formControlName="grossIncomePerDay" />  -->
-                                <app-custom-input
-                                [id]="gross_income_perday"
-                                formControlName="grossIncomePerDay"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                            <app-custom-input [id]="gross_income_perday" formControlName="grossIncomePerDay"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
                                 [type]="label?.validationData?. amountFiveCharc?.type"
-                                [isRequired]="'Gross Income Per Day Is Required'"
-                                [isDirty]="isDirty"
-                                [placeholder]="'Enter Gross Income Per Day'"
-                                (keyup)="calculateStandOperator()"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Gross Income Per Day Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Gross Income Per Day'" (keyup)="calculateStandOperator()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>(b) {{label?.noOfEarningDays}}</td>
                         <td>
                             <!-- <input type="text" name="earnings_perday" class="form-control" id="earnings_perday"
                                 formControlName="businessEarningPerDay" /> -->
-                                <app-custom-input
-                                [id]="gross_income_perday"
-                                formControlName="businessEarningPerDay"
-                                
+                            <app-custom-input [id]="gross_income_perday" formControlName="businessEarningPerDay"
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Earnings Per Month Is Required'"
-                                [isDirty]="isDirty"
-                                [custom]="daysCheck"
-                                (keyup)="calculateStandOperator()"
-                                [placeholder]="'Enter Business Earning Per Month'"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Earnings Per Month Is Required'" [isDirty]="isDirty" [custom]="daysCheck"
+                                (keyup)="calculateStandOperator()" [placeholder]="'Enter Business Earning Per Month'">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td><strong> {{label?.monthlyIncome}} (A)</strong></td>
@@ -713,98 +549,65 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="expenses_perday" id="expenses_perday"
                                 formControlName="businessIncomePerDay" /> -->
-                                <app-custom-input
-                                [id]="expenses_perday"
-                                formControlName="businessIncomePerDay"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="expenses_perday" formControlName="businessIncomePerDay"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Expenses Per Day Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Expenses Per Day'"
-                                (keyup)="calculateStandOperatorB()"
-                                ></app-custom-input>
-                             </td>
+                                [isRequired]="'Expenses Per Day Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Expenses Per Day'" (keyup)="calculateStandOperatorB()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>(d) {{label?.avgTyreExpenses}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="avg_tyre_expenses_permonth"
                                 id="avg_tyre_expenses_permonth" formControlName="avgTyreExpenses" /> -->
-                                <app-custom-input
-                                (keyup)="calculateStandOperatorB()"
-                                [id]="avg_tyre_expenses_permonth"
-                                formControlName="avgTyreExpenses"
-                                [patternCheck]=" "
+                            <app-custom-input (keyup)="calculateStandOperatorB()" [id]="avg_tyre_expenses_permonth"
+                                formControlName="avgTyreExpenses" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Avg Tyre Expenses Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Avg Tyre Expenses'"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Avg Tyre Expenses Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Avg Tyre Expenses'"></app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>(e) {{label?.insuranceExpensePerMonth}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="insurance_expenses_permonth"
                                 id="insurance_expenses_permonth" formControlName="insuranceExpenses" /> -->
-                                <app-custom-input
-                                (keyup)="calculateStandOperatorB()"
-                                [id]="insurance_expenses_permonth"
-                                formControlName="insuranceExpenses"
-                                [patternCheck]=" "
+                            <app-custom-input (keyup)="calculateStandOperatorB()" [id]="insurance_expenses_permonth"
+                                formControlName="insuranceExpenses" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Insurance Expenses Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter  Insurance Expenses '"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Insurance Expenses Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter  Insurance Expenses '"></app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>(f) {{label?.miscellaneousExpenses}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="miscellaneous_expenses"
                                 id="miscellaneous_expenses" formControlName="miscellaneousExpenses" /> -->
-                                <app-custom-input
-                                (keyup)="calculateStandOperatorB()"
-                                [id]="miscellaneous_expenses"
-                                formControlName="miscellaneousExpenses"
-                                [patternCheck]=" "
+                            <app-custom-input (keyup)="calculateStandOperatorB()" [id]="miscellaneous_expenses"
+                                formControlName="miscellaneousExpenses" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Miscellaneous Expenses Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Miscellaneous Expenses'"
-                                ></app-custom-input>
+                                [isRequired]="'Miscellaneous Expenses Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Miscellaneous Expenses'"></app-custom-input>
 
-                            </td>
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.totalExpenses}} ((b*c)+d+e+f) </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="total_expenses" id="total_expenses"
                                 formControlName="totalExpenses" /> -->
-                                <app-custom-input
-                                [id]="total_expenses"
-                                formControlName="totalExpenses"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="total_expenses" formControlName="totalExpenses" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Total Expenses Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter  Total Expenses '"
-                                [isDisabled] = "true"
-                                
-                                
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Total Expenses Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter  Total Expenses '" [isDisabled]="true"></app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -815,40 +618,26 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="net_cash_flow" id="net_cash_flow"
                                 formControlName="netCashFlow" /> -->
-                                <app-custom-input
-                                [id]="net_cash_flow"
-                                formControlName="netCashFlow"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="net_cash_flow" formControlName="netCashFlow" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Net Cash Flow Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Net Cash Flow'"
-                                [isDisabled]="true"
-                                ></app-custom-input>   
-                            </td>
+                                [isRequired]="'Net Cash Flow Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Net Cash Flow'" [isDisabled]="true"></app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.emi}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="emi" id="emi" formControlName="emi" /> -->
-                            <app-custom-input
-                            [id]="emi"
-                            formControlName="emi"
-                            [patternCheck]=" "
-                            [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                            [type]="label?.validationData?. amountDecimal?.type"
-                            [isRequired]="'EMI Is Required'"
-                            [isDirty]="isDirty"
-                            
-                            [placeholder]="'Enter EMI'"
-                            (keyup) ="calculateStandOperatorC()"
-                            ></app-custom-input> 
+                            <app-custom-input [id]="emi" formControlName="emi" [patternCheck]=" "
+                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                                [type]="label?.validationData?. amountDecimal?.type" [isRequired]="'EMI Is Required'"
+                                [isDirty]="isDirty" [placeholder]="'Enter EMI'" (keyup)="calculateStandOperatorC()">
+                            </app-custom-input>
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>{{label?.netCashFlowEMI}}</strong></td>
+                        <td><strong>{{label?.netEmi}}</strong></td>
                         <td class="wrd-brk" colspan="1"><strong>{{standOperatorEmi}}</strong></td>
                     </tr>
                     <tr>
@@ -860,15 +649,15 @@
 
         </div>
         <div id="captive" formGroupName="captive" *ngIf="vehicle_viability_value === '3VHCLVBTY'">
-           <div class=" form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 ">
-            <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
+            <div class=" form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 ">
+                <h3 class="title heading-align">{{label?.passengerTitle}}</h3>
 
-            <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName  }} </p> 
-                <p id="" >{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
-            <!---- <h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
-            <!-- <form action="" method="POST"> -->
+                <p id="">{{label?.customerName}}: {{ viabilityDataObj?.applicantName }} </p>
+                <p id="">{{label?.vehicleModel}}:{{ viabilityDataObj?.model}}</p>
+                <!---- <h4 class="table-head-bg m-0 p-02">INCOME</h4> ---->
+                <!-- <form action="" method="POST"> -->
             </div>
-           <div class="selfie_margin_l form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-center">
+            <div class="selfie_margin_l form-group col-sm-6 col-lg-6 col-md-6 col-xs-12 text-center">
                 <label for="sourceOf_margin_money">{{label.selfieWithVehicle}}
                     <!-- <sub class="star_red_col">*</sub> -->
                 </label>
@@ -878,11 +667,12 @@
                                 'assets/images/user.jpg'
                             " alt="[Image: Photo]" width="100" />
                 </div>
-                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button" (click)="showModal = true"> Take selfie
+                <span *ngIf="isMobile"> <button class="btn btn-primary js-btn-prev" type="button"
+                        (click)="showModal = true"> Take selfie
                     </button></span>
                 <!-- <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal> -->
             </div>
-    
+
             <table
                 class="table table-responsive table-responsive-lg table-responsive-sm table-responsive-md table-responsive-xl">
                 <tr class="table-head-bg m-0 p-02">
@@ -907,165 +697,117 @@
                             [isDirty]="isDirty"
                             [placeholder]="'Enter Nature of Business'"
                             ></app-custom-input> -->
-                            <app-vf-custom-select formControlName="natureOfBusiness" [values]="viabilityObj?.businessType"
-                            [isRequired]="'Please Select Nature Of Business'"></app-vf-custom-select>
-                        </td> 
+                            <app-vf-custom-select formControlName="natureOfBusiness"
+                                [values]="viabilityObj?.businessType" [isRequired]="'Please Select Nature Of Business'">
+                            </app-vf-custom-select>
+                        </td>
                     </tr>
                     <tr>
                         <td>(a) {{label?.grossIncomePerDay}} on business </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="gross_income_perday_business"
                                 id="gross_income_perday_business" formControlName="businessIncomePerDay" /> -->
-                                <app-custom-input
-                                [id]="gross_income_perday_business"
-                                formControlName="businessIncomePerDay"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
+                            <app-custom-input [id]="gross_income_perday_business" formControlName="businessIncomePerDay"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
                                 [type]="label?.validationData?. amountFiveCharc?.type"
-                                [isRequired]="'Business Income Per Day Is Required'"
-                                [isDirty]="isDirty"
-                        
-                                [placeholder]="'Enter Gross Income Per Day'"
-                                (keyup)="calculateCaptive()"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Business Income Per Day Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Gross Income Per Day'" (keyup)="calculateCaptive()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>(b) {{label?.noOfEarningDays}} </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="num_earnings_perday" id="num_earnings_perday"
                                 formControlName="businessEarningPerDay" /> -->
-                                <app-custom-input
-                                [id]="num_earnings_perday"
-                                formControlName="businessEarningPerDay"
-                                [custom]="daysCheck"
-                                [maxLength]="label?.validationData?. daysFormat?.maxLength"
+                            <app-custom-input [id]="num_earnings_perday" formControlName="businessEarningPerDay"
+                                [custom]="daysCheck" [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Business Earning Per Month Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter No of Earnings Per Month'"
-                                (keyup)="calculateCaptive()"
-                                ></app-custom-input> 
-                            </td>
+                                [isRequired]="'Business Earning Per Month Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter No of Earnings Per Month'" (keyup)="calculateCaptive()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>{{label?.monthlyIncome}}(A)</strong></td>
                         <td class="wrd-brk"><strong>{{montlyCaptiveIncome}}</strong></td>
                     </tr>
                     <tr>
-                        <td>(c) {{label?.expensesPerDay}}  </td>
+                        <td>(c) {{label?.expensesPerDay}} </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="expenses_perday_business"
                                 id="expenses_perday_business" formControlName="busExpensesPerDay" /> -->
-                                <app-custom-input
-                                [id]="expenses_perday_business"
-                                formControlName="busExpensesPerDay"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="expenses_perday_business" formControlName="busExpensesPerDay"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Business Expenses Per Day Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Business Expenses Per Day'"
-                                (keyup)="calculateCaptiveB()"
-                                ></app-custom-input> 
-                            </td>
+                                [isRequired]="'Business Expenses Per Day Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Business Expenses Per Day'" (keyup)="calculateCaptiveB()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td> (d) {{label?.obligationsBusinessMonth}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="obligations_business_month"
                                 id="obligations_business_month" formControlName="oblicationsPerMonth" /> -->
-                                <app-custom-input
-                                [id]="obligations_business_month"
-                                formControlName="oblicationsPerMonth"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="obligations_business_month" formControlName="oblicationsPerMonth"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Obligations Per Month Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Obligations Per Month '"
-                                (keyup)="calculateCaptiveB()"
-                                ></app-custom-input> 
-                            </td>
+                                [isRequired]="'Obligations Per Month Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Obligations Per Month '" (keyup)="calculateCaptiveB()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td> (e) {{label?.avgTyreExpenses}} </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="avgtyre_expenses_permonth"
                                 id="avgtyre_expenses_permonth" formControlName="busTyreAvgExpenses" /> -->
-                                <app-custom-input
-                                [id]="avgtyre_expenses_permonth"
-                                formControlName="busTyreAvgExpenses"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="avgtyre_expenses_permonth" formControlName="busTyreAvgExpenses"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Bus Tyre Avg Expenses Is Required'"
-                                [isDirty]="isDirty"
-                               
-                                [placeholder]="'Enter Avg Tyre Expenses'"
-                                (keyup)="calculateCaptiveB()"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Bus Tyre Avg Expenses Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Avg Tyre Expenses'" (keyup)="calculateCaptiveB()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td> (f) {{label?.insuranceExpensePerMonth}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="insurance_expenses_permonth"
                                 id="insurance_expenses_permonth" formControlName="busInsurenceExpenses" /> -->
-                                <app-custom-input
-                                [id]="insurance_expenses_permonth"
-                                formControlName="busInsurenceExpenses"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="insurance_expenses_permonth" formControlName="busInsurenceExpenses"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Obligations Per Day Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Insurance Expenses'"
-                                (keyup)="calculateCaptiveB()"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Obligations Per Day Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Insurance Expenses'" (keyup)="calculateCaptiveB()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td> (g) {{label?.miscellaneousExpenses}}</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="miscellaneous_expenses"
                                 id="miscellaneous_expenses" formControlName="busMiscellaneousExpenses" /> -->
-                                <app-custom-input
-                                [id]="miscellaneous_expenses"
-                                formControlName="busMiscellaneousExpenses"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="miscellaneous_expenses" formControlName="busMiscellaneousExpenses"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Miscellaneous Per Day Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Miscellaneous Expenses'"
-                                (keyup)="calculateCaptiveB()"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Miscellaneous Per Day Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Miscellaneous Expenses'" (keyup)="calculateCaptiveB()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.totalExpenses}} ((b*c)+d+e+f+g) </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="total_expenses" id="total_expenses"
                                 formControlName="totalExpenses" disabled /> -->
-                                <app-custom-input
-                                [id]="miscellaneous_expenses"
-                                formControlName="totalExpenses"
-                                [patternCheck]=" "
-                                [maxLength]="label?.validationData?. amountDecimal?.maxLength"
+                            <app-custom-input [id]="miscellaneous_expenses" formControlName="totalExpenses"
+                                [patternCheck]=" " [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Total Expenses Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Total Expenses'"
-                                [isDisabled]="true"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'Total Expenses Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Total Expenses'" [isDisabled]="true"></app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -1076,94 +818,85 @@
                         <td>
                             <!-- <input type="text" class="form-control" name="net_cash_flow" id="net_cash_flow"
                                 formControlName="netCashFlowEmi" /> -->
-                                <app-custom-input
-                                [id]="net_cash_flow"
-                                formControlName="netCashFlow"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="net_cash_flow" formControlName="netCashFlow" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
                                 [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'NetCashFlowEmi Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter Net Cash Flow EMI'"
-                                [isDisabled] = "true"
-                                ></app-custom-input>
-                            </td>
+                                [isRequired]="'NetCashFlowEmi Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter Net Cash Flow EMI'" [isDisabled]="true"></app-custom-input>
+                        </td>
                     </tr>
                     <tr>
                         <td>{{label?.emi}}</td>
                         <td>
                             <!-- <input type="text" value="15670.00" class="form-control" name="emi" id="emi"
                                 formControlName="emi" /> -->
-                                <app-custom-input
-                                [id]="emi"
-                                formControlName="emi"
-                                [patternCheck]=" "
+                            <app-custom-input [id]="emi" formControlName="emi" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountDecimal?.maxLength"
-                                [type]="label?.validationData?. amountDecimal?.type"
-                                [isRequired]="'Emi Is Required'"
-                                [isDirty]="isDirty"
-                                
-                                [placeholder]="'Enter EMI'"
-                                (keyup)="calculateCaptiveC()"
-                                ></app-custom-input>
-                            </td>
+                                [type]="label?.validationData?. amountDecimal?.type" [isRequired]="'Emi Is Required'"
+                                [isDirty]="isDirty" [placeholder]="'Enter EMI'" (keyup)="calculateCaptiveC()">
+                            </app-custom-input>
+                        </td>
                     </tr>
                     <tr>
-                        <td><strong>{{label?.netCashFlowEMI}}</strong></td>
+                        <td><strong>{{label?.netEmi}}</strong></td>
                         <td class="wrd-brk" colspan="1"><strong>{{captiveEmi}}</strong></td>
                     </tr>
                     <tr>
-                        <td colspan="2" >&nbsp;</td>
+                        <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
             <!-- </form> -->
 
         </div>
-    <div class="row"  formGroupName="gpsPosition">
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="b_latitude">{{label.branchLat}}
-                <!-- <sub class="star_red_col">*</sub> -->
-            </label>
-            <app-custom-input formControlName="bLatitude" [className]="'form-control'"  [isDisabled] = "true" [placeholder]="''">
-            </app-custom-input>
-        </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="b_longitude">{{label.branchLng}}
-                <!-- <sub class="star_red_col">*</sub> -->
-            </label>
-            <app-custom-input formControlName="bLongitude" [className]="'form-control'"  [isDisabled] = "true" [placeholder]="''">
-            </app-custom-input>
-        </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="captured_latitude">{{label.capturedLat}}
-                <!-- <sub class="star_red_col">*</sub> -->
-            </label>
-            <app-custom-input formControlName="latitude" [className]="'form-control'"  [isDisabled] = "true" [placeholder]="''">
-            </app-custom-input>
-        </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="captured_longitude">{{label.capturedLng}}
-                <!-- <sub class="star_red_col">*</sub> -->
-            </label>
-            <app-custom-input formControlName="longitude" [className]="'form-control'"  [isDisabled] = "true" [placeholder]="''">
-            </app-custom-input>
-        </div>
-        <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="timeOf_verification">{{label.routeMap}}
-            </label>
-            <div class="photo">
-                <img src="{{base64Image}}" width="235" />
+        <div class="row" formGroupName="gpsPosition">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="b_latitude">{{label.branchLat}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="bLatitude" [className]="'form-control'" [isDisabled]="true"
+                    [placeholder]="''">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="b_longitude">{{label.branchLng}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="bLongitude" [className]="'form-control'" [isDisabled]="true"
+                    [placeholder]="''">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="captured_latitude">{{label.capturedLat}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="latitude" [className]="'form-control'" [isDisabled]="true"
+                    [placeholder]="''">
+                </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="captured_longitude">{{label.capturedLng}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="longitude" [className]="'form-control'" [isDisabled]="true"
+                    [placeholder]="''">
+                </app-custom-input>
+            </div>
+            <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="timeOf_verification">{{label.routeMap}}
+                </label>
+                <div class="photo">
+                    <img src="{{base64Image}}" width="235" />
+                </div>
             </div>
         </div>
-    </div>
 
     </form>
     <div>
         <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-        [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-    
+            [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
+        </app-shared-user-defined-fields>
+
     </div>
 </div>
 
@@ -1171,16 +904,18 @@
 
 <div class="btn-sec clear-both row text-right">
     <div class="col-sm-12">
-        <button class="btn btn-primary cus-btn-sty hvr-sweep-to-left" type="button" (click)="onBack()">{{label?.back}}</button> 
-        
+        <button class="btn btn-primary cus-btn-sty hvr-sweep-to-left" type="button"
+            (click)="onBack()">{{label?.back}}</button>
+
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
-       <ng-container *ngIf="!isLoan360">
-        <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
-        <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
-            <p type="button" class="btn btn-primary">{{label?.submit}}</p>
-        </a>
-        <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal" data-target="#myModalReinitiate" *ngIf = "showReinitiate">{{label?.reinitiate}}</button>
-       </ng-container>
+        <ng-container *ngIf="!isLoan360">
+            <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
+            <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
+                <p type="button" class="btn btn-primary">{{label?.submit}}</p>
+            </a>
+            <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal"
+                data-target="#myModalReinitiate" *ngIf="showReinitiate">{{label?.reinitiate}}</button>
+        </ng-container>
     </div>
 </div>
 <div class="modal" id="myModalCredit">
@@ -1200,8 +935,8 @@
 
             <!-- Modal footer -->
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
-                    value="Yes" (click)="submitViability()">{{label?.yes}}</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
+                    (click)="submitViability()">{{label?.yes}}</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{{label?.cancel}}</button>
             </div>
 
@@ -1227,8 +962,8 @@
 
             <!-- Modal footer -->
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val"
-                    value="Yes" (click)="reInitiateViability()">{{label?.yes}}</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
+                    (click)="reInitiateViability()">{{label?.yes}}</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{{label?.cancel}}</button>
             </div>
 
@@ -1237,4 +972,5 @@
 
 
 </div>
- <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails" ></app-upload-modal>
+<app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
+    [docsDetails]="selectedDocDetails"></app-upload-modal>

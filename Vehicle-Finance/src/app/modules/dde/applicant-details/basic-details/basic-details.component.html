@@ -2,6 +2,10 @@
   <form class="multisteps-form__form" [formGroup]="basicForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" id="form-class">
 
+      <h3 class="banner-con">
+        Basic Applicant Details ({{udfScreenId}})
+      </h3>
+
       <div class="btn-sec clear-both row">
         <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
           <label for="entity">{{ labels?.entity }}</label>
@@ -320,7 +324,7 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="alternate_email_id">{{
                 labels?.alternateEmailID
-              }}</label>
+                }}</label>
               <!-- <input
                 type="text"
                 class="form-control"
@@ -342,8 +346,8 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_blue_col">*</sub></label>
               <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="houseOwnerProperty"
-              (change)="onChangeOwner($event)"
-                [isDirty]="isDirty" [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''">
+                (change)="onChangeOwner($event)" [isDirty]="isDirty"
+                [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -430,8 +434,7 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="Vechical Type">{{labels?.agriOwnerProperty}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="agriOwnerProperty"
-              (change)="onChangeAgriOwner($event)"
-                [isRequired]="'Please select one'" [isDirty]="isDirty">
+                (change)="onChangeAgriOwner($event)" [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -915,6 +918,10 @@
                 ">
                     select date
                   </div>
+                  <div class="ShowError" *ngIf="
+                  validation.get('businessStartDate').value && validation.get('businessStartDate').invalid">
+                    Invalid date
+                  </div>
                 </div>
               </div>
 
@@ -963,7 +970,7 @@
 
 
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div class="form-group col-sm-6 col-md-4 col-lg-3" style="margin-top: 23px;">
                 <label for="employee_code">Turn Over
                   <sub class="star_red_col">*</sub></label>
 
@@ -1124,7 +1131,7 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="Lead Created By">{{
                 labels?.alternateEmailID
-              }}</label>
+                }}</label>
               <app-custom-input formControlName="alternateEmailId" [patternCheck]="emailPattern"
                 [maxLength]="validationData?.emailPattern?.maxLength"></app-custom-input>
             </div>
@@ -1149,8 +1156,8 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="Vechical Type">{{labels?.houseOwnerProperty}} <sub class="star_blue_col">*</sub></label>
               <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="houseOwnerProperty"
-              (change)="onChangeOwner($event)"
-                [isDirty]="isDirty" [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''">
+                (change)="onChangeOwner($event)" [isDirty]="isDirty"
+                [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -1213,7 +1220,7 @@
           </div>
 
 
-          
+
 
           <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
@@ -1273,8 +1280,7 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="Vechical Type">{{labels?.agriOwnerProperty}} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="agriOwnerProperty"
-              (change)="onChangeAgriOwner($event)"
-                [isRequired]="'Please select one'" [isDirty]="isDirty">
+                (change)="onChangeAgriOwner($event)" [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -1458,13 +1464,13 @@
                 <td>{{ i + 1 }}</td>
                 <td>
                   <app-custom-input formControlName="directorName" [maxLength]="validationData?.directorName?.maxLength"
-                  [isRequired]="'Director name is required'" [isDirty]="isDirty"
+                    [isRequired]="'Director name is required'" [isDirty]="isDirty"
                     [type]="validationData?.directorName?.type">
                   </app-custom-input>
                 </td>
                 <td>
                   <app-custom-input formControlName="din" [maxLength]="validationData?.dinNumber?.maxLength"
-                  [isRequired]="'Din number is required'" [isDirty]="isDirty"
+                    [isRequired]="'Din number is required'" [isDirty]="isDirty"
                     [type]="validationData?.dinNumber?.type">
                   </app-custom-input>
                 </td>
@@ -1478,23 +1484,23 @@
       </ng-container>
       <!-- Non-Individual Section End-->
     </div>
+    <div class="btn-sec clear-both row cst_btm_btns ">
+      <div class="col-sm-5">
+        <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBackToApplicant()">
+          Back To Applicant Details
+        </button>
+      </div>
+      <div class="col-sm-7 text-right">
+        <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
+          Back
+        </button>
+        <button class="btn btn-primary" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save</button>
+        <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" (click)="onNext()">
+          Next
+        </button>
+      </div>
+    </div>
   </form>
   <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
     [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-</div>
-<div class="btn-sec clear-both row cst_btm_btns mar-btn-bot">
-  <div class="col-sm-5">
-    <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBackToApplicant()">
-      Back To Applicant Details
-    </button>
-  </div>
-  <div class="col-sm-7 text-right">
-    <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
-      Back
-    </button>
-    <button class="btn btn-primary" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save</button>
-    <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" (click)="onNext()">
-      Next
-    </button>
-  </div>
 </div>

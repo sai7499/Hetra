@@ -240,6 +240,10 @@ table {
     border-collapse: collapse; 
     margin: 0 auto;
 }
+
+.text-left{
+    text-align:left;
+}
 /* Zebra striping */
 tr:nth-of-type(odd) { 
     background: #f2f2f2; 

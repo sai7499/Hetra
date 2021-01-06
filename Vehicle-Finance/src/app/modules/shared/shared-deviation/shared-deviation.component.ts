@@ -438,6 +438,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         return typeofRole;
       })
 
+      console.log(data, 'Color Data', this.roleId, typeofRole)
+
+
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
 
@@ -457,6 +460,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             justification: data.justification,
             otherMitigant: data.other_mitigant,
             rulesRemarks: data.rulesRemarks,
+            isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
       } else if (data.isWaiverNormsDev === null || data.isWaiverNormsDev === false) {
@@ -476,6 +480,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               justification: data.justification,
               isWaiverNormsDev: data.isWaiverNormsDev,
+              isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
         } else if (data.isManualDev === '0') {
@@ -493,6 +498,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               hierarchy: hierarchy,
               justification: data.justification,
+              isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
         }

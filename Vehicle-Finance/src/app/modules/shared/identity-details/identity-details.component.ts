@@ -27,6 +27,7 @@ import { ControlPosition } from '@agm/core';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-identity-details',
@@ -77,6 +78,9 @@ export class IdentityDetailsComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  initUDFValues: any;
+  editedUDFValues: any;
+  FormValidate: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -90,7 +94,8 @@ export class IdentityDetailsComponent implements OnInit {
     private utilityService: UtilityService,
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private objectComparisonService: ObjectComparisonService
   ) {
 
     const url = this.location.path();
@@ -164,6 +169,7 @@ export class IdentityDetailsComponent implements OnInit {
       this.identityForm.disable();
       this.disableSaveBtn = true;
     }
+
   }
 
   getLeadId() {
@@ -237,14 +243,14 @@ export class IdentityDetailsComponent implements OnInit {
     const controls = new FormGroup({
       aadhar: new FormControl({ value: null, disabled: true }),
       panType: new FormControl({ value: '', disabled: true }),
-      pan: new FormControl(null),
-      passportNumber: new FormControl(null),
+      pan: new FormControl({ value: null, disabled: true }),
+      passportNumber: new FormControl({ value: null, disabled: true }),
       passportIssueDate: new FormControl(null),
       passportExpiryDate: new FormControl(null),
-      drivingLicenseNumber: new FormControl(null),
+      drivingLicenseNumber: new FormControl({ value: null, disabled: true }),
       drivingLicenseIssueDate: new FormControl(null),
       drivingLicenseExpiryDate: new FormControl(null),
-      voterIdNumber: new FormControl(null),
+      voterIdNumber: new FormControl({ value: null, disabled: true }),
       voterIdIssueDate: new FormControl(null),
       voterIdExpiryDate: new FormControl(null),
     });
@@ -255,12 +261,12 @@ export class IdentityDetailsComponent implements OnInit {
     const controls = new FormGroup({
       aadhar: new FormControl({ value: '', disabled: true }),
       panType: new FormControl({ value: '', disabled: true }),
-      panNumber: new FormControl(null),
+      panNumber: new FormControl({ value: null, disabled: true }),
 
-      corporateIdentificationNumber: new FormControl(null),
-      cstVatNumber: new FormControl(null),
-      gstNumber: new FormControl(null),
-      tanNumber: new FormControl(null),
+      corporateIdentificationNumber: new FormControl({ value: null, disabled: true }),
+      cstVatNumber: new FormControl({ value: null, disabled: true }),
+      gstNumber: new FormControl({ value: null, disabled: true }),
+      tanNumber: new FormControl({ value: null, disabled: true }),
     });
     (this.identityForm.get('details') as FormArray).push(controls);
   }
@@ -361,6 +367,13 @@ export class IdentityDetailsComponent implements OnInit {
 
   addNonIndividualForm() {
     this.addNonIndividualFormControls();
+  }
+
+
+  validateForm(){
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    return details;
   }
 
 
@@ -580,6 +593,7 @@ export class IdentityDetailsComponent implements OnInit {
       this.udfDetails[0].udfData = udfDetails;
 
       this.applicantDataService.setUdfDatas(this.udfDetails)
+      this.initUDFValues = this.userDefineForm.udfData.getRawValue();
       const currentUrl = this.location.path();
       if (currentUrl.includes('sales')) {
         // this.router.navigate([
@@ -604,6 +618,18 @@ export class IdentityDetailsComponent implements OnInit {
   }
 
   onNext() {
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (isUDFInvalid) {
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
+    }
+    if (!isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+
     const url = this.location.path();
     if (url.includes('sales')) {
       this.router.navigateByUrl(
@@ -619,7 +645,10 @@ export class IdentityDetailsComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+    console.log('identifyValue', value)
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 
 }

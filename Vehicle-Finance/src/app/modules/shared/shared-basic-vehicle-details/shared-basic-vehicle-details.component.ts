@@ -118,6 +118,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     var month = this.toDayDate.getMonth();
     var year = this.toDayDate.getFullYear();
     this.toDayDate = new Date(year, month, day, 0, 0);
+    this.minDate = new Date(new Date().getFullYear() - 15, month, month)
     // Mobile View
     this.isMobile = environment.isMobile;
 
@@ -233,14 +234,20 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onGetDateValue(event) {
 
-    if (!(event > this.maxDate || event < this.minDate)) {
+    if (!(event > this.maxDate && event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      formArray.controls[0].patchValue({
-        ageOfAsset: Number(this.utilityService.ageFromAsset(event))
-      })
+
+      let ageOfAssetYear = this.utilityService.ageOfAssetYear(event)['_data'];
+
+      let ageOfLoanTenure = Number(this.loanTenor) + Number(this.utilityService.ageFromAsset(event));
+
+      let ageOfAsset = Number(this.utilityService.ageFromAsset(event)) + '    ( ' + ageOfAssetYear.years + ' Years ' + ageOfAssetYear.months + ' Months ' + ' ) ';
+
+      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.round(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.round(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
 
       formArray.controls[0].patchValue({
-        ageAfterTenure: Number(this.loanTenor) + formArray.value[0].ageOfAsset
+        ageOfAsset: ageOfAsset,
+        ageAfterTenure: ageAfterTenure
       })
 
       if (this.productCatoryCode === 'UCV') {
@@ -287,17 +294,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   }
 
-  onCompareFinalAssetCode(event) {
-    const value = event.target.value;
+  onCompareFinalAssetCode(event, obj) {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
-    if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
+    if (Number(obj.controls['assetCostCarTrade'].value) < Number(obj.controls['assetCostIBB'].value)) {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostCarTrade
+        finalAssetCost: Number(formArray.value[0].assetCostCarTrade)
       })
     } else {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB
+        finalAssetCost: Number(formArray.value[0].assetCostIBB)
       })
     }
 

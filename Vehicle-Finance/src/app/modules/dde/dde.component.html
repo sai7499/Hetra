@@ -88,7 +88,7 @@
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
               [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 14 }">
-              OD Details
+              Bureau Details
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_score_card"
               [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 15 }">
@@ -112,7 +112,7 @@
             <ng-container *ngIf="isLoan360 && locationIndex >=18">
               <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
                 [routerLink]="['./disbursement', leadId]" [ngClass]="{ 'js-active': locationIndex >= 19 }">
-                Disbursement
+                Disbursement Details
               </button>
               <button class="multisteps-form__progress-btn second-row" type="button" id="credit_deviations"
                 [routerLink]="['./negotiation']" [ngClass]="{ 'js-active': locationIndex >= 20 }">
@@ -229,7 +229,7 @@
         </button>
         <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
           [routerLink]="['./cibil-od']" [ngClass]="{ 'js-active': locationIndex >= 13 }">
-          OD Details
+          Bureau Details
         </button>
         <button class="multisteps-form__progress-btn second-row" type="button" id="credit_score_card"
           [routerLink]="['./score-card']" [ngClass]="{ 'js-active': locationIndex >= 14 }">

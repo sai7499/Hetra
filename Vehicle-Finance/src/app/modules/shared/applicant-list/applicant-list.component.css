@@ -6,6 +6,17 @@
   z-index: 0;
 }
 
+.mar-8{
+  margin-top:8px;
+}
+
+.p-0{
+  padding:0px;
+}
+
+.text-left{
+  text-align:left!important;
+}
 /* bottom buttons css */
 
 /* .cst_btm_btns {
@@ -435,4 +446,7 @@ p-0{
 
 }
 
-
+.app-btn{
+  width: 100%;
+  padding: 2px;
+}

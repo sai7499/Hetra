@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="row">
-            <h4 id="vf_sheet_tag4" class="text-center banner-con"><i>{{labels?.sanctionLetter}}</i></h4>
+            <h4 id="" class="text-center banner-con">{{labels?.sanctionLetter}}</h4>
         </div>
         <!-- <div id="vf_sheet_tag5">
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
@@ -89,8 +89,9 @@
         <!-- <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}</strong>&nbsp;&nbsp;<sup>{{this.leadId}}</sup></p> -->
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
         <div id="">
+        <p id="typeId" class="typeId"></p>
             <div id="" class="table-responsive">
-                <p id=" " class="banner-con text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
+                <h3 id=" " class="banner-sub ">{{labels?.vehicleDetails}}</h3>
                 <table class="table table-align">
                     <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
                         <tr class="top-border">
@@ -116,7 +117,7 @@
                 </table>
             </div>
             <div class="align-justify table-responsive" id="vf_sheet_second_table">
-                <p id="vf_sheet_tag33" class="banner-con text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
+                <h3 id="" class="banner-sub ">{{labels?.loanApprovedDetails}}</h3>
                 <table class="table " id="table-align">
                     <tbody>
                         <tr>
@@ -218,6 +219,7 @@
                         <!-- <p id="vf_sheet_tag43"><strong> {{labels?.coBorrower2Signature}} </strong></p> -->
                     </div>
                 </div>
+        <p id="typeId1" class="typeId"></p>
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
                     <div class="mar-top" *ngFor="let guarantor of guarantorList; let i = index">
                         <p id="vf_sheet_tag44"><strong> {{guarantor?.applicantType}} {{i+1}} {{labels?.signature}}
@@ -227,7 +229,7 @@
                 </div>
             </div>
         </div>
-        <p class="banner-con" id="vf_sheet_text_tag"> <strong>{{labels?.generalTermsAndConditions}}</strong> </p>
+        <h3 class="banner-sub" id="">{{labels?.generalTermsAndConditions}} </h3>
         <div style="line-height:2em;" [innerHTML]="generalTermsAndConditions"></div>
         <div class="align-justify" id="vf_sheet_row_space">
             <div class="row">
@@ -252,9 +254,10 @@
             </div>
         </div>
         <div class="align-justify table-responsive" id="page_break">
-            <h4 class="banner-con text-center">
+            <h3 class="banner-sub ">
                {{labels?.vfSheetTag75}}
-            </h4>
+            </h3>
+        <p id="typeId2" class="typeId"></p>
             <p id="vf_sheet_tag76"><strong> {{labels?.vfSheetTag76}} </strong></p>
             <p id="vf_sheet_tag77"> {{labels?.vfSheetTag77}} </p>
             <p id="vf_sheet_tag78"> {{labels?.vfSheetTag78}} </p>
@@ -305,8 +308,8 @@
     </div>
 
     <div class="btn-sec clear-both row cst_btm_btns">
-        <div class="col-sm-5"></div>
-        <div class="col-sm-7 text-right">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10 text-right">
             <button class="btn btn-primary btn_div hvr-sweep-to-left " type="button" (click)="onBack()">{{labels?.back}}</button>
             <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
             <ng-container *ngIf="!isLoan360">
@@ -339,7 +342,9 @@
             
             <!-- <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submit}}</button> -->
-            <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf()" type="button">{{'Download'}}</button>
+                <!-- <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf()" type="button">{{'Download'}}</button> -->
+                <button class="btn btn-primary btn_div" id="btn" *ngIf="!isLoan360" (click)="downloadpdf('CUSTOMER')" type="button">{{'Download Customer Copy'}}</button>
+                <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf('BANK')" type="button">{{'Download Bank Copy'}}</button>
 
 
         </div>

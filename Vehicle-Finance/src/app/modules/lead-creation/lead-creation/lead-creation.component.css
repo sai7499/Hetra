@@ -219,6 +219,10 @@ label{
     -ms-flex: 1 1 0% !important;
     flex: 1 1 0% !important;
 }
+
+.side-pad{
+    padding: 0px 25px;
+}
   
 /* 
 ::placeholder {

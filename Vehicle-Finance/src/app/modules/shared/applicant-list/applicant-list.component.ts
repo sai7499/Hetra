@@ -53,9 +53,13 @@ export class ApplicantListComponent implements OnInit {
   leadSectioData: any;
   locationPath: string;
   showNotCoApplicant: boolean = false;
-  isChildloan : boolean;
+  isChildloan: boolean;
 
   isLoan360: boolean;
+
+  // User defined Fields
+  udfScreenId: string = 'APS001';
+  udfGroupId: string = 'APG001';
 
   constructor(
     private labelsData: LabelsService,
@@ -68,7 +72,7 @@ export class ApplicantListComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
-    private applicantDataStoreService : ApplicantDataStoreService,
+    private applicantDataStoreService: ApplicantDataStoreService,
     private loanViewService: LoanViewService
   ) { }
 
@@ -76,9 +80,11 @@ export class ApplicantListComponent implements OnInit {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     const currentUrl = this.location.path();
     if (currentUrl.includes('sales')) {
-      this.locationPath = 'sales'
+      this.udfScreenId = 'APS006';
+      this.locationPath = 'sales';
     } else if (currentUrl.includes('dde')) {
-      this.locationPath = 'dde'
+      this.udfScreenId = 'APS013';
+      this.locationPath = 'dde';
     } else {
       this.locationPath = 'lead-section'
     }
@@ -108,7 +114,7 @@ export class ApplicantListComponent implements OnInit {
     }
     this.getLeadIdByPool();
     this.getApplicantList();
-    
+
 
     this.applicantDataStoreService.setDedupeFlag(false);
     this.applicantDataStoreService.setPanValidate(false);
@@ -124,17 +130,17 @@ export class ApplicantListComponent implements OnInit {
     // 
     this.showeKYC = false;
   }
-  getLeadIdByPool(){
+  getLeadIdByPool() {
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
-    
+
     const isChildloan = this.leadSectioData['leadDetails'].isChildLoan;
-    this.isChildloan=isChildloan=='1'? true : false;
-    console.log('this.leadSectioData',this.isChildloan);
-  //  const app= this.applicantList.find((data : any, index)=>{
-  //    return data.applicantTypeKey == "APPAPPRELLEAD"
-  //  })
+    this.isChildloan = isChildloan == '1' ? true : false;
+    console.log('this.leadSectioData', this.isChildloan);
+    //  const app= this.applicantList.find((data : any, index)=>{
+    //    return data.applicantTypeKey == "APPAPPRELLEAD"
+    //  })
   }
-  
+
 
   getLeadId() {
     return new Promise((resolve, reject) => {
@@ -211,17 +217,17 @@ export class ApplicantListComponent implements OnInit {
     this.selectedApplicantId = applicantId;
 
     console.log('applicant', this.applicantList[index])
-    const applicantType= this.applicantList[index].applicantTypeKey
+    const applicantType = this.applicantList[index].applicantTypeKey
 
-      if(this.isDelete || this.disableSaveBtn){
-        this.showModal= false;
-      }else if(this.isChildloan && applicantType=="APPAPPRELLEAD"){
-         this.showModal= false; 
-      }
-      else{
-        this.showModal = true;
-      }
-    
+    if (this.isDelete || this.disableSaveBtn) {
+      this.showModal = false;
+    } else if (this.isChildloan && applicantType == "APPAPPRELLEAD") {
+      this.showModal = false;
+    }
+    else {
+      this.showModal = true;
+    }
+
 
     // const data = {
     //   applicantId,
@@ -237,18 +243,18 @@ export class ApplicantListComponent implements OnInit {
       applicantId: this.selectedApplicantId,
     };
     this.applicantService.softDeleteApplicant(data).subscribe((res) => {
-      const processvariable= res['ProcessVariables']
-      if(processvariable.error.code=='0'){
+      const processvariable = res['ProcessVariables']
+      if (processvariable.error.code == '0') {
         //console.log('res', this.selectedApplicantId);
-      this.applicantList.splice(this.index, 1);
-      this.isDelete = this.applicantList.length === 1 ? true : false;
-      
-      this.getApplicantList();
-      }else{
+        this.applicantList.splice(this.index, 1);
+        this.isDelete = this.applicantList.length === 1 ? true : false;
+
+        this.getApplicantList();
+      } else {
         this.toasterService.showError(processvariable.error.message, '')
       }
-      this.showModal= false;
-      
+      this.showModal = false;
+
     });
   }
 
@@ -354,7 +360,7 @@ export class ApplicantListComponent implements OnInit {
   }
 
   onNext() {
-
+    const currentUrl = this.location.path();
     this.forFindingApplicantType()
     if (this.showNotApplicant) {
       this.toasterService.showError('There should be one applicant for this lead', '')
@@ -363,11 +369,11 @@ export class ApplicantListComponent implements OnInit {
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
     const product = this.leadSectioData.leadDetails.productCatCode;
 
-    if (product === 'NCV' || product === 'UCV' || product === 'UC') {
+    if ((product === 'NCV' || product === 'UCV' || product === 'UC') && !currentUrl.includes('dde')) {
       // this.forFindingCoApplicantType()
-      this.showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
+      this.showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
       if (!this.showNotCoApplicant) {
-         this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+        this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
       }
     }
 
@@ -378,14 +384,14 @@ export class ApplicantListComponent implements OnInit {
         this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
       }
     }
-    if (this.locationPath=='sales') {
+    if (this.locationPath == 'sales') {
       this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`)
-    } else if(this.locationPath=='dde'){
+    } else if (this.locationPath == 'dde') {
       this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`)
-    }else{
+    } else {
       this.router.navigateByUrl(`pages/lead-section/${this.leadId}/vehicle-list`)
     }
-   
+
 
   }
 

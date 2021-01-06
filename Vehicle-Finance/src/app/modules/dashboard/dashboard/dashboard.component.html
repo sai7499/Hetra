@@ -1,7 +1,7 @@
 <main class="mar-top90 main-tab">
     <div class="container-fluid">
-        <div *ngIf="supervisorName" style="float: left; margin-left: 5px;">
-            <h4>Viewing {{supervisorName}}'s Dashboard</h4>
+        <div *ngIf="supervisorName" >
+            <h4 class="banner-con">Viewing {{supervisorName}}'s Dashboard</h4>
         </div>
         <div class="pull-right dropdown nav">
             <div class="pull-right dropdown nav">
@@ -14,11 +14,11 @@
               <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i> Filter Applied</button>
           </div> -->
 
-            <div class="pull-right dropdown nav" style="margin-right: 10px">
-                <button *ngIf="supervisorName" style="margin-right: 10px" (click)="onBack()" class="btn btn-primary">
+            <div class="pull-right dropdown nav" >
+                <button *ngIf="supervisorName" class=" mar-right" (click)="onBack()" class="btn btn-primary">
                     Back
                 </button>
-                <button class="btn btn-primary view-button" type="button" (click)="initinequery()">
+                <button class="btn btn-primary view-button  mar-bottom " type="button" (click)="initinequery()">
                     Initiate Query &nbsp;
                     <i class="fa fa-bell cus-bell font-medium-3"></i><span
                         class="notification badge badge-pill badge-danger"
@@ -571,7 +571,7 @@
     </div>
 
     <div>
-        <div class="container-fluid table-responsive">
+        <div class="container-fluid" style="position: sticky;overflow-x: hidden!important;">
             <table
                 *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.TranchesDisburse != activeTab">
                 <thead>
@@ -584,24 +584,25 @@
                         <th>{{labels?.leadID}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
                                 (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
-                        <th>{{labels?.applicantName}} </th>
-                        <th>{{labels?.product}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                        <th >{{labels?.applicantName}} </th>
+                        <th  >{{labels?.product}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                                 (click)="onSort(sortTables?.ByProduct)"> </i> </th>
-                        <th>{{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                 (click)="onSort(sortTables?.ByLoanAmt)"> </i> </th>
-                        <th>{{labels?.applicant+'s'}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.applicant+'s'}} </th>
                         <th>{{labels?.createdOn}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByDate === sortTab}"
                                 (click)="onSort(sortTables?.ByDate)"> </i> </th>
-                        <th>{{labels?.createdBy}} </th>
-                        <th>{{labels?.priority}} </th>
-                        <th>{{labels?.promoCode}} </th>
-                        <th>{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.createdBy}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.priority}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.promoCode}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" >{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"
                                 (click)="onSort(sortTables?.ByStage)"> </i> </th>
-                        <th>{{labels?.history}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.history}} </th>
+                        <th *ngIf="roleId == 86 || roleId == 65 || roleId == 83 || roleId == 66">{{labels?.branchName}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -697,23 +698,26 @@
                             <a>{{item.leadId}}</a>
                         </td>
                         <!-- <td [attr.data-label]="labels?.leadID" class="text-underline" *ngIf="roleType == '2'"><a (click)="assignTaskId(item.taskId); getLeadId(item)">{{item.leadId}}</a></td> -->
-                        <td [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}
+                        <td class="text-left" [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}
                         </td>
-                        <td [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
-                        <td [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
-                        <td [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
+                        <td class="text-left" [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-right" [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
                         <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
-                        <td [attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
-                        <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-left"[attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
+                        <ng-container  *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">
+                            <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
                         <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '0' || item.priority == null">
                             No</td>
-                        <td [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
-                        <td [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
-                        <td [attr.data-label]="labels?.history">
+                        </ng-container>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-left" [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" [attr.data-label]="labels?.history">
                             <a data-toggle="modal" data-target="#leadHistoryModal" data-tooltip="Lead History"
                                 data-placement="bottom" (click)="onLeadHistory(item.leadId)"> <i
                                     class="fa fa-history"></i></a>
                         </td>
+                        <td *ngIf="roleId == 86 || roleId == 65 || roleId == 83 || roleId == 66">{{item.branchName ? item.branchName : '--'}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -734,7 +738,7 @@
                                     style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByLoanAccNo === sortTab}"
                                     (click)="onSort(sortTables?.ByLoanAccNo)"></i>
-                            <th *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName+' Name'}}&nbsp;<i
+                            <th class="text-left" *ngIf="displayTabs?.LoanBooking != activeTab">{{labels?.applicantName+' Name'}}&nbsp;<i
                                     style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByName === sortTab}"
                                     (click)="onSort(sortTables?.ByName)"></i>
@@ -753,7 +757,7 @@
                             <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}&nbsp;<i class="fa fa-sort"></i> </th> -->
                             <th *ngIf="displayTabs?.PDDforCPC === activeTab">{{labels?.branch}}&nbsp;<i
                                     class="fa fa-sort"></i> </th>
-                            <th
+                            <th class="text-right"
                                 *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab">
                                 {{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
@@ -765,8 +769,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr
-                            *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+                        <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index" 
+                        [ngClass]="{'failedLeads': item.isLoanBookingFailed && displayTabs?.LoanBooking === activeTab}">
                             <td [attr.data-label]="labels?.action"
                                 *ngIf="onReleaseTab && displayTabs?.PDDforCPC === activeTab">
                                 <input type="button" class="btn btn-primary"
@@ -803,10 +807,10 @@
               </td> -->
                             <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.loanNumber">
                                 <a>{{item.loanAccountNo ? item.loanAccountNo : '--'}}</a></td>
-                            <td *ngIf="displayTabs?.LoanBooking != activeTab" [attr.data-label]="labels?.applicantName">
+                            <td class="text-left" *ngIf="displayTabs?.LoanBooking != activeTab" [attr.data-label]="labels?.applicantName">
                                 {{item.applicantName ? item.applicantName : '--'}}</td>
 
-                            <td [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.productCategory">{{item.product ? item.product : '--'}}</td>
                             <td *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab"
                                 [attr.data-label]="labels?.disbursementDate">
                                 {{item.disbursementDate ? item.disbursementDate : '--'}}
@@ -818,7 +822,7 @@
                 {{item.stageValue ? item.stageValue : '--'}}</td> -->
                             <td *ngIf="displayTabs?.PDDforCPC === activeTab" [attr.data-label]="labels?.branch">
                                 {{item.branchName ? item.branchName : '--'}}</td>
-                            <td *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab"
+                            <td class="text-right" *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab"
                                 [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
                             <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.applicants">
                                 {{item.applicants ? item.applicants : '--'}}</td>
@@ -880,15 +884,15 @@
                                 <a (click)="assignTaskId(item.taskId);getLoanNumber(item.loanAccountNumber)"
                                     [routerLink]="[ '/pages/disbursement-section', (item.taskId)?(item.loanAccountNumber+'-'+item.taskId):item.loanAccountNumber,'tranche-disburse' ]">{{item.loanAccountNumber}}</a>
                             </td>
-                            <td [attr.data-label]="labels?.productName">{{item.productName ? item.productName : '--'}}
+                            <td class="text-left" [attr.data-label]="labels?.productName">{{item.productName ? item.productName : '--'}}
                             </td>
                             <!-- <td [attr.data-label]="labels?.productCategory">{{item.productCatCode ? item.productCatCode : '--'}}</td> -->
-                            <td [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
-                            <td [attr.data-label]="labels?.applicant">{{item.applicantName ? item.applicantName : '--'}}
+                            <td class="text-right" [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.applicant">{{item.applicantName ? item.applicantName : '--'}}
                             </td>
                             <td [attr.data-label]="labels?.trancheCount">{{item.trancheCount}}</td>
-                            <td [attr.data-label]="labels?.disbursedAmount">{{item.disbursedAmount}}</td>
-                            <td [attr.data-label]="labels?.balanceAmount">{{item.balanceAmount}}</td>
+                            <td class="text-right" [attr.data-label]="labels?.disbursedAmount">{{item.disbursedAmount}}</td>
+                            <td class="text-right" [attr.data-label]="labels?.balanceAmount">{{item.balanceAmount}}</td>
                         </tr>
                     </tbody>
                 </table>

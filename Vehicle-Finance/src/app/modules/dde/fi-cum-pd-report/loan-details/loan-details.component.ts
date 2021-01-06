@@ -288,7 +288,7 @@ export class LoanDetailsComponent implements OnInit {
 
     this.loanDetailsForm = new FormGroup({
       newVehicleCost: new FormControl(''),
-      newVehModel: new FormControl(''),
+      newVehModel: new FormControl('', Validators.required),
       newVehicleType: new FormControl(''),
       newVehicleReqLoanAmount: new FormControl(''),
       newVehicleMarginMoney: new FormControl(''),
@@ -622,7 +622,10 @@ export class LoanDetailsComponent implements OnInit {
 
   onFormSubmit(action) {
     const formModal = this.loanDetailsForm.value;
-    if (this.loanDetailsForm.valid && this.userDefineForm.udfData.valid) {
+
+    let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
+
+    if (this.loanDetailsForm.valid && isUdfField) {
       const loanDetailsModal = { ...formModal };
       if (this.productCatCode === 'NCV' || this.productCatCode === 'NC') {
 
@@ -642,7 +645,10 @@ export class LoanDetailsComponent implements OnInit {
             {
               "udfGroupId": this.udfGroupId,
               // "udfScreenId": this.udfScreenId,
-              "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+              "udfData": JSON.stringify(
+                this.userDefineForm && this.userDefineForm.udfData ?
+                  this.userDefineForm.udfData.getRawValue() : {}
+              )
             }
           ]
         };
@@ -729,7 +735,10 @@ export class LoanDetailsComponent implements OnInit {
             {
               "udfGroupId": this.udfGroupId,
               // "udfScreenId": this.udfScreenId,
-              "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+              "udfData": JSON.stringify(
+                this.userDefineForm && this.userDefineForm.udfData ?
+                  this.userDefineForm.udfData.getRawValue() : {}
+              )
             }
           ]
         };

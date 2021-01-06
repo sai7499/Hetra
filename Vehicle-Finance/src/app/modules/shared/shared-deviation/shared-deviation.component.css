@@ -10,6 +10,14 @@
   .modal-footer {
   border-top: 0px;
   }
+
+  .accepted-box{
+    background-color:rgb(111, 245, 111);
+  }
+
+  #get_role_details_btn{
+    padding:2px;
+  }
   .decision_change {
   display: block;
   text-align: left;
@@ -273,6 +281,10 @@
         -moz-border-radius: 50%;
         border-radius: 50%;
       }
+
+      input[type="radio"] + label {
+        font-size: 11px;
+      }
       
       input[type="radio"] + label span {
         background-color: white;
@@ -331,6 +343,14 @@
   .wid-30 {
       width: 30%;
       text-align-last: center;
+  }
+
+  .cus-left-align {
+    text-align-last: inherit !important;
+  }
+
+  .action-color {
+    background-color: #08f36166;
   }
 
   .wid-10 {

@@ -1,37 +1,37 @@
 <main>
   <div class="container-fluid">
-    
+
     <div class="content" id="disbursement-memo">
       <form [formGroup]="createNegotiationForm" class="form-horizontal" autocomplete="off">
         <div class="row">
           <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-            <h3 class="banner-con">{{ labels?.negotiationTitle }}</h3>
-          </div>          
+            <h3 class="banner-con">{{ labels?.negotiationTitle }} ({{udfScreenId}}) </h3>
+          </div>
         </div>
         <div>
-          <h4 class="">{{ labels?.leadReferenceDetails }}</h4>
+          <h4 class="banner-sub">{{ labels?.leadReferenceDetails }}</h4>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="productCode">{{labels?.productLMSCode}}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input formControlName="productCode" type="text" class="form-control mandatory select2" id="productCode" placeholder="Product (LMS Code - Name)"
-                name="productCode" />
+              <input formControlName="productCode" type="text" class="form-control mandatory select2" id="productCode"
+                placeholder="Product (LMS Code - Name)" name="productCode" />
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="applicant">{{labels?.applicantName}}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input formControlName="applicant" type="text" class="form-control mandatory select2" id="applicant" placeholder="Applicant"
-                name="applicant" />
+              <input formControlName="applicant" type="text" class="form-control mandatory select2" id="applicant"
+                placeholder="Applicant" name="applicant" />
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3">
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input formControlName="CustomerCategory" type="text" class="form-control mandatory select2" id="CustomerCategory" placeholder="Applicant Category"
-                name="CustomerCategory" />
+              <input formControlName="CustomerCategory" type="text" class="form-control mandatory select2"
+                id="CustomerCategory" placeholder="Applicant Category" name="CustomerCategory" />
             </div>
           </div>
           <div *ngIf="applicant1.length > 0">
@@ -41,16 +41,16 @@
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="coApplicant">{{labels?.CoApplicant}}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <input formControlName="coApplicant" type="text" class="form-control mandatory select2" id="coApplicant" placeholder="Co - Applicant"
-                      name="coApplicant" />
+                    <input formControlName="coApplicant" type="text" class="form-control mandatory select2"
+                      id="coApplicant" placeholder="Co - Applicant" name="coApplicant" />
                   </div>
                 </div>
                 <div *ngIf="applicant1.controls[i].coApplicant != ''" class="form-group">
                   <label class="control-label col-sm-5 col-md-4 col-lg-3">
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <input formControlName="coapplicantCategory" type="text" class="form-control mandatory select2" id="coapplicantCategory"
-                      placeholder="Co-Applicant Category" name="coapplicantCategory" />
+                    <input formControlName="coapplicantCategory" type="text" class="form-control mandatory select2"
+                      id="coapplicantCategory" placeholder="Co-Applicant Category" name="coapplicantCategory" />
                   </div>
                 </div>
               </div>
@@ -63,16 +63,16 @@
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="guarantor">{{labels?.guarantor}}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <input formControlName="guarantor" type="text" class="form-control mandatory select2" id="guarantor" placeholder="Guarantor"
-                      name="guarantor" />
+                    <input formControlName="guarantor" type="text" class="form-control mandatory select2" id="guarantor"
+                      placeholder="Guarantor" name="guarantor" />
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-sm-5 col-md-4 col-lg-3">
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <input formControlName="guarantorCategory" type="text" class="form-control mandatory select2" id="guarantorCategory" placeholder="Guarantor Category"
-                      name="guarantorCategory" />
+                    <input formControlName="guarantorCategory" type="text" class="form-control mandatory select2"
+                      id="guarantorCategory" placeholder="Guarantor Category" name="guarantorCategory" />
                   </div>
                 </div>
               </div>
@@ -82,76 +82,78 @@
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="reqLoanAmount">{{labels?.requestedLoanAmount}}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input formControlName="reqLoanAmount" type="text" class="form-control mandatory select2" id="reqLoanAmount" placeholder="Requested Loan Amount"
-                name="reqLoanAmount" />
+              <input formControlName="reqLoanAmount" type="text" class="form-control mandatory select2"
+                id="reqLoanAmount" placeholder="Requested Loan Amount" name="reqLoanAmount" />
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="reqLoanTenor">{{labels?.requestedLoanTenor}}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input formControlName="reqLoanTenor" type="text" class="form-control mandatory select2" id="reqLoanTenor" placeholder="Requested Loan Tenor"
-                name="reqLoanTenor" />
+              <input formControlName="reqLoanTenor" type="text" class="form-control mandatory select2" id="reqLoanTenor"
+                placeholder="Requested Loan Tenor" name="reqLoanTenor" />
             </div>
           </div>
         </div>
         <div *ngFor="let ticket of t.controls; let i = index">
-          <h4 *ngIf="t.controls.length>1" class="banner-con">{{ labels?.assetDetails }} - {{i +1}}</h4>
-          <h4 *ngIf="t.controls.length ==1" class="banner-con">{{ labels?.assetDetails }}</h4>
+          <h4 *ngIf="t.controls.length>1" class="banner-sub">{{ labels?.assetDetails }} - {{i +1}}</h4>
+          <h4 *ngIf="t.controls.length ==1" class="banner-sub">{{ labels?.assetDetails }}</h4>
           <div *ngIf="this.productCategoryList" [formGroup]="ticket">
             <div class="form-group">
               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="vehicleModel">{{ labels?.VehicleModel }}
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3 label-space">
-                <input formControlName="vehicleModel" type="text" class="form-control mandatory select2" id="vehicleModel" placeholder="Vehicle Model"
-                  name="vehicleModel" />
+                <input formControlName="vehicleModel" type="text" class="form-control mandatory select2"
+                  id="vehicleModel" placeholder="Vehicle Model" name="vehicleModel" />
               </div>
               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingProgram">{{ labels?.FundingProgram }}
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3 label-space">
-                <input formControlName="fundingProgram" type="text" class="form-control mandatory select2" id="fundingProgram" placeholder="Funding Program"
-                  name="fundingProgram" />
+                <input formControlName="fundingProgram" type="text" class="form-control mandatory select2"
+                  id="fundingProgram" placeholder="Funding Program" name="fundingProgram" />
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="regNo">{{ labels?.RegNo }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="regNo" type="text" class="form-control mandatory select2" id="regNo" placeholder="Reg.No" name="regNo"
-                  />
+                  <input formControlName="regNo" type="text" class="form-control mandatory select2" id="regNo"
+                    placeholder="Reg.No" name="regNo" />
                 </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="ManufacturingYear">{{ labels?.ManufacturingYear }}
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="ManufacturingYear">{{
+                  labels?.ManufacturingYear }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="ManufacturingYear" type="text" class="form-control mandatory select2" id="ManufacturingYear" placeholder="Manufacturing Year"
-                    name="ManufacturingYear" />
+                  <input formControlName="ManufacturingYear" type="text" class="form-control mandatory select2"
+                    id="ManufacturingYear" placeholder="Manufacturing Year" name="ManufacturingYear" />
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="ageofAsset">{{ labels?.AgeofAsset }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="ageofAsset" type="text" class="form-control mandatory select2" id="ageofAsset" placeholder="Age of Vehicle as on date"
-                    name="ageofAsset" />
+                  <input formControlName="ageofAsset" type="text" class="form-control mandatory select2" id="ageofAsset"
+                    placeholder="Age of Vehicle as on date" name="ageofAsset" />
                 </div>
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="netAssetCost">{{ labels?.NetAssetCost }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="netAssetCost" type="text" class="form-control mandatory select2" id="netAssetCost" placeholder="Net Asset Cost (in INR)"
-                    name="netAssetCost" />
+                  <input formControlName="netAssetCost" type="text" class="form-control mandatory select2"
+                    id="netAssetCost" placeholder="Net Asset Cost (in INR)" name="netAssetCost" />
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLTV">{{ labels?.EligibleLTV }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="eligibleLTV" type="text" class="form-control mandatory select2" id="eligibleLTV" placeholder="Eligible LTV (in %)"
-                    name="eligibleLTV" />
+                  <input formControlName="eligibleLTV" type="text" class="form-control mandatory select2"
+                    id="eligibleLTV" placeholder="Eligible LTV (in %)" name="eligibleLTV" />
                 </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanAmount">{{ labels?.EligibleLoanAmount }}
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanAmount">{{
+                  labels?.EligibleLoanAmount }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="eligibleLoanAmount" type="text" class="form-control mandatory select2" id="eligibleLoanAmount" placeholder="Eligible Loan Amount (in INR)"
-                    name="eligibleLoanAmount" />
+                  <input formControlName="eligibleLoanAmount" type="text" class="form-control mandatory select2"
+                    id="eligibleLoanAmount" placeholder="Eligible Loan Amount (in INR)" name="eligibleLoanAmount" />
                 </div>
                 <!-- <label class="control-label col-sm-5 col-md-4 col-lg-3" for="promoCode">{{ labels?.PromotionSubventionCode }}
                     </label>
@@ -183,33 +185,36 @@
                     </div>
                   </div> -->
               <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanTenor">{{ labels?.EligibleLoanTenor }}
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="eligibleLoanTenor">{{
+                  labels?.EligibleLoanTenor }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="eligibleLoanTenor" type="text" class="form-control mandatory select2" id="eligibleLoanTenor" placeholder="Eligible Loan Tenor"
-                    name="eligibleLoanTenor" />
+                  <input formControlName="eligibleLoanTenor" type="text" class="form-control mandatory select2"
+                    id="eligibleLoanTenor" placeholder="Eligible Loan Tenor" name="eligibleLoanTenor" />
                 </div>
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EligibleIRR">{{ labels?.EligibleIRR }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="EligibleIRR" type="text" class="form-control mandatory select2" id="EligibleIRR" placeholder="Eligible IRR (%)"
-                    name="EligibleIRR" />
+                  <input formControlName="EligibleIRR" type="text" class="form-control mandatory select2"
+                    id="EligibleIRR" placeholder="Eligible IRR (%)" name="EligibleIRR" />
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <b>{{ labels?.crossSellInsurance }}</b>
+              <b class="banner-sub">{{ labels?.crossSellInsurance }}</b>
             </div>
             <div *ngIf="InsuranceProvidersLabel" formGroupName="CrossSellInsurance">
               <!-- <div *ngFor="let ins of createNegotiationForm.controls.CrossSellInsurance['controls'][i].controls"> -->
               <!-- <div formArrayName="0"> -->
               <div formGroupName="motor">
                 <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="business_division">{{ InsuranceProvidersLabel[0]?.insurance_type_name }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="business_division">{{
+                    InsuranceProvidersLabel[0]?.insurance_type_name }}
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
-                    <app-vf-custom-select [values]="InsuranceProvidersLOV" formControlName="motorInsurance" [isDirty]="isDirty" [isRequired]="'FRSD / Motor Insurance is required'"
+                    <app-vf-custom-select [values]="InsuranceProvidersLOV" formControlName="motorInsurance"
+                      [isDirty]="isDirty" [isRequired]="'FRSD / Motor Insurance is required'"
                       (change)="getUIValues($event, true, 'MI',i);calculateTotal(i);calculatepremiumAmount($event,1,i)">
                     </app-vf-custom-select>
                     <button type="button" (click)="fetchPreimumAmount(1,'motor',i)" class="calc-icon">
@@ -218,35 +223,41 @@
                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MITenure">{{ labels?.MITenure }}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="MITenure" type="number" class="form-control mandatory select2 custom-negotiation-field"
-                      id="MITenure" placeholder="MI Tenure" [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
-                      .value == '4')? null :'MI Tenure is Required'" name="MITenure" (change)="fetchPreimumAmount(1,'motor',i)"
+                    <app-custom-input formControlName="MITenure" type="number"
+                      class="form-control mandatory select2 custom-negotiation-field" id="MITenure"
+                      placeholder="MI Tenure" [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
+                      .value == '4')? null :'MI Tenure is Required'" name="MITenure"
+                      (change)="fetchPreimumAmount(1,'motor',i)"
                       [maxLength]="labels?.validationData.MITenure.maxLength">
                     </app-custom-input>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforMI">{{ labels?.fundingRequiredforMI }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforMI">{{
+                    labels?.fundingRequiredforMI }}
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforMI" [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
+                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforMI"
+                      [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
                     .value == '4')? null :'Is Funding Required for MI is required'" (change)="calculateTotal(i)">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforMI" (change)="calculateTotal(i)"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
+                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforMI"
+                      (change)="calculateTotal(i)" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
                     .value == '4')? null :'Is Funding Required for MI is required'">
                     </app-vf-custom-select>
                   </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{
+                    labels?.MIPremiumAmount }}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="MIPremiumAmount" type="number" id="MIPremiumAmount" placeholder="MI Premium Amount (in INR)"
-                      name="MIPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.MIPremiumAmount.maxLength"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
-                      .value == '4')? null :'MI Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
+                    <app-custom-input formControlName="MIPremiumAmount" type="number" id="MIPremiumAmount"
+                      placeholder="MI Premium Amount (in INR)" name="MIPremiumAmount" [isDirty]="isDirty"
+                      [maxLength]="labels?.validationData.MIPremiumAmount.maxLength" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']['controls'].motorInsurance
+                      .value == '4')? null :'MI Premium Amount is Required'"
+                      class="form-control mandatory select2 custom-negotiation-field"
                       (change)="validateTenure('motor',i);validateAmount('MIPremiumAmount',i);calculateTotal(i)">
                     </app-custom-input>
                   </div>
@@ -254,12 +265,13 @@
               </div>
               <div formGroupName="pac">
                 <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldPAC"> {{ InsuranceProvidersLabel[1].insurance_type_name }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldPAC"> {{
+                    InsuranceProvidersLabel[1].insurance_type_name }}
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
-                    <app-vf-custom-select [values]="PACInsuranceProvidersLOV" formControlName="creditShieldPAC" [isDirty]="isDirty" [isRequired]="'Credit Shield - PAC is required'"
-                      (change)="getUIValues($event, true, 'PAC',i);
+                    <app-vf-custom-select [values]="PACInsuranceProvidersLOV" formControlName="creditShieldPAC"
+                      [isDirty]="isDirty" [isRequired]="'Credit Shield - PAC is required'" (change)="getUIValues($event, true, 'PAC',i);
                                 calculateTotal(i);
                                 calculatepremiumAmount($event,2,i)">
                     </app-vf-custom-select>
@@ -267,29 +279,32 @@
                         click)="fetchPreimumAmount(2,pACInsuranceProviderName)" 
                         class="calc-icon"></button> -->
                   </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PACPremiumAmount">{{ labels?.PACPremiumAmount }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PACPremiumAmount">{{
+                    labels?.PACPremiumAmount }}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="PACPremiumAmount" type="number" id="PACPremiumAmount" placeholder="PAC Premium Amount (in INR)"
-                      name="PACPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.MIPremiumAmount.maxLength"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
-                      .value == '4')? null :'PAC Premium Amount is Required'" class="form-control mandatory select2 custom-negotiation-field"
+                    <app-custom-input formControlName="PACPremiumAmount" type="number" id="PACPremiumAmount"
+                      placeholder="PAC Premium Amount (in INR)" name="PACPremiumAmount" [isDirty]="isDirty"
+                      [maxLength]="labels?.validationData.MIPremiumAmount.maxLength" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
+                      .value == '4')? null :'PAC Premium Amount is Required'"
+                      class="form-control mandatory select2 custom-negotiation-field"
                       (change)="validateAmount('PACPremiumAmount',i);calculateTotal(i)">
                     </app-custom-input>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{ labels?.fundingRequiredforPAC }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{
+                    labels?.fundingRequiredforPAC }}
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforPAC" [isDirty]="isDirty" (change)="calculateTotal(i)"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
+                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforPAC"
+                      [isDirty]="isDirty" (change)="calculateTotal(i)" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
                       .value == '4')? null :'Is Funding Required for PAC is required'">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforPAC" (change)="calculateTotal(i)"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
+                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforPAC"
+                      (change)="calculateTotal(i)" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['pac']['controls'].creditShieldPAC
                       .value == '4')? null :'Is Funding Required for PAC is required'">
                     </app-vf-custom-select>
                   </div>
@@ -297,7 +312,8 @@
               </div>
               <div formGroupName="vas">
                 <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VAS">{{ InsuranceProvidersLabel[3].insurance_type_name}}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VAS">{{
+                    InsuranceProvidersLabel[3].insurance_type_name}}
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
@@ -309,28 +325,32 @@
                         (click)="fetchPreimumAmount(4,vASInsuranceProvidersName)" 
                         class="calc-icon"></button> -->
                   </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VASPremiumAmount">{{ labels?.VASPremiumAmount }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VASPremiumAmount">{{
+                    labels?.VASPremiumAmount }}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="VASPremiumAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
-                      [isDirty]="isDirty" id="VASPremiumAmount" [maxLength]="labels?.validationData.VASPremiumAmount.maxLength"
+                    <app-custom-input formControlName="VASPremiumAmount" type="number"
+                      class="form-control mandatory select2 custom-negotiation-field" [isDirty]="isDirty"
+                      id="VASPremiumAmount" [maxLength]="labels?.validationData.VASPremiumAmount.maxLength"
                       placeholder="VAS Premium Amount (in INR)" name="VASPremiumAmount" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']['controls'].VAS
-                      .value == '4')? null :'VAS Premium Amount is Required'" (change)="validateAmount('VASPremiumAmount',i);calculateTotal(i)">
+                      .value == '4')? null :'VAS Premium Amount is Required'"
+                      (change)="validateAmount('VASPremiumAmount',i);calculateTotal(i)">
                     </app-custom-input>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforVAS">{{ labels?.fundingRequiredforVAS }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforVAS">{{
+                    labels?.fundingRequiredforVAS }}
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" [isDirty]="isDirty" formControlName="fundingRequiredforVAS" (change)="calculateTotal(i)"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']['controls'].VAS
+                    <app-vf-custom-select [values]="FundingRequiredLOV" [isDirty]="isDirty"
+                      formControlName="fundingRequiredforVAS" (change)="calculateTotal(i)" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']['controls'].VAS
                       .value == '4')? null :'Is Funding Required for VAS is required'">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforVAS" (change)="calculateTotal(i)"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']['controls'].VAS
+                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforVAS"
+                      (change)="calculateTotal(i)" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['vas']['controls'].VAS
                       .value == '4')? null :'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
                   </div>
@@ -338,47 +358,56 @@
               </div>
               <div formGroupName="life">
                 <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldLifeCover">{{ InsuranceProvidersLabel[2].insurance_type_name }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldLifeCover">{{
+                    InsuranceProvidersLabel[2].insurance_type_name }}
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3 position-relative">
-                    <app-vf-custom-select [values]="creditShieldInsuranceProvidersLOV" formControlName="creditShieldLifeCover" [className]="'form-control mandatory'"
-                      [isDirty]="isDirty" [isRequired]="'Credit Shield Life Cover is Required'" (change)="getUIValues($event, true, 'creditShield',i);
+                    <app-vf-custom-select [values]="creditShieldInsuranceProvidersLOV"
+                      formControlName="creditShieldLifeCover" [className]="'form-control mandatory'" [isDirty]="isDirty"
+                      [isRequired]="'Credit Shield Life Cover is Required'" (change)="getUIValues($event, true, 'creditShield',i);
                         calculateTotal(i);calculatepremiumAmount($event,3,i)">
                     </app-vf-custom-select>
-                    <button type="button" (click)="fetchPreimumAmount(3,'creditShieldInsurance',i)" class="calc-icon"></button>
+                    <button type="button" (click)="fetchPreimumAmount(3,'creditShieldInsurance',i)"
+                      class="calc-icon"></button>
                   </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingforLifeCover">{{ labels?.fundingforLifeCover }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingforLifeCover">{{
+                    labels?.fundingforLifeCover }}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="InsuranceSlabLOV" [isDirty]="isDirty" formControlName="fundingforLifeCover" [className]="'form-control mandatory'"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
-                      .value == '4')? null :'Is Funding Required for Lifer Cover is required'" (change)="getFundingReq($event,i);fetchPreimumAmount(3,'creditShieldInsurance',i)">
+                    <app-vf-custom-select [values]="InsuranceSlabLOV" [isDirty]="isDirty"
+                      formControlName="fundingforLifeCover" [className]="'form-control mandatory'" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
+                      .value == '4')? null :'Is Funding Required for Lifer Cover is required'"
+                      (change)="getFundingReq($event,i);fetchPreimumAmount(3,'creditShieldInsurance',i)">
                     </app-vf-custom-select>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{ labels?.fundingRequiredforlifeCover }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforPAC">{{
+                    labels?.fundingRequiredforlifeCover }}
                   </label>
                   <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)"
-                      [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
+                    <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforlifeCover"
+                      (change)="calculateTotal(i)" [isDirty]="isDirty" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
                       .value == '4')? null :'Is Funding Required for life-cover is required'">
                     </app-vf-custom-select>
                   </div>
                   <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)"
-                      [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
+                    <app-vf-custom-select [values]="tempDataFundingRequiredLOV"
+                      formControlName="fundingRequiredforlifeCover" (change)="calculateTotal(i)" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
                       .value == '4')? null :'Is Funding Required for life-cover is required'" [isDirty]="isDirty">
                     </app-vf-custom-select>
                   </div>
-                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="lifeCoverPremiumAmount">{{ labels?.lifeCoverPremiumAmount }}
+                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="lifeCoverPremiumAmount">{{
+                    labels?.lifeCoverPremiumAmount }}
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <app-custom-input formControlName="lifeCoverPremiumAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
-                      id="lifeCoverPremiumAmount" [isDirty]="isDirty" [maxLength]="labels?.validationData.lifeCoverPremiumAmount.maxLength"
+                    <app-custom-input formControlName="lifeCoverPremiumAmount" type="number"
+                      class="form-control mandatory select2 custom-negotiation-field" id="lifeCoverPremiumAmount"
+                      [isDirty]="isDirty" [maxLength]="labels?.validationData.lifeCoverPremiumAmount.maxLength"
                       placeholder="Life Cover Premium Amount (in INR)" name="lifeCoverPremiumAmount" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['life']['controls'].creditShieldLifeCover
-                      .value == '4')? null :'Life Cover Premium Amount is required'" (change)="validateTenure('creditShieldInsurance',i);validateAmount('lifeCoverPremiumAmount',i);calculateTotal(i)">
+                      .value == '4')? null :'Life Cover Premium Amount is required'"
+                      (change)="validateTenure('creditShieldInsurance',i);validateAmount('lifeCoverPremiumAmount',i);calculateTotal(i)">
                     </app-custom-input>
                   </div>
                 </div>
@@ -387,7 +416,7 @@
             <!-- </div> -->
             <!-- </div> -->
             <div class="form-group">
-              <b>{{ labels?.CrossSellFASTag }}</b>
+              <h3 class="banner-sub">{{ labels?.CrossSellFASTag }}</h3>
             </div>
             <div>
             </div>
@@ -395,42 +424,52 @@
               <!-- <div formArrayName="{{i}}">
                     <div formGroupName="0"> -->
               <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EquitasFASTagRequired">{{ labels?.EquitasFASTagRequired }}
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EquitasFASTagRequired">{{
+                  labels?.EquitasFASTagRequired }}
                   <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-vf-custom-select [values]="FASTagReqLOV" [isDirty]="isDirty" (change)="calculateTotal(i);getUIValues($event, true, 'fastTag',i)"
+                  <app-vf-custom-select [values]="FASTagReqLOV" [isDirty]="isDirty"
+                    (change)="calculateTotal(i);getUIValues($event, true, 'fastTag',i)"
                     formControlName="EquitasFASTagRequired" [isRequired]="'Is fastTag Required is Required'">
                   </app-vf-custom-select>
                 </div>
                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="FASTagAmount">{{ labels?.FASTagAmount }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input formControlName="FASTagAmount" type="number" class="form-control mandatory select2 custom-negotiation-field"
-                    id="FASTagAmount" placeholder="FASTag Amount (in INR)" name="FASTagAmount" (change)="validateAmount('fastTag',i);calculateTotal(i)"
+                  <app-custom-input formControlName="FASTagAmount" type="number"
+                    class="form-control mandatory select2 custom-negotiation-field" id="FASTagAmount"
+                    placeholder="FASTag Amount (in INR)" name="FASTagAmount"
+                    (change)="validateAmount('fastTag',i);calculateTotal(i)"
                     [maxLength]="labels?.validationData.FASTagAmount.maxLength" [isRequired]="(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].
-                     fastTag['controls'].EquitasFASTagRequired.value == '2')? null :'FAST Tag Amount is Required'" [isDirty]="isDirty"></app-custom-input>
+                     fastTag['controls'].EquitasFASTagRequired.value == '2')? null :'FAST Tag Amount is Required'"
+                    [isDirty]="isDirty"></app-custom-input>
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforFASTag">{{ labels?.fundingRequiredforFASTag }}
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="fundingRequiredforFASTag">{{
+                  labels?.fundingRequiredforFASTag }}
                   <sub class="star_red_col">*</sub>
                 </label>
                 <div *ngIf="this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                  <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforFASTag" (change)="calculateTotal(i)"
-                    [isRequired]="'Is Funding Required for FASTag is required'" [isDirty]="isDirty">
+                  <app-vf-custom-select [values]="FundingRequiredLOV" formControlName="fundingRequiredforFASTag"
+                    (change)="calculateTotal(i)" [isRequired]="'Is Funding Required for FASTag is required'"
+                    [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
                 <div *ngIf="!this.showapplicable" class="col-sm-6 col-md-4 col-lg-3">
-                  <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforFASTag" (change)="calculateTotal(i)"
-                    [isRequired]="'Is Funding Required for life-cover is required'" [isDirty]="isDirty">
+                  <app-vf-custom-select [values]="tempDataFundingRequiredLOV" formControlName="fundingRequiredforFASTag"
+                    (change)="calculateTotal(i)" [isRequired]="'Is Funding Required for life-cover is required'"
+                    [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
-                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSell">{{ labels?.LoanAmountincludingCrossSell }}
+                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSell">{{
+                  labels?.LoanAmountincludingCrossSell }}
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <input formControlName="LoanAmountincludingCrossSell" type="text" class="form-control mandatory select2" id="LoanAmountincludingCrossSell"
-                    placeholder="Loan Amount including Cross Sell (in INR)"  name="LoanAmountincludingCrossSell" />
+                  <input formControlName="LoanAmountincludingCrossSell" type="text"
+                    class="form-control mandatory select2" id="LoanAmountincludingCrossSell"
+                    placeholder="Loan Amount including Cross Sell (in INR)" name="LoanAmountincludingCrossSell" />
                 </div>
               </div>
               <!-- </div>
@@ -439,33 +478,42 @@
           </div>
         </div>
         <div *ngIf="t.controls.length>1" class="form-group">
-          <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSellofalltheassets">{{ labels?.LoanAmountincludingCrossSellofalltheassets }}
+          <label class="control-label col-sm-5 col-md-4 col-lg-3" for="LoanAmountincludingCrossSellofalltheassets">{{
+            labels?.LoanAmountincludingCrossSellofalltheassets }}
           </label>
           <div class="col-sm-6 col-md-4 col-lg-3">
-            <input formControlName="LoanAmountincludingCrossSellofalltheassets" type="text" class="form-control mandatory select2" id="LoanAmountincludingCrossSellofalltheassets"
-              placeholder="Loan Amount including Cross Sell of all the assets(in INR)" name="LoanAmountincludingCrossSellofalltheassets"
-            />
+            <input formControlName="LoanAmountincludingCrossSellofalltheassets" type="text"
+              class="form-control mandatory select2" id="LoanAmountincludingCrossSellofalltheassets"
+              placeholder="Loan Amount including Cross Sell of all the assets(in INR)"
+              name="LoanAmountincludingCrossSellofalltheassets" />
           </div>
         </div>
         <div>
-          <h4 class="banner-con">{{ labels?.negotiationTitle }}</h4>
+          <h4 class="banner-sub">{{ labels?.negotiationTitle }}</h4>
           <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanAmount">{{ labels?.NegotiatedLoanAmount }}
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanAmount">{{
+              labels?.NegotiatedLoanAmount }}
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedLoanAmount" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                [isRequired]="'Negotiated Loan Amount is Required'" [placeholder]="'Negotiated Loan Amount'" (change)="allowvaluesforNegoAmount($event);calculateEMI();calculatededuction()"
-                [maxLength]="labels?.validationData.NegotiatedLoanAmount.maxLength" [minLength]="labels?.validationData.NegotiatedLoanAmount.maxLength">
+              <app-custom-input formControlName="NegotiatedLoanAmount" [isDirty]="isDirty"
+                [className]="'form-control mandatory'" [type]="'number'"
+                [isRequired]="'Negotiated Loan Amount is Required'" [placeholder]="'Negotiated Loan Amount'"
+                (change)="allowvaluesforNegoAmount($event);calculateEMI();calculatededuction()"
+                [maxLength]="labels?.validationData.NegotiatedLoanAmount.maxLength"
+                [minLength]="labels?.validationData.NegotiatedLoanAmount.maxLength">
               </app-custom-input>
             </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanTenor">{{ labels?.NegotiatedLoanTenor }}
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NegotiatedLoanTenor">{{
+              labels?.NegotiatedLoanTenor }}
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedLoanTenor" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                (change)="getRepayableMonths()" [placeholder]="'Negotiated Loan Tenor (in Months)'" [isRequired]="'Negotiated Loan Tenor is Required'"
-                (change)="allowSix($event)" (change)="calculateEMI($event)" [maxLength]="labels?.validationData.NegotiatedLoanTenor.maxLength"
+              <app-custom-input formControlName="NegotiatedLoanTenor" [isDirty]="isDirty"
+                [className]="'form-control mandatory'" [type]="'number'" (change)="getRepayableMonths()"
+                [placeholder]="'Negotiated Loan Tenor (in Months)'" [isRequired]="'Negotiated Loan Tenor is Required'"
+                (change)="allowSix($event)" (change)="calculateEMI($event)"
+                [maxLength]="labels?.validationData.NegotiatedLoanTenor.maxLength"
                 [minLength]="labels?.validationData.NegotiatedLoanTenor.maxLength">
               </app-custom-input>
             </div>
@@ -475,8 +523,9 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty" [className]="'form-control mandatory'" [isRequired]="'Negotiated IRR is Required'"
-                [type]="'decimal'" [maxLength]="labels?.validationData.NegotiatedIRR.maxLength" [placeholder]="'Negotiated IRR (in %)'"
+              <app-custom-input formControlName="NegotiatedIRR" [isDirty]="isDirty"
+                [className]="'form-control mandatory'" [isRequired]="'Negotiated IRR is Required'" [type]="'decimal'"
+                [maxLength]="labels?.validationData.NegotiatedIRR.maxLength" [placeholder]="'Negotiated IRR (in %)'"
                 step="0.01" (keypress)="isDecimal($event);" (change)="allowValuesforNegoIRR($event)
                 ">
               </app-custom-input>
@@ -485,24 +534,28 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NegotiatedEMI" [isDirty]="isDirty" [className]="'form-control mandatory'" [isRequired]="'Negotiated EMI is Required'"
-                [type]="'decimal'" [maxLength]="labels?.validationData.NegotiatedEMI.maxLength" [placeholder]="'Negotiated EMI (in INR)'">
+              <app-custom-input formControlName="NegotiatedEMI" [isDirty]="isDirty"
+                [className]="'form-control mandatory'" [isRequired]="'Negotiated EMI is Required'" [type]="'decimal'"
+                [maxLength]="labels?.validationData.NegotiatedEMI.maxLength" [placeholder]="'Negotiated EMI (in INR)'">
               </app-custom-input>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MoratoriumPeriod">{{ labels?.MoratoriumPeriod }}
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MoratoriumPeriod">{{ labels?.MoratoriumPeriod
+              }}
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="MoratoriumDaysLOV" [isDirty]="isDirty" formControlName="MoratoriumPeriod" (change)="getRepayableMonths();getEMIDate()"
-                [isRequired]="'Moratorium / Holiday Period is required'">
+              <app-vf-custom-select [values]="MoratoriumDaysLOV" [isDirty]="isDirty" formControlName="MoratoriumPeriod"
+                (change)="getRepayableMonths();getEMIDate()" [isRequired]="'Moratorium / Holiday Period is required'">
               </app-vf-custom-select>
             </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofRepayableMonthsafterMoratorium">{{ labels?.NoofRepayableMonthsafterMoratorium }}
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofRepayableMonthsafterMoratorium">{{
+              labels?.NoofRepayableMonthsafterMoratorium }}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input formControlName="NoofRepayableMonthsafterMoratorium" type="text" class="form-control mandatory select2" id="NoofRepayableMonthsafterMoratorium"
+              <input formControlName="NoofRepayableMonthsafterMoratorium" type="text"
+                class="form-control mandatory select2" id="NoofRepayableMonthsafterMoratorium"
                 placeholder="'No. of Repayable Months after Moratorium'" name="NoofRepayableMonthsafterMoratorium" />
             </div>
           </div>
@@ -511,14 +564,17 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Date is Required'" formControlName="EMICycle">
+              <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Date is Required'"
+                formControlName="EMICycle">
               </app-vf-custom-select>
             </div>
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PaymentModeforGapDaysInterest">{{ labels?.PaymentModeforGapDaysInterest }}
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PaymentModeforGapDaysInterest">{{
+              labels?.PaymentModeforGapDaysInterest }}
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="GapDaysIntPayMode" [isDirty]="isDirty" [isRequired]="'Payment Mode is Required'" formControlName="PaymentModeforGapDaysInterest">
+              <app-vf-custom-select [values]="GapDaysIntPayMode" [isDirty]="isDirty"
+                [isRequired]="'Payment Mode is Required'" formControlName="PaymentModeforGapDaysInterest">
               </app-vf-custom-select>
             </div>
             <!-- <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
@@ -530,38 +586,44 @@
             </div> -->
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="SelectAppropriateLMSScheduleCode">{{ labels?.SelectAppropriateLMSScheduleCode }}
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="SelectAppropriateLMSScheduleCode">{{
+              labels?.SelectAppropriateLMSScheduleCode }}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="LMSSchedule" [isDirty]="isDirty" [isRequired]="'LMS LMSSchedule Code is Required'" formControlName="SelectAppropriateLMSScheduleCode">
+              <app-vf-custom-select [values]="LMSSchedule" [isDirty]="isDirty"
+                [isRequired]="'LMS LMSSchedule Code is Required'" formControlName="SelectAppropriateLMSScheduleCode">
               </app-vf-custom-select>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-5 note-field col-md-6 col-lg-6">
-              Note: Upfront deduction of Gap Days Interest is not supported for cheque mode of disbursement, so verify your option once.
+              Note: Upfront deduction of Gap Days Interest is not supported for cheque mode of disbursement, so verify
+              your option once.
             </label>
           </div>
           <div class="form-group">
-            <b>{{ labels?.DeductionsCharges }}</b>
+            <h3 class="banner-sub">{{ labels?.DeductionsCharges }}</h3>
           </div>
           <div *ngFor="let ticket1 of t1.controls; let i = index">
             <div [formGroup]="ticket1">
               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="CreditShieldCharges">{{deductionLabel[i]}}
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3 label-space ">
-                <app-custom-input formControlName="DeductionChargefixedRate" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'decimal'"
-                  (change)="getNetDisbursementAmount()" [placeholder]="'Credit Shield Charges (in INR)'" [isRequired]="'Deduction Charges is Required'"
+                <app-custom-input formControlName="DeductionChargefixedRate" [isDirty]="isDirty"
+                  [className]="'form-control mandatory'" [type]="'decimal'" (change)="getNetDisbursementAmount()"
+                  [placeholder]="'Credit Shield Charges (in INR)'" [isRequired]="'Deduction Charges is Required'"
                   [maxLength]="labels?.validationData.DeductionChargefixedRate.maxLength">
                 </app-custom-input>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NetDisbursementAmount">{{ labels?.NetDisbursementAmount }}
+            <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NetDisbursementAmount">{{
+              labels?.NetDisbursementAmount }}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3 label-space">
-              <app-custom-input formControlName="NetDisbursementAmount" [isDirty]="isDirty" [className]="'form-control mandatory'" [placeholder]="'Net Disbursement Amount (in INR)'">
+              <app-custom-input formControlName="NetDisbursementAmount" [isDirty]="isDirty"
+                [className]="'form-control mandatory'" [placeholder]="'Net Disbursement Amount (in INR)'">
               </app-custom-input>
             </div>
             <!-- <label class="control-label col-sm-5 note-field col-md-6 col-lg-6">
@@ -570,13 +632,13 @@
           </div>
         </div>
         <div>
-          <h4 class="banner-con">{{ labels?.repaymentMode}}</h4>
+          <h4 class="banner-sub">{{ labels?.repaymentMode}}</h4>
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentMode">{{labels?.repaymentMode}}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-vf-custom-select [values]="RepaymentLOV" [isDirty]="isDirty" (change)="calculateMinMax('empty')" [isRequired]="'Repayment Mode is Required'"
-                formControlName="repaymentMode">
+              <app-vf-custom-select [values]="RepaymentLOV" [isDirty]="isDirty" (change)="calculateMinMax('empty')"
+                [isRequired]="'Repayment Mode is Required'" formControlName="repaymentMode">
               </app-vf-custom-select>
             </div>
           </div>
@@ -584,9 +646,11 @@
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofPDC">{{labels?.noOfPdc}}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                [isRequired]="'PDC Value is Required'" [placeholder]="'PDC Value'" (change)="calculateMinMax($event.target.value)"
-                [custom]="PDCvalueCheck" [minLength]="labels?.validationData.NoofPDC.minLength" [maxLength]="labels?.validationData.NoofPDC.maxLength">
+              <app-custom-input formControlName="NoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'"
+                [type]="'number'" [isRequired]="'PDC Value is Required'" [placeholder]="'PDC Value'"
+                (change)="calculateMinMax($event.target.value)" [custom]="PDCvalueCheck"
+                [minLength]="labels?.validationData.NoofPDC.minLength"
+                [maxLength]="labels?.validationData.NoofPDC.maxLength">
               </app-custom-input>
             </div>
           </div>
@@ -594,16 +658,19 @@
             <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofSPDC">{{labels?.NoofSPDC}}
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input formControlName="NoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                [isRequired]="'SPDC Value is Required'" [placeholder]="'SPDC Value'" (change)="calculateMinMax('')" [custom]="SPDCvalueCheck"
-                [minLength]="labels?.validationData.NoofSPDC.minLength" [maxLength]="labels?.validationData.NoofSPDC.maxLength">
+              <app-custom-input formControlName="NoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'"
+                [type]="'number'" [isRequired]="'SPDC Value is Required'" [placeholder]="'SPDC Value'"
+                (change)="calculateMinMax('')" [custom]="SPDCvalueCheck"
+                [minLength]="labels?.validationData.NoofSPDC.minLength"
+                [maxLength]="labels?.validationData.NoofSPDC.maxLength">
               </app-custom-input>
             </div>
           </div>
         </div>
         <div class="btn-sec button-section clear-both">
           <div class="col-sm-12 text-right">
-            <button type="button" class="btn btn-primary hvr-sweep-to-left" value="back" *ngIf="roleType == '1' || roleType == '7'" (click)="onBack()">
+            <button type="button" class="btn btn-primary hvr-sweep-to-left" value="back"
+              *ngIf="roleType == '1' || roleType == '7'" (click)="onBack()">
               {{ labels?.back }}
             </button>
             <!-- <button (click)="onBack()" class="btn btn-primary mar-right8" type="button" >Back </button>&nbsp; -->
@@ -611,12 +678,14 @@
               {{ labels?.cancel }}
             </button>
             <ng-container *ngIf="!isLoan360">
-              <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" *ngIf="roleType != 4 && roleType != 5">
+              <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()"
+                *ngIf="roleType != 4 && roleType != 5">
                 {{ labels?.save }}
               </button>
             </ng-container>
-            
-            <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"> Next </button>
+
+            <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"> Next
+            </button>
           </div>
         </div>
       </form>

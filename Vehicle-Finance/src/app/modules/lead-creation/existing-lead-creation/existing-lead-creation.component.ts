@@ -16,6 +16,7 @@ import { CommonDataService } from '@services/common-data.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToasterService } from '@services/toaster.service';
+import { THRESHOLD_DIFF } from '@progress/kendo-angular-popup/dist/es2015/services/scrollable.service';
 
 @Component({
   selector: 'app-existing-lead-creation',
@@ -160,8 +161,18 @@ export class ExistingLeadCreationComponent implements OnInit {
     private toasterService: ToasterService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private leadStoreService: LeadStoreService
-  ) { }
+    private leadStoreService: LeadStoreService,
+    private createLeadDataService: CreateLeadDataService,
+  ) {
+
+    // date
+    let toDayDate = new Date()
+    var day = toDayDate.getDate();
+    var month = toDayDate.getMonth();
+    var year = toDayDate.getFullYear();
+    toDayDate = new Date(year, month, day, 0, 0);
+    this.minDate = new Date(new Date().getFullYear() - 15, month, month)
+  }
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -692,7 +703,9 @@ export class ExistingLeadCreationComponent implements OnInit {
 
       const vehicleId = data.vehicleId;
       const vehicleRegNo = data.vehicleRegNo;
-      const manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+      //check product type 
+      const manuFacMonthYear = data.productCategory != 'NCV' ?
+        this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
 
       this.createLeadService.createExternalLead(
         this.loanLeadDetails,
@@ -737,6 +750,7 @@ export class ExistingLeadCreationComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           console.log('byPool', response);
+
           const productCategory = response.ProcessVariables.leadDetails.productCatCode;
           this.productCategoryChange(productCategory);
           const product = response.ProcessVariables.leadDetails.productId;
@@ -747,7 +761,7 @@ export class ExistingLeadCreationComponent implements OnInit {
           const nameTwo = response.ProcessVariables.applicantDetails[0].name2;
           const nameThree = response.ProcessVariables.applicantDetails[0].name3;
           this.firstName = nameOne;
-          this.middleName = nameTwo ? nameTwo: '';
+          this.middleName = nameTwo ? nameTwo : '';
           this.lastName = nameThree;
           const mobileNumber: string = response.ProcessVariables.applicantDetails[0].mobileNumber;
           let mobile = mobileNumber;
@@ -819,8 +833,10 @@ export class ExistingLeadCreationComponent implements OnInit {
               assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
               assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
               assetVariant = 'variantKey';
-              dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
-              manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+              if (response.ProcessVariables.leadDetails.productCatCode != 'NCV') {
+                dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
+                manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
+              }
             }
 
             this.createExternalLeadForm.patchValue({
@@ -834,6 +850,7 @@ export class ExistingLeadCreationComponent implements OnInit {
               manuFacMonthYear
             });
           }
+          this.createLeadDataService.setLeadSectionData(response.ProcessVariables);
         }
       });
   }

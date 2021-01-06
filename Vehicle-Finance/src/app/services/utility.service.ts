@@ -82,6 +82,11 @@ export class UtilityService {
     return moment().diff(dateOfBirth, 'months');
   }
 
+  ageOfAssetYear(dateOfBirth: any) {
+    return moment.duration(moment().diff(dateOfBirth))
+    // return moment().diff(dateOfBirth, 'year');
+  }
+
   ageCalculation(dob) {
     return moment().diff(dob, 'years');
   }

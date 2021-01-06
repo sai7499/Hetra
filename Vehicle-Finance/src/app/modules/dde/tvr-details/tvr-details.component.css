@@ -4,9 +4,15 @@
 }
 
 .mar-btm-15{
-  margin-bottom:15px!important;
+  margin-bottom:45px!important;
 }
 
 .nxt-mar-10{
     margin-bottom:15px;
+}
+
+@media (min-width:260px) and (max-width: 760px) {
+  .mar-btm-15{
+    margin-bottom:15px!important;
+  }
 }

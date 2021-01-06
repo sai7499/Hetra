@@ -3,27 +3,23 @@
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header text-center">
-        <h4 class="modal-title">Negative List Scrub Results</h4>
+        <h4 class="banner-con">Negative List Scrub Results
+          <span class="float-right">{{udfScreenId}}</span>
+        </h4>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-        <p id="exact_macth_title1">Negative List Results</p>
+        <p id="exact_macth_title1" class="banner-sub">Negative List Results</p>
         <div id="nagative_list_results">
           <div class="row">
-            <div class="row" >
+            <div class="row">
               <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                 <label id="nagative_list_results_tag">Found in NL?</label>
               </div>
               <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                <input
-                type="text"
-                [value]="modalInput?.isNLFound"
-                name="found_in_nl"
-                id="found_in_nl"
-                disabled="disabled"
-                class="input-style"
-              />
+                <input type="text" [value]="modalInput?.isNLFound" name="found_in_nl" id="found_in_nl"
+                  disabled="disabled" class="input-style" />
               </div>
             </div>
             <div class="row line-space">
@@ -31,21 +27,14 @@
                 <label id="nagative_list_results_tag1">Found in TR NL?</label>
               </div>
               <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                <input
-                  type="text"
-                  [value]="modalInput?.isNLTRFound"
-                  name="found_in_trnl"
-                  id="found_in_trnl"
-                  disabled="disabled"
-                  class="input-style"
-                />
+                <input type="text" [value]="modalInput?.isNLTRFound" name="found_in_trnl" id="found_in_trnl"
+                  disabled="disabled" class="input-style" />
 
               </div>
             </div>
             <!-- <ng-container *ngIf="modalInput"> -->
             <div class="col-md-12" *ngIf="modalInput?.isNLFound">
-              <span id="nagative_list_results_tag01">NL Match Criteria? </span
-              >&nbsp;&nbsp;
+              <span id="nagative_list_results_tag01">NL Match Criteria? </span>&nbsp;&nbsp;
               <!-- <input
                 type="text"
                 class=""
@@ -58,9 +47,7 @@
               <p>{{ modalInput?.nlRemarks }}</p>
             </div>
             <div class="col-md-12" *ngIf="modalInput?.isNLTRFound">
-              <span id="nagative_list_results_tag01"
-                >TR NL Match Criteria? </span
-              >&nbsp;&nbsp;
+              <span id="nagative_list_results_tag01">TR NL Match Criteria? </span>&nbsp;&nbsp;
               <!-- <input
                 type="text"
                 class=""
@@ -82,11 +69,8 @@
       <div class="modal-footer text-center">
         <div class="form-group" style="margin-top: 10px;">
           <p for="Vechical Type" style="text-align: left;">Remarks</p>
-          <textarea
-            [(ngModel)]="remarks"
-            [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
-            style="width: 100%;"
-          ></textarea>
+          <textarea [(ngModel)]="remarks" [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
+            style="width: 100%;"></textarea>
         </div>
         <!-- <button
           type="button"
@@ -97,35 +81,21 @@
         >
           Reject
         </button> -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="cnew_lead"
-          (click)="reject()"
-          [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
-        >
+        <button type="button" class="btn btn-primary" id="cnew_lead" (click)="reject()"
+          [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound">
           Reject
         </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="triggerClick('proceed')"
-          [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
-        >
+        <button type="button" class="btn btn-primary" (click)="triggerClick('proceed')"
+          [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound">
           Proceed
         </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="triggerClick('next')"
-          [disabled]="modalInput?.isNLTRFound || modalInput?.isNLFound"
-        >
+        <button type="button" class="btn btn-primary" (click)="triggerClick('next')"
+          [disabled]="modalInput?.isNLTRFound || modalInput?.isNLFound">
           Next
         </button>
       </div>
     </div>
   </div>
 </div>
-<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModalNL" *ngIf="showModalNL" (okay)="onOkay($event)" (cancel)="onNLCancel()"></app-reject-reason-modal>
-
-
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModalNL" *ngIf="showModalNL" (okay)="onOkay($event)"
+  (cancel)="onNLCancel()"></app-reject-reason-modal>

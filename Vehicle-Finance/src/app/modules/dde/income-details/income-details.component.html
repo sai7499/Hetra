@@ -1,19 +1,19 @@
-
 <!--progress bar-->
 <form class="multisteps-form__form p-0" [formGroup]="incomeDetailsForm">
-  <h3 class="banner-con">{{ labels?.incomeAndObligationDetailsTitle }}</h3>
+  <h3 class="banner-con">{{ labels?.incomeAndObligationDetailsTitle }} ({{udfScreenId}}) </h3>
   <div class="multisteps-form">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="container-fluid">
         <div class="row">
           <div class="table-responsive application" *ngIf="usedCar">
             <table id="POITable" border="1" class="table main-table businessTable">
-              <thead >
-                <th colspan="9" class="banner-con ">  <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
-                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)">
-                <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
-               
-                </thead>
+              <thead>
+                <th colspan="9" class="banner-sub "> <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button"
+                    class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)">
+                    <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
+
+              </thead>
               <!-- <caption class="caption">
                 <div class="income-row">
                   <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
@@ -23,14 +23,14 @@
                     <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)"><i
                         class="fa fa-plus fa-fw"></i> Add Row</button>
                   </div> -->
-                  <!-- </div> -->
-                <!-- {{
+              <!-- </div> -->
+              <!-- {{
                   labels?.businessIncomeDetailsTitle
                 }} -->
               <!-- </caption> -->
               <thead class="td_none">
                 <tr class="td_none">
-                  <th  role="columnheader">{{ labels?.particulars }}</th>
+                  <th role="columnheader">{{ labels?.particulars }}</th>
                   <th role="columnheader">
                     {{ labels?.applicantName }}<sub class="star_red_col">*</sub>
                   </th>
@@ -61,10 +61,10 @@
                     ];
                     let i = index
                   " [formGroupName]="i">
-                  <td >
+                  <td>
                     {{ i + 1 }}
                   </td>
-                  <td >
+                  <td>
                     <select class="form-control mandatory select2" id="" name="applicantId"
                       class="form-control text-center" formControlName="applicantId" (change)="
                         onBusinessApplicantChange($event.target.value, i)
@@ -104,13 +104,13 @@
                     </div>
                   </td>
 
-                  <td >
+                  <td>
                     <app-custom-input formControlName="applicantType" [type]="labels?.validationData?.fullName?.type"
                       [className]="'form-control mandatory'" [maxLength]="labels?.validationData?.fullName?.maxLength"
                       [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
 
-                  <td >
+                  <td>
                     <app-custom-input formControlName="businessEnterpriseName" [placeholder]="'Business Entity Name'"
                       [type]="labels?.validationData?.businessEntity?.type" [className]="'form-control mandatory'"
                       [maxLength]="
@@ -132,7 +132,7 @@
                       </div>
                     </div>
                   </td>
-                  <td >
+                  <td>
                     <app-custom-input formControlName="netProfit" [placeholder]="'Net Profit'"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
@@ -152,7 +152,7 @@
                       </div>
                     </div>
                   </td>
-                  <td >
+                  <td>
                     <app-custom-input formControlName="depreciation" [placeholder]="'Depreciation'"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
@@ -172,7 +172,7 @@
                       </div>
                     </div>
                   </td>
-                  <td >
+                  <td>
                     <app-custom-input formControlName="directorSalary" [placeholder]="'Director Salary'"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
@@ -192,21 +192,21 @@
                       </div>
                     </div>
                   </td>
-                  <td >
+                  <td>
                     <app-custom-input formControlName="grossDerivedIncome"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
-                  <td >
+                  <td>
                     <app-custom-input formControlName="grossMonthlyIncome"
                       [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
                       [maxLength]="
                         labels?.validationData?.amountValue?.maxLength
                       " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
                   </td>
-                  <td  *ngIf="!disableSaveBtn">
+                  <td *ngIf="!disableSaveBtn">
                     <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addBusinessIncomeUnit(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -225,11 +225,12 @@
 
           <div class="table-responsive application" *ngIf="NewOrUsedComercialVehicle" formArrayName="keyFinanceDetails">
             <table id="POITable" border="1" class="table main-table businessTable">
-              <thead >
-              <th colspan="4" class="banner-con ">  <span >{{ labels?.keyFinancialTitle }}</span> </th>
-              <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)">
-              <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
-             
+              <thead>
+                <th colspan="4" class="banner-sub "> <span>{{ labels?.keyFinancialTitle }}</span> </th>
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button"
+                    class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)">
+                    <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
+
               </thead>
               <tbody class="text-center" *ngFor="
                   let item of incomeDetailsForm.get('keyFinanceDetails')[
@@ -238,7 +239,7 @@
                   let i = index
                 " [formGroupName]="i">
                 <tr class="td_none">
-                  <th  role="columnheader" class="text-center">{{ labels?.particulars }}</th>
+                  <th role="columnheader" class="text-center">{{ labels?.particulars }}</th>
                   <th role="columnheader" class="text-center">
                     {{ yearOneValue }}
                   </th>
@@ -249,7 +250,7 @@
                   <th role="columnheader" *ngIf="!disableSaveBtn" class="text-center">{{ labels?.actions }}</th>
                 </tr>
                 <tr>
-                  <td  class="bank_name">{{ labels?.applicant }}</td>
+                  <td class="bank_name">{{ labels?.applicant }}</td>
                   <td>
                     <select class="form-control mandatory select2" id="" name="applicantId"
                       class="form-control text-center" [formControl]="item.controls.yearOne.controls.applicantId"
@@ -293,7 +294,7 @@
                       [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true" [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
-                  <td  *ngIf="!disableSaveBtn">
+                  <td *ngIf="!disableSaveBtn">
                     <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
                       title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp; -->
                     <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
@@ -302,9 +303,9 @@
                 </tr>
 
                 <tr>
-                  <td  class="bank_name">{{ labels?.applicantType }}</td>
+                  <td class="bank_name">{{ labels?.applicantType }}</td>
 
-                  <td >
+                  <td>
                     <app-custom-input [formControl]="
                         item.controls.yearOne.controls.applicantType
                       " [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'"
@@ -336,7 +337,7 @@
                       [maxLength]="
                         labels?.validationData?.keyFinancialAmount?.maxLength
                       " [isDirty]="isDirty"></app-custom-input>
-                      <!-- <input type="text" [formControl]="
+                    <!-- <input type="text" [formControl]="
                       item.controls.yearOne.controls.shareCapital
                     " [placeholder]="'Share Capital'" 
                      > -->
@@ -727,24 +728,27 @@
                 <tr>
                   <td class="bank_name">{{ labels?.dateOfItrFiling }}</td>
                   <td>
-                  
+
                     <kendo-datepicker class="form-control" [formControl]="
                     item.controls.yearOne.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearOneMinDate" [max]="toDayDate" placeholder="ITR Filing Date ">
+                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearOneMinDate" [max]="toDayDate"
+                      placeholder="ITR Filing Date ">
                     </kendo-datepicker>
                   </td>
                   <td>
-                   
+
                     <kendo-datepicker class="form-control" [formControl]="
                     item.controls.yearTwo.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearTwoMinDate" [max]="yearOneMinDate" placeholder="ITR Filing Date ">
+                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearTwoMinDate" [max]="yearOneMinDate"
+                      placeholder="ITR Filing Date ">
                     </kendo-datepicker>
                   </td>
                   <td>
-                  
+
                     <kendo-datepicker class="form-control" [formControl]="
                     item.controls.yearThree.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearThreeMinDate" [max]="yearTwoMinDate" placeholder="ITR Filing Date ">
+                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearThreeMinDate" [max]="yearTwoMinDate"
+                      placeholder="ITR Filing Date ">
                     </kendo-datepicker>
                   </td>
                 </tr>
@@ -754,11 +758,12 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_other" border="1" class="table main-table">
               <thead>
-                <th colspan="7" class=" banner-con">  <span>{{ labels?.otherIncomeDetailsTitle }}</span> </th>
-                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)">
-                <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
-               
-                </thead>
+                <th colspan="7" class=" banner-sub"> <span>{{ labels?.otherIncomeDetailsTitle }}</span> </th>
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button"
+                    class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)">
+                    <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
+
+              </thead>
               <!-- <caption class="caption">
                 <div class="income-row">
                   <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
@@ -769,13 +774,13 @@
                         class="fa fa-plus fa-fw"></i> Add Row</button>
                   </div>
                   </div> -->
-                <!-- {{
+              <!-- {{
                   labels?.otherIncomeDetailsTitle
                 }} -->
               <!-- </caption> -->
               <thead>
                 <tr class="">
-                  <th  role="columnheader">{{ labels?.particulars }}</th>
+                  <th role="columnheader">{{ labels?.particulars }}</th>
                   <th role="columnheader">
                     {{ labels?.applicantName }}
                     <sub class="star_red_col">*</sub>
@@ -915,11 +920,12 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_obligation" border="1" class="table main-table">
               <thead>
-                <th colspan="11" class="banner-con">  <span >{{ labels?.obligationDetailsTitle }}</span> </th>
-                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addObligationUnit(null)">
-                <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
-               
-                </thead>
+                <th colspan="11" class="banner-sub"> <span>{{ labels?.obligationDetailsTitle }}</span> </th>
+                <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button"
+                    class="btn caption btn-sm" (click)="addObligationUnit(null)">
+                    <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
+
+              </thead>
               <!-- <caption class="caption">
                 <div class="income-row">
                   <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
@@ -930,7 +936,7 @@
                         class="fa fa-plus fa-fw"></i> Add Row</button>
                   </div>
                   </div> -->
-                <!-- {{
+              <!-- {{
                   labels?.obligationDetailsTitle
                 }} -->
               <!-- </caption> -->
@@ -971,8 +977,8 @@
                     ];
                     let i = index
                   " [formGroupName]="i">
-                  <td data-title="S.No" >{{ i + 1 }}</td>
-                  <td data-title="Borrower Name "> 
+                  <td data-title="S.No">{{ i + 1 }}</td>
+                  <td data-title="Borrower Name ">
                     <select class="form-control mandatory select2" id="" name="applicantId"
                       class="form-control text-center" formControlName="applicantId" (change)="
                         onObligationApplicantChange($event.target.value, i)
@@ -1138,8 +1144,8 @@
                   </td>
                   <td data-title="EMI">
                     <app-custom-input formControlName="emi" [placeholder]="'EMI'"
-                      [type]="labels?.validationData?.amountValue?.type"
-                      [className]="'form-control mandatory'" [maxLength]="
+                      [type]="labels?.validationData?.amountValue?.type" [className]="'form-control mandatory'"
+                      [maxLength]="
                         labels?.validationData?.amountValue?.maxLength
                       " [isRequired]="'EMI mandatory'" [isDirty]="isDirty" (keyup)="onEmi($event.target.value, i)">
                     </app-custom-input>
@@ -1186,13 +1192,13 @@
           </div>
           <div class="table-responsive application mt-3 oblig p-0" *ngIf="usedCar">
             <table id="POITable" border="0" class="table income_obli main-table">
-              
-                <caption class="banner-con">
-                  {{
-                    labels?.incomeObligationSummaryTitle
-                  }}
-                </caption>
-              
+
+              <caption class="banner-sub">
+                {{
+                labels?.incomeObligationSummaryTitle
+                }}
+              </caption>
+
 
               <tr>
                 <td>{{ labels?.totalMonthlySalaryIncome }}</td>
@@ -1202,7 +1208,7 @@
                 <td>{{ labels?.salariedFOIRasperPolicy }}</td>
                 <td>
                   <app-custom-input formControlName="salariedFOIRasperPolicy" [className]="'form-control mandatory'"
-                    [isDirty]="isDirty" [isDisabled]="true"  >
+                    [isDirty]="isDirty" [isDisabled]="true">
                   </app-custom-input>
                 </td>
               </tr>
@@ -1226,10 +1232,10 @@
                 <td>{{ labels?.consideredSalaryIncome }}</td>
                 <td>
                   {{
-                    (totalMonthlySalaryIncome * totalSalariedFOIR) / 100
-                      | number: "1.0-0"
+                  (totalMonthlySalaryIncome * totalSalariedFOIR) / 100
+                  | number: "1.0-0"
                   }}
-                 
+
                 </td>
               </tr>
 
@@ -1265,8 +1271,8 @@
                 <td>{{ labels?.loanEligibilityasperFOIR }}</td>
                 <td>
                   {{
-                    1.4 * (totalMonthlyOtherIncome + totalBusinessIncomeAmount - totalObligationAmount)
-                      | number: "1.0-0"
+                  1.4 * (totalMonthlyOtherIncome + totalBusinessIncomeAmount - totalObligationAmount)
+                  | number: "1.0-0"
                   }}
                 </td>
               </tr>
@@ -1276,11 +1282,13 @@
       </div>
     </div>
   </div>
-  <app-shared-user-defined-fields *ngIf="usedCar" [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+  <app-shared-user-defined-fields *ngIf="usedCar" [isDirty]="isDirty" [udfScreenId]="udfScreenId"
+    [udfGroupId]="udfGroupId" [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
+  </app-shared-user-defined-fields>
 
-<app-shared-user-defined-fields *ngIf="NewOrUsedComercialVehicle" [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+  <app-shared-user-defined-fields *ngIf="NewOrUsedComercialVehicle" [isDirty]="isDirty" [udfScreenId]="udfScreenId"
+    [udfGroupId]="udfGroupId" [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
+  </app-shared-user-defined-fields>
 
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
@@ -1301,11 +1309,11 @@
 <div id="overlay" *ngIf="isbusinessIncomeShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="isbusinessIncomeShow = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="isbusinessIncomeShow = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">
@@ -1321,11 +1329,11 @@
 <div id="overlay" *ngIf="isOtherIncomeShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="isOtherIncomeShow = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="isOtherIncomeShow = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">
@@ -1341,11 +1349,11 @@
 <div id="overlay" *ngIf="isObligationIncomeShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="isObligationIncomeShow = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="isObligationIncomeShow = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">
@@ -1361,11 +1369,11 @@
 <div id="overlay" *ngIf="isKeyFinancialShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="isKeyFinancialShow = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="isKeyFinancialShow = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">

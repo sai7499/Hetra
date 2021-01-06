@@ -9,13 +9,11 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class IdleTimerService {
-
-    timeout: number;
-    callback: Function;
     interval: any;
     eventHandler: any
 
-    MODAL_TIMER = 120 // seconds;
+    // MODAL_TIMER = 120 // seconds;window["env"]["expriyAlertTime"] = "30";
+    MODAL_TIMER = Number(window["env"]["expriyAlertTime"]);// seconds
     // SESSION_TIMER = 15 * 60; // 15 * 60 seconds (900 seconds)window["env"]["userConfig"]
     SESSION_TIMER = Number(window["env"]["sessionTime"]) * 60;
     $timer = new BehaviorSubject(null);
@@ -39,9 +37,9 @@ export class IdleTimerService {
         return this.$timer;
     }
 
-    startTimer(timeout, callback) {
-        this.timeout = timeout;
-        this.callback = callback;
+    startTimer() {
+        // this.timeout = timeout;
+        // this.callback = callback;
         this.eventHandler = this.updateExpiredTime.bind(this);
         //this.tracker();
         this.startInterVal();
@@ -63,7 +61,7 @@ export class IdleTimerService {
     private startInterVal() {
         this.updateExpiredTime();
         this.interval = setInterval(() => {
-            console.log('timer 1');
+            // console.log('timer 1');
             const expiredTime = Number(localStorage.getItem('_expiredTime'));
             if(Date.now()   >= expiredTime - (this.MODAL_TIMER * 1000)) {
                 this.$timer.next('alert');
@@ -72,7 +70,6 @@ export class IdleTimerService {
 
             if (expiredTime < Date.now()) {
                 console.log('time out');
-                this.callback();
                 this.cleanUp();
             }
         }, 1000);
@@ -80,9 +77,8 @@ export class IdleTimerService {
 
     updateExpiredTime() {
         console.log(Date.now())
-        console.log('timeout',this.timeout)
-        console.log(Date.now() + this.timeout * 1000);
-        localStorage.setItem('_expiredTime', String(Date.now() + this.timeout * 1000));
+     
+        localStorage.setItem('_expiredTime', String(Date.now() + this.SESSION_TIMER * 1000));
     }
 
     private tracker() {

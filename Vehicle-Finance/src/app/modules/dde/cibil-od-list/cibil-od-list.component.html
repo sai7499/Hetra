@@ -1,28 +1,27 @@
-
 <form class="multisteps-form__form" [formGroup]="odDetailsForm">
 
   <div class="container-fluid row">
-  
-    <table class="table center-align" >
+
+    <table class="table center-align">
       <tr>
-        <td>{{ labels?.applicant }}</td>
-        <td>{{odApplicantData?.applicantName}}</td>
-        <td>{{ labels?.applicantType }}</td>
-        <td>{{odApplicantData?.applicantType}}</td>
+        <td class="text-left">{{ labels?.applicant }}</td>
+        <td class="text-left">{{odApplicantData?.applicantName}}</td>
+        <td class="text-left">{{ labels?.applicantType }}</td>
+        <td class="text-left">{{odApplicantData?.applicantType}}</td>
         <td>{{ labels?.bureauScore }}</td>
-        <td>{{odApplicantData?.bureauScore}}</td> 
-        <td colspan="1"> 
+        <td>{{odApplicantData?.bureauScore}}</td>
+        <td colspan="1">
           <!-- <button  class = "btn btn-primary" type="button" >
             <a (click)="getApplicantImage()" data-toggle="modal"
             data-target="#myModalApplicantImage"><strong>View Report</strong>
             </a>
           </button> -->
-          <button class = "btn btn-primary" type="button" > <a (click)="getApplicantImage()">View Report</a></button>
+          <button class="btn btn-primary" type="button"> <a (click)="getApplicantImage()">View Report</a></button>
         </td>
       </tr>
-     
+
     </table>
-</div>
+  </div>
 
   <div class="multisteps-form">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
@@ -31,7 +30,7 @@
           <div class="table-responsive application">
             <div class="od-row">
               <div class="col-md-12">
-                <h3 class="banner-con">{{ labels?.odDetails }}</h3>
+                <h3 class="banner-con">{{labels?.odDetails}} ({{udfScreenId}}) </h3>
               </div>
               <div class="row text-right">
                 <button [disabled]="disableSaveBtn" type="button" class="btn caption btn-sm" (click)="addOdDetails()"><i
@@ -104,23 +103,21 @@
                     </td>
                   </ng-container> -->
                   <!-- <ng-container *ngIf="selctedLoan[i] === 'OTRSLONTYP'"> -->
-                    <td data-title="Other type of loan">
-                      <app-custom-input formControlName="otherTypeOfLoan" [placeholder]="'Other type of loan'"
-                        [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
-                        [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" 
-                        >
-                      </app-custom-input>
-                      <div class="ShowError" *ngIf="isDirty && !odDetailsFormArray.controls[i].get('otherTypeOfLoan').value 
+                  <td data-title="Other type of loan">
+                    <app-custom-input formControlName="otherTypeOfLoan" [placeholder]="'Other type of loan'"
+                      [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
+                      [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength">
+                    </app-custom-input>
+                    <div class="ShowError" *ngIf="isDirty && !odDetailsFormArray.controls[i].get('otherTypeOfLoan').value 
                       && odDetailsFormArray.controls[i].get('otherTypeOfLoan').invalid">
-                         Other type of loan mandatory
-                      </div>
-                    </td>
+                      Other type of loan mandatory
+                    </div>
+                  </td>
                   <!-- </ng-container> -->
                   <td data-title="OD DPD">
                     <app-custom-input formControlName="odDpd" [placeholder]="'OD DPD'"
                       [type]="labels?.validationData?.percentage?.type" [className]="'form-control mandatory'"
-                      [maxLength]="labels?.validationData?.percentage?.maxLength"
-                      [isRequired]="'OD DPD mandatory'">
+                      [maxLength]="labels?.validationData?.percentage?.maxLength" [isRequired]="'OD DPD mandatory'">
                     </app-custom-input>
                   </td>
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
@@ -133,7 +130,7 @@
                 <tr *ngIf="odAccountDetailsArray.length > 0">
                   <td>{{ labels?.totalODAmount }}</td>
                   <td>{{totalAmount}}</td>
-                 
+
                 </tr>
               </tbody>
             </table>
@@ -191,56 +188,60 @@
             <div class="form-group od-row">
               <div class="col-md-2"><label>{{labels?.clearanceProofCollected}}</label></div>
               <div class="col-md-2">
-                <app-vf-custom-select [values]="odListLov?.clearanceProof" formControlName="clearanceProofCollected" (change)="onSelectProof($event.target.value)">
-                </app-vf-custom-select >
+                <app-vf-custom-select [values]="odListLov?.clearanceProof" formControlName="clearanceProofCollected"
+                  (change)="onSelectProof($event.target.value)">
+                </app-vf-custom-select>
               </div>
-             
-              <ng-container *ngIf="selctedProof === 'ODCLCLDODCLRPRF' || selctedProof === 'ODCLPRTCLDODCLRPRF' || selctedProof === 'null'" >
+
+              <ng-container
+                *ngIf="selctedProof === 'ODCLCLDODCLRPRF' || selctedProof === 'ODCLPRTCLDODCLRPRF' || selctedProof === 'null'">
                 <div class="col-md-2"><label>{{labels?.clearanceProof}}</label></div>
-              <div class="col-md-2">
-                <app-custom-input formControlName="clearanceProof" [placeholder]="'Clearence Proof'"
-                  [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty">
-                </app-custom-input>
-              </div>
-            </ng-container>
-            <ng-container *ngIf="selctedProof == 'ODCLNAODCLRPRF' || selctedProof == 'ODCLNTCLDODCLRPRF' || selctedProof == 'ODCLNTCLRODCLRPRF'|| selctedProof === 'null'">
-              <div class="col-md-2"><label>{{labels?.clearanceProof}}</label></div>
-              <div class="col-md-2">
-                <app-custom-input formControlName="clearanceProof" [placeholder]="'Clearence Proof'"
-                  [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty" [isDisabled]="'true'">
-                </app-custom-input>
-              </div>
-            </ng-container>
+                <div class="col-md-2">
+                  <app-custom-input formControlName="clearanceProof" [placeholder]="'Clearence Proof'"
+                    [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
+                    [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty">
+                  </app-custom-input>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="selctedProof == 'ODCLNAODCLRPRF' || selctedProof == 'ODCLNTCLDODCLRPRF' || selctedProof == 'ODCLNTCLRODCLRPRF'|| selctedProof === 'null'">
+                <div class="col-md-2"><label>{{labels?.clearanceProof}}</label></div>
+                <div class="col-md-2">
+                  <app-custom-input formControlName="clearanceProof" [placeholder]="'Clearence Proof'"
+                    [type]="labels?.validationData?.chasisEngineNo?.type" [className]="'form-control mandatory'"
+                    [maxLength]="labels?.validationData?.chasisEngineNo?.maxLength" [isDirty]="isDirty"
+                    [isDisabled]="'true'">
+                  </app-custom-input>
+                </div>
+              </ng-container>
               <div class="clearfix"></div>
             </div>
             <div class="form-group od-row">
               <div class="col-md-2"><label>{{labels?.additionalMatchFound}}</label></div>
               <div class="col-md-2">
-                <input type="checkbox"  formControlName="addMatchFound" (change)= "onAdditionalMatch($event)" >
+                <input type="checkbox" formControlName="addMatchFound" (change)="onAdditionalMatch($event)">
                 <!-- <input type="checkbox"   (change)="FieldsChange($event)" > -->
-                
+
               </div>
               <ng-container *ngIf="addMatchFound == true">
-              
-              <div class="col-md-2"><label>{{labels?.cibilScoreIfAdditionalMatchFound}}</label></div>
-              <div class="col-md-2">
-                <app-custom-input  [placeholder]="'Cibil Score'" formControlName="addCibilScore"
-                  [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'"
-                  [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isDirty]="isDirty">
-                </app-custom-input>
-              </div>
-            </ng-container>
+
+                <div class="col-md-2"><label>{{labels?.cibilScoreIfAdditionalMatchFound}}</label></div>
+                <div class="col-md-2">
+                  <app-custom-input [placeholder]="'Cibil Score'" formControlName="addCibilScore"
+                    [type]="labels?.validationData?.tenurePaid?.type" [className]="'form-control mandatory'"
+                    [maxLength]="labels?.validationData?.tenurePaid?.maxLength" [isDirty]="isDirty">
+                  </app-custom-input>
+                </div>
+              </ng-container>
               <div class="clearfix"></div>
             </div>
             <div class="form-group od-row">
               <div class="col-md-2"><label>{{labels?.cibilODDPDJustification}}</label></div>
-                <div class="col-md-10">
+              <div class="col-md-10">
 
-                <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="justification"
-                  ></textarea>
-                  <!-- <div *ngIf="odDetailsForm.get('justification').invalid && submitted == true"
+                <textarea class="form-control form-control-sm" placeholder="Text Area"
+                  formControlName="justification"></textarea>
+                <!-- <div *ngIf="odDetailsForm.get('justification').invalid && submitted == true"
                   class="invalid-feedback">
                   <div *ngIf="odDetailsForm.get('justification').errors.required">
                      Justification is required.
@@ -390,19 +391,18 @@
               <div class="form-group od-row">
                 <div class="col-md-2"><label>{{labels?.cibilStatus}}</label></div>
                 <div class="col-md-2">
-  
+
                   <app-vf-custom-select [values]="odListLov?.cibilStatus" formControlName="cibilStatus">
                   </app-vf-custom-select>
-                  
-                  <div *ngIf="odDetailsForm.get('cibilStatus').invalid && submitted == true"
-                  class="invalid-feedback">
-                  <div *ngIf="odDetailsForm.get('cibilStatus').errors.required">
-                     Cibil Status is required.
+
+                  <div *ngIf="odDetailsForm.get('cibilStatus').invalid && submitted == true" class="invalid-feedback">
+                    <div *ngIf="odDetailsForm.get('cibilStatus').errors.required">
+                      Cibil Status is required.
+                    </div>
                   </div>
-                </div>
 
                 </div>
-               
+
                 <div class="clearfix"></div>
               </div>
             </div>
@@ -412,20 +412,20 @@
       </div>
     </div>
     <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+      [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
     <div class="btn-sec clear-both row cst_btm_btns">
       <div class="col-sm-5">
         <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBackToODDetails()">
-          Back To OD Details
+          Back To Bureau Details
         </button>
       </div>
       <div class="col-sm-7 text-right">
-        
+
         <button *ngIf="!disableSaveBtn" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
           Save
         </button>
-        
+
       </div>
     </div>
   </div>
@@ -434,11 +434,11 @@
 <div id="overlay" *ngIf="isODModelShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="isODModelShow = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="isODModelShow = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">
@@ -454,11 +454,11 @@
 <div id="overlay" *ngIf="isThirtyModelShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="isThirtyModelShow = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="isThirtyModelShow = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">
@@ -474,11 +474,11 @@
 <div id="overlay" *ngIf="isSixtyModelShow">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="isSixtyModelShow = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="isSixtyModelShow = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <p>{{errorMessage}}</p>
             <div class="btn-wrap">
@@ -493,7 +493,7 @@
 </div>
 
 <!-- modal popup for cibil response screen -->
-<div class="modal" id="myModalApplicantImage"   >
+<div class="modal" id="myModalApplicantImage">
   <div class="modal-dialog  modal-style">
     <div class="modal-content">
       <div class="modal-header">
@@ -503,21 +503,21 @@
         </button>
       </div>
 
-      <div class="modal-body" >
+      <div class="modal-body">
         <!-- <img [src]="imageUrl" > -->
-        <div [innerHTML]="cibilImage"  ></div>     
-      <div class="modal-footer text-center">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
-          Close
-        </button>
+        <div [innerHTML]="cibilImage"></div>
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="destroyImage()">
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
- </div>
- <div id="mydiv" *ngIf="cibilImage" class="card" class="center">
+<div id="mydiv" *ngIf="cibilImage" class="card" class="center">
   <button type="button" class="close" (click)="destroyImage()">×</button>
-    <!-- Header -->
-<div class="image-content"   [innerHTML]="cibilImage" > </div>    
- 
+  <!-- Header -->
+  <div class="image-content" [innerHTML]="cibilImage"> </div>
+
 </div>
