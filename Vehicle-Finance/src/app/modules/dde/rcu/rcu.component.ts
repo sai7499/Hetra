@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
@@ -135,7 +135,7 @@ export class RcuComponent implements OnInit {
       vehicleMake: [''],
       vehicleModel: [''],
       vehicleNo: [''],
-      rcuReportStatus: [''],
+      rcuReportStatus: ['', Validators.required],
       rcuDocumentId: [''],
       rcuReportReceivedDateTime: this.getTodayDate(null),
       remarks: [''],
@@ -275,6 +275,8 @@ export class RcuComponent implements OnInit {
 
     this.testRadio(event);
   }
+
+  get f() {return this.rcuDetailsForm.controls}
 
   // getting labels from labels.json
   getLabels() {
