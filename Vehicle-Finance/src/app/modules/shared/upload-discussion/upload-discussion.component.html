@@ -40,7 +40,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of details">
+                  <tr *ngFor="let data of details | paginate: { itemsPerPage: itemsPerPage,currentPage: q }">
                     <td>{{data.regdNo}}</td>
                     <td>{{data.regdOwner}}</td>
                     <td>{{data.relation}}</td>
@@ -61,8 +61,30 @@
                   </tr>
                 </tbody>
               </table>
+             
             </div>
           </form>
+          <div class="row">
+            <div class="records col-xs-3 col-sm-4 col-md-6">
+      
+                <div class="col-lg-3"><label>No. of Rows </label>
+                  <!-- (change)="setPage($event)" -->
+                    <select class="form-control  input-sm"  [(ngModel)]="itemsPerPage">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option class="disable" value="25">25</option>
+                    <option class="disable" value="50">50</option>
+                </select>
+                </div>
+      
+            </div>
+            <!-- <div class="col-xs-3 col-sm-4 col-md-6"> -->
+              <nav class="text-right margin-18">
+                <!-- (pageChange)="setPage($event)" -->
+                  <pagination-controls previousLabel="" nextLabel=""  (pageChange)="q = $event"></pagination-controls>
+              </nav>
+          <!-- </div> -->
+        </div>
       </div>
 
       <!-- Modal footer -->
@@ -85,6 +107,8 @@
         </button>
         
       </div>
+      
     </div>
+    
   </div>
 </div>
