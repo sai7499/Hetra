@@ -33,6 +33,9 @@ export class RemarksComponent implements OnInit {
   udfGroupId = 'CDG001';
   initUDFValues: any;
   editedUDFValues: any;
+  showRejectModal: boolean;
+  rejectData: { title: string; product: string; productCode: string; flowStage: string; };
+  roleAndUserDetails: any;
 
   constructor(
     private router: Router,
@@ -314,6 +317,47 @@ export class RemarksComponent implements OnInit {
       }
     });
   }
+
+  onReject(){
+    let productCode = ''
+    this.sharedService.productCatCode$.subscribe((value) => {
+      productCode = value;
+    })
+    const productId = productCode || '';
+    this.showRejectModal = true;
+    this.rejectData = {
+      title: 'Select Reject Reason',
+      product: '',
+      productCode: productId,
+      flowStage: '85'
+    }
+    
+  }
+
+  onOkay(reasonData) {
+  const body = {
+      leadId: this.leadId,
+      userId: localStorage.getItem('userId'),
+      taskId : this.taskId,
+      isDeclineReject : true,
+      rejectReason: reasonData['reason'].reasonCode
+    };
+    this.cpcService.getRejectRemarks(body).subscribe((res: any) => {
+      console.log(res);
+      if (res && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Rejected successfully!', '')
+        this.router.navigateByUrl(`/pages/dashboard`);
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '')
+      }
+    });
+  }
+
+  onCancelReject() {
+    this.showRejectModal = false;
+  }
+
+ 
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
