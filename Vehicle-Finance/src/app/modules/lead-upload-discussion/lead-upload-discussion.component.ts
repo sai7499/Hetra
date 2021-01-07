@@ -17,6 +17,14 @@ export class LeadUploadDiscussionComponent implements OnInit {
 @Output() save = new EventEmitter();
 @Input() details;
 
+itemsPerPage = '5';
+    // pageNumber = 1;
+    // currentPage = 1;
+    // totalItems: any;
+    // count = 1;
+    // slicedArray: any;
+q;
+
 
 constructor() {}
 

@@ -36,6 +36,8 @@ export class AppComponent implements OnInit, OnDestroy {
   imageObj = {};
   minimizeList = [];
 
+  imagePopupWindow = [];
+
 
   // Equitas
 
@@ -297,6 +299,9 @@ export class AppComponent implements OnInit, OnDestroy {
   });
 
       window.addEventListener('unload',(event)=> {
+        this.imagePopupWindow.forEach((window) => {
+          window.close();
+        })
         if(environment.production) {
         this.utilityService.logOut();
         }
@@ -357,9 +362,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this.draggableContainerService
       .getContainerValue()
       .subscribe((value: any) => {
+       
+  
+
         if (!value) {
           return;
         }
+        // const imageTime = String(Date.now());
+        // localStorage.setItem(imageTime, JSON.stringify(value.image));
+        const newWindow: any  = window.open('../assets/check.html', '', 'width=600,height=600,scrollbars=no,resizable=no');
+        // newWindow.imageTime = imageTime;
+        newWindow.image = value.image;
+        this.imagePopupWindow.push(newWindow);
         const imageName = value.image.name;
         if (!this.imageObj[imageName]) {
           this.imageObj[imageName] = {...value.image};

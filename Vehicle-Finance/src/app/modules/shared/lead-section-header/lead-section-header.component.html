@@ -143,13 +143,10 @@
     <ng-container *ngIf="isBeforeEligibility">
 
       <div class="row view-pad-top" *ngIf="!isButtonNameChange">
-        <a target="popup" 
-        onclick="window.open('../../../../assets/check.html','','width=600,height=600,scrollbars=no,resizable=no'); return false;">Check</a>
-        <!-- <a class="btn btn-primary view-button" *ngIf="!isLoan360" (click)="saveCurrentUrl()" [routerLink]="['/pages/document-viewupload', leadId]" target="_blank"> {{isLoan360 ? 'View Document': 'View/Upload Document'}}</a> -->
-        <!-- <button *ngIf="!isLoan360" class="btn btn-primary view-button"
+        <button *ngIf="!isLoan360" class="btn btn-primary view-button"
           [routerLink]="['/pages/document-viewupload', leadId]" type="button" (click)="saveCurrentUrl()">
           View/Upload Document
-        </button> -->
+        </button>
         <button *ngIf="isLoan360" class="btn btn-primary view-button"
           [routerLink]="['/pages/document-viewupload', leadId]" type="button" (click)="saveCurrentUrl()">
           View Document

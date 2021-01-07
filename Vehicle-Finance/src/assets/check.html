@@ -11,21 +11,172 @@
   <script src="./assets/js/jquery-1.12.4.min.js"></script>
   <script src="./assets/js/bootstrap.min.js"></script>
   <script src="./assets/js/popper.min.js"></script>
-  <script type="text/javascript"  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw"> </script>
-  <script src="assets/env.js"></script>
-  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet"> -->
-  <link rel="stylesheet" href="./assets/css/googleApifonts.css">
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
- <!-- supervisorRelated material icons below url -->
- <link rel="stylesheet" href="./assets/css/googleApifonts1.css">
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/@progress/kendo-theme-default@latest/dist/all.css" />
+ 
+  <style>
+    #mydiv {
+    /* position: absolute; */
+    z-index: 9999;
+    background-color: #1d1d1d61;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    height: 600px;
+    width: 600px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  #mydivheader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196f3;
+    color: #fff;
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .container {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .header {
+    padding: 5px;
+  }
+  
+  .image-content {
+    height: 90%;
+    /* width: 50%; */
+    margin: 0 auto;
+    overflow: scroll;
+  }
+  
+  .center {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .cls-btn{
+    color:#2b2727;
+    opacity:1;
+    font-size:25px!important;
+  }
+  
+  @media (min-width:300px) and (max-width:767px) {
+    .image-content {
+      height: 90%;
+      width: 90%;
+      margin: auto;
+    }
+  
+    #mydiv {
+      z-index: 9999;
+      background-color: #1d1d1d61;
+      border: 1px solid #d3d3d3;
+      text-align: center;
+      height: 85%;
+      width: 100%;
+      /* padding: 10px; */
+      border-radius: 5px;
+      margin-top:20px;
+  }
+  }
+  </style>
 
   
 </head>
 
-<body class="bg">
-    hi
+
+<body onload="afterLoad()">
+
+  hi
+
+  <!-- <div > -->
+    <div class="image-content" id="imageContent">
+    </div>
+  <!-- </div> -->
+
+
 </body>
+<script>
+  const value = localStorage.getItem('_expiredTime');
+  //const imageObject = JSON.parse(localStorage.getItem(window.imageTime));
+  const imageObject = window.image;
+  console.log('imageObject', imageObject);
+  const imageType = imageObject.imageType;
+  let src = imageObject.imageUrl;
+  const fileName = imageObject.name;
+
+  function afterLoad() {
+    console.log('after loaded');
+    if (!!value) {
+        
+        if (imageType === 'jpeg' || imageType === 'png') {
+          src = 'data:image/jpeg;base64,' + src;
+          //  this.sanitizer.bypassSecurityTrustResourceUrl(
+          //   'data:image/jpeg;base64,' + value.imageUrl
+          // );
+        } else if (imageType === 'pdf') {
+          const blob = base64ToBlob( src, 'application/pdf' );
+          const url = URL.createObjectURL( blob );
+          src = url;
+          //this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        } 
+        // else if (this.imageType === 'xls') {
+        //   this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
+        //     'data:application/vnd.ms-excel;base64' + value.imageUrl
+        //   );
+        // } 
+        else if (mageType.includes('doc')) {
+          const blob = base64ToBlob( src,  'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+          const url = URL.createObjectURL( blob );
+          src = url
+          //this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        }
+      }
+    if(imageType === 'pdf') {
+      const iframe = document.createElement('iframe');
+      iframe.frameBorder=0;
+      iframe.width="600";
+      iframe.height="600";
+      iframe.id = 'content_iframe'
+      const doc = iframe.contentWindow? iframe.contentWindow.document : iframe.contentDocument;
+      console.log('doc', doc)
+      doc.title = fileName;
+      //iframe.contentDocument.title = fileName;
+      // iframe.name = fileName;
+      iframe.src = src;
+      document.getElementById("imageContent").appendChild(iframe);
+
+      setTimeout(() => {
+          document.getElementById('title').innerHTML = fileName;
+      }, 300);
+    } else if (imageType === 'png' || imageType === 'jpeg') {
+      const img = document.createElement("img");
+      img.src = src;
+      img.height = "600";
+      img.width = "600";
+      document.getElementById("imageContent").appendChild(img);
+    }
+  }
+
+  function base64ToBlob(base64, type = 'application/octet-stream') {
+    const binStr = atob( base64 );
+    const len = binStr.length;
+    const arr = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      arr[ i ] = binStr.charCodeAt( i );
+    }
+    return new Blob( [ arr ], { type} );
+  }
+
+</script>
 </html>
