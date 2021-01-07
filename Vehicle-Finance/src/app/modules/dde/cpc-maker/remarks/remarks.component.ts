@@ -335,8 +335,7 @@ export class RemarksComponent implements OnInit {
   }
 
   onOkay(reasonData) {
-
-    const body = {
+  const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
       taskId : this.taskId,
