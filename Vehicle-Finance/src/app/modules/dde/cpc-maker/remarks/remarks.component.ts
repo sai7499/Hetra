@@ -36,7 +36,6 @@ export class RemarksComponent implements OnInit {
   showRejectModal: boolean;
   rejectData: { title: string; product: string; productCode: string; flowStage: string; };
   roleAndUserDetails: any;
-  userId: any;
 
   constructor(
     private router: Router,
@@ -62,10 +61,6 @@ export class RemarksComponent implements OnInit {
       this.roleType = value.roleType;
       console.log('role Type', this.roleType);
     });
-    this.roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
-    if (this.roleAndUserDetails) {
-      this.userId = this.roleAndUserDetails['userDetails'].userId;
-    }
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     this.initForm();
     this.leadId = (await this.getLeadId()) as number;
@@ -343,7 +338,7 @@ export class RemarksComponent implements OnInit {
 
     const body = {
       leadId: this.leadId,
-      userId: this.userId,
+      userId: localStorage.getItem('userId'),
       taskId : this.taskId,
       isDeclineReject : true,
       rejectReason: reasonData['reason'].reasonCode
