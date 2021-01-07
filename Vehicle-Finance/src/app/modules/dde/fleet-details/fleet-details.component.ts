@@ -160,7 +160,14 @@ export class FleetDetailsComponent implements OnInit {
     let paid = obj.controls['paid'].value ? Number(obj.controls['paid'].value) : 0
 
     if (paid > tenure) {
-      this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
+      setTimeout(() => {
+        this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
+
+      }, 1000)
+    } else {
+      console.log(obj, 'obj')
+      this.formArr.controls[i]['controls']['paid'].setErrors(null)
+
     }
 
   }

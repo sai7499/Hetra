@@ -1,17 +1,19 @@
 {
-    "createNewLead": "LC0101",
-    "createLeadExternalVendor": "LC2301",
-    "leadDedupe": "LL0102",
-    "leadDetailsQDE": "LD0103",
-    "leadDetailsADE": "LD0201",
-    "leadDetailsDDE": "LD0901",
-    "applicantListQDE": "AL0104",
-    "applicantListADE": "AL0202",
-    "applicantListDDE": "AL0202",
-    "applicantDetailQDE": "AD0105",
-    "applicantDetailADE": "AD0205",
-    "applicantDedupeQDE": "LC0106",
-    "applicantDedupeADE": "LC0206",
-    "NL/TRNL DedupeQDE": "NL0107",
-    "NL/TRNL DedupeADE": "NL0207"
+    "ScreenIDS": {
+        "createNewLead": "LC0101",
+        "createLeadExternalVendor": "LC2301",
+        "leadDedupe": "LL0102",
+        "leadDetailsQDE": "LD0103",
+        "leadDetailsADE": "LD0201",
+        "leadDetailsDDE": "LD0901",
+        "applicantListQDE": "AL0104",
+        "applicantListADE": "AL0202",
+        "applicantListDDE": "AL0202",
+        "applicantDetailQDE": "AD0105",
+        "applicantDetailADE": "AD0205",
+        "applicantDedupeQDE": "LC0106",
+        "applicantDedupeADE": "LC0206",
+        "NL/TRNL DedupeQDE": "NL0107",
+        "NL/TRNL DedupeADE": "NL0207"
+    }
 }

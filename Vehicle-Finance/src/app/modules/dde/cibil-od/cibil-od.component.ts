@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from '@services/labels.service';
 import { OdDetailsService } from '@services/od-details.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 @Component({
   selector: 'app-cibil-od',
   templateUrl: './cibil-od.component.html',
@@ -21,6 +22,7 @@ export class CibilOdComponent implements OnInit {
     private labelService: LabelsService,
     private activatedRoute: ActivatedRoute,
     private odDetailsService: OdDetailsService,
+    private sharedService: SharedService,
     private loanViewService: LoanViewService
   ) { }
 
@@ -59,7 +61,10 @@ export class CibilOdComponent implements OnInit {
 
   navigatePage(data) {
     console.log(data, 'navigate data')
-    this.router.navigate([`${this.applicantUrl}/${data.applicantId}`], { queryParams: data, skipLocationChange: true });
+    this.router.navigate([`${this.applicantUrl}/${data.applicantId}`]);
+    // { queryParams: data, skipLocationChange: true }
+
+    this.sharedService.getBureauDetail(data);
   }
 
   onBack() {

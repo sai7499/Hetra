@@ -18,6 +18,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -67,6 +68,8 @@ export class CibilOdListComponent implements OnInit {
   udfScreenId = 'BDS001';
   udfGroupId = 'BDG001';
 
+  bureauDetail: any;
+
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -75,6 +78,7 @@ export class CibilOdListComponent implements OnInit {
     private odDetailsService: OdDetailsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private sharedService: SharedService,
     private applicantDataService: ApplicantDataStoreService,
     private utilityService: UtilityService,
     private applicantImageService: ApplicantImageService,
@@ -95,23 +99,13 @@ export class CibilOdListComponent implements OnInit {
     this.getLeadId();
     this.userId = localStorage.getItem('userId');
 
-    // this.activatedRoute.params.subscribe((value) => {
-    //   if (!value && !value.applicantId) {
-    //     return;
-    //   }
-    //   this.applicantId = Number(value.applicantId);
-    //   this.applicantDataService.setApplicantId(this.applicantId);
-    // });
-
-    this.activatedRoute.queryParams.subscribe((res: any) => {
-      console.log(res, 'res params')
-
-      if (!res && !res.applicantId) {
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
         return;
       }
-      this.applicantId = Number(res.applicantId);
+      this.applicantId = Number(value.applicantId);
       this.applicantDataService.setApplicantId(this.applicantId);
-    })
+    });
 
     this.odDetailsForm = this.formBuilder.group({
       odAccountDetails: this.odAccountDetailsArray,
@@ -130,11 +124,21 @@ export class CibilOdListComponent implements OnInit {
       cibilStatus: new FormControl(null, [
         Validators.required]),
       addMatchFound: this.addMatchFound,
-      addCibilScore: ['']
+      addCibilScore: [''],
+      bureauName: ['']
     });
     this.getLov();
     this.getOdDetails();
     this.getOdApplicant();
+
+    this.sharedService.bureauDetail$.subscribe((data) => {
+      this.bureauDetail = data;
+      this.odDetailsForm.patchValue({
+        bureauName: data.bureauName
+      })
+      console.log(this.bureauDetail, 'bureauDetail')
+    })
+
   }
 
   getLov() {
@@ -397,6 +401,7 @@ export class CibilOdListComponent implements OnInit {
       ]
     };
     this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
+      console.log(res, 'after res')
       this.odDetails = res.ProcessVariables;
       this.udfDetails = this.odDetails.udfDetails;
       this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnq30days);
@@ -421,8 +426,7 @@ export class CibilOdListComponent implements OnInit {
           cibilStatus: this.odDetails.assetAppOdDetails.cibilStatus,
           justification: this.odDetails.assetAppOdDetails.justification,
           addMatchFound: this.odDetails.assetAppOdDetails.addMatchFound,
-          addCibilScore: this.odDetails.assetAppOdDetails.addCibilScore,
-
+          addCibilScore: this.odDetails.assetAppOdDetails.addCibilScore
         });
         this.onOdAmount(this.odDetails.assetAppOdDetails.totalAmount, 0);
         this.onAdditionalMatch(this.odDetails.assetAppOdDetails.addMatchFound);
@@ -520,6 +524,7 @@ export class CibilOdListComponent implements OnInit {
           cibilStatus: this.odDetailsForm.controls.cibilStatus.value,
           addMatchFound: this.odDetailsForm.controls.addMatchFound.value,
           addCibilScore: this.odDetailsForm.controls.addCibilScore.value,
+          bureauName: this.odDetailsForm.controls.bureauName.value
         },
       };
       const udfData = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
@@ -630,6 +635,12 @@ export class CibilOdListComponent implements OnInit {
       const body = {
         applicantId: this.applicantId
       };
+
+      if (this.bureauDetail.entityType === 'NONINDIVENTTYP') {
+        this.toasterService.showInfo('Bureau Report not available', '')
+        return
+      }
+
       //  this.backupApplicantId = applicantID;
       this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -703,5 +714,25 @@ export class CibilOdListComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
+  }
+
+  getExpiryCall() {
+
+    let data = {
+      "leadId": this.leadId,
+      "applicantId": this.applicantId,
+      "userId": this.userId,
+      "isBureauChecked": this.bureauDetail.isBureauChecked
+    }
+
+    this.odDetailsService.getExperianCall(data).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        // console.log(res, 'res')
+        this.bureauDetail.isBureauChecked = res.ProcessVariables ? res.ProcessVariables.isBureauChecked : false;
+
+      } else {
+        this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
+      }
+    })
   }
 }
