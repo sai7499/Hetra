@@ -1726,7 +1726,7 @@
     "backToFiCumPdList": "Back to FI cum PD List",
     "fiCumPdStatus": "FI cum PD Status",
     "fiCumPdReport": "FI cum PD Report",
-    "valuationInitiatedDate": "Valuation Initiation Date",
+    "valuationInitiatedDateTime": "Valuation Initiation Date & Time",
     "personInitiated": "Person Initiated",
     "refNo": "Ref No.",
     "inspectionDetails": "Inspection Details",
