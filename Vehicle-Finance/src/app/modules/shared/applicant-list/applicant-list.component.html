@@ -1,8 +1,8 @@
-<div class="">
+<div class="content">
   <!-- <form class="multisteps-form__form" method="post" style="height: 400px;"> -->
-  <div class="multisteps-form__panel js-active content" data-animation="scaleIn">
-    <div class="">
-      <div class="btn-sec clear-both row" *ngIf="!showAddApplicant">
+  <form class="multisteps-form__panel " data-animation="scaleIn">
+    <div class="multisteps-form__panel js-active">
+      <div class="row" *ngIf="!showAddApplicant">
         <div class="col-sm-12 col-lg-12 p-0">
           <h4 class="banner-con ">{{labels?.applicantDetailsTitle}}
             <span class="float-right">{{udfScreenId}}</span>
@@ -10,7 +10,7 @@
         </div>
       </div>
       
-      <div class="btn-sec clear-both row" *ngIf="showAddApplicant">
+      <div class="row" *ngIf="showAddApplicant">
         <div class="col-sm-12 col-lg-12 p-0">
           <h4 class="banner-con ">{{labels?.applicantDetailsTitle}}
             <span class="float-right">{{udfScreenId}}</span>
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="">
+    <div class="row">
       <div class="" id="applicantTable">
         <table class="main-table">
           <thead>
@@ -182,7 +182,7 @@
       </div>
     </div>
     <!-- <img [src]="imag" alt="Red dot" /> -->
-  </div>
+  </form>
   
   <!-- </div> -->
 
