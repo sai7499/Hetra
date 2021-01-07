@@ -71,6 +71,7 @@ export class ReferenceCheckComponent implements OnInit {
   longitude: string = null;
   branchLatitude: string;
   branchLongitude: string;
+  capturedAddress: string = null;
   custProfileDetails: {};
   showRouteMap: boolean;
   version: string;
@@ -318,6 +319,7 @@ export class ReferenceCheckComponent implements OnInit {
       longitude: new FormControl({ value: '', disabled: true }),
       bLatitude: new FormControl({ value: '', disabled: true }),
       bLongitude: new FormControl({ value: '', disabled: true }),
+      capturedAddress: new FormControl({ value: '', disabled: true }),
       marketFinRefData: this.listArray
     });
   }
@@ -380,6 +382,7 @@ export class ReferenceCheckComponent implements OnInit {
         this.branchLatitude = value.ProcessVariables.customerProfileDetails.branchLatitude;
         this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
+        this.capturedAddress = value.ProcessVariables.customerProfileDetails.capturedAddress;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
         const referenceDetails = processVariables.marketFinRefData;
         this.ficumpdPdfService.setReferenceCheckDetails(value.ProcessVariables);
@@ -512,7 +515,8 @@ export class ReferenceCheckComponent implements OnInit {
       latitude: this.latitude || "",
       longitude: this.longitude || "",
       bLatitude: this.branchLatitude || "",
-      bLongitude: this.branchLongitude || ""
+      bLongitude: this.branchLongitude || "",
+      capturedAddress: this.capturedAddress || ""
     });
   }
 
@@ -555,6 +559,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.custProfileDetails = {
       latitude: this.latitude || '',
       longitude: this.longitude || '',
+      capturedAddress: this.capturedAddress
     };
     const formModel = this.referenceCheckForm.value;
 
@@ -773,6 +778,14 @@ export class ReferenceCheckComponent implements OnInit {
       this.getRouteMap();
       this.referenceCheckForm.get("latitude").patchValue(this.latitude);
       this.referenceCheckForm.get("longitude").patchValue(this.longitude);
+      var lat: number = +this.latitude;
+      var lng: number = +this.longitude;
+      this.loginService.geocode(new google.maps.LatLng(lat, lng)).subscribe((position) => {
+        console.log("Position"+position[0].formatted_address);
+        this.capturedAddress = position[0].formatted_address.toString();
+        this.referenceCheckForm.get("capturedAddress").patchValue(this.capturedAddress);
+      });
+  
 
     } else {
       this.latitude = "";

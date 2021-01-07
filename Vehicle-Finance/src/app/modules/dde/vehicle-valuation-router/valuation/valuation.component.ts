@@ -19,6 +19,7 @@ import { Constant } from '../../../../../assets/constants/constant';
 import { environment } from 'src/environments/environment';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { LoginService } from '@modules/login/login/login.service';
 
 
 @Component({
@@ -172,6 +173,7 @@ export class ValuationComponent implements OnInit {
   base64Image: any;
   latitude: string = null;
   longitude: string = null;
+  capturedAddress: string = null;
   documentArr: DocumentDetails[] = [];
   SELFIE_IMAGE: string;
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
@@ -211,6 +213,7 @@ export class ValuationComponent implements OnInit {
     private gpsService: GpsService,
     private fb: FormBuilder,
     private sharedService: SharedService,
+    private loginService: LoginService,
     private objectComparisonService: ObjectComparisonService) {
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
@@ -814,6 +817,7 @@ export class ValuationComponent implements OnInit {
 
       this.latitude = this.vehicleValuationDetails.latitude;
       this.longitude = this.vehicleValuationDetails.longitude;
+      this.capturedAddress = this.vehicleValuationDetails.capturedAddress;
       // if (this.dmsDocumentId) {
       //   this.downloadDocs(this.dmsDocumentId);
       // }
@@ -1145,6 +1149,7 @@ export class ValuationComponent implements OnInit {
       regdNo: [''],
       latitude: [{ value: '', disabled: true }],
       longitude: [{ value: '', disabled: true }],
+      capturedAddress: [{ value: '', disabled: true }],
       // valuatorRemarks: ['', Validators.required]
       valuatorRemarks: new FormControl('', Validators.compose([Validators.maxLength(1500),
       Validators.pattern(/^[a-zA-Z0-9 ]*$/)])),
@@ -1274,6 +1279,7 @@ export class ValuationComponent implements OnInit {
       regdNo: this.vehicleValuationDetails.registrationNo ? this.vehicleValuationDetails.registrationNo : '',
       latitude: this.latitude || "",
       longitude: this.longitude || "",
+      capturedAddress: this.capturedAddress || "",
       valuatorRemarks: this.vehicleValuationDetails.valuatorRemarks ? this.vehicleValuationDetails.valuatorRemarks : '',
       // year: this.vehicleValuationDetails.year || '',
       // registeredOwner: this.vehicleValuationDetails.registeredOwner || '',
@@ -1489,6 +1495,7 @@ export class ValuationComponent implements OnInit {
     this.insuranceValidUptoCheck();
     console.log('latitude::', this.latitude);
     console.log('longitude::', this.longitude);
+    console.log('address::', this.capturedAddress);
     console.log('SELFIE_IMAGE::', this.SELFIE_IMAGE);
     console.log('is mobile', this.isMobile);
     // this.SELFIE_IMAGE = 'jkhkhkj';
@@ -1534,6 +1541,7 @@ export class ValuationComponent implements OnInit {
       collateralId: this.colleteralId,
       latitude: this.latitude || '',
       longitude: this.longitude || '',
+      capturedAddress: this.capturedAddress || '',
       vehicleImage: this.SELFIE_IMAGE,
       ...formValue,
       udfDetails : [{
@@ -1650,6 +1658,15 @@ export class ValuationComponent implements OnInit {
       this.longitude = position["longitude"].toString();
       this.vehicleValuationForm.get("latitude").patchValue(this.latitude);
       this.vehicleValuationForm.get("longitude").patchValue(this.longitude);
+
+      var lat: number = +this.latitude;
+      var lng: number = +this.longitude;
+      this.loginService.geocode(new google.maps.LatLng(lat, lng)).subscribe((position) => {
+        console.log("Position"+position[0].formatted_address);
+        this.capturedAddress = position[0].formatted_address.toString();
+        this.vehicleValuationForm.get("capturedAddress").patchValue(this.capturedAddress);
+      });
+
     } else {
       this.latitude = "";
       this.longitude = "";

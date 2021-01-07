@@ -1229,6 +1229,7 @@
     "branchLng": "Branch Longitude",
     "branchLat": "Branch Latitude",
     "capturedLng": "Captured Longitude",
+    "addressLatLng": "Captured Address",
     "vehicleContract": "Vehicle Contract",
     "negativeProfile": "Negative Profile",
     "routeMap": "RouteMap",
