@@ -35,6 +35,10 @@
               (click)="onReappeal()" *ngIf="isDeclinedFlow">
                 Re-Appeal
               </button>
+              <button  class="btn btn-primary -btn-next" type="button" 
+              (click)="onReject()" *ngIf="isDeclinedFlow">
+                Reject
+              </button>
             </div>
         </div>    
 </div>
@@ -106,4 +110,5 @@
       </div>
   </div>
 </div>
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showRejectModal" *ngIf="showRejectModal" (okay)="onOkay($event)" (cancel)="onCancelReject()"></app-reject-reason-modal>
 

@@ -495,7 +495,7 @@
     <!-- CPCCAD Dashboard Starts -->
     <div class="container-fluid mar-bottom" *ngIf="roleType == '7'">
         <ul class="nav nav-pills nav-justified" id="background_white">
-            <li class="btn-dash" (click)="onLeads(displayTabs?.CPCCAD, displayTabs?.CPCCADWithMe)"
+            <li class="btn-dash" (click)="onLeads(displayTabs?.CPCCAD, displayTabs?.CPCCADWithMe,'CAD')"
                 [ngClass]="{'active':displayTabs?.CPCCAD === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">CAD</a>
             </li>

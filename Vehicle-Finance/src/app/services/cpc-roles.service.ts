@@ -123,4 +123,22 @@ export class CpcRolesService {
     const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     return this.httpService.post(url, requestEntity);
   }
+
+  getRejectRemarks(data){
+    const processData = data;
+    const processId = this.apiService.api.rejectRemarks.processId;
+    const workflowId = this.apiService.api.rejectRemarks.workflowId;
+    const projectId = this.apiService.api.rejectRemarks.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 }
