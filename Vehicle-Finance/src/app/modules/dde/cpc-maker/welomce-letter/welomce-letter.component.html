@@ -9,7 +9,7 @@
             (click)="onBack()">Back</button>&nbsp;
             <button class="btn btn-primary view-button hvr-sweep-to-right" 
                 type="button" id="" tabindex="8" *ngIf="!showWelcomeLetter && productCatCode =='NCV'"
-                routerLink="../delivery-order">Next</button><br> 
+                 (click)="onNext()">Next</button><br> 
     </div>
 
         <div *ngIf="showWelcomeLetter" >

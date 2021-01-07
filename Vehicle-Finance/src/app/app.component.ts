@@ -14,6 +14,7 @@ import { filter } from 'rxjs/operators'
 import { IdleTimerService } from '@services/idle-timer.service';
 import value from '*.json';
 import { Location } from '@angular/common';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-root',
@@ -213,8 +214,11 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router,private utilityService: UtilityService,private sharedService: SharedService, private idleTimerService: IdleTimerService,
-              private location: Location) {}
+              private router: Router,private utilityService: UtilityService,
+              private sharedService: SharedService,
+              private idleTimerService: IdleTimerService,
+              private location: Location,
+              private labelsData: LabelsService) {}
 
   ngOnInit() {
 
@@ -234,6 +238,11 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if(value) {
 
+          if (value === 'clear') {
+            clearInterval(this.sessionIntervalId)
+            return
+          }
+
           this.showTimerModal = true;
           this.sessionIntervalId = setInterval(() => {
 
@@ -243,7 +252,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
             if (this.timer <= 0) {
                 this.showTimerModal = false;
-                this.timer = this.idleTimerService.getModalTimer();
+                // this.timer = this.idleTimerService.getModalTimer();
 
                 clearInterval(this.sessionIntervalId);
                 // this.logout();
@@ -462,17 +471,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this.idleTimerService.againAddTimer();
   }
 
-  logout() {
-    this.showExpiryModal = false;
-    this.showTimerModal = false;
+  logout() {    
     this.timer = this.idleTimerService.getModalTimer();
     clearInterval(this.sessionIntervalId);
-    this.utilityService.logOut();   
+    this.idleTimerService.cleanUp();
+    this.utilityService.logOut();  
+    this.showExpiryModal = false;
+    this.showTimerModal = false; 
    
   }
 
   ngOnDestroy() {
     this.idleTimerService.cleanUp();
-    clearInterval(this.sessionIntervalId);
+    clearInterval(this.sessionIntervalId);    
   }
 }

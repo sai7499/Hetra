@@ -18,6 +18,9 @@ h3.dedupe_head {
     border-color: #161338;
 }
 
+.mar-5{
+    margin-top:5px;
+}
 /* footer */
 
 .ok_footer {
@@ -117,14 +120,14 @@ h3.dedupe_head {
     font-weight: bolder;
 }
 
-.content {
+/* .content {
     background: #fff;
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #ddd;
     margin:15px;
     
-}
+} */
 
 label.col-form-label {
     width: 50%;
@@ -301,4 +304,8 @@ only screen and
 
 .fa-trash {
     padding-right: 35px;
+}
+
+.p-0{
+    padding:0px;
 }

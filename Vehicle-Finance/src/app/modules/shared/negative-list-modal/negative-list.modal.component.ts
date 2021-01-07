@@ -33,6 +33,10 @@ export class NegativeListModalComponent {
   submitReject: boolean;
   userId: any;
   leadId: any;
+
+  @Input() udfScreenId: string;
+  @Input() udfGroupId: string;
+
   constructor(private sharedService: SharedService,
      private applicantService: ApplicantService, 
      private activatedRoute: ActivatedRoute,

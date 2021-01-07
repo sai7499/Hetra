@@ -1,6 +1,8 @@
 <div class="content" [formGroup]="remarksForm">
  
-    <h4 class="banner-con">Remarks ({{udfScreenId}}) </h4> 
+    <h4 class="banner-con">Remarks
+        <span class="float-right">{{udfScreenId}}</span>
+    </h4> 
      
         <textarea class="form-control" id="recommendations"
             cols="1" rows="9" [placeholder]="'Remarks'" formControlName="remarks"
@@ -32,6 +34,10 @@
               <button  class="btn btn-primary -btn-next" type="button" 
               (click)="onReappeal()" *ngIf="isDeclinedFlow">
                 Re-Appeal
+              </button>
+              <button  class="btn btn-primary -btn-next" type="button" 
+              (click)="onReject()" *ngIf="isDeclinedFlow">
+                Reject
               </button>
             </div>
         </div>    
@@ -104,4 +110,5 @@
       </div>
   </div>
 </div>
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showRejectModal" *ngIf="showRejectModal" (okay)="onOkay($event)" (cancel)="onCancelReject()"></app-reject-reason-modal>
 

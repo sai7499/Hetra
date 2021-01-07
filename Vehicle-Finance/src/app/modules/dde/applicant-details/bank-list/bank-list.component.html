@@ -1,17 +1,21 @@
 <div class="">
-  <form class="multisteps-form__form">
+  <form class="multisteps-form__form content">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-      <!-- <h4 class="title">Bank Details</h4> -->
+      <div class="col-lg-12 p-0">
+        <h4 class="banner-con ">Bank Details</h4>
+
+      </div>
+     
       <!-- Individual Section Starts Here -->
 
       <div class="controlWidth container">
-        <div class="btn-sec clear-both row">
+        <div class="row">
           <!-- <div class="col-sm-5">
                            <h4 class="title">Vehicle Details</h4> 
                        </div> -->
-          <div class="col-sm-12 text-right" *ngIf="!isLoan360">
+          <div class="col-lg-12 p-0 btn-spc text-right" *ngIf="!isLoan360">
             <button
-              class="btn btn-secondary mar-right8 table-head-bg"
+              class="btn btn-secondary table-head-bg"
               id="btnColor"
               type="button"
               [disabled]="disableAddbankDetailsBtn"
@@ -52,10 +56,10 @@
 
               <tbody>
                 <tr id="applicant_1_row" *ngFor="let item of bankDetails">
-                  <td [attr.data-label]="labels?.accountHolderName">
+                  <td class="text-left" [attr.data-label]="labels?.accountHolderName">
                     {{ item.accountHolderName ? item.accountHolderName : "-" }}
                   </td>
-                  <td [attr.data-label]="labels?.bankName">
+                  <td class="text-left" [attr.data-label]="labels?.bankName">
                     {{ item?.bankName }}
                   </td>
                   <td [attr.data-label]="labels?.accountNumber">
@@ -109,8 +113,7 @@
 
       <div class="form-group col-sm-6 col-md-4 col-lg-3"></div>
     </div>
-  </form>
-  <div class="btn-sec clear-both row cst_btm_btns">
+    <div class="btn-sec clear-both row ">
     <div class="col-sm-5">
       <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="loadAppplicant()">
         Back To Applicant Details
@@ -128,6 +131,8 @@
       <!-- <button class="btn btn-primary dash_href " type="button" (click)="onNext()" >Next</button> -->
     </div>
   </div>
+  </form>
+  
 </div>
 <div class="modal fade" id="myModal" role="dialog">
   <div class="modal-dialog">

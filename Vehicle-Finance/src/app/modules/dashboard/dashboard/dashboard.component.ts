@@ -168,8 +168,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isLog;
   isAmountChange: boolean;
   isLoadLead = true;
-  onAssignTab: boolean;
-  onReleaseTab: boolean;
+  onAssignTab = false;
+  onReleaseTab = false;
 
   // Query Model
   leadCount: number = 0;
@@ -372,6 +372,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         case 7:
           this.activeTab = 47;
           this.subActiveTab = 48;
+          this.onLeads(this.displayTabs.CPCCAD, this.displayTabs.CPCCADWithMe, 'CAD');
           break;
         case 9:
           this.activeTab = 60;
@@ -764,6 +765,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 58:
         this.isBM = false;
         this.getExternalUserLeads(this.itemsPerPage, event);
+        console.log(this.onReleaseTab);
+        
       default:
         break;
     }
@@ -936,14 +939,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (tabName === 'dde') {
       this.toggleDdeService.setIsDDEClicked('1');
       this.toggleDdeService.setOperationType('0');
-    } else if (tabName === 'CPC') {
+    } else if (tabName === 'CPC' || tabName === 'CAD' ) {
       this.toggleDdeService.setIsDDEClicked('0');
-      this.toggleDdeService.setOperationType('1', 'CPC', currentUrl);
+      this.toggleDdeService.setOperationType('1', tabName, currentUrl);
     } else {
       this.toggleDdeService.clearToggleData();
     }
 
-    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads ||
+    if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads || this.activeTab === this.displayTabs.ExternalUserDashboard ||
       this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { LabelsService } from '@services/labels.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SanctionDetailsService } from '@services/sanction-details.service';
@@ -49,6 +49,8 @@ export class SanctionDetailsComponent implements OnInit {
   isDocumentId: boolean;
   isLoan360: boolean;
   taskId: any;
+  pdfType: String;
+  isDownload = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -287,18 +289,60 @@ export class SanctionDetailsComponent implements OnInit {
       this.router.navigate([`/pages/cpc-maker/${this.leadId}/term-sheet`]);
     }
   }
-  downloadpdf() {
+
+  downloadpdf(type) {
+
+    document.getElementById('typeId').innerHTML = `${type} COPY`;
+    document.getElementById('typeId').style.display = 'unset';
+    document.getElementById('typeId1').innerHTML = `${type} COPY`;
+    document.getElementById('typeId1').style.display = 'unset';
+    document.getElementById('typeId2').innerHTML = `${type} COPY`;
+    document.getElementById('typeId2').style.display = 'unset';
     var options = {
       margin: .5,
       filename: `SanctionDetail${this.leadId}.pdf`,
       image: { type: 'jpeg', quality: 0.50 },
-      html2canvas:{scale:3, logging: true},   
+      html2canvas:{scale:4, logging: true},
       pagebreak: { before:["#vf_sheet_text_tag","#page_break"] },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
     }
     html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
-
+    setTimeout(() => {
+      document.getElementById('typeId2').style.display = 'none';
+      document.getElementById('typeId1').style.display = 'none';
+      document.getElementById('typeId').style.display = 'none';
+    }, 0);
   }
+
+
+//   downloadpdf() {
+//     let page = document.getElementById('vf_sheet_print_starts');
+// const pdf = html2PDF(page, {
+//     jsPDF: {
+//        format: 'a4'
+//     },
+//     // watermark({ pdf }) {
+//     //   // pdf: jsPDF instance
+//     //   pdf.setTextColor('#ddd');
+//     //   pdf.text(200, pdf.internal.pageSize.height - 100, `Watermark`);
+//     // },
+//     watermark: {
+//       src: './assets/images/search.png',
+//       handler({ pdf, imgNode }) {
+//         const props = pdf.getImageProperties(imgNode);
+//         // do something...
+//         pdf.addImage(imgNode, 'PNG', 60, 60);
+//       },
+//     },
+//     imageType: 'image/jpeg',
+//     output: `SanctionDetail${this.leadId}.pdf`,
+//     init: function() {},
+//   success: function(pdf) {
+//     pdf.save(this.output);
+//   }
+//   });
+//   }
+
 
   uploadPdf() {
 

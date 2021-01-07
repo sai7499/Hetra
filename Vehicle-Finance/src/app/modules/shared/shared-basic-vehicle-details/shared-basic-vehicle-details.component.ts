@@ -117,9 +117,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     var day = this.toDayDate.getDate();
     var month = this.toDayDate.getMonth();
     var year = this.toDayDate.getFullYear();
-    let myYear = this.toDayDate.getFullYear() - 15;
-    this.minDate = new Date(myYear, month, day, 0, 0)
     this.toDayDate = new Date(year, month, day, 0, 0);
+    this.minDate = new Date(new Date().getFullYear() - 15, month, month)
     // Mobile View
     this.isMobile = environment.isMobile;
 
@@ -235,9 +234,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onGetDateValue(event) {
 
-    console.log(event, 'minDate', this.minDate)
-
-    if (!(event > this.maxDate || event < this.minDate)) {
+    if (!(event > this.maxDate && event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
       let ageOfAssetYear = this.utilityService.ageOfAssetYear(event)['_data'];
@@ -246,8 +243,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       let ageOfAsset = Number(this.utilityService.ageFromAsset(event)) + '    ( ' + ageOfAssetYear.years + ' Years ' + ageOfAssetYear.months + ' Months ' + ' ) ';
 
-      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.round(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.round(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
-
+      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.floor(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.floor(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
+     
       formArray.controls[0].patchValue({
         ageOfAsset: ageOfAsset,
         ageAfterTenure: ageAfterTenure
@@ -297,17 +294,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   }
 
-  onCompareFinalAssetCode(event) {
-    const value = event.target.value;
+  onCompareFinalAssetCode(event, obj) {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
-    if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
+    if (Number(obj.controls['assetCostCarTrade'].value) < Number(obj.controls['assetCostIBB'].value)) {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostCarTrade
+        finalAssetCost: Number(formArray.value[0].assetCostCarTrade)
       })
     } else {
       formArray.controls[0].patchValue({
-        finalAssetCost: formArray.value[0].assetCostIBB
+        finalAssetCost: Number(formArray.value[0].assetCostIBB)
       })
     }
 
@@ -333,7 +329,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.getDynamicFormControls(details)
     }
 
-    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
       this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
     }
   }
@@ -935,7 +931,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         userId: this.userId
       });
 
-    } else if (this.productCatoryCode === 'UCV') {
+    } else if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
       controls = this._fb.group({
         vehicleRegNo: ['', Validators.required],
         region: ['', Validators.required],
@@ -1000,7 +996,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   addCreditFormControls() {
     this.productCatoryCode === 'NCV' ? this.addNewCVFormControls() : this.productCatoryCode === 'NC' ? this.addNewcarFormControls :
-      this.productCatoryCode === 'UCV' ? this.addUserCVFormControls() : this.addUserCarFormControls();
+      this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR' ? this.addUserCVFormControls() : this.addUserCarFormControls();
     this.sharedService.getFormValidation(this.basicVehicleForm)
   }
 

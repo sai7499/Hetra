@@ -2,7 +2,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-        <h3 class="banner-con">{{ labels?.vehicleValTitle }} ({{udfScreenId}}) </h3>
+        <h3 class="banner-con">{{ labels?.vehicleValTitle }}
+          <span class="float-right">{{udfScreenId}}</span>
+        </h3>
       </div>
 
     </div>
@@ -216,10 +218,10 @@
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="Initiated_Date">{{ labels.valuationInitiatedDate }}
+                <label for="Initiated_Date">{{ labels.valuationInitiatedDateTime }}
                   <!-- <sub class="star_red_col">*</sub> -->
                 </label>
-                <kendo-datepicker class="form-control" [activeView]="'decade'" [format]="'dd/MM/yyyy'"
+                <kendo-datepicker class="form-control" [activeView]="'decade'" [format]="format"
                   placeholder="Valuation Date" formControlName="valuationInitiationDate">
                 </kendo-datepicker>
               </div>
@@ -555,7 +557,7 @@
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="speedometer_reading">{{ labels.odometerReading }}
+                <label for="speedometer_reading"> {{ productCategoryCode === 'UTCR' ? 'Meter Reading' : labels.odometerReading }}
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input formControlName="odometerReading" [className]="'form-control mandatory'"
@@ -572,8 +574,7 @@
                 <app-custom-input formControlName="estimatedReading" [className]="'form-control mandatory'"
                   [placeholder]="'Estimated Reading'" [maxLength]="
                     labels?.validationData?.odometerReading.maxLength
-                  "  [type]="labels?.validationData?.odometerReading.type"
-                  [isDirty]="isDirty">
+                  " [type]="labels?.validationData?.odometerReading.type" [isDirty]="isDirty">
                 </app-custom-input>
               </div>
             </div>
@@ -1661,7 +1662,14 @@
                 <app-custom-input formControlName="longitude" [className]="'form-control'" [placeholder]="''">
                 </app-custom-input>
               </div>
-              <!-- </div> -->
+              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="captured_longitude">Captured Address
+                  <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="capturedAddress" [className]="'form-control'" [placeholder]="''">
+                </app-custom-input>
+              </div>
+              <!-- </div> addressLatLng -->
 
             </div>
 

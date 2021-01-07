@@ -8,6 +8,12 @@
     margin-bottom: 25px;
 }
 
+.cst_btm_btns{
+    margin-bottom: 15px;
+}
+.p-0{
+    padding:0px;
+}
 .main-head{
     background-color: #272264;
     padding: 5px;

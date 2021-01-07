@@ -17,6 +17,7 @@ import { ObjectComparisonService } from '@services/obj-compare.service';
 
 import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '../shared-service/shared-service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
     templateUrl: './pdd.component.html',
@@ -70,6 +71,7 @@ export class PddComponent implements OnInit {
     udfGroupId: any;
     initUDFValues: any;
     editedUDFValues: any;
+    productCatCode: string;
 
     constructor(
         private location: Location,
@@ -85,7 +87,8 @@ export class PddComponent implements OnInit {
         private router: Router,
         private objectComparisonService: ObjectComparisonService,
         private loanViewService: LoanViewService,
-        private sharedService: SharedService) {
+        private sharedService: SharedService,
+        private createLeadDataService: CreateLeadDataService) {
 
         this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
 
@@ -101,6 +104,7 @@ export class PddComponent implements OnInit {
         this.vehicleRegPattern = this.validateCustomPattern();
         const currentUrl = this.location.path();
         const roles = this.loginStoreService.getRolesAndUserDetails();
+        this.getLeadSectiondata();
         this.activatedRoute.params.subscribe((params) => {
             console.log('params', params);
             this.leadId = Number(params.leadId || 0);
@@ -130,6 +134,12 @@ export class PddComponent implements OnInit {
             });
         });
     }
+
+    getLeadSectiondata() {
+        const leadData = this.createLeadDataService.getLeadSectionData();
+        this.productCatCode = leadData['leadDetails'].productCatCode;
+        console.log("PRODUCT_CODE::", this.productCatCode);
+      }
     getLabels() {
         this.labelsData.getLabelsData().subscribe(
             (data: any) => (this.labels = data),
@@ -765,7 +775,12 @@ export class PddComponent implements OnInit {
 
     onBack() {
         if (this.isLoan360) {
-            return this.router.navigateByUrl(`/pages/dde/${this.leadId}/delivery-order`);
+            if (this.productCatCode === 'NCV') {
+                return this.router.navigateByUrl(`/pages/dde/${this.leadId}/delivery-order`);
+            } else {
+                return this.router.navigateByUrl(`pages/dde/${this.leadId}/welcome-letter`)
+            }
+            
         }
         this.router.navigateByUrl(`/pages/dashboard`);
     }

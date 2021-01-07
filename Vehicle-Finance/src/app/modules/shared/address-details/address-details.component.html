@@ -1,10 +1,13 @@
 <div class="content">
   <form class="" [formGroup]="addressForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-
+    <div class="row">
       <h3 class="banner-con">
-        Address Details ({{udfScreenId}})
+        Address Details
+        <span class="float-right">{{udfScreenId}}</span>
       </h3>
+    </div>
+          
 
       <div class="btn-sec clear-both row">
         <div class="col-sm-3">
@@ -19,8 +22,11 @@
         <div id="individual_section_start" *ngIf="isIndividual" [formGroupName]="0">
           <!-- <h4 class="title">individual</h4> -->
           <div class="btn-sec clear-both row">
-            <div class="col-lg-3 col-sm-5">
-              <h3 class="banner-con">Permanent Address</h3>
+            <div class="col-lg-12 col-sm-12" *ngIf="showAppAddressCheckBox" >
+              <h3 class="banner-sub">Permanent Address</h3>
+            </div>
+            <div class="col-lg-3 col-sm-5" *ngIf="!showAppAddressCheckBox">
+              <h3 class="banner-sub">Permanent Address</h3>
             </div>
             <div class="col-lg-3 text-left" id="Same_AppAddress" *ngIf="!showAppAddressCheckBox">
               <input type="checkbox" id="address_section_checkbox" (click)="onAddSameAsApplicant($event)"
@@ -126,8 +132,11 @@
             </div>
           </div>
           <div class="btn-sec clear-both row">
-            <div class="custom-col-22">
-              <h3 class="banner-con">Communication Address</h3>
+            <!-- <div class="col-sm-12 col-lg-12"  *ngIf="!showModCurrCheckBox && !showSrField">
+              <h3 class="banner-sub ">Communication Address</h3>
+            </div> -->
+            <div class="custom-col-22 pad-12" >
+              <h3 class="banner-sub">Communication Address</h3>
             </div>
             <div class="custom-col-30" id="align_this_texbox">
               <input type="checkbox" class="mar-12" id="address_section_checkbox" (change)="isSameAddress($event)"
@@ -296,7 +305,7 @@
           </div>
           <div class="btn-sec clear-both row">
             <div class="col-sm-5">
-              <h4 class="banner-con">Office/Business Address</h4>
+              <h4 class="banner-sub">Office/Business Address</h4>
             </div>
             <div class="col-sm-7" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="officeSameAddress($event)"
@@ -685,13 +694,7 @@
         </div>
       </ng-container>
     </div>
-  </form>
-  <!-- {{udfDetails | json}} -->
-  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-</div>
-
-<div class="btn-sec clear-both row">
+    <div class="btn-sec clear-both row">
   <div class="col-sm-5">
     <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="navigateToApplicantList()">
       Back To Applicant Details
@@ -710,8 +713,12 @@
     <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
         Next
       </button></a>
-    <br />
-    <br />
-    <br />
+    
   </div>
 </div>
+  </form>
+  <!-- {{udfDetails | json}} -->
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+</div>
+

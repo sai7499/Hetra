@@ -14,6 +14,8 @@
     "spokeCodeLocation": "Spoke Code Location",
     "loanAccountBranch": "Loan Account Branch",
     "leadHandledBy": "Lead Handled By",
+    "leadDetails": "Lead Details",
+    "udfScreenId": "udfScreenId",
     "entity": "Entity",
     "relationshipwithloanapplicant": "Relationship with Lead",
     "title": "Title",
@@ -150,6 +152,9 @@
     "back": "Back",
     "save": "Save",
     "applicantDetailsTitle": "Applicant Details",
+    "editApplicant": "Edit Applicant",
+    "applicantDedupe": "Decision on Dedupe Results",
+    "NLTRNLDedupe": "Negative List Scrub Results",
     "personalDetailsTitle": "Personal Details",
     "addApplicantTitle": "Add Applicant",
     "ucicId": "UCIC",
@@ -690,7 +695,7 @@
     "bankingSummaryTitle": "BANKING SUMMARY",
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
-    "keyFinancialTitle": "KEY FINANCIAL",
+    "keyFinancialTitle": "Key Financial",
     "shareCapital": "Share Capital",
     "lorryHireChargesPaid": "Lorry hire charges paid (Freight charges )",
     "netProfitAfterTaxA": "Net Profit after Tax (A)",
@@ -833,7 +838,7 @@
     "netCashFlowEMI": " Net Cash Flow  EMI",
     "obligationsBusinessMonth": "Obligations in business (Loans) per month",
     "viabilityStatus": "Viability Status",
-    "referenceCheckTitle": "Reference Check",
+    "referenceCheckTitle": "PD Reference Check",
     "personName": "Person Name",
     "addressOfThePerson": "Address of the person",
     "contactNumber": "Contact Number",
@@ -1224,6 +1229,7 @@
     "branchLng": "Branch Longitude",
     "branchLat": "Branch Latitude",
     "capturedLng": "Captured Longitude",
+    "addressLatLng": "Captured Address",
     "vehicleContract": "Vehicle Contract",
     "negativeProfile": "Negative Profile",
     "routeMap": "RouteMap",
@@ -1281,13 +1287,13 @@
     "toSanction": "To",
     "vfSheetTag30": "Further to your application for a finance facility, we are glad to inform you that your loan application has been sanctioned as per the following terms and conditions:",
     "proposalNumber": "Proposal Number",
-    "vehicleDetails": "VEHICLE DETAILS",
+    "vehicleDetails": "Vehicle Details",
     "yearOfManufacture": "Year of Manufacture",
     "vehicleRegistrationNo": "Vehicle Registration No.",
     "engineNo": "Engine No.",
     "chasisNo": "Chassis No.",
     "assetCostRs": "Asset Cost (Rs.)",
-    "loanApprovedDetails": "LOAN APPROVED DETAILS",
+    "loanApprovedDetails": "Loan Approved Details",
     "loanAmountRs": "Loan Amount (Rs.)",
     "loanTenorMonths": "Loan Tenor (Months)",
     "repay": "Repay (Months)",
@@ -1721,7 +1727,7 @@
     "backToFiCumPdList": "Back to FI cum PD List",
     "fiCumPdStatus": "FI cum PD Status",
     "fiCumPdReport": "FI cum PD Report",
-    "valuationInitiatedDate": "Valuation Initiation Date",
+    "valuationInitiatedDateTime": "Valuation Initiation Date & Time",
     "personInitiated": "Person Initiated",
     "refNo": "Ref No.",
     "inspectionDetails": "Inspection Details",
@@ -1817,7 +1823,9 @@
     "goToDashboard": "Go To Dashboard",
     "submitValuation": "Are you sure you want to submit task?",
     "wizardId": "Wizard ID",
+    "affordableEMI": "Affordable EMI",
     "relationshipType":"Relationship Type",
+    "pdDoneAt": "PD done at",
     "validationData": {
         "name": {
             "maxLength": {
@@ -2159,12 +2167,16 @@
         },
         "drivingLicense": {
             "maxLength": {
-                "rule": 16
+                "rule": 17
+            },
+            "minLength": {
+                "rule": 12,
+                "msg":"Min 12 digits required"
             },
             "type": "alpha-numeric-nospace",
             "patternCheck": {
-                "rule": "[A-Z1-9]{2}[A-Z0-9]{14}",
-                "msg": "Should be valid"
+                "rule": "^(?!0{12})[A-Z0-9]{12}",
+                "msg": "Minimum 12 alpha-numeric characters are required"
             }
         },
         "voterId": {
@@ -2701,7 +2713,7 @@
                 "msg": "Should be 6 Digits"
             },
             "patternCheck": {
-                "rule": "^[0-9]{6}",
+                "rule": "^(?!0{6})[0-9]{6}",
                 "msg": "Invalid Number"
             },
             "type": "number"

@@ -1,9 +1,9 @@
 import {
-    Component,
-    OnInit,
-    Input,
-    Output,
-    EventEmitter } from '@angular/core';
+   Component,
+   OnInit,
+   Input,
+   Output,
+   EventEmitter } from '@angular/core';
 
 @Component({
 selector: 'app-lead-upload-discussion',
@@ -18,11 +18,11 @@ export class LeadUploadDiscussionComponent implements OnInit {
 @Input() details;
 
 itemsPerPage = '5';
-    // pageNumber = 1;
-    // currentPage = 1;
-    // totalItems: any;
-    // count = 1;
-    // slicedArray: any;
+   // pageNumber = 1;
+   // currentPage = 1;
+   // totalItems: any;
+   // count = 1;
+   // slicedArray: any;
 q;
 
 
@@ -33,11 +33,11 @@ ngOnInit() {
 }
 
 onCancel() {
-   this.showUpload = false;
-   this.cancel.emit();
+  this.showUpload = false;
+  this.cancel.emit();
 }
 
 onSave() {
-   this.save.emit();
+  this.save.emit();
 }
 }

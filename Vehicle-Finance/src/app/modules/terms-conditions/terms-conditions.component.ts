@@ -102,6 +102,25 @@ export class TermsConditionsComponent implements OnInit {
        res.ProcessVariables.error.code === '0'
       ) {
         this.processData = res.ProcessVariables;
+        console.log(this.processData, 'processData')
+
+        let ageOfAssetInMonths = this.processData ? this.processData.ageOfAsset ? 
+        Math.floor(Number(this.processData.ageOfAsset) / 12) + ' Years ' + 
+        Math.floor(Number(this.processData.ageOfAsset % 12)) + ' Months ' : 0 : 0;
+
+        let ageOfLoanTenureInMonths = this.processData ? this.processData.ageAfterTenure ? 
+        Math.floor(Number(this.processData.ageAfterTenure) / 12) + ' Years ' + 
+        Math.floor(Number(this.processData.ageAfterTenure % 12)) + ' Months ' : 0 : 0;
+
+        let loanTenorInMonths = this.processData ? this.processData.loanTenure ? 
+        Math.floor(Number(this.processData.loanTenure) / 12) + ' Years ' + 
+        Math.floor(Number(this.processData.loanTenure % 12)) + ' Months ' : 0 : 0;
+
+        this.processData['ageOfAssetInMonths'] = ageOfAssetInMonths;
+        this.processData['ageOfLoanTenureInMonths'] = ageOfLoanTenureInMonths;
+        this.processData['loanTenorInMonths'] = loanTenorInMonths
+
+
         this.isChildLoan = this.processData.isChildLoan;
         this.loanAmount = Number(this.processData.loanAmount ).toLocaleString('en-IN');
         this.eligibleAmount = Number(this.processData.eligibleAmount ).toLocaleString('en-IN');

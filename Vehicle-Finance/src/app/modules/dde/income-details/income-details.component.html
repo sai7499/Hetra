@@ -1,6 +1,13 @@
 <!--progress bar-->
-<form class="multisteps-form__form p-0" [formGroup]="incomeDetailsForm">
-  <h3 class="banner-con">{{ labels?.incomeAndObligationDetailsTitle }} ({{udfScreenId}}) </h3>
+<div class="">
+ 
+
+<form class="multisteps-form__form content p-0" [formGroup]="incomeDetailsForm">
+  <div class="container">
+  <h3 class="banner-con">{{ labels?.incomeAndObligationDetailsTitle }}
+    <span class="float-right">{{udfScreenId}}</span>
+  </h3>
+  
   <div class="multisteps-form">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="container-fluid">
@@ -8,7 +15,7 @@
           <div class="table-responsive application" *ngIf="usedCar">
             <table id="POITable" border="1" class="table main-table businessTable">
               <thead>
-                <th colspan="9" class="banner-con "> <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
+                <th colspan="9" class="banner-sub "> <span>{{ labels?.businessIncomeDetailsTitle }}</span> </th>
                 <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button"
                     class="btn caption btn-sm" (click)="addBusinessIncomeUnit(null)">
                     <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
@@ -226,7 +233,7 @@
           <div class="table-responsive application" *ngIf="NewOrUsedComercialVehicle" formArrayName="keyFinanceDetails">
             <table id="POITable" border="1" class="table main-table businessTable">
               <thead>
-                <th colspan="4" class="banner-con "> <span>{{ labels?.keyFinancialTitle }}</span> </th>
+                <th colspan="4" class="banner-sub "> <span>{{ labels?.keyFinancialTitle }}</span> </th>
                 <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button"
                     class="btn caption btn-sm" (click)="addKeyFinancialDetails(null)">
                     <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
@@ -758,7 +765,7 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_other" border="1" class="table main-table">
               <thead>
-                <th colspan="7" class=" banner-con"> <span>{{ labels?.otherIncomeDetailsTitle }}</span> </th>
+                <th colspan="7" class=" banner-sub"> <span>{{ labels?.otherIncomeDetailsTitle }}</span> </th>
                 <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button"
                     class="btn caption btn-sm" (click)="addOtherIncomeUnit(null)">
                     <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
@@ -920,7 +927,7 @@
           <div class="table-responsive application mt-3">
             <table id="POITable_obligation" border="1" class="table main-table">
               <thead>
-                <th colspan="11" class="banner-con"> <span>{{ labels?.obligationDetailsTitle }}</span> </th>
+                <th colspan="11" class="banner-sub"> <span>{{ labels?.obligationDetailsTitle }}</span> </th>
                 <th colspan="1" class="add-wid"> <button [disabled]="disableSaveBtn" type="button"
                     class="btn caption btn-sm" (click)="addObligationUnit(null)">
                     <i class="fa fa-plus fa-fw"></i> Add Row</button> </th>
@@ -1193,7 +1200,7 @@
           <div class="table-responsive application mt-3 oblig p-0" *ngIf="usedCar">
             <table id="POITable" border="0" class="table income_obli main-table">
 
-              <caption class="banner-con">
+              <caption class="banner-sub">
                 {{
                 labels?.incomeObligationSummaryTitle
                 }}
@@ -1290,7 +1297,7 @@
     [udfGroupId]="udfGroupId" [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
   </app-shared-user-defined-fields>
 
-  <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
+  <div class="btn-sec clear-both row cst_btm_btns">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
       <button class="btn btn-primary hvr-sweep-to-left" type="button" routerLink="../exposure">
@@ -1304,6 +1311,7 @@
       </button>
     </div>
   </div>
+</div>
 </form>
 
 <div id="overlay" *ngIf="isbusinessIncomeShow">
@@ -1385,4 +1393,6 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>

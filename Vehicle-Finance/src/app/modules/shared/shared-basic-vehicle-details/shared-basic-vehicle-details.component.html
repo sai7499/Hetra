@@ -4,12 +4,16 @@
 
         <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
             [formGroupName]="i">
-
-            <h3 class="banner-con"> {{ label.vehcileDetailsTitle }} ({{udfScreenId}}) </h3>
+            <div class="row">
+                <h3 class="banner-con"> {{ label.vehcileDetailsTitle }}
+                    <span class="float-right">{{udfScreenId}}</span>
+                </h3>
+            </div>
+           
 
             <div id="sales_section_start" *ngIf="roleType === 1">
 
-                <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                <div class="row" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' || productCatoryCode ==='UTCR'">
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                         <label for="registartion_number"> {{ label.registartionNumber }}
@@ -131,7 +135,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing"
-                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' || productCatoryCode ==='UTCR'">
                             <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                     class="star_red_col">*</sub>
                             </label>
@@ -149,7 +153,7 @@
                                 </div>
                             </div>
 
-                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > maxDate
+                            <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > toDayDate
                                 ||  obj.controls['manuFacMonthYear'].value < minDate)">
                                 Invalid Date
                             </div>
@@ -167,7 +171,7 @@
                         </div>
 
                         <div class=" form-group col-sm-6 col-md-4 col-lg-3" id="age_asset"
-                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' || productCatoryCode ==='UTCR'">
                             <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub> </label>
 
                             <app-custom-input formControlName="ageOfAsset" [id]="'age_of_asset'"
@@ -178,7 +182,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle"
-                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
                             <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub class="star_red_col">*</sub>
                             </label>
 
@@ -190,7 +194,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="is_veh_availIn_grid"
-                            *ngIf="productCatoryCode === 'UCV'">
+                            *ngIf="productCatoryCode === 'UCV' ||  productCatoryCode ==='UTCR'">
                             <label for="is_veh_availIn_grid"> {{ label.isVehAvailInGrid }}
                             </label>
 
@@ -201,7 +205,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis"
-                            *ngIf="productCatoryCode === 'UCV'">
+                            *ngIf="productCatoryCode === 'UCV' ||  productCatoryCode ==='UTCR'">
                             <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub class="star_red_col">*</sub>
                             </label>
 
@@ -225,9 +229,9 @@
                             <app-custom-input formControlName="assetCostIBB"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
-                                (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_indian'"
-                                (change)="onCompareFinalAssetCode($event)"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
+                                (keyup)="onCompareFinalAssetCode($event, obj)"
+                                (change)="onCompareFinalAssetCode($event, obj)" [id]="'asset_cost_indian'"
                                 [placeholder]="'Asset Cost basis Indian Bluebook'">
                             </app-custom-input>
 
@@ -241,8 +245,8 @@
                             <app-custom-input formControlName="assetCostCarTrade"
                                 [type]="label.validationData?.amountValue.type" [className]="'form-control mandatory'"
                                 [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
-                                (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
-                                (change)="onCompareFinalAssetCode($event)"
+                                (keyup)="onCompareFinalAssetCode($event, obj)"
+                                (change)="onCompareFinalAssetCode($event, obj)" [id]="'asset_cost_car'"
                                 [maxLength]="label.validationData?.amountValue.maxLength"
                                 [placeholder]="'Asset Cost basis Carwale'">
                             </app-custom-input>
@@ -299,7 +303,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="name_vehicle_owner"
-                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
                             <label for="name_vehicle_owner"> {{ label.nameOfVehicleOwner }} <sub
                                     class="star_red_col">*</sub>
                             </label>
@@ -314,7 +318,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner"
-                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
                             <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
                                     class="star_red_col">*</sub> </label>
 
@@ -337,7 +341,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address"
-                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
                             <label for="vehicle_address"> {{ label.vehicleAddress }} <sub class="star_red_col">*</sub>
                             </label>
                             <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address"
@@ -354,7 +358,7 @@
                         </div>
 
                         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode"
-                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC'">
+                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
                             <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub class="star_red_col">*</sub>
                             </label>
 
@@ -1190,7 +1194,7 @@
 
                 </div>
 
-                <div class="" id="used_cv_show" *ngIf="productCatoryCode == 'UCV'">
+                <div class="" id="used_cv_show" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UTCR'">
 
                     <div class="row">
 
@@ -1367,7 +1371,7 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="is_veh_availIn_grid"
-                                *ngIf="productCatoryCode === 'UCV'">
+                                *ngIf="productCatoryCode === 'UCV' ||  productCatoryCode ==='UTCR'">
                                 <label for="is_veh_availIn_grid"> {{ label.isVehAvailInGrid }}
                                 </label>
 
@@ -1382,7 +1386,7 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="asset_cost_basis"
-                                *ngIf="productCatoryCode === 'UCV'">
+                                *ngIf="productCatoryCode === 'UCV' ||  productCatoryCode ==='UTCR'">
                                 <label for="asset_cost_basis"> {{ label.assetCostGrid }} <sub
                                         class="star_red_col">*</sub>
                                 </label>

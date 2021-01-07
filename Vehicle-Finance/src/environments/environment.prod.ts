@@ -26,15 +26,16 @@ export const environment = {
     validateSRNumber : '8bfa8dba945b11eabdcaf2fa9bec3d63',
     remarksProjectId : '8bfa8dba945b11eabdcaf2fa9bec3d63',
     assignCPCMaker : '403a8a12b79511ea8afff2fa9bec3d63',
-    trancheProId: 'b73f0180b49111ea8900f2fa9bec3d63'
+    trancheProId: 'b73f0180b49111ea8900f2fa9bec3d63',
+    rejectRemarks : '403a8a12b79511ea8afff2fa9bec3d63'
   },
   hostingEnvironment: 'DEV',
   //hostingEnvironment: 'UAT',
   // hostingEnvironment: 'Production',
 
   // host: '/appiyo/',
-  //host: window["env"]["hostUrl"] || "default",
-  host: "https://hetrauat.equitasbank.com/appiyodev/",
+  host: window["env"]["hostUrl"] || "default",
+  // host: "https://hetrauat.equitasbank.com/appiyodev/",
   //host: 'http://128.199.164.250/appiyo/',
   // host: 'http://10.101.10.153/appiyo/',
   //host: "https://hetrauat.equitasbank.com/appiyo/",
@@ -47,7 +48,7 @@ export const environment = {
   appiyoDrive: '/d/drive/upload/',
   
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
-  isMobile: true,
+  isMobile: false,
   isMaas360Enabled: false,
   lmsSITDate:'2021-09-30'
 };

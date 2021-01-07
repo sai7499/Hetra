@@ -59,8 +59,12 @@
     <div class="container-fluid">
         <form [formGroup]="otpForm">
             <div class="content content-trd">
-                <h3 class="title">Credit Report Authorization</h3>
-                <hr>
+                <h3 class="banner-con">Credit Report Authorization
+
+                    <span class="float-right">{{udfScreenId}}</span>
+
+                </h3>
+                <hr class="mar-8">
                 <div id="">
                     <p>As part of your application for loan, with Equitas Small
                         Finance Bank, we request your authorization to pull your
@@ -70,7 +74,7 @@
                         application and you agree that Equitas Small Finance Bank
                         may contact third parties to verify any such information.</p>
                 </div>
-                <hr>
+                <hr class="mar-8">
                 <br>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
@@ -92,8 +96,8 @@
 
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="text-align: center;">
-                        <button class="btn  btn-primary top-margin hvr-sweep-to-left" id="back"
-                            (click)="onBack()"> Back </button>&nbsp;
+                        <button class="btn  btn-primary top-margin hvr-sweep-to-left" id="back" (click)="onBack()"> Back
+                        </button>&nbsp;
                         <button class="btn  btn-primary top-margin" id="resendotp_button" (click)=sendOtp()> Resend OTP
                         </button>&nbsp;
                         <button class="btn btn-primary top-margin" id="validateOtp_button" (click)="validateOtp() ">

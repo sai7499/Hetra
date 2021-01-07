@@ -2,22 +2,24 @@
   <app-lead-section-header></app-lead-section-header>
 
   <div class="">
-    
+
     <form [formGroup]="coApplicantForm" autocomplete="off" (keydown.enter)="$event.preventDefault()">
       <div class="content">
         <h3 class="banner-con" *ngIf="applicantId == null">
           {{ labels?.addApplicantTitle }}
+          <span class="float-right">{{udfScreenId}}</span>
         </h3>
+
         <h3 class="banner-con" *ngIf="applicantId !== null">
-          Edit Applicant
+          {{ labels?.editApplicant }}
+          <span class="float-right">{{udfScreenId}}</span>
         </h3>
         <div class="row">
           <div id="individual_section_leadco" class="content-box">
             <div formGroupName="dedupe">
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                  <label for="Vechical Type">{{ labels?.entity
-                    }}<sub class="star_red_col">*</sub></label>
+                  <label for="Vechical Type">{{ labels?.entity }}<sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="LOV?.LOVS?.entityType" formControlName="entityType"
                     (change)="selectEntityType($event)" [isRequired]="'Entity type is required'" [isDirty]="isDirty"
                     [isDisabled]="applicantId">
@@ -25,8 +27,8 @@
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                  <label for="Vechical Type">{{ labels.relationshipwithloanapplicant
-                    }}<sub class="star_red_col">*</sub></label>
+                  <label for="Vechical Type">{{ labels.relationshipwithloanapplicant }}<sub
+                      class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="LOV?.LOVS?.applicantRelationshipWithLead"
                     formControlName="loanApplicationRelation" (change)="selectApplicantType($event)"
                     [isRequired]="'Please select one'" [isDirty]="isDirty">
@@ -152,10 +154,12 @@
                         coApplicantForm.get('dedupe').get('dob').touched ||
                         isDirty
                       ">
-                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && !coApplicantForm.get('dedupe').get('dob').value">
+                      <div
+                        *ngIf="coApplicantForm.get('dedupe').get('dob').invalid && !coApplicantForm.get('dedupe').get('dob').value">
                         Select date
                       </div>
-                      <div *ngIf="coApplicantForm.get('dedupe').get('dob').errors && coApplicantForm.get('dedupe').get('dob').value">
+                      <div
+                        *ngIf="coApplicantForm.get('dedupe').get('dob').errors && coApplicantForm.get('dedupe').get('dob').value">
                         Invalid date
                       </div>
                     </div>
@@ -187,7 +191,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
                   *ngIf="applicantType == 'NONINDIVENTTYP'">
                   <label for="aadharnumber">{{ labels?.contactPerson }}
@@ -201,23 +205,20 @@
               <!-- <div class="row">
                
               </div> -->
-              <div class="row"
-              *ngIf="applicantType == 'INDIVENTTYP'">
-              <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
-              >
-                <label for="customer_category">{{ labels?.gender }} 
-                  <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select formControlName="gender" [values]="LOV?.LOVS?.gender"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
-              </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
-               >
-                <label for="customer_category">{{ labels?.customerCategory }}
-                  <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select formControlName="custSegment" [values]="LOV?.LOVS?.customerSegment"
-                  [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
-              </div>
-              
+              <div class="row" *ngIf="applicantType == 'INDIVENTTYP'">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco">
+                  <label for="customer_category">{{ labels?.gender }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select formControlName="gender" [values]="LOV?.LOVS?.gender"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco">
+                  <label for="customer_category">{{ labels?.customerCategory }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-vf-custom-select formControlName="custSegment" [values]="LOV?.LOVS?.customerSegment"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                </div>
+
               </div>
 
               <div class="row" *ngIf="productCategory == '1003'">
@@ -231,8 +232,8 @@
                   <label for="Vechical Type">{{ labels?.houseOwnerProperty
                     }}<sub class="star_blue_col">*</sub></label>
                   <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="houseOwnerProperty"
-                (click)="onChangeOwner($event)"  
-                    [isDirty]="isDirtyUcic" [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''">
+                    (click)="onChangeOwner($event)" [isDirty]="isDirtyUcic"
+                    [isRequired]="hideMsgForOwner? 'Owner Of the Property is Required' : ''">
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -268,7 +269,7 @@
                 </div>
               </div>
 
-              
+
               <div class="row" *ngIf="productCategory == '1003' && fundingProgram == '26'">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="aadharnumber">{{ labels?.averageBankBalance }}
@@ -331,8 +332,7 @@
                   <label for="Vechical Type">{{ labels?.agriOwnerProperty
                     }}<sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select [values]="ownerPropertyRelation" formControlName="agriOwnerProperty"
-                  (click)="onChangeAgriOwner($event)" 
-                    [isRequired]="'Please select one'" [isDirty]="isDirtyUcic">
+                    (click)="onChangeAgriOwner($event)" [isRequired]="'Please select one'" [isDirty]="isDirtyUcic">
                   </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -362,7 +362,8 @@
                     <sub class="star_red_col">*</sub></label>
                   <div class="input-group input-medium">
                     <app-custom-input formControlName="aadhar" (keyup)="storeAdhar($event)"
-                      [type]="validationData?.applicantAdhaarNumber?.type" [maxLength]="validationData?.applicantAdhaarNumber?.maxLength">
+                      [type]="validationData?.applicantAdhaarNumber?.type"
+                      [maxLength]="validationData?.applicantAdhaarNumber?.maxLength">
                       <!-- maxlength="12" -->
                       <!-- [maxLength]="validationData?.adhaarNumber?.maxLength"
                   [patternCheck]="validationData?.adhaarNumber?.patternCheck"
@@ -382,7 +383,7 @@
                coApplicantForm.get('dedupe').get('aadhar').touched ||
                isDirty
              " class="ShowError">
-                    <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value == '' 
+                    <div *ngIf="!coApplicantForm.get('dedupe').get('aadhar').value 
                   ">Aadhaar Number is required</div>
                   </div>
 
@@ -403,7 +404,8 @@
                   <label for="aadharnumber">{{ labels?.udyogAdhar }} </label>
                   <div class="input-group input-medium">
                     <app-custom-input formControlName="aadhar" (keyup)="storeAdhar($event)"
-                      [maxLength]="validationData?.applicantAdhaarNumber?.maxLength" [type]="validationData?.applicantAdhaarNumber?.type">
+                      [maxLength]="validationData?.applicantAdhaarNumber?.maxLength"
+                      [type]="validationData?.applicantAdhaarNumber?.type">
                     </app-custom-input>
                     <!-- [patternCheck]="validationData?.adhaarNumber?.patternCheck" -->
                     <span class="input-group-btn">
@@ -421,13 +423,15 @@
                 <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value == '' 
                   ">Adhar Number is required</div>
             </div> -->
-          <div *ngIf=" 
+                  <div *ngIf=" 
           coApplicantForm.get('dedupe').get('aadhar').value">
-          <div *ngIf="coApplicantForm.get('dedupe').get('aadhar').value.length < 12 && coApplicantForm.get('dedupe').get('aadhar').value.length != 0" class="ShowError">
-            Aadhaar Number should be 12 digits
-          </div>
-          </div>
-            
+                    <div
+                      *ngIf="coApplicantForm.get('dedupe').get('aadhar').value.length < 12 && coApplicantForm.get('dedupe').get('aadhar').value.length != 0"
+                      class="ShowError">
+                      Aadhaar Number should be 12 digits
+                    </div>
+                  </div>
+
 
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -458,13 +462,14 @@
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.drivingLicenseNumber }}</label>
-                  <app-custom-input formControlName="drivingLicenseNumber" [maxLength]="validationData?.drivingLicense?.maxLength"
-                  [minLength]="validationData?.drivingLicense?.minLength"
-                  [patternCheck]="validationData?.drivingLicense?.patternCheck"
-                   (keyup)="onDrvingLisenseChange($event)"
-                    [inputClass]="'text-uppercase'" [type]="validationData?.drivingLicense?.type" >
+                  <app-custom-input formControlName="drivingLicenseNumber"
+                    [maxLength]="validationData?.drivingLicense?.maxLength"
+                    [minLength]="validationData?.drivingLicense?.minLength"
+                    [patternCheck]="validationData?.drivingLicense?.patternCheck"
+                    (keyup)="onDrvingLisenseChange($event)" [inputClass]="'text-uppercase'"
+                    [type]="validationData?.drivingLicense?.type">
                   </app-custom-input>
-                  
+
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
@@ -482,7 +487,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{
                     labels?.drivingLicenceIssueDate
-                  }}</label>
+                    }}</label>
                   <!-- <div class="input-group input-medium">
                     <span class="input-group-btn">
                       <button class="btn btn-default">
@@ -501,9 +506,8 @@
                   </div> -->
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseIssueDate"
                     [format]="'dd/MM/yyyy'" [max]="maxDate" [activeView]="'decade'"
-                     (valueChange)="drivingIssueDateShowError($event)" 
-                     
-                    [disabled]='disabledDrivingDates' placeholder="Driving License Issue Date">
+                    (valueChange)="drivingIssueDateShowError($event)" [disabled]='disabledDrivingDates'
+                    placeholder="Driving License Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
                       !drivingLicenseIssueDate &&
@@ -520,7 +524,7 @@
                     Select Date
                   </div>
                   <div class="ShowError" *ngIf="showMessage['drivinglicenseIssue']">
-                   {{drivingIssueInvalidMsg}}
+                    {{drivingIssueInvalidMsg}}
                   </div>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
@@ -535,12 +539,12 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{
                     labels?.drivingLicenceExpiryDate
-                  }}</label>
-                 
+                    }}</label>
+
                   <kendo-datepicker class="form-control mandatory" formControlName="drivingLicenseExpiryDate"
                     [format]="'dd/MM/yyyy'" [min]="toDayDate" [activeView]="'decade'"
-                     (valueChange)="drivingLicenceExpiryShowError($event)" 
-                    [disabled]='disabledDrivingDates' placeholder="Driving License Expiry Date">
+                    (valueChange)="drivingLicenceExpiryShowError($event)" [disabled]='disabledDrivingDates'
+                    placeholder="Driving License Expiry Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
                       !drivingLicenseExpiryDate &&
@@ -556,7 +560,7 @@
                     Select date
                   </div>
                   <div class="ShowError" *ngIf=" showMessage['drivingLicenseExpiry'] ">
-                   {{drivingExpiryInvalidMsg}}
+                    {{drivingExpiryInvalidMsg}}
                   </div>
                   <!-- <div class="ShowError" *ngIf="coApplicantForm.get('dedupe').get('drivingLicenseExpiryDate').invalid" >
                     Invalid Date
@@ -577,7 +581,7 @@
                   <!-- [patternCheck]="validationData?.passportNumber?.patternCheck" -->
                   <app-custom-input formControlName="passportNumber" [patternCheck]="
                       validationData?.passportNumber?.patternCheck
-                    " (keyup)="onPassportNumberChange()"  [inputClass]="'text-uppercase'"
+                    " (keyup)="onPassportNumberChange()" [inputClass]="'text-uppercase'"
                     [maxLength]="validationData?.passportNumber?.maxLength" [isRequired]="
                       isPassportRequired ? 'Passport number is required' : ''
                     " [isDirty]="isPassportRequired && isDirty" [type]="validationData?.passportNumber?.type">
@@ -595,10 +599,8 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportIssueDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportIssueDate"
-                    [format]="'dd/MM/yyyy'" [min]="minPassportIssueDate"  [max]="maxDate" [activeView]="'decade'" 
-                    (valueChange)="passportIssueDateShowError($event)" 
-                   
-                    [disabled]="disabledPassportDates"
+                    [format]="'dd/MM/yyyy'" [min]="minPassportIssueDate" [max]="maxDate" [activeView]="'decade'"
+                    (valueChange)="passportIssueDateShowError($event)" [disabled]="disabledPassportDates"
                     placeholder="Passport Issue Date">
                   </kendo-datepicker>
                   <div class="ShowError" *ngIf="
@@ -628,11 +630,10 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
                   <label for="mobile">{{ labels?.passportExpiryDate }}</label>
                   <kendo-datepicker class="form-control mandatory" formControlName="passportExpiryDate"
-                    [format]="'dd/MM/yyyy'" [min]="toDayDate"  [max]="maxPassportExpiryDate" [activeView]="'decade'" 
-                    (valueChange)="passportExpiryShowError($event)" 
-                    [disabled]="disabledPassportDates"
-                    placeholder="Passport Expiry Date"> 
-                  </kendo-datepicker >
+                    [format]="'dd/MM/yyyy'" [min]="toDayDate" [max]="maxPassportExpiryDate" [activeView]="'decade'"
+                    (valueChange)="passportExpiryShowError($event)" [disabled]="disabledPassportDates"
+                    placeholder="Passport Expiry Date">
+                  </kendo-datepicker>
 
                   <div class="ShowError" *ngIf="
                       !passportExpiryDate &&
@@ -646,9 +647,9 @@
                     Select Date
                   </div>
 
-                 
+
                   <div class="ShowError" *ngIf="showMessage['passportExpiry']">
-                   {{passportExpiryInvalidMsg}}
+                    {{passportExpiryInvalidMsg}}
                   </div>
                   <!-- <div class="ShowError" *ngIf=" coApplicantForm.controls.dedupe['controls'].passportExpiryDate.errors">
                        Invalid
@@ -668,10 +669,9 @@
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
                   <!-- [patternCheck]="validationData?.voterId?.patternCheck" -->
                   <app-custom-input formControlName="voterIdNumber" [maxLength]="validationData?.voterId?.maxLength"
-                    [patternCheck]="validationData?.voterId?.patternCheck" 
-                    (keyup)="voterIdChange($event)" [inputClass]="'text-uppercase'"
-                    [isRequired]="isVoterRequired ? 'Voter id is required' : ''" [isDirty]="isVoterRequired && isDirty"
-                    [type]="validationData?.voterId?.type"></app-custom-input>
+                    [patternCheck]="validationData?.voterId?.patternCheck" (keyup)="voterIdChange($event)"
+                    [inputClass]="'text-uppercase'" [isRequired]="isVoterRequired ? 'Voter id is required' : ''"
+                    [isDirty]="isVoterRequired && isDirty" [type]="validationData?.voterId?.type"></app-custom-input>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20" *ngIf="
@@ -698,12 +698,13 @@
                     <a class="back_color">Check Dedupe</a>
                   </button>
                   &nbsp;&nbsp;
-                  <button class="btn btn-primary mar-right8 hvr-sweep-to-left" type="button" (click)="navigateToApplicantList()">
+                  <button class="btn btn-primary mar-right8 hvr-sweep-to-left" type="button"
+                    (click)="navigateToApplicantList()">
                     Back
                   </button>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20"
-                  *ngIf="isMobile && showEkycbutton && applicantType=='INDIVENTTYP'"> 
+                  *ngIf="isMobile && showEkycbutton && applicantType=='INDIVENTTYP'">
                   <button class="btn btn-primary mar-right8" type="button" (click)="calleKYC()">
                     <a class="back_color">Check e-KYC</a>
                   </button>
@@ -735,7 +736,7 @@
                 *ngIf="applicantType == 'INDIVENTTYP'">
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
-                    <h3 class="banner-con">Permanent Address</h3>
+                    <h3 class="banner-sub">Permanent Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox" *ngIf="showApplicantAddCheckBox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event)"
@@ -767,7 +768,8 @@
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="pincode" required>{{ labels?.code }}
-                        <!-- <sub class="star_red_col">*</sub>--></label>
+                        <!-- <sub class="star_red_col">*</sub>-->
+                      </label>
                       <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
                         [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
                         [id]="'permanentPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"
@@ -776,9 +778,8 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="permanent_address_city">{{ labels?.city }}
                         <sub class="star_red_col">*</sub></label>
-                      <app-vf-custom-select [values]="permanentPincode?.city" formControlName="city" 
-                      (change)="cityChange($event)" [isDirty]="isDirty"
-                        [isRequired]="'City is required'">
+                      <app-vf-custom-select [values]="permanentPincode?.city" formControlName="city"
+                        (change)="cityChange($event)" [isDirty]="isDirty" [isRequired]="'City is required'">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -807,8 +808,7 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="landline">{{labels?.nearestLandmark}}</label>
-                      <app-custom-input formControlName="nearestLandmark"
-                      [id]="'nearestLandmark'"
+                      <app-custom-input formControlName="nearestLandmark" [id]="'nearestLandmark'"
                         [maxLength]="validationData?.landMark?.maxLength"></app-custom-input>
                     </div>
                   </div>
@@ -816,7 +816,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="landline">{{
                         labels?.permanentAddressLandline
-                      }}</label>
+                        }}</label>
                       <app-custom-input formControlName="landlineNumber"
                         [patternCheck]="validationData?.phone?.patternCheck"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
@@ -826,7 +826,7 @@
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-2 col-sm-5">
-                    <h3 class="banner-con">Current Address</h3>
+                    <h3 class="banner-sub">Current Address</h3>
                   </div>
                   <div class="col-lg-3 text-center" id="align_this_checkbox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)"
@@ -923,8 +923,7 @@
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="landline">{{labels?.nearestLandmark}}</label>
-                      <app-custom-input formControlName="nearestLandmark"
-                      [id]="'nearestLandmark'"
+                      <app-custom-input formControlName="nearestLandmark" [id]="'nearestLandmark'"
                         [maxLength]="validationData?.landMark?.maxLength"></app-custom-input>
                     </div>
                   </div>
@@ -932,7 +931,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="current_landline">{{
                         labels?.landlineNumber
-                      }}</label>
+                        }}</label>
                       <app-custom-input formControlName="landlineNumber"
                         [patternCheck]="validationData?.phone?.patternCheck"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
@@ -944,7 +943,7 @@
 
               <div id="non_individual_section_address" class="non_individual_section_leadco"
                 *ngIf="applicantType == 'NONINDIVENTTYP'">
-                <h3 class="banner-con">Registered Address</h3>
+                <h3 class="banner-sub">Registered Address</h3>
                 <div class="row container" formGroupName="registeredAddress">
                   <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -957,7 +956,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line2">{{
                         labels?.addressline2
-                      }}</label>
+                        }}</label>
 
                       <app-custom-input formControlName="addressLineTwo"
                         [maxLength]="validationData?.addressLine?.maxLength"></app-custom-input>
@@ -965,7 +964,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line3">{{
                         labels?.addressline3
-                      }}</label>
+                        }}</label>
                       <app-custom-input formControlName="addressLineThree"
                         [maxLength]="validationData?.addressLine?.maxLength"></app-custom-input>
                     </div>
@@ -982,9 +981,8 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_address_city">{{ labels?.city
                         }}<sub class="star_red_col">*</sub></label>
-                      <app-vf-custom-select [values]="registerPincode?.city" formControlName="city" 
-                      (change)="cityChange($event)" [isDirty]="isDirty"
-                        [isRequired]="'City is required'">
+                      <app-vf-custom-select [values]="registerPincode?.city" formControlName="city"
+                        (change)="cityChange($event)" [isDirty]="isDirty" [isRequired]="'City is required'">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -1021,7 +1019,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="reg_mobile">{{
                         labels?.landLineNumber
-                      }}</label>
+                        }}</label>
                       <app-custom-input formControlName="landlineNumber"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
                         [type]="validationData?.landlineNumber?.type"
@@ -1031,7 +1029,7 @@
                 </div>
                 <div class="btn-sec clear-both row">
                   <div class="col-lg-3 col-sm-5">
-                    <h3 class="banner-con">Office Address</h3>
+                    <h3 class="banner-sub">Office Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddressCommunication($event)"
@@ -1052,7 +1050,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line2">{{
                         labels?.addressline2
-                      }}</label>
+                        }}</label>
 
                       <app-custom-input formControlName="addressLineTwo"
                         [maxLength]="validationData?.addressLine?.maxLength"></app-custom-input>
@@ -1060,7 +1058,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="registered_line3">{{
                         labels?.addressline3
-                      }}</label>
+                        }}</label>
                       <app-custom-input formControlName="addressLineThree"
                         [maxLength]="validationData?.addressLine?.maxLength"></app-custom-input>
                     </div>
@@ -1115,7 +1113,7 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                       <label for="reg_mobile">{{
                         labels?.landLineNumber
-                      }}</label>
+                        }}</label>
                       <app-custom-input formControlName="landlineNumber"
                         [maxLength]="validationData?.landlineNumber?.maxLength"
                         [type]="validationData?.landlineNumber?.type"
@@ -1153,26 +1151,26 @@
           !isPanChanged &&
           !isName1Changed)
       ">
-      <div class="col-sm-5"></div>
-      <div class="col-sm-7 text-right p-0" id="clickButton">
-        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="navigateToApplicantList()">
-          Back
-        </button>
-  
-        <button type="button" (click)="onFormSubmit()" class="btn btn-primary ">
-          <a class="back_color">Save</a>
-        </button>
-  
-        <button type="button" class="btn btn-primary hvr-sweep-to-right " (click)="onNext()">
-          Next
-        </button>
-      </div>
-    </div>
+          <div class="col-sm-5"></div>
+          <div class="col-sm-7 text-right p-0" id="clickButton">
+            <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)="navigateToApplicantList()">
+              Back
+            </button>
+
+            <button type="button" (click)="onFormSubmit()" class="btn btn-primary ">
+              <a class="back_color">Save</a>
+            </button>
+
+            <button type="button" class="btn btn-primary hvr-sweep-to-right " (click)="onNext()">
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </form>
-   
+
   </div>
-  
+
 </main>
 
 <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showDedupeModal }">
@@ -1180,7 +1178,10 @@
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header text-center">
-        <h4 class="modal-title">Decision on Dedupe Results</h4>
+        <h4 class="modal-title">
+          {{ labels?.applicantDedupe }}
+          <span class="float-right">{{applicantDedupeUdfScreenId}}</span>
+        </h4>
         <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
       </div>
 
@@ -1205,7 +1206,8 @@
 </div>
 
 <app-negative-list-modal [showModal]="showNegativeListModal" [modalInput]="negativeModalInput"
-  (onButtonClick)="negativeListModalListener($event)"></app-negative-list-modal>
+  [udfScreenId]="negativeDedupeUdfScreenId" [udfGroupId]="negativeDedupeUGroupId" (onButtonClick)="negativeListModalListener($event)">
+</app-negative-list-modal>
 
 <!-- Footer -->
 <!-- <footer class="footer pf mob-font">

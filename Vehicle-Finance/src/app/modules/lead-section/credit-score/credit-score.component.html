@@ -48,7 +48,7 @@
               <p class="var-lab">{{labels?.ageOfAsset }}</p>
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 ">
-              <p class="varlab">{{variable?.ageOfAsset}} Months</p>
+              <p class="varlab">{{variable?.ageOfAsset}} Months ({{variable?.ageOfAssetInMonths}})</p>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
               <p class="var-lab">{{labels?.loanTenor}}</p>
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 ">
-              <p class="varlab">{{variable?.loanTenure}} Months</p>
+              <p class="varlab">{{variable?.loanTenure}} Months ({{variable?.loanTenorInMonths}})</p>
             </div>
           </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
@@ -66,7 +66,7 @@
               <p class="var-lab">{{labels?.ageOfCarEndOfTenor}}</p>
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 ">
-              <p class="varlab">{{variable?.ageAfterTenure}} Months</p>
+              <p class="varlab">{{variable?.ageAfterTenure}} Months ({{variable?.ageOfLoanTenureInMonths}})</p>
             </div>
           </div>
         </div>
@@ -525,7 +525,7 @@
 
   <div class="" id="">
 
-    <h3 class="title">{{labels?.creditBureauCIBIL}}</h3>
+    <h3 class="banner-con">{{labels?.creditBureauCIBIL}}</h3>
     <div id="wrapper">
       <table>
         <thead>
