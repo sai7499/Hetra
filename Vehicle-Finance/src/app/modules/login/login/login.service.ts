@@ -9,14 +9,19 @@ import { ApiService } from '@services/api.service';
 
 declare var google: any;
 
+var API_KEY = "AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw";
 @Injectable()
 export class LoginService {
   generatedImage: string;
+  geocoder: google.maps.Geocoder;
+
   constructor(
     private httpService: HttpService,
     private loginService: LoginStoreService,
     private apiService: ApiService,
-  ) { }
+  ) { 
+    this.geocoder = new google.maps.Geocoder();
+  }
 
   getLogin(data) {
     const url =
@@ -82,7 +87,7 @@ export class LoginService {
           "&center=" + origin.latitude + "," + origin.longitudes +
           "&path=color:red|weight:3|" +
           "enc:" + polyline +
-          "&key=AIzaSyDJ9TZyUZNB2uY_267eIUQCV72YiYmArIw";
+          "&key="+ API_KEY;
         that.getBase64ImageFromURL(mapUrl).subscribe(base64data => {
           //console.log(base64data);
           // this is the image as dataUrl
@@ -131,6 +136,30 @@ export class LoginService {
     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
   }
 
+   /**
+     * Reverse geocoding by location.
+     *
+     * Wraps the Google Maps API geocoding service into an observable.
+     *
+     * @param latLng Location
+     * @return An observable of GeocoderResult
+     */
+    geocode(latLng: google.maps.LatLng): Observable<google.maps.GeocoderResult[]> {
+      return Observable.create((observer: Observer<google.maps.GeocoderResult[]>) => {
+          // Invokes geocode method of Google Maps API geocoding.
+          this.geocoder.geocode({ location: latLng }, (
+              (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+                  if (status === google.maps.GeocoderStatus.OK) {
+                      observer.next(results);
+                      observer.complete();
+                  } else {
+                      console.log('Geocoding service: geocoder failed due to: ' + status);
+                      observer.error(status);
+                  }
+              })
+          );
+      });
+    }
 
 }
 

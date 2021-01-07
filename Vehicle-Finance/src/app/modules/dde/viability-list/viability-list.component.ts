@@ -6,6 +6,7 @@ import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   templateUrl: './viability-list.component.html',
@@ -25,6 +26,7 @@ export class ViabilityListComponent {
   fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
   inititate = false;
+  isLoan360: boolean;
 
   constructor(private labelsData: LabelsService,
               private router: Router,
@@ -33,12 +35,14 @@ export class ViabilityListComponent {
               private toasterService: ToasterService,
               private loginStoreService: LoginStoreService,
               private location: Location,
-              private toggleDdeService: ToggleDdeService
+              private toggleDdeService: ToggleDdeService,
+              private loanViewService: LoanViewService
     ) {
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
   async ngOnInit() {
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
     // tslint:disable-next-line: triple-equals
     if (this.fiCumPdStatusString == 'false') {
@@ -88,6 +92,9 @@ export class ViabilityListComponent {
   onBack() {
     // this.location.back();
     // tslint:disable-next-line: triple-equals
+    if (this.isLoan360) {
+      return this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
+    }
     if (this.fiCumPdStatus == false && this.roleType == '2') {
       this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
     // tslint:disable-next-line: triple-equals

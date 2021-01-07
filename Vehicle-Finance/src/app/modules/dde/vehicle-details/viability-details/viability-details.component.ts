@@ -88,6 +88,7 @@ export class ViabilityDetailsComponent implements OnInit {
   documentArr: DocumentDetails[] = [];
   latitude: string = null;
   longitude: string = null;
+  capturedAddress: string = null;
   branchLatitude: string;
   branchLongitude: string;
   custProfileDetails: {};
@@ -249,7 +250,8 @@ export class ViabilityDetailsComponent implements OnInit {
         latitude:[this.latitude],
         longitude:[this.longitude],
         bLatitude: [this.branchLongitude],
-        bLongitude: [this.branchLongitude]
+        bLongitude: [this.branchLongitude],
+        capturedAddress: [this.capturedAddress],
       })
     });
     this.leadId = (await this.getLeadId()) as number;
@@ -545,6 +547,7 @@ getViability() {
       this.longitude = this.viabliityDataToPatch.longitude;
       this.branchLatitude = this.viabliityDataToPatch.brLatitude;
       this.branchLongitude = this.viabliityDataToPatch.brLongitude;
+      this.capturedAddress = this.viabliityDataToPatch.capturedAddress;
       this.dmsDocumentId = this.viabliityDataToPatch.selfiePhoto;
       const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
       this.udfDetails = res.ProcessVariables.udfDetails;
@@ -552,7 +555,8 @@ getViability() {
         latitude: this.latitude,
         longitude: this.longitude,
         bLongitude: this.branchLongitude,
-        bLatitude: this.branchLatitude
+        bLatitude: this.branchLatitude,
+        capturedAddress: this.capturedAddress
       });
       if (this.dmsDocumentId) {
         this.downloadDocs(this.dmsDocumentId);
@@ -636,6 +640,7 @@ onSave() {
         vehicleViabilityDetails : {
           longitude: this.longitude,
           latitude: this.latitude,
+          capturedAddress: this.capturedAddress,
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
@@ -669,6 +674,7 @@ onSave() {
         vehicleViabilityDetails : {
           longitude: this.longitude,
           latitude: this.latitude,
+          capturedAddress: this.capturedAddress,
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
@@ -696,6 +702,7 @@ onSave() {
         vehicleViabilityDetails : {
           longitude: this.longitude,
           latitude: this.latitude,
+          capturedAddress: this.capturedAddress,
           selfiePhoto: this.dmsDocumentId,
           collateralId: this.collataralId,
           type: this.viabilityForm.value.type,
@@ -761,6 +768,7 @@ patchViability(data: any) {
         operationsExpenses: Number(data.operationsExpenses),
         latitude: this.latitude,
         longitude: this.longitude,
+        capturedAddress: this.capturedAddress,
         bLatitude: this.branchLatitude,
         bLongitude: this.branchLongitude
 
@@ -1179,6 +1187,14 @@ calculateCaptiveC() {
       const gpsPos = this.viabilityForm.controls.gpsPosition as FormGroup;
       gpsPos.get("latitude").patchValue(this.latitude);
       gpsPos.get("longitude").patchValue(this.longitude);
+
+      var lat: number = +this.latitude;
+      var lng: number = +this.longitude;
+      this.loginService.geocode(new google.maps.LatLng(lat, lng)).subscribe((position) => {
+        console.log("Position"+position[0].formatted_address);
+        this.capturedAddress = position[0].formatted_address.toString();
+        gpsPos.get("capturedAddress").patchValue(this.capturedAddress);
+      });
 
 
     } else {

@@ -1,65 +1,97 @@
 .dis-block {
-    display: block;
-  }
-  
-  .table td {
-    text-align: left;
+  display: block;
+}
+
+.table td {
+  text-align: left;
 }
 
 @media (min-width: 768px) {
-    .modal-dialog {
-        width: 95% !important;
-        margin: 30px auto;
-    }
+  .modal-dialog {
+      width: 95% !important;
+      margin: 30px auto;
+  }
 
-    .tab-content{
-        height:430px; 
-        width:100%;
-    }
+  .tab-content{
+      height:430px; 
+      width:100%;
+  }
 }
 
 @media (min-width:200px) and (max-width:767px) {
-    .modal-dialog {
-        width: 95% !important;
-        margin: 5px auto;
-    }
+  .modal-dialog {
+      width: 95% !important;
+      margin: 5px auto;
+  }
 
-    .tab-content{
-        height:230px; 
-        width:100%;
-    }
+  .tab-content{
+      height:230px; 
+      width:100%;
+  }
 
 }
 
 * {
-    scrollbar-width: #eb652c;
-    scrollbar-color:#eb652c #fff;
-  }
-  
-  /* Works on Chrome/Edge/Safari */
-  *::-webkit-scrollbar {
-    width: 8px;
-  }
-  *::-webkit-scrollbar-track {
-    background: #fff;
-  }
-  *::-webkit-scrollbar-thumb {
-    background-color: #eb652c;
-    border-radius: 20px;
-    border: 2px solid #fff;
-  }
+  scrollbar-width: #eb652c;
+  scrollbar-color:#eb652c #fff;
+}
 
-  .status-success {
-    color: green;
-  }
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: #fff;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #eb652c;
+  border-radius: 20px;
+  border: 2px solid #fff;
+}
 
-  .status-fail {
-    color: red;
-  }
+.status-success {
+  color: green;
+}
 
-  .table tbody tr td {
-    padding-left: 5px !important;
-    padding-right: 5px !important;
-    padding-bottom: 10px !important;
-    padding-top: 10px !important; 
-  }
+.status-fail {
+  color: red;
+}
+
+.table tbody tr td {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  padding-bottom: 10px !important;
+  padding-top: 10px !important; 
+}
+
+:host ::ng-deep .ngx-pagination .current {
+  padding: 5px 11px !important;
+  background: #272264 !important;
+  color: #fefefe;
+  cursor: default;
+  border: 1px solid #e6e6e6;
+}
+
+:host ::ng-deep .ngx-pagination .disabled {
+  padding: 6px 8px !important;
+  color: #cacaca;
+  cursor: default;
+}
+
+:host ::ng-deep .ngx-pagination li {
+  padding: 4px 3px !important;
+  border: 1px solid #e6e6e6 !important;
+  /* color: #333 !important; */
+}
+
+.marBottom-45 {
+  margin-bottom: 45px;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.margin-18 {
+margin: 18px;
+}
