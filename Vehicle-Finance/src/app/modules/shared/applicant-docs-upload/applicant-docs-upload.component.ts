@@ -1064,6 +1064,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.toasterService.showWarning('No documents uploaded to save', '');
       return;
     }
+
     const apiValue = {};
 
     this.apiRes.forEach((value) => {
@@ -1110,6 +1111,26 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.toasterService.showWarning('No changes done to save', '');
       
     }
+    console.log('documentArr', this.documentArr);
+    const docNotAvailable =  this.documentArr.find((doc) => {
+      return !doc.dmsDocumentId;
+    });
+    console.log('docNotAvailable', docNotAvailable);
+    if (docNotAvailable) {
+      const category = this.categories.find((category) => {
+        return category.code === Number(docNotAvailable.categoryCode)
+      });
+      const subCategory = category.subcategories.find((subCategory) => {
+        return subCategory.code === Number(docNotAvailable.subCategoryCode);
+      })
+      const docList = subCategory.docList;
+      const docName = docList.find((value) => {
+        return value.code === Number(docNotAvailable.documentType);
+      })
+      return this.toasterService.showError(`Please upload document for ${docName.displayName}`, '')
+    }
+    
+    
     this.callAppiyoUploadApi();
   }
 
