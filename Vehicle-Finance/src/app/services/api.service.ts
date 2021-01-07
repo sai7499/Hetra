@@ -568,6 +568,11 @@ export class ApiService {
       workflowId: '033c3050bf8011eab85000505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
+    getExperianCall: {
+      processId: '830ce7f84e4f11eb9f8400505695f93b',
+      workflowId: '82ec6aa04e4f11eb933000505695f93b',
+      projectId: environment.projectIds.otpProjectId
+    },
     getCamUsedCvDetails: {
       processId: 'b09ba4dcbf4a11ea8cf300505695f93b',
       workflowId: 'b06ab746bf4a11eab26100505695f93b',
