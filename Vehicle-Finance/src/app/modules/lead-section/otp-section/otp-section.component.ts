@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-otp-section',
@@ -23,8 +24,9 @@ export class OtpSectionComponent implements OnInit {
   applicantList: any;
 
   // User defined Fields
-  udfScreenId: string = 'APS005';
+  udfScreenId: string = '';
   udfGroupId: string = 'APG005';
+  isNavigateToApplicant: any;
 
   constructor(
     private _fb: FormBuilder,
@@ -34,7 +36,8 @@ export class OtpSectionComponent implements OnInit {
     private applicantService: ApplicantService,
     private router: Router,
     private toasterService: ToasterService,
-    private applicantDataService: ApplicantDataStoreService
+    private applicantDataService: ApplicantDataStoreService,
+    private labelsData: LabelsService,
   ) { }
 
   getLeadIdAndApplicantId() {
@@ -63,6 +66,12 @@ export class OtpSectionComponent implements OnInit {
         ]),
       ],
     });
+    this.isNavigateToApplicant=this.applicantDataService.getNavigateForDedupe();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.creditBureauOTPADE : udfScreenId.QDE.creditBureauOTPQDE
+    })
 
     this.applicantId = (await this.getLeadIdAndApplicantId()) as string;
     console.log(this.applicantId);
@@ -77,6 +86,8 @@ export class OtpSectionComponent implements OnInit {
 
 
     this.sendOtp();
+    
+
   }
 
   getLeadId() {

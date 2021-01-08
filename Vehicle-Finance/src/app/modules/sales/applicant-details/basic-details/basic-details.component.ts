@@ -98,7 +98,7 @@ export class BasicDetailsComponent implements OnInit {
   occupation: any[];
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId = 'APS010';
+  udfScreenId = '';
   udfGroupId = 'APG008';
   salariedMaxAge: any;
   selfMaxAge: any;
@@ -135,6 +135,12 @@ export class BasicDetailsComponent implements OnInit {
         console.log(error);
       }
     );
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.ADE.applicantBasicDataADE ;
+
+    })
 
     this.basicForm = new FormGroup({
       title: new FormControl(''),
@@ -1228,6 +1234,7 @@ export class BasicDetailsComponent implements OnInit {
 
     if (this.mobileNumberChange) {
       const currentUrl = this.location.path();
+        this.applicantDataService.setNavigateForDedupe(true)
       this.applicantDataService.setUrl(currentUrl);
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`

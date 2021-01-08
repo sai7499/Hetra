@@ -24,7 +24,7 @@ export class AddvehicleComponent implements OnInit {
   isDirty: boolean;
   routerId = 0;
 
-  udfScreenId: string = 'VLS002';
+  udfScreenId: string = '';
   udfGroupId: string = 'VLG002';
   udfDetails: any = [];
 
@@ -64,6 +64,13 @@ export class AddvehicleComponent implements OnInit {
         error => {
           this.errorMsg = error;
         });
+
+        this.labelsData.getScreenId().subscribe((data) => {
+          let udfScreenId = data.ScreenIDS;
+    
+          this.udfScreenId = udfScreenId.QDE.vehicleDetailQDE ;
+    
+        })
 
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
