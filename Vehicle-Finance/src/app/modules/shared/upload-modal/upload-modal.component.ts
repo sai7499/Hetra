@@ -200,8 +200,9 @@ export class UploadModalComponent {
 
   uploadFile() {
     this.docsDetails.bsPyld = this.imageUrl;
-    let name = this.docsDetails.docNm.replace(' ', '_');
-    name = name.replace('/', '_OR_');
+    // let name = this.docsDetails.docNm.replace(' ', '_');
+    let name = this.docsDetails.docNm;
+    name = name.replace('/', '_OR_');   
     let fileName = '';
     if (this.docsDetails.docCtgryCd === 50) {
       fileName = name + '.' + this.fileType;
