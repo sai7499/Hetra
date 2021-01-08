@@ -144,13 +144,18 @@ export class AddressDetailsComponent implements OnInit {
     private loanViewService: LoanViewService
   ) {
     const url = this.location.path();
-    if (url.includes('sales')) {
-      this.udfScreenId = 'APS012';
-      this.udfGroupId = 'APG008';
-    } else {
-      this.udfScreenId = 'APS016';
-      this.udfGroupId = 'APG008';
-    }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      if (url.includes('sales')) {
+        this.udfScreenId = udfScreenId.ADE.applicantAddressADE;
+        this.udfGroupId = 'APG008';
+      } else {
+        this.udfScreenId = udfScreenId.DDE.applicantAddressDDE;
+        this.udfGroupId = 'APG008';
+      }
+
+    })
   }
 
   async ngOnInit() {
@@ -162,15 +167,15 @@ export class AddressDetailsComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
 
     // this.lovData.getLovData().subscribe((res: any) => {
-      //this.values = res[0].addApplicant[0];
-      this.listenerForOfficeAddress();
-      this.activatedRoute.params.subscribe((value) => {
-        if (!value && !value.applicantId) {
-          return;
-        }
-        this.applicantId = Number(value.applicantId);
-        this.getAddressDetails();
-      });
+    //this.values = res[0].addApplicant[0];
+    this.listenerForOfficeAddress();
+    this.activatedRoute.params.subscribe((value) => {
+      if (!value && !value.applicantId) {
+        return;
+      }
+      this.applicantId = Number(value.applicantId);
+      this.getAddressDetails();
+    });
     // });
   }
 
@@ -200,7 +205,10 @@ export class AddressDetailsComponent implements OnInit {
     const officeAddress = formArray.at(0).get('officeAddress');
     let isChanged = false;
     let val = control.value;
+
+
     control.valueChanges.subscribe((value) => {
+
       if (value === undefined || val === value) {
         return;
       }
@@ -208,7 +216,25 @@ export class AddressDetailsComponent implements OnInit {
       if (this.isDirty) {
         this.isDirty = false;
       }
-      if (value) {
+      officeAddress.updateValueAndValidity();
+      // const officeValues= formArray.at(0).get('officeAddress').value;
+
+      // const objValues = Object.values(officeValues)
+      // const isValue = objValues.some((ele : any)=>{
+      //   return ele;
+      // })
+      // console.log(isValue,'isValue',  officeValues)
+      const addressLineOne = officeAddress.get('addressLineOne').value;
+      const addressLineTwo = officeAddress.get('addressLineTwo').value;
+      const addressLineThree = officeAddress.get('addressLineThree').value;
+      const pincode = officeAddress.get('pincode').value;
+      const landlineNumber = officeAddress.get('landlineNumber').value;
+      const mobileNumber = officeAddress.get('mobileNumber').value;
+      const nearestLandmark = officeAddress.get('nearestLandmark').value;
+      const pobox = officeAddress.get('pobox').value;
+
+      if (value || (addressLineOne || addressLineTwo || addressLineThree ||
+        pincode || landlineNumber || mobileNumber || nearestLandmark || pobox)) {
         // }
         if (!isChanged) {
           this.addValidatorsForOfficeAddress();
@@ -220,14 +246,12 @@ export class AddressDetailsComponent implements OnInit {
         this.isOfficeAddressMandatory = false;
         const pincode = officeAddress.get('pincode').value;
         const addressLineOne = officeAddress.get('addressLineOne').value;
-        officeAddress.patchValue({
-          pincode: pincode || null,
-          addressLineOne: addressLineOne || null
+        setTimeout(() => {
+          officeAddress.patchValue({
+            pincode: pincode || null,
+            addressLineOne: addressLineOne || null
+          })
         })
-        // const pincode = officeAddress.get('pincode').value;
-        // officeAddress.get('pincode').setValue(pincode || null)
-        // const addressLineOne = officeAddress.get('addressLineOne').value;
-        // officeAddress.get('addressLineOne').setValue(addressLineOne || null)
 
         if (!isChanged) {
           return;
@@ -585,12 +609,12 @@ export class AddressDetailsComponent implements OnInit {
       if (this.address.ucic) {
         this.showModCurrCheckBox = true;
       }
-       setTimeout(() => {
-      this.setAddressData();
-      
-       })
+      setTimeout(() => {
+        this.setAddressData();
 
-       
+      })
+
+
 
 
     })
@@ -1209,6 +1233,7 @@ export class AddressDetailsComponent implements OnInit {
       const currentAddress = details.get('currentAddress');
 
       currentAddress.enable();
+      this.currentPincode = {}
 
       currentAddress.reset();
       // this.onPerAsCurChecked = false;
@@ -1238,6 +1263,7 @@ export class AddressDetailsComponent implements OnInit {
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
       const officeAddress = details.get('officeAddress');
+      this.officePincode = {}
       officeAddress.enable();
       officeAddress.reset();
       this.onCurrAsOfficeChecked = false;
@@ -1256,6 +1282,7 @@ export class AddressDetailsComponent implements OnInit {
       const formArray = this.addressForm.get('details') as FormArray;
       const details = formArray.at(0);
       this.onRegAsCommChecked = false;
+      this.communicationPincode = {}
       const communicationAddress = details.get('communicationAddress');
 
       communicationAddress.get('addressLineOne').enable();
@@ -1461,7 +1488,7 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-
+    console.log(this.checkOfficeAddressValidation(), 'this.addressForm', this.addressForm)
     this.isDirty = true;
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     if (this.addressForm.invalid || this.checkOfficeAddressValidation()
@@ -1473,14 +1500,15 @@ export class AddressDetailsComponent implements OnInit {
       );
       return;
     }
+    //return alert('saved')
     const value = this.addressForm.value;
     if (this.isIndividual) {
       this.storeIndividualValueInService(value);
     } else {
       this.storeNonIndividualValueInService(value);
     }
-    const udfDetails= this.userDefineForm? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
-    
+    const udfDetails = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+
     // if(this.addressForm.valid){
     //const apiUdfData = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const applicantData = this.applicantDataService.getApplicant();
@@ -1507,10 +1535,10 @@ export class AddressDetailsComponent implements OnInit {
         'Record Saved Successfully',
         ''
       );
-      this.udfDetails[0].udfData=  udfDetails;
+      this.udfDetails[0].udfData = udfDetails;
       this.initUDFValues = this.userDefineForm.udfData.getRawValue();
-    
-    this.applicantDataService.setUdfDatas(this.udfDetails)
+
+      this.applicantDataService.setUdfDatas(this.udfDetails)
       this.apiValue = this.addressForm.getRawValue();
       if (this.isIndividual) {
         this.apiAddressLead = this.sameAsAppAddress ? '1' : '0'
@@ -1707,7 +1735,7 @@ export class AddressDetailsComponent implements OnInit {
       }
     }
 
-    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     if (this.addressForm.invalid || isUDFInvalid) {
@@ -1736,8 +1764,8 @@ export class AddressDetailsComponent implements OnInit {
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
     console.log('identifyValue', value)
-    if(value.event === 'init'){
-      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    if (value.event === 'init') {
+      this.initUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     }
   }
 }

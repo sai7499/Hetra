@@ -6,6 +6,10 @@
   text-align: left;
 }
 
+.tab-hgt{
+  height:280px;
+}
+
 @media (min-width: 768px) {
   .modal-dialog {
       width: 95% !important;
@@ -24,6 +28,9 @@
       margin: 5px auto;
   }
 
+  .tab-hgt{
+    height:250px;
+  }
   .tab-content{
       height:230px; 
       width:100%;

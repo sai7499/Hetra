@@ -29,7 +29,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
   public isDirty: boolean;
   public subscription: any;
   public unsubForm: any;
-  udfScreenId: string = 'VLS006';
+  udfScreenId: string = '';
   udfGroupId: string = 'VLG002';
   udfDetails: any = [];
 
@@ -55,6 +55,13 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
         error => {
           console.log('error', error)
         });
+
+        this.labelsData.getScreenId().subscribe((data) => {
+          let udfScreenId = data.ScreenIDS;
+    
+          this.udfScreenId = udfScreenId.DDE.vehicleDetailDDE ;
+    
+        })
 
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;

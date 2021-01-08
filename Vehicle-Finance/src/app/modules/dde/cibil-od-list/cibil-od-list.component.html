@@ -311,6 +311,12 @@
                       <kendo-datepicker class="form-control" formControlName="enquiryDate" [activeView]="'decade'"
                         [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
                       </kendo-datepicker>
+                      <div class="ShowError">
+                         <div *ngIf="odDetailsForm.get('AssetBureauEnquiry').controls[i].get('enquiryDate').invalid &&
+                           odDetailsForm.get('AssetBureauEnquiry').controls[i].get('enquiryDate').invalid">
+                               Invalid date
+                         </div>
+                      </div>
 
                     </td>
                     <td data-title="Type of loan">
@@ -375,6 +381,12 @@
                       <kendo-datepicker class="form-control" formControlName="enquiryDate" [activeView]="'decade'"
                         [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date">
                       </kendo-datepicker>
+                      <div class="ShowError">
+                        <div *ngIf="odDetailsForm.get('AssetBureauEnquirySixtyDays').controls[i].get('enquiryDate').invalid &&
+                          odDetailsForm.get('AssetBureauEnquirySixtyDays').controls[i].get('enquiryDate').invalid">
+                              Invalid date
+                        </div>
+                     </div>
                     </td>
                     <td data-title="Type of loan">
 
@@ -443,6 +455,9 @@
 
         <button *ngIf="!disableSaveBtn" class="btn btn-primary mar-right8" type="button" (click)=onSubmit();>
           Save
+        </button>
+        <button  class="btn btn-primary mar-right8" type="button" (click)="onBackToODDetails()">
+          Next
         </button>
 
       </div>

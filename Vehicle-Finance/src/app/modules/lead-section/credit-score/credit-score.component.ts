@@ -52,6 +52,7 @@ export class CreditScoreComponent implements OnInit {
 
   showModal: boolean;
   isChildLoan: string;
+  udfScreenId: any;
 
   constructor(
     private aRoute: ActivatedRoute,
@@ -61,7 +62,8 @@ export class CreditScoreComponent implements OnInit {
     private termsService: TermAcceptanceService,
     private commonLovService: CommomLovService,
     private createLeadService: LeadDetails,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private labelsData: LabelsService,
 
   ) {
   }
@@ -75,6 +77,12 @@ export class CreditScoreComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
 
     this.leadData = this.getCreditFromService(this.leadId);
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.eligiblityDisplayQDE ;
+
+    })
   }
 
   getCreditFromService(data: any) {

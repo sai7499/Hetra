@@ -40,7 +40,7 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
     subscription: any;
 
     // user defined Fields
-    udfScreenId: string = 'CLS007';
+    udfScreenId: string = '';
     udfGroupId: string = 'CLG003';
     udfDetails: any = [];
     userDefineForm: any;
@@ -69,6 +69,12 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
             }, error => {
                 console.log('error', error)
             });
+            this.labelsData.getScreenId().subscribe((data) => {
+                let udfScreenId = data.ScreenIDS;
+          
+                this.udfScreenId = udfScreenId.DDE.additionalCollateralDDE ;
+          
+              })
 
         this.leadData = this.createLeadDataService.getLeadSectionData();
         this.leadId = this.leadData['leadId'];

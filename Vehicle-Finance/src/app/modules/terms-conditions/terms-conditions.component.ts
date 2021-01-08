@@ -29,6 +29,7 @@ export class TermsConditionsComponent implements OnInit {
   }
   showModal: boolean;
   isChildLoan: string;
+  udfScreenId: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -52,6 +53,12 @@ export class TermsConditionsComponent implements OnInit {
     );
     this.leadId = (await this.getLeadId()) as string;
     this.getCreditFromService(this.leadId);
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.eligiblityAcceptanceQDE ;
+
+    })
   }
 
   // getLeadId() {

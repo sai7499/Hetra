@@ -229,8 +229,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.leadDetailsADE : currentUrl.includes('dde') ?
-       udfScreenId.leadDetailsDDE : udfScreenId.leadDetailsQDE ;
+      this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.leadDetailADE : currentUrl.includes('dde') ?
+       udfScreenId.DDE.leadDetailDDE : udfScreenId.QDE.leadDetailQDE ;
 
     })
 
