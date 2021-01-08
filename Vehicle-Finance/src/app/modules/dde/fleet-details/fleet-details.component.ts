@@ -169,14 +169,9 @@ export class FleetDetailsComponent implements OnInit {
     let paid = obj.controls['paid'].value ? Number(obj.controls['paid'].value) : 0
 
     if (paid > tenure) {
-      setTimeout(() => {
-        this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
-
-      }, 1000)
+      this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
     } else {
-      console.log(obj, 'obj')
       this.formArr.controls[i]['controls']['paid'].setErrors(null)
-
     }
 
   }
@@ -726,14 +721,12 @@ export class FleetDetailsComponent implements OnInit {
     } else {
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
-      //  && this.fleetForm.get('isValidPurchaseDate').value === true
-      console.log(this.fleetForm, 'form')
-
       if (this.fleetForm.valid && !isUDFInvalid) {
         this.saveOrUpdateFleetDetails(index);
       } else {
         this.isDirty = true;
         this.toasterService.showError('Please enter valid details', '');
+        console.log(this.fleetForm, 'fleetForm')
         this.utilityService.validateAllFormFields(this.fleetForm);
       }
     }

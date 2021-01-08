@@ -97,17 +97,19 @@ export class CreditScoreComponent implements OnInit {
         this.applicantList = this.creditScore.ProcessVariables.applicantList;
         this.variable = this.creditScore.ProcessVariables;
 
-        let ageOfAssetInMonths = this.variable ? this.variable.ageOfAsset ? 
-        Math.floor(Number(this.variable.ageOfAsset) / 12) + ' Years ' + 
-        Math.floor(Number(this.variable.ageOfAsset % 12)) + ' Months ' : 0 : 0;
+        let nullValue = (0 + ' Year ' + 0 + ' Month')
 
-        let ageOfLoanTenureInMonths = this.variable ? this.variable.ageAfterTenure ? 
-        Math.floor(Number(this.variable.ageAfterTenure) / 12) + ' Years ' + 
-        Math.floor(Number(this.variable.ageAfterTenure % 12)) + ' Months ' : 0 : 0;
+        let ageOfAssetInMonths = this.variable ? this.variable.ageOfAsset ?
+          Math.floor(Number(this.variable.ageOfAsset) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.ageOfAsset % 12)) + ' Months ' : nullValue : nullValue;
 
-        let loanTenorInMonths = this.variable ? this.variable.loanTenure ? 
-        Math.floor(Number(this.variable.loanTenure) / 12) + ' Years ' + 
-        Math.floor(Number(this.variable.loanTenure % 12)) + ' Months ' : 0 : 0;
+        let ageOfLoanTenureInMonths = this.variable ? this.variable.ageAfterTenure ?
+          Math.floor(Number(this.variable.ageAfterTenure) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.ageAfterTenure % 12)) + ' Months ' : nullValue : nullValue;
+
+        let loanTenorInMonths = this.variable ? this.variable.loanTenure ?
+          Math.floor(Number(this.variable.loanTenure) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.loanTenure % 12)) + ' Months ' : nullValue : nullValue;
 
         this.variable['ageOfAssetInMonths'] = ageOfAssetInMonths;
         this.variable['ageOfLoanTenureInMonths'] = ageOfLoanTenureInMonths;
