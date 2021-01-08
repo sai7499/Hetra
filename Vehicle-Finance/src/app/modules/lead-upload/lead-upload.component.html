@@ -1,109 +1,111 @@
 <main class="mar-top90">
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-md-6">
-              <h3 class="title">Upload Leads</h3>
-            </div>
-            <div class="col-md-6 text-right"></div>
-          </div>
+    <form class="">
 
         <div class="content">
-
-
-            <div class="table-responsive tab-content scroll-width">
-                <p class="file-format">Please choose a CSV file with data in the following format</p>
-                <table class="table table-bordered" id="exact_macth_title4_sec">
-                  <tbody>
-                    <tr >
-                      <th class="single-line">Columns</th>
-                      <th class="single-line">Product Category</th>
-                      <th class="single-line">Product</th>
-                      <th class="single-line">Sourcing Channel</th>
-                      <th class="single-line">Sourcing Type</th>
-                      <th class="single-line">Sourcing Code</th>
-                      <th class="single-line">Applicant First Name</th>
-                      <th class="single-line">Applicant Middle Name</th>
-                      <th class="single-line">Applicant Last Name</th>
-                      <th class="single-line">Applicant Phone Number</th>
-                      <th class="single-line">Applicant DOB</th>
-                      <th class="single-line">Branch</th>
-                      <th class="single-line">Lead Handled By</th>
-                      <th class="single-line">Requested Loan Amount</th>
-                      <th class="single-line">Parent Loan Account Number</th>
-                    </tr>
-                    <tr>
-                        <th>Validation</th>
-                        <th>Mandatory</th>
-                        <th>Mandatory</th>
-                        <th>Optional</th>
-                        <th>Optional</th>
-                        <th>Optional</th>
-                        <th>Mandatory, Max 30 characters, only alpha characters - space allowed</th>
-                        <th>Optional, Max 30 chars, only Alpha characters - space allowed</th>
-                        <th>Mandatory, Max 30 chars, only Alpha characters - space allowed</th>
-                        <th>Mandatory, 10 digits, Number</th>
-                        <th>Mandatory,
-                            Format - DD/MM/YYYY 
-                            Age &#62; 18 and &#60; 100</th>
-                        <th>Mandatory, valid Sol ID</th>
-                        <th>Optional,
-                            Valid employee ID with any sales role mapped to the given branch in column K</th>
-                        <th>Optional,
-                            Numbers
-                            Max 10 digits</th>
-                        <th>Mandatory, if product is child loan</th>
-                      </tr>
-                  </tbody>
-                </table>
+            <div class="row mar-top-10">
+                <div class="col-lg-12 col-md-12 p-0">
+                  <h3 class="banner-con">Upload Leads</h3>
+                </div>
+                
               </div>
-
-            <div class="row">
-                <br />
-
-                <div class="row ">
-                    <div class="col-md-12 text-center">
-
-                        <div >
-                            <button class="btn upload-btn pad-6" (click)="fileInput.click()" *ngIf="!fileUrl">
-                                Select Document to Upload
-                            </button>
-                            <button class="btn upload-btn" (click)="removeFile(); fileInput.click()"
-                            *ngIf="fileUrl">
-                            Change Document to Upload</button>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 text-right">Selected File Name</div> <div class="col-sm-6 text-left"> : {{fileName}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 text-right">Selected File Size</div> <div class="col-sm-6 text-left"> : {{fileSize}}</div>
-                        </div>
-                        <div *ngIf="showError" class="show-error">
-                            {{ showError }}
+    
+            <div class="mar-top-10">
+                <div class="table-responsive tab-content scroll-width">
+                    <p class="file-format">Please choose a CSV file with data in the following format</p>
+                    <table class="table table-bordered" id="exact_macth_title4_sec">
+                      <tbody>
+                        <tr >
+                          <th class="single-line">Columns</th>
+                          <th class="single-line">Product Category</th>
+                          <th class="single-line">Product</th>
+                          <th class="single-line">Sourcing Channel</th>
+                          <th class="single-line">Sourcing Type</th>
+                          <th class="single-line">Sourcing Code</th>
+                          <th class="single-line">Applicant First Name</th>
+                          <th class="single-line">Applicant Middle Name</th>
+                          <th class="single-line">Applicant Last Name</th>
+                          <th class="single-line">Applicant Phone Number</th>
+                          <th class="single-line">Applicant DOB</th>
+                          <th class="single-line">Branch</th>
+                          <th class="single-line">Lead Handled By</th>
+                          <th class="single-line">Requested Loan Amount</th>
+                          <th class="single-line">Parent Loan Account Number</th>
+                        </tr>
+                        <tr>
+                            <th>Validation</th>
+                            <th>Mandatory</th>
+                            <th>Mandatory</th>
+                            <th>Optional</th>
+                            <th>Optional</th>
+                            <th>Optional</th>
+                            <th>Mandatory, Max 30 characters, only alpha characters - space allowed</th>
+                            <th>Optional, Max 30 chars, only Alpha characters - space allowed</th>
+                            <th>Mandatory, Max 30 chars, only Alpha characters - space allowed</th>
+                            <th>Mandatory, 10 digits, Number</th>
+                            <th>Mandatory,
+                                Format - DD/MM/YYYY 
+                                Age &#62; 18 and &#60; 100</th>
+                            <th>Mandatory, valid Sol ID</th>
+                            <th>Optional,
+                                Valid employee ID with any sales role mapped to the given branch in column K</th>
+                            <th>Optional,
+                                Numbers
+                                Max 10 digits</th>
+                            <th>Mandatory, if product is child loan</th>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+    
+                <div class="row">
+                    <br />
+    
+                    <div class="row ">
+                        <div class="col-md-12 text-center">
+    
+                            <div >
+                                <button class="btn upload-btn pad-6" (click)="fileInput.click()" *ngIf="!fileUrl">
+                                    Select Document to Upload
+                                </button>
+                                <button class="btn upload-btn" (click)="removeFile(); fileInput.click()"
+                                *ngIf="fileUrl">
+                                Change Document to Upload</button>
+                            </div>
+                            <div class="row ">
+                                <div class="col-xs-6 text-right">Selected File Name</div> <div class="col-xs-6 text-left"> : {{fileName}}</div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-xs-6 text-right">Selected File Size</div> <div class="col-xs-6 text-left"> : {{fileSize}}</div>
+                            </div>
+                            <div *ngIf="showError" class="show-error">
+                                {{ showError }}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="row mr-top-bottom-12">
-                <div class="col-sm-6 text-right">
-                    <button class="btn remove-btn" (click)="removeFile()"
-                    [disabled]="!fileUrl">
-                    Remove
-                </button>
+                
+                <div class="row mr-top-bottom-12">
+                    <div class="col-sm-6 col-xs-12 col-lg-6 col-md-6 align-btn-remove">
+                        <button class="btn remove-btn" (click)="removeFile()"
+                        [disabled]="!fileUrl">
+                        Remove
+                    </button>
+                    </div>
+                    <div class="col-sm-6 col-xs-12 col-lg-6 col-md-6 align-btn-upload">
+                        
+                    <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead"
+                                    (click)="uploadFile()" [disabled]="!fileUrl">
+                                    Upload
+                                </button>
+                    </div>
                 </div>
-                <div class="col-sm-6 text-left">
-                    
-                <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead"
-                                (click)="uploadFile()" [disabled]="!fileUrl">
-                                Upload
-                            </button>
-                </div>
+    
             </div>
 
         </div>
+       
 
-    </div>
+    </form>
     <input #fileInput type="file" style="visibility: hidden;" (input)="onFileSelect($event)" />
 </main>
 
