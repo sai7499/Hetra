@@ -96,6 +96,14 @@ export class SharedVehicleDetailsComponent implements OnInit {
     if (this.loanViewService.checkIsLoan360()) {
       this.disableSaveBtn = true;
     }
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.vehiclListADE : currentUrl.includes('dde') ?
+       udfScreenId.DDE.vehicleListDDE : udfScreenId.QDE.vehicleListQDE ;
+
+    })
   }
 
   getLov() {
@@ -108,13 +116,13 @@ export class SharedVehicleDetailsComponent implements OnInit {
 
   getLocationIndex(url) {
     if (url.includes('lead-section')) {
-      this.udfScreenId = 'VLS001';
+      //this.udfScreenId = 'VLS001';
       return 'lead-section';
     } else if (url.includes('sales')) {
-      this.udfScreenId = 'VLS003';
+      //this.udfScreenId = 'VLS003';
       return 'sales';
     } else if (url.includes('dde')) {
-      this.udfScreenId = 'VLS005';
+      //this.udfScreenId = 'VLS005';
       return 'dde';
     }
   }

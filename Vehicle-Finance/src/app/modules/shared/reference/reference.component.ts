@@ -150,13 +150,18 @@ export class ReferenceComponent implements OnInit {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.currentUrl = this.location.path();
-    if (this.currentUrl.includes('sales')) {
-      this.udfGroupId = 'RDG001'
-      this.udfScreenId = 'RDS001'
-    } else if (this.currentUrl.includes('dde')) {
-      this.udfGroupId = 'RDG001'
-      this.udfScreenId = 'RDS002'
-    }
+    
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      if (this.currentUrl.includes('sales')) {
+        this.udfGroupId = 'RDG001'
+        this.udfScreenId = udfScreenId.ADE.leadReferenceADE;
+      } else if (this.currentUrl.includes('dde')) {
+        this.udfGroupId = 'RDG001'
+        this.udfScreenId = udfScreenId.DDE.leadReferenceDDE;
+      }
+    })
     if (this.currentUrl) {
       this.leadId = (await this.getLeadId()) as number;
     };

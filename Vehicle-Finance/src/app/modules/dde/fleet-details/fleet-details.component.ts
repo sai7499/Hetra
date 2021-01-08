@@ -88,6 +88,15 @@ export class FleetDetailsComponent implements OnInit {
   udfScreenId = 'FLS001';
   udfGroupId = 'FLG001';
 
+  itemsPerPage = '5';
+    // pageNumber = 1;
+    // currentPage = 1;
+    // totalItems: any;
+    // count = 1;
+    // slicedArray: any;
+  q;
+
+
   constructor(
     private labelsData: LabelsService,
     private fb: FormBuilder,
@@ -161,6 +170,8 @@ export class FleetDetailsComponent implements OnInit {
 
     if (paid > tenure) {
       this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
+    } else {
+      this.formArr.controls[i]['controls']['paid'].setErrors(null)
     }
 
   }
@@ -688,6 +699,10 @@ export class FleetDetailsComponent implements OnInit {
     this.router.navigate(['pages/dde/' + this.leadId + '/reference']);
   }
 
+  pageChange(event) {
+    this.itemsPerPage = event.target.value;
+  }
+
   onFormSubmit(index: any) {
 
     if (this.isLoan360) {
@@ -706,14 +721,12 @@ export class FleetDetailsComponent implements OnInit {
     } else {
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
-      //  && this.fleetForm.get('isValidPurchaseDate').value === true
-      console.log(this.fleetForm, 'form')
-
       if (this.fleetForm.valid && !isUDFInvalid) {
         this.saveOrUpdateFleetDetails(index);
       } else {
         this.isDirty = true;
         this.toasterService.showError('Please enter valid details', '');
+        console.log(this.fleetForm, 'fleetForm')
         this.utilityService.validateAllFormFields(this.fleetForm);
       }
     }

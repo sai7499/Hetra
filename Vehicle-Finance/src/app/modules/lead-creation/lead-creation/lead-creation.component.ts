@@ -142,6 +142,7 @@ export class LeadCreationComponent implements OnInit {
     fromCreateLead?: boolean
   }
 
+
   constructor(
     private router: Router,
     private leadStoreService: LeadStoreService,
@@ -190,6 +191,14 @@ export class LeadCreationComponent implements OnInit {
     // } else {
     //   this.createLeadForm.removeControl('loanAccountNumber');
     // }
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.leadCreateQDE;
+
+    })
+
   }
 
   updateChildLoan(data) {
