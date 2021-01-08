@@ -291,6 +291,16 @@ export class WelomceLetterComponent implements OnInit {
 
   }
 
+  onNext() {
+    if (this.productCatCode === 'NCV') {
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/delivery-order`);
+    } else {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/pdd`);
+    }
+
+    
+  }
+
   onChangeLanguage(labels: string) {
     this.preferredLan = labels;
     if (labels == 'TELPRFLAN') {

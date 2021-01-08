@@ -884,6 +884,14 @@
                     [placeholder]="''">
                 </app-custom-input>
             </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                <label for="captured_address">{{label.addressLatLng}}
+                    <!-- <sub class="star_red_col">*</sub> -->
+                </label>
+                <app-custom-input formControlName="capturedAddress" [className]="'form-control'"
+                    [placeholder]="''">
+                </app-custom-input>
+            </div>
             <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="timeOf_verification">{{label.routeMap}}
                 </label>

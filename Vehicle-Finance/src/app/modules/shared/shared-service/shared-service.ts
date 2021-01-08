@@ -109,4 +109,10 @@ export class SharedService {
     getDeclinedFlow(data) {
         this.declinedFlow$.next(data);
     }
+
+    bureauDetail$: BehaviorSubject<any> = new BehaviorSubject(null);
+
+    getBureauDetail(data) {
+        this.bureauDetail$.next(data);
+    }
 }

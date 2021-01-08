@@ -118,4 +118,25 @@ export class OdDetailsService {
 
     return this.httpService.post(url, requestEntity);
   }
+
+  // Experian Call
+
+  getExperianCall(data) {
+    const processData = data;
+    const processId = this.apiService.api.getExperianCall.processId;
+    const workflowId = this.apiService.api.getExperianCall.workflowId;
+    const projectId = this.apiService.api.getExperianCall.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+
+    return this.httpService.post(url, requestEntity);
+  }
+
 }

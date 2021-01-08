@@ -15,6 +15,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { formatDate } from '@angular/common';
 import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { Base64StorageService } from '@services/base64-storage.service';
 @Component({
   selector: 'app-rcu',
   templateUrl: './rcu.component.html',
@@ -74,6 +75,12 @@ export class RcuComponent implements OnInit {
   isLoan360: boolean;
   taskId: any;
 
+  leadData: any;
+  setCss = {
+    top: '',
+    left: '',
+  };
+
   // userDefineFields
   udfScreenId = 'RCS002';
   udfDetails: any = [];
@@ -95,7 +102,8 @@ export class RcuComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private loanViewService: LoanViewService,
     public router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private base64StorageService: Base64StorageService,
   ) {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -124,6 +132,7 @@ export class RcuComponent implements OnInit {
 
     this.userId = localStorage.getItem('userId');
     const leadData = this.createLeadDataService.getLeadSectionData();
+    this.leadData = leadData;
     const leadSectionData = leadData as any;
     this.applicantId = leadSectionData.applicantDetails[0]['applicantId'];
 
@@ -720,14 +729,128 @@ export class RcuComponent implements OnInit {
   async downloadDocs(event) {
 
     // let el = event.srcElement;
-    const dmsDocumentID: any = await this.getBase64String(event);
-    const showDraggableContainer = {
-      imageUrl: dmsDocumentID.imageUrl,
-      imageType: dmsDocumentID.imageType,
+    // const dmsDocumentID: any = await this.getBase64String(event);
+
+    // const showDraggableContainer = {
+    //   imageUrl: dmsDocumentID.imageUrl,
+    //   imageType: dmsDocumentID.imageType,
+    // };
+    // this.draggableContainerService.setContainerValue({
+    //   image: showDraggableContainer,
+    // });
+
+    // if (dmsDocumentID.imageType.includes('xls')) {
+    //   this.getDownloadXlsFile(dmsDocumentID.imageUrl, dmsDocumentID.documentName, 'application/vnd.ms-excel');
+    //   return;
+    // }
+    // if (dmsDocumentID.imageType.includes('doc')) {
+    //   this.getDownloadXlsFile(dmsDocumentID.imageUrl, dmsDocumentID.documentName, 'application/msword');
+    //   return;
+    // }
+
+    this.downloadDocsCheck(event)
+    
+  }
+
+  async downloadDocsCheck(documentId) {
+    let el = documentId.srcElement;
+
+    if (!documentId) {
+      return;
+    }
+
+    let collateralId = this.leadData['vehicleCollateral'] ? this.leadData['vehicleCollateral'][0] : this.leadData['applicantDetails'][0];
+
+    if (!collateralId) {
+      return;
+    }
+
+    const bas64String = this.base64StorageService.getString(
+      collateralId.collateralId + documentId
+    );
+    if (bas64String) {
+      this.setContainerPosition(el);
+      let showDraggableContainer = {
+        imageUrl: bas64String.imageUrl,
+        imageType: bas64String.imageType,
+      };
+      this.draggableContainerService.setContainerValue({
+        image: showDraggableContainer,
+        css: this.setCss,
+      });
+      return;
+    }
+    const imageValue: any = await this.getBase64String(documentId);
+    if (imageValue.imageType.includes('xls')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/vnd.ms-excel');
+      return;
+    }
+    if (imageValue.imageType.includes('doc')) {
+      this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/msword');
+      return;
+    }
+    this.setContainerPosition(el);
+    let showDraggableContainer = {
+      imageUrl: imageValue.imageUrl,
+      imageType: imageValue.imageType,
     };
     this.draggableContainerService.setContainerValue({
       image: showDraggableContainer,
+      css: this.setCss,
     });
+    this.base64StorageService.storeString(collateralId.collateralId + documentId, {
+      imageUrl: imageValue.imageUrl,
+      imageType: imageValue.imageType,
+    });
+  }
+
+  setContainerPosition(el) {
+    let offsetLeft = 0;
+    let offsetTop = 0;
+    while (el) {
+      offsetLeft += el.offsetLeft;
+      offsetTop += el.offsetTop;
+      el = el.offsetParent;
+    }
+    this.setCss = {
+      top: offsetTop + 'px',
+      left: offsetLeft + 'px',
+    };
+  }
+
+  getDownloadXlsFile(base64: string, fileName: string, type) {
+    const contentType = type;
+    const blob1 = this.base64ToBlob(base64, contentType);
+    const blobUrl1 = URL.createObjectURL(blob1);
+
+    setTimeout(() => {
+
+      const a: any = document.createElement('a');
+      document.body.appendChild(a);
+      a.style = "display: none";
+      a.href = blobUrl1;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(blobUrl1);
+    });
+  }
+
+  base64ToBlob(b64Data, contentType, sliceSize?: any) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
 
   uploadDoc() {

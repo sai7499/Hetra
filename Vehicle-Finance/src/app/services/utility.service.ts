@@ -20,14 +20,16 @@ export class UtilityService {
       (res) => {
         this.idleTimerService.cleanUp();
         this.ngxUiLoaderService.stop();
+        this.removeAllLocalStorage();
       },
       (error) => {
         this.idleTimerService.cleanUp();
         this.ngxUiLoaderService.stop();
+        this.removeAllLocalStorage();
       }
 
     );    
-    this.removeAllLocalStorage();
+    
     this.toggleDdeService.clearToggleData();   
 
   }

@@ -372,6 +372,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         case 7:
           this.activeTab = 47;
           this.subActiveTab = 48;
+          this.onLeads(this.displayTabs.CPCCAD, this.displayTabs.CPCCADWithMe, 'CAD');
           break;
         case 9:
           this.activeTab = 60;
@@ -938,9 +939,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (tabName === 'dde') {
       this.toggleDdeService.setIsDDEClicked('1');
       this.toggleDdeService.setOperationType('0');
-    } else if (tabName === 'CPC') {
+    } else if (tabName === 'CPC' || tabName === 'CAD' ) {
       this.toggleDdeService.setIsDDEClicked('0');
-      this.toggleDdeService.setOperationType('1', 'CPC', currentUrl);
+      this.toggleDdeService.setOperationType('1', tabName, currentUrl);
     } else {
       this.toggleDdeService.clearToggleData();
     }

@@ -347,7 +347,7 @@ th {
     padding-bottom:10px; */
     border: 1px solid #ccc;
     text-align: left;
-    text-align: center;
+    /* text-align: center; */
     padding: 10px 5px;
    
 }
@@ -399,7 +399,7 @@ th {
     th {
         border: 1px solid #ccc;
         text-align: left;
-        text-align: center;
+        /* text-align: center; */
         /* margin: 12px; */
         line-height: 1.5;
         /* color: white; */
@@ -459,6 +459,10 @@ th {
     padding-right:5px!important;
 }
 
+.txt-rgt{
+    text-align:right;
+}
+
 @media (min-width:260px) and (max-width:767px){
 .btn-re{
     padding:2px!important;
@@ -469,8 +473,16 @@ th {
 .table{
     table-layout: fixed;
     width:100%;
+    
 }
 
+.txt-rgt{
+    text-align:left!important;
+}
+
+.table td{
+    text-align:left!important;
+}
 .main-tab{
     width: fit-content;
    

@@ -18,6 +18,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -64,8 +65,11 @@ export class CibilOdListComponent implements OnInit {
   isDisabledLoanType: boolean = false;
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId= 'BDS001';
-  udfGroupId= 'BDG001';
+  udfScreenId = 'BDS001';
+  udfGroupId = 'BDG001';
+
+  bureauDetail: any;
+
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -74,6 +78,7 @@ export class CibilOdListComponent implements OnInit {
     private odDetailsService: OdDetailsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private sharedService: SharedService,
     private applicantDataService: ApplicantDataStoreService,
     private utilityService: UtilityService,
     private applicantImageService: ApplicantImageService,
@@ -115,23 +120,24 @@ export class CibilOdListComponent implements OnInit {
       settledLoans: [''],
       clearanceProofCollected: [''],
       clearanceProof: [null],
-      // justification: new FormControl(null, [
-      //   Validators.required,
-      //   Validators.maxLength(200),
-      //   Validators.pattern(
-      //     /^[a-zA-Z0-9 ]*$/
-      //   ),
-      // ]),
       justification: [''],
       cibilStatus: new FormControl(null, [
         Validators.required]),
       addMatchFound: this.addMatchFound,
-      addCibilScore: ['']
-
+      addCibilScore: [''],
+      bureauName: ['']
     });
     this.getLov();
     this.getOdDetails();
     this.getOdApplicant();
+
+    this.sharedService.bureauDetail$.subscribe((data) => {
+      this.bureauDetail = data;
+      this.odDetailsForm.patchValue({
+        bureauName: data.bureauName
+      })
+      console.log(this.bureauDetail, 'bureauDetail')
+    })
 
   }
 
@@ -142,9 +148,9 @@ export class CibilOdListComponent implements OnInit {
       this.odListLov.clearanceProof = value.LOVS.clearanceProof;
       this.odListLov.highestDpd = value.LOVS.highestDpd;
       this.odListLov.cibilStatus = value.LOVS.cibilStatus;
-
     });
   }
+
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
@@ -164,27 +170,23 @@ export class CibilOdListComponent implements OnInit {
   onSelectLoan(event, i) {
     this.selctedLoan[i] = event;
     this.selectedLoanType = this.selctedLoan[i];
-    console.log('formArray', this.odDetailsFormArray)
-    if (this.selectedLoanType === 'OTRSLONTYP') {
 
+    if (this.selectedLoanType === 'OTRSLONTYP') {
       this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').setValidators([Validators.required]);
       this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').updateValueAndValidity();
       this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').enable()
-      //  this.isloanTypeError = true;
-      //  this.isDisabledLoanType = false;
     } else {
       this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').clearValidators();
       this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').updateValueAndValidity();
       this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').disable()
-      //  this.isloanTypeError = false;
-      //  this.isDisabledLoanType = true;
     }
   }
+
   onSelectProof(event) {
     this.selctedProof = null;
     this.selctedProof = event;
-
   }
+
   private getodListDetails(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
@@ -205,12 +207,12 @@ export class CibilOdListComponent implements OnInit {
       });
     }
   }
+
   addOdDetails(data?: any) {
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
         this.odAccountDetailsArray.push(this.getodListDetails(data[i]));
-        console.log(this.odDetailsFormArray.controls[i])
         const loanType = this.odDetailsFormArray.controls[i].get('typeOfLoan').value;
         if (loanType === 'OTRSLONTYP') {
           this.odDetailsFormArray.controls[i].get('otherTypeOfLoan').setValidators([Validators.required]);
@@ -257,8 +259,8 @@ export class CibilOdListComponent implements OnInit {
           });
       }
     }
-
   }
+
   private getAssetBureauEnquiry(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
@@ -281,6 +283,7 @@ export class CibilOdListComponent implements OnInit {
       });
     }
   }
+
   addLastThirtyDaysLoan(data?: any) {
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
@@ -291,6 +294,7 @@ export class CibilOdListComponent implements OnInit {
       this.AssetBureauEnquiryArray.push(this.getAssetBureauEnquiry());
     }
   }
+
   removeLastThirtyDaysLoan(i?: any) {
     const id = this.AssetBureauEnquiryArray.at(i).value.id;
     if (this.AssetBureauEnquiryArray.controls.length > 0) {
@@ -315,8 +319,8 @@ export class CibilOdListComponent implements OnInit {
           });
       }
     }
-
   }
+
   private getAssetBureauEnquirySixtyDays(data?: any) {
     if (data === undefined) {
       return this.formBuilder.group({
@@ -339,6 +343,7 @@ export class CibilOdListComponent implements OnInit {
       });
     }
   }
+
   addLastSixtyDaysLoan(data?: any) {
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
@@ -353,6 +358,7 @@ export class CibilOdListComponent implements OnInit {
       );
     }
   }
+
   removeLastSixtyDaysLoan(i?: any) {
     const id = this.AssetBureauEnquirySixtyDaysArray.at(i).value.id;
     if (this.AssetBureauEnquirySixtyDaysArray.controls.length > 0) {
@@ -379,6 +385,7 @@ export class CibilOdListComponent implements OnInit {
     }
 
   }
+
   get f() {
     return this.odDetailsForm.controls;
   }
@@ -394,6 +401,7 @@ export class CibilOdListComponent implements OnInit {
       ]
     };
     this.odDetailsService.getOdDetails(body).subscribe((res: any) => {
+      console.log(res, 'after res')
       this.odDetails = res.ProcessVariables;
       this.udfDetails = this.odDetails.udfDetails;
       this.addLastThirtyDaysLoan(res.ProcessVariables.bureauEnq30days);
@@ -418,8 +426,7 @@ export class CibilOdListComponent implements OnInit {
           cibilStatus: this.odDetails.assetAppOdDetails.cibilStatus,
           justification: this.odDetails.assetAppOdDetails.justification,
           addMatchFound: this.odDetails.assetAppOdDetails.addMatchFound,
-          addCibilScore: this.odDetails.assetAppOdDetails.addCibilScore,
-
+          addCibilScore: this.odDetails.assetAppOdDetails.addCibilScore
         });
         this.onOdAmount(this.odDetails.assetAppOdDetails.totalAmount, 0);
         this.onAdditionalMatch(this.odDetails.assetAppOdDetails.addMatchFound);
@@ -437,8 +444,8 @@ export class CibilOdListComponent implements OnInit {
         this.disableSaveBtn = true;
       }
     });
-
   }
+
   getOdApplicant() {
     const body = {
       userId: this.userId,
@@ -448,11 +455,12 @@ export class CibilOdListComponent implements OnInit {
       this.odApplicantData = res.ProcessVariables;
     });
   }
+
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
-    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
-    if (this.odDetailsForm.invalid || isUDFInvalid ) {
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.odDetailsForm.invalid || isUDFInvalid) {
       this.isDirty = true;
       this.toasterService.showError(
         'Fields Missing Or Invalid Pattern Detected',
@@ -516,12 +524,13 @@ export class CibilOdListComponent implements OnInit {
           cibilStatus: this.odDetailsForm.controls.cibilStatus.value,
           addMatchFound: this.odDetailsForm.controls.addMatchFound.value,
           addCibilScore: this.odDetailsForm.controls.addCibilScore.value,
+          bureauName: this.odDetailsForm.controls.bureauName.value
         },
       };
-      const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
-      const data= {
+      const udfData = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+      const data = {
         ...body,
-        udfDetails : [{
+        udfDetails: [{
           "udfGroupId": this.udfGroupId,
           //"udfScreenId": this.udfScreenId,
           "udfData": udfData
@@ -553,10 +562,8 @@ export class CibilOdListComponent implements OnInit {
       });
     }
   }
+
   onOdAmount(event: any, i: number) {
-    // const odAmount = this.odAccountDetailsArray.value[i].odAmount;
-    // const totalAmount = odAmount;
-    // this.odAccountDetailsArray.at(i).patchValue({ totalAmount });
     if (this.odAccountDetailsArray && this.odAccountDetailsArray.length > 0) {
       this.totalAmount = 0;
       for (let i = 0; i < this.odAccountDetailsArray.length; i++) {
@@ -568,8 +575,8 @@ export class CibilOdListComponent implements OnInit {
       }
     }
   }
-  onAdditionalMatch(event: any) {
 
+  onAdditionalMatch(event: any) {
     if (typeof (event) != 'number') {
       this.addMatchFound = event.currentTarget.checked
     } else if (typeof (event) == 'number' && event === 1) {
@@ -577,7 +584,6 @@ export class CibilOdListComponent implements OnInit {
     } else if (typeof (event) == 'number' && event === 0) {
       this.addMatchFound = false;
     }
-
   }
 
   onBackToODDetails() {
@@ -599,21 +605,25 @@ export class CibilOdListComponent implements OnInit {
     }
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
+
   showOdModel(i) {
     this.rowIndex = i;
     this.isODModelShow = true;
     this.errorMessage = 'Are you sure Want to remove this row ?';
   }
+
   showThirtyModel(i) {
     this.rowIndex = i;
     this.isThirtyModelShow = true;
     this.errorMessage = 'Are you sure Want to remove this row ?';
   }
+
   showSixtyModel(i) {
     this.rowIndex = i;
     this.isSixtyModelShow = true;
     this.errorMessage = 'Are you sure Want to remove this row ?';
   }
+
   //  logic to get cibil response
   getApplicantImage() {
 
@@ -625,6 +635,12 @@ export class CibilOdListComponent implements OnInit {
       const body = {
         applicantId: this.applicantId
       };
+
+      if (this.bureauDetail.entityType === 'NONINDIVENTTYP') {
+        this.toasterService.showInfo('Bureau Report not available', '')
+        return
+      }
+
       //  this.backupApplicantId = applicantID;
       this.applicantImageService.getApplicantImageDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
@@ -644,11 +660,13 @@ export class CibilOdListComponent implements OnInit {
       });
     }
   }
+
   destroyImage() {
     if (this.cibilImage) {
       this.cibilImage = null;
     }
   }
+
   private dragElement(elmnt) {
     let pos1 = 0;
     let pos2 = 0;
@@ -696,6 +714,25 @@ export class CibilOdListComponent implements OnInit {
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+  }
+
+  getExpiryCall() {
+
+    let data = {
+      "leadId": this.leadId,
+      "applicantId": this.applicantId,
+      "userId": this.userId,
+      "isBureauChecked": this.bureauDetail.isBureauChecked
+    }
+
+    this.odDetailsService.getExperianCall(data).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        // console.log(res, 'res')
+        this.bureauDetail.isBureauChecked = res.ProcessVariables ? res.ProcessVariables.isBureauChecked : false;
+
+      } else {
+        this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
+      }
+    })
   }
 }
