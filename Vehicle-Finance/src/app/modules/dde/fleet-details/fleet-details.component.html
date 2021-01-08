@@ -48,7 +48,7 @@
                         </thead>
                         <tbody formArrayName="Rows">
                             <tr id="applicant_1_row"
-                                *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last"
+                                *ngFor="let itemrow of fleetForm.get('Rows')['controls']| paginate: { itemsPerPage: itemsPerPage,currentPage: q }  let i=index;let l=last"
                                 [formGroupName]="i">
 
                                 <td>{{i+1}}</td>
@@ -263,10 +263,29 @@
             </app-shared-user-defined-fields>
 
             <div class="btn-sec clear-both row btn-mar-15 cst_btm_btns">
-                <div class="col-sm-5">
+                <div class="col-sm-8 pagination-padding">
+                    <div class="records col-xs-3 col-sm-4 col-md-6">
+      
+                        <div class="col-lg-3"><label>No. of Rows </label>
+                          <!-- (change)="setPage($event)" -->
+                            <select class="form-control  input-sm"  [value]="itemsPerPage" (change)="pageChange($event)">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option class="disable" value="25">25</option>
+                            <option class="disable" value="50">50</option>
+                        </select>
+                        </div>
+              
+                    </div>
+                    <!-- <div class="col-xs-3 col-sm-4 col-md-6"> -->
+                      <nav class="text-right margin-18">
+                        <!-- (pageChange)="setPage($event)" -->
+                          <pagination-controls previousLabel="" nextLabel=""  (pageChange)="q = $event"></pagination-controls>
+                      </nav>
+                  <!-- </div> -->
 
                 </div>
-                <div class="col-sm-7 text-right nxt-mar-15 p-0">
+                <div class="col-sm-4 text-right nxt-mar-15 p-0">
                     <button class="btn btn-primary hvr-sweep-to-left " type="button"
                         (click)="toReference()">Back</button>
                     <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)"
