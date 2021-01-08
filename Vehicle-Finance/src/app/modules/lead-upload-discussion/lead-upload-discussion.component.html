@@ -42,8 +42,8 @@
                   <tr *ngFor="let data of details | paginate: { itemsPerPage: itemsPerPage,currentPage: q }">
                     <td>{{data.productCategory}}</td>
                     <td>{{data.product}}</td>
-                    <td>{{data.sourcingChannel}}</td>
-                    <td>{{data.sourcingType}}</td>
+                    <td>{{data.sourcingChannelDesc}}</td>
+                    <td>{{data.sourcingTypeDesc}}</td>
                     <td>{{data.sourcingCode}}</td>
                     <td>{{data.appFirstName}}</td>
                     <td>{{data.appLastName}}</td>

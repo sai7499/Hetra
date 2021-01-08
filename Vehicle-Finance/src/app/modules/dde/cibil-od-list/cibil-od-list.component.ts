@@ -729,8 +729,9 @@ export class CibilOdListComponent implements OnInit {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         // console.log(res, 'res')
         this.bureauDetail.isBureauChecked = res.ProcessVariables ? res.ProcessVariables.isBureauChecked : false;
-
-      } else {
+        this.odApplicantData.bureauScore = res.ProcessVariables ? res.ProcessVariables.bureauScore : null;
+        this.getOdDetails();
+        this.toasterService.showSuccess(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')      } else {
         this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })

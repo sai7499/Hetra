@@ -25,9 +25,9 @@ export class TermsConditionsComponent implements OnInit {
     title: string,
     product: any;
     flowStage: string;
-   
+
   }
-  showModal:boolean;
+  showModal: boolean;
   isChildLoan: string;
 
   constructor(
@@ -38,7 +38,7 @@ export class TermsConditionsComponent implements OnInit {
     private aRoute: ActivatedRoute,
     private creditService: CreditScoreService,
     private toasterService: ToasterService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
@@ -71,24 +71,24 @@ export class TermsConditionsComponent implements OnInit {
   }
   navigateToSales() {
     const body = {
-      leadId : this.leadId,
-      userId:  this.userId,
-      statusType : 'accept'
+      leadId: this.leadId,
+      userId: this.userId,
+      statusType: 'accept'
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
-      if ( res && res.ProcessVariables.error.code === '0') {
+      if (res && res.ProcessVariables.error.code === '0') {
         this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
       }
     });
   }
   declineOffer() {
     const body = {
-      leadId : this.leadId,
-      userId:  this.userId,
-      statusType : 'reject'
+      leadId: this.leadId,
+      userId: this.userId,
+      statusType: 'reject'
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
-      if ( res && res.ProcessVariables.error.code === '0') {
+      if (res && res.ProcessVariables.error.code === '0') {
         this.router.navigateByUrl(`/pages/dashboard`);
       }
     });
@@ -96,40 +96,34 @@ export class TermsConditionsComponent implements OnInit {
   getCreditFromService(data: any) {
     const body = { leadId: data.toString() };
     this.creditService.getCreditScore(body).subscribe((res: any) => {
-      // this.processData = res;
       if (
         res &&
-       res.ProcessVariables.error.code === '0'
+        res.ProcessVariables.error.code === '0'
       ) {
         this.processData = res.ProcessVariables;
-        console.log(this.processData, 'processData')
 
-        let ageOfAssetInMonths = this.processData ? this.processData.ageOfAsset ? 
-        Math.floor(Number(this.processData.ageOfAsset) / 12) + ' Years ' + 
-        Math.floor(Number(this.processData.ageOfAsset % 12)) + ' Months ' : 0 : 0;
+        let nullValue = (0 + ' Year ' + 0 + ' Month')
 
-        let ageOfLoanTenureInMonths = this.processData ? this.processData.ageAfterTenure ? 
-        Math.floor(Number(this.processData.ageAfterTenure) / 12) + ' Years ' + 
-        Math.floor(Number(this.processData.ageAfterTenure % 12)) + ' Months ' : 0 : 0;
+        let ageOfAssetInMonths = this.processData ? this.processData.ageOfAsset ?
+          Math.floor(Number(this.processData.ageOfAsset) / 12) + ' Years ' +
+          Math.floor(Number(this.processData.ageOfAsset % 12)) + ' Months ' : nullValue : nullValue;
 
-        let loanTenorInMonths = this.processData ? this.processData.loanTenure ? 
-        Math.floor(Number(this.processData.loanTenure) / 12) + ' Years ' + 
-        Math.floor(Number(this.processData.loanTenure % 12)) + ' Months ' : 0 : 0;
+        let ageOfLoanTenureInMonths = this.processData ? this.processData.ageAfterTenure ?
+          Math.floor(Number(this.processData.ageAfterTenure) / 12) + ' Years ' +
+          Math.floor(Number(this.processData.ageAfterTenure % 12)) + ' Months ' : nullValue : nullValue;
+
+        let loanTenorInMonths = this.processData ? this.processData.loanTenure ?
+          Math.floor(Number(this.processData.loanTenure) / 12) + ' Years ' +
+          Math.floor(Number(this.processData.loanTenure % 12)) + ' Months ' : nullValue : nullValue;
 
         this.processData['ageOfAssetInMonths'] = ageOfAssetInMonths;
         this.processData['ageOfLoanTenureInMonths'] = ageOfLoanTenureInMonths;
         this.processData['loanTenorInMonths'] = loanTenorInMonths
 
-
         this.isChildLoan = this.processData.isChildLoan;
-        this.loanAmount = Number(this.processData.loanAmount ).toLocaleString('en-IN');
-        this.eligibleAmount = Number(this.processData.eligibleAmount ).toLocaleString('en-IN');
+        this.loanAmount = Number(this.processData.loanAmount).toLocaleString('en-IN');
+        this.eligibleAmount = Number(this.processData.eligibleAmount).toLocaleString('en-IN');
       }
-      //  else {
-      //   this.router.navigate([
-      //     `pages/lead-section/${this.leadId}/vehicle-details`,
-      //   ]);
-      // }
     });
   }
 
@@ -139,28 +133,28 @@ export class TermsConditionsComponent implements OnInit {
     this.showModal = true;
     this.rejectData = {
       title: 'Select Reject Reason',
-      product:productId,
+      product: productId,
       flowStage: '30'
     }
-    
+
 
   }
 
   onOkay(reasonData) {
-    
+
     const body = {
-      leadId : this.leadId,
-      userId:  this.userId,
-      statusType : 'reject',
+      leadId: this.leadId,
+      userId: this.userId,
+      statusType: 'reject',
       isSoRejected: false,
       reasonCode: reasonData['reason'].reasonCode
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
-      if ( res && res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess('Record Rejected successfully!','')
+      if (res && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Rejected successfully!', '')
         this.router.navigateByUrl(`/pages/dashboard`);
-      }else {
-        this.toasterService.showError(res.ProcessVariables.error.message,'')
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '')
       }
     });
   }
@@ -169,7 +163,7 @@ export class TermsConditionsComponent implements OnInit {
     this.showModal = false;
   }
 
-  onBack(){
+  onBack() {
     this.router.navigateByUrl(`/pages/lead-section/${this.leadId}/credit-score`);
   }
 

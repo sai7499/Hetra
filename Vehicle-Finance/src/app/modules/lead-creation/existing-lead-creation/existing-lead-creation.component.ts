@@ -265,7 +265,6 @@ export class ExistingLeadCreationComponent implements OnInit {
     if (!roleAndUserDetails) {
       return;
     }
-    console.log(roleAndUserDetails, 'Test');
     this.getBusinessDivision(roleAndUserDetails);
     this.userId = roleAndUserDetails.userDetails.userId;
     this.getSourcingDetails(this.userId);
@@ -301,6 +300,8 @@ export class ExistingLeadCreationComponent implements OnInit {
     this.createLeadService
       .getProductCategory(this.bizDivId)
       .subscribe((res: any) => {
+        console.log(res, 'Test');
+
         this.productCategoryList = res.ProcessVariables.productCategoryDetails;
         this.productCategoryData = this.utilityService.getValueFromJSON(
           this.productCategoryList,
@@ -377,7 +378,6 @@ export class ExistingLeadCreationComponent implements OnInit {
       // const errorMessage = response.ProcessVariables.error.message;
 
       // if (appiyoError === '0' && apiError === '0') {
-      console.log('extSRC', response);
       this.extSourcingChannelData = response.ProcessVariables.srcChannel;
       this.extSourcingTypeData = response.ProcessVariables.srcType;
       this.extSourcingCodeData = response.ProcessVariables.srcCode;
@@ -403,6 +403,8 @@ export class ExistingLeadCreationComponent implements OnInit {
         });
         this.isSourcingCode = true;
       }
+      console.log(this.createExternalLeadForm, 'extSRC', response);
+
     })
   }
 
@@ -773,9 +775,9 @@ export class ExistingLeadCreationComponent implements OnInit {
           this.mobileApprove = mobile;
           this.dobApprove = dob;
 
-          const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
-          const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
-          const sourcingCode = response.ProcessVariables.leadDetails.sourcingCode;
+          // const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
+          // const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
+          // const sourcingCode = response.ProcessVariables.leadDetails.sourcingCode;
           const reqLoanAmt = response.ProcessVariables.leadDetails.reqLoanAmt;
 
           this.createExternalLeadForm.patchValue({
@@ -789,9 +791,9 @@ export class ExistingLeadCreationComponent implements OnInit {
             nameThree,
             mobile,
             dateOfBirth,
-            sourcingChannel,
-            sourcingType,
-            sourcingCode,
+            // sourcingChannel,
+            // sourcingType,
+            // sourcingCode,
             reqLoanAmt
           });
           this.isUploaded = response.ProcessVariables.leadDetails.isUploaded;
