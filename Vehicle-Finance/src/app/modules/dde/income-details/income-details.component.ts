@@ -1098,7 +1098,7 @@ this.getSalariedFoirIncome();
               .keyFinanceDetails as FormArray;
             keyFinancialCOntrols.controls = [];
             this.toasterService.showSuccess(
-              'Applicant Income Details Saved Successfully',
+              'Record Saved Successfully',
               'Income Details'
             );
             this.getAllIncome();

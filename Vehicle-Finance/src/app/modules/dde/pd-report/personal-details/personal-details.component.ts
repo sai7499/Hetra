@@ -494,7 +494,7 @@ export class PersonalDetailsComponent implements OnInit {
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
           this.getLOV();
-          this.toasterService.showSuccess('Successfully Save Personal Details', 'Save/Update Personal Details');
+          this.toasterService.showSuccess('Record Saved Successfully', 'Save/Update Personal Details');
         } else {
           this.toasterService.showSuccess(value.ErrorMessage, 'Error Personal Details');
         }

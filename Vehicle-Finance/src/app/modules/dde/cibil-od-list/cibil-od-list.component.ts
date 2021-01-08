@@ -561,7 +561,7 @@ export class CibilOdListComponent implements OnInit {
           AssetBureauEnquirySixtyDaysControls.controls = [];
           this.apiValue= this.odDetailsForm.getRawValue()
           this.toasterService.showSuccess(
-            'Saved Successfully',
+            'Record Saved Successfully',
             'OD Details'
           );
           this.getOdDetails();
