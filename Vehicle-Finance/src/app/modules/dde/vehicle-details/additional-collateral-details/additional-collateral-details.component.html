@@ -376,7 +376,8 @@
 
                                 <app-vf-custom-select [values]="LOV?.propertyOwnerType" [id]="'property_type'"
                                     formControlName="propertyOwnerType" [isRequired]="'Property Owner Type Required'"
-                                    [isDirty]="isDirty" (change)="onCheckApplicant($event.target.value, obj)">
+                                    [isDirty]="isDirty">
+                                    <!-- (change)="onCheckApplicant($event.target.value, obj)" -->
                                 </app-vf-custom-select>
 
                             </div>

@@ -17,6 +17,7 @@ import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToasterService } from '@services/toaster.service';
 import { THRESHOLD_DIFF } from '@progress/kendo-angular-popup/dist/es2015/services/scrollable.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-existing-lead-creation',
@@ -162,6 +163,7 @@ export class ExistingLeadCreationComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
+    private sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
   ) {
 
@@ -775,9 +777,24 @@ export class ExistingLeadCreationComponent implements OnInit {
           this.mobileApprove = mobile;
           this.dobApprove = dob;
 
-          // const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
-          // const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
-          // const sourcingCode = response.ProcessVariables.leadDetails.sourcingCode;
+          this.extSourcingChannelData = [{
+            key: response.ProcessVariables.leadDetails.sourcingChannel,
+            value: response.ProcessVariables.leadDetails.sourcingChannelDesc
+          }]
+
+          this.extSourcingTypeData = [{
+            key: response.ProcessVariables.leadDetails.sourcingType,
+            value: response.ProcessVariables.leadDetails.sourcingTypeDesc
+          }]
+
+          this.extSourcingCodeData = [{
+            key: response.ProcessVariables.leadDetails.sourcingCode,
+            value: response.ProcessVariables.leadDetails.sourcingCodeDesc
+          }]
+
+          const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
+          const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
+          const sourcingCode = response.ProcessVariables.leadDetails.sourcingCode;
           const reqLoanAmt = response.ProcessVariables.leadDetails.reqLoanAmt;
 
           this.createExternalLeadForm.patchValue({
@@ -791,9 +808,9 @@ export class ExistingLeadCreationComponent implements OnInit {
             nameThree,
             mobile,
             dateOfBirth,
-            // sourcingChannel,
-            // sourcingType,
-            // sourcingCode,
+            sourcingChannel,
+            sourcingType,
+            sourcingCode,
             reqLoanAmt
           });
           this.isUploaded = response.ProcessVariables.leadDetails.isUploaded;
@@ -881,6 +898,7 @@ export class ExistingLeadCreationComponent implements OnInit {
             this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
             return;
           }
+          this.sharedService.getDedupdeStatus(true);
           this.router.navigateByUrl(`pages/lead-section/${this.leadIdFromDashboard}`);
         } else {
           this.toasterService.showError(errorMessage, 'Approve Lead');
