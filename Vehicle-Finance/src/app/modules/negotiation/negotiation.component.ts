@@ -1358,6 +1358,7 @@ export class NegotiationComponent implements OnInit {
           })
         }
       });
+      this.getNetDisbursementAmount()
   }
   validateTenure(event, i) {
     this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']
