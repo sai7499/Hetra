@@ -282,7 +282,7 @@
     "address": "Address",
     "valuationStatus": "Valuation Status",
     "valuationReport": "Valuation Report",
-    "modalTitle1": "Initiate Vechicle Valuation",
+    "modalTitle1": "Initiate Vehicle Valuation",
     "chooseValuator": "Choose Valuator",
     "modalBody": "Are you sure you want to send Vehicle Valuation request to Valuator 1?",
     "modalBody2": "Vehcile Valuation request is sent to Valuator 1",

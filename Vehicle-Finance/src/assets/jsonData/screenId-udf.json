@@ -1,19 +1,179 @@
 {
     "ScreenIDS": {
-        "createNewLead": "LC0101",
-        "createLeadExternalVendor": "LC2301",
-        "leadDedupe": "LL0102",
-        "leadDetailsQDE": "LD0103",
-        "leadDetailsADE": "LD0201",
-        "leadDetailsDDE": "LD0901",
-        "applicantListQDE": "AL0104",
-        "applicantListADE": "AL0202",
-        "applicantListDDE": "AL0202",
-        "applicantDetailQDE": "AD0105",
-        "applicantDetailADE": "AD0205",
-        "applicantDedupeQDE": "LC0106",
-        "applicantDedupeADE": "LC0206",
-        "NL/TRNL DedupeQDE": "NL0107",
-        "NL/TRNL DedupeADE": "NL0207"
+        "QDE": {
+            "leadCreateQDE": "LC0101",
+            "leadCreateExternal": "LC2301",
+            "leadDedupeQDE": "LL0102",
+            "leadDetailQDE": "LD0103",
+            "applicantListQDE": "AL0104",
+            "addEditApplicantDetailQDE": "AD0105",
+            "leadCustomerDedupeQDE": "LC0106",
+            "negativeListdedupeQDE": "NL0107",
+            "creditBureauOTPQDE": "CB0108",
+            "vehicleListQDE": "VL0109",
+            "vehicleDetailQDE": "VD0110",
+            "eligiblityDisplayQDE": "PE0111",
+            "eligiblityAcceptanceQDE": "PE0112"
+        },
+        "ADE": {
+            "leadDetailADE": "LD0201",
+            "applicantListADE": "AL0202",
+
+            "creditBureauReportADE": "CB0203",
+            "eligiblityDisplayReportADE": "PE0204",
+
+            "addEditApplicantDetailADE": "AD0205",
+            "leadtoCustomerDedupeADE": "LC0206",
+            "negativeListdedupeADE": "NL0207",
+            "creditBureauOTPADE": "CB0208",
+            "applicantBasicDataADE": "AB0210",
+            "applicantIdentityADE": "AI0211",
+            "applicantAddressADE": "AA0212",
+            "vehiclListADE": "VL0213",
+            "vehicleDetailADE": "VD0214",
+            "leadReferenceADE": "LR0215"
+        },
+        "FICUMPD": {
+            "applicantDetailFIcumPD": "AD0301",
+            "customerProfileFIcumPD": "CP0302",
+            "loanFIcumPD": "LR0303",
+            "applicantReferenceFIcumPD": "AR0304"
+        },
+        "PD": {
+            "applicantDetailPD": "AD0401",
+            "applicantIncomePD": "AI0402",
+            "applicantReferencePD": "AR0403",
+            "otherPD": "OT0404"
+        },
+        "FI": {
+            "residenceFI": "RE0501",
+            "businessFI": "BU0502"
+        },
+        "VehicleViability": {
+            "captiveViability": "CA0601",
+            "goodsViability": "GO0602",
+            "passengerViability": "PA0603"
+        },
+        "Vehicle Valuation": {
+            "vehicleValuationValuation": "VV0701"
+        },
+        "RCU": {
+            "rcu": "RC0801"
+        },
+        "DDE": {
+            "leadDetailDDE": "LD0901",
+            "applicantListDDE": "AL0902",
+            "applicantBasicdataDDE": "AB0903",
+            "applicantIdentityDDE": "AI0904",
+            "applicantAddressDDE": "AA0905",
+            "bankListDDE": "BD0906",
+            "bankDetailDDE": "BD0907",
+            "vehicleListDDE": "VL0908",
+            "vehicleDetailDDE": "VD0909",
+            "additionalCollateralDDE": "AC0910",
+            "leadReferenceDDE": "LR0911",
+            "fleetListDDE": "FL0912",
+            "repaymentTrackRecordDDE": "RT0913",
+            "exposureDDE": "EX0914",
+            "incomeDetailsUCV/NCVDDE": "IN0915",
+            "incomeDetailsUCDDE": "IN0916",
+            "pslDataDDE": "PS0917",
+            "vehicleValuationDDE": "VV0918",
+            "teleVerificationDDE": "TV0919",
+            "applicantDetailsFIcumPDDDE": "AD0920",
+            "customerProfileDetailsFIcumPDDDE": "CP0921",
+            "loanDetailsFIcumPDDDE": "LR0922",
+            "referenceCheckFIcumPDDDE": "LR0923",
+            "personalPDDDE": "AD0924",
+            "incomePDDDE": "AI0925",
+            "referencePDDDE": "AR0926",
+            "otherPDDDE": "OT0927",
+            "residenceFIDDE": "RE0928",
+            "businessFIDDE": "BU0929",
+            "vehicleViablityCaptiveDDE": "CA0930",
+            "vehicleViablityGoodsDDE": "GO0931",
+            "vehicleViablityPassengerDDE": "PA0932",
+            "rcuDDE": "RC0933",
+            "bureauListDDE": "CB0934",
+            "bureauDetailsDDE": "CB0935",
+            "scoreCardDDE": "SC0936",
+            "insuranceDetailsDDE": "ID0937",
+            "camUCVDDE": "CA0938",
+            "camNCVDDE": "CA0939",
+            "camUCDDE": "CA0940",
+            "triggerDeviaitonsDDE": "TD0941"
+        },
+        "DeviationApproval": {
+            "deviationsApproval": "DA1001"
+        },
+        "creditDecision": {
+            "negotiationDetailsCreditDecision": "ND1101",
+            "disbursementDetailsCreditDecision": "DD1102",
+            "camUCVCreditDecision": "CA1103",
+            "camNCVCreditDecision": "CA1104",
+            "camUCCreditDecision": "CA1105",
+            "deviaitonsListCreditDecision": "DL1106",
+            "creditConditionsCreditDecision": "CC1107",
+            "termSheetCreditDecision": "TS1108",
+            "sanction DetailsCreditDecision": "SD1109",
+            "checkListCreditDecision": "PC1101"
+        },
+        "Negoatiations": {
+            "creditConditionsNegotiations": "CC1201",
+            "termSheetNegotiations": "TS1202",
+            "negotiationDetailsNegotiations": "ND1203",
+            "disbursementDetailsNegotiations": "DD1204",
+            "sanctionDetailsNegotiations": "SD1205",
+            "customerFeedBackNegotiations": "SA1206"
+        },
+        "TermsheetApproval": {
+            "termsheetApprovalbyBM": "TA1301",
+            "termsheetApprovalbyBCM": "TA1302"
+        },
+        "preDisbursement": {
+            "creditConditionsPreDisbursement": "CC1401",
+            "termSheetPreDisbursement": "TS1402",
+            "sanctionDetailsPreDisbursement": "SD1403"
+        },
+        "CAD": {
+            "termSheetCAD": "TS1501",
+            "sanctionDetailsCAD": "SD1502",
+            "negotiationsCAD": "ND1503",
+            "disbursementCAD": "DD1504",
+            "checkListCAD": "PC1505",
+            "remarksCAD": "RE1506"
+        },
+        "CPCMaker": {
+            "termSheetCPCMaker": "TS1601",
+            "sanctionDetailsCPCMaker": "SD1602",
+            "negotiationsCPCMaker": "ND1603",
+            "disbursementCPCMaker": "DD1604",
+            "checkListCPCMaker": "PC1605",
+            "pdcDetailsCPCMaker": "CQ1606"
+        },
+        "CPCChecker": {
+            "termSheetCPCChecker": "TS1701",
+            "sanctionDetailsCPCChecker": "SD1702",
+            "negotiationsCPCChecker": "ND1703",
+            "disbursementCPCChecker": "DD1704",
+            "checkListCPCChecker": "PC1705",
+            "pdcDetailsCPCChecker": "CQ1706",
+            "loanBookingStatusCPCChecker": "LS1801",
+            "welcomeLetterCPCChecker": "WL1803",
+            "deliveryOrderCPCChecker": "DO1804",
+            "pddUpdateCPCChecker": "PD2002",
+            "trancheDisbursementCPCChecker": "TD2102"
+        },
+        "sales": {
+            "pddUpdateSales": "PD2001",
+            "trancheDisbursementSales": "TD2101",
+            "chequeTrackingSales": "CQ1901"
+        },
+        "Common": {
+            "searchLoanAccountCommon": "UT2401",
+            "loan360ViewCommon": "UT2402",
+            "view/EditDDECommon": "UT2403",
+            "documentUploadCommon": "DU2201"
+        }
     }
 }

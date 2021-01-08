@@ -97,6 +97,9 @@ export enum sortingTables {
   ByDisburDate,
   ByExpectedDate,
   ByName,
+  ByApplicants,
+  ByCreated,
+  ByPriority,
   SortAsc,
   SortDesc
 
@@ -148,12 +151,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isFilterApplied: boolean;
   toDayDate: Date = new Date();
   leadId;
+  // Sorting variables
   sortTab;
   sortByDate = false;
   sortByLead = true;
   sortByLoanAmt = false;
   sortByProduct = false;
   sortByStage = false;
+  sortByLoanAccNo = false;
+  sortByDisburDate = false;
+  sortByExpectedDate = false;
+  sortByName = false;
+  sortByApplicants = false;
+  sortByCreatedBy = false;
+  sortByPriority = false;
+  sortAsc = false;
+  sortDesc = true;
   salesResponse;
   taskName: string;
   myLeads: boolean;
@@ -214,14 +227,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectOne = false;
   selectAll = false;
   selectedArray = [];
-  sortAsc = false;
-  sortDesc = true;
   checkedOne: any;
   checkedAll: any;
-  sortByLoanAccNo = false;
-  sortByDisburDate = false;
-  sortByExpectedDate = false;
-  sortByName = false;
   disableButton: boolean;
   declinedFlow = false;
   isBM = false;
@@ -501,7 +508,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sortTab = data;
     switch (data) {
       case 0:
-        // this.sortByLead = this.sortByLead === false ? true : false;
         this.sortByLead = true;
         this.sortAsc = this.sortAsc === true ? false : true;
         this.sortDesc = this.sortDesc === false ? true : false;
@@ -513,14 +519,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByDisburDate = false;
         this.sortByExpectedDate = false;
         this.sortByName = false;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
         break;
       case 1:
         this.sortAsc = this.sortAsc === true ? false : true;
         this.sortDesc = this.sortDesc === false ? true : false;
         this.sortByLead = false;
         this.sortByDate = false;
-        // this.sortByProduct = this.sortByProduct === false ? true : false;
         this.sortByProduct = true;
         this.sortByLoanAmt = false;
         this.sortByStage = false;
@@ -528,7 +535,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByDisburDate = false;
         this.sortByExpectedDate = false;
         this.sortByName = false;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
         break;
       case 2:
         this.sortAsc = this.sortAsc === true ? false : true;
@@ -536,20 +545,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByLead = false;
         this.sortByDate = false;
         this.sortByProduct = false;
-        // this.sortByLoanAmt = this.sortByLoanAmt === false ? true : false;
         this.sortByLoanAmt = true;
         this.sortByStage = false;
         this.sortByLoanAccNo = false;
         this.sortByDisburDate = false;
         this.sortByExpectedDate = false;
         this.sortByName = false;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
         break;
       case 3:
         this.sortAsc = this.sortAsc === true ? false : true;
         this.sortDesc = this.sortDesc === false ? true : false;
         this.sortByLead = false;
-        // this.sortByDate = this.sortByDate === false ? true : false;
         this.sortByDate = true;
         this.sortByProduct = false;
         this.sortByLoanAmt = false;
@@ -558,7 +567,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByDisburDate = false;
         this.sortByExpectedDate = false;
         this.sortByName = false;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
         break;
       case 4:
         this.sortAsc = this.sortAsc === true ? false : true;
@@ -571,9 +582,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByDisburDate = false;
         this.sortByExpectedDate = false;
         this.sortByName = false;
-        // this.sortByStage = this.sortByStage === false ? true : false;
         this.sortByStage = true;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
         break;
       case 5:
         this.sortAsc = this.sortAsc === true ? false : true;
@@ -586,9 +598,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByDisburDate = false;
         this.sortByExpectedDate = false;
         this.sortByName = false;
-        // this.sortByStage = this.sortByStage === false ? true : false;
         this.sortByStage = false;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
         break;
       case 6:
         this.sortAsc = this.sortAsc === true ? false : true;
@@ -601,9 +614,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByDisburDate = true;
         this.sortByExpectedDate = false;
         this.sortByName = false;
-        // this.sortByStage = this.sortByStage === false ? true : false;
         this.sortByStage = false;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
         break;
       case 7:
         this.sortAsc = this.sortAsc === true ? false : true;
@@ -616,9 +630,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByDisburDate = false;
         this.sortByExpectedDate = true;
         this.sortByName = false;
-        // this.sortByStage = this.sortByStage === false ? true : false;
         this.sortByStage = false;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
         break;
       case 8:
         this.sortAsc = this.sortAsc === true ? false : true;
@@ -631,15 +646,65 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByDisburDate = false;
         this.sortByExpectedDate = false;
         this.sortByName = true;
-        // this.sortByStage = this.sortByStage === false ? true : false;
         this.sortByStage = false;
-        this.onTabsLoading(this.subActiveTab);
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
+        break;
+        case 9:
+        this.sortAsc = this.sortAsc === true ? false : true;
+        this.sortDesc = this.sortDesc === false ? true : false;
+        this.sortByLead = false;
+        this.sortByDate = false;
+        this.sortByProduct = false;
+        this.sortByLoanAmt = false;
+        this.sortByLoanAccNo = false;
+        this.sortByDisburDate = false;
+        this.sortByExpectedDate = false;
+        this.sortByName = false;
+        this.sortByStage = false;
+        this.sortByApplicants = true;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = false;
+        break;
+        case 10:
+        this.sortAsc = this.sortAsc === true ? false : true;
+        this.sortDesc = this.sortDesc === false ? true : false;
+        this.sortByLead = false;
+        this.sortByDate = false;
+        this.sortByProduct = false;
+        this.sortByLoanAmt = false;
+        this.sortByLoanAccNo = false;
+        this.sortByDisburDate = false;
+        this.sortByExpectedDate = false;
+        this.sortByName = false;
+        this.sortByStage = false;
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = true;
+        this.sortByPriority = false;
+        break;
+        case 11:
+        this.sortAsc = this.sortAsc === true ? false : true;
+        this.sortDesc = this.sortDesc === false ? true : false;
+        this.sortByLead = false;
+        this.sortByDate = false;
+        this.sortByProduct = false;
+        this.sortByLoanAmt = false;
+        this.sortByLoanAccNo = false;
+        this.sortByDisburDate = false;
+        this.sortByExpectedDate = false;
+        this.sortByName = false;
+        this.sortByStage = false;
+        this.sortByApplicants = false;
+        this.sortByCreatedBy = false;
+        this.sortByPriority = true;
         break;
 
 
       default:
         break;
     }
+    this.onTabsLoading(this.subActiveTab);
   }
 
   loanMaxAmtChange() {
@@ -915,15 +980,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByLead = true;
         this.sortByLoanAccNo = false;
       }
-      // this.sortByLead = true;
       this.sortByDate = false;
       this.sortByProduct = false;
       this.sortByLoanAmt = false;
       this.sortByStage = false;
-      // this.sortByLoanAccNo = false;
       this.sortByDisburDate = false;
       this.sortByExpectedDate = false;
       this.sortByName = false;
+      this.sortByApplicants = false;
+      this.sortByCreatedBy = false;
+      this.sortByPriority = false;
       this.sortAsc = false;
       this.sortDesc = true;
       this.onTabsLoading(this.subActiveTab);
@@ -982,6 +1048,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.sortByDisburDate = false;
       this.sortByExpectedDate = false;
       this.sortByName = false;
+      this.sortByApplicants = false;
+      this.sortByCreatedBy = false;
+      this.sortByPriority = false;
       this.sortAsc = false;
       this.sortDesc = true;
       this.onTabsLoading(this.subActiveTab);
@@ -1133,6 +1202,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByDisburDate: this.sortByDisburDate,
       sortByExpectedDate: this.sortByExpectedDate,
       sortByName: this.sortByName,
+      sortByApplicants : this.sortByApplicants,
+      sortByCreatedBy : this.sortByCreatedBy,
+      sortByPriority : this.sortByPriority,
       sortAsc: this.sortAsc,
       sortDesc: this.sortDesc
     };
@@ -1177,6 +1249,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByLoanAmt: this.sortByLoanAmt,
       sortByProduct: this.sortByProduct,
       sortByStage: this.sortByStage,
+      sortByName: this.sortByName,
+      sortByApplicants : this.sortByApplicants,
+      sortByCreatedBy : this.sortByCreatedBy,
+      sortByPriority : this.sortByPriority,
       sortAsc: this.sortAsc,
       sortDesc: this.sortDesc
     };
@@ -1222,6 +1298,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByDisburDate: this.sortByDisburDate,
       sortByExpectedDate: this.sortByExpectedDate,
       sortByName: this.sortByName,
+      sortByApplicants : this.sortByApplicants,
+      sortByCreatedBy : this.sortByCreatedBy,
+      sortByPriority : this.sortByPriority,
       sortAsc: this.sortAsc,
       sortDesc: this.sortDesc,
       isBM: this.isBM
