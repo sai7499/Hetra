@@ -544,7 +544,7 @@ export class CibilOdListComponent implements OnInit {
             .controls.AssetBureauEnquirySixtyDays as FormArray;
           AssetBureauEnquirySixtyDaysControls.controls = [];
           this.toasterService.showSuccess(
-            'Saved Successfully',
+            'Record Saved Successfully',
             'OD Details'
           );
           this.getOdDetails();

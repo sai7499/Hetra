@@ -800,4 +800,21 @@ export class RcuComponent implements OnInit {
 
     }
   }
+
+  // onReInitiate() {
+  //   // this.assignRcuTask();
+  //   const data = {
+  //     leadId: this.leadId,
+  //     userId: this.userId,
+  //   };
+
+  //   this.rcuService.assignRcuTask(data).subscribe((res: any) => {
+  //     if (res && res.ProcessVariables.error.code == '0') {
+  //       this.toasterService.showSuccess("RCU Lead Is ReInitiated Successfully ", "RCU Details");
+  //       // this.router.navigateByUrl('/pages/dashboard');
+  //     } else {
+  //       this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
+  //     }
+  //   });
+  // }
 }
