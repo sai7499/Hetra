@@ -258,6 +258,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="b_latitude">{{labels.branchLat}}
+                    </label>
+                    <app-custom-input formControlName="bLatitude" [className]="'form-control'" [placeholder]="''">
+                    </app-custom-input>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="b_longitude">{{labels.branchLng}}
+                    </label>
+                    <app-custom-input formControlName="bLongitude" [className]="'form-control'" [placeholder]="''">
+                    </app-custom-input>
+                </div>
             </div>
 
             <h3 class="banner-sub"> {{labels?.loanDetails}} </h3>
@@ -302,24 +317,8 @@
                     <app-vf-custom-select [values]="" formControlName="sourceOfMarginMoney">
                     </app-vf-custom-select>
                 </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="b_latitude">{{labels.branchLat}}
-                    </label>
-                    <app-custom-input formControlName="bLatitude" [className]="'form-control'" [placeholder]="''">
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="b_longitude">{{labels.branchLng}}
-                    </label>
-                    <app-custom-input formControlName="bLongitude" [className]="'form-control'" [placeholder]="''">
-                    </app-custom-input>
-                </div>
-                <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                    <label for="b_longitude">{{labels.addressLatLng}}
-                    </label>
-                    <app-custom-input formControlName="capturedAddress" [className]="'form-control'" [placeholder]="''">
-                    </app-custom-input>
-                </div>
+                
+                
             </div>
             <h3 class="banner-sub"> {{labels.pdDoneAt}} </h3>
             <div class="row">
@@ -333,6 +332,12 @@
                     <label for="captured_longitude">Longitude
                     </label>
                     <app-custom-input formControlName="longitude" [className]="'form-control'" [placeholder]="''">
+                    </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="b_longitude">{{labels.addressLatLng}}
+                    </label>
+                    <app-custom-input formControlName="capturedAddress" [className]="'form-control'" [placeholder]="''">
                     </app-custom-input>
                 </div>
             </div>
