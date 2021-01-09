@@ -92,7 +92,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     let roleType = roleAndUserDetails.roles[0].roleType;
 
-    this.udfScreenId = roleType === 1 ? 'PDS001' : 'PDS005';
+    //this.udfScreenId = roleType === 1 ? 'PDS001' : 'PDS005';
 
     const leadData = this.createLeadDataService.getLeadSectionData();
 
@@ -107,6 +107,12 @@ export class PersonalDetailsComponent implements OnInit {
     });
 
     this.monthValidation = this.monthValiationCheck();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = roleType === 1 ? udfScreenId.PD.applicantDetailPD : udfScreenId.DDE.personalPDDDE ;
+
+    })
   }
   async getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
     const leadSectionData = this.createLeadDataService.getLeadSectionData();

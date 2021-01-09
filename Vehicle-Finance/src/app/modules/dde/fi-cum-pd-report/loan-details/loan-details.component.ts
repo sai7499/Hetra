@@ -126,7 +126,7 @@ export class LoanDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'FPS003' : 'FPS007';
+    //this.udfScreenId = this.roleType === 1 ? 'FPS003' : 'FPS007';
 
     this.initForm();
 
@@ -163,6 +163,12 @@ export class LoanDetailsComponent implements OnInit {
     this.getLOV();
     this.getPdDetails();
     this.RemoveAddControls();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.loanFIcumPD : udfScreenId.DDE.loanDetailsFIcumPDDDE ;
+
+    })
   }
 
   getLeadId() {

@@ -54,8 +54,8 @@
             "goodsViability": "GO0602",
             "passengerViability": "PA0603"
         },
-        "Vehicle Valuation": {
-            "vehicleValuationValuation": "VV0701"
+        "VehicleValuation": {
+            "vehicleValuation": "VV0701"
         },
         "RCU": {
             "rcu": "RC0801"
@@ -75,7 +75,7 @@
             "fleetListDDE": "FL0912",
             "repaymentTrackRecordDDE": "RT0913",
             "exposureDDE": "EX0914",
-            "incomeDetailsUCV/NCVDDE": "IN0915",
+            "incomeDetailsUCVNCVDDE": "IN0915",
             "incomeDetailsUCDDE": "IN0916",
             "pslDataDDE": "PS0917",
             "vehicleValuationDDE": "VV0918",
@@ -118,7 +118,7 @@
             "sanction DetailsCreditDecision": "SD1109",
             "checkListCreditDecision": "PC1101"
         },
-        "Negoatiations": {
+        "Negotiations": {
             "creditConditionsNegotiations": "CC1201",
             "termSheetNegotiations": "TS1202",
             "negotiationDetailsNegotiations": "ND1203",

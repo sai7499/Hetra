@@ -148,6 +148,7 @@ export class ExistingLeadCreationComponent implements OnInit {
     mobileNumber: any,
     dobOrDoc: any
   }
+  udfScreenId: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -187,6 +188,12 @@ export class ExistingLeadCreationComponent implements OnInit {
       this.getLeadIdPool();
       this.createExternalLeadForm.disable();
     }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.leadCreateExternal ;
+
+    })
   }
 
   getLabels() {

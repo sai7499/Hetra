@@ -109,6 +109,8 @@ export class ViabilityDetailsComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   roleType: any;
+  ddeViability = {};
+  dashboardViability = {};
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
               private viabilityService: ViabilityServiceService,
@@ -320,8 +322,27 @@ export class ViabilityDetailsComponent implements OnInit {
       this.disableSaveBtn = true;
     }
 
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+      const dde = udfScreenId.DDE;
+      const vialbility = udfScreenId.VehicleViability;
+
+      this.ddeViability = {
+        captive : dde.vehicleViablityCaptiveDDE,
+        goods : dde.vehicleViablityGoodsDDE,
+        passenger : dde.vehicleViablityPassengerDDE
+      };
+      this.dashboardViability = {
+        captive : vialbility.captiveViability,
+        goods : vialbility.goodsViability,
+        passenger : vialbility.passengerViability
+      }
+      
+
+    })
+
     if(this.roleType == '1' && this.viabliityDataToPatch == undefined) {
-      this.udfScreenId = 'VIS002';
+      this.udfScreenId = this.dashboardViability['goods']; //'VIS002'
     }
 
     console.log('screenID', this.udfScreenId);
@@ -412,14 +433,14 @@ vehicle_viability_navigate(event) {
     this.vehicle_viability_value = event ? event : event;
     if (this.vehicle_viability_value === '1VHCLVBTY') {
       if(this.roleType == '1') {
-        this.udfScreenId = 'VIS002';
+        this.udfScreenId = this.dashboardViability['goods'];
       }
       this.passengerViability();
       this.removeStandOverValidators();
       this.removeCaptiveValidators();
     } else if (this.vehicle_viability_value === '2VHCLVBTY') {
       if(this.roleType == '1') {
-        this.udfScreenId = 'VIS003';
+        this.udfScreenId = this.dashboardViability['passenger'];
       }
       this.StandOverViability();
       this.removePassengerValidators();
@@ -427,7 +448,7 @@ vehicle_viability_navigate(event) {
 
     } else if (this.vehicle_viability_value === '3VHCLVBTY') {
       if(this.roleType == '1') {
-        this.udfScreenId = 'VIS001';
+        this.udfScreenId = this.dashboardViability['captive'];
       }
       this.captiveViability();
       this.removePassengerValidators();
@@ -567,9 +588,9 @@ getViability() {
 
       if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '1VHCLVBTY') {
         if(this.roleType == '1') {
-          this.udfScreenId = 'VIS002';
+          this.udfScreenId = this.dashboardViability['goods'];
         } else if (this.roleType == '2') {
-          this.udfScreenId = 'VIS005';
+          this.udfScreenId = this.ddeViability['goods'];
         }
         this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
@@ -584,9 +605,9 @@ getViability() {
          }) ;
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '2VHCLVBTY') {
         if(this.roleType == '1') {
-          this.udfScreenId = 'VIS003';
+          this.udfScreenId = this.dashboardViability['passenger'];
         } else if (this.roleType == '2') {
-          this.udfScreenId = 'VIS006';
+          this.udfScreenId = this.ddeViability['passenger'];
         }
         this.viabilityForm.value.type = this.viabliityDataToPatch.type;
         this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
@@ -600,9 +621,9 @@ getViability() {
         this.calculateStandOperatorC();
        } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '3VHCLVBTY') {
         if(this.roleType == '1') {
-          this.udfScreenId = 'VIS001';
+          this.udfScreenId = this.dashboardViability['captive'];
         } else if (this.roleType == '2') {
-          this.udfScreenId = 'VIS004';
+          this.udfScreenId = this.ddeViability['captive'];
         }
         this.viabilityForm.patchValue ({
          type: this.viabliityDataToPatch.type

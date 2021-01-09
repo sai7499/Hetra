@@ -60,6 +60,8 @@ export class ApplicantListComponent implements OnInit {
   // User defined Fields
   udfScreenId: string = 'APS001';
   udfGroupId: string = 'APG001';
+  cbScreenId : string;
+  erScreenId : string;
 
   constructor(
     private labelsData: LabelsService,
@@ -94,6 +96,8 @@ export class ApplicantListComponent implements OnInit {
 
       this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.applicantListADE : currentUrl.includes('dde') ?
        udfScreenId.DDE.applicantListDDE : udfScreenId.QDE.applicantListQDE ;
+       this.cbScreenId = udfScreenId.ADE.creditBureauReportADE;
+       this.erScreenId = udfScreenId.ADE.eligiblityDisplayReportADE;
 
     })
 

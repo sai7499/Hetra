@@ -49,7 +49,7 @@ export class ChequeTrackingComponent implements OnInit {
   isInvalidChequeNum : boolean= false;
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId= 'CTS001';
+  udfScreenId= '';
   udfGroupId= 'CTG001';
 
   constructor(
@@ -87,7 +87,12 @@ export class ChequeTrackingComponent implements OnInit {
     //   this.loanNumber = loanNumber
     // })
     this.getChequeTrckingData();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
 
+      this.udfScreenId = udfScreenId.sales.chequeTrackingSales ;
+
+    })
   }
   initForm() {
     this.chequeForm = new FormGroup({

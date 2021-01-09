@@ -101,11 +101,11 @@ export class PdcDetailsComponent implements OnInit {
     this.labelsService.getLabelsData().subscribe((res: any) => {
       this.labels = res;
     });
-    if(this.roleType == '4') {
-      this.udfScreenId = 'PCS001';
-    } else if(this.roleType == '5') {
-      this.udfScreenId = 'PCS002';
-    }
+    // if(this.roleType == '4') {
+    //   this.udfScreenId = 'PCS001';
+    // } else if(this.roleType == '5') {
+    //   this.udfScreenId = 'PCS002';
+    // }
     this.getPdcDetails();
     // if (this.pdcForm.controls.pdcList.controls.length === 0) {
     //   this.showPdc = true;
@@ -115,6 +115,13 @@ export class PdcDetailsComponent implements OnInit {
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
     });
+
+    this.labelsService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType == '5' ? udfScreenId.CPCChecker.pdcDetailsCPCChecker : udfScreenId.CPCMaker.pdcDetailsCPCMaker ;
+
+    })
   }
   get f() {
     return this.pdcForm.controls;

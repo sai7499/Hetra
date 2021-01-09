@@ -87,7 +87,7 @@ export class InsuranceDetailsComponent implements OnInit {
   isGetApi: boolean;
 
   // User defined
-  udfScreenId: any = 'ISS001';
+  udfScreenId: any = '';
   udfGroupId: any = 'ISG001';
   udfDetails: any = [];
   userDefineForm: any;
@@ -156,7 +156,12 @@ export class InsuranceDetailsComponent implements OnInit {
 
     this.getInsuranceDetails();
     this.getInsuranceProvider();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
 
+      this.udfScreenId = udfScreenId.DDE.insuranceDetailsDDE ;
+
+    })
 
   }
   getApplicantId() {
