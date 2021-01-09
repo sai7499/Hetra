@@ -16,10 +16,9 @@ import { UtilityService } from '@services/utility.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-
-import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -143,7 +142,7 @@ export class CibilOdListComponent implements OnInit {
       console.log(this.bureauDetail, 'bureauDetail')
     })
 
-    console.log('this.odForm', this.odDetailsForm)
+    
 
   }
 
@@ -451,6 +450,7 @@ export class CibilOdListComponent implements OnInit {
         this.disableSaveBtn = true;
       }
     });
+    console.log('this.odForm', this.odDetailsForm)
   }
 
   getOdApplicant() {
