@@ -345,3 +345,7 @@ form .form-control {
    overflow:auto;
     background:#fff;
 }
+
+.pagination-padding {
+    padding: 6px 10px;
+}

@@ -52,6 +52,7 @@ export class CreditScoreComponent implements OnInit {
 
   showModal: boolean;
   isChildLoan: string;
+  udfScreenId: any;
 
   constructor(
     private aRoute: ActivatedRoute,
@@ -61,7 +62,8 @@ export class CreditScoreComponent implements OnInit {
     private termsService: TermAcceptanceService,
     private commonLovService: CommomLovService,
     private createLeadService: LeadDetails,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private labelsData: LabelsService,
 
   ) {
   }
@@ -75,6 +77,12 @@ export class CreditScoreComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
 
     this.leadData = this.getCreditFromService(this.leadId);
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.eligiblityDisplayQDE ;
+
+    })
   }
 
   getCreditFromService(data: any) {
@@ -89,17 +97,19 @@ export class CreditScoreComponent implements OnInit {
         this.applicantList = this.creditScore.ProcessVariables.applicantList;
         this.variable = this.creditScore.ProcessVariables;
 
-        let ageOfAssetInMonths = this.variable ? this.variable.ageOfAsset ? 
-        Math.floor(Number(this.variable.ageOfAsset) / 12) + ' Years ' + 
-        Math.floor(Number(this.variable.ageOfAsset % 12)) + ' Months ' : 0 : 0;
+        let nullValue = (0 + ' Year ' + 0 + ' Month')
 
-        let ageOfLoanTenureInMonths = this.variable ? this.variable.ageAfterTenure ? 
-        Math.floor(Number(this.variable.ageAfterTenure) / 12) + ' Years ' + 
-        Math.floor(Number(this.variable.ageAfterTenure % 12)) + ' Months ' : 0 : 0;
+        let ageOfAssetInMonths = this.variable ? this.variable.ageOfAsset ?
+          Math.floor(Number(this.variable.ageOfAsset) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.ageOfAsset % 12)) + ' Months ' : nullValue : nullValue;
 
-        let loanTenorInMonths = this.variable ? this.variable.loanTenure ? 
-        Math.floor(Number(this.variable.loanTenure) / 12) + ' Years ' + 
-        Math.floor(Number(this.variable.loanTenure % 12)) + ' Months ' : 0 : 0;
+        let ageOfLoanTenureInMonths = this.variable ? this.variable.ageAfterTenure ?
+          Math.floor(Number(this.variable.ageAfterTenure) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.ageAfterTenure % 12)) + ' Months ' : nullValue : nullValue;
+
+        let loanTenorInMonths = this.variable ? this.variable.loanTenure ?
+          Math.floor(Number(this.variable.loanTenure) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.loanTenure % 12)) + ' Months ' : nullValue : nullValue;
 
         this.variable['ageOfAssetInMonths'] = ageOfAssetInMonths;
         this.variable['ageOfLoanTenureInMonths'] = ageOfLoanTenureInMonths;

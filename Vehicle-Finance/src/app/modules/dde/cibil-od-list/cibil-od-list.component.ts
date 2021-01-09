@@ -16,9 +16,9 @@ import { UtilityService } from '@services/utility.service';
 import { ApplicantImageService } from '@services/applicant-image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-
-import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -69,6 +69,8 @@ export class CibilOdListComponent implements OnInit {
   udfGroupId = 'BDG001';
 
   bureauDetail: any;
+  apiValue: any;
+  finalValue: any;
 
   constructor(
     private labelService: LabelsService,
@@ -84,7 +86,8 @@ export class CibilOdListComponent implements OnInit {
     private applicantImageService: ApplicantImageService,
     private domSanitizer: DomSanitizer,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private objectComparisonService: ObjectComparisonService,
   ) {
     this.odAccountDetailsArray = this.formBuilder.array([]);
     this.AssetBureauEnquiryArray = this.formBuilder.array([]);
@@ -138,6 +141,8 @@ export class CibilOdListComponent implements OnInit {
       })
       console.log(this.bureauDetail, 'bureauDetail')
     })
+
+    
 
   }
 
@@ -236,7 +241,7 @@ export class CibilOdListComponent implements OnInit {
         this.odAccountDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'OD Details');
         this.isODModelShow = false;
-        this.onOdAmount(null, i);
+        this.onOdAmount();
         if (this.odAccountDetailsArray.controls.length == 0) {
           this.totalAmount = 0
         }
@@ -252,7 +257,7 @@ export class CibilOdListComponent implements OnInit {
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
             this.isODModelShow = false;
-            this.onOdAmount(null, i);
+            this.onOdAmount();
             if (this.odAccountDetailsArray.controls.length == 0) {
               this.totalAmount = 0
             }
@@ -428,11 +433,12 @@ export class CibilOdListComponent implements OnInit {
           addMatchFound: this.odDetails.assetAppOdDetails.addMatchFound,
           addCibilScore: this.odDetails.assetAppOdDetails.addCibilScore
         });
-        this.onOdAmount(this.odDetails.assetAppOdDetails.totalAmount, 0);
+        this.onOdAmount();
         this.onAdditionalMatch(this.odDetails.assetAppOdDetails.addMatchFound);
         this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
 
       }
+      this.apiValue = this.odDetailsForm.getRawValue()
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
         this.odDetailsForm.disable();
@@ -444,6 +450,7 @@ export class CibilOdListComponent implements OnInit {
         this.disableSaveBtn = true;
       }
     });
+    console.log('this.odForm', this.odDetailsForm)
   }
 
   getOdApplicant() {
@@ -552,8 +559,9 @@ export class CibilOdListComponent implements OnInit {
           const AssetBureauEnquirySixtyDaysControls = this.odDetailsForm
             .controls.AssetBureauEnquirySixtyDays as FormArray;
           AssetBureauEnquirySixtyDaysControls.controls = [];
+          this.apiValue= this.odDetailsForm.getRawValue()
           this.toasterService.showSuccess(
-            'Saved Successfully',
+            'Record Saved Successfully',
             'OD Details'
           );
           this.getOdDetails();
@@ -563,13 +571,13 @@ export class CibilOdListComponent implements OnInit {
     }
   }
 
-  onOdAmount(event: any, i: number) {
+  onOdAmount() {
     if (this.odAccountDetailsArray && this.odAccountDetailsArray.length > 0) {
       this.totalAmount = 0;
       for (let i = 0; i < this.odAccountDetailsArray.length; i++) {
         this.totalAmount = Math.round(
           this.totalAmount +
-          Number(this.odAccountDetailsArray.value[i].odAmount)
+          Number(this.odAccountDetailsArray.value[i].odAmount ? this.odAccountDetailsArray.value[i].odAmount : 0)
         );
 
       }
@@ -590,19 +598,28 @@ export class CibilOdListComponent implements OnInit {
     if (this.isLoan360) {
       return this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
     }
-    this.cibilOdDetails = this.odDetailsForm.value.Rows;
-    this.submitted = true;
-    this.isDirty = true;
-    if (this.odDetailsForm.valid === true) {
-      this.onSubmit();
-    } else {
-      this.isDirty = true;
-      this.toasterService.showError(
-        'Fields Missing Or Invalid Pattern Detected',
-        'OD Details'
-      );
+    this.finalValue = this.odDetailsForm.getRawValue();
+    // console.log(JSON.stringify(this.apiValue));
+    // console.log(JSON.stringify(this.finalValue));
+    // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
+    if (!isValueCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
+    // this.cibilOdDetails = this.odDetailsForm.value.Rows;
+    // this.submitted = true;
+    // this.isDirty = true;
+    // if (this.odDetailsForm.valid === true) {
+    //   this.onSubmit();
+    // } else {
+    //   this.isDirty = true;
+    //   this.toasterService.showError(
+    //     'Fields Missing Or Invalid Pattern Detected',
+    //     'OD Details'
+    //   );
+    //   return;
+    // }
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
 
@@ -729,8 +746,9 @@ export class CibilOdListComponent implements OnInit {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         // console.log(res, 'res')
         this.bureauDetail.isBureauChecked = res.ProcessVariables ? res.ProcessVariables.isBureauChecked : false;
-
-      } else {
+        this.odApplicantData.bureauScore = res.ProcessVariables ? res.ProcessVariables.bureauScore : null;
+        this.getOdDetails();
+        this.toasterService.showSuccess(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')      } else {
         this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })

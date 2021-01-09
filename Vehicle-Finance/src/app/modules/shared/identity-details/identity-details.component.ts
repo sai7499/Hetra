@@ -99,13 +99,19 @@ export class IdentityDetailsComponent implements OnInit {
   ) {
 
     const url = this.location.path();
-    if (url.includes('sales')) {
-      this.udfScreenId = 'APS011';
-      this.udfGroupId = 'APG008';
-    } else {
-      this.udfScreenId = 'APS015';
-      this.udfGroupId = 'APG008';
-    }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      if (url.includes('sales')) {
+        this.udfScreenId = udfScreenId.ADE.applicantIdentityADE;
+        this.udfGroupId = 'APG008';
+      } else {
+        this.udfScreenId = udfScreenId.DDE.applicantIdentityDDE;
+        this.udfGroupId = 'APG008';
+      }
+
+    })
+    
 
     console.log(this.udfScreenId, 'udf', this.udfScreenId)
     this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)

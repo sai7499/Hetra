@@ -80,14 +80,22 @@ export class ApplicantListComponent implements OnInit {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     const currentUrl = this.location.path();
     if (currentUrl.includes('sales')) {
-      this.udfScreenId = 'APS006';
+      //this.udfScreenId = 'APS006';
       this.locationPath = 'sales';
     } else if (currentUrl.includes('dde')) {
-      this.udfScreenId = 'APS013';
+      //this.udfScreenId = 'APS013';
       this.locationPath = 'dde';
     } else {
       this.locationPath = 'lead-section'
     }
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.applicantListADE : currentUrl.includes('dde') ?
+       udfScreenId.DDE.applicantListDDE : udfScreenId.QDE.applicantListQDE ;
+
+    })
 
     this.isShowAddaApplicant(currentUrl);
 

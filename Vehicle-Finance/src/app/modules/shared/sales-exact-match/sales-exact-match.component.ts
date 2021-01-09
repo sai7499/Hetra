@@ -6,6 +6,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
 import { Location } from '@angular/common'
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   templateUrl: './sales-exact-match.component.html',
@@ -35,8 +36,9 @@ export class SalesExactMatchComponent implements OnInit {
   isNavigateToApplicant: boolean = false;
   getApplicantId: any;
 
-  negativeDedupeUdfScreenId: string  = 'APS004';
+  negativeDedupeUdfScreenId: string  = '';
   negativeDedupeUGroupId: string = 'APG004';
+  udfScreenId: any;
 
   constructor(
     private salesDedupeService: SalesDedupeService,
@@ -44,7 +46,8 @@ export class SalesExactMatchComponent implements OnInit {
     private router: Router,
     private toasterService: ToasterService,
     private location: Location,
-    private applicantDataStoreService: ApplicantDataStoreService
+    private applicantDataStoreService: ApplicantDataStoreService,
+    private labelsData: LabelsService,
   ) { }
 
   ngOnInit() {
@@ -56,6 +59,12 @@ export class SalesExactMatchComponent implements OnInit {
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
     this.isNavigateToApplicant=this.applicantDataStoreService.getNavigateForDedupe()
     console.log('dedupeDetails', this.dedupeDetails)
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.leadtoCustomerDedupeADE : udfScreenId.QDE.leadCustomerDedupeQDE
+      this.negativeDedupeUdfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.negativeListdedupeADE : udfScreenId.QDE.negativeListdedupeQDE ;
+    })
   }
 
   rejectLead() { }

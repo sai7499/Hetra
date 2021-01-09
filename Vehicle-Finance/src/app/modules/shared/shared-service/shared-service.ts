@@ -81,29 +81,35 @@ export class SharedService {
     getSearchBarActivity() {
         return this.searchbarRoleActivityList$;
     }
+   
     productCatCode$: BehaviorSubject<string> = new BehaviorSubject(null);
     setProductCatCode(data){
         this.productCatCode$.next(data);
     }
+  
     productCatName$:BehaviorSubject<string> = new BehaviorSubject(null);
     setProductCatName(data){
         this.productCatName$.next(data);
     }
+   
     userName$: BehaviorSubject<any> = new BehaviorSubject(null);
     isSUpervisorUserName = this.userName$.asObservable();
     getUserName(data) {
         this.userName$.next(data);
     }
+    
     userRoleId$: BehaviorSubject<any> = new BehaviorSubject(null);
     isSupervisorRoleId = this.userRoleId$.asObservable();
     getUserRoleId(data) {
         this.userRoleId$.next(data);
     }
+   
     supervisorName$: BehaviorSubject<any> = new BehaviorSubject(null);
     isSupervisorName = this.supervisorName$.asObservable();
     getSupervisorName(data) {
         this.supervisorName$.next(data)
     }
+   
     declinedFlow$: BehaviorSubject<any> = new BehaviorSubject(null);
     isDeclinedFlow = this.declinedFlow$.asObservable();
     getDeclinedFlow(data) {
@@ -111,8 +117,14 @@ export class SharedService {
     }
 
     bureauDetail$: BehaviorSubject<any> = new BehaviorSubject(null);
-
     getBureauDetail(data) {
         this.bureauDetail$.next(data);
     }
+
+    isdedupdeStatus$: BehaviorSubject<any> = new BehaviorSubject(null);
+    getDedupdeStatus(data) {
+        this.isdedupdeStatus$.next(data);
+    }
+
+
 }
