@@ -144,13 +144,18 @@ export class AddressDetailsComponent implements OnInit {
     private loanViewService: LoanViewService
   ) {
     const url = this.location.path();
-    if (url.includes('sales')) {
-      this.udfScreenId = 'APS012';
-      this.udfGroupId = 'APG008';
-    } else {
-      this.udfScreenId = 'APS016';
-      this.udfGroupId = 'APG008';
-    }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      if (url.includes('sales')) {
+        this.udfScreenId = udfScreenId.ADE.applicantAddressADE;
+        this.udfGroupId = 'APG008';
+      } else {
+        this.udfScreenId = udfScreenId.DDE.applicantAddressDDE;
+        this.udfGroupId = 'APG008';
+      }
+
+    })
   }
 
   async ngOnInit() {

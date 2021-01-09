@@ -264,7 +264,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   applicantDedupeUdfScreenId: string  = 'APS003';
   applicantDedupeUGroupId: string = 'APG003';
 
-  negativeDedupeUdfScreenId: string  = 'APS004';
+  negativeDedupeUdfScreenId: string  = '';
   negativeDedupeUGroupId: string = 'APG004';
 
   constructor(
@@ -349,9 +349,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
 
       const currentUrl = this.location.path();
-      if (currentUrl.includes('sales')) {
-        this.udfScreenId = 'APS009';
-      }
+      this.labelsData.getScreenId().subscribe((data) => {
+        let udfScreenId = data.ScreenIDS;
+  
+        this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.addEditApplicantDetailADE : udfScreenId.QDE.leadDetailQDE ;
+        this.negativeDedupeUdfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.negativeListdedupeADE : udfScreenId.QDE.negativeListdedupeQDE ;
+  
+      })
 
     })
     this.isExtCustValueChange = this.applicantDataService.getDetectvalueChange();
@@ -2494,6 +2498,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     if (this.dedupeMobile || !this.applicant.otpVerified) {
       const currentUrl = this.location.path();
+      if (currentUrl.includes('sales')) {
+        this.applicantDataService.setNavigateForDedupe(true)
+      } else {
+        this.applicantDataService.setNavigateForDedupe(false)
+      }
       this.applicantDataService.setUrl(currentUrl);
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
@@ -2556,6 +2565,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
     if (this.dedupeMobile || !this.applicant.otpVerified) {
       const currentUrl = this.location.path();
+      if (currentUrl.includes('sales')) {
+        this.applicantDataService.setNavigateForDedupe(true)
+      } else {
+        this.applicantDataService.setNavigateForDedupe(false)
+      }
       this.applicantDataService.setUrl(currentUrl);
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`

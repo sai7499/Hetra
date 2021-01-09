@@ -318,7 +318,7 @@ export class RemarksComponent implements OnInit {
     });
   }
 
-  onReject(){
+  onDecline(){
     let productCode = ''
     this.sharedService.productCatCode$.subscribe((value) => {
       productCode = value;

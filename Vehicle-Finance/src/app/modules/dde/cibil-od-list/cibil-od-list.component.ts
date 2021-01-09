@@ -19,6 +19,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -69,6 +70,8 @@ export class CibilOdListComponent implements OnInit {
   udfGroupId = 'BDG001';
 
   bureauDetail: any;
+  apiValue: any;
+  finalValue: any;
 
   constructor(
     private labelService: LabelsService,
@@ -84,7 +87,8 @@ export class CibilOdListComponent implements OnInit {
     private applicantImageService: ApplicantImageService,
     private domSanitizer: DomSanitizer,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private objectComparisonService: ObjectComparisonService,
   ) {
     this.odAccountDetailsArray = this.formBuilder.array([]);
     this.AssetBureauEnquiryArray = this.formBuilder.array([]);
@@ -138,6 +142,8 @@ export class CibilOdListComponent implements OnInit {
       })
       console.log(this.bureauDetail, 'bureauDetail')
     })
+
+    console.log('this.odForm', this.odDetailsForm)
 
   }
 
@@ -433,6 +439,7 @@ export class CibilOdListComponent implements OnInit {
         this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
 
       }
+      this.apiValue = this.odDetailsForm.getRawValue()
       const operationType = this.toggleDdeService.getOperationType();
       if (operationType) {
         this.odDetailsForm.disable();
@@ -552,6 +559,7 @@ export class CibilOdListComponent implements OnInit {
           const AssetBureauEnquirySixtyDaysControls = this.odDetailsForm
             .controls.AssetBureauEnquirySixtyDays as FormArray;
           AssetBureauEnquirySixtyDaysControls.controls = [];
+          this.apiValue= this.odDetailsForm.getRawValue()
           this.toasterService.showSuccess(
             'Saved Successfully',
             'OD Details'
@@ -590,19 +598,28 @@ export class CibilOdListComponent implements OnInit {
     if (this.isLoan360) {
       return this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
     }
-    this.cibilOdDetails = this.odDetailsForm.value.Rows;
-    this.submitted = true;
-    this.isDirty = true;
-    if (this.odDetailsForm.valid === true) {
-      this.onSubmit();
-    } else {
-      this.isDirty = true;
-      this.toasterService.showError(
-        'Fields Missing Or Invalid Pattern Detected',
-        'OD Details'
-      );
+    this.finalValue = this.odDetailsForm.getRawValue();
+    // console.log(JSON.stringify(this.apiValue));
+    // console.log(JSON.stringify(this.finalValue));
+    // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
+    if (!isValueCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
+    // this.cibilOdDetails = this.odDetailsForm.value.Rows;
+    // this.submitted = true;
+    // this.isDirty = true;
+    // if (this.odDetailsForm.valid === true) {
+    //   this.onSubmit();
+    // } else {
+    //   this.isDirty = true;
+    //   this.toasterService.showError(
+    //     'Fields Missing Or Invalid Pattern Detected',
+    //     'OD Details'
+    //   );
+    //   return;
+    // }
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
   }
 
