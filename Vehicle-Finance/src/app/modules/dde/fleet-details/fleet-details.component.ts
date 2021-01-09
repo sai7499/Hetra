@@ -88,6 +88,15 @@ export class FleetDetailsComponent implements OnInit {
   udfScreenId = 'FLS001';
   udfGroupId = 'FLG001';
 
+  itemsPerPage = '5';
+    // pageNumber = 1;
+    // currentPage = 1;
+    // totalItems: any;
+    // count = 1;
+    // slicedArray: any;
+  q;
+
+
   constructor(
     private labelsData: LabelsService,
     private fb: FormBuilder,
@@ -693,6 +702,10 @@ export class FleetDetailsComponent implements OnInit {
 
   toReference() {
     this.router.navigate(['pages/dde/' + this.leadId + '/reference']);
+  }
+
+  pageChange(event) {
+    this.itemsPerPage = event.target.value;
   }
 
   onFormSubmit(index: any) {
