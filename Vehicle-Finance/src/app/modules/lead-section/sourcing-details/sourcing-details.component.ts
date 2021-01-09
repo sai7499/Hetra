@@ -570,6 +570,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   sourchingTypeChange(event) {
+    console.log(event, 'sourcing Type')
     this.sourchingTypeId = event.target ? event.target.value : event;
     if (this.sourchingTypeId === '2SOURTYP') {
       this.sourcingDetailsForm.controls['dealerCode'].setValidators(Validators.required);

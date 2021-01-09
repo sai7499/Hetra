@@ -307,14 +307,14 @@ onSubmit() {
           this.liveloanArray = [];
           this.proposedArray = [];
           this.getExposure();
-        this.toStarService.showSuccess("Exposure Details Saved Successfully","Exposuer Details")
+        this.toStarService.showSuccess("Record Saved Successfully","Exposure Details")
         }else{
-          this.toStarService.showError(res.ProcessVariables.error.message,"Exposuer Details")
+          this.toStarService.showError(res.ProcessVariables.error.message,"Exposure Details")
         }
 
       });
     } else {
-      this.toStarService.showError("Please Enter Mandatory Data","Exposuer Details")
+      this.toStarService.showError("Please Enter Mandatory Data","Exposure Details")
     }
   }
 

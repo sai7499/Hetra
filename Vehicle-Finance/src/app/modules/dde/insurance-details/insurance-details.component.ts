@@ -303,10 +303,10 @@ export class InsuranceDetailsComponent implements OnInit {
     this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
         if (event == 'save') {
-          this.toasterService.showSuccess('Record saved succesfully', '');
+          this.toasterService.showSuccess('Record saved successfully', '');
           this.getInsuranceDetails();
         } else if (event == 'next') {
-          this.toasterService.showSuccess('Record saved succesfully', '');
+          this.toasterService.showSuccess('Record saved successfully', '');
           this.onNext();
         }
       } else {

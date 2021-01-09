@@ -584,19 +584,27 @@
                         <th>{{labels?.leadID}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
                                 (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
-                        <th >{{labels?.applicantName}} </th>
+                        <th>{{labels?.applicantName}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                            [ngClass]="{'active':sortTables?.ByName === sortTab}"
+                            (click)="onSort(sortTables?.ByName)"> </i> </th>
                         <th  >{{labels?.product}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                                 (click)="onSort(sortTables?.ByProduct)"> </i> </th>
                         <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                 (click)="onSort(sortTables?.ByLoanAmt)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.applicant+'s'}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.applicant+'s'}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                            [ngClass]="{'active':sortTables?.ByApplicants === sortTab}"
+                            (click)="onSort(sortTables?.ByApplicants)"> </i>  </th>
                         <th>{{labels?.createdOn}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByDate === sortTab}"
                                 (click)="onSort(sortTables?.ByDate)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.createdBy}} </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.priority}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.createdBy}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                            [ngClass]="{'active':sortTables?.ByCreated === sortTab}"
+                            (click)="onSort(sortTables?.ByCreated)"> </i> </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.priority}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                            [ngClass]="{'active':sortTables?.ByPriority === sortTab}"
+                            (click)="onSort(sortTables?.ByPriority)"> </i> </th>
                         <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.promoCode}} </th>
                         <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" >{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"

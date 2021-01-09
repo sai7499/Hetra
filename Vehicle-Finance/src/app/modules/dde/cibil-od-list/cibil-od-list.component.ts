@@ -246,7 +246,7 @@ export class CibilOdListComponent implements OnInit {
         this.odAccountDetailsArray.removeAt(i);
         this.toasterService.showInfo('Row is Removed', 'OD Details');
         this.isODModelShow = false;
-        this.onOdAmount(null, i);
+        this.onOdAmount();
         if (this.odAccountDetailsArray.controls.length == 0) {
           this.totalAmount = 0
         }
@@ -262,7 +262,7 @@ export class CibilOdListComponent implements OnInit {
             const message = res.ProcessVariables.error.message;
             this.toasterService.showSuccess(message, '');
             this.isODModelShow = false;
-            this.onOdAmount(null, i);
+            this.onOdAmount();
             if (this.odAccountDetailsArray.controls.length == 0) {
               this.totalAmount = 0
             }
@@ -438,7 +438,7 @@ export class CibilOdListComponent implements OnInit {
           addMatchFound: this.odDetails.assetAppOdDetails.addMatchFound,
           addCibilScore: this.odDetails.assetAppOdDetails.addCibilScore
         });
-        this.onOdAmount(this.odDetails.assetAppOdDetails.totalAmount, 0);
+        this.onOdAmount();
         this.onAdditionalMatch(this.odDetails.assetAppOdDetails.addMatchFound);
         this.onSelectProof(this.odDetails.assetAppOdDetails.clearanceProofCollected);
 
@@ -566,7 +566,7 @@ export class CibilOdListComponent implements OnInit {
           AssetBureauEnquirySixtyDaysControls.controls = [];
           this.apiValue= this.odDetailsForm.getRawValue()
           this.toasterService.showSuccess(
-            'Saved Successfully',
+            'Record Saved Successfully',
             'OD Details'
           );
           this.getOdDetails();
@@ -576,13 +576,13 @@ export class CibilOdListComponent implements OnInit {
     }
   }
 
-  onOdAmount(event: any, i: number) {
+  onOdAmount() {
     if (this.odAccountDetailsArray && this.odAccountDetailsArray.length > 0) {
       this.totalAmount = 0;
       for (let i = 0; i < this.odAccountDetailsArray.length; i++) {
         this.totalAmount = Math.round(
           this.totalAmount +
-          Number(this.odAccountDetailsArray.value[i].odAmount)
+          Number(this.odAccountDetailsArray.value[i].odAmount ? this.odAccountDetailsArray.value[i].odAmount : 0)
         );
 
       }
@@ -751,8 +751,9 @@ export class CibilOdListComponent implements OnInit {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         // console.log(res, 'res')
         this.bureauDetail.isBureauChecked = res.ProcessVariables ? res.ProcessVariables.isBureauChecked : false;
-
-      } else {
+        this.odApplicantData.bureauScore = res.ProcessVariables ? res.ProcessVariables.bureauScore : null;
+        this.getOdDetails();
+        this.toasterService.showSuccess(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')      } else {
         this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })

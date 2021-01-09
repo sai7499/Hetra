@@ -17,6 +17,7 @@ import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToasterService } from '@services/toaster.service';
 import { THRESHOLD_DIFF } from '@progress/kendo-angular-popup/dist/es2015/services/scrollable.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-existing-lead-creation',
@@ -163,6 +164,7 @@ export class ExistingLeadCreationComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private leadStoreService: LeadStoreService,
+    private sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
   ) {
 
@@ -272,7 +274,6 @@ export class ExistingLeadCreationComponent implements OnInit {
     if (!roleAndUserDetails) {
       return;
     }
-    console.log(roleAndUserDetails, 'Test');
     this.getBusinessDivision(roleAndUserDetails);
     this.userId = roleAndUserDetails.userDetails.userId;
     this.getSourcingDetails(this.userId);
@@ -308,6 +309,8 @@ export class ExistingLeadCreationComponent implements OnInit {
     this.createLeadService
       .getProductCategory(this.bizDivId)
       .subscribe((res: any) => {
+        console.log(res, 'Test');
+
         this.productCategoryList = res.ProcessVariables.productCategoryDetails;
         this.productCategoryData = this.utilityService.getValueFromJSON(
           this.productCategoryList,
@@ -384,7 +387,6 @@ export class ExistingLeadCreationComponent implements OnInit {
       // const errorMessage = response.ProcessVariables.error.message;
 
       // if (appiyoError === '0' && apiError === '0') {
-      console.log('extSRC', response);
       this.extSourcingChannelData = response.ProcessVariables.srcChannel;
       this.extSourcingTypeData = response.ProcessVariables.srcType;
       this.extSourcingCodeData = response.ProcessVariables.srcCode;
@@ -410,6 +412,8 @@ export class ExistingLeadCreationComponent implements OnInit {
         });
         this.isSourcingCode = true;
       }
+      console.log(this.createExternalLeadForm, 'extSRC', response);
+
     })
   }
 
@@ -780,6 +784,21 @@ export class ExistingLeadCreationComponent implements OnInit {
           this.mobileApprove = mobile;
           this.dobApprove = dob;
 
+          this.extSourcingChannelData = [{
+            key: response.ProcessVariables.leadDetails.sourcingChannel,
+            value: response.ProcessVariables.leadDetails.sourcingChannelDesc
+          }]
+
+          this.extSourcingTypeData = [{
+            key: response.ProcessVariables.leadDetails.sourcingType,
+            value: response.ProcessVariables.leadDetails.sourcingTypeDesc
+          }]
+
+          this.extSourcingCodeData = [{
+            key: response.ProcessVariables.leadDetails.sourcingCode,
+            value: response.ProcessVariables.leadDetails.sourcingCodeDesc
+          }]
+
           const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
           const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
           const sourcingCode = response.ProcessVariables.leadDetails.sourcingCode;
@@ -886,6 +905,7 @@ export class ExistingLeadCreationComponent implements OnInit {
             this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
             return;
           }
+          this.sharedService.getDedupdeStatus(true);
           this.router.navigateByUrl(`pages/lead-section/${this.leadIdFromDashboard}`);
         } else {
           this.toasterService.showError(errorMessage, 'Approve Lead');
