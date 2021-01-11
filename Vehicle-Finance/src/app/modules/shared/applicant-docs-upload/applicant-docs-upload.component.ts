@@ -99,6 +99,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
   //   rule: 15,
   // };
 
+    // userDefineFields
+    udfScreenId = 'RCS002';
+    udfDetails: any = [];
+    userDefineForm: any;
+    udfGroupId: string = 'RCG001';
+    jsonScreenId: any;
+
   currentlySelectedDocs: number;
   documentNumberPattern: string;
   documentMaxLength: number;
@@ -148,6 +155,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.labelsData.getScreenId().subscribe((data: any) => {
+      this.jsonScreenId = data.ScreenIDS;
+      this.udfScreenId = this.jsonScreenId.Common.documentUploadCommon;
+    })
+
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].applicantDocument[0];
     });
