@@ -235,7 +235,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
 
         if (this.entityTypeKey == "INDIVENTTYP") {
-          this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;
+          this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory : null ;
         } else if (this.entityTypeKey == "NONINDIVENTTYP") {
           this.custCategory = null;
         }

@@ -161,12 +161,12 @@ export class ApplicantDetailComponent implements OnInit {
         const applicantDetailsFromLead = value;
         this.serviceApplicantFullName = applicantDetailsFromLead['fullName'];
         if (applicantDetailsFromLead['entityTypeKey'] === "NONINDIVENTTYP") {
-          this.serviceMoblieNo = applicantDetailsFromLead['companyPhoneNumber'];
-          this.serviceDobOrDio = this.reformatDate((applicantDetailsFromLead['doi']).slice(0, 10));
+          this.serviceMoblieNo =applicantDetailsFromLead['companyPhoneNumber'] ?  applicantDetailsFromLead['companyPhoneNumber'] : '';
+          this.serviceDobOrDio =applicantDetailsFromLead['doi']? this.reformatDate((applicantDetailsFromLead['doi']).slice(0, 10)) : '';
 
         } else if (applicantDetailsFromLead['entityTypeKey'] === "INDIVENTTYP") {
-          this.serviceMoblieNo = applicantDetailsFromLead['mobileNumber'];
-          this.serviceDobOrDio = this.reformatDate((applicantDetailsFromLead['dob']).slice(0, 10));
+          this.serviceMoblieNo = applicantDetailsFromLead['mobileNumber']? applicantDetailsFromLead['mobileNumber'] : '';
+          this.serviceDobOrDio = applicantDetailsFromLead['dob']? this.reformatDate((applicantDetailsFromLead['dob']).slice(0, 10)) : '';
         }
       }
     }
@@ -325,9 +325,9 @@ export class ApplicantDetailComponent implements OnInit {
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
 
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
-
+        this.setFormValue();
         if (this.applicantPdDetails) {
-          this.setFormValue();
+          
           this.ficumpdPdfService.setApplicantPdDetails(this.applicantPdDetails);
           // this.pdDataService.setCustomerProfile(this.applicantPdDetails);
         }
@@ -350,7 +350,7 @@ export class ApplicantDetailComponent implements OnInit {
       this.onNavigateNext();
       return;
     }
-    const formModal = this.applicantForm.value;
+    const formModal = this.applicantForm.getRawValue();
     const applicantFormModal = { ...formModal };
 
     // if (this.applicantForm.invalid && this.userDefineForm.udfData.invalid) {
@@ -358,9 +358,9 @@ export class ApplicantDetailComponent implements OnInit {
     //   this.toasterService.showWarning('please enter required details', '');
     //   return;
     // }
-
+    
     this.applicantDetails = {
-      applicantName: this.applicantFullName,
+      applicantName: this.applicantFullName || applicantFormModal.applicantName,
       fatherFullName: applicantFormModal.fatherFullName ? applicantFormModal.fatherFullName : applicantFormModal.husbandFullName,
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,

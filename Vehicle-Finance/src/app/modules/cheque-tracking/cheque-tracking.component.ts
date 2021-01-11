@@ -78,10 +78,12 @@ export class ChequeTrackingComponent implements OnInit {
       }
     );
     this.getLOV();
-    this.getApplicantDetails()
+    
 
     this.leadId = (await this.getLeadId()) as number;
+
     console.log('leadid', this.leadId)
+    this.getApplicantDetails()
     // this.sharedService.loanNumber$.subscribe((loanNumber) => {
     //   console.log('loanNumber', loanNumber)
     //   this.loanNumber = loanNumber
@@ -120,6 +122,13 @@ export class ChequeTrackingComponent implements OnInit {
   }
 
   getApplicantDetails() {
+    if (this.leadId) {
+      const gotLeadData = this.activatedRoute.snapshot.data.leadData;
+      if (gotLeadData.Error === '0') {
+        const leadData = gotLeadData.ProcessVariables;
+        this.createLeadDataService.setLeadSectionData(leadData);
+      }
+    }
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
     this.applicantArray = this.leadSectioData['applicantDetails']
 

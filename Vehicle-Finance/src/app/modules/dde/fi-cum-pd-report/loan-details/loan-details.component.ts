@@ -463,7 +463,7 @@ export class LoanDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
-        this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;
+        //this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory || '';
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;
         // console.log('asset details used vehilce', this.assetDetailsUsedVehicle);
