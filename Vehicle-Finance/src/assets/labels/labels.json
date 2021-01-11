@@ -1828,6 +1828,7 @@
     "affordableEMI": "Affordable EMI",
     "relationshipType":"Relationship Type",
     "pdDoneAt": "PD done at",
+    "viabilityDoneAt": "Viability done at",
     "validationData": {
         "name": {
             "maxLength": {
