@@ -91,6 +91,7 @@ export class InsuranceDetailsComponent implements OnInit {
   udfGroupId: any = 'ISG001';
   udfDetails: any = [];
   userDefineForm: any;
+  isViewDde: boolean;
 
   constructor(private fb: FormBuilder,
               private labelsData: LabelsService,
@@ -114,10 +115,13 @@ export class InsuranceDetailsComponent implements OnInit {
     this.productCode = this.leadData['leadDetails'].productCatCode;
     this.initForm();
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-    if (this.isLoan360) {
+    this.isViewDde = this.toggleDdeService.getOperationType();
+    if (this.isLoan360 || this.isViewDde) {
       this.insuranceDetailForm.disable();
       this.disableSaveBtn = true;
     }
+
+    
     // tslint:disable-next-line: no-string-literal
     this.leadData['applicantDetails'].map((element => {
       const body = {

@@ -89,7 +89,7 @@
         <!-- <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}</strong>&nbsp;&nbsp;<sup>{{this.leadId}}</sup></p> -->
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
         <div id="">
-        <p id="typeId" class="typeId"></p>
+        <span id="typeId" class="typeId"></span>
             <div id="" class="table-responsive">
                 <h3 id=" " class="banner-sub ">{{labels?.vehicleDetails}}</h3>
                 <table class="table table-align">
@@ -219,7 +219,7 @@
                         <!-- <p id="vf_sheet_tag43"><strong> {{labels?.coBorrower2Signature}} </strong></p> -->
                     </div>
                 </div>
-        <p id="typeId1" class="typeId"></p>
+        <span id="typeId1" class="typeId"></span>
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
                     <div class="mar-top" *ngFor="let guarantor of guarantorList; let i = index">
                         <p id="vf_sheet_tag44"><strong> {{guarantor?.applicantType}} {{i+1}} {{labels?.signature}}
@@ -256,8 +256,8 @@
         <div class="align-justify table-responsive" id="page_break">
             <h3 class="banner-sub ">
                {{labels?.vfSheetTag75}}
-            </h3>
-        <p id="typeId2" class="typeId"></p>
+            </h3> 
+        <span id="typeId2" class="typeId"></span>
             <p id="vf_sheet_tag76"><strong> {{labels?.vfSheetTag76}} </strong></p>
             <p id="vf_sheet_tag77"> {{labels?.vfSheetTag77}} </p>
             <p id="vf_sheet_tag78"> {{labels?.vfSheetTag78}} </p>

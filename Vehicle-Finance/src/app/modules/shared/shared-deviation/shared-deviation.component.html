@@ -1,6 +1,10 @@
 <form class="multisteps-form__form p-0" [formGroup]="deviationsForm">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
+    <h3 class="banner-con">Deviation 
+      <span class="float-right">{{udfScreenId}}</span>
+    </h3>
+
     <ng-container formArrayName="waiverNormsFormArray">
 
       <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit && isWaiverTrigger">
@@ -10,7 +14,7 @@
 
       <div *ngIf="deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
 
-        <h3 class="banner-con">{{labels?.waiverDeviation}}</h3>
+        <h3 class="banner-sub">{{labels?.waiverDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -111,7 +115,7 @@
 
       <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="banner-con">{{labels?.autoDeviation}}</h3>
+        <h3 class="banner-sub">{{labels?.autoDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -193,10 +197,9 @@
         </div>
       </ng-container>
 
-
       <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="banner-con">{{labels?.manualDeviation}}</h3>
+        <h3 class="banner-sub">{{labels?.manualDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
