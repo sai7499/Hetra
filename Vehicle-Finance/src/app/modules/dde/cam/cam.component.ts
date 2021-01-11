@@ -180,6 +180,8 @@ export class CamComponent implements OnInit {
     this.isChildLoan = leadSectionData.leadDetails['isChildLoan'] ? leadSectionData.leadDetails['isChildLoan'] === '1' ?
       true : false : false;
 
+    this.currentUrl = this.location.path();
+
     if (this.productCategoryCode == "UC") {
       const body = {
         "leadId": this.leadId,
