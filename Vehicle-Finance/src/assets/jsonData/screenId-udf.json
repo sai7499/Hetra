@@ -34,18 +34,21 @@
             "leadReferenceADE": "LR0215"
         },
         "FICUMPD": {
+            "fiCumPdList" : "",
             "applicantDetailFIcumPD": "AD0301",
             "customerProfileFIcumPD": "CP0302",
             "loanFIcumPD": "LR0303",
             "applicantReferenceFIcumPD": "AR0304"
         },
         "PD": {
+            
             "applicantDetailPD": "AD0401",
             "applicantIncomePD": "AI0402",
             "applicantReferencePD": "AR0403",
             "otherPD": "OT0404"
         },
         "FI": {
+            "fiList" : "",
             "residenceFI": "RE0501",
             "businessFI": "BU0502"
         },
@@ -80,14 +83,17 @@
             "pslDataDDE": "PS0917",
             "vehicleValuationDDE": "VV0918",
             "teleVerificationDDE": "TV0919",
+            "fiCumPdList" : "",
             "applicantDetailsFIcumPDDDE": "AD0920",
             "customerProfileDetailsFIcumPDDDE": "CP0921",
             "loanDetailsFIcumPDDDE": "LR0922",
             "referenceCheckFIcumPDDDE": "LR0923",
+            
             "personalPDDDE": "AD0924",
             "incomePDDDE": "AI0925",
             "referencePDDDE": "AR0926",
             "otherPDDDE": "OT0927",
+            "fiListDDE" : "",
             "residenceFIDDE": "RE0928",
             "businessFIDDE": "BU0929",
             "vehicleViablityCaptiveDDE": "CA0930",
