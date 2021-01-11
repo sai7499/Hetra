@@ -11,6 +11,7 @@ import { ObjectComparisonService } from '@services/obj-compare.service';
 import { ToasterService } from '@services/toaster.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-reference',
@@ -116,6 +117,8 @@ export class ReferenceComponent implements OnInit {
   initUDFValues: any;
   editedUDFValues: any;
 
+  isViewDde: boolean;
+
   constructor(
     private commonLovService: CommomLovService,
     private labelsData: LabelsService,
@@ -126,7 +129,8 @@ export class ReferenceComponent implements OnInit {
     private location: Location,
     private router: Router,
     private objectComparisonService: ObjectComparisonService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private toggleDdeService: ToggleDdeService
   ) {
     this.refOnefirstName = '';
     this.refOnemiddleName = '';
@@ -147,6 +151,8 @@ export class ReferenceComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.isViewDde = this.toggleDdeService.getOperationType();
+    
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.currentUrl = this.location.path();
@@ -472,6 +478,9 @@ export class ReferenceComponent implements OnInit {
           } else {
             const message = response.ProcessVariables.error.message;
             this.toasterService.error(message, 'Reference Details');
+          }
+          if (this.isViewDde) {
+            this.referenceForm.disable();
           }
           if (this.loanViewService.checkIsLoan360()) {
             this.referenceForm.disable();

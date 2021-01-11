@@ -650,9 +650,13 @@
                 {{ labels.back }}
             </button>
 
+            <ng-container *ngIf="!isViewDde">
+
             <button class="btn btn-primary" (click)="saveUpdateInsurance('save')" *ngIf="!this.isLoan360">
                 {{ labels.save }}
             </button>
+
+            </ng-container>
 
             <button class="btn btn-primary hvr-sweep-to-right" (click)="saveUpdateInsurance('next')">
                 {{ labels.next }}

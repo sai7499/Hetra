@@ -296,9 +296,11 @@
           <button type="button" class="btn btn-primary hvr-sweep-to-left" value="submit" (click)="onBack()">
             Back
           </button>
+          <ng-container *ngIf="!isViewDde">
           <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" *ngIf="!isLoan360">
             Save
           </button>
+          </ng-container>
           <button type="button" class="btn btn-primary hvr-sweep-to-right" value="submit" (click)="onNext()">
             Next
           </button>
