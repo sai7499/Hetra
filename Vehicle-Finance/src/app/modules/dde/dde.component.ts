@@ -132,7 +132,7 @@ export class DdeComponent implements OnInit, OnChanges {
       this.router.url.includes('/cheque-tracking') ||
       this.router.url.includes('/pdd-details') ||
       this.router.url.includes('/loan-status') ||
-      this.router.url.includes('/valuation-dashboard')
+      this.router.url.includes('/valuation-dashboard') 
 
     ) {
       this.showNav = false;

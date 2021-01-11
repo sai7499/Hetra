@@ -20,6 +20,8 @@ import mChildLoanLabels from '../../assets/jsonData/child-loan.json';
 
 import commonLables from '../../assets/jsonData/common-fields.json';
 
+import screenIdLabels from '../../assets/jsonData/screenId-udf.json';
+
 
 @Injectable({
   providedIn: 'root'
@@ -130,6 +132,14 @@ export class LabelsService {
   getCommonFieldData(): Observable<any> {
     try {
       return this.createObservableObj(commonLables);
+    } catch (error) {
+      
+    }
+  }
+
+  getScreenId() : Observable<any> {
+    try {
+      return this.createObservableObj(screenIdLabels);
     } catch (error) {
       
     }

@@ -1,7 +1,7 @@
 <main class="mar-top90" #pTag>
   <app-lead-section-header></app-lead-section-header>
 
-  <div class="">
+  <div class="row">
 
     <form [formGroup]="coApplicantForm" autocomplete="off" (keydown.enter)="$event.preventDefault()">
       <div class="content">
@@ -14,7 +14,7 @@
           {{ labels?.editApplicant }}
           <span class="float-right">{{udfScreenId}}</span>
         </h3>
-        <div class="row">
+        <div class="">
           <div id="individual_section_leadco" class="content-box">
             <div formGroupName="dedupe">
               <div class="row">
@@ -735,7 +735,10 @@
               <div id="individual_section_address" class="individual_section_leadco"
                 *ngIf="applicantType == 'INDIVENTTYP'">
                 <div class="btn-sec clear-both row">
-                  <div class="col-lg-3 col-sm-5">
+                  <div class="col-lg-12 col-sm-12"*ngIf="!showApplicantAddCheckBox" >
+                    <h3 class="banner-sub">Permanent Address</h3>
+                  </div>
+                  <div class="col-lg-3 col-sm-5"*ngIf="showApplicantAddCheckBox" >
                     <h3 class="banner-sub">Permanent Address</h3>
                   </div>
                   <div class="col-lg-3 text-left" id="align_this_checkbox" *ngIf="showApplicantAddCheckBox">
@@ -1180,7 +1183,7 @@
       <div class="modal-header text-center">
         <h4 class="modal-title">
           {{ labels?.applicantDedupe }}
-          <span class="float-right">{{applicantDedupeUdfScreenId}}</span>
+          <span class="float-right"></span>
         </h4>
         <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
       </div>

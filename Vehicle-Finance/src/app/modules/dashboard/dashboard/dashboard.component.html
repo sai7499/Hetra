@@ -18,7 +18,7 @@
                 <button *ngIf="supervisorName" class=" mar-right" (click)="onBack()" class="btn btn-primary">
                     Back
                 </button>
-                <button class="btn btn-primary view-button  mar-bottom " type="button" (click)="initinequery()">
+                <button class="btn btn-primary view-button " type="button" (click)="initinequery()">
                     Initiate Query &nbsp;
                     <i class="fa fa-bell cus-bell font-medium-3"></i><span
                         class="notification badge badge-pill badge-danger"
@@ -584,19 +584,27 @@
                         <th>{{labels?.leadID}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
                                 (click)="onSort(sortTables?.ByLeadId)"> </i> </th>
-                        <th >{{labels?.applicantName}} </th>
+                        <th>{{labels?.applicantName}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                            [ngClass]="{'active':sortTables?.ByName === sortTab}"
+                            (click)="onSort(sortTables?.ByName)"> </i> </th>
                         <th  >{{labels?.product}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                                 (click)="onSort(sortTables?.ByProduct)"> </i> </th>
                         <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                 (click)="onSort(sortTables?.ByLoanAmt)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.applicant+'s'}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.applicant+'s'}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                            [ngClass]="{'active':sortTables?.ByApplicants === sortTab}"
+                            (click)="onSort(sortTables?.ByApplicants)"> </i>  </th>
                         <th>{{labels?.createdOn}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByDate === sortTab}"
                                 (click)="onSort(sortTables?.ByDate)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.createdBy}} </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.priority}} </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.createdBy}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                            [ngClass]="{'active':sortTables?.ByCreated === sortTab}"
+                            (click)="onSort(sortTables?.ByCreated)"> </i> </th>
+                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.priority}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                            [ngClass]="{'active':sortTables?.ByPriority === sortTab}"
+                            (click)="onSort(sortTables?.ByPriority)"> </i> </th>
                         <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.promoCode}} </th>
                         <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" >{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"
@@ -701,7 +709,7 @@
                         <td class="text-left" [attr.data-label]="labels?.applicantName">{{item.applicantName ? item.applicantName : '--'}}
                         </td>
                         <td class="text-left" [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}</td>
-                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-right" [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
+                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="txt-rgt" [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
                         <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
                         <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
                         <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-left"[attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
@@ -757,7 +765,7 @@
                             <!-- <th *ngIf="displayTabs?.PDD === activeTab">{{labels?.status}}&nbsp;<i class="fa fa-sort"></i> </th> -->
                             <th *ngIf="displayTabs?.PDDforCPC === activeTab">{{labels?.branch}}&nbsp;<i
                                     class="fa fa-sort"></i> </th>
-                            <th class="text-right"
+                            <th class="txt-rgt"
                                 *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab">
                                 {{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
@@ -822,7 +830,7 @@
                 {{item.stageValue ? item.stageValue : '--'}}</td> -->
                             <td *ngIf="displayTabs?.PDDforCPC === activeTab" [attr.data-label]="labels?.branch">
                                 {{item.branchName ? item.branchName : '--'}}</td>
-                            <td class="text-right" *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab"
+                            <td class="txt-rgt" *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab"
                                 [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
                             <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.applicants">
                                 {{item.applicants ? item.applicants : '--'}}</td>
@@ -887,12 +895,12 @@
                             <td class="text-left" [attr.data-label]="labels?.productName">{{item.productName ? item.productName : '--'}}
                             </td>
                             <!-- <td [attr.data-label]="labels?.productCategory">{{item.productCatCode ? item.productCatCode : '--'}}</td> -->
-                            <td class="text-right" [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                            <td class="txt-rgt" [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
                             <td class="text-left" [attr.data-label]="labels?.applicant">{{item.applicantName ? item.applicantName : '--'}}
                             </td>
                             <td [attr.data-label]="labels?.trancheCount">{{item.trancheCount}}</td>
-                            <td class="text-right" [attr.data-label]="labels?.disbursedAmount">{{item.disbursedAmount}}</td>
-                            <td class="text-right" [attr.data-label]="labels?.balanceAmount">{{item.balanceAmount}}</td>
+                            <td class="txt-rgt" [attr.data-label]="labels?.disbursedAmount">{{item.disbursedAmount}}</td>
+                            <td class="txt-rgt" [attr.data-label]="labels?.balanceAmount">{{item.balanceAmount}}</td>
                         </tr>
                     </tbody>
                 </table>

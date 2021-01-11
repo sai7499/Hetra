@@ -131,11 +131,21 @@
               </div>
             </div>
           </div>
-          <div class="btn-sec clear-both row">
-            <!-- <div class="col-sm-12 col-lg-12"  *ngIf="!showModCurrCheckBox && !showSrField">
-              <h3 class="banner-sub ">Communication Address</h3>
-            </div> -->
-            <div class="custom-col-22 pad-12" >
+          <div class="btn-sec clear-both row" *ngIf="!showModCurrCheckBox && !showSrField ">
+            <div class="col-sm-5">
+              <h3 class="banner-sub">Communication Address</h3>
+            </div>
+            <div class="col-sm-7" id="align_this_texbox">
+              <input type="checkbox" class="mar-12" id="address_section_checkbox" (change)="isSameAddress($event)"
+                [checked]="onPerAsCurChecked" [disabled]="disableCurrent || disableSaveBtn || isLoan360" />
+              <span id="address_section_checkbox_text">&nbsp;Is it same as your permanent Address?
+              </span>
+            </div>
+          </div>
+
+
+          <div class="btn-sec clear-both " *ngIf="showModCurrCheckBox || showSrField ">
+            <div class="custom-col-22">
               <h3 class="banner-sub">Communication Address</h3>
             </div>
             <div class="custom-col-30" id="align_this_texbox">
@@ -466,7 +476,7 @@
         </div>
         <div id="non_individual_section_start" *ngIf="!isIndividual" formGroupName="0">
           <!-- <h4 class="title">Non-individual</h4>-->
-          <h4 class="title">Registered Address</h4>
+          <h4 class="banner-sub">Registered Address</h4>
           <div class="" formGroupName="registeredAddress">
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -584,7 +594,7 @@
           <div>
             <div class="btn-sec clear-both row">
               <div class="col-sm-5">
-                <h4 class="title">Office Address</h4>
+                <h4 class="banner-sub">Office Address</h4>
               </div>
               <div class="col-sm-7" id="align_this_texbox">
                 <input type="checkbox" id="address_section_checkbox" (change)="onSameRegistered($event)"

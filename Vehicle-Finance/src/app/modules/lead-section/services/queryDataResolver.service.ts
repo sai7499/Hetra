@@ -32,9 +32,9 @@ export class QueryDataResolverService implements Resolve<any>  {
             processId: processId,
             ProcessVariables: data,
             workflowId: workflowId,
-            projectId: projectId,
-            showLoader: false
+            projectId: projectId
         };
+        // showLoader: false
 
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);

@@ -225,7 +225,15 @@ export class SourcingDetailsComponent implements OnInit {
     this.tenureMonthlyValidation = this.loanTenureMonth();
     this.operationType = this.toggleDdeService.getOperationType();
     const currentUrl = this.location.path();
-    this.udfScreenId = currentUrl.includes('sales') ? 'LDS002' : currentUrl.includes('dde') ? 'LDS003' : 'LDS001';
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.leadDetailADE : currentUrl.includes('dde') ?
+       udfScreenId.DDE.leadDetailDDE : udfScreenId.QDE.leadDetailQDE ;
+
+    })
+
   }
 
   navigateToPrevious() {
@@ -562,6 +570,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   sourchingTypeChange(event) {
+    console.log(event, 'sourcing Type')
     this.sourchingTypeId = event.target ? event.target.value : event;
     if (this.sourchingTypeId === '2SOURTYP') {
       this.sourcingDetailsForm.controls['dealerCode'].setValidators(Validators.required);
@@ -647,8 +656,8 @@ export class SourcingDetailsComponent implements OnInit {
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
         if (this.sourchingTypeId === '2SOURTYP') {
-          if (this.dealerCodeData != null){
-          this.selectDealorEvent(this.dealerCodeData[0]);
+          if (this.dealerCodeData != null) {
+            this.selectDealorEvent(this.dealerCodeData[0]);
           }
         }
         this.keyword = 'dealorName';
