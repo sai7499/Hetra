@@ -10,6 +10,7 @@ import { CpcRolesService } from '@services/cpc-roles.service';
 import { TermSheetService } from '@modules/dde/services/terms-sheet.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-check-list',
@@ -54,6 +55,7 @@ export class CheckListComponent implements OnInit {
     private termSheetService: TermSheetService,
     private sharedService: SharedService,
     private objectComparisonService: ObjectComparisonService,
+    private labelsData: LabelsService
   ) {
     // tslint:disable-next-line: deprecation
     $(document).ready(() => {
@@ -101,13 +103,27 @@ export class CheckListComponent implements OnInit {
     });
 
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
-    if(this.roleType == '7' || this.roleType == '2') {
-      this.udfScreenId = "CLS001"; 
-    } else if(this.roleType == '4') {
-      this.udfScreenId = "CLS002";
-    } else if(this.roleType == '5') {
-      this.udfScreenId = "CLS003";
-    }
+    // if(this.roleType == '7' || this.roleType == '2') {
+    //   this.udfScreenId = "CLS001"; 
+    // } else if(this.roleType == '4') {
+    //   this.udfScreenId = "CLS002";
+    // } else if(this.roleType == '5') {
+    //   this.udfScreenId = "CLS003";
+    // }
+   console.log('this.checkrole', this.roleType)
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+      if(this.roleType == '7' ) {
+        this.udfScreenId = udfScreenId.CAD.checkListCAD; 
+      }else if(this.roleType == '2') {
+        this.udfScreenId = udfScreenId.creditDecision.checkListCreditDecision;
+      } else if(this.roleType == '4') {
+        this.udfScreenId = udfScreenId.CPCMaker.checkListCPCMaker;
+      } else if(this.roleType == '5') {
+        this.udfScreenId = udfScreenId.CPCChecker.checkListCPCChecker;
+      }
+
+    })
 
     // tslint:disable-next-line: prefer-const
     // let childgroups = [];

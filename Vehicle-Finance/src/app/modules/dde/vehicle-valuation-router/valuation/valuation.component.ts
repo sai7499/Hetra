@@ -247,10 +247,10 @@ export class ValuationComponent implements OnInit {
     console.log('role name', this.roleName);
     if(this.roleType === 9){
       this.udfGroupId = 'VAG001'
-      this.udfScreenId = 'VAS001'
+      //this.udfScreenId = 'VAS001'
     }else if(this.roleType === 2){
       this.udfGroupId = 'VAG001'
-      this.udfScreenId = 'VAS002'
+      //this.udfScreenId = 'VAS002'
     }
     if (this.roleId === 86) {
       this.extValuator = true;
@@ -316,6 +316,16 @@ export class ValuationComponent implements OnInit {
         },
       ],
     };
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+      if(this.roleType === 9){
+        this.udfScreenId = udfScreenId.VehicleValuation.vehicleValuation ;
+      }else if(this.roleType === 2){
+        this.udfScreenId = udfScreenId.DDE.vehicleValuationDDE
+      }
+
+    })
 
   }
   getLabels() {

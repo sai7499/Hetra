@@ -114,7 +114,7 @@ export class BasicDetailsComponent implements OnInit {
   occupation: any[];
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId= 'APS014';
+  udfScreenId= '';
   udfGroupId= 'APG008';
   selfMaxAge: any;
   salariedMaxAge: any;
@@ -194,6 +194,12 @@ export class BasicDetailsComponent implements OnInit {
 
     this.monthValidation = this.monthValiationCheck();
     //this.isSave=this.applicantDataService.getForSaveBasicDetails()
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.applicantBasicdataDDE ;
+
+    })
   }
 
   setMinorityData() {

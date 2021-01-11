@@ -35,6 +35,7 @@ export class ScoreCardComponent implements OnInit {
     errorMessage: string;
 
     result = [];
+    udfScreenId: any;
 
     constructor(
         private labelsData: LabelsService,
@@ -76,6 +77,12 @@ export class ScoreCardComponent implements OnInit {
                 console.log(error);
             }
         );
+        this.labelsData.getScreenId().subscribe((data) => {
+            let udfScreenId = data.ScreenIDS;
+      
+            this.udfScreenId = udfScreenId.DDE.scoreCardDDE ;
+      
+          })
 
     }
 

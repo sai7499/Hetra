@@ -100,10 +100,10 @@ export class FiBusinessComponent implements OnInit {
     this.roleType = this.roles[0].roleType;
     if (this.roleType === 1) { // For FI dashboard
       this.udfGroupId = 'FIG001'
-      this.udfScreenId = 'FIS002'
+      //this.udfScreenId = 'FIS002'
     } else if (this.roleType === 2) { // For DDE FI
       this.udfGroupId = 'FIG001'
-      this.udfScreenId = 'FIS004'
+      //this.udfScreenId = 'FIS004'
     }
     this.leadId = (await this.getLeadId()) as number;
     this.getLOV();
@@ -111,6 +111,12 @@ export class FiBusinessComponent implements OnInit {
     this.initForm();
     this.isDirty = true;
     this.showTypeOfConcern = true;
+    this.labelService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 2 ? udfScreenId.DDE.businessFIDDE : udfScreenId.FI.businessFI ;
+
+    })
   }
 
   getLeadId() {

@@ -34,7 +34,7 @@ export class ExposureDetailsComponent implements OnInit {
   isLoan360: boolean;
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId= 'EXS001';
+  udfScreenId= '';
   udfGroupId= 'EXG001';
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
@@ -84,6 +84,12 @@ export class ExposureDetailsComponent implements OnInit {
       loanTable: this.formBuilder.array([]),      
     });
     this.getExposure();
+    this.labelService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.exposureDDE ;
+
+    })
     }
 
   async getExposure() {

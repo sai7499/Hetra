@@ -208,18 +208,25 @@ export class IncomeDetailsComponent implements OnInit {
     if (this.productCode == "UC") {
       this.usedCar = true;
       this.udfGroupId= 'ING001'
-      this.udfScreenId= 'INS002'
+      //this.udfScreenId= 'INS002'
       // this.incomeDetailsForm.controls.
       // else if (this.productCode == "NCV" || this.productCode == "UCV")
     } else if (this.productCode != "UC") {
       this.NewOrUsedComercialVehicle = true;
       this.udfGroupId= 'ING001'
-      this.udfScreenId= 'INS001'
+      //this.udfScreenId= 'INS001'
     }
+
     this.getAllIncome();
 this.getSalariedFoirIncome();
     
     this.businessIncomeValidators()
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.productCode == "UC" ? udfScreenId.DDE.incomeDetailsUCDDE : udfScreenId.DDE.incomeDetailsUCVNCVDDE ;
+
+    })
   }
   businessIncomeValidators() {
     // if (this.productCode == "NCV" || this.productCode == "UCV") {

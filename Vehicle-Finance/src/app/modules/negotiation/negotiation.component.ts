@@ -189,8 +189,23 @@ export class NegotiationComponent implements OnInit {
     this.getLOV();
     this.getInsuranceLOV();
     this.loadForm();
+    console.log('this.roleType',this.roleType )
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+      if (this.roleType == '1') {
+        this.udfScreenId = udfScreenId.Negotiations.negotiationDetailsNegotiations;
+      } else if (this.roleType == '2') {
+        this.udfScreenId = udfScreenId.creditDecision.negotiationDetailsCreditDecision;
+      } else if (this.roleType == '4') {
+        this.udfScreenId = udfScreenId.CPCMaker.negotiationsCPCMaker;
+      } else if (this.roleType == '5') {
+        this.udfScreenId = udfScreenId.CPCChecker.negotiationsCPCChecker;      
+      } else if (this.roleType == '7') {
+        this.udfScreenId = udfScreenId.CAD.negotiationsCAD;
+      }
+      
 
-
+    })
 
     // setTimeout(() => {
     // }, 1500);

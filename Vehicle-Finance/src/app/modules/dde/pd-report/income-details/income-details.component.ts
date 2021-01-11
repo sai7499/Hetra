@@ -57,7 +57,7 @@ export class IncomeDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'PDS002' : 'PDS006';
+    //this.udfScreenId = this.roleType === 1 ? 'PDS002' : 'PDS006';
 
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -68,6 +68,12 @@ export class IncomeDetailsComponent implements OnInit {
     });
     this.getLOV();
     this.getIncomeDetails();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.PD.applicantIncomePD : udfScreenId.DDE.incomePDDDE ;
+
+    })
   }
 
   getLabels() {

@@ -75,6 +75,7 @@ export class TrancheDisburseComponent implements OnInit {
   isFailed: boolean;
   payableToData: any;
   message:any;
+  udfScreenId: any;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -133,6 +134,13 @@ export class TrancheDisburseComponent implements OnInit {
       this.pendingTDForm.disable();
       this.earlierTDForm.disable();
       }
+
+      this.labelsData.getScreenId().subscribe((data) => {
+        let udfScreenId = data.ScreenIDS;
+  
+        this.udfScreenId = this.roleType != '1' ? udfScreenId.sales.trancheDisbursementSales : udfScreenId.CPCChecker.trancheDisbursementCPCChecker ;
+  
+      })  
   }
   
   //getting leadID from Tranche Disburse Dashboard 
