@@ -87,6 +87,8 @@ export class RcuComponent implements OnInit {
   userDefineForm: any;
   udfGroupId: string = 'RCG001';
 
+  jsonScreenId: any;
+
   constructor(
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -153,6 +155,10 @@ export class RcuComponent implements OnInit {
     });
     this.getApplicantList();
 
+    this.labelsData.getScreenId().subscribe((data: any) => {
+      this.jsonScreenId = data.ScreenIDS;
+    })
+
     if (this.router.url.includes('/rcu') && this.roleType == '6') {
       this.isRcuDetails = false;
       this.isErr = true
@@ -160,12 +166,14 @@ export class RcuComponent implements OnInit {
       this.showBack = false
       //  this.rcuInitiated = true
       this.getAllRcuDetails();
+      this.udfScreenId = this.jsonScreenId.RCU.rcu;
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
 
       // this.isErr = false
       // this.isRcuDetails = true;
 
       this.getAllRcuDetails();
+      this.udfScreenId = this.jsonScreenId.DDE.rcuDDE;
       setTimeout(() => {
         this.rcuDetailsForm.disable()
         this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
@@ -285,7 +293,7 @@ export class RcuComponent implements OnInit {
     this.testRadio(event);
   }
 
-  get f() {return this.rcuDetailsForm.controls}
+  get f() { return this.rcuDetailsForm.controls }
 
   // getting labels from labels.json
   getLabels() {
@@ -749,7 +757,7 @@ export class RcuComponent implements OnInit {
     // }
 
     this.downloadDocsCheck(event)
-    
+
   }
 
   async downloadDocsCheck(documentId) {
