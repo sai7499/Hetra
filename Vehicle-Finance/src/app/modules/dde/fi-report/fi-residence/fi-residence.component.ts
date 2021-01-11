@@ -99,16 +99,22 @@ export class FiResidenceComponent implements OnInit {
     const roleType = roleAndUserDetails.roles[0].roleType
     if (roleType === 1) { // For FI dashboard
       this.udfGroupId = 'FIG001'
-      this.udfScreenId = 'FIS001'
+      //this.udfScreenId = 'FIS001'
     } else if (roleType === 2) { // For DDE FI
       this.udfGroupId = 'FIG001'
-      this.udfScreenId = 'FIS003'
+      //this.udfScreenId = 'FIS003'
     }
     this.leadId = (await this.getLeadId()) as number;
     this.getLOV();
     this.getLabels();
     this.initForm();
     this.isDirty = true;
+    this.labelService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = roleType === 2 ? udfScreenId.DDE.residenceFIDDE : udfScreenId.FI.residenceFI ;
+
+    })
   }
 
   getLeadId() {

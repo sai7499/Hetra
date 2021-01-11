@@ -54,7 +54,7 @@ export class TrackVehicleComponent implements OnInit {
   ]
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId = 'RTS001';
+  udfScreenId = '';
   udfGroupId = 'RTG001';
   // regexPattern = {
   //   amount: {
@@ -242,6 +242,12 @@ export class TrackVehicleComponent implements OnInit {
     this.noOfEmi = this.trackVehicleForm.controls['emisPaid'].value;
 
     this.onChangeLoanStartDate();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.repaymentTrackRecordDDE ;
+
+    })
 
   }
   checkFinanceCharge() {

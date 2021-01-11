@@ -128,7 +128,7 @@ export class OtherDetailsComponent implements OnInit {
     this.roles = roleAndUserDetails.roles;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'PDS004' : 'PDS008';
+    //this.udfScreenId = this.roleType === 1 ? 'PDS004' : 'PDS008';
 
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
@@ -155,6 +155,13 @@ export class OtherDetailsComponent implements OnInit {
         },
       ],
     };
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.PD.otherPD : udfScreenId.DDE.otherPDDDE ;
+
+    })
   }
 
   async checkGpsEnabled() {

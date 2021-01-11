@@ -86,7 +86,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'FPS002' : 'FPS006';
+    //this.udfScreenId = this.roleType === 1 ? 'FPS002' : 'FPS006';
 
     this.initForm();
 
@@ -114,6 +114,13 @@ export class CustomerProfileDetailsComponent implements OnInit {
       this.customerProfileForm.disable();
       this.disableSaveBtn = true;
     }
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.customerProfileFIcumPD : udfScreenId.DDE.customerProfileDetailsFIcumPDDDE ;
+
+    })
 
   }
   getLeadSectionData() {
@@ -228,7 +235,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
 
         if (this.entityTypeKey == "INDIVENTTYP") {
-          this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;
+          this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory : null ;
         } else if (this.entityTypeKey == "NONINDIVENTTYP") {
           this.custCategory = null;
         }

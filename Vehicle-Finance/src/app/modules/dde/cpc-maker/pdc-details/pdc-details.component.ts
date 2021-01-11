@@ -28,7 +28,7 @@ export class PdcDetailsComponent implements OnInit {
   spdcArray: any;
   pdcForm: any;
   labels: any;
-  isDirty: false;
+  isDirty: boolean= false;
   toDayDate = new Date();
 
   json: any;
@@ -101,11 +101,11 @@ export class PdcDetailsComponent implements OnInit {
     this.labelsService.getLabelsData().subscribe((res: any) => {
       this.labels = res;
     });
-    if(this.roleType == '4') {
-      this.udfScreenId = 'PCS001';
-    } else if(this.roleType == '5') {
-      this.udfScreenId = 'PCS002';
-    }
+    // if(this.roleType == '4') {
+    //   this.udfScreenId = 'PCS001';
+    // } else if(this.roleType == '5') {
+    //   this.udfScreenId = 'PCS002';
+    // }
     this.getPdcDetails();
     // if (this.pdcForm.controls.pdcList.controls.length === 0) {
     //   this.showPdc = true;
@@ -115,6 +115,13 @@ export class PdcDetailsComponent implements OnInit {
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
     });
+
+    this.labelsService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType == '5' ? udfScreenId.CPCChecker.pdcDetailsCPCChecker : udfScreenId.CPCMaker.pdcDetailsCPCMaker ;
+
+    })
   }
   get f() {
     return this.pdcForm.controls;
@@ -138,8 +145,8 @@ export class PdcDetailsComponent implements OnInit {
       pdcId: [null],
       // instrType: [null, Validators.required],
       emiAmount:  new FormControl(this.negotiatedEmi,[ Validators.required ]),
-      instrNo: [null],
-      instrDate: [null],
+      instrNo: [null, Validators.required],
+      instrDate: [null, Validators.required ],
       instrBankName: [null, Validators.required],
       instrBranchName: [null, Validators.required],
       instrBranchAccountNumber: [null, Validators.required],
@@ -269,7 +276,7 @@ export class PdcDetailsComponent implements OnInit {
     });
   }
   onSave(dataString: string) {
-    this.submitted = true;
+    //this.submitted = true;
     //  localStorage.setItem('pdcData', JSON.stringify(this.pdcForm.value));
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.pdcForm.controls.pdcList.length; i++) {
@@ -301,9 +308,12 @@ export class PdcDetailsComponent implements OnInit {
       }]
     };
     if (this.pdcForm.invalid || this.userDefineForm.udfData.invalid) {
+      this.isDirty = true;
       this.toasterService.showWarning('Mandatory Fields Missing', '');
       return;
     }
+
+    //return alert('SAVED')
     this.pdcService.savePdcDetails(body).subscribe((res: any) => {
       console.log(res);
       // tslint:disable-next-line: triple-equals

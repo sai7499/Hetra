@@ -267,7 +267,7 @@ export class DisbursementFormComponent implements OnInit {
   flagFinance
   isLoan360: boolean;
 
-  udfScreenId: string = 'DIS002';
+  udfScreenId: string = '';
   udfGroupId: string = 'DIG001';
   udfDetails: any = [];
   userDefineForm: any;
@@ -312,6 +312,23 @@ export class DisbursementFormComponent implements OnInit {
   
     this.routerUrlIdentifier();
     this.salesResponse = localStorage.getItem('salesResponse');
+    console.log('this.roleType',this.roleType )
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+      if (this.roleType == '1') {
+        this.udfScreenId = udfScreenId.Negotiations.disbursementDetailsNegotiations;
+      } else if (this.roleType == '2') {
+        this.udfScreenId = udfScreenId.creditDecision.disbursementDetailsCreditDecision;
+      } else if (this.roleType == '4') {
+        this.udfScreenId = udfScreenId.CPCMaker.disbursementCPCMaker;
+      } else if (this.roleType == '5') {
+        this.udfScreenId = udfScreenId.CPCChecker.disbursementCPCChecker;
+      } else if (this.roleType == '7') {
+        this.udfScreenId = udfScreenId.CAD.disbursementCAD;
+      }
+      
+
+    })
   }
 
 

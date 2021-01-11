@@ -352,7 +352,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.labelsData.getScreenId().subscribe((data) => {
         let udfScreenId = data.ScreenIDS;
   
-        this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.addEditApplicantDetailADE : udfScreenId.QDE.leadDetailQDE ;
+        this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.addEditApplicantDetailADE : udfScreenId.QDE.addEditApplicantDetailQDE ;
         this.negativeDedupeUdfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.negativeListdedupeADE : udfScreenId.QDE.negativeListdedupeQDE ;
   
       })

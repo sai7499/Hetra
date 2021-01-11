@@ -16,6 +16,7 @@ export class CibilOdComponent implements OnInit {
   odApplicantList: any;
   applicantUrl: string;
   isLoan360: boolean;
+  udfScreenId: any;
 
   constructor(
     private router: Router,
@@ -35,6 +36,12 @@ export class CibilOdComponent implements OnInit {
     this.applicantUrl = `/pages/dde/${this.leadId}/cibil-od-list`
     this.userId = localStorage.getItem('userId');
     this.getParentOdDetails();
+    this.labelService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.bureauListDDE ;
+
+    })
   }
 
   getLeadId() {
