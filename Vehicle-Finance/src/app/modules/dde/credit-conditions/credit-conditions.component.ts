@@ -76,6 +76,7 @@ export class CreditConditionsComponent implements OnInit {
   userDefineForm: any;
   udfGroupId: string = 'CCG001';
   isDirty: boolean;
+  jsonScreenId: any;
 
   constructor(
     public labelsService: LabelsService,
@@ -511,6 +512,9 @@ export class CreditConditionsComponent implements OnInit {
         }
       });
 
+      this.labelsService.getScreenId().subscribe((data: any) => {
+        this.jsonScreenId = data.ScreenIDS;
+      })
 
     if (this.roleAndUserDetails) {
       this.userId = this.roleAndUserDetails['userDetails'].userId;
@@ -528,9 +532,11 @@ export class CreditConditionsComponent implements OnInit {
     this.salesResponse = localStorage.getItem('salesResponse')
 
     if (localStorage.getItem('salesResponse') === 'true') {
-      this.udfScreenId = 'CCS002';
+      this.udfScreenId = this.jsonScreenId.creditDecision.creditConditionsCreditDecision;
     } else if (localStorage.getItem('isPreDisbursement') == 'true') {
-      this.udfScreenId = 'CCS003';
+      this.udfScreenId = this.jsonScreenId.preDisbursement.creditConditionsPreDisbursement;
+    } else if (localStorage.getItem('is_pred_done') === 'true'){
+      this.udfScreenId = this.jsonScreenId.Negoatiations.creditConditionsNegotiations;
     }
 
   }

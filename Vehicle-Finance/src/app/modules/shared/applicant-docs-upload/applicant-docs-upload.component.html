@@ -1,7 +1,9 @@
 <div class="content">
   <form class="multisteps-form__form" [formGroup]="uploadForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-      <h4 class="banner-con">Document upload</h4>
+      <h4 class="banner-con">Document upload
+        <span class="float-right">{{udfScreenId}}</span>
+      </h4>
       <div class="panel-group" id="accordion">
         <div
           class="panel panel-default"

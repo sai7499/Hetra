@@ -121,6 +121,11 @@ export class CamComponent implements OnInit {
   taskId: any;
   isViewDde: boolean;
 
+  // userDefineFields
+  udfScreenId = 'RCS002';
+  udfGroupId: string = 'RCG001';
+  jsonScreenId: any;
+
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -140,7 +145,6 @@ export class CamComponent implements OnInit {
       this.roleType = value.roleType;
     });
     this.sharedService.isDeclinedFlow.subscribe((res: any) => {
-      console.log(res, ' declined flow');
       if (res) {
         this.isDeclinedFlow = res;
       }
@@ -159,10 +163,14 @@ export class CamComponent implements OnInit {
       error => {
       }
     );
-    
+
+    this.labelsData.getScreenId().subscribe((data: any) => {
+      this.jsonScreenId = data.ScreenIDS;
+    })
+
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     console.log(this.taskId);
-    
+
     this.getLeadId();
     this.userId = localStorage.getItem("userId");
     const leadData = this.createLeadDataService.getLeadSectionData();
@@ -303,7 +311,7 @@ export class CamComponent implements OnInit {
             this.generateCam = true
             this.getCamUsedCvDetails(this.generateCam)
             this.showCamHtml = true
-            if ( this.currentUrl || this.currentUrl.includes('dde')) {
+            if (this.currentUrl || this.currentUrl.includes('dde')) {
               this.showSave = true
               this.showSendBackToSales = true
 
@@ -467,7 +475,7 @@ export class CamComponent implements OnInit {
               /^[a-zA-Z0-9 ]*$/
             ),
           ])
-  
+
         })
       }
     }
@@ -504,14 +512,21 @@ export class CamComponent implements OnInit {
     }
 
     this.currentUrl = this.location.path();
+
     if (this.currentUrl.includes('credit-decisions')) {
-      this.showSave = false
+      this.showSave = false;
+
+      this.udfScreenId = this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR' ? this.jsonScreenId.creditDecision.camUCVCreditDecision :
+        this.productCategoryCode == "NCV" ? this.jsonScreenId.creditDecision.camNCVCreditDecision : this.jsonScreenId.creditDecision.camUCCreditDecision;
+
       if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR' || this.productCategoryCode == "NCV" || this.productCategoryCode == "UC") {
         this.camDetailsForm.disable();
       }
     } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
       this.showSendBackToSales = true
+      this.udfScreenId = this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR' ? this.jsonScreenId.DDE.camUCVDDE :
+        this.productCategoryCode == "NCV" ? this.jsonScreenId.DDE.camNCVDDE : this.jsonScreenId.DDE.camUCDDE;
     }
 
   }
@@ -552,24 +567,24 @@ export class CamComponent implements OnInit {
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
             this.showSendBackToSales = true
-  
+
           }
           this.pdfId = "UCVpdfgeneration" // pdf generation
         } else if (this.productCategoryCode == "NCV") {
-            this.newCvCam = true
-            this.isCamDetails = false
-            this.generateCam = true
-            this.getCamNewCvDetails(this.generateCam, 'isUpload')
-            this.showCamHtml = true
-            if (this.currentUrl.includes('dde')) {
-              this.showSave = true
-              this.showSendBackToSales = true
-            }
-            this.pdfId = "NCVpdfgeneration" // pdf generation
+          this.newCvCam = true
+          this.isCamDetails = false
+          this.generateCam = true
+          this.getCamNewCvDetails(this.generateCam, 'isUpload')
+          this.showCamHtml = true
+          if (this.currentUrl.includes('dde')) {
+            this.showSave = true
+            this.showSendBackToSales = true
+          }
+          this.pdfId = "NCVpdfgeneration" // pdf generation
         }
       }
     }
-      
+
   }
   getCamUsedCvDetails(generateCam, isUpload?: string) {
     const data = {
@@ -901,12 +916,12 @@ export class CamComponent implements OnInit {
             if (this.productCategoryCode == "NCV") {
               this.generateCam = true
               this.getCamNewCvDetails(this.generateCam);
-          } 
+            }
         }
         if (this.productCategoryCode == "UC") {
-              this.generateCam = true
-              this.getCamUsedCarDetails(this.generateCam);
-          }
+          this.generateCam = true
+          this.getCamUsedCarDetails(this.generateCam);
+        }
       }
     });
     // }

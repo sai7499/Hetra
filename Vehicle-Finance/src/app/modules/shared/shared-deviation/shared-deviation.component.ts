@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { CommentStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -56,6 +57,11 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   isLoan360: boolean;
 
+  // userDefineFields
+  udfScreenId = 'RCS002';
+  udfGroupId: string = 'RCG001';
+  jsonScreenId: any;
+
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
     private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location,
@@ -73,6 +79,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         console.log(error);
       }
     );
+
+    this.labelsData.getScreenId().subscribe((data: any) => {
+      this.jsonScreenId = data.ScreenIDS;
+    })
 
     this.initForms();
 
@@ -175,15 +185,18 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     if (url.includes('dde')) {
       this.isSubmitToCredit = false;
       this.isSendBacktoCredit = false;
+      this.udfScreenId = this.jsonScreenId.DDE.triggerDeviaitonsDDE;
       return 'dde';
     } else if (url.includes('credit-decisions')) {
       this.isSubmitToCredit = true;
       this.isSendBacktoCredit = true;
+      this.udfScreenId = this.jsonScreenId.creditDecision.deviaitonsListCreditDecision;
       return 'credit-decisions';
     } else if (url.includes('deviation-dashboard')) {
       this.isSubmitToCredit = true;
       this.isApprove = true;
       this.isSendBacktoCredit = false;
+      this.udfScreenId = this.jsonScreenId.DeviationApproval.deviationsApproval;
       return 'deviation-dashboard';
     }
   }
@@ -307,6 +320,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       type: 0,
       isManualDev: '1',
       hierarchy: [0],
+      isSameRole: false,
       justification: ['', Validators.required],
       statusCode: [{ value: null, disabled: true }],
     });
@@ -316,6 +330,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     const memberListForm = <FormArray>this.deviationsForm.controls['manualDeviationFormArray'];
     const add = memberListForm.value.length + 1;
     memberListForm.insert(add, this.getManualDeviations())
+    console.log(this.deviationsForm, 'deviationsForm')
   }
 
   softDeleteDeviation(index: number, id) {
