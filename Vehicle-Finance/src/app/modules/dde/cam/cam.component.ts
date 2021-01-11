@@ -119,6 +119,7 @@ export class CamComponent implements OnInit {
   isDeclinedFlow = false;
   isChildLoan: boolean;
   taskId: any;
+  isViewDde: boolean;
 
   constructor(private labelsData: LabelsService,
     private camService: CamService,
@@ -302,7 +303,7 @@ export class CamComponent implements OnInit {
             this.generateCam = true
             this.getCamUsedCvDetails(this.generateCam)
             this.showCamHtml = true
-            if (this.currentUrl.includes('dde')) {
+            if ( this.currentUrl || this.currentUrl.includes('dde')) {
               this.showSave = true
               this.showSendBackToSales = true
 
@@ -491,9 +492,10 @@ export class CamComponent implements OnInit {
       })
     }
 
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType) {
+    this.isViewDde = this.toggleDdeService.getOperationType();
+    if (this.isViewDde) {
       this.disableSaveBtn = true;
+      this.showCamDetails();
     }
 
     if (this.loanViewService.checkIsLoan360()) {
