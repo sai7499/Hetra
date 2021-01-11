@@ -77,7 +77,7 @@ export class TeleVerificationFormComponent implements OnInit {
   reqLoanAmount: any;
 
   // User defined
-  udfScreenId: any = 'TVS001';
+  udfScreenId: any = '';
   udfGroupId: any = 'TVG001';
   udfDetails: any = [];
   userDefineForm: any;
@@ -265,6 +265,13 @@ export class TeleVerificationFormComponent implements OnInit {
         ]),
       ],
     });
+
+    this.labelService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.teleVerificationDDE ;
+
+    })
 
   }
 

@@ -65,7 +65,7 @@ export class CibilOdListComponent implements OnInit {
   isDisabledLoanType: boolean = false;
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId = 'BDS001';
+  udfScreenId = '';
   udfGroupId = 'BDG001';
 
   bureauDetail: any;
@@ -142,7 +142,12 @@ export class CibilOdListComponent implements OnInit {
       console.log(this.bureauDetail, 'bureauDetail')
     })
 
-    
+    this.labelService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.bureauDetailsDDE ;
+
+    })
 
   }
 

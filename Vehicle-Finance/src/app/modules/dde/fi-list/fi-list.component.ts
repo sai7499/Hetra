@@ -54,6 +54,7 @@ export class FiListComponent implements OnInit {
   stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
   currentTime: any;
   isFiModal: boolean;
+  udfScreenId: any;
 
   constructor(
     private labelDetails: LabelsService,
@@ -105,6 +106,13 @@ export class FiListComponent implements OnInit {
     } else {
       this.show = false;
     }
+
+    this.labelDetails.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.router.url.includes('/dde') ? udfScreenId.DDE.fiListDDE : udfScreenId.FI.fiList ;
+
+    })
 
 
   }
