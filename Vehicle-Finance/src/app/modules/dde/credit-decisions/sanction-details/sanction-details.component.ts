@@ -294,14 +294,16 @@ export class SanctionDetailsComponent implements OnInit {
 
     document.getElementById('typeId').innerHTML = `${type} COPY`;
     document.getElementById('typeId').style.display = 'unset';
-    document.getElementById('typeId1').innerHTML = `${type} COPY`;
+    if(this.generalTermsAndConditions) {
+      document.getElementById('typeId1').innerHTML = `${type} COPY`;
     document.getElementById('typeId1').style.display = 'unset';
+    }
     document.getElementById('typeId2').innerHTML = `${type} COPY`;
     document.getElementById('typeId2').style.display = 'unset';
     var options = {
       margin: .5,
       filename: `SanctionDetail${this.leadId}.pdf`,
-      image: { type: 'jpeg', quality: 0.50 },
+      image: { type: 'jpeg', quality: 0.30 },
       html2canvas:{scale:4, logging: true},
       pagebreak: { before:["#vf_sheet_text_tag","#page_break"] },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'p' }
@@ -309,7 +311,9 @@ export class SanctionDetailsComponent implements OnInit {
     html2pdf().from(document.getElementById("vf_sheet_print_starts")).set(options).save();
     setTimeout(() => {
       document.getElementById('typeId2').style.display = 'none';
-      document.getElementById('typeId1').style.display = 'none';
+      if (this.generalTermsAndConditions) {
+        document.getElementById('typeId1').style.display = 'none';
+      }
       document.getElementById('typeId').style.display = 'none';
     }, 0);
   }
