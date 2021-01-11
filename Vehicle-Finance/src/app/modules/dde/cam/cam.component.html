@@ -2940,6 +2940,7 @@ labels?.strengthsOrMitigates
             <button (click)="onNext()" class="btn btn-primary dash_href hvr-sweep-to-right" type="button">
                 {{ labels?.next }}
             </button>
+            <ng-container *ngIf="!isViewDde">
             <ng-container *ngIf="!isLoan360">
                 <button (click)="sendBackToSales()" *ngIf="showSendBackToSales == true" class="btn btn-primary dash_href" type="button">
                     {{ labels?.sendBackToSales }}
@@ -2948,6 +2949,7 @@ labels?.strengthsOrMitigates
                     {{ 'Download' }}
                 </button>
             </ng-container>
+        </ng-container>
         </div>
     </div>
 </form>
