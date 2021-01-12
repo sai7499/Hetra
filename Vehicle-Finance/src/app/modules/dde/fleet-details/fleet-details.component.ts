@@ -727,7 +727,7 @@ export class FleetDetailsComponent implements OnInit {
     } else {
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
-      if (this.fleetForm.valid && !isUDFInvalid) {
+      if (this.fleetForm.valid && !isUDFInvalid && this.fleetForm.controls['isValidPurchaseDate'].value === true) {
         this.saveOrUpdateFleetDetails(index);
       } else {
         this.isDirty = true;
