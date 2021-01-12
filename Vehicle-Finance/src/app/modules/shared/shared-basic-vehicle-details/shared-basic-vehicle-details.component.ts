@@ -783,7 +783,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.getSchemeData(formArray.controls[0])
     }
 
-    if (this.productCatoryCode === 'UCV') {
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
       this.getVehicleGridValue(formArray)
     }
 

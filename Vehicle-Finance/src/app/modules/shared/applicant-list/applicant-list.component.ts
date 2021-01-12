@@ -381,7 +381,7 @@ export class ApplicantListComponent implements OnInit {
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
     const product = this.leadSectioData.leadDetails.productCatCode;
 
-    if ((product === 'NCV' || product === 'UCV' || product === 'UC') && !currentUrl.includes('dde')) {
+    if (!currentUrl.includes('dde')) {
       // this.forFindingCoApplicantType()
       this.showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
       if (!this.showNotCoApplicant) {

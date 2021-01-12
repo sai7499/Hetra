@@ -561,9 +561,11 @@
                   <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                 </label>
                 <app-custom-input formControlName="odometerReading" [className]="'form-control mandatory'"
-                  [placeholder]="'Odometer Reading'" [maxLength]="
+                  [placeholder]="productCategoryCode === 'UTCR' ? 'Meter Reading' : labels.odometerReading"
+                  [maxLength]="
                     labels?.validationData?.odometerReading.maxLength
-                  " [isRequired]="'odometer reading is Required'" [type]="labels?.validationData?.odometerReading.type"
+                  " [isRequired]="productCategoryCode === 'UTCR' ? 'Meter reading is Required' : 'odometer reading is Required'" 
+                  [type]="labels?.validationData?.odometerReading.type"
                   [isDirty]="isDirty">
                 </app-custom-input>
               </div>

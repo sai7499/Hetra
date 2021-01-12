@@ -210,7 +210,7 @@ export class LeadDedupeComponent implements OnInit {
     const data: any = { ...leadData };
     console.log("get Lead Data",data);
     if (this.showModal === 'proceedModal_without') {   
-      if(data.leadDetails.stage == 7) {
+      if(data.leadDetails && data.leadDetails.stage == 7) {
         this.leadId = data.leadId;
         return this.proceedWithSelectedLead(true);        
       }else{

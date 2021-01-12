@@ -207,7 +207,8 @@ export class IncomeDetailsComponent implements OnInit {
       this.udfGroupId= 'ING001'
       //this.udfScreenId= 'INS002'
       // this.incomeDetailsForm.controls.
-    } else if (this.productCode == "NCV" || this.productCode == "UCV") {
+      // else if (this.productCode == "NCV" || this.productCode == "UCV")
+    } else if (this.productCode != "UC") {
       this.NewOrUsedComercialVehicle = true;
       this.udfGroupId= 'ING001'
       //this.udfScreenId= 'INS001'
@@ -226,8 +227,9 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   businessIncomeValidators() {
+    // if (this.productCode == "NCV" || this.productCode == "UCV") {
 
-    if (this.productCode == "NCV" || this.productCode == "UCV") {
+    if (this.productCode != "UC") {
       this.incomeDetailsForm.get('salariedFOIRDeviation').clearValidators();
       this.incomeDetailsForm.get('salariedFOIRDeviation').updateValueAndValidity();
 
