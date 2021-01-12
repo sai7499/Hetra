@@ -79,7 +79,7 @@ export class BankDetailsComponent implements OnInit {
   isToDate = false;
 
   // User defined
-  udfScreenId: any = 'APS018';
+  udfScreenId: any = '';
   udfGroupId: any = 'APG010';
   udfDetails: any = [];
   userDefineForm: any;
@@ -95,7 +95,7 @@ export class BankDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private labelsService: LabelsService,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
   ) {
     this.listArray = this.fb.array([]);
   }
@@ -168,6 +168,13 @@ export class BankDetailsComponent implements OnInit {
       }
     });
     console.log(this.f);
+    this.labelsService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.bankDetailDDE ;
+
+    })
+
   }
   get f() {
     // console.log(this.bankForm.controls, ' contrl f');

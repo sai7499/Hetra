@@ -80,7 +80,13 @@ export class ReferenceDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     let roleType = roleAndUserDetails.roles[0].roleType;
 
-    this.udfScreenId = roleType === 1 ? 'PDS003' : 'PDS007';
+    //this.udfScreenId = roleType === 1 ? 'PDS003' : 'PDS007';
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = roleType === 1 ? udfScreenId.PD.applicantReferencePD : udfScreenId.DDE.referencePDDDE ;
+
+    })
   }
 
   getLeadSectiondata() {

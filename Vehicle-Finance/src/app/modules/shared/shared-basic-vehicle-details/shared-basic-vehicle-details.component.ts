@@ -783,7 +783,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.getSchemeData(formArray.controls[0])
     }
 
-    if (this.productCatoryCode === 'UCV') {
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
       this.getVehicleGridValue(formArray)
     }
 
@@ -846,7 +846,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.basicVehicleForm.patchValue({
       isValidPincode: true
     })
-    if (pincode.length === 6) {
+    if (pincode && pincode.length === 6) {
       const pincodeNumber = Number(pincode);
       this.getPincodeResult(pincodeNumber);
     }

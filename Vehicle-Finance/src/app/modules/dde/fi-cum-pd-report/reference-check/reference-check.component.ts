@@ -176,7 +176,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.roleType = this.roles[0].roleType;
     this.userName = this.userDetails.firstName;
 
-    this.udfScreenId = this.roleType === 1 ? 'FPS004' : 'FPS008';
+    //this.udfScreenId = this.roleType === 1 ? 'FPS004' : 'FPS008';
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
@@ -238,6 +238,13 @@ export class ReferenceCheckComponent implements OnInit {
         this.disableSaveBtn = true;
       }
     });
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.applicantReferenceFIcumPD : udfScreenId.DDE.referenceCheckFIcumPDDDE ;
+
+    })
   }
 
   async checkGpsEnabled() {

@@ -1,7 +1,7 @@
 <div
   class="modal"
   id="ucicModel2"
-  [ngClass]="{ 'dis-block': showUpload }"
+  [ngClass]="{ 'dis-block': showUpload }" style="overflow: auto;"
 >
   <div class="modal-dialog">
     <div class="modal-content">
@@ -63,49 +63,47 @@
               </table>
              
             </div>
-          </form>
-          <div class="row">
-            <div class="records col-xs-3 col-sm-4 col-md-6">
-      
-                <div class="col-lg-3"><label>No. of Rows </label>
-                  <!-- (change)="setPage($event)" -->
-                    <select class="form-control  input-sm"  [(ngModel)]="itemsPerPage">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option class="disable" value="25">25</option>
-                    <option class="disable" value="50">50</option>
-                </select>
-                </div>
-      
-            </div>
-            <!-- <div class="col-xs-3 col-sm-4 col-md-6"> -->
-              <nav class="text-right margin-18">
-                <!-- (pageChange)="setPage($event)" -->
-                  <pagination-controls previousLabel="" nextLabel=""  (pageChange)="q = $event"></pagination-controls>
-              </nav>
-          <!-- </div> -->
-        </div>
+          </form>         
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer text-center">
-        <button
-        type="button"
-        class="btn btn-danger"
-        data-dismiss="modal"
-        (click)="onCancel()"
-      >
-        Cancel
-      </button>
-        <button
+        <div class="row">
+          <div class="records col-xs-3 col-sm-4 col-md-6">
+          <!-- <div class="col-lg-3"></div> -->
+            <label style="float: left;
+            padding-right: inherit;">No. of Rows </label>
+            <!-- (change)="setPage($event)" -->
+              <select class="form-control  input-sm"  [(ngModel)]="itemsPerPage">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option class="disable" value="25">25</option>
+              <option class="disable" value="50">50</option>
+          </select>
+          <!-- <div class="records col-xs-3 col-sm-4 col-md-3"> class="text-right margin-18"-->
+          <nav style="margin: -30px;" >
+            <!-- (pageChange)="setPage($event)" -->
+              <pagination-controls previousLabel="" nextLabel=""  (pageChange)="q = $event"></pagination-controls>
+          </nav>
+          <!-- </div> -->
+          </div>
+          <button
           type="button"
-          class="btn btn-success"
+          class="btn btn-danger"
           data-dismiss="modal"
-          (click)="onSave()"
-        >
-        Save Valid Records 
-        </button>
-        
+          (click)="onCancel()"
+          >
+            Cancel
+          </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              data-dismiss="modal"
+              (click)="onSave()"
+            >
+            Save Valid Records 
+            </button>
+        </div>
       </div>
       
     </div>

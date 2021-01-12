@@ -125,8 +125,8 @@ export class IncomeDetailsComponent implements OnInit {
   a: any;
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId : any;
-  udfGroupId : any;
+  udfScreenId: any;
+  udfGroupId: any;
 
   constructor(
     private router: Router,
@@ -199,35 +199,41 @@ export class IncomeDetailsComponent implements OnInit {
     const leadData = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = leadData as any;
     this.productCode = leadSectionData.leadDetails['productCatCode'];
-    const incomeData = {
-      productCode: this.productCode,
-    };
-    this.incomeDetailsService.getFactoringValue(incomeData).subscribe((res: any) => {
-      this.incomeTypeResponse = res.ProcessVariables['factoringList'];
-    });
+
+    this.getIncomeType()
+
     if (this.productCode == "UC") {
       this.usedCar = true;
       this.udfGroupId= 'ING001'
-      this.udfScreenId= 'INS002'
+      //this.udfScreenId= 'INS002'
       // this.incomeDetailsForm.controls.
-    } else if (this.productCode == "NCV" || this.productCode == "UCV") {
+      // else if (this.productCode == "NCV" || this.productCode == "UCV")
+    } else if (this.productCode != "UC") {
       this.NewOrUsedComercialVehicle = true;
       this.udfGroupId= 'ING001'
-      this.udfScreenId= 'INS001'
+      //this.udfScreenId= 'INS001'
     }
-    this.getAllIncome();
-this.getSalariedFoirIncome();
-    
-    this.businessIncomeValidators()
-  }
-  businessIncomeValidators() {
 
-    if (this.productCode == "NCV" || this.productCode == "UCV") {
+    this.getAllIncome();
+    this.getSalariedFoirIncome();
+
+    this.businessIncomeValidators()
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.productCode == "UC" ? udfScreenId.DDE.incomeDetailsUCDDE : udfScreenId.DDE.incomeDetailsUCVNCVDDE ;
+
+    })
+  }
+
+  businessIncomeValidators() {
+    // if (this.productCode == "NCV" || this.productCode == "UCV") {
+
+    if (this.productCode != "UC") {
       this.incomeDetailsForm.get('salariedFOIRDeviation').clearValidators();
       this.incomeDetailsForm.get('salariedFOIRDeviation').updateValueAndValidity();
 
     }
-
   }
 
   getLov() {
@@ -238,6 +244,21 @@ this.getSalariedFoirIncome();
 
     });
   }
+
+  getIncomeType() {
+    const incomeData = {
+      productCode: this.productCode,
+    };
+
+    this.incomeDetailsService.getFactoringValue(incomeData).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === "0") {
+        this.incomeTypeResponse = res.ProcessVariables['factoringList'] ? res.ProcessVariables['factoringList'] : null;
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
+      }
+    });
+  }
+
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
@@ -249,6 +270,7 @@ this.getSalariedFoirIncome();
       });
     });
   }
+
   getApplicantList() {
     const data = {
       leadId: this.leadId,
@@ -823,7 +845,7 @@ this.getSalariedFoirIncome();
       .getAllIncomeDetails(body)
       .subscribe((res: any) => {
         this.applicantResponse = res.ProcessVariables;
-        this.udfDetails= this.applicantResponse.udfDetails
+        this.udfDetails = this.applicantResponse.udfDetails
         this.incomeDetailsForm.patchValue({
           salariedFOIRDeviation: this.applicantResponse.salariedFOIRDeviation || "0",
         });
@@ -837,7 +859,7 @@ this.getSalariedFoirIncome();
           this.addObligationUnit(res.ProcessVariables.obligationsList);
         }
         this.onSalFoirDeviation(this.applicantResponse.salariedFOIRDeviation);
-       
+
         // this.keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails.keyFinancials || null)
         // this.addKeyFinancialDetails(this.keyFinancialData)
         let keyFinancialData = JSON.parse(res.ProcessVariables.keyFinanceDetails || null)
@@ -949,10 +971,10 @@ this.getSalariedFoirIncome();
     control[i].controls.yearThree.get('applicantId').setValue(applicantName);
 
   }
- 
+
   onSubmit() {
     this.submitted = true;
-    
+
     if (this.productCode == "UC" && this.businessIncomeDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0) {
       this.toasterService.showError(
         'Add atleast one entry in Business income or Other income Details',
@@ -973,9 +995,9 @@ this.getSalariedFoirIncome();
       return;
     }
     // stop here if form is invalid
-    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     if (this.incomeDetailsForm.invalid || isUDFInvalid) {
-      this.isDirty= true;
+      this.isDirty = true;
       this.toasterService.showError(
         'Mandatory Fields Missing Or Invalid Pattern Detected',
         'Income Details'
@@ -1067,10 +1089,10 @@ this.getSalariedFoirIncome();
         bodyForm = body
 
       }
-      const udfData = this.userDefineForm?  JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+      const udfData = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
       const data = {
-        ...bodyForm, 
-        udfDetails : [{
+        ...bodyForm,
+        udfDetails: [{
           "udfGroupId": this.udfGroupId,
           //"udfScreenId": this.udfScreenId,
           "udfData": udfData
@@ -1108,39 +1130,42 @@ this.getSalariedFoirIncome();
   }
 
   appendFactoredIncome(event: any, i: number) {
-    if (event === this.incomeTypeResponse[0].incomeTypeUniqueValue) {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      this.otherIncomeDetailsArray
-        .at(i)
-        .patchValue({ factoring: this.incomeTypeResponse[0].factoring });
-    } else if (event === this.incomeTypeResponse[1].incomeTypeUniqueValue) {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      this.otherIncomeDetailsArray
-        .at(i)
-        .patchValue({ factoring: this.incomeTypeResponse[1].factoring });
-    } else if (event === this.incomeTypeResponse[2].incomeTypeUniqueValue) {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      this.otherIncomeDetailsArray
-        .at(i)
-        .patchValue({ factoring: this.incomeTypeResponse[2].factoring });
-    } else if (event === this.incomeTypeResponse[3].incomeTypeUniqueValue) {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      this.otherIncomeDetailsArray
-        .at(i)
-        .patchValue({ factoring: this.incomeTypeResponse[3].factoring });
-    } else if (event === this.incomeTypeResponse[4].incomeTypeUniqueValue) {
-      const incomeArray = this.incomeDetailsForm.controls
-        .otherIncomeDetails as FormArray;
-      this.otherIncomeDetailsArray
-        .at(i)
-        .patchValue({ factoring: this.incomeTypeResponse[4].factoring });
+    if (this.incomeTypeResponse) {
+      if (event === this.incomeTypeResponse[0].incomeTypeUniqueValue) {
+        const incomeArray = this.incomeDetailsForm.controls
+          .otherIncomeDetails as FormArray;
+        this.otherIncomeDetailsArray
+          .at(i)
+          .patchValue({ factoring: this.incomeTypeResponse[0].factoring });
+      } else if (event === this.incomeTypeResponse[1].incomeTypeUniqueValue) {
+        const incomeArray = this.incomeDetailsForm.controls
+          .otherIncomeDetails as FormArray;
+        this.otherIncomeDetailsArray
+          .at(i)
+          .patchValue({ factoring: this.incomeTypeResponse[1].factoring });
+      } else if (event === this.incomeTypeResponse[2].incomeTypeUniqueValue) {
+        const incomeArray = this.incomeDetailsForm.controls
+          .otherIncomeDetails as FormArray;
+        this.otherIncomeDetailsArray
+          .at(i)
+          .patchValue({ factoring: this.incomeTypeResponse[2].factoring });
+      } else if (event === this.incomeTypeResponse[3].incomeTypeUniqueValue) {
+        const incomeArray = this.incomeDetailsForm.controls
+          .otherIncomeDetails as FormArray;
+        this.otherIncomeDetailsArray
+          .at(i)
+          .patchValue({ factoring: this.incomeTypeResponse[3].factoring });
+      } else if (event === this.incomeTypeResponse[4].incomeTypeUniqueValue) {
+        const incomeArray = this.incomeDetailsForm.controls
+          .otherIncomeDetails as FormArray;
+        this.otherIncomeDetailsArray
+          .at(i)
+          .patchValue({ factoring: this.incomeTypeResponse[4].factoring });
+      }
     }
     this.getOtherIncomeDetails(i);
   }
+
   getOtherFactoredIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
       .otherIncomeDetails as FormArray;
@@ -1223,9 +1248,9 @@ this.getSalariedFoirIncome();
       }
     }
     this.getTotalOtherIncome(i)
-setTimeout(()=>{
-  this.getSalaryIncome(i)
-},3000)
+    setTimeout(() => {
+      this.getSalaryIncome(i)
+    }, 3000)
   }
   getSalaryIncome(i: number) {
     if (this.otherIncomeDetailsArray.at(i).value.incomeType === 'SALRINCTYP') {
@@ -1263,7 +1288,7 @@ setTimeout(()=>{
       this.salariedFOIRasperPolicyValue = Number(res.ProcessVariables.foir)
       this.onSalFoirDeviation(null);
     })
-    
+
   }
   getTotalOtherIncome(i: number) {
     const incomeArray = this.incomeDetailsForm.controls
@@ -1283,7 +1308,7 @@ setTimeout(()=>{
       }
     }
   }
- 
+
   onTenure(event: any, i: number) {
     let tenure = 0;
     let mob = 0;

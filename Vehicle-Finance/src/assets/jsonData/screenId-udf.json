@@ -34,18 +34,21 @@
             "leadReferenceADE": "LR0215"
         },
         "FICUMPD": {
+            "fiCumPdList" : "",
             "applicantDetailFIcumPD": "AD0301",
             "customerProfileFIcumPD": "CP0302",
             "loanFIcumPD": "LR0303",
             "applicantReferenceFIcumPD": "AR0304"
         },
         "PD": {
+            
             "applicantDetailPD": "AD0401",
             "applicantIncomePD": "AI0402",
             "applicantReferencePD": "AR0403",
             "otherPD": "OT0404"
         },
         "FI": {
+            "fiList" : "",
             "residenceFI": "RE0501",
             "businessFI": "BU0502"
         },
@@ -54,8 +57,8 @@
             "goodsViability": "GO0602",
             "passengerViability": "PA0603"
         },
-        "Vehicle Valuation": {
-            "vehicleValuationValuation": "VV0701"
+        "VehicleValuation": {
+            "vehicleValuation": "VV0701"
         },
         "RCU": {
             "rcu": "RC0801"
@@ -75,19 +78,22 @@
             "fleetListDDE": "FL0912",
             "repaymentTrackRecordDDE": "RT0913",
             "exposureDDE": "EX0914",
-            "incomeDetailsUCV/NCVDDE": "IN0915",
+            "incomeDetailsUCVNCVDDE": "IN0915",
             "incomeDetailsUCDDE": "IN0916",
             "pslDataDDE": "PS0917",
             "vehicleValuationDDE": "VV0918",
             "teleVerificationDDE": "TV0919",
+            "fiCumPdList" : "",
             "applicantDetailsFIcumPDDDE": "AD0920",
             "customerProfileDetailsFIcumPDDDE": "CP0921",
             "loanDetailsFIcumPDDDE": "LR0922",
             "referenceCheckFIcumPDDDE": "LR0923",
+            
             "personalPDDDE": "AD0924",
             "incomePDDDE": "AI0925",
             "referencePDDDE": "AR0926",
             "otherPDDDE": "OT0927",
+            "fiListDDE" : "",
             "residenceFIDDE": "RE0928",
             "businessFIDDE": "BU0929",
             "vehicleViablityCaptiveDDE": "CA0930",
@@ -118,7 +124,7 @@
             "sanction DetailsCreditDecision": "SD1109",
             "checkListCreditDecision": "PC1101"
         },
-        "Negoatiations": {
+        "Negotiations": {
             "creditConditionsNegotiations": "CC1201",
             "termSheetNegotiations": "TS1202",
             "negotiationDetailsNegotiations": "ND1203",

@@ -20,6 +20,7 @@ export class BankListComponent {
   labels: any;
   disableAddbankDetailsBtn: boolean;
   isLoan360: boolean;
+  udfScreenId: any;
   constructor(private bankService: BankTransactionsService,
               private route: Router, private activatedRoute: ActivatedRoute,
               private location: Location,
@@ -48,6 +49,12 @@ export class BankListComponent {
     if (operationType) {
       this.disableAddbankDetailsBtn = true;
     }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.bankListDDE ;
+
+    })
 
   }
   getLeadId() {

@@ -63,7 +63,7 @@ export class PSLdataComponent implements OnInit {
   submitted = false;
 
   // User defined
-  udfScreenId: any = 'PSS001';
+  udfScreenId: any = '';
   udfGroupId: any = 'PSG001';
   udfDetails: any = [];
   userDefineForm: any;
@@ -85,6 +85,12 @@ export class PSLdataComponent implements OnInit {
     this.getLabels();
     this.getLOV();
     this.getLeadSectiondata();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.pslDataDDE ;
+
+    })
 
   }
   getLabels() {

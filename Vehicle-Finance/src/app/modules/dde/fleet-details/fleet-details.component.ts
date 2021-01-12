@@ -85,7 +85,7 @@ export class FleetDetailsComponent implements OnInit {
   isLoan360: boolean;
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId = 'FLS001';
+  udfScreenId = '';
   udfGroupId = 'FLG001';
 
   itemsPerPage = '5';
@@ -160,6 +160,12 @@ export class FleetDetailsComponent implements OnInit {
 
     this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
+    })
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.fleetListDDE ;
+
     })
   }
 
@@ -721,7 +727,7 @@ export class FleetDetailsComponent implements OnInit {
     } else {
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
-      if (this.fleetForm.valid && !isUDFInvalid) {
+      if (this.fleetForm.valid && !isUDFInvalid && this.fleetForm.controls['isValidPurchaseDate'].value === true) {
         this.saveOrUpdateFleetDetails(index);
       } else {
         this.isDirty = true;

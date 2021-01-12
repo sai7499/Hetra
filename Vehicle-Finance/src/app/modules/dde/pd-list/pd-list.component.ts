@@ -123,6 +123,7 @@ export class PdListComponent implements OnInit {
   pdPrevExpMatched: string;
   fileName: string;
   isFiCumPdModal: boolean;
+  udfScreenId: any;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
@@ -172,6 +173,12 @@ export class PdListComponent implements OnInit {
     } else {
       this.show = false;
     }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.router.url.includes('/dde') ? udfScreenId.DDE.fiCumPdListDDE : udfScreenId.FICUMPD.fiCumPdList ;
+
+    })
   }
 
   getPdLOV() {
