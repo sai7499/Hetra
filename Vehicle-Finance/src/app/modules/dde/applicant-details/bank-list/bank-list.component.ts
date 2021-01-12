@@ -76,10 +76,12 @@ export class BankListComponent {
       applicantId: this.applicantId,
       formType: 'edit'
     };
+    this.bankService.setBankId(data)
     this.route.navigate([`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`],
     );
   }
   bankDetail() {
+    this.bankService.setBankId(null)
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`);
   }
   onBack() {

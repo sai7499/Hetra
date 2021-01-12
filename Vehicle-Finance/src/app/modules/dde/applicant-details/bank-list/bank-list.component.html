@@ -81,7 +81,7 @@
                     <ng-container *ngIf="isLoan360">
                       <i
                       class="fa fa-eye"
-                      (click)="routeDetails(item.applicantId)"
+                      (click)="routeDetails(item)"
                       aria-hidden="true"
                     ></i
                     >
@@ -89,7 +89,7 @@
                     <ng-container *ngIf="!isLoan360">
                       <i
                       class="fa fa-pencil"
-                      (click)="routeDetails(item.applicantId)"
+                      (click)="routeDetails(item)"
                       aria-hidden="true"
                     ></i
                     >&nbsp;&nbsp;<i

@@ -149,7 +149,12 @@ export class BankDetailsComponent implements OnInit {
       // } else {
       // }
     });
-    this.getBankDetails();
+
+    let bankId = this.bankTransaction.getBankId()
+    console.log(bankId, 'bankId')
+    if (bankId && bankId.id) {
+      this.getBankDetails();
+    }
     this.bankForm.get('accountType').valueChanges.subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res == '4BNKACCTYP') {
@@ -296,6 +301,9 @@ export class BankDetailsComponent implements OnInit {
       accountBranch: data.ProcessVariables.accountBranch
         ? (data.ProcessVariables.accountBranch)
         : null,
+        id:  data.ProcessVariables.id
+        ? (data.ProcessVariables.id)
+        : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -359,7 +367,7 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.value.period = this.bankForm.value.period;
     this.bankForm.value.totalCredits = Number(this.bankForm.value.totalCredits);
     this.bankForm.value.applicantId = this.applicantId;
-    this.bankForm.value.id = 7;
+    // this.bankForm.value.id = 7;
     const transactionArray = this.bankForm.value
       .transactionDetails as FormArray;
     console.log(transactionArray, ' transaction data');
@@ -437,7 +445,7 @@ export class BankDetailsComponent implements OnInit {
     const toDate = this.bankForm.value.toDate
       ? this.bankForm.value.toDate
       : new Date();
-    this.todayDateNew = toDate;
+    // this.todayDateNew = toDate;
     if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
       this.isToDate = true;
     } else {
@@ -448,6 +456,11 @@ export class BankDetailsComponent implements OnInit {
 
   async getMonths() {
     if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
+      this.isToDate = true;
+    } else {
+      this.isToDate = false
+    }
+    if(this.todayDateNew > this.toDayDate) {
       this.isToDate = true;
     } else {
       this.isToDate = false
