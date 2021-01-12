@@ -330,7 +330,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     const memberListForm = <FormArray>this.deviationsForm.controls['manualDeviationFormArray'];
     const add = memberListForm.value.length + 1;
     memberListForm.insert(add, this.getManualDeviations())
-    console.log(this.deviationsForm, 'deviationsForm')
   }
 
   softDeleteDeviation(index: number, id) {
@@ -452,9 +451,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         })
         return typeofRole;
       })
-
-      console.log(data, 'Color Data', this.roleId, typeofRole)
-
 
       let type = typeofRole ? Number(typeofRole.type) : 0;
       let hierarchy = typeofRole ? typeofRole.hierarchy : 0;
