@@ -570,7 +570,7 @@ export class TrancheDisburseComponent implements OnInit {
 
   onApprove(){
     this.remarks = ''
-    this.disbursementService.tdApprove(this.taskId,this.LoanDetails['leadID'],this.loanAccountNumber)
+    this.disbursementService.tdApprove(this.taskId,this.LoanDetails['leadID'],this.LoanDetails['loanAccountNumber'])
     .subscribe((res: any) => {
       if (res.Error == '0'){
         const apiError = res.ProcessVariables.error;
