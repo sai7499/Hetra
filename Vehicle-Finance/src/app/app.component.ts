@@ -214,13 +214,23 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   constructor(private draggableContainerService: DraggableContainerService,
-              private router: Router,private utilityService: UtilityService,
+              private router: Router,
+              private utilityService: UtilityService,
               private sharedService: SharedService,
               private idleTimerService: IdleTimerService,
               private location: Location,
               private labelsData: LabelsService) {}
 
   ngOnInit() {
+
+    this.utilityService.getLogoutListener()
+        .subscribe((value) => {
+          if(value) {
+            this.imagePopupWindow.forEach((window) => {
+              window.close();
+            })
+          }
+        })
 
     this.timer = this.idleTimerService.getModalTimer();
 

@@ -77,6 +77,23 @@
       margin-top:20px;
   }
   }
+
+  .show {
+    display: block;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  } 
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
   </style>
 
   
@@ -87,7 +104,10 @@
 
   <!-- <div > -->
     <div class="image-content" id="imageContent" >
+        <img id="img" class="hide card" style="padding: 5% 0;margin: 0px auto;">
+        
     </div>
+    <iframe id="iframe" class="hide" style="height: 100%; width: 100%;"></iframe>
   <!-- </div> -->
 
 
@@ -134,28 +154,35 @@
         console.log(4)
       }
     if(imageType.includes('pdf')) {
-      const iframe = document.createElement('iframe');
-      iframe.frameBorder=0;
-      iframe.width="600";
-      iframe.height="600";
-      iframe.id = 'content_iframe'
+      document.getElementById('imageContent').classList.add('hide');
+      const iframe = document.getElementById('iframe');
+      iframe.classList.add('show');
+      iframe.src = src;
+      // iframe.frameBorder=0;
+      // iframe.width="600";
+      // iframe.height="600";
+      // iframe.id = 'content_iframe'
      // const doc = iframe.contentWindow? iframe.contentWindow.document : iframe.contentDocument;
       // console.log('doc', doc)
      // doc.title = fileName;
       //iframe.contentDocument.title = fileName;
       // iframe.name = fileName;
-      iframe.src = src;
-      document.getElementById("imageContent").appendChild(iframe);
+      // iframe.src = src;
+      // document.getElementById("imageContent").appendChild(iframe);
 
-      setTimeout(() => {
-          document.getElementById('title').innerHTML = fileName;
-      }, 300);
+      // setTimeout(() => {
+      //     document.getElementById('title').innerHTML = fileName;
+      // }, 300);
     } else if (imageType.includes('png') || imageType.includes('jpeg')) {
-      const img = document.createElement("img");
+      const img = document.getElementById('img');
+      img.classList.remove('hide');
+      img.classList.add('show');
       img.src = src;
-      img.height = "600";
-      img.width = "600";
-      document.getElementById("imageContent").appendChild(img);
+      // const img = document.createElement("img");
+      // img.src = src;
+      // img.height = "600";
+      // img.width = "600";
+      // document.getElementById("imageContent").appendChild(img);
     }
   }
 

@@ -9,20 +9,33 @@ import { ToggleDdeService } from './toggle-dde.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { IdleTimerService } from './idle-timer.service';
 
+import { BehaviorSubject } from 'rxjs';
+
 @Injectable()
 export class UtilityService {
+  private logoutListener$ = new BehaviorSubject<boolean>(null);
   constructor(private httpService: HttpService, private router: Router, private dashboardService: DashboardService,
     private ngxUiLoaderService: NgxUiLoaderService, private sharedService: SharedService, private toggleDdeService: ToggleDdeService, private idleTimerService: IdleTimerService) { }
 
+
+  getLogoutListener() {
+    return this.logoutListener$;
+  }
+
   logOut() {
+
+    this.logoutListener$.next(true);
     
     this.httpService.logOut().subscribe(
       (res) => {
+        console.log('res', res);
+        
         this.idleTimerService.cleanUp();
         this.ngxUiLoaderService.stop();
         this.removeAllLocalStorage();
       },
       (error) => {
+        console.log('error', error);
         this.idleTimerService.cleanUp();
         this.ngxUiLoaderService.stop();
         this.removeAllLocalStorage();
