@@ -109,8 +109,8 @@
                                           ></kendo-datepicker>
                                         </div>
                                         <div class="invalid-feedback">
-                                            <span  *ngIf = "isDirty && !f.pdcList.controls[i].controls.instrDate.value"> 
-                                                Select date </span>
+                                            <!-- <span  *ngIf = "isDirty && !f.pdcList.controls[i].controls.instrDate.value"> 
+                                                Select date </span> -->
 
                                             <span  *ngIf = "f.pdcList.controls[i].controls.instrDate.value && f.pdcList.controls[i].controls.instrDate.invalid"> 
                                                 Invalid date - InstrDate cannot be lesser than Offer date. </span>
@@ -284,10 +284,10 @@
                                               ></kendo-datepicker>
                                             </div>
                                             <div class="invalid-feedback" >
-                                                <span 
+                                                <!-- <span 
                                                 *ngIf = "isDirty && !f.spdcList.controls[i].controls.instrDate.value"> 
                                                 Select date 
-                                            </span>
+                                            </span> -->
                                                 <span 
                                                 *ngIf = "f.spdcList.controls[i].controls.instrDate.value && f.spdcList.controls[i].controls.instrDate.invalid"> 
                                                 Invalid date - InstrDate cannot be lesser than Offer date. 
