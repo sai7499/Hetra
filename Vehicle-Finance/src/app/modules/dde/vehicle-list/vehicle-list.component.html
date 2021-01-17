@@ -6,10 +6,15 @@
     <div class="btn-sec clear-both " id="clickButton">
         <div class="col-sm-4"> </div>
         <div class="col-sm-8 text-right ">
-            <button class="btn btn-primary hvr-sweep-to-left" type="button" [routerLink]="['../applicant-list']">{{label.back}}</button>
+            <button class="btn btn-primary hvr-sweep-to-left" type="button"
+                [routerLink]="['../applicant-list']">{{label.back}}</button>
+
+            <button class="btn btn-primary hvr-sweep-to-right" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+                {{label.save}}
+            </button>
+
             <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">{{label.next}}</button>
         </div>
     </div>
 
 </div>
-

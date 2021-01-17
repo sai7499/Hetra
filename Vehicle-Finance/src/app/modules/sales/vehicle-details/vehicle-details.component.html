@@ -7,6 +7,8 @@
   <div class="col-sm-7 text-right">
     <button class="btn btn-primary js-btn-prev hvr-sweep-to-left" [routerLink]="['../applicant-list']" type="button"> Back
     </button>
+    <button *ngIf="!isLoan360" class="btn btn-primary " type="button" (click)="onFormSubmit()">
+      {{ label.save }} </button>
     <button class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" (click)="onNext()"  >Next</button>
     <!-- <button class="btn btn-primary js-btn-next" type="button" >Submit to Credit</button> -->
     <!-- [routerLink]="['../credit-score']" -->
