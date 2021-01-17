@@ -509,17 +509,20 @@ export class TrackVehicleComponent implements OnInit {
     }
     else {
       let addIndex = Number(this.trackVehicleForm.value['emisPaid']) - this.formArr['controls'].length;
-      let receivedDate = this.addingReceviedDate();
+       let receivedDate = this.addingReceviedDate();
       for (let i = 0; i < addIndex; i++) {
-        let addDueDate2 = this.trackVehicleForm.value['emiStartDate'] ? this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length - 1)]['dueDate'], 1) : null;
-        const dueDate = new Date(addDueDate2);
+        
+        let addDueDate2 = this.trackVehicleForm.value['emiStartDate'] ? new Date(this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length - 1)]['dueDate'], 1)) : new Date();
+        const dueDate = addDueDate2;
         const recDate = new Date(receivedDate);
-        let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+       
+         let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
+        
 
         this.fleetRtrDetails.push({
           installmentAmt: this.trackVehicleForm.controls['emiAmount'].value,
-          'dueDate': addDueDate2,
-          'receivedDate': receivedDate,
+          'dueDate': this.trackVehicleForm.value['emiStartDate']?  addDueDate2 : '',
+          'receivedDate':this.trackVehicleForm.value['loanMaturityDate']? receivedDate : '',
           'delayDays': delayedDays.toFixed(0)
         })
         this.addNewRow(this.fleetRtrDetails[this.fleetRtrDetails.length - 1]);
@@ -773,7 +776,9 @@ export class TrackVehicleComponent implements OnInit {
     }
     let currentDate = new Date();
     if (matureDate > currentDate) {
+      //currentDate = this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length - 1)]['receivedDate'], 1)
       return currentDate
+
     } else {
       return matureDate
     }
@@ -856,7 +861,7 @@ export class TrackVehicleComponent implements OnInit {
     if (rowData) {
       return this.fb.group({
         id: [rowData.id],
-        installmentAmt: [rowData.installmentAmt],
+        installmentAmt: [rowData.installmentAmt ? rowData.installmentAmt : ''],
         dueDate: [rowData.dueDate ? rowData.dueDate : ''],
         receiptNo: [rowData.receiptNo ? rowData.receiptNo : ''],
         receivedDate: [rowData.receivedDate ? rowData.receivedDate : '', Validators.required],
