@@ -15,11 +15,11 @@ import { LoanViewService } from '@services/loan-view.service';
     styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent {
-    public label: any = {};
+    public label: any;
     leadId: number;
     applicantList: any = []
 
-    public routerId: number;
+    public routerId: string = '0';
     disableSaveBtn: boolean;
 
     public formValue: any;
@@ -45,27 +45,32 @@ export class VehicleListComponent {
         private applicantDataStoreService: ApplicantDataStoreService, private loanViewService: LoanViewService) { }
 
     ngOnInit() {
+
+        let leadData = this.createLeadDataService.getLeadSectionData();
+        this.leadId = leadData['leadId'];
+
+        if (leadData && leadData['vehicleCollateral']) {
+            this.routerId = leadData['vehicleCollateral'].length > 0 ? leadData['vehicleCollateral'][0].collateralId : '0';
+        }
+
+        let leadDetails = leadData['leadDetails']
+        this.productCatoryCode = leadDetails['productCatCode'];
+        this.applicantList = this.applicantDataStoreService.getApplicantList();
+
         this.labelsData.getLabelsData()
-        .subscribe(data => {
-          this.label = data;
-          return data
-        },
-          error => {
-            console.log('error', error)
-          });
+            .subscribe(data => {
+                this.label = data;
+                return data
+            },
+                error => {
+                    console.log('error', error)
+                });
 
         this.labelsData.getScreenId().subscribe((data) => {
             let udfScreenId = data.ScreenIDS;
 
             this.udfScreenId = udfScreenId.DDE.vehicleDetailDDE;
         })
-
-        let leadData = this.createLeadDataService.getLeadSectionData();
-        this.leadId = leadData['leadId'];
-        
-        let leadDetails = leadData['leadDetails']
-        this.productCatoryCode = leadDetails['productCatCode'];
-        this.applicantList = this.applicantDataStoreService.getApplicantList();
 
         this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
             this.formValue = value;

@@ -1,7 +1,14 @@
-<div class="content">
+<div class="content" *ngIf="label">
+    <form class="multisteps-form__panel js-active" data-animation="scaleIn">
 
     <div class="row">
-        <app-shared-vehicle-details></app-shared-vehicle-details>
+
+        <!-- <app-shared-vehicle-details [isDirty]="isDirty"></app-shared-vehicle-details> -->
+
+        <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId" [udfScreenId]="udfScreenId"
+            [udfGroupId]="udfGroupId">
+        </app-shared-basic-vehicle-details>
+
     </div>
     <div class="btn-sec clear-both " id="clickButton">
         <div class="col-sm-4"> </div>
@@ -16,5 +23,5 @@
             <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">{{label.next}}</button>
         </div>
     </div>
-
+    </form>
 </div>

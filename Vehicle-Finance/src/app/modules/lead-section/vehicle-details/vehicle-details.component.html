@@ -1,5 +1,10 @@
-<div class="content">
-  <app-shared-vehicle-details></app-shared-vehicle-details>
+<div class="content" *ngIf="label">
+  <!-- <app-shared-vehicle-details [isDirty]="isDirty"></app-shared-vehicle-details> -->
+
+  <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId" [udfScreenId]="udfScreenId"
+    [udfGroupId]="udfGroupId">
+  </app-shared-basic-vehicle-details>
+
   <div class="btn-sec clear-both btn-mar-15" id="clickButton">
     <div class="col-sm-4"> </div>
     <div class="col-sm-8 text-right">

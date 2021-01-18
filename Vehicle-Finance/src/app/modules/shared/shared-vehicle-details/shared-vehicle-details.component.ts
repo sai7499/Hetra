@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
@@ -49,6 +49,8 @@ export class SharedVehicleDetailsComponent implements OnInit {
   udfGroupId: string = 'VLG001';
 
   routerId: string = '0';
+
+  @Input() isDirty: boolean;
 
   constructor(
     private loginStoreService: LoginStoreService, private toggleDdeService: ToggleDdeService,

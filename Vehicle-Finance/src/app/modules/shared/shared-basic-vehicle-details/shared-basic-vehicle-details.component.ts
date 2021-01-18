@@ -98,6 +98,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isVehicleRegNoChange: boolean;
   searchChildLoanData: any;
 
+  // Next to Check Value
+
+  isApiValue: any;
+  isFormValue: any;
+
   @Input() udfScreenId: any;
   @Input() udfGroupId: any;
   udfDetails: any = [];
@@ -244,7 +249,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       let ageOfAsset = Number(this.utilityService.ageFromAsset(event)) + '    ( ' + ageOfAssetYear.years + ' Years ' + ageOfAssetYear.months + ' Months ' + ' ) ';
 
       let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.floor(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.floor(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
-     
+
       formArray.controls[0].patchValue({
         ageOfAsset: ageOfAsset,
         ageAfterTenure: ageAfterTenure
@@ -473,7 +478,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ]
     }
     let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    let details = formArray.at(0) as FormGroup;
 
     this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
       this.getAVehicleDetails(res, formArray)
@@ -613,6 +617,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
     }
 
+    this.isApiValue = formArray.getRawValue();
   }
 
   onVehicleRegion(value: any, obj) {
@@ -1418,13 +1423,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
-      this.sharedService.getFormValidation(this.basicVehicleForm)
+      this.sharedService.getFormValidation(this.basicVehicleForm);
+      this.sharedService.getApiValue(this.isApiValue)
       this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
       this.isShowParentLoan = false;
       this.isVehicleRegNoChange = false;
     } else {
       this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
     }
+  }
+
+  onChangeValue() {
+    this.sharedService.getFormValidation(this.basicVehicleForm);
   }
 
 }

@@ -89,11 +89,11 @@ export class FleetDetailsComponent implements OnInit {
   udfGroupId = 'FLG001';
 
   itemsPerPage = '5';
-    // pageNumber = 1;
-    // currentPage = 1;
-    // totalItems: any;
-    // count = 1;
-    // slicedArray: any;
+  // pageNumber = 1;
+  // currentPage = 1;
+  // totalItems: any;
+  // count = 1;
+  // slicedArray: any;
   q;
 
 
@@ -164,7 +164,7 @@ export class FleetDetailsComponent implements OnInit {
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = udfScreenId.DDE.fleetListDDE ;
+      this.udfScreenId = udfScreenId.DDE.fleetListDDE;
 
     })
   }
@@ -441,18 +441,14 @@ export class FleetDetailsComponent implements OnInit {
       })
       const event = new Date(dateOfPurchase)
       if (event <= this.toDayDate) {
-        if (event < obj.controls['yomDate'].value) {
-          const purchaseYear = event.getFullYear();
-          const yomYear = (obj.controls['yomDate'].value).getFullYear();
-          if (purchaseYear == yomYear) {
-            this.fleetForm.patchValue({
-              isValidPurchaseDate: true
-            })
-            return;
-          }
+        const purchaseYear = event.getFullYear();
+        const yomYear = (obj.controls['yomDate'].value).getFullYear();
+
+        if (yomYear > purchaseYear) {
           this.fleetForm.patchValue({
             isValidPurchaseDate: false
           })
+          this.toasterService.showError('Purchase Date Invalid', '')
         } else {
           this.fleetForm.patchValue({
             isValidPurchaseDate: true
@@ -464,6 +460,7 @@ export class FleetDetailsComponent implements OnInit {
           isValidPurchaseDate: true
         })
       }
+
     }
   }
 
@@ -666,7 +663,7 @@ export class FleetDetailsComponent implements OnInit {
     })
   }
 
-  addNewRow(rowData) {
+  addNewRow(rowData?: any) {
     this.formArr.push(this.initRows(rowData));
     this.regionLov[this.formArr.length - 1] = this.allLovs.assetRegion;
   }
@@ -681,24 +678,29 @@ export class FleetDetailsComponent implements OnInit {
   callDeleteRecord() {
     const index = this.deleteRecordData.index;
     const fleets = this.deleteRecordData.fleets;
-    if (fleets.length > 1) {
-      this.formArr.removeAt(index);
 
-      const data = {
-        id: fleets[index].id,
-        leadId: this.leadId
-      };
+    // if (fleets.length > 1) {
+    this.formArr.removeAt(index);
 
-      this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
+    const data = {
+      id: fleets[index].id,
+      leadId: this.leadId
+    };
 
-      });
+    this.fleetDetailsService.deleteFleetDetails(data).subscribe((res: any) => {
+      if (fleets.length === 0) {
+        this.addNewRow()
+      }
+    });
 
-      fleets.splice(index, 1)
-      this.toasterService.showSuccess("Record deleted successfully!", '')
+    fleets.splice(index, 1)
+    this.toasterService.showSuccess("Record deleted successfully!", '')
 
-    } else {
-      this.toasterService.showError("atleast one record required !", '')
-    }
+    // } 
+
+    // else {
+    //   this.toasterService.showError("atleast one record required !", '')
+    // }
   }
 
   toReference() {
@@ -725,6 +727,8 @@ export class FleetDetailsComponent implements OnInit {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
       return;
     } else {
+
+      console.log(index, 'purchaseYear')
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
       if (this.fleetForm.valid && !isUDFInvalid && this.fleetForm.controls['isValidPurchaseDate'].value === true) {
