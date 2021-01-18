@@ -19,6 +19,7 @@ import { LoanViewService } from '@services/loan-view.service';
 
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-fleet-details',
@@ -96,6 +97,8 @@ export class FleetDetailsComponent implements OnInit {
   // slicedArray: any;
   q;
 
+  apiValue: any;
+  finalValue: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -113,6 +116,7 @@ export class FleetDetailsComponent implements OnInit {
     private vehicleDetailService: VehicleDetailService,
     private sharedService: SharedService,
     private toggleDdeService: ToggleDdeService,
+    private objectComparisonService: ObjectComparisonService,
     private loanViewService: LoanViewService) {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     this.fleetArrayList = this.fb.array([]);
@@ -211,27 +215,55 @@ export class FleetDetailsComponent implements OnInit {
 
     if (rowData) {
       return this.fb.group({
-        regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required])),
-        regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required])),
-        relation: new FormControl(rowData.relation, [Validators.required]),
-        region: new FormControl(rowData.region, [Validators.required]),
-        make: new FormControl(rowData.make, [Validators.required]),
-        vehicleType: new FormControl(rowData.vehicleType, [Validators.required]),
-        assetBodyType: new FormControl(rowData.assetBodyType, [Validators.required]),
-        assetModel: new FormControl(rowData.assetModel, [Validators.required]),
-        yom: new FormControl(rowData.yom, Validators.compose([Validators.required])),
-        financier: new FormControl(rowData.financier, [Validators.required]),
-        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required])),
-        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required])),
-        tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required])),
-        paid: new FormControl(rowData.paid, Validators.compose([Validators.required])),
-        seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
+        // regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required])),
+        // regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required])),
+        // relation: new FormControl(rowData.relation, [Validators.required]),
+        // region: new FormControl(rowData.region, [Validators.required]),
+        // make: new FormControl(rowData.make, [Validators.required]),
+        // vehicleType: new FormControl(rowData.vehicleType, [Validators.required]),
+        // assetBodyType: new FormControl(rowData.assetBodyType, [Validators.required]),
+        // assetModel: new FormControl(rowData.assetModel, [Validators.required]),
+        // yom: new FormControl(rowData.yom, Validators.compose([Validators.required])),
+        // financier: new FormControl(rowData.financier, [Validators.required]),
+        // loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required])),
+        // purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required])),
+        // tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required])),
+        // paid: new FormControl(rowData.paid, Validators.compose([Validators.required])),
+        // seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
+        // ad: new FormControl({ value: rowData.ad, disabled: true }),
+        // pd: new FormControl({ value: rowData.pd, disabled: true }),
+        // gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
+        // id: rowData.id,
+        // vehicleId: rowData.vehicleId
+
         ad: new FormControl({ value: rowData.ad, disabled: true }),
-        pd: new FormControl({ value: rowData.pd, disabled: true }),
+        assetBodyType: new FormControl(rowData.assetBodyType, [Validators.required]),
+        assetBodyTypeDesc: new FormControl(rowData.assetBodyTypeDesc),
+        assetModel: new FormControl(rowData.assetModel, [Validators.required]),
+        assetModelDesc: new FormControl(rowData.assetModelDesc),
+        financier: new FormControl(rowData.financier, [Validators.required]),
+        financierDesc: new FormControl(rowData.financierDesc),
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
         id: rowData.id,
+        leadId: rowData.leadId,
+        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required])),
+        make: new FormControl(rowData.make, [Validators.required]),
+        makeDesc: new FormControl(rowData.makeDesc),
+        paid: new FormControl(rowData.paid, Validators.compose([Validators.required])),
+        pd: new FormControl({ value: rowData.pd, disabled: true }),
+        purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required])),
+        regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required])),
+        regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required])),
+        region: new FormControl(rowData.region, [Validators.required]),
+        regionDesc: new FormControl(rowData.regionDesc),
+        relation: new FormControl(rowData.relation, [Validators.required]),
+        relationDesc: new FormControl(rowData.relationDesc),
+        seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
+        tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required])),
         vehicleId: rowData.vehicleId,
-        yomDate: new FormControl('')
+        vehicleType: new FormControl(rowData.vehicleType, [Validators.required]),
+        vehicleTypeDesc: new FormControl(rowData.vehicleTypeDesc),
+        yom: new FormControl(rowData.yom, Validators.compose([Validators.required]))
       })
     }
     else return this.fb.group({
@@ -253,8 +285,7 @@ export class FleetDetailsComponent implements OnInit {
       ad: new FormControl({ value: '', disabled: true }),
       pd: new FormControl({ value: '', disabled: true }),
       gridValue: new FormControl({ value: '', disabled: true }),
-      vehicleId: '',
-      yomDate: new FormControl('')
+      vehicleId: ''
     });
   }
 
@@ -436,19 +467,16 @@ export class FleetDetailsComponent implements OnInit {
       let yomDate = new Date(formArray.controls[index].get('yom').value, 12, 0, 0, 0);
       this.minDate = yomDate;
 
-      formArray.controls[index].patchValue({
-        yomDate: yomDate
-      })
       const event = new Date(dateOfPurchase)
       if (event <= this.toDayDate) {
         const purchaseYear = event.getFullYear();
-        const yomYear = (obj.controls['yomDate'].value).getFullYear();
+        const yomYear = yomDate.getFullYear();
 
         if (yomYear > purchaseYear) {
           this.fleetForm.patchValue({
             isValidPurchaseDate: false
           })
-          this.toasterService.showError('Purchase Date Invalid', '')
+          // this.toasterService.showError('Purchase Date Invalid', '')
         } else {
           this.fleetForm.patchValue({
             isValidPurchaseDate: true
@@ -559,6 +587,7 @@ export class FleetDetailsComponent implements OnInit {
       this.fleetDetails[i]['tenure'] = Number(this.fleetDetails[i]['tenure'])
       this.fleetDetails[i]['paid'] = Number(this.fleetDetails[i]['paid'])
       this.fleetDetails[i]['gridValue'] = Number(formArray.controls[i]['controls']['gridValue'].value);
+
       this.fleetDetails[i]['seasoning'] = formArray.controls[i]['controls']['seasoning'].value;
       this.fleetDetails[i]['ad'] = formArray.controls[i]['controls']['ad'].value;
       this.fleetDetails[i]['pd'] = formArray.controls[i]['controls']['pd'].value;
@@ -580,17 +609,15 @@ export class FleetDetailsComponent implements OnInit {
         this.fleetIDs = res.ProcessVariables.ids
         this.toasterService.showSuccess('Record saved successfully!', '');
         const fleetList: Array<any> = res.ProcessVariables.fleets;
-        for (let i = 0; i < fleetList.length; i++) {
-          this.onGetDateValue(fleetList[i], i)
-        }
+        // for (let i = 0; i < fleetList.length; i++) {
+        //   this.onGetDateValue(fleetList[i], i)
+        // }
         this.fleetArrayList.controls = [];
         fleetList.map((val: any, i) =>
           this.fleetArrayList.push(this.initRows(val)));
         if (index != null && index != 'next') {
           this.fleetId = this.fleetIDs[index];
           this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
-        } else if (index == 'next') {
-          this.router.navigate(['pages/dde/' + this.leadId + '/exposure'])
         }
       } else if (res['ProcessVariables'].error['code'] == "1") {
         this.toasterService.showError(res['ProcessVariables'].error['message'], '');
@@ -619,6 +646,7 @@ export class FleetDetailsComponent implements OnInit {
         this.udfDetails = res['ProcessVariables'].udfDetails;
         this.formArr.clear();
         for (let i = 0; i < fleets.length; i++) {
+          this.apiValue = fleets;
           this.vehicleTypeLov[i] = this.allLovs.vehicleType;
           this.regionLov[i] = this.allLovs.assetRegion;
           this.vehicleManufacturer[i] = this.allLovs.vehicleManufacturer;
@@ -639,7 +667,7 @@ export class FleetDetailsComponent implements OnInit {
           else {
             this.addNewRow(fleets[i]);
           }
-          this.onGetDateValue(fleets[i].yom, i)
+          // this.onGetDateValue(fleets[i].yom, i)
         }
       } else {
         if (res['Error'] == "1") {
@@ -729,15 +757,44 @@ export class FleetDetailsComponent implements OnInit {
     } else {
 
       console.log(index, 'purchaseYear')
-      const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
 
-      if (this.fleetForm.valid && !isUDFInvalid && this.fleetForm.controls['isValidPurchaseDate'].value === true) {
-        this.saveOrUpdateFleetDetails(index);
+      if (index === 'next') {
+
+        let isValueCheck = true;
+        this.finalValue = this.fleetForm.getRawValue().Rows;
+
+        this.finalValue.filter((data, i) => {
+          data.purchaseDate = this.sendDate(data['purchaseDate'])
+          this.apiValue.filter((res, j) => {
+            if (i === j) {
+              isValueCheck = this.objectComparisonService.compare(data, res);
+            }
+          })
+        })
+
+        if (!this.fleetForm.valid) {
+          this.toasterService.showInfo('Please SAVE details before proceeding', '');
+          return;
+        }
+
+        if (!isValueCheck) {
+          this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+          return;
+        }
+
+        this.router.navigate(['pages/dde/' + this.leadId + '/exposure'])
+
       } else {
-        this.isDirty = true;
-        this.toasterService.showError('Please enter valid details', '');
-        console.log(this.fleetForm, 'fleetForm')
-        this.utilityService.validateAllFormFields(this.fleetForm);
+        const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
+
+        if (this.fleetForm.valid && !isUDFInvalid && this.fleetForm.controls['isValidPurchaseDate'].value === true) {
+          this.saveOrUpdateFleetDetails(index);
+        } else {
+          this.isDirty = true;
+          this.toasterService.showError('Please enter valid details', '');
+          console.log(this.fleetForm, 'fleetForm')
+          this.utilityService.validateAllFormFields(this.fleetForm);
+        }
       }
     }
   }

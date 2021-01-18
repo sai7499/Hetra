@@ -75,6 +75,7 @@ export class VehicleDetailComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
+
     this.leadId = leadData['leadId'];
     let leadDetails = leadData['leadDetails']
     this.productCatoryCode = leadDetails['productCatCode'];
@@ -82,6 +83,9 @@ export class VehicleDetailComponent implements OnInit {
     if (leadData && leadData['vehicleCollateral']) {
       this.routerId = leadData['vehicleCollateral'].length > 0 ? leadData['vehicleCollateral'][0].collateralId : '0';
     }
+
+    console.log(leadData, 'lead id', this.routerId)
+
 
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
@@ -132,18 +136,20 @@ export class VehicleDetailComponent implements OnInit {
 
     this.finalValue = this.formValue.getRawValue().vehicleFormArray[0];
 
-    console.log(this.finalValue, 'finalvalue')
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
+      // this.finalValue.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(this.finalValue.manuFacMonthYear, 'DD/MM/YYYY');
+      this.finalValue.ageOfAsset = this.finalValue.ageOfAsset ? this.finalValue.ageOfAsset.split(' ')[0] : null;
+      this.finalValue.ageAfterTenure = this.finalValue.ageAfterTenure ? this.finalValue.ageAfterTenure.split(' ')[0] : null;
+    }
+
+    console.log(this.finalValue, 'finalvalue', this.apiValue[0])
 
     if (this.formValue.valid && isUdfField) {
 
-      const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
+      const isValueCheck = this.objectComparisonService.compare(this.apiValue[0], this.finalValue);
       // const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
       const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
 
-      if (this.formValue.invalid || isUDFInvalid) {
-        this.toasterService.showInfo('Please SAVE details before proceeding', '');
-        return;
-      }
       if (!isValueCheck) {
         this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
         return;
@@ -187,7 +193,8 @@ export class VehicleDetailComponent implements OnInit {
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showError('please save first', '')
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
     }
 
   }
@@ -303,6 +310,7 @@ export class VehicleDetailComponent implements OnInit {
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
+      console.log(this.formValue, 'formValue')
       this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }
   }
