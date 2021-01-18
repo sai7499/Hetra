@@ -1,8 +1,12 @@
-<form class="multisteps-form">
-  <h3 class="banner-con">Repayment Track Record
-    <span class="float-right">{{udfScreenId}}</span>
-  </h3>
-  <div class="tab_content " [formGroup]="trackVehicleForm">
+
+  <div class="content" >
+    <form class="multisteps-form" [formGroup]="trackVehicleForm">
+      <div class="row">
+        <h3 class="banner-con">Repayment Track Record
+          <span class="float-right">{{udfScreenId}}</span>
+        </h3>
+      </div>
+     
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="Vechical Type">{{labels?.nameOfTheClient}} <sub class="star_red_col">*</sub></label>
@@ -130,8 +134,8 @@
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="Vechical Type">{{labels?.loanStartDate}}<sub class="star_red_col">*</sub></label>
-        <div class="form-group date">
-          <div class='input-group date' id='loan_start_date'>
+        <!-- <div class="form-group date">
+          <div class='input-group date' id='loan_start_date'> -->
             <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span> -->
             <kendo-datepicker style="width:100%" class="form-control mandatory" formControlName="loanStartDate"
@@ -143,16 +147,16 @@
             </div>
             <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
                             (change)="loanStartDate($event)" /> -->
-          </div>
-        </div>
+          <!-- </div>
+        </div> -->
 
       </div>
     </div>
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="Vechical Type">{{labels?.emistartDate}}<sub class="star_red_col">*</sub></label>
-        <div class="form-group date">
-          <div class='input-group date' id='loan_start_date'>
+        <!-- <div class="form-group date">
+          <div class='input-group date' id='loan_start_date'> -->
             <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span> -->
             <kendo-datepicker style="width:100%" class="form-control mandatory" formControlName="emiStartDate"
@@ -165,8 +169,8 @@
             </div>
             <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
                             (change)="loanStartDate($event)" /> -->
-          </div>
-        </div>
+          <!-- </div>
+        </div> -->
 
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -418,23 +422,35 @@
 
     <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
       [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+      <div class="btn-sec clear-both row cst_btm_btns">
+        <div class="col-sm-5">
+    
+        </div>
+        <div class="col-sm-7 text-right">
+
+          <a id="back_vehicle_details"><button class="btn btn-primary hvr-sweep-to-left" type="button" routerLink="/pages/dde/{{leadId}}/fleet-details">
+            Back
+          </button></a>
+          <p class="btn btn-primary save" id="save_vehicle_details" (click)="onFormSubmit()" >
+            Save
+          </p>
+        <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onFormSubmit()">
+            Next
+          </button></a>
+          <!-- <button class="btn btn-primary mar-right8" type="button" routerLink="/pages/dde/{{leadId}}/fleet-details">Back
+          </button>
+          <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button>
+          <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()"> Next </button> -->
+        </div>
+      </div>
+    </form>
   </div>
 
 
 
 
-  <div class="btn-sec clear-both row cst_btm_btns">
-    <div class="col-sm-5">
+ 
 
-    </div>
-    <div class="col-sm-7 text-right">
-      <button class="btn btn-primary mar-right8" type="button" routerLink="/pages/dde/{{leadId}}/fleet-details">Back
-      </button>
-      <button class="btn btn-primary mar-right8" type="button" (click)="onFormSubmit()">Save </button>
-      <button class="btn btn-primary js-btn-next" type="button" (click)="onFormSubmit()"> Next </button>
-    </div>
-  </div>
-</form>
 
 <!-- modal popup -->
 <!-- Emi Amount Modal -->
