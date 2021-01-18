@@ -627,7 +627,7 @@ export class ViabilityDetailsComponent implements OnInit {
       return;
     }
 
-    this.capturedAddress = this.viabilityForm.value.gpsPosition.get('capturedAddress').value
+    // this.capturedAddress = this.viabilityForm.value.gpsPosition.get('capturedAddress').value
 
     if (this.viabilityForm.value.type === '1VHCLVBTY') {
       const body = {
