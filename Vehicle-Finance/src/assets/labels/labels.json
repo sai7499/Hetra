@@ -1830,6 +1830,32 @@
     "relationshipType":"Relationship Type",
     "pdDoneAt": "PD done at",
     "viabilityDoneAt": "Viability done at",
+
+    "promotionScheme":"Promotion Scheme",
+    "subSchemeLoanTenor":"Subvention Scheme Loan Tenor (in Months)",
+    "SubSchemeIRR": "Subvention Scheme IRR (in %)",
+    "SubSchemeEMI":"Subvention Scheme EMI (in INR)",
+    "SubAmount":"Subvention Amount (in INR)",
+    "incentiveAmount":"Incentive Amount (in INR)",
+    "loanAmountincludingCrossSellsubtracSubvention":"Loan Amount including Cross Sell Funding but subtracting Subvention (in INR)",
+    "repaymentFrequency" : "Repayment Frequency",
+    "EMIStructure": "EMI Structure",
+    "EMIAfterCrossSell" : "EMI After Cross Sell",
+    "fromMonth":"From Month",
+    "toMonth": "To Month",
+    "EMIAmount": "EMI Amount(in Rs)",
+    "instalmentNo" : "Installment No",
+    "installmentDate" : "Installment Date",
+    "totalIntallmentAmount" : "Total Intallment Amount",
+    "principle" : "Principle(in Rs)",
+    "interest" : "Interest(in Rs)",
+    "principleOutstanding": "Principle Outstanding (in Rs)",
+    "charges": "Charges",
+    "finalAssetCosts": "Final Asset Cost (in INR)",
+    "finalLTV":"Final LTV (in %)",
+    "chargesinINR":"Charges (in INR)",
+    "gapDaysInterest": "Gap Days Interest (in INR) ",
+    
     "validationData": {
         "name": {
             "maxLength": {
