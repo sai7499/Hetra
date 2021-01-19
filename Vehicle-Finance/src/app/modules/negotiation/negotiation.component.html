@@ -654,9 +654,10 @@
                                       </td>
                                       <td>
                                       <input formControlName="emiAmount" (keypress)="isNumber($event)" (change)="enterEmiCall($event,i,o)" class="form-control">
-                                      </td>
+                                    </td>
                                       <td *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'] !='4EMISTRUCT'">
-                                      <button type="button" (click)="addNewRow(i,o)" class="btn btn-primary btn-sm" title="Add New Row" [disabled]="!((ticket.controls.variableForm.controls.variableFormArray.controls.length-1)==o)">
+                                      <button type="button" (click)="addNewRow(i,o)" class="btn btn-primary btn-sm" title="Add New Row"
+                                        [disabled]="(!((ticket.controls.variableForm.controls.variableFormArray.controls.length-1)==o)) || ((createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['NoofRepayableMonthsafterMoratorium']['value']-1)==ticket.controls.variableForm.value.variableFormArray[0].toMonth)">
                                           <i class="fa fa-plus"></i>
                                         </button>
                                       <button *ngIf="ticket.controls.variableForm.controls.variableFormArray.controls.length > 1 && o!=0" [disabled]="!((ticket.controls.variableForm.controls.variableFormArray.controls.length-1)==o)" (click)="deleteRow(i,o)"

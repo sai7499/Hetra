@@ -893,7 +893,7 @@ export class NegotiationComponent implements OnInit {
       }
 
   
-  if(totalEmiVal<this.repaymentAmnt){
+  if((indexEmiStruVal!='4EMISTRUCT') && (totalEmiVal<this.repaymentAmnt)){ // bullet is auto calculated , so not required to check this for bullet alone
     this.toasterService.showError('Variable installements are not adding up to Total repayment amount ('+ this.repaymentAmnt +'). Please adjust EMI amount','');  
   }         
   else{
