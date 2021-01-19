@@ -113,4 +113,19 @@ export class NegotiationService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+  fundFlowApi(LoanFundFlowInput,VariableEPISchedule){
+    const processId = this.apiService.api.fundFlowNegotiation.processId;
+    const workflowId = this.apiService.api.fundFlowNegotiation.workflowId;
+    const projectId = this.apiService.api.fundFlowNegotiation.projectId;
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: {
+        LoanFundFlowInput,VariableEPISchedule
+      },
+      workflowId: workflowId,
+      projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body); 
+  }
 }

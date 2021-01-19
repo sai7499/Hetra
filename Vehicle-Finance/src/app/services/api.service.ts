@@ -713,7 +713,7 @@ export class ApiService {
     getmotorInsuranceLOV: {
       workflowId: '7ab11904cca811eaaa1200505695f93b',
       processId: 'cdeef696cda111ea89bf00505695f93b',
-      projectId: environment.projectIds.salesProjectId
+      projectId: environment.projectIds.camProjectId
     },
     getInsuranceLOV: {
       workflowId: '7ab11904cca811eaaa1200505695f93b',
@@ -1136,6 +1136,11 @@ export class ApiService {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.rejectRemarks
+    },
+    fundFlowNegotiation: {
+      workflowId: '1b424e52e12511ea80dc00505695f93b',
+      processId: '1b5b997ae12511eaaebb00505695f93b',
+      projectId: environment.projectIds.trancheProId
     }
   };
 }

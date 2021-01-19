@@ -109,7 +109,9 @@
               (selected)='selectSourcingEvent($event)' (inputChanged)='onSourcingCodeSearch($event)'
               (inputCleared)='onSourcingCodeClear($event)' [itemTemplate]="sourcingCodeTemplate"
               [notFoundTemplate]="notFoundTemplate" formControlName="sourcingCode"
-              [placeHolder]="sourcingCodePlaceholder" [debounceTime]="400" [disabled]="isSourchingCode">
+              [placeHolder]="sourcingCodePlaceholder" [debounceTime]="400" 
+              [disabled]="isSourchingCode"
+              [minQueryLength]="2">
             </ng-autocomplete>
             <div class="invalid-feedback" *ngIf="!isSourceCode">
               <div> Sourcing code required.</div>
@@ -132,8 +134,11 @@
             <ng-autocomplete [data]="dealerCodeData" [searchKeyword]="keyword"
               (inputChanged)="onDealerCodeSearch($event)" (inputCleared)="onDealerCodeClear($event)"
               (selected)="selectDealorEvent($event)" [itemTemplate]="dealerCodeTemplate"
-              [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" [placeHolder]="'Dealer Code'"
-              [debounceTime]="400" [disabled]="isDisabledDealerCode">
+              [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" 
+              [placeHolder]="'Dealer Code'"
+              [debounceTime]="400" 
+              [disabled]="isDisabledDealerCode"
+              [minQueryLength]="2">
             </ng-autocomplete>
             <div class="invalid-feedback">
               <div *ngIf="isDealerCode"> Dealer code required.</div>

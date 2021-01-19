@@ -28,6 +28,7 @@ export class DeviationsComponent implements OnInit, OnDestroy {
   locationIndex: string = '';
 
   isLoan360: boolean;
+  disableSaveBtn: boolean;
 
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
@@ -50,6 +51,11 @@ export class DeviationsComponent implements OnInit, OnDestroy {
     this.leadId = leadData['leadId'];
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    let roles = roleAndUserDetails.roles;
+    let roleId = roles[0].roleId;
+    let roleType = roles[0].roleType;
+
+    this.disableSaveBtn = (roleType === 5) ? true : false;
     this.userId = roleAndUserDetails.userDetails.userId;
 
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
