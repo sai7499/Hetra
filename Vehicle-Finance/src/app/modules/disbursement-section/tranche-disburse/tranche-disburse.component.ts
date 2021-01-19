@@ -279,6 +279,7 @@ export class TrancheDisburseComponent implements OnInit {
       }
     }
     this.disbursementService.getTDDetails(this.reqData,this.reqTask).subscribe((res: any) => {
+      if(res.Error ==0 && res.ProcessVariables.error.code == 0){      
       this.LoanDetails = res.ProcessVariables.LoanDetails;
       this.TDDisbursedTranches = res.ProcessVariables.DisbursedTranches;
       this.TDPendingTranches = res.ProcessVariables.PendingTranches;
@@ -311,6 +312,9 @@ export class TrancheDisburseComponent implements OnInit {
           DisbursedTranches: this.formBuilder.array(earlierChildgroups),
         })
       }
+    }else {
+      this.toasterService.showError(res.ProcessVariables.error.message,"")
+    }
     })
 
   }
@@ -570,7 +574,7 @@ export class TrancheDisburseComponent implements OnInit {
 
   onApprove(){
     this.remarks = ''
-    this.disbursementService.tdApprove(this.taskId,this.LoanDetails['leadID'],this.loanAccountNumber)
+    this.disbursementService.tdApprove(this.taskId,this.LoanDetails['leadID'],this.LoanDetails['loanAccountNumber'])
     .subscribe((res: any) => {
       if (res.Error == '0'){
         const apiError = res.ProcessVariables.error;

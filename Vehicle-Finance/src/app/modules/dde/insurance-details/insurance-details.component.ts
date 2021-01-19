@@ -335,6 +335,7 @@ export class InsuranceDetailsComponent implements OnInit {
       if (event === 'no') {
         // this.showCreditDetails = false;
         this.motorShieldRequired = false;
+        this.isRtoCenter = true;
         this.f.controls.vehicleType.clearValidators();
         this.f.controls.vehicleType.updateValueAndValidity();
         this.f.controls.insuranceProvider.clearValidators();

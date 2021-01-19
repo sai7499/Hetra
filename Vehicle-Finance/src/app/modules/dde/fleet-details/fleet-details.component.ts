@@ -719,6 +719,7 @@ export class FleetDetailsComponent implements OnInit {
       if (fleets.length === 0) {
         this.addNewRow()
       }
+      this.getFleetDetails();
     });
 
     fleets.splice(index, 1)

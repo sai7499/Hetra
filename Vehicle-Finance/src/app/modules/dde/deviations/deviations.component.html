@@ -8,7 +8,8 @@
     <div class="col-sm-7 text-right">
       <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" routerLink="../cam">{{labels?.back}}</button>
       <ng-container *ngIf="!isLoan360">
-        <button class="btn btn-primary dash_href" type="button" *ngIf="isSubmitToCredit && !disableSaveBtn"
+        <button class="btn btn-primary dash_href" type="button" 
+        *ngIf="isSubmitToCredit && !disableSaveBtn"
         (click)="saveorUpdateDeviationDetails()">{{labels?.save}}</button>
       </ng-container>
       <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" routerLink="../credit-condition"

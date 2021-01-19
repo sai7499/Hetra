@@ -52,11 +52,9 @@ export class DeviationsComponent implements OnInit, OnDestroy {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     let roles = roleAndUserDetails.roles;
-    let roleId = roles[0].roleId;
     let roleType = roles[0].roleType;
 
     this.disableSaveBtn = (roleType === 5) ? true : false;
-
     this.userId = roleAndUserDetails.userDetails.userId;
 
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
