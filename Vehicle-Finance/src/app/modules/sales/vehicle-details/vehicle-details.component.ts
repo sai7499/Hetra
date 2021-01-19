@@ -22,13 +22,13 @@ export class VehicleDetailsComponent implements OnInit {
   isFemaleForNCV: boolean;
   applicantList: any = []
 
-  public label: any = {};
+  public label: any;
   public errorMsg: string;
   formValue: any;
   userDefineForm: any;
 
   isDirty: boolean;
-  routerId = 0;
+  routerId = '0';
   udfScreenId: string = '';
   udfGroupId: string = 'VLG002';
   udfDetails: any = [];
@@ -64,6 +64,10 @@ export class VehicleDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
+    if (leadData && leadData['vehicleCollateral']) {
+      this.routerId = leadData['vehicleCollateral'].length > 0 ? leadData['vehicleCollateral'][0].collateralId : '0';
+    }
+
     this.leadId = leadData['leadId']
     let leadDetails = leadData['leadDetails']
     this.productCatoryCode = leadDetails['productCatCode'];
@@ -82,10 +86,6 @@ export class VehicleDetailsComponent implements OnInit {
           this.udfScreenId = udfScreenId.ADE.vehicleDetailADE ;
     
         })
-
-    this.activatedRoute.params.subscribe((value) => {
-      this.routerId = value ? value.vehicleId : null;
-    })
 
     this.sharedService.vaildateForm$.subscribe((value) => {
       this.formValue = value;
@@ -109,6 +109,17 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   onNext() {
+
+    let isUdfField = true;
+
+    if (this.userDefineForm) {
+      isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+    }
+
+    if (this.formValue.invalid && !isUdfField) {
+      return
+    }
+
     const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
     const product = leadSectioData.leadDetails.productCatCode;
 

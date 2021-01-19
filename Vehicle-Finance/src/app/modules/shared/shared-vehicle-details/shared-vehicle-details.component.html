@@ -1,10 +1,6 @@
 <form class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="label">
 
-    <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId" [udfScreenId]="udfScreenId"
-        [udfGroupId]="udfGroupId">
-    </app-shared-basic-vehicle-details>
-
-    <!-- <div class="row">
+    <div class="row">
         <div class="">
             <h4 class="banner-con">{{label.vehicleListTitle}}
                 <span class="float-right">{{udfScreenId}}</span>
@@ -74,9 +70,11 @@
             </table>
         </div>
 
-        <!-- Additional Collateral -->
+    </div>
 
-    <!-- <div style="margin-top: 15px;" *ngIf="roleType !== 1">
+    <!-- Additional Collateral -->
+
+    <div style="margin-top: 15px;" *ngIf="roleType !== 1">
 
         <div class="">
             <div class="btn-sec clear-both row">
@@ -140,7 +138,7 @@
             </table>
         </div>
 
-    </div> -->
+    </div>
 </form>
 
 <!-- Modal -->

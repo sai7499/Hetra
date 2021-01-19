@@ -11,6 +11,7 @@ import { UtilityService } from '@services/utility.service';
 import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -26,17 +27,20 @@ export class VehicleDetailComponent implements OnInit {
   isFemaleForNCV: boolean;
   showEligibilityScreen: boolean;
   eligibleModal: boolean;
-  userId : any;
-  applicantList: any=[]
+  userId: any;
+  applicantList: any = []
   showNotCoApplicant: boolean;
 
-  public label: any = {};
+  finalValue: any;
+  apiValue: any;
+
+  public label: any;
   public errorMsg: string;
   formValue: any;
   userDefineForm: any;
 
   isDirty: boolean;
-  routerId = 0;
+  routerId: any = '0';
 
   udfScreenId: string = '';
   udfGroupId: string = 'VLG002';
@@ -56,40 +60,38 @@ export class VehicleDetailComponent implements OnInit {
     private termsService: TermAcceptanceService,
     private vehicleDetailService: VehicleDetailService,
     private labelsData: LabelsService,
+    private objectComparisonService: ObjectComparisonService,
     private loginStoreService: LoginStoreService,
     private route: Router) { }
+
   async ngOnInit() {
     this.userId = localStorage.getItem('userId');
     this.leadId = (await this.getLeadId()) as string;
-    
-    this.applicantList= this.applicantDataStoreService.getApplicantList();
+
+    this.applicantList = this.applicantDataStoreService.getApplicantList();
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
+
     this.leadId = leadData['leadId'];
     let leadDetails = leadData['leadDetails']
     this.productCatoryCode = leadDetails['productCatCode'];
 
-    this.labelsData.getLabelsData()
-      .subscribe(data => {
-        this.label = data;
-      },
-        error => {
-          this.errorMsg = error;
-        });
+    if (leadData && leadData['vehicleCollateral']) {
+      this.routerId = leadData['vehicleCollateral'].length > 0 ? leadData['vehicleCollateral'][0].collateralId : '0';
+    }
 
-        this.labelsData.getScreenId().subscribe((data) => {
-          let udfScreenId = data.ScreenIDS;
-    
-          this.udfScreenId = udfScreenId.QDE.vehicleDetailQDE ;
-    
-        })
+    console.log(leadData, 'lead id', this.routerId)
 
-    this.activatedRoute.params.subscribe((value) => {
-      this.routerId = value ? value.vehicleId : null;
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.vehicleDetailQDE;
+
     })
 
     this.sharedService.vaildateForm$.subscribe((value) => {
@@ -100,13 +102,23 @@ export class VehicleDetailComponent implements OnInit {
       this.userDefineForm = form;
     })
 
+    this.sharedService.apiValue$.subscribe((val: any) => {
+      this.apiValue = val;
+    })
+
+    this.labelsData.getLabelsData()
+      .subscribe(data => {
+        this.label = data;
+      },
+        error => {
+          this.errorMsg = error;
+        });
 
   }
 
   forFindingCoApplicantType() {
     if (this.applicantList) {
       const findCoApplicant = this.applicantList.find((data) => data.applicantTypeKey == "COAPPAPPRELLEAD")
-      console.log('findApplicant', findCoApplicant)
       this.showNotCoApplicant = findCoApplicant == undefined ? true : false;
     } else {
       this.showNotCoApplicant = true;
@@ -114,53 +126,87 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   onCredit() {
-    const body = { leadId: this.leadId };
-    this.creditService.getCreditScore(body).subscribe((res: any) => {
-      const resObj = res;
-      // tslint:disable-next-line: no-bitwise
-      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        const bodyRes = res;
-        this.creditService.setResponseForCibil(bodyRes);
-      
-        const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
-        const product = leadSectioData.leadDetails.productCatCode;
-        if (product === 'NCV' || product === 'UCV' || product === 'UC' || product === 'UTCR') {
-          this.showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
-          if (!this.showNotCoApplicant) {
-             this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
-          }
-        }
-    
-       if(product==="NCV"){
-         const result= this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
-        if (!result) {
-          this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
-        }
-       }
-        
-        this.showEligibilityScreen = res.ProcessVariables.showEligibilityScreen;
-        if (!this.showEligibilityScreen) {
-          this.eligibleModal = true;
-          return;
-       }
 
-        this.route.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
-      } else {
-        this.errorMessage = res.ProcessVariables.error ? res.ProcessVariables.error.message : res.ErrorMessage;
-        this.isModelShow = true;
+    let isUdfField = true;
+    this.isDirty = true;
+
+    if (this.userDefineForm) {
+      isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true;
+    }
+
+    this.finalValue = this.formValue.getRawValue().vehicleFormArray[0];
+
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
+      // this.finalValue.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(this.finalValue.manuFacMonthYear, 'DD/MM/YYYY');
+      this.finalValue.ageOfAsset = this.finalValue.ageOfAsset ? this.finalValue.ageOfAsset.split(' ')[0] : null;
+      this.finalValue.ageAfterTenure = this.finalValue.ageAfterTenure ? this.finalValue.ageAfterTenure.split(' ')[0] : null;
+    }
+
+    console.log(this.finalValue, 'finalvalue', this.apiValue[0])
+
+    if (this.formValue.valid && isUdfField) {
+
+      const isValueCheck = this.objectComparisonService.compare(this.apiValue[0], this.finalValue);
+      // const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+      const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+
+      if (!isValueCheck) {
+        this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+        return;
       }
-    });
+
+      const body = { leadId: this.leadId };
+      this.creditService.getCreditScore(body).subscribe((res: any) => {
+        const resObj = res;
+        // tslint:disable-next-line: no-bitwise
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          const bodyRes = res;
+          this.creditService.setResponseForCibil(bodyRes);
+
+          const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+          const product = leadSectioData.leadDetails.productCatCode;
+          if (product === 'NCV' || product === 'UCV' || product === 'UC' || product === 'UTCR') {
+            this.showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
+            if (!this.showNotCoApplicant) {
+              this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+            }
+          }
+
+          if (product === "NCV") {
+            const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+            if (!result) {
+              this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+            }
+          }
+
+          this.showEligibilityScreen = res.ProcessVariables.showEligibilityScreen;
+          if (!this.showEligibilityScreen) {
+            this.eligibleModal = true;
+            return;
+          }
+
+          this.route.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
+        } else {
+          this.errorMessage = res.ProcessVariables.error ? res.ProcessVariables.error.message : res.ErrorMessage;
+          this.isModelShow = true;
+        }
+      });
+    } else {
+      this.isDirty = true;
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
+    }
 
   }
 
-  navigateToSales(){
+  navigateToSales() {
     const body = {
-      leadId : this.leadId,
-      userId:  this.userId,
-      statusType : 'accept'
+      leadId: this.leadId,
+      userId: this.userId,
+      statusType: 'accept'
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
-      if ( res && res.ProcessVariables.error.code === '0') {
+      if (res && res.ProcessVariables.error.code === '0') {
         this.route.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
       }
     });
@@ -184,13 +230,16 @@ export class VehicleDetailComponent implements OnInit {
   onFormSubmit() {
 
     let isUdfField = true;
+    this.isDirty = true;
 
     if (this.userDefineForm) {
-     isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+      isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
     }
 
     if (this.formValue.valid && isUdfField) {
       let data = this.formValue.value.vehicleFormArray[0];
+
+      this.isDirty = false;
 
       if (this.formValue.value.isCheckDedpue === false) {
         this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
@@ -223,7 +272,7 @@ export class VehicleDetailComponent implements OnInit {
           data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
         }
 
-        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC'|| this.productCatoryCode === 'UTCR') {
+        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
           data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
@@ -261,6 +310,7 @@ export class VehicleDetailComponent implements OnInit {
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.formValue)
+      console.log(this.formValue, 'formValue')
       this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }
   }
