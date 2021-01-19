@@ -211,7 +211,7 @@
                                 </label>
                                 <div class="col-sm-6 col-md-4 col-lg-3">
                                   <app-custom-input formControlName="NegotiatedEMI" [isDirty]="isDirty" [className]="'form-control mandatory'" [isRequired]="'Negotiated EMI is Required'"
-                                  [type]="'decimal'" [placeholder]="'Negotiated EMI (in INR)'" change="allowValuesforNegoEMI($event,i)">
+                                  [type]="'number'" [placeholder]="'Negotiated EMI (in INR)'" (change)="allowValuesforNegoEMI($event,i,1)">
                                   </app-custom-input>
                                 </div>
                               </div>
@@ -622,10 +622,15 @@
                                   </app-vf-custom-select>
                                 </div>
                                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="loanBookingEMI">{{labels?.EMIAfterCrossSell}}</label>
-                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                <!-- <div class="col-sm-6 col-md-4 col-lg-3">
                                     <input formControlName="loanBookingEMI" type="text" class="form-control mandatory select2" id="loanBookingEMI"
                                     placeholder="EMI After Cross Sell" name="loanBookingEMI"
                                   />
+                                </div> -->
+                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                  <app-custom-input formControlName="loanBookingEMI" [isDirty]="isDirty" [className]="'form-control'"
+                                  [type]="'number'" [placeholder]="'EMI After Cross Sell'" (change)="allowValuesforNegoEMI($event,i,2)">
+                                  </app-custom-input>
                                 </div>
                               </div>
                             <div *ngIf="((createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']) && (createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']!='1EMISTRUCT'))" [formGroup]="ticket">
