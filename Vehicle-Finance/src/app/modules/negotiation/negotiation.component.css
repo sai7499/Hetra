@@ -257,7 +257,7 @@ label{
     margin-bottom: 15px;
 }
 .button-section {
-    margin-bottom: 30px;
+    margin-bottom: 100px;
 }
 .custom-negotiation-field {
     padding: 0;
@@ -270,6 +270,48 @@ label{
 }
 ::ng-deep .invalid-feedback {
     padding-top: 0;
+}
+.emi-table .btn-sm{
+    padding: 2px 8px !important;
+}
+.emi-table th, .emi-table td, .mock-table th, .mock-table td {
+	padding: 5px;
+}
+.emi-table .btn-primary.btn-sm {
+	margin-right: 5px;
+} 
+.emi-table .fa-trash {
+	padding-right: initial;
+} 
+.emi-table .form-control{
+    box-shadow: none;
+}
+.emi-table .calc-btn {
+	padding: 4px 8px;
+	margin: 10px 0 0;
+}
+.negotiation-form .form-group{
+    margin-bottom: 15px !important;
+}
+.emi-table-action {
+    width: 75px;
+}
+.mock-table-scroll {
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.negotiation-form .panel-group{
+	margin-bottom: 10px;
+}
+.negotiation-form .panel-group .panel .panel-title{
+	font-size: 15px;
+}
+.negotiation-form .panel-group .panel a.panel-heading{
+	display: block;
+}
+.display-block {
+	display: block;
 }
 
 

@@ -335,42 +335,42 @@ export class InsuranceDetailsComponent implements OnInit {
     }
   }
   checkOnMotor(event) {
-    if (event === 'no') {
-      this.isRtoCenter = true;
-      // this.showCreditDetails = false;
-      this.motorShieldRequired = false;
-      this.f.controls.vehicleType.clearValidators();
-      this.f.controls.vehicleType.updateValueAndValidity();
-      this.f.controls.insuranceProvider.clearValidators();
-      this.f.controls.insuranceProvider.updateValueAndValidity();
-      this.f.controls.vehicleMake.clearValidators();
-      this.f.controls.vehicleMake.updateValueAndValidity();
-      this.f.controls.variant.clearValidators();
-      this.f.controls.variant.updateValueAndValidity();
-      this.f.controls.rtoCentre.clearValidators();
-      this.f.controls.rtoCentre.updateValueAndValidity();
-      this.f.controls.model.clearValidators();
-      this.f.controls.model.updateValueAndValidity();
-      this.f.controls.fuelType.clearValidators();
-      this.f.controls.fuelType.updateValueAndValidity();
-    } else if (event === 'yes') {
-      // this.showCreditDetails = true;
-      this.motorShieldRequired = true;
-      this.f.controls.vehicleType.setValidators(Validators.required);
-      this.f.controls.vehicleType.updateValueAndValidity();
-      this.f.controls.insuranceProvider.setValidators(Validators.required);
-      this.f.controls.insuranceProvider.updateValueAndValidity();
-      this.f.controls.vehicleMake.setValidators(Validators.required);
-      this.f.controls.vehicleMake.updateValueAndValidity();
-      this.f.controls.variant.setValidators(Validators.required);
-      this.f.controls.variant.updateValueAndValidity();
-      this.f.controls.rtoCentre.setValidators(Validators.required);
-      this.f.controls.rtoCentre.updateValueAndValidity();
-      this.f.controls.model.setValidators(Validators.required);
-      this.f.controls.model.updateValueAndValidity();
-      this.f.controls.fuelType.setValidators(Validators.required);
-      this.f.controls.fuelType.updateValueAndValidity();
-    }
+      if (event === 'no') {
+        // this.showCreditDetails = false;
+        this.motorShieldRequired = false;
+        this.isRtoCenter = true;
+        this.f.controls.vehicleType.clearValidators();
+        this.f.controls.vehicleType.updateValueAndValidity();
+        this.f.controls.insuranceProvider.clearValidators();
+        this.f.controls.insuranceProvider.updateValueAndValidity();
+        this.f.controls.vehicleMake.clearValidators();
+        this.f.controls.vehicleMake.updateValueAndValidity();
+        this.f.controls.variant.clearValidators();
+        this.f.controls.variant.updateValueAndValidity();
+        this.f.controls.rtoCentre.clearValidators();
+        this.f.controls.rtoCentre.updateValueAndValidity();
+        this.f.controls.model.clearValidators();
+        this.f.controls.model.updateValueAndValidity();
+        this.f.controls.fuelType.clearValidators();
+        this.f.controls.fuelType.updateValueAndValidity();
+      } else if (event === 'yes') {
+        // this.showCreditDetails = true;
+        this.motorShieldRequired = true;
+        this.f.controls.vehicleType.setValidators(Validators.required);
+        this.f.controls.vehicleType.updateValueAndValidity();
+        this.f.controls.insuranceProvider.setValidators(Validators.required);
+        this.f.controls.insuranceProvider.updateValueAndValidity();
+        this.f.controls.vehicleMake.setValidators(Validators.required);
+        this.f.controls.vehicleMake.updateValueAndValidity();
+        this.f.controls.variant.setValidators(Validators.required);
+        this.f.controls.variant.updateValueAndValidity();
+        this.f.controls.rtoCentre.setValidators(Validators.required);
+        this.f.controls.rtoCentre.updateValueAndValidity();
+        this.f.controls.model.setValidators(Validators.required);
+        this.f.controls.model.updateValueAndValidity();
+        this.f.controls.fuelType.setValidators(Validators.required);
+        this.f.controls.fuelType.updateValueAndValidity();
+      }
   }
   getPincode(pincode, event: string) {
     // const id = pincode.id;
