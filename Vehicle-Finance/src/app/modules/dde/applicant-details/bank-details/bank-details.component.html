@@ -72,6 +72,8 @@
                 placeholder="Select Start Month" [activeView]="'decade'" (valueChange)="getMonths()"
                 [max]="todayDateNew"></kendo-datepicker>
             </div>
+            <span class="invalid-feedback" *ngIf="isToDate">
+              Invalid Date </span>
           </div>
         </div>
         <div [ngClass]="{'disablField': !f.fromDate.value}" class="form-group col-sm-6 col-md-4 col-lg-3">
