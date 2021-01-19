@@ -1,11 +1,14 @@
-<div class="content" *ngIf="label">
+<!-- <div class="content" > -->
   <!-- <app-shared-vehicle-details [isDirty]="isDirty"></app-shared-vehicle-details> -->
-
+  
+<div *ngIf="label">
   <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId" [udfScreenId]="udfScreenId"
-    [udfGroupId]="udfGroupId">
-  </app-shared-basic-vehicle-details>
+  [udfGroupId]="udfGroupId">
+</app-shared-basic-vehicle-details>
+</div>
+  
 
-  <div class="btn-sec clear-both btn-mar-15" id="clickButton">
+  <!-- <div class="btn-sec clear-both btn-mar-15" id="clickButton">
     <div class="col-sm-4"> </div>
     <div class="col-sm-8 text-right">
       <button class="btn btn-primary js-btn-prev hvr-sweep-to-left" [routerLink]="['../applicant-details']"
@@ -17,8 +20,8 @@
         data-toggle="modal" data-target="#myModal">{{ label.next }}</button>
 
     </div>
-  </div>
-</div>
+  </div> -->
+<!-- </div> -->
 
 <div id="overlay" *ngIf="isModelShow">
   <div id="text">

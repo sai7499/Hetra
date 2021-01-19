@@ -1,6 +1,8 @@
-<form class="multisteps-form__form p-0" [formGroup]="basicVehicleForm" *ngIf="label.validationData"
+<div class="content">
 
-(change)="onChangeValue()">
+    <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+    
+    <form class="multisteps-form__form p-0" [formGroup]="basicVehicleForm" *ngIf="label.validationData">
 
     <ng-container formArrayName="vehicleFormArray">
 
@@ -2593,10 +2595,31 @@
 
     </ng-container>
 
-</form>
+
 
 <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
     [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
+    
+      </form>
+      <div class="btn-sec clear-both btn-mar-15" id="clickButton">
+        <div class="col-sm-4"> </div>
+        <div class="col-sm-8 text-right">
+          <button class="btn btn-primary js-btn-prev hvr-sweep-to-left" (click)="onBack()"
+            type="button"> {{ label.back }}
+          </button>
+          <button *ngIf="!isLoan360 || !disableSaveBtn" class="btn btn-sec btn-primary " type="button" (click)="onFormSubmit()">
+            {{ label.save }} </button>
+          <button class="btn btn-primary js-btn-next hvr-sweep-to-right" (click)="onNext()" type="button"
+            data-toggle="modal" data-target="#myModal">{{ label.next }}</button>
+    
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
 
     <!-- Check Depude Model -->
 
@@ -2660,3 +2683,59 @@
         </div>
     </div>
 </div>
+
+<div id="overlay" *ngIf="isModelShow">
+    <div id="text">
+      <div class="panel">
+        <div class="panel-body">
+          <!-- <button type="button" class="close" aria-label="Close" (click)="isModelShow = false" >
+              <span aria-hidden="true">&times;</span>
+            </button> -->
+          <div class="modal-dialog">
+            <div class="modal-body" style="text-align:center;">
+              <p>{{errorMessage}}</p>
+              <div class="btn-wrap">
+                <button class="btn btn-primary" aria-label="Close" (click)="isModelShow = false">OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- The Modal -->
+  <div class="modal" id="prospectiveModal" [ngClass]="{ 'dis-block': eligibleModal}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title text-center">
+            Congrats! You have got a prospective lead
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="onEligibleModalClose()">
+            &times;
+          </button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span class="img-container"><img src="assets/images/tick-mark.png" width="90px;" /></span>
+  
+          <p id="model_p_size">
+            Please proceed to collect additional details
+          </p>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-success" id="ok_co_applicant" data-dismiss="modal"
+            (click)="navigateToSales()">
+            OK
+          </button>
+          <!---- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> --->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!------ End of the Success Model --------->

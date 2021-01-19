@@ -13,10 +13,15 @@ import { ToasterService } from '@services/toaster.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
 import { environment } from 'src/environments/environment';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { CreditScoreService } from '@services/credit-score.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
+import { TermAcceptanceService } from '@services/term-acceptance.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -106,6 +111,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   @Input() udfScreenId: any;
   @Input() udfGroupId: any;
   udfDetails: any = [];
+  isLoan360: boolean;
+  userDefineForm: any;
+  initUDFValues: any;
+  eligibleModal: boolean;
+  errorMessage: any;
+  isModelShow: boolean;
+  showEligibilityScreen: any;
+  applicantList: any;
+  showNotCoApplicant: boolean;
+  finalValue: any;
+  editedUDFValues: any;
+  isFinalValue: any;
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
@@ -115,7 +132,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService,
-    private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService) {
+    private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService,
+    private router: Router,
+    private applicantDataStoreService: ApplicantDataStoreService,
+    private creditService: CreditScoreService,
+    private objectComparisonService: ObjectComparisonService,
+    private termsService: TermAcceptanceService,
+    private location: Location) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
@@ -139,6 +162,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleFormArray: this._fb.array([])
     })
 
+
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
@@ -146,11 +170,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         console.log('error', error)
       });
 
+      this.applicantList = this.applicantDataStoreService.getApplicantList();
+
     let roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.userId = roleAndUserDetails.userDetails.userId;
     let leadData = this.createLeadDataService.getLeadSectionData();
@@ -214,9 +241,15 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
   }
 
-  onSaveuserDefinedFields(event) {
-    this.sharedService.getUserDefinedFields(event)
+  onSaveuserDefinedFields(value) {
+    //this.sharedService.getUserDefinedFields(event)
+    this.userDefineForm = value;
+    console.log('identifyValue', value)
+    if(value.event === 'init'){
+      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
+  
 
   validateCustomPattern() {
     const regPatternData = [
@@ -277,6 +310,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             finalAssetCost: res.ProcessVariables.vehicleCost,
             isVehAvailInGrid: res.ProcessVariables.isVehAvailInGrid,
           })
+          this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Gird value')
         }
@@ -617,7 +651,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
     }
 
-    this.isApiValue = formArray.getRawValue();
+    this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
+
+    //this.isApiValue = formArray.getRawValue();
   }
 
   onVehicleRegion(value: any, obj) {
@@ -795,6 +831,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     obj.patchValue({
       scheme: ''
     })
+    
   }
 
   onChangeMobileNumber(value) {
@@ -1424,6 +1461,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
       this.sharedService.getFormValidation(this.basicVehicleForm);
+      
       this.sharedService.getApiValue(this.isApiValue)
       this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
       this.isShowParentLoan = false;
@@ -1436,5 +1474,240 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onChangeValue() {
     this.sharedService.getFormValidation(this.basicVehicleForm);
   }
+
+  onFormSubmit() {
+
+    let isUdfField = true;
+    this.isDirty = true;
+    const url = this.location.path();
+    if (this.userDefineForm) {
+      isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+    }
+
+    if (this.basicVehicleForm.valid && isUdfField) {
+      let data = this.basicVehicleForm.value.vehicleFormArray[0];
+
+      this.isDirty = false;
+
+      if (this.basicVehicleForm.value.isCheckDedpue === false) {
+        this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
+        return
+      }
+
+      if (this.basicVehicleForm.value.isValidPincode && this.basicVehicleForm.value.isInvalidMobileNumber) {
+
+        if (data && data.fcExpiryDate) {
+          data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
+        }
+
+        if (data.firFiled) {
+          data.firFiled = data.firFiled === true ? '1' : '0';
+        }
+
+        if (data.onlineVerification) {
+          data.onlineVerification = data.onlineVerification === true ? '1' : '0';
+        }
+
+        if (data.insuranceValidity) {
+          data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.accidentDate) {
+          data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.invoiceDate) {
+          data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
+        }
+
+
+        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
+          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY'); 
+          data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
+          data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
+          if (url.includes('dde')) {
+            data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
+          }
+        }
+        if(url.includes('dde')){
+          //data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
+          data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
+          data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
+          data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : '';
+          data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
+          data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
+        }
+
+        data.udfDetails = [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(
+            this.userDefineForm && this.userDefineForm.udfData ?
+              this.userDefineForm.udfData.getRawValue() : {}
+          )
+        }]
+
+        this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+            this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
+            this.initUDFValues = this.userDefineForm.udfData.getRawValue();
+            this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
+            //this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-list']);
+          } else {
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Details')
+          }
+        }, error => {
+          console.log(error, 'error')
+          this.toasterService.showError(error, 'Vehicle Details')
+        })
+      } else {
+        if (!this.basicVehicleForm.value.isInvalidMobileNumber) {
+          this.toasterService.showError('applicant and dealer of vehicle owner mobile number both are same', 'Invalid mobile no')
+        } else if (!this.basicVehicleForm.value.isValidPincode) {
+          this.toasterService.showError('Please enter valid pincode', 'Invalid pincode')
+        } else if (!(this.basicVehicleForm.value.isValidPincode && this.basicVehicleForm.value.isInvalidMobileNumber)) {
+          this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
+        }else if (url.includes('dde') && !this.basicVehicleForm.value.isVaildFinalAssetCost) {
+          this.toasterService.showError('Discount should not greater than Ex show room price', 'Invalid Final Asset Cost')
+      }
+
+      }
+    } else {
+      this.isDirty = true;
+      this.utilityService.validateAllFormFields(this.basicVehicleForm)
+      this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
+    }
+  }
+
+
+  onCredit() {
+
+      const body = { leadId: this.leadId };
+      this.creditService.getCreditScore(body).subscribe((res: any) => {
+        const resObj = res;
+        // tslint:disable-next-line: no-bitwise
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          const bodyRes = res;
+          this.creditService.setResponseForCibil(bodyRes);
+
+          const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+          const product = leadSectioData.leadDetails.productCatCode;
+          if (product === 'NCV' || product === 'UCV' || product === 'UC' || product === 'UTCR') {
+            this.showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
+            if (!this.showNotCoApplicant) {
+              this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+            }
+          }
+
+          if (product === "NCV") {
+            const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+            if (!result) {
+              this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+            }
+          }
+
+          this.showEligibilityScreen = res.ProcessVariables.showEligibilityScreen;
+          if (!this.showEligibilityScreen) {
+            this.eligibleModal = true;
+            return;
+          }
+
+          this.router.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
+        } else {
+          this.errorMessage = res.ProcessVariables.error ? res.ProcessVariables.error.message : res.ErrorMessage;
+          this.isModelShow = true;
+        }
+      });
+    
+
+  }
+
+  navigateToSales() {
+    const body = {
+      leadId: this.leadId,
+      userId: this.userId,
+      statusType: 'accept'
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      if (res && res.ProcessVariables.error.code === '0') {
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+      }
+    });
+  }
+
+  onEligibleModalClose() {
+    this.eligibleModal = false;
+  }
+
+  onBack(){
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
+      
+    } else if (currentUrl.includes('dde')) {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+    } else {
+      this.router.navigateByUrl(`/pages/lead-section/${this.leadId}/applicant-details`)
+    }
+  }
+
+  onNext(){
+    const currentUrl = this.location.path();
+    this.finalValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
+    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    const isValueCheck = this.objectComparisonService.compare(this.isApiValue, this.finalValue);
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.basicVehicleForm.invalid || isUDFInvalid) {
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
+    }
+    console.log('this.isApiValue', this.isApiValue)
+    console.log('this.finalValue', this.finalValue)
+    console.log('obj', this.objectComparisonService.compare(this.isApiValue, this.finalValue))
+    if (!isValueCheck|| !isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+
+    if (currentUrl.includes('sales')) {
+    const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+    const product = leadSectioData.leadDetails.productCatCode;
+
+    if (product === 'NCV' || product === 'UCV' || product === 'UC'|| product === 'UTCR') {
+      const showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
+      if (!showNotCoApplicant) {
+         this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+      }
+    }
+
+    if (product === "NCV") {
+      const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+      if (!result) {
+        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+      }
+    }
+    this.router.navigate([`pages/sales/${this.leadId}/reference`]);
+
+      
+    } else if (currentUrl.includes('dde')) {
+      const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+        const product = leadSectioData.leadDetails.productCatCode;
+
+        if (product === "NCV") {
+            const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+            if (!result) {
+                this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+            }
+        }
+        this.router.navigate([`pages/dde/${this.leadId}/additional-collateral-list`]);
+     
+    } else {
+      this.onCredit()
+    }
+  }
+
+
 
 }
