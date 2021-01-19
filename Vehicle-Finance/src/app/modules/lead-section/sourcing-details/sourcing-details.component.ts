@@ -298,6 +298,8 @@ export class SourcingDetailsComponent implements OnInit {
     this.leadData = { ...this.leadSectionData };
     const data = this.leadData;
 
+    console.log(this.leadSectionData, 'leadSectionData')
+
     this.udfDetails = this.leadSectionData.udfDetails ? this.leadSectionData.udfDetails : [];
 
     this.isChildLoan = data.leadDetails.isChildLoan;
@@ -387,6 +389,8 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   patchSourcingDetails(data) {
+
+    console.log(data, 'leadSectionData')
     this.sourcingDetailsForm.patchValue({
       sourcingChannel: this.sourchingChannelFromLead,
     });

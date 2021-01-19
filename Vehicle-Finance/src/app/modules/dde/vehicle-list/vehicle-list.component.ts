@@ -9,6 +9,7 @@ import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { LoanViewService } from '@services/loan-view.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
     templateUrl: './vehicle-list.component.html',
@@ -39,6 +40,7 @@ export class VehicleListComponent {
         private utilityService: UtilityService,
         private toasterService: ToasterService,
         private route: Router,
+        private vehicleDataStoreService: VehicleDataStoreService,
         private sharedService: SharedService,
         private toggleDdeService: ToggleDdeService,
         private vehicleDetailService: VehicleDetailService,
@@ -51,6 +53,7 @@ export class VehicleListComponent {
 
         if (leadData && leadData['vehicleCollateral']) {
             this.routerId = leadData['vehicleCollateral'].length > 0 ? leadData['vehicleCollateral'][0].collateralId : '0';
+            this.vehicleDataStoreService.setLoanAmount(leadData['vehicleCollateral'][0].loanAmount)
         }
 
         let leadDetails = leadData['leadDetails']
@@ -83,10 +86,12 @@ export class VehicleListComponent {
         const operationType = this.toggleDdeService.getOperationType();
         if (operationType) {
             this.disableSaveBtn = true;
+            this.isDirty = false;
         }
 
         if (this.loanViewService.checkIsLoan360()) {
             this.disableSaveBtn = true;
+            this.isDirty = false;
         }
     }
 

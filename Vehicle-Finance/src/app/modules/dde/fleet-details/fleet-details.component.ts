@@ -750,32 +750,33 @@ export class FleetDetailsComponent implements OnInit {
 
     this.fleetDetails = this.fleetForm.value.Rows;
 
-    this.isDirty = true;
     if (this.operationType && index === 'next') {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
       return;
     } else {
 
-      console.log(index, 'purchaseYear')
-
       if (index === 'next') {
 
         let isValueCheck = true;
+        this.isDirty = false;
+
         this.finalValue = this.fleetForm.getRawValue().Rows;
 
-        this.finalValue.filter((data, i) => {
-          data.purchaseDate = this.sendDate(data['purchaseDate'])
-          this.apiValue.filter((res, j) => {
-            if (i === j) {
-              isValueCheck = this.objectComparisonService.compare(data, res);
-            }
+        if (this.finalValue.length > 0 && this.apiValue && this.apiValue.length > 0) {
+          this.finalValue.filter((data, i) => {
+            data.purchaseDate = this.sendDate(data['purchaseDate'])
+            this.apiValue.filter((res, j) => {
+              if (i === j) {
+                isValueCheck = this.objectComparisonService.compare(data, res);
+              }
+            })
           })
-        })
-
-        if (!this.fleetForm.valid) {
-          this.toasterService.showInfo('Please SAVE details before proceeding', '');
-          return;
         }
+
+        // if (!this.fleetForm.valid) {
+        //   this.toasterService.showInfo('Please SAVE details before proceeding', '');
+        //   return;
+        // }
 
         if (!isValueCheck) {
           this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');

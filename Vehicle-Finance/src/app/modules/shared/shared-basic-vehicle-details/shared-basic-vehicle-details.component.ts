@@ -170,7 +170,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         console.log('error', error)
       });
 
-      this.applicantList = this.applicantDataStoreService.getApplicantList();
+    this.applicantList = this.applicantDataStoreService.getApplicantList();
 
     let roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
@@ -245,11 +245,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     //this.sharedService.getUserDefinedFields(event)
     this.userDefineForm = value;
     console.log('identifyValue', value)
-    if(value.event === 'init'){
-      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    if (value.event === 'init') {
+      this.initUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     }
   }
-  
+
 
   validateCustomPattern() {
     const regPatternData = [
@@ -647,11 +647,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.isVehicleDedupe = true;
     }
 
-    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
+    if (this.productCatoryCode !== 'NCV') {
       this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
     }
 
     this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
+
+    console.log(this.basicVehicleForm, '')
 
     //this.isApiValue = formArray.getRawValue();
   }
@@ -831,7 +833,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     obj.patchValue({
       scheme: ''
     })
-    
+
   }
 
   onChangeMobileNumber(value) {
@@ -1461,7 +1463,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
       this.sharedService.getFormValidation(this.basicVehicleForm);
-      
+
       this.sharedService.getApiValue(this.isApiValue)
       this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
       this.isShowParentLoan = false;
@@ -1522,14 +1524,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
 
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
-          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY'); 
+          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
           data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
           if (url.includes('dde')) {
             data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
           }
         }
-        if(url.includes('dde')){
+        if (url.includes('dde')) {
           //data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
           data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
           data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
@@ -1567,9 +1569,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           this.toasterService.showError('Please enter valid pincode', 'Invalid pincode')
         } else if (!(this.basicVehicleForm.value.isValidPincode && this.basicVehicleForm.value.isInvalidMobileNumber)) {
           this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
-        }else if (url.includes('dde') && !this.basicVehicleForm.value.isVaildFinalAssetCost) {
+        } else if (url.includes('dde') && !this.basicVehicleForm.value.isVaildFinalAssetCost) {
           this.toasterService.showError('Discount should not greater than Ex show room price', 'Invalid Final Asset Cost')
-      }
+        }
 
       }
     } else {
@@ -1582,43 +1584,43 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onCredit() {
 
-      const body = { leadId: this.leadId };
-      this.creditService.getCreditScore(body).subscribe((res: any) => {
-        const resObj = res;
-        // tslint:disable-next-line: no-bitwise
-        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          const bodyRes = res;
-          this.creditService.setResponseForCibil(bodyRes);
+    const body = { leadId: this.leadId };
+    this.creditService.getCreditScore(body).subscribe((res: any) => {
+      const resObj = res;
+      // tslint:disable-next-line: no-bitwise
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        const bodyRes = res;
+        this.creditService.setResponseForCibil(bodyRes);
 
-          const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
-          const product = leadSectioData.leadDetails.productCatCode;
-          if (product === 'NCV' || product === 'UCV' || product === 'UC' || product === 'UTCR') {
-            this.showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
-            if (!this.showNotCoApplicant) {
-              this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
-            }
+        const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+        const product = leadSectioData.leadDetails.productCatCode;
+        if (product === 'NCV' || product === 'UCV' || product === 'UC' || product === 'UTCR') {
+          this.showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
+          if (!this.showNotCoApplicant) {
+            this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
           }
-
-          if (product === "NCV") {
-            const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
-            if (!result) {
-              this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
-            }
-          }
-
-          this.showEligibilityScreen = res.ProcessVariables.showEligibilityScreen;
-          if (!this.showEligibilityScreen) {
-            this.eligibleModal = true;
-            return;
-          }
-
-          this.router.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
-        } else {
-          this.errorMessage = res.ProcessVariables.error ? res.ProcessVariables.error.message : res.ErrorMessage;
-          this.isModelShow = true;
         }
-      });
-    
+
+        if (product === "NCV") {
+          const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+          if (!result) {
+            this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+          }
+        }
+
+        this.showEligibilityScreen = res.ProcessVariables.showEligibilityScreen;
+        if (!this.showEligibilityScreen) {
+          this.eligibleModal = true;
+          return;
+        }
+
+        this.router.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
+      } else {
+        this.errorMessage = res.ProcessVariables.error ? res.ProcessVariables.error.message : res.ErrorMessage;
+        this.isModelShow = true;
+      }
+    });
+
 
   }
 
@@ -1639,11 +1641,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.eligibleModal = false;
   }
 
-  onBack(){
+  onBack() {
     const currentUrl = this.location.path();
     if (currentUrl.includes('sales')) {
       this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
-      
+
     } else if (currentUrl.includes('dde')) {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
     } else {
@@ -1651,13 +1653,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
   }
 
-  onNext(){
+  onNext() {
     const currentUrl = this.location.path();
     this.finalValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
-    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     const isValueCheck = this.objectComparisonService.compare(this.isApiValue, this.finalValue);
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
-    
+
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     if (this.basicVehicleForm.invalid || isUDFInvalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
@@ -1666,43 +1668,43 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     console.log('this.isApiValue', this.isApiValue)
     console.log('this.finalValue', this.finalValue)
     console.log('obj', this.objectComparisonService.compare(this.isApiValue, this.finalValue))
-    if (!isValueCheck|| !isUDFCheck) {
+    if (!isValueCheck || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
 
     if (currentUrl.includes('sales')) {
-    const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
-    const product = leadSectioData.leadDetails.productCatCode;
+      const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+      const product = leadSectioData.leadDetails.productCatCode;
 
-    if (product === 'NCV' || product === 'UCV' || product === 'UC'|| product === 'UTCR') {
-      const showNotCoApplicant= this.applicantDataStoreService.findCoApplicant(this.applicantList)
-      if (!showNotCoApplicant) {
-         this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+      if (product === 'NCV' || product === 'UCV' || product === 'UC' || product === 'UTCR') {
+        const showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
+        if (!showNotCoApplicant) {
+          this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+        }
       }
-    }
 
-    if (product === "NCV") {
-      const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
-      if (!result) {
-        this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+      if (product === "NCV") {
+        const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+        if (!result) {
+          this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+        }
       }
-    }
-    this.router.navigate([`pages/sales/${this.leadId}/reference`]);
+      this.router.navigate([`pages/sales/${this.leadId}/reference`]);
 
-      
+
     } else if (currentUrl.includes('dde')) {
       const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
-        const product = leadSectioData.leadDetails.productCatCode;
+      const product = leadSectioData.leadDetails.productCatCode;
 
-        if (product === "NCV") {
-            const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
-            if (!result) {
-                this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
-            }
+      if (product === "NCV") {
+        const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+        if (!result) {
+          this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
         }
-        this.router.navigate([`pages/dde/${this.leadId}/additional-collateral-list`]);
-     
+      }
+      this.router.navigate([`pages/dde/${this.leadId}/additional-collateral-list`]);
+
     } else {
       this.onCredit()
     }

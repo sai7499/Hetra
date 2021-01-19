@@ -12,6 +12,7 @@ import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -59,6 +60,7 @@ export class VehicleDetailComponent implements OnInit {
     private loanViewService: LoanViewService,
     private termsService: TermAcceptanceService,
     private vehicleDetailService: VehicleDetailService,
+    private vehicleDataStoreService: VehicleDataStoreService,
     private labelsData: LabelsService,
     private objectComparisonService: ObjectComparisonService,
     private loginStoreService: LoginStoreService,
@@ -75,17 +77,14 @@ export class VehicleDetailComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     const leadData = this.createLeadDataService.getLeadSectionData();
 
-
     this.leadId = leadData['leadId'];
     let leadDetails = leadData['leadDetails']
     this.productCatoryCode = leadDetails['productCatCode'];
 
     if (leadData && leadData['vehicleCollateral']) {
       this.routerId = leadData['vehicleCollateral'].length > 0 ? leadData['vehicleCollateral'][0].collateralId : '0';
+      this.vehicleDataStoreService.setLoanAmount(leadData['vehicleCollateral'][0].loanAmount)
     }
-
-    console.log(leadData, 'lead id', this.routerId)
-
 
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;

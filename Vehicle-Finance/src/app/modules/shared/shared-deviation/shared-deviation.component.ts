@@ -114,6 +114,14 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     })
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
     this.sharedService.getFormValidation(this.deviationsForm)
+
+    // const operationType = this.toggleDdeService.getOperationType();
+    // console.log(operationType, 'operationType', this.roleType)
+    // if (operationType) {
+    //   this.deviationsForm.disable();
+    //   this.disableSaveBtn = true;
+    // }
+
   }
 
   disableInputs() {

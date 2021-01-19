@@ -109,9 +109,9 @@ export class DdeComponent implements OnInit, OnChanges {
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
-      if (this.locationIndex >= 19) {
+      if (this.locationIndex >= 20) {
         this.show = 3;
-      } else if (this.locationIndex >= 9) {
+      } else if (this.locationIndex >= 10) {
         this.show = 2;
       } else {
         this.show = 1;

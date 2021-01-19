@@ -8,6 +8,8 @@ import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { CollateralDataStoreService } from '@services/collateral-data-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import { CollateralService } from '@services/collateral.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
     templateUrl: './additional-collateral-list.component.html',
@@ -37,6 +39,8 @@ export class AdditionalCollateralListComponent {
         private route: Router,
         private collateralService: CollateralService,
         private commonLovService: CommomLovService,
+        private toggleDdeService: ToggleDdeService,
+        private loanViewService: LoanViewService,
         private collateralDataStoreService: CollateralDataStoreService,
         private applicantDataStoreService: ApplicantDataStoreService) { }
 
@@ -53,6 +57,15 @@ export class AdditionalCollateralListComponent {
         this.getLov();
 
         this.userId = localStorage.getItem('userId')
+
+        const operationType = this.toggleDdeService.getOperationType();
+        if (operationType) {
+            this.disableSaveBtn = true;
+        }
+
+        if (this.loanViewService.checkIsLoan360()) {
+            this.disableSaveBtn = true;
+        }
 
     }
 
