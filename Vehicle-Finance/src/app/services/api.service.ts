@@ -1136,6 +1136,11 @@ export class ApiService {
       processId: '0e709facc67311ea954700505695f93b',
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.rejectRemarks
+    },
+    reinitiateRCU: {
+      processId: '4d968e38596e11ebb77b00505695f93b',
+      workflowId: '4d5e01ee596e11eb920200505695f93b',
+      projectId: environment.projectIds.reinititateFiApi
     }
   };
 }
