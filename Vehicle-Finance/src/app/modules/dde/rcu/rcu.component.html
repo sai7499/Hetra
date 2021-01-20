@@ -7,20 +7,23 @@
 
   </div>
 
+  <div style="text-align: center;" *ngIf="isRcuDetails == false && isErr == false && roleType == '2'">
+    <strong>RCU task is In Progress and not completed yet.</strong>
+  </div>
+
   <ng-container *ngIf="!isRcuDetails && isErr == true">
 
-    <div *ngIf="!isRcuDetails && isErr == true && roleType == '2'">
+    <!-- <div *ngIf="!isRcuDetails && isErr == true && roleType == '2'">
       <h3 class="banner-con">Select Version
       </h3>
 
     <select class="form-control mandatory select2" id="" name="rcuVersion"
               class="form-control text-center" (change)="onRcuVersionChange($event.target.value, i) ">
-              <!-- <option value="">--Select One--</option> -->
               <option *ngFor="let version of rcuVersions" [value]="version">
                Version - {{version}}
               </option>
             </select>
-    </div>
+    </div> -->
 
     <form class="multisteps-form__form" [formGroup]="rcuDetailsForm">
       <h3 class="banner-con">{{ labels?.rcu }}
@@ -29,33 +32,48 @@
 
       <!--progress bar-->
       <div class="">
-        <div class="flex-container form-group text-center">
+        <div class="form-group od-row">
+        <!-- <div class="flex-container form-group text-center"> -->
           <div class="flex-con"></div>
-          <div class="row">
-            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12"><label>{{ labels?.fileRcuStatus }} :</label></div>
-            <div class="col-lg-3 col-sm-4 col-md-3 col-xs-12">
+         
+            <div *ngIf="!isRcuDetails && isErr == true && roleType == '2'" 
+            class="form-group col-lg-2 col-sm-2 col-md-3 col-xs-12"><label>Select Version</label></div>
+            <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"
+            *ngIf="!isRcuDetails && isErr == true && roleType == '2'">
+                     
+              <select class="form-control mandatory select2" id="" name="rcuVersion"
+                        (change)="onRcuVersionChange($event.target.value, i) ">
+                        <option *ngFor="let version of rcuVersions" [value]="version">
+                         Version - {{version}}
+                        </option>
+                      </select>
+              
+            </div>
+            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12"><label>{{ labels?.fileRcuStatus }} :</label></div>
+            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
               <input type="radio" name="fileRCUStatus" value="screened" id="screened" formControlName="fileRCUStatus"
                 (click)="testRadio('screened')">
               <label for="screened"> Screened</label>
             </div>
-            <div class="col-lg-3 col-sm-4 col-md-3 col-xs-12">
+            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
               <input type="radio" name="fileRCUStatus" value="sampled" id="sampled" formControlName="fileRCUStatus"
                 (click)="testRadio('sampled')">
               <label for="sampled"> Sampled</label>
             </div>
-          </div>
-          <div class="flex-con"></div>
+         
+          <!-- <div class="flex-con"></div> -->
 
-        </div>
+        <!-- </div> -->
         <div class="clearfix"></div>
 
         <!-- Applicant Details -->
 
-        <div class="form-group od-row">
-          <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"><label>{{labels?.applicantNameCam}}</label></div>
+        
+          <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <label>{{labels?.applicantNameCam}}</label></div>
           <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
             <select class="form-control mandatory select2" id="" formControlName="applicantId" name="applicantId"
-              class="form-control text-center" (change)="onRcuApplicantChange($event.target.value, i) ">
+              class="form-control text-center" (change)="onRcuApplicantChange($event.target.value) ">
               <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
                 {{ applicants.fullName }}
               </option>
@@ -150,17 +168,18 @@
               </tr>
             </thead>
 
-            <tbody formArrayName="applicantDocuments" *ngIf="!showColletralDocuments">
+            <tbody formArrayName="applicantDocuments" 
+            *ngIf="!showColletralDocuments">
 
               <tr *ngFor="
             let item of rcuDetailsForm.controls.applicantDocuments.controls;
             let i = index
           " [formGroupName]="i">
                 <td [attr.data-label]="labels?.sNo" data-title="Member">
-                  1
+                  {{i+1}}
                 </td>
                 <td [attr.data-label]="labels?.documentName" data-title="Member">
-                  <app-custom-input [placeholder]="'Document Name'" formControlName="documentName" [isDisabled]='true'
+                  <app-custom-input id="documentName" [placeholder]="'Document Name'" formControlName="documentName" [isDisabled]='true'
                     [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
                     [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
                   </app-custom-input>
@@ -173,7 +192,7 @@
                   </app-custom-input>
                 </td>
                 <td [attr.data-label]="labels?.documentNumber" data-title="Member">
-                  <app-custom-input [placeholder]="'Document Number'" formControlName="documentNo"
+                  <app-custom-input id="Number" [placeholder]="'Document Number'" formControlName="documentNo"
                     [type]="labels?.validationData?.amountValue?.type" [className]="'form-control-ins mandatory'"
                     [isDisabled]='true' [maxLength]="labels?.validationData?.amountValue?.maxLength"
                     [isDirty]="isDirty">
@@ -181,29 +200,31 @@
                 </td>
                 <td [attr.data-label]="labels?.issueDate" data-title="Member">
 
-                  <kendo-datepicker class="" formControlName="issueDate" [activeView]="'decade'" readonly
+                  <kendo-datepicker id="issueDate" class="" formControlName="issueDate" [activeView]="'decade'" readonly
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
                     class="form-control form-control-cus">
                   </kendo-datepicker>
                 </td>
                 <td [attr.data-label]="labels?.expiryDate" data-title="Member">
 
-                  <kendo-datepicker class="" formControlName="expiryDate" [activeView]="'decade'" readonly
+                  <kendo-datepicker id="expiryDate" class="" formControlName="expiryDate" [activeView]="'decade'" readonly
                     [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
                     class="form-control form-control-cus">
                   </kendo-datepicker>
                 </td>
                 <td [attr.data-label]="labels?.documentId" data-title="Member"
                   (click)="clickForLoan360(i,'applicantDocuments')">
-                  <input name="input" type="text" class="form-control form-control-cus file-input box-height"
+                  <input id="documentId" name="input" type="text" class="form-control form-control-cus file-input box-height"
                     formControlName="dmsDocumentID" readonly (click)="downloadDocs($event.target.value)" />
                 </td>
-                <td [attr.data-label]="labels?.sampled" data-title="Member">
-
-                  <app-vf-custom-select [values]="[
-              { key: '0', value: 'Yes' },
-              { key: '1', value: 'No' }
-            ]" formControlName="sampled" class="form-control form-control-cus">
+                <td [attr.data-label]="labels?.sampled" 
+                data-title="Member">
+                  <app-vf-custom-select
+                   [values]="[
+                    { key: '0', value: 'Yes' },
+                    { key: '1', value: 'No' }
+                    ]" formControlName="sampled" 
+                    class="form-control-cus">
                   </app-vf-custom-select>
                 </td>
                 <td [attr.data-label]="labels?.screened" data-title="Member">
@@ -211,12 +232,15 @@
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
-            ]" formControlName="screened" class="form-control form-control-cus">
+            ]" formControlName="screened" 
+            class="form-control-cus">
                   </app-vf-custom-select>
                 </td>
                 <td [attr.data-label]="labels?.status" data-title="Member">
 
-                  <app-vf-custom-select [values]="rcuLov?.status" class="form-control form-control-cus"
+                  <app-vf-custom-select 
+                  [values]="rcuLov?.status" 
+                  class="form-control-cus"
                     formControlName="rcuStatus">
                   </app-vf-custom-select>
                 </td>
@@ -269,10 +293,10 @@
                 <td [attr.data-label]="labels?.documentId" data-title="Member"
                   (click)="clickForLoan360(i, 'collateralDocuments')">
                   <input name="input" type="text" class=" form-control form-control-cus file-input"
-                    formControlName="dmsDocumentID" readonly (click)="downloadDocs($event.target.value)" />
+                    formControlName="dmsDocumentID" (click)="downloadDocs($event.target.value)" />
                 </td>
-                <td [attr.data-label]="labels?.sampled" data-title="Member">
-
+                <td [attr.data-label]="labels?.sampled" 
+                data-title="Member">
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
@@ -316,7 +340,7 @@
           <div *ngIf="roleType == '6'" class="grid-items">
             <label class="">RCU Upload</label>
           </div>
-          <div class="grid-items">
+          <div  *ngIf="roleType == '6'" class="grid-items">
             <label><i aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer"
                 id="add_more_documents_upload1a" (click)="uploadDoc()"></i></label>
           </div>
@@ -324,9 +348,10 @@
           <div class="grid-items">
             <label>RCU Document Id</label>
           </div>
-          <div class="grid-items" (click)="clickForLoan360('rcuDocumentId')">
-            <input class="form-control file-input ng-untouched ng-pristine" formControlName="rcuDocumentId" readonly
-              (click)="downloadDocs($event.target.value)">
+          <div class="grid-items">
+            <input class="form-control file-input ng-untouched ng-pristine" 
+            formControlName="rcuDocumentId" 
+              (click)="clickForLoan360(); downloadDocs($event.target.value)">
             <!-- downloadDocs(rcuDetailsForm.get('rcuDocumentId').value, $event) -->
           </div>
           <div class="grid-items">
@@ -344,7 +369,7 @@
         <div class="form-group row">
           <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12"><label>{{labels?.remark}}</label></div>
           <div class="form-group col-lg-11 col-md-11 col-sm-11 col-xs-12">
-            <textarea class="form-control form-control-sm" placeholder="Text Area" formControlName="remarks"></textarea>
+            <textarea class="form-control form-control-sm" placeholder="Remarks" formControlName="remarks"></textarea>
           </div>
 
         </div>
@@ -359,8 +384,9 @@
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button *ngIf="roleType == '2' && !isRcuDetails && isErr == true" class="btn btn-primary dash_href hvr-sweep-to-left"
-       type="button" (click)="onReInitiate()" >
+      <button *ngIf="roleType == '2' && !isRcuDetails && isErr == true && isReInitiate == true" class="btn btn-primary dash_href hvr-sweep-to-left"
+       type="button" data-toggle="modal"
+       data-target="#myModalReinitiate" >
         ReInitiate
       </button>
       <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" routerLink="../tvr-details"
@@ -385,6 +411,34 @@
   </div>
   <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
     [docsDetails]="selectedDocDetails"></app-upload-modal>
+
+    <div class="modal" id="myModalReinitiate">
+      <div class="modal-dialog">
+          <div class="modal-content">
+  
+              <!-- Modal Header -->
+              <div class="modal-header">
+                  <h4 class="modal-title"></h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+  
+              <!-- Modal body -->
+              <div class="modal-body" style="text-align: center;">
+                  <p>Are you sure want to Re-Initiate RCU ?</p>
+              </div>
+  
+              <!-- Modal footer -->
+              <div class="modal-footer text-center">
+                  <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
+                  (click)="onReInitiate()">{{labels?.yes}}</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">{{labels?.cancel}}</button>
+              </div>
+  
+          </div>
+      </div>
+  
+  
+  </div>
 
   <div id="overlay" *ngIf="isInitiateScreen">
     <div id="text">
@@ -419,7 +473,7 @@
               <div class="row">
                 <div class="col-md-12">
 
-                  <div class="errText">{{errMsg}}</div>
+                  <div class="errText">{{errMsg ? errMsg : 'RCU task is In Progress and not completed yet.'}}</div>
                 </div>
               </div>
               <div class="btn-wrap">

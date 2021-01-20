@@ -28,7 +28,7 @@ export class RcuComponent implements OnInit {
   userId: string;
   applicantResponse: any;
   applicantId: any;
-  applicantDetails: any;
+  applicantDetails: Array<any>;
   rcuLov: any = [];
   rcuDetailsForm: any;
   radioItems = [];
@@ -90,6 +90,7 @@ export class RcuComponent implements OnInit {
   jsonScreenId: any;
   rcuVersions: any;
   selectedRCUVersion: any;
+  isReInitiate = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -169,6 +170,11 @@ export class RcuComponent implements OnInit {
       //  this.rcuInitiated = true
       this.getAllRcuDetails();
       this.udfScreenId = this.jsonScreenId.RCU.rcu;
+      // this.rcuDetailsForm.disable()
+      const applicantDoc = this.rcuDetailsForm.get('applicantDocuments') as FormArray
+      
+      console.log(applicantDoc.controls.length,'applicantDoc', applicantDoc)
+
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
 
       // this.isErr = false
@@ -178,8 +184,17 @@ export class RcuComponent implements OnInit {
       this.udfScreenId = this.jsonScreenId.DDE.rcuDDE;
       setTimeout(() => {
         this.rcuDetailsForm.disable()
+        const applicantDoc = this.rcuDetailsForm.get('applicantDocuments') as FormArray;
+        console.log(applicantDoc.controls.length,'applicantDoc', applicantDoc)
+        for(var i = 0; i< applicantDoc.controls.length ; i++){
+          applicantDoc.controls[i].get('dmsDocumentID').enable();
+        }
+        const collatralDoc = this.rcuDetailsForm.get('collateralDocuments') as FormArray;
+        for (var i=0; i< collatralDoc.controls.length; i++) {
+          collatralDoc.controls[i].get('dmsDocumentID').enable();
+        }
         this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
-      }, 1000)
+      })
 
       this.showSave = false
       this.showBack = true
@@ -253,13 +268,16 @@ export class RcuComponent implements OnInit {
     }
   }
 
-  populateApplicantDocuments(event) {
+  populateApplicantDocuments(event,applicantId?) {
+    let getApplicant
+    if(applicantId){
+    getApplicant = this.applicantDetails.find(val => val.applicantId == applicantId)}
     event = event ? event : 'screened';
     this.rcuDetailsForm.patchValue({
       fileRCUStatus: event,
       loanAmount: this.response.loanAmount,
-      applicantId: this.response.applicantDetails[0].applicantId,
-      applicantType: this.response.applicantDetails[0].applicantType,
+      applicantId: getApplicant ? getApplicant.applicantId :  this.response.applicantDetails[0].applicantId,
+      applicantType: getApplicant ?getApplicant.applicantType: this.response.applicantDetails[0].applicantType,
       vehicleMake: this.response.vehicleMake,
       vehicleModel: this.response.vehicleModel,
       vehicleNo: this.response.vehicleNo,
@@ -340,11 +358,11 @@ export class RcuComponent implements OnInit {
     this.getSelecteditem();
   }
 
-  getAllRcuDetails() {
+  getAllRcuDetails(applicantId?) {
 
     const data = {
-      applicantId: this.applicantId,
-      rcuVersion: this.selectedRCUVersion ? this.selectedRCUVersion : '1',
+      applicantId: applicantId ? Number(applicantId): this.applicantId,
+      rcuVersion: this.selectedRCUVersion ? this.selectedRCUVersion : null,
       "udfDetails": [
         {
           "udfGroupId": this.udfGroupId,
@@ -383,7 +401,7 @@ export class RcuComponent implements OnInit {
 
         this.applicantDocuments = this.response.applicantDocuments;
         this.collateralDocuments = this.response.collateralDocuments;
-        this.populateApplicantDocuments(this.response.fileRCUStatus);
+        this.populateApplicantDocuments(this.response.fileRCUStatus,applicantId);
         this.isGetapiCalled = false;
 
         this.udfDetails = res.ProcessVariables.udfDetails ? res.ProcessVariables.udfDetails : [];
@@ -392,6 +410,20 @@ export class RcuComponent implements OnInit {
         this.isRcuDetails = true;
         this.isErr = true
 
+      }
+
+      if(this.roleType == '2') {
+        this.rcuDetailsForm.disable()
+          const applicantDoc = this.rcuDetailsForm.get('applicantDocuments') as FormArray;
+          console.log(applicantDoc.controls.length,'applicantDoc', applicantDoc)
+          for(var i = 0; i< applicantDoc.controls.length ; i++){
+            applicantDoc.controls[i].get('dmsDocumentID').enable();
+          }
+          const collatralDoc = this.rcuDetailsForm.get('collateralDocuments') as FormArray;
+          for (var i=0; i< collatralDoc.controls.length; i++) {
+            collatralDoc.controls[i].get('dmsDocumentID').enable();
+          }
+          this.rcuDetailsForm.controls.rcuDocumentId.enable();
       }
     });
   }
@@ -450,11 +482,11 @@ export class RcuComponent implements OnInit {
           // tslint:disable-next-line: prefer-const
           let rcuFormApplicantControls = this.rcuDetailsForm.controls
             .applicantDocuments as FormArray;
-          rcuFormApplicantControls.controls = [];
+          // rcuFormApplicantControls.controls = [];
           // tslint:disable-next-line: prefer-const
           let rcuFormColletralControls = this.rcuDetailsForm.controls
             .collateralDocuments as FormArray;
-          rcuFormColletralControls.controls = [];
+          // rcuFormColletralControls.controls = [];
           this.toasterService.showSuccess(
             'Updated Successfully',
             'RCU Details'
@@ -490,7 +522,8 @@ export class RcuComponent implements OnInit {
 
   testRadio(event) {
 
-    if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
+    if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == true 
+      && this.showColletralDocuments == false) {
       this.screened = '0';
       this.sampled = '1';
       for (
@@ -512,7 +545,8 @@ export class RcuComponent implements OnInit {
 
       }
     }
-    if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
+    if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == true 
+      && this.showColletralDocuments == true) {
       this.screened = '0';
       this.sampled = '1';
       // tslint:disable-next-line: prefer-for-of
@@ -544,6 +578,8 @@ export class RcuComponent implements OnInit {
       ) {
         const control = this.rcuDetailsForm.controls.applicantDocuments
           .controls as FormArray;
+          console.log(control);
+          
         control[i].patchValue({
           screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '0',
           sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '1',
@@ -676,12 +712,21 @@ export class RcuComponent implements OnInit {
       (res) => res.applicantId == event
     ).applicantType;
     this.rcuDetailsForm.get('applicantType').setValue(applicantType);
+    this.getAllRcuDetails(event);
   }
 
   onRcuVersionChange(event) {
     console.log('event', event);
     this.selectedRCUVersion = event;
+    let rcuFormApplicantControls = this.rcuDetailsForm.controls
+            .applicantDocuments as FormArray;
+          rcuFormApplicantControls.controls = [];
+          // tslint:disable-next-line: prefer-const
+          let rcuFormColletralControls = this.rcuDetailsForm.controls
+            .collateralDocuments as FormArray;
+          rcuFormColletralControls.controls = [];
     this.getAllRcuDetails();
+    
   }
   assignRcuTask() {
     this.isInitiateScreen = false;
@@ -723,7 +768,11 @@ export class RcuComponent implements OnInit {
     });
   }
 
-  clickForLoan360(index, name) {
+  clickForLoan360(name, index?) {
+
+    console.log('clicked');
+    
+    
 
     let docId;
 
@@ -731,10 +780,10 @@ export class RcuComponent implements OnInit {
       docId = this.rcuDetailsForm.get('rcuDocumentId').value;
     } else if (name === 'collateralDocuments') {
       const formArray = this.rcuDetailsForm.controls.collateralDocuments.controls as FormArray;
-      docId = formArray.at(index).get('dmsDocumentID').value;
+      docId = formArray[index].get('dmsDocumentID').value;
     } else if (name === 'applicantDocuments') {
       const formArray = this.rcuDetailsForm.controls.applicantDocuments.controls as FormArray;
-      docId = formArray.at(index).get('dmsDocumentID').value;
+      docId = formArray[index].get('dmsDocumentID').value;
     }
 
     if (this.isLoan360) {
@@ -746,6 +795,9 @@ export class RcuComponent implements OnInit {
 
   //for document
   async downloadDocs(event) {
+
+    console.log('event', event);
+    
 
     // let el = event.srcElement;
     // const dmsDocumentID: any = await this.getBase64String(event);
@@ -953,7 +1005,9 @@ export class RcuComponent implements OnInit {
     this.rcuService.reInitiateRCU(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
         this.toasterService.showSuccess("RCU Lead Is ReInitiated Successfully ", "RCU Details");
-        this.router.navigateByUrl('/pages/dashboard');
+        this.isReInitiate = false;
+    this.errorGenerated = true;
+        // this.router.navigateByUrl('/pages/dashboard');
       } else {
         this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
       }
