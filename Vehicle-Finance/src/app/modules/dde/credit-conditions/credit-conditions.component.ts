@@ -573,7 +573,7 @@ export class CreditConditionsComponent implements OnInit {
 
     if (this.roleType == '1' && localStorage.getItem('isPreDisbursement') == 'true' && this.isDeclinedFlow == false) {
       this.router.navigate([`pages/dashboard`]);
-    } else if (this.userType == 1 && this.isDeclinedFlow == false && localStorage.getItem('isPreDisbursement') == 'false') {
+    } else if (this.userType == 1 && this.isDeclinedFlow == true && localStorage.getItem('isPreDisbursement') == 'false') {
       this.router.navigate([`/pages/credit-decisions/${this.leadId}/deviations`]);
     } else if (this.userType == 2 && this.salesResponse == 'true') {
       this.router.navigateByUrl('/pages/credit-decisions/' + this.leadId + '/deviations')
