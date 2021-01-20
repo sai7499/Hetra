@@ -153,7 +153,7 @@
             </div>
 
             <div class="row" *ngIf="showCreditDetails">
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.creditShieldHolderName}} <sub
                                 class="star_red_col">*</sub></label>
@@ -186,11 +186,11 @@
                 </div>
             </div>
             <div class="row" *ngIf="showCreditDetails">
-                <div class="col-lg-12 p-0">
+                <div class="col-lg-12">
                     <h5 class="banner-sub">{{labels?.nomineeDetails}}</h5>
                 </div>
                 
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}} <sub
                                 class="star_red_col">*</sub></label>
@@ -221,7 +221,7 @@
                         </app-custom-input>
                     </div>
                 </div>
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
                         <app-custom-input id="needForProposedVehicle" formControlName="nomineeFullName"
@@ -252,7 +252,7 @@
                     </div>
 
                 </div>
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.age}}</label>
                         <app-custom-input id="contractDetails" formControlName="nomineeAge"
@@ -284,11 +284,11 @@
 
             <!-- Nominee Address Starts -->
             <div class="row" *ngIf="showCreditDetails">
-                <div class="">
+                <div class="col-lg-12">
                     <h5 class="sub-head">{{labels?.nomineeAddress}}</h5>
                 </div>
                
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
@@ -319,7 +319,7 @@
                         </app-custom-input>
                     </div>
                 </div>
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
@@ -332,23 +332,23 @@
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.city }} <sub class="star_red_col">*</sub></label>
-                        <app-vf-custom-select formControlName="nomineeCity" [values]="nomineeCity"
+                        <app-vf-custom-select formControlName="nomineeCity" [values]="nomineeDetails?.city"
                             [isRequired]="'Please select nominee country'" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
 
-                        <app-vf-custom-select formControlName="nomineeDistrict" [values]="nomineeDistrict"
+                        <app-vf-custom-select formControlName="nomineeDistrict" [values]="nomineeDetails?.district"
                             [isRequired]="'Please select nominee district'" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
                 </div>
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
 
-                        <app-vf-custom-select formControlName="nomineeState" [values]="nomineeState"
+                        <app-vf-custom-select formControlName="nomineeState" [values]="nomineeDetails?.state"
                             [isRequired]="'Please select nominee state'" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
@@ -359,7 +359,7 @@
                                             <option>Country 2</option>
                                             <option>Country 3</option>
                                         </select> -->
-                        <app-vf-custom-select formControlName="nomineeCountry" [values]="nomineeCountry"
+                        <app-vf-custom-select formControlName="nomineeCountry" [values]="nomineeDetails?.country"
                             [isRequired]="'Please select nominee country'" [isDirty]="isDirty">
                         </app-vf-custom-select>
                     </div>
@@ -371,11 +371,11 @@
 
             <!-- Guardian Details Starts -->
             <div class="row" *ngIf="isShowGuardian">
-                <div class="col-lg-12 p-0">
+                <div class="col-lg-12">
                     <h5 class="banner-sub">{{labels?.guardianDetails}}</h5>
                 </div>
                
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label class="ellipsify">{{labels?.firstName}}<sub class="star_red_col">*</sub></label>
                         <app-custom-input id="guardianFirstName" formControlName="guardianFirstName"
@@ -411,7 +411,7 @@
                     </div>
 
                 </div>
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.fullName}}</label>
                         <app-custom-input id="needForProposedVehicle" formControlName="guardianFullName"
@@ -444,7 +444,7 @@
 
 
                 </div>
-                <div class="row">
+                <div class="">
                     <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="lead_created_by_source" class="ellipsify">{{labels?.age}}</label>
                         <app-custom-input id="contractDetails" formControlName="nomineeAge"
@@ -479,12 +479,12 @@
 
             <!-- Gurdian Address Starts -->
             <div class="row" *ngIf="isShowGuardian">
-                <div class="">
+                <div class="col-lg-12">
                     <h5 class="sub-head">{{labels?.guardianAddress}}</h5>
                 </div>
                
                
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
@@ -516,7 +516,7 @@
                         </app-custom-input>
                     </div>
                 </div>
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
@@ -538,7 +538,7 @@
                                             <option>City 2</option>
                                             <option>City 3</option>
                                         </select> -->
-                        <app-vf-custom-select formControlName="guardianCity" [values]="gaurdianCity">
+                        <app-vf-custom-select formControlName="guardianCity" [values]="gaurdianDetails?.city">
                         </app-vf-custom-select>
                         <div class="invalid-feedback" *ngIf=" isGuardian && f.controls.guardianCity.invalid">
                             <p> Please select guardian city </p>
@@ -548,17 +548,17 @@
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.district }} <sub class="star_red_col">*</sub></label>
 
-                        <app-vf-custom-select formControlName="guardianDistrict" [values]="gaurdianDistrict">
+                        <app-vf-custom-select formControlName="guardianDistrict" [values]="gaurdianDetails?.district">
                         </app-vf-custom-select>
                         <div class="invalid-feedback" *ngIf=" isGuardian && f.controls.guardianDistrict.invalid">
                             <p> Please select guardian district </p>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
-                        <app-vf-custom-select formControlName="guardianState" [values]="gaurdianState">
+                        <app-vf-custom-select formControlName="guardianState" [values]="gaurdianDetails?.state">
                         </app-vf-custom-select>
                         <div class="invalid-feedback" *ngIf=" isGuardian && f.controls.guardianState.invalid">
                             <p> Please select guardian state </p>
@@ -571,7 +571,7 @@
                                             <option>Country 2</option>
                                             <option>Country 3</option>
                                         </select> -->
-                        <app-vf-custom-select formControlName="guardianCountry" [values]="gaurdianCountry">
+                        <app-vf-custom-select formControlName="guardianCountry" [values]="gaurdianDetails?.country">
                         </app-vf-custom-select>
                         <div class="invalid-feedback" *ngIf=" isGuardian && f.controls.guardianCountry.invalid">
                             <p> Please select guardian country </p>

@@ -10,8 +10,18 @@ import { ApiService } from './api.service';
 })
 export class BankTransactionsService {
 
+  bankId: any;
+
   constructor(private httpService: HttpService,
               private apiService: ApiService) { }
+  
+  getBankId() {
+    return this.bankId
+  }
+
+  setBankId(id) {
+    this.bankId = id;
+  }
               
   setTransactionDetails(data) {
     const processData = data;

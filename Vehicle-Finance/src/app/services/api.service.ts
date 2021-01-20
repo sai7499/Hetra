@@ -1137,6 +1137,11 @@ export class ApiService {
       workflowId: '3ea13662c66611eaa13a00505695f93b',
       projectId: environment.projectIds.rejectRemarks
     },
+    reinitiateRCU: {
+      processId: '4d968e38596e11ebb77b00505695f93b',
+      workflowId: '4d5e01ee596e11eb920200505695f93b',
+      projectId: environment.projectIds.reinititateFiApi
+    },
     fundFlowNegotiation: {
       workflowId: '1b424e52e12511ea80dc00505695f93b',
       processId: '1b5b997ae12511eaaebb00505695f93b',

@@ -11,6 +11,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { CommomLovService } from '@services/commom-lov-service';
 import { UtilityService } from '@services/utility.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-insurance-details',
@@ -92,20 +93,22 @@ export class InsuranceDetailsComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   isViewDde: boolean;
+  nomineeDetails: any;
+  gaurdianDetails: any;
 
   constructor(private fb: FormBuilder,
-              private labelsData: LabelsService,
-              private toggleDdeService: ToggleDdeService,
-              private insuranceService: InsuranceServiceService,
-              private loginStoreService: LoginStoreService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private applicantService: ApplicantService,
-              private toasterService: ToasterService,
-              private createLeadService: CreateLeadDataService,
-              private lovService: CommomLovService,
-              private utilityService: UtilityService,
-              private loanViewService: LoanViewService
+    private labelsData: LabelsService,
+    private toggleDdeService: ToggleDdeService,
+    private insuranceService: InsuranceServiceService,
+    private loginStoreService: LoginStoreService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private applicantService: ApplicantService,
+    private toasterService: ToasterService,
+    private createLeadService: CreateLeadDataService,
+    private lovService: CommomLovService,
+    private utilityService: UtilityService,
+    private loanViewService: LoanViewService
   ) { }
 
   async ngOnInit() {
@@ -121,7 +124,7 @@ export class InsuranceDetailsComponent implements OnInit {
       this.disableSaveBtn = true;
     }
 
-    
+
     // tslint:disable-next-line: no-string-literal
     this.leadData['applicantDetails'].map((element => {
       const body = {
@@ -163,7 +166,7 @@ export class InsuranceDetailsComponent implements OnInit {
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = udfScreenId.DDE.insuranceDetailsDDE ;
+      this.udfScreenId = udfScreenId.DDE.insuranceDetailsDDE;
 
     })
 
@@ -251,14 +254,14 @@ export class InsuranceDetailsComponent implements OnInit {
     this.checkOnMotor(this.f.value.motorInsuranceRequired);
     this.checkOnCredit(this.f.value.creditShieldRequired);
 
-    if (this.f.value.nomineeAge <=  17) {
+    if (this.f.value.nomineeAge <= 17) {
       this.isGuardian = true;
       this.isDirty = true;
     } else {
       this.isGuardian = false;
       this.isDirty = true;
     }
-    if (!this.isRtoCenter){
+    if (!this.isRtoCenter) {
       this.toasterService.showError('Please enter mandatory fields', '');
       this.isRtoCenter = false;
       this.insuranceDetailForm.controls.rtoCentre.reset();
@@ -297,11 +300,11 @@ export class InsuranceDetailsComponent implements OnInit {
       insuranceDetails: {
         ...this.insuranceDetailForm.value
       },
-      udfDetails : [{
-      "udfGroupId": this.udfGroupId,
-      // "udfScreenId": this.udfScreenId,
-      "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
-    }]
+      udfDetails: [{
+        "udfGroupId": this.udfGroupId,
+        // "udfScreenId": this.udfScreenId,
+        "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
+      }]
 
     };
     this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
@@ -383,7 +386,7 @@ export class InsuranceDetailsComponent implements OnInit {
   getPincodeResult(pincodeNumber: number, event: string, isGetApi: boolean) {
     console.log('event change', event);
 
-    this.invalidPincode = false;
+    // this.invalidPincode = false;
     this.city = []; // clearing the array which contains previous city list
     this.state = []; // clearing the array which contains previous state list
     this.district = []; // clearing the array which contains previous district list
@@ -391,52 +394,71 @@ export class InsuranceDetailsComponent implements OnInit {
     this.applicantService
       .getGeoMasterValue({
         pincode: pincodeNumber,
-      }).subscribe((value: any) => {
-        console.log('res', value);
-        // tslint:disable-next-line: no-string-literal
-        if (value['ProcessVariables'].error.code === '0') {
-          console.log('in valid pincode', value.ProcessVariables);
-          // tslint:disable-next-line: no-string-literal
-          this.invalidPincode = false;
-          if (event === 'nominee') {
-          const values = value.ProcessVariables.GeoMasterView;
-          const state = [];
-          const stateArray = {
-            key: Number(values[0].stateId),
-            value: values[0].stateName
-          };
-          state.push(stateArray);
-          const district = [];
-          const districtArray = {
-            key: Number(values[0].districtId),
-            value: values[0].districtName
-          };
-          district.push(districtArray);
-          const country = [];
-          const countryArray = {
-            key: Number(values[0].countryId),
-            value: values[0].country
-          };
-          country.push(countryArray);
-          const city = [];
-          values.map((element) => {
-            const cityArray = {
-              key: Number(element.cityId),
-              value: element.cityName
-            };
-            city.push(cityArray);
-          });
-          console.log('in geo nominee', city, state, district, country);
+      }).pipe(map((value: any) => {
+        console.log('map value', value);
 
-          this.nomineeCity = [];
-          this.nomineeState = [];
-          this.nomineeDistrict = [];
-          this.nomineeCountry = [];
-          this.nomineeCity = city;
-          this.nomineeState = state;
-          this.nomineeDistrict = district;
-          this.nomineeCountry = country;
-          if ( isGetApi === true && city != null) {
+        // tslint:disable-next-line: no-string-literal
+        
+        console.log('in valid pincode', value.ProcessVariables);
+          const addressList: any[] = value.ProcessVariables.GeoMasterView ? value.ProcessVariables.GeoMasterView : [];
+          if (value['ProcessVariables'].error.code === '1') {
+            this.invalidPincode = true;
+            this.toasterService.showError('Invalid pincode', '');
+          } else {
+          this.invalidPincode = false;
+          }
+          const first = addressList[0];
+          const obj = {
+            state: [
+              {
+                key: first.stateId,
+                value: first.stateName,
+              },
+            ],
+            district: [
+              {
+                key: first.districtId,
+                value: first.districtName,
+              },
+            ],
+            country: [
+              {
+                key: first.countryId,
+                value: first.country,
+              },
+            ],
+          };
+          const city = addressList.map((val) => {
+            return {
+              key: val.cityId,
+              value: val.cityName,
+            };
+          });
+          return {
+            ...obj,
+            city,
+          };
+      })
+      ).subscribe((value: any) => {
+        console.log('subscribe value', value);
+
+        if (event === 'nominee') {
+          // this.refererPincode = value;
+          this.nomineeDetails = value;
+          console.log(this.nomineeDetails);
+
+          this.nomineeCity = value.city[0].key;
+          this.nomineeState = value.state[0].key;
+          this.nomineeDistrict = value.district[0].key;
+          this.nomineeCountry = value.country[0].key;
+          this.insuranceDetailForm.patchValue({
+            nomineeCity: this.nomineeCity,
+            nomineeDistrict: this.nomineeDistrict,
+            nomineeState: this.nomineeState,
+            nomineeCountry: this.nomineeCountry
+          });
+
+          if (isGetApi === true && this.nomineeCity != null) {
             this.f.patchValue({
               nomineeState: this.processVariables.nomineeState,
               nomineeCity: this.processVariables.nomineeCity,
@@ -444,65 +466,142 @@ export class InsuranceDetailsComponent implements OnInit {
               nomineeDistrict: this.processVariables.nomineeDistrict,
             });
           }
-            } else if (event === 'guardian') {
-              const values = value.ProcessVariables.GeoMasterView;
-              const state = [];
-              const stateArray = {
-            key: Number(values[0].stateId),
-            value: values[0].stateName
-          };
-              state.push(stateArray);
-              const district = [];
-              const districtArray = {
-            key: Number(values[0].districtId),
-            value: values[0].districtName
-          };
-              district.push(districtArray);
-              const country = [];
-              const countryArray = {
-            key: Number(values[0].countryId),
-            value: values[0].country
-          };
-              country.push(countryArray);
-              const city = [];
-              values.map((element) => {
-            const cityArray = {
-              key: Number(element.cityId),
-              value: element.cityName
-            };
-            city.push(cityArray);
+        } else if (event === 'guardian') {
+          
+          this.gaurdianDetails = value;
+          console.log(this.gaurdianDetails);
+
+          this.gaurdianCity = value.city[0].key;
+          this.gaurdianState = value.state[0].key;
+          this.gaurdianDistrict = value.district[0].key;
+          this.gaurdianCountry = value.country[0].key;
+          // this.referencePincode = value;
+          this.insuranceDetailForm.patchValue({
+            guardianCity: value.city[0].key,
+            guardianDistrict: value.district[0].key,
+            guardianState: value.state[0].key,
+            guardianCountry: value.country[0].key
           });
-              console.log('in geo guardian', city, state, district, country);
-              this.gaurdianCity = [];
-              this.gaurdianState = [];
-              this.gaurdianDistrict = [];
-              this.gaurdianCountry = [];
-              this.gaurdianCity = city;
-              this.gaurdianState = state;
-              this.gaurdianDistrict = district;
-              this.gaurdianCountry = country;
-              if (isGetApi === true) {
-                this.f.patchValue({
-                  guardianCity: this.processVariables.guardianCity,
-                  guardianCountry: this.processVariables.guardianCountry,
-                  guardianState: this.processVariables.guardianState,
-                  guardianDistrict: this.processVariables.guardianDistrict,
-                });
-              }
-            }
-
-          // tslint:disable-next-line: no-string-literal
-        } else if (value['ProcessVariables'].error.code === '1') {
-          if (value.ProcessVariables.error.message && value.ProcessVariables.error.message != null) {
-            const message = value.ProcessVariables.error.message;
-            this.toasterService.showWarning('', message);
-            this.invalidPincode = true;
-          } else {
-            this.invalidPincode = true;
-
+          if (isGetApi === true) {
+            this.insuranceDetailForm.patchValue({
+              guardianCity: this.processVariables.guardianCity,
+              guardianCountry: this.processVariables.guardianCountry,
+              guardianState: this.processVariables.guardianState,
+              guardianDistrict: this.processVariables.guardianDistrict,
+            });
           }
-
         }
+        // console.log('res', value);
+        // // tslint:disable-next-line: no-string-literal
+        // if (value['ProcessVariables'].error.code === '0') {
+        //   console.log('in valid pincode', value.ProcessVariables);
+        //   // tslint:disable-next-line: no-string-literal
+        //   this.invalidPincode = false;
+        //   if (event === 'nominee') {
+        //   const values = value.ProcessVariables.GeoMasterView;
+        //   const state = [];
+        //   const stateArray = {
+        //     key: Number(values[0].stateId),
+        //     value: values[0].stateName
+        //   };
+        //   state.push(stateArray);
+        //   const district = [];
+        //   const districtArray = {
+        //     key: Number(values[0].districtId),
+        //     value: values[0].districtName
+        //   };
+        //   district.push(districtArray);
+        //   const country = [];
+        //   const countryArray = {
+        //     key: Number(values[0].countryId),
+        //     value: values[0].country
+        //   };
+        //   country.push(countryArray);
+        //   const city = [];
+        //   values.map((element) => {
+        //     const cityArray = {
+        //       key: Number(element.cityId),
+        //       value: element.cityName
+        //     };
+        //     city.push(cityArray);
+        //   });
+        //   console.log('in geo nominee', city, state, district, country);
+
+        //   this.nomineeCity = [];
+        //   this.nomineeState = [];
+        //   this.nomineeDistrict = [];
+        //   this.nomineeCountry = [];
+        //   this.nomineeCity = city;
+        //   this.nomineeState = state;
+        //   this.nomineeDistrict = district;
+        //   this.nomineeCountry = country;
+        //   if ( isGetApi === true && city != null) {
+        //     this.f.patchValue({
+        //       nomineeState: this.processVariables.nomineeState,
+        //       nomineeCity: this.processVariables.nomineeCity,
+        //       nomineeCountry: this.processVariables.nomineeCountry,
+        //       nomineeDistrict: this.processVariables.nomineeDistrict,
+        //     });
+        //   }
+        //     } else if (event === 'guardian') {
+        //       const values = value.ProcessVariables.GeoMasterView;
+        //       const state = [];
+        //       const stateArray = {
+        //     key: Number(values[0].stateId),
+        //     value: values[0].stateName
+        //   };
+        //       state.push(stateArray);
+        //       const district = [];
+        //       const districtArray = {
+        //     key: Number(values[0].districtId),
+        //     value: values[0].districtName
+        //   };
+        //       district.push(districtArray);
+        //       const country = [];
+        //       const countryArray = {
+        //     key: Number(values[0].countryId),
+        //     value: values[0].country
+        //   };
+        //       country.push(countryArray);
+        //       const city = [];
+        //       values.map((element) => {
+        //     const cityArray = {
+        //       key: Number(element.cityId),
+        //       value: element.cityName
+        //     };
+        //     city.push(cityArray);
+        //   });
+        //       console.log('in geo guardian', city, state, district, country);
+        //       this.gaurdianCity = [];
+        //       this.gaurdianState = [];
+        //       this.gaurdianDistrict = [];
+        //       this.gaurdianCountry = [];
+        //       this.gaurdianCity = city;
+        //       this.gaurdianState = state;
+        //       this.gaurdianDistrict = district;
+        //       this.gaurdianCountry = country;
+        //       if (isGetApi === true) {
+        //         this.f.patchValue({
+        //           guardianCity: this.processVariables.guardianCity,
+        //           guardianCountry: this.processVariables.guardianCountry,
+        //           guardianState: this.processVariables.guardianState,
+        //           guardianDistrict: this.processVariables.guardianDistrict,
+        //         });
+        //       }
+        //     }
+
+        //   // tslint:disable-next-line: no-string-literal
+        // } else if (value['ProcessVariables'].error.code === '1') {
+        //   if (value.ProcessVariables.error.message && value.ProcessVariables.error.message != null) {
+        //     const message = value.ProcessVariables.error.message;
+        //     this.toasterService.showWarning('', message);
+        //     this.invalidPincode = true;
+        //   } else {
+        //     this.invalidPincode = true;
+
+        //   }
+
+        // }
       });
 
   }
@@ -554,8 +653,8 @@ export class InsuranceDetailsComponent implements OnInit {
       setTimeout(() => {
         const event = this.calculateAgeInYears(this.utilityService.getDateFormat(date));
         console.log('testing date', event);
-        if (relation === 'nominee' && (event > 0 &&  event <= 100)) {
-          
+        if (relation === 'nominee' && (event > 0 && event <= 100)) {
+
           this.f.patchValue({
             nomineeAge: event
           });
@@ -578,23 +677,23 @@ export class InsuranceDetailsComponent implements OnInit {
   }
   public calculateAgeInYears(date) {
     if (date) {
-    let now = new Date();
-    now = this.utilityService.setTimeForDates(now)
-    const toDayDate = this.utilityService.getDateFromString(
-      date
-    );
-    // tslint:disable-next-line: variable-name
-    const current_year = now.getFullYear();
-    const yearDiff = current_year - toDayDate.getFullYear();
-    // const birthdayThisyear = new Date(toDayDate.getFullYear(), toDayDate.getMonth(), toDayDate.getDate());
-    // const age = (now >= birthdayThisyear);
-    // console.log('age', age)
+      let now = new Date();
+      now = this.utilityService.setTimeForDates(now)
+      const toDayDate = this.utilityService.getDateFromString(
+        date
+      );
+      // tslint:disable-next-line: variable-name
+      const current_year = now.getFullYear();
+      const yearDiff = current_year - toDayDate.getFullYear();
+      // const birthdayThisyear = new Date(toDayDate.getFullYear(), toDayDate.getMonth(), toDayDate.getDate());
+      // const age = (now >= birthdayThisyear);
+      // console.log('age', age)
 
-    // return age
-    //   ? yearDiff
-    //   : yearDiff - 1;
-    return yearDiff;
-  }
+      // return age
+      //   ? yearDiff
+      //   : yearDiff - 1;
+      return yearDiff;
+    }
   }
 
   public addValidations() {
@@ -703,18 +802,18 @@ export class InsuranceDetailsComponent implements OnInit {
       }
 
       this.isMinor = false;
-        // tslint:disable-next-line: prefer-for-of
+      // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.guardianArray.length; i++) {
-          const guardianKey = this.guardianArray[i];
+        const guardianKey = this.guardianArray[i];
 
-          this.f.controls[guardianKey].clearValidators();
-          this.f.controls[guardianKey].updateValueAndValidity();
+        this.f.controls[guardianKey].clearValidators();
+        this.f.controls[guardianKey].updateValueAndValidity();
 
 
-        }
+      }
 
+    }
   }
-}
   getInsuranceDetails() {
     const body = {
       leadId: this.leadId,
@@ -855,7 +954,7 @@ export class InsuranceDetailsComponent implements OnInit {
       console.log('insurance provider', res);
       let itemList: Array<any> = res.ProcessVariables.insuranceLOV;
       this.insuranceProviderList = this.utilityService.getValueFromJSON(
-        itemList.filter(val => val.productCatCode == this.productCode && val.insProvider != 'NOT REQUIRED' ),
+        itemList.filter(val => val.productCatCode == this.productCode && val.insProvider != 'NOT REQUIRED'),
         'insProUniqCode', 'insProvider');
       console.log('insurance lov list', this.insuranceProviderList);
       // }
@@ -1000,7 +1099,7 @@ export class InsuranceDetailsComponent implements OnInit {
         }
 
         console.log('rto center', this.rtoCentreList);
-        if ( isGetApi == true && this.rtoCentreList != null) {
+        if (isGetApi == true && this.rtoCentreList != null) {
           this.f.patchValue({
             rtoCentre: this.processVariables.rtoCode,
           });
@@ -1020,5 +1119,5 @@ export class InsuranceDetailsComponent implements OnInit {
     this.userDefineForm = value;
     console.log('identify', value)
   }
-  
+
 }

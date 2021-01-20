@@ -9,6 +9,19 @@
 
   <ng-container *ngIf="!isRcuDetails && isErr == true">
 
+    <div *ngIf="!isRcuDetails && isErr == true && roleType == '2'">
+      <h3 class="banner-con">Select Version
+      </h3>
+
+    <select class="form-control mandatory select2" id="" name="rcuVersion"
+              class="form-control text-center" (change)="onRcuVersionChange($event.target.value, i) ">
+              <!-- <option value="">--Select One--</option> -->
+              <option *ngFor="let version of rcuVersions" [value]="version">
+               Version - {{version}}
+              </option>
+            </select>
+    </div>
+
     <form class="multisteps-form__form" [formGroup]="rcuDetailsForm">
       <h3 class="banner-con">{{ labels?.rcu }}
         <span class="float-right">{{udfScreenId}}</span>
@@ -346,10 +359,10 @@
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <!-- <button *ngIf="roleType == '2' && !isRcuDetails && isErr == true" class="btn btn-primary dash_href hvr-sweep-to-left"
+      <button *ngIf="roleType == '2' && !isRcuDetails && isErr == true" class="btn btn-primary dash_href hvr-sweep-to-left"
        type="button" (click)="onReInitiate()" >
         ReInitiate
-      </button> -->
+      </button>
       <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" routerLink="../tvr-details"
         *ngIf="showBack == true">
         Back

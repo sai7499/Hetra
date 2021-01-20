@@ -88,6 +88,8 @@ export class RcuComponent implements OnInit {
   udfGroupId: string = 'RCG001';
 
   jsonScreenId: any;
+  rcuVersions: any;
+  selectedRCUVersion: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -342,6 +344,7 @@ export class RcuComponent implements OnInit {
 
     const data = {
       applicantId: this.applicantId,
+      rcuVersion: this.selectedRCUVersion ? this.selectedRCUVersion : '1',
       "udfDetails": [
         {
           "udfGroupId": this.udfGroupId,
@@ -353,6 +356,9 @@ export class RcuComponent implements OnInit {
       if (res && res.ProcessVariables.error.code == '0') {
         this.isGetapiCalled = true;
         this.response = res.ProcessVariables;
+        this.rcuVersions = res.ProcessVariables.versions.split(',');
+        console.log('RCU Versions', this.rcuVersions);
+        
         if (this.router.url.includes('/rcu') && this.roleType == '2' && this.response.rcuInitiated == true) {
 
           if (this.response.stage == "NotInitiated") {
@@ -453,7 +459,7 @@ export class RcuComponent implements OnInit {
             'Updated Successfully',
             'RCU Details'
           );
-          this.getAllRcuDetails();
+          // this.getAllRcuDetails();
         }
       });
     } else {
@@ -672,6 +678,11 @@ export class RcuComponent implements OnInit {
     this.rcuDetailsForm.get('applicantType').setValue(applicantType);
   }
 
+  onRcuVersionChange(event) {
+    console.log('event', event);
+    this.selectedRCUVersion = event;
+    this.getAllRcuDetails();
+  }
   assignRcuTask() {
     this.isInitiateScreen = false;
     this.isRcuDetails = true;
@@ -932,20 +943,20 @@ export class RcuComponent implements OnInit {
     }
   }
 
-  // onReInitiate() {
-  //   // this.assignRcuTask();
-  //   const data = {
-  //     leadId: this.leadId,
-  //     userId: this.userId,
-  //   };
+  onReInitiate() {
+    // this.assignRcuTask();
+    const data = {
+      leadId: this.leadId,
+      userId: this.userId,
+    };
 
-  //   this.rcuService.assignRcuTask(data).subscribe((res: any) => {
-  //     if (res && res.ProcessVariables.error.code == '0') {
-  //       this.toasterService.showSuccess("RCU Lead Is ReInitiated Successfully ", "RCU Details");
-  //       // this.router.navigateByUrl('/pages/dashboard');
-  //     } else {
-  //       this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
-  //     }
-  //   });
-  // }
+    this.rcuService.reInitiateRCU(data).subscribe((res: any) => {
+      if (res && res.ProcessVariables.error.code == '0') {
+        this.toasterService.showSuccess("RCU Lead Is ReInitiated Successfully ", "RCU Details");
+        this.router.navigateByUrl('/pages/dashboard');
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
+      }
+    });
+  }
 }
