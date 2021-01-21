@@ -290,6 +290,7 @@ export class RcuComponent implements OnInit {
 
       remarks: this.response.remarks,
     });
+   
     if (this.applicantDocuments != null) {
       for (let i = 0; i < this.applicantDocuments.length; i++) {
         this.rcuDetailsForm.controls.applicantDocuments.push(
@@ -307,7 +308,7 @@ export class RcuComponent implements OnInit {
       if (this.isLoan360) {
         this.rcuDetailsForm.disable();
       }
-      this.testRadio(event);
+       return this.testRadio(event);
     }
 
     this.testRadio(event);
@@ -372,6 +373,7 @@ export class RcuComponent implements OnInit {
     };
     this.rcuService.getRcuDetails(data).subscribe((res: any) => {
       if (res && res.ProcessVariables.error.code == '0') {
+     
         this.isGetapiCalled = true;
         this.response = res.ProcessVariables;
         this.rcuVersions = res.ProcessVariables.versions.split(',');
@@ -729,6 +731,13 @@ export class RcuComponent implements OnInit {
       (res) => res.applicantId == event
     ).applicantType;
     this.rcuDetailsForm.get('applicantType').setValue(applicantType);
+    let rcuFormApplicantControls = this.rcuDetailsForm.controls
+    .applicantDocuments as FormArray;
+  rcuFormApplicantControls.controls = [];
+  // tslint:disable-next-line: prefer-const
+  let rcuFormColletralControls = this.rcuDetailsForm.controls
+    .collateralDocuments as FormArray;
+  rcuFormColletralControls.controls = [];
     this.getAllRcuDetails(event);
   }
 
