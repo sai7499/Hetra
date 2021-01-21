@@ -404,6 +404,19 @@ export class InsuranceDetailsComponent implements OnInit {
           if (value['ProcessVariables'].error.code === '1') {
             this.invalidPincode = true;
             this.toasterService.showError('Invalid pincode', '');
+            if(event === 'nominee') {
+              this.insuranceDetailForm.controls.nomineePincode.reset();
+              this.insuranceDetailForm.controls.nomineeState.reset();
+              this.insuranceDetailForm.controls.nomineeDistrict.reset();
+              this.insuranceDetailForm.controls.nomineeCountry.reset();
+              this.insuranceDetailForm.controls.nomineeCity.reset();
+            } else if(event === 'guardian') {
+              this.insuranceDetailForm.controls.guardianPincode.reset();
+              this.insuranceDetailForm.controls.guardianState.reset();
+              this.insuranceDetailForm.controls.guardianDistrict.reset();
+              this.insuranceDetailForm.controls.guardianCountry.reset();
+              this.insuranceDetailForm.controls.guardianCity.reset();
+            }
           } else {
           this.invalidPincode = false;
           }
