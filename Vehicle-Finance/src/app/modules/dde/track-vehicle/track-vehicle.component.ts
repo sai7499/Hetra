@@ -509,15 +509,12 @@ export class TrackVehicleComponent implements OnInit {
     }
     else {
       let addIndex = Number(this.trackVehicleForm.value['emisPaid']) - this.formArr['controls'].length;
-       let receivedDate = this.addingReceviedDate();
+      let receivedDate = this.addingReceviedDate();
       for (let i = 0; i < addIndex; i++) {
-        
         let addDueDate2 = this.trackVehicleForm.value['emiStartDate'] ? new Date(this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length - 1)]['dueDate'], 1)) : new Date();
         const dueDate = addDueDate2;
         const recDate = new Date(receivedDate);
-       
-         let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
-        
+        let delayedDays = (recDate.getTime() - dueDate.getTime()) / (1000 * 3600 * 24);
 
         this.fleetRtrDetails.push({
           installmentAmt: this.trackVehicleForm.controls['emiAmount'].value,
@@ -778,7 +775,6 @@ export class TrackVehicleComponent implements OnInit {
     if (matureDate > currentDate) {
       //currentDate = this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length - 1)]['receivedDate'], 1)
       return currentDate
-
     } else {
       return matureDate
     }

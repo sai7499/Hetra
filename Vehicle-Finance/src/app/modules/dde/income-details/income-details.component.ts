@@ -485,6 +485,11 @@ export class IncomeDetailsComponent implements OnInit {
             'Income Details'
           );
           this.getAllIncome();
+        }else {
+          this.toasterService.showError(res.ErrorMessage?res.ErrorMessage:
+            res.ProcessVariables.error.message,
+            'Income Details'
+          );
         }
 
       });
@@ -520,7 +525,8 @@ export class IncomeDetailsComponent implements OnInit {
           ],
         });
       }
-      else if (this.productCode == "UCV" || this.productCode == "NCV") {
+      // (this.productCode == "UCV" || this.productCode == "NCV") 
+      else if (this.productCode != "UC" ) {
         return this.formBuilder.group({
           applicantId: [],
           applicantType: [],
@@ -981,7 +987,8 @@ export class IncomeDetailsComponent implements OnInit {
         'Income Details'
       );
       return;
-    } else if (this.productCode == "UCV" && this.KeyFinancialDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0) {
+    } else if (this.productCode == "UCV" 
+    || this.productCode =='UTCR' && this.KeyFinancialDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0) {
       this.toasterService.showError(
         'Add atleast one entry in Key Financials or Other income Details',
         'Income Details'
@@ -1070,8 +1077,8 @@ export class IncomeDetailsComponent implements OnInit {
         }
 
         bodyForm = body
-
-      } else if (productCode == "UCV" || productCode == "NCV") {
+        // (productCode != "UCV" || productCode == "NCV")
+      } else if (productCode != "UC") {
 
         const body = {
 
@@ -1105,7 +1112,7 @@ export class IncomeDetailsComponent implements OnInit {
         .subscribe((res: any) => {
 
           // tslint:disable-next-line: triple-equals
-          if (res && res.ProcessVariables.error.code == '0') {
+          if (res.Error == 0 && res.ProcessVariables.error.code == '0') {
             // tslint:disable-next-line: prefer-const
             let businessControls = this.incomeDetailsForm.controls
               .businessIncomeDetails as FormArray;
@@ -1124,6 +1131,11 @@ export class IncomeDetailsComponent implements OnInit {
               'Income Details'
             );
             this.getAllIncome();
+          }else {
+            this.toasterService.showError(res.ErrorMessage?res.ErrorMessage:
+              res.ProcessVariables.error.message,
+              'Income Details'
+            );
           }
         });
     }

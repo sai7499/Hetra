@@ -38,7 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.idleTimerService.updateExpiredTime();
     this.apiCount++;
     let httpMethod = req.method;
-    const reqBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    const reqBody = typeof(req.body)=== 'string' && !req.url.includes('/complete') ? JSON.parse(req.body) : req.body;
 
     if (reqBody && reqBody.showLoader !== false) {
       this.ngxUiLoaderService.start();

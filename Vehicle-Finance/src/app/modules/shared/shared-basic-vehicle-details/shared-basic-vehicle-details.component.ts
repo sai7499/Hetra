@@ -250,7 +250,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         ageAfterTenure: ageAfterTenure
       })
 
-      if (this.productCatoryCode === 'UCV') {
+      if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
         this.getVehicleGridValue(formArray)
       }
     }
@@ -609,7 +609,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.isVehicleDedupe = true;
     }
 
-    if (this.productCatoryCode !== 'NCV') {
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
       this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
     }
 
