@@ -614,7 +614,9 @@ export class SourcingDetailsComponent implements OnInit {
 
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
-    this.createLeadService
+
+    if (inputString && inputString.length>=2) {
+      this.createLeadService
       .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
       .subscribe((res: any) => {
         const response = res;
@@ -625,6 +627,7 @@ export class SourcingDetailsComponent implements OnInit {
           this.keyword = 'value';
         }
       });
+    }
   }
 
   selectSourcingEvent(event) {
@@ -649,20 +652,22 @@ export class SourcingDetailsComponent implements OnInit {
     let inputString = event;
     let dealerCode = [];
 
-    this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
-      if (appiyoError === '0' && apiError === '0') {
-        this.dealerCodeData = response.ProcessVariables.dealorDetails;
-        if (this.sourchingTypeId === '2SOURTYP') {
-          if (this.dealerCodeData != null) {
-            this.selectDealorEvent(this.dealerCodeData[0]);
+    if (inputString && inputString.length >= 2) {
+      this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          this.dealerCodeData = response.ProcessVariables.dealorDetails;
+          if (this.sourchingTypeId === '2SOURTYP') {
+            if (this.dealerCodeData != null) {
+              this.selectDealorEvent(this.dealerCodeData[0]);
+            }
           }
+          this.keyword = 'dealorName';
         }
-        this.keyword = 'dealorName';
-      }
-    });
+      });
+    }
   }
 
   selectDealorEvent(event) {

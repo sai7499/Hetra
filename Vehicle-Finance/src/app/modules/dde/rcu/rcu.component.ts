@@ -26,7 +26,7 @@ export class RcuComponent implements OnInit {
   isRcuDetails: boolean = true;
   leadId: number;
   userId: string;
-  applicantResponse: any;
+  // applicantResponse: any;
   applicantId: any;
   applicantDetails: Array<any>;
   rcuLov: any = [];
@@ -38,29 +38,29 @@ export class RcuComponent implements OnInit {
   errorGenerated: boolean = false;
   isErr: boolean = false
   model = { option: 'Screened' };
-  radioSel: any;
-  radioSelectedString: string;
-  documentDetails: any;
+  // radioSel: any;
+  // radioSelectedString: string;
+  // documentDetails: any;
   submitted: boolean;
-  documentArray: FormArray;
+  // documentArray: FormArray;
   tab: any = 'tab1';
   tab1: any;
   tab2: any;
-  documents: any;
+  // documents: any;
   applicantDocuments: any;
-  fileRCUStatus: any;
+  // fileRCUStatus: any;
   screened: string;
   sampled: string;
   response: any;
   showColletralDocuments: boolean = false;
   collateralDocuments: any;
-  selectDocument: any;
-  rcuInitiated: boolean;
+  // selectDocument: any;
+  // rcuInitiated: boolean;
   today: any = new Date();
   showModal: boolean;
   selectedDocDetails: any;
-  dmsDocumentId: any;
-  currentUrl: string;
+  // dmsDocumentId: any;
+  // currentUrl: string;
   roleId: any;
   roleType: any;
   todayDate: any;
@@ -69,7 +69,7 @@ export class RcuComponent implements OnInit {
   isGetapiCalled: boolean = false;
   showBack: boolean = false;
   errMsg: any;
-  fiCumPdStatusString: string;
+  // fiCumPdStatusString: string;
   fiCumPdStatus: boolean;
 
   isLoan360: boolean;
@@ -125,10 +125,10 @@ export class RcuComponent implements OnInit {
   ngOnInit() {
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-    this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
-    if (this.fiCumPdStatusString == 'false') {
+    const fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
+    if (fiCumPdStatusString == 'false') {
       this.fiCumPdStatus = false
-    } else if (this.fiCumPdStatusString == 'true') {
+    } else if (fiCumPdStatusString == 'true') {
       this.fiCumPdStatus = true
     }
     this.getLabels();
@@ -217,7 +217,7 @@ export class RcuComponent implements OnInit {
   }
 
   showDocuments(check) {
-    this.selectDocument = check;
+    const selectDocument = check;
     if (check == 'applicant') {
       this.tab = 'tab1';
       this.showColletralDocuments = false;
@@ -350,10 +350,10 @@ export class RcuComponent implements OnInit {
   }
 
   getSelecteditem() {
-    this.radioSel = this.radioItems.find(
+    const radioSel = this.radioItems.find(
       (value) => value === this.model.option
     );
-    this.radioSelectedString = JSON.stringify(this.radioSel);
+    const radioSelectedString = JSON.stringify(radioSel);
   }
   onItemChange(item) {
     this.getSelecteditem();
@@ -377,7 +377,7 @@ export class RcuComponent implements OnInit {
         this.isGetapiCalled = true;
         this.response = res.ProcessVariables;
         this.rcuVersions = res.ProcessVariables.versions.split(',');
-        console.log('RCU Versions', this.rcuVersions);
+        // console.log('RCU Versions', this.rcuVersions.sort((a,b) => {return a-b}));
         
         if (this.router.url.includes('/rcu') && this.roleType == '2' && this.response.rcuInitiated == true) {
 
@@ -507,19 +507,43 @@ export class RcuComponent implements OnInit {
   }
 
   onSubmit() {
-    const body = {
-      leadId: this.leadId,
-      userId: this.userId,
-      taskId: this.taskId
-    }
-    this.rcuService.stopRcuTask(body).subscribe((res: any) => {
-      if (res && res.ProcessVariables.error.code == "0") {
-        this.toasterService.showSuccess("RCU Lead Is Successfully Submitted ", "RCU Details");
-        this.router.navigateByUrl('/pages/dashboard');
-      } else {
-        this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
+    this.onSave();
+    // this.submitted = true;
+    if(this.rcuDetailsForm.valid) {
+      const body = {
+        leadId: this.leadId,
+        userId: this.userId,
+        taskId: this.taskId
       }
-    })
+      this.rcuService.stopRcuTask(body).subscribe((res: any) => {
+        if (res && res.ProcessVariables.error.code == "0") {
+          this.toasterService.showSuccess("RCU Lead Is Successfully Submitted ", "RCU Details");
+          this.router.navigateByUrl('/pages/dashboard');
+        } else {
+          this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
+        }
+      })
+    } else {
+      this.toasterService.showError(
+        'Fields Missing Or Invalid Pattern Detected',
+        'RCU Details'
+      );
+      return;
+
+    }
+    // const body = {
+    //   leadId: this.leadId,
+    //   userId: this.userId,
+    //   taskId: this.taskId
+    // }
+    // this.rcuService.stopRcuTask(body).subscribe((res: any) => {
+    //   if (res && res.ProcessVariables.error.code == "0") {
+    //     this.toasterService.showSuccess("RCU Lead Is Successfully Submitted ", "RCU Details");
+    //     this.router.navigateByUrl('/pages/dashboard');
+    //   } else {
+    //     this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
+    //   }
+    // })
   }
 
   testRadio(event) {
@@ -546,8 +570,7 @@ export class RcuComponent implements OnInit {
         }
 
       }
-    }
-    if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == true 
+    } else if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == true 
       && this.showColletralDocuments == true) {
       this.screened = '0';
       this.sampled = '1';
@@ -568,8 +591,7 @@ export class RcuComponent implements OnInit {
           control[i].controls.sampled.enable()
         }
       }
-    }
-    if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
+    } else if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
       this.screened = '1';
       this.sampled = '0';
       // tslint:disable-next-line: prefer-for-of
@@ -591,8 +613,7 @@ export class RcuComponent implements OnInit {
           control[i].controls.screened.enable()
         }
       }
-    }
-    if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
+    } else if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
       this.screened = '1';
       this.sampled = '0';
       // tslint:disable-next-line: prefer-for-of
@@ -612,8 +633,7 @@ export class RcuComponent implements OnInit {
           control[i].controls.screened.enable()
         }
       }
-    }
-    if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
+    } else if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
       this.screened = '0';
       this.sampled = '1';
       for (
@@ -632,8 +652,7 @@ export class RcuComponent implements OnInit {
           control[i].controls.sampled.enable()
         }
       }
-    }
-    if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
+    } else if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
       this.screened = '0';
       this.sampled = '1';
       for (
@@ -652,8 +671,7 @@ export class RcuComponent implements OnInit {
           control[i].controls.sampled.enable()
         }
       }
-    }
-    if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
+    } else if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
       this.screened = '1';
       this.sampled = '0';
       for (
@@ -672,8 +690,7 @@ export class RcuComponent implements OnInit {
           control[i].controls.screened.enable()
         }
       }
-    }
-    if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
+    } else if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
       this.screened = '1';
       this.sampled = '0';
       for (

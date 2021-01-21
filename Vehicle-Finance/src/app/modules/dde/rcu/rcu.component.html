@@ -7,8 +7,11 @@
 
   </div>
 
-  <div style="text-align: center;" *ngIf="isRcuDetails == false && isErr == false && roleType == '2'">
+  <div style="text-align: center;" *ngIf="(isRcuDetails == false && isErr == false && roleType == '2')">
     <strong>RCU task is In Progress and not completed yet.</strong>
+  </div>
+  <div style="text-align: center;" *ngIf="!errorGenerated">
+    <strong>{{errMsg}}</strong>
   </div>
 
   <ng-container *ngIf="!isRcuDetails && isErr == true">
