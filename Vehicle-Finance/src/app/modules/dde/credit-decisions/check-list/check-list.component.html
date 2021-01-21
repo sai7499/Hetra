@@ -69,7 +69,7 @@
 
                                             <select class="form-control" formControlName="coAnswer">
                                                 <!-- [attr.disabled]="roleType != '2'" -->
-                                                <option value="null">-- Select One --</option>
+                                                <option value="">-- Select One --</option>
                                                 <option *ngFor="let checklist of checklistObject"
                                                     value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
@@ -84,7 +84,7 @@
                                             *ngIf="roleType == '4' || roleType == '5'">
                                             <!-- *ngIf="roleType == '4' || roleType == '5'" -->
                                             <select class="form-control" formControlName="cpcMaker">
-                                                <option value="null">-- Select One --</option>
+                                                <option value="">-- Select One --</option>
                                                 <option *ngFor="let checklist of checklistObject"
                                                     value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
@@ -98,7 +98,7 @@
                                         <div class="form-group col-sm-2 col-md-2 text-center paddingNgContainer" *ngIf="roleType ==  '5'">
                                             <!-- *ngIf="roleType ==  '5'" -->
                                             <select class="form-control" formControlName="cpcChecker">
-                                                <option value="null">-- Select One --</option>
+                                                <option value="">-- Select One --</option>
                                                 <option *ngFor="let checklist of checklistObject"
                                                     value="{{checklist.key}}">
                                                     {{checklist.value}}</option>

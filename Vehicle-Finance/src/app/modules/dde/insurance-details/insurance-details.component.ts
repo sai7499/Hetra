@@ -404,6 +404,7 @@ export class InsuranceDetailsComponent implements OnInit {
           if (value['ProcessVariables'].error.code === '1') {
             this.invalidPincode = true;
             this.toasterService.showError('Invalid pincode', '');
+            this.insuranceDetailForm.reset();
           } else {
           this.invalidPincode = false;
           }
