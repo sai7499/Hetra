@@ -503,7 +503,6 @@ export class CamComponent implements OnInit {
     }
 
     this.isViewDde = this.toggleDdeService.getOperationType();
-    console.log(this.isViewDde, 'dgsggs', this.toggleDdeService.getOperationType())
     if (this.isViewDde) {
       this.disableSaveBtn = true;
       this.showCamDetails();

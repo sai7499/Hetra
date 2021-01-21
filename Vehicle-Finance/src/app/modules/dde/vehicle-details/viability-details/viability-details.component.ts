@@ -761,9 +761,6 @@ export class ViabilityDetailsComponent implements OnInit {
       tripsPerMonth: Number(data.tripsPerMonth),
       tyreCost: Number(data.tyreCost),
     })
-
-    this.calculatePassenger()
-
   }
 
   // tslint:disable-next-line: no-shadowed-variable
