@@ -609,7 +609,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.isVehicleDedupe = true;
     }
 
-    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
+    if (this.productCatoryCode !== 'NCV') {
       this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
     }
 
