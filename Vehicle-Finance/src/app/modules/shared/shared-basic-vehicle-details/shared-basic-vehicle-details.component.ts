@@ -1386,6 +1386,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.isVehicleRegNoChange = false;
         obj.get('parentLoanAccountNumber').clearValidators();
         obj.get('parentLoanAccountNumber').updateValueAndValidity();
+        obj.get('parentLoanAccountNumber').setValue('')
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })
