@@ -230,7 +230,7 @@ export class SourcingDetailsComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.leadDetailADE : currentUrl.includes('dde') ?
-       udfScreenId.DDE.leadDetailDDE : udfScreenId.QDE.leadDetailQDE ;
+        udfScreenId.DDE.leadDetailDDE : udfScreenId.QDE.leadDetailQDE;
 
     })
 
@@ -609,6 +609,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onSourcingCodeSearch(event) {
+
     let inputString = event;
     let sourcingCode = [];
 
@@ -618,17 +619,22 @@ export class SourcingDetailsComponent implements OnInit {
 
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
-    this.createLeadService
-      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
-      .subscribe((res: any) => {
-        const response = res;
-        const appiyoError = response.Error;
-        const apiError = response.ProcessVariables.error.code;
-        if (appiyoError === '0' && apiError === '0') {
-          this.sourcingCodeData = response.ProcessVariables.codeList;
-          this.keyword = 'value';
-        }
-      });
+
+
+    if (inputString && inputString.length >= 2) {
+      this.createLeadService
+        .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
+        .subscribe((res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+          if (appiyoError === '0' && apiError === '0') {
+            this.sourcingCodeData = response.ProcessVariables.codeList;
+            this.keyword = 'value';
+          }
+        });
+    }
+
   }
 
   selectSourcingEvent(event) {
@@ -653,20 +659,24 @@ export class SourcingDetailsComponent implements OnInit {
     let inputString = event;
     let dealerCode = [];
 
-    this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
-      if (appiyoError === '0' && apiError === '0') {
-        this.dealerCodeData = response.ProcessVariables.dealorDetails;
-        if (this.sourchingTypeId === '2SOURTYP') {
-          if (this.dealerCodeData != null) {
-            this.selectDealorEvent(this.dealerCodeData[0]);
+    if (inputString && inputString.length >= 2) {
+      this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          this.dealerCodeData = response.ProcessVariables.dealorDetails;
+          if (this.sourchingTypeId === '2SOURTYP') {
+            if (this.dealerCodeData != null) {
+              this.selectDealorEvent(this.dealerCodeData[0]);
+            }
           }
+          this.keyword = 'dealorName';
         }
-        this.keyword = 'dealorName';
-      }
-    });
+      });
+    }
+
+
   }
 
   selectDealorEvent(event) {

@@ -12,8 +12,6 @@ import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
-import { VehicleDataStoreService } from '@services/vehicle-data-store.service';
-
 @Component({
   selector: 'app-vehicle-details',
   templateUrl: './vehicle-details.component.html',
@@ -60,7 +58,6 @@ export class VehicleDetailComponent implements OnInit {
     private loanViewService: LoanViewService,
     private termsService: TermAcceptanceService,
     private vehicleDetailService: VehicleDetailService,
-    private vehicleDataStoreService: VehicleDataStoreService,
     private labelsData: LabelsService,
     private objectComparisonService: ObjectComparisonService,
     private loginStoreService: LoginStoreService,
@@ -83,7 +80,6 @@ export class VehicleDetailComponent implements OnInit {
 
     if (leadData && leadData['vehicleCollateral']) {
       this.routerId = leadData['vehicleCollateral'].length > 0 ? leadData['vehicleCollateral'][0].collateralId : '0';
-      this.vehicleDataStoreService.setLoanAmount(leadData['vehicleCollateral'][0].loanAmount)
     }
 
     this.labelsData.getScreenId().subscribe((data) => {

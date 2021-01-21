@@ -227,9 +227,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.disableSaveBtn = true;
     }
 
-    if (this.vehicleDataService.getLoanAmount()) {
-      this.eligibleLoanAmount = Number(this.vehicleDataService.getLoanAmount())
-    }
+    this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt
   }
 
   onGetMarginAmount(value, form) {
@@ -270,7 +268,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     return regPatternData;
   }
 
-  onGetDateValue(event) {
+  onGetDateValue(event, isVehicleGrid?: string) {
 
     if (!(event > this.maxDate && event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
@@ -288,7 +286,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         ageAfterTenure: ageAfterTenure
       })
 
-      if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
+      if (isVehicleGrid && this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
         this.getVehicleGridValue(formArray)
       }
     }

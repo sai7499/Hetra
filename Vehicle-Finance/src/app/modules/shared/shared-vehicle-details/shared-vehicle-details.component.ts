@@ -136,7 +136,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   editVehicle(collateralId: number, loanAmount) {
-    this.vehicleDataStoreService.setLoanAmount(loanAmount)
     if (this.isLoan360) {
       return this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', + collateralId]);
     }
@@ -148,7 +147,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   onEditVehicleDetails(collateralId: number, loanAmount: any) {
-    this.vehicleDataStoreService.setLoanAmount(loanAmount)
     this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', + collateralId])
   }
 

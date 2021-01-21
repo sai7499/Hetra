@@ -22,7 +22,7 @@
                         </h3>
 
                         <div class="row"
-                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' || productCatoryCode ==='UTCR'">
+                            *ngIf="productCatoryCode !== 'NCV'">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                                 <label for="registartion_number"> {{ label.registartionNumber }}
@@ -135,8 +135,6 @@
                                         formControlName="assetVariant" [isRequired]="'Asset Variant Required'"
                                         [isDirty]="isDirty" (change)="onCallTwoFunction($event.target.value, obj)">
                                     </app-vf-custom-select>
-                                    <!-- (change)="productCatoryCode === 'UCV' ? getVehicleGridValue(basicVehicleForm.get('vehicleFormArray')): ''" -->
-
                                 </div>
 
                             </div>
@@ -151,7 +149,7 @@
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing"
-                                    *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' || productCatoryCode ==='UTCR'">
+                                    *ngIf="productCatoryCode !== 'NCV'">
                                     <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                             class="star_red_col">*</sub>
                                     </label>
@@ -160,7 +158,7 @@
                                         formControlName="manuFacMonthYear" ndo-datepicker [bottomView]="'year'"
                                         [topView]="'decade'" [format]="'MMMM yyyy'" [min]="minDate" [max]="maxDate"
                                         placeholder="Year And Month Manufacturing"
-                                        (valueChange)="onGetDateValue($event)">
+                                        (valueChange)="onGetDateValue($event, 'isVehicleGrid')">
                                     </kendo-datepicker>
 
                                     <div class="invalid-feedback"
@@ -188,7 +186,7 @@
                                 </div>
 
                                 <div class=" form-group col-sm-6 col-md-4 col-lg-3" id="age_asset"
-                                    *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' || productCatoryCode ==='UTCR'">
+                                    *ngIf="productCatoryCode !== 'NCV'">
                                     <label for="age_of_asset"> {{ label.ageOfAsset }} <sub class="star_red_col">*</sub>
                                     </label>
 
@@ -200,7 +198,7 @@
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="age_vehicle"
-                                    *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
+                                    *ngIf="productCatoryCode !== 'NCV'">
                                     <label for="age_of_vehicle"> {{ label.ageOfVehicle }} <sub
                                             class="star_red_col">*</sub>
                                     </label>
@@ -332,7 +330,7 @@
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="name_vehicle_owner"
-                                    *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
+                                    *ngIf="productCatoryCode !== 'NCV'">
                                     <label for="name_vehicle_owner"> {{ label.nameOfVehicleOwner }} <sub
                                             class="star_red_col">*</sub>
                                     </label>
@@ -348,7 +346,7 @@
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="mobile_vehicle_owner"
-                                    *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
+                                    *ngIf="productCatoryCode !== 'NCV'">
                                     <label for="mobile_vehicle_owner"> {{ label.mobileNumberOfVehicle }} <sub
                                             class="star_red_col">*</sub> </label>
 
@@ -372,7 +370,7 @@
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_address"
-                                    *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
+                                    *ngIf="productCatoryCode !== 'NCV'">
                                     <label for="vehicle_address"> {{ label.vehicleAddress }} <sub
                                             class="star_red_col">*</sub>
                                     </label>
@@ -390,7 +388,7 @@
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vehicle_pincode"
-                                    *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UC' ||  productCatoryCode ==='UTCR'">
+                                    *ngIf="productCatoryCode !== 'NCV'">
                                     <label for="vehicle_pincode"> {{ label.vehiclePinCode }} <sub
                                             class="star_red_col">*</sub>
                                     </label>
@@ -1423,7 +1421,7 @@
                                             formControlName="manuFacMonthYear" [min]="minDate" ndo-datepicker
                                             [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'"
                                             [max]="maxDate" placeholder="Year And Month Manufacturing"
-                                            (valueChange)="onGetDateValue($event)">
+                                            (valueChange)="onGetDateValue($event, 'isVehicleGrid')">
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
@@ -2051,7 +2049,7 @@
                                             formControlName="manuFacMonthYear" [min]="minDate" ndo-datepicker
                                             [bottomView]="'year'" [topView]="'decade'" [format]="'MMMM yyyy'"
                                             [max]="maxDate" placeholder="Year And Month Manufacturing"
-                                            (valueChange)="onGetDateValue($event)">
+                                            (valueChange)="onGetDateValue($event, 'isVehicleGrid')">
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"

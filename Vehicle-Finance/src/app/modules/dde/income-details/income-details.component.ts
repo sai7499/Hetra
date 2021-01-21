@@ -485,8 +485,8 @@ export class IncomeDetailsComponent implements OnInit {
             'Income Details'
           );
           this.getAllIncome();
-        }else {
-          this.toasterService.showError(res.ErrorMessage?res.ErrorMessage:
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :
             res.ProcessVariables.error.message,
             'Income Details'
           );
@@ -526,7 +526,7 @@ export class IncomeDetailsComponent implements OnInit {
         });
       }
       // (this.productCode == "UCV" || this.productCode == "NCV") 
-      else if (this.productCode != "UC" ) {
+      else if (this.productCode != "UC") {
         return this.formBuilder.group({
           applicantId: [],
           applicantType: [],
@@ -981,14 +981,16 @@ export class IncomeDetailsComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
+    console.log(this.KeyFinancialDetailsArray, 'array', this.otherIncomeDetailsArray, 'productCode', this.productCode)
+
     if (this.productCode == "UC" && this.businessIncomeDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0) {
       this.toasterService.showError(
         'Add atleast one entry in Business income or Other income Details',
         'Income Details'
       );
       return;
-    } else if (this.productCode == "UCV"
-    || this.productCode =='UTCR' && this.KeyFinancialDetailsArray.length == 0 && this.otherIncomeDetailsArray.length == 0) {
+    } else if ((this.productCode === "UCV"
+      || this.productCode === "UTCR") && this.KeyFinancialDetailsArray.length === 0 && this.otherIncomeDetailsArray.length === 0) {
       this.toasterService.showError(
         'Add atleast one entry in Key Financials or Other income Details',
         'Income Details'
