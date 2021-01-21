@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LoginStoreService } from '@services/login-store.service';
 import { LabelsService } from '@services/labels.service';
 import { VehicleDetailService } from '../../../services/vehicle-detail.service';
@@ -48,6 +48,10 @@ export class SharedVehicleDetailsComponent implements OnInit {
   udfScreenId: string = 'VLS001';
   udfGroupId: string = 'VLG001';
 
+  routerId: string = '0';
+
+  @Input() isDirty: boolean;
+
   constructor(
     private loginStoreService: LoginStoreService, private toggleDdeService: ToggleDdeService,
     private labelsData: LabelsService, private collateralService: CollateralService,
@@ -78,6 +82,10 @@ export class SharedVehicleDetailsComponent implements OnInit {
     this.leadData = this.createLeadDataService.getLeadSectionData();
     this.leadId = this.leadData.leadId;
 
+    if (this.leadData && this.leadData.vehicleCollateral) {
+      this.routerId = this.leadData.vehicleCollateral.length > 0 ? this.leadData.vehicleCollateral[0].collateralId : '0';
+    }
+
     this.isChildLoan = this.leadData.leadDetails['isChildLoan'] ? this.leadData.leadDetails['isChildLoan'] === '1' ? true : false : false;
 
     this.getLov();
@@ -101,7 +109,7 @@ export class SharedVehicleDetailsComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.vehiclListADE : currentUrl.includes('dde') ?
-       udfScreenId.DDE.vehicleListDDE : udfScreenId.QDE.vehicleListQDE ;
+        udfScreenId.DDE.vehicleListDDE : udfScreenId.QDE.vehicleListQDE;
 
     })
   }
@@ -128,7 +136,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   editVehicle(collateralId: number, loanAmount) {
-    this.vehicleDataStoreService.setLoanAmount(loanAmount)
     if (this.isLoan360) {
       return this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', + collateralId]);
     }
@@ -140,7 +147,6 @@ export class SharedVehicleDetailsComponent implements OnInit {
   }
 
   onEditVehicleDetails(collateralId: number, loanAmount: any) {
-    this.vehicleDataStoreService.setLoanAmount(loanAmount)
     this.router.navigate(['/pages/vehicle-details/' + this.leadId + '/basic-vehicle-details', + collateralId])
   }
 
