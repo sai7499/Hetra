@@ -442,7 +442,7 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
             this.collateralService.saveOrUpdateAdditionalCollaterals(data).subscribe((res: any) => {
                 if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                     this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Additional Collateral Detail');
-                    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
+                    this.router.navigate(['pages/dde/' + this.leadId + '/additional-collateral-list']);
                 } else {
                     this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Additional CollateralAdditional Collateral Detail')
                 }

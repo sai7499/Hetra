@@ -558,10 +558,10 @@ table {
     }
 
     
-    .form-control-cus {
+    /* .form-control-cus {
         border: none!important;
         padding: 2px!important;
-     }
+     } */
 
     .form-control-ins{
     display: inline-block!important;

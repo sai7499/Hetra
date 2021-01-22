@@ -56,12 +56,12 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
           console.log('error', error)
         });
 
-        this.labelsData.getScreenId().subscribe((data) => {
-          let udfScreenId = data.ScreenIDS;
-    
-          this.udfScreenId = udfScreenId.DDE.vehicleDetailDDE ;
-    
-        })
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.vehicleDetailDDE;
+
+    })
 
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
@@ -119,7 +119,7 @@ export class BasicVehicleDetailsComponent implements OnInit, OnDestroy {
           data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
         }
 
-        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC'|| this.productCatoryCode === 'UTCR') {
+        if (this.productCatoryCode !== 'NCV') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
           data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
