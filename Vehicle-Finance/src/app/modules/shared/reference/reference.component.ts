@@ -585,7 +585,7 @@ export class ReferenceComponent implements OnInit {
     if (this.currentUrl.includes('sales')) {
       this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`);
     } else if (this.currentUrl.includes('dde')) {
-      this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`);
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/additional-collateral-list`);
     }
   }
 

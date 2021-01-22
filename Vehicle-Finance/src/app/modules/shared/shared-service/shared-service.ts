@@ -34,6 +34,11 @@ export class SharedService {
         this.userDefined$.next(value)
     }
 
+    apiValue$: BehaviorSubject<any>= new BehaviorSubject([]);
+    getApiValue(value) {
+        this.apiValue$.next(value)
+    }
+
     updateDev$: BehaviorSubject<any> = new BehaviorSubject([]);
     getUpdatedDeviation(data) {
         this.updateDev$.next(data)

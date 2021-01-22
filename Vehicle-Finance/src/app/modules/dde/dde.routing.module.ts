@@ -39,6 +39,7 @@ import { LoanDetailsComponent } from './loan-account-details/loan-details.compon
 
 import { PddComponent } from '@shared/pdd-screen/pdd.component';
 import { FipdPdfComponent } from './pdf-generate/fipd-pdf/fipd-pdf.component';
+import { AdditionalCollateralListComponent } from './additional-collateral-list/additional-collateral-list.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
         path: 'vehicle-list',
         component: VehicleListComponent,
       },
+       {
+        path: 'additional-collateral-list',
+        component: AdditionalCollateralListComponent
+       },
       {
         path: 'reference',
         component: ReferenceComponent,

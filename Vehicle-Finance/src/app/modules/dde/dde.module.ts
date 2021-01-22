@@ -44,6 +44,7 @@ import { MatFormField, MatSelectModule } from '@angular/material';
 import { LoanDetailsComponent } from './loan-account-details/loan-details.component';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { FipdPdfComponent } from './pdf-generate/fipd-pdf/fipd-pdf.component';
+import { AdditionalCollateralListComponent } from './additional-collateral-list/additional-collateral-list.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,7 @@ import { FipdPdfComponent } from './pdf-generate/fipd-pdf/fipd-pdf.component';
     PddDetailsComponent,
     ChequeTrackingComponent,
     RcuComponent,
-
+    AdditionalCollateralListComponent,
     PSLdataComponent,
     LoanDetailsComponent,
     FipdPdfComponent

@@ -1416,7 +1416,7 @@
     "plcyExpiryDt": "Plcy Expiry Dt",
     "insurancePattern": "Insurance Pattern",
     "plcyLapseDays": "Plcy Lapse Days",
-    "processingFee%": "Processing Fee%",
+    "processingFeePercent": "Processing Fee %",
     "processingFee": "Processing Fee",
     "assetAge": "Asset Age",
     "vintageDeviation": "Vintage Deviation",

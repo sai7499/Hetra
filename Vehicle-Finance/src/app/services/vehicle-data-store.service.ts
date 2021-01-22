@@ -64,13 +64,4 @@ export class VehicleDataStoreService {
   deleteVehicle(index: number) {
     this.vehicleList.splice(index, 1);
   }
-
-  setLoanAmount(amount: number) {
-    this.loanAmount = amount;
-  }
-
-  getLoanAmount() {
-    return this.loanAmount
-  }
-
 }

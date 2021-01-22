@@ -568,7 +568,6 @@ export class ViabilityDetailsComponent implements OnInit {
           this.viabilityForm.value.type = this.viabliityDataToPatch.type;
           this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
           this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
-          this.patchViability(this.viabliityDataToPatch);
           this.calculatePassenger();
           this.calculatePassengerB();
           this.calculatePassengerC();
@@ -576,6 +575,8 @@ export class ViabilityDetailsComponent implements OnInit {
           this.viabilityForm.patchValue({
             type: this.viabliityDataToPatch.type
           });
+          this.patchViability(this.viabliityDataToPatch);
+
         } else if (this.viabliityDataToPatch && this.viabliityDataToPatch.type === '2VHCLVBTY') {
           if (this.roleType == '1') {
             this.udfScreenId = this.dashboardViability['passenger'];
@@ -627,8 +628,6 @@ export class ViabilityDetailsComponent implements OnInit {
       return;
     }
 
-    // this.capturedAddress = this.viabilityForm.value.gpsPosition.get('capturedAddress').value
-
     if (this.viabilityForm.value.type === '1VHCLVBTY') {
       const body = {
         userId: this.userId,
@@ -653,12 +652,6 @@ export class ViabilityDetailsComponent implements OnInit {
         if (res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
           this.getViability();
-          if (this.router.url.includes('/dde')) {
-            // this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
-            //  this.getViability();
-          } else {
-            // this.router.navigateByUrl(`/pages/viability-list/${this.leadId}/viability-list`);
-          }
         } else {
           this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
         }
@@ -1255,8 +1248,6 @@ export class ViabilityDetailsComponent implements OnInit {
   }
 
   async downloadDocs(documentId: string) {
-    console.log(event);
-
     // let el = event.srcElement;
     // const formArray = this.uploadForm.get(formArrayName) as FormArray;
     // const documentId = formArray.at(index).get('file').value;
