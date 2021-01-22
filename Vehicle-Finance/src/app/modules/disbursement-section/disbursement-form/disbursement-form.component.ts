@@ -25,6 +25,8 @@ export class DisbursementFormComponent implements OnInit {
   disbursementDetailsForm: FormGroup;
   dealerDetailsForm: FormGroup;
   appDetailsForm: FormGroup;
+  sellerDetailsForm: FormGroup;
+  buyerDetailsForm: FormGroup;
   coAppDetailsForm: FormGroup;
   coApp1Form: FormGroup;
   coApp2Form: FormGroup;
@@ -35,6 +37,8 @@ export class DisbursementFormComponent implements OnInit {
   ibtDetailsForm: FormGroup;
   trancheDealerForm: FormGroup;
   trancheAppForm: FormGroup;
+  trancheSellerForm: FormGroup;
+  trancheBuyerForm: FormGroup;
   trancheBankerForm: FormGroup;
   trancheFinancierForm: FormGroup;
   trancheTPForm: FormGroup;
@@ -71,6 +75,8 @@ export class DisbursementFormComponent implements OnInit {
   trancheDealerList: Array<{}> = [];
   trancheAppList: Array<{}> = [];
   trancheBankerList: Array<{}> = [];
+  trancheSellerList: Array<{}> = [];
+  trancheBuyerList: Array<{}> = [];
   trancheFinancierList: Array<{}> = [];
   trancheTpList: Array<{}> = [];
   trancheCoApp1List: Array<{}> = [];
@@ -80,6 +86,8 @@ export class DisbursementFormComponent implements OnInit {
 
   disburseToDealer: boolean = false;
   disburseToApp: boolean = false;
+  disburseToSeller: boolean = false;
+  disburseToBuyer: boolean = false;
   disburseToCoApp: boolean = false;
   disburseToBanker: boolean = false;
   disburseToFinancier: boolean = false;
@@ -101,6 +109,8 @@ export class DisbursementFormComponent implements OnInit {
   showTrancheTable: boolean;
   showAppTrancheTable: boolean;
   showBankerTrancheTable: boolean;
+  showSellerTrancheTable: boolean;
+  showBuyerTrancheTable: boolean;
   showFinancierTrancheTable: boolean;
   showThirdPartyTrancheTable: boolean;
   showCoAppTrancheTable: boolean;
@@ -112,8 +122,14 @@ export class DisbursementFormComponent implements OnInit {
   showBankDetails: boolean;
   showCASADetails: boolean;
   showAppCASADetails: boolean;
+  showSellerCASADetails:boolean;
+  showBuyerCASADetails:boolean;
   showAppBankDetails: boolean;
+  showSellerBankDetails: boolean;
+  showBuyerBankDetails: boolean;
   showAppDDDetails: boolean;
+  showSellerDDDetails: boolean;
+  showBuyerDDDetails: boolean;
   showCoAppBankDetails: boolean;
   showCoAppDDDetails: boolean;
   showBankerBankDetails: boolean;
@@ -138,6 +154,8 @@ export class DisbursementFormComponent implements OnInit {
 
   dealerObjInfo: Object = {};
   applicantObjInfo: Object = {};
+  sellerObjInfo: Object = {};
+  buyerObjInfo: Object = {};
   bankerObjInfo: Object = {};
   financierObjInfo: Object = {};
   thirdPartyObjInfo: Object = {};
@@ -176,6 +194,8 @@ export class DisbursementFormComponent implements OnInit {
   loanDetailsData: Object = {};
   ReqDealerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; dealerCode: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   ReqApplicantDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqSellerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqBuyerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   ReqBankerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; bankerId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   ReqFinancierDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; financierId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   ReqTPDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; mobilePhone: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
@@ -190,6 +210,8 @@ export class DisbursementFormComponent implements OnInit {
   applicantID: any;
   coAppName: any;
   showAppIntDetails: boolean;
+  showSellerIntDetails: boolean;
+  showBuyerIntDetails: boolean;
   showDealerIntDetails: boolean;
   showBankerIntDetails: boolean;
   showFinIntDetails: boolean;
@@ -201,6 +223,8 @@ export class DisbursementFormComponent implements OnInit {
   flag: boolean;
   dealerDisbursementID: any;
   applicantDisbursementID: any;
+  sellerDisbursementID: any;
+  buyerDisbursementID: any;
   coApp1DisbursementID: any;
   coApp2DisbursementID: any;
   coApp3DisbursementID: any;
@@ -210,6 +234,8 @@ export class DisbursementFormComponent implements OnInit {
   dealerBankListData: Array<any> = [];
   bankDealerDetailsData: Array<any> = [];
   bankAppDetailsData: any[];
+  bankSellerDetailsData: any[];
+  bankBuyerDetailsData: any[];
   bankCoApp1DetailsData: any[];
   bankCoApp2DetailsData: any[];
   bankCoApp3DetailsData: any[];
@@ -218,7 +244,11 @@ export class DisbursementFormComponent implements OnInit {
   bankTPDetailsData: any[];
   bankDetailsData: any;
   appBankListData: any;
+  sellerBankListData: any;
+  buyerBankListData: any;
   appkeyword: string;
+  sellerkeyword: any;
+  buyerkeyword: any;
   coApp1BankListData: any;
   coApp1keyword: string;
   coApp2BankListData: any;
@@ -238,8 +268,14 @@ export class DisbursementFormComponent implements OnInit {
   dealerfavBODListDatadealerfavBODListData: any[];
   bankDealerFavBODDetailsData: any[];
   appfavBODListData: any;
+  sellerfavBODListData:any;
+  buyerfavBODListData:any;
   appFavFavkeyword: string;
+  sellerFavFavkeyword: string;
+  buyerFavFavkeyword: string;
   bankAppFavBODDetailsData: any[];
+  bankSellerFavBODDetailsData: any[];
+  bankBuyerFavBODDetailsData: any[];
   coApp1favBODListData: any;
   coApp1Favkeyword: string;
   bankCoApp1FavBODDetailsData: any[];
@@ -343,6 +379,12 @@ export class DisbursementFormComponent implements OnInit {
   get appTrancheDetail(): FormArray {
     return <FormArray>this.trancheAppForm.get('trancheAppArray')
   }
+  get sellerTrancheDetail(): FormArray {
+    return <FormArray>this.trancheSellerForm.get('trancheSellerArray')
+  }
+  get buyerTrancheDetail(): FormArray {
+    return <FormArray>this.trancheBuyerForm.get('trancheBuyerArray')
+  }
   get bankerTrancheDetail(): FormArray {
     return <FormArray>this.trancheBankerForm.get('trancheBankerArray')
   }
@@ -391,7 +433,12 @@ export class DisbursementFormComponent implements OnInit {
       this.trancheCoApp2List.push(object)
     } else if (container == '10') {
       this.trancheCoApp3List.push(object)
+    }else if (container == '11') {
+      this.trancheSellerList.push(object)
+    }else if (container == '12') {
+      this.trancheBuyerList.push(object)
     }
+    
   }
   addRow(container) {
     if (container == '1') {
@@ -433,6 +480,16 @@ export class DisbursementFormComponent implements OnInit {
       if (this.trancheCoApp3List.length != 10) {//max 10 rows
         this.addEmptyTrancheRow(container, this.trancheCoApp3List.length + 1);
         this.coApp3TrancheDetail.push(this.initTranche());
+      }
+    } else if (container == '11') {
+      if (this.trancheSellerList.length != 10) {//max 10 rows
+        this.addEmptyTrancheRow(container, this.trancheSellerList.length + 1);
+        this.sellerTrancheDetail.push(this.initTranche());
+      }
+    } else if (container == '12') {
+      if (this.trancheBuyerList.length != 10) {//max 10 rows
+        this.addEmptyTrancheRow(container, this.trancheBuyerList.length + 1);
+        this.buyerTrancheDetail.push(this.initTranche());
       }
     }
   }
@@ -525,6 +582,28 @@ export class DisbursementFormComponent implements OnInit {
           this.trancheCoApp3List[i]['tranche_disbursement_id'] = (i + 1) + ''
         }
       }
+    } else if (container == '11') {
+      this.trancheSellerList.splice(index, 1);
+      let formArray = <FormArray>this.trancheSellerForm.get('trancheSellerArray');
+      formArray.removeAt(index);
+      if (formArray.length == 0) {
+        this.addRow('11');// dealer
+      } else {
+        for (let i = 0; i < this.trancheSellerList.length; i++) {
+          this.trancheSellerList[i]['tranche_disbursement_id'] = (i + 1) + ''
+        }
+      }
+    } else if (container == '12') {
+      this.trancheBuyerList.splice(index, 1);
+      let formArray = <FormArray>this.trancheBuyerForm.get('trancheBuyerArray');
+      formArray.removeAt(index);
+      if (formArray.length == 0) {
+        this.addRow('12');// dealer
+      } else {
+        for (let i = 0; i < this.trancheBuyerList.length; i++) {
+          this.trancheBuyerList[i]['tranche_disbursement_id'] = (i + 1) + ''
+        }
+      }
     }
   }
   initTranche(): FormGroup {
@@ -582,6 +661,16 @@ export class DisbursementFormComponent implements OnInit {
       this.coApplicant3['disbursementAmount'] = (event.target.value) ? event.target.value : null;
       if (this.coApplicant3['trancheDisbursementFlag']) {
         this.validatePercentage(this.trancheCoApp3List, '10', '')
+      } 
+    } else if (this.sellerObjInfo['disbursementAmount'] && container == '11') {
+      this.sellerObjInfo['disbursementAmount'] = (event.target.value) ? event.target.value : null;
+      if (this.sellerObjInfo['trancheDisbursementFlag']) {
+        this.validatePercentage(this.trancheSellerList, '11', '')
+      }
+    } else if (this.buyerObjInfo['disbursementAmount'] && container == '12') {
+      this.buyerObjInfo['disbursementAmount'] = (event.target.value) ? event.target.value : null;
+      if (this.buyerObjInfo['trancheDisbursementFlag']) {
+        this.validatePercentage(this.trancheBuyerList, '12', '')
       }
     }
     // console.log(this.dealerObjInfo['disbursementAmount']);
@@ -594,8 +683,11 @@ export class DisbursementFormComponent implements OnInit {
     let g = this.coApplicant1['disbursementAmount'] ? parseInt(this.coApplicant1['disbursementAmount']) : 0;
     let h = this.coApplicant2['disbursementAmount'] ? parseInt(this.coApplicant2['disbursementAmount']) : 0;
     let i = this.coApplicant3['disbursementAmount'] ? parseInt(this.coApplicant3['disbursementAmount']) : 0;
+    let j = this.sellerObjInfo['disbursementAmount'] ? parseInt(this.sellerObjInfo['disbursementAmount']) : 0;
+    let k = this.buyerObjInfo['disbursementAmount'] ? parseInt(this.buyerObjInfo['disbursementAmount']) : 0;
 
-    let cumulativeDisAmnt = a + b + d + e + f + g + h + i;
+
+    let cumulativeDisAmnt = a + b + d + e + f + g + h + i + j + k;
     //console.log(cumulativeDisAmnt)   
     if (!this.dealerObjInfo['disbursementAmount'] && container == '1' && this.dealerObjInfo['trancheDisbursementFlag']) {
       this.dealerObjInfo['trancheDisbursementFlag'] = false;
@@ -629,6 +721,14 @@ export class DisbursementFormComponent implements OnInit {
       this.coApplicant3['trancheDisbursementFlag'] = false;
       this.showCoApp3TrancheTable = false;
       this.trancheCoApp3List = [];
+    }else if (!this.sellerObjInfo['disbursementAmount'] && container == '11' && this.sellerObjInfo['trancheDisbursementFlag']) {
+      this.sellerObjInfo['trancheDisbursementFlag'] = false;
+      this.showSellerTrancheTable = false;
+      this.trancheSellerList = [];
+    }else if (!this.buyerObjInfo['disbursementAmount'] && container == '12' && this.buyerObjInfo['trancheDisbursementFlag']) {
+      this.buyerObjInfo['trancheDisbursementFlag'] = false;
+      this.showBuyerTrancheTable = false;
+      this.trancheBuyerList = [];
     }
 
     if (cumulativeDisAmnt > this.totalDisbursementAmount) {
@@ -700,6 +800,24 @@ export class DisbursementFormComponent implements OnInit {
         }
         return;
       }
+      else if (container == '11') {
+        this.sellerObjInfo['disbursementAmount'] = null;
+        if (this.sellerObjInfo['trancheDisbursementFlag']) {
+          this.sellerObjInfo['trancheDisbursementFlag'] = false;
+          this.showSellerTrancheTable = false;
+          this.trancheSellerList = [];
+        }
+        return;
+      }
+      else if (container == '12') {
+        this.buyerObjInfo['disbursementAmount'] = null;
+        if (this.buyerObjInfo['trancheDisbursementFlag']) {
+          this.buyerObjInfo['trancheDisbursementFlag'] = false;
+          this.showBuyerTrancheTable = false;
+          this.trancheBuyerList = [];
+        }
+        return;
+      }
 
     }
   }
@@ -708,6 +826,8 @@ export class DisbursementFormComponent implements OnInit {
     this.dealerObjInfo['disbursementAmount'] = this.dealerObjInfo['disbursementAmount'] ? parseInt(this.dealerObjInfo['disbursementAmount']) : null;
     this.applicantObjInfo['disbursementAmount'] = this.applicantObjInfo['disbursementAmount'] ? parseInt(this.applicantObjInfo['disbursementAmount']) : null;
     this.bankerObjInfo['disbursementAmount'] = this.bankerObjInfo['disbursementAmount'] ? parseInt(this.bankerObjInfo['disbursementAmount']) : null;
+    this.sellerObjInfo['disbursementAmount'] = this.sellerObjInfo['disbursementAmount'] ? parseInt(this.sellerObjInfo['disbursementAmount']) : null;
+    this.buyerObjInfo['disbursementAmount'] = this.buyerObjInfo['disbursementAmount'] ? parseInt(this.buyerObjInfo['disbursementAmount']) : null;
     this.financierObjInfo['disbursementAmount'] = this.financierObjInfo['disbursementAmount'] ? parseInt(this.financierObjInfo['disbursementAmount']) : null;
     this.thirdPartyObjInfo['disbursementAmount'] = this.thirdPartyObjInfo['disbursementAmount'] ? parseInt(this.thirdPartyObjInfo['disbursementAmount']) : null;
     this.coApplicant1['disbursementAmount'] = this.coApplicant1['disbursementAmount'] ? parseInt(this.coApplicant1['disbursementAmount']) : null;
@@ -741,6 +861,10 @@ export class DisbursementFormComponent implements OnInit {
         trancheList[i].tranche_disbursement_amount = Math.round((this.coApplicant2['disbursementAmount'] / 100) * tranchePercentage);
       } else if (container == '10') {
         trancheList[i].tranche_disbursement_amount = Math.round((this.coApplicant3['disbursementAmount'] / 100) * tranchePercentage);
+      } else if (container == '11') {
+        trancheList[i].tranche_disbursement_amount = Math.round((this.sellerObjInfo['disbursementAmount'] / 100) * tranchePercentage);
+      } else if (container == '12') {
+        trancheList[i].tranche_disbursement_amount = Math.round((this.buyerObjInfo['disbursementAmount'] / 100) * tranchePercentage);
       }
 
     }
@@ -880,6 +1004,28 @@ export class DisbursementFormComponent implements OnInit {
             this.appDetailsForm.controls['beneficiaryBranch'].reset();
           }
         }
+        if(val == '18'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.sellerBankListData = response.ProcessVariables.bankList;
+            this.sellerkeyword = 'sellerBankListData';
+          } else {
+            this.sellerBankListData = [];
+            this.bankSellerDetailsData = [];
+            this.sellerDetailsForm.controls['ifscCode'].reset();
+            this.sellerDetailsForm.controls['beneficiaryBranch'].reset();
+          }
+        }
+        if(val == '20'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.buyerBankListData = response.ProcessVariables.bankList;
+            this.buyerkeyword = 'buyerBankListData';
+          } else {
+            this.buyerBankListData = [];
+            this.bankBuyerDetailsData = [];
+            this.buyerDetailsForm.controls['ifscCode'].reset();
+            this.buyerDetailsForm.controls['beneficiaryBranch'].reset();
+          }
+        }
         if(val == '3'){
           if(inputString.length >= 3 && response.ProcessVariables.bankList){
             this.coApp1BankListData = response.ProcessVariables.bankList;
@@ -973,7 +1119,7 @@ export class DisbursementFormComponent implements OnInit {
             this.bankAppFavBODDetailsData = [];
             this.appDetailsForm.controls['favouringBankBranch'].reset();
           }
-        }
+        }                 
         if(val == '12'){
           if(inputString.length >= 3 && response.ProcessVariables.bankList){
             this.coApp1favBODListData = response.ProcessVariables.bankList;
@@ -1033,7 +1179,27 @@ export class DisbursementFormComponent implements OnInit {
             this.bankTPFavBODDetailsData = [];
             this.thirdPartyDetailsForm.controls['favouringBankBranch'].reset();
           }
-        }
+        }  
+        if(val == '19'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.sellerfavBODListData = response.ProcessVariables.bankList;
+            this.sellerFavFavkeyword = 'sellerfavBODListData';
+          } else {
+            this.sellerfavBODListData = [];
+            this.bankSellerFavBODDetailsData = [];
+            this.sellerDetailsForm.controls['favouringBankBranch'].reset();
+          }
+        }   
+        if(val == '21'){
+          if(inputString.length >= 3 && response.ProcessVariables.bankList){
+            this.buyerfavBODListData = response.ProcessVariables.bankList;
+            this.buyerFavFavkeyword = 'buyerfavBODListData';
+          } else {
+            this.buyerfavBODListData = [];
+            this.bankBuyerFavBODDetailsData = [];
+            this.buyerDetailsForm.controls['favouringBankBranch'].reset();
+          }
+        }   
       }
     });
   }
@@ -1090,7 +1256,19 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(val == '17'){
           this.bankTPFavBODDetailsData = response.ProcessVariables.BankDetails;
-        }    
+        } 
+        if(val == '18') {
+          this.bankSellerDetailsData = response.ProcessVariables.BankDetails;
+        }   
+        if(val == '19') {
+          this.bankSellerFavBODDetailsData = response.ProcessVariables.BankDetails;
+        }
+        if(val == '20') {
+          this.bankBuyerDetailsData = response.ProcessVariables.BankDetails;
+        }   
+        if(val == '21') {
+          this.bankBuyerFavBODDetailsData = response.ProcessVariables.BankDetails;
+        }
       }
     });
   }
@@ -1105,6 +1283,16 @@ export class DisbursementFormComponent implements OnInit {
       this.appDetailsForm.patchValue({ ifscCode: appIFSCCode ? appIFSCCode : null });
       if(!appIFSCCode)
       this.applicantObjInfo['ifscCode'] = '';
+    } else if(val == 'seller'){
+      let sellerIFSCCode  = event ? this.bankSellerDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.sellerDetailsForm.patchValue({ ifscCode: sellerIFSCCode ? sellerIFSCCode : null });
+      if(!sellerIFSCCode)
+      this.sellerObjInfo['ifscCode'] = '';
+    } else if(val == 'buyer'){
+      let buyerIFSCCode  = event ? this.bankBuyerDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
+      this.buyerDetailsForm.patchValue({ ifscCode: buyerIFSCCode ? buyerIFSCCode : null });
+      if(!buyerIFSCCode)
+      this.buyerObjInfo['ifscCode'] = '';
     } else if(val == 'coApp1'){
       let coApp1IFSCCode  = event ? this.bankCoApp1DetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
       this.coApp1Form.patchValue({ ifscCode: coApp1IFSCCode ? coApp1IFSCCode : null });
@@ -1129,7 +1317,7 @@ export class DisbursementFormComponent implements OnInit {
     } else if(val == 'thirdParty'){
       let thirdPartyIFSCCode  = event ? this.bankTPDetailsData.find(({ externalBankCode }) => externalBankCode == event).ifscCode : '';
       this.thirdPartyDetailsForm.patchValue({ ifscCode: thirdPartyIFSCCode ? thirdPartyIFSCCode : null });
-    } 
+    }
   }
   getCoApplicantDetails(appID,val) {
     let ReqCoAppData = {
@@ -1289,6 +1477,26 @@ export class DisbursementFormComponent implements OnInit {
           this.appDetailsForm.get(key).reset();
           this.appDetailsForm.get(key).clearValidators();
           this.appDetailsForm.get(key).setErrors(null);
+        });
+      }
+    }
+    if (val == 'seller') {
+      this.showSellerIntDetails = false;
+      if (!this.showSellerIntDetails) {
+        this.intTypeformArray.forEach(key => {
+          this.sellerDetailsForm.get(key).reset();
+          this.sellerDetailsForm.get(key).clearValidators();
+          this.sellerDetailsForm.get(key).setErrors(null);
+        });
+      }
+    }
+    if (val == 'buyer') {
+      this.showBuyerIntDetails = false;
+      if (!this.showBuyerIntDetails) {
+        this.intTypeformArray.forEach(key => {
+          this.buyerDetailsForm.get(key).reset();
+          this.buyerDetailsForm.get(key).clearValidators();
+          this.buyerDetailsForm.get(key).setErrors(null);
         });
       }
     }
@@ -1486,6 +1694,112 @@ export class DisbursementFormComponent implements OnInit {
         }
       }
     }
+    if (val == 'seller') {
+      if(this.mopVal == '1MODEOFPAYMENT' || this.mopVal == '2MODEOFPAYMENT'){
+        this.bankSellerDetailsData = [];
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.showSellerBankDetails = false;
+          if (!this.showSellerBankDetails) {
+            this.bankcasaformArray.forEach(key => {
+              this.sellerDetailsForm.get(key).reset();
+            });
+            this.bankcasaformArray.forEach(key => {
+              this.sellerDetailsForm.get(key).clearValidators()
+              this.sellerDetailsForm.get(key).setErrors(null);
+            });
+          }
+        }else{
+          this.showSellerBankDetails = false;
+          this.showSellerCASADetails = false; 
+          if (!this.showSellerBankDetails) {
+            this.bankdetailsformArray.forEach(key => {
+              this.sellerDetailsForm.get(key).reset();
+            });
+            this.bankdetailsformArray.forEach(key => {
+              this.sellerDetailsForm.get(key).clearValidators()
+              this.sellerDetailsForm.get(key).setErrors(null);
+            });
+          }
+          this.setIntType(null, 'seller');
+          this.chequeDDformArray.forEach(key => {
+            this.sellerDetailsForm.get(key).setValidators([Validators.required])
+          });
+        }
+      }
+      
+      if(this.mopVal == '2MODEOFPAYMENT' || this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+        this.showSellerDDDetails = false;
+        if (!this.showSellerDDDetails) {
+          this.chequeDDformArray.forEach(key => {
+            this.sellerDetailsForm.get(key).reset();
+          });
+          this.chequeDDformArray.forEach(key => {
+            this.sellerDetailsForm.get(key).clearValidators();
+            this.sellerDetailsForm.get(key).setErrors(null);
+          });
+          this.setIntType(null, 'seller');
+        }
+        if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.sellerDetailsForm.get(key).setValidators([Validators.required])
+          });
+        }
+      }
+    }
+
+    if (val == 'buyer') {
+      if(this.mopVal == '1MODEOFPAYMENT' || this.mopVal == '2MODEOFPAYMENT'){
+        this.bankBuyerDetailsData = [];
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.showBuyerBankDetails = false;
+          if (!this.showBuyerBankDetails) {
+            this.bankcasaformArray.forEach(key => {
+              this.buyerDetailsForm.get(key).reset();
+            });
+            this.bankcasaformArray.forEach(key => {
+              this.buyerDetailsForm.get(key).clearValidators()
+              this.buyerDetailsForm.get(key).setErrors(null);
+            });
+          }
+        }else{
+          this.showBuyerBankDetails = false;
+          this.showBuyerCASADetails = false; 
+          if (!this.showBuyerBankDetails) {
+            this.bankdetailsformArray.forEach(key => {
+              this.buyerDetailsForm.get(key).reset();
+            });
+            this.bankdetailsformArray.forEach(key => {
+              this.buyerDetailsForm.get(key).clearValidators()
+              this.buyerDetailsForm.get(key).setErrors(null);
+            });
+          }
+          this.setIntType(null, 'buyer');
+          this.chequeDDformArray.forEach(key => {
+            this.buyerDetailsForm.get(key).setValidators([Validators.required])
+          });
+        }
+      }
+      
+      if(this.mopVal == '2MODEOFPAYMENT' || this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+        this.showBuyerDDDetails = false;
+        if (!this.showBuyerDDDetails) {
+          this.chequeDDformArray.forEach(key => {
+            this.buyerDetailsForm.get(key).reset();
+          });
+          this.chequeDDformArray.forEach(key => {
+            this.buyerDetailsForm.get(key).clearValidators();
+            this.buyerDetailsForm.get(key).setErrors(null);
+          });
+          this.setIntType(null, 'buyer');
+        }
+        if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
+          this.bankdetailsformArray.forEach(key => {
+            this.buyerDetailsForm.get(key).setValidators([Validators.required])
+          });
+        }
+      }
+    }
+
     if (val == 'banker') {
       if(this.mopVal == '1MODEOFPAYMENT' || this.mopVal == '2MODEOFPAYMENT'){
         this.bankBankerDetailsData = [];
@@ -1650,6 +1964,12 @@ export class DisbursementFormComponent implements OnInit {
       if (val == 'applicant') {
         this.showAppBankDetails = true;
       }
+      if (val == 'seller') {
+        this.showSellerBankDetails = true;
+      }
+      if (val == 'buyer') {
+        this.showBuyerBankDetails = true;
+      }
       if (val == 'banker') {
         this.showBankerBankDetails = true;
       }
@@ -1667,6 +1987,14 @@ export class DisbursementFormComponent implements OnInit {
       if (val == 'applicant') {
         this.showAppDDDetails = true;
         this.applicantObjInfo['instrumentType'] = '2INSTYPE';
+      }
+      if (val == 'seller') {
+        this.showSellerDDDetails = true;
+        this.sellerObjInfo['instrumentType'] = '2INSTYPE';
+      }
+      if (val == 'buyer') {
+        this.showBuyerDDDetails = true;
+        this.buyerObjInfo['instrumentType'] = '2INSTYPE';
       }
       if (val == 'banker') {
         this.showBankerDDDetails = true;
@@ -1686,6 +2014,12 @@ export class DisbursementFormComponent implements OnInit {
       }
       if (val == 'applicant') {
         this.showAppCASADetails = true;
+      }
+      if (val == 'seller') {
+        this.showSellerCASADetails = true;
+      }
+      if (val == 'buyer') {
+        this.showBuyerCASADetails = true;
       }
       if (val == 'banker') {
         this.showBankerCASADetails = true;
@@ -1887,6 +2221,8 @@ export class DisbursementFormComponent implements OnInit {
     // console.log(val,val.length)
     this.disburseToDealer = false;
     this.disburseToApp = false;
+    this.disburseToSeller = false;
+    this.disburseToBuyer = false;
     this.disburseToCoApp = false;
     this.disburseToBanker = false;
     this.disburseToFinancier = false;
@@ -1932,6 +2268,12 @@ export class DisbursementFormComponent implements OnInit {
             this.disburseToIBT = true;
             // this.getBasicIBTLov();
           }
+          if (val[j] == '9DISBURSETO') {            
+            this.disburseToSeller = true;
+          }
+          if (val[j] == '8DISBURSETO') {            
+            this.disburseToBuyer = true;
+          }
         }
 
       }
@@ -1973,6 +2315,42 @@ export class DisbursementFormComponent implements OnInit {
         this.appDetailsForm.get(key).setValidators([Validators.required]);
       });
     }
+    if (!this.disburseToSeller) {
+      this.sellerDetailsForm.reset();
+      this.showSellerTrancheTable = false;
+      this.showSellerBankDetails = false;
+      this.showSellerDDDetails = false;
+      this.showSellerCASADetails = false;
+      this.trancheSellerList = [];
+      this.commonFormArray.forEach(key => {
+        this.sellerDetailsForm.get(key).clearValidators();
+        this.sellerDetailsForm.get(key).setErrors(null);
+      });
+  
+    } else {
+      this.commonFormArray.forEach(key => {
+        this.sellerDetailsForm.get(key).setValidators([Validators.required]);
+      });
+    }
+
+    if (!this.disburseToBuyer) {
+      this.buyerDetailsForm.reset();
+      this.showBuyerTrancheTable = false;
+      this.showBuyerBankDetails = false;
+      this.showBuyerDDDetails = false;
+      this.showBuyerCASADetails = false;
+      this.trancheBuyerList = [];
+      this.commonFormArray.forEach(key => {
+        this.buyerDetailsForm.get(key).clearValidators();
+        this.buyerDetailsForm.get(key).setErrors(null);
+      });
+  
+    } else {
+      this.commonFormArray.forEach(key => {
+        this.buyerDetailsForm.get(key).setValidators([Validators.required]);
+      });
+    }
+
     if (!this.disburseToCoApp) {
       this.coAppDetailsForm.controls['coAppName'].reset();
       this.coAppDetailsForm.controls['coAppName'].clearValidators();
@@ -2203,7 +2581,33 @@ export class DisbursementFormComponent implements OnInit {
         });
       });
       this.trancheAppList.push(pushListObject);
-    } else if (container == '4' && val == true) {
+    } else if (container == '11' && val == true) {
+      this.showSellerTrancheTable = true;
+      this.trancheSellerForm = this.fb.group({
+        trancheSellerArray: this.fb.array([this.initTranche()]) // Validating the whole table Array(formArrayName)
+      });
+      (this.trancheSellerForm.get('trancheSellerArray') as FormArray).valueChanges.subscribe(() => {
+        (this.trancheSellerForm.get('trancheSellerArray') as FormArray).controls.forEach((formGroup) => {
+          if (formGroup['errors'] && formGroup['errors']['invalid']) {
+            return;
+          }
+        });
+      });
+      this.trancheSellerList.push(pushListObject);
+    }else if (container == '12' && val == true) {
+      this.showBuyerTrancheTable = true;
+      this.trancheBuyerForm = this.fb.group({
+        trancheBuyerArray: this.fb.array([this.initTranche()]) // Validating the whole table Array(formArrayName)
+      });
+      (this.trancheBuyerForm.get('trancheBuyerArray') as FormArray).valueChanges.subscribe(() => {
+        (this.trancheBuyerForm.get('trancheBuyerArray') as FormArray).controls.forEach((formGroup) => {
+          if (formGroup['errors'] && formGroup['errors']['invalid']) {
+            return;
+          }
+        });
+      });
+      this.trancheBuyerList.push(pushListObject);
+    }else if (container == '4' && val == true) {
       this.showBankerTrancheTable = true;
       this.trancheBankerForm = this.fb.group({
         trancheBankerArray: this.fb.array([this.initTranche()]) // Validating the whole table Array(formArrayName)
@@ -2288,7 +2692,13 @@ export class DisbursementFormComponent implements OnInit {
       } else if (container == '2') {
         this.showAppTrancheTable = false;
         this.trancheAppList = [];
-      } else if (container == '4') {
+      } else if (container == '11') {
+        this.showSellerTrancheTable = false;
+        this.trancheSellerList = [];
+      } else if (container == '12') {
+        this.showBuyerTrancheTable = false;
+        this.trancheBuyerList = [];
+      }else if (container == '4') {
         this.showBankerTrancheTable = false;
         this.trancheBankerList = [];
       } else if (container == '5') {
@@ -2314,6 +2724,8 @@ export class DisbursementFormComponent implements OnInit {
   selectCheckBox(flag, val) {
     this.dealerObjInfo['deductChargesFlag'] = false;
     this.applicantObjInfo['deductChargesFlag'] = false;
+    this.sellerObjInfo['deductChargesFlag'] = false;
+    this.buyerObjInfo['deductChargesFlag'] = false;
     this.coApplicant1['deductChargesFlag'] = false;
     this.coApplicant2['deductChargesFlag'] = false;
     this.coApplicant3['deductChargesFlag'] = false;
@@ -2341,6 +2753,10 @@ export class DisbursementFormComponent implements OnInit {
       this.coApplicant2['deductChargesFlag'] = true;
     } else if (val == 10 && flag) {
       this.coApplicant3['deductChargesFlag'] = true;
+    } else if (val == 11 && flag) {
+      this.sellerObjInfo['deductChargesFlag'] = true;
+    } else if (val == 12 && flag) {
+      this.buyerObjInfo['deductChargesFlag'] = true;
     }
   }
   initForm() {
@@ -2390,6 +2806,48 @@ export class DisbursementFormComponent implements OnInit {
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
 
+    })
+    this.sellerDetailsForm = this.fb.group({
+      beneficiaryName: new FormControl({ value: this.sellerObjInfo['beneficiaryName'] }, Validators.required),
+      beneficiaryAccountNo: new FormControl({ value: this.sellerObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryBank: new FormControl({ value: this.sellerObjInfo['beneficiaryBank'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.sellerObjInfo['ifscCode'],disabled:true }, Validators.required),
+      beneficiaryBranch: new FormControl({ value: this.sellerObjInfo['beneficiaryBranch'] }, Validators.required),
+      mobilePhone: new FormControl({ value: this.sellerObjInfo['mobilePhone']}, Validators.required),
+      instrumentType: new FormControl({ value: this.sellerObjInfo['instrumentType'] }, Validators.required),
+      instrumentNumber: new FormControl({ value: this.sellerObjInfo['instrumentNumber'] }, Validators.required),
+      instrumentDate: new FormControl('', Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.sellerObjInfo['favouringBankOfDraw'] }, Validators.required),
+      favouringBankBranch: new FormControl({ value: this.sellerObjInfo['favouringBankBranch'] }, Validators.required),
+      beneficiaryAddress1: new FormControl(''),
+      beneficiaryAddress2: new FormControl(''),
+      beneficiaryAddress3: new FormControl(''),
+      paymentMethod: new FormControl({ value: this.sellerObjInfo['paymentMethod'] }, Validators.required),
+      disbursementAmount: new FormControl({ value: this.sellerObjInfo['disbursementAmount'] }, Validators.required),
+      deductChargesFlag: new FormControl(''),
+      trancheDisbursementFlag: new FormControl(''),
+  
+    })
+    this.buyerDetailsForm = this.fb.group({
+      beneficiaryName: new FormControl({ value: this.buyerObjInfo['beneficiaryName'] }, Validators.required),
+      beneficiaryAccountNo: new FormControl({ value: this.buyerObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryBank: new FormControl({ value: this.buyerObjInfo['beneficiaryBank'] }, Validators.required),
+      ifscCode: new FormControl({ value: this.buyerObjInfo['ifscCode'],disabled:true }, Validators.required),
+      beneficiaryBranch: new FormControl({ value: this.buyerObjInfo['beneficiaryBranch'] }, Validators.required),
+      mobilePhone: new FormControl({ value: this.buyerObjInfo['mobilePhone']}, Validators.required),
+      instrumentType: new FormControl({ value: this.buyerObjInfo['instrumentType'] }, Validators.required),
+      instrumentNumber: new FormControl({ value: this.buyerObjInfo['instrumentNumber'] }, Validators.required),
+      instrumentDate: new FormControl('', Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.buyerObjInfo['favouringBankOfDraw'] }, Validators.required),
+      favouringBankBranch: new FormControl({ value: this.buyerObjInfo['favouringBankBranch'] }, Validators.required),
+      beneficiaryAddress1: new FormControl(''),
+      beneficiaryAddress2: new FormControl(''),
+      beneficiaryAddress3: new FormControl(''),
+      paymentMethod: new FormControl({ value: this.buyerObjInfo['paymentMethod'] }, Validators.required),
+      disbursementAmount: new FormControl({ value: this.buyerObjInfo['disbursementAmount'] }, Validators.required),
+      deductChargesFlag: new FormControl(''),
+      trancheDisbursementFlag: new FormControl(''),
+  
     })
     this.coAppDetailsForm = this.fb.group({
       coAppName: new FormControl({ value: this.coAppName }, Validators.required),
@@ -2549,6 +3007,8 @@ export class DisbursementFormComponent implements OnInit {
       this.disbursementDetailsForm.disable();
       this.dealerDetailsForm.disable();
       this.appDetailsForm.disable();
+      this.sellerDetailsForm.disable();
+      this.buyerDetailsForm.disable();
       this.coAppDetailsForm.disable();
       this.bankerDetailsForm.disable();
       this.financierDetailsForm.disable();
@@ -2643,6 +3103,78 @@ export class DisbursementFormComponent implements OnInit {
       deductChargesFlag: (this.applicantObjInfo['deductChargesFlag'] == true) ? 'Y' : 'N',
       trancheDisbursementFlag: (this.applicantObjInfo['trancheDisbursementFlag'] == true) ? 'Y' : 'N',
       trancheDisbursementJson: appFormValue.trancheDisbursementJson,
+      active: '1'
+    };
+
+    const sellerFormValue = this.sellerDetailsForm.getRawValue();
+    if (this.trancheSellerList.length != 0) {
+      sellerFormValue.trancheDisbursementJson = this.trancheSellerForm ? JSON.stringify(this.trancheSellerForm.value.trancheSellerArray) : '';
+    } else {
+      sellerFormValue.trancheDisbursementJson = "";
+    }
+    this.ReqSellerDetails = {
+      leadID: this.disbLeadId,
+      disbursementID: this.sellerDisbursementID ? this.sellerDisbursementID : null,
+      payableTo: '9DISBURSETO',
+      favouring: 'Applicant',
+      beneficiaryName: this.sellerObjInfo['beneficiaryName'],
+      applicantName: this.sellerObjInfo['beneficiaryName'],
+      favouringName: this.sellerObjInfo['beneficiaryName'],
+      beneficiaryAccountNo: this.sellerObjInfo['beneficiaryAccountNo'],
+      beneficiaryBank: this.sellerObjInfo['beneficiaryBank'],
+      ifscCode: this.sellerObjInfo['ifscCode'],
+      beneficiaryBranch: this.sellerObjInfo['beneficiaryBranch'],
+      mobilePhone: this.sellerObjInfo['mobilePhone'] ? '91' + this.sellerObjInfo['mobilePhone'] : '',
+      instrumentType: this.sellerObjInfo['instrumentType'],
+      instrumentNumber: this.sellerObjInfo['instrumentNumber'],
+      instrumentDate: sellerFormValue.instrumentDate ? this.utilityService.getDateFormat(sellerFormValue.instrumentDate) : '',
+      favouringBankOfDraw: this.sellerObjInfo['favouringBankOfDraw'],
+      favouringBankBranch: this.sellerObjInfo['favouringBankBranch'],
+      //loanNumber: this.sellerObjInfo['loanNumber'],
+      beneficiaryAddress1: this.sellerObjInfo['beneficiaryAddress1'],
+      beneficiaryAddress2: this.sellerObjInfo['beneficiaryAddress2'],
+      beneficiaryAddress3: this.sellerObjInfo['beneficiaryAddress3'],
+      paymentMethod: this.sellerObjInfo['paymentMethod'],
+      disbursementAmount: this.sellerObjInfo['disbursementAmount'],
+      deductChargesFlag: (this.sellerObjInfo['deductChargesFlag'] == true) ? 'Y' : 'N',
+      trancheDisbursementFlag: (this.sellerObjInfo['trancheDisbursementFlag'] == true) ? 'Y' : 'N',
+      trancheDisbursementJson: sellerFormValue.trancheDisbursementJson,
+      active: '1'
+    };
+
+    const buyerFormValue = this.buyerDetailsForm.getRawValue();
+    if (this.trancheBuyerList.length != 0) {
+      buyerFormValue.trancheDisbursementJson = this.trancheBuyerForm ? JSON.stringify(this.trancheBuyerForm.value.trancheBuyerArray) : '';
+    } else {
+      buyerFormValue.trancheDisbursementJson = "";
+    }
+    this.ReqBuyerDetails = {
+      leadID: this.disbLeadId,
+      disbursementID: this.buyerDisbursementID ? this.buyerDisbursementID : null,
+      payableTo: '8DISBURSETO',
+      favouring: 'Applicant',
+      beneficiaryName: this.buyerObjInfo['beneficiaryName'],
+      applicantName: this.buyerObjInfo['beneficiaryName'],
+      favouringName: this.buyerObjInfo['beneficiaryName'],
+      beneficiaryAccountNo: this.buyerObjInfo['beneficiaryAccountNo'],
+      beneficiaryBank: this.buyerObjInfo['beneficiaryBank'],
+      ifscCode: this.buyerObjInfo['ifscCode'],
+      beneficiaryBranch: this.buyerObjInfo['beneficiaryBranch'],
+      mobilePhone: this.buyerObjInfo['mobilePhone'] ? '91' + this.buyerObjInfo['mobilePhone'] : '',
+      instrumentType: this.buyerObjInfo['instrumentType'],
+      instrumentNumber: this.buyerObjInfo['instrumentNumber'],
+      instrumentDate: buyerFormValue.instrumentDate ? this.utilityService.getDateFormat(buyerFormValue.instrumentDate) : '',
+      favouringBankOfDraw: this.buyerObjInfo['favouringBankOfDraw'],
+      favouringBankBranch: this.buyerObjInfo['favouringBankBranch'],
+      //loanNumber: this.buyerObjInfo['loanNumber'],
+      beneficiaryAddress1: this.buyerObjInfo['beneficiaryAddress1'],
+      beneficiaryAddress2: this.buyerObjInfo['beneficiaryAddress2'],
+      beneficiaryAddress3: this.buyerObjInfo['beneficiaryAddress3'],
+      paymentMethod: this.buyerObjInfo['paymentMethod'],
+      disbursementAmount: this.buyerObjInfo['disbursementAmount'],
+      deductChargesFlag: (this.buyerObjInfo['deductChargesFlag'] == true) ? 'Y' : 'N',
+      trancheDisbursementFlag: (this.buyerObjInfo['trancheDisbursementFlag'] == true) ? 'Y' : 'N',
+      trancheDisbursementJson: buyerFormValue.trancheDisbursementJson,
       active: '1'
     };
 
@@ -2861,6 +3393,8 @@ export class DisbursementFormComponent implements OnInit {
       'UserID': this.disuserID,
       'DealerDetails': this.disburseToDealer ? this.ReqDealerDetails : null,
       'ApplicantDetails': this.disburseToApp ? this.ReqApplicantDetails : null,
+      'SellerDetails': this.disburseToSeller ? this.ReqSellerDetails : null,
+      'BuyerDetails': this.disburseToBuyer ? this.ReqBuyerDetails : null,
       'CoApplicantDetails': this.disburseToCoApp ? this.ReqCoAppDetailsArray : null,
       'BankerDetails': this.disburseToBanker ? this.ReqBankerDetails : null,
       'FinancierDetails': this.disburseToFinancier ? this.ReqFinancierDetails : null,
@@ -2871,8 +3405,9 @@ export class DisbursementFormComponent implements OnInit {
     if (this.disburseTo.length != 0) {
       if (this.dealerObjInfo['deductChargesFlag'] || this.applicantObjInfo['deductChargesFlag'] || this.coApplicant1['deductChargesFlag'] ||
         this.coApplicant2['deductChargesFlag'] || this.coApplicant3['deductChargesFlag'] || this.bankerObjInfo['deductChargesFlag']
-        || this.financierObjInfo['deductChargesFlag'] || this.thirdPartyObjInfo['deductChargesFlag'] || this.internalBTObjInfo['deductChargesFlag']) {// deduct charges related
-        if (this.dealerDetailsForm.valid === true && this.appDetailsForm.valid === true &&
+        || this.financierObjInfo['deductChargesFlag'] || this.thirdPartyObjInfo['deductChargesFlag'] || this.internalBTObjInfo['deductChargesFlag']
+        || this.sellerObjInfo['deductChargesFlag'] || this.buyerObjInfo['deductChargesFlag']) {// deduct charges related
+        if (this.dealerDetailsForm.valid === true && this.appDetailsForm.valid === true && this.sellerDetailsForm.valid && this.buyerDetailsForm.valid &&
           this.coApp1Form.valid === true && this.coApp2Form.valid === true && this.coApp3Form.valid === true &&
           this.bankerDetailsForm.valid === true && this.financierDetailsForm.valid === true && this.thirdPartyDetailsForm.valid === true) { // all containers check
           let trancheFlag = true;
@@ -2892,6 +3427,19 @@ export class DisbursementFormComponent implements OnInit {
               // return;
             }
           }
+
+          if (this.sellerObjInfo['trancheDisbursementFlag'] && trancheFlag) {
+            if (!this.trancheSellerForm.valid) {
+              trancheFlag = false
+            }
+          }
+
+          if (this.buyerObjInfo['trancheDisbursementFlag'] && trancheFlag) {
+            if (!this.trancheBuyerForm.valid) {
+              trancheFlag = false
+            }
+          }
+
           if (this.coApplicant1['trancheDisbursementFlag'] && trancheFlag) {
             //console.log('tranche',this.trancheCoApp1Form.valid)
             if (!this.trancheCoApp1Form.valid) {
@@ -2953,8 +3501,11 @@ export class DisbursementFormComponent implements OnInit {
           let g = this.coApplicant1['disbursementAmount'] ? parseInt(this.coApplicant1['disbursementAmount']) : 0;
           let h = this.coApplicant2['disbursementAmount'] ? parseInt(this.coApplicant2['disbursementAmount']) : 0;
           let i = this.coApplicant3['disbursementAmount'] ? parseInt(this.coApplicant3['disbursementAmount']) : 0;
+          let j = this.sellerObjInfo['disbursementAmount'] ? parseInt(this.sellerObjInfo['disbursementAmount']) : 0;
+          let k = this.buyerObjInfo['disbursementAmount'] ? parseInt(this.buyerObjInfo['disbursementAmount']) : 0;
+
           
-          this.cumulativeAmount = a + b + d + e + f + g + h + i;
+          this.cumulativeAmount = a + b + d + e + f + g + h + i + j + k;
           if (this.totalDisbursementAmount > this.cumulativeAmount ) {
             this.toasterService.showError('Total Disbursement Amount should be equal to Approved Loan Amount', '');
             return;
@@ -3091,6 +3642,84 @@ export class DisbursementFormComponent implements OnInit {
             this.trancheAppList = JSON.parse(this.disbursementDetailsData.ApplicantDetails['trancheDisbursementJson']);
             this.trancheAppList.forEach(() => {
               this.appTrancheDetail.push(this.initTranche());
+            });
+          }
+        }
+
+        if (this.disbursementDetailsData.SellerDetails) {
+          this.sellerObjInfo = this.disbursementDetailsData.SellerDetails;
+          this.sellerDisbursementID = this.sellerObjInfo['disbursementID'];
+          this.sellerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.SellerDetails.trancheDisbursementFlag == 'Y') ? true : false;
+          this.sellerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.SellerDetails.deductChargesFlag == 'Y') ? true : false;
+          this.sellerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.SellerDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.SellerDetails.disbursementAmount) : null;
+      
+          this.sellerObjInfo['paymentMethod'] = this.disbursementDetailsData.SellerDetails.paymentMethod;
+          if (this.sellerObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.sellerObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
+            this.showSellerBankDetails = true;
+            this.selectBankNameEvent(this.sellerObjInfo['beneficiaryBank'],'18')
+          } else if (this.sellerObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
+            this.showSellerDDDetails = true;
+            this.selectBankNameEvent(this.sellerObjInfo['favouringBankOfDraw'],'19')
+          } else if (this.sellerObjInfo['paymentMethod'] == '2MODEOFPAYMENT') {
+            this.showSellerCASADetails = true;
+          }
+          if (this.sellerObjInfo['instrumentType'] == '1INSTYPE') {
+            this.setIntType(this.sellerObjInfo['instrumentType'], 'seller');
+          }
+          if (this.sellerObjInfo['instrumentDate']) {
+            this.sellerDetailsForm.patchValue({ instrumentDate: (this.sellerObjInfo['instrumentDate']) ? new Date(this.utilityService.getDateFromString(this.sellerObjInfo['instrumentDate'])) : '' });
+          } else {
+            this.sellerDetailsForm.controls['instrumentDate'].clearValidators();
+            this.sellerDetailsForm.controls['instrumentDate'].setErrors(null);
+          }
+          this.sellerObjInfo['mobilePhone'] = this.disbursementDetailsData.SellerDetails.mobilePhone ? this.disbursementDetailsData.SellerDetails.mobilePhone.slice(2) : '';
+          if (this.sellerObjInfo['trancheDisbursementFlag']) {
+            this.selectTranche(this.sellerObjInfo['trancheDisbursementFlag'], 11, true);
+            let formArray = <FormArray>this.trancheSellerForm.get('trancheSellerArray');
+            formArray.clear();
+            this.trancheSellerList = [];
+            this.trancheSellerList = JSON.parse(this.disbursementDetailsData.SellerDetails['trancheDisbursementJson']);
+            this.trancheSellerList.forEach(() => {
+              this.sellerTrancheDetail.push(this.initTranche());
+            });
+          }
+        }
+
+        if (this.disbursementDetailsData.BuyerDetails) {
+          this.buyerObjInfo = this.disbursementDetailsData.BuyerDetails;
+          this.buyerDisbursementID = this.buyerObjInfo['disbursementID'];
+          this.buyerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.BuyerDetails.trancheDisbursementFlag == 'Y') ? true : false;
+          this.buyerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.BuyerDetails.deductChargesFlag == 'Y') ? true : false;
+          this.buyerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.BuyerDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.BuyerDetails.disbursementAmount) : null;
+      
+          this.buyerObjInfo['paymentMethod'] = this.disbursementDetailsData.BuyerDetails.paymentMethod;
+          if (this.buyerObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.buyerObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
+            this.showBuyerBankDetails = true;
+            this.selectBankNameEvent(this.buyerObjInfo['beneficiaryBank'],'20')
+          } else if (this.buyerObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
+            this.showBuyerDDDetails = true;
+            this.selectBankNameEvent(this.buyerObjInfo['favouringBankOfDraw'],'21')
+          } else if (this.buyerObjInfo['paymentMethod'] == '2MODEOFPAYMENT') {
+            this.showBuyerCASADetails = true;
+          }
+          if (this.buyerObjInfo['instrumentType'] == '1INSTYPE') {
+            this.setIntType(this.buyerObjInfo['instrumentType'], 'buyer');
+          }
+          if (this.buyerObjInfo['instrumentDate']) {
+            this.buyerDetailsForm.patchValue({ instrumentDate: (this.buyerObjInfo['instrumentDate']) ? new Date(this.utilityService.getDateFromString(this.buyerObjInfo['instrumentDate'])) : '' });
+          } else {
+            this.buyerDetailsForm.controls['instrumentDate'].clearValidators();
+            this.buyerDetailsForm.controls['instrumentDate'].setErrors(null);
+          }
+          this.buyerObjInfo['mobilePhone'] = this.disbursementDetailsData.BuyerDetails.mobilePhone ? this.disbursementDetailsData.BuyerDetails.mobilePhone.slice(2) : '';
+          if (this.buyerObjInfo['trancheDisbursementFlag']) {
+            this.selectTranche(this.buyerObjInfo['trancheDisbursementFlag'], 12, true);
+            let formArray = <FormArray>this.trancheBuyerForm.get('trancheBuyerArray');
+            formArray.clear();
+            this.trancheBuyerList = [];
+            this.trancheBuyerList = JSON.parse(this.disbursementDetailsData.BuyerDetails['trancheDisbursementJson']);
+            this.trancheBuyerList.forEach(() => {
+              this.buyerTrancheDetail.push(this.initTranche());
             });
           }
         }
