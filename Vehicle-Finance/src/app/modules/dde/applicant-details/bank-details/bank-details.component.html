@@ -9,23 +9,27 @@
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_holder_name">{{labels?.accountHolderName}}</label>
+          <label for="account_holder_name">{{labels?.accountHolderName}} <sub
+            class="star_red_col">*</sub></label>
           <!-- <input formControlName="accountHolderName" type="text" class="form-control"
                      name="account_holder_name" id="account_holder_name" required="required" appLettersOnly> -->
           <app-custom-input formControlName="accountHolderName" [patternCheck]="namePattern"
             [maxLength]="labels?.validationData?.name?.maxLength" [type]="labels?.validationData?.name?.type"
-            [isRequired]="'Account Holdername is required '" [isDirty]="isDirty"></app-custom-input>
+            [isRequired]="'Account Holder name is required '" [isDirty]="isDirty"></app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="bank_name">{{labels?.bankName}}</label>
+          <label for="bank_name">{{labels?.bankName}}<sub
+            class="star_red_col">*</sub></label>
           <app-vf-custom-select formControlName="bankId" [values]="lovData?.bankMaster"
-            [isRequired]="'Please Select Bank Name'"></app-vf-custom-select>
+            [isRequired]="'Please Select Bank Name'"
+            [isDirty]="isDirty"></app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_number">{{labels?.accountBranchname}}</label>
+          <label for="account_number">{{labels?.accountBranchname}} <sub
+            class="star_red_col">*</sub></label>
 
           <app-custom-input formControlName="accountBranch" [maxLength]="labels?.validationData?.branchName?.maxLength"
-            [isRequired]="'Account Branch is required'" [isDirty]="isDirty" [inputClass]="'input-upper'">
+            [isRequired]="'Account Branch name is required'" [isDirty]="isDirty" [inputClass]="'input-upper'">
           </app-custom-input>
           <!-- [type]="labels?.validationData?.branchName?.type" -->
           <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
@@ -33,7 +37,8 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_number">{{labels?.accountNo}}</label>
+          <label for="account_number">{{labels?.accountNo}} <sub
+            class="star_red_col">*</sub></label>
 
           <app-custom-input formControlName="accountNumber"
             [maxLength]="labels?.validationData?.accountNumber?.maxLength"
@@ -42,9 +47,11 @@
           <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_type">{{labels?.accountType}}</label>
+          <label for="account_type">{{labels?.accountType}} <sub
+            class="star_red_col">*</sub></label>
 
           <app-vf-custom-select formControlName="accountType" [values]="lovData?.bankAccountType"
+          [isDirty]="isDirty"
             [isRequired]="'Please Select Account Type'"></app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLimitRequire">
@@ -61,38 +68,34 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="from_date">{{labels?.fromDate}}</label>
-          <div class="form-group date">
-            <div class="input-group date" id="datetimepicker1">
-              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-              </span>
-              <!-- <input formControlName="fromDate" date-format= 'dd/MM/yyyy' type="date" class="form-control "   
-                      (input)= "getMonths()" > -->
+          <label for="from_date">{{labels?.fromDate}} <sub
+            class="star_red_col">*</sub></label>        
               <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'"
                 placeholder="Select Start Month" [activeView]="'decade'" (valueChange)="getMonths()"
                 [max]="todayDateNew"></kendo-datepicker>
+            
+            <div class="invalid-feedback">
+              <span  *ngIf="bankForm.get('fromDate').value && bankForm.get('fromDate').invalid">
+                Invalid Date </span>
+                <span  *ngIf="isDirty && !bankForm.get('fromDate').value">
+                  Select Date </span>
             </div>
-            <span class="invalid-feedback" *ngIf="isToDate">
-              Invalid Date </span>
-          </div>
         </div>
         <div [ngClass]="{'disablField': !f.fromDate.value}" class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="to_date">{{labels?.toDate}}</label>
-          <div class="form-group date">
-            <div class="input-group date" id="datetimepicker1">
-              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar fa fa-calendar"></span>
-              </span>
-              <!-- <input  formControlName="toDate"    type="date" 
-                        class="form-control date datepicker" 
-                         disabled>
-                   </div> -->
-              <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-                [min]="bankForm.get('fromDate').value" placeholder="Select Latest Month" [activeView]="'decade'"
+            <label for="to_date">{{labels?.toDate}} <sub
+              class="star_red_col">*</sub></label>
+             <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                [min]="bankForm.get('fromDate').valid ? bankForm.get('fromDate').value : ''" placeholder="Select Latest Month" [activeView]="'decade'"
                 (valueChange)="setToDateMax()"></kendo-datepicker>
+            <div class="invalid-feedback">
+              <span  *ngIf="bankForm.get('toDate').value && bankForm.get('toDate').invalid">
+                Invalid Date </span>
+                <span  *ngIf="isDirty &&  !bankForm.get('toDate').value ">
+                  Select Date </span>
+
             </div>
-            <span class="invalid-feedback" *ngIf="isToDate && f.toDate.value">
-              Invalid Date </span>
-          </div>
+            
+          
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="period">{{labels?.period}}</label>
@@ -104,7 +107,8 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="limit">{{labels?.micrNo}}</label>
+          <label for="limit">{{labels?.micrNo}}<sub
+            class="star_red_col">*</sub></label>
           <app-custom-input formControlName="micrNumber" [patternCheck]="labels?.validationData?.micrFormat?.pattern"
             [maxLength]="labels?.validationData?.micrFormat?.maxLength"
             [type]="labels?.validationData?.micrFormat?.type" [isRequired]="'MICR No is required'"

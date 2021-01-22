@@ -452,26 +452,11 @@ export class BankDetailsComponent implements OnInit {
     const toDate = this.bankForm.value.toDate
       ? this.bankForm.value.toDate
       : new Date();
-    // this.todayDateNew = toDate;
-    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
-      this.isToDate = true;
-    } else {
-      this.isToDate = false
-    }
+    // this.todayDateNew = toDate; 
     this.getMonths();
   }
 
   async getMonths() {
-    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
-      this.isToDate = true;
-    } else {
-      this.isToDate = false
-    }
-    if(this.todayDateNew > this.toDayDate) {
-      this.isToDate = true;
-    } else {
-      this.isToDate = false
-    }
     const tempArray: Array<any> = this.listArray.value;
     console.log('temp array', tempArray);
     // setTimeout(() => {

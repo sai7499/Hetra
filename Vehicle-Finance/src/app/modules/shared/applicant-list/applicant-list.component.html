@@ -486,10 +486,10 @@
                               let dedupeMatchedCriteria of dedupeMatchedCriteria;                  
                               let i = index
                             ">
-                            <td class="text-left" [attr.data-label]="labels?.name">{{dedupeMatchedCriteria?.firstName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.name">{{dedupeMatchedCriteria?.fullName}</td>
                             <td [attr.data-label]="labels?.dob">{{dedupeMatchedCriteria?.dob}}</td>
                             <td class="text-left" [attr.data-label]="labels?.maidenName">{{dedupeMatchedCriteria?.motherMaidenName}}</td>
-                            <td [attr.data-label]="labels?.mobileNumber">{{dedupeMatchedCriteria?.mobilePhone}}</td>
+                            <td [attr.data-label]="labels?.mobileNumber">{{dedupeMatchedCriteria?.mobile}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{dedupeMatchedCriteria?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{dedupeMatchedCriteria?.aadhar}}</td>
                             <td [attr.data-label]="labels?.passportNumber">{{dedupeMatchedCriteria?.passport}}</td>
@@ -531,11 +531,11 @@
                               let i = index
                             ">
                             <td [attr.data-label]="labels?.ucicId">{{exactitem?.ucic}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.firstName">{{exactitem?.firstName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.firstName">{{exactitem?.fullName}</td>
                             <td class="text-left" [attr.data-label]="labels?.matchedCriteria">{{exactitem?.matchedCriteria}}</td>
                             <td [attr.data-label]="labels?.dob">{{exactitem?.dob}}</td>
                             <td class="text-left" [attr.data-label]="labels?.maidenName">{{exactitem?.motherMaidenName}}</td>
-                            <td [attr.data-label]="labels?.mobileNumber">{{exactitem?.mobilePhone}}</td>
+                            <td [attr.data-label]="labels?.mobileNumber">{{exactitem?.mobile}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{exactitem?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{exactitem?.aadhar}}</td>
                           </tr>
@@ -578,11 +578,11 @@
                               let i = index
                             ">
                             <td [attr.data-label]="labels?.ucicId">{{probableitem?.ucic}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.firstName">{{probableitem?.firstName}}</td>
-                            <td class="text-left" [attr.data-label]="labels?.matchedCriteria">{{probableitem?.motherMaidenName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.firstName">{{probableitem?.fullName}}</td>
+                            <td class="text-left" [attr.data-label]="labels?.matchedCriteria">{{probableitem?.matchedCriteria }}</td>
                             <td [attr.data-label]="labels?.dob">{{probableitem?.dob}}</td>
                             <td class="text-left" [attr.data-label]="labels?.maidenName">{{probableitem?.motherMaidenName}}</td>
-                            <td [attr.data-label]="labels?.mobileNumber">{{probableitem?.mobilePhone}}</td>
+                            <td [attr.data-label]="labels?.mobileNumber">{{probableitem?.mobile}}</td>
                             <td [attr.data-label]="labels?.pannumber">{{probableitem?.pan}}</td>
                             <td [attr.data-label]="labels?.aadharnumber">{{probableitem?.aadhar}}</td>
                             <td [attr.data-label]="labels?.passportNumber">{{probableitem?.passport}}</td>
