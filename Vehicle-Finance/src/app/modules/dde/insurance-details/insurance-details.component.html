@@ -370,7 +370,7 @@
             <!-- Nominee Address Ends -->
 
             <!-- Guardian Details Starts -->
-            <div class="row" *ngIf="isShowGuardian">
+            <div class="row" *ngIf="isShowGuardian && creditShieldRequired">
                 <div class="col-lg-12">
                     <h5 class="banner-sub">{{labels?.guardianDetails}}</h5>
                 </div>
@@ -478,7 +478,7 @@
             <!-- Guardian Details Ends -->
 
             <!-- Gurdian Address Starts -->
-            <div class="row" *ngIf="isShowGuardian">
+            <div class="row" *ngIf="isShowGuardian && creditShieldRequired">
                 <div class="col-lg-12">
                     <h5 class="sub-head">{{labels?.guardianAddress}}</h5>
                 </div>
