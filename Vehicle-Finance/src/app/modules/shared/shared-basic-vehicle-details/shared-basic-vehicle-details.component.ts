@@ -13,7 +13,7 @@ import { ToasterService } from '@services/toaster.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
 import { environment } from 'src/environments/environment';
@@ -107,6 +107,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   isApiValue: any;
   isFormValue: any;
+  vehicleArray: any = [];
 
   @Input() udfScreenId: any;
   @Input() udfGroupId: any;
@@ -124,16 +125,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   editedUDFValues: any;
   isFinalValue: any;
 
+  leadSectionData: any;
+
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
     private commonLovService: CommomLovService, private utilityService: UtilityService,
-    private vehicleDetailService: VehicleDetailService, private activedRoute: ActivatedRoute,
+    private vehicleDetailService: VehicleDetailService, private vehicleDetailsService: VehicleDetailService,
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService,
     private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService,
-    private router: Router,
+    private router: Router, private vehicleDataStoreService: VehicleDataStoreService,
     private applicantDataStoreService: ApplicantDataStoreService,
     private creditService: CreditScoreService,
     private objectComparisonService: ObjectComparisonService,
@@ -162,7 +165,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleFormArray: this._fb.array([])
     })
 
-
     this.labelsData.getLabelsData()
       .subscribe(data => {
         this.label = data;
@@ -180,32 +182,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.userId = roleAndUserDetails.userDetails.userId;
-    let leadData = this.createLeadDataService.getLeadSectionData();
 
-    this.applicantDetails = leadData['applicantDetails']
-    this.leadDetails = leadData['leadDetails']
-    this.leadId = leadData['leadId'];
-    this.productCatoryCode = this.leadDetails['productCatCode'];
-    this.loanTenor = this.leadDetails['reqTenure'];
-    this.assetProdutName = this.leadDetails['assetProdutName'];
-
-    this.assetProductCode = this.leadDetails['assetProductCode'];
-    this.reqLoanAmt = this.leadDetails['reqLoanAmt'];
-    this.isChildLoan = this.leadDetails['isChildLoan'] ? this.leadDetails['isChildLoan'] === '1' ? true : false : false;
-    let ProductType = {}
-
-    this.labelsData.getChildLoanConditionData().subscribe((child: any) => {
-
-      this.loanTypeArray = child.childLoan.isLoanType;
-
-      if (this.isChildLoan) {
-        ProductType = this.loanTypeArray.find((res: any) => res.key === this.assetProductCode)
-        if (ProductType) {
-          this.Product = ProductType['value'];
-          this.childLoanCondition = child.childLoan.isRequired[this.Product];
-        }
-      }
-    })
+    this.getLeadSectionData();
 
     this.initForms();
     this.getLov();
@@ -230,6 +208,36 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt
   }
 
+  async getLeadSectionData() {
+
+    this.leadSectionData = this.createLeadDataService.getLeadSectionData();
+
+    this.applicantDetails = this.leadSectionData['applicantDetails']
+    this.leadDetails = this.leadSectionData['leadDetails']
+    this.leadId = this.leadSectionData['leadId'];
+    this.productCatoryCode = this.leadDetails['productCatCode'];
+    this.loanTenor = this.leadDetails['reqTenure'];
+    this.assetProdutName = this.leadDetails['assetProdutName'];
+
+    this.assetProductCode = this.leadDetails['assetProductCode'];
+    this.reqLoanAmt = this.leadDetails['reqLoanAmt'];
+    this.isChildLoan = this.leadDetails['isChildLoan'] ? this.leadDetails['isChildLoan'] === '1' ? true : false : false;
+    let ProductType = {}
+
+    this.labelsData.getChildLoanConditionData().subscribe((child: any) => {
+
+      this.loanTypeArray = child.childLoan.isLoanType;
+
+      if (this.isChildLoan) {
+        ProductType = this.loanTypeArray.find((res: any) => res.key === this.assetProductCode)
+        if (ProductType) {
+          this.Product = ProductType['value'];
+          this.childLoanCondition = child.childLoan.isRequired[this.Product];
+        }
+      }
+    })
+  }
+
   onGetMarginAmount(value, form) {
     if (this.reqLoanAmt) {
       let marginAmount = Number(value) - Number(this.reqLoanAmt)
@@ -242,12 +250,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onSaveuserDefinedFields(value) {
     //this.sharedService.getUserDefinedFields(event)
     this.userDefineForm = value;
-    console.log('identifyValue', value)
     if (value.event === 'init') {
       this.initUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     }
   }
-
 
   validateCustomPattern() {
     const regPatternData = [
@@ -411,6 +417,23 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           value: "NO"
         }
       ]
+    });
+    this.getVehicleDetails(this.leadId)
+  }
+
+  getVehicleDetails(id: number) {
+    this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        if (res.ProcessVariables.vehicleDetails && res.ProcessVariables.vehicleDetails.length > 0) {
+          this.vehicleArray = res.ProcessVariables.vehicleDetails;
+          this.id =  res.ProcessVariables.vehicleDetails[0].collateralId
+        }
+        this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails);
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Delete Vehicle Details')
+      }
+    }, error => {
+      console.log(error, 'error');
     });
   }
 
@@ -650,10 +673,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
 
     this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
-
-    console.log(this.basicVehicleForm, '')
-
-    //this.isApiValue = formArray.getRawValue();
   }
 
   onVehicleRegion(value: any, obj) {
@@ -1553,6 +1572,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
             this.initUDFValues = this.userDefineForm.udfData.getRawValue();
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
+            this.getVehicleDetails(this.leadId);
             //this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-list']);
           } else {
             this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Details')
@@ -1652,6 +1672,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
   }
 
+  onUrlOfNext() {
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      this.router.navigate([`pages/sales/${this.leadId}/reference`]);
+    } else if (currentUrl.includes('dde')) {
+      this.router.navigate([`pages/dde/${this.leadId}/additional-collateral-list`]);
+    } else {
+      this.onCredit()
+    }
+  }
+
   onNext() {
     const currentUrl = this.location.path();
     this.finalValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
@@ -1659,14 +1690,17 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const isValueCheck = this.objectComparisonService.compare(this.isApiValue, this.finalValue);
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
 
+    if (this.loanViewService.checkIsLoan360() || this.toggleDdeService.getOperationType()) {
+      this.onUrlOfNext();
+      return;
+    }
+
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     if (this.basicVehicleForm.invalid || isUDFInvalid) {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    console.log('this.isApiValue', this.isApiValue)
-    console.log('this.finalValue', this.finalValue)
-    console.log('obj', this.objectComparisonService.compare(this.isApiValue, this.finalValue))
+
     if (!isValueCheck || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
@@ -1689,8 +1723,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
         }
       }
-      this.router.navigate([`pages/sales/${this.leadId}/reference`]);
 
+      this.onUrlOfNext();
 
     } else if (currentUrl.includes('dde')) {
       const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
