@@ -675,7 +675,7 @@ export class LeadCreationComponent implements OnInit {
   onIndividual() {
     this.createLeadForm.controls['nameThree'].setValidators(Validators.required);
     this.createLeadForm.controls['nameThree'].updateValueAndValidity();
-    this.namePattern = 'alpha';
+    this.namePattern = 'alpha-nospace';
     this.nameFirstErrorMessage = 'First Name is mandatory';
     this.nameLastErrorMessage = 'Last Name is mandatory';
     this.firstPlaceholder = 'First Name';

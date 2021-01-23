@@ -138,7 +138,7 @@ export class ReferenceComponent implements OnInit {
     this.refTwofirstName = '';
     this.refTwomiddleName = '';
     this.refTwolastName = '';
-    this.namePattern = 'alpha';
+    this.namePattern = 'alpha-nospace';
 
     this.mobileOneErrorMsg = 'Mobile No. required';
     this.mobileTwoErrorMsg = 'Mobile No. required';

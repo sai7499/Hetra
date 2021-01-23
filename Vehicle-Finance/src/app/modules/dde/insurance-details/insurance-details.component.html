@@ -197,7 +197,7 @@
                         <app-custom-input id="needForProposedVehicle" formControlName="nomineeFirstName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter nominee first name'"
                             [maxLength]="labels?.validationData?.name?.maxLength"
-                            [isRequired]="'Please enter nominee first name'" [type]="labels?.validationData.name?.type"
+                            [isRequired]="'Please enter nominee first name'" [type]="labels?.validationData.nameWithoutSpace?.type"
                             [isDirty]="isDirty" (keyup)="concatNomineeName()">
                         </app-custom-input>
                     </div>
@@ -206,7 +206,7 @@
                         <app-custom-input id="routeOfOperation" formControlName="nomineeMiddleName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter nominee middle name'"
                             [maxLength]="labels?.validationData?.name?.maxLength"
-                            [type]="labels?.validationData.name?.type" (keyup)="concatNomineeName()">
+                            [type]="labels?.validationData.nameWithoutSpace?.type" (keyup)="concatNomineeName()">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -215,7 +215,7 @@
                         <app-custom-input id="contractDetails" formControlName="nomineeLastName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter nominee last name'"
                             [maxLength]="labels?.validationData?.name?.maxLength"
-                            [isRequired]="'Please enter nominee last name'" [type]="labels?.validationData.name?.type"
+                            [isRequired]="'Please enter nominee last name'" [type]="labels?.validationData.nameWithoutSpace?.type"
                             [isDirty]="isDirty" (keyup)="concatNomineeName()">
 
                         </app-custom-input>
@@ -381,7 +381,7 @@
                         <app-custom-input id="guardianFirstName" formControlName="guardianFirstName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter guardian first name'"
                             [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
-                            [type]="labels?.validationData?.insuranceDetails?.type" (keyup)="concatguardianName()">
+                            [type]="labels?.validationData?.nameWithoutSpace?.type" (keyup)="concatguardianName()">
                         </app-custom-input>
                         <div class="invalid-feedback" *ngIf=" isGuardian && f.controls.guardianFirstName.invalid">
                             <p> Please enter guardian first name </p>
@@ -392,7 +392,7 @@
                         <app-custom-input id="routeOfOperation" formControlName="guardianMiddleName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter guardian middle name'"
                             [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
-                            [type]="labels?.validationData?.insuranceDetails?.type" [patternCheck]=""
+                            [type]="labels?.validationData?.nameWithoutSpace?.type" [patternCheck]=""
                             (keyup)="concatguardianName()">
                         </app-custom-input>
                     </div>
@@ -402,7 +402,7 @@
                         <app-custom-input id="guardianLastName" formControlName="guardianLastName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter guardian last name'"
                             [maxLength]="labels?.validationData?.insuranceDetails?.maxLength"
-                            [type]="labels?.validationData?.insuranceDetails?.type" [patternCheck]=""
+                            [type]="labels?.validationData?.nameWithoutSpace?.type" [patternCheck]=""
                             (keyup)="concatguardianName()">
                         </app-custom-input>
                         <div class="invalid-feedback" *ngIf=" isGuardian && f.controls.guardianLastName.invalid">

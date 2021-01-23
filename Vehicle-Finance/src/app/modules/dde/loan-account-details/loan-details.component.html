@@ -311,7 +311,7 @@
       <!-- </div> -->
       <div class="btn-sec clear-both btn-mar-reject">
         <div class="text-right margin_top">
-          <button class="btn btn-primary js-btn-next mar-right8" type="button" (click)="onNext()">
+          <button class="btn btn-primary js-btn-next mar-right8" type="button" *ngIf="leadId && leadId !== 'null'" (click)="onNext()">
             Next
           </button>
         </div>
