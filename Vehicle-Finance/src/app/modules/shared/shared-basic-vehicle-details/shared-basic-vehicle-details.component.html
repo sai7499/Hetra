@@ -9,20 +9,13 @@
                 <div *ngFor="let obj of basicVehicleForm.get('vehicleFormArray')['controls']; let i=index;let l=last"
                     [formGroupName]="i">
 
-                    <!-- <div class="row">
-                <h3 class="banner-con"> {{ label.vehcileDetailsTitle }}
-                    <span class="float-right">{{udfScreenId}}</span>
-                </h3>
-            </div> -->
-
                     <div id="sales_section_start" *ngIf="roleType === 1">
 
                         <h3 class="banner-con"> {{ label.vehcileDetailsTitle }}
                             <span class="float-right">{{udfScreenId}}</span>
                         </h3>
 
-                        <div class="row"
-                            *ngIf="productCatoryCode !== 'NCV'">
+                        <div class="row" *ngIf="productCatoryCode !== 'NCV'">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="vechical_reg">
                                 <label for="registartion_number"> {{ label.registartionNumber }}
@@ -47,16 +40,25 @@
                                     name="check_dedupe" value="Check Dedupe" (click)="getparentLoanAccountNumber(obj)">
 
                             </div>
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number"
                                 *ngIf="!isVehicleRegNoChange && isVehicleDedupe">
                                 <label for="loan_number"> Parent Loan Account Number
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <app-custom-input formControlName="parentLoanAccountNumber"
-                                    [isRequired]="'Parent Account Number required'" [isDirty]="isDirty"
-                                    [isDisabled]="true">
-                                </app-custom-input>
+                                <div class="input-group input-medium">
+
+                                    <input type="text" class="form-control" id="username"
+                                        placeholder="Parent Account Number" formControlName="parentLoanAccountNumber"
+                                        disabled>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default btn-pad cus-eye" (click)="getLoanDetails(obj)"><i
+                                                class="fa fa-eye"></i></button>
+                                    </span>
+                                </div>
+
                             </div>
 
                         </div>
@@ -1320,10 +1322,18 @@
                                         <sub class="star_red_col">*</sub>
                                     </label>
 
-                                    <app-custom-input formControlName="parentLoanAccountNumber"
-                                        [isRequired]="'Parent Account Number required'" [isDirty]="isDirty"
-                                        [isDisabled]="true">
-                                    </app-custom-input>
+                                    <div class="input-group input-medium">
+
+                                        <input type="text" class="form-control" id="username"
+                                            placeholder="Parent Account Number"
+                                            formControlName="parentLoanAccountNumber" disabled>
+
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-pad cus-eye cus-eye" (click)="getLoanDetails(obj)"><i
+                                                    class="fa fa-eye"></i></button>
+                                        </span>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -1915,12 +1925,22 @@
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_number"
                                     *ngIf="!isVehicleRegNoChange && isVehicleDedupe">
-                                    <label for="loan_number"> Parent Loan Account Number</label>
+                                    <label for="loan_number"> Parent Loan Account Number
+                                        <sub class="star_red_col">*</sub>
+                                    </label>
 
-                                    <app-custom-input formControlName="parentLoanAccountNumber"
-                                        [isRequired]="'Parent Account Number required'" [isDirty]="isDirty"
-                                        [isDisabled]="true">
-                                    </app-custom-input>
+                                    <div class="input-group input-medium">
+
+                                        <input type="text" class="form-control" id="username"
+                                            placeholder="Parent Account Number"
+                                            formControlName="parentLoanAccountNumber" disabled>
+
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-pad cus-eye" (click)="getLoanDetails(obj)"><i
+                                                    class="fa fa-eye"></i></button>
+                                        </span>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -2110,9 +2130,9 @@
                                         <app-custom-input formControlName="assetCostIBB"
                                             [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                             [isRequired]="'Asset Cost basis Indian Bluebook Required'"
-                                            [isDirty]="isDirty" (keyup)="onCompareFinalAssetCode($event)"
+                                            [isDirty]="isDirty" (keyup)="onCompareFinalAssetCode($event, obj)"
                                             [maxLength]="label.validationData?.amountValue.maxLength"
-                                            (change)="onCompareFinalAssetCode($event)" [id]="'asset_cost_indian'"
+                                            (change)="onCompareFinalAssetCode($event, obj)" [id]="'asset_cost_indian'"
                                             [placeholder]="'Asset Cost basis Indian Bluebook'">
                                         </app-custom-input>
 
@@ -2126,8 +2146,8 @@
                                         <app-custom-input formControlName="assetCostCarTrade"
                                             [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                             [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
-                                            (keyup)="onCompareFinalAssetCode($event)" [id]="'asset_cost_car'"
-                                            (change)="onCompareFinalAssetCode($event)"
+                                            (keyup)="onCompareFinalAssetCode($event, obj)" [id]="'asset_cost_car'"
+                                            (change)="onCompareFinalAssetCode($event, obj)"
                                             [maxLength]="label.validationData?.amountValue.maxLength"
                                             [placeholder]="'Asset Cost basis Carwale'">
                                         </app-custom-input>
@@ -2758,7 +2778,6 @@
                 [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
             </app-shared-user-defined-fields>
 
-
         </form>
 
         <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn" id="clickButton">
@@ -2897,3 +2916,122 @@
 </div>
 
 <!------ End of the Success Model --------->
+
+<!-- Loan Details Modal -->
+<div class="modal" data-dismiss="modal" id="loanModal" [ngClass]="{ 'dis-block': isShowLoanDetails }">
+    <div class="modal-dialog top-space">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="onCloseLoanDetails()">
+                    ×
+                </button>
+                <h4 class="modal-title">Loan Account Details</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row" *ngIf="loanDetails">
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="loan_acc_num">{{label?.loanAccNumber}}
+                            </label>
+                            <label for="loan_acc_num"
+                                class="col-form-label-two">:&nbsp;{{loanAccountDetails?.accountNumber || 'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="total_loan_amt">{{label?.totalLoanAmount}}
+                            </label>
+                            <label for="total_loan_amt"
+                                class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalLoanAmount || 'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="rate_of_interest">{{label?.rateOfInterest}}
+                            </label>
+                            <label for="rate_of_interest"
+                                class="col-form-label-two">:&nbsp;{{loanAccountDetails?.rateOfInterest || 'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="emi">{{label?.emi}}
+                            </label>
+                            <label for="emi" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.emi || 'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="principal_outstanding">{{label?.principalOutstanding}}
+                            </label>
+                            <label for="principal_outstanding"
+                                class="col-form-label-two">:&nbsp;{{loanAccountDetails?.principalOutstanding || 'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="principal_paid">{{label?.principalPaid}}
+                            </label>
+                            <label for="principal_paid"
+                                class="col-form-label-two">:&nbsp;{{loanAccountDetails?.principalPaid || 'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="tenor">{{label?.tenor}}
+                            </label>
+                            <label for="tenor" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.totalTenure ||
+                                'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="remaining_tenor">{{label?.remainingTenor}}
+                            </label>
+                            <label for="remaining_tenor"
+                                class="col-form-label-two">:&nbsp;{{loanAccountDetails?.remainTenure || 'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="seasoning">{{label?.childLoanSeasoning}}
+                            </label>
+                            <label for="seasoning" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.seasoning ||
+                                'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="dpd">{{label?.dpd}}
+                            </label>
+                            <label for="dpd" class="col-form-label-two">:&nbsp;{{loanAccountDetails?.dpd || 'NA'}}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

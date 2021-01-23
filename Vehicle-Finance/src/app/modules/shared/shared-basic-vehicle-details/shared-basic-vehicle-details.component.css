@@ -26,6 +26,11 @@
     margin-left: 4px;
 }
 
+.cus-eye:hover {
+    background: #221d61;
+    color: white;
+}
+
 kendo-datepicker{
     width: 100%!important;
 }
