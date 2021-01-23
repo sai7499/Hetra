@@ -188,6 +188,7 @@ export class NegotiationComponent implements OnInit {
   LMSScheduleLOV: any;
   LMSScheduleLOVData: any;
   tempLMSScheduleLOVData = [];
+  varErrToaster: boolean = true;
   //tempDeductionDetails: any;
 
   constructor(
@@ -820,13 +821,17 @@ export class NegotiationComponent implements OnInit {
     let arrVals=this.createNegotiationForm.controls.tickets; 
 
     let indexEmiStruVal=arrVals['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'];
-
+    let keyObj = false;
     (arrVals['controls'][i]['controls']['variableForm'].get('variableFormArray') as FormArray).controls.forEach((formGroup) => {
       if (formGroup['status'] && formGroup['status']=='INVALID') {
         this.toasterService.showError('Please fill All the Values', '');
+        keyObj = true;
         return;
       }
     });
+    if(keyObj){
+      return;
+    }
 
       let negoArray=arrVals['controls'][i]['controls']['negotiationformArray']['controls'];
           loanTenorMonth=negoArray['NegotiatedLoanTenor']['value']?Number(negoArray['NegotiatedLoanTenor']['value']):0;
@@ -2210,11 +2215,19 @@ setCrosSell(i,val){
 
     if(!(negoIRRValue>=baseIntRateMin && negoIRRValue<=baseIntRateMax)){
       this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].value ?
-        this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValue(Math.round(this.AssetDetailsList[i].EligibleIRRMin)) : null;
-      this.toasterService.showError(
+        // this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValue(Math.round(this.AssetDetailsList[i].EligibleIRRMin)) : null;
+        this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValue(this.AssetDetailsList[i].EligibleIRRMin) : null;
+        this.varErrToaster=false;
+        this.toasterService.showError(
             'IRR configured for this product is' + (baseIntRateMin) + ' and ' + (baseIntRateMax) + '.',
             'Create Negotiation'
           );
+        
+           //newly Added
+           this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI'].value ?
+           this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI'].setValue(null) : null;
+           this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedEMI'].value ?
+           this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedEMI'].setValue(null) : null;  
     }
   }
 
@@ -2235,25 +2248,39 @@ setCrosSell(i,val){
 
     if ((Number(this.varianceIRR) > rateMax || Number(this.varianceIRR) < rateMin)) {
         if((this.AssetDetailsList[i].schemeType =='S') || (this.AssetDetailsList[i].schemeType =='I') || (this.AssetDetailsList[i].schemeType =='SI')){
-          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['subventionSchemeIRR'].setValue(this.AssetDetailsList[i].subventionIRR)
+          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['subventionSchemeIRR'].setValue(this.AssetDetailsList[i].subventionIRR);
+         //newly Added
+          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI'].value ?
+          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI'].setValue(null) : null;
         }else{
-          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValue((this.view)?null:this.AssetDetailsList[i].EligibleIRRMin);       
+          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValue(this.AssetDetailsList[i].EligibleIRRMin); 
+         //newly Added
+          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI'].value ?
+          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI'].setValue(null) : null
+          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedEMI'].value ?
+          this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedEMI'].setValue(null) : null;      
         }
-      this.toasterService.showError(
-        'IRR should be between ' + (rateMin + baseInterestRate) + ' and ' + (rateMax + baseInterestRate) + '.',
-        'Create Negotiation'        
-      );
+        if(this.varErrToaster){
+          this.toasterService.showError(
+            'IRR should be between ' + (rateMin + Number(baseInterestRate)) + ' and ' + (rateMax + Number(baseInterestRate)) + '.',
+            'Create Negotiation'        
+          );
+        }
+      
     }else{
       
       if((this.AssetDetailsList[i].schemeType =='S') || (this.AssetDetailsList[i].schemeType =='I') || (this.AssetDetailsList[i].schemeType =='SI')){
-        this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['subventionSchemeIRR'].setValue(Math.round(iRRValue))
+        //this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['subventionSchemeIRR'].setValue(Math.round(iRRValue))
+        this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['subventionSchemeIRR'].setValue(iRRValue)
         this.loanBookingEmi(i);
       }else{
-        this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValue(Math.round(iRRValue))
+        //this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValue(Math.round(iRRValue))
+        this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValue(iRRValue)
         this.calculateEMI(i);
         this.loanBookingEmi(i);//need to calcula
       }
     }
+    this.varErrToaster = true;
   }
 
   allowValuesforNegoEMI(event, i,accVal) {
@@ -2293,7 +2320,8 @@ setCrosSell(i,val){
         
       );
     }else{
-      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['subventionSchemeIRR'].setValue(Math.round(subventionSchemeIRR))
+      // this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['subventionSchemeIRR'].setValue(Math.round(subventionSchemeIRR))
+      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['subventionSchemeIRR'].setValue(subventionSchemeIRR)
       this.loanBookingEmi(i);
     }
   }
@@ -2543,6 +2571,7 @@ setCrosSell(i,val){
             
             emi_after_crossell: ticket.loanBookingDetails.loanBookingEMI,
             final_ltv: ticket.loanAmountBreakup.finalLTV,
+            final_asset_cost: ticket.loanAmountBreakup.finalAssetCost,
             total_charges: ticket.loanAmountBreakup.charges,
             gap_days_interest: ticket.loanAmountBreakup.gapDaysInterest,
             net_disbursement_amount:ticket.negotiationformArray.NetDisbursementAmount
@@ -2841,7 +2870,7 @@ setCrosSell(i,val){
                 this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['controls']['loanBookingEMI'].disable();
               }
 
-              this.loanBreakupSelected['controls'].finalAssetCost.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell);
+              this.loanBreakupSelected['controls'].finalAssetCost.setValue(this.CrossSellIns[index].loan_booking_dtls.final_asset_cost);
               this.loanBreakupSelected['controls'].NegotiatedLoanAmount.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_loan_amount);
               this.loanBreakupSelected['controls'].LoanAmountincludingCrossSell.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell);
               this.loanBreakupSelected['controls'].LoanAmountincludingCrossSellsubtractSubvent.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell_subtract_subvention);
@@ -3115,7 +3144,7 @@ setCrosSell(i,val){
   finalAssetCal(i) { //Mani
     let netAsset = this.createNegotiationForm.get('tickets')['controls'][i]['controls']['netAssetCost'].value;
     let loanAmountIncludeCrossSell = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['LoanAmountincludingCrossSell']['value'];
-    if(Number(netAsset) > Number(loanAmountIncludeCrossSell) || (Number(netAsset) > Number(loanAmountIncludeCrossSell) && !this.isSecured)){
+    if(Number(netAsset) > Number(loanAmountIncludeCrossSell) || (Number(netAsset) < Number(loanAmountIncludeCrossSell) && !this.isSecured)){
       this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'].finalAssetCost.setValue(netAsset)
     }else if ((Number(netAsset) < Number(loanAmountIncludeCrossSell) ) && this.isSecured){
       this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'].finalAssetCost.setValue(loanAmountIncludeCrossSell)

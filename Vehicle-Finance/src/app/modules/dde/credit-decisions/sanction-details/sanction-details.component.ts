@@ -51,6 +51,7 @@ export class SanctionDetailsComponent implements OnInit {
   taskId: any;
   pdfType: String;
   isDownload = true;
+  disbursementDetails: any = [];
 
   constructor(
     private labelsData: LabelsService,
@@ -111,6 +112,7 @@ export class SanctionDetailsComponent implements OnInit {
         this.isSanctionDetails = res['ProcessVariables'].isGenerated;
         const response = res;
         this.sanctionDetailsObject = response.ProcessVariables;
+        this.disbursementDetails = this.sanctionDetailsObject.disbursementDetails;
         // Filter Out Applicant, Co-Applicant And Guarantor List If ApplicantList_Object Exist
         if (this.sanctionDetailsObject.applicantList) {
           const getApplicantList: Array<any> = this.sanctionDetailsObject.applicantList;
