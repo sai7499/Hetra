@@ -268,14 +268,14 @@
                 ({{sanctionDetailsObject.employeeId}}){{labels?.vfSheetTag82A}} </p>
             <table class="table table-align table-bordered">
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let item of disbursementDetails">
                         <td [attr.data-label]="labels?.paymentType"><strong> {{labels?.paymentType}} </strong></td>
                         <td [attr.data-label]="sanctionDetailsObject?.paymentType">
-                            {{sanctionDetailsObject?.paymentType}}</td>
+                            {{item?.paymentType}}</td>
                         <td [attr.data-label]="labels?.payeeName"><strong> {{labels?.payeeName}} </strong></td>
-                        <td [attr.data-label]="labels?.payeeName">{{sanctionDetailsObject?.payeeName}}</td>
+                        <td [attr.data-label]="labels?.payeeName">{{item?.payeeName}}</td>
                         <td [attr.data-label]="labels?.paymentAmount"><strong> {{labels?.paymentAmount}} </strong></td>
-                        <td [attr.data-label]="labels?.paymentAmount">{{sanctionDetailsObject?.paymentAmount}}</td>
+                        <td [attr.data-label]="labels?.paymentAmount">{{item?.paymentAmount}}</td>
                     </tr>
                 </tbody>
             </table>
