@@ -104,7 +104,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   searchChildLoanData: any;
 
   // Next to Check Value
-
+  isShowLoanDetails: boolean;
   isApiValue: any;
   isFormValue: any;
   vehicleArray: any = [];
@@ -126,6 +126,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isFinalValue: any;
 
   leadSectionData: any;
+
+  // loanDetails
+  loanDetails: boolean;
+  loanAccountDetails: any;
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
@@ -426,7 +430,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         if (res.ProcessVariables.vehicleDetails && res.ProcessVariables.vehicleDetails.length > 0) {
           this.vehicleArray = res.ProcessVariables.vehicleDetails;
-          this.id =  res.ProcessVariables.vehicleDetails[0].collateralId
+          this.id = res.ProcessVariables.vehicleDetails[0].collateralId
         }
         this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails);
       } else {
@@ -1373,6 +1377,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   onClose() {
     this.isShowParentLoan = false;
     this.isVehicleRegNoChange = false;
+    this.isVehicleDedupe = false;
   }
 
   getparentLoanAccountNumber(obj) {
@@ -1407,6 +1412,36 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })
+  }
+
+  getLoanDetails(obj) {
+    let data = {
+      "loanAccountNumber": obj.get('parentLoanAccountNumber').value,
+    }
+
+    this.childLoanApiService.searchChildLoanApi(data).subscribe((res: any) => {
+      console.log(res, 'search')
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+        if (res.ProcessVariables.loanDetails && res.ProcessVariables.loanDetails.length > 0) {
+          this.loanAccountDetails = res.ProcessVariables.loanDetails[0];
+
+          this.loanAccountDetails.principalPaid = this.loanAccountDetails.totalLoanAmount - this.loanAccountDetails.principalOutstanding
+
+          this.loanDetails = true;
+          this.isShowLoanDetails = true;
+        }
+
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
+      }
+    })
+
+
+  }
+
+  onCloseLoanDetails() {
+    this.isShowLoanDetails = false;
   }
 
   onLoanAccNoSelect(data) {
