@@ -36,8 +36,8 @@ export class CreateLeadDataService {
         //     this.leadSectionData['leadDetails']['reqLoanAmt'] : 0;
         // this.sharedService.changeLoanAmount(Number(requestAmount));
         this.cds.changeleadDataStatus(data ? true : false);
-        this.sharedService.setProductCatCode(this.leadSectionData['leadDetails']['productCatCode']);
-        this.sharedService.setProductCatName(this.leadSectionData['leadDetails']['productCatName']);
+        this.sharedService.setProductCatCode(this.leadSectionData['leadDetails']?this.leadSectionData['leadDetails']['productCatCode'] : '');
+        this.sharedService.setProductCatName(this.leadSectionData['leadDetails'] ? this.leadSectionData['leadDetails']['productCatName'] : '');
     }
 
     getLeadSectionData() {

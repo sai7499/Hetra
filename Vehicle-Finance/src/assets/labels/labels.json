@@ -1863,6 +1863,12 @@
             },
             "type": "alpha"
         },
+        "nameWithoutSpace": {
+            "maxLength": {
+                "rule": 30
+            },
+            "type": "alpha-nospace"
+        },
         "fullName": {
             "maxLength": {
                 "rule": 40

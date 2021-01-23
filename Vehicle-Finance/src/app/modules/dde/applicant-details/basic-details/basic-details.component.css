@@ -17,9 +17,7 @@
 .senior-citizen input {
   margin-left: 15px;
 } */
-.senior_minor{
-  margin-top: 15px;
-}
+
 .is_senior{
   padding-left: 10px ;
 }
@@ -30,7 +28,8 @@ kendo-datepicker{
   width: 100%!important;
 }
 #align_this_checkbox{
-  margin-top: 16px;
+  margin-top: 10px ;
+  margin-bottom: 10px ;
   font-weight: 600;
 }
 .col-sm-7 button{

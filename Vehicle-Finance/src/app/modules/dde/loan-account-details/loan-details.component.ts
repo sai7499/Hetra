@@ -25,17 +25,22 @@ export class LoanDetailsComponent implements OnInit {
   ngOnInit() {
     const leadSectionData: any = this.leadService.getLeadSectionData();
     const applicantList = leadSectionData.applicantDetails;
-    this.customerDetails = applicantList.find((value) => {
-      return value.applicantTypeKey === 'APPAPPRELLEAD';
-    });
-
-    if (this.customerDetails.dob) {
-      const date = new Date(this.customerDetails.dob);
-      const day = date.getDate();
-      const month = date.getMonth() + 1;
-      const year = date.getFullYear();
-      this.customerDetails.dob = `${day}/${month}/${year}`
+    if(applicantList){
+      this.customerDetails = applicantList.find((value) => {
+        return value.applicantTypeKey === 'APPAPPRELLEAD';
+      });
     }
+   
+
+    // if (this.customerDetails && this.customerDetails.dob) {
+    //   const date = new Date(this.customerDetails.dob);
+    //   const day = date.getDate();
+    //   const month = date.getMonth() + 1;
+    //   const year = date.getFullYear();
+    //   this.customerDetails.dob = `${day}/${month}/${year}`
+    //   console.log('this.customerDetails.dob', this.customerDetails.dob)
+
+    // }
 
     console.log('applicantList', applicantList);
     this.activatedRoute.parent.params.subscribe((value) => {

@@ -10,22 +10,26 @@ import { ApiService } from '@services/api.service';
 import { HttpService } from '@services/http.service';
 import { environment } from 'src/environments/environment';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Injectable()
 export class LeadDataResolverService implements Resolve<any> {
   leadId: any;
   udfGroupId: string = 'LDG001';
   udfScreenId: any;
+  loanAccountDetails: any;
 
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private loanViewService: LoanViewService
   ) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     this.leadId = route.params.leadId;
+
 
     let isChangeStatus = null;
 
@@ -39,20 +43,36 @@ export class LeadDataResolverService implements Resolve<any> {
     const processId = this.apiService.api.getLeadById.processId;
     const workflowId = this.apiService.api.getLeadById.workflowId;
     const projectId = this.apiService.api.getLeadById.projectId;
+    let data: any;
+    if (this.leadId === "null" || !this.leadId) {
+      this.loanAccountDetails = this.loanViewService.getLoanAccountDetails();
+      const accountNo = this.loanAccountDetails.accountNumber;
+      console.log('accountNumber', this.loanAccountDetails)
+      data = {
+        leadId: Number(this.leadId),
+        loanAccountNumber: accountNo ? accountNo : '',
+        udfDetails: [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId.udfScreenId
+        }]
+      }
 
-    let data = {
-      leadId: Number(this.leadId),
-      udfDetails: [{
-        "udfGroupId": this.udfGroupId,
-        // "udfScreenId": this.udfScreenId.udfScreenId
-      }]
+    } else {
+      data = {
+        leadId: Number(this.leadId),
+        udfDetails: [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId.udfScreenId
+        }]
+      }
     }
 
-   let resolveData = data
 
-   if (isChangeStatus) {
-    data['isChangeStatus'] = isChangeStatus;
-   }
+    let resolveData = data
+
+    if (isChangeStatus) {
+      data['isChangeStatus'] = isChangeStatus;
+    }
 
     const body: RequestEntity = {
       processId,
