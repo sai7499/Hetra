@@ -10,9 +10,7 @@ import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-
 import { LoanViewService } from '@services/loan-view.service';
-import { CommentStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-shared-deviation',
@@ -57,10 +55,14 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   isLoan360: boolean;
 
+  deviationListRes: any;
+
   // userDefineFields
   udfScreenId = 'RCS002';
   udfGroupId: string = 'RCG001';
   jsonScreenId: any;
+
+  isDeviationEmpty: boolean;
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
@@ -71,14 +73,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   ngOnInit() {
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
 
     this.labelsData.getScreenId().subscribe((data: any) => {
       this.jsonScreenId = data.ScreenIDS;
@@ -113,7 +107,16 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.taskId = id ? id : '';
     })
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
-    this.sharedService.getFormValidation(this.deviationsForm)
+    this.sharedService.getFormValidation(this.deviationsForm);
+
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   disableInputs() {
@@ -330,6 +333,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     const memberListForm = <FormArray>this.deviationsForm.controls['manualDeviationFormArray'];
     const add = memberListForm.value.length + 1;
     memberListForm.insert(add, this.getManualDeviations())
+    this.isDeviationEmpty = false;
   }
 
   softDeleteDeviation(index: number, id) {
@@ -359,6 +363,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     } else {
       if (control.controls.length > 0) {
         control.removeAt(i);
+
+        this.isDeviationEmpty = control.controls.length === 0 ? true : false;
       }
     }
   }
@@ -367,16 +373,19 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.deviationService.getDeviationsDetails(this.leadId).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables && res.ProcessVariables.error.code === '0') {
         if (res.ProcessVariables.deviation && res.ProcessVariables.deviation.length > 0) {
+          this.isDeviationEmpty = false;
           this.autoDeviationArray = res.ProcessVariables.deviation ? res.ProcessVariables.deviation : [];
-          this.recommendationArray = res.ProcessVariables.recommendation ? res.ProcessVariables.recommendation : [];
-          this.deviationsForm.patchValue({
-            enableApprove: res.ProcessVariables.enableApprove ? res.ProcessVariables.enableApprove : false,
-            enableSendBack: res.ProcessVariables.enableSendBack ? res.ProcessVariables.enableSendBack : false,
-          })
-          if (this.locationIndex === 'dde' && this.deviationsForm.get('enableApprove').value === true) {
-            this.isApprove = true;
-          }
           this.onPatchFormArrayValue(this.autoDeviationArray)
+        } else {
+          this.isDeviationEmpty = true;
+        }
+        this.recommendationArray = res.ProcessVariables.recommendation ? res.ProcessVariables.recommendation : [];
+          this.deviationsForm.patchValue({
+            enableApprove: res.ProcessVariables.enableApprove,
+            enableSendBack: res.ProcessVariables.enableSendBack
+          })
+        if (this.locationIndex === 'dde' && res.ProcessVariables.enableApprove === true) {
+          this.isApprove = true;
         }
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Deviation Details')
@@ -386,6 +395,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.toasterService.showError(err, 'Get Deviation')
     })
   }
+
 
   getTrigurePolicy() {
     const data = {

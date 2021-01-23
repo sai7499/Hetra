@@ -1,6 +1,6 @@
 <div class="content">
     <div style="text-align: center;">
-        <a><button class="btn btn-primary btn-div " *ngIf="isCamDetails" (click)="showCamDetails()"
+        <a><button class="btn btn-primary btn-div " *ngIf="isCamDetails && !isLoan360 && !isViewDde" (click)="showCamDetails()"
                 type="button">{{labels?.generateCam}}</button></a>
     </div>
     <form class="multisteps-form__form" [formGroup]="camDetailsForm">

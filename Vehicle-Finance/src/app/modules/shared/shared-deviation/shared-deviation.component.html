@@ -1,14 +1,14 @@
-<form class="multisteps-form__form p-0" [formGroup]="deviationsForm">
+<form class="multisteps-form__form p-0" [formGroup]="deviationsForm" *ngIf="labels">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
 
-    <h3 class="banner-con">Deviation 
+    <h3 class="banner-con">Deviation
       <span class="float-right">{{udfScreenId}}</span>
     </h3>
 
     <ng-container formArrayName="waiverNormsFormArray">
 
-      <div class="text-right" id="get_role_details_btn" 
-      *ngIf="isSendBacktoCredit && isWaiverTrigger && !disableSaveBtn">
+      <div class="text-right" id="get_role_details_btn"
+        *ngIf="isSendBacktoCredit && isWaiverTrigger && !disableSaveBtn">
         <button class="btn btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
           Norms</button>
       </div>
@@ -108,8 +108,7 @@
     <ng-container formArrayName="autoDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
-        <div class="text-right" id="get_role_details_btn" 
-          *ngIf="!isSubmitToCredit && !disableSaveBtn">
+        <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit && !disableSaveBtn">
           <button class="btn btn-primary" type="button"
             (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
         </div>
@@ -193,8 +192,7 @@
     <ng-container formArrayName="manualDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
-        <div class="text-right" id="add_manual_deviation_btn" 
-        *ngIf="!isSubmitToCredit && !disableSaveBtn">
+        <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit && !disableSaveBtn">
           <button class="btn mb-5 btn-primary" type="button"
             (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
         </div>
@@ -357,7 +355,7 @@
 
           <div class="form-group col-sm-8 col-md-8">
             <app-vf-custom-select [values]="deviationLov?.approverRole" [id]="'approval_level'"
-              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value">
+              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value || isLoan360">
             </app-vf-custom-select>
           </div>
         </div>
@@ -370,9 +368,10 @@
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
           [disabled]="!deviationsForm.get('enableApprove').value"
           (click)="onPatchRecommendationModal('ApproveDeviations')"
-          *ngIf="isApprove && !disableSaveBtn">{{labels?.approveDeviations}}</button>
+          *ngIf="isApprove && !disableSaveBtn">{{!isDeviationEmpty ? labels?.approveDeviations : 'Send To Credit
+          Decision '}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!deviationsForm.get('enableSendBack').value"
+          [disabled]="!(deviationsForm.get('enableSendBack').value)"
           (click)="onPatchRecommendationModal('sendBackToCredit')"
           *ngIf="isSubmitToCredit && !isSendBacktoCredit && !disableSaveBtn">{{labels?.sendBackToCredit}}</button>
 
