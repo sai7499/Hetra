@@ -10,6 +10,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { LoanCreationService } from '@services/loan-creation.service';
 import { retry } from 'rxjs/operators';
 import { LoanViewService } from '@services/loan-view.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 declare var jquery: any;
 declare var $: any;
 
@@ -319,7 +320,8 @@ export class DisbursementFormComponent implements OnInit {
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private loanCreationService: LoanCreationService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private createLeadDataService: CreateLeadDataService
   ) {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -924,8 +926,10 @@ export class DisbursementFormComponent implements OnInit {
   }
   onDealerCodeSearch(event,flag) {
     let inputString = event;
+    const leadData = this.createLeadDataService.getLeadSectionData();
+   const  productCatCode = leadData["leadDetails"].productId;
     console.log('inputStringDelr', event);
-    this.disbursementService.dealerCode(inputString).subscribe((res: any) => {
+    this.disbursementService.dealerCode(inputString,productCatCode).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       const apiError = response.ProcessVariables.error.code;
