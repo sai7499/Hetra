@@ -76,12 +76,18 @@ export class DdeComponent implements OnInit, OnChanges {
       if (gotLeadData.Error === '0') {
         const leadData = gotLeadData.ProcessVariables;
         console.log('LEAD_SECTION_DATA::', leadData);
-        this.productCatCode = leadData.leadDetails.productCatCode;
+        if(leadData.leadDetails){
+          this.productCatCode = leadData.leadDetails.productCatCode;
+        }
+        
         console.log('ProductCODE::', this.productCatCode);
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
-        this.isChildLoan = leadData.leadDetails.isChildLoan;
-        this.productId = leadData.leadDetails.productId;
+        if(leadData.leadDetails){
+          this.isChildLoan = leadData.leadDetails.isChildLoan;
+          this.productId = leadData.leadDetails.productId;
+        }
+        
         console.log('child loan:', this.isChildLoan, 'product id:', this.productId);
       }
       if ((this.isChildLoan === '1') && ((this.productId === '1078') || (this.productId === '1078') || (this.productId === '1078'))) {

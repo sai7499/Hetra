@@ -341,6 +341,10 @@ export class CustomInputComponent
         this.valuePatternCheck(event, /[^a-zA-Z0-9/]/g);
         // this.allowAlphaNumericWithSlashOnly(event)
         break;
+      case 'alpha-nospace':
+        this.valuePatternCheck(event, /[^a-zA-Z]/g);
+        // this.allowAlphaNumericNoSpace(event);
+        break;
     }
     if (this.type.includes('decimal')) {
       const initialValue = event.target.value;

@@ -12,7 +12,7 @@
         </label>
         <app-custom-input id="referrer_first_name" formControlName="refererFirstName"
           [className]="'form-control mandatory'" [placeholder]="'Referrer First Name'"
-          [isRequired]="'Referrer First Name is required'" [type]="labels?.validationData?.referrerName?.type"
+          [isRequired]="'Referrer First Name is required'" [type]="labels?.validationData?.nameWithoutSpace?.type"
           [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
       </div>
@@ -23,7 +23,7 @@
         </label>
         <app-custom-input id="referrer_middle_name" formControlName="refererSecondName"
           [className]="'form-control mandatory'" [placeholder]="'Referrer Middle Name'"
-          [type]="labels?.validationData?.referrerName?.type"
+          [type]="labels?.validationData?.nameWithoutSpace?.type"
           [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
       </div>
@@ -34,7 +34,7 @@
         </label>
         <app-custom-input id="referrer_last_name" formControlName="refererThirdName"
           [className]="'form-control mandatory'" [placeholder]="'Referrer Last Name'"
-          [isRequired]="'Referrer Last Name is required'" [type]="labels?.validationData?.referrerName?.type"
+          [isRequired]="'Referrer Last Name is required'" [type]="labels?.validationData?.nameWithoutSpace?.type"
           [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
       </div>
@@ -191,7 +191,7 @@
         </label>
         <app-custom-input id="reference_info_first_name" formControlName="referenceFirstName"
           [className]="'form-control mandatory'" [placeholder]="'Reference Info -First Name'"
-          [isRequired]="'Reference Info -First Name is required'" [type]="labels?.validationData?.referrerName?.type"
+          [isRequired]="'Reference Info -First Name is required'" [type]="labels?.validationData?.nameWithoutSpace?.type"
           [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
       </div>
@@ -201,7 +201,9 @@
           <!-- <sub class="star_red_col">*</sub> -->
         </label>
         <app-custom-input id="reference_info_middle_name" formControlName="referenceSecondName"
-          [className]="'form-control mandatory'" [placeholder]="'Reference Info -Middle Name'">
+          [className]="'form-control mandatory'" [placeholder]="'Reference Info -Middle Name'"
+          [type]="labels?.validationData?.nameWithoutSpace?.type"
+          [maxLength]="labels?.validationData?.referrerName?.maxLength">
         </app-custom-input>
       </div>
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -211,7 +213,7 @@
         </label>
         <app-custom-input id="reference_info_last_name" formControlName="referenceThirdName"
           [className]="'form-control mandatory'" [placeholder]="'Reference Info -Last Name'"
-          [isRequired]="'Reference Info -Last Name is required'" [type]="labels?.validationData?.referrerName?.type"
+          [isRequired]="'Reference Info -Last Name is required'" [type]="labels?.validationData?.nameWithoutSpace?.type"
           [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
       </div>

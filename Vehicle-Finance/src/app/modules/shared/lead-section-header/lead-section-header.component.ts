@@ -125,6 +125,9 @@ export class LeadSectionHeaderComponent implements OnInit {
   getUserDetails() {
     const data = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = data as any;
+    if(!leadSectionData.leadDetails){
+      return;
+    }
     // console.log('leadSectionData', leadSectionData);
     this.leadId = leadSectionData.leadId;
     // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
