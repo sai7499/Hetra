@@ -693,9 +693,9 @@
               <p>{{message}}</p>                                      
         </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="statusModal = false" >Close</button>
-            <button *ngIf = "statusFlag == 'Unable to Approve'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="onApprove(); approveModal= false" >Retry</button>
-            <button *ngIf = "statusFlag == 'Approved Successfully'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="navigateToDashboard(); approveModal= false" >OK</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="navigateToDashboard(); statusModal = false" >Back</button>
+            <button *ngIf = "statusFlag == 'Unable to Approve'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="onApprove(); statusModal= false" >Retry</button>
+            <button *ngIf = "statusFlag == 'Approved Successfully'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="navigateToDashboard(); statusModal= false" >OK</button>
         </div> 
     </div>
 
