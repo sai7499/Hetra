@@ -127,7 +127,7 @@ fetchDisbursement(leadId) {
       const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
       return this.httpService.post(url, body);
       }
-      dealerCode(code) {
+      dealerCode(code,productCode?) {
         const processId = this.apiService.api.dealerCode.processId;
         const workflowId = this.apiService.api.dealerCode.workflowId;
         const projectId = this.apiService.api.dealerCode.projectId;
@@ -135,7 +135,8 @@ fetchDisbursement(leadId) {
         const body: RequestEntity = {
             processId: processId,
             ProcessVariables: {
-                "code": code
+                "code": code,
+                "productCatCode": productCode
             },
             workflowId: workflowId,
             projectId: projectId
