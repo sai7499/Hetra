@@ -85,6 +85,9 @@ export class CreateLeadDataService {
         this.leadSectionData['leadDetails']['typeOfLoan'] = data.leadDetails.typeOfLoan;
         this.leadSectionData['leadDetails']['reqLoanAmt'] = data.leadDetails.reqLoanAmt;
         this.leadSectionData['leadDetails']['reqTenure'] = data.leadDetails.reqTenure;
+        this.leadSectionData['leadDetails']['isCommSuppressed'] = data.leadDetails.isCommSuppressed;
+        
+
 
         const requestAmount = this.leadSectionData['leadDetails']['reqLoanAmt'] ?
             this.leadSectionData['leadDetails']['reqLoanAmt'] : 0;
