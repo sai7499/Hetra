@@ -343,7 +343,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeValue = data.leadDetails.dealorCodeDesc;
 
     const priorityFromLead = data.leadDetails.priority || '';
-    const CommunicationFromLead = data.loanLeadDetails.isCommSuppressed;
+    const CommunicationFromLead = data.leadDetails.isCommSuppressed;
     this.leadId = data.leadId ? data.leadId : data.leadDetails.leadId;
 
     const sourchingType = this.leadData.leadDetails.sourcingType;
