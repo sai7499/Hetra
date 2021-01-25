@@ -16,6 +16,7 @@ import { formatDate } from '@angular/common';
 import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { Base64StorageService } from '@services/base64-storage.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 @Component({
   selector: 'app-rcu',
   templateUrl: './rcu.component.html',
@@ -81,6 +82,9 @@ export class RcuComponent implements OnInit {
     left: '',
   };
 
+  apiValue: any;
+  finalValue: any;
+
   // userDefineFields
   udfScreenId = 'RCS002';
   udfDetails: any = [];
@@ -109,6 +113,7 @@ export class RcuComponent implements OnInit {
     public router: Router,
     private sharedService: SharedService,
     private base64StorageService: Base64StorageService,
+    private objectComparisonService: ObjectComparisonService,
   ) {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -405,6 +410,7 @@ export class RcuComponent implements OnInit {
         this.collateralDocuments = this.response.collateralDocuments;
         this.populateApplicantDocuments(this.response.fileRCUStatus,applicantId);
         this.isGetapiCalled = false;
+        this.apiValue = this.rcuDetailsForm.getRawValue();
 
         this.udfDetails = res.ProcessVariables.udfDetails ? res.ProcessVariables.udfDetails : [];
 
@@ -493,6 +499,7 @@ export class RcuComponent implements OnInit {
             'Updated Successfully',
             'RCU Details'
           );
+        this.apiValue = this.rcuDetailsForm.getRawValue();
           // this.getAllRcuDetails();
         }
       });
@@ -507,30 +514,32 @@ export class RcuComponent implements OnInit {
   }
 
   onSubmit() {
-    this.onSave();
+    // this.onSave();
     // this.submitted = true;
-    if(this.rcuDetailsForm.valid) {
-      const body = {
-        leadId: this.leadId,
-        userId: this.userId,
-        taskId: this.taskId
-      }
-      this.rcuService.stopRcuTask(body).subscribe((res: any) => {
-        if (res && res.ProcessVariables.error.code == "0") {
-          this.toasterService.showSuccess("RCU Lead Is Successfully Submitted ", "RCU Details");
-          this.router.navigateByUrl('/pages/dashboard');
-        } else {
-          this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
-        }
-      })
-    } else {
-      this.toasterService.showError(
-        'Fields Missing Or Invalid Pattern Detected',
-        'RCU Details'
-      );
-      return;
+    this.finalValue = this.rcuDetailsForm.getRawValue();
+    const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
 
+    if(this.rcuDetailsForm.invalid || this.userDefineForm.udfData.invalid) {
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
     }
+    if(!isValueCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+    const body = {
+      leadId: this.leadId,
+      userId: this.userId,
+      taskId: this.taskId
+    }
+    this.rcuService.stopRcuTask(body).subscribe((res: any) => {
+      if (res && res.ProcessVariables.error.code == "0") {
+        this.toasterService.showSuccess("RCU Lead Is Successfully Submitted ", "RCU Details");
+        this.router.navigateByUrl('/pages/dashboard');
+      } else {
+        this.toasterService.showError(res['ProcessVariables'].error['message'], 'RCU Details');
+      }
+    })
     // const body = {
     //   leadId: this.leadId,
     //   userId: this.userId,

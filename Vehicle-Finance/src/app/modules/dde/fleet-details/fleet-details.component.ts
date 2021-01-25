@@ -55,7 +55,7 @@ export class FleetDetailsComponent implements OnInit {
 
   relation: any[];
   make: any = [];
-  financierName: any = [];
+  financierName: any;
 
   fleetIDs: any = [];
   fleetId: any;
@@ -99,6 +99,9 @@ export class FleetDetailsComponent implements OnInit {
 
   apiValue: any;
   finalValue: any;
+  applicantArray: any;
+  applicantList = [];
+  financeRequired = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -137,6 +140,17 @@ export class FleetDetailsComponent implements OnInit {
 
     this.leadDetails = leadData['leadDetails']
     this.productCatoryCode = this.leadDetails['productCatCode'];
+
+    
+    this.applicantArray = leadData['applicantDetails']
+
+    this.applicantArray.forEach((val) => {
+      const keyValue = {
+        key: val.applicantId,
+        value: val.fullName
+      }
+      this.applicantList.push(keyValue)
+    })
 
     this.getLov();
     this.getFleetDetails();
@@ -256,7 +270,7 @@ export class FleetDetailsComponent implements OnInit {
         regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required])),
         region: new FormControl(rowData.region, [Validators.required]),
         regionDesc: new FormControl(rowData.regionDesc),
-        relation: new FormControl(rowData.relation, [Validators.required]),
+        relation: new FormControl({value: rowData.relation, disabled: true}),
         relationDesc: new FormControl(rowData.relationDesc),
         seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
         tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required])),
@@ -269,7 +283,7 @@ export class FleetDetailsComponent implements OnInit {
     else return this.fb.group({
       regdNo: new FormControl('', Validators.compose([Validators.required])),
       regdOwner: new FormControl('', Validators.compose([Validators.required])),
-      relation: new FormControl('', [Validators.required]),
+      relation: new FormControl({value: '', disabled: true}),
       make: new FormControl('', [Validators.required]),
       vehicleType: new FormControl('', [Validators.required]),
       assetBodyType: new FormControl('', [Validators.required]),
@@ -523,9 +537,23 @@ export class FleetDetailsComponent implements OnInit {
     });
   }
 
-  relationShipChange(event) {
-    this.relation = [];
+  regsOwnerChange(event, index) {
+    // this.relation = [];
     const relation = event.target.value;
+    const applicantType = this.applicantArray.find(
+      (ele) => 
+      ele.applicantId === Number(relation));
+    console.log(applicantType, "type");
+    
+
+    const relationArray = this.fleetLov.applicantRelationshipWithLead
+    const relationValue = relationArray.find((data)=>data.key === applicantType.applicantTypeKey)
+    console.log(index, relationValue, "relation");
+    this.formArr.controls[index]['controls']['relation'].setValue(relationValue.key)
+    
+    
+
+
   }
 
   makeChange(event) {
@@ -533,9 +561,56 @@ export class FleetDetailsComponent implements OnInit {
     const make = event.target.value;
   }
 
-  financierChange(event) {
-    this.financierName = [];
+  financierChange(event, index) {
     const financierName = event.target.value;
+    this.financierName = financierName;
+    console.log(financierName, 'financierName');
+    if(financierName === '38VEHFIN') {
+      this.disableFinanceierBased(index);
+      this.removeValidatoresFinanceierBased(index);
+      this.formArr.controls[index].patchValue({
+        loanNo: null,
+        tenure: null,
+        paid: null,
+        seasoning: null
+      })
+    } else {
+      this.addValidatoresFinanceierBased(index);
+      this.enableFinanceierBased(index);
+    }
+    
+  }
+
+  addValidatoresFinanceierBased(index) {
+    this.formArr.controls[index]['controls']['loanNo'].setValidators(Validators.required);
+    this.formArr.controls[index]['controls']['tenure'].setValidators(Validators.required);
+    this.formArr.controls[index]['controls']['paid'].setValidators(Validators.required);
+    this.formArr.controls[index]['controls']['loanNo'].updateValueAndValidity();
+    this.formArr.controls[index]['controls']['tenure'].updateValueAndValidity();
+    this.formArr.controls[index]['controls']['paid'].updateValueAndValidity();
+  }
+
+  removeValidatoresFinanceierBased(index) {
+    this.formArr.controls[index]['controls']['loanNo'].clearValidators();
+    this.formArr.controls[index]['controls']['tenure'].clearValidators();
+    this.formArr.controls[index]['controls']['paid'].clearValidators();
+    this.formArr.controls[index]['controls']['loanNo'].updateValueAndValidity();
+    this.formArr.controls[index]['controls']['tenure'].updateValueAndValidity();
+    this.formArr.controls[index]['controls']['paid'].updateValueAndValidity();
+  }
+
+  enableFinanceierBased(index) {
+    this.formArr.controls[index]['controls']['loanNo'].enable();
+    this.formArr.controls[index]['controls']['tenure'].enable();
+    this.formArr.controls[index]['controls']['paid'].enable();
+  }
+
+  disableFinanceierBased(index) {
+    console.log(this.formArr.controls[index]['controls'], 'form')
+    this.formArr.controls[index]['controls']['loanNo'].disable();
+    this.formArr.controls[index]['controls']['tenure'].disable();
+    this.formArr.controls[index]['controls']['paid'].disable();
+
   }
 
   calcSeasoning(event, i) {
@@ -612,9 +687,9 @@ export class FleetDetailsComponent implements OnInit {
         // for (let i = 0; i < fleetList.length; i++) {
         //   this.onGetDateValue(fleetList[i], i)
         // }
-        this.fleetArrayList.controls = [];
-        fleetList.map((val: any, i) =>
-          this.fleetArrayList.push(this.initRows(val)));
+        // this.fleetArrayList.controls = [];        
+        // fleetList.map((val: any, i) =>
+        //   this.fleetArrayList.push(this.initRows(val)));
         if (index != null && index != 'next') {
           this.fleetId = this.fleetIDs[index];
           this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
@@ -624,7 +699,7 @@ export class FleetDetailsComponent implements OnInit {
       } else if (res['Error'] == "1") {
         this.toasterService.showError(res['ErrorMessage'], '');
       }
-      return false
+      // return false
     });
   }
 
@@ -667,6 +742,15 @@ export class FleetDetailsComponent implements OnInit {
           else {
             this.addNewRow(fleets[i]);
           }
+
+          const financierName =  this.apiValue[i].financier
+          if(financierName === '38VEHFIN') {
+            this.disableFinanceierBased(i);
+            this.removeValidatoresFinanceierBased(i);
+          } else {
+            this.addValidatoresFinanceierBased(i);
+            this.enableFinanceierBased(i);
+          }
           // this.onGetDateValue(fleets[i].yom, i)
         }
       } else {
@@ -706,7 +790,7 @@ export class FleetDetailsComponent implements OnInit {
   callDeleteRecord() {
     const index = this.deleteRecordData.index;
     const fleets = this.deleteRecordData.fleets;
-
+    
     // if (fleets.length > 1) {
     this.formArr.removeAt(index);
 
@@ -719,7 +803,7 @@ export class FleetDetailsComponent implements OnInit {
       if (fleets.length === 0) {
         this.addNewRow()
       }
-      this.getFleetDetails();
+      // this.getFleetDetails();
     });
 
     fleets.splice(index, 1)
@@ -749,7 +833,7 @@ export class FleetDetailsComponent implements OnInit {
       return;
     }
 
-    this.fleetDetails = this.fleetForm.value.Rows;
+    this.fleetDetails = this.fleetForm.getRawValue().Rows;
 
     if (this.operationType && index === 'next') {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
