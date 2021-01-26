@@ -748,7 +748,7 @@ export class CibilOdListComponent implements OnInit {
     let data = {
       "leadId": this.leadId,
       "applicantId": this.applicantId,
-      "userId": '',
+      "userId": this.userId,
       "isBureauChecked": this.bureauDetail.isBureauChecked
     }
 
@@ -758,9 +758,8 @@ export class CibilOdListComponent implements OnInit {
         this.bureauDetail.isBureauChecked = res.ProcessVariables ? res.ProcessVariables.isBureauChecked : false;
         this.odApplicantData.bureauScore = res.ProcessVariables ? res.ProcessVariables.bureauScore : null;
         this.getOdDetails();
-        this.toasterService.showSuccess(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
-      } 
-      else {
+        this.toasterService.showSuccess(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')} 
+        else {
         this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })
