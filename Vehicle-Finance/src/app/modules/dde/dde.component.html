@@ -4,7 +4,7 @@
     <app-lead-section-header></app-lead-section-header>
 
     <div class="multisteps-form" style="margin-bottom: -30px;">
-      <div class="multisteps-form__progress main-tab" *ngIf="showNav == true && leadId && leadId !== 'null'">
+      <div class="multisteps-form__progress main-tab" *ngIf="showNav == true && leadId != null">
         <div class="col-md-1 col-xs-1" [style]="{ cursor: pointer }" [ngClass]="{ isDisabled: show === 1 }">
           <a class="prev-first-data" (click)="onPrevious()">
             <i class="fa fa-angle-left"></i>
