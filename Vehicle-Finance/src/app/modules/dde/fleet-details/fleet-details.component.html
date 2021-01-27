@@ -208,8 +208,7 @@
                                 <app-custom-input [id]="'tenure'" formControlName="tenure" [custom]="initalZeroCheck"
                                     [className]="'form-control mandatory'" [placeholder]="'Tenure'"
                                     [maxLength]="validationData?.tenurePaid['maxLength']"
-                                    [custom]="initalZeroCheck"
-                                    [isRequired]="formArr.controls[i].controls['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''" [type]="validationData?.tenurePaid['type']"
+                                    [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''" [type]="validationData?.tenurePaid['type']"
                                     (keyup)="checkPaid($event ,i, itemrow)" [isDirty]="isDirty">
                                 </app-custom-input>
 
@@ -219,7 +218,6 @@
                                     <app-custom-input [id]="'paid'" formControlName="paid" [custom]="initalZeroCheck"
                                         [className]="'form-control mandatory'" [placeholder]="'paid'"
                                         [maxLength]="validationData?.tenurePaid['maxLength']"
-                                        [custom]="initalZeroCheck"
                                         [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Accrued is mandatory' : ''"
                                         [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
                                         (keyup)="checkPaid($event ,i, itemrow)" (change)="calcSeasoning($event ,i)">

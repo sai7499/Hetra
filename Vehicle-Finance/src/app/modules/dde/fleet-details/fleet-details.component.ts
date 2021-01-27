@@ -131,7 +131,7 @@ export class FleetDetailsComponent implements OnInit {
     private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
-    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+    // this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.fleetArrayList = this.fb.array([]);
   }
 
