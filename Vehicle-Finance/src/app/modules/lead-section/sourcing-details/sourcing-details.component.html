@@ -25,9 +25,12 @@
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_branch">{{ labels.applicationNo }}</label>
+          <label for="account_branch">{{ labels.applicationNo }}
+            <sub class="star_red_col" *ngIf="roleType !== 1">*</sub>
+          </label>
           <app-custom-input formControlName="applicationNo" [className]="'form-control mandatory'"
-            [placeholder]="'Application No.'" [isDirty]="isDirty" [type]="'number'" [maxLength]="applicationNoLength">
+            [placeholder]="'Application No.'" [isDirty]="isDirty" [type]="'number'" [maxLength]="applicationNoLength"
+            [isRequired]="roleType !== 1 ? 'Application No. is Required' : ''">
           </app-custom-input>
         </div>
 

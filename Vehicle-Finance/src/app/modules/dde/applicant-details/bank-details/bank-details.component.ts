@@ -115,7 +115,7 @@ export class BankDetailsComponent implements OnInit {
       period: ['', { disabled: true }],
       limit: [''],
       accountBranch: [''],
-      micrNumber: [''],
+      micrNumber: ['', [Validators.required]],
       totalCredits: [''],
       id: this.leadId,
       // transactionDetails: this.fb.array([]),

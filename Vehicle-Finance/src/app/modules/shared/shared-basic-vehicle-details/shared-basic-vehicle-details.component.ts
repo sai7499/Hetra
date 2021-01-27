@@ -188,11 +188,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
 
     this.getLeadSectionData();
-
     this.initForms();
     this.getLov();
-
-    
 
     this.vehicleRegPattern = this.validateCustomPattern()
 
@@ -423,7 +420,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.getVehicleDetails(this.leadId)
   }
 
-  getVehicleDetails(id: number) {
+  async getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         if (res.ProcessVariables.vehicleDetails && res.ProcessVariables.vehicleDetails.length > 0) {

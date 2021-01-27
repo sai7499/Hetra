@@ -95,9 +95,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   documentArr: DocumentDetails[] = [];
   apiRes: any[];
 
-  // documentMaxLength = {
-  //   rule: 15,
-  // };
+  isApplicantDetails: boolean;
 
     // userDefineFields
     udfScreenId = 'RCS002';
@@ -164,6 +162,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].applicantDocument[0];
     });
+
+    const url = this.location.path();
+    this.isApplicantDetails = url.includes('sales-applicant-details') ? true : false
+    console.log(url, 'isApplicantDetails' ,this.isApplicantDetails)
+
   }
 
   getApplicantDetails() {

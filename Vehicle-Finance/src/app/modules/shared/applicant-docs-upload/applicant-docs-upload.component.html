@@ -308,7 +308,7 @@
   <div class="col-sm-5">
     <button class="btn btn-primary dash_href hvr-sweep-to-left"
       (click)="navigateToApplicantList()"
-    >
+    *ngIf="isApplicantDetails">
       Back To Applicant Details
     </button>
   </div>
