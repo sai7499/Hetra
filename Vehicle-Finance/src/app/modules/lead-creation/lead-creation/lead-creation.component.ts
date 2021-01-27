@@ -584,7 +584,7 @@ export class LeadCreationComponent implements OnInit {
       (data) => data.sourcingCodeType === this.placeholder[0].key
     );
     console.log('sourcingCode', sourcingCode);
-    if (sourcingCode.length === 0) {
+    if (inputString.length === 0) {
       return;
     }
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;

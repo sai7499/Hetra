@@ -44,20 +44,7 @@ export class LeadDataResolverService implements Resolve<any> {
     const workflowId = this.apiService.api.getLeadById.workflowId;
     const projectId = this.apiService.api.getLeadById.projectId;
     let data: any;
-    if (this.leadId === "null" || !this.leadId) {
-      this.loanAccountDetails = this.loanViewService.getLoanAccountDetails();
-      const accountNo = this.loanAccountDetails.accountNumber;
-      console.log('accountNumber', this.loanAccountDetails)
-      data = {
-        leadId: Number(this.leadId),
-        loanAccountNumber: accountNo ? accountNo : '',
-        udfDetails: [{
-          "udfGroupId": this.udfGroupId,
-          // "udfScreenId": this.udfScreenId.udfScreenId
-        }]
-      }
-
-    } else {
+   
       data = {
         leadId: Number(this.leadId),
         udfDetails: [{
@@ -65,7 +52,7 @@ export class LeadDataResolverService implements Resolve<any> {
           // "udfScreenId": this.udfScreenId.udfScreenId
         }]
       }
-    }
+    
 
 
     let resolveData = data

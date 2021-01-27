@@ -192,9 +192,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.initForms();
     this.getLov();
 
-    if (this.id && this.id !== '0') {
-      this.setFormValue();
-    };
+    
 
     this.vehicleRegPattern = this.validateCustomPattern()
 
@@ -431,6 +429,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         if (res.ProcessVariables.vehicleDetails && res.ProcessVariables.vehicleDetails.length > 0) {
           this.vehicleArray = res.ProcessVariables.vehicleDetails;
           this.id = res.ProcessVariables.vehicleDetails[0].collateralId
+          if (this.id && this.id !== '0') {
+            this.setFormValue();
+          };
         }
         this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails);
       } else {
