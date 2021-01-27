@@ -219,6 +219,7 @@ export class CibilOdListComponent implements OnInit {
   }
 
   addOdDetails(data?: any) {
+    console.log(data, 'odAccountDetailsArray', this.odAccountDetailsArray)
     if (data && data.length > 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.length; i++) {
@@ -757,6 +758,7 @@ export class CibilOdListComponent implements OnInit {
         // console.log(res, 'res')
         this.bureauDetail.isBureauChecked = res.ProcessVariables ? res.ProcessVariables.isBureauChecked : false;
         this.odApplicantData.bureauScore = res.ProcessVariables ? res.ProcessVariables.bureauScore : null;
+        this.odAccountDetailsArray.controls = []
         this.getOdDetails();
         this.toasterService.showSuccess(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')} 
         else {

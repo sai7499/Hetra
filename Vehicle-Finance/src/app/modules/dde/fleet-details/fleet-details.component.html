@@ -64,8 +64,8 @@
                             </td>
                             <td style="min-width: 130px;">
 
-                                <app-vf-custom-select [values]="applicantList"
-                                    formControlName="regdOwner" [isDirty]="isDirty" (change)="regsOwnerChange($event, i)"
+                                <app-vf-custom-select [values]="applicantList" formControlName="regdOwner"
+                                    [isDirty]="isDirty" (change)="regsOwnerChange($event, i)"
                                     [isRequired]="'Owner name is mandatory '">
                                 </app-vf-custom-select>
 
@@ -186,30 +186,32 @@
                                 
                                     (change)="financierChange($event, i)" [isRequired]="'Please select atleast one'">
                                 </app-vf-custom-select> -->
-                                <select class="form-control" (change)="financierChange($event, i)" formControlName="financier">
+                                <select class="form-control" (change)="financierChange($event, i, itemrow)"
+                                    formControlName="financier">
                                     <option value="Not-Applicable">NA</option>
-                                    <option *ngFor="let item of fleetLov?.vehicleFinanciers" [value]="item.key">{{item.value}}</option>
+                                    <option *ngFor="let item of fleetLov?.vehicleFinanciers" [value]="item.key">
+                                        {{item.value}}</option>
                                 </select>
-
                             </td>
                             <td style="min-width: 150px;">
                                 <app-custom-input [id]="'loanNo'" formControlName="loanNo"
                                     [className]="'form-control mandatory'" [placeholder]="'loanNo'"
                                     [maxLength]="validationData?.loanNumber.maxLength"
-                                    [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Loan No is mandatory' : ''" [type]="validationData?.loanNumber.type"
-                                    [isDirty]="isDirty" [inputClass]="'input-upper'"
-                                    [minLength]='validationData?.loanNumber.minLength'>
+                                    [isRequired]="itemrow.controls['financier'].value !== 'Not-Applicable' ? 'Loan No is mandatory' : ''"
+                                    [type]="validationData?.loanNumber.type" [isDirty]="isDirty"
+                                    [inputClass]="'input-upper'" [minLength]='validationData?.loanNumber.minLength'>
                                 </app-custom-input>
 
                             </td>
-                            
+
                             <td style="min-width: 120px;">
 
                                 <app-custom-input [id]="'tenure'" formControlName="tenure" [custom]="initalZeroCheck"
                                     [className]="'form-control mandatory'" [placeholder]="'Tenure'"
                                     [maxLength]="validationData?.tenurePaid['maxLength']"
-                                    [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''" [type]="validationData?.tenurePaid['type']"
-                                    (keyup)="checkPaid($event ,i, itemrow)" [isDirty]="isDirty">
+                                    [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''"
+                                    [type]="validationData?.tenurePaid['type']" (keyup)="checkPaid($event ,i, itemrow)"
+                                    [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </td>
@@ -250,7 +252,9 @@
                                     [className]="'form-control mandatory'" [placeholder]="''">
                                 </app-custom-input>
                             </td>
-                            <td><u><button class="a_tag" [disabled]="formArr.controls[i]['controls']['financier'].value =='Not-Applicable'" (click)="onFormSubmit(i)">RTR</button></u></td>
+                            <td><u><button class="a_tag"
+                                        [disabled]="formArr.controls[i]['controls']['financier'].value =='Not-Applicable'"
+                                        (click)="onFormSubmit(i)">RTR</button></u></td>
 
                             <td *ngIf="!isLoan360">
                                 <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton_{{i}}" value="Add"

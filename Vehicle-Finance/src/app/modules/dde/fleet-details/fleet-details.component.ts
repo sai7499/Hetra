@@ -33,7 +33,7 @@ export class FleetDetailsComponent implements OnInit {
       rule: '^[1-9][0-9]*$',
       msg: 'Invalid Characters not allowed'
     }
-  };  
+  };
   validFleetData: any;
   @ViewChild('fileInput', { static: false })
   fileInput: ElementRef;
@@ -85,7 +85,6 @@ export class FleetDetailsComponent implements OnInit {
 
   currentYear = new Date().getFullYear();
   yearCheck = [];
-  initalZeroCheck: any;
   paidTenureCheck = [];
   fleetArrayList: FormArray;
   operationType: boolean;
@@ -109,7 +108,7 @@ export class FleetDetailsComponent implements OnInit {
   applicantArray: any;
   applicantList = [];
   financeRequired = true;
-  initalZeroCheck: { rule: (val: any) => boolean; msg: string; }[];
+  initalZeroCheck: any = [];
 
   constructor(
     private labelsData: LabelsService,
@@ -151,7 +150,7 @@ export class FleetDetailsComponent implements OnInit {
     this.leadDetails = leadData['leadDetails']
     this.productCatoryCode = this.leadDetails['productCatCode'];
 
-    
+
     this.applicantArray = leadData['applicantDetails']
 
     this.applicantArray.forEach((val) => {
@@ -205,8 +204,8 @@ export class FleetDetailsComponent implements OnInit {
     if (paid > tenure) {
       this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
     } else {
-      paid && paid !== 0 ? this.formArr.controls[i]['controls']['paid'].setErrors(null) : 
-      this.formArr.controls[i]['controls']['paid'].setValidators(Validators.required)
+      paid && paid !== 0 ? this.formArr.controls[i]['controls']['paid'].setErrors(null) :
+        this.formArr.controls[i]['controls']['paid'].setValidators(Validators.required)
     }
 
   }
@@ -281,7 +280,7 @@ export class FleetDetailsComponent implements OnInit {
         regdOwner: new FormControl(rowData.regdOwner, Validators.compose([Validators.required])),
         region: new FormControl(rowData.region, [Validators.required]),
         regionDesc: new FormControl(rowData.regionDesc),
-        relation: new FormControl({value: rowData.relation, disabled: true}),
+        relation: new FormControl({ value: rowData.relation, disabled: true }),
         relationDesc: new FormControl(rowData.relationDesc),
         seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
         tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required])),
@@ -294,7 +293,7 @@ export class FleetDetailsComponent implements OnInit {
     else return this.fb.group({
       regdNo: new FormControl('', Validators.compose([Validators.required])),
       regdOwner: new FormControl('', Validators.compose([Validators.required])),
-      relation: new FormControl({value: '', disabled: true}),
+      relation: new FormControl({ value: '', disabled: true }),
       make: new FormControl('', [Validators.required]),
       vehicleType: new FormControl('', [Validators.required]),
       assetBodyType: new FormControl('', [Validators.required]),
@@ -552,19 +551,12 @@ export class FleetDetailsComponent implements OnInit {
     // this.relation = [];
     const relation = event.target.value;
     const applicantType = this.applicantArray.find(
-      (ele) => 
-      ele.applicantId === Number(relation));
-    console.log(applicantType, "type");
-    
+      (ele) =>
+        ele.applicantId === Number(relation));
 
     const relationArray = this.fleetLov.applicantRelationshipWithLead
-    const relationValue = relationArray.find((data)=>data.key === applicantType.applicantTypeKey)
-    console.log(index, relationValue, "relation");
+    const relationValue = relationArray.find((data) => data.key === applicantType.applicantTypeKey)
     this.formArr.controls[index]['controls']['relation'].setValue(relationValue.key)
-    
-    
-
-
   }
 
   makeChange(event) {
@@ -572,22 +564,25 @@ export class FleetDetailsComponent implements OnInit {
     const make = event.target.value;
   }
 
-  financierChange(event, index) {
-    const financierName = event.target.value;
-    this.financierName = financierName;
-    console.log(financierName, 'financierName');
-    if(financierName === 'Not-Applicable') {
+  financierChange(event, index, obj) {
+    let financierName = event.target.value;
+
+    if (financierName && financierName === 'Not-Applicable') {
       this.disableFinanceierBased(index);
       this.removeValidatoresFinanceierBased(index);
-      this.formArr.controls[index].patchValue({
-        loanNo: null,
-        tenure: null,
-        paid: null,
-        seasoning: null
+      this.isDirty = false;
+      setTimeout(() => {
+        obj.patchValue({
+          loanNo: null,
+          tenure: null,
+          paid: null,
+          seasoning: null
+        })
       })
     } else {
       this.addValidatoresFinanceierBased(index);
       this.enableFinanceierBased(index);
+      this.isDirty = true;
     }
 
   }
@@ -617,7 +612,6 @@ export class FleetDetailsComponent implements OnInit {
   }
 
   disableFinanceierBased(index) {
-    console.log(this.formArr.controls[index]['controls'], 'form')
     this.formArr.controls[index]['controls']['loanNo'].disable();
     this.formArr.controls[index]['controls']['tenure'].disable();
     this.formArr.controls[index]['controls']['paid'].disable();
@@ -754,13 +748,13 @@ export class FleetDetailsComponent implements OnInit {
             this.addNewRow(fleets[i]);
           }
 
-          const financierName =  this.apiValue[i].financier
-          if(financierName === 'Not-Applicable') {
+          const financierName = this.apiValue[i].financier
+          if (financierName === 'Not-Applicable') {
             this.disableFinanceierBased(i);
             this.removeValidatoresFinanceierBased(i);
           } else {
             this.addValidatoresFinanceierBased(i);
-            this.enableFinanceierBased(i); 
+            this.enableFinanceierBased(i);
           }
           // this.onGetDateValue(fleets[i].yom, i)
         }
@@ -801,7 +795,7 @@ export class FleetDetailsComponent implements OnInit {
   callDeleteRecord() {
     const index = this.deleteRecordData.index;
     const fleets = this.deleteRecordData.fleets;
-    
+
     // if (fleets.length > 1) {
     this.formArr.removeAt(index);
 
@@ -845,8 +839,6 @@ export class FleetDetailsComponent implements OnInit {
     }
 
     this.fleetDetails = this.fleetForm.getRawValue().Rows;
-    console.log('Fleet Form', this.fleetForm.controls);
-    
 
     if (this.operationType && index === 'next') {
       this.router.navigate(['pages/dde/' + this.leadId + '/exposure']);
