@@ -85,6 +85,7 @@ export class FleetDetailsComponent implements OnInit {
 
   currentYear = new Date().getFullYear();
   yearCheck = [];
+  initalZeroCheck: any;
   paidTenureCheck = [];
   fleetArrayList: FormArray;
   operationType: boolean;
@@ -130,6 +131,7 @@ export class FleetDetailsComponent implements OnInit {
     private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
+    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.fleetArrayList = this.fb.array([]);
   }
 
@@ -198,12 +200,13 @@ export class FleetDetailsComponent implements OnInit {
   checkPaid(event, i, obj) {
 
     let tenure = obj.controls['tenure'].value ? Number(obj.controls['tenure'].value) : 0;
-    let paid = obj.controls['paid'].value ? Number(obj.controls['paid'].value) : 0
+    let paid = obj.controls['paid'].value ? Number(obj.controls['paid'].value) : 0;
 
     if (paid > tenure) {
       this.formArr.controls[i]['controls']['paid'].setErrors({ 'incorrect': true })
     } else {
-      this.formArr.controls[i]['controls']['paid'].setErrors(null)
+      paid && paid !== 0 ? this.formArr.controls[i]['controls']['paid'].setErrors(null) : 
+      this.formArr.controls[i]['controls']['paid'].setValidators(Validators.required)
     }
 
   }
