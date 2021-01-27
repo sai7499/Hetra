@@ -1,7 +1,7 @@
 {
     "ages": {
         "applicant": {
-            "minAge": 100,
+            "minAge": 80,
             "maxAge": 18
         },
         "seniorCitizen": {

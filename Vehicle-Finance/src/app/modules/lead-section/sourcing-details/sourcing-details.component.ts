@@ -182,6 +182,7 @@ export class SourcingDetailsComponent implements OnInit {
   // User defined Fields
   udfScreenId: string = 'LDS001';
   udfGroupId: string = 'LDG001';
+  roleType: any;
   udfDetails: any = [];
   userDefineForm: any;
 
@@ -219,8 +220,8 @@ export class SourcingDetailsComponent implements OnInit {
   ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
-    this.getLabels();
     this.getLOV();
+    this.getLabels();
     this.getSourcingChannel();
     this.tenureMonthlyValidation = this.loanTenureMonth();
     this.operationType = this.toggleDdeService.getOperationType();
@@ -233,6 +234,12 @@ export class SourcingDetailsComponent implements OnInit {
         udfScreenId.DDE.leadDetailDDE : udfScreenId.QDE.leadDetailQDE;
 
     })
+
+    // console.log(this.roleType, 'roleAndUserDetails')
+
+    // if (this.roleType !== 1) {
+    //   this.sourcingDetailsForm.get('applicationNo').setValidators(Validators.required)
+    // }
 
   }
 
@@ -278,6 +285,9 @@ export class SourcingDetailsComponent implements OnInit {
 
     const userId = roleAndUserDetails.userDetails.userId;
     const userName = roleAndUserDetails.userDetails.firstName;
+
+    this.roleType = roleAndUserDetails.roles[0].roleType;
+
     this.leadHandeledBy = `${userId}-${userName}`;
     this.userId = userId;
     this.isSpoke = roleAndUserDetails.userDetails.isSpokes;

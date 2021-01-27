@@ -249,7 +249,7 @@
                                     </label>
 
                                     <app-custom-input formControlName="assetCostIBB"
-                                        [type]="label.validationData?.amountValue.type"
+                                        [type]="label.validationData?.amountValue.type" [custom]="initalZeroCheck"
                                         [className]="'form-control mandatory'"
                                         [isRequired]="'Asset Cost basis Indian Bluebook Required'" [isDirty]="isDirty"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
@@ -266,7 +266,7 @@
                                             class="star_red_col">*</sub>
                                     </label>
 
-                                    <app-custom-input formControlName="assetCostCarTrade"
+                                    <app-custom-input formControlName="assetCostCarTrade" [custom]="initalZeroCheck"
                                         [type]="label.validationData?.amountValue.type"
                                         [className]="'form-control mandatory'"
                                         [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
@@ -286,7 +286,7 @@
 
                                     <app-custom-input formControlName="exShowRoomCost"
                                         [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
-                                        [className]="'form-control mandatory'"
+                                        [className]="'form-control mandatory'" [custom]="initalZeroCheck"
                                         [isRequired]="'Ex Showroom Price Required'" [isDirty]="isDirty"
                                         (keyup)="onPatchFinalAssetCost($event.target.value)"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
@@ -708,7 +708,7 @@
                                     <app-custom-input formControlName="exShowRoomCost"
                                         [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
                                         (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
-                                        [className]="'form-control mandatory'"
+                                        [className]="'form-control mandatory'" [custom]="initalZeroCheck"
                                         [isRequired]="'Ex Showroom Cost Required'" [isDirty]="isDirty"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
                                         [placeholder]="'Ex Showroom Cost'">
@@ -1132,7 +1132,7 @@
                                     <app-custom-input formControlName="exShowRoomCost"
                                         [type]="label.validationData?.amountValue.type" [id]="'ex_showroom_price'"
                                         (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
-                                        [className]="'form-control mandatory'"
+                                        [className]="'form-control mandatory'" [custom]="initalZeroCheck"
                                         [isRequired]="'Ex Showroom Cost Required'" [isDirty]="isDirty"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
                                         [placeholder]="'Ex Showroom Cost'">
@@ -1329,8 +1329,8 @@
                                             formControlName="parentLoanAccountNumber" disabled>
 
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default btn-pad cus-eye cus-eye" (click)="getLoanDetails(obj)"><i
-                                                    class="fa fa-eye"></i></button>
+                                            <button class="btn btn-default btn-pad cus-eye cus-eye"
+                                                (click)="getLoanDetails(obj)"><i class="fa fa-eye"></i></button>
                                         </span>
                                     </div>
 
@@ -1936,8 +1936,8 @@
                                             formControlName="parentLoanAccountNumber" disabled>
 
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default btn-pad cus-eye" (click)="getLoanDetails(obj)"><i
-                                                    class="fa fa-eye"></i></button>
+                                            <button class="btn btn-default btn-pad cus-eye"
+                                                (click)="getLoanDetails(obj)"><i class="fa fa-eye"></i></button>
                                         </span>
                                     </div>
 
@@ -2127,7 +2127,7 @@
                                                 class="star_red_col">*</sub>
                                         </label>
 
-                                        <app-custom-input formControlName="assetCostIBB"
+                                        <app-custom-input formControlName="assetCostIBB" [custom]="initalZeroCheck"
                                             [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                             [isRequired]="'Asset Cost basis Indian Bluebook Required'"
                                             [isDirty]="isDirty" (keyup)="onCompareFinalAssetCode($event, obj)"
@@ -2147,7 +2147,7 @@
                                             [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                             [isRequired]="'Asset Cost basis Carwale Required'" [isDirty]="isDirty"
                                             (keyup)="onCompareFinalAssetCode($event, obj)" [id]="'asset_cost_car'"
-                                            (change)="onCompareFinalAssetCode($event, obj)"
+                                            (change)="onCompareFinalAssetCode($event, obj)" [custom]="initalZeroCheck"
                                             [maxLength]="label.validationData?.amountValue.maxLength"
                                             [placeholder]="'Asset Cost basis Carwale'">
                                         </app-custom-input>
