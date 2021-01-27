@@ -153,7 +153,7 @@ export class BankDetailsComponent implements OnInit {
     let bankId = this.bankTransaction.getBankId()
     console.log(bankId, 'bankId')
     if (bankId && bankId.id) {
-      this.getBankDetails();
+      this.getBankDetails(bankId);
     }
     this.bankForm.get('accountType').valueChanges.subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
@@ -234,9 +234,10 @@ export class BankDetailsComponent implements OnInit {
       abbOfTheMonth: data.abbOfTheMonth ? Number(data.abbOfTheMonth) : null,
     });
   }
-  getBankDetails() {
+  getBankDetails(bankData) {
     const data = {
       applicantId: this.applicantId,
+      id: bankData.id,
       udfDetails: [
         {
           "udfGroupId": this.udfGroupId,

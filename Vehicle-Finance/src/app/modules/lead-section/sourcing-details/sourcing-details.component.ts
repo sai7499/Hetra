@@ -235,11 +235,9 @@ export class SourcingDetailsComponent implements OnInit {
 
     })
 
-    // console.log(this.roleType, 'roleAndUserDetails')
-
-    // if (this.roleType !== 1) {
-    //   this.sourcingDetailsForm.get('applicationNo').setValidators(Validators.required)
-    // }
+    if (this.roleType !== 1) {
+      this.sourcingDetailsForm.get('applicationNo').setValidators(Validators.required)
+    }
 
   }
 
