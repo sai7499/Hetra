@@ -207,7 +207,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt
   }
 
-  async getLeadSectionData() {
+  getLeadSectionData() {
 
     this.leadSectionData = this.createLeadDataService.getLeadSectionData();
 
@@ -420,7 +420,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.getVehicleDetails(this.leadId)
   }
 
-  async getVehicleDetails(id: number) {
+  getVehicleDetails(id: number) {
     this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         if (res.ProcessVariables.vehicleDetails && res.ProcessVariables.vehicleDetails.length > 0) {
@@ -1418,7 +1418,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
 
     this.childLoanApiService.searchChildLoanApi(data).subscribe((res: any) => {
-      console.log(res, 'search')
+
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
 
         if (res.ProcessVariables.loanDetails && res.ProcessVariables.loanDetails.length > 0) {
@@ -1629,6 +1629,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     } else {
       this.isDirty = true;
       this.utilityService.validateAllFormFields(this.basicVehicleForm)
+      console.log(this.basicVehicleForm, 'basicVehicleForm')
       this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }
   }

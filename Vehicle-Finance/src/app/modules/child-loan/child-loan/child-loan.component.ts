@@ -391,8 +391,12 @@ export class ChildLoanComponent implements OnInit {
       mobile: childLoanDatas.mobile,
       dateOfBirth: this.utilityService.getDateFormat(childLoanDatas.dateOfBirth)
     }
-    console.log('this.childData', this.childData);
+    if (isCreateChild) {
+      this.childData['toCreateChildLoan'] = isCreateChild;
+    }
+
     this.accordian = '';
+
     this.childLoanApiService.searchChildLoanApi(this.childData).subscribe(
       (res: any) => {
         const response = res;

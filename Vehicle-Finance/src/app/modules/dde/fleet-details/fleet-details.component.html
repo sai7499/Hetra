@@ -194,7 +194,7 @@
                             </td>
                             <td style="min-width: 120px;">
 
-                                <app-custom-input [id]="'tenure'" formControlName="tenure"
+                                <app-custom-input [id]="'tenure'" formControlName="tenure" [custom]="initalZeroCheck"
                                     [className]="'form-control mandatory'" [placeholder]="'Tenure'"
                                     [maxLength]="validationData?.tenurePaid['maxLength']"
                                     [isRequired]="'Tenure is mandatory'" [type]="validationData?.tenurePaid['type']"
@@ -204,7 +204,7 @@
                             </td>
                             <td style="min-width: 120px;">
                                 <div>
-                                    <app-custom-input [id]="'paid'" formControlName="paid"
+                                    <app-custom-input [id]="'paid'" formControlName="paid" [custom]="initalZeroCheck"
                                         [className]="'form-control mandatory'" [placeholder]="'paid'"
                                         [maxLength]="validationData?.tenurePaid['maxLength']"
                                         [isRequired]="'Accrued is mandatory'"
