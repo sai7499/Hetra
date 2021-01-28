@@ -2104,6 +2104,10 @@ export class NegotiationComponent implements OnInit {
                       gapDaysInterest: [{ value: '', disabled: true }], 
                     })
                   }));
+
+                  if (this.roleType === 5 || this.roleType === 4) {
+                    this.t.disable()
+                  }
                   
                   if(this.view == false){
                     if(this.AssetDetailsList[i].mi_ins_prov){
@@ -2787,225 +2791,241 @@ setCrosSell(i,val){
             })
           }
           else if (this.isCombinedLoan == false) {
-            this.AssetsJson = JSON.parse(res.ProcessVariables.NegotiationDetails.AssetsJson);
-            const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
-              
-              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].PremiumAmntSum.patchValue(this.AssetsJson[index].total_insurance_premium_amount),
-              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].fastTagAmtSum.patchValue(this.AssetsJson[index].total_other_cross_sell_amount),
-              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].processingFee.patchValue(this.AssetsJson[index].processingFee),
-              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].serviceCharge.patchValue(this.AssetsJson[index].serviceCharge),
-              
-              
-              this.CrossSellIns = JSON.parse(res.ProcessVariables.NegotiationDetails.AssetsJson);
-              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['repaymentMode'].setValue(this.CrossSellIns[index].repayment_dtls.repayment_mode)
-              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['NoofPDC'].setValue(this.CrossSellIns[index].repayment_dtls.no_of_pdc)
-              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['NoofSPDC'].setValue(this.CrossSellIns[index].repayment_dtls.no_of_spdc)
-              // const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
-                
-              this.negotiationSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].negotiationformArray;
-              this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']['motor']
-              this.PACvalueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']['pac']
-              this.lifecovervalueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']['life']
-              this.VASvalueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']['vas']
-              this.fastTagvalueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].fastTag;
-              this.loanBookingSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].loanBookingDetails;
-              this.loanBreakupSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].loanAmountBreakup;
-              
-              this.negotiationSelected['controls'].NegotiatedLoanAmount.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_loan_amount);
-              this.negotiationSelected['controls'].NegotiatedLoanTenor.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_tenor_months);
-              this.negotiationSelected['controls'].NegotiatedIRR.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_irr);
-              this.negotiationSelected['controls'].NegotiatedEMI.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_emi);
-              this.negotiationSelected['controls'].subventSchemeLoanTenor.setValue(this.CrossSellIns[index].negotiation_dtls.subvention_loan_tenor_months);
-              this.negotiationSelected['controls'].subventionSchemeIRR.setValue(this.CrossSellIns[index].negotiation_dtls.subvention_irr);
-              this.negotiationSelected['controls'].subventSchemeEMI.setValue(this.CrossSellIns[index].negotiation_dtls.subvention_emi);
-              this.negotiationSelected['controls'].subventAmount.setValue(this.CrossSellIns[index].negotiation_dtls.subvention_amount);
-              this.negotiationSelected['controls'].incentiveAmount.setValue(this.CrossSellIns[index].negotiation_dtls.incentive_amount);
-              this.negotiationSelected['controls'].variableIRR.setValue(this.CrossSellIns[index].negotiation_dtls.variance);
-              this.negotiationSelected['controls'].NetDisbursementAmount.setValue(this.CrossSellIns[index].loan_booking_dtls.net_disbursement_amount);
-              
-              
-              
-              this.valueSelected['controls'].motorInsurance.setValue(this.CrossSellIns[index].cross_sell_ins[0].insurance_code);
-              this.valueSelected['controls'].MITenure.setValue(this.CrossSellIns[index].cross_sell_ins[0].mi_tenure);
-              this.valueSelected['controls'].MIPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[0].premium_amount);
-              this.valueSelected['controls'].fundingRequiredforMI.setValue(this.CrossSellIns[index].cross_sell_ins[0].fndreinsurance_code);
-              this.PACvalueSelected['controls'].creditShieldPAC.setValue(this.CrossSellIns[index].cross_sell_ins[1].insurance_code);
-              this.PACvalueSelected['controls'].PACPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[1].premium_amount);
-              this.PACvalueSelected['controls'].fundingRequiredforPAC.setValue(this.CrossSellIns[index].cross_sell_ins[1].fndreinsurance_code);
-              this.lifecovervalueSelected['controls'].creditShieldLifeCover.setValue(this.CrossSellIns[index].cross_sell_ins[2].insurance_code);
-              this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[2].premium_amount);
-              this.lifecovervalueSelected['controls'].fundingRequiredforlifeCover.setValue(this.CrossSellIns[index].cross_sell_ins[2].fndreinsurance_code);
-              this.lifecovervalueSelected['controls'].fundingforLifeCover.setValue(this.CrossSellIns[index].cross_sell_ins[2].insslab);
-              this.VASvalueSelected['controls'].VAS.setValue(this.CrossSellIns[index].cross_sell_ins[3].insurance_code);
-              this.VASvalueSelected['controls'].VASPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[3].premium_amount);
-              this.VASvalueSelected['controls'].fundingRequiredforVAS.setValue(this.CrossSellIns[index].cross_sell_ins[3].fndreinsurance_code);
-              this.fastTagvalueSelected['controls'].EquitasFASTagRequired.setValue(this.CrossSellIns[index].cross_sell_others.cross_sell_type);
-              this.fastTagvalueSelected['controls'].fundingRequiredforFASTag.setValue(this.CrossSellIns[index].cross_sell_others.fndreq);
-              this.fastTagvalueSelected['controls'].FASTagAmount.setValue((this.CrossSellIns[index].cross_sell_others.amount? this.CrossSellIns[index].cross_sell_others.amount : 0));
-              if(this.CrossSellIns[index].cross_sell_ins[0].insurance_code == '4' || this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '4'){
-                this.showapplicable = true;
-              }
-              if(this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '4'){
-                this.showapplicableCredit = true;
-              }
-              if(this.CrossSellIns[index].cross_sell_others.cross_sell_type == '2'){
-                this.showapplicableFastag = true;
-              }
-              this.loanBookingSelected['controls'].LoanAmountincludingCrossSell.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell);
-              this.loanBookingSelected['controls'].LoanAmountincludingCrossSellsubtractSubvent.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell_subtract_subvention);
-              this.loanBookingSelected['controls'].MoratoriumPeriod.setValue(this.CrossSellIns[index].loan_booking_dtls.moratorium_days);
-              this.getEMIDate(index,this.CrossSellIns[index].loan_booking_dtls.moratorium_days);
-              this.loanBookingSelected['controls'].NoofRepayableMonthsafterMoratorium.setValue(this.CrossSellIns[index].loan_booking_dtls.mor_repay_month);
-              this.loanBookingSelected['controls'].EMIStartDateAfterDisbursement.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_start_date);
-              this.loanBookingSelected['controls'].PaymentModeforGapDaysInterest.setValue(this.CrossSellIns[index].loan_booking_dtls.gap_days_payment_mode);
-              this.loanBookingSelected['controls'].repaymentFrequency.setValue(this.CrossSellIns[index].loan_booking_dtls.repayment_frequency);
-              this.loanBookingSelected['controls'].EMIStructure.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_structure);
-              this.loanBookingSelected['controls'].loanBookingEMI.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_after_crossell);
-              this.loanBookingSelected['controls'].emiDefaultValue.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_default_value);
-              if(this.AssetDetailsList[index].schemeType=='S' || this.AssetDetailsList[index].schemeType=='I' || this.AssetDetailsList[index].schemeType=='SI'){
-                this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['controls']['EMIStructure'].disable();
-              }
 
-              if(this.AssetDetailsList[index].schemeType=='S' || this.AssetDetailsList[index].schemeType=='SI'){
-                this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['controls']['loanBookingEMI'].disable();
-              }
 
-              this.loanBreakupSelected['controls'].finalAssetCost.setValue(this.CrossSellIns[index].loan_booking_dtls.final_asset_cost);
-              this.loanBreakupSelected['controls'].NegotiatedLoanAmount.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_loan_amount);
-              this.loanBreakupSelected['controls'].LoanAmountincludingCrossSell.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell);
-              this.loanBreakupSelected['controls'].LoanAmountincludingCrossSellsubtractSubvent.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell_subtract_subvention);
-              this.loanBreakupSelected['controls'].finalLTV.setValue(this.CrossSellIns[index].loan_booking_dtls.final_ltv);
-              this.loanBreakupSelected['controls'].MIPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[0].premium_amount);
-              this.loanBreakupSelected['controls'].PACPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[1].premium_amount);
-              this.loanBreakupSelected['controls'].VASPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[3].premium_amount);
-              this.loanBreakupSelected['controls'].lifeCoverPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[2].premium_amount);
-              this.loanBreakupSelected['controls'].FASTagAmount.setValue(this.CrossSellIns[index].cross_sell_others.amount);
-              this.loanBreakupSelected['controls'].charges.setValue(this.CrossSellIns[index].loan_booking_dtls.total_charges);
-              this.loanBreakupSelected['controls'].gapDaysInterest.setValue(this.CrossSellIns[index].loan_booking_dtls.gap_days_interest);
+            if (res.ProcessVariables.NegotiationDetails) {
+              this.AssetsJson = JSON.parse(res.ProcessVariables.NegotiationDetails.AssetsJson);
 
-              if(this.CrossSellIns[index].cross_sell_ins[0].insurance_code == '4'){
-                let disableFields = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']
+
+              console.log(this.createNegotiationForm.controls.tickets['controls'], 'tickets')
+  
+  
+              let crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
+  
+                if (this.AssetsJson[index]) {
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls'].PremiumAmntSum.patchValue(this.AssetsJson[index] ? this.AssetsJson[index].total_insurance_premium_amount:  null),
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls'].fastTagAmtSum.patchValue(this.AssetsJson[index] ? this.AssetsJson[index].total_other_cross_sell_amount:  null),
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls'].processingFee.patchValue(this.AssetsJson[index].processingFee),
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls'].serviceCharge.patchValue(this.AssetsJson[index].serviceCharge)
+                }
+  
+                this.CrossSellIns = JSON.parse(res.ProcessVariables.NegotiationDetails.AssetsJson);
+  
+                if (this.CrossSellIns && this.CrossSellIns[index]) {
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['repaymentMode'].setValue(this.CrossSellIns[index].repayment_dtls.repayment_mode)
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['NoofPDC'].setValue(this.CrossSellIns[index].repayment_dtls.no_of_pdc)
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['NoofSPDC'].setValue(this.CrossSellIns[index].repayment_dtls.no_of_spdc)
+                  // const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
+                    
+                  this.negotiationSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].negotiationformArray;
+                  this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']['motor']
+                  this.PACvalueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']['pac']
+                  this.lifecovervalueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']['life']
+                  this.VASvalueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']['vas']
+                  this.fastTagvalueSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].fastTag;
+                  this.loanBookingSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].loanBookingDetails;
+                  this.loanBreakupSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].loanAmountBreakup;
+                  
+                  this.negotiationSelected['controls'].NegotiatedLoanAmount.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_loan_amount);
+                  this.negotiationSelected['controls'].NegotiatedLoanTenor.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_tenor_months);
+                  this.negotiationSelected['controls'].NegotiatedIRR.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_irr);
+                  this.negotiationSelected['controls'].NegotiatedEMI.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_emi);
+                  this.negotiationSelected['controls'].subventSchemeLoanTenor.setValue(this.CrossSellIns[index].negotiation_dtls.subvention_loan_tenor_months);
+                  this.negotiationSelected['controls'].subventionSchemeIRR.setValue(this.CrossSellIns[index].negotiation_dtls.subvention_irr);
+                  this.negotiationSelected['controls'].subventSchemeEMI.setValue(this.CrossSellIns[index].negotiation_dtls.subvention_emi);
+                  this.negotiationSelected['controls'].subventAmount.setValue(this.CrossSellIns[index].negotiation_dtls.subvention_amount);
+                  this.negotiationSelected['controls'].incentiveAmount.setValue(this.CrossSellIns[index].negotiation_dtls.incentive_amount);
+                  this.negotiationSelected['controls'].variableIRR.setValue(this.CrossSellIns[index].negotiation_dtls.variance);
+                  this.negotiationSelected['controls'].NetDisbursementAmount.setValue(this.CrossSellIns[index].loan_booking_dtls.net_disbursement_amount);
+  
+                  this.valueSelected['controls'].motorInsurance.setValue(this.CrossSellIns[index].cross_sell_ins[0].insurance_code);
+                  this.valueSelected['controls'].MITenure.setValue(this.CrossSellIns[index].cross_sell_ins[0].mi_tenure);
+                  this.valueSelected['controls'].MIPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[0].premium_amount);
+                  this.valueSelected['controls'].fundingRequiredforMI.setValue(this.CrossSellIns[index].cross_sell_ins[0].fndreinsurance_code);
+                  this.PACvalueSelected['controls'].creditShieldPAC.setValue(this.CrossSellIns[index].cross_sell_ins[1].insurance_code);
+                  this.PACvalueSelected['controls'].PACPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[1].premium_amount);
+                  this.PACvalueSelected['controls'].fundingRequiredforPAC.setValue(this.CrossSellIns[index].cross_sell_ins[1].fndreinsurance_code);
+                  this.lifecovervalueSelected['controls'].creditShieldLifeCover.setValue(this.CrossSellIns[index].cross_sell_ins[2].insurance_code);
+                  this.lifecovervalueSelected['controls'].lifeCoverPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[2].premium_amount);
+                  this.lifecovervalueSelected['controls'].fundingRequiredforlifeCover.setValue(this.CrossSellIns[index].cross_sell_ins[2].fndreinsurance_code);
+                  this.lifecovervalueSelected['controls'].fundingforLifeCover.setValue(this.CrossSellIns[index].cross_sell_ins[2].insslab);
+                  this.VASvalueSelected['controls'].VAS.setValue(this.CrossSellIns[index].cross_sell_ins[3].insurance_code);
+                  this.VASvalueSelected['controls'].VASPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[3].premium_amount);
+                  this.VASvalueSelected['controls'].fundingRequiredforVAS.setValue(this.CrossSellIns[index].cross_sell_ins[3].fndreinsurance_code);
+                  this.fastTagvalueSelected['controls'].EquitasFASTagRequired.setValue(this.CrossSellIns[index].cross_sell_others.cross_sell_type);
+                  this.fastTagvalueSelected['controls'].fundingRequiredforFASTag.setValue(this.CrossSellIns[index].cross_sell_others.fndreq);
+                  this.fastTagvalueSelected['controls'].FASTagAmount.setValue((this.CrossSellIns[index].cross_sell_others.amount? this.CrossSellIns[index].cross_sell_others.amount : 0));
+                  if(this.CrossSellIns[index].cross_sell_ins[0].insurance_code == '4' || this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '4'){
+                    this.showapplicable = true;
+                  }
+                  if(this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '4'){
+                    this.showapplicableCredit = true;
+                  }
+                  if(this.CrossSellIns[index].cross_sell_others.cross_sell_type == '2'){
+                    this.showapplicableFastag = true;
+                  }
+                  this.loanBookingSelected['controls'].LoanAmountincludingCrossSell.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell);
+                  this.loanBookingSelected['controls'].LoanAmountincludingCrossSellsubtractSubvent.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell_subtract_subvention);
+                  this.loanBookingSelected['controls'].MoratoriumPeriod.setValue(this.CrossSellIns[index].loan_booking_dtls.moratorium_days);
+                  this.getEMIDate(index,this.CrossSellIns[index].loan_booking_dtls.moratorium_days);
+                  this.loanBookingSelected['controls'].NoofRepayableMonthsafterMoratorium.setValue(this.CrossSellIns[index].loan_booking_dtls.mor_repay_month);
+                  this.loanBookingSelected['controls'].EMIStartDateAfterDisbursement.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_start_date);
+                  this.loanBookingSelected['controls'].PaymentModeforGapDaysInterest.setValue(this.CrossSellIns[index].loan_booking_dtls.gap_days_payment_mode);
+                  this.loanBookingSelected['controls'].repaymentFrequency.setValue(this.CrossSellIns[index].loan_booking_dtls.repayment_frequency);
+                  this.loanBookingSelected['controls'].EMIStructure.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_structure);
+                  this.loanBookingSelected['controls'].loanBookingEMI.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_after_crossell);
+                  this.loanBookingSelected['controls'].emiDefaultValue.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_default_value);
+               
+               
+               
+                  this.loanBreakupSelected['controls'].finalAssetCost.setValue(this.CrossSellIns[index].loan_booking_dtls.final_asset_cost);
+                  this.loanBreakupSelected['controls'].NegotiatedLoanAmount.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_loan_amount);
+                  this.loanBreakupSelected['controls'].LoanAmountincludingCrossSell.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell);
+                  this.loanBreakupSelected['controls'].LoanAmountincludingCrossSellsubtractSubvent.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell_subtract_subvention);
+                  this.loanBreakupSelected['controls'].finalLTV.setValue(this.CrossSellIns[index].loan_booking_dtls.final_ltv);
+                  this.loanBreakupSelected['controls'].MIPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[0].premium_amount);
+                  this.loanBreakupSelected['controls'].PACPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[1].premium_amount);
+                  this.loanBreakupSelected['controls'].VASPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[3].premium_amount);
+                  this.loanBreakupSelected['controls'].lifeCoverPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[2].premium_amount);
+                  this.loanBreakupSelected['controls'].FASTagAmount.setValue(this.CrossSellIns[index].cross_sell_others.amount);
+                  this.loanBreakupSelected['controls'].charges.setValue(this.CrossSellIns[index].loan_booking_dtls.total_charges);
+                  this.loanBreakupSelected['controls'].gapDaysInterest.setValue(this.CrossSellIns[index].loan_booking_dtls.gap_days_interest);
+               
+                }
+  
+                if(this.AssetDetailsList[index].schemeType=='S' || this.AssetDetailsList[index].schemeType=='I' || this.AssetDetailsList[index].schemeType=='SI'){
+                  this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['controls']['EMIStructure'].disable();
+                }
+  
+                if(this.AssetDetailsList[index].schemeType=='S' || this.AssetDetailsList[index].schemeType=='SI'){
+                  this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['controls']['loanBookingEMI'].disable();
+                }
+  
+  
+  
+                if(this.CrossSellIns[index].cross_sell_ins[0].insurance_code == '4'){
+                  let disableFields = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']
+                  
+                  disableFields.motor['controls'].fundingRequiredforMI.disable();
+                  disableFields.motor['controls'].MIPremiumAmount.disable();
+                  disableFields.motor['controls'].MITenure.disable(),
+                  
+                  disableFields.pac['controls'].creditShieldPAC.disable();
+                  disableFields.pac['controls'].fundingRequiredforPAC.disable();
+                  disableFields.pac['controls'].PACPremiumAmount.disable();
+                  
+                  disableFields.vas['controls'].VAS.disable();
+                  disableFields.vas['controls'].fundingRequiredforVAS.disable();
+                  disableFields.vas['controls'].VASPremiumAmount.disable();
+                  
+                  }
+                  if(this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '4'){
+                    let fetchDisableVal = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls'].life['controls']
                 
-                disableFields.motor['controls'].fundingRequiredforMI.disable();
-                disableFields.motor['controls'].MIPremiumAmount.disable();
-                disableFields.motor['controls'].MITenure.disable(),
-                
-                disableFields.pac['controls'].creditShieldPAC.disable();
-                disableFields.pac['controls'].fundingRequiredforPAC.disable();
-                disableFields.pac['controls'].PACPremiumAmount.disable();
-                
-                disableFields.vas['controls'].VAS.disable();
-                disableFields.vas['controls'].fundingRequiredforVAS.disable();
-                disableFields.vas['controls'].VASPremiumAmount.disable();
+                fetchDisableVal.fundingRequiredforlifeCover.disable();
+                fetchDisableVal.lifeCoverPremiumAmount.disable();
+                fetchDisableVal.fundingforLifeCover.disable();
                 
                 }
-                if(this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '4'){
-                  let fetchDisableVal = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls'].life['controls']
+                if(this.CrossSellIns[index].cross_sell_others.cross_sell_type == '2'){
+                  let fastagDisable = this.createNegotiationForm.get('tickets')['controls'][index]['controls']['fastTag']['controls'];
               
-              fetchDisableVal.fundingRequiredforlifeCover.disable();
-              fetchDisableVal.lifeCoverPremiumAmount.disable();
-              fetchDisableVal.fundingforLifeCover.disable();
+              fastagDisable.fundingRequiredforFASTag.disable();
+                        fastagDisable.FASTagAmount.disable();
               
               }
-              if(this.CrossSellIns[index].cross_sell_others.cross_sell_type == '2'){
-                let fastagDisable = this.createNegotiationForm.get('tickets')['controls'][index]['controls']['fastTag']['controls'];
-            
-            fastagDisable.fundingRequiredforFASTag.disable();
-                      fastagDisable.FASTagAmount.disable();
-            
+              if(this.CrossSellIns[index].cross_sell_ins[1].insurance_code == '4'){
+                let disablePACFields = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']
+                
+                disablePACFields.pac['controls'].fundingRequiredforPAC.disable();
+                disablePACFields.pac['controls'].PACPremiumAmount.disable();
+                
+                
+                }
+                if(this.CrossSellIns[index].cross_sell_ins[3].insurance_code == '4'){
+                  let disableVASFields = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']
+                  
+                  disableVASFields.vas['controls'].fundingRequiredforVAS.disable();
+                  disableVASFields.vas['controls'].VASPremiumAmount.disable();
+                  
+                  
+                  }
+                if(this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['value']['EMIStructure']!='1EMISTRUCT'){
+                  var variableGrid = [];
+                Object.keys(this.AssetsJson[index].variable_emi_grid).forEach(key => {
+                  var object = {
+                      fromMonth: this.AssetsJson[index].variable_emi_grid[key].from_month,
+                      toMonth: this.AssetsJson[index].variable_emi_grid[key].to_month,
+                      emiAmount: this.AssetsJson[index].variable_emi_grid[key].emi_amount
+                  }
+                  variableGrid.push(object);
+                })
+                let varSchValues = variableGrid;
+                let fetchedVarArray = this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['variableForm']['controls']['variableFormArray'];  
+                this.mockIndex = index;
+                this.tableObjectIndex = index;
+                this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['variableForm'].get('variableFormArray').controls=[];
+                this.formArr.push(this.initRowsDefault(index,false));
+                for (let x = 0; x < varSchValues.length; x++) {
+  
+                  fetchedVarArray.controls[0].controls.fromMonth.setValue(varSchValues[x]['fromMonth'])
+                  fetchedVarArray.controls[0].controls.toMonth.setValue(varSchValues[x]['toMonth'])
+                  fetchedVarArray.controls[0].controls.emiAmount.setValue(varSchValues[x]['emiAmount'])
+                  this.formArr.push(this.initRows(index,x,true,fetchedVarArray.controls[0].controls))
+                }
+                let totalVarTableSize=this.createNegotiationForm['controls']['tickets']['controls'][this.mockIndex]['controls']['variableForm']
+                if(totalVarTableSize.get('variableFormArray').controls.length>0){
+                  totalVarTableSize['controls']['variableFormArray'].removeAt(0);
+                }
+                
+                var mockSheduleData = [];             
+                Object.keys(this.AssetsJson[index].mock_schedule).forEach(key => {
+                  var object = {
+                    installmentCounter: this.AssetsJson[index].mock_schedule[key].installment_no,
+                    installmentDate: this.AssetsJson[index].mock_schedule[key].due_date,
+                    totalInstallmentAmount: this.AssetsJson[index].mock_schedule[key].total_installment_amount,
+                    principalAmount: this.AssetsJson[index].mock_schedule[key].principal_amount,
+                    interestAmount: this.AssetsJson[index].mock_schedule[key].interest_amount,
+                    principalBalanceAmount: this.AssetsJson[index].mock_schedule[key].principal_outstanding_amount
+                  }
+                  mockSheduleData.push(object);
+                })
+                let mockSchValues = mockSheduleData;
+                let fetchedMockArray = this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['mockSchForm']['controls']['mockSchFormArray'];  
+                this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['mockSchForm'].get('mockSchFormArray').controls=[];
+                this.mockformArr.push(this.msInitRowsDefault(false,''));
+                for (let x = 0; x < mockSchValues.length; x++) {
+  
+                  fetchedMockArray.controls[0].controls.installmentCounter.setValue(mockSchValues[x]['installmentCounter'])
+                  fetchedMockArray.controls[0].controls.installmentDate.setValue(mockSchValues[x]['installmentDate'])
+                  fetchedMockArray.controls[0].controls.totalInstallmentAmount.setValue(mockSchValues[x]['totalInstallmentAmount'])
+                  fetchedMockArray.controls[0].controls.principalAmount.setValue(mockSchValues[x]['principalAmount'])
+                  fetchedMockArray.controls[0].controls.interestAmount.setValue(mockSchValues[x]['interestAmount'])
+                  fetchedMockArray.controls[0].controls.principalBalanceAmount.setValue(mockSchValues[x]['principalBalanceAmount'])
+                
+                  this.mockformArr.push(this.msInitRowsDefault(true,fetchedMockArray.controls[0].controls))
+                
+                }
+                let totalMockTableSize=this.createNegotiationForm['controls']['tickets']['controls'][this.mockIndex]['controls']['mockSchForm']
+                if(totalMockTableSize.get('mockSchFormArray').controls.length>0){
+                  totalMockTableSize['controls']['mockSchFormArray'].removeAt(0);
+                }
+                }
+                
+                this.DeductionDetails = this.AssetsJson[index].deductions;
+                for (let i = this.deductChargesArray.length; i < this.DeductionDetails.length; i++) {
+                  this.deductionLabel[i] = this.DeductionDetails[i].charge_name;
+                  // if (this.DeductionDetails[i].charge_type != "P")
+                  //   this.DeductionDetails[i].DeductionChargefixedRate = this.DeductionDetails[i].DeductionChargefixedRate;
+                  this.deductChargesArray.push(this.fb.group({
+                    DeductionChargefixedRate: this.DeductionDetails[i].charge_amount,
+                  }));
+                };
+                this.setLMSCode(index);
+                this.loanBookingSelected['controls'].SelectAppropriateLMSScheduleCode.setValue(this.CrossSellIns[index].loan_booking_dtls.lms_schedule_code);              
+              })
             }
-            if(this.CrossSellIns[index].cross_sell_ins[1].insurance_code == '4'){
-              let disablePACFields = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']
-              
-              disablePACFields.pac['controls'].fundingRequiredforPAC.disable();
-              disablePACFields.pac['controls'].PACPremiumAmount.disable();
-              
-              
-              }
-              if(this.CrossSellIns[index].cross_sell_ins[3].insurance_code == '4'){
-                let disableVASFields = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].CrossSellInsurance['controls']
-                
-                disableVASFields.vas['controls'].fundingRequiredforVAS.disable();
-                disableVASFields.vas['controls'].VASPremiumAmount.disable();
-                
-                
-                }
-              if(this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['value']['EMIStructure']!='1EMISTRUCT'){
-                var variableGrid = [];
-              Object.keys(this.AssetsJson[index].variable_emi_grid).forEach(key => {
-                var object = {
-                    fromMonth: this.AssetsJson[index].variable_emi_grid[key].from_month,
-                    toMonth: this.AssetsJson[index].variable_emi_grid[key].to_month,
-                    emiAmount: this.AssetsJson[index].variable_emi_grid[key].emi_amount
-                }
-                variableGrid.push(object);
-              })
-              let varSchValues = variableGrid;
-              let fetchedVarArray = this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['variableForm']['controls']['variableFormArray'];  
-              this.mockIndex = index;
-              this.tableObjectIndex = index;
-              this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['variableForm'].get('variableFormArray').controls=[];
-              this.formArr.push(this.initRowsDefault(index,false));
-              for (let x = 0; x < varSchValues.length; x++) {
-
-                fetchedVarArray.controls[0].controls.fromMonth.setValue(varSchValues[x]['fromMonth'])
-                fetchedVarArray.controls[0].controls.toMonth.setValue(varSchValues[x]['toMonth'])
-                fetchedVarArray.controls[0].controls.emiAmount.setValue(varSchValues[x]['emiAmount'])
-                this.formArr.push(this.initRows(index,x,true,fetchedVarArray.controls[0].controls))
-              }
-              let totalVarTableSize=this.createNegotiationForm['controls']['tickets']['controls'][this.mockIndex]['controls']['variableForm']
-              if(totalVarTableSize.get('variableFormArray').controls.length>0){
-                totalVarTableSize['controls']['variableFormArray'].removeAt(0);
-              }
-              
-              var mockSheduleData = [];             
-              Object.keys(this.AssetsJson[index].mock_schedule).forEach(key => {
-                var object = {
-                  installmentCounter: this.AssetsJson[index].mock_schedule[key].installment_no,
-                  installmentDate: this.AssetsJson[index].mock_schedule[key].due_date,
-                  totalInstallmentAmount: this.AssetsJson[index].mock_schedule[key].total_installment_amount,
-                  principalAmount: this.AssetsJson[index].mock_schedule[key].principal_amount,
-                  interestAmount: this.AssetsJson[index].mock_schedule[key].interest_amount,
-                  principalBalanceAmount: this.AssetsJson[index].mock_schedule[key].principal_outstanding_amount
-                }
-                mockSheduleData.push(object);
-              })
-              let mockSchValues = mockSheduleData;
-              let fetchedMockArray = this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['mockSchForm']['controls']['mockSchFormArray'];  
-              this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['mockSchForm'].get('mockSchFormArray').controls=[];
-              this.mockformArr.push(this.msInitRowsDefault(false,''));
-              for (let x = 0; x < mockSchValues.length; x++) {
-
-                fetchedMockArray.controls[0].controls.installmentCounter.setValue(mockSchValues[x]['installmentCounter'])
-                fetchedMockArray.controls[0].controls.installmentDate.setValue(mockSchValues[x]['installmentDate'])
-                fetchedMockArray.controls[0].controls.totalInstallmentAmount.setValue(mockSchValues[x]['totalInstallmentAmount'])
-                fetchedMockArray.controls[0].controls.principalAmount.setValue(mockSchValues[x]['principalAmount'])
-                fetchedMockArray.controls[0].controls.interestAmount.setValue(mockSchValues[x]['interestAmount'])
-                fetchedMockArray.controls[0].controls.principalBalanceAmount.setValue(mockSchValues[x]['principalBalanceAmount'])
-              
-                this.mockformArr.push(this.msInitRowsDefault(true,fetchedMockArray.controls[0].controls))
-              
-              }
-              let totalMockTableSize=this.createNegotiationForm['controls']['tickets']['controls'][this.mockIndex]['controls']['mockSchForm']
-              if(totalMockTableSize.get('mockSchFormArray').controls.length>0){
-                totalMockTableSize['controls']['mockSchFormArray'].removeAt(0);
-              }
-              }
-              
-
-
-              this.DeductionDetails = this.AssetsJson[index].deductions;
-              for (let i = this.deductChargesArray.length; i < this.DeductionDetails.length; i++) {
-                this.deductionLabel[i] = this.DeductionDetails[i].charge_name;
-                // if (this.DeductionDetails[i].charge_type != "P")
-                //   this.DeductionDetails[i].DeductionChargefixedRate = this.DeductionDetails[i].DeductionChargefixedRate;
-                this.deductChargesArray.push(this.fb.group({
-                  DeductionChargefixedRate: this.DeductionDetails[i].charge_amount,
-                }));
-              };
-              this.setLMSCode(index);
-              this.loanBookingSelected['controls'].SelectAppropriateLMSScheduleCode.setValue(this.CrossSellIns[index].loan_booking_dtls.lms_schedule_code);              
-            })
+          
           }
         }
       });

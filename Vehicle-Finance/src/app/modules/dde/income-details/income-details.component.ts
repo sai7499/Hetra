@@ -1002,9 +1002,11 @@ export class IncomeDetailsComponent implements OnInit {
       return;
     }
     // stop here if form is invalid
-    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
+
     if (this.incomeDetailsForm.invalid || isUDFInvalid) {
       this.isDirty = true;
+      console.log(this.incomeDetailsForm, 'incomeDetailsForm')
       this.toasterService.showError(
         'Mandatory Fields Missing Or Invalid Pattern Detected',
         'Income Details'

@@ -478,6 +478,8 @@ export class ExistingLeadCreationComponent implements OnInit {
           this.minAge = new Date();
           this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
           this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+          this.minAge = this.utilityService.setTimeForDates(this.minAge)
+          this.maxAge = this.utilityService.setTimeForDates(this.maxAge)
         } else {
           this.minAge = null;
           this.maxAge = new Date();
