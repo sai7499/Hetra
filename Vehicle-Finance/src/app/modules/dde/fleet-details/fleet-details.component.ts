@@ -130,7 +130,6 @@ export class FleetDetailsComponent implements OnInit {
     private loanViewService: LoanViewService) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
-    // this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.fleetArrayList = this.fb.array([]);
   }
 
@@ -160,7 +159,7 @@ export class FleetDetailsComponent implements OnInit {
       }
       this.applicantList.push(keyValue)
     })
-
+    
     this.getLov();
     this.getFleetDetails();
 
@@ -550,13 +549,10 @@ export class FleetDetailsComponent implements OnInit {
   regsOwnerChange(event, index) {
     // this.relation = [];
     const relation = event.target.value;
-    const applicantType = this.applicantArray.find(
-      (ele) =>
-        ele.applicantId === Number(relation));
-
-    const relationArray = this.fleetLov.applicantRelationshipWithLead
-    const relationValue = relationArray.find((data) => data.key === applicantType.applicantTypeKey)
-    this.formArr.controls[index]['controls']['relation'].setValue(relationValue.key)
+    const applicantType = this.applicantArray.find((ele) => ele.applicantId === Number(relation));
+    const relationArray = this.fleetLov.applicantRelationshipWithLead;
+    const relationValue = relationArray.find((data) => data.key === applicantType.applicantTypeKey);
+    this.formArr.controls[index]['controls']['relation'].setValue(relationValue.key);
   }
 
   makeChange(event) {
