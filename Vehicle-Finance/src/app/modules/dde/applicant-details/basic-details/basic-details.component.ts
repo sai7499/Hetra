@@ -231,6 +231,8 @@ export class BasicDetailsComponent implements OnInit {
         this.minAge = new Date();
         this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
         this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+        this.minAge = this.utilityService.setTimeForDates(this.minAge)
+        this.maxAge = this.utilityService.setTimeForDates(this.maxAge)
         this.salariedMaxAge = data.ages.seniorCitizen.salaried
         this.selfMaxAge = data.ages.seniorCitizen.selfEmployment;
         console.log(this.salariedMaxAge,'AGES',this.selfMaxAge)
