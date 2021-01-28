@@ -32,9 +32,9 @@
                             <td role="columnheader" style="min-width: 200px;"> {{ labels.assetSegement }}</td>
                             <td role="columnheader" style="min-width: 200px;">{{labels.assetModel}}</td>
                             <td role="columnheader">{{labels.yom}} </td>
+                            <td role="columnheader">{{labels.purchaseDate}} </td>
                             <td role="columnheader" style="min-width: 120px;">{{labels.financier}} </td>
                             <td role="columnheader">{{labels.loanNo}} </td>
-                            <td role="columnheader">{{labels.purchaseDate}} </td>
                             <td role="columnheader">{{labels.tenure}} </td>
                             <td role="columnheader">{{labels.accrued}} </td>
                             <td role="columnheader">{{labels.seasoning}} </td>
@@ -64,17 +64,21 @@
                             </td>
                             <td style="min-width: 130px;">
 
-                                <app-custom-input [id]="'regdOwner'" formControlName="regdOwner"
+                                <app-vf-custom-select [values]="applicantList" formControlName="regdOwner"
+                                    [isDirty]="isDirty" (change)="regdOwnerChange($event, i)"
+                                    [isRequired]="'Owner name is mandatory '">
+                                </app-vf-custom-select>
+
+                                <!-- <app-custom-input [id]="'regdOwner'" formControlName="regdOwner"
                                     [className]="'form-control mandatory'" [placeholder]="'Owner name'"
                                     [maxLength]="validationData?.name.maxLength"
                                     [isRequired]="'Owner name is mandatory'" [isDirty]="isDirty"
                                     [type]="validationData?.name.type">
-                                </app-custom-input>
+                                </app-custom-input> -->
                             </td>
                             <td style="min-width: 165px;">
                                 <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead"
-                                    formControlName="relation" (change)="relationShipChange($event)"
-                                    [isRequired]="'Please select alteast one '">
+                                    formControlName="relation">
                                 </app-vf-custom-select>
 
                                 <div class="cus-mandatory-field"
@@ -145,22 +149,6 @@
                                 </div>
                             </td>
 
-                            <td style="min-width: 120px;">
-                                <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers" formControlName="financier"
-                                    (change)="financierChange($event)" [isRequired]="'Please select atleast one'">
-                                </app-vf-custom-select>
-
-                            </td>
-                            <td style="min-width: 150px;">
-                                <app-custom-input [id]="'loanNo'" formControlName="loanNo"
-                                    [className]="'form-control mandatory'" [placeholder]="'loanNo'"
-                                    [maxLength]="validationData?.loanNumber.maxLength"
-                                    [isRequired]="'Loan No is mandatory'" [type]="validationData?.loanNumber.type"
-                                    [isDirty]="isDirty" [inputClass]="'input-upper'"
-                                    [minLength]='validationData?.loanNumber.minLength'>
-                                </app-custom-input>
-
-                            </td>
                             <td>
                                 <div class="form-group ">
                                     <div class='input-group date' id='datetimepicker1'>
@@ -192,13 +180,38 @@
 
                                 </div>
                             </td>
+
+                            <td style="min-width: 120px;">
+                                <!-- <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers" formControlName="financier"
+                                
+                                    (change)="financierChange($event, i)" [isRequired]="'Please select atleast one'">
+                                </app-vf-custom-select> -->
+                                <select class="form-control" (change)="financierChange($event, i, itemrow)"
+                                    formControlName="financier">
+                                    <option value="Not-Applicable">NA</option>
+                                    <option *ngFor="let item of fleetLov?.vehicleFinanciers" [value]="item.key">
+                                        {{item.value}}</option>
+                                </select>
+                            </td>
+                            <td style="min-width: 150px;">
+                                <app-custom-input [id]="'loanNo'" formControlName="loanNo"
+                                    [className]="'form-control mandatory'" [placeholder]="'loanNo'"
+                                    [maxLength]="validationData?.loanNumber.maxLength"
+                                    [isRequired]="itemrow.controls['financier'].value !== 'Not-Applicable' ? 'Loan No is mandatory' : ''"
+                                    [type]="validationData?.loanNumber.type" [isDirty]="isDirty"
+                                    [inputClass]="'input-upper'" [minLength]='validationData?.loanNumber.minLength'>
+                                </app-custom-input>
+
+                            </td>
+
                             <td style="min-width: 120px;">
 
                                 <app-custom-input [id]="'tenure'" formControlName="tenure" [custom]="initalZeroCheck"
                                     [className]="'form-control mandatory'" [placeholder]="'Tenure'"
                                     [maxLength]="validationData?.tenurePaid['maxLength']"
-                                    [isRequired]="'Tenure is mandatory'" [type]="validationData?.tenurePaid['type']"
-                                    (keyup)="checkPaid($event ,i, itemrow)" [isDirty]="isDirty">
+                                    [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''"
+                                    [type]="validationData?.tenurePaid['type']" (keyup)="checkPaid($event ,i, itemrow)"
+                                    [isDirty]="isDirty">
                                 </app-custom-input>
 
                             </td>
@@ -207,7 +220,7 @@
                                     <app-custom-input [id]="'paid'" formControlName="paid" [custom]="initalZeroCheck"
                                         [className]="'form-control mandatory'" [placeholder]="'paid'"
                                         [maxLength]="validationData?.tenurePaid['maxLength']"
-                                        [isRequired]="'Accrued is mandatory'"
+                                        [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Accrued is mandatory' : ''"
                                         [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
                                         (keyup)="checkPaid($event ,i, itemrow)" (change)="calcSeasoning($event ,i)">
                                     </app-custom-input>
@@ -239,7 +252,9 @@
                                     [className]="'form-control mandatory'" [placeholder]="''">
                                 </app-custom-input>
                             </td>
-                            <td><u><button class="a_tag" (click)="onFormSubmit(i)">RTR</button></u></td>
+                            <td><u><button class="a_tag"
+                                        [disabled]="formArr.controls[i]['controls']['financier'].value =='Not-Applicable'"
+                                        (click)="onFormSubmit(i)">RTR</button></u></td>
 
                             <td *ngIf="!isLoan360">
                                 <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton_{{i}}" value="Add"
