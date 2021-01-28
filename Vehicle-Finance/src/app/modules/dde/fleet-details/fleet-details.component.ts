@@ -546,7 +546,7 @@ export class FleetDetailsComponent implements OnInit {
     });
   }
 
-  regsOwnerChange(event, index) {
+  regdOwnerChange(event, index) {
     // this.relation = [];
     const relation = event.target.value;
     const applicantType = this.applicantArray.find((ele) => ele.applicantId === Number(relation));
