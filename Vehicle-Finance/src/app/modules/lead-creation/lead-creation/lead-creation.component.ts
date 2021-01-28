@@ -286,9 +286,6 @@ export class LeadCreationComponent implements OnInit {
         if (this.applicantType === 'INDIVENTTYP') {
           this.maxAge = new Date();
           this.minAge = new Date();
-          let ye
-          let toDayDate = new Date(this.minAge.getFullYear(), 0, 0, 0, 0);
-          console.log(toDayDate, 'toDayDate', toDayDate.setFullYear(toDayDate.getFullYear() - minAge))
           this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
           this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
         } else {
