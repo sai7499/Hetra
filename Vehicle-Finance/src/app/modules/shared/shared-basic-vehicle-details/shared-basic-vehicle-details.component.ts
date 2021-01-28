@@ -474,11 +474,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         form.get('discount').setValidators([Validators.required]);
         form.get('discount').updateValueAndValidity();
 
-        form.get('insurance').setValue(insurance === 0 ? null : insurance);
-        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? null : oneTimeTax);
-        form.get('others').setValue(others === 0 ? null : others);
-        form.get('amcAmount').setValue(amcAmount === 0 ? null : amcAmount);
-        form.get('discount').setValue(discount === 0 ? null : discount);
+        form.get('insurance').setValue(insurance === 0 ? '' : insurance);
+        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax);
+        form.get('others').setValue(others === 0 ? '' : others);
+        form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount);
+        form.get('discount').setValue(discount === 0 ? '' : discount);
 
         if (exShowRoomCost >= discount) {
           let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount) - discount;
@@ -499,19 +499,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         setTimeout(() => {
 
           form.get('insurance').disable();
-          form.get('insurance').setValue(insurance === 0 ? null : insurance);
+          form.get('insurance').setValue(insurance === 0 ? '' : insurance);
 
           form.get('oneTimeTax').disable();
-          form.get('oneTimeTax').setValue(oneTimeTax === 0 ? null : oneTimeTax);
+          form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax);
 
           form.get('others').disable();
-          form.get('others').setValue(others === 0 ? null : others);
+          form.get('others').setValue(others === 0 ? '' : others);
 
           form.get('amcAmount').disable();
-          form.get('amcAmount').setValue(amcAmount === 0 ? null : amcAmount);
+          form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount);
 
           form.get('discount').disable();
-          form.get('discount').setValue(discount === 0 ? null : discount);
+          form.get('discount').setValue(discount === 0 ? '' : discount);
 
         })
         this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
@@ -1583,11 +1583,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         }
         if (url.includes('dde')) {
-          //data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
           data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
           data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
           data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : '';
-          data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
           data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
         }
 
@@ -1721,6 +1719,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const currentUrl = this.location.path();
     this.finalValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
     this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
+
+    this.finalValue['finalAssetCost'] =
+      typeof (this.isApiValue['finalAssetCost']) === 'string' ? String(this.finalValue['finalAssetCost']) :
+        Number(this.finalValue['finalAssetCost']);
+
+    console.log(typeof (this.isApiValue['finalAssetCost']), 'finalAssetCost')
+
     const isValueCheck = this.objectComparisonService.compare(this.isApiValue, this.finalValue);
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
 
@@ -1734,6 +1739,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
+
+
+    console.log(this.isApiValue, 'isValueCheck')
+    console.log(this.finalValue, 'isValueCheck', isValueCheck)
+
 
     if (!isValueCheck || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
