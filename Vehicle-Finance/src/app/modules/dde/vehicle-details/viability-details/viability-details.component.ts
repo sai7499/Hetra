@@ -722,7 +722,7 @@ export class ViabilityDetailsComponent implements OnInit {
       avgLoadPerTon: Number(data.avgLoadPerTon),
       busInsurenceExpenses: Number(data.busInsurenceExpenses),
       busMiscellaneousExpenses: Number(data.busMiscellaneousExpenses),
-      busMonthlyIncome: Number(data.busMonthlyIncome),
+      // busMonthlyIncome: Number(data.busMonthlyIncome),
       cleanersSalary: Number(data.cleanersSalary),
       costPerLtr: Number(data.costPerLtr),
       distanceInKm: Number(data.distanceInKm),

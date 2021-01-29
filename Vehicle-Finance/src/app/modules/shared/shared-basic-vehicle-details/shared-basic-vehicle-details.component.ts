@@ -341,11 +341,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (Number(obj.controls['assetCostCarTrade'].value) < Number(obj.controls['assetCostIBB'].value)) {
       formArray.controls[0].patchValue({
-        finalAssetCost: Number(formArray.value[0].assetCostCarTrade)
+        finalAssetCost: formArray.value[0].assetCostCarTrade
       })
     } else {
       formArray.controls[0].patchValue({
-        finalAssetCost: Number(formArray.value[0].assetCostIBB)
+        finalAssetCost: formArray.value[0].assetCostIBB
       })
     }
 
@@ -1720,11 +1720,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.finalValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
     this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
 
-    this.finalValue['finalAssetCost'] =
-      typeof (this.isApiValue['finalAssetCost']) === 'string' ? String(this.finalValue['finalAssetCost']) :
-        Number(this.finalValue['finalAssetCost']);
-
-    console.log(typeof (this.isApiValue['finalAssetCost']), 'finalAssetCost')
+    // if (this.finalValue['finalAssetCost']) {
+    //   this.finalValue['finalAssetCost'] =
+    //   typeof (this.isApiValue['finalAssetCost']) === 'string' ? String(this.finalValue['finalAssetCost']) :
+    //     Number(this.finalValue['finalAssetCost']);
+    // }
 
     const isValueCheck = this.objectComparisonService.compare(this.isApiValue, this.finalValue);
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
