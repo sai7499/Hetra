@@ -226,7 +226,6 @@ export class CustomInputComponent
     }
     if ((newValue === null || newValue == undefined || newValue === "") && this.isRequired) {
       // this.displayError(this.checkIsFirst ? '' : this.isRequired);
-      console.log(this.checkIsFirst, 'Mobu', this.inputError)
       if (!this.checkIsFirst) {
         this.displayError(this.isRequired)
       }
