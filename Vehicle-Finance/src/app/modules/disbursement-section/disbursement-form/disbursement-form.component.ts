@@ -949,8 +949,10 @@ export class DisbursementFormComponent implements OnInit {
   }
   selectDealerEvent(event: any) {
     let inputString = event.dealorCode;
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    const  productCatCode = leadData["leadDetails"].productCatCode;
     //console.log('inputStringDelr', event);
-    this.disbursementService.getDealerDetails(inputString).subscribe((res: any) => {
+    this.disbursementService.getDealerDetails(inputString,productCatCode).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
       // const apiError = response.ProcessVariables.error.code;
