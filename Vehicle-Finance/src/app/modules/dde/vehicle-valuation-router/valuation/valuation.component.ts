@@ -1582,12 +1582,12 @@ export class ValuationComponent implements OnInit {
     ...vehiclePhotoDetails
    }
     
-    // const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
-    // if (this.vehicleValuationForm.invalid || isUDFInvalid) {
-    //   this.toasterService.showWarning('please enter required details', '');
-    //   console.log('valuation form', this.vehicleValuationForm);
-    //   return;
-    // }
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
+    if (this.vehicleValuationForm.invalid || isUDFInvalid) {
+      this.toasterService.showWarning('please enter required details', '');
+      console.log('valuation form', this.vehicleValuationForm);
+      return;
+    }
     const udfData = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
     const data = {
       userId: localStorage.getItem('userId'),
