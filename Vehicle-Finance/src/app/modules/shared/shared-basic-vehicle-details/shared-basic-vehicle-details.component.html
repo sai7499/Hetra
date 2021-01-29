@@ -1651,7 +1651,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < toDayDate">
+                                            *ngIf="obj.controls['permitExpiryDate'].value && obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < toDayDate">
                                             Invalid Date
                                         </div>
 
@@ -1807,7 +1807,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
+                                            *ngIf=" obj.controls['insuranceValidity'].value && obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
                                             Invalid Date
                                         </div>
 
@@ -1883,7 +1883,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
+                                            *ngIf="obj.controls['expectedNOCDate'].value && obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
                                             Invalid Date
                                         </div>
 
@@ -2389,7 +2389,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
+                                            *ngIf=" obj.controls['insuranceValidity'].value && obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
                                             Invalid Date
                                         </div>
                                     </div>
@@ -2461,7 +2461,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
+                                            *ngIf="obj.controls['expectedNOCDate'].value  && obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
                                             Invalid Date
                                         </div>
 
