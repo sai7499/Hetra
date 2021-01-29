@@ -330,7 +330,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (value) {
       formArray.controls[0].patchValue({
-        finalAssetCost: value
+        finalAssetCost: value + ''
       })
     }
 
@@ -341,11 +341,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (Number(obj.controls['assetCostCarTrade'].value) < Number(obj.controls['assetCostIBB'].value)) {
       formArray.controls[0].patchValue({
-        finalAssetCost: Number(formArray.value[0].assetCostCarTrade)
+        finalAssetCost: formArray.value[0].assetCostCarTrade
       })
     } else {
       formArray.controls[0].patchValue({
-        finalAssetCost: Number(formArray.value[0].assetCostIBB)
+        finalAssetCost: formArray.value[0].assetCostIBB
       })
     }
 
@@ -474,11 +474,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         form.get('discount').setValidators([Validators.required]);
         form.get('discount').updateValueAndValidity();
 
-        form.get('insurance').setValue(insurance === 0 ? '' : insurance);
-        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax);
-        form.get('others').setValue(others === 0 ? '' : others);
-        form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount);
-        form.get('discount').setValue(discount === 0 ? '' : discount);
+        form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
+        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax + '');
+        form.get('others').setValue(others === 0 ? '' : others + '');
+        form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount + '');
+        form.get('discount').setValue(discount === 0 ? '' : discount + '');
 
         if (exShowRoomCost >= discount) {
           let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount) - discount;
@@ -499,19 +499,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         setTimeout(() => {
 
           form.get('insurance').disable();
-          form.get('insurance').setValue(insurance === 0 ? '' : insurance);
+          form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
 
           form.get('oneTimeTax').disable();
-          form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax);
+          form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax + '');
 
           form.get('others').disable();
-          form.get('others').setValue(others === 0 ? '' : others);
+          form.get('others').setValue(others === 0 ? '' : others + '');
 
           form.get('amcAmount').disable();
-          form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount);
+          form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount + '');
 
           form.get('discount').disable();
-          form.get('discount').setValue(discount === 0 ? '' : discount);
+          form.get('discount').setValue(discount === 0 ? '' : discount + '');
 
         })
         this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
@@ -583,7 +583,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       finalAssetCost: VehicleDetail.finalAssetCost || null,
       fitnessDate: VehicleDetail.fitnessDate ? this.utilityService.getDateFromString(VehicleDetail.fitnessDate) : '',
       fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ? true : false || '',
-      firFiled: VehicleDetail.firFiled === '1' ? true : false || '',
+      firFiled: VehicleDetail.firFiled === '1' ? true : false || false,
       fsrdPremiumAmount: VehicleDetail.fsrdPremiumAmount || null,
       grossVehicleWeight: VehicleDetail.grossVehicleWeight || '',
       idv: VehicleDetail.idv || null,
@@ -610,7 +610,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       oneTimeTax: VehicleDetail.oneTimeTax || '',
       orpValue: VehicleDetail.orpValue || '',
       others: VehicleDetail.others || '',
-      onlineVerification: VehicleDetail.onlineVerification === '1' ? true : false || '',
+      onlineVerification: VehicleDetail.onlineVerification === '1' ? true : false || false,
       amcAmount: VehicleDetail.amcAmount || '',
       loanAmount: VehicleDetail.loanAmount ? VehicleDetail.loanAmount : this.eligibleLoanAmount || 0,
       bodyCost: VehicleDetail.bodyCost || null,
@@ -1553,13 +1553,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
         }
 
-        if (data.firFiled) {
-          data.firFiled = data.firFiled === true ? '1' : '0';
-        }
+        // if (data.firFiled) {
+          data.firFiled = data.firFiled && data.firFiled === true ? '1' : '0';
+        // }
 
-        if (data.onlineVerification) {
-          data.onlineVerification = data.onlineVerification === true ? '1' : '0';
-        }
+        // if (data.onlineVerification) {
+          data.onlineVerification = data.onlineVerification && data.onlineVerification === true ? '1' : '0';
+        // } 
 
         if (data.insuranceValidity) {
           data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
@@ -1573,12 +1573,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
         }
 
-
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
           data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
-          if (url.includes('dde')) {
+          if (url.includes('dde') && data.expectedNOCDate) {
             data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
           }
         }
@@ -1604,7 +1603,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             this.initUDFValues = this.userDefineForm.udfData.getRawValue();
             this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
             this.getVehicleDetails(this.leadId);
-            //this.router.navigate(['pages/lead-section/' + this.leadId + '/vehicle-list']);
           } else {
             this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Details')
           }
@@ -1622,7 +1620,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         } else if (url.includes('dde') && !this.basicVehicleForm.value.isVaildFinalAssetCost) {
           this.toasterService.showError('Discount should not greater than Ex show room price', 'Invalid Final Asset Cost')
         }
-
       }
     } else {
       this.isDirty = true;
@@ -1631,7 +1628,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
     }
   }
-
 
   onCredit() {
 
@@ -1719,13 +1715,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const currentUrl = this.location.path();
     this.finalValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
     this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
-
-    this.finalValue['finalAssetCost'] =
-      typeof (this.isApiValue['finalAssetCost']) === 'string' ? String(this.finalValue['finalAssetCost']) :
-        Number(this.finalValue['finalAssetCost']);
-
-    console.log(typeof (this.isApiValue['finalAssetCost']), 'finalAssetCost')
-
     const isValueCheck = this.objectComparisonService.compare(this.isApiValue, this.finalValue);
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
 
@@ -1739,11 +1728,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-
-
-    console.log(this.isApiValue, 'isValueCheck')
-    console.log(this.finalValue, 'isValueCheck', isValueCheck)
-
 
     if (!isValueCheck || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
