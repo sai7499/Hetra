@@ -87,10 +87,8 @@ export class DdeComponent implements OnInit, OnChanges {
           this.isChildLoan = leadData.leadDetails.isChildLoan;
           this.productId = leadData.leadDetails.productId;
         }
-        
-        console.log('child loan:', this.isChildLoan, 'product id:', this.productId);
       }
-      if ((this.isChildLoan === '1') && ((this.productId === '1078') || (this.productId === '1078') || (this.productId === '1078'))) {
+      if ((this.isChildLoan === '1') && ((this.productId === '1078') || (this.productId === '1079') || (this.productId === '1080'))) {
         this.ShowChildValuationScreen = true;
       }
       if ((this.isChildLoan === '0') && (this.productCatCode !== 'NCV')) {
@@ -150,6 +148,8 @@ export class DdeComponent implements OnInit, OnChanges {
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
       this.showNav = true;
     }
+
+    console.log(this.productId, 'on change', this.isChildLoan);
 
   }
 

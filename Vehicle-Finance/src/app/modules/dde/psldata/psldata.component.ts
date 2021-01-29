@@ -68,6 +68,9 @@ export class PSLdataComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
 
+  isChildLoan: any;
+  productId: any
+
   constructor( private formBuilder: FormBuilder,
                private labelsData: LabelsService,
                private createLeadDataService: CreateLeadDataService,
@@ -121,8 +124,12 @@ export class PSLdataComponent implements OnInit {
   // GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
+    if(leadData['leadDetails']){
+      this.isChildLoan = leadData['leadDetails'].isChildLoan;
+      this.productId = leadData['leadDetails'].productId;
+    }
     this.productCatCode = leadData['leadDetails'].productCatCode;
-    console.log('PRODUCT_CODE::', this.productCatCode);
+    console.log(leadData, 'PRODUCT_CODE::', this.productCatCode);
   }
 
   // Get Dependent API LOV for Activity, Detail Activity & Purpose of Loan
@@ -1114,14 +1121,25 @@ onChangeWeakerSection(event: any) {
 
   // NAVIGATE_NEXT_BASED_ON_PRODUCT_CODE
   navigateNext() {
-    if (this.productCatCode != 'NCV') {
-      this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
-      this.sharedService.getPslDataNext(false);
-    } else if (this.productCatCode == 'NCV') {
-      this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
-      this.sharedService.getPslDataNext(true);
 
+    if (this.isChildLoan === '1') {
+      if ((this.productId === '1078') || (this.productId === '1079') || (this.productId === '1080')) {
+        this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+        this.sharedService.getPslDataNext(false);
+      }  else {
+        this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
+        this.sharedService.getPslDataNext(true);
+      }
+    } else if ((this.isChildLoan === '0')) {
+      if (this.productCatCode != 'NCV') {
+        this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+        this.sharedService.getPslDataNext(false);
+      } else if (this.productCatCode == 'NCV') {
+        this.router.navigate([`/pages/dde/${this.leadId}/tvr-details`]);
+        this.sharedService.getPslDataNext(true);
+      }
     }
+
   }
 
   onBack() {
