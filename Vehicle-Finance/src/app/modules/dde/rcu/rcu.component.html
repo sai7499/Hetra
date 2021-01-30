@@ -220,6 +220,16 @@
                   <input id="documentId" name="input" type="text" class="form-control form-control-cus file-input box-height"
                     formControlName="dmsDocumentID" readonly (click)="downloadDocs($event.target.value)" />
                 </td>
+                
+                <td [attr.data-label]="labels?.screened" data-title="Member">
+
+                  <app-vf-custom-select [values]="[
+              { key: '0', value: 'Yes' },
+              { key: '1', value: 'No' }
+            ]" formControlName="screened" 
+            class="form-control-cus">
+                  </app-vf-custom-select>
+                </td>
                 <td [attr.data-label]="labels?.sampled" 
                 data-title="Member">
                   <app-vf-custom-select
@@ -228,15 +238,6 @@
                     { key: '1', value: 'No' }
                     ]" formControlName="sampled" 
                     class="form-control-cus">
-                  </app-vf-custom-select>
-                </td>
-                <td [attr.data-label]="labels?.screened" data-title="Member">
-
-                  <app-vf-custom-select [values]="[
-              { key: '0', value: 'Yes' },
-              { key: '1', value: 'No' }
-            ]" formControlName="screened" 
-            class="form-control-cus">
                   </app-vf-custom-select>
                 </td>
                 <td [attr.data-label]="labels?.status" data-title="Member">
@@ -298,20 +299,21 @@
                   <input name="input" type="text" class=" form-control form-control-cus file-input"
                     formControlName="dmsDocumentID" (click)="downloadDocs($event.target.value)" />
                 </td>
-                <td [attr.data-label]="labels?.sampled" 
-                data-title="Member">
-                  <app-vf-custom-select [values]="[
-              { key: '0', value: 'Yes' },
-              { key: '1', value: 'No' }
-            ]" formControlName="sampled" class="form-control-cus">
-                  </app-vf-custom-select>
-                </td>
+                
                 <td [attr.data-label]="labels?.screened" data-title="Member">
 
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
             ]" formControlName="screened" class="form-control-cus">
+                  </app-vf-custom-select>
+                </td>
+                <td [attr.data-label]="labels?.sampled" 
+                data-title="Member">
+                  <app-vf-custom-select [values]="[
+              { key: '0', value: 'Yes' },
+              { key: '1', value: 'No' }
+            ]" formControlName="sampled" class="form-control-cus">
                   </app-vf-custom-select>
                 </td>
                 <td [attr.data-label]="labels?.status" data-title="Member">

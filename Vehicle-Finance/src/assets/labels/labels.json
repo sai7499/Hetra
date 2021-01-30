@@ -1341,7 +1341,7 @@
     "vfSheetTag82": "All the terms and conditions of sanction of the above loan facility have been explained to me/us Mr / Mrs / Miss",
     "vfSheetTag82A": "(Employees / DSA Name and employee ID/DSA, code has to be mentioned)and I/we have understood the same",
     "paymentType": "PAYMENT TYPE:",
-    "payeeName": "PAYEE NAME:",
+    "payeeName": "PAYEE NAME",
     "acNo": "A/c No",
     "paymentAmount": "PAYMENT AMOUNT:",
     "monthlyIncomeAmount": "Monthly Income Amount",
