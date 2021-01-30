@@ -6,9 +6,9 @@
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
           </label>
-          <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">{{
-            leadId && leadId !== 'null' ? leadId : ' NA'
-            }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
+          <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">
+            {{leadId && leadId != 'null' ? leadId : ' NA'}} 
+            <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
               (click)="onLeadHistory()"></i>
           </label>
         </div>
