@@ -9,7 +9,7 @@
           <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">
             {{leadId && leadId != 'null' ? leadId : ' NA'}} 
             <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
-              (click)="onLeadHistory()"></i>
+              (click)="onLeadHistory()" *ngIf="leadId && leadId != 'null'"></i>
           </label>
         </div>
       </div>
@@ -74,10 +74,12 @@
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
           </label>
+          <!-- leadId && leadId != 'null'
+           -->
           <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">:{{
             leadId && leadId !== 'null' ? leadId : ' NA'
             }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
-              (click)="onLeadHistory()"></i></label>
+              (click)="onLeadHistory()" *ngIf="leadId && leadId != 'null'"></i></label>
         </div>
       </div>
       <div class=" col-lg-4 col-md-4 col-sm-12">

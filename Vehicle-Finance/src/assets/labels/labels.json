@@ -1383,7 +1383,7 @@
     "collateralName": "Collateral Name",
     "spokeLocation": "Spoke Location",
     "locationName": "Location Name",
-    "folioNumber": "Folio number",
+    "folioNumber": "Folio Number / UCIC",
     "nameOfTheCustomer": "Name of the customer",
     "customerDOB": "Customer DOB",
     "customerAge": "Customer Age",
