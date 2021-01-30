@@ -194,6 +194,8 @@
                                              formControlName="chequeDate"
                                              [format]="'dd/MM/yyyy'"
                                              [min]="disburseDate"
+                                             [max]="toDayDate"
+
                                              placeholder="Cheque Date"
                                              [activeView]="'decade'"
                                              [disabled]="disableUpdate"
@@ -204,7 +206,7 @@
                                            <div class="invalid-feedback ShowError">
                                             <div 
                                             *ngIf="isDirty">
-                                              <div *ngIf="chequeForm.get('chequeDate').invalid">
+                                              <div *ngIf="!chequeForm.get('chequeDate').value && chequeForm.get('chequeDate').invalid">
                                                   Select Date
                                               </div>
                                             </div>
@@ -243,7 +245,7 @@
                                               <div class="invalid-feedback ShowError"
                                               >
 
-                                                <div *ngIf="isDirty && chequeForm.get('statusUpdatedOn').invalid">
+                                                <div *ngIf="isDirty && !chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">
                                                     Select Date
                                                 </div>
                                                <div *ngIf="chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">

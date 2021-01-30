@@ -23,10 +23,13 @@
                     </div>
                 </div>
                 <div id="table_section_bottom">
-                    <div class="row text-center table_header_top"> 
-                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.applicationNo}}. : {{applicationDetails?.applicantionNum}}</div>
-                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.proposalNo}}. : {{applicationDetails?.proposalNum}}</div>
-                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.scheme}} : {{applicationDetails?.scheme}}</div>
+                    <div class="row text-center table_header_top">
+                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.applicationNo}}. :
+                            {{applicationDetails?.applicantionNum}}</div>
+                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.proposalNo}}. :
+                            {{applicationDetails?.proposalNum}}</div>
+                        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4">{{labels.scheme}} :
+                            {{applicationDetails?.scheme}}</div>
                     </div>
                     <!-- <table class="table-responsive  table table-borderless">
                         <thead>
@@ -229,8 +232,10 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td *ngIf = "applicantDetails?.entityType == 'INDIVENTTYP'">{{labels.customerDOB}}</td>
-                                    <td *ngIf = "applicantDetails?.entityType == 'NONINDIVENTTYP'">{{labels.customerDOI}}</td>
+                                    <td *ngIf="applicantDetails?.entityType == 'INDIVENTTYP'">{{labels.customerDOB}}
+                                    </td>
+                                    <td *ngIf="applicantDetails?.entityType == 'NONINDIVENTTYP'">{{labels.customerDOI}}
+                                    </td>
 
                                     <td>:</td>
                                     <td>{{applicantDetails?.dob}}</td>
@@ -282,7 +287,7 @@
                                     <td>{{commonAppDetails?.businessStab}}</td>
                                     <td>{{labels.residenceStability2}}</td>
                                     <td>: </td>
-                                    <td>{{commonAppDetails?.residenceStab ? commonAppDetails?.residenceStab  : "-" }}
+                                    <td>{{commonAppDetails?.residenceStab ? commonAppDetails?.residenceStab : "-" }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -298,27 +303,29 @@
                         <table class="table-responsive  table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td class="tab-wid-25" *ngIf = "coAppDetailsData?.entityType == 'INDIVENTTYP'">{{labels.dob}}</td>
-                                    <td class="tab-wid-25" *ngIf = "coAppDetailsData?.entityType == 'NONINDIVENTTYP'">{{labels.doi}}</td>
+                                    <td class="tab-wid-25" *ngIf="coAppDetailsData?.entityType == 'INDIVENTTYP'">
+                                        {{labels.dob}}</td>
+                                    <td class="tab-wid-25" *ngIf="coAppDetailsData?.entityType == 'NONINDIVENTTYP'">
+                                        {{labels.doi}}</td>
 
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{coAppDetailsData.dob}}</td>
+                                    <td class="tab-wid-25">{{coAppDetailsData.dob}}</td>
                                     <td class="tab-wid-25">{{labels.age}} </td>
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{coAppDetailsData.age}}</td>
+                                    <td class="tab-wid-25">{{coAppDetailsData.age}}</td>
                                     <td class="tab-wid-25">{{labels.type}}</td>
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{coAppDetailsData.type}}</td>
+                                    <td class="tab-wid-25">{{coAppDetailsData.type}}</td>
                                     <td class="tab-wid-25">{{labels.gender}}</td>
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{coAppDetailsData.gender}}</td>
+                                    <td class="tab-wid-25">{{coAppDetailsData.gender}}</td>
                                     <!-- <td class="tab-wid-25">{{labels.dob}}</td>
                                     <td class="tab-wid-5">:</td>
                                     <td class="tab-wid-25" >{{coAppDetailsData.dob}}</td> -->
                                 </tr>
-                                
+
                             </tbody>
-                            </table>
+                        </table>
 
                     </div>
 
@@ -326,36 +333,38 @@
                 </div>
                 <div id="tearms_sheet_header3">
 
-                    <p class="text-center" >{{labels.guarantorDetails}}</p>
+                    <p class="text-center">{{labels.guarantorDetails}}</p>
                     <div *ngFor="let guarantorData of guarantorDetails">
-                        <p >
+                        <p>
                             {{labels.name}} : {{guarantorData.name}}
                         </p>
-                       
+
                         <table class="table-responsive  table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td class="tab-wid-25" *ngIf = "guarantorData?.entityType == 'INDIVENTTYP'">{{labels.dob}}</td>
-                                    <td class="tab-wid-25" *ngIf = "guarantorData?.entityType == 'NONINDIVENTTYP'">{{labels.doi}}</td>
+                                    <td class="tab-wid-25" *ngIf="guarantorData?.entityType == 'INDIVENTTYP'">
+                                        {{labels.dob}}</td>
+                                    <td class="tab-wid-25" *ngIf="guarantorData?.entityType == 'NONINDIVENTTYP'">
+                                        {{labels.doi}}</td>
 
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{guarantorData.dob}}</td>
+                                    <td class="tab-wid-25">{{guarantorData.dob}}</td>
                                     <td class="tab-wid-25">{{labels.age}} </td>
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{guarantorData.age}}</td>
+                                    <td class="tab-wid-25">{{guarantorData.age}}</td>
                                     <td class="tab-wid-25">{{labels.type}}</td>
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{guarantorData.type}}</td>
+                                    <td class="tab-wid-25">{{guarantorData.type}}</td>
                                     <td class="tab-wid-25">{{labels.gender}}</td>
                                     <td class="tab-wid-5">:</td>
-                                    <td class="tab-wid-25" >{{guarantorData.gender}}</td>
+                                    <td class="tab-wid-25">{{guarantorData.gender}}</td>
                                     <!-- <td class="tab-wid-25">{{labels.dob}}</td>
                                     <td class="tab-wid-5">:</td>
                                     <td class="tab-wid-25" >{{guarantorData.dob}}</td> -->
                                 </tr>
-                                
+
                             </tbody>
-                            </table>
+                        </table>
                     </div>
                 </div>
                 <div id="tearms_sheet_header4" *ngFor="let bankDetails of bankDetails">
@@ -364,17 +373,17 @@
                             <tr>
                                 <td class="tab-wid-25">{{labels.applicantBankName}}</td>
                                 <td class="tab-wid-5">:</td>
-                                <td class="tab-wid-25" ></td>
+                                <td class="tab-wid-25"></td>
                                 <td class="tab-wid-25">{{bankDetails?.bankName ? bankDetails?.bankName : '-'}}</td>
-                               
+
                                 <td class="tab-wid-25">{{labels.MICRNO}}</td>
                                 <td class="tab-wid-5">:</td>
-                                <td class="tab-wid-25" >{{bankDetails?.MICR ? bankDetails?.MICR : '-'}}</td>
-                               
+                                <td class="tab-wid-25">{{bankDetails?.MICR ? bankDetails?.MICR : '-'}}</td>
+
                             </tr>
-                            
+
                         </tbody>
-                        </table>
+                    </table>
                     <!-- <p id="tearms_sheet_header4_tag">
                         <span id="tearms_sheet_header4_tag1">
                             {{labels.applicantBankName}} &nbsp;: &nbsp;
@@ -389,17 +398,17 @@
                             <tr>
                                 <td class="tab-wid-25">{{labels.applicantBankBranch}}</td>
                                 <td class="tab-wid-5">:</td>
-                                <td class="tab-wid-25" ></td>
+                                <td class="tab-wid-25"></td>
                                 <td class="tab-wid-25">{{bankDetails?.branchName ? bankDetails?.branchName : '-'}}</td>
-                               
+
                                 <td class="tab-wid-25">{{labels.accNo}}</td>
                                 <td class="tab-wid-5">:</td>
-                                <td class="tab-wid-25" >{{bankDetails?.accNum ? bankDetails?.accNum : '-'}}</td>
-                               
+                                <td class="tab-wid-25">{{bankDetails?.accNum ? bankDetails?.accNum : '-'}}</td>
+
                             </tr>
-                            
+
                         </tbody>
-                        </table>
+                    </table>
 
 
                     <!-- <p id="tearms_sheet_header4_tag3">
@@ -429,25 +438,25 @@
                             <tr>
                                 <td class="tab-wid-25">{{labels.sourcedBy}}</td>
                                 <td class="tab-wid-5">:</td>
-                                <td class="tab-wid-25" >{{agentDetails?.sourcedBy}}</td>
+                                <td class="tab-wid-25">{{agentDetails?.sourcedBy}}</td>
                                 <td class="tab-wid-25">{{labels.name}}</td>
                                 <td class="tab-wid-5">:</td>
-                                <td class="tab-wid-25" >{{agentDetails?.name}}</td>
-                               
-                            </tr>                           
-                       
+                                <td class="tab-wid-25">{{agentDetails?.name}}</td>
+
+                            </tr>
+
                             <tr>
                                 <td class="tab-wid-25">{{labels.agentCode}}</td>
                                 <td class="tab-wid-5">:</td>
-                                <td class="tab-wid-25" >{{agentDetails?.agentCode}}</td>
+                                <td class="tab-wid-25">{{agentDetails?.agentCode}}</td>
                                 <td class="tab-wid-25">{{labels.name}}</td>
                                 <td class="tab-wid-5">:</td>
-                                <td class="tab-wid-25" >{{agentDetails?.name}}</td>
-                               
+                                <td class="tab-wid-25">{{agentDetails?.name}}</td>
+
                             </tr>
-                            
+
                         </tbody>
-                        </table>
+                    </table>
                 </div>
                 <div id="">
                     <div *ngFor="let identityData of identityDetails">
@@ -496,7 +505,7 @@
                                 <td class="tab-wid-25">{{assValuationData.gridAmount}}</td>
                             </tr>
                             <tr>
-                                <td class="tab-wid-25" >{{labels.valuationDate}}</td>
+                                <td class="tab-wid-25">{{labels.valuationDate}}</td>
                                 <td class="tab-wid-5">:</td>
                                 <td class="tab-wid-25">{{assValuationData.valDate}}</td>
                                 <td class="tab-wid-25">{{labels.modelNotInGrid}}</td>
@@ -708,79 +717,95 @@
 
                         </tbody>
                     </table>
-                </div>""
+                </div>
                 <div class="row" id="terms_sheet_headline9" class="table-responsive">
-                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    {{labels.ecsMandate}} :
-                   </div>
-                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    {{ecsDetails?.ecs_mandate}}
-                   </div>
-                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    {{labels.ecsBankName}} :
-                   </div>
-                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    {{ecsDetails?.ecs_bank}}
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        {{labels.ecsMandate}} :
                     </div>
-                    
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        {{ecsDetails?.ecs_mandate}}
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        {{labels.ecsBankName}} :
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        {{ecsDetails?.ecs_bank}}
+                    </div>
+
                 </div>
                 <div id="terms_sheet_headline10" class="">
                     <!-- Deduction Charges from Loan Amount -->
                     <p class="text-center">
                         {{labels.termSheetTag3}}</p>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.processingFee}}: {{deductionDetails?.vfProcessingFee}}</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.advEmiAmt}} : {{deductionDetails?.advEmiAmt}}</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.npdeOrRpdcAmount}} : {{deductionDetails?.npdc_rpdc_amt}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.creditShield}} : {{deductionDetails?.creditShield}}</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.insPremiumAmt}}: {{deductionDetails?.insPremiumAmt}}</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.emiCoveragePremium}} : {{deductionDetails?.emiCovPremium}}</div>
-                            
-                        
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.processingFee}}:
+                            {{deductionDetails?.vfProcessingFee}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.advEmiAmt}} :
+                            {{deductionDetails?.advEmiAmt}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.npdeOrRpdcAmount}} :
+                            {{deductionDetails?.npdc_rpdc_amt}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.creditShield}} :
+                            {{deductionDetails?.creditShield}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.insPremiumAmt}}:
+                            {{deductionDetails?.insPremiumAmt}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.emiCoveragePremium}} :
+                            {{deductionDetails?.emiCovPremium}}</div>
+
+
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style="overflow: hidden;">
                             {{labels.totalDeductionAmount}}: {{deductionDetails?.totalDeductAmt}}
                         </div>
-                        </div>
-                   
+                    </div>
+
                 </div>
-               
-                <div id="terms_sheet_headline11_header" class="table-responsive">
+
+                <div id="terms_sheet_headline11_tag0" class="table-responsive" style="overflow-x: hidden !important">
                    
+                    <p class="text-center" id="terms_sheet_headline11_1">{{labels.paymentDetails}}</p>
+
                     <div *ngFor="let paymentDetails of paymentDetails">
-                        <p id="terms_sheet_headline11">{{labels.paymentDetails}}</p>
-                        <p id="terms_sheet_headline11_tag">
-                            <span id="terms_sheet_headline11_tag1">{{labels.paymentTo}} :
+                        <p class="row" id="terms_sheet_headline11_tag">
+                            <span class="col-sm-5" id="terms_sheet_headline11_tag1">{{labels.paymentTo}} :
                                 {{paymentDetails?.paymentTo}}</span>
-                            <span id="terms_sheet_headline11_tag2">{{labels.payeeName}}: {{paymentDetails?.payeeName}}
-                                &nbsp;&nbsp; <span>{{labels.acNo}} : </span> {{paymentDetails?.accNum}}
+                            <span class="col-sm-5" id="terms_sheet_headline11_tag1">{{labels.payeeName}} :
+                                {{paymentDetails?.payeeName}}
                             </span>
                         </p>
-                        <p id="terms_sheet_headline11_tag3">
-                            <span id="terms_sheet_headline11_tag4">{{labels.amount}} : {{paymentDetails?.amount}}</span>
-                            <span id="terms_sheet_headline11_tag5">{{labels.bankAc}} :
-                                {{paymentDetails?.bankAcc}}</span>
+                        <p class="row" id="terms_sheet_headline11_tag3">
+                            <span class="col-sm-5" id="terms_sheet_headline11_tag1">{{labels.amount}} :
+                                {{paymentDetails?.amount}}</span>
+
+                            <span class="col-sm-5" id="terms_sheet_headline11_tag1">{{labels.bankAc}} :
+                                {{paymentDetails?.bankName}}
+                            </span>
                         </p>
-                        <p id="terms_sheet_headline11_tag6">
-                            <span id="terms_sheet_headline11_tag7">{{labels.mode}} : {{paymentDetails?.mode}}</span>
-                            <span id="terms_sheet_headline11_tag8"></span>
+                        <p class="row" id="terms_sheet_headline11_tag6">
+                            <span class="col-sm-5" id="terms_sheet_headline11_tag1">{{labels.mode}} :
+                                {{paymentDetails?.mode}}</span>
+
+                            <span class="col-sm-5" id="terms_sheet_headline11_tag1">{{labels.acNo}} :
+                                {{paymentDetails?.accNum}}
+                            </span>
                         </p>
+                        <br>
                     </div>
 
-
                 </div>
-                <div id="terms_sheet_headline12" class="table-responsive">
+                <div id="terms_sheet_headline12_tag0" class="table-responsive" style="border-top: 2px dashed #c6c2c2">
                     <p class="text-center">{{labels.approvalDetails}}</p>
-                   
-                    <hr id="terms_sheet_headline12_tag0" />
+
                     <div *ngFor="let approvalData of approvalDetails row">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.employeeCode}} : {{approvalData.empCode}}</div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.executiveName}} : {{approvalData.executiveName}}</div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.remark}} : {{approvalData.remarks}}</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.employeeCode}} :
+                            {{approvalData.empCode}}</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.executiveName}} :
+                            {{approvalData.executiveName}}</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.remark}} : {{approvalData.remarks}}
+                        </div>
                     </div>
                 </div>
-                
+
                 <div id="terms_sheet_headline13" class="table-responsive">
                     <p class="text-center">{{labels.creditApprovalDeviation}}</p>
                     <table class="table table-responsive table-borderless">
@@ -918,8 +943,9 @@
                             <span id="">{{labels.dateTime}} : </span>
                         </p>
                     </div>
-                    <div  class="col-lg-6 col-sm-6 col-xs-6 col-md-6 text-right">
-                        <span id=""> {{labels.signature}} : </span></div>
+                    <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6 text-right">
+                        <span id=""> {{labels.signature}} : </span>
+                    </div>
                 </div>
 
             </div>
@@ -929,10 +955,13 @@
 
             </div>
             <div class="col-sm-7 text-right">
-                <button class="btn btn-primary btn_div hvr-sweep-to-left " (click)="onBack()" type="button">Back</button>
+                <button class="btn btn-primary btn_div hvr-sweep-to-left " (click)="onBack()"
+                    type="button">Back</button>
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-                <button class="btn btn-primary btn_div hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
-                <button  *ngIf="!isLoan360" class="btn btn-primary btn_div" (click)="downloadpdf()" type="button">Download</button>
+                <button class="btn btn-primary btn_div hvr-sweep-to-right" (click)="onNext()"
+                    type="button">Next</button>
+                <button *ngIf="!isLoan360" class="btn btn-primary btn_div" (click)="downloadpdf()"
+                    type="button">Download</button>
 
             </div>
         </div>
@@ -954,9 +983,11 @@
 
     </div>
     <div class="col-sm-7 text-right">
-        <button class="btn btn-primary btn_div dash_href hvr-sweep-to-left " (click)="onBack()" type="button">Back</button>
+        <button class="btn btn-primary btn_div dash_href hvr-sweep-to-left " (click)="onBack()"
+            type="button">Back</button>
         <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
-        <button class="btn btn-primary btn_div dash_href hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
+        <button class="btn btn-primary btn_div dash_href hvr-sweep-to-right" (click)="onNext()"
+            type="button">Next</button>
     </div>
 </div>
 <div class="text-right" style="padding-bottom: 50px;" *ngIf="isApprove">
@@ -1015,7 +1046,8 @@
                             </div>
                         </div>
                         <div class="btn-wrap">
-                            <button class="btn btn-danger" routerLink="/pages/dashboard" (click)="errorGenerated = false">OK</button>
+                            <button class="btn btn-danger" routerLink="/pages/dashboard"
+                                (click)="errorGenerated = false">OK</button>
                         </div>
                     </div>
                 </div>

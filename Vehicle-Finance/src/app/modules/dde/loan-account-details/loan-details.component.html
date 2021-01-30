@@ -314,6 +314,9 @@
           <button class="btn btn-primary js-btn-next mar-right8" type="button" *ngIf="leadId && leadId !== 'null'" (click)="onNext()">
             Next
           </button>
+          <button class="btn btn-primary js-btn-next mar-right8" type="button" *ngIf="leadId && leadId === 'null'" [routerLink]="['/pages/child-loan']">
+            Back
+          </button>
         </div>
       </div>
     </div>

@@ -21,7 +21,7 @@ import { LoanViewService } from '@services/loan-view.service';
 export class LeadSectionHeaderComponent implements OnInit {
   labels: any = {};
   userName: string;
-  leadId: number;
+  leadId: string;
   productId: any;
   productIdFromLead: any;
   applicantName: string;

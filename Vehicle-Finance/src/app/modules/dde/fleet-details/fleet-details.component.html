@@ -197,6 +197,7 @@
                                 <app-custom-input [id]="'loanNo'" formControlName="loanNo"
                                     [className]="'form-control mandatory'" [placeholder]="'loanNo'"
                                     [maxLength]="validationData?.loanNumber.maxLength"
+                                    [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
                                     [isRequired]="itemrow.controls['financier'].value !== 'Not-Applicable' ? 'Loan No is mandatory' : ''"
                                     [type]="validationData?.loanNumber.type" [isDirty]="isDirty"
                                     [inputClass]="'input-upper'" [minLength]='validationData?.loanNumber.minLength'>
@@ -209,6 +210,7 @@
                                 <app-custom-input [id]="'tenure'" formControlName="tenure" [custom]="initalZeroCheck"
                                     [className]="'form-control mandatory'" [placeholder]="'Tenure'"
                                     [maxLength]="validationData?.tenurePaid['maxLength']"
+                                    [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
                                     [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''"
                                     [type]="validationData?.tenurePaid['type']" (keyup)="checkPaid($event ,i, itemrow)"
                                     [isDirty]="isDirty">
@@ -220,6 +222,7 @@
                                     <app-custom-input [id]="'paid'" formControlName="paid" [custom]="initalZeroCheck"
                                         [className]="'form-control mandatory'" [placeholder]="'paid'"
                                         [maxLength]="validationData?.tenurePaid['maxLength']"
+                                        [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
                                         [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Accrued is mandatory' : ''"
                                         [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
                                         (keyup)="checkPaid($event ,i, itemrow)" (change)="calcSeasoning($event ,i)">
