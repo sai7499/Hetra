@@ -16,7 +16,7 @@ import { LoanViewService } from '@services/loan-view.service';
 })
 export class DdeComponent implements OnInit, OnChanges {
   locationIndex: number;
-  leadId: number;
+  leadId: string;
   show: number ;
   showNav: boolean = false;
   fiCumPdStatusString: any;
