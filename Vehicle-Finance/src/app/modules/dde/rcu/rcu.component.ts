@@ -243,6 +243,7 @@ export class RcuComponent implements OnInit {
     }
   }
   private getRcuDocumentDetails(data?: any) {
+    console.log(data, 'data');
 
     if (data === undefined) {
       // tslint:disable-next-line: prefer-for-of
@@ -409,7 +410,7 @@ export class RcuComponent implements OnInit {
         this.applicantDocuments = this.response.applicantDocuments;
         this.collateralDocuments = this.response.collateralDocuments;
         this.populateApplicantDocuments(this.response.fileRCUStatus,applicantId);
-        this.isGetapiCalled = false;
+        // this.isGetapiCalled = false;
         this.apiValue = this.rcuDetailsForm.getRawValue();
 
         this.udfDetails = res.ProcessVariables.udfDetails ? res.ProcessVariables.udfDetails : [];
@@ -461,9 +462,9 @@ export class RcuComponent implements OnInit {
       const data = {
         userId: this.userId,
         applicantDocuments: this.rcuDetailsForm.controls.applicantDocuments
-          .value,
+          .getRawValue(),
         collateralDocuments: this.rcuDetailsForm.controls.collateralDocuments
-          .value,
+          .getRawValue(),
         fileRCUStatus: this.rcuDetailsForm.controls.fileRCUStatus.value,
         applicantId: Number(this.rcuDetailsForm.controls.applicantId.value),
         applicantType: this.rcuDetailsForm.controls.applicantType.value,
@@ -484,23 +485,27 @@ export class RcuComponent implements OnInit {
           }
         ]
       };
+      // console.log(this.rcuDetailsForm.controls.applicantDocuments.value);
+      console.log(this.rcuDetailsForm.controls.applicantDocuments.getRawValue());
+      console.log(this.rcuDetailsForm.controls.collateralDocuments.getRawValue());
+      
       this.rcuService.saveUpdateRcuDetails(data).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == '0') {
           // tslint:disable-next-line: prefer-const
           let rcuFormApplicantControls = this.rcuDetailsForm.controls
             .applicantDocuments as FormArray;
-          // rcuFormApplicantControls.controls = [];
+          rcuFormApplicantControls.controls = [];
           // tslint:disable-next-line: prefer-const
           let rcuFormColletralControls = this.rcuDetailsForm.controls
             .collateralDocuments as FormArray;
-          // rcuFormColletralControls.controls = [];
+          rcuFormColletralControls.controls = [];
           this.toasterService.showSuccess(
             'Updated Successfully',
             'RCU Details'
           );
         this.apiValue = this.rcuDetailsForm.getRawValue();
-          // this.getAllRcuDetails();
+          this.getAllRcuDetails();
         }
       });
     } else {
@@ -557,6 +562,9 @@ export class RcuComponent implements OnInit {
 
   testRadio(event) {
 
+    console.log(this.response.fileRCUStatus);
+    const fileRCUStatus = this.response.fileRCUStatus;
+    
     if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == true 
       && this.showColletralDocuments == false) {
       this.screened = '0';
@@ -568,14 +576,21 @@ export class RcuComponent implements OnInit {
       ) {
         const control = this.rcuDetailsForm.controls.applicantDocuments
           .controls as FormArray;
-
-        control[i].patchValue({
-          screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '1',
-          sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '0',
-        });
+          if(fileRCUStatus !== event) { 
+            control[i].patchValue({
+              screened: '0',
+              sampled: '1',
+            });
+          } else {
+            control[i].patchValue({
+              screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '0',
+              sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '1',
+            });
+          }
+        
         if (this.roleType == '6') {
-          control[i].controls.screened.disable()
-          control[i].controls.sampled.enable()
+          control[i].controls.screened.enable();
+          control[i].controls.sampled.disable();
         }
 
       }
@@ -591,13 +606,23 @@ export class RcuComponent implements OnInit {
       ) {
         const control = this.rcuDetailsForm.controls.collateralDocuments
           .controls as FormArray;
-        control[i].patchValue({
-          screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '1',
-          sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '0',
-        });
+
+          if(fileRCUStatus !== event) { 
+            control[i].patchValue({
+              screened: '0',
+              sampled: '1',
+            });
+          } else {
+            control[i].patchValue({
+              screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '0',
+              sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
+            });
+          }
+
+        
         if (this.roleType == '6') {
-          control[i].controls.screened.disable()
-          control[i].controls.sampled.enable()
+          control[i].controls.screened.enable();
+          control[i].controls.sampled.disable();
         }
       }
     } else if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == false) {
@@ -612,14 +637,21 @@ export class RcuComponent implements OnInit {
         const control = this.rcuDetailsForm.controls.applicantDocuments
           .controls as FormArray;
           console.log(control);
-          
-        control[i].patchValue({
-          screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '0',
-          sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '1',
-        })
+          if(fileRCUStatus !== event) {
+            control[i].patchValue({
+              screened:  '1',
+              sampled:  '0',
+            })
+          } else {
+            control[i].patchValue({
+              screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '1',
+              sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '0',
+            })
+          }
+        
         if (this.roleType == '6') {
-          control[i].controls.sampled.disable()
-          control[i].controls.screened.enable()
+          control[i].controls.sampled.enable();
+          control[i].controls.screened.disable();
         }
       }
     } else if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == true && this.showColletralDocuments == true) {
@@ -633,13 +665,21 @@ export class RcuComponent implements OnInit {
       ) {
         const control = this.rcuDetailsForm.controls.collateralDocuments
           .controls as FormArray;
-        control[i].patchValue({
-          screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '0',
-          sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
-        });
+
+          if(fileRCUStatus !== event) {
+            control[i].patchValue({
+              screened:  '1',
+              sampled:  '0',
+            })
+          } else {
+            control[i].patchValue({
+              screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '1',
+              sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '0',
+            })
+          }
         if (this.roleType == '6') {
-          control[i].controls.sampled.disable()
-          control[i].controls.screened.enable()
+          control[i].controls.sampled.enable();
+          control[i].controls.screened.disable();
         }
       }
     } else if (event == 'screened' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
@@ -653,12 +693,12 @@ export class RcuComponent implements OnInit {
         const control = this.rcuDetailsForm.controls.collateralDocuments
           .controls as FormArray;
         control[i].patchValue({
-          screened: '1',
-          sampled: '0',
+          screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '0',
+          sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '1',
         });
         if (this.roleType == '6') {
-          control[i].controls.screened.disable()
-          control[i].controls.sampled.enable()
+          control[i].controls.screened.enable();
+          control[i].controls.sampled.disable();
         }
       }
     } else if (event == 'screened' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
@@ -672,12 +712,12 @@ export class RcuComponent implements OnInit {
         const control = this.rcuDetailsForm.controls.applicantDocuments
           .controls as FormArray;
         control[i].patchValue({
-          screened: '1',
-          sampled: '0',
+          screened: '0',
+          sampled: '1',
         });
         if (this.roleType == '6') {
-          control[i].controls.screened.disable()
-          control[i].controls.sampled.enable()
+          control[i].controls.screened.enable();
+          control[i].controls.sampled.disable();
         }
       }
     } else if (event == 'sampled' && this.collateralDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == true) {
@@ -690,13 +730,21 @@ export class RcuComponent implements OnInit {
       ) {
         const control = this.rcuDetailsForm.controls.collateralDocuments
           .controls as FormArray;
-        control[i].patchValue({
-          screened: '0',
-          sampled: '1',
-        });
+          if(this.roleType == '6') {
+            control[i].patchValue({
+              screened: '1',
+              sampled: '0',
+            });
+          } else {
+            control[i].patchValue({
+              screened: this.collateralDocuments[i].screened ? this.collateralDocuments[i].screened : '1',
+              sampled: this.collateralDocuments[i].sampled ? this.collateralDocuments[i].sampled : '0',
+            });
+          }
+        
         if (this.roleType == '6') {
-          control[i].controls.sampled.disable()
-          control[i].controls.screened.enable()
+          control[i].controls.sampled.enable();
+          control[i].controls.screened.disable();
         }
       }
     } else if (event == 'sampled' && this.applicantDocuments != null && this.isGetapiCalled == false && this.showColletralDocuments == false) {
@@ -709,16 +757,26 @@ export class RcuComponent implements OnInit {
       ) {
         const control = this.rcuDetailsForm.controls.applicantDocuments
           .controls as FormArray;
-        control[i].patchValue({
-          screened: '0',
-          sampled: '1',
-        });
+          if(this.roleType == '6') {
+            control[i].patchValue({
+              screened: '1',
+              sampled: '0',
+            });
+          } else {
+            control[i].patchValue({
+              screened: this.applicantDocuments[i].screened ? this.applicantDocuments[i].screened : '1',
+              sampled: this.applicantDocuments[i].sampled ? this.applicantDocuments[i].sampled : '0',
+            });
+          }
+        
         if (this.roleType == '6') {
-          control[i].controls.sampled.disable()
-          control[i].controls.screened.enable()
+          control[i].controls.sampled.enable();
+          control[i].controls.screened.disable();
         }
       }
     }
+    console.log("testing all", this.collateralDocuments !== null, this.applicantDocuments !== null, this.isGetapiCalled, this.showColletralDocuments);
+    
   }
 
   getApplicantList() {
