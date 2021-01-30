@@ -243,7 +243,6 @@ export class RcuComponent implements OnInit {
     }
   }
   private getRcuDocumentDetails(data?: any) {
-    console.log(data, 'data');
 
     if (data === undefined) {
       // tslint:disable-next-line: prefer-for-of
@@ -424,7 +423,7 @@ export class RcuComponent implements OnInit {
       if(this.roleType == '2') {
         this.rcuDetailsForm.disable()
           const applicantDoc = this.rcuDetailsForm.get('applicantDocuments') as FormArray;
-          console.log(applicantDoc.controls.length,'applicantDoc', applicantDoc)
+          // console.log(applicantDoc.controls.length,'applicantDoc', applicantDoc)
           for(var i = 0; i< applicantDoc.controls.length ; i++){
             applicantDoc.controls[i].get('dmsDocumentID').enable();
           }
@@ -485,10 +484,6 @@ export class RcuComponent implements OnInit {
           }
         ]
       };
-      // console.log(this.rcuDetailsForm.controls.applicantDocuments.value);
-      console.log(this.rcuDetailsForm.controls.applicantDocuments.getRawValue());
-      console.log(this.rcuDetailsForm.controls.collateralDocuments.getRawValue());
-      
       this.rcuService.saveUpdateRcuDetails(data).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res && res.ProcessVariables.error.code == '0') {
