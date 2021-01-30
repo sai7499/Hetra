@@ -51,6 +51,7 @@ export class ChequeTrackingComponent implements OnInit {
   userDefineForm: any;
   udfScreenId= '';
   udfGroupId= 'CTG001';
+  toDayDate = new Date();
 
   constructor(
     private labelsData: LabelsService,
@@ -63,7 +64,9 @@ export class ChequeTrackingComponent implements OnInit {
     private sharedService: SharedService,
     private applicantStoreService: ApplicantDataStoreService,
     private createLeadDataService: CreateLeadDataService
-  ) { }
+  ) { 
+    this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
+  }
 
   async ngOnInit() {
     this.initForm()
