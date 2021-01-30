@@ -120,6 +120,7 @@ export class BasicDetailsComponent implements OnInit {
   salariedMaxAge: any;
   initUDFValues: any;
   editedUDFValues: any;
+  relationShipLov: any[];
 
   constructor(
     private labelsData: LabelsService,
@@ -276,6 +277,22 @@ export class BasicDetailsComponent implements OnInit {
       }
 
     })
+    this.getRelationShip(value)
+  }
+
+  getRelationShip(value){
+    if(!this.isIndividual){
+      return;
+    }
+    this.relationShipLov = this.LOV.LOVS.relationship;
+    if(value==='APPAPPRELLEAD'){
+      this.relationShipLov=  this.relationShipLov.filter((data)=>data.key === '5RELATION')  
+      this.basicForm.get('applicantRelationship').setValue(this.relationShipLov[0].key) 
+     }else{
+       this.relationShipLov=  this.relationShipLov.filter((data)=>data.key !== '5RELATION') 
+       this.basicForm.get('applicantRelationship').setValue('')  
+     }
+
   }
 
   calculateIncome(value) {
@@ -305,7 +322,8 @@ export class BasicDetailsComponent implements OnInit {
       details.patchValue({
         houseOwnerProperty: houseOwner,
         ownHouseAppRelationship: ownHouseAppRelationship
-      })
+      });
+      this.enableOwnerProperty(details)
 
     } else {
       this.hideMsgForOwner = false;
@@ -317,7 +335,18 @@ export class BasicDetailsComponent implements OnInit {
         houseOwnerProperty: '',
         ownHouseAppRelationship: ''
       })
+      this.disableOwnerProperty(details)
     }
+  }
+  enableOwnerProperty(details){
+    details.get('houseOwnerProperty').enable();
+    details.get('ownHouseAppRelationship').enable();
+  }
+
+  disableOwnerProperty(details){
+    details.get('houseOwnerProperty').disable();
+    details.get('ownHouseAppRelationship').disable();
+
   }
 
 
@@ -490,6 +519,8 @@ export class BasicDetailsComponent implements OnInit {
   setBasicData() {
     this.isIndividual = this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     const dob = this.applicant.aboutIndivProspectDetails.dob;
+    const applicantType = this.applicant.applicantDetails.applicantTypeKey
+    this.getRelationShip(applicantType)
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       bussinessEntityType: this.applicant.applicantDetails.bussinessEntityType,
@@ -527,10 +558,12 @@ export class BasicDetailsComponent implements OnInit {
       this.checkedBoxHouse = true;
       this.isChecked = true;
       this.hideMsgForOwner = true;
+      this.enableOwnerProperty(details)
     } else {
       this.checkedBoxHouse = false;
       this.isChecked = false;
       this.hideMsgForOwner = false;
+      this.disableOwnerProperty(details)
     }
     // this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
     // this.isChecked= applicantDetails.ownHouseProofAvail == '1' ? true : false;
@@ -899,8 +932,8 @@ export class BasicDetailsComponent implements OnInit {
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl({ value: '', disabled: true }),
       ownHouseProofAvail: new FormControl(''),
-      houseOwnerProperty: new FormControl(''),
-      ownHouseAppRelationship: new FormControl(''),
+      houseOwnerProperty: new FormControl({ value: '', disabled: true }),
+      ownHouseAppRelationship: new FormControl({ value: '', disabled: true }),
       averageBankBalance: new FormControl(''),
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
@@ -972,8 +1005,8 @@ export class BasicDetailsComponent implements OnInit {
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl({ value: '', disabled: true }),
       ownHouseProofAvail: new FormControl(''),
-      houseOwnerProperty: new FormControl(''),
-      ownHouseAppRelationship: new FormControl(''),
+      houseOwnerProperty: new FormControl({ value: '', disabled: true }),
+      ownHouseAppRelationship: new FormControl({ value: '', disabled: true }),
       averageBankBalance: new FormControl(''),
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
@@ -1041,6 +1074,7 @@ export class BasicDetailsComponent implements OnInit {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
       console.log('this.LOV.LOVS', this.LOV.LOVS)
+      this.relationShipLov = this.LOV.LOVS.relationship;
       this.ownerPropertyRelation = this.LOV.LOVS.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
       const businessTypevalue = this.LOV.LOVS.businessType
       businessTypevalue.find((data) => {
