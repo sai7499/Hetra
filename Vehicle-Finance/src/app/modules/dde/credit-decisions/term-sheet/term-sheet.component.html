@@ -717,7 +717,7 @@
 
                         </tbody>
                     </table>
-                </div>""
+                </div>
                 <div class="row" id="terms_sheet_headline9" class="table-responsive">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                         {{labels.ecsMandate}} :
@@ -761,10 +761,11 @@
 
                 </div>
 
-                <div id="terms_sheet_headline11_header" class="table-responsive" style="overflow-x: hidden !important">
+                <div id="terms_sheet_headline11_tag0" class="table-responsive" style="overflow-x: hidden !important">
+                   
+                    <p class="text-center" id="terms_sheet_headline11_1">{{labels.paymentDetails}}</p>
 
                     <div *ngFor="let paymentDetails of paymentDetails">
-                        <p class="text-center" id="terms_sheet_headline11_1">{{labels.paymentDetails}}</p>
                         <p class="row" id="terms_sheet_headline11_tag">
                             <span class="col-sm-5" id="terms_sheet_headline11_tag1">{{labels.paymentTo}} :
                                 {{paymentDetails?.paymentTo}}</span>
@@ -788,12 +789,13 @@
                                 {{paymentDetails?.accNum}}
                             </span>
                         </p>
+                        <br>
                     </div>
+
                 </div>
-                <div id="terms_sheet_headline12_header" class="table-responsive">
+                <div id="terms_sheet_headline12_tag0" class="table-responsive" style="border-top: 2px dashed #c6c2c2">
                     <p class="text-center">{{labels.approvalDetails}}</p>
 
-                    <hr id="terms_sheet_headline12_tag0" />
                     <div *ngFor="let approvalData of approvalDetails row">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">{{labels.employeeCode}} :
                             {{approvalData.empCode}}</div>
