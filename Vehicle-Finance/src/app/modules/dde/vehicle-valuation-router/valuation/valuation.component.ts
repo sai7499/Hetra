@@ -190,7 +190,6 @@ export class ValuationComponent implements OnInit {
   editedUDFValues: any;
   public format = 'dd/MM/yyyy HH:mm';
   presentTime: any;
-  invalidTimeError: boolean;
  
 
 
@@ -1696,7 +1695,7 @@ export class ValuationComponent implements OnInit {
     this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
-    if (this.vehicleValuationForm.invalid || isUDFInvalid || this.invalidTimeError) {
+    if (this.vehicleValuationForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
       return;
     }
