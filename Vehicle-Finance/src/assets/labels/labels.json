@@ -2298,8 +2298,8 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[0-9]{6}",
-                "msg": "Number Should be valid and atleast 6 Digits"
+                "rule": "^[0-9]{10}",
+                "msg": "Number Should be valid and atleast 10 Digits"
             }
         },
         "landlineNumber": {
@@ -2733,7 +2733,7 @@
             },
             "type": "number",
             "patternCheck": {
-                "rule": "^[0-9]{15}",
+                "rule": "^[0-9]{10}",
                 "msg": "Number Should be valid and atleast 10 Digits"
             }
         },
@@ -3040,6 +3040,20 @@
                 "rule": 8
             },
             "type": "number"
-        }
+        },
+        "tvrLandLine": {
+            "maxLength": {
+                "rule": 15
+            },
+            "minLength": {
+                "rule": 10,
+                "msg": "Minimum Length 10 digits"
+            },
+            "type": "number",
+            "patternCheck": {
+                "rule": "[1-9]",
+                "msg": "Invalid Characters not allowed"
+            }
+        } 
     }
 }
