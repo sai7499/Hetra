@@ -55,6 +55,7 @@ export class HeaderComponent implements OnInit {
     this.labelsData.getLabelsData().subscribe(
       (data) => {
         this.labels = data;
+        this.labelsData.setLablesData(data);
       },
       (error) => {
         console.log(error);
