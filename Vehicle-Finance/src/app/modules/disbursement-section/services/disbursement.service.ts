@@ -51,7 +51,7 @@ getCoAppNames(leadId) {
   const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
   return this.httpService.post(url, body);
 }
-getDealerDetails(dealerCode) { 
+getDealerDetails(dealerCode,productCode) { 
   const processId = this.apiService.api.fetchDealerDetails.processId;
   const workflowId = this.apiService.api.fetchDealerDetails.workflowId;
   const projectId = this.apiService.api.fetchDealerDetails.projectId;
@@ -59,7 +59,8 @@ getDealerDetails(dealerCode) {
   const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        "dealerCode":dealerCode          
+        "dealerCode":dealerCode,
+        "productCatCode": productCode          
       },
       workflowId: workflowId,
       projectId: projectId

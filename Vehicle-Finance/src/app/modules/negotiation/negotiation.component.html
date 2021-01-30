@@ -274,7 +274,7 @@
                         <div id="crosssellInsurance{{i+1}}" class="panel-collapse collapse">
                           <div class="panel-body">
                             <div class="clearfix" formGroupName="CrossSellInsurance">
-                                <div formGroupName="motor" *ngIf="!(showInsuranceFields && AssetDetailsList[i].isORPFunding)">
+                                <div formGroupName="motor" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                                 <div class="form-group">
                                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="business_division">{{ InsuranceProvidersLabel[0]?.insurance_type_name }}
                                     <sub class="star_red_col">*</sub>
@@ -315,7 +315,7 @@
                                   </div>
                                 </div>
                               </div>
-                                <div formGroupName="pac" *ngIf="!(showInsuranceFields && AssetDetailsList[i].isORPFunding)">
+                                <div formGroupName="pac" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                                 <div class="form-group">
                                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldPAC"> {{ InsuranceProvidersLabel[1].insurance_type_name }}
                                     <sub class="star_red_col">*</sub>
@@ -344,7 +344,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div formGroupName="vas" *ngIf="!(showInsuranceFields && AssetDetailsList[i].isORPFunding)">
+                              <div formGroupName="vas" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                                 <div class="form-group">
                                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VAS">{{ InsuranceProvidersLabel[3].insurance_type_name}}
                                     <sub class="star_red_col">*</sub>
@@ -384,7 +384,7 @@
                                   </div>
                                 </div> -->
                               </div>
-                              <div class="form-group" *ngIf="!(showInsuranceFields && AssetDetailsList[i].isORPFunding)">
+                              <div class="form-group" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                               <div formGroupName="motor">
                                     <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}
                                       <sub class="star_red_col">*</sub>
@@ -412,7 +412,7 @@
 
                             </div>
                               </div>
-                              <div class="form-group" *ngIf="!(showInsuranceFields && AssetDetailsList[i].isORPFunding)">
+                              <div class="form-group" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                                   <div formGroupName="vas">
                                       <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VASPremiumAmount">{{ labels?.VASPremiumAmount }}
                                         <sub class="star_red_col">*</sub>
@@ -430,7 +430,7 @@
                                       </div>
                                       </div>
                               </div>
-                              <div formGroupName="life" *ngIf="!(showInsuranceFields && AssetDetailsList[i].isORPFunding)">
+                              <div formGroupName="life" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                                 <div class="form-group">
                                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="creditShieldLifeCover">{{ InsuranceProvidersLabel[2].insurance_type_name }}
                                     <sub class="star_red_col">*</sub>
@@ -794,14 +794,19 @@
                                   name="finalLTV" class="form-control select2 custom-negotiation-field">
                                 </app-custom-input>
                               </div>
-                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}</label>
-                              <div class="col-sm-6 col-md-4 col-lg-3">
+                              <label *ngIf="(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))" class="control-label col-sm-5 col-md-4 col-lg-3" for="FASTagAmount">{{ labels?.FASTagAmount }} </label>
+                              <div class="col-sm-6 col-md-4 col-lg-3" *ngIf="(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
+                                <app-custom-input type="number" formControlName="FASTagAmount" class="form-control mandatory select2 custom-negotiation-field"
+                                  id="FASTagAmount" placeholder="FASTag Amount (in INR)" name="FASTagAmount"></app-custom-input>
+                              </div>
+                              <label *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))" class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}</label>
+                              <div class="col-sm-6 col-md-4 col-lg-3" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                                 <app-custom-input type="number" formControlName="MIPremiumAmount" id="MIPremiumAmount" placeholder="MI Premium Amount (in INR)"
                                   name="MIPremiumAmount"  class="form-control mandatory select2 custom-negotiation-field">
                                 </app-custom-input>
                               </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PACPremiumAmount">{{ labels?.PACPremiumAmount }}</label>
                               <div class="col-sm-6 col-md-4 col-lg-3">
                                 <app-custom-input formControlName="PACPremiumAmount" type="number" id="PACPremiumAmount" placeholder="PAC Premium Amount (in INR)"
@@ -815,7 +820,7 @@
                                 </app-custom-input>
                               </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="lifeCoverPremiumAmount">{{ labels?.lifeCoverPremiumAmount }}</label>
                               <div class="col-sm-6 col-md-4 col-lg-3">
                                 <app-custom-input type="number" formControlName="lifeCoverPremiumAmount" class="form-control mandatory select2 custom-negotiation-field"

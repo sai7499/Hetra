@@ -1651,7 +1651,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < toDayDate">
+                                            *ngIf="obj.controls['permitExpiryDate'].value && obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < toDayDate">
                                             Invalid Date
                                         </div>
 
@@ -1807,7 +1807,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
+                                            *ngIf=" obj.controls['insuranceValidity'].value && obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
                                             Invalid Date
                                         </div>
 
@@ -1883,7 +1883,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
+                                            *ngIf="obj.controls['expectedNOCDate'].value && obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
                                             Invalid Date
                                         </div>
 
@@ -2389,7 +2389,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
+                                            *ngIf=" obj.controls['insuranceValidity'].value && obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].value < toDayDate">
                                             Invalid Date
                                         </div>
                                     </div>
@@ -2461,7 +2461,7 @@
                                         </kendo-datepicker>
 
                                         <div class="invalid-feedback"
-                                            *ngIf="obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
+                                            *ngIf="obj.controls['expectedNOCDate'].value  && obj.controls['expectedNOCDate'].touched && obj.controls['expectedNOCDate'].value < toDayDate">
                                             Invalid Date
                                         </div>
 
@@ -2490,7 +2490,9 @@
                             <!-- Fc Loan || Top Up-->
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.fcExpiryDate">
-                                <label for="fc_expiry_date">{{label.fcExpiryDate}}</label>
+                                <label for="fc_expiry_date">{{label.fcExpiryDate}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
 
                                 <kendo-datepicker class="form-control" formControlName="fcExpiryDate"
                                     [activeView]="'decade'" [format]="'dd/MM/yyyy'" placeholder="FC Expiry Date">
@@ -2504,7 +2506,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.fcAmount">
-                                <label for="fc_amount">{{label.fcAmount}}</label>
+                                <label for="fc_amount">{{label.fcAmount}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="fcAmount"
                                     [type]="label.validationData?.amountValue.type" [id]="'fc_amount'"
                                     [className]="'form-control mandatory'" [placeholder]="'FC Amount'"
@@ -2514,7 +2518,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="childLoanCondition.typeOfPermit">
-                                <label for="permit_type">{{label.permitType}} </label>
+                                <label for="permit_type">{{label.permitType}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-vf-custom-select [id]="'permit_type'" [values]="vehicleLov?.permitType"
                                     [isRequired]="roleType === 1 ? '' : 'Type of Permit Required'" [isDirty]="isDirty"
                                     formControlName="typeOfPermit">
@@ -2522,7 +2528,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxDetails">
-                                <label for="tax_details">{{label.taxDetails}}</label>
+                                <label for="tax_details">{{label.taxDetails}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-vf-custom-select formControlName="taxDetails" [values]="LOV?.taxDetails"
                                     [id]="'tax_details'" (change)="onGetTaxValue($event.target.value, obj)"
                                     [isRequired]="roleType === 1 ? '' : 'Tax Details Required'" [isDirty]="isDirty">
@@ -2530,7 +2538,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.taxBill">
-                                <label for="tax_bill">{{label.taxBill}}</label>
+                                <label for="tax_bill">{{label.taxBill}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="taxBill"
                                     [type]="label.validationData?.amountValue.type" [id]="'tax_bill'"
                                     [className]="'form-control mandatory'" [placeholder]="'Tax Bill'"
@@ -2551,7 +2561,9 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 "
                                 *ngIf="childLoanCondition.insuranceValidity">
-                                <label for="insurance_validity">{{label.insuranceValidity}}</label>
+                                <label for="insurance_validity">{{label.insuranceValidity}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
 
                                 <kendo-datepicker class="form-control mandatory" formControlName="insuranceValidity"
                                     [min]="onlyFutureDate" [format]="'dd/MM/yyyy'" [activeView]="'decade'"
@@ -2567,7 +2579,7 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 mt"
                                 *ngIf="childLoanCondition.onlineVerification">
-                                <label for="frsd_required">{{label.onlineVerification}} </label>
+                                <label for="frsd_required">{{label.onlineVerification}}</label>
 
                                 <input class="ml" type="checkbox" formControlName="onlineVerification" />
 
@@ -2576,7 +2588,8 @@
                             <!-- Tyre Loan -->
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.tyreDealer">
-                                <label for="tyre_dealer">{{label.tyreDealer}}</label>
+                                <label for="tyre_dealer">{{label.tyreDealer}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub></label>
                                 <app-vf-custom-select [values]="LOV?.tyreDealer" [id]="'tyre_dealer'"
                                     formControlName="tyreDealer"
                                     [isRequired]="roleType === 1 ? '' : 'Tyre Dealer Required'" [isDirty]="isDirty">
@@ -2585,7 +2598,9 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 "
                                 *ngIf="childLoanCondition.tyreManufacturer">
-                                <label for="tyre_manufacturer">{{label.tyreManufacturer}}</label>
+                                <label for="tyre_manufacturer">{{label.tyreManufacturer}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-vf-custom-select [values]="LOV?.tyreManufacturer" [id]="'tyre_manufacturer'"
                                     formControlName="tyreManufacturer"
                                     [isRequired]="roleType === 1 ? '' : 'Tyre Dealer Required'" [isDirty]="isDirty">
@@ -2593,7 +2608,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.noOfTyres">
-                                <label for="no_tyre">{{label.noOfTyres}}</label>
+                                <label for="no_tyre">{{label.noOfTyres}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="noOfTyres"
                                     [type]="label.validationData?.noOfTyres.type" [id]="'no_tyre'"
                                     [className]="'form-control mandatory'" [placeholder]="'No of Tyres'"
@@ -2603,7 +2620,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.costPerTyre">
-                                <label for="cost_tyre">{{label.VehcostPerTyre}}</label>
+                                <label for="cost_tyre">{{label.VehcostPerTyre}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="costPerTyre"
                                     [type]="label.validationData?.amountValue.type" [id]="'cost_tyre'"
                                     [className]="'form-control mandatory'" [placeholder]="'Cost Per Tyre'"
@@ -2614,7 +2633,9 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 "
                                 *ngIf="childLoanCondition.invoiceAmount">
-                                <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
+                                <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="invoiceAmount"
                                     [type]="label.validationData?.amountValue.type" [id]="'proforma_invoice_amount'"
@@ -2629,7 +2650,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.marginAmount">
-                                <label for="margin_amount">{{label.marginAmount}}</label>
+                                <label for="margin_amount">{{label.marginAmount}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="marginAmount"
                                     [type]="label.validationData?.amountValue.type" [id]="'margin_amount'"
                                     [className]="'form-control mandatory'" [custom]="isNegativeValue"
@@ -2642,7 +2665,9 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 "
                                 *ngIf="childLoanCondition.tyreSpecification">
-                                <label for="tyre_specification">{{label.tyreSpecification}}</label>
+                                <label for="tyre_specification">{{label.tyreSpecification}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="tyreSpecification"
                                     [type]="label.validationData?.address.type" [id]="'tyre_specification'"
                                     [className]="'form-control mandatory'"
@@ -2656,7 +2681,9 @@
                             <!-- Accident Loan Starts-->
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.accidentDate">
-                                <label for="accident_date">{{label.accidentDate}}</label>
+                                <label for="accident_date">{{label.accidentDate}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
 
                                 <kendo-datepicker class="form-control mandatory" formControlName="accidentDate"
                                     [format]="'dd/MM/yyyy'" [max]="onlyFutureDate" [activeView]="'decade'"
@@ -2672,7 +2699,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.accidentType">
-                                <label for="accident_type">{{label.accidentType}}</label>
+                                <label for="accident_type">{{label.accidentType}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-vf-custom-select [values]="LOV?.typeOfAccident" [id]="'accident_type'"
                                     formControlName="accidentType"
                                     [isRequired]="roleType === 1 ? '' : 'Type of Accident Required'"
@@ -2681,7 +2710,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.repairCost">
-                                <label for="cost_repair">{{label.repairCost}}</label>
+                                <label for="cost_repair">{{label.repairCost}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="repairCost"
                                     [type]="label.validationData?.amountValue.type" [id]="'cost_repair'"
                                     [className]="'form-control mandatory'" [placeholder]="'Cost of Repair'"
@@ -2692,7 +2723,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.spareCost">
-                                <label for="cost_spares">{{label.spareCost}}</label>
+                                <label for="cost_spares">{{label.spareCost}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="spareCost"
                                     [type]="label.validationData?.amountValue.type" [id]="'cost_spares'"
                                     [className]="'form-control mandatory'" [placeholder]="'Cost of Spares'"
@@ -2713,7 +2746,9 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 "
                                 *ngIf="childLoanCondition.isAuthSvcCentre">
-                                <label for="is_auth">{{label.isAuthSvcCentre}}</label>
+                                <label for="is_auth">{{label.isAuthSvcCentre}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-vf-custom-select [values]="vehicleLov?.YesORNoValue" [id]="'is_auth'"
                                     formControlName="isAuthSvcCentre"
                                     [isRequired]="roleType === 1 ? '' : 'Is Authorised Service Centre Required'"
@@ -2723,7 +2758,9 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 "
                                 *ngIf="childLoanCondition.svcCentreName">
-                                <label for="svc_centreName">{{label.svcCentreName}}</label>
+                                <label for="svc_centreName">{{label.svcCentreName}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <app-custom-input formControlName="svcCentreName"
                                     [type]="label.validationData?.addressLine.type" [id]="'svc_centreName'"
                                     [className]="'form-control mandatory'" [placeholder]="'Service Centre Name'"
@@ -2742,7 +2779,9 @@
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 "
                                 *ngIf="childLoanCondition.invoiceNumber">
-                                <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
+                                <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
 
                                 <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
                                     [type]="label.validationData?.invoiceNumber.type" [inputClass]="'input-upper'"
@@ -2754,7 +2793,9 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 " *ngIf="childLoanCondition.invoiceDate">
-                                <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
+                                <label for="proforma_invoice_date">{{label.proformaInvoiceDate}}
+                                    <sub class="star_red_col" *ngIf="roleType !==1">*</sub>
+                                </label>
                                 <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
                                     [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
                                     placeholder="Proforma Invoice Date">
@@ -2769,7 +2810,9 @@
                             </div>
 
                         </div>
+
                     </div>
+
                 </div>
 
             </ng-container>
@@ -2783,14 +2826,19 @@
         <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn" id="clickButton">
             <div class="col-sm-4"> </div>
             <div class="col-sm-8 text-right">
+
                 <button class="btn btn-primary js-btn-prev hvr-sweep-to-left" (click)="onBack()" type="button"> {{
                     label.back }}
                 </button>
+
                 <button *ngIf="!isLoan360 && !disableSaveBtn" class="btn btn-sec btn-primary " type="button"
                     (click)="onFormSubmit()">
-                    {{ label.save }} </button>
+                    {{ label.save }}
+                </button>
+
                 <button class="btn btn-primary js-btn-next hvr-sweep-to-right" (click)="onNext()" type="button"
-                    data-toggle="modal" data-target="#myModal">{{ label.next }}</button>
+                    data-toggle="modal" data-target="#myModal">{{ label.next }}
+                </button>
 
             </div>
         </div>
@@ -2880,9 +2928,12 @@
         </div>
     </div>
 </div>
+
 <!-- The Modal -->
 <div class="modal" id="prospectiveModal" [ngClass]="{ 'dis-block': eligibleModal}">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="
+    width: 35% !important;
+">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -2895,9 +2946,9 @@
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body">
-                <span class="img-container"><img src="assets/images/tick-mark.png" width="90px;" /></span>
 
+            <div class="modal-body" style="text-align:center;">
+                <span class="img-container"><img src="assets/images/tick-mark.png" width="90px;" /></span>
                 <p id="model_p_size">
                     Please proceed to collect additional details
                 </p>
@@ -2914,7 +2965,6 @@
         </div>
     </div>
 </div>
-
 <!------ End of the Success Model --------->
 
 <!-- Loan Details Modal -->
