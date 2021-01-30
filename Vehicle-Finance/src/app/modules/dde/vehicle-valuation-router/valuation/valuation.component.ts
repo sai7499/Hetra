@@ -189,6 +189,9 @@ export class ValuationComponent implements OnInit {
   initUDFValues: any;
   editedUDFValues: any;
   public format = 'dd/MM/yyyy HH:mm';
+  presentTime: any;
+  invalidTimeError: boolean;
+ 
 
 
 
@@ -220,6 +223,9 @@ export class ValuationComponent implements OnInit {
     this.accessoriesArray = this.fb.array([]);
     this.isMobile = environment.isMobile;
     // this.isMobile = true;
+    const hour = this.toDayDate.getHours();
+    const minutes = this.toDayDate.getMinutes();
+    this.presentTime = hour + ':' + minutes
   }
 
   async ngOnInit() {
@@ -380,6 +386,54 @@ export class ValuationComponent implements OnInit {
       });
     });
   }
+
+  // onInspectionTimeChange(){
+  //   const inspectionTime = this.vehicleValuationForm.get('inspectionDetails').get('timeOfInspection').value;
+  //   let inspectionDate = this.vehicleValuationForm.get('inspectionDetails').get('inspectionDate').value;
+  //   inspectionDate = new Date(inspectionDate);
+  //   if(this.toDayDate.getTime() !== inspectionDate.getTime()){
+  //     return;
+  //   }
+  //   const todayDate = new Date()
+  //   const hour = todayDate.getHours();
+  //   const minutes = todayDate.getMinutes();
+  //   this.presentTime = hour + ':' + minutes
+  //   //console.log(event,'event', this.vehicleValuationForm.get('inspectionDetails').get('timeOfInspection'))
+  //   const presentTime = this.hourMinuteConvertion(this.presentTime);
+  //   const enteredTime = this.hourMinuteConvertion(inspectionTime);
+  //   if(enteredTime.hour > presentTime.hour){
+  //     this.invalidTimeError = true;  
+  //     return;   
+  //   } 
+  //   if((enteredTime.hour === presentTime.hour) && (enteredTime.minute > presentTime.minute)){
+  //     this.invalidTimeError = true;
+  //   }
+  //   else{
+  //     this.invalidTimeError = false;
+  //   }
+  // }
+
+  // hourMinuteConvertion(value){
+  //   const splittedValue = value.split(':')
+  //   const hour = splittedValue[0];
+  //   const minute = splittedValue[1];
+  //   const timeObj={
+  //     hour : hour,
+  //     minute : minute
+  //   }
+  //   return timeObj
+  // }
+
+  // onInspectionDateChange(){
+  //   let inspectionDate = this.vehicleValuationForm.get('inspectionDetails').get('inspectionDate').value;
+  //   inspectionDate = new Date(inspectionDate);
+  //   const inspectionTime = this.vehicleValuationForm.get('inspectionDetails').get('timeOfInspection').value;
+  //   if((this.toDayDate.getTime() === inspectionDate.getTime()) && inspectionTime){  
+  //     this.onInspectionTimeChange()
+  //   }else{
+  //     this.invalidTimeError = false;
+  //   }
+  // }
 
   // Custom Validation Pattern For Vehicle Number
   validateCustomPattern() {
@@ -1081,7 +1135,7 @@ export class ValuationComponent implements OnInit {
       inspectedBy: new FormControl('', Validators.required),
       inspectionDate: new FormControl('', Validators.required),
       inspectionPlace: new FormControl('', Validators.required),
-      timeOfInspection: new FormControl('', Validators.required),
+      timeOfInspection: new FormControl({value : this.presentTime, disabled :true}),
       engineStarted: new FormControl('', Validators.required),
       vehicleMoved: new FormControl('')
     }
@@ -1583,7 +1637,7 @@ export class ValuationComponent implements OnInit {
    }
     
     // const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
-    // if (this.vehicleValuationForm.invalid || isUDFInvalid) {
+    // if (this.vehicleValuationForm.invalid || isUDFInvalid || this.invalidTimeError) {
     //   this.toasterService.showWarning('please enter required details', '');
     //   console.log('valuation form', this.vehicleValuationForm);
     //   return;
@@ -1642,7 +1696,7 @@ export class ValuationComponent implements OnInit {
     this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
-    if (this.vehicleValuationForm.invalid || isUDFInvalid) {
+    if (this.vehicleValuationForm.invalid || isUDFInvalid || this.invalidTimeError) {
       this.toasterService.showWarning('please enter required details', '');
       return;
     }
