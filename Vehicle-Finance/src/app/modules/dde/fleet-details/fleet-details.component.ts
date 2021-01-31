@@ -149,7 +149,6 @@ export class FleetDetailsComponent implements OnInit {
     this.leadDetails = leadData['leadDetails']
     this.productCatoryCode = this.leadDetails['productCatCode'];
 
-
     this.applicantArray = leadData['applicantDetails']
 
     this.applicantArray.forEach((val) => {
@@ -191,8 +190,9 @@ export class FleetDetailsComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = udfScreenId.DDE.fleetListDDE;
-
     })
+
+    console.log(this.fleetForm, 'fleetForm')
   }
 
   checkPaid(event, i, obj) {
@@ -564,7 +564,7 @@ export class FleetDetailsComponent implements OnInit {
     let financierName = event.target.value;
 
     if (financierName && financierName === 'Not-Applicable') {
-      this.disableFinanceierBased(index);
+      // this.disableFinanceierBased(index);
       this.removeValidatoresFinanceierBased(index);
       this.isDirty = false;
       setTimeout(() => {
@@ -572,12 +572,12 @@ export class FleetDetailsComponent implements OnInit {
           loanNo: null,
           tenure: null,
           paid: null,
-          seasoning: null
+          // seasoning: null
         })
       })
     } else {
       this.addValidatoresFinanceierBased(index);
-      this.enableFinanceierBased(index);
+      // this.enableFinanceierBased(index);
       this.isDirty = true;
     }
 
@@ -680,6 +680,8 @@ export class FleetDetailsComponent implements OnInit {
       }]
     }
 
+    console.log(data, 'data')
+
     this.fleetDetailsService.saveOrUpdateFleetDetails(data).subscribe((res: any) => {
       if (res['ProcessVariables'].error['code'] == "0") {
         this.fleetIDs = res.ProcessVariables.ids
@@ -688,9 +690,10 @@ export class FleetDetailsComponent implements OnInit {
         // for (let i = 0; i < fleetList.length; i++) {
         //   this.onGetDateValue(fleetList[i], i)
         // }
-        // this.fleetArrayList.controls = [];        
-        // fleetList.map((val: any, i) =>
-        //   this.fleetArrayList.push(this.initRows(val)));
+        this.fleetArrayList.controls = [];        
+        fleetList.map((val: any, i) =>
+        // this.financierChange()
+          this.fleetArrayList.push(this.initRows(val)));
         if (index != null && index != 'next') {
           this.fleetId = this.fleetIDs[index];
           this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
@@ -746,11 +749,11 @@ export class FleetDetailsComponent implements OnInit {
 
           const financierName = this.apiValue[i].financier
           if (financierName === 'Not-Applicable') {
-            this.disableFinanceierBased(i);
+            // this.disableFinanceierBased(i);
             this.removeValidatoresFinanceierBased(i);
           } else {
             this.addValidatoresFinanceierBased(i);
-            this.enableFinanceierBased(i);
+            // this.enableFinanceierBased(i);
           }
           // this.onGetDateValue(fleets[i].yom, i)
         }
