@@ -1,14 +1,14 @@
 <div class="row top_bar">
-  
+
   <div class="col-lg-7 col-md-7 col-sm-7 pad-allside ">
     <div class="row mob-view">
       <div class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
           </label>
-          <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">{{
-            leadId
-            }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
+          <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">
+            {{leadId && leadId != 'null' ? leadId : ' NA'}} 
+            <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
               (click)="onLeadHistory()"></i>
           </label>
         </div>
@@ -19,7 +19,7 @@
             labels?.product
             }}</label>
           <label for="lead_created_by_name" class="col-form-label-two">{{
-            productId
+            leadId && leadId !== 'null' ? productId : ' NA'
             }}</label>
         </div>
       </div>
@@ -29,8 +29,7 @@
             labels?.loanAmount
             }}</label>
           <label for="customer_name" class="col-form-label-two">{{
-            loanAmount
-
+            leadId && leadId !== 'null' ? loanAmount : ' NA'
             }}</label>
           <!-- : 'symbol':'1.0':'en-IN' -->
         </div>
@@ -43,7 +42,7 @@
             labels?.applicant
             }}</label>
           <label for="roi_value" class="col-form-label-two">{{
-            applicantName
+            leadId && leadId !== 'null' ? applicantName : ' NA'
             }}</label>
         </div>
       </div>
@@ -52,7 +51,7 @@
           <label class="col-form-label" for="lead_handled_by">{{ labels?.status }}
           </label>
           <label for="lead_handled_by_name" class="col-form-label-two">{{
-            stageDescription
+            leadId && leadId !== 'null' ? stageDescription : ' NA'
             }}</label>
         </div>
       </div>
@@ -76,7 +75,7 @@
           <label class="col-form-label" for="lead_created_by">{{ labels?.leadID }}
           </label>
           <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">:{{
-            leadId
+            leadId && leadId !== 'null' ? leadId : ' NA'
             }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
               (click)="onLeadHistory()"></i></label>
         </div>
@@ -87,7 +86,7 @@
             labels?.product
             }}</label>
           <label for="lead_created_by_name" class="col-form-label-two">:{{
-            productId
+            leadId && leadId !== 'null' ? productId : ' NA'
             }}</label>
         </div>
       </div>
@@ -97,8 +96,7 @@
             labels?.loanAmount
             }}</label>
           <label for="customer_name" class="col-form-label-two">:{{
-            loanAmount
-
+            leadId && leadId !== 'null' ? loanAmount : ' NA'
             }}</label>
           <!-- : 'symbol':'1.0':'en-IN' -->
         </div>
@@ -111,7 +109,7 @@
             labels?.applicant
             }}</label>
           <label for="roi_value" class="col-form-label-two">:{{
-            applicantName
+            leadId && leadId !== 'null' ? applicantName : ' NA'
             }}</label>
         </div>
       </div>
@@ -120,7 +118,7 @@
           <label class="col-form-label" for="lead_handled_by">{{ labels?.status }}
           </label>
           <label for="lead_handled_by_name" class="col-form-label-two">:{{
-            stageDescription
+            leadId && leadId !== 'null' ? stageDescription : ' NA'
             }}</label>
         </div>
       </div>
