@@ -486,10 +486,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.checkedBoxHouse = true;
         this.isChecked = true;
         this.hideMsgForOwner = true;
+        this.enableOwnerProperty()
       } else {
         this.checkedBoxHouse = false;
         this.isChecked = false;
         this.hideMsgForOwner = false;
+        this.disableOwnerProperty()
       }
 
       dedupe.patchValue({
@@ -1495,6 +1497,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         houseOwnerProperty: houseOwner,
         ownHouseAppRelationship: ownHouseAppRelationship
       })
+      this.enableOwnerProperty()
 
     } else {
       this.hideMsgForOwner = false;
@@ -1507,8 +1510,20 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         houseOwnerProperty: '',
         ownHouseAppRelationship: ''
       })
+      this.disableOwnerProperty()
     }
   }
+  enableOwnerProperty(){
+    this.coApplicantForm.get('dedupe').get('houseOwnerProperty').enable();
+    this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').enable();
+  }
+
+  disableOwnerProperty(){
+    this.coApplicantForm.get('dedupe').get('houseOwnerProperty').disable();
+    this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').disable();
+
+  }
+  
 
   getDedupeFormControls() {
     return {
@@ -1538,8 +1553,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl(''),
       ownHouseProofAvail: new FormControl(''),
-      houseOwnerProperty: new FormControl(''),
-      ownHouseAppRelationship: new FormControl(''),
+      houseOwnerProperty: new FormControl({ value: '', disabled: true }),
+      ownHouseAppRelationship: new FormControl({ value: '', disabled: true }),
       averageBankBalance: new FormControl(''),
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
@@ -1713,10 +1728,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.checkedBoxHouse = true;
         this.isChecked = true;
         this.hideMsgForOwner = true;
+        this.enableOwnerProperty()
       } else {
         this.checkedBoxHouse = false;
         this.isChecked = false;
         this.hideMsgForOwner = false;
+        this.disableOwnerProperty()
+        
       }
 
 
