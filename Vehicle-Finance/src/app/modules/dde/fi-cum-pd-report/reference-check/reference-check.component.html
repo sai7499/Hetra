@@ -242,12 +242,14 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="area">{{ labels.area }}
-            <sub class="star_red_col">*</sub>
+            <!-- <sub class="star_red_col">*</sub> -->
           </label>
           <app-custom-input formControlName="area" [className]="'form-control mandatory'" [placeholder]="'Area'"
-            [isRequired]="' Area is required'" [type]="labels?.validationData?.area?.type"
-            [maxLength]="labels?.validationData?.area?.maxLength" [isDirty]="isDirty">
+             [type]="labels?.validationData?.area?.type"
+            [maxLength]="labels?.validationData?.area?.maxLength" >
           </app-custom-input>
+          <!-- [isDirty]="isDirty"
+          [isRequired]="' Area is required'" -->
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="place">{{ labels.place }}

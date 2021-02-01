@@ -133,7 +133,7 @@ export class PdcDetailsComponent implements OnInit {
       // emiAmount: [{value: this.negotiatedEmi, disabled: true}, Validators.required ],
       emiAmount:  new FormControl(this.negotiatedEmi,[ Validators.required ]),
       instrNo: [null, Validators.required],
-      instrDate: [null],
+      instrDate: [null, Validators.required],
       instrBankName: [null, Validators.required],
       instrBranchName: [null, Validators.required],
       instrBranchAccountNumber: [null, Validators.required],
