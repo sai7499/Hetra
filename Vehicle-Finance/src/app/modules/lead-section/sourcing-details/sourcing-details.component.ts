@@ -265,6 +265,7 @@ export class SourcingDetailsComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
+      this.LOV.LOVS.defaultloanType = this.LOV.LOVS.loanType;
       this.getLeadSectionData();
       this.getUserDetailsData();
     });
@@ -378,7 +379,23 @@ export class SourcingDetailsComponent implements OnInit {
     const applicationNO = data.leadDetails.applicationNo;
     this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
 
-    const loanTypeFromLead = (data.leadDetails.typeOfLoan) ? data.leadDetails.typeOfLoan : '';
+    let loanTypeFromLead = (data.leadDetails.typeOfLoan) ? data.leadDetails.typeOfLoan : '';
+
+    if (this.productCategoryFromLead === 'NCV') {
+      this.LOV.LOVS.defaultloanType = this.LOV.LOVS.loanType;
+      loanTypeFromLead = (data.leadDetails.typeOfLoan) ? data.leadDetails.typeOfLoan : '8LOANTYP';
+    } else {
+      let defaultType = this.LOV.LOVS.loanType.filter((loan) => {
+        if (loan.key !== '8LOANTYP') {
+          return {
+            key: loan.key,
+            value: loan.value
+          }
+        }
+      })
+      this.LOV.LOVS.defaultloanType = defaultType;
+    }
+
     this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
 
     this.getBusinessDivision(businessDivisionFromLead);
@@ -609,6 +626,9 @@ export class SourcingDetailsComponent implements OnInit {
       this.isSourceCode = false;
     }
     this.onFormDisable();
+    if (this.sourchingTypeId === '4SOURTYP') {
+      this.onSourcingCodeSearch(this.userId)
+    }
   }
 
   onSourcingCodeSearch(event) {
@@ -623,18 +643,24 @@ export class SourcingDetailsComponent implements OnInit {
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
 
-    if (inputString && inputString.length>=2) {
+    if (inputString && inputString.length >= 2) {
       this.createLeadService
-      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
-      .subscribe((res: any) => {
-        const response = res;
-        const appiyoError = response.Error;
-        const apiError = response.ProcessVariables.error.code;
-        if (appiyoError === '0' && apiError === '0') {
-          this.sourcingCodeData = response.ProcessVariables.codeList;
-          this.keyword = 'value';
-        }
-      });
+        .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
+        .subscribe((res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+          if (appiyoError === '0' && apiError === '0') {
+            this.sourcingCodeData = response.ProcessVariables.codeList;
+            this.keyword = 'value';
+            if (sourcingCode[0].sourcingTypeId === '4SOURTYP') {
+              // this.sourcingDetailsForm.patchValue({ sourcingCode: this.sourcingCodeData[0].value });
+              this.isSourceCode = this.sourcingCodeData[0].key ? true : false;
+              this.sourcingCodeKey = this.sourcingCodeData[0].key;
+              this.sourcingCodeValue = this.sourcingCodeData[0].value;
+            }
+          }
+        });
     }
   }
 
@@ -808,6 +834,7 @@ export class SourcingDetailsComponent implements OnInit {
     if (this.sourcingDetailsForm.valid && this.isSourceCode && dealer && isUdfField) {
 
       const saveAndUpdate: any = { ...formValue };
+
       this.saveUpdate = {
         userId: this.userId,
         leadId: Number(this.leadId),
@@ -876,6 +903,7 @@ export class SourcingDetailsComponent implements OnInit {
       //     this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
       //   }
       // });
+
       this.leadDetail
         .saveAndUpdateLead(this.saveUpdate)
         .subscribe((res: any) => {
