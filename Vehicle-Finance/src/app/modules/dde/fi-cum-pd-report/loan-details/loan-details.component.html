@@ -76,6 +76,7 @@
           <label for="model/type">{{ labels.modelType }} <sub class="star_red_col">*</sub></label>
 
           <app-vf-custom-select [values]="(LOV?.LOVS)['vehicleType']" formControlName="usedVehicleType"
+          (change)="OnChangeVehType($event.target.value)"
             [isRequired]="'Please select one'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
@@ -333,7 +334,9 @@
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="permit_date">{{ labels.permitDate }} <sub class="star_red_col">*</sub></label>
+          <label for="permit_date">{{ labels.permitDate }} 
+            <sub *ngIf="isPermitMandatory" class="star_red_col">*</sub>
+          </label>
           <div class="input-group input-medium">
 
           </div>
@@ -342,15 +345,11 @@
             [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'" [min]="toDayDate">
           </kendo-datepicker>
           <div class="invalid-feedback">
-            <div *ngIf="
-              loanDetailsForm.controls['permitValidity'].touched &&
+            <div *ngIf=" 
+              isDirty && isPermitMandatory &&
               !loanDetailsForm.controls['permitValidity'].value
             ">
-              <div *ngIf="
-                loanDetailsForm.controls['permitValidity'].hasError('required')
-              ">
                 permit validity is required
-              </div>
             </div>
             <div *ngIf="
               loanDetailsForm.controls['permitValidity'].value &&
@@ -358,6 +357,7 @@
             ">
               Validity date should not be past date
             </div>
+            
           </div>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">

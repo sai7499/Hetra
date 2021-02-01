@@ -190,6 +190,8 @@ export class ValuationComponent implements OnInit {
   editedUDFValues: any;
   public format = 'dd/MM/yyyy HH:mm';
   presentTime: any;
+  invalidRegDate: boolean;
+  invalidInsuDiff: boolean;
  
 
 
@@ -359,6 +361,16 @@ export class ValuationComponent implements OnInit {
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.fuelTypeLOV = this.LOV.fuelType;
+
+      this.LOV.defaultfinanciers = this.LOV.financiers;
+
+      let defaultfinanciers = {
+        key: 'Not-Applicable', 
+        value: 'NA'
+      }
+
+      this.LOV.defaultfinanciers.splice(0, 0, defaultfinanciers)
+
     });
     console.log(' LOV**** --->', this.LOV);
   }
@@ -507,7 +519,11 @@ export class ValuationComponent implements OnInit {
     console.log('mfctr date', mfctrDate);
     if (regDate !== null && mfctrDate !== null) {
       if (regDate < mfctrDate) {
+        this.invalidRegDate = true;
         this.toasterService.showWarning('Registration Date should be greater than Month and Year Of Manufacture', '');
+      }else{
+        this.invalidRegDate = false;
+
       }
     }
     console.log('Form Data', this.vehicleValuationForm);
@@ -783,10 +799,10 @@ export class ValuationComponent implements OnInit {
       // tslint:disable-next-line: align
     } if (diffDays < 365) {
       this.toasterService.showWarning('Insurance Validity Date should be one year after insurance Start Date', '');
-      this.invalidInsuranceValidity = true;
+      this.invalidInsuDiff = true;
 
     } else if (diffDays > 365) {
-      this.invalidInsuranceValidity = false;
+      this.invalidInsuDiff = false;
     }
 
     console.log('in valid upto', diffDays);
@@ -1570,12 +1586,40 @@ export class ValuationComponent implements OnInit {
 
   onFormSubmit() {
     this.isDirty = true;
-    this.validateFitnessDate();
-    this.validateInsuranceDate();
-    this.validatePermitDate();
-    this.validateTaxDate();
-    this.validateDateOfReg();
-    this.insuranceValidUptoCheck();
+    if(this.invalidFitnessDate){
+      this.toasterService.showWarning('Fitness Validity Date should be greater than Registration Date', '');
+      return;
+    }
+    if(this.invalidInsDate){
+      this.toasterService.showWarning('Insurance Valid From should be greater than Registration Date', '');
+      return;
+    }
+    if(this.invalidPemitDate){
+      this.toasterService.showWarning('Permit Validity Date should be greater than Registration Date', '');
+      return; 
+    } 
+    if(this.invalidTaxDate){
+      this.toasterService.showWarning('Tax Validity Date should be greater than Registration Date', '');
+      return;
+    }
+    if(this.invalidRegDate){
+      this.toasterService.showWarning('Registration Date should be greater than Month and Year Of Manufacture', '');
+      return;
+    }
+    if(this.invalidInsuranceValidity){
+      this.toasterService.showWarning('Insurance Validity Date should not be greater than insurance Start Date', '');
+      return;
+    }
+    if(this.invalidInsuDiff){
+      this.toasterService.showWarning('Insurance Validity Date should be one year after insurance Start Date', '');
+      return;
+    }
+    // this.validateFitnessDate();
+    // this.validateInsuranceDate();
+    // this.validatePermitDate();
+    // this.validateTaxDate();
+    // this.validateDateOfReg();
+    // this.insuranceValidUptoCheck();
     console.log('latitude::', this.latitude);
     console.log('longitude::', this.longitude);
     console.log('address::', this.capturedAddress);

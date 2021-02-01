@@ -172,7 +172,7 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_type">{{ labels.loanType }}</label>
           <sub class="star_red_col">*</sub>
-          <app-vf-custom-select [values]="LOV.LOVS.loanType" formControlName="loanType"
+          <app-vf-custom-select [values]="LOV.LOVS.defaultloanType" formControlName="loanType"
             (change)="onLoanTypeTypeChange($event)" [isRequired]="'Loan Type required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>

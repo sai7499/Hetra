@@ -318,7 +318,7 @@ export class ReferenceCheckComponent implements OnInit {
       distanceFromEquitas: new FormControl({ value: '', disabled: true }),
       soName: new FormControl({ value: '', disabled: true }),
       employeeCode: new FormControl({ value: '', disabled: true }),
-      area: new FormControl('', Validators.required),
+      area: new FormControl(''),
       date: new FormControl({ value: '', disabled: true }),
       place: new FormControl({ value: '', disabled: true }),
       timeOfVerification: new FormControl({ value: '', disabled: true }),

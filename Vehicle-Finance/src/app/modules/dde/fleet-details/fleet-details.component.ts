@@ -692,8 +692,21 @@ export class FleetDetailsComponent implements OnInit {
         // }
         this.fleetArrayList.controls = [];        
         fleetList.map((val: any, i) =>
-        // this.financierChange()
           this.fleetArrayList.push(this.initRows(val)));
+          console.log(this.fleetForm.get('Rows')['controls']);
+          const fleetArray = this.fleetForm.get('Rows')['controls'];
+
+          for(let i = 0; i < fleetArray.length; i++) {
+            if(fleetArray[i].value.financier == 'Not-Applicable') {
+              this.formArr.controls[i]['controls']['loanNo'].clearValidators();
+              this.formArr.controls[i]['controls']['tenure'].clearValidators();
+              this.formArr.controls[i]['controls']['paid'].clearValidators();
+              this.formArr.controls[i]['controls']['loanNo'].updateValueAndValidity();
+              this.formArr.controls[i]['controls']['tenure'].updateValueAndValidity();
+              this.formArr.controls[i]['controls']['paid'].updateValueAndValidity();
+            }
+          }
+          
         if (index != null && index != 'next') {
           this.fleetId = this.fleetIDs[index];
           this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
