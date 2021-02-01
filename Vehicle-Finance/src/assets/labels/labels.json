@@ -1923,12 +1923,12 @@
         },
         "accountNumber": {
             "maxLength": {
-                "rule": 20
+                "rule": 30
             },
             "type": "alpha-numeric-nospace",
             "pattern": {
-                "rule": "^[0-9A-Za-z]{9,15}$",
-                "msg": "Invalid account Number"
+                "rule": "^[0-9A-Za-z]{9,30}$",
+                "msg": "Minimum length is 9 require for account Number"
             }
         },
         "goldInGrams": {
@@ -2395,9 +2395,13 @@
         },
         "pdIncomeAccountNumber": {
             "maxLength": {
-                "rule": 15
+                "rule": 30
             },
-            "type": "alpha-numeric-nospace"
+            "type": "alpha-numeric-nospace",
+            "pattern": {
+                "rule": "^[0-9A-Za-z]{9,30}$",
+                "msg": "Minimum length is 9 require for account Number"
+            }
         },
         "vehiclePrefixNo": {
             "maxLength": {
