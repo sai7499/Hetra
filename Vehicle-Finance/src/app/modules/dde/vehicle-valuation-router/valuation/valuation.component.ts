@@ -359,6 +359,16 @@ export class ValuationComponent implements OnInit {
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
       this.fuelTypeLOV = this.LOV.fuelType;
+
+      this.LOV.defaultfinanciers = this.LOV.financiers;
+
+      let defaultfinanciers = {
+        key: 'Not-Applicable', 
+        value: 'NA'
+      }
+
+      this.LOV.defaultfinanciers.splice(0, 0, defaultfinanciers)
+
     });
     console.log(' LOV**** --->', this.LOV);
   }
