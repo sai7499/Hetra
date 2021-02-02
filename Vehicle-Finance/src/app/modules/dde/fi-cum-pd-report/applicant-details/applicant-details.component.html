@@ -220,7 +220,7 @@
             {{ labels.maritalStatus }} <sub class="star_red_col">*</sub></label>
 
           <app-vf-custom-select [values]="(LOV?.LOVS)['maritalStatus']" formControlName="maritalStatus"
-            [isRequired]="'Please select one'" [isDirty]="isDirty">
+            [isRequired]="'Please select one'" [isDirty]="isDirty" (change)="setMaritalStatusValue($event.target.value)">
           </app-vf-custom-select>
         </div>
       </div>
@@ -235,10 +235,13 @@
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="owner_name">{{ labels.dependents }} <sub class="star_red_col">*</sub></label>
+          <label for="owner_name">{{ labels.dependents }} 
+            <sub *ngIf="applicantForm.get('maritalStatus').value !== '1MRGSTS'" class="star_red_col">*</sub>
+          </label>
           <app-custom-input id="dependents" [placeholder]="'Enter dependents'" formControlName="dependants"
-            [type]="labels?.validationData?.dependents?.type" [isRequired]="'Dependents are required'"
-            [maxLength]="labels?.validationData?.dependents?.maxLength" [isDirty]="isDirty">
+            [type]="labels?.validationData?.dependents?.type" 
+            [isRequired]="applicantForm.get('maritalStatus').value !== '1MRGSTS'? 'Dependents are required' : ''"
+            [maxLength]="labels?.validationData?.dependents?.maxLength" [isDirty]="applicantForm.get('maritalStatus').value !== '1MRGSTS'? isDirty : ''">
           </app-custom-input>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
