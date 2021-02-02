@@ -235,6 +235,10 @@ export class IncomeDetailsComponent implements OnInit {
     })
   }
 
+  onValidateSelectedRow(index, data) {
+    console.log(index, 'index')
+  }
+
   businessIncomeValidators() {
     // if (this.productCode == "NCV" || this.productCode == "UCV") {
 
@@ -1123,7 +1127,7 @@ export class IncomeDetailsComponent implements OnInit {
         .subscribe((res: any) => {
 
           // tslint:disable-next-line: triple-equals
-          // if (res.Error == 0 && res.ProcessVariables.error.code == '0') {
+          if (res.Error == 0 && res.ProcessVariables.error.code == '0') {
             // tslint:disable-next-line: prefer-const
             let businessControls = this.incomeDetailsForm.controls
               .businessIncomeDetails as FormArray;
@@ -1142,12 +1146,12 @@ export class IncomeDetailsComponent implements OnInit {
               'Income Details'
             );
             this.getAllIncome();
-          // } else {
-          //   this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :
-          //     res.ProcessVariables.error.message,
-          //     'Income Details'
-          //   );
-          // }
+          } else {
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :
+              res.ProcessVariables.error.message,
+              'Income Details'
+            );
+          }
         });
     }
   }

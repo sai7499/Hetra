@@ -246,7 +246,8 @@
                     'controls'
                   ];
                   let i = index
-                " [formGroupName]="i">
+                " [formGroupName]="i" (change)="onValidateSelectedRow(i, item)">
+                <!-- (click)="onValidateSelectedRow(i, $event)" -->
                     <tr class="td_none">
                       <th role="columnheader" class="text-center">{{ labels?.particulars }}</th>
                       <th role="columnheader" class="text-center">
