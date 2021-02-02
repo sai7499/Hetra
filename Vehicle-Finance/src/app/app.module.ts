@@ -69,12 +69,15 @@ setTheme('bs4');
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
   fgsColor: '#fa6745',
+  fgsSize:80,
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 100,
-  bgsType: SPINNER.cubeGrid, // background spinner type
-  fgsType: SPINNER.cubeGrid, // foreground spinner type
+  bgsType: SPINNER.ballSpinClockwise, // background spinner type
+  fgsType: SPINNER.ballSpinClockwise, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
   pbThickness: 5, // progress bar thickness
+  overlayColor: "rgba(238,237,235,0.86)",
+  
 };
 
 @NgModule({

@@ -149,7 +149,7 @@ export class LabelsService {
   }
 
   createObservableObj(labelsurl:string,webUrl?:string){
-    if(webUrl){       
+    if(!this.isMobile && webUrl){       
        return this.httpService.get(webUrl);
     }else{      
       const obs = new Observable(observer => {

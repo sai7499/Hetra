@@ -596,22 +596,18 @@ h4.table-head-bg.m-0.p-02 {
     margin-left: 100px;
     font-weight: bold;
 }
-
 #credit_score_tag2 {
     margin-left: 78px;
     font-weight: bold;
 }
-
 #credit_score_tag3 {
     margin-left: 130px;
     font-weight: bold;
 }
-
 #credit_score_tag4 {
     margin-left: 150px;
     font-weight: bold;
 }
-
 #credit_score_tag5 {
     margin-left: 10px;
     font-weight: bold;
@@ -767,7 +763,6 @@ h4.table-head-bg.m-0.p-02 {
         } 
        
        
-
 }*/
 
 
@@ -835,7 +830,6 @@ h4.table-head-bg.m-0.p-02 {
  /* .fa-pencil {
     padding-right: 35px;
 }
-
 .fa-trash {
     padding-right: 35px;
 }  */
@@ -1009,7 +1003,6 @@ font-size:10px;
     
   }
   .mandatory::-webkit-input-placeholder { color: blue!important; }
-
   :-ms-input-placeholder { 
     color: blue;
     
@@ -1019,11 +1012,8 @@ font-size:10px;
     color: blue;
     
   }
-
-
   .form-control ng-untouched ng-pristine ng-valid ::-webkit-input-placeholder{
     color: blue!important;
-
   } */
   
   .btn{   
