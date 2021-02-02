@@ -7,6 +7,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { LoginStoreService } from '@services/login-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import html2pdf from 'html2pdf.js';
+import { PdDataService } from '../fi-cum-pd-report/pd-data.service';
 
 @Component({
   selector: 'app-fi-list',
@@ -19,7 +20,7 @@ export class FiListComponent implements OnInit {
   labels: any;
   leadId: number;
   fiList: Array<any>;
-  leadData: {};
+  leadData: any;
   applicantId: any;
   userId: any;
   show: boolean;
@@ -64,7 +65,8 @@ export class FiListComponent implements OnInit {
     private fieldInvestigationService: FieldInvestigationService,
     private personalDiscussionService: PersonalDiscussionService,
     private createLeadDataService: CreateLeadDataService,
-    private commonLovService: CommomLovService
+    private commonLovService: CommomLovService,
+    private pdDataService: PdDataService
   ) {
     this.currentTime = this.stringTime[0] + ':' + this.stringTime[1];
     this.showTypeOfConcern = true;
@@ -176,6 +178,10 @@ export class FiListComponent implements OnInit {
     this.router.navigateByUrl(`pages/fi-dashboard/${this.leadId}/fi-report/${applicantIdFromHtml}/fi-residence`);
   }
   navigatePage(applicantId: string, version: any) {
+
+    const applicantType = this.leadData.applicantDetails.find((ele) => ele.applicantId === applicantId);
+    const entity = applicantType.entity
+    this.pdDataService.setApplicantType(entity);
     console.log(
       'applicantId',
       applicantId,
@@ -189,22 +195,39 @@ export class FiListComponent implements OnInit {
       console.log(' in fi-dashboard flow');
 
       // this.show = true;
+      
       if (version) {
         console.log('in fi-dashboard version conditon');
-        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+        if( entity == 'Individual') {
+          this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+        }else{
+          this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-business/${version}`]);
+        }
+        
       } else if (version === undefined || version === null) {
         console.log('in fi-cum-pd-dashboard undefined version conditon');
-        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+        if( entity == 'Individual') {
+          this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+        }else{
+          this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-business`]);
+        }
       }
 
     } else if (this.router.url.includes('/dde')) {
       console.log(' in dde flow');
       // this.showStatus = true;
       if (version) {
-        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+        if( entity == 'Individual') { 
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+        } else {
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-business/${version}`]);
+        }
       } else if (version === undefined || version === null) {
-
-        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+        if( entity == 'Individual') { 
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+        } else {
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-business`]);
+        }
       }
 
     }

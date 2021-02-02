@@ -431,7 +431,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         } else {
 
-          if (this.leadDetails && this.leadDetails.typeOfLoan === '2LOANTYP' && this.productCatoryCode !== 'NCV') {
+          if (this.leadDetails && (this.leadDetails.typeOfLoan === '2LOANTYP' || this.leadDetails.typeOfLoan === '3LOANTYP') && this.productCatoryCode !== 'NCV') {
             let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
             this.applicantDetails.filter((applicant: any) => {
@@ -445,8 +445,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
                 if (this.leadSectionData.addressDetails && this.leadSectionData.addressDetails.length > 0) {
 
                   let addressDetail = this.leadSectionData.addressDetails[0];
-                  address = addressDetail.addressLineOne + ' ' + addressDetail.addressLineTwo ? addressDetail.addressLineTwo : ''  + ' ' + addressDetail.addressLineThree  ? addressDetail.addressLineThree : ''+
-                            ' ' + addressDetail.cityValue + ' ' + addressDetail.districtValue  + ' ' + addressDetail.stateValue + 
+
+                  let addressLineTwo, addressLineThree = '';
+
+                  if (addressDetail.addressLineTwo) {
+                    addressLineTwo = addressDetail.addressLineTwo
+                  }
+
+                  if (addressDetail.addressLineThree) {
+                    addressLineThree = addressDetail.addressLineThree
+                  }
+
+                  address = addressDetail.addressLineOne + ' ' + addressLineTwo + ' '  + addressLineThree + ' ' + addressDetail.cityValue + ' ' + addressDetail.districtValue  + ' ' + addressDetail.stateValue + 
                             ' ' + addressDetail.countryValue;
                   pincode = addressDetail.pincode;
                 }
