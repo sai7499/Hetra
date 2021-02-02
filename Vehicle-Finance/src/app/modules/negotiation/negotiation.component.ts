@@ -2006,7 +2006,7 @@ export class NegotiationComponent implements OnInit {
                       NegotiatedLoanTenor: [{value:((this.view == false)?((tenorReq)?this.createNegotiationForm.controls.reqLoanTenor.value:eliTenorMax):''),disabled: false}],
                       NegotiatedIRR: [{ value: (this.view == false)?(this.AssetDetailsList[i].EligibleIRRMin):'', disabled: false }],
                       variableIRR:['',],
-                      NegotiatedEMI: [{value: '',disabled: false}],
+                      NegotiatedEMI: [{value: '',disabled: true}],
                       subventSchemeLoanTenor: [{ value: this.AssetDetailsList[i].subventionTenure, disabled: true }],
                       subventionSchemeIRR: [{ value: this.AssetDetailsList[i].subventionIRR, disabled: true }],
                       // subventSchemeEMI: [{ value: (this.view == false)?(this.subventionEmiVal(i,false)):'', disabled: true }],
@@ -2086,7 +2086,8 @@ export class NegotiationComponent implements OnInit {
                       repaymentFrequency: [((this.AssetDetailsList[i].schemeType=='S') || (this.AssetDetailsList[i].schemeType=='I') || (this.AssetDetailsList[i].schemeType=='SI')) ? {value:'1LOSREPAYFRE',disabled:true} : !(this.LeadReferenceDetails[0].ProductCode == 'UTCR' || this.LeadReferenceDetails[0].ProductCode == 'NTCR') ? {value:'1LOSREPAYFRE',disabled:true} : {value:'1LOSREPAYFRE',disabled:false},[Validators.required] ],
                       SelectAppropriateLMSScheduleCode: [{value:'',disabled:false},[Validators.required]],
                       EMIStructure: [{ value: (this.view == false)?'1EMISTRUCT':'', disabled: (this.view == false)?(((this.AssetDetailsList[i].schemeType=='S') || (this.AssetDetailsList[i].schemeType=='I') || (this.AssetDetailsList[i].schemeType=='SI'))?true:false):false},[Validators.required]],
-                      loanBookingEMI: [{value: '',disabled: (this.view == false)?((this.AssetDetailsList[i].schemeType=='S') || (this.AssetDetailsList[i].schemeType=='SI'))?true:false:false}],
+                      //loanBookingEMI: [{value: '',disabled: (this.view == false)?((this.AssetDetailsList[i].schemeType=='S') || (this.AssetDetailsList[i].schemeType=='SI'))?true:false:false}],
+                      loanBookingEMI: [{value: '',disabled: true}],
                       emiDefaultValue:['']
                       //emiDefaultValue:[{value:(this.view ==false)?this.defaultIndexEmiValue(i):0,disabled:true}]
                     }),

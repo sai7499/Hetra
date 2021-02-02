@@ -166,7 +166,7 @@ export class DisbursementFormComponent implements OnInit {
   coApplicant2: Object = {};
   coApplicant3: Object = {};
   bankdetailsformArray = ['beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch']
-  chequeDDformArray = ['instrumentType', 'favouringBankOfDraw', 'favouringBankBranch']
+  chequeDDformArray = ['beneficiaryAccountNo', 'instrumentType', 'favouringBankOfDraw', 'favouringBankBranch']
   //casaformArray = ['beneficiaryAccountNo']
   intTypeformArray = ['instrumentNumber', 'instrumentDate']
   bankcasaformArray = ['beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch']
@@ -301,13 +301,16 @@ export class DisbursementFormComponent implements OnInit {
   fetchedCoApp3Data: boolean=false;
   cumulativeAmount: any;
   flagBank : boolean;
-  flagFinance
+  flagFinance: boolean;
   isLoan360: boolean;
 
   udfScreenId: string = '';
   udfGroupId: string = 'DIG001';
   udfDetails: any = [];
   userDefineForm: any;
+  vehicleProductCatCode: boolean=false;
+  fetchedDealerCode: string;
+  flagDealor: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -333,10 +336,12 @@ export class DisbursementFormComponent implements OnInit {
   async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.flag = true;
+    this.flagDealor = true;
     this.flagBank = true;
     this.flagFinance = true;
     this.initForm();
     this.getLabels();
+    this.getProductCatCode();
     this.disbLOV();
     this.disbLeadId = (await this.getLeadId()) as number;
     this.fetchLoanDetails();
@@ -887,6 +892,11 @@ export class DisbursementFormComponent implements OnInit {
     );
   }
 
+  getProductCatCode(){
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.vehicleProductCatCode = (leadData["leadDetails"].productCatCode=="UC")?false:true;
+  }
+
   disbLOV() {
     this.disbursementService
       .getDisbLOV()
@@ -924,7 +934,7 @@ export class DisbursementFormComponent implements OnInit {
 
       });
   }
-  onDealerCodeSearch(event,flag) {
+  onDealerCodeSearch(event,flag,selectDealerEventFlag) {
     let inputString = event;
     const leadData = this.createLeadDataService.getLeadSectionData();
    const  productCatCode = leadData["leadDetails"].productId;
@@ -935,8 +945,18 @@ export class DisbursementFormComponent implements OnInit {
       const apiError = response.ProcessVariables.error.code;
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
-        if(this.dealerCodeData && flag){
-          this.dealerCode  = this.dealerCodeData.find(({ dealorCode }) => dealorCode == this.dealerCode).dealorName;
+        this.flagDealor= false;
+        if(this.dealerCodeData && flag){ // dealerCodeData must to fetch Data
+          if(this.fetchedDealerCode){
+            this.dealerCode  = this.dealerCodeData.find(({ dealorCode }) => dealorCode == this.fetchedDealerCode).dealorName;  
+            if(selectDealerEventFlag){ // while feching this not required to call
+              this.selectDealerEvent(this.fetchedDealerCode,false);
+            }
+            this.dealerDetailsForm.controls.dealerCode.disable();
+            this.dealerDetailsForm.controls.beneficiaryName.disable();
+          }else{
+            this.dealerCode  = this.dealerCodeData.find(({ dealorCode }) => dealorCode == this.dealerCode).dealorName;
+          }
         }
         this.keyword = 'dealorName';
         console.log('this.dealerCodeData', this.dealerCodeData);
@@ -947,8 +967,13 @@ export class DisbursementFormComponent implements OnInit {
       }
     });
   }
-  selectDealerEvent(event: any) {
-    let inputString = event.dealorCode;
+  selectDealerEvent(event: any,flag) {
+    let inputString = '';
+    if(this.fetchedDealerCode && !flag){
+      inputString=this.fetchedDealerCode;
+    }else{
+      inputString=event.dealorCode;
+    }
     const leadData = this.createLeadDataService.getLeadSectionData();
     const  productCatCode = leadData["leadDetails"].productCatCode;
     //console.log('inputStringDelr', event);
@@ -1452,12 +1477,15 @@ export class DisbursementFormComponent implements OnInit {
       if (appiyoError === '0') {
         console.log('LoanDetails', response)
         if (response.ProcessVariables.error.code == '1') {
+          this.fetchedDealerCode='';
           this.loanDetailsData = {};
           this.totalDisbursementAmount = 0;
           this.toasterService.showError(response.ProcessVariables.error.message, '');
         } else {
           this.loanDetailsData = (response.ProcessVariables.LoanDetails) ? response.ProcessVariables.LoanDetails : {};
           this.totalDisbursementAmount = this.loanDetailsData['approvedAmount'] ? parseInt(this.loanDetailsData['approvedAmount']) : 0;
+          this.fetchedDealerCode=response.ProcessVariables.dealerCode;
+          //this.fetchedDealerCode='DSA00448';         
         }
         //comment  the below two lines ce testing  is done
         //this.loanDetailsData= (response.ProcessVariables.LoanDetails) ? response.ProcessVariables.LoanDetails : {};
@@ -1625,6 +1653,7 @@ export class DisbursementFormComponent implements OnInit {
           this.setIntType(null, 'dealer');
           this.chequeDDformArray.forEach(key => {
             this.dealerDetailsForm.get(key).setValidators([Validators.required])
+            this.dealerDetailsForm.get(key).updateValueAndValidity();
           });
         } 
       }
@@ -1642,8 +1671,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.dealerDetailsForm.get(key).setValidators([Validators.required])
+            this.dealerDetailsForm.get(key).setValidators([Validators.required]);
+            this.dealerDetailsForm.get(key).updateValueAndValidity();
           });
+        }
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.dealerDetailsForm.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.dealerDetailsForm.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
       
@@ -1676,7 +1710,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'applicant');
           this.chequeDDformArray.forEach(key => {
-            this.appDetailsForm.get(key).setValidators([Validators.required])
+            this.appDetailsForm.get(key).setValidators([Validators.required]);
+            this.appDetailsForm.get(key).updateValueAndValidity();
           });
         }
       }
@@ -1695,8 +1730,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.appDetailsForm.get(key).setValidators([Validators.required])
+            this.appDetailsForm.get(key).setValidators([Validators.required]);
+            this.appDetailsForm.get(key).updateValueAndValidity();
           });
+        }
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.appDetailsForm.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.appDetailsForm.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
     }
@@ -1728,7 +1768,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'seller');
           this.chequeDDformArray.forEach(key => {
-            this.sellerDetailsForm.get(key).setValidators([Validators.required])
+            this.sellerDetailsForm.get(key).setValidators([Validators.required]);
+            this.sellerDetailsForm.get(key).updateValueAndValidity();
           });
         }
       }
@@ -1747,8 +1788,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.sellerDetailsForm.get(key).setValidators([Validators.required])
+            this.sellerDetailsForm.get(key).setValidators([Validators.required]);
+            this.sellerDetailsForm.get(key).updateValueAndValidity();
           });
+        }
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.sellerDetailsForm.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.sellerDetailsForm.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
     }
@@ -1781,7 +1827,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'buyer');
           this.chequeDDformArray.forEach(key => {
-            this.buyerDetailsForm.get(key).setValidators([Validators.required])
+            this.buyerDetailsForm.get(key).setValidators([Validators.required]);
+            this.buyerDetailsForm.get(key).updateValueAndValidity();
           });
         }
       }
@@ -1800,8 +1847,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.buyerDetailsForm.get(key).setValidators([Validators.required])
+            this.buyerDetailsForm.get(key).setValidators([Validators.required]);
+            this.buyerDetailsForm.get(key).updateValueAndValidity();
           });
+        }
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.buyerDetailsForm.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.buyerDetailsForm.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
     }
@@ -1834,7 +1886,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'banker');
           this.chequeDDformArray.forEach(key => {
-            this.bankerDetailsForm.get(key).setValidators([Validators.required])
+            this.bankerDetailsForm.get(key).setValidators([Validators.required]);
+            this.bankerDetailsForm.get(key).updateValueAndValidity();
           });
         }
       }
@@ -1852,8 +1905,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.bankerDetailsForm.get(key).setValidators([Validators.required])
+            this.bankerDetailsForm.get(key).setValidators([Validators.required]);
+            this.bankerDetailsForm.get(key).updateValueAndValidity();
           });
+        }
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.bankerDetailsForm.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.bankerDetailsForm.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
       
@@ -1886,7 +1944,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'financier');
           this.chequeDDformArray.forEach(key => {
-            this.financierDetailsForm.get(key).setValidators([Validators.required])
+            this.financierDetailsForm.get(key).setValidators([Validators.required]);
+            this.financierDetailsForm.get(key).updateValueAndValidity();
           });
         }
       }
@@ -1905,8 +1964,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.financierDetailsForm.get(key).setValidators([Validators.required])
+            this.financierDetailsForm.get(key).setValidators([Validators.required]);
+            this.financierDetailsForm.get(key).updateValueAndValidity();
           });
+        }
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.financierDetailsForm.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.financierDetailsForm.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
       
@@ -1939,7 +2003,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'thirdParty');
           this.chequeDDformArray.forEach(key => {
-            this.thirdPartyDetailsForm.get(key).setValidators([Validators.required])
+            this.thirdPartyDetailsForm.get(key).setValidators([Validators.required]);
+            this.thirdPartyDetailsForm.get(key).updateValueAndValidity();
           });
         }
       }
@@ -1957,8 +2022,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(this.mopVal == '7MODEOFPAYMENT' || this.mopVal == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.thirdPartyDetailsForm.get(key).setValidators([Validators.required])
+            this.thirdPartyDetailsForm.get(key).setValidators([Validators.required]);
+            this.thirdPartyDetailsForm.get(key).updateValueAndValidity();
           });
+        }
+        if(this.mopVal == '2MODEOFPAYMENT'){
+          this.thirdPartyDetailsForm.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.thirdPartyDetailsForm.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
     }
@@ -2068,7 +2138,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'coApp1');
           this.chequeDDformArray.forEach(key => {
-            this.coApp1Form.get(key).setValidators([Validators.required])
+            this.coApp1Form.get(key).setValidators([Validators.required]);
+            this.coApp1Form.get(key).updateValueAndValidity();
           });
         }
       }
@@ -2087,9 +2158,15 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(coAppMopValue == '7MODEOFPAYMENT' || coAppMopValue == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.coApp1Form.get(key).setValidators([Validators.required])
+            this.coApp1Form.get(key).setValidators([Validators.required]);
+            this.coApp1Form.get(key).updateValueAndValidity();
           });
         }
+        if(coAppMopValue == '2MODEOFPAYMENT'){
+          this.coApp1Form.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.coApp1Form.controls.beneficiaryAccountNo.updateValueAndValidity();
+        }
+        
       }
     }
     if (val == 'coApp2') {
@@ -2119,7 +2196,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'coApp2');
           this.chequeDDformArray.forEach(key => {
-            this.coApp2Form.get(key).setValidators([Validators.required])
+            this.coApp2Form.get(key).setValidators([Validators.required]);
+            this.coApp2Form.get(key).updateValueAndValidity();
           });
         }
       }
@@ -2138,8 +2216,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(coAppMopValue == '7MODEOFPAYMENT' || coAppMopValue == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.coApp2Form.get(key).setValidators([Validators.required])
+            this.coApp2Form.get(key).setValidators([Validators.required]);
+            this.coApp2Form.get(key).updateValueAndValidity();
           });
+        }
+        if(coAppMopValue == '2MODEOFPAYMENT'){
+          this.coApp2Form.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.coApp2Form.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
     }
@@ -2170,7 +2253,8 @@ export class DisbursementFormComponent implements OnInit {
           }
           this.setIntType(null, 'coApp3');
           this.chequeDDformArray.forEach(key => {
-            this.coApp3Form.get(key).setValidators([Validators.required])
+            this.coApp3Form.get(key).setValidators([Validators.required]);
+            this.coApp3Form.get(key).updateValueAndValidity();
           });
         }
       }
@@ -2189,8 +2273,13 @@ export class DisbursementFormComponent implements OnInit {
         }
         if(coAppMopValue == '7MODEOFPAYMENT' || coAppMopValue == '8MODEOFPAYMENT'){
           this.bankdetailsformArray.forEach(key => {
-            this.coApp3Form.get(key).setValidators([Validators.required])
+            this.coApp3Form.get(key).setValidators([Validators.required]);
+            this.coApp3Form.get(key).updateValueAndValidity();
           });
+        }
+        if(coAppMopValue == '2MODEOFPAYMENT'){
+          this.coApp3Form.controls.beneficiaryAccountNo.setValidators([Validators.required]);
+          this.coApp3Form.controls.beneficiaryAccountNo.updateValueAndValidity();
         }
       }
     }
@@ -2222,7 +2311,7 @@ export class DisbursementFormComponent implements OnInit {
     }
   }
 
-  disburseToVal(val) {
+  disburseToVal(val,fetchflag) {
     console.log('diburseToValues', this.disburseTo)
     // console.log(val,val.length)
     this.disburseToDealer = false;
@@ -2241,6 +2330,9 @@ export class DisbursementFormComponent implements OnInit {
         if (this.disburseToLov[i]['key'] == (val)[j]) {
           if (val[j] == '1DISBURSETO') {
             this.disburseToDealer = true;
+            if(this.fetchedDealerCode && this.flagDealor && fetchflag){
+              this.onDealerCodeSearch(this.fetchedDealerCode,true,true);
+            }
           }
           if (val[j] == '2DISBURSETO') {
             if (this.flag) {
@@ -2290,6 +2382,7 @@ export class DisbursementFormComponent implements OnInit {
       this.showBankDetails = false;
       this.showDDDetails = false;
       this.showCASADetails = false;
+      this.flagDealor = true;
       this.trancheDealerList = [];
       this.dealerObjInfo['dealerCode'] = '';
       this.dealerformArray.forEach(key => {
@@ -2300,6 +2393,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.dealerformArray.forEach(key => {
         this.dealerDetailsForm.get(key).setValidators([Validators.required]);
+        this.dealerDetailsForm.get(key).updateValueAndValidity();
       });
       //this.dealerDetailsForm.get('dealerCode').setValidators([Validators.required]);
     }
@@ -2319,6 +2413,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.appDetailsForm.get(key).setValidators([Validators.required]);
+        this.appDetailsForm.get(key).updateValueAndValidity();
       });
     }
     if (!this.disburseToSeller) {
@@ -2336,6 +2431,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.sellerDetailsForm.get(key).setValidators([Validators.required]);
+        this.sellerDetailsForm.get(key).updateValueAndValidity();
       });
     }
 
@@ -2354,6 +2450,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.buyerDetailsForm.get(key).setValidators([Validators.required]);
+        this.buyerDetailsForm.get(key).updateValueAndValidity();
       });
     }
 
@@ -2378,6 +2475,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.bankerformArray.forEach(key => {
         this.bankerDetailsForm.get(key).setValidators([Validators.required]);
+        this.bankerDetailsForm.get(key).updateValueAndValidity();
       });
     }
     if (!this.disburseToFinancier) {
@@ -2395,6 +2493,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.finformArray.forEach(key => {
         this.financierDetailsForm.get(key).setValidators([Validators.required]);
+        this.financierDetailsForm.get(key).updateValueAndValidity();
       });
     }
     if (!this.disburseToThirdParty) {
@@ -2411,6 +2510,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.thirdPartyDetailsForm.get(key).setValidators([Validators.required]);
+        this.thirdPartyDetailsForm.get(key).updateValueAndValidity();
       });
     }
     if (!this.disburseToIBT) {
@@ -2490,6 +2590,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.coApp1Form.get(key).setValidators([Validators.required]);
+        this.coApp1Form.get(key).updateValueAndValidity();
       });
     }
     if (!this.coApp2) {
@@ -2508,6 +2609,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.coApp2Form.get(key).setValidators([Validators.required]);
+        this.coApp2Form.get(key).updateValueAndValidity();
       });
     }
     if (!this.coApp3) {
@@ -2525,6 +2627,7 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.coApp3Form.get(key).setValidators([Validators.required]);
+        this.coApp3Form.get(key).updateValueAndValidity();
       });
     }
    if(this.coApp1){
@@ -3564,14 +3667,14 @@ export class DisbursementFormComponent implements OnInit {
           this.flag = (this.disbursementDetailsData.ApplicantDetails) ? false : true;
           this.flagBank = (this.disbursementDetailsData.BankerDetails) ? false : true;
           this.flagFinance = (this.disbursementDetailsData.FinancierDetails) ? false : true;
-          this.disburseToVal(this.disburseTo);
+          this.disburseToVal(this.disburseTo,false);
         }
         if (this.disbursementDetailsData.DealerDetails) {
           this.dealerObjInfo = this.disbursementDetailsData.DealerDetails;
           this.dealerDisbursementID = this.dealerObjInfo['disbursementID'];
           this.dealerCode = this.disbursementDetailsData.DealerDetails.dealerCode;
           if(this.dealerCode){
-          this.onDealerCodeSearch(this.dealerCode,true);
+          this.onDealerCodeSearch(this.dealerCode,true,false);
           }
           this.dealerObjInfo['mobilePhone'] = this.disbursementDetailsData.DealerDetails.mobilePhone ? this.disbursementDetailsData.DealerDetails.mobilePhone.slice(2) : '';
           this.dealerObjInfo['instrumentDate'] = this.disbursementDetailsData.DealerDetails.instrumentDate;
