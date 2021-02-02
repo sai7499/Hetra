@@ -4,9 +4,9 @@
     <!-- <app-dde-header></app-dde-header> -->
     <app-lead-section-header></app-lead-section-header>
 
-    <div class="multisteps-form">
+    <div class="multisteps-form" >
       <!-- <div class=" multisteps-form__progress " *ngIf !=" router.url == '/pages/fl-and-pd-report/:leadId/pd-dashboard'"> -->
-      <div class="multisteps-form__progress">
+      <div class="multisteps-form__progress" *ngIf="isApplicantInd">
         <button
           class="multisteps-form__progress-btn"
           [ngClass]="{ 'js-active': locationIndex >= 0 }"

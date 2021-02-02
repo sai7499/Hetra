@@ -11,6 +11,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { ApplicantService } from '@services/applicant.service';
 import { UtilityService } from '@services/utility.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 @Component({
   selector: 'app-fi-business',
   templateUrl: './fi-business.component.html',
@@ -64,6 +65,7 @@ export class FiBusinessComponent implements OnInit {
   udfGroupId: any;
   initUDFValues: any;
   editedUDFValues: any;
+  isApplicantInd: boolean;
 
   constructor(
     private labelService: LabelsService,
@@ -76,7 +78,8 @@ export class FiBusinessComponent implements OnInit {
     private toasterService: ToasterService, // service for accessing the toaster
     private applicantService: ApplicantService,
     private utilityService: UtilityService,
-    private objectComparisonService: ObjectComparisonService) {
+    private objectComparisonService: ObjectComparisonService,
+    private pdDataService: PdDataService) {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
@@ -232,18 +235,18 @@ export class FiBusinessComponent implements OnInit {
   }
 
   getMonths() {
-    const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
-      ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
+    // const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
+    //   ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
     const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
       ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
-    if (initiatedDate && submitDate) {
-      if (submitDate < initiatedDate) {
-        this.initDate = true;
-        this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
-      } else {
-        this.initDate = false;
-      }
-    }
+    // if (initiatedDate && submitDate) {
+    //   if (submitDate < initiatedDate) {
+    //     this.initDate = true;
+    //     this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
+    //   } else {
+    //     this.initDate = false;
+    //   }
+    // }
   }
 
   initForm() {
@@ -251,12 +254,12 @@ export class FiBusinessComponent implements OnInit {
     // fun that initilalizes the form group
     this.fieldReportForm = new FormGroup({
       externalAgencyName: new FormControl({ value: '', disabled: true }),
-      contactPointVerification: new FormControl('', Validators.required),
+      // contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
-      cpvInitiatedDate: new FormControl('', Validators.required),
-      cpvInitiatedTime: new FormControl('', Validators.required),
-      reportSubmitDate: new FormControl('', Validators.required),
-      reportSubmitTime: new FormControl('', Validators.required),
+      cpvInitiatedDate: new FormControl({value: '', disabled: true}),
+      // cpvInitiatedTime: new FormControl('', Validators.required),
+      // reportSubmitDate: new FormControl('', Validators.required),
+      // reportSubmitTime: new FormControl('', Validators.required),
       applicantName: new FormControl({ value: '', disabled: true }),
       addressLine1: new FormControl('', Validators.required),
       addressLine2: new FormControl('', Validators.required),
@@ -291,14 +294,13 @@ export class FiBusinessComponent implements OnInit {
     const fiModel = this.fiDetails || {}; // setting the response from ger fi details into fi model
     this.fieldReportForm.patchValue({
       externalAgencyName: fiModel.externalAgencyName ? fiModel.externalAgencyName : null,
-      contactPointVerification: fiModel.contactPointVerification ? fiModel.contactPointVerification : null,
+      // contactPointVerification: fiModel.contactPointVerification ? fiModel.contactPointVerification : null,
       referenceNo: fiModel.referenceNo ? fiModel.referenceNo : null,
-      cpvInitiatedDate: fiModel.cpvInitiatedDate ?
-        new Date(this.getDateFormat(fiModel.cpvInitiatedDate)) : null,
-      cpvInitiatedTime: fiModel.cpvInitiatedTime ? fiModel.cpvInitiatedTime : null,
-      reportSubmitDate: fiModel.reportSubmitDate ?
-        new Date(this.getDateFormat(fiModel.reportSubmitDate)) : null,
-      reportSubmitTime: fiModel.reportSubmitTime ? fiModel.reportSubmitTime : null,
+      cpvInitiatedDate: fiModel.cpvInitiatedDate ? fiModel.cpvInitiatedDate : null,
+      // cpvInitiatedTime: fiModel.cpvInitiatedTime ? fiModel.cpvInitiatedTime : null,
+      // reportSubmitDate: fiModel.reportSubmitDate ?
+      //   new Date(this.getDateFormat(fiModel.reportSubmitDate)) : null,
+      // reportSubmitTime: fiModel.reportSubmitTime ? fiModel.reportSubmitTime : null,
       applicantName: this.applicantFullName || this.applicantFullName || null,
       addressLine1: fiModel.addressLine1 ? fiModel.addressLine1 : null,
       addressLine2: fiModel.addressLine2 ? fiModel.addressLine2 : null,
@@ -501,12 +503,13 @@ export class FiBusinessComponent implements OnInit {
 
     this.fIBusinessDetails = {
       externalAgencyName: fieldReportModal.externalAgencyName,
-      contactPointVerification: fieldReportModal.contactPointVerification,
+      // contactPointVerification: fieldReportModal.contactPointVerification,
       referenceNo: fieldReportModal.referenceNo,
-      cpvInitiatedDate: this.sendDate(fieldReportModal.cpvInitiatedDate),
-      cpvInitiatedTime: fieldReportModal.cpvInitiatedTime,
-      reportSubmitDate: this.sendDate(fieldReportModal.reportSubmitDate),
-      reportSubmitTime: fieldReportModal.reportSubmitTime,
+      // cpvInitiatedDate: this.sendDate(fieldReportModal.cpvInitiatedDate),
+      cpvInitiatedDate: fieldReportModal.cpvInitiatedDate,
+      // cpvInitiatedTime: fieldReportModal.cpvInitiatedTime,
+      // reportSubmitDate: this.sendDate(fieldReportModal.reportSubmitDate),
+      // reportSubmitTime: fieldReportModal.reportSubmitTime,
       applicantName: this.applicantFullName,
       addressLine1: fieldReportModal.addressLine1,
       addressLine2: fieldReportModal.addressLine2,
@@ -579,6 +582,15 @@ export class FiBusinessComponent implements OnInit {
   }
 
   onNavigateBack() {
+    const applicantType = this.pdDataService.getApplicantType();
+     if(applicantType == 'Non-Individual') {
+      if (this.router.url.includes('/fi-dashboard')) {
+        this.router.navigateByUrl(`/pages/fi-dashboard/${this.leadId}/fi-list`);
+      } else if (this.router.url.includes('/dde')) {
+        this.router.navigate([`/pages/dde/${this.leadId}/fi-list`]);
+      }
+      return;
+     }
     if (this.version != 'undefined') {
       this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${this.applicantId}/fi-residence/${this.version}`]);
     } else {
