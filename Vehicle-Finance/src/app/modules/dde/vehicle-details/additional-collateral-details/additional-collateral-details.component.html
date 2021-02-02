@@ -185,6 +185,7 @@
                                     [type]="label.validationData?.accountNumber.type" [id]="'fd_account_no'"
                                     [className]="'form-control mandatory'" [placeholder]="'FD Account number'"
                                     [maxLength]="label.validationData?.accountNumber.maxLength"
+                                    [patternCheck]="label.validationData?.accountNumber.pattern"
                                     [isRequired]="'FD Account number Required'" [isDirty]="isDirty">
                                 </app-custom-input>
 

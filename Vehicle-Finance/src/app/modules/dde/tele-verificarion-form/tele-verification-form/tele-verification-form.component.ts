@@ -179,7 +179,7 @@ export class TeleVerificationFormComponent implements OnInit {
       eCode: [''],
       wrkExperience: ['', Validators.required],
       officePhnNo: [''],
-      officePhnExt: ['', Validators.required],
+      officePhnExt: [''],
       wrkStability: ['', Validators.required],
       natureOfBusiness: ['', Validators.required],
       typeOfTransaction: ['', Validators.required],
@@ -425,7 +425,6 @@ export class TeleVerificationFormComponent implements OnInit {
         this.teleVerificationForm.get('tvrDate').setValue(this.toDayDate);
         this.teleVerificationForm.get('product').setValue(this.product);
         this.teleVerificationForm.get('residentPhnNo').setValue(this.mobileNumber);
-        this.teleVerificationForm.get('officePhnNo').setValue(this.mobileNumber);
         this.teleVerificationForm.get('tenureInMonth').setValue(this.tenure);
         this.teleVerificationForm.get('assetCost').setValue(this.assetCost);
         this.teleVerificationForm.get('financeAmt').setValue(this.reqLoanAmount);

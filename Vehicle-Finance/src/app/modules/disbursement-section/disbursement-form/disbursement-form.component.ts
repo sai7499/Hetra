@@ -3524,8 +3524,11 @@ export class DisbursementFormComponent implements OnInit {
               const apiError = response.ProcessVariables.error;
               if (apiError.code == '0') {
                 this.toasterService.showSuccess('saved successfully', '');
-                this.fetchDisbursementDetails();                
-                this.onNext(true);
+                this.fetchDisbursementDetails(); 
+                if (fromButton == 'next')     {
+                  this.onNext(true);
+                }          
+                
               } else {
                 this.toasterService.showError(apiError.message, '');                
               }
