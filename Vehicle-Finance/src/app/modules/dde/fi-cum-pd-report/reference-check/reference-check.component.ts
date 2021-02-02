@@ -305,7 +305,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.referenceCheckForm = this.fb.group({
       nameOfReference: new FormControl('', Validators.required),
       addressOfReference: new FormControl('', Validators.required),
-      referenceMobile: new FormControl('', Validators.required),
+      referenceMobile: new FormControl(''),
       overallFiReport: new FormControl('', Validators.required),
       negativeProfile: new FormControl('', Validators.required),
       pdRemarks: new FormControl('', Validators.compose
@@ -318,7 +318,7 @@ export class ReferenceCheckComponent implements OnInit {
       distanceFromEquitas: new FormControl({ value: '', disabled: true }),
       soName: new FormControl({ value: '', disabled: true }),
       employeeCode: new FormControl({ value: '', disabled: true }),
-      area: new FormControl('', Validators.required),
+      area: new FormControl(''),
       date: new FormControl({ value: '', disabled: true }),
       place: new FormControl({ value: '', disabled: true }),
       timeOfVerification: new FormControl({ value: '', disabled: true }),

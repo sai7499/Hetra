@@ -326,6 +326,10 @@ export class ApplicantDetailComponent implements OnInit {
 
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
         this.setFormValue();
+        if(this.applicantPdDetails && this.applicantPdDetails.maritalStatus){
+          this.setMaritalStatusValue(this.applicantPdDetails.maritalStatus);
+        }
+        
         if (this.applicantPdDetails) {
           
           this.ficumpdPdfService.setApplicantPdDetails(this.applicantPdDetails);
@@ -446,6 +450,20 @@ export class ApplicantDetailComponent implements OnInit {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
     } else {
       this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
+    }
+  }
+  setMaritalStatusValue(status){
+    const details = this.applicantForm;
+    if(status === '1MRGSTS'){
+      details.get('dependants').clearValidators();
+      details.get('dependants').updateValueAndValidity();  
+      const depValue = details.value.dependants; 
+      details.get('dependants').setValue(depValue || null);
+
+    }else{
+      details.get('dependants').setValidators(Validators.required);
+      details.get('dependants').updateValueAndValidity();
+      
     }
   }
 

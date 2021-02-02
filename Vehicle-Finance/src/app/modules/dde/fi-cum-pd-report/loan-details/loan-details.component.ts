@@ -92,6 +92,7 @@ export class LoanDetailsComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   udfGroupId: string = 'FPG001';
+  isPermitMandatory: boolean = true;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -481,6 +482,17 @@ export class LoanDetailsComponent implements OnInit {
         if (this.loanDetailsForm.get('vehiclePhsicallyVerified') != null) {
           this.vehCondVerified(this.loanDetailsForm.get('vehiclePhsicallyVerified').value);
         }
+        setTimeout(() => {
+          if(this.usedVehicleDetails && this.usedVehicleDetails.type){
+            if(this.usedVehicleDetails.type === 'MCVVEHTYP' || this.usedVehicleDetails.type === 'SCVVEHTYP'){
+              this.loanDetailsForm.get('permitValidity').clearValidators();
+              this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+              this.isPermitMandatory = false;
+            }
+          }
+        });
+        
+        
       }
     });
   }
@@ -625,6 +637,21 @@ export class LoanDetailsComponent implements OnInit {
 
   // }
 
+
+
+  OnChangeVehType(value){
+    console.log('value', value)
+    if(value === 'MCVVEHTYP' || value === 'SCVVEHTYP'){
+      this.loanDetailsForm.get('permitValidity').clearValidators();
+      this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+      this.isPermitMandatory = false;
+    }else{
+      this.loanDetailsForm.get('permitValidity').setValidators(Validators.required);
+      this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+      this.isPermitMandatory = true;
+    }
+  }
+
   onSaveuserDefinedFields(event) {
     this.userDefineForm = event;
   }
@@ -718,7 +745,7 @@ export class LoanDetailsComponent implements OnInit {
           vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
           engineNumber: loanDetailsModal.engineNumber,
           chasisNumber: loanDetailsModal.chasisNumber,
-          permitValidity: this.sendDate(loanDetailsModal.permitValidity),
+          permitValidity: loanDetailsModal.permitValidity ? this.sendDate(loanDetailsModal.permitValidity) : null,
           fitnessValidity: this.sendDate(loanDetailsModal.fitnessValidity),
           taxValidity: this.sendDate(loanDetailsModal.taxValidity),
           insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,

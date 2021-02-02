@@ -539,8 +539,9 @@ export class BasicDetailsComponent implements OnInit {
       this.onCustCategoryChanged(this.custCatValue)
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
-      this.setMaritalStatusValue(this.applicant.aboutIndivProspectDetails.maritalStatus);
-
+      if(this.applicant.aboutIndivProspectDetails && this.applicant.aboutIndivProspectDetails.maritalStatus){
+        this.setMaritalStatusValue(this.applicant.aboutIndivProspectDetails.maritalStatus);
+      }
     } else {
       this.addNonIndividualFormControls();
       this.removeApplicantRelationControl();
@@ -1928,6 +1929,11 @@ export class BasicDetailsComponent implements OnInit {
   getAnniversaryDate(event) {
 
   }
+  get details(){
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0) as FormGroup;
+    return details
+  }
 
   setMaritalStatusValue(status: string) {
 
@@ -1940,6 +1946,18 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       this.isMarried = true;
       details.addControl('weddingAnniversaryDate', new FormControl('', Validators.required))
+    }
+
+    if(status === '1MRGSTS'){
+      details.get('noOfChildrenDependant').clearValidators();
+      details.get('noOfChildrenDependant').updateValueAndValidity();  
+      const depValue = details.get('noOfChildrenDependant').value; 
+      details.get('noOfChildrenDependant').setValue(depValue || null);
+
+    }else{
+      details.get('noOfChildrenDependant').setValidators(Validators.required);
+      details.get('noOfChildrenDependant').updateValueAndValidity();
+      
     }
 
 
