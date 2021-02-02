@@ -303,6 +303,10 @@ export class PersonalDetailsComponent implements OnInit {
 
         if (this.personalPDDetais.applicantName) {
           this.setFormValue(this.personalPDDetais);
+          if(this.personalPDDetais && this.personalPDDetais.maritalStatus){
+            this.onValidateWeddingDate(this.personalPDDetais.maritalStatus)
+          }
+          
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
         } else if (!this.personalPDDetais.applicantName) {
 
@@ -417,13 +421,25 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onValidateWeddingDate(event) {
-    if (event.target.value === '2MRGSTS') {
+    if (event=== '2MRGSTS') {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate');
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
     } else {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate')
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl({ value: '', disabled: true }));
     }
+    if(event === '1MRGSTS'){
+      this.personalDetailsForm.get('noOfChildrenDependant').clearValidators();
+      this.personalDetailsForm.get('noOfChildrenDependant').updateValueAndValidity();  
+      const depValue = this.personalDetailsForm.get('noOfChildrenDependant').value; 
+      this.personalDetailsForm.get('noOfChildrenDependant').setValue(depValue || null);
+
+    }else{
+      this.personalDetailsForm.get('noOfChildrenDependant').setValidators(Validators.required);
+      this.personalDetailsForm.get('noOfChildrenDependant').updateValueAndValidity();
+      
+    }
+
   }
 
   getLeadId() {

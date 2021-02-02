@@ -63,7 +63,7 @@
               <td *ngIf="isIndividual">Mother Maiden Name</td>
               <td>Mobile Number</td>
               <td>PAN</td>
-              <td>{{ isIndividual ? 'Adhaar Ref' : 'Udyog Adhaar Ref' }}</td>
+              <td>{{ isIndividual ? 'Adhaar No' : 'Udyog Adhaar No' }}</td>
               <ng-container *ngIf="isIndividual">
                 <td>Passport</td>
                 <td>Voter ID</td>
@@ -166,6 +166,14 @@
               <td>{{ exactMatch.pan }}</td>
               <td>
                 {{ isIndividual ? exactMatch.aadhar : exactMatch.udhyogAadhar }}
+                <span *ngIf="!exactMatch?.isClicked && (exactMatch?.aadhar || exactMatch?.udhyogAadhar)" (click)="getOriginaladhar(exactMatch, i, 'exactMatch')" 
+                 style="cursor: pointer;">
+                  <i  class="fa fa-eye" title="Show Aadhaar number"></i>
+                </span>
+                <span *ngIf="exactMatch?.isClicked && (exactMatch?.aadhar || exactMatch?.udhyogAadhar)" (click)="getRefAdhar(exactMatch, i, 'exactMatch')" 
+                style="cursor: pointer;">
+                 <i  class="fa fa-eye-slash "></i>
+               </span>
               </td>
               <ng-container *ngIf="isIndividual">
                 <td>{{ exactMatch.passport=="undefined"? '' :exactMatch.passport }}</td>
@@ -238,6 +246,21 @@
               <!-- <td>{{ probable.aadhar }}</td> -->
               <td>
                 {{ isIndividual ? probable.aadhar : probable.udhyogAadhar }}
+
+                <span *ngIf="!probable?.isClicked && (probable?.aadhar || probable?.udhyogAadhar)" (click)="getOriginaladhar(probable, i, 'probable')" 
+                 style="cursor: pointer;">
+                  <i  class="fa fa-eye" title="Show Aadhaar number"></i>
+                </span>
+                <span *ngIf="probable?.isClicked && (probable?.aadhar || probable?.udhyogAadhar)" (click)="getRefAdhar(probable, i, 'probable')" 
+                style="cursor: pointer;">
+                 <i  class="fa fa-eye-slash "></i>
+               </span>
+                <!-- <span class="input-group-btn pad-zero aadhar" *ngIf="probable.aadhar || probable.udhyogAadhar">
+                  <button class="btn btn-default" (click)="onRetreiveAdhar(probable, i)"  >
+                    <i class="fa fa-credit-card"></i>
+                  </button>
+                </span> -->
+                
               </td>
               <ng-container *ngIf="isIndividual">
                 <td>{{ probable.passport=='undefined'?'' : probable.passport }}</td>
