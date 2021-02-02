@@ -72,6 +72,7 @@ export class FiResidenceComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  roleType: any;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -96,11 +97,11 @@ export class FiResidenceComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
-    const roleType = roleAndUserDetails.roles[0].roleType
-    if (roleType === 1) { // For FI dashboard
+    this.roleType = roleAndUserDetails.roles[0].roleType
+    if (this.roleType === 1) { // For FI dashboard
       this.udfGroupId = 'FIG001'
       //this.udfScreenId = 'FIS001'
-    } else if (roleType === 2) { // For DDE FI
+    } else if (this.roleType === 2) { // For DDE FI
       this.udfGroupId = 'FIG001'
       //this.udfScreenId = 'FIS003'
     }
@@ -112,7 +113,7 @@ export class FiResidenceComponent implements OnInit {
     this.labelService.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = roleType === 2 ? udfScreenId.DDE.residenceFIDDE : udfScreenId.FI.residenceFI ;
+      this.udfScreenId = this.roleType === 2 ? udfScreenId.DDE.residenceFIDDE : udfScreenId.FI.residenceFI ;
 
     })
   }
