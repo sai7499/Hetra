@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DdeStoreService } from '@services/dde-store.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 
 @Component({
   selector: 'app-fi-report',
@@ -22,13 +23,15 @@ export class FiReportComponent implements OnInit {
   roleType: any;
   show: boolean;
   leadData: {};
+  isApplicantInd: boolean;
 
   constructor(
     private router: Router,
     private location: Location,
     private loginStoreService: LoginStoreService,
     private ddeStoreService: DdeStoreService,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private pdDataService: PdDataService) {
     this.leadId = Number(this.activatedRoute.snapshot.params.leadId);
     console.log(this.leadId);
     this.activatedRoute.firstChild.params.subscribe((value: any) => {
@@ -51,7 +54,12 @@ export class FiReportComponent implements OnInit {
       console.log('applicant ID', value.applicantId);
     });
 
-
+     const applicantType = this.pdDataService.getApplicantType();
+     if(applicantType == 'Individual') {
+      this.isApplicantInd= true;
+     } else {
+      this.isApplicantInd= false;
+     }
   }
 
   // onNavigate(url: string) {
