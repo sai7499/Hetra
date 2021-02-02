@@ -749,11 +749,11 @@
 
                         <kendo-datepicker class="form-control" [formControl]="
                     item.controls.yearOne.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearOneMinDate" [max]="toDayDate"
+                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearOneMinDate" [max]="maxDate"
                           placeholder="ITR Filing Date ">
                         </kendo-datepicker>
 
-                        <div class="invalid-feedback" *ngIf="item.controls.yearOne.controls.dateOfItrFiling.touched && (item.controls.yearOne.controls.dateOfItrFiling.value  > toDayDate
+                        <div class="invalid-feedback" *ngIf="item.controls.yearOne.controls.dateOfItrFiling.touched && (item.controls.yearOne.controls.dateOfItrFiling.value  > maxDate
                           || item.controls.yearOne.controls.dateOfItrFiling.value < yearOneMinDate)">
                           Invalid Date
                         </div>

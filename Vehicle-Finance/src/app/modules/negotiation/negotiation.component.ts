@@ -1912,9 +1912,11 @@ export class NegotiationComponent implements OnInit {
                   this.AssetDetailsList[j].DeductionDetails[k].DeductionChargefixedRate = this.AssetDetailsList[j].DeductionDetails[k].DeductionChargefixedRate;
                   this.deductChargesArray.push(this.fb.group({
                     DeductionChargefixedRate: this.AssetDetailsList[j].DeductionDetails[k].DeductionChargefixedRate,
-                  }));
+                  }));                  
                 };
-                
+                if (this.roleType === 5 || this.roleType === 4) {
+                  this.deductChargesArray.disable();
+                }
               };
             }
           }
@@ -2131,7 +2133,9 @@ export class NegotiationComponent implements OnInit {
                   if(!((this.AssetDetailsList[i].schemeType=='S') || (this.AssetDetailsList[i].schemeType=='SI'))){
                     this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValidators([Validators.required]);
                   }
-            
+                  if (this.roleType === 5 || this.roleType === 4) {
+                    this.t.disable()
+                  }
 
             }
           }
@@ -2842,7 +2846,7 @@ setCrosSell(i,val){
             })
           }
           else if (this.isCombinedLoan == false) {
-            this.AssetsJson = JSON.parse(res.ProcessVariables.NegotiationDetails.AssetsJson);
+            this.AssetsJson = JSON.parse(res.ProcessVariables.NegotiationDetails.AssetsJson);            
             const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
               
               this.createNegotiationForm.get('tickets')['controls'][index]['controls'].PremiumAmntSum.patchValue(this.AssetsJson[index].total_insurance_premium_amount),
@@ -3060,7 +3064,11 @@ setCrosSell(i,val){
                 this.deductChargesArray.push(this.fb.group({
                   DeductionChargefixedRate: this.DeductionDetails[i].charge_amount,
                 }));
+                
               };
+              if (this.roleType === 5 || this.roleType === 4) {
+                this.deductChargesArray.disable()
+              }
               this.setLMSCode(index);
               this.loanBookingSelected['controls'].SelectAppropriateLMSScheduleCode.setValue(this.CrossSellIns[index].loan_booking_dtls.lms_schedule_code);              
             })

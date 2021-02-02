@@ -745,7 +745,7 @@ export class LoanDetailsComponent implements OnInit {
           vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
           engineNumber: loanDetailsModal.engineNumber,
           chasisNumber: loanDetailsModal.chasisNumber,
-          permitValidity: this.sendDate(loanDetailsModal.permitValidity),
+          permitValidity: loanDetailsModal.permitValidity ? this.sendDate(loanDetailsModal.permitValidity) : null,
           fitnessValidity: this.sendDate(loanDetailsModal.fitnessValidity),
           taxValidity: this.sendDate(loanDetailsModal.taxValidity),
           insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,

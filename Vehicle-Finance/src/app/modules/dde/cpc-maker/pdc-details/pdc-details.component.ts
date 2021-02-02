@@ -51,6 +51,8 @@ export class PdcDetailsComponent implements OnInit {
   udfGroupId: any = 'PCG001';
   udfDetails: any = [];
   userDefineForm: any;
+  repaymentMode: any;
+  pdcSpdcData: any;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -156,10 +158,12 @@ export class PdcDetailsComponent implements OnInit {
   addPdcUnit(data?: any) {
     const control = this.pdcForm.controls.pdcList as FormArray;
     control.push(this.initRows());
+    this.onRepaymentSI();
   }
   addSPdcUnit(data?: any) {
     const control = this.pdcForm.controls.spdcList as FormArray;
     control.push(this.initSpdcRows());
+    this.onRepaymentSI();
   }
   deleteRows(table: string) {
     // tslint:disable-next-line: prefer-const
@@ -531,11 +535,19 @@ export class PdcDetailsComponent implements OnInit {
       this.udfDetails = res.ProcessVariables.udfDetails;
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
+        this.pdcSpdcData = res.ProcessVariables;
         this.pdcForm.controls.pdcList.controls = [];
         this.pdcForm.controls.spdcList.controls = [];
         this.pdcCount = res.ProcessVariables.pdcCount;
         this.spdcCount = res.ProcessVariables.spdcCount;
         this.negotiatedEmi = res.ProcessVariables.negotiatedEmi;
+        this.repaymentMode = res.ProcessVariables.repaymentMode;
+        const pdcList = this.pdcSpdcData.pdcList;
+        const spdcList = this.pdcSpdcData.spdcList;
+                 
+        
+        // console.log('repaymentMode', this.repaymentMode);
+        
         console.log(this.pdcCount, this.spdcCount, 'pdc and spdc count');
         if (res.ProcessVariables) {
           this.getData(res.ProcessVariables, this.pdcCount, this.spdcCount);
@@ -551,11 +563,39 @@ export class PdcDetailsComponent implements OnInit {
         //   this.addSPdcUnit();
         //   this.getData(res.ProcessVariables);
         // }
+    if( pdcList == null && spdcList == null) {
+      this.onRepaymentSI();
+    }
+    
+    
       } else {
         this.addPdcUnit();
         this.addSPdcUnit();
       }
     });
+    
+  }
+
+  onRepaymentSI() {
+    const bankType = this.lovData.bankMaster.find((ele) => ele.key == '991BANKMST');
+        
+        const pdcArray = this.pdcArray.controls as FormArray;
+        const spdcArray = this.spdcArray.controls as FormArray; 
+    
+      setTimeout(() => {
+        if(this.repaymentMode && this.repaymentMode == '4LOSREPAY') {
+          for(let i = 0; i<spdcArray.length; i++) {
+            spdcArray[i].patchValue({
+            instrBankName : bankType.key
+            })
+          }
+          for(let i = 0; i<pdcArray.length; i++) {
+            pdcArray[i].patchValue({
+            instrBankName : bankType.key
+            })
+          }
+        }
+      });
   }
 
   findUnique(value: any, i: number, string1: any, string2: any) {

@@ -128,6 +128,8 @@ export class IncomeDetailsComponent implements OnInit {
   udfScreenId: any;
   udfGroupId: any;
 
+  maxDate = new Date()
+
   constructor(
     private router: Router,
     private labelsData: LabelsService,
@@ -150,6 +152,13 @@ export class IncomeDetailsComponent implements OnInit {
     this.otherIncomeDetailsArray = this.formBuilder.array([]);
     this.obligationDetailsArray = this.formBuilder.array([]);
     this.KeyFinancialDetailsArray = this.formBuilder.array([]);
+
+     // date
+     var day = this.maxDate.getDate();
+     var month = this.maxDate.getMonth();
+     var year = this.maxDate.getFullYear();
+     this.maxDate = new Date(year, month, day, 0, 0);
+
   }
 
 
@@ -1114,7 +1123,7 @@ export class IncomeDetailsComponent implements OnInit {
         .subscribe((res: any) => {
 
           // tslint:disable-next-line: triple-equals
-          if (res.Error == 0 && res.ProcessVariables.error.code == '0') {
+          // if (res.Error == 0 && res.ProcessVariables.error.code == '0') {
             // tslint:disable-next-line: prefer-const
             let businessControls = this.incomeDetailsForm.controls
               .businessIncomeDetails as FormArray;
@@ -1133,12 +1142,12 @@ export class IncomeDetailsComponent implements OnInit {
               'Income Details'
             );
             this.getAllIncome();
-          } else {
-            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :
-              res.ProcessVariables.error.message,
-              'Income Details'
-            );
-          }
+          // } else {
+          //   this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :
+          //     res.ProcessVariables.error.message,
+          //     'Income Details'
+          //   );
+          // }
         });
     }
   }
