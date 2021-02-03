@@ -10,6 +10,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { async } from '@angular/core/testing';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LovDataService } from '@services/lov-data.service';
+import { PdDataService } from '../fi-cum-pd-report/pd-data.service';
 @Component({
   selector: 'app-pd-list',
   templateUrl: './pd-list.component.html',
@@ -134,7 +135,8 @@ export class PdListComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private personalDiscussion: PersonalDiscussionService,
     private commomLovService: CommomLovService,
-    private lovDataService: LovDataService
+    private lovDataService: LovDataService, 
+    private pdDataService : PdDataService
 
   ) { }
 
@@ -232,9 +234,13 @@ export class PdListComponent implements OnInit {
 
   }
 
-  navigatePage(applicantId: string, cibilScore?: any, version?: any) {
+  navigatePage(applicantId: string, cibilScore?: any, version?: any, index? : number) {
 
-    console.log('in navigate page', cibilScore);
+    console.log(this.applicantDetailsFromLead,'in navigate page', index);
+    const applicantType = this.applicantDetailsFromLead.find((ele) => ele.applicantId === applicantId);
+    const entity = applicantType.entity
+    this.pdDataService.setFiCumPdApplicantType(entity);
+    
 
     if (this.isFiCumPD === true) { // for routing to fi cum pd screens
 

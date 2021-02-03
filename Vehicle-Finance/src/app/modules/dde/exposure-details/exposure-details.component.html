@@ -20,6 +20,7 @@
                   <td>{{labels?.assets}}</td>
                   <td>{{labels?.yom}} </td>
                   <td>{{labels?.gridValue}} </td>
+                  <td>{{labels?.loanAmount}}</td>
                   <td>{{labels?.ltv}} </td>
                   <td>{{labels?.currentPos}} </td>
                   <td>{{labels?.tenure}} </td>
@@ -34,14 +35,14 @@
                   <td>{{i+1}}</td>
                   <td>
                     <app-vf-custom-select [values]="lovData" formControlName="loanType" [isRequired]="'Select any type'"
-                      [isDirty]="isDirty">
+                      [isDirty]="isDirty" (change)="onLoanTypeChange($event.target.value, i)">
                     </app-vf-custom-select>
 
                   </td>
                   <td>
                     <app-custom-input formControlName="loanNo" [className]="'form-control mandatory'"
                       [placeholder]="'loan no'" [maxLength]="labels?.validationData.loanNumber.maxLength"
-                      [isRequired]="'loan number mandatory'" [type]="labels?.validationData.loanNumber.type"
+                      [isRequired]="'loan number / leadID mandatory'" [type]="labels?.validationData.loanNumber.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
@@ -63,20 +64,27 @@
                   <td>
                     <app-custom-input formControlName="gridValue" [className]="'form-control mandatory'"
                       [placeholder]="'Grid Value'" [maxLength]="labels?.validationData.amountValue.maxLength"
-                      [isRequired]="'Grid Value mandatory'" [type]="labels?.validationData.amountValue.type"
+                      [isRequired]="'Grid Value mandatory'" (change)="calcLTV()" [type]="labels?.validationData.amountValue.type"
+                      [isDirty]="isDirty">
+                    </app-custom-input>
+                  </td>
+                  <td>
+                    <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
+                      [placeholder]="'Loan Amount'" [maxLength]="labels?.validationData.amountValue.maxLength"
+                      [isRequired]="'Loan Amount mandatory'" (change)="calcLTV()" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
                   <td>
                     <app-custom-input formControlName="ltv" [className]="'form-control mandatory'" [placeholder]="'LTV'"
-                      [maxLength]="labels?.validationData.percentage.maxLength" [isRequired]="'Ltv mandatory'"
+                      [maxLength]="labels?.validationData.percentage.maxLength"
                       [type]="labels?.validationData.percentage.type" [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
                   <td>
                     <app-custom-input formControlName="currentPos" [className]="'form-control mandatory'"
                       [placeholder]="'Current Pos'" [maxLength]="labels?.validationData.amountValue.maxLength"
-                      [isRequired]="'Current Pos mandatory'" [type]="labels?.validationData.amountValue.type"
+                      [isRequired]="exposureArray.controls[i].get('loanType').value !== '1LONTYPEXP' ? 'Current Pos mandatory' : ''" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
@@ -92,7 +100,7 @@
                     formControlName="emiPaid"  min="0"> -->
                     <app-custom-input formControlName="emiPaid" [className]="'form-control mandatory'"
                       [placeholder]="'EMI Paid'" [maxLength]="labels?.validationData.amountValue.maxLength"
-                      [isRequired]="'EMI Paid mandatory'" [type]="labels?.validationData.amountValue.type"
+                      [isRequired]="exposureArray.controls[i].get('loanType').value !== '1LONTYPEXP' ? 'EMI Paid mandatory' : ''" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
