@@ -574,7 +574,8 @@ export class BasicDetailsComponent implements OnInit {
       title: this.applicant.applicantDetails.title || '',
       bussinessEntityType:
         this.applicant.applicantDetails.bussinessEntityType || '',
-      applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
+      applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || 
+      applicantType === 'APPAPPRELLEAD'? this.relationShipLov[0].key  : ''
     });
     const applicantDetails = this.applicant.applicantDetails;
 
