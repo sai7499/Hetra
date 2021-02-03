@@ -68,7 +68,7 @@
                                 </td>
                                 <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
                                     *ngIf="show && item.pdStatusValue != 'Submitted'"
-                                    (click)="navigatePage(item.applicantId, item.cibilScore)">
+                                    (click)="navigatePage(item.applicantId, item.cibilScore, null, i)">
                                     <u>{{ item.pdStatusValue ? item.pdStatusValue : "-" }}</u>
                                 </td>
                                 <td [attr.data-label]="labels?.pdStatus" style="cursor: pointer;"
@@ -81,7 +81,7 @@
                                         <ng-container *ngFor="let version of item.pdReportValue.split(',')">
                                             <u>
                                                 <a class="a_tag" style="cursor: pointer;"
-                                                    (click)="navigatePage(item.applicantId, item.cibilScore, version)">
+                                                    (click)="navigatePage(item.applicantId, item.cibilScore, version, i)">
                                                     Version - {{ version }}
                                                 </a>
                                             </u> &nbsp; &nbsp; &nbsp;

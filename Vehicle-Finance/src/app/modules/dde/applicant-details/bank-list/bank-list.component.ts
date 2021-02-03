@@ -125,7 +125,7 @@ export class BankListComponent {
     this.bankService.deleteBankList(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
-        this.toasterService.showSuccess('Record Saved Succesfully', '');
+        this.toasterService.showSuccess('Record deleted successfully', '');
         this.bankService.getBankList({ applicantId: this.applicantId }).subscribe((resVar: any) => {
           this.bankDetails = resVar.ProcessVariables.applicantBankDetails;
         });
