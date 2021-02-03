@@ -17,6 +17,7 @@ import { ToasterService } from '@services/toaster.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { UtilityService } from '@services/utility.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
 
 @Component({
   selector: 'app-income-details',
@@ -128,7 +129,10 @@ export class IncomeDetailsComponent implements OnInit {
   udfScreenId: any;
   udfGroupId: any;
 
-  maxDate = new Date()
+  maxDate = new Date();
+
+  isYearTwoObject: any;
+  isYearThreeObject: any;
 
   constructor(
     private router: Router,
@@ -142,7 +146,8 @@ export class IncomeDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
     private utilityService: UtilityService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private objectComparisonService: ObjectComparisonService
   ) {
     this.yearOneValue = (this.today - 1).toString() + '-' + (this.today)
     this.yearTwoValue = (this.today - 2).toString() + '-' + (this.today - 1)
@@ -153,17 +158,15 @@ export class IncomeDetailsComponent implements OnInit {
     this.obligationDetailsArray = this.formBuilder.array([]);
     this.KeyFinancialDetailsArray = this.formBuilder.array([]);
 
-     // date
-     var day = this.maxDate.getDate();
-     var month = this.maxDate.getMonth();
-     var year = this.maxDate.getFullYear();
-     this.maxDate = new Date(year, month, day, 0, 0);
+    // date
+    var day = this.maxDate.getDate();
+    var month = this.maxDate.getMonth();
+    var year = this.maxDate.getFullYear();
+    this.maxDate = new Date(year, month, day, 0, 0);
 
   }
 
-
   ngOnInit() {
-
 
     this.labelsData.getLabelsData().subscribe(
       // tslint:disable-next-line: no-shadowed-variable
@@ -233,10 +236,37 @@ export class IncomeDetailsComponent implements OnInit {
       this.udfScreenId = this.productCode == "UC" ? udfScreenId.DDE.incomeDetailsUCDDE : udfScreenId.DDE.incomeDetailsUCVNCVDDE;
 
     })
+
+    const control = this.incomeDetailsForm.controls
+    .keyFinanceDetails as FormArray;
+
+    // this.isYearTwoObject = this.incomeDetailsForm.get('keyFinanceDetails').value[0].yearTwo;
+
+    console.log(this.incomeDetailsForm.get('keyFinanceDetails')['controls'], 'isYearTwoObject', this.isYearTwoObject)
+
+  
+    // this.isYearThreeObject = control.value[0].yearThree
+
   }
 
   onValidateSelectedRow(index, data) {
-    console.log(index, 'index')
+    const control = this.incomeDetailsForm.controls
+      .keyFinanceDetails as FormArray;
+
+    let yearOne = control.controls[index].get('yearOne') as FormGroup;
+    let yearTwo = control.controls[index].get('yearTwo') as FormGroup;
+    let yearThree = control.controls[index].get('yearThree') as FormGroup;
+
+    yearOne.valueChanges.subscribe((res) => {
+      this.setValidators(control.controls[0].get('yearOne'))
+    })
+
+    // console.log(this.objectComparisonService.compare(this.isYearTwoObject, yearTwo.value) , 'Object')
+
+    yearTwo.valueChanges.subscribe((res) => {
+      // const isValueCheck = this.objectComparisonService.compare(this.isApiValue, this.finalValue);
+      // const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    })
   }
 
   businessIncomeValidators() {
@@ -256,6 +286,10 @@ export class IncomeDetailsComponent implements OnInit {
       this.incomeLov.vehicleFinanciers = value.LOVS.vehicleFinanciers;
 
     });
+  }
+
+  formGroupListener() {
+
   }
 
   getIncomeType() {
@@ -295,6 +329,67 @@ export class IncomeDetailsComponent implements OnInit {
     });
   }
 
+  setValidators(data) {
+
+    let keyControls = Object.keys(data.controls);
+    keyControls.map((control) => {
+      if (control !== 'applicantType '&& control !== 'cashGeneration') {
+        data.get(control).setValidators(Validators.required)
+        data.get(control).updateValueAndValidity()
+      }
+
+    })
+
+    // data.get('applicantId').setValidators(Validators.required)
+    // data.get('applicantId').updateValueAndValidity()
+
+    // data.get('shareCapital').setValidators(Validators.required)
+    // data.get('shareCapital').updateValueAndValidity()
+
+    // data.get('lorryHireChargesPaid').setValidators(Validators.required)
+    // data.get('lorryHireChargesPaid').updateValueAndValidity()
+
+    // data.get('securedLoans').setValidators(Validators.required)
+    // data.get('securedLoans').updateValueAndValidity()
+
+    // data.get('unSecuredLoans').setValidators(Validators.required)
+    // data.get('unSecuredLoans').updateValueAndValidity()
+
+    // data.get('creditors').setValidators(Validators.required)
+    // data.get('creditors').updateValueAndValidity()
+
+    // data.get('debtors').setValidators(Validators.required)
+    // data.get('debtors').updateValueAndValidity()
+
+    // data.get('currentLiabilities').setValidators(Validators.required)
+    // data.get('currentLiabilities').updateValueAndValidity()
+
+    // data.get('fixedAssets').setValidators(Validators.required)
+    // data.get('fixedAssets').updateValueAndValidity()
+
+    // data.get('currentAssets').setValidators(Validators.required)
+    // data.get('currentAssets').updateValueAndValidity()
+
+    // data.get('cashAndBankBalance').setValidators(Validators.required)
+    // data.get('cashAndBankBalance').updateValueAndValidity()
+  
+    // data.get('revenueFromOperationsOrTopLine').setValidators(Validators.required)
+    // data.get('revenueFromOperationsOrTopLine').updateValueAndValidity()
+
+    // data.get('netProfitAfterTax').setValidators(Validators.required)
+    // data.get('netProfitAfterTax').updateValueAndValidity()
+
+    // data.get('depreciation').setValidators(Validators.required)
+    // data.get('depreciation').updateValueAndValidity()
+
+    // data.get('partnersSalary').setValidators(Validators.required)
+    // data.get('partnersSalary').updateValueAndValidity()
+
+    // data.get('dateOfItrFiling').setValidators(Validators.required)
+    // data.get('dateOfItrFiling').updateValueAndValidity()
+
+  }
+
   private getKeyFinancialDetails(data?: any) {
 
     if (data === undefined) {
@@ -328,7 +423,6 @@ export class IncomeDetailsComponent implements OnInit {
           cashGeneration: [''],
           dateOfItrFiling: [''],
         }),
-
         yearTwo: this.formBuilder.group({
           yearValue: this.yearTwoValue,
           applicantId: [''],
@@ -370,7 +464,7 @@ export class IncomeDetailsComponent implements OnInit {
           partnersSalary: [''],
           cashGeneration: [''],
           dateOfItrFiling: [''],
-        }),
+        })
       })
 
     } else {
@@ -443,7 +537,7 @@ export class IncomeDetailsComponent implements OnInit {
           dateOfItrFiling: data.yearThree.dateOfItrFiling ? this.utilityService.getDateFromString(
             this.utilityService.convertDateTimeTOUTC(data.yearThree.dateOfItrFiling, 'DD/MM/YYYY')
           ) : '',
-        }),
+        })
       });
     }
   }
@@ -943,6 +1037,9 @@ export class IncomeDetailsComponent implements OnInit {
 
     const control: any = this.incomeDetailsForm.controls
       .keyFinanceDetails['controls'] as FormGroup;
+
+    this.onValidateSelectedRow(i, control)
+
     control[i].controls.yearOne.get('applicantType').setValue(applicantType);
     control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
     control[i].controls.yearThree.get('applicantType').setValue(applicantType);

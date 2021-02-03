@@ -1,7 +1,6 @@
 <!--progress bar-->
 <div class="">
 
-
   <form class="multisteps-form__form content p-0" [formGroup]="incomeDetailsForm">
     <div class="container">
       <h3 class="banner-con">{{ labels?.incomeAndObligationDetailsTitle }}
@@ -247,8 +246,8 @@
                   ];
                   let i = index
                 " [formGroupName]="i" (change)="onValidateSelectedRow(i, item)">
-                <!-- (click)="onValidateSelectedRow(i, $event)" -->
-                    <tr class="td_none">
+
+                    <tr id="title" class="td_none">
                       <th role="columnheader" class="text-center">{{ labels?.particulars }}</th>
                       <th role="columnheader" class="text-center">
                         {{ yearOneValue }}
@@ -259,21 +258,22 @@
                       </th>
                       <th role="columnheader" *ngIf="!disableSaveBtn" class="text-center">{{ labels?.actions }}</th>
                     </tr>
-                    <tr>
+
+                    <tr id="applicant">
                       <td class="bank_name">{{ labels?.applicant }}</td>
                       <td>
                         <select class="form-control mandatory select2" id="" name="applicantId"
                           class="form-control text-center" [formControl]="item.controls.yearOne.controls.applicantId"
-                          (change)="
-                        onKeyFinancialApplicantChangeYearOne(
-                          $event.target.value,
-                          i
-                        )
-                      ">
+                          (change)="onKeyFinancialApplicantChangeYearOne($event.target.value,i)">
                           <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
                             {{ applicants.fullName }}
                           </option>
                         </select>
+                        <div class="invalid-feedback" *ngIf="item.controls.yearOne.controls.applicantId.invalid">
+                          <div>
+                            ApplicantId required
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearTwo.controls.applicantId"
@@ -281,25 +281,8 @@
                           [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true"
                           [isDirty]="isDirty">
                         </app-custom-input>
-                        <!-- <select class="form-control mandatory select2" id="" name="applicantId"
-                    class="form-control text-center" [formControl]="item.controls.yearTwo.controls.applicantId"
-                    (change)="
-                          onKeyFinancialApplicantChangeYearTwo($event.target.value, i)
-                        "
-                    >
-                    <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
-                      {{ applicants.fullName }}</option>
-                  </select> -->
                       </td>
                       <td>
-                        <!-- <select class="form-control mandatory select2" id="" name="applicantId"
-                    class="form-control text-center" [formControl]="item.controls.yearThree.controls.applicantId"
-                    (change)="
-                        onKeyFinancialApplicantChangeYearThree($event.target.value, i)
-                      ">
-                    <option *ngFor="let applicants of applicantDetails" [value]="applicants.applicantId">
-                      {{ applicants.fullName }}</option>
-                  </select> -->
                         <app-custom-input [formControl]="item.controls.yearTwo.controls.applicantId"
                           [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'"
                           [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true"
@@ -307,488 +290,480 @@
                         </app-custom-input>
                       </td>
                       <td *ngIf="!disableSaveBtn">
-                        <!-- <i type="button" class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
-                      title="Add income" (click)="addKeyFinancialDetails(null)"></i>&nbsp; -->
                         <i type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton" value="Delete"
                           title="Delete income" (click)="showKeyFinancial(i)"></i>
                       </td>
                     </tr>
 
-                    <tr>
+                    <tr id="applicantType">
                       <td class="bank_name">{{ labels?.applicantType }}</td>
 
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.applicantType
-                      " [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'"
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.applicantType"
+                          [type]="labels?.validationData?.fullName?.type" [className]="'form-control mandatory'"
                           [maxLength]="labels?.validationData?.fullName?.maxLength" [isDisabled]="true"
                           [isDirty]="isDirty">
                         </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.applicantType
-                      " [type]="labels?.validationData?.amountValue?.type" [maxLength]="
-                        labels?.validationData?.amountValue?.maxLength
-                      " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.applicantType"
+                          [type]="labels?.validationData?.amountValue?.type"
+                          [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty"
+                          [isDisabled]="true"></app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.applicantType
-                      " [type]="labels?.validationData?.amountValue?.type" [maxLength]="
-                        labels?.validationData?.amountValue?.maxLength
-                      " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.applicantType"
+                          [type]="labels?.validationData?.amountValue?.type"
+                          [maxLength]="labels?.validationData?.amountValue?.maxLength" [isDirty]="isDirty"
+                          [isDisabled]="true"></app-custom-input>
                       </td>
                       <td rowspan="17"></td>
                     </tr>
-                    <tr>
+
+                    <tr id="shareCaptial">
                       <td class="bank_name">{{ labels?.shareCapital }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.shareCapital
-                      " [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
-                        <!-- <input type="text" [formControl]="
-                      item.controls.yearOne.controls.shareCapital
-                    " [placeholder]="'Share Capital'" 
-                     > -->
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.shareCapital"
+                          [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.shareCapital.invalid ? 'Share Captial Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.shareCapital
-                      " [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.shareCapital"
+                          [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.shareCapital.invalid ? 'Share Captial Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.shareCapital
-                      " [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.shareCapital"
+                          [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.shareCapital.invalid ? 'Share Captial Required' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="lorryHire">
                       <td class="bank_name">{{ labels?.lorryHireChargesPaid }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.lorryHireChargesPaid
-                      " [placeholder]="'Lorry hire charges paid '"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.lorryHireChargesPaid"
+                          [placeholder]="'Lorry hire charges paid '"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.lorryHireChargesPaid.invalid ? 'Lorry Hire harges Paid Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.lorryHireChargesPaid
-                      " [placeholder]="'Lorry hire charges paid '"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.lorryHireChargesPaid"
+                          [placeholder]="'Lorry hire charges paid '"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.lorryHireChargesPaid.invalid ? 'Lorry Hire harges Paid Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.lorryHireChargesPaid
-                      " [placeholder]="'Lorry hire charges paid '"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.lorryHireChargesPaid"
+                          [placeholder]="'Lorry hire charges paid '"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.lorryHireChargesPaid.invalid? 'Lorry Hire harges Paid Required' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="secureLoan">
                       <td class="bank_name">{{ labels?.securedLoans }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.securedLoans
-                      " [placeholder]="'Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.securedLoans"
+                          [placeholder]="'Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.securedLoans.invalid ? 'Secured Loans Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.securedLoans
-                      " [placeholder]="'Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.securedLoans"
+                          [placeholder]="'Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.securedLoans.invalid ? 'Secured Loans Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.securedLoans
-                      " [placeholder]="'Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.securedLoans"
+                          [placeholder]="'Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.securedLoans.invalid ? 'Secured Loans Required' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="unSecureLoan">
                       <td class="bank_name">{{ labels?.unSecuredLoans }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.unSecuredLoans
-                      " [placeholder]="'Un Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.unSecuredLoans"
+                          [placeholder]="'Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.unSecuredLoans.invalid ? 'Un Secured Loans Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.unSecuredLoans
-                      " [placeholder]="'Un Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.unSecuredLoans"
+                          [placeholder]="'Un Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.unSecuredLoans.invalid ? 'Un Secured Loans Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.unSecuredLoans
-                      " [placeholder]="'Un Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.unSecuredLoans"
+                          [placeholder]="'Un Secured Loans'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.unSecuredLoans.invalid ? 'Un Secured Loans Required' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="creditors">
                       <td class="bank_name">{{ labels?.creditors }}</td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearOne.controls.creditors"
                           [placeholder]="'Creditors'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.creditors.invalid ? 'Creditors Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearTwo.controls.creditors"
                           [placeholder]="'Creditors'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.creditors.invalid ? 'Creditors Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearThree.controls.creditors"
                           [placeholder]="'Creditors'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.creditors.invalid ? 'Creditors Required' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="debtors">
                       <td class="bank_name">{{ labels?.debtors }}</td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearOne.controls.debtors"
                           [placeholder]="'Debtors'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.debtors.invalid ? 'Debtors Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearTwo.controls.debtors"
                           [placeholder]="'Debtors'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.debtors.invalid ? 'Debtors Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearThree.controls.debtors"
                           [placeholder]="'Debtors'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.debtors.invalid ? 'Debtors Required' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="currentLiability">
                       <td class="bank_name">{{ labels?.currentLiabilities }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.currentLiabilities
-                      " [placeholder]="'Current Liabilities'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.currentLiabilities"
+                          [placeholder]="'Current Liabilities'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.currentLiabilities.invalid ? 'Current Liabilities Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.currentLiabilities
-                      " [placeholder]="'Current Liabilities'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.currentLiabilities"
+                          [placeholder]="'Current Liabilities'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.currentLiabilities.invalid ? 'Current Liabilities Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.currentLiabilities
-                      " [placeholder]="'Current Liabilities'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.currentLiabilities"
+                          [placeholder]="'Current Liabilities'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.currentLiabilities.invalid ? 'Current Liabilities Required' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="fixedAssets">
                       <td class="bank_name">{{ labels?.fixedAssets }}</td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearOne.controls.fixedAssets"
                           [placeholder]="'Fixed Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.fixedAssets.invalid ? 'Current Liabilities Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearTwo.controls.fixedAssets"
                           [placeholder]="'Fixed Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.fixedAssets.invalid  ? 'Current Liabilities Required' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.fixedAssets
-                      " [placeholder]="'Fixed Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.fixedAssets"
+                          [placeholder]="'Fixed Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.fixedAssets.invalid  ? 'Current Liabilities Required' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="currentAssets">
                       <td class="bank_name">{{ labels?.currentAssets }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.currentAssets
-                      " [placeholder]="'Current Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.currentAssets"
+                          [placeholder]="'Current Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.currentAssets.invalid ? 'Current Assets isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.currentAssets
-                      " [placeholder]="'Current Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.currentAssets"
+                          [placeholder]="'Current Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.currentAssets.invalid ? 'Current Assets isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.currentAssets
-                      " [placeholder]="'Current Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.currentAssets"
+                          [placeholder]="'Current Assets'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.currentAssets.invalid ? 'Current Assets isRequired' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="cashAndBankBalance">
                       <td class="bank_name">{{ labels?.cashAndBankBalance }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.cashAndBankBalance
-                      " [placeholder]="'Cash and Bank Balance'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.cashAndBankBalance"
+                          [placeholder]="'Cash and Bank Balance'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.cashAndBankBalance.invalid ? 'Cash and Bank Balance isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.cashAndBankBalance
-                      " [placeholder]="'Cash and Bank Balance'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.cashAndBankBalance"
+                          [placeholder]="'Cash and Bank Balance'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.cashAndBankBalance.invalid ? 'Cash and Bank Balance isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.cashAndBankBalance
-                      " [placeholder]="'Cash and Bank Balance'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.cashAndBankBalance"
+                          [placeholder]="'Cash and Bank Balance'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.cashAndBankBalance.invalid ? 'Cash and Bank Balance isRequired' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="revenueFromOperationsOrTopLine">
                       <td class="bank_name">
                         {{ labels?.revenueFromOperationsOrTopLine }}
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls
-                          .revenueFromOperationsOrTopLine
-                      " [placeholder]="'Revenue from Operations or TopLine'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.revenueFromOperationsOrTopLine"
+                          [placeholder]="'Revenue from Operations or TopLine'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.revenueFromOperationsOrTopLine.invalid ? 'Revenue from Operations or TopLine isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls
-                          .revenueFromOperationsOrTopLine
-                      " [placeholder]="'Revenue from Operations or TopLine'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.revenueFromOperationsOrTopLine"
+                          [placeholder]="'Revenue from Operations or TopLine'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.revenueFromOperationsOrTopLine.invalid ? 'Revenue from Operations or TopLine isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls
-                          .revenueFromOperationsOrTopLine
-                      " [placeholder]="'Revenue from Operations or TopLine'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input
+                          [formControl]=" item.controls.yearThree.controls.revenueFromOperationsOrTopLine"
+                          [placeholder]="'Revenue from Operations or TopLine'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.revenueFromOperationsOrTopLine.invalid ? 'Revenue from Operations or TopLine isRequired' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="netProfitAfterTaxA">
                       <td class="bank_name">{{ labels?.netProfitAfterTaxA }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.netProfitAfterTax
-                      " [placeholder]="'Net Profit After Tax'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.netProfitAfterTax"
+                          [placeholder]="'Net Profit After Tax'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          (keyup)="onCashGeneration($event.target.value,i)"
+                          [isRequired]="item.controls.yearOne.controls.netProfitAfterTax.invalid ? 'Net Profit After Tax isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.netProfitAfterTax
-                      " [placeholder]="'Net Profit After Tax'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.netProfitAfterTax"
+                          [placeholder]="'Net Profit After Tax'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          (keyup)="onCashGeneration($event.target.value,i)"
+                          [isRequired]="item.controls.yearTwo.controls.netProfitAfterTax.invalid  ? 'Net Profit After Tax isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.netProfitAfterTax
-                      " [placeholder]="'Net Profit After Tax'"
-                          [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.netProfitAfterTax"
+                          [placeholder]="'Net Profit After Tax'"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          (keyup)="onCashGeneration($event.target.value,i)"
+                          [isRequired]="item.controls.yearThree.controls.netProfitAfterTax.invalid  ? 'Net Profit After Tax isRequired' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="depreciationB">
                       <td class="bank_name">{{ labels?.depreciationB }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.depreciation
-                      " [placeholder]="'Depreciation'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.depreciation"
+                          [placeholder]="'Depreciation'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          (keyup)="onCashGeneration($event.target.value,i)"
+                          [isRequired]="item.controls.yearOne.controls.depreciation.invalid ? 'Depreciation isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.depreciation
-                      " [placeholder]="'Depreciation'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.depreciation"
+                          [placeholder]="'Depreciation'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          (keyup)="onCashGeneration($event.target.value,i)"
+                          [isRequired]="item.controls.yearTwo.controls.depreciation.invalid  ? 'Depreciation isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.depreciation
-                      " [placeholder]="'Depreciation'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" (keyup)="onCashGeneration($event.target.value,i)"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.depreciation"
+                          [placeholder]="'Depreciation'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          (keyup)="onCashGeneration($event.target.value,i)"
+                          [isRequired]="item.controls.yearThree.controls.depreciation.invalid ? 'Depreciation isRequired' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="partnersSalaryC">
                       <td class="bank_name">{{ labels?.partnersSalaryC }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.partnersSalary
-                      " [placeholder]="'Partners Salary'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.partnersSalary"
+                          [placeholder]="'Partners Salary'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearOne.controls.partnersSalary.invalid ? 'Partners Salary isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.partnersSalary
-                      " [placeholder]="'Partners Salary'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.partnersSalary"
+                          [placeholder]="'Partners Salary'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearTwo.controls.partnersSalary.invalid ? 'Partners Salary isRequired' : ''">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.partnersSalary
-                      " [placeholder]="'Partners Salary'" [type]="labels?.validationData?.keyFinancialAmount?.type"
-                          [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.partnersSalary"
+                          [placeholder]="'Partners Salary'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isRequired]="item.controls.yearThree.controls.partnersSalary.invalid ? 'Partners Salary isRequired' : ''">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr id="cashGenerationAB">
                       <td class="bank_name">{{ labels?.cashGenerationAB }}</td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearOne.controls.cashGeneration
-                      " [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearOne.controls.cashGeneration"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isDisabled]="true">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearTwo.controls.cashGeneration
-                      " [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearTwo.controls.cashGeneration"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isDisabled]="true">
+                        </app-custom-input>
                       </td>
                       <td>
-                        <app-custom-input [formControl]="
-                        item.controls.yearThree.controls.cashGeneration
-                      " [type]="labels?.validationData?.keyFinancialAmount?.type" [maxLength]="
-                        labels?.validationData?.keyFinancialAmount?.maxLength
-                      " [isDirty]="isDirty" [isDisabled]="true"></app-custom-input>
+                        <app-custom-input [formControl]="item.controls.yearThree.controls.cashGeneration"
+                          [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
+                          [isDisabled]="true">
+                        </app-custom-input>
                       </td>
                     </tr>
-                    <tr>
-                      <td class="bank_name">{{ labels?.dateOfItrFiling }}</td>
-                      <td>
 
-                        <kendo-datepicker class="form-control" [formControl]="
-                    item.controls.yearOne.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearOneMinDate" [max]="maxDate"
-                          placeholder="ITR Filing Date ">
+                    <tr id="dateOfItrFiling">
+                      <td class="bank_name">{{ labels?.dateOfItrFiling }}</td>
+
+                      <td>
+                        <kendo-datepicker class="form-control"
+                          [formControl]="item.controls.yearOne.controls.dateOfItrFiling" [activeView]="'decade'"
+                          [format]="'dd/MM/yyyy'" [min]="yearOneMinDate" [max]="maxDate" placeholder="ITR Filing Date">
                         </kendo-datepicker>
 
-                        <div class="invalid-feedback" *ngIf="item.controls.yearOne.controls.dateOfItrFiling.touched && (item.controls.yearOne.controls.dateOfItrFiling.value  > maxDate
+                        <div class="invalid-feedback" *ngIf="(item.controls.yearOne.controls.dateOfItrFiling.touched || item.controls.yearOne.controls.dateOfItrFiling.invalid) && (item.controls.yearOne.controls.dateOfItrFiling.value  > maxDate
                           || item.controls.yearOne.controls.dateOfItrFiling.value < yearOneMinDate)">
                           Invalid Date
                         </div>
-
                       </td>
-                      <td>
 
-                        <kendo-datepicker class="form-control" [formControl]="
-                    item.controls.yearTwo.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearTwoMinDate" [max]="yearOneMinDate"
-                          placeholder="ITR Filing Date ">
+                      <td>
+                        <kendo-datepicker class="form-control"
+                          [formControl]="item.controls.yearTwo.controls.dateOfItrFiling" [activeView]="'decade'"
+                          [format]="'dd/MM/yyyy'" [min]="yearTwoMinDate" [max]="yearOneMinDate"
+                          placeholder="ITR Filing Date">
                         </kendo-datepicker>
 
-                        <div class="invalid-feedback" *ngIf="item.controls.yearTwo.controls.dateOfItrFiling.touched && (item.controls.yearTwo.controls.dateOfItrFiling.value  > yearOneMinDate
+                        <div class="invalid-feedback" *ngIf="(item.controls.yearTwo.controls.dateOfItrFiling.invalid || item.controls.yearTwo.controls.dateOfItrFiling.touched) && (item.controls.yearTwo.controls.dateOfItrFiling.value  > yearOneMinDate
                           || item.controls.yearTwo.controls.dateOfItrFiling.value < yearTwoMinDate)">
                           Invalid Date
                         </div>
 
                       </td>
-                      <td>
 
-                        <kendo-datepicker class="form-control" [formControl]="
-                    item.controls.yearThree.controls.dateOfItrFiling
-                  " [activeView]="'decade'" [format]="'dd/MM/yyyy'" [min]="yearThreeMinDate" [max]="yearTwoMinDate"
+                      <td>
+                        <kendo-datepicker class="form-control"
+                          [formControl]="item.controls.yearThree.controls.dateOfItrFiling" [activeView]="'decade'"
+                          [format]="'dd/MM/yyyy'" [min]="yearThreeMinDate" [max]="yearTwoMinDate"
                           placeholder="ITR Filing Date ">
                         </kendo-datepicker>
 
-                        <div class="invalid-feedback" *ngIf="item.controls.yearThree.controls.dateOfItrFiling.touched && (item.controls.yearThree.controls.dateOfItrFiling.value  > yearTwoMinDate
+                        <div class="invalid-feedback" *ngIf="(item.controls.yearThree.controls.dateOfItrFiling.invalid || item.controls.yearThree.controls.dateOfItrFiling.touched) && (item.controls.yearThree.controls.dateOfItrFiling.value  > yearTwoMinDate
                           || item.controls.yearThree.controls.dateOfItrFiling.value < yearThreeMinDate)">
                           Invalid Date
                         </div>
 
                       </td>
+
                     </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -1322,6 +1297,7 @@
           </div>
         </div>
       </div>
+
       <app-shared-user-defined-fields *ngIf="usedCar" [isDirty]="isDirty" [udfScreenId]="udfScreenId"
         [udfGroupId]="udfGroupId" [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
       </app-shared-user-defined-fields>
