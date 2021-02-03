@@ -783,7 +783,7 @@ export class ValuationComponent implements OnInit {
     // if (insuranceValidUpto) { }
     if (insuranceValidUpto < insuranceValidFrom) {
       this.invalidInsuranceValidity = true;
-      this.toasterService.showWarning('Insurance Validity Date should not be greater than insurance Start Date', '');
+      this.toasterService.showWarning('Insurance Validity Date should be greater than insurance Start Date', '');
     } else if (insuranceValidUpto > insuranceValidFrom) {
       this.invalidInsuranceValidity = false;
       // tslint:disable-next-line: align
@@ -1597,7 +1597,7 @@ export class ValuationComponent implements OnInit {
       return;
     }
     if(this.invalidInsuranceValidity){
-      this.toasterService.showWarning('Insurance Validity Date should not be greater than insurance Start Date', '');
+      this.toasterService.showWarning('Insurance Validity Date should be greater than insurance Start Date', '');
       return;
     }
     if(this.invalidInsuDiff){

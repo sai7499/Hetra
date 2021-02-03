@@ -13,7 +13,7 @@ import { LabelsService } from '@services/labels.service';
   styleUrls: ['./sales-exact-match.component.css'],
 })
 export class SalesExactMatchComponent implements OnInit {
-  
+
   currentAction: string;
   showNegativeListModal: boolean;
   negativeModalInput: {
@@ -36,9 +36,13 @@ export class SalesExactMatchComponent implements OnInit {
   isNavigateToApplicant: boolean = false;
   getApplicantId: any;
 
-  negativeDedupeUdfScreenId: string  = '';
+  negativeDedupeUdfScreenId: string = '';
   negativeDedupeUGroupId: string = 'APG004';
   udfScreenId: any;
+  probableRefNo = {};
+  exactRefNo = {}
+
+  isClicked: boolean;
 
   constructor(
     private salesDedupeService: SalesDedupeService,
@@ -57,13 +61,13 @@ export class SalesExactMatchComponent implements OnInit {
     this.getApplicantId = this.dedupeParameter.applicantId;
     this.isExactAvailable = !!this.dedupeDetails.deduIndExctMatch;
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
-    this.isNavigateToApplicant=this.applicantDataStoreService.getNavigateForDedupe()
+    this.isNavigateToApplicant = this.applicantDataStoreService.getNavigateForDedupe()
     console.log('dedupeDetails', this.dedupeDetails)
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.leadtoCustomerDedupeADE : udfScreenId.QDE.leadCustomerDedupeQDE
-      this.negativeDedupeUdfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.negativeListdedupeADE : udfScreenId.QDE.negativeListdedupeQDE ;
+      this.negativeDedupeUdfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.negativeListdedupeADE : udfScreenId.QDE.negativeListdedupeQDE;
     })
   }
 
@@ -160,24 +164,24 @@ export class SalesExactMatchComponent implements OnInit {
       isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
       custSegment: this.dedupeDetails.custSegment,
       contactPerson: this.dedupeDetails.contactPerson,
-    //   monthlyIncomeAmount: this.dedupeDetails.monthlyIncomeAmount || '',
-    //   annualIncomeAmount: this.dedupeDetails.annualIncomeAmount || '',
-    //  ownHouseProofAvail:this.dedupeDetails.ownHouseProofAvail,
-    //   houseOwnerProperty: this.dedupeDetails.houseOwnerProperty || '',
-    //   ownHouseAppRelationship: this.dedupeDetails.ownHouseAppRelationship || '',
-    //   averageBankBalance: this.dedupeDetails.averageBankBalance || '',
-    //   rtrType: this.dedupeDetails.rtrType || '',
-    //   prevLoanAmount: this.dedupeDetails.prevLoanAmount || '',
-    //   loanTenorServiced: this.dedupeDetails.loanTenorServiced
-    //     ? Number(this.dedupeDetails.loanTenorServiced)
-    //     : 0,
-    //   currentEMILoan: this.dedupeDetails.currentEMILoan || '',
-    //   agriNoOfAcres: this.dedupeDetails.agriNoOfAcres
-    //     ? Number(this.dedupeDetails.agriNoOfAcres)
-    //     : 0,
-    //   agriOwnerProperty: this.dedupeDetails.agriOwnerProperty || '',
-    //   agriAppRelationship: this.dedupeDetails.agriAppRelationship || '',
-    //   grossReceipt: this.dedupeDetails.grossReceipt || '',
+      //   monthlyIncomeAmount: this.dedupeDetails.monthlyIncomeAmount || '',
+      //   annualIncomeAmount: this.dedupeDetails.annualIncomeAmount || '',
+      //  ownHouseProofAvail:this.dedupeDetails.ownHouseProofAvail,
+      //   houseOwnerProperty: this.dedupeDetails.houseOwnerProperty || '',
+      //   ownHouseAppRelationship: this.dedupeDetails.ownHouseAppRelationship || '',
+      //   averageBankBalance: this.dedupeDetails.averageBankBalance || '',
+      //   rtrType: this.dedupeDetails.rtrType || '',
+      //   prevLoanAmount: this.dedupeDetails.prevLoanAmount || '',
+      //   loanTenorServiced: this.dedupeDetails.loanTenorServiced
+      //     ? Number(this.dedupeDetails.loanTenorServiced)
+      //     : 0,
+      //   currentEMILoan: this.dedupeDetails.currentEMILoan || '',
+      //   agriNoOfAcres: this.dedupeDetails.agriNoOfAcres
+      //     ? Number(this.dedupeDetails.agriNoOfAcres)
+      //     : 0,
+      //   agriOwnerProperty: this.dedupeDetails.agriOwnerProperty || '',
+      //   agriAppRelationship: this.dedupeDetails.agriAppRelationship || '',
+      //   grossReceipt: this.dedupeDetails.grossReceipt || '',
     };
 
     this.applicantService
@@ -200,21 +204,21 @@ export class SalesExactMatchComponent implements OnInit {
       applicantId: this.applicantId
     }
     const leadId = this.dedupeParameter.leadId;
-   
+
     this.applicantService.wrapperPanValidaion(data).subscribe((responce) => {
       if (responce['ProcessVariables'].error.code == '0') {
         this.toasterService.showSuccess(responce['ProcessVariables'].error.message,
           'PAN Validation Successful');
-        if(!this.isNavigateToApplicant){
+        if (!this.isNavigateToApplicant) {
           this.router.navigateByUrl(
             `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
           );
-        }else{
+        } else {
           this.router.navigateByUrl(
             `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
           );
         }
-        
+
 
       } else {
         //this.panValidate = true;
@@ -222,7 +226,7 @@ export class SalesExactMatchComponent implements OnInit {
           responce['ProcessVariables'].error.message,
           'PAN Validation Error'
         );
-        this.modalName=''
+        this.modalName = ''
         this.showNegativeListModal = false;
 
       }
@@ -236,13 +240,13 @@ export class SalesExactMatchComponent implements OnInit {
   onBack() {
     this.applicantDataStoreService.setDedupeFlag(true)
     const leadId = this.dedupeParameter.leadId;
-    const applicantId= this.dedupeParameter.applicantId
+    const applicantId = this.dedupeParameter.applicantId
     // this.location.back()
-    if(!this.isNavigateToApplicant){
+    if (!this.isNavigateToApplicant) {
       this.router.navigateByUrl(
         `/pages/lead-section/${leadId}/co-applicant/${applicantId}`
       );
-    }else{
+    } else {
       this.router.navigateByUrl(
         `/pages/sales-applicant-details/${leadId}/add-applicant/${applicantId}`
       );
@@ -268,11 +272,11 @@ export class SalesExactMatchComponent implements OnInit {
       // } else {
       //   this.callApiForSelectedUcic();
       // }
-      if(!this.isNavigateToApplicant){
+      if (!this.isNavigateToApplicant) {
         this.router.navigateByUrl(
           `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
         );
-      }else{
+      } else {
         this.router.navigateByUrl(
           `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
         );
@@ -282,15 +286,15 @@ export class SalesExactMatchComponent implements OnInit {
       // );
     }
     else if (event.name === 'next' && this.currentAction === 'new') {
-      const panType=this.dedupeParameter.panType==='1PANTYPE'
-      if(panType){
+      const panType = this.dedupeParameter.panType === '1PANTYPE'
+      if (panType) {
         this.getPanValidation();
-      }else{
-        if(!this.isNavigateToApplicant){
+      } else {
+        if (!this.isNavigateToApplicant) {
           this.router.navigateByUrl(
             `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
           );
-        }else{
+        } else {
           this.router.navigateByUrl(
             `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
           );
@@ -299,13 +303,13 @@ export class SalesExactMatchComponent implements OnInit {
         //   `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
         // );
       }
-      
+
     } else if (event.name === 'next') {
-      if(!this.isNavigateToApplicant){
+      if (!this.isNavigateToApplicant) {
         this.router.navigateByUrl(
           `/pages/lead-section/${leadId}/co-applicant/${this.applicantId}`
         );
-      }else{
+      } else {
         this.router.navigateByUrl(
           `/pages/sales-applicant-details/${leadId}/add-applicant/${this.applicantId}`
         );
@@ -315,11 +319,11 @@ export class SalesExactMatchComponent implements OnInit {
         this.router.navigateByUrl('/pages/dashboard');
         return;
       }
-      if(!this.isNavigateToApplicant){
+      if (!this.isNavigateToApplicant) {
         this.router.navigateByUrl(
           `/pages/lead-section/${this.dedupeParameter.leadId}/co-applicant`
         );
-      }else{
+      } else {
         this.router.navigateByUrl(
           `/pages/sales-applicant-details/${this.dedupeParameter.leadId}/add-applicant`
         );
@@ -404,5 +408,39 @@ export class SalesExactMatchComponent implements OnInit {
           nlTrRemarks,
         };
       });
+  }
+
+  getOriginaladhar(data, index, type) {
+    if (type === 'probable') {
+      this.probableRefNo[index] = data.aadhar;
+    } else {
+      this.exactRefNo[index] = data.aadhar;
+    }
+
+    this.applicantService.retreiveAdhar(data.aadhar).subscribe((res) => {
+      if (res['ProcessVariables'].error.code == "0") {
+        const uid = res['ProcessVariables'].uid
+        if (type === 'probable') {
+          this.dedupeDetails.deduIndProbMatch[index].aadhar = uid;
+        } else {
+          this.dedupeDetails.deduIndExctMatch[index].aadhar = uid;
+        }
+        data.isClicked = true;
+      }
+      else {
+        this.toasterService.showError(res['ProcessVariables'].error.message, '')
+        data.isClicked = false;
+      }
+    })
+    console.log(data, 'datas', index)
+
+  }
+  getRefAdhar(data, index, type) {
+    if (type === 'probable') {
+      this.dedupeDetails.deduIndProbMatch[index].aadhar = this.probableRefNo[index] || data.aadhar;
+    } else {
+      this.dedupeDetails.deduIndExctMatch[index].aadhar = this.exactRefNo[index] || data.aadhar;
+    }
+    data.isClicked = false;
   }
 }
