@@ -1855,6 +1855,11 @@
     "finalLTV":"Final LTV (in %)",
     "chargesinINR":"Charges (in INR)",
     "gapDaysInterest": "Gap Days Interest (in INR) ",
+    "submitDate": "Submit Date",
+    "submitTime": "Submit Time",
+    "receivedDate": "Received Date",
+    "receivedTime": "Received Time",
+
     
     "validationData": {
         "name": {

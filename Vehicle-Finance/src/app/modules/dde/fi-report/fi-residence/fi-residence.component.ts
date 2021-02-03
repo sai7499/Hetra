@@ -72,6 +72,7 @@ export class FiResidenceComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  roleType: any;
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -96,11 +97,11 @@ export class FiResidenceComponent implements OnInit {
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
-    const roleType = roleAndUserDetails.roles[0].roleType
-    if (roleType === 1) { // For FI dashboard
+    this.roleType = roleAndUserDetails.roles[0].roleType
+    if (this.roleType === 1) { // For FI dashboard
       this.udfGroupId = 'FIG001'
       //this.udfScreenId = 'FIS001'
-    } else if (roleType === 2) { // For DDE FI
+    } else if (this.roleType === 2) { // For DDE FI
       this.udfGroupId = 'FIG001'
       //this.udfScreenId = 'FIS003'
     }
@@ -112,7 +113,7 @@ export class FiResidenceComponent implements OnInit {
     this.labelService.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = roleType === 2 ? udfScreenId.DDE.residenceFIDDE : udfScreenId.FI.residenceFI ;
+      this.udfScreenId = this.roleType === 2 ? udfScreenId.DDE.residenceFIDDE : udfScreenId.FI.residenceFI ;
 
     })
   }
@@ -350,18 +351,18 @@ export class FiResidenceComponent implements OnInit {
 
   }
   validateSubmitDate() {
-    const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
-      ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
-    const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
-      ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
-    if (initiatedDate !== null && submitDate !== null) {
-      if (submitDate < initiatedDate) {
-        this.initDate = true;
-        this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
-      } else {
-        this.initDate = false;
-      }
-    }
+    // const initiatedDate = new Date(this.fieldReportForm.value.cpvInitiatedDate)
+    //   ? new Date(this.fieldReportForm.value.cpvInitiatedDate) : null;
+    // const submitDate = new Date(this.fieldReportForm.value.reportSubmitDate)
+    //   ? new Date(this.fieldReportForm.value.reportSubmitDate) : null;
+    // if (initiatedDate !== null && submitDate !== null) {
+    //   if (submitDate < initiatedDate) {
+    //     this.initDate = true;
+    //     this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
+    //   } else {
+    //     this.initDate = false;
+    //   }
+    // }
   }
 
   initForm() {
@@ -369,12 +370,12 @@ export class FiResidenceComponent implements OnInit {
     // fun that initilalizes the form group
     this.fieldReportForm = new FormGroup({
       externalAgencyName: new FormControl({ value: '', disabled: true }),
-      contactPointVerification: new FormControl('', Validators.required),
+      // contactPointVerification: new FormControl('', Validators.required),
       referenceNo: new FormControl('', Validators.required),
-      cpvInitiatedDate: new FormControl('', Validators.required),
-      cpvInitiatedTime: new FormControl('', Validators.required),
-      reportSubmitDate: new FormControl('', Validators.required),
-      reportSubmitTime: new FormControl('', Validators.required),
+      cpvInitiatedDate: new FormControl({value: '', disabled: true}),
+      // cpvInitiatedTime: new FormControl('', Validators.required),
+      // reportSubmitDate: new FormControl('', Validators.required),
+      // reportSubmitTime: new FormControl('', Validators.required),
       applicantName: new FormControl({ value: '', disabled: true }),
       addressLine1: new FormControl('', Validators.required),
       addressLine2: new FormControl('', Validators.required),
@@ -434,14 +435,14 @@ export class FiResidenceComponent implements OnInit {
 
     this.fieldReportForm.patchValue({
       externalAgencyName: fiModel.externalAgencyName ? fiModel.externalAgencyName : null,
-      contactPointVerification: fiModel.contactPointVerification ? fiModel.contactPointVerification : null,
+      // contactPointVerification: fiModel.contactPointVerification ? fiModel.contactPointVerification : null,
       referenceNo: fiModel.referenceNo ? fiModel.referenceNo : null,
       cpvInitiatedDate: fiModel.cpvInitiatedDate ?
-        new Date(this.getDateFormat(fiModel.cpvInitiatedDate)) : null,
-      cpvInitiatedTime: fiModel.cpvInitiatedTime ? fiModel.cpvInitiatedTime : null,
-      reportSubmitDate: fiModel.reportSubmitDate ?
-        new Date(this.getDateFormat(fiModel.reportSubmitDate)) : null,
-      reportSubmitTime: fiModel.reportSubmitTime ? fiModel.reportSubmitTime : null,
+        fiModel.cpvInitiatedDate : null,
+      // cpvInitiatedTime: fiModel.cpvInitiatedTime ? fiModel.cpvInitiatedTime : null,
+      // reportSubmitDate: fiModel.reportSubmitDate ?
+      //   new Date(this.getDateFormat(fiModel.reportSubmitDate)) : null,
+      // reportSubmitTime: fiModel.reportSubmitTime ? fiModel.reportSubmitTime : null,
       applicantName: this.applicantFullName ? this.applicantFullName : null,
       addressLine1: fiModel.addressLine1 ? fiModel.addressLine1 : null,
       addressLine2: fiModel.addressLine2 ? fiModel.addressLine2 : null,
@@ -551,12 +552,12 @@ export class FiResidenceComponent implements OnInit {
     }
     this.fiResidenceDetails = {
       externalAgencyName: fieldReportModal.externalAgencyName,
-      contactPointVerification: fieldReportModal.contactPointVerification,
+      // contactPointVerification: fieldReportModal.contactPointVerification,
       referenceNo: fieldReportModal.referenceNo,
-      cpvInitiatedDate: this.sendDate(fieldReportModal.cpvInitiatedDate),
-      cpvInitiatedTime: fieldReportModal.cpvInitiatedTime,
-      reportSubmitDate: this.sendDate(fieldReportModal.reportSubmitDate),
-      reportSubmitTime: fieldReportModal.reportSubmitTime,
+      cpvInitiatedDate: fieldReportModal.cpvInitiatedDate,
+      // cpvInitiatedTime: fieldReportModal.cpvInitiatedTime,
+      // reportSubmitDate: this.sendDate(fieldReportModal.reportSubmitDate),
+      // reportSubmitTime: fieldReportModal.reportSubmitTime,
       applicantName: this.applicantFullName,
       addressLine1: fieldReportModal.addressLine1,
       addressLine2: fieldReportModal.addressLine2,
