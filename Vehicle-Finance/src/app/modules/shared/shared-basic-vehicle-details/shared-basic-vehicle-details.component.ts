@@ -204,7 +204,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.disableSaveBtn = true;
     }
 
-    this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt
+    this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt;
   }
 
   getLeadSectionData() {
@@ -425,10 +425,41 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         if (res.ProcessVariables.vehicleDetails && res.ProcessVariables.vehicleDetails.length > 0) {
           this.vehicleArray = res.ProcessVariables.vehicleDetails;
-          this.id = res.ProcessVariables.vehicleDetails[0].collateralId
-          if (this.id && this.id !== '0') {
+          this.id = res.ProcessVariables.vehicleDetails[0].collateralId;
+          if (this.id && this.id !== '0' && this.id !== 0) {
             this.setFormValue();
-          };
+          }
+        } else {
+
+          if (this.leadDetails && this.leadDetails.typeOfLoan === '2LOANTYP' && this.productCatoryCode !== 'NCV') {
+            let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+
+            this.applicantDetails.filter((applicant: any) => {
+              if (applicant.applicantType === 'Applicant') {
+                let mobileNumber = applicant.mobileNumber ? applicant.mobileNumber.length > 10 ?
+                  applicant.mobileNumber.slice(2, 12) : applicant.mobileNumber : '';
+
+                let address = '';
+                let pincode = null;
+
+                if (this.leadSectionData.addressDetails && this.leadSectionData.addressDetails.length > 0) {
+
+                  let addressDetail = this.leadSectionData.addressDetails[0];
+                  address = addressDetail.addressLineOne + ' ' + addressDetail.addressLineTwo ? addressDetail.addressLineTwo : ''  + ' ' + addressDetail.addressLineThree  ? addressDetail.addressLineThree : ''+
+                            ' ' + addressDetail.cityValue + ' ' + addressDetail.districtValue  + ' ' + addressDetail.stateValue + 
+                            ' ' + addressDetail.countryValue;
+                  pincode = addressDetail.pincode;
+                }
+
+                formArray.controls[0].patchValue({
+                  rcOwnerName: applicant.fullName,
+                  ownerMobileNo: mobileNumber,
+                  pincode: pincode,
+                  address: address
+                })
+              }
+            })
+          }
         }
         this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails);
       } else {
@@ -964,6 +995,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetModel: ['', Validators.required],
         assetVariant: ['', Validators.required],
         assetSubVarient: [''],
+        manuFacMonthYear: ['', Validators.required],
         exShowRoomCost: ['', Validators.required],
         finalAssetCost: [''],
         scheme: [''],
@@ -983,6 +1015,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetModel: ['', Validators.required],
         assetVariant: ['', Validators.required],
         assetSubVarient: [''],
+        manuFacMonthYear: ['', Validators.required],
         vehicleUsage: ['', Validators.required],
         exShowRoomCost: ['', Validators.required],
         finalAssetCost: [''],
@@ -1074,6 +1107,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVarient: '',
       scheme: [''],
       assetBodyType: ['', Validators.required],
+      manuFacMonthYear: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
       finalAssetCost: ['', Validators.required],
@@ -1123,6 +1157,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
       assetBodyType: ['', Validators.required],
+      manuFacMonthYear: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
       finalAssetCost: ['', Validators.required],
@@ -1554,11 +1589,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
 
         // if (data.firFiled) {
-          data.firFiled = data.firFiled && data.firFiled === true ? '1' : '0';
+        data.firFiled = data.firFiled && data.firFiled === true ? '1' : '0';
         // }
 
         // if (data.onlineVerification) {
-          data.onlineVerification = data.onlineVerification && data.onlineVerification === true ? '1' : '0';
+        data.onlineVerification = data.onlineVerification && data.onlineVerification === true ? '1' : '0';
         // } 
 
         if (data.insuranceValidity) {
@@ -1573,8 +1608,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
         }
 
+        data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
-          data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+
           data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
           data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
           if (url.includes('dde') && data.expectedNOCDate) {
@@ -1667,8 +1704,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.isModelShow = true;
       }
     });
-
-
   }
 
   navigateToSales() {

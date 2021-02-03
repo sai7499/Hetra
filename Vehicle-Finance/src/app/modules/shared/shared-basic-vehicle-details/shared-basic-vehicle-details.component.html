@@ -150,8 +150,9 @@
                                     </app-vf-custom-select>
                                 </div>
 
-                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing"
-                                    *ngIf="productCatoryCode !== 'NCV'">
+                                <!-- *ngIf="productCatoryCode !== 'NCV'" -->
+
+                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
                                     <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
                                             class="star_red_col">*</sub>
                                     </label>
@@ -160,7 +161,7 @@
                                         formControlName="manuFacMonthYear" ndo-datepicker [bottomView]="'year'"
                                         [topView]="'decade'" [format]="'MMMM yyyy'" [min]="minDate" [max]="maxDate"
                                         placeholder="Year And Month Manufacturing"
-                                        (valueChange)="onGetDateValue($event, 'isVehicleGrid')">
+                                        (valueChange)="productCatoryCode !== 'NCV' ? onGetDateValue($event, 'isVehicleGrid') : ''">
                                     </kendo-datepicker>
 
                                     <div class="invalid-feedback"
@@ -523,6 +524,31 @@
                                     </app-vf-custom-select>
                                 </div>
 
+                                <div class="form-group col-sm-6 col-md-4 col-lg-3" id="year_month_manufacturing">
+                                    <label for="year_month_manufacturing"> {{ label.yearAndMonthManufacturing }} <sub
+                                            class="star_red_col">*</sub>
+                                    </label>
+
+                                    <kendo-datepicker class="form-control" [id]="'year_month_manufacturing'"
+                                        formControlName="manuFacMonthYear" ndo-datepicker [bottomView]="'year'"
+                                        [topView]="'decade'" [format]="'MMMM yyyy'" [min]="minDate" [max]="maxDate"
+                                        placeholder="Year And Month Manufacturing">
+                                    </kendo-datepicker>
+
+                                    <div class="invalid-feedback"
+                                        *ngIf="obj.controls['manuFacMonthYear'].touched && !obj.controls['manuFacMonthYear'].valid">
+                                        <div *ngIf="obj.controls['manuFacMonthYear'].hasError('required')">
+                                            Year and Month Manufacturing Required
+                                        </div>
+                                    </div>
+
+                                    <div class="invalid-feedback" *ngIf="obj.controls['manuFacMonthYear'].touched && (obj.controls['manuFacMonthYear'].value  > toDayDate
+                                ||  obj.controls['manuFacMonthYear'].value < minDate)">
+                                        Invalid Date
+                                    </div>
+
+                                </div>
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="scheme">
                                     <label for="scheme"> {{ label.vehScheme }}
                                     </label>
@@ -533,6 +559,10 @@
 
                                 </div>
 
+                            </div>
+
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                     <label
                                         for="dealer_subvention_applicable">{{label.dealerSubventionApplicable}}</label>
@@ -540,10 +570,6 @@
                                         [id]="'dealer_subvention_applicable'" formControlName="dealerSuventionApproval">
                                     </app-vf-custom-select>
                                 </div>
-
-                            </div>
-
-                            <div class="row">
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                     <label for="dealer_subvention_amount">{{label.dealerSubventionAmount}}</label>
@@ -569,6 +595,10 @@
 
                                 </div>
 
+                            </div>
+
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                     <label for="dealer_subvention_finance">{{label.dealerSubventionFinance}}</label>
 
@@ -580,10 +610,6 @@
                                     </app-custom-input>
 
                                 </div>
-
-                            </div>
-
-                            <div class="row">
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                     <label
@@ -603,18 +629,6 @@
                                         [id]="'manufacturer_subvention_amount'" [className]="'form-control'"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
                                         [placeholder]="'Manufacturer Subvention Amount'">
-                                    </app-custom-input>
-
-                                </div>
-
-                                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                                    <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
-
-                                    <app-custom-input formControlName="manuFactureSubventionPartIRR"
-                                        [type]="label.validationData?.amountValue.type"
-                                        [id]="'manufacturer_subvention_irr'" [className]="'form-control'"
-                                        [maxLength]="label.validationData?.amountValue.maxLength"
-                                        [placeholder]="'Manufacturer Subvention Part of Operating IRR'">
                                     </app-custom-input>
 
                                 </div>
@@ -665,6 +679,18 @@
                             <div class="row">
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                                    <label for="manufacturer_subvention_irr">{{label.manufacturerSubventionIRR}}</label>
+
+                                    <app-custom-input formControlName="manuFactureSubventionPartIRR"
+                                        [type]="label.validationData?.amountValue.type"
+                                        [id]="'manufacturer_subvention_irr'" [className]="'form-control'"
+                                        [maxLength]="label.validationData?.amountValue.maxLength"
+                                        [placeholder]="'Manufacturer Subvention Part of Operating IRR'">
+                                    </app-custom-input>
+
+                                </div>
+
+                                <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                     <label for="manufacturer_subvention_finance">{{label.manufacturerSubventionFinance}}
                                     </label>
 
@@ -688,6 +714,10 @@
                                     </app-custom-input>
                                 </div>
 
+                            </div>
+
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="qrp_fund">
                                     <label for="orp_funding">{{label.orpFunding}} </label>
                                     <app-vf-custom-select [id]="'orp_funding'" [values]="vehicleLov?.YesORNoValue"
@@ -695,10 +725,6 @@
                                         (change)="onChangeFinalAssetCost($event.target.value, obj)">
                                     </app-vf-custom-select>
                                 </div>
-
-                            </div>
-
-                            <div class="row">
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                     <label for="ex_showroom_cost">{{label.exShowroomCost}} <sub
@@ -732,6 +758,10 @@
 
                                 </div>
 
+                            </div>
+
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                                     <label for="one_time_tax">{{label.oneTimeTax}} <sub class="star_blue_col">*</sub>
                                     </label>
@@ -747,10 +777,6 @@
                                     </app-custom-input>
 
                                 </div>
-
-                            </div>
-
-                            <div class="row">
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="others_div">
                                     <label for="others">{{label.others}} <sub class="star_blue_col">*</sub> </label>
@@ -778,6 +804,10 @@
                                     </app-custom-input>
                                 </div>
 
+                            </div>
+
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                                     <label for="discount">{{label.discount}} <sub class="star_blue_col">*</sub> </label>
 
@@ -798,10 +828,6 @@
 
                                 </div>
 
-                            </div>
-
-                            <div class="row">
-
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                     <label for="final_asset_cost">{{label.finalAssetCost}}</label>
                                     <app-custom-input formControlName="finalAssetCost"
@@ -817,16 +843,16 @@
                                     </app-vf-custom-select>
                                 </div>
 
+                            </div>
+
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                                     <label for="pac">{{label.pac}} </label>
                                     <app-vf-custom-select [id]="'pac'" [values]="vehicleLov?.YesORNoValue"
                                         formControlName="pac">
                                     </app-vf-custom-select>
                                 </div>
-
-                            </div>
-
-                            <div class="row">
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 tax_type">
                                     <label for="vas">{{label.vas}} </label>
@@ -842,6 +868,10 @@
                                     </app-vf-custom-select>
                                 </div>
 
+                            </div>
+
+                            <div class="row">
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
 
                                     <label for="loan_amount">{{label.loanAmount}}</label>
@@ -852,9 +882,6 @@
                                     </app-custom-input>
                                 </div>
 
-                            </div>
-
-                            <div class="row">
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
 
                                     <label for="body_cost">{{label.bodyCost}}</label>
