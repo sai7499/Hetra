@@ -708,7 +708,7 @@ export class TrackVehicleComponent implements OnInit {
       allDelayDays.push(parseInt(this.formArr.controls[i]['controls']['delayDays'].value))
     }
     if (this.trackVehicleForm.value['emiStartDate']) {
-      let avgDelay = Number(this.totalDelayDays / this.formArr.length).toFixed(4);
+      let avgDelay = Number(this.totalDelayDays / this.formArr.length).toFixed(2);
       let peakDelay = Math.max(...allDelayDays);
       let mindelay = Math.min(...allDelayDays);
       if (mindelay < 0) {

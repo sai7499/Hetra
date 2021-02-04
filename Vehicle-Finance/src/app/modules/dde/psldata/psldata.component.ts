@@ -185,7 +185,6 @@ export class PSLdataComponent implements OnInit {
         uCertificateId : [''],
       }),
 
-
       otherOption: this.formBuilder.group({
         propertyType: [''],
         activity: [''],
@@ -232,8 +231,7 @@ export class PSLdataComponent implements OnInit {
         pslCCertificate: [''],
         pslCertificateMsme: [''],
         pslCertificateHos: [''],
-        weakerSection: [''],
-        // weakerSection: [""],
+        weakerSection: ['']
       }),
     });
   }
@@ -252,6 +250,7 @@ export class PSLdataComponent implements OnInit {
         value: element.activityName,
       };
       this.activityLOVS.push(data);
+
       // To filter unique value in Array
       // tslint:disable-next-line: prefer-const
       let activityObject = {};
@@ -264,9 +263,14 @@ export class PSLdataComponent implements OnInit {
         }
       });
       this.activityLOVS = activityData;
+      // this.pslDataForm.patchValue({
+      //   activity: activityData.length > 0 ? activityData[0].key : ''
+      // })
+      // this.onActivityChange(activityData[0].key)
       // console.log('ACTIVITYLOVS******', this.activityLOVS);
     });
   }
+
   getDetailActivity(activity) {
     console.log('psl lovs', this.pslDependentLOVSData);
     this.detailActivityValues = [];
@@ -991,6 +995,7 @@ export class PSLdataComponent implements OnInit {
       console.log('FormValues::', this.formValues);
       // IF_PSL-CERTIFICATE_NOT_FOUND
       if (!this.formValues.pslCCertificate) {
+        this.submitted = true;
         this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
         return;
       }
@@ -1001,6 +1006,7 @@ export class PSLdataComponent implements OnInit {
       this.formValues.landInHectare = Number( this.formValues.landInHectare);
       this.formValues.landUnitValue = Number( this.formValues.landUnitValue);
       this.formValues.weakerSection = this.convertTocsv();
+
       const data = {
         userId: localStorage.getItem('userId'),
         leadId: this.leadId,
@@ -1031,26 +1037,28 @@ export class PSLdataComponent implements OnInit {
         this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
       }
     } else if (this.activityChange !== '1PSLACTVTY' ) {
-      this.applyMandatoryToActivity(this.activityChange);
-      this.submitted = true;
+      // this.applyMandatoryToActivity(this.activityChange);
       this.formValues = this.pslDataForm.get('nonAgriculture').value;
       console.log('FormValues::', this.formValues);
       console.log('psl form', this.pslDataForm);
       // IF_PSL-CERTIFICATE_NOT_FOUND
-      if (this.activityChange !== '7PSLACTVTY') {
+      if (this.activityChange === '7PSLACTVTY') {
       this.isDirty = true;
-      if (!this.formValues.pslCCertificate) {
-        this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
-        return;
-      }
+      // this.getDetailActivity(null)
+      console.log(this.activityChange, 'Form', this.purposeOfLoanChange)
       this.formValues.activity = this.activityChange;
-      this.formValues.pslCCertificate = this.data[0].key;
-      this.formValues.pslCategory = this.pslCategoryData[0].key;
+      this.formValues.pslCCertificate = this.data.length > 0 ? this.data[0].key : '';
+      this.formValues.pslCategory = this.pslCategoryData.length > 0 ?  this.pslCategoryData[0].key : '';
       this.formValues.pslSubCategory = this.formValues.pslSubCategory ;
-      this.formValues.typeOfService = this.typeOfService[0].key;
+      this.formValues.typeOfService = this.typeOfService.length > 0 ? this.typeOfService[0].key : '';
       this.formValues.purposeOfLoan = this.purposeOfLoanChange;
+      // if (!this.formValues.pslCCertificate) {
+      //   this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
+      //   return;
+      // }
       } else {
-      if (this.pslDataForm.controls.nonAgriculture.invalid) {
+        console.log(this.pslDataForm.get('nonAgriculture'), 'nonAgriculture')
+      if (this.pslDataForm.get('nonAgriculture').invalid) {
         this.isDirty = true;
         this.toasterService.showError('Please fill all mandatory fields.', 'PSL DATA');
         return;
@@ -1207,6 +1215,7 @@ onChangeWeakerSection(event: any) {
         this.setValueForLandOwner();
         setTimeout(() => {
           this.landAreaInAcresValue = this.pslData.landUnitValue;
+          console.log(res, 'psldata res')
           this.setValueForPslCategoryByLandArea();
           this.pslDataForm.patchValue({
             activity: this.activityChange
@@ -1232,6 +1241,7 @@ onChangeWeakerSection(event: any) {
               weakerSection: this.csvToArray(this.pslData.weakerSection),
             },
           });
+          console.log(this.pslDataForm, 'pslDataForm')
           this.onChangelandUnitType();
         });
         setTimeout(() => {
@@ -1325,9 +1335,7 @@ onChangeWeakerSection(event: any) {
   }
 
   applyMandatoryToActivity(event: any) {
-   if (event === '1PSLACTVTY') {
-
-    } else if ( event === '5PSLACTVTY' || event === '6PSLACTVTY' ) {
+  if ( event === '5PSLACTVTY' || event === '6PSLACTVTY' ) {
      const control = this.pslDataForm.get('nonAgriculture') as FormGroup;
     //  control.clearValidators();
     //  control.updateValueAndValidity();
@@ -1337,7 +1345,6 @@ onChangeWeakerSection(event: any) {
      control.get('uRegisteredMobileNo').updateValueAndValidity();
      control.get('uRegisteredEmailId').setValidators(Validators.required);
      control.get('uRegisteredEmailId').updateValueAndValidity();
-    } else if ( event === '7PSLACTVTY') {
     }
   }
   get f() {
@@ -1363,7 +1370,7 @@ onChangeWeakerSection(event: any) {
      }
   }
   onChangePslSubcategory(event) {
-    console.log('event from psl subcategory', event);
+    console.log(this.data, 'event from psl subcategory', event);
     if (event === '4PSLSUBCAT' || event === '5PSLSUBCAT' || event === '6PSLSUBCAT') {
       this.LOV.LOVS.pslCertificate.filter((element) => {
         if (event === '4PSLSUBCAT') {
@@ -1382,7 +1389,7 @@ onChangeWeakerSection(event: any) {
         });
        }
     this.f.patchValue({
-      pslCCertificate : this.data[0].key
+      pslCCertificate : this.data.length > 0 ? this.data[0].key : ''
      });
     }
 
