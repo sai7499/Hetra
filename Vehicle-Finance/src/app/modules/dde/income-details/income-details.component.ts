@@ -1038,7 +1038,7 @@ export class IncomeDetailsComponent implements OnInit {
     const control: any = this.incomeDetailsForm.controls
       .keyFinanceDetails['controls'] as FormGroup;
 
-    this.onValidateSelectedRow(i, control)
+    // this.onValidateSelectedRow(i, control)
 
     control[i].controls.yearOne.get('applicantType').setValue(applicantType);
     control[i].controls.yearTwo.get('applicantType').setValue(applicantType);
