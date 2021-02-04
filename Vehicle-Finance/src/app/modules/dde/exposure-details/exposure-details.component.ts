@@ -36,6 +36,8 @@ export class ExposureDetailsComponent implements OnInit {
   userDefineForm: any;
   udfScreenId= '';
   udfGroupId= 'EXG001';
+  liveloanControl: FormArray;
+  isProposed: any;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -138,6 +140,10 @@ export class ExposureDetailsComponent implements OnInit {
       });
     });
   }
+
+  get exposureArray() {
+    return this.exposureLiveLoan.get('loanTable') as FormArray;
+  }
   public getProposedLoan(data?: any) {
     if (!data || data === null || undefined) {
       return this.formBuilder.group({
@@ -147,7 +153,8 @@ export class ExposureDetailsComponent implements OnInit {
         yom: ['' ,[Validators.minLength(4),Validators.maxLength(4),
                     Validators.max(this.currentYear)]],
         gridValue: ['',[Validators.required] ],
-        ltv: ['',[Validators.required] ],
+        loanAmount: ['', Validators.required],
+        ltv: [{value: '', disabled: true}],
         currentPos: ['',[Validators.required] ],
         tenure: ['',[Validators.required] ],
         emiPaid: ['',[Validators.required]]
@@ -160,7 +167,8 @@ export class ExposureDetailsComponent implements OnInit {
       assetType: [data.assetType ? data.assetType : ''],
       yom: [data.yom ? data.yom : '' ],
       gridValue: [data.gridValue ? data.gridValue : '' ],
-      ltv: [data.ltv ? data.ltv : '' ],
+      loanAmount: [data.loanAmount ? data.loanAmount : '' ],
+      ltv: [{value: data.ltv ? data.ltv : '', disabled: true} ],
       currentPos: [data.currentPos ? data.currentPos : '' ],
       tenure: [data.tenure ? data.tenure : '' ],
       emiPaid: [data.emiPaid ? data.emiPaid : '']
@@ -175,7 +183,8 @@ export class ExposureDetailsComponent implements OnInit {
         assetType: ['',[Validators.required]],
         yom: ['',[Validators.minLength(4),Validators.maxLength(4),Validators.max(this.currentYear)] ],
         gridValue: ['',[Validators.required] ],
-        ltv: ['',[Validators.required] ],
+        loanAmount: ['', Validators.required],
+        ltv: [{value: '', disabled: true}],
         currentPos: ['',[Validators.required] ],
         tenure: ['',[Validators.required] ],
         emiPaid: ['',[Validators.required] ]
@@ -188,10 +197,11 @@ export class ExposureDetailsComponent implements OnInit {
       assetType: [data.assetType ? data.assetType : ''],
       yom: [data.yom ? data.yom : '' ],
       gridValue: [data.gridValue ? data.gridValue : '' ],
-      ltv: [data.ltv ? data.ltv : '' ],
-      currentPos: [data.currentPos ? data.currentPos : '' ],
+      loanAmount: [data.loanAmount ? data.loanAmount : '' ],
+      ltv: [{value: data.ltv ? data.ltv : '', disabled: true}],
+      currentPos: [data.currentPos ? data.currentPos : '', Validators.required],
       tenure: [data.tenure ? data.tenure : '' ],
-      emiPaid: [data.emiPaid ? data.emiPaid : '']
+      emiPaid: [data.emiPaid ? data.emiPaid : '', Validators.required]
     });
     }
   }
@@ -201,6 +211,8 @@ export class ExposureDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0 ; i < data.length; i++) {
         control.push(this.getLiveLoan(data[i]));
+        this.onLoanTypeChange(this.getExposureDetails[i].loanType, i );
+
       }
     } else {
       control.push(this.getLiveLoan(null));
@@ -266,10 +278,10 @@ onSubmit() {
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
     if (this.exposureLiveLoan.valid && !this.validYom && !isUDFInvalid){
       let arrayData = [];
-
+      const exposureForm = this.exposureLiveLoan.getRawValue();
       // tslint:disable-next-line: prefer-for-of
-      for (let i = 0; i <  this.exposureLiveLoan.value.loanTable.length; i++ ) {
-      arrayData.push(this.exposureLiveLoan.value.loanTable[i]);
+      for (let i = 0; i <  exposureForm.loanTable.length; i++ ) {
+      arrayData.push(exposureForm.loanTable[i]);
       
       }     
       arrayData.forEach(ele =>
@@ -277,7 +289,7 @@ onSubmit() {
         ele.yom = (ele.yom).toString();
         ele.gridValue = ele.gridValue;
         ele.ltv = ele.ltv;
-        ele.currentPos = Number(ele.currentPos);
+        ele.currentPos = ele.currentPos == '' ? '' : Number(ele.currentPos);
         ele.tenure = ele.tenure;
         ele.emiPaid = ele.emiPaid;
         })
@@ -302,6 +314,17 @@ onSubmit() {
         if (res.ProcessVariables.error.code === '0') {
           const liveloanControl = this.exposureLiveLoan.controls.loanTable as FormArray;
           const proposedControl = this.exposureLiveLoan.controls.proposedTable as FormArray;
+          for (let i = 0; i < this.exposureArray.length; i++) {
+            if(this.exposureArray.controls[i].value.loanType == '1LONTYPEXP') {
+              this.exposureArray.controls[i]['controls']['currentPos'].clearValidators();
+              this.exposureArray.controls[i]['controls']['emiPaid'].clearValidators();
+              this.exposureArray.controls[i]['controls']['currentPos'].updateValueAndValidity();
+              this.exposureArray.controls[i]['controls']['emiPaid'].updateValueAndValidity();
+      
+            }
+            
+          }
+          
           liveloanControl.controls = [];
           // proposedControl.controls = [];
           this.liveloanArray = [];
@@ -318,6 +341,57 @@ onSubmit() {
     }
   }
 
+  onLoanTypeChange(event?, index?) {
+    const loanType = event;
+    console.log(loanType, index, "loantype");
+    console.log(this.exposureLiveLoan.get('loanTable')['controls'])
+    console.log(this.exposureLiveLoan.controls.loanTable);
+    
+    for (let i=0; i< this.exposureArray.length; i++) {
+      this.isProposed = this.exposureArray.controls[i]['controls']['loanType'].value
+    if(loanType && loanType == '1LONTYPEXP') {
+      this.isDirty = false;
+      // setTimeout(() => {
+      // });
+        
+        
+        this.exposureArray.controls[i]['controls']['currentPos'].clearValidators();
+        this.exposureArray.controls[i]['controls']['emiPaid'].clearValidators();
+        this.exposureArray.controls[i]['controls']['currentPos'].updateValueAndValidity();
+        this.exposureArray.controls[i]['controls']['emiPaid'].updateValueAndValidity();
+        const currentPos = this.exposureArray.controls[i]['controls']['currentPos'].value;
+        this.exposureArray.controls[i]['controls']['currentPos'].setValue(currentPos || null);
+        
+        const emiPaid = this.exposureArray.controls[i]['controls']['emiPaid'].value;
+        this.exposureArray.controls[i]['controls']['emiPaid'].setValue(emiPaid || null);
+        console.log(emiPaid);
+      } else {
+      this.isDirty = true;
+      // const liveloanControl = this.exposureLiveLoan.controls.loanTable as FormArray;
+        this.exposureArray.controls[i]['controls']['currentPos'].setValidators(Validators.required);
+        this.exposureArray.controls[i]['controls']['emiPaid'].setValidators(Validators.required);
+        this.exposureArray.controls[i]['controls']['currentPos'].updateValueAndValidity();
+        this.exposureArray.controls[i]['controls']['emiPaid'].updateValueAndValidity();
+    }
+  }
+    
+  }
+
+  calcLTV(i) {
+    
+    for(let i = 0; i < this.exposureArray.length; i++ ) {
+      const gridValue = this.exposureArray.controls[i]['controls']['gridValue'].value;
+      const loanAmount = this.exposureArray.controls[i]['controls']['loanAmount'].value;
+
+      if(!loanAmount || !gridValue) {
+        this.exposureArray.controls[i]['controls']['ltv'].patchValue(null);
+        return;
+      }
+       this.exposureArray.controls[i]['controls']['ltv'].patchValue(((loanAmount / gridValue)*100).toFixed(2));
+      
+    }
+  }
+
 
   onBack() {
   // this.location.back();
@@ -331,8 +405,7 @@ onSubmit() {
     const getYom = event.target.value;
     console.log("yom",getYom)
     if(getYom > this.currentYear){
-      this.toStarService.showError("given year should lessthan or equtal to current year",
-                                    "Income Details")
+      this.toStarService.showError("given year should lessthan or equtal to current year", "Income Details")
       this.validYom = true;
     }else{
       this.validYom = false;
