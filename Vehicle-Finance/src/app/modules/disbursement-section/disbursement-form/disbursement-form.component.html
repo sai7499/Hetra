@@ -496,7 +496,7 @@
               </app-vf-custom-select>
             </div>
           </div>
-          <div class="form-group" *ngIf="showAppBankDetails || showAppCASADetails || showDDDetails">
+          <div class="form-group" *ngIf="showAppBankDetails || showAppCASADetails || showAppDDDetails">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
               <sub class="star_red_col">*</sub>
             </label>
@@ -855,7 +855,7 @@
                   </app-vf-custom-select>
                 </div>
               </div>
-              <div class="form-group" *ngIf="showCoApp1BankDetails || showCoApp1CASADetails || showDDDetails">
+              <div class="form-group" *ngIf="showCoApp1BankDetails || showCoApp1CASADetails || showCoApp1DDDetails">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
                   <sub class="star_red_col">*</sub>
                 </label>
@@ -1199,7 +1199,7 @@
                   </app-vf-custom-select>
                 </div>
               </div>
-              <div class="form-group" *ngIf="showCoApp2BankDetails || showCoApp2CASADetails || showDDDetails">
+              <div class="form-group" *ngIf="showCoApp2BankDetails || showCoApp2CASADetails || showCoApp2DDDetails">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
                   <sub class="star_red_col">*</sub>
                 </label>
@@ -1542,7 +1542,7 @@
                   </app-vf-custom-select>
                 </div>
               </div>
-              <div class="form-group" *ngIf="showCoApp3BankDetails || showCoApp3CASADetails || showDDDetails">
+              <div class="form-group" *ngIf="showCoApp3BankDetails || showCoApp3CASADetails || showCoApp3BankDetails">
                 <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
                   <sub class="star_red_col">*</sub>
                 </label>
@@ -1908,7 +1908,7 @@
               </app-vf-custom-select>
             </div>
           </div>
-          <div class="form-group" *ngIf="showBankerBankDetails || showBankerCASADetails || showDDDetails">
+          <div class="form-group" *ngIf="showBankerBankDetails || showBankerCASADetails || showBankerDDDetails">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
               <sub class="star_red_col">*</sub>
             </label>
@@ -2255,7 +2255,7 @@
               </app-vf-custom-select>
             </div>
           </div>
-          <div class="form-group" *ngIf="showFinBankDetails || showFinCASADetails || showDDDetails">
+          <div class="form-group" *ngIf="showFinBankDetails || showFinCASADetails || showFinDDDetails">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
               <sub class="star_red_col">*</sub>
             </label>
@@ -2614,7 +2614,7 @@
               </app-vf-custom-select>
             </div>
           </div>
-          <div class="form-group" *ngIf="showTPBankDetails || showTPCASADetails || showDDDetails">
+          <div class="form-group" *ngIf="showTPBankDetails || showTPCASADetails || showTPDDDetails">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
               <sub class="star_red_col">*</sub></label>
             <div class="col-sm-6 col-md-4 col-lg-3">
@@ -2915,7 +2915,7 @@
 
       <!--container 7-->
       <!-- *ngIf="disburseToIBT" -->
-      <form class="p-0" [formGroup]="ibtDetailsForm" *ngIf="false">
+      <form class="p-0" [formGroup]="ibtDetailsForm" *ngIf="disburseToIBT">
         <div>
           <h4 class="banner-sub">Internal BT</h4>
 
@@ -2924,24 +2924,33 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input [(ngModel)]="internalBTObjInfo['ibtFavoringName']" formControlName="ibtFavoringName" type="text"
-                class="form-control mandatory" id="thirdPartyBank_Details" placeholder="Bank Details"
-                name="thirdPartyBank_Details" value="ESFB" />
+              <input formControlName="ibtFavoringName" type="text"
+                class="form-control" placeholder="Bank Details"  name="ibtFavoringName" />
+               
             </div>
           </div>
 
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Loan Account Number<sub
-                class="star_red_col">*</sub></label>
+            <!-- <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Loan Account Number<sub
+                class="star_red_col">*</sub></label> -->
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Loan Account Number</label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input [(ngModel)]="internalBTObjInfo['ibtLoanAccNumber']" formControlName="ibtLoanAccNumber"
-                [className]="'form-control mandatory'" [placeholder]="'loan Account Number'"
-                [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'">
+              <app-custom-input [(ngModel)]="internalBTObjInfo['loanAccountNumber']" formControlName="loanAccountNumber"
+                [className]="'form-control'" [placeholder]="'loan Account Number'"  [type]="'number'">
               </app-custom-input>
             </div>
           </div>
 
           <div class="form-group">
+                <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Principle Outstanding</label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input [(ngModel)]="internalBTObjInfo['principleOutstanding']" formControlName="principleOutstanding"
+                [className]="'form-control'" [placeholder]="'Principle OutSatanding'" [isDirty]="isDirty" [type]="'number'">
+              </app-custom-input>
+            </div>
+          </div>
+
+          <!-- <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
             <div class="col-sm-6 col-md-4 col-lg-4">
               <input type="checkbox" id="" [(ngModel)]="internalBTObjInfo['deductChargesFlag']"
@@ -2949,7 +2958,7 @@
                 [checked]="internalBTObjInfo['deductChargesFlag']">
               <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
             </div>
-          </div>
+          </div> -->
 
 
         </div>
@@ -2995,7 +3004,7 @@
               </app-vf-custom-select>
             </div>
           </div>
-          <div class="form-group" *ngIf="showSellerBankDetails || showSellerCASADetails || showDDDetails">
+          <div class="form-group" *ngIf="showSellerBankDetails || showSellerCASADetails || showSellerDDDetails">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
               <sub class="star_red_col">*</sub>
             </label>
@@ -3309,7 +3318,7 @@
               </app-vf-custom-select>
             </div>
           </div>
-          <div class="form-group" *ngIf="showBuyerBankDetails || showBuyerCASADetails || showDDDetails">
+          <div class="form-group" *ngIf="showBuyerBankDetails || showBuyerCASADetails || showBuyerDDDetails">
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
               <sub class="star_red_col">*</sub>
             </label>

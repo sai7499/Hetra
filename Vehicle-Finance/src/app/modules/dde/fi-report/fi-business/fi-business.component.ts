@@ -220,6 +220,9 @@ export class FiBusinessComponent implements OnInit {
             };
             this.city.push(city);
           });
+          this.fieldReportForm.patchValue({
+            state: this.state[0].key,
+          })
 
         } else if (value['ProcessVariables'].error.code === '1') {
           if (value['ProcessVariables'].error.message && value['ProcessVariables'].error.message != null) {
