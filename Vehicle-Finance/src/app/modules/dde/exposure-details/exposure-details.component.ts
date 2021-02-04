@@ -211,8 +211,10 @@ export class ExposureDetailsComponent implements OnInit {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0 ; i < data.length; i++) {
         control.push(this.getLiveLoan(data[i]));
+        
+      }
+      for (let i = 0 ; i < data.length; i++) {
         this.onLoanTypeChange(this.getExposureDetails[i].loanType, i );
-
       }
     } else {
       control.push(this.getLiveLoan(null));
@@ -289,7 +291,7 @@ onSubmit() {
         ele.yom = (ele.yom).toString();
         ele.gridValue = ele.gridValue;
         ele.ltv = ele.ltv;
-        ele.currentPos = ele.currentPos == '' ? '' : Number(ele.currentPos);
+        ele.currentPos = ele.currentPos;
         ele.tenure = ele.tenure;
         ele.emiPaid = ele.emiPaid;
         })
@@ -341,30 +343,26 @@ onSubmit() {
     }
   }
 
-  onLoanTypeChange(event?, index?) {
+  onLoanTypeChange(event?, i?) {
     const loanType = event;
-    console.log(loanType, index, "loantype");
-    console.log(this.exposureLiveLoan.get('loanTable')['controls'])
-    console.log(this.exposureLiveLoan.controls.loanTable);
     
-    for (let i=0; i< this.exposureArray.length; i++) {
-      this.isProposed = this.exposureArray.controls[i]['controls']['loanType'].value
+    console.log(event, i, "loantype");
+    // console.log(this.exposureLiveLoan.get('loanTable')['controls'])
+    // console.log(this.exposureLiveLoan.controls.loanTable);
+  
     if(loanType && loanType == '1LONTYPEXP') {
       this.isDirty = false;
-      // setTimeout(() => {
-      // });
-        
-        
         this.exposureArray.controls[i]['controls']['currentPos'].clearValidators();
         this.exposureArray.controls[i]['controls']['emiPaid'].clearValidators();
         this.exposureArray.controls[i]['controls']['currentPos'].updateValueAndValidity();
         this.exposureArray.controls[i]['controls']['emiPaid'].updateValueAndValidity();
+        
         const currentPos = this.exposureArray.controls[i]['controls']['currentPos'].value;
         this.exposureArray.controls[i]['controls']['currentPos'].setValue(currentPos || null);
         
         const emiPaid = this.exposureArray.controls[i]['controls']['emiPaid'].value;
         this.exposureArray.controls[i]['controls']['emiPaid'].setValue(emiPaid || null);
-        console.log(emiPaid);
+        
       } else {
       this.isDirty = true;
       // const liveloanControl = this.exposureLiveLoan.controls.loanTable as FormArray;
@@ -372,8 +370,13 @@ onSubmit() {
         this.exposureArray.controls[i]['controls']['emiPaid'].setValidators(Validators.required);
         this.exposureArray.controls[i]['controls']['currentPos'].updateValueAndValidity();
         this.exposureArray.controls[i]['controls']['emiPaid'].updateValueAndValidity();
+        const currentPos = this.exposureArray.controls[i]['controls']['currentPos'].value;
+        this.exposureArray.controls[i]['controls']['currentPos'].setValue(currentPos || null);
+        
+        const emiPaid = this.exposureArray.controls[i]['controls']['emiPaid'].value;
+        this.exposureArray.controls[i]['controls']['emiPaid'].setValue(emiPaid || null);
     }
-  }
+  
     
   }
 
