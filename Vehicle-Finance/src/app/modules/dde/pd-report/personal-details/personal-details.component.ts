@@ -10,7 +10,6 @@ import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
-import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-personal-details',
@@ -74,7 +73,6 @@ export class PersonalDetailsComponent implements OnInit {
     private _fb: FormBuilder, private pdDataService: PdDataService,
     private personaldiscussion: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute,
-    private sharedService: SharedService,
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
     private utilityService: UtilityService) { }
@@ -297,17 +295,6 @@ export class PersonalDetailsComponent implements OnInit {
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
 
-        this.isGetAllResponse.applicantPersonalDiscussionDetails = value.ProcessVariables.applicantPersonalDiscussionDetails ?
-          value.ProcessVariables.applicantPersonalDiscussionDetails : {};
-        this.isGetAllResponse.incomeDetails = value.ProcessVariables.incomeDetails ?
-          value.ProcessVariables.incomeDetails : {};
-        this.isGetAllResponse.referenceCheck = value.ProcessVariables.referenceCheck ?
-          value.ProcessVariables.referenceCheck : {};
-        this.isGetAllResponse.otherDetails = value.ProcessVariables.otherDetails ?
-          value.ProcessVariables.otherDetails : {};
-
-        this.sharedService.setProcessVariablePD(this.isGetAllResponse)
-
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ?
           value.ProcessVariables.applicantPersonalDiscussionDetails : {};
 
@@ -508,48 +495,30 @@ export class PersonalDetailsComponent implements OnInit {
       return;
     }
 
-    this.isGetAllResponse.applicantPersonalDiscussionDetails = formValue;
-
     formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
 
     let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
 
     if (this.personalDetailsForm.valid && isUdfField) {
 
-      // let data = {
-      //   leadId: this.leadId,
-      //   applicantId: this.applicantId,
-      //   userId: this.userId,
-      //   applicantPersonalDiscussionDetails: formValue,
-      //   udfDetails: [
-      //     {
-      //       "udfGroupId": this.udfGroupId,
-      //       // "udfScreenId": this.udfScreenId,
-      //       "udfData": JSON.stringify(
-      //         this.userDefineForm && this.userDefineForm.udfData ?
-      //           this.userDefineForm.udfData.getRawValue() : {}
-      //       )
-      //     }
-      //   ]
-      // };
+      let data = {
+        leadId: this.leadId,
+        applicantId: this.applicantId,
+        userId: this.userId,
+        applicantPersonalDiscussionDetails: formValue,
+        udfDetails: [
+          {
+            "udfGroupId": this.udfGroupId,
+            // "udfScreenId": this.udfScreenId,
+            "udfData": JSON.stringify(
+              this.userDefineForm && this.userDefineForm.udfData ?
+                this.userDefineForm.udfData.getRawValue() : {}
+            )
+          }
+        ]
+      };
 
-      this.isGetAllResponse.leadId = this.leadId;
-      this.isGetAllResponse.applicantId = this.applicantId;
-      this.isGetAllResponse.userId = this.userId;
-      this.isGetAllResponse.udfDetails = [
-        {
-          "udfGroupId": this.udfGroupId,
-          // "udfScreenId": this.udfScreenId,
-          "udfData": JSON.stringify(
-            this.userDefineForm && this.userDefineForm.udfData ?
-              this.userDefineForm.udfData.getRawValue() : {}
-          )
-        }
-      ]
-
-      console.log(this.isGetAllResponse, 'Before')
-
-      this.personaldiscussion.saveOrUpdatePdData(this.isGetAllResponse).subscribe((value: any) => {
+      this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
 
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};

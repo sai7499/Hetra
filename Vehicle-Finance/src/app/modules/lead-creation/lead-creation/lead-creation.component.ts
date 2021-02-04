@@ -117,8 +117,7 @@ export class LeadCreationComponent implements OnInit {
     leadHandeledBy: number;
     sourcingCodeDescription: string;
     parentLoanAccNum?: number;
-    isCommSuppressed: number,
-    isLOSLoan?: boolean
+    isCommSuppressed: number
   };
 
   applicantDetails: {
@@ -786,7 +785,6 @@ export class LeadCreationComponent implements OnInit {
         dealorCode: this.dealorCodeKey,
         // spokeCode: Number(leadModel.spokeCode),
         spokeCode: 1,
-        isLOSLoan: true,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
         sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : '',
@@ -803,7 +801,6 @@ export class LeadCreationComponent implements OnInit {
         dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),
       };
 
-      console.log(this.applicantDetails, 'inputString', this.loanLeadDetails)
       this.createLeadService
         .createLead(this.loanLeadDetails, this.applicantDetails, false)
         .subscribe(
