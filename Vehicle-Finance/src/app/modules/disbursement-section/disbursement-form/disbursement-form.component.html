@@ -383,7 +383,7 @@
                       <th>{{labels?.disbursementType}}</th>
                       <th>{{labels?.disbursementPercent}}</th>
                       <th>{{labels?.disbursementAmount}}</th>
-                      <th>{{labels?.disbursementDate}}</th>
+                      <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                       <th *ngIf="!isLoan360">{{labels?.action}}</th>
                     </tr>
                   </thead>
@@ -426,7 +426,7 @@
                           name="trancheDealerList[i].tranche_disbursement_amount"
                           formControlName="tranche_disbursement_amount" [readOnly]="true" />
                       </td>
-                      <td width="18%">
+                      <td width="18%" [hidden]='true'>
                         <div *ngIf="i==0">
                           <input type="text" class="form-control text-field"
                             [(ngModel)]="trancheDealerList[i].trancheDisburseDate"
@@ -721,7 +721,7 @@
                       <th>{{labels?.disbursementType}}</th>
                       <th>{{labels?.disbursementPercent}}</th>
                       <th>{{labels?.disbursementAmount}}</th>
-                      <th>{{labels?.disbursementDate}}</th>
+                      <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                       <th *ngIf="!isLoan360">{{labels?.action}}</th>
                     </tr>
                   </thead>
@@ -764,7 +764,7 @@
                           name="trancheAppList[i].tranche_disbursement_amount"
                           formControlName="tranche_disbursement_amount" [readOnly]="true" />
                       </td>
-                      <td width="18%">
+                      <td width="18%" [hidden]='true'>
                         <div *ngIf="i==0">
                           <input type="text" class="form-control text-field"
                             [(ngModel)]="trancheAppList[i].trancheDisburseDate"
@@ -1081,7 +1081,7 @@
                           <th>{{labels?.disbursementType}}</th>
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
-                          <th>{{labels?.disbursementDate}}</th>
+                          <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                           <th *ngIf="!isLoan360">{{labels?.action}}</th>
                         </tr>
                       </thead>
@@ -1126,7 +1126,7 @@
                               name="trancheCoApp1List[i].tranche_disbursement_amount"
                               formControlName="tranche_disbursement_amount" [readOnly]="true" />
                           </td>
-                          <td width="18%">
+                          <td width="18%" [hidden]='true'>
                             <div *ngIf="i==0">
                               <input type="text" class="form-control text-field"
                                 [(ngModel)]="trancheCoApp1List[i].trancheDisburseDate"
@@ -1425,7 +1425,7 @@
                           <th>{{labels?.disbursementType}}</th>
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
-                          <th>{{labels?.disbursementDate}}</th>
+                          <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                           <th *ngIf="!isLoan360">{{labels?.action}}</th>
                         </tr>
                       </thead>
@@ -1470,7 +1470,7 @@
                               name="trancheCoApp2List[i].tranche_disbursement_amount"
                               formControlName="tranche_disbursement_amount" [readOnly]="true" />
                           </td>
-                          <td width="18%">
+                          <td width="18%" [hidden]='true'>
                             <div *ngIf="i==0">
                               <input type="text" class="form-control text-field"
                                 [(ngModel)]="trancheCoApp2List[i].trancheDisburseDate"
@@ -1769,7 +1769,7 @@
                           <th>{{labels?.disbursementType}}</th>
                           <th>{{labels?.disbursementPercent}}</th>
                           <th>{{labels?.disbursementAmount}}</th>
-                          <th>{{labels?.disbursementDate}}</th>
+                          <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                           <th *ngIf="!isLoan360">{{labels?.action}}</th>
                         </tr>
                       </thead>
@@ -1814,7 +1814,7 @@
                               name="trancheCoApp3List[i].tranche_disbursement_amount"
                               formControlName="tranche_disbursement_amount" [readOnly]="true" />
                           </td>
-                          <td width="18%">
+                          <td width="18%" [hidden]='true'>
                             <div *ngIf="i==0">
                               <input type="text" class="form-control text-field"
                                 [(ngModel)]="trancheCoApp3List[i].trancheDisburseDate"
@@ -2132,7 +2132,7 @@
                       <th>{{labels?.disbursementType}}</th>
                       <th>{{labels?.disbursementPercent}}</th>
                       <th>{{labels?.disbursementAmount}}</th>
-                      <th>{{labels?.disbursementDate}}</th>
+                      <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                       <th *ngIf="!isLoan360">{{labels?.action}}</th>
                     </tr>
                   </thead>
@@ -2175,7 +2175,7 @@
                           name="trancheBankerList[i].tranche_disbursement_amount"
                           formControlName="tranche_disbursement_amount" [readOnly]="true" />
                       </td>
-                      <td width="18%">
+                      <td width="18%" [hidden]='true'>
                         <div *ngIf="i==0">
                           <input type="text" class="form-control text-field"
                             [(ngModel)]="trancheBankerList[i].trancheDisburseDate"
@@ -2482,7 +2482,7 @@
                       <th>{{labels?.disbursementType}}</th>
                       <th>{{labels?.disbursementPercent}}</th>
                       <th>{{labels?.disbursementAmount}}</th>
-                      <th>{{labels?.disbursementDate}}</th>
+                      <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                       <th *ngIf="!isLoan360">{{labels?.action}}</th>
                     </tr>
                   </thead>
@@ -2528,7 +2528,7 @@
                           name="trancheFinancierList[i].tranche_disbursement_amount"
                           formControlName="tranche_disbursement_amount" [readOnly]="true" />
                       </td>
-                      <td width="18%">
+                      <td width="18%" [hidden]='true'>
                         <div *ngIf="i==0">
                           <input type="text" class="form-control text-field"
                             [(ngModel)]="trancheFinancierList[i].trancheDisburseDate"
@@ -2839,7 +2839,7 @@
                       <th>{{labels?.disbursementType}}</th>
                       <th>{{labels?.disbursementPercent}}</th>
                       <th>{{labels?.disbursementAmount}}</th>
-                      <th>{{labels?.disbursementDate}}</th>
+                      <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                       <th *ngIf="!isLoan360">{{labels?.action}}</th>
                     </tr>
                   </thead>
@@ -2882,7 +2882,7 @@
                           name="trancheTpList[i].tranche_disbursement_amount"
                           formControlName="tranche_disbursement_amount" [readOnly]="true" />
                       </td>
-                      <td width="18%">
+                      <td width="18%" [hidden]='true'>
                         <div *ngIf="i==0">
                           <input type="text" class="form-control text-field"
                             [(ngModel)]="trancheTpList[i].trancheDisburseDate"
@@ -3208,7 +3208,7 @@
                       <th>{{labels?.disbursementType}}</th>
                       <th>{{labels?.disbursementPercent}}</th>
                       <th>{{labels?.disbursementAmount}}</th>
-                      <th>{{labels?.disbursementDate}}</th>
+                      <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                       <th *ngIf="!isLoan360">{{labels?.action}}</th>
                     </tr>
                   </thead>
@@ -3249,7 +3249,7 @@
                           name="trancheSellerList[i].tranche_disbursement_amount"
                           formControlName="tranche_disbursement_amount" [readOnly]="true" />
                       </td>
-                      <td width="18%">
+                      <td width="18%" [hidden]='true'>
                         <div *ngIf="i==0">
                           <input type="text" class="form-control text-field"
                             [(ngModel)]="trancheSellerList[i].trancheDisburseDate"
@@ -3522,7 +3522,7 @@
                       <th>{{labels?.disbursementType}}</th>
                       <th>{{labels?.disbursementPercent}}</th>
                       <th>{{labels?.disbursementAmount}}</th>
-                      <th>{{labels?.disbursementDate}}</th>
+                      <th [hidden]='true'>{{labels?.disbursementDate}}</th>
                       <th *ngIf="!isLoan360">{{labels?.action}}</th>
                     </tr>
                   </thead>
@@ -3563,7 +3563,7 @@
                           name="trancheBuyerList[i].tranche_disbursement_amount"
                           formControlName="tranche_disbursement_amount" [readOnly]="true" />
                       </td>
-                      <td width="18%">
+                      <td width="18%" [hidden]='true'>
                         <div *ngIf="i==0">
                           <input type="text" class="form-control text-field"
                             [(ngModel)]="trancheBuyerList[i].trancheDisburseDate"

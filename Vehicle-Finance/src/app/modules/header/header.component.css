@@ -299,10 +299,10 @@ outline: none;
        border: none;
        border-bottom: 1px solid #eee;
        /* position: relative; */
-       padding-left: 50%;
+       padding-left: 50%!important;
        /* background-color: #F8D9D5; */
        text-align: left;
-       /* padding: 1px;*/
+       padding: 1px!important;
        border: 1px solid #929294;
        word-break: break-all!important;
        font-size: 13px!important;
@@ -312,7 +312,7 @@ outline: none;
        content: attr(data-label);
        display: inline-block;
        line-height: 1.5;
-       margin-left: -100%;
+       /* margin-left: -100%; */
        margin-right: 12px;
        width: 80%;
        white-space: nowrap;
@@ -326,13 +326,13 @@ outline: none;
        content: attr(data-label);
        display: inline-block;
        line-height: 1.5;
-       margin-left: -2%;
-       margin-right: 5%;
+       /* margin-left: 1%; */
+       margin-right: 2%;
        width: 50%;
        white-space: nowrap;
        background-color: #1d1a4b;
        color: white;
-       padding: 10px;
+       padding: 2px!important;
         text-align: left; 
        font-size:12px;
       
