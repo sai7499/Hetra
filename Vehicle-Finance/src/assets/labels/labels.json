@@ -2109,7 +2109,7 @@
                 "rule": 40
             },
             "patternCheck": {
-                "rule": "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$",
+                "rule": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$",
                 "msg": "Invalid email"
             }
         },
@@ -2900,7 +2900,7 @@
                 "rule": 40
             },
             "patternCheck": {
-                "rule": "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$",
+                "rule": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$",
                 "msg": "Invalid email"
             }
         },
