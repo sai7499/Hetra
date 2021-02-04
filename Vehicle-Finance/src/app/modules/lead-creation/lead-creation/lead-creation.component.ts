@@ -117,7 +117,8 @@ export class LeadCreationComponent implements OnInit {
     leadHandeledBy: number;
     sourcingCodeDescription: string;
     parentLoanAccNum?: number;
-    isCommSuppressed: number
+    isCommSuppressed: number,
+    isLOSLoan?: boolean
   };
 
   applicantDetails: {
@@ -785,6 +786,7 @@ export class LeadCreationComponent implements OnInit {
         dealorCode: this.dealorCodeKey,
         // spokeCode: Number(leadModel.spokeCode),
         spokeCode: 1,
+        isLOSLoan: true,
         loanBranch: Number(this.branchId),
         leadHandeledBy: Number(this.userId),
         sourcingCodeDescription: leadModel.sourcingCode ? leadModel.sourcingCode.value : '',

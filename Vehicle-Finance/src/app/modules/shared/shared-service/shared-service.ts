@@ -131,5 +131,15 @@ export class SharedService {
         this.isdedupdeStatus$.next(data);
     }
 
+    isGetProcessVariablesFICUMPD$: BehaviorSubject<any> = new BehaviorSubject({})
+    setProcessVariableFICUMPD(data) {
+        this.isGetProcessVariablesFICUMPD$.next(data)
+    }
+
+    isGetProcessVariablesPD$: BehaviorSubject<any> = new BehaviorSubject({})
+    setProcessVariablePD(data) {
+        this.isGetProcessVariablesPD$.next(data)
+    }
+
 
 }

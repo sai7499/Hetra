@@ -10,6 +10,7 @@ import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-personal-details',
@@ -60,6 +61,12 @@ export class PersonalDetailsComponent implements OnInit {
   userDefineForm: any;
   udfGroupId: string = 'PDG001';
 
+  isGetAllResponse: any = {}
+  //     applicantPersonalDiscussionDetails: {},
+  // incomeDetails: {},
+  // referenceCheck: {},
+  // otherDetails: {}
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router, private createLeadDataService: CreateLeadDataService,
@@ -67,6 +74,7 @@ export class PersonalDetailsComponent implements OnInit {
     private _fb: FormBuilder, private pdDataService: PdDataService,
     private personaldiscussion: PersonalDiscussionService,
     private activatedRoute: ActivatedRoute,
+    private sharedService: SharedService,
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
     private utilityService: UtilityService) { }
@@ -110,7 +118,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = roleType === 1 ? udfScreenId.PD.applicantDetailPD : udfScreenId.DDE.personalPDDDE ;
+      this.udfScreenId = roleType === 1 ? udfScreenId.PD.applicantDetailPD : udfScreenId.DDE.personalPDDDE;
 
     })
   }
@@ -253,7 +261,7 @@ export class PersonalDetailsComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('PDlov',this.LOV);
+    console.log('PDlov', this.LOV);
     this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -288,6 +296,18 @@ export class PersonalDetailsComponent implements OnInit {
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
+
+        this.isGetAllResponse.applicantPersonalDiscussionDetails = value.ProcessVariables.applicantPersonalDiscussionDetails ?
+          value.ProcessVariables.applicantPersonalDiscussionDetails : {};
+        this.isGetAllResponse.incomeDetails = value.ProcessVariables.incomeDetails ?
+          value.ProcessVariables.incomeDetails : {};
+        this.isGetAllResponse.referenceCheck = value.ProcessVariables.referenceCheck ?
+          value.ProcessVariables.referenceCheck : {};
+        this.isGetAllResponse.otherDetails = value.ProcessVariables.otherDetails ?
+          value.ProcessVariables.otherDetails : {};
+
+        this.sharedService.setProcessVariablePD(this.isGetAllResponse)
+
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ?
           value.ProcessVariables.applicantPersonalDiscussionDetails : {};
 
@@ -303,10 +323,10 @@ export class PersonalDetailsComponent implements OnInit {
 
         if (this.personalPDDetais.applicantName) {
           this.setFormValue(this.personalPDDetais);
-          if(this.personalPDDetais && this.personalPDDetais.maritalStatus){
+          if (this.personalPDDetais && this.personalPDDetais.maritalStatus) {
             this.onValidateWeddingDate(this.personalPDDetais.maritalStatus)
           }
-          
+
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
         } else if (!this.personalPDDetais.applicantName) {
 
@@ -421,23 +441,23 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onValidateWeddingDate(event) {
-    if (event=== '2MRGSTS') {
+    if (event === '2MRGSTS') {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate');
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
     } else {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate')
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl({ value: '', disabled: true }));
     }
-    if(event === '1MRGSTS'){
+    if (event === '1MRGSTS') {
       this.personalDetailsForm.get('noOfChildrenDependant').clearValidators();
-      this.personalDetailsForm.get('noOfChildrenDependant').updateValueAndValidity();  
-      const depValue = this.personalDetailsForm.get('noOfChildrenDependant').value; 
+      this.personalDetailsForm.get('noOfChildrenDependant').updateValueAndValidity();
+      const depValue = this.personalDetailsForm.get('noOfChildrenDependant').value;
       this.personalDetailsForm.get('noOfChildrenDependant').setValue(depValue || null);
 
-    }else{
+    } else {
       this.personalDetailsForm.get('noOfChildrenDependant').setValidators(Validators.required);
       this.personalDetailsForm.get('noOfChildrenDependant').updateValueAndValidity();
-      
+
     }
 
   }
@@ -488,30 +508,48 @@ export class PersonalDetailsComponent implements OnInit {
       return;
     }
 
+    this.isGetAllResponse.applicantPersonalDiscussionDetails = formValue;
+
     formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
 
     let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
-  
+
     if (this.personalDetailsForm.valid && isUdfField) {
 
-      let data = {
-        leadId: this.leadId,
-        applicantId: this.applicantId,
-        userId: this.userId,
-        applicantPersonalDiscussionDetails: formValue,
-        udfDetails: [
-          {
-            "udfGroupId": this.udfGroupId,
-            // "udfScreenId": this.udfScreenId,
-            "udfData": JSON.stringify(
-              this.userDefineForm && this.userDefineForm.udfData ?
-                this.userDefineForm.udfData.getRawValue() : {}
-            )
-          }
-        ]
-      };
+      // let data = {
+      //   leadId: this.leadId,
+      //   applicantId: this.applicantId,
+      //   userId: this.userId,
+      //   applicantPersonalDiscussionDetails: formValue,
+      //   udfDetails: [
+      //     {
+      //       "udfGroupId": this.udfGroupId,
+      //       // "udfScreenId": this.udfScreenId,
+      //       "udfData": JSON.stringify(
+      //         this.userDefineForm && this.userDefineForm.udfData ?
+      //           this.userDefineForm.udfData.getRawValue() : {}
+      //       )
+      //     }
+      //   ]
+      // };
 
-      this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
+      this.isGetAllResponse.leadId = this.leadId;
+      this.isGetAllResponse.applicantId = this.applicantId;
+      this.isGetAllResponse.userId = this.userId;
+      this.isGetAllResponse.udfDetails = [
+        {
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(
+            this.userDefineForm && this.userDefineForm.udfData ?
+              this.userDefineForm.udfData.getRawValue() : {}
+          )
+        }
+      ]
+
+      console.log(this.isGetAllResponse, 'Before')
+
+      this.personaldiscussion.saveOrUpdatePdData(this.isGetAllResponse).subscribe((value: any) => {
 
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
