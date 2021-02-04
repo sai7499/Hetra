@@ -424,8 +424,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <div class="invalid-feedback" *ngIf="submitted && pslDataForm.get('agriculture').controls.weakerSection.touched && pslDataForm.get('agriculture').controls.weakerSection.invalid
-                    && pslDataForm.get('agriculture').controls.weakerSection.hasError('required')">
+                    <div class="invalid-feedback" *ngIf="submitted && pslDataForm.get('agriculture').controls.weakerSection.invalid">
                         Weaker Section is required
                     </div>
                 </div>
