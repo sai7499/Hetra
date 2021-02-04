@@ -1681,7 +1681,7 @@ export class ValuationComponent implements OnInit {
     
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
     if (this.vehicleValuationForm.invalid || isUDFInvalid) {
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('Please enter required details', '');
       console.log('valuation form', this.vehicleValuationForm);
       return;
     }
@@ -1740,7 +1740,7 @@ export class ValuationComponent implements OnInit {
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
     if (this.vehicleValuationForm.invalid || isUDFInvalid) {
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('Please enter required details', '');
       return;
     }
     if (!isUDFCheck) {

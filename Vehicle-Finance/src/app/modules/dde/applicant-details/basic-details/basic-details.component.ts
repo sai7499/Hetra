@@ -121,6 +121,7 @@ export class BasicDetailsComponent implements OnInit {
   initUDFValues: any;
   editedUDFValues: any;
   relationShipLov: any[];
+  isAppNonInd: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -284,15 +285,18 @@ export class BasicDetailsComponent implements OnInit {
     if(!this.isIndividual){
       return;
     }
-    this.relationShipLov = this.LOV.LOVS.relationship;
-    if(value==='APPAPPRELLEAD'){
-      this.relationShipLov=  this.relationShipLov.filter((data)=>data.key === '5RELATION')  
-      this.basicForm.get('applicantRelationship').setValue(this.relationShipLov[0].key) 
-     }else{
-       this.relationShipLov=  this.relationShipLov.filter((data)=>data.key !== '5RELATION') 
-       this.basicForm.get('applicantRelationship').setValue('')  
-     }
-
+    if(!this.isAppNonInd){
+      this.relationShipLov = this.LOV.LOVS.relationship;
+      if(value==='APPAPPRELLEAD'){
+        this.relationShipLov=  this.relationShipLov.filter((data)=>data.key === '5RELATION')  
+        this.basicForm.get('applicantRelationship').setValue(this.relationShipLov[0].key) 
+       }else{
+         this.relationShipLov=  this.relationShipLov.filter((data)=>data.key !== '5RELATION') 
+         this.basicForm.get('applicantRelationship').setValue('')  
+       }
+  
+    }
+    
   }
 
   calculateIncome(value) {
@@ -527,8 +531,21 @@ export class BasicDetailsComponent implements OnInit {
       applicantRelationshipWithLead:
         this.applicant.applicantDetails.applicantTypeKey || '',
       title: this.applicant.applicantDetails.title || '',
-      applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
+      // applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
     });
+    
+    const relationshipVal = this.applicant.aboutIndivProspectDetails.relationWithApplicant;
+    const relValue = this.relationShipLov.find((data : any)=>{
+      return data.key ===  relationshipVal;
+    })
+    const appRelationship = this.basicForm.get('applicantRelationship')
+    if(this.applicant.aboutIndivProspectDetails.relationWithApplicant){
+      appRelationship.setValue(relValue ? relationshipVal : '')
+    }else{
+      if(!this.isAppNonInd && applicantType === 'APPAPPRELLEAD'){
+        appRelationship.setValue(this.relationShipLov[0].key)
+      }
+    }
     const applicantDetails = this.applicant.applicantDetails;
 
     this.custCatValue = applicantDetails.custSegment;
@@ -1075,8 +1092,13 @@ export class BasicDetailsComponent implements OnInit {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
       console.log('this.LOV.LOVS', this.LOV.LOVS)
-      this.relationShipLov = this.LOV.LOVS.relationship;
       this.ownerPropertyRelation = this.LOV.LOVS.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
+      this.getIdentifyAppNonInd();
+      if(this.isAppNonInd){
+        this.relationShipLov = this.LOV.LOVS['concernType-SelfEmployed'];
+      }else{
+        this.relationShipLov = this.LOV.LOVS['relationship'];
+      }
       const businessTypevalue = this.LOV.LOVS.businessType
       businessTypevalue.find((data) => {
         if (data.key == "13BIZTYP" || data.key == "14BIZTYP" || data.key == "15BIZTYP" || data.key == "7BIZTYP") {
@@ -1103,6 +1125,11 @@ export class BasicDetailsComponent implements OnInit {
 
     });
 
+  }
+  getIdentifyAppNonInd(){
+    this.isAppNonInd= this.applicantData.some((data : any)=>{
+      return data.applicantTypeKey == 'APPAPPRELLEAD' && data.entityTypeKey == 'NONINDIVENTTYP'     
+   })
   }
 
   disableEKYDetails() {

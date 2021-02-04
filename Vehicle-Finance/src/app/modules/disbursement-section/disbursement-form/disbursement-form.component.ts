@@ -311,6 +311,8 @@ export class DisbursementFormComponent implements OnInit {
   vehicleProductCatCode: boolean=false;
   fetchedDealerCode: string;
   flagDealor: boolean;
+  isIBTApplicable: boolean;
+  fetchDisburedFlag: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -692,9 +694,10 @@ export class DisbursementFormComponent implements OnInit {
     let i = this.coApplicant3['disbursementAmount'] ? parseInt(this.coApplicant3['disbursementAmount']) : 0;
     let j = this.sellerObjInfo['disbursementAmount'] ? parseInt(this.sellerObjInfo['disbursementAmount']) : 0;
     let k = this.buyerObjInfo['disbursementAmount'] ? parseInt(this.buyerObjInfo['disbursementAmount']) : 0;
+    let l = this.internalBTObjInfo['principleOutstanding'] ? parseInt(this.internalBTObjInfo['principleOutstanding']) : 0;
 
 
-    let cumulativeDisAmnt = a + b + d + e + f + g + h + i + j + k;
+    let cumulativeDisAmnt = a + b + d + e + f + g + h + i + j + k + l;
     //console.log(cumulativeDisAmnt)   
     if (!this.dealerObjInfo['disbursementAmount'] && container == '1' && this.dealerObjInfo['trancheDisbursementFlag']) {
       this.dealerObjInfo['trancheDisbursementFlag'] = false;
@@ -947,7 +950,7 @@ export class DisbursementFormComponent implements OnInit {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
         this.flagDealor= false;
         if(this.dealerCodeData && flag){ // dealerCodeData must to fetch Data
-          if(this.fetchedDealerCode){
+          if(this.fetchedDealerCode && !this.dealerCode){
             this.dealerCode  = this.dealerCodeData.find(({ dealorCode }) => dealorCode == this.fetchedDealerCode).dealorName;  
             if(selectDealerEventFlag){ // while feching this not required to call
               this.selectDealerEvent(this.fetchedDealerCode,false);
@@ -1486,6 +1489,14 @@ export class DisbursementFormComponent implements OnInit {
           this.totalDisbursementAmount = this.loanDetailsData['approvedAmount'] ? parseInt(this.loanDetailsData['approvedAmount']) : 0;
           this.fetchedDealerCode=response.ProcessVariables.dealerCode;
           //this.fetchedDealerCode='DSA00448';         
+          this.isIBTApplicable=response.ProcessVariables.isIBTApplicable;
+          if(this.isIBTApplicable){
+            this.internalBTObjInfo=response.ProcessVariables.InternalBT;
+           // this.internalBTObjInfo={'loanAccountNumber':'232323232323','principleOutstanding':'1000'};
+            if(!this.fetchDisburedFlag){
+              this.disburseTo =['7DISBURSETO'];
+            }
+          }
         }
         //comment  the below two lines ce testing  is done
         //this.loanDetailsData= (response.ProcessVariables.LoanDetails) ? response.ProcessVariables.LoanDetails : {};
@@ -2323,6 +2334,12 @@ export class DisbursementFormComponent implements OnInit {
     this.disburseToFinancier = false;
     this.disburseToThirdParty = false;
     this.disburseToIBT = false;
+    // if(!this.isIBTApplicable){
+    //   this.disburseToIBT = true;
+    //   console.log(this.disburseToLov)
+    // }else{
+    //   this.disburseToIBT = false;
+    // }
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.disburseToLov.length; i++) {
       // tslint:disable-next-line: prefer-for-of
@@ -2393,8 +2410,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.dealerformArray.forEach(key => {
         this.dealerDetailsForm.get(key).setValidators([Validators.required]);
-        this.dealerDetailsForm.get(key).updateValueAndValidity();
+        //this.dealerDetailsForm.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'dealer');
       //this.dealerDetailsForm.get('dealerCode').setValidators([Validators.required]);
     }
     if (!this.disburseToApp) {
@@ -2413,8 +2431,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.appDetailsForm.get(key).setValidators([Validators.required]);
-        this.appDetailsForm.get(key).updateValueAndValidity();
+        //this.appDetailsForm.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'applicant');
     }
     if (!this.disburseToSeller) {
       this.sellerDetailsForm.reset();
@@ -2431,8 +2450,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.sellerDetailsForm.get(key).setValidators([Validators.required]);
-        this.sellerDetailsForm.get(key).updateValueAndValidity();
+        //this.sellerDetailsForm.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'seller');
     }
 
     if (!this.disburseToBuyer) {
@@ -2450,8 +2470,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.buyerDetailsForm.get(key).setValidators([Validators.required]);
-        this.buyerDetailsForm.get(key).updateValueAndValidity();
+        //this.buyerDetailsForm.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'buyer');
     }
 
     if (!this.disburseToCoApp) {
@@ -2475,8 +2496,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.bankerformArray.forEach(key => {
         this.bankerDetailsForm.get(key).setValidators([Validators.required]);
-        this.bankerDetailsForm.get(key).updateValueAndValidity();
+        //this.bankerDetailsForm.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'banker');
     }
     if (!this.disburseToFinancier) {
       this.financierDetailsForm.reset();
@@ -2493,8 +2515,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.finformArray.forEach(key => {
         this.financierDetailsForm.get(key).setValidators([Validators.required]);
-        this.financierDetailsForm.get(key).updateValueAndValidity();
+        //this.financierDetailsForm.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'financier');
     }
     if (!this.disburseToThirdParty) {
       this.thirdPartyDetailsForm.reset();
@@ -2510,23 +2533,17 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.thirdPartyDetailsForm.get(key).setValidators([Validators.required]);
-        this.thirdPartyDetailsForm.get(key).updateValueAndValidity();
+        //this.thirdPartyDetailsForm.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'thirdParty');
     }
-    if (!this.disburseToIBT) {
-      this.ibtDetailsForm.reset();
-      this.ibtDetailsForm.controls['ibtFavoringName'].clearValidators();
-      this.ibtDetailsForm.controls['ibtLoanAccNumber'].clearValidators();
-      this.ibtDetailsForm.controls['ibtFavoringName'].setErrors(null);
-      this.ibtDetailsForm.controls['ibtLoanAccNumber'].setErrors(null);
-      // this.dealerformArray.forEach(key => {
-      //   this.ibtDetailsForm.get(key).setErrors(null) ;
-      // });
-    }
-    // this.disburseToArray.forEach(element => {
-    //   if(element==)
-
-    // });
+    // if (!this.disburseToIBT) {
+    //   this.ibtDetailsForm.reset();
+    //   this.ibtDetailsForm.controls['ibtFavoringName'].clearValidators();
+    //   this.ibtDetailsForm.controls['loanAccountNumber'].clearValidators();
+    //   this.ibtDetailsForm.controls['ibtFavoringName'].setErrors(null);
+    //   this.ibtDetailsForm.controls['loanAccountNumber'].setErrors(null);     
+    // }
   }
   // this.qualityCriteriaForm.controls.avgAMBval.reset();
 
@@ -2590,8 +2607,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.coApp1Form.get(key).setValidators([Validators.required]);
-        this.coApp1Form.get(key).updateValueAndValidity();
+        //this.coApp1Form.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'coApp1');
     }
     if (!this.coApp2) {
       this.coApp2Form.reset();
@@ -2609,8 +2627,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.coApp2Form.get(key).setValidators([Validators.required]);
-        this.coApp2Form.get(key).updateValueAndValidity();
+        //this.coApp2Form.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'coApp2');
     }
     if (!this.coApp3) {
       this.coApp3Form.reset();
@@ -2627,8 +2646,9 @@ export class DisbursementFormComponent implements OnInit {
     } else {
       this.commonFormArray.forEach(key => {
         this.coApp3Form.get(key).setValidators([Validators.required]);
-        this.coApp3Form.get(key).updateValueAndValidity();
+        //this.coApp3Form.get(key).updateValueAndValidity();
       });
+      this.setIntType(null,'coApp3');
     }
    if(this.coApp1){
       if(!this.fetchedCoApp1Data)
@@ -2841,7 +2861,7 @@ export class DisbursementFormComponent implements OnInit {
     this.bankerObjInfo['deductChargesFlag'] = false;
     this.financierObjInfo['deductChargesFlag'] = false;
     this.thirdPartyObjInfo['deductChargesFlag'] = false;
-    this.internalBTObjInfo['deductChargesFlag'] = false
+    //this.internalBTObjInfo['deductChargesFlag'] = false
 
 
     if (val == 1 && flag) {
@@ -2854,8 +2874,6 @@ export class DisbursementFormComponent implements OnInit {
       this.financierObjInfo['deductChargesFlag'] = true;
     } else if (val == 6 && flag) {
       this.thirdPartyObjInfo['deductChargesFlag'] = true;
-    } else if (val == 7 && flag) {
-      this.internalBTObjInfo['deductChargesFlag'] = true
     } else if (val == 8 && flag) {
       this.coApplicant1['deductChargesFlag'] = true;
     } else if (val == 9 && flag) {
@@ -2867,6 +2885,9 @@ export class DisbursementFormComponent implements OnInit {
     } else if (val == 12 && flag) {
       this.buyerObjInfo['deductChargesFlag'] = true;
     }
+    // else if (val == 7 && flag) {
+    //   this.internalBTObjInfo['deductChargesFlag'] = true
+    // }
   }
   initForm() {
     //console.log(this.disburseToDealer)
@@ -3101,9 +3122,11 @@ export class DisbursementFormComponent implements OnInit {
       trancheDisbursementFlag: new FormControl(''),
     })
     this.ibtDetailsForm = this.fb.group({
-      ibtFavoringName: new FormControl({ value: this.internalBTObjInfo['ibtFavoringName'] }, Validators.required),
-      ibtLoanAccNumber: new FormControl({ value: this.internalBTObjInfo['ibtLoanAccNumber'] }, Validators.required),
-      deductChargesFlag: new FormControl(''),
+      //ibtFavoringName: new FormControl({ value: this.internalBTObjInfo['ibtFavoringName'],disabled:true}, Validators.required),
+      ibtFavoringName: new FormControl({ value:'Equitas Small Finance Bank',disabled:true}),
+      loanAccountNumber: new FormControl({ value: this.internalBTObjInfo['loanAccountNumber'],disabled:true }),
+      principleOutstanding:new FormControl({ value: this.internalBTObjInfo['principleOutstanding'],disabled:true }),
+     // deductChargesFlag: new FormControl(''),
 
     })
     this.disbursementDetailsForm = this.fb.group({
@@ -3514,8 +3537,8 @@ export class DisbursementFormComponent implements OnInit {
     if (this.disburseTo.length != 0) {
       if (this.dealerObjInfo['deductChargesFlag'] || this.applicantObjInfo['deductChargesFlag'] || this.coApplicant1['deductChargesFlag'] ||
         this.coApplicant2['deductChargesFlag'] || this.coApplicant3['deductChargesFlag'] || this.bankerObjInfo['deductChargesFlag']
-        || this.financierObjInfo['deductChargesFlag'] || this.thirdPartyObjInfo['deductChargesFlag'] || this.internalBTObjInfo['deductChargesFlag']
-        || this.sellerObjInfo['deductChargesFlag'] || this.buyerObjInfo['deductChargesFlag']) {// deduct charges related
+        || this.financierObjInfo['deductChargesFlag'] || this.thirdPartyObjInfo['deductChargesFlag'] 
+        || this.sellerObjInfo['deductChargesFlag'] || this.buyerObjInfo['deductChargesFlag']) {// deduct charges related //|| this.internalBTObjInfo['deductChargesFlag']
         if (this.dealerDetailsForm.valid === true && this.appDetailsForm.valid === true && this.sellerDetailsForm.valid && this.buyerDetailsForm.valid &&
           this.coApp1Form.valid === true && this.coApp2Form.valid === true && this.coApp3Form.valid === true &&
           this.bankerDetailsForm.valid === true && this.financierDetailsForm.valid === true && this.thirdPartyDetailsForm.valid === true) { // all containers check
@@ -3612,10 +3635,11 @@ export class DisbursementFormComponent implements OnInit {
           let i = this.coApplicant3['disbursementAmount'] ? parseInt(this.coApplicant3['disbursementAmount']) : 0;
           let j = this.sellerObjInfo['disbursementAmount'] ? parseInt(this.sellerObjInfo['disbursementAmount']) : 0;
           let k = this.buyerObjInfo['disbursementAmount'] ? parseInt(this.buyerObjInfo['disbursementAmount']) : 0;
+          let l = this.internalBTObjInfo['principleOutstanding'] ? parseInt(this.internalBTObjInfo['principleOutstanding']) : 0;
 
           
-          this.cumulativeAmount = a + b + d + e + f + g + h + i + j + k;
-          if (this.totalDisbursementAmount > this.cumulativeAmount ) {
+          this.cumulativeAmount = a + b + d + e + f + g + h + i + j + k + l;
+          if (this.totalDisbursementAmount != this.cumulativeAmount ) { 
             this.toasterService.showError('Total Disbursement Amount should be equal to Approved Loan Amount', '');
             return;
           }
@@ -3661,7 +3685,12 @@ export class DisbursementFormComponent implements OnInit {
         this.disbursementDetailsData = response.ProcessVariables;
         this.leadID = this.disbursementDetailsData.LeadID;
         if (this.disbursementDetailsData.payableTo) {
-          this.disburseTo = this.disbursementDetailsData.payableTo.split(',');
+          let payableTo=this.disbursementDetailsData.payableTo;
+          if(this.isIBTApplicable){
+            this.fetchDisburedFlag = true;
+            payableTo = payableTo + ',7DISBURSETO'
+          }
+          this.disburseTo = payableTo.split(',');
         }
         if (this.disburseTo) {
           this.flag = (this.disbursementDetailsData.ApplicantDetails) ? false : true;
