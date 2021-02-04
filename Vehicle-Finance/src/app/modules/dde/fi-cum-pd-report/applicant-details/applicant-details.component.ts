@@ -66,8 +66,6 @@ export class ApplicantDetailComponent implements OnInit {
   entityType: any;
   isNonInd: boolean;
 
-  isSendAllResponse: any ={};
-
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
@@ -362,8 +360,6 @@ export class ApplicantDetailComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       if (value.Error === '0' && processVariables.error.code === '0') {
 
-        this.isSendAllResponse = value.ProcessVariables;
-
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
 
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
@@ -397,8 +393,6 @@ export class ApplicantDetailComponent implements OnInit {
       return;
     }
     
-    console.log(this.isSendAllResponse)
-
     const formModal = this.applicantForm.getRawValue();
     const applicantFormModal = { ...formModal };
 
