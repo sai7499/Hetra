@@ -801,7 +801,6 @@ export class LeadCreationComponent implements OnInit {
         dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),
       };
 
-      console.log(this.applicantDetails, 'inputString', this.loanLeadDetails)
       this.createLeadService
         .createLead(this.loanLeadDetails, this.applicantDetails, false)
         .subscribe(

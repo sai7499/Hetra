@@ -212,7 +212,7 @@ export class CamComponent implements OnInit {
 
     if (this.isChildLoan) {
 
-      if (this.productCategoryCode == "UCV" || this.productCategoryCode == "NCV" || this.productCategoryCode === 'UTCR') {
+      if (this.productCategoryCode !== "UC") {
         const body = {
           "leadId": this.leadId,
           "generateCam": this.generateCam
@@ -291,7 +291,6 @@ export class CamComponent implements OnInit {
           commentsOnBankingIfAny: new FormControl(),
           commentsOnRtr: new FormControl(),
         })
-
       }
 
     } else {
@@ -319,6 +318,59 @@ export class CamComponent implements OnInit {
 
             }
           }
+        })
+        this.camDetailsForm = this.formBuilder.group({
+          proposedVehicleRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          cibilSynopsisRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          trackValidationRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          fleetRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          concernsAndRisks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          strengthAndMitigates: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          keyFinancialRemarks: new FormControl(null, [
+            // Validators.required,
+            Validators.maxLength(5000),
+            Validators.pattern(
+              /^[a-zA-Z0-9 ]*$/
+            ),
+          ]),
+          commentsOnBankingIfAny: new FormControl(),
+          commentsOnRtr: new FormControl(),
         })
       }
       if (this.productCategoryCode == "NCV") {
@@ -349,63 +401,7 @@ export class CamComponent implements OnInit {
 
           }
         })
-      }
-      if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR') {
 
-        this.camDetailsForm = this.formBuilder.group({
-          proposedVehicleRemarks: new FormControl(null, [
-            // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
-          ]),
-          cibilSynopsisRemarks: new FormControl(null, [
-            // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
-          ]),
-          trackValidationRemarks: new FormControl(null, [
-            // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
-          ]),
-          fleetRemarks: new FormControl(null, [
-            // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
-          ]),
-          concernsAndRisks: new FormControl(null, [
-            // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
-          ]),
-          strengthAndMitigates: new FormControl(null, [
-            // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
-          ]),
-          keyFinancialRemarks: new FormControl(null, [
-            // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
-          ]),
-          commentsOnBankingIfAny: new FormControl(),
-          commentsOnRtr: new FormControl(),
-        })
-      } else if (this.productCategoryCode == "NCV") {
         this.camDetailsForm = this.formBuilder.group({
           proposedVehicleRemarks: new FormControl(null, [
             // Validators.required,
@@ -503,9 +499,10 @@ export class CamComponent implements OnInit {
     }
 
     this.isViewDde = this.toggleDdeService.getOperationType();
+
     if (this.isViewDde) {
       this.disableSaveBtn = true;
-      this.showCamDetails();
+      // this.showCamDetails();
     }
 
     if (this.loanViewService.checkIsLoan360()) {
@@ -519,11 +516,8 @@ export class CamComponent implements OnInit {
       this.showSave = false;
 
       this.udfScreenId = this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR' ? this.jsonScreenId.creditDecision.camUCVCreditDecision :
-        this.productCategoryCode == "NCV" ? this.jsonScreenId.creditDecision.camNCVCreditDecision : this.jsonScreenId.creditDecision.camUCCreditDecision;
-
-      if (this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR' || this.productCategoryCode == "NCV" || this.productCategoryCode == "UC") {
-        this.camDetailsForm.disable();
-      }
+      this.productCategoryCode == "NCV" ? this.jsonScreenId.creditDecision.camNCVCreditDecision : this.jsonScreenId.creditDecision.camUCCreditDecision;
+      this.camDetailsForm.disable();
     } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
       this.showSendBackToSales = true

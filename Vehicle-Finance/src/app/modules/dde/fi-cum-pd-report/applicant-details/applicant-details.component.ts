@@ -358,7 +358,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
+      if (value.Error === '0' && processVariables.error.code === '0') {
 
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
 
@@ -392,6 +392,7 @@ export class ApplicantDetailComponent implements OnInit {
       this.onNavigateNext();
       return;
     }
+    
     const formModal = this.applicantForm.getRawValue();
     const applicantFormModal = { ...formModal };
 
