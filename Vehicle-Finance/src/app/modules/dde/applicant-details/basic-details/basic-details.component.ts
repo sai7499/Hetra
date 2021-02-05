@@ -122,6 +122,7 @@ export class BasicDetailsComponent implements OnInit {
   editedUDFValues: any;
   relationShipLov: any[];
   isAppNonInd: boolean;
+  islastNameReq: boolean = true;
 
   constructor(
     private labelsData: LabelsService,
@@ -761,6 +762,11 @@ export class BasicDetailsComponent implements OnInit {
     });
     //this.clearFatherOrSpouseValidation();
     //this.eitherFathOrspouse();
+    if(this.applicant.ucic){
+      details.get('name3').clearValidators();
+      details.get('name3').updateValueAndValidity();
+      this.islastNameReq = false
+     }
   }
 
   setValuesForNonIndividual() {

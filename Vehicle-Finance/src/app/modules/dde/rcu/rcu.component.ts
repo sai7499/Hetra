@@ -95,6 +95,7 @@ export class RcuComponent implements OnInit {
   rcuVersions: any;
   selectedRCUVersion: any;
   isReInitiate = true;
+  tabName : any ={}
 
   constructor(
     private labelsData: LabelsService,
@@ -130,12 +131,7 @@ export class RcuComponent implements OnInit {
   ngOnInit() {
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-    const fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
-    if (fiCumPdStatusString == 'false') {
-      this.fiCumPdStatus = false
-    } else if (fiCumPdStatusString == 'true') {
-      this.fiCumPdStatus = true
-    }
+    this.tabName = this.sharedService.getTabName();
     this.getLabels();
     this.getLeadId();
     this.getLov();
@@ -1075,11 +1071,16 @@ export class RcuComponent implements OnInit {
   }
 
   onNext() {
-    if (this.fiCumPdStatus == false) {
+    if (this.tabName['isFI']) {
       this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-    } else if (this.fiCumPdStatus == true) {
+    } else if (this.tabName['isPD']) {
       this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-
+    }else if (this.tabName['isFiCumPD']) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    }else if (this.tabName['isVV']) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+    }else {
+      this.router.navigate(['pages/dde/' + this.leadId + '/cibil-od']);
     }
   }
 

@@ -753,17 +753,17 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const bas64String = this.base64StorageService.getString(
       this.applicantId + documentId
     );
-    if (bas64String) {
-      this.setContainerPosition(el);
-      this.showDraggableContainer = {
-        ...bas64String
-      };
-      this.draggableContainerService.setContainerValue({
-        image: this.showDraggableContainer,
-        css: this.setCss,
-      });
-      return;
-    }
+    // if (bas64String) {
+    //   this.setContainerPosition(el);
+    //   this.showDraggableContainer = {
+    //     ...bas64String
+    //   };
+    //   this.draggableContainerService.setContainerValue({
+    //     image: this.showDraggableContainer,
+    //     css: this.setCss,
+    //   });
+    //   return;
+    // }
     const imageValue: any = await this.getBase64String(documentId);
     if (imageValue.imageType.includes('xls')) {
       console.log('xls', imageValue.imageUrl);

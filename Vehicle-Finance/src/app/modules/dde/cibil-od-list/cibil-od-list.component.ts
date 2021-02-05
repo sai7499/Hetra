@@ -19,6 +19,8 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { LoanViewService } from '@services/loan-view.service';
+import html2pdf from 'html2pdf.js';
+
 
 @Component({
   selector: 'app-cibil-od-list',
@@ -678,6 +680,8 @@ export class CibilOdListComponent implements OnInit {
           this.imageUrl = atob(this.imageUrl); // decoding base64 string to get xml file
           this.imageUrl = this.domSanitizer.bypassSecurityTrustHtml(this.imageUrl); // sanitizing xml doc for rendering with proper css
           this.cibilImage = this.imageUrl;
+          console.log(this.cibilImage);
+          
           setTimeout(() => {
             this.dragElement(document.getElementById('mydiv'));
           });
@@ -765,5 +769,17 @@ export class CibilOdListComponent implements OnInit {
         this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
     })
+  }
+  downloadPdf() {
+    var options = {
+      margin: [0, 1, 0, 0.5],
+      filename: `Cibil_OD_${this.leadId}.pdf`,
+      image: { type: 'jpeg', quality: 0.5 },
+      html2canvas:{scale:3, logging: true},
+      // pagebreak: { before:["#tearms_sheet_header2","#terms_sheet_headline12"] },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'l' }
+    }
+    html2pdf().from(document.getElementById("cibilPdf")).set(options).save();
+
   }
 }

@@ -125,6 +125,7 @@ export class PdListComponent implements OnInit {
   fileName: string;
   isFiCumPdModal: boolean;
   udfScreenId: any;
+  tabName: any;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
@@ -149,6 +150,8 @@ export class PdListComponent implements OnInit {
       this.fiCumPdStatus = true
       this.fileName = 'FIcumPD';
     }
+
+    this.tabName = this.sharedService.getTabName();
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -354,20 +357,34 @@ export class PdListComponent implements OnInit {
   }
 
   onNavigateBack() {
-    if (this.fiCumPdStatus == false) {
+    if (this.tabName['isFI']) {
       this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-
-    } else if (this.productCatCode == 'UC' && this.fiCumPdStatus == true) {
+    }else if (this.productCatCode == 'UC') {
       this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+    }else {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
+    }
+    //this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+  }
+  //   if (this.fiCumPdStatus == false) {
+  //     this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
 
-    } else if (this.productCatCode != 'UC' && this.fiCumPdStatus == true) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+  //   } else if (this.productCatCode == 'UC' && this.fiCumPdStatus == true) {
+  //     this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+
+  //   } else if (this.productCatCode != 'UC' && this.fiCumPdStatus == true) {
+  //     this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+  //   }
+
+  // }
+  onNavigateNext() {
+    if (this.tabName['isVV']) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+    }else {
+      this.router.navigate(['pages/dde/' + this.leadId + '/cibil-od']);
     }
 
-  }
-  onNavigateNext() {
-
-    this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+    //this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
 
   }
 
