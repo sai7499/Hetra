@@ -430,8 +430,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             this.setFormValue();
           }
         } else {
-
-          if (this.leadDetails && (this.leadDetails.typeOfLoan === '2LOANTYP' || this.leadDetails.typeOfLoan === '3LOANTYP') && this.productCatoryCode !== 'NCV') {
+          if (this.leadDetails && (this.leadDetails.typeOfLoan === '2LOANTYP' || this.leadDetails.typeOfLoan === '3LOANTYP' || this.isChildLoan) && this.productCatoryCode !== 'NCV') {
             let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
             this.applicantDetails.filter((applicant: any) => {
@@ -1403,10 +1402,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   getRegistrationNumber(val: any, form) {
 
-    if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
-
+    if (form.controls['vehicleRegNo'].valid) {
       if (this.vehicleRegNoChange !== val) {
-
         this.basicVehicleForm.patchValue({
           isCheckDedpue: false
         })
@@ -1414,6 +1411,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       } else {
         this.isVehicleRegNoChange = false;
       }
+    } else {
+      this.isVehicleRegNoChange = false;
     }
   }
 

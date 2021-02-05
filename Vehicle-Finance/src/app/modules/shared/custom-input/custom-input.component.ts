@@ -301,8 +301,10 @@ export class CustomInputComponent
   }
 
   displayError(msg: string) {
-    this.errorMsg = msg;
-    this.inputError = true;
+    if (!msg) {
+      this.errorMsg = msg;
+      this.inputError = true;
+    }
   }
 
   setDisabledState(disabled: boolean) {
