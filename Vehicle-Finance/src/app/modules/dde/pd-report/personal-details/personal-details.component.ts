@@ -60,12 +60,6 @@ export class PersonalDetailsComponent implements OnInit {
   userDefineForm: any;
   udfGroupId: string = 'PDG001';
 
-  isGetAllResponse: any = {}
-  //     applicantPersonalDiscussionDetails: {},
-  // incomeDetails: {},
-  // referenceCheck: {},
-  // otherDetails: {}
-
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router, private createLeadDataService: CreateLeadDataService,
