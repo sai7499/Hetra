@@ -33,6 +33,7 @@ export class DdeComponent implements OnInit, OnChanges {
   productId: any;
   ShowChildValuationScreen: boolean;
   showValuationScreen: boolean;
+  tabName: any;
 
   constructor(
     public router: Router,
@@ -62,15 +63,15 @@ export class DdeComponent implements OnInit, OnChanges {
 
   async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-    this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
-    if (this.fiCumPdStatusString == 'false') {
-      this.fiCumPdStatus = false;
-    } else if (this.fiCumPdStatusString == 'true') {
-      this.fiCumPdStatus = true;
-    }
+    // this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
+    // if (this.fiCumPdStatusString == 'false') {
+    //   this.fiCumPdStatus = false;
+    // } else if (this.fiCumPdStatusString == 'true') {
+    //   this.fiCumPdStatus = true;
+    // }
 
-    console.log('ficumpd status', this.fiCumPdStatus);
-
+    // console.log('ficumpd status', this.fiCumPdStatus);
+    this.tabName = this.sharedService.getTabName();
     if (this.leadId) {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {

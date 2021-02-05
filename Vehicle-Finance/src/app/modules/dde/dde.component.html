@@ -71,24 +71,25 @@
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="fi-report"
               [routerLink]="['./fi-list']" [ngClass]="{ 'js-active': locationIndex >= 12 }"
-              *ngIf="fiCumPdStatus == false">
+              *ngIf="tabName?.isFI">
               FI Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
               [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 13 }"
-              *ngIf="fiCumPdStatus == false">
+              *ngIf="tabName?.isPD">
               PD Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
               [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 13 }"
-              *ngIf="fiCumPdStatus == true">
+              *ngIf="tabName?.isFiCumPD">
               FI Cum PD Report
             </button>
 
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
-              [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 14 }">
+              [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 14 }"
+              *ngIf="tabName?.isVV">
               Viability
             </button>
             <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
@@ -218,22 +219,23 @@
         </button>
 
         <button class="multisteps-form__progress-btn second-row" type="button" id="fi-report"
-          [routerLink]="['./fi-list']" [ngClass]="{ 'js-active': locationIndex >= 12 }" *ngIf="fiCumPdStatus == false">
+          [routerLink]="['./fi-list']" [ngClass]="{ 'js-active': locationIndex >= 12 }" *ngIf="tabName?.isFI">
           FI Report
         </button>
 
         <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
-          [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 13 }" *ngIf="fiCumPdStatus == false">
+          [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 13 }" *ngIf="tabName?.isPD">
           PD Report
         </button>
 
         <button class="multisteps-form__progress-btn second-row" type="button" id="pd-report"
-          [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 13 }" *ngIf="fiCumPdStatus == true">
+          [routerLink]="['./pd-list']" [ngClass]="{ 'js-active': locationIndex >= 13 }" *ngIf="tabName?.isFiCumPD">
           FI Cum PD Report
         </button>
 
         <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"
-          [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 14 }">
+          [routerLink]="['./viability-list']" [ngClass]="{ 'js-active': locationIndex >= 14 }"
+          *ngIf="tabName?.isVV">
           Viability
         </button>
         <button class="multisteps-form__progress-btn second-row" type="button" id="credit_vehicle_viability"

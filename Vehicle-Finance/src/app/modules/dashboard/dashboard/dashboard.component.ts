@@ -233,6 +233,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   declinedFlow = false;
   isBM = false;
   externalUserData: any;
+  tabName: any = {
+   isFiCumPD : false,
+   isFI : false,
+   isPD : false,
+   isVV : false,
+  };
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -342,6 +348,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     localStorage.removeItem('salesResponse');
     localStorage.removeItem('isFiCumPd');
     localStorage.setItem('isPreDisbursement', 'false');
+    
+    this.sharedService.setTabName(this.tabName)
 
     if (this.dashboardService.routingData) {
       this.activeTab = this.dashboardService.routingData.activeTab;
@@ -1778,6 +1786,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.salesResponse = item.is_sales_response_completed;
     localStorage.setItem('is_pred_done', item.is_pred_done);
     localStorage.setItem('isFiCumPd', item.isFiCumPD);
+    this.tabName['isFiCumPD'] = item.isFiCumPD;
+    this.tabName['isFI'] = item.isFI
+    this.tabName['isPD'] = item.isPD
+    this.tabName['isVV'] = item.isVV
+
+    this.sharedService.setTabName(this.tabName)
     this.vehicleDataStoreService.setCreditTaskId(item.taskId);
     this.sharedService.getTaskID(item.taskId);
     console.log(item.taskId);

@@ -7,6 +7,8 @@ import { LoginStoreService } from '@services/login-store.service';
 import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   templateUrl: './viability-list.component.html',
@@ -27,6 +29,9 @@ export class ViabilityListComponent {
   fiCumPdStatus: boolean;
   inititate = false;
   isLoan360: boolean;
+  tabName: any;
+  leadData: {};
+  productCatCode: any;
 
   constructor(private labelsData: LabelsService,
               private router: Router,
@@ -36,7 +41,9 @@ export class ViabilityListComponent {
               private loginStoreService: LoginStoreService,
               private location: Location,
               private toggleDdeService: ToggleDdeService,
-              private loanViewService: LoanViewService
+              private loanViewService: LoanViewService,
+              private sharedService: SharedService,
+              private createLeadDataService: CreateLeadDataService,
     ) {
   }
 
@@ -51,6 +58,7 @@ export class ViabilityListComponent {
     } else if (this.fiCumPdStatusString == 'true') {
       this.fiCumPdStatus = true;
     }
+    this.tabName = this.sharedService.getTabName();
     console.log(this.taskId, 'task id onInit');
     this.leadId = (await this.getLeadId()) as number;
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -60,6 +68,7 @@ export class ViabilityListComponent {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
     console.log('this user roleType', this.roleType);
+    this.getLeadSectionData();
 
     this.labelsData.getLabelsData().subscribe(
       data => {
@@ -78,6 +87,12 @@ export class ViabilityListComponent {
     console.log(this.route, 'queryParams Check');
 
   }
+  getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    this.leadData = { ...leadSectionData };
+    this.productCatCode = this.leadData['leadDetails'].productCatCode;
+
+  }
   getViability(colletaralId: any, version: any) {
     // this.viabilityService.CollateralId(body);
     // this.viabilityService.CollateralId(details);
@@ -90,20 +105,33 @@ export class ViabilityListComponent {
     }
   }
   onBack() {
-    // this.location.back();
-    // tslint:disable-next-line: triple-equals
-    if (this.isLoan360) {
-      return this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
+    // if (this.isLoan360) {
+    //   return this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
+    // }
+    if(this.roleType == '2'){
+      if (this.tabName['isFiCumPD']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      }else if (this.tabName['isPD']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      }else if (this.tabName['isFI']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+      }
+      else if (this.productCatCode == 'UC') {
+        this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+      }else {
+        this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
+      }
     }
-    if (this.fiCumPdStatus == false && this.roleType == '2') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-    // tslint:disable-next-line: triple-equals
-    } else if (this.fiCumPdStatus == true && this.roleType == '2') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-    // tslint:disable-next-line: triple-equals
-    } else if (this.roleType == '1') {
+    else if (this.roleType == '1') {
       this.router.navigate(['pages/dashboard']);
     }
+    
+    
+    // if (this.fiCumPdStatus == false && this.roleType == '2') {
+    //   this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    // } else if (this.fiCumPdStatus == true && this.roleType == '2') {
+    //   this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    // } 
   }
   getLeadId() {
     return new Promise((resolve, reject) => {
