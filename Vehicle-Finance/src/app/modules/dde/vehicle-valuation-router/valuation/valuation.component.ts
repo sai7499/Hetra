@@ -192,6 +192,9 @@ export class ValuationComponent implements OnInit {
   presentTime: any;
   invalidRegDate: boolean;
   invalidInsuDiff: boolean;
+  count: number;
+  initalZeroCheck = [];
+  remarksRequired: boolean;
  
 
 
@@ -219,6 +222,8 @@ export class ValuationComponent implements OnInit {
     private sharedService: SharedService,
     private loginService: LoginService,
     private objectComparisonService: ObjectComparisonService) {
+    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
     this.accessoriesArray = this.fb.array([]);
@@ -624,6 +629,7 @@ export class ValuationComponent implements OnInit {
     if (regDate !== null && fitnessDate !== null) {
       if (fitnessDate < regDate) {
         this.invalidFitnessDate = true;
+        
         this.toasterService.showWarning('Fitness Validity Date should be greater than Registration Date', '');
       } else {
         this.invalidFitnessDate = false;
@@ -646,6 +652,7 @@ export class ValuationComponent implements OnInit {
     if (regDate !== null && insuranceDate !== null) {
       if (insuranceDate < regDate) {
         this.invalidInsDate = true;
+        
         this.toasterService.showWarning('Insurance Valid From should be greater than Registration Date', '');
       } else {
         this.invalidInsDate = false;
@@ -691,6 +698,7 @@ export class ValuationComponent implements OnInit {
     if (regDate !== null && taxDate !== null) {
       if (taxDate < regDate) {
         this.invalidTaxDate = true;
+        
         this.toasterService.showWarning('Tax Validity Date should be greater than Registration Date', '');
       } else {
         this.invalidTaxDate = false;
@@ -721,18 +729,23 @@ export class ValuationComponent implements OnInit {
   accidentsInPast(event?: any) {
     console.log(event);
     this.accInPast = event ? event : null;
+    this.remarksRequired = false;
+    // const currnentInvoice = this.vehicleValuationForm.get('remarksDetails').value.currInvoiceValue;
+    // console.log(currnentInvoice);
     if (this.accInPast === '0') {
       // this.currentInvoiceRequired = false;
       this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').disable();
       this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').clearValidators();
       this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').updateValueAndValidity();
       setTimeout(() => {
+        
         this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').patchValue(null);
 
       });
     } else if (this.accInPast === '1') {
       // this.currentInvoiceDisabled = false;
       // this.currentInvoiceRequired = true;
+    this.remarksRequired = true;
       setTimeout(() => {
         this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').patchValue(null);
 
@@ -746,6 +759,9 @@ export class ValuationComponent implements OnInit {
   modelInProdChange(event?: any) {
     console.log(event);
     this.modelInProd = event ? event : null;
+    const currnentInvoice = this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').value;
+    console.log(currnentInvoice);
+    
     if (this.modelInProd === '0') {
       this.currentInvoiceDisabled = true;
       this.currentInvoiceRequired = false;
@@ -753,17 +769,16 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').clearValidators();
       this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').updateValueAndValidity();
       setTimeout(() => {
-        this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').patchValue(null);
+        this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').patchValue(currnentInvoice || null);
 
       });
     } else if (this.modelInProd === '1') {
       this.currentInvoiceDisabled = false;
       this.currentInvoiceRequired = true;
       // console.log('in no condition', this.modelInProd, this.currentInvoiceDisabled, this.currentInvoiceRequired);
-      // setTimeout(() => {
-      //   this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').patchValue(null);
-
-      // });
+      setTimeout(() => {
+        this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').patchValue(currnentInvoice || null);
+      });
       this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').enable();
       this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').setValidators(Validators.required);
       this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').updateValueAndValidity();
@@ -793,15 +808,29 @@ export class ValuationComponent implements OnInit {
     // if (insuranceValidUpto) { }
     if (insuranceValidUpto < insuranceValidFrom) {
       this.invalidInsuranceValidity = true;
+      
       this.toasterService.showWarning('Insurance Validity Date should be greater than insurance Start Date', '');
     } else if (insuranceValidUpto > insuranceValidFrom) {
       this.invalidInsuranceValidity = false;
       // tslint:disable-next-line: align
-    } if (diffDays < 365) {
-      this.toasterService.showWarning('Insurance Validity Date should be one year after insurance Start Date', '');
-      this.invalidInsuDiff = true;
+      function leapYear(year)
+{
+  return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+console.log(insuranceValidUpto.getFullYear());
+  if(leapYear(insuranceValidUpto.getFullYear())) {
+    this.count = 366
+  } else {
+    this.count = 365;
+  }
 
-    } else if (diffDays > 365) {
+  // const count = leapYear(insuranceValidUpto.getFullYear()) == true ? 366 : 365;
+
+    } if (diffDays < this.count) {
+      this.invalidInsuDiff = true;
+      this.toasterService.showWarning('Insurance Validity Date should be one year after insurance Start Date', '');
+
+    } else if (diffDays > this.count) {
       this.invalidInsuDiff = false;
     }
 
@@ -821,12 +850,16 @@ export class ValuationComponent implements OnInit {
       });
     } else if (isReRegistered === '1') {
       this.isPreRegNoDisabled = false;
-      this.currentInvoiceRequired = true;
+      // this.currentInvoiceRequired = true;
+      this.isPreRegNoRequired = true;
       // console.log('in no condition', this.modelInProd, this.currentInvoiceDisabled, this.currentInvoiceRequired);
       // setTimeout(() => {
       //   this.vehicleValuationForm.get('currInvoiceValue').patchValue(null);
 
       // });
+      setTimeout(() => {
+        this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').patchValue(null);
+      });
       this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').enable();
       this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').setValidators(Validators.required);
       this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').updateValueAndValidity();
@@ -1586,40 +1619,16 @@ export class ValuationComponent implements OnInit {
 
   onFormSubmit() {
     this.isDirty = true;
-    if(this.invalidFitnessDate){
-      this.toasterService.showWarning('Fitness Validity Date should be greater than Registration Date', '');
+    this.validateFitnessDate();
+    this.validateInsuranceDate();
+    this.validatePermitDate();
+    this.validateTaxDate();
+    this.validateDateOfReg();
+    this.insuranceValidUptoCheck();
+    if(this.invalidFitnessDate || this.invalidInsDate || this.invalidTaxDate || this.invalidRegDate|| this.invalidInsuranceValidity || this.invalidInsuDiff){
       return;
     }
-    if(this.invalidInsDate){
-      this.toasterService.showWarning('Insurance Valid From should be greater than Registration Date', '');
-      return;
-    }
-    if(this.invalidPemitDate){
-      this.toasterService.showWarning('Permit Validity Date should be greater than Registration Date', '');
-      return; 
-    } 
-    if(this.invalidTaxDate){
-      this.toasterService.showWarning('Tax Validity Date should be greater than Registration Date', '');
-      return;
-    }
-    if(this.invalidRegDate){
-      this.toasterService.showWarning('Registration Date should be greater than Month and Year Of Manufacture', '');
-      return;
-    }
-    if(this.invalidInsuranceValidity){
-      this.toasterService.showWarning('Insurance Validity Date should be greater than insurance Start Date', '');
-      return;
-    }
-    if(this.invalidInsuDiff){
-      this.toasterService.showWarning('Insurance Validity Date should be one year after insurance Start Date', '');
-      return;
-    }
-    // this.validateFitnessDate();
-    // this.validateInsuranceDate();
-    // this.validatePermitDate();
-    // this.validateTaxDate();
-    // this.validateDateOfReg();
-    // this.insuranceValidUptoCheck();
+    
     console.log('latitude::', this.latitude);
     console.log('longitude::', this.longitude);
     console.log('address::', this.capturedAddress);
@@ -1741,6 +1750,15 @@ export class ValuationComponent implements OnInit {
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
     if (this.vehicleValuationForm.invalid || isUDFInvalid) {
       this.toasterService.showError('Please enter required details', '');
+      return;
+    }
+    this.validateFitnessDate();
+    this.validateInsuranceDate();
+    this.validatePermitDate();
+    this.validateTaxDate();
+    this.validateDateOfReg();
+    this.insuranceValidUptoCheck();
+    if(this.invalidFitnessDate || this.invalidInsDate || this.invalidTaxDate || this.invalidRegDate|| this.invalidInsuranceValidity || this.invalidInsuDiff){
       return;
     }
     if (!isUDFCheck) {
