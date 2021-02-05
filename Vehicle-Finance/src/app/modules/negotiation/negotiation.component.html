@@ -668,7 +668,7 @@
                                     </tr>
                                   </tbody>
                                 </table>
-                              <button type="button" (click)="validateVarFormArray(i)" class="btn btn-primary calc-btn" >Validate</button>
+                              <button type="button" (click)="validateVarFormArray(i,true)" class="btn btn-primary calc-btn" >Validate</button>
                                 <!-- <button type="button" (click)="calculatestage()" class="btn btn-primary calc-btn" >calculate</button> -->
                               </div>
                             <!-- mock table must filled column should add as condition -->
@@ -840,11 +840,23 @@
                                   id="charges" placeholder="Charges (in INR)" name="charges">
                                 </app-custom-input>
                               </div>
-                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="gapDaysInterest">{{labels?.gapDaysInterest}}</label>
+                              <!-- <label class="control-label col-sm-5 col-md-4 col-lg-3" for="gapDaysInterest">{{labels?.gapDaysInterest}}</label>
                               <div class="col-sm-6 col-md-4 col-lg-3">
                                 <app-custom-input type="number" formControlName="gapDaysInterest" class="form-control mandatory select2 custom-negotiation-field"
                                   id="gapDaysInterest" placeholder="Gap Days Interest (in INR)" name="gapDaysInterest">
                                 </app-custom-input>
+                              </div> -->
+
+                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="gapDaysInterest"
+                              *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']=='1EMISTRUCT'">
+                              {{labels?.gapDaysInterest}}</label>
+                              <div class="col-sm-6 col-md-4 col-lg-3"
+                              *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']=='1EMISTRUCT'">
+                                <app-custom-input type="number" formControlName="gapDaysInterest" class="form-control mandatory select2 custom-negotiation-field"
+                                  id="gapDaysInterest" placeholder="Gap Days Interest (in INR)" name="gapDaysInterest">
+                                </app-custom-input>
+                                <button type="button" (click)="validateVarFormArray(i,false)" class="calc-icon">
+                                </button>
                               </div>
                             </div>
                         </div>

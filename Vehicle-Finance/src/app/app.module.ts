@@ -56,6 +56,7 @@ import { LettersOnlyDirective } from './services/directives/letters-only.directi
 import { CanActivateService } from '@services/can-activate.service';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
+import { ChildLeadModule } from '@modules/child-lead/child-lead.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 import { QueryDataResolverService } from '@modules/lead-section/services/queryDataResolver.service';
@@ -111,6 +112,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // DateInputsModule,
     DatePickerModule,
     ChildLoanModule,
+    ChildLeadModule,
     WindowModule
   ],
   providers: [

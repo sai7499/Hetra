@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
   currentPage: any;
   count: any;
   maxSize: number;
+  showleadModal: boolean=false;
 
   constructor(
     private labelsData: LabelsService,
@@ -65,8 +66,11 @@ export class HeaderComponent implements OnInit {
       (data: any) => {
         console.log('leadHistory', data);
         if (!data) {
+          this.leadHistories = [];
+          this.showleadModal = true;
           return;
         }
+        this.showleadModal = false;
         this.leadHistories = data.ProcessVariables.leads;
         this.topBandData = data.ProcessVariables;
         console.log('leadHistoryData', this.leadHistories);

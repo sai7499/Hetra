@@ -590,7 +590,10 @@ export class NegotiationComponent implements OnInit {
            'toMonth':Number(varArrayControls['toMonth']['value'])+1,
            'emiAmount':Number(varArrayControls['emiAmount']['value'])+(loanBookingDetails['LoanAmountincludingCrossSell']['value']?Number(loanBookingDetails['LoanAmountincludingCrossSell']['value']):null)
         })       
-    }else if(indexEmiStruVal!='1EMISTRUCT'){       
+    }else if (indexEmiStruVal=='1EMISTRUCT'){
+      this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'].setErrors(null);
+    }
+    else if(indexEmiStruVal!='1EMISTRUCT'){       
       this.formArr.push(this.initRowsDefault(i,true))
   } 
      
@@ -689,133 +692,7 @@ export class NegotiationComponent implements OnInit {
     
   }
 
- 
-  
-
-  // validateVarFormArray(i){   //nego Enhance
-
-  //   let arrVals=this.createNegotiationForm.controls.tickets;   
-  //   let indexEmiStruVal=arrVals['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'];
-
-  //   (arrVals['controls'][i]['controls']['variableForm'].get('variableFormArray') as FormArray).controls.forEach((formGroup) => {
-  //     if (formGroup['status'] && formGroup['status']=='INVALID') {
-  //       this.toasterService.showError('Please fill All the Values', '');
-  //       return;
-  //     }
-  //   });
-
-  //   let negoArray=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['negotiationformArray']['controls'];
-  //   let varFormArrayValues=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'];
-
-  //   let loanEmiVal= (this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI']['value'])?
-  //                   Number(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI']['value']):0
-    
-  //   let loanTenorMonth=negoArray['subventSchemeLoanTenor']['value']?Number(negoArray['subventSchemeLoanTenor']['value']):0;
-  //   if(loanTenorMonth && loanEmiVal){
-  //     this.repaymentAmnt = loanTenorMonth*loanEmiVal;
-  //    }else{
-  //     this.repaymentAmnt=0;
-  //    }
-  //   let totalEmiVal = 0;
-  //  if(indexEmiStruVal=='5EMISTRUCT'){ // Baloon
-  //       var emiTotalValue = 0;
-  //       var threeMonthsEmi = 0;//last Object
-  //       let arrayLength=varFormArrayValues['controls'].length;
-  //       let fromMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['fromMonth']['value'];
-  //       let toMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['toMonth']['value'];
-  //       let lastThreeMonths=(Number(toMonth)-Number(fromMonth))+1;//from month is 1 & to month is 2,total 2months
-  //        console.log(lastThreeMonths)   
-  //        if(lastThreeMonths>=3){ // if satisfies in last obje of Array 
-  //           emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-1]['controls']['emiAmount']['value']);
-  //           threeMonthsEmi =(emiTotalValue)*3;
-  //           console.log(threeMonthsEmi)
-  //        }else{
-  //         emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-1]['controls']['emiAmount']['value']);
-  //         threeMonthsEmi =(emiTotalValue*2); //lastThreeMonths,in last toMonth should not be lesser han from Month,minimum 2 month will be available in all objects
-  //         emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-2]['controls']['emiAmount']['value']);
-  //         threeMonthsEmi = threeMonthsEmi+emiTotalValue;
-  //         console.log(threeMonthsEmi);
-  //        }   
-  //        console.log(threeMonthsEmi)
-  //       //last before Object
-  //       let loanBookingDetails=this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls'];
-  //       let crossSellLoan=loanBookingDetails['LoanAmountincludingCrossSellsubtractSubvent']['value']?Number(loanBookingDetails['LoanAmountincludingCrossSellsubtractSubvent']['value']):0;
-       
-  //          crossSellLoan = crossSellLoan*25/100; //(52)
-  //       if(threeMonthsEmi<crossSellLoan){
-  //         console.log(threeMonthsEmi);
-  //         this.toasterService.showError('This installment structure is not matching with Balloon EMI type. Please revise','');           
-  //       }
-        
-  //   }
-
-  //   for (let x = 0; x < varFormArrayValues['controls'].length; x++) {
-  //     let objFromMonth=Number(varFormArrayValues['controls'][x]['controls']['fromMonth']['value']);
-  //     let objToMonth=Number(varFormArrayValues['controls'][x]['controls']['toMonth']['value']);
-  //     let objEmiValue=Number(varFormArrayValues['controls'][x]['controls']['emiAmount']['value']);
-      
-  //     let val = (objToMonth - objFromMonth)+1; //added +1 , bcoz 1 to 4 months
-  //     totalEmiVal = totalEmiVal + (objEmiValue * val);
-
-  //   }
-  //   console.log(totalEmiVal);
-
-  //   //checker entered Emi amnt shuld not be lesser than the repayment Amnt
-  //   if(totalEmiVal<this.repaymentAmnt){
-  //     this.toasterService.showError('Variable installements are not adding up to Total repayment amount. Please adjust EMI amount','');           
-  //   }else{
-  //     // fund flow Api Call
-
-  //     var LoanFundFlowInput:{
-  //       "generationDate": "20210930",
-  //       "interestVarianceType": "A",
-  //       "premiumAmount": "0",
-  //       "productCode": "7781",
-  //       "rateChartCode": "708",
-  //       "sanctionedAmount": "770000",
-  //       "scheduleTypeCode": "783",
-  //       "termMonths": "36"
-  //     }
-
-
-  //   let varArrayControls=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls']
-  //   var VariableEPISchedules = []
-  //     for (let y = 0; y < varArrayControls.length; y++) {
-  //       var obj={
-  //         "installmentNumberTo": varArrayControls[y]['controls']['toMonth'],
-  //         "installmentAmount": varArrayControls[y]['controls']['emiAmount'],
-  //           "stageNumber":"2"
-  //       }
-  //       VariableEPISchedules.push(obj);
-  //     }
-
-  //     console.log("fund flow Api", LoanFundFlowInput)
-  //     console.log("table", VariableEPISchedules)
-
-      
-  //     // this.NegotiationService
-  //     //   .submitNegotiation(NegotiationDetails
-  //     //   )
-  //     //   .subscribe((res: any) => {
-  //     //     if (res.Error == 0 && (!res.ProcessVariables.error || res.ProcessVariables.error.code == 0)) {
-  //     //       this.NegotiationId = res.ProcessVariables.NegotiationDetails.NegotiationID;
-  //     //       this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
-  //     //     }
-  //     //     else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
-  //     //       this.toasterService.showError(res.ProcessVariables.error.message, '');
-  //     //     }
-  //     //   });
-  //     // }
-  //     // else {
-  //     //   this.toasterService.showError(
-  //     //     'Please fill all mandatory fields.',
-  //     //     'Create Negotiation'
-  //     //   );
-  //     // }
-  //   }
-  // }
-
-  validateVarFormArray(i){   //nego Enhance
+  validateVarFormArray(i,flag){   //nego Enhance
   
   
     let loanTenorMonth:any = 0;
@@ -848,7 +725,7 @@ export class NegotiationComponent implements OnInit {
         this.repaymentAmnt=0;
        }
       
-      if(!this.repaymentAmnt){ //To Caluclate Total Emi value
+      if(!this.repaymentAmnt && flag){ //To Caluclate Total Emi value
         this.toasterService.showError('kindly Calculate Repayment Amount to Proceed Further','');  
         return;
       }
@@ -899,7 +776,7 @@ export class NegotiationComponent implements OnInit {
       }
 
   
-  if((indexEmiStruVal!='4EMISTRUCT') && (totalEmiVal<this.repaymentAmnt)){ // bullet is auto calculated , so not required to check this for bullet alone
+  if((indexEmiStruVal!='4EMISTRUCT') && (totalEmiVal<this.repaymentAmnt) && flag){ // bullet is auto calculated , so not required to check this for bullet alone
     this.toasterService.showError('Variable installements are not adding up to Total repayment amount ('+ this.repaymentAmnt +'). Please adjust EMI amount','');  
   }         
   else{
@@ -948,9 +825,9 @@ export class NegotiationComponent implements OnInit {
      //console.log(LoanFundFlowInput);
   
   
-  
+     var VariableEPISchedule = [];  
+if(flag){
   let varArrayControls=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls']
-  var VariableEPISchedule = [];  
   for (let y = 0; y < varArrayControls.length; y++) {
       var obj={
         "installmentNumberTo": varArrayControls[y]['controls']['toMonth']['value'],
@@ -972,7 +849,7 @@ export class NegotiationComponent implements OnInit {
     }
 
     this.mockformArr.push(this.msInitRowsDefault(false,''));
-  
+}
   
     //console.log("fund flow Api", LoanFundFlowInput)
     //console.log("table", VariableEPISchedule)
@@ -989,10 +866,8 @@ export class NegotiationComponent implements OnInit {
             }
   
   
-            
+            if(flag){
             let fetchedMockArray = this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['mockSchForm']['controls']['mockSchFormArray'];  
-           
-    //console.log(mockSchValues)
     for (let x = 0; x < mockSchValues.length; x++) {
     
       fetchedMockArray.controls[0].controls.installmentCounter.setValue(mockSchValues[x]['installmentCounter'])
@@ -1009,6 +884,7 @@ export class NegotiationComponent implements OnInit {
     if(totalMockTableSize.get('mockSchFormArray').controls.length>0){
       totalMockTableSize['controls']['mockSchFormArray'].removeAt(0);
     }
+  }
     
           }
           else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
@@ -2476,6 +2352,9 @@ setCrosSell(i,val){
           return;
         }
       }
+      if(this.showInsuranceFields && (this.AssetDetailsList[i].IsORPFunding ==  '1')){
+          this.clearValidationORP(i);
+        }
     }
     // if (this.onformsubmit == true && this.createNegotiationForm.valid === true)
     if (this.onformsubmit == true && this.createNegotiationForm.valid === true) {

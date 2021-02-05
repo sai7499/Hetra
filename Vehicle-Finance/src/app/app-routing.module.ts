@@ -69,6 +69,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'child-lead',
+        loadChildren: () =>
+          import('./modules/child-lead/child-lead.module').then(
+            (m) => m.ChildLeadModule
+          ),
+      },
+      {
         path: 'lead-section',
         loadChildren: () =>
           import('./modules/lead-section/lead-section.module').then(
