@@ -766,9 +766,14 @@ export class ApiService {
       workflowId: '08905702d7b811eab3fc00505695f93b',
       projectId: environment.projectIds.camProjectId
     },
+    // saveUpdateDisburseDetails: {
+    //   processId: '70075eb0d7d811eaa97a00505695f93b',
+    //   workflowId: '6fe659fed7d811eaa44500505695f93b',
+    //   projectId: environment.projectIds.camProjectId
+    // },
     saveUpdateDisburseDetails: {
-      processId: '70075eb0d7d811eaa97a00505695f93b',
-      workflowId: '6fe659fed7d811eaa44500505695f93b',
+      processId: 'f9cd8ac2608e11eba1ee00505695f93b',
+      workflowId: 'f9b351b6608e11eb8f4800505695f93b',
       projectId: environment.projectIds.camProjectId
     },
     fetchDisburseDetails: {
@@ -1146,6 +1151,21 @@ export class ApiService {
       workflowId: '1b424e52e12511ea80dc00505695f93b',
       processId: '1b5b997ae12511eaaebb00505695f93b',
       projectId: environment.projectIds.trancheProId
+    },
+    loanDetailList: {
+      workflowId: 'e9e298f65a2011eb920200505695f93b',
+      processId: 'ea11dc565a2011eb9de500505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    loanDetailListDisburse: {
+      workflowId: 'e9e298f65a2011eb920200505695f93b',
+      processId: 'a82ef970613e11eb842d00505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    getDisbursementData: {
+      workflowId: 'e9e298f65a2011eb920200505695f93b',
+      processId: '603b2d5a60ad11eb98bc00505695f93b',
+      projectId: environment.projectIds.camProjectId
     }
   };
 }

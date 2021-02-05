@@ -1,0 +1,164 @@
+<main class="mar-top90">
+  <div class="container-fluid">
+    <div class="content">
+
+      <form [formGroup]="childLeadForm" class="showMore">
+        <div class="row">
+          <h3 class="banner-con">Search Lead Status</h3>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">Lead ID
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="leadNumber" [className]="'form-control mandatory'" [placeholder]="'Lead ID'" [type]="labels?.validationData?.ChildLoanAccountNumber?.type">
+            </app-custom-input>
+            <!-- [maxLength]="labels?.validationData?.ChildLoanAccountNumber?.maxLength" -->
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="false">
+            <label for="product_type">{{labels?.registartionNumber}}
+              <!-- <sub class="star_blue_col">*</sub>-->
+            </label>
+            <app-custom-input formControlName="vehicleRegistrationNumber" [className]="'form-control mandatory'" [placeholder]="'Vehicle registration number'"
+              [type]="labels?.validationData?.vehicleRegNo?.type" [inputClass]="'text-uppercase'" [minLength]="labels?.validationData?.vehicleRegNo?.minLength"
+              [maxLength]="labels?.validationData?.vehicleRegNo?.maxLength" [custom]="vehicleRegPattern">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="false">
+            <label for="business_division">{{labels?.ucicId}}
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input [maxLength]="labels?.validationData?.ucicId?.maxLength" formControlName="ucic" [className]="'form-control mandatory'"
+              [placeholder]="'UCIC'" [type]="labels?.validationData?.ucicId?.type">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row" *ngIf="false">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="business_division">{{labels?.aadharnumber}}
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input [maxLength]="labels?.validationData?.adhaarNumber?.maxLength" formControlName="aadhaar" [className]="'form-control mandatory'"
+              [placeholder]="'Aadhaar'" [patternCheck]="labels?.validationData?.adhaarNumber?.patternCheck" [type]="labels?.validationData?.adhaarNumber?.type">
+            </app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.pannumber}}
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="pan" [className]="'form-control mandatory'" [placeholder]="'Pan'" [patternCheck]="labels?.validationData?.panNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.panNumber?.maxLength" [inputClass]="'text-uppercase'" [type]="labels?.validationData?.panNumber?.type">
+            </app-custom-input>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.drivingLicenseNumber}}
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="drivingLicense" [className]="'form-control mandatory'" [placeholder]="'Driving License'"
+              [maxLength]="labels?.validationData?.drivingLicense?.maxLength" [minLength]="labels?.validationData?.drivingLicense?.minLength"
+              [patternCheck]="labels?.validationData?.drivingLicense?.patternCheck" [inputClass]="'text-uppercase'" [type]="labels?.validationData?.drivingLicense?.type">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row" *ngIf="false">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.voterIdNumber}}
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="voterId" [className]="'form-control mandatory'" [placeholder]="'Voter Id'" [patternCheck]="labels?.validationData?.voterId?.patternCheck"
+              [maxLength]="labels?.validationData?.voterId?.maxLength" [inputClass]="'text-uppercase'" [type]="labels?.validationData?.voterId?.type">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.passportNumber}}
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="passport" [className]="'form-control mandatory'" [placeholder]="'Passport Number'" [patternCheck]="labels?.validationData?.passportNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.passportNumber?.maxLength" [inputClass]="'text-uppercase'" [type]="labels?.validationData?.passportNumber?.type">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row" *ngIf="false">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.cinNumber}}
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="cin" [className]="'form-control mandatory'" [placeholder]="'CIN Number'" [patternCheck]="labels?.validationData?.cinRegNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.cinRegNumber?.maxLength" [inputClass]="'text-uppercase'" [type]="labels?.validationData?.cinRegNumber?.type">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">Tan Number
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="tan" [className]="'form-control mandatory'" [placeholder]="'TAN Number'" [patternCheck]="labels?.validationData?.tanNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.tanNumber?.maxLength" [inputClass]="'text-uppercase'" [type]="labels?.validationData?.tanNumber?.type">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels?.gstNumber}}
+              <!-- <sub class="star_blue_col">*</sub> -->
+            </label>
+            <app-custom-input formControlName="gst" [className]="'form-control mandatory'" [placeholder]="'GST Number'" [patternCheck]="labels?.validationData?.gstNumber?.patternCheck"
+              [maxLength]="labels?.validationData?.gstNumber?.maxLength" [inputClass]="'text-uppercase'" [type]="labels?.validationData?.gstNumber?.type">
+            </app-custom-input>
+          </div>
+        </div>
+        <div class="row" *ngIf="false">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="business_division">Name
+              <sub class="star_blue_col">*</sub>
+            </label>
+            <app-custom-input formControlName="name" [className]="'form-control mandatory'" [placeholder]="'Name'" [maxLength]="nameLength"
+              [type]="'alpha'" (input)="onName($event)">
+            </app-custom-input>
+            <div class="invalid-feedback" *ngIf="isNameErrMsg">
+              Name is mandatory
+            </div>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="product_type">{{labels.mobile}}
+              <sub class="star_blue_col">*</sub>
+            </label>
+            <app-custom-input formControlName="mobile" [className]="'form-control mandatory'" [placeholder]="'Mobile'" [maxLength]="mobileLength"
+              [type]="'number'" [patternCheck]="labels.validationData?.mobileNumber.pattern" (input)="onMobileInput($event)">
+            </app-custom-input>
+            <div class="invalid-feedback" *ngIf="isMobileErrMsg">
+              Mobile is mandatory
+            </div>
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="dob">{{ labels.dateOfBirth }}
+              <sub class="star_blue_col">*</sub>
+            </label>
+            <kendo-datepicker class="form-control mandatory" formControlName="dateOfBirth" [format]="'dd/MM/yyyy'" [max]="toDaydate"
+              [placeholder]="'Date of birth'" [activeView]="'decade'" (valueChange)="onDateOfBirthInput($event)">
+            </kendo-datepicker>
+            <div class="invalid-feedback">
+              <div *ngIf="isDobErrMsg && !childLeadForm.controls.dateOfBirth.value">
+                Date is mandatory
+              </div>
+              <div *ngIf="childLeadForm.controls.dateOfBirth.value && childLeadForm.controls.dateOfBirth.errors">
+                Invalid date
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="row btn-sec clear-both">
+          <div class="col-sm-12 text-right">
+            <button data-toggle="modal" data-target="#leadHistoryModal" [disabled]="!childLeadForm.controls.leadNumber.valid" type="button" class="btn btn-primary" value="Search" data-tooltip="Lead History"
+              data-placement="bottom" (click)="onLeadHistory()"> Search </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</main>
