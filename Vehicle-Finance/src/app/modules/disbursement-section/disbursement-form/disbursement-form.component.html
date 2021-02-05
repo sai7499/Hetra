@@ -74,7 +74,52 @@
 
 </div>
 <div class="content" id="disbursement-memo">
-  <form class="multisteps-form__form form-horizontal p-0" autocomplete="off">
+<!-- Newly included for Enhance Disburse Start  -->
+    <div class="row" *ngIf="leadLists">
+        <div class="" id="applicantTable">
+          <table class="main-table">
+            <thead>
+              <tr class="table-head-bg">
+                <th>Ref. ID</th>
+                <th>Approved Loan Amount </th>
+                <th>Approved Tenor </th>
+                <th>Approved IRR </th>
+                <th>Insurance Amount</th>
+                <th>Charges </th>
+                <th>SUbvention Amount  </th>
+                <th>{{ labels?.action }} </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor=" let item of loanDetailsList; let i = index">
+                <td [attr.data-label]="labels?.ucicId">{{ item.uniqueSubLeadReferenceID ? item.uniqueSubLeadReferenceID : '-' }}</td>
+                <td [attr.data-label]="labels?.ucicId">{{ item.approvedAmount ? item.approvedAmount : '-' }}</td>
+                <td [attr.data-label]="labels?.ucicId">{{ item.approvedTenor ? item.approvedTenor : '-' }}</td>
+                <td [attr.data-label]="labels?.ucicId">{{ item.approvedIRR ? item.approvedIRR : '-' }}</td>
+                <td [attr.data-label]="labels?.ucicId">{{ item.insuranceAmnt ? item.insuranceAmnt : '-' }}</td>
+                <td [attr.data-label]="labels?.ucicId">{{ item.chargesFees ? item.chargesFees : '-' }}</td>
+                <td [attr.data-label]="labels?.ucicId">{{ item.subventionAmnt ? item.subventionAmnt : '-' }}</td>
+                
+                <td class="pad-0" [attr.data-label]="labels?.action">
+                  <div class="flex-container">
+                    <ng-container  *ngIf="isLoan360">
+                        <!-- (click)="navigatePage(item.applicantId)" -->
+                      <div><a  title="View Disbursement"><i
+                        class="fa fa-eye icon p-0" aria-hidden="true"></i></a></div>
+                    </ng-container>
+                    <ng-container *ngIf="!isLoan360">
+                      <div><a (click)="fetchLoanDetails(item.uniqueSubLeadReferenceID,true)" title="Edit Disbursement"><i
+                        class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
+                    </ng-container>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <!-- Newly included for Enhance Disburse End  -->
+  <form class="multisteps-form__form form-horizontal p-0" autocomplete="off" *ngIf="!leadLists">
     <!-- default container -->
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
       <div class="row">
@@ -3591,6 +3636,1576 @@
     
         </div>
       </form>
+      <!--container 10-->
+<form class="p-0" [formGroup]="additionalTab1Form" *ngIf="disburseToAdditionalTab1">
+  <div>
+    <h4 class="banner-sub">Additional Tab 1</h4>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input [(ngModel)]="additionalTab1Info['beneficiaryName']" id="additionalTab1BeneficiaryName"
+          [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab1DisbursementAmount" [(ngModel)]="additionalTab1Info['disbursementAmount']"
+          [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount"
+          [className]="'form-control mandatory'" [placeholder]="'Disbursement Amount'" [maxLength]="amountLength"
+          [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'"
+          (keyup)="getCumulativeDisbAmnt($event,13)">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-vf-custom-select [values]="paymentLov" [(ngModel)]="additionalTab1Info['paymentMethod']"
+          [isRequired]="'Mode of Payment is required'" formControlName="paymentMethod"
+          (change)="setModeOfPayment($event,'additionalTab1')" [isDirty]="isDirty">
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab1BankDetails || showAdditionalTab1CASADetails || showAdditionalTab1DDDetails">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab1BenAccNo" [(ngModel)]="additionalTab1Info['beneficiaryAccountNo']"
+          [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
+          [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+          [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab1BankDetails">
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab1BankListData"
+            [(ngModel)]="additionalTab1Info['beneficiaryBank']" [searchKeyword]="additionalTab1keyword"
+            (selected)='selectBankNameEvent($event,22)' (inputChanged)='onBankNameSearch($event,22)'
+            [itemTemplate]="additionalTab1NameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="beneficiaryBank" [placeHolder]="'Beneficiary Bank'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #additionalTab1NameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+          <sub class="star_red_col">*</sub></label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab1Info['beneficiaryBranch']"
+            formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'additionalTab1')">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab1DetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab1Form.controls.beneficiaryBranch.invalid && (additionalTab1Form.controls.beneficiaryBranch.dirty || additionalTab1Form.controls.beneficiaryBranch.touched)"
+            class="invalid-feedback-disburse">
+            Beneficiary Branch is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="additionalTab1IFSC" [(ngModel)]="additionalTab1Info['ifscCode']"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+            [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input formControlName="mobilePhone" [(ngModel)]="additionalTab1Info['mobilePhone']"
+            [className]="'form-control mandatory'" [placeholder]="'Mobile Number'" [maxLength]="mobileLength"
+            [isRequired]="'Mobile Number is mandatory'" [isDirty]="isDirty" [type]="'number'"
+            [patternCheck]="labels.validationData?.mobileNumber.pattern">
+          </app-custom-input>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab1DDDetails">
+      <div class="form-group">
+        <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="additionalTab1Info['instrumentType']"
+            [isRequired]="'Instrument Type is required'" (change)="setIntType($event.target.value,'additionalTab1')"
+            formControlName="instrumentType" [isDirty]="isDirty">
+          </app-vf-custom-select>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab1IntDetails">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input [(ngModel)]="additionalTab1Info['instrumentNumber']" id="additionalTab1InstrumentNumber"
+            [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber"
+            [className]="'form-control mandatory'" [placeholder]="'Instrument Number'" [isDirty]="isDirty"
+            [maxLength]="labels?.validationData?.instrumentNumber?.maxLength" [type]="'number'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab1IntDetails">
+        <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate"
+            [format]="'dd/MM/yyyy'" placeholder="Instrument Date" [min]="todayDateNew" [activeView]="'decade'">
+          </kendo-datepicker>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab1favBODListData"
+            [(ngModel)]="additionalTab1Info['favouringBankOfDraw']" [searchKeyword]="additionalTab1FavFavkeyword"
+            (selected)='selectBankNameEvent($event,23)' (inputChanged)='onBankNameSearch($event,23)'
+            [itemTemplate]="favAdditionalTab1BankNameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="favouringBankOfDraw" [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #favAdditionalTab1BankNameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab1Info['favouringBankBranch']"
+            formControlName="favouringBankBranch">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab1FavBODDetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab1Form.controls.favouringBankBranch.invalid && (additionalTab1Form.controls.favouringBankBranch.dirty || additionalTab1Form.controls.favouringBankBranch.touched)"
+            class="invalid-feedback-disburse">
+            Favouring Bank Branch is required
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="showAdditionalTab1DDDetails || showAdditionalTab1BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab1AddLine1" [(ngModel)]="additionalTab1Info['beneficiaryAddress1']"
+          formControlName="beneficiaryAddress1" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab1DDDetails || showAdditionalTab1BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab1AddLine2" [(ngModel)]="additionalTab1Info['beneficiaryAddress2']"
+          formControlName="beneficiaryAddress2" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab1DDDetails || showAdditionalTab1BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab1AddLine3" [(ngModel)]="additionalTab1Info['beneficiaryAddress3']"
+          formControlName="beneficiaryAddress3" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="toDeductCharges2" [(ngModel)]="additionalTab1Info['deductChargesFlag']"
+          formControlName="deductChargesFlag" class="toDeductCharges2"
+          [checked]="additionalTab1Info['deductChargesFlag']"
+          (change)="selectCheckBox(additionalTab1Info['deductChargesFlag'],13)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="vehicleProductCatCode">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <input type="checkbox" id="additionalTab1InTranches" [(ngModel)]="additionalTab1Info['trancheDisbursementFlag']"
+          formControlName="trancheDisbursementFlag" class="additionalTab1InTranches"
+          [checked]="additionalTab1Info['trancheDisbursementFlag']"
+          (change)="selectTranche(additionalTab1Info['trancheDisbursementFlag'],13,false)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="showAdditionalTab1TrancheTable">
+      <form class="p-0" [formGroup]="trancheAdditionalTab1Form">
+        <div class="disbursement-table-section">
+          <table formArrayName="trancheAdditionalTab1Array" class="table disbursement-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{labels?.disbursementType}}</th>
+                <th>{{labels?.disbursementPercent}}</th>
+                <th>{{labels?.disbursementAmount}}</th>
+                <th [hidden]='true'>{{labels?.disbursementDate}}</th>
+                <th *ngIf="!isLoan360">{{labels?.action}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let trance of trancheAdditionalTab1Form['controls'].trancheAdditionalTab1Array['controls']; let i=index"
+                [formGroupName]="i">
+                <td width="8%">
+                  <div>
+                    Tranche {{i+1}}
+                  </div>
+                </td>
+                <td width="15%">
+                  <div class="viewable-field">
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab1List[i].disbursement_id"
+                      formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab1List[i].tranche_disbursement_id"
+                      formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
+                      <mat-select [(ngModel)]="trancheAdditionalTab1List[i].tranche_disbursement_type"
+                        formControlName="tranche_disbursement_type">
+                        <mat-option value=""> Select </mat-option>
+                        <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td width="15%">
+                  <app-custom-input [(ngModel)]="trancheAdditionalTab1List[i].disbursement_percentage"
+                    [formControl]="trance.controls['disbursement_percentage']" [className]="'form-control'"
+                    [isDirty]="isDirty" [type]="'percent'" (keyup)="validatePercentage(trancheAdditionalTab1List,'13',i)">
+                  </app-custom-input>
+                </td>
+                <td width="15%">
+                  <input type="text" class="form-control text-field"
+                    [(ngModel)]="trancheAdditionalTab1List[i].tranche_disbursement_amount"
+                    name="trancheAdditionalTab1List[i].tranche_disbursement_amount"
+                    formControlName="tranche_disbursement_amount" [readOnly]="true" />
+                </td>
+                <td width="18%" [hidden]='true'>
+                  <div *ngIf="i==0">
+                    <input type="text" class="form-control text-field"
+                      [(ngModel)]="trancheAdditionalTab1List[i].trancheDisburseDate"
+                      name="trancheAdditionalTab1List[i].trancheDisburseDate" formControlName="trancheDisburseDate"
+                      [readOnly]='true' />
+                  </div>
+                </td>
+                <td class="text-center" width="10%" *ngIf="!isLoan360">
+                  <div>
+                    <button class="delete-btn mr-8" (click)="deleteRow(i,13)" title="delete">
+                      <img src="assets/images/delete-icon.png" />
+                    </button>
+                    <button class="plus-btn" (click)="addRow('13')" [disabled]="trancheAdditionalTab1Form.invalid"
+                      title="add">
+                      <img src="assets/images/plus-icon.png" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</form>
+<!--container 11-->
+<form class="p-0" [formGroup]="additionalTab2Form" *ngIf="disburseToAdditionalTab2">
+  <div>
+    <h4 class="banner-sub">Additional Tab 1</h4>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input [(ngModel)]="additionalTab2Info['beneficiaryName']" id="additionalTab2BeneficiaryName"
+          [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab2DisbursementAmount" [(ngModel)]="additionalTab2Info['disbursementAmount']"
+          [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount"
+          [className]="'form-control mandatory'" [placeholder]="'Disbursement Amount'" [maxLength]="amountLength"
+          [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'"
+          (keyup)="getCumulativeDisbAmnt($event,13)">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-vf-custom-select [values]="paymentLov" [(ngModel)]="additionalTab2Info['paymentMethod']"
+          [isRequired]="'Mode of Payment is required'" formControlName="paymentMethod"
+          (change)="setModeOfPayment($event,'additionalTab2')" [isDirty]="isDirty">
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab2BankDetails || showAdditionalTab2CASADetails || showAdditionalTab2DDDetails">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab2BenAccNo" [(ngModel)]="additionalTab2Info['beneficiaryAccountNo']"
+          [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
+          [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+          [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab2BankDetails">
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab2BankListData"
+            [(ngModel)]="additionalTab2Info['beneficiaryBank']" [searchKeyword]="additionalTab2keyword"
+            (selected)='selectBankNameEvent($event,24)' (inputChanged)='onBankNameSearch($event,24)'
+            [itemTemplate]="additionalTab2NameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="beneficiaryBank" [placeHolder]="'Beneficiary Bank'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #additionalTab2NameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+          <sub class="star_red_col">*</sub></label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab2Info['beneficiaryBranch']"
+            formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'additionalTab2')">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab2DetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab2Form.controls.beneficiaryBranch.invalid && (additionalTab2Form.controls.beneficiaryBranch.dirty || additionalTab2Form.controls.beneficiaryBranch.touched)"
+            class="invalid-feedback-disburse">
+            Beneficiary Branch is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="additionalTab2IFSC" [(ngModel)]="additionalTab2Info['ifscCode']"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+            [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input formControlName="mobilePhone" [(ngModel)]="additionalTab2Info['mobilePhone']"
+            [className]="'form-control mandatory'" [placeholder]="'Mobile Number'" [maxLength]="mobileLength"
+            [isRequired]="'Mobile Number is mandatory'" [isDirty]="isDirty" [type]="'number'"
+            [patternCheck]="labels.validationData?.mobileNumber.pattern">
+          </app-custom-input>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab2DDDetails">
+      <div class="form-group">
+        <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="additionalTab2Info['instrumentType']"
+            [isRequired]="'Instrument Type is required'" (change)="setIntType($event.target.value,'additionalTab2')"
+            formControlName="instrumentType" [isDirty]="isDirty">
+          </app-vf-custom-select>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab2IntDetails">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input [(ngModel)]="additionalTab2Info['instrumentNumber']" id="additionalTab2InstrumentNumber"
+            [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber"
+            [className]="'form-control mandatory'" [placeholder]="'Instrument Number'" [isDirty]="isDirty"
+            [maxLength]="labels?.validationData?.instrumentNumber?.maxLength" [type]="'number'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab2IntDetails">
+        <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate"
+            [format]="'dd/MM/yyyy'" placeholder="Instrument Date" [min]="todayDateNew" [activeView]="'decade'">
+          </kendo-datepicker>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab2favBODListData"
+            [(ngModel)]="additionalTab2Info['favouringBankOfDraw']" [searchKeyword]="additionalTab2FavFavkeyword"
+            (selected)='selectBankNameEvent($event,25)' (inputChanged)='onBankNameSearch($event,25)'
+            [itemTemplate]="favAdditionalTab2BankNameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="favouringBankOfDraw" [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #favAdditionalTab2BankNameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab2Info['favouringBankBranch']"
+            formControlName="favouringBankBranch">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab2FavBODDetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab2Form.controls.favouringBankBranch.invalid && (additionalTab2Form.controls.favouringBankBranch.dirty || additionalTab2Form.controls.favouringBankBranch.touched)"
+            class="invalid-feedback-disburse">
+            Favouring Bank Branch is required
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="showAdditionalTab2DDDetails || showAdditionalTab2BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab2AddLine1" [(ngModel)]="additionalTab2Info['beneficiaryAddress1']"
+          formControlName="beneficiaryAddress1" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab2DDDetails || showAdditionalTab2BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab2AddLine2" [(ngModel)]="additionalTab2Info['beneficiaryAddress2']"
+          formControlName="beneficiaryAddress2" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab2DDDetails || showAdditionalTab2BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab2AddLine3" [(ngModel)]="additionalTab2Info['beneficiaryAddress3']"
+          formControlName="beneficiaryAddress3" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="toDeductCharges2" [(ngModel)]="additionalTab2Info['deductChargesFlag']"
+          formControlName="deductChargesFlag" class="toDeductCharges2"
+          [checked]="additionalTab2Info['deductChargesFlag']"
+          (change)="selectCheckBox(additionalTab2Info['deductChargesFlag'],14)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="vehicleProductCatCode">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <input type="checkbox" id="additionalTab2InTranches" [(ngModel)]="additionalTab2Info['trancheDisbursementFlag']"
+          formControlName="trancheDisbursementFlag" class="additionalTab2InTranches"
+          [checked]="additionalTab2Info['trancheDisbursementFlag']"
+          (change)="selectTranche(additionalTab2Info['trancheDisbursementFlag'],14,false)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="showAdditionalTab2TrancheTable">
+      <form class="p-0" [formGroup]="trancheAdditionalTab2Form">
+        <div class="disbursement-table-section">
+          <table formArrayName="trancheAdditionalTab2Array" class="table disbursement-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{labels?.disbursementType}}</th>
+                <th>{{labels?.disbursementPercent}}</th>
+                <th>{{labels?.disbursementAmount}}</th>
+                <th [hidden]='true'>{{labels?.disbursementDate}}</th>
+                <th *ngIf="!isLoan360">{{labels?.action}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let trance of trancheAdditionalTab2Form['controls'].trancheAdditionalTab2Array['controls']; let i=index"
+                [formGroupName]="i">
+                <td width="8%">
+                  <div>
+                    Tranche {{i+1}}
+                  </div>
+                </td>
+                <td width="15%">
+                  <div class="viewable-field">
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab2List[i].disbursement_id"
+                      formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab2List[i].tranche_disbursement_id"
+                      formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
+                      <mat-select [(ngModel)]="trancheAdditionalTab2List[i].tranche_disbursement_type"
+                        formControlName="tranche_disbursement_type">
+                        <mat-option value=""> Select </mat-option>
+                        <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td width="15%">
+                  <app-custom-input [(ngModel)]="trancheAdditionalTab2List[i].disbursement_percentage"
+                    [formControl]="trance.controls['disbursement_percentage']" [className]="'form-control'"
+                    [isDirty]="isDirty" [type]="'percent'" (keyup)="validatePercentage(trancheAdditionalTab2List,'14',i)">
+                  </app-custom-input>
+                </td>
+                <td width="15%">
+                  <input type="text" class="form-control text-field"
+                    [(ngModel)]="trancheAdditionalTab2List[i].tranche_disbursement_amount"
+                    name="trancheAdditionalTab2List[i].tranche_disbursement_amount"
+                    formControlName="tranche_disbursement_amount" [readOnly]="true" />
+                </td>
+                <td width="18%" [hidden]='true'>
+                  <div *ngIf="i==0">
+                    <input type="text" class="form-control text-field"
+                      [(ngModel)]="trancheAdditionalTab2List[i].trancheDisburseDate"
+                      name="trancheAdditionalTab2List[i].trancheDisburseDate" formControlName="trancheDisburseDate"
+                      [readOnly]='true' />
+                  </div>
+                </td>
+                <td class="text-center" width="10%" *ngIf="!isLoan360">
+                  <div>
+                    <button class="delete-btn mr-8" (click)="deleteRow(i,14)" title="delete">
+                      <img src="assets/images/delete-icon.png" />
+                    </button>
+                    <button class="plus-btn" (click)="addRow('14')" [disabled]="trancheAdditionalTab2Form.invalid"
+                      title="add">
+                      <img src="assets/images/plus-icon.png" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</form>
+<!--container 12-->
+<form class="p-0" [formGroup]="additionalTab3Form" *ngIf="disburseToAdditionalTab3">
+  <div>
+    <h4 class="banner-sub">Additional Tab 1</h4>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input [(ngModel)]="additionalTab3Info['beneficiaryName']" id="additionalTab3BeneficiaryName"
+          [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab3DisbursementAmount" [(ngModel)]="additionalTab3Info['disbursementAmount']"
+          [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount"
+          [className]="'form-control mandatory'" [placeholder]="'Disbursement Amount'" [maxLength]="amountLength"
+          [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'"
+          (keyup)="getCumulativeDisbAmnt($event,13)">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-vf-custom-select [values]="paymentLov" [(ngModel)]="additionalTab3Info['paymentMethod']"
+          [isRequired]="'Mode of Payment is required'" formControlName="paymentMethod"
+          (change)="setModeOfPayment($event,'additionalTab3')" [isDirty]="isDirty">
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab3BankDetails || showAdditionalTab3CASADetails || showAdditionalTab3DDDetails">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab3BenAccNo" [(ngModel)]="additionalTab3Info['beneficiaryAccountNo']"
+          [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
+          [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+          [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab3BankDetails">
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab3BankListData"
+            [(ngModel)]="additionalTab3Info['beneficiaryBank']" [searchKeyword]="additionalTab3keyword"
+            (selected)='selectBankNameEvent($event,26)' (inputChanged)='onBankNameSearch($event,26)'
+            [itemTemplate]="additionalTab3NameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="beneficiaryBank" [placeHolder]="'Beneficiary Bank'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #additionalTab3NameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+          <sub class="star_red_col">*</sub></label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab3Info['beneficiaryBranch']"
+            formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'additionalTab3')">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab3DetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab3Form.controls.beneficiaryBranch.invalid && (additionalTab3Form.controls.beneficiaryBranch.dirty || additionalTab3Form.controls.beneficiaryBranch.touched)"
+            class="invalid-feedback-disburse">
+            Beneficiary Branch is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="additionalTab3IFSC" [(ngModel)]="additionalTab3Info['ifscCode']"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+            [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input formControlName="mobilePhone" [(ngModel)]="additionalTab3Info['mobilePhone']"
+            [className]="'form-control mandatory'" [placeholder]="'Mobile Number'" [maxLength]="mobileLength"
+            [isRequired]="'Mobile Number is mandatory'" [isDirty]="isDirty" [type]="'number'"
+            [patternCheck]="labels.validationData?.mobileNumber.pattern">
+          </app-custom-input>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab3DDDetails">
+      <div class="form-group">
+        <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="additionalTab3Info['instrumentType']"
+            [isRequired]="'Instrument Type is required'" (change)="setIntType($event.target.value,'additionalTab3')"
+            formControlName="instrumentType" [isDirty]="isDirty">
+          </app-vf-custom-select>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab3IntDetails">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input [(ngModel)]="additionalTab3Info['instrumentNumber']" id="additionalTab3InstrumentNumber"
+            [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber"
+            [className]="'form-control mandatory'" [placeholder]="'Instrument Number'" [isDirty]="isDirty"
+            [maxLength]="labels?.validationData?.instrumentNumber?.maxLength" [type]="'number'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab3IntDetails">
+        <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate"
+            [format]="'dd/MM/yyyy'" placeholder="Instrument Date" [min]="todayDateNew" [activeView]="'decade'">
+          </kendo-datepicker>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab3favBODListData"
+            [(ngModel)]="additionalTab3Info['favouringBankOfDraw']" [searchKeyword]="additionalTab3FavFavkeyword"
+            (selected)='selectBankNameEvent($event,27)' (inputChanged)='onBankNameSearch($event,27)'
+            [itemTemplate]="favAdditionalTab3BankNameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="favouringBankOfDraw" [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #favAdditionalTab3BankNameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab3Info['favouringBankBranch']"
+            formControlName="favouringBankBranch">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab3FavBODDetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab3Form.controls.favouringBankBranch.invalid && (additionalTab3Form.controls.favouringBankBranch.dirty || additionalTab3Form.controls.favouringBankBranch.touched)"
+            class="invalid-feedback-disburse">
+            Favouring Bank Branch is required
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="showAdditionalTab3DDDetails || showAdditionalTab3BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab3AddLine1" [(ngModel)]="additionalTab3Info['beneficiaryAddress1']"
+          formControlName="beneficiaryAddress1" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab3DDDetails || showAdditionalTab3BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab3AddLine2" [(ngModel)]="additionalTab3Info['beneficiaryAddress2']"
+          formControlName="beneficiaryAddress2" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab3DDDetails || showAdditionalTab3BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab3AddLine3" [(ngModel)]="additionalTab3Info['beneficiaryAddress3']"
+          formControlName="beneficiaryAddress3" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="toDeductCharges2" [(ngModel)]="additionalTab3Info['deductChargesFlag']"
+          formControlName="deductChargesFlag" class="toDeductCharges2"
+          [checked]="additionalTab3Info['deductChargesFlag']"
+          (change)="selectCheckBox(additionalTab3Info['deductChargesFlag'],15)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="vehicleProductCatCode">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <input type="checkbox" id="additionalTab3InTranches" [(ngModel)]="additionalTab3Info['trancheDisbursementFlag']"
+          formControlName="trancheDisbursementFlag" class="additionalTab3InTranches"
+          [checked]="additionalTab3Info['trancheDisbursementFlag']"
+          (change)="selectTranche(additionalTab3Info['trancheDisbursementFlag'],15,false)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="showAdditionalTab3TrancheTable">
+      <form class="p-0" [formGroup]="trancheAdditionalTab3Form">
+        <div class="disbursement-table-section">
+          <table formArrayName="trancheAdditionalTab3Array" class="table disbursement-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{labels?.disbursementType}}</th>
+                <th>{{labels?.disbursementPercent}}</th>
+                <th>{{labels?.disbursementAmount}}</th>
+                <th [hidden]='true'>{{labels?.disbursementDate}}</th>
+                <th *ngIf="!isLoan360">{{labels?.action}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let trance of trancheAdditionalTab3Form['controls'].trancheAdditionalTab3Array['controls']; let i=index"
+                [formGroupName]="i">
+                <td width="8%">
+                  <div>
+                    Tranche {{i+1}}
+                  </div>
+                </td>
+                <td width="15%">
+                  <div class="viewable-field">
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab3List[i].disbursement_id"
+                      formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab3List[i].tranche_disbursement_id"
+                      formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
+                      <mat-select [(ngModel)]="trancheAdditionalTab3List[i].tranche_disbursement_type"
+                        formControlName="tranche_disbursement_type">
+                        <mat-option value=""> Select </mat-option>
+                        <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td width="15%">
+                  <app-custom-input [(ngModel)]="trancheAdditionalTab3List[i].disbursement_percentage"
+                    [formControl]="trance.controls['disbursement_percentage']" [className]="'form-control'"
+                    [isDirty]="isDirty" [type]="'percent'" (keyup)="validatePercentage(trancheAdditionalTab3List,'15',i)">
+                  </app-custom-input>
+                </td>
+                <td width="15%">
+                  <input type="text" class="form-control text-field"
+                    [(ngModel)]="trancheAdditionalTab3List[i].tranche_disbursement_amount"
+                    name="trancheAdditionalTab3List[i].tranche_disbursement_amount"
+                    formControlName="tranche_disbursement_amount" [readOnly]="true" />
+                </td>
+                <td width="18%" [hidden]='true'>
+                  <div *ngIf="i==0">
+                    <input type="text" class="form-control text-field"
+                      [(ngModel)]="trancheAdditionalTab3List[i].trancheDisburseDate"
+                      name="trancheAdditionalTab3List[i].trancheDisburseDate" formControlName="trancheDisburseDate"
+                      [readOnly]='true' />
+                  </div>
+                </td>
+                <td class="text-center" width="10%" *ngIf="!isLoan360">
+                  <div>
+                    <button class="delete-btn mr-8" (click)="deleteRow(i,15)" title="delete">
+                      <img src="assets/images/delete-icon.png" />
+                    </button>
+                    <button class="plus-btn" (click)="addRow('15')" [disabled]="trancheAdditionalTab3Form.invalid"
+                      title="add">
+                      <img src="assets/images/plus-icon.png" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</form>
+<!--container 13-->
+<form class="p-0" [formGroup]="additionalTab4Form" *ngIf="disburseToAdditionalTab4">
+  <div>
+    <h4 class="banner-sub">Additional Tab 1</h4>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input [(ngModel)]="additionalTab4Info['beneficiaryName']" id="additionalTab4BeneficiaryName"
+          [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab4DisbursementAmount" [(ngModel)]="additionalTab4Info['disbursementAmount']"
+          [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount"
+          [className]="'form-control mandatory'" [placeholder]="'Disbursement Amount'" [maxLength]="amountLength"
+          [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'"
+          (keyup)="getCumulativeDisbAmnt($event,13)">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-vf-custom-select [values]="paymentLov" [(ngModel)]="additionalTab4Info['paymentMethod']"
+          [isRequired]="'Mode of Payment is required'" formControlName="paymentMethod"
+          (change)="setModeOfPayment($event,'additionalTab4')" [isDirty]="isDirty">
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab4BankDetails || showAdditionalTab4CASADetails || showAdditionalTab4DDDetails">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab4BenAccNo" [(ngModel)]="additionalTab4Info['beneficiaryAccountNo']"
+          [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
+          [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+          [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab4BankDetails">
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab4BankListData"
+            [(ngModel)]="additionalTab4Info['beneficiaryBank']" [searchKeyword]="additionalTab4keyword"
+            (selected)='selectBankNameEvent($event,28)' (inputChanged)='onBankNameSearch($event,28)'
+            [itemTemplate]="additionalTab4NameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="beneficiaryBank" [placeHolder]="'Beneficiary Bank'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #additionalTab4NameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+          <sub class="star_red_col">*</sub></label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab4Info['beneficiaryBranch']"
+            formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'additionalTab4')">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab4DetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab4Form.controls.beneficiaryBranch.invalid && (additionalTab4Form.controls.beneficiaryBranch.dirty || additionalTab4Form.controls.beneficiaryBranch.touched)"
+            class="invalid-feedback-disburse">
+            Beneficiary Branch is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="additionalTab4IFSC" [(ngModel)]="additionalTab4Info['ifscCode']"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+            [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input formControlName="mobilePhone" [(ngModel)]="additionalTab4Info['mobilePhone']"
+            [className]="'form-control mandatory'" [placeholder]="'Mobile Number'" [maxLength]="mobileLength"
+            [isRequired]="'Mobile Number is mandatory'" [isDirty]="isDirty" [type]="'number'"
+            [patternCheck]="labels.validationData?.mobileNumber.pattern">
+          </app-custom-input>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab4DDDetails">
+      <div class="form-group">
+        <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="additionalTab4Info['instrumentType']"
+            [isRequired]="'Instrument Type is required'" (change)="setIntType($event.target.value,'additionalTab4')"
+            formControlName="instrumentType" [isDirty]="isDirty">
+          </app-vf-custom-select>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab4IntDetails">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input [(ngModel)]="additionalTab4Info['instrumentNumber']" id="additionalTab4InstrumentNumber"
+            [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber"
+            [className]="'form-control mandatory'" [placeholder]="'Instrument Number'" [isDirty]="isDirty"
+            [maxLength]="labels?.validationData?.instrumentNumber?.maxLength" [type]="'number'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab4IntDetails">
+        <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate"
+            [format]="'dd/MM/yyyy'" placeholder="Instrument Date" [min]="todayDateNew" [activeView]="'decade'">
+          </kendo-datepicker>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab4favBODListData"
+            [(ngModel)]="additionalTab4Info['favouringBankOfDraw']" [searchKeyword]="additionalTab4FavFavkeyword"
+            (selected)='selectBankNameEvent($event,29)' (inputChanged)='onBankNameSearch($event,29)'
+            [itemTemplate]="favAdditionalTab4BankNameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="favouringBankOfDraw" [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #favAdditionalTab4BankNameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab4Info['favouringBankBranch']"
+            formControlName="favouringBankBranch">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab4FavBODDetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab4Form.controls.favouringBankBranch.invalid && (additionalTab4Form.controls.favouringBankBranch.dirty || additionalTab4Form.controls.favouringBankBranch.touched)"
+            class="invalid-feedback-disburse">
+            Favouring Bank Branch is required
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="showAdditionalTab4DDDetails || showAdditionalTab4BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab4AddLine1" [(ngModel)]="additionalTab4Info['beneficiaryAddress1']"
+          formControlName="beneficiaryAddress1" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab4DDDetails || showAdditionalTab4BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab4AddLine2" [(ngModel)]="additionalTab4Info['beneficiaryAddress2']"
+          formControlName="beneficiaryAddress2" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab4DDDetails || showAdditionalTab4BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab4AddLine3" [(ngModel)]="additionalTab4Info['beneficiaryAddress3']"
+          formControlName="beneficiaryAddress3" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="toDeductCharges2" [(ngModel)]="additionalTab4Info['deductChargesFlag']"
+          formControlName="deductChargesFlag" class="toDeductCharges2"
+          [checked]="additionalTab4Info['deductChargesFlag']"
+          (change)="selectCheckBox(additionalTab4Info['deductChargesFlag'],16)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="vehicleProductCatCode">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <input type="checkbox" id="additionalTab4InTranches" [(ngModel)]="additionalTab4Info['trancheDisbursementFlag']"
+          formControlName="trancheDisbursementFlag" class="additionalTab4InTranches"
+          [checked]="additionalTab4Info['trancheDisbursementFlag']"
+          (change)="selectTranche(additionalTab4Info['trancheDisbursementFlag'],16,false)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="showAdditionalTab4TrancheTable">
+      <form class="p-0" [formGroup]="trancheAdditionalTab4Form">
+        <div class="disbursement-table-section">
+          <table formArrayName="trancheAdditionalTab4Array" class="table disbursement-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{labels?.disbursementType}}</th>
+                <th>{{labels?.disbursementPercent}}</th>
+                <th>{{labels?.disbursementAmount}}</th>
+                <th [hidden]='true'>{{labels?.disbursementDate}}</th>
+                <th *ngIf="!isLoan360">{{labels?.action}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let trance of trancheAdditionalTab4Form['controls'].trancheAdditionalTab4Array['controls']; let i=index"
+                [formGroupName]="i">
+                <td width="8%">
+                  <div>
+                    Tranche {{i+1}}
+                  </div>
+                </td>
+                <td width="15%">
+                  <div class="viewable-field">
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab4List[i].disbursement_id"
+                      formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab4List[i].tranche_disbursement_id"
+                      formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
+                      <mat-select [(ngModel)]="trancheAdditionalTab4List[i].tranche_disbursement_type"
+                        formControlName="tranche_disbursement_type">
+                        <mat-option value=""> Select </mat-option>
+                        <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td width="15%">
+                  <app-custom-input [(ngModel)]="trancheAdditionalTab4List[i].disbursement_percentage"
+                    [formControl]="trance.controls['disbursement_percentage']" [className]="'form-control'"
+                    [isDirty]="isDirty" [type]="'percent'" (keyup)="validatePercentage(trancheAdditionalTab4List,'16',i)">
+                  </app-custom-input>
+                </td>
+                <td width="15%">
+                  <input type="text" class="form-control text-field"
+                    [(ngModel)]="trancheAdditionalTab4List[i].tranche_disbursement_amount"
+                    name="trancheAdditionalTab4List[i].tranche_disbursement_amount"
+                    formControlName="tranche_disbursement_amount" [readOnly]="true" />
+                </td>
+                <td width="18%" [hidden]='true'>
+                  <div *ngIf="i==0">
+                    <input type="text" class="form-control text-field"
+                      [(ngModel)]="trancheAdditionalTab4List[i].trancheDisburseDate"
+                      name="trancheAdditionalTab4List[i].trancheDisburseDate" formControlName="trancheDisburseDate"
+                      [readOnly]='true' />
+                  </div>
+                </td>
+                <td class="text-center" width="10%" *ngIf="!isLoan360">
+                  <div>
+                    <button class="delete-btn mr-8" (click)="deleteRow(i,16)" title="delete">
+                      <img src="assets/images/delete-icon.png" />
+                    </button>
+                    <button class="plus-btn" (click)="addRow('16')" [disabled]="trancheAdditionalTab4Form.invalid"
+                      title="add">
+                      <img src="assets/images/plus-icon.png" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</form>
+<!--container 14-->
+<form class="p-0" [formGroup]="additionalTab5Form" *ngIf="disburseToAdditionalTab5">
+  <div>
+    <h4 class="banner-sub">Additional Tab 1</h4>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfName}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input [(ngModel)]="additionalTab5Info['beneficiaryName']" id="additionalTab5BeneficiaryName"
+          [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.disbursementAmount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab5DisbursementAmount" [(ngModel)]="additionalTab5Info['disbursementAmount']"
+          [isRequired]="'Disbursement Amount is required'" formControlName="disbursementAmount"
+          [className]="'form-control mandatory'" [placeholder]="'Disbursement Amount'" [maxLength]="amountLength"
+          [patternCheck]="regexPattern.amount" [isDirty]="isDirty" [type]="'number'"
+          (keyup)="getCumulativeDisbAmnt($event,13)">
+        </app-custom-input>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.modeOfPayment}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-vf-custom-select [values]="paymentLov" [(ngModel)]="additionalTab5Info['paymentMethod']"
+          [isRequired]="'Mode of Payment is required'" formControlName="paymentMethod"
+          (change)="setModeOfPayment($event,'additionalTab5')" [isDirty]="isDirty">
+        </app-vf-custom-select>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab5BankDetails || showAdditionalTab5CASADetails || showAdditionalTab5DDDetails">
+      <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
+        <sub class="star_red_col">*</sub>
+      </label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab5BenAccNo" [(ngModel)]="additionalTab5Info['beneficiaryAccountNo']"
+          [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
+          [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+          [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+          [isDirty]="isDirty">
+        </app-custom-input>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab5BankDetails">
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab5BankListData"
+            [(ngModel)]="additionalTab5Info['beneficiaryBank']" [searchKeyword]="additionalTab5keyword"
+            (selected)='selectBankNameEvent($event,30)' (inputChanged)='onBankNameSearch($event,30)'
+            [itemTemplate]="additionalTab5NameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="beneficiaryBank" [placeHolder]="'Beneficiary Bank'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #additionalTab5NameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
+          <sub class="star_red_col">*</sub></label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab5Info['beneficiaryBranch']"
+            formControlName="beneficiaryBranch" (change)="setIFSC($event.target.value,'additionalTab5')">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab5DetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab5Form.controls.beneficiaryBranch.invalid && (additionalTab5Form.controls.beneficiaryBranch.dirty || additionalTab5Form.controls.beneficiaryBranch.touched)"
+            class="invalid-feedback-disburse">
+            Beneficiary Branch is required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.ifscCode}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="additionalTab5IFSC" [(ngModel)]="additionalTab5Info['ifscCode']"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
+            [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mobile" class="control-label col-sm-5 col-md-4 col-lg-3">{{ labels.mobileNumber }}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input formControlName="mobilePhone" [(ngModel)]="additionalTab5Info['mobilePhone']"
+            [className]="'form-control mandatory'" [placeholder]="'Mobile Number'" [maxLength]="mobileLength"
+            [isRequired]="'Mobile Number is mandatory'" [isDirty]="isDirty" [type]="'number'"
+            [patternCheck]="labels.validationData?.mobileNumber.pattern">
+          </app-custom-input>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showAdditionalTab5DDDetails">
+      <div class="form-group">
+        <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instType}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-vf-custom-select [values]="instrumentTypeLov" [(ngModel)]="additionalTab5Info['instrumentType']"
+            [isRequired]="'Instrument Type is required'" (change)="setIntType($event.target.value,'additionalTab5')"
+            formControlName="instrumentType" [isDirty]="isDirty">
+          </app-vf-custom-select>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab5IntDetails">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instNumber}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input [(ngModel)]="additionalTab5Info['instrumentNumber']" id="additionalTab5InstrumentNumber"
+            [isRequired]="'Instrument Number is required'" formControlName="instrumentNumber"
+            [className]="'form-control mandatory'" [placeholder]="'Instrument Number'" [isDirty]="isDirty"
+            [maxLength]="labels?.validationData?.instrumentNumber?.maxLength" [type]="'number'">
+          </app-custom-input>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="showAdditionalTab5IntDetails">
+        <label for="tdd" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.instDate}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <kendo-datepicker class="form-control mandatory" formControlName="instrumentDate"
+            [format]="'dd/MM/yyyy'" placeholder="Instrument Date" [min]="todayDateNew" [activeView]="'decade'">
+          </kendo-datepicker>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <ng-autocomplete class="custom-select-box" [data]="additionalTab5favBODListData"
+            [(ngModel)]="additionalTab5Info['favouringBankOfDraw']" [searchKeyword]="additionalTab5FavFavkeyword"
+            (selected)='selectBankNameEvent($event,31)' (inputChanged)='onBankNameSearch($event,31)'
+            [itemTemplate]="favAdditionalTab5BankNameTemplate" [notFoundTemplate]="notFoundTemplate"
+            formControlName="favouringBankOfDraw" [placeHolder]="'Favouring Bank of Drawee'" [minQueryLength]="3">
+          </ng-autocomplete>
+          <ng-template #favAdditionalTab5BankNameTemplate let-item>
+            <a [innerHTML]="item"></a>
+          </ng-template>
+          <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <select class="form-control" [(ngModel)]="additionalTab5Info['favouringBankBranch']"
+            formControlName="favouringBankBranch">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of bankAdditionalTab5FavBODDetailsData" [value]="item.externalBankCode">
+              {{item.externalBankBranch}}</option>
+          </select>
+          <div
+            *ngIf="additionalTab5Form.controls.favouringBankBranch.invalid && (additionalTab5Form.controls.favouringBankBranch.dirty || additionalTab5Form.controls.favouringBankBranch.touched)"
+            class="invalid-feedback-disburse">
+            Favouring Bank Branch is required
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="showAdditionalTab5DDDetails || showAdditionalTab5BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline1}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab5AddLine1" [(ngModel)]="additionalTab5Info['beneficiaryAddress1']"
+          formControlName="beneficiaryAddress1" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 1'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab5DDDetails || showAdditionalTab5BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline2}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab5AddLine2" [(ngModel)]="additionalTab5Info['beneficiaryAddress2']"
+          formControlName="beneficiaryAddress2" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 2'"></app-custom-input>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="showAdditionalTab5DDDetails || showAdditionalTab5BankDetails">
+      <label for="lead_date" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.addressline3}}</label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <app-custom-input id="additionalTab5AddLine3" [(ngModel)]="additionalTab5Info['beneficiaryAddress3']"
+          formControlName="beneficiaryAddress3" [maxLength]="labels?.validationData?.address?.maxLength"
+          name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="toDeductCharges2" [(ngModel)]="additionalTab5Info['deductChargesFlag']"
+          formControlName="deductChargesFlag" class="toDeductCharges2"
+          [checked]="additionalTab5Info['deductChargesFlag']"
+          (change)="selectCheckBox(additionalTab5Info['deductChargesFlag'],17)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="vehicleProductCatCode">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <input type="checkbox" id="additionalTab5InTranches" [(ngModel)]="additionalTab5Info['trancheDisbursementFlag']"
+          formControlName="trancheDisbursementFlag" class="additionalTab5InTranches"
+          [checked]="additionalTab5Info['trancheDisbursementFlag']"
+          (change)="selectTranche(additionalTab5Info['trancheDisbursementFlag'],17,false)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.disburseInTranches}}</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="showAdditionalTab5TrancheTable">
+      <form class="p-0" [formGroup]="trancheAdditionalTab5Form">
+        <div class="disbursement-table-section">
+          <table formArrayName="trancheAdditionalTab5Array" class="table disbursement-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{labels?.disbursementType}}</th>
+                <th>{{labels?.disbursementPercent}}</th>
+                <th>{{labels?.disbursementAmount}}</th>
+                <th [hidden]='true'>{{labels?.disbursementDate}}</th>
+                <th *ngIf="!isLoan360">{{labels?.action}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let trance of trancheAdditionalTab5Form['controls'].trancheAdditionalTab5Array['controls']; let i=index"
+                [formGroupName]="i">
+                <td width="8%">
+                  <div>
+                    Tranche {{i+1}}
+                  </div>
+                </td>
+                <td width="15%">
+                  <div class="viewable-field">
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab5List[i].disbursement_id"
+                      formControlName="disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <app-custom-input [hidden]="true" [(ngModel)]="trancheAdditionalTab5List[i].tranche_disbursement_id"
+                      formControlName="tranche_disbursement_id" [className]="'form-control'" [type]="'number'">
+                    </app-custom-input>
+                    <mat-form-field [ngClass]="onlyViewable? 'readOnlyClass' : ''">
+                      <mat-select [(ngModel)]="trancheAdditionalTab5List[i].tranche_disbursement_type"
+                        formControlName="tranche_disbursement_type">
+                        <mat-option value=""> Select </mat-option>
+                        <mat-option *ngFor="let x of trancheDisbLov" [value]="x.key">{{ x.value}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td width="15%">
+                  <app-custom-input [(ngModel)]="trancheAdditionalTab5List[i].disbursement_percentage"
+                    [formControl]="trance.controls['disbursement_percentage']" [className]="'form-control'"
+                    [isDirty]="isDirty" [type]="'percent'" (keyup)="validatePercentage(trancheAdditionalTab5List,'17',i)">
+                  </app-custom-input>
+                </td>
+                <td width="15%">
+                  <input type="text" class="form-control text-field"
+                    [(ngModel)]="trancheAdditionalTab5List[i].tranche_disbursement_amount"
+                    name="trancheAdditionalTab5List[i].tranche_disbursement_amount"
+                    formControlName="tranche_disbursement_amount" [readOnly]="true" />
+                </td>
+                <td width="18%" [hidden]='true'>
+                  <div *ngIf="i==0">
+                    <input type="text" class="form-control text-field"
+                      [(ngModel)]="trancheAdditionalTab5List[i].trancheDisburseDate"
+                      name="trancheAdditionalTab5List[i].trancheDisburseDate" formControlName="trancheDisburseDate"
+                      [readOnly]='true' />
+                  </div>
+                </td>
+                <td class="text-center" width="10%" *ngIf="!isLoan360">
+                  <div>
+                    <button class="delete-btn mr-8" (click)="deleteRow(i,17)" title="delete">
+                      <img src="assets/images/delete-icon.png" />
+                    </button>
+                    <button class="plus-btn" (click)="addRow('17')" [disabled]="trancheAdditionalTab5Form.invalid"
+                      title="add">
+                      <img src="assets/images/plus-icon.png" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</form>
     </div>
   </form>
   <div class="btn-sec clear-both row" id="clickButton">
@@ -3598,22 +5213,26 @@
     </div>
     <div class="col-sm-7 text-right">
       <button (click)="onBack()" class="btn btn-primary hvr-sweep-to-left" type="button"
-        *ngIf="showSaveButton == true">Back </button>
+        *ngIf="showSaveButton == true && (navigationFlag==1 || navigationFlag==2)">Back </button>
+
+        <button (click)="getLoanDetailList()" class="btn btn-primary hvr-sweep-to-left" type="button"
+        *ngIf="showSaveButton == true && (navigationFlag==3)">Back </button>
+
       <ng-container *ngIf="!isLoan360">
         <button (click)="saveAndUpdate()" class="btn btn-primary " type="button"
-          *ngIf="roleType != 4 && roleType != 5">Save </button>
+          *ngIf="roleType != 4 && roleType != 5 && (navigationFlag==1 || navigationFlag==3)">Save </button>
 
         <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button"
-          *ngIf="roleType == '5'">Book Loan </button>
+          *ngIf="roleType == '5' && navigationFlag==1">Book Loan </button>
         <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
-          *ngIf="roleType != 4 && roleType != 5 && roleType !== 7"> Next </button>
+          *ngIf="roleType != 4 && roleType != 5 && roleType !== 7 && (navigationFlag==1 || navigationFlag==2)"> Next </button>
       </ng-container>
       <ng-container *ngIf="!isLoan360">
         <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
-          *ngIf="roleType == 4 || roleType == 7"> Next </button>
+          *ngIf="(roleType == 4 || roleType == 7) && (navigationFlag==1 || navigationFlag==2)"> Next </button>
       </ng-container>
       <ng-container *ngIf="isLoan360">
-        <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"> Next </button>
+        <button (click)="onNext()" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button" *ngIf="(navigationFlag==1 || navigationFlag==2)"> Next </button>
       </ng-container>
     </div>
   </div>
