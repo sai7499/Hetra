@@ -1076,7 +1076,7 @@
                         Special characters are not allowed
                       </div>
                     </div>
-                    <div *ngIf="remarksRequired">
+                    <div *ngIf="remarksRequired && vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').invalid">
                       Remarks are required
                     </div>
                   </div>
