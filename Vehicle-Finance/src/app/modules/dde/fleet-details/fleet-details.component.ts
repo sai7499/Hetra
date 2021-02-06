@@ -572,7 +572,7 @@ export class FleetDetailsComponent implements OnInit {
           loanNo: null,
           tenure: null,
           paid: null,
-          // seasoning: null
+          seasoning: null
         })
       })
     } else {
@@ -617,7 +617,10 @@ export class FleetDetailsComponent implements OnInit {
   calcSeasoning(event, i) {
     let tenure = parseInt(this.formArr.controls[i]['controls']['tenure'].value);
     let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
-    this.formArr.controls[i]['controls']['seasoning'].patchValue((paid / tenure) * 100)
+    if(!tenure || !paid) {
+      this.formArr.controls[i]['controls']['seasoning'].patchValue(null);
+    }
+    this.formArr.controls[i]['controls']['seasoning'].patchValue((paid / tenure) * 100);
   }
 
   getDateFormat(date) {

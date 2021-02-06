@@ -16,7 +16,7 @@
                 <tr class="table-head-bg text-center">
                   <td>{{labels?.sNO}} </td>
                   <td>{{labels?.type}} </td>
-                  <td>{{labels?.loanNo}}</td>
+                  <td>{{labels?.loanNo + ' / LeadId'}}</td>
                   <td>{{labels?.assets}}</td>
                   <td>{{labels?.yom}} </td>
                   <td>{{labels?.gridValue}} </td>
@@ -41,7 +41,7 @@
                   </td>
                   <td>
                     <app-custom-input formControlName="loanNo" [className]="'form-control mandatory'"
-                      [placeholder]="'loan no'" [maxLength]="labels?.validationData.loanNumber.maxLength"
+                      [placeholder]="'loan no'" [custom]="initalZeroCheck" [maxLength]="labels?.validationData.loanNumber.maxLength"
                       [isRequired]="'loan number / leadID mandatory'" [type]="labels?.validationData.loanNumber.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
@@ -64,14 +64,14 @@
                   <td>
                     <app-custom-input formControlName="gridValue" [className]="'form-control mandatory'"
                       [placeholder]="'Grid Value'" [maxLength]="labels?.validationData.amountValue.maxLength"
-                      [isRequired]="'Grid Value mandatory'" (change)="calcLTV()" [type]="labels?.validationData.amountValue.type"
+                      [isRequired]="'Grid Value mandatory'" [custom]="initalZeroCheck" (change)="calcLTV()" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
                   <td>
                     <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
                       [placeholder]="'Loan Amount'" [maxLength]="labels?.validationData.amountValue.maxLength"
-                      [isRequired]="'Loan Amount mandatory'" (change)="calcLTV()" [type]="labels?.validationData.amountValue.type"
+                      [isRequired]="'Loan Amount mandatory'" [custom]="initalZeroCheck" (change)="calcLTV()" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>
@@ -83,7 +83,7 @@
                   </td>
                   <td>
                     <app-custom-input formControlName="currentPos" [className]="'form-control mandatory'"
-                      [placeholder]="'Current Pos'" [maxLength]="labels?.validationData.amountValue.maxLength"
+                      [placeholder]="'Current Pos'" [custom]="initalZeroCheck" [maxLength]="labels?.validationData.amountValue.maxLength"
                       [isRequired]="exposureArray.controls[i].get('loanType').value !== '1LONTYPEXP' ? 'Current Pos mandatory' : ''" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
@@ -91,7 +91,7 @@
                   <td>
                     <app-custom-input formControlName="tenure" [className]="'form-control mandatory'"
                       [placeholder]="'Tenure'" [maxLength]="labels?.validationData.percentage.maxLength"
-                      [isRequired]="'Tenure mandatory'" [type]="labels?.validationData.percentage.type"
+                      [isRequired]="'Tenure mandatory'" [custom]="initalZeroCheck" [type]="labels?.validationData.percentage.type"
                       [isDirty]="isDirty">
                     </app-custom-input>
                   </td>

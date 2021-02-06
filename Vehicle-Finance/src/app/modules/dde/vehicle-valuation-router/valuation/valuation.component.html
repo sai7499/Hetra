@@ -16,13 +16,13 @@
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_type">{{ labels.valuatorType }}</label>
-                <app-custom-input [(ngModel)]="valuatorType" formControlName="valuatorType"
+                <app-custom-input  formControlName="valuatorType"
                   [placeholder]="'Valuator Type'">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-3">
                 <label for="valuator_code">{{ labels.valuatorCode }}</label>
-                <app-custom-input [(ngModel)]="valuatorCode" formControlName="valuatorCode"
+                <app-custom-input formControlName="valuatorCode"
                   [placeholder]="'Valuator Code'">
                 </app-custom-input>
               </div>
@@ -35,7 +35,7 @@
                   <label for="valuator_name">{{
                     labels.nameOfVehicleOwner
                     }}</label>
-                  <app-custom-input [(ngModel)]="nameOfVehicleOwner" formControlName="vehicleOwnerName"
+                  <app-custom-input formControlName="vehicleOwnerName"
                     [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'">
                   </app-custom-input>
                 </div>
@@ -43,13 +43,13 @@
                   <label for="valuator_name">{{
                     labels.mobileNumberOfVehicle
                     }}</label>
-                  <app-custom-input [(ngModel)]="mobileNumberOfVehicleOwner" formControlName="vehicleOwnerMobile"
+                  <app-custom-input formControlName="vehicleOwnerMobile"
                     [className]="'form-control mandatory'" [placeholder]="'Mobile Number of Vehicle Owner/Dealer'">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="valuator_name">{{ labels.vehicleAddress }}</label>
-                  <app-custom-input [(ngModel)]="vehicleAddress" formControlName="vehicleAddress"
+                  <app-custom-input formControlName="vehicleAddress"
                     [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'">
                   </app-custom-input>
                 </div>
@@ -57,13 +57,13 @@
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="valuator_name">{{ labels.vehiclePinCode }}</label>
-                  <app-custom-input [(ngModel)]="vehiclePincode" formControlName="pincode"
+                  <app-custom-input formControlName="pincode"
                     [className]="'form-control mandatory'" [placeholder]="'Vehicle Pincode'">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="valuator_name">{{ labels.valuatorName }}</label>
-                  <app-custom-input [(ngModel)]="valuatorName" formControlName="valuatorName"
+                  <app-custom-input formControlName="valuatorName"
                     [placeholder]="'Valuator Name'">
                   </app-custom-input>
                 </div>
@@ -938,7 +938,7 @@
                   </app-custom-input>
                 </div>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="idv_valididty_date">{{ labels.idvValidityDate }}
                     <sub class="star_red_col">*</sub>
@@ -962,7 +962,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
             </div>
 
@@ -1214,7 +1214,7 @@
                   <kendo-datepicker class="form-control" formControlName="valuationDate" [activeView]="'decade'"
                     [max]="toDayDate" [format]="'dd/MM/yyyy'" [min]="leadCreatedDate" placeholder="Valuation Date">
                   </kendo-datepicker>
-                  <div class="invalid-feedback">
+                  <!-- <div class="invalid-feedback">
                     <div *ngIf="
                         isDirty &&
                         !vehicleValuationForm.get('recomendationDetails').get('valuationDate').value
@@ -1227,7 +1227,7 @@
                       ">
                       Invalid Date
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>

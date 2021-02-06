@@ -556,14 +556,14 @@
                                     <!-- {{assValuationData.fieldVisitChrgs}} -->
                                 </td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td>{{labels.insPremium}}</td>
                                 <td>:</td>
                                 <td>{{assValuationData.insPremium}}</td>
                                 <td>{{labels.PacTalic}}</td>
                                 <td>:</td>
                                 <td>{{assValuationData.pac_talic}}</td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td>{{labels.plcyExpiryDt}}</td>
                                 <td>:</td>
@@ -738,29 +738,59 @@
                     <p class="text-center">
                         {{labels.termSheetTag3}}</p>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.processingFee}}:
-                            {{deductionDetails?.vfProcessingFee}}</div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.advEmiAmt}} :
-                            {{deductionDetails?.advEmiAmt}}</div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.npdeOrRpdcAmount}} :
-                            {{deductionDetails?.npdc_rpdc_amt}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">FASTag Amount (in INR)  :
+                            {{fastagAmt}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">MI Premium Amount (in INR)  :
+                            {{miPremiumAmt}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">PAC Premium Amount (in INR)  :
+                            {{pacPremiumAmt}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.creditShield}} :
-                            {{deductionDetails?.creditShield}}</div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.insPremiumAmt}}:
-                            {{deductionDetails?.insPremiumAmt}}</div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.emiCoveragePremium}} :
-                            {{deductionDetails?.emiCovPremium}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">VAS Premium Amount (in INR)  :
+                            {{vasPremiumAmt}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Life Cover Premium Amount (in INR) :
+                            {{csPremiumAmt}}</div>
+                        <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">{{labels.emiCoveragePremium}} :
+                            {{deductionDetails?.emiCovPremium}}</div> -->
 
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style="overflow: hidden;">
+                        <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style="overflow: hidden;">
                             {{labels.totalDeductionAmount}}: {{deductionDetails?.totalDeductAmt}}
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
+                <!-- <div *ngIf="deductionCharges" id="terms_sheet_headline10">
+                    <p  class="text-center">
+                        Charges
+                    </p>
+                    
+                        <div *ngFor="let charges of deductionCharges; let i = index">
+                            <div  class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                {{charges?.chargeName}}</div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">:</div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                {{charges?.chargeAmount}}</div>
+                        </div>
+                        
+                    
+                </div> -->
+                <div id="terms_sheet_headline10" class="">
+                    <!-- Deduction Charges from Loan Amount -->
+                    <p class="text-center">
+                        Charges</p>
+                       
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                *ngFor="let charges of deductionCharges; let i = index">{{charges?.chargeName}}  :
+                                    {{charges?.chargeAmount}}</div>
+                               
+                            </div>
+                           
+                    
 
+                </div>
+               
                 <div id="terms_sheet_headline11_tag0" class="table-responsive" style="overflow-x: hidden !important">
                    
                     <p class="text-center" id="terms_sheet_headline11_1">{{labels.paymentDetails}}</p>

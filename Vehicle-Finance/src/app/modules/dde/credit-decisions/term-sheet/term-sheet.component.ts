@@ -63,6 +63,12 @@ export class TermSheetComponent implements OnInit {
   isDocumentId: boolean;
   isLoan360: boolean;
   taskId: any;
+  fastagAmt: any;
+  miPremiumAmt: any;
+  pacPremiumAmt: any;
+  vasPremiumAmt: any;
+  csPremiumAmt: any;
+  deductionCharges = [];
 
   constructor(
     public labelsService: LabelsService,
@@ -138,6 +144,12 @@ export class TermSheetComponent implements OnInit {
         this.assetLoanDetails = res['ProcessVariables'].assetLoanDetails;
         this.coAppIndentityDetails = res['ProcessVariables'].coAppIndentityDetails;
         this.guaIdentityDetails = res['ProcessVariables'].guaIdentityDetails;
+        this.fastagAmt = res['ProcessVariables'].fastagAmt;
+        this.miPremiumAmt = res['ProcessVariables'].miPremiumAmt;
+        this.pacPremiumAmt = res['ProcessVariables'].pacPremiumAmt;
+        this.vasPremiumAmt = res['ProcessVariables'].vasPremiumAmt;
+        this.csPremiumAmt = res['ProcessVariables'].csPremiumAmt;
+        this.deductionCharges = res['ProcessVariables'].deductionCharges;
         setTimeout(() => {
         if (isUpload == 'isUpload'){
          // this.uploadDoc();
