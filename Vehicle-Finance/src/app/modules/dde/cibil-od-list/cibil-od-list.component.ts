@@ -609,7 +609,7 @@ export class CibilOdListComponent implements OnInit {
 
   onBackToODDetails() {
     if (this.isLoan360) {
-      return this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
+      return this.router.navigateByUrl(`/pages/dde/${this.leadId}/score-card`);
     }
     this.finalValue = this.odDetailsForm.getRawValue();
     // console.log(JSON.stringify(this.apiValue));
@@ -633,7 +633,7 @@ export class CibilOdListComponent implements OnInit {
     //   );
     //   return;
     // }
-    this.router.navigateByUrl(`/pages/dde/${this.leadId}/cibil-od`);
+    this.router.navigateByUrl(`/pages/dde/${this.leadId}/score-card`);
   }
 
   showOdModel(i) {

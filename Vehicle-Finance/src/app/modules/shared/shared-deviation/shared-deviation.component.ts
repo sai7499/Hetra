@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -22,6 +22,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   deviationsForm: FormGroup;
   modalForm: FormGroup;
   taskId: any;
+
+  @ViewChild('closebutton', { static: true }) closebutton;
 
   public labels: any = {};
   public autoDeviationArray: any = [];
@@ -380,10 +382,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
           this.isDeviationEmpty = true;
         }
         this.recommendationArray = res.ProcessVariables.recommendation ? res.ProcessVariables.recommendation : [];
-          this.deviationsForm.patchValue({
-            enableApprove: res.ProcessVariables.enableApprove,
-            enableSendBack: res.ProcessVariables.enableSendBack
-          })
+        this.deviationsForm.patchValue({
+          enableApprove: res.ProcessVariables.enableApprove,
+          enableSendBack: res.ProcessVariables.enableSendBack
+        })
         if (this.locationIndex === 'dde' && res.ProcessVariables.enableApprove === true) {
           this.isApprove = true;
         }
@@ -395,7 +397,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.toasterService.showError(err, 'Get Deviation')
     })
   }
-
 
   getTrigurePolicy() {
     const data = {
@@ -561,10 +562,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.getFormValidation(this.deviationsForm)
   }
 
-  ReferDeviation() {
-
+  public ReferDeviation() {
     if (this.modalForm.valid) {
-
       let data = {};
 
       if (this.modalForm.controls['typeOfModal'].value === 'Recommendation') {
@@ -599,12 +598,15 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
         this.deviationService.getReferNextLevel(data).subscribe((res: any) => {
-          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-            this.router.navigate(['pages/dashboard'])
-            this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Leads Refer Deviation')
-          } else {
-            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Leads Refer Deviation')
-          }
+          this.closebutton.nativeElement.click();
+          setTimeout(() => {
+            if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+              this.router.navigate(['pages/dashboard'])
+              this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Leads Refer Deviation')
+            } else {
+              this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Leads Refer Deviation')
+            }
+          }, 1000)
         }, err => {
           console.log('err', err)
           this.toasterService.showError(err, 'Refer Error')
@@ -620,12 +622,15 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
         this.deviationService.approveDeviation(data).subscribe((res: any) => {
+          this.closebutton.nativeElement.click();
+          setTimeout(() => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Approve Deviation')
             this.router.navigateByUrl('/pages/dashboard')
           } else {
             this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Approve Deviation Error')
           }
+        }, 1000)
         }, err => {
           console.log('err', err)
           this.toasterService.showError(err, 'Approve Error')
@@ -640,19 +645,22 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
         this.deviationService.sendBackToCredit(data).subscribe((res: any) => {
+          this.closebutton.nativeElement.click();
+          setTimeout(() => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Send Back to Credit')
             this.router.navigate(['pages/dashboard'])
           } else {
             this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Send Back to Credit')
           }
+        }, 1000)
         }, err => {
           console.log('err', err)
           this.toasterService.showError(err, 'Send Back to Credit Error')
         })
       }
     } else {
-      this.utilityService.validateAllFormFields(this.modalForm)
+      this.utilityService.validateAllFormFields(this.modalForm);
       this.toasterService.showInfo('Please Select Recommend', 'Recommend')
     }
   }

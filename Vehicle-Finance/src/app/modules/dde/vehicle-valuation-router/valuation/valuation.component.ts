@@ -195,6 +195,8 @@ export class ValuationComponent implements OnInit {
   count: number;
   initalZeroCheck = [];
   remarksRequired: boolean;
+  apiValue: any;
+  finalValue: any;
  
 
 
@@ -759,7 +761,7 @@ export class ValuationComponent implements OnInit {
   modelInProdChange(event?: any) {
     console.log(event);
     this.modelInProd = event ? event : null;
-    const currnentInvoice = this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').value;
+    const currnentInvoice = this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').value ? this.vehicleValuationForm.get('remarksDetails').get('currInvoiceValue').value : this.vehicleValuationDetails.currInvoiceValue;
     console.log(currnentInvoice);
     
     if (this.modelInProd === '0') {
@@ -819,9 +821,9 @@ export class ValuationComponent implements OnInit {
 }
 console.log(insuranceValidUpto.getFullYear());
   if(leapYear(insuranceValidUpto.getFullYear())) {
-    this.count = 366
+    this.count = 365
   } else {
-    this.count = 365;
+    this.count = 364;
   }
 
   // const count = leapYear(insuranceValidUpto.getFullYear()) == true ? 366 : 365;
@@ -838,6 +840,7 @@ console.log(insuranceValidUpto.getFullYear());
   }
   onRegTypeChange(event?: any) {
     const isReRegistered = event ? event : null;
+    const reRegNumber = this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').value ? this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').value : this.vehicleValuationDetails.reRegNumber;
     if (isReRegistered === '0') {
       this.isPreRegNoDisabled = true;
       this.isPreRegNoRequired = false;
@@ -845,7 +848,7 @@ console.log(insuranceValidUpto.getFullYear());
       this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').clearValidators();
       this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').updateValueAndValidity();
       setTimeout(() => {
-        this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').patchValue(null);
+        this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').setValue(reRegNumber || null);
 
       });
     } else if (isReRegistered === '1') {
@@ -858,7 +861,7 @@ console.log(insuranceValidUpto.getFullYear());
 
       // });
       setTimeout(() => {
-        this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').patchValue(null);
+        this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').setValue(reRegNumber || null);
       });
       this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').enable();
       this.vehicleValuationForm.get('registerationDetails').get('reRegNumber').setValidators(Validators.required);
@@ -1037,9 +1040,9 @@ console.log(insuranceValidUpto.getFullYear());
         valuationInitiationDate: valuationDate,
         personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
       })
-      if (this.vehicleValuationDetails.valuatorRefNo) {
+      // if (this.vehicleValuationDetails.valuatorRefNo) {
         this.setFormValue();
-      }
+      // }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
   }
@@ -1252,7 +1255,7 @@ console.log(insuranceValidUpto.getFullYear());
       validFrom: new FormControl('', Validators.required),
       validUpto: new FormControl('', Validators.required),
       idv: new FormControl('', Validators.required),
-      idvValidityDate: new FormControl('', Validators.required),
+      // idvValidityDate: new FormControl('', Validators.required),
     }
   }
   getremarksDetails() {
@@ -1276,7 +1279,7 @@ console.log(insuranceValidUpto.getFullYear());
       expectedFutureLife: new FormControl('', Validators.required),
       marketValue: new FormControl('', Validators.required),
       valuationAmt: new FormControl('', Validators.required),
-      valuationDate: new FormControl('', Validators.required)
+      valuationDate: new FormControl({value: this.toDayDate, disabled: true})
     }
   }
   getvehiclePhotoDetails() {
@@ -1299,8 +1302,20 @@ console.log(insuranceValidUpto.getFullYear());
         this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '';
     }
 
+    this.vehicleValuationForm.patchValue({
+      valuatorCode : this.valuatorCode,
+      valuatorType : this.valuatorType,
+      vehicleCode : this.vehicleCode
+    })
+
     this.vehicleValuationForm.get('referenceDetails').patchValue({
       valuatorRefNo: this.vehicleValuationDetails.valuatorRefNo || '',
+      vehicleOwnerName : this.nameOfVehicleOwner || '',
+      vehicleOwnerMobile : this.mobileNumberOfVehicleOwner || '',
+      vehicleAddress : this.vehicleAddress || '',
+      pincode : this.vehiclePincode || '',
+      valuatorName : this.valuatorName || ''
+
     })
     this.vehicleValuationForm.get('inspectionDetails').patchValue({
       borrowersName: this.vehicleValuationDetails.borrowersName || '',
@@ -1311,6 +1326,7 @@ console.log(insuranceValidUpto.getFullYear());
       timeOfInspection: this.vehicleValuationDetails.timeOfInspection || '',
       engineStarted: this.vehicleValuationDetails.engineStarted || '',
       vehicleMoved: this.vehicleValuationDetails.vehicleMoved || '',
+      
 
     })
     this.vehicleValuationForm.get('vehicleIdentityDetails').patchValue({
@@ -1377,8 +1393,8 @@ console.log(insuranceValidUpto.getFullYear());
       validUpto: this.vehicleValuationDetails.validUpto ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.validUpto) : '',
       idv: this.vehicleValuationDetails.idv || '',
-      idvValidityDate: this.vehicleValuationDetails.idvValidityDate ?
-        this.utilityService.getDateFromString(this.vehicleValuationDetails.idvValidityDate) : '',
+      // idvValidityDate: this.vehicleValuationDetails.idvValidityDate ?
+      //   this.utilityService.getDateFromString(this.vehicleValuationDetails.idvValidityDate) : '',
     })
     this.vehicleValuationForm.get('remarksDetails').patchValue({
       modelUnderProduction: this.vehicleValuationDetails.modelUnderProduction || '',
@@ -1398,8 +1414,7 @@ console.log(insuranceValidUpto.getFullYear());
       expectedFutureLife: this.vehicleValuationDetails.expectedFutureLife || '',
       marketValue: this.vehicleValuationDetails.marketValue || '',
       valuationAmt: this.vehicleValuationDetails.valuationAmt || '',
-      valuationDate: this.vehicleValuationDetails.valuationDate ?
-        this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationDate) : '',
+      valuationDate: this.toDayDate
 
     })
     this.vehicleValuationForm.get('vehiclePhotoDetails').patchValue({
@@ -1420,6 +1435,7 @@ console.log(insuranceValidUpto.getFullYear());
       // regMonthYear: this.vehicleValuationDetails.regMonthYear || '',
       // yearMonthOfManufact: this.yearMonthOfManufact ? this.yearMonthOfManufact : '',  
     });
+    this.apiValue = this.vehicleValuationForm.getRawValue();
   }
 
   onVehicleRegion(value: any, obj) {
@@ -1661,7 +1677,7 @@ console.log(insuranceValidUpto.getFullYear());
  
 
     recomendationDetails.valuationDate = this.utilityService.convertDateTimeTOUTC(recomendationDetails.valuationDate, 'DD/MM/YYYY');
-    insuranceDetails.idvValidityDate = this.utilityService.convertDateTimeTOUTC(insuranceDetails.idvValidityDate, 'DD/MM/YYYY');
+    // insuranceDetails.idvValidityDate = this.utilityService.convertDateTimeTOUTC(insuranceDetails.idvValidityDate, 'DD/MM/YYYY');
     registerationDetails.yearOfManufacturer = this.utilityService.convertDateTimeTOUTC(registerationDetails.yearOfManufacturer, 'DD/MM/YYYY');
     registerationDetails.dateofReg = this.utilityService.convertDateTimeTOUTC(registerationDetails.dateofReg, 'DD/MM/YYYY');
     inspectionDetails.inspectionDate = this.utilityService.convertDateTimeTOUTC(inspectionDetails.inspectionDate, 'DD/MM/YYYY');
@@ -1729,7 +1745,8 @@ console.log(insuranceValidUpto.getFullYear());
       if (res.ProcessVariables.error.code === '0') {
         this.toasterService.showSuccess('Record Saved Successfully', '');
         this.initUDFValues = this.userDefineForm.udfData.getRawValue();
-        this.getVehicleValuation();
+        this.apiValue = this.vehicleValuationForm.getRawValue();
+        // this.getVehicleValuation();
 
       } else {
         console.log('error', res.ProcessVariables.error.message);
@@ -1745,23 +1762,29 @@ console.log(insuranceValidUpto.getFullYear());
   //   this.saveUpdateVehicleValuation();
   // }
   submitValuationTask() {
+    this.finalValue = this.vehicleValuationForm.getRawValue();
     this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
-    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+    const isValuationValidCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues);
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
+    console.log('apivalue',this.apiValue);
+    console.log('finalValue',this.finalValue);
+    console.log('compare',this.objectComparisonService.compare(this.apiValue, this.finalValue));
+    
     if (this.vehicleValuationForm.invalid || isUDFInvalid) {
-      this.toasterService.showError('Please enter required details', '');
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    this.validateFitnessDate();
-    this.validateInsuranceDate();
-    this.validatePermitDate();
-    this.validateTaxDate();
-    this.validateDateOfReg();
-    this.insuranceValidUptoCheck();
-    if(this.invalidFitnessDate || this.invalidInsDate || this.invalidTaxDate || this.invalidRegDate|| this.invalidInsuranceValidity || this.invalidInsuDiff){
-      return;
-    }
-    if (!isUDFCheck) {
+    // this.validateFitnessDate();
+    // this.validateInsuranceDate();
+    // this.validatePermitDate();
+    // this.validateTaxDate();
+    // this.validateDateOfReg();
+    // this.insuranceValidUptoCheck();
+    // if(this.invalidFitnessDate || this.invalidInsDate || this.invalidTaxDate || this.invalidRegDate|| this.invalidInsuranceValidity || this.invalidInsuDiff){
+    //   return;
+    // }
+    if (!isUDFCheck || !isValuationValidCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }

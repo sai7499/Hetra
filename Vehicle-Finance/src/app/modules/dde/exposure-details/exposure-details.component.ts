@@ -38,6 +38,7 @@ export class ExposureDetailsComponent implements OnInit {
   udfGroupId= 'EXG001';
   liveloanControl: FormArray;
   isProposed: any;
+  initalZeroCheck = [];
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -47,6 +48,7 @@ export class ExposureDetailsComponent implements OnInit {
               private toStarService: ToasterService,
               private toggleDdeService: ToggleDdeService,
               private loanViewService: LoanViewService ) {
+              this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
                 this.yearCheck = [{rule: val => val>this.currentYear,
                                    msg:'Future year not accepted'}];
                 this.labelService.getLabelsData().subscribe(res => {
