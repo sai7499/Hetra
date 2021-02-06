@@ -63,6 +63,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   jsonScreenId: any;
 
   isDeviationEmpty: boolean;
+  isShowReferModal: boolean;
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
@@ -345,6 +346,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.modalForm.patchValue({
       typeOfModal: value
     })
+    this.isShowReferModal = true;
   }
 
   removeDeviationIndex(id, i?: any) {
@@ -395,7 +397,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.toasterService.showError(err, 'Get Deviation')
     })
   }
-
 
   getTrigurePolicy() {
     const data = {
@@ -561,7 +562,13 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.getFormValidation(this.deviationsForm)
   }
 
+  onClose() {
+    this.isShowReferModal = false;
+  }
+
   ReferDeviation() {
+
+    this.isShowReferModal = true;
 
     if (this.modalForm.valid) {
 
@@ -652,7 +659,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         })
       }
     } else {
-      this.utilityService.validateAllFormFields(this.modalForm)
+      this.utilityService.validateAllFormFields(this.modalForm);
       this.toasterService.showInfo('Please Select Recommend', 'Recommend')
     }
   }
