@@ -65,6 +65,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   jsonScreenId: any;
 
   isDeviationEmpty: boolean;
+  isShowReferModal: boolean;
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
@@ -347,6 +348,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.modalForm.patchValue({
       typeOfModal: value
     })
+    this.isShowReferModal = true;
   }
 
   removeDeviationIndex(id, i?: any) {

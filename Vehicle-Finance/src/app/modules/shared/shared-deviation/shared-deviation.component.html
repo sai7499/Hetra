@@ -414,7 +414,7 @@
 
 <!-- Delete Modal Ends -->
 
-<div class="modal fade" id="referRecommedation" role="dialog">
+<div class="modal" data-dismiss="modal" id="referRecommedation" [ngClass]="{ 'dis-block': isShowReferModal }">
   <div class="modal-dialog">
     <form class="multisteps-form__form p-0" [formGroup]="modalForm">
     <div class="modal-content">
