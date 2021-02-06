@@ -369,3 +369,11 @@
   .mb-5{
     margin-bottom:5px!important;
   }
+
+  .cus-hide {
+    display: none !important;
+  }
+
+  .dis-block {
+    display: block;
+  }

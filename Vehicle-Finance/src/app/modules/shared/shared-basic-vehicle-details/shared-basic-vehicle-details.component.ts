@@ -447,16 +447,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
                   let addressLineTwo, addressLineThree = '';
 
-                  if (addressDetail.addressLineTwo) {
+                  if (addressDetail.addressLineTwo !== undefined && addressDetail.addressLineTwo !== null) {
                     addressLineTwo = addressDetail.addressLineTwo
                   }
 
-                  if (addressDetail.addressLineThree) {
+                  if (addressDetail.addressLineThree !== undefined && addressDetail.addressLineThree !== null) {
                     addressLineThree = addressDetail.addressLineThree
                   }
 
-                  address = addressDetail.addressLineOne + ' ' + addressLineTwo + ' '  + addressLineThree + ' ' + addressDetail.cityValue + ' ' + addressDetail.districtValue  + ' ' + addressDetail.stateValue + 
-                            ' ' + addressDetail.countryValue;
+                  address = addressDetail.addressLineOne + ' ' + addressLineTwo + ' ' + addressLineThree + ' ' + addressDetail.cityValue + ' ' + addressDetail.districtValue + ' ' + addressDetail.stateValue +
+                    ' ' + addressDetail.countryValue;
                   pincode = addressDetail.pincode;
                 }
 
@@ -1229,7 +1229,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isVehAvailInGrid: [0],
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
-      permitUpload: [''],
       chasisNumber: ['', Validators.required],
       engineNumber: ['', Validators.required],
       vehiclePurchasedCost: [null],
@@ -1408,6 +1407,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           isCheckDedpue: false
         })
         this.isVehicleRegNoChange = true;
+        setTimeout(() => {
+          const grp = this.basicVehicleForm.get('vehicleFormArray') as FormArray;
+          const arrayObj = grp.at(0) as FormGroup;
+          for (const key in arrayObj['controls']) {
+            if (key !== 'vehicleRegNo') {
+              arrayObj.get(key).clearValidators();
+              arrayObj.updateValueAndValidity();
+            }
+          }
+        })
       } else {
         this.isVehicleRegNoChange = false;
       }
@@ -1434,8 +1443,34 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
 
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      const details = formArray.at(0) as FormGroup;
+      let ObjKeys = Object.keys(obj.controls)
+
+      ObjKeys.forEach((control) => {
+
+        if (control !== 'scheme' && control !== 'assetSubVarient' && control !== 'finalAssetCost') {
+          obj.get(control).setValidators([Validators.required]);
+          obj.get(control).updateValueAndValidity();
+          if (this.roleType !== 1) {
+            this.removeControls(obj);
+            if (this.productCatoryCode === 'UC') {
+              obj.get('assetCostLeast').clearValidators();
+              obj.get('assetCostLeast').updateValueAndValidity()
+            } else {
+              obj.get('fitnessDate').clearValidators();
+              obj.get('fitnessDate').updateValueAndValidity()
+
+              obj.get('typeOfPermit').clearValidators();
+              obj.get('typeOfPermit').updateValueAndValidity()
+
+              obj.get('typeOfPermitOthers').clearValidators();
+              obj.get('typeOfPermitOthers').updateValueAndValidity()
+
+              obj.get('permitExpiryDate').clearValidators();
+              obj.get('permitExpiryDate').updateValueAndValidity()
+            }
+          }
+        }
+      })
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.searchChildLoanData = res;
@@ -1453,7 +1488,63 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         obj.get('parentLoanAccountNumber').setValue('')
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
+
     })
+  }
+
+  removeControls(obj) {
+
+    obj.get('vehiclePurchasedCost').clearValidators();
+    obj.get('vehiclePurchasedCost').updateValueAndValidity()
+
+    obj.get('vehicleOwnerShipNumber').clearValidators();
+    obj.get('vehicleOwnerShipNumber').updateValueAndValidity()
+
+    obj.get('vehicleRegDate').clearValidators();
+    obj.get('vehicleRegDate').updateValueAndValidity()
+
+    obj.get('grossVehicleWeight').clearValidators();
+    obj.get('grossVehicleWeight').updateValueAndValidity()
+
+    obj.get('reRegVehicle').clearValidators();
+    obj.get('reRegVehicle').updateValueAndValidity()
+
+    obj.get('interStateVehicle').clearValidators();
+    obj.get('interStateVehicle').updateValueAndValidity()
+
+    obj.get('duplicateRC').clearValidators();
+    obj.get('duplicateRC').updateValueAndValidity()
+
+    obj.get('cubicCapacity').clearValidators();
+    obj.get('cubicCapacity').updateValueAndValidity()
+
+    obj.get('seatingCapacity').clearValidators();
+    obj.get('seatingCapacity').updateValueAndValidity()
+
+    obj.get('idv').clearValidators();
+    obj.get('idv').updateValueAndValidity()
+
+    obj.get('insuranceCopy').clearValidators();
+    obj.get('insuranceCopy').updateValueAndValidity()
+
+    obj.get('fsrdFundingReq').clearValidators();
+    obj.get('fsrdFundingReq').updateValueAndValidity()
+
+    obj.get('fsrdPremiumAmount').clearValidators();
+    obj.get('fsrdPremiumAmount').updateValueAndValidity()
+
+    obj.get('loanAmount').clearValidators();
+    obj.get('loanAmount').updateValueAndValidity()
+
+    obj.get('bodyCost').clearValidators();
+    obj.get('bodyCost').updateValueAndValidity()
+
+    obj.get('expectedNOCDate').clearValidators();
+    obj.get('expectedNOCDate').updateValueAndValidity()
+
+    obj.get('insuranceValidity').clearValidators();
+    obj.get('insuranceValidity').updateValueAndValidity()
+
   }
 
   getLoanDetails(obj) {
@@ -1478,7 +1569,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
       }
     })
-
 
   }
 
