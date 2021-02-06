@@ -8,6 +8,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 export class SharedService {
 
     popStateActivity$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    leadItem: any;
     
     browserPopState(data) {
         this.popStateActivity$.next(data)
@@ -129,6 +130,14 @@ export class SharedService {
     isdedupdeStatus$: BehaviorSubject<any> = new BehaviorSubject(null);
     getDedupdeStatus(data) {
         this.isdedupdeStatus$.next(data);
+    }
+
+    setTabName(data){
+       this.leadItem = data
+    }
+
+    getTabName(){
+        return this.leadItem
     }
 
 

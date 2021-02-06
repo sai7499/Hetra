@@ -24,6 +24,7 @@ export class TvrDetailsComponent implements OnInit {
   fiCumPdStatus: boolean;
   productCatCode: string;
   isLoan360: boolean;
+  tabName : any = {}
 
   constructor(
     private labelDetails: LabelsService,
@@ -37,12 +38,7 @@ export class TvrDetailsComponent implements OnInit {
 
   async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-    this.fiCumPdStatusString = (localStorage.getItem('isFiCumPd'));
-    if (this.fiCumPdStatusString == 'false') {
-      this.fiCumPdStatus = false
-    } else if (this.fiCumPdStatusString == 'true') {
-      this.fiCumPdStatus = true
-    }
+    this.tabName = this.sharedService.getTabName();
     this.labelDetails.getLabelsData().subscribe(
       data => {
         this.labels = data;
@@ -117,17 +113,22 @@ export class TvrDetailsComponent implements OnInit {
   }
 
   onNext() {
-    if (this.isLoan360) {
-      return this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-list`)
-    }
+    // if (this.isLoan360) {
+    //   return this.router.navigateByUrl(`pages/dde/${this.leadId}/viability-list`)
+    // }
     if (this.productCatCode == 'UC') {
       this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
     } else {
-      if (this.fiCumPdStatus == false) {
+      if (this.tabName['isFI']) {
         this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-      } else if (this.fiCumPdStatus == true) {
+      } else if (this.tabName['isPD']) {
         this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
-
+      }else if (this.tabName['isFiCumPD']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      }else if (this.tabName['isVV']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+      }else {
+        this.router.navigate(['pages/dde/' + this.leadId + '/cibil-od']);
       }
     }
 

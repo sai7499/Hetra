@@ -90,7 +90,9 @@
                 
               /> -->
               <app-custom-input formControlName="name1" [maxLength]="validationData?.name?.maxLength"
-                [type]="validationData?.nameWithoutSpace?.type"></app-custom-input>
+                [type]="validationData?.nameWithoutSpace?.type"
+                [isRequired]="'First name is required'" 
+                [isDirty]="isDirty"></app-custom-input>
               <!-- [isRequired]="'First Name is required'"
                 [isDirty]="isDirty" -->
             </div>
@@ -116,7 +118,9 @@
                 
               /> -->
               <app-custom-input formControlName="name3" [maxLength]="validationData?.name?.maxLength"
-                [type]="validationData?.nameWithoutSpace?.type"></app-custom-input>
+                [type]="validationData?.nameWithoutSpace?.type"
+                [isRequired]="islastNameReq? 'Last name is required' : ''" 
+                [isDirty]="isDirty"></app-custom-input>
               <!-- [isRequired]="'Last Name is required'"
                 [isDirty]="isDirty" -->
             </div>

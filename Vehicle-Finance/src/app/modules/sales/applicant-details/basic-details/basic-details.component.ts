@@ -106,6 +106,7 @@ export class BasicDetailsComponent implements OnInit {
   initUDFValues: any;
   relationShipLov: any[];
   isAppNonInd: boolean;
+  islastNameReq: boolean = true;
 
 
   constructor(
@@ -726,7 +727,11 @@ export class BasicDetailsComponent implements OnInit {
       recommendations: aboutIndivProspectDetails.recommendations || ''
     });
 
-
+   if(this.applicant.ucic){
+    details.get('name3').clearValidators();
+    details.get('name3').updateValueAndValidity();
+    this.islastNameReq = false
+   }
     // this.clearFatherOrSpouseValidation();
     // this.eitherFathOrspouse();
     this.listenerForMobilechange()

@@ -8,6 +8,7 @@ import { LoginStoreService } from '@services/login-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import html2pdf from 'html2pdf.js';
 import { PdDataService } from '../fi-cum-pd-report/pd-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-fi-list',
@@ -56,6 +57,7 @@ export class FiListComponent implements OnInit {
   currentTime: any;
   isFiModal: boolean;
   udfScreenId: any;
+  tabName: any;
 
   constructor(
     private labelDetails: LabelsService,
@@ -66,7 +68,8 @@ export class FiListComponent implements OnInit {
     private personalDiscussionService: PersonalDiscussionService,
     private createLeadDataService: CreateLeadDataService,
     private commonLovService: CommomLovService,
-    private pdDataService: PdDataService
+    private pdDataService: PdDataService,
+    private sharedService: SharedService,
   ) {
     this.currentTime = this.stringTime[0] + ':' + this.stringTime[1];
     this.showTypeOfConcern = true;
@@ -87,6 +90,7 @@ export class FiListComponent implements OnInit {
   async ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     //  details from loginstore service
+    this.tabName = this.sharedService.getTabName();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.labelDetails.getLabelsData().subscribe(
       data => {
@@ -233,7 +237,6 @@ export class FiListComponent implements OnInit {
     }
   }
 
-
   onNavigate(action) { // fun for routing into next and back pages using argument ==> 'action'
     // console.log('in on navigate', action);
     console.log(action === 'back' && this.productCatCode == 'UC');
@@ -244,7 +247,16 @@ export class FiListComponent implements OnInit {
       this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
     }
     else if (action === 'next') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      if (this.tabName['isPD']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      }else if (this.tabName['isFiCumPD']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      }else if (this.tabName['isVV']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+      }else {
+        this.router.navigate(['pages/dde/' + this.leadId + '/cibil-od']);
+      }
+      //this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
     }
 
 

@@ -4,6 +4,7 @@ import { LabelsService } from '@services/labels.service';
 import { OdDetailsService } from '@services/od-details.service';
 import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 @Component({
   selector: 'app-cibil-od',
   templateUrl: './cibil-od.component.html',
@@ -17,6 +18,9 @@ export class CibilOdComponent implements OnInit {
   applicantUrl: string;
   isLoan360: boolean;
   udfScreenId: any;
+  tabName: any;
+  leadData: {};
+  productCatCode: any;
 
   constructor(
     private router: Router,
@@ -24,15 +28,18 @@ export class CibilOdComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private odDetailsService: OdDetailsService,
     private sharedService: SharedService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private createLeadDataService: CreateLeadDataService,
   ) { }
 
   ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
+    this.tabName = this.sharedService.getTabName();
     this.labelService.getLabelsData().subscribe(res => {
       this.labels = res;
     });
-    this.getLeadId()
+    this.getLeadId();
+    this.getLeadSectionData();
     this.applicantUrl = `/pages/dde/${this.leadId}/cibil-od-list`
     this.userId = localStorage.getItem('userId');
     this.getParentOdDetails();
@@ -42,6 +49,12 @@ export class CibilOdComponent implements OnInit {
       this.udfScreenId = udfScreenId.DDE.bureauListDDE ;
 
     })
+  }
+  getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+    this.leadData = { ...leadSectionData };
+    this.productCatCode = this.leadData['leadDetails'].productCatCode;
+
   }
 
   getLeadId() {
@@ -75,8 +88,23 @@ export class CibilOdComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+  if (this.tabName['isVV']) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+    }else if (this.tabName['isFiCumPD']) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    }else if (this.tabName['isPD']) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+    }else if (this.tabName['isFI']) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
+    }else if (this.productCatCode == 'UC') {
+      this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+    }
+    else {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
+    }
+    //this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
   }
+  
 
   onNext() {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/score-card`);

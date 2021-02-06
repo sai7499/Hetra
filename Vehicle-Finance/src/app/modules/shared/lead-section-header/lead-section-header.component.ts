@@ -161,6 +161,14 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
       ? Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
       : '0';
+      
+      
+      if(this.isLoan360){
+        const loanAccountDetails = this.loanViewService.getLoanAccountDetails();
+        console.log('loanAccountDetails', loanAccountDetails)
+        const disburseAmnt = loanAccountDetails ? loanAccountDetails.totalLoanAmount : ''
+        this.loanAmount = disburseAmnt || this.loanAmount;
+      }
   }
   getLeadId() {
     return new Promise((resolve, reject) => {

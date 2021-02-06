@@ -105,7 +105,7 @@
                 formControlName="name3"
               /> -->
               <app-custom-input formControlName="name3" [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="'Last Name is required'" [isDirty]="isDirty" [type]="validationData?.nameWithoutSpace?.type">
+                [isRequired]="islastNameReq ? 'Last Name is required' : ''" [isDirty]="isDirty" [type]="validationData?.nameWithoutSpace?.type">
               </app-custom-input>
             </div>
           </div>

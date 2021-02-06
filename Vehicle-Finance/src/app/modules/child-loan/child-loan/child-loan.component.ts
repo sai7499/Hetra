@@ -11,6 +11,7 @@ import { CommonDataService } from '@services/common-data.service';
 import { LoanViewService } from '@services/loan-view.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { UtilityService } from '@services/utility.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-child-loan',
@@ -77,6 +78,12 @@ export class ChildLoanComponent implements OnInit {
     mobile?: any
     dateOfBirth?: any
   }
+  tabName: any = {
+    isFiCumPD : false,
+    isFI : false,
+    isPD : false,
+    isVV : false,
+   };
 
 
   constructor(
@@ -91,7 +98,8 @@ export class ChildLoanComponent implements OnInit {
     private commomLovService: CommomLovService,
     private loanViewService: LoanViewService,
     private loginStoreService: LoginStoreService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private sharedService: SharedService,
 
   ) { }
 
@@ -104,6 +112,8 @@ export class ChildLoanComponent implements OnInit {
     this.isSO = userDetails.roles[0].roleId;
     console.log('userDetails', userDetails);
     console.log('bod ', this.childLoanForm.controls.dateOfBirth);
+    this.sharedService.getPslDataNext(false);
+    this.sharedService.setTabName(this.tabName);
   }
 
   initForm() {
@@ -466,11 +476,16 @@ export class ChildLoanComponent implements OnInit {
       this.selectedLoanAccNoIndex = index;
       this.selectedLeadId = this.loanDetailsData[index].parentLead;
       this.loanViewService.setLoanAccountDetails(loanDetail);
+      this.tabName['isFiCumPD'] = loanDetail.isFiCumPD;
+    this.tabName['isFI'] = loanDetail.isFI
+    this.tabName['isPD'] = loanDetail.isPD
+    this.tabName['isVV'] = loanDetail.isVV
     }
   }
 
   viewLoan360() {
     this.loanViewService.isLoan360(true);
+    this.sharedService.setTabName(this.tabName)
     // this.loanViewService.getLoanDetails(this.leadId)
     //     .subscribe((value) => {
     // console.log('loan 360', value);
