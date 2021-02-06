@@ -551,7 +551,8 @@
 </div>
 <div id="mydiv" *ngIf="cibilImage" class="card" class="center">
   <button type="button" class="close" (click)="destroyImage()">×</button>
+  <button style="margin-right: 5px;" type="button" class="close" (click)="downloadPdf()"><i class="fa fa-download"></i></button>
   <!-- Header -->
-  <div class="image-content" [innerHTML]="cibilImage"> </div>
+  <div id="cibilPdf" class="image-content" [innerHTML]="cibilImage"> </div>
 
 </div>
