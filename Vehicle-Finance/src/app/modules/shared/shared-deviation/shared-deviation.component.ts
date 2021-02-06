@@ -606,6 +606,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
         this.deviationService.getReferNextLevel(data).subscribe((res: any) => {
+          this.isShowReferModal = false;
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.router.navigate(['pages/dashboard'])
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Leads Refer Deviation')
