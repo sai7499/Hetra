@@ -177,6 +177,58 @@ fetchDisbursement(leadId) {
       const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
       return this.httpService.post(url, body);
   }
+  //Disbursement Enhancement Start
+  getLoanDetailList(leadID){
+    const processId = this.apiService.api.loanDetailList.processId;
+    const workflowId = this.apiService.api.loanDetailList.workflowId;
+    const projectId = this.apiService.api.loanDetailList.projectId;
+
+    const body: RequestEntity = {
+        processId: processId,
+        ProcessVariables: {
+            "LeadID": leadID
+        },
+        workflowId: workflowId,
+        projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+  getLoanDetailListDisburse(leadID,usubRefID){
+    const processId = this.apiService.api.loanDetailListDisburse.processId;
+    const workflowId = this.apiService.api.loanDetailListDisburse.workflowId;
+    const projectId = this.apiService.api.loanDetailListDisburse.projectId;
+
+    const body: RequestEntity = {
+        processId: processId,
+        ProcessVariables: {
+            "LeadID": leadID,
+            "UniqueSubLeadReferenceID": usubRefID
+        },
+        workflowId: workflowId,
+        projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+  getDisbursementDetails(leadID,usubRefID){
+    const processId = this.apiService.api.getDisbursementData.processId;
+    const workflowId = this.apiService.api.getDisbursementData.workflowId;
+    const projectId = this.apiService.api.getDisbursementData.projectId;
+
+    const body: RequestEntity = {
+        processId: processId,
+        ProcessVariables: {
+            "LeadID": leadID,
+            "UniqueSubLeadReferenceID": usubRefID
+        },
+        workflowId: workflowId,
+        projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+  //Disbursement Enhancement End
   getTDDetails(reqData,val){
       if(val == '2'){
         const processId = this.apiService.api.getTDDetailsByTask.processId;
