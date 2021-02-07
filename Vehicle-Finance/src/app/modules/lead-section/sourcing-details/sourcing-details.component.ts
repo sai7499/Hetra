@@ -379,24 +379,6 @@ export class SourcingDetailsComponent implements OnInit {
     const applicationNO = data.leadDetails.applicationNo;
     this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
 
-    let loanTypeFromLead = (data.leadDetails.typeOfLoan) ? data.leadDetails.typeOfLoan : '';
-
-    if (this.productCategoryFromLead === 'NCV') {
-      this.LOV.LOVS.defaultloanType = this.LOV.LOVS.loanType;
-      loanTypeFromLead = (data.leadDetails.typeOfLoan) ? data.leadDetails.typeOfLoan : '8LOANTYP';
-    } else {
-      let defaultType = this.LOV.LOVS.loanType.filter((loan) => {
-        if (loan.key !== '8LOANTYP') {
-          return {
-            key: loan.key,
-            value: loan.value
-          }
-        }
-      })
-      this.LOV.LOVS.defaultloanType = defaultType;
-    }
-
-    this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
@@ -410,6 +392,7 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingDetailsForm.disable();
     }
   }
+
 
   patchSourcingDetails(data) {
     this.sourcingDetailsForm.patchValue({
@@ -511,6 +494,36 @@ export class SourcingDetailsComponent implements OnInit {
       }
       this.tenureAmountValidation = this.loanTenureAmount(this.productCategoryLoanAmount);
     }
+
+    
+    let loanTypeFromLead = (this.leadData.leadDetails.typeOfLoan) ? this.leadData.leadDetails.typeOfLoan : '';
+    // if(!isBool){
+
+    // }else{
+
+    // }
+    this.LOV.LOVS.defaultloanType = this.LOV.LOVS.loanType;
+    if (productCategorySelected === 'NCV') {
+      
+      loanTypeFromLead = '8LOANTYP';
+      this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
+      this.sourcingDetailsForm.get('loanType').disable();
+    } else {
+      let defaultType = this.LOV.LOVS.loanType.filter((loan) => {
+        if (loan.key !== '8LOANTYP') {
+          return {
+            key: loan.key,
+            value: loan.value
+          }
+        }
+      })
+      this.LOV.LOVS.defaultloanType = defaultType;
+      this.sourcingDetailsForm.get('loanType').enable();
+      console.log('isBool', isBool)
+      this.sourcingDetailsForm.patchValue({ loanType: isBool? '' : loanTypeFromLead });
+    }
+
+    
   }
 
   productChange(event) {
