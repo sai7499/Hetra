@@ -13,10 +13,15 @@ import { ToasterService } from '@services/toaster.service';
 import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoanViewService } from '@services/loan-view.service';
 import { ChildLoanApiService } from '@services/child-loan-api.service';
 import { environment } from 'src/environments/environment';
+import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { CreditScoreService } from '@services/credit-score.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
+import { TermAcceptanceService } from '@services/term-acceptance.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-shared-basic-vehicle-details',
@@ -98,28 +103,57 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   isVehicleRegNoChange: boolean;
   searchChildLoanData: any;
 
+  // Next to Check Value
+  isShowLoanDetails: boolean;
+  isApiValue: any;
+  isFormValue: any;
+  vehicleArray: any = [];
+
   @Input() udfScreenId: any;
   @Input() udfGroupId: any;
   udfDetails: any = [];
+  isLoan360: boolean;
+  userDefineForm: any;
+  initUDFValues: any;
+  eligibleModal: boolean;
+  errorMessage: any;
+  isModelShow: boolean;
+  showEligibilityScreen: any;
+  applicantList: any;
+  showNotCoApplicant: boolean;
+  finalValue: any;
+  editedUDFValues: any;
+  isFinalValue: any;
+
+  leadSectionData: any;
+
+  // loanDetails
+  loanDetails: boolean;
+  loanAccountDetails: any;
 
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
     private commonLovService: CommomLovService, private utilityService: UtilityService,
-    private vehicleDetailService: VehicleDetailService, private activedRoute: ActivatedRoute,
+    private vehicleDetailService: VehicleDetailService, private vehicleDetailsService: VehicleDetailService,
     private vehicleDataService: VehicleDataStoreService, private uiLoader: NgxUiLoaderService,
     private createLeadDataService: CreateLeadDataService, private toasterService: ToasterService,
     public sharedService: SharedService, private applicantService: ApplicantService,
-    private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService) {
+    private childLoanApiService: ChildLoanApiService, private loanViewService: LoanViewService,
+    private router: Router, private vehicleDataStoreService: VehicleDataStoreService,
+    private applicantDataStoreService: ApplicantDataStoreService,
+    private creditService: CreditScoreService,
+    private objectComparisonService: ObjectComparisonService,
+    private termsService: TermAcceptanceService,
+    private location: Location) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
     var day = this.toDayDate.getDate();
     var month = this.toDayDate.getMonth();
     var year = this.toDayDate.getFullYear();
-    let myYear = this.toDayDate.getFullYear() - 15;
-    this.minDate = new Date(myYear, month, day, 0, 0)
     this.toDayDate = new Date(year, month, day, 0, 0);
+    this.minDate = new Date(new Date().getFullYear() - 15, month, month)
     // Mobile View
     this.isMobile = environment.isMobile;
 
@@ -142,18 +176,44 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         console.log('error', error)
       });
 
+    this.applicantList = this.applicantDataStoreService.getApplicantList();
+
     let roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.roles = roleAndUserDetails.roles;
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
+    this.isLoan360 = this.loanViewService.checkIsLoan360();
 
     this.userId = roleAndUserDetails.userDetails.userId;
-    let leadData = this.createLeadDataService.getLeadSectionData();
 
-    this.applicantDetails = leadData['applicantDetails']
-    this.leadDetails = leadData['leadDetails']
-    this.leadId = leadData['leadId'];
+    this.getLeadSectionData();
+    this.initForms();
+    this.getLov();
+
+    this.vehicleRegPattern = this.validateCustomPattern()
+
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType) {
+      this.basicVehicleForm.disable();
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.basicVehicleForm.disable();
+      this.disableSaveBtn = true;
+    }
+
+    this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt;
+  }
+
+  getLeadSectionData() {
+
+    this.leadSectionData = this.createLeadDataService.getLeadSectionData();
+
+    this.applicantDetails = this.leadSectionData['applicantDetails']
+    this.leadDetails = this.leadSectionData['leadDetails']
+    this.leadId = this.leadSectionData['leadId'];
     this.productCatoryCode = this.leadDetails['productCatCode'];
     this.loanTenor = this.leadDetails['reqTenure'];
     this.assetProdutName = this.leadDetails['assetProdutName'];
@@ -175,30 +235,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       }
     })
-
-    this.initForms();
-    this.getLov();
-
-    if (this.id && this.id !== '0') {
-      this.setFormValue();
-    };
-
-    this.vehicleRegPattern = this.validateCustomPattern()
-
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType) {
-      this.basicVehicleForm.disable();
-      this.disableSaveBtn = true;
-    }
-
-    if (this.loanViewService.checkIsLoan360()) {
-      this.basicVehicleForm.disable();
-      this.disableSaveBtn = true;
-    }
-
-    if (this.vehicleDataService.getLoanAmount()) {
-      this.eligibleLoanAmount = Number(this.vehicleDataService.getLoanAmount())
-    }
   }
 
   onGetMarginAmount(value, form) {
@@ -210,8 +246,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
   }
 
-  onSaveuserDefinedFields(event) {
-    this.sharedService.getUserDefinedFields(event)
+  onSaveuserDefinedFields(value) {
+    //this.sharedService.getUserDefinedFields(event)
+    this.userDefineForm = value;
+    if (value.event === 'init') {
+      this.initUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
+    }
   }
 
   validateCustomPattern() {
@@ -233,11 +273,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     return regPatternData;
   }
 
-  onGetDateValue(event) {
+  onGetDateValue(event, isVehicleGrid?: string) {
 
-    console.log(event, 'minDate', this.minDate)
-
-    if (!(event > this.maxDate || event < this.minDate)) {
+    if (!(event > this.maxDate && event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
       let ageOfAssetYear = this.utilityService.ageOfAssetYear(event)['_data'];
@@ -246,14 +284,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       let ageOfAsset = Number(this.utilityService.ageFromAsset(event)) + '    ( ' + ageOfAssetYear.years + ' Years ' + ageOfAssetYear.months + ' Months ' + ' ) ';
 
-      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.round(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.round(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
+      let ageAfterTenure = ageOfLoanTenure + '    ( ' + Math.floor(Number(ageOfLoanTenure) / 12) + ' Years ' + Math.floor(Number(ageOfLoanTenure % 12)) + ' Months ' + ' ) ';
 
       formArray.controls[0].patchValue({
         ageOfAsset: ageOfAsset,
         ageAfterTenure: ageAfterTenure
       })
 
-      if (this.productCatoryCode === 'UCV') {
+      if (isVehicleGrid && this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
         this.getVehicleGridValue(formArray)
       }
     }
@@ -275,6 +313,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             finalAssetCost: res.ProcessVariables.vehicleCost,
             isVehAvailInGrid: res.ProcessVariables.isVehAvailInGrid,
           })
+          this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Gird value')
         }
@@ -291,17 +330,16 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     if (value) {
       formArray.controls[0].patchValue({
-        finalAssetCost: value
+        finalAssetCost: value + ''
       })
     }
 
   }
 
-  onCompareFinalAssetCode(event) {
-    const value = event.target.value;
+  onCompareFinalAssetCode(event, obj) {
     const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
-    if (formArray.value[0].assetCostCarTrade < formArray.value[0].assetCostIBB) {
+    if (Number(obj.controls['assetCostCarTrade'].value) < Number(obj.controls['assetCostIBB'].value)) {
       formArray.controls[0].patchValue({
         finalAssetCost: formArray.value[0].assetCostCarTrade
       })
@@ -333,7 +371,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.getDynamicFormControls(details)
     }
 
-    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
       this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
     }
   }
@@ -379,6 +417,66 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       ]
     });
+    this.getVehicleDetails(this.leadId)
+  }
+
+  getVehicleDetails(id: number) {
+    this.vehicleDetailsService.getAllVehicleCollateralDetails(id).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        if (res.ProcessVariables.vehicleDetails && res.ProcessVariables.vehicleDetails.length > 0) {
+          this.vehicleArray = res.ProcessVariables.vehicleDetails;
+          this.id = res.ProcessVariables.vehicleDetails[0].collateralId;
+          if (this.id && this.id !== '0' && this.id !== 0) {
+            this.setFormValue();
+          }
+        } else {
+          if (this.leadDetails && (this.leadDetails.typeOfLoan === '2LOANTYP' || this.leadDetails.typeOfLoan === '3LOANTYP' || this.isChildLoan) && this.productCatoryCode !== 'NCV') {
+            let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
+
+            this.applicantDetails.filter((applicant: any) => {
+              if (applicant.applicantType === 'Applicant') {
+                let mobileNumber = applicant.mobileNumber ? applicant.mobileNumber.length > 10 ?
+                  applicant.mobileNumber.slice(2, 12) : applicant.mobileNumber : '';
+
+                let address = '';
+                let pincode = null;
+
+                if (this.leadSectionData.addressDetails && this.leadSectionData.addressDetails.length > 0) {
+
+                  let addressDetail = this.leadSectionData.addressDetails[0];
+
+                  let addressLineTwo, addressLineThree = '';
+
+                  if (addressDetail.addressLineTwo !== undefined && addressDetail.addressLineTwo !== null) {
+                    addressLineTwo = addressDetail.addressLineTwo
+                  }
+
+                  if (addressDetail.addressLineThree !== undefined && addressDetail.addressLineThree !== null) {
+                    addressLineThree = addressDetail.addressLineThree
+                  }
+
+                  address = addressDetail.addressLineOne + ' ' + addressLineTwo + ' ' + addressLineThree + ' ' + addressDetail.cityValue + ' ' + addressDetail.districtValue + ' ' + addressDetail.stateValue +
+                    ' ' + addressDetail.countryValue;
+                  pincode = addressDetail.pincode;
+                }
+
+                formArray.controls[0].patchValue({
+                  rcOwnerName: applicant.fullName,
+                  ownerMobileNo: mobileNumber,
+                  pincode: pincode,
+                  address: address
+                })
+              }
+            })
+          }
+        }
+        this.vehicleDataStoreService.setVehicleDetails(res.ProcessVariables.vehicleDetails);
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Delete Vehicle Details')
+      }
+    }, error => {
+      console.log(error, 'error');
+    });
   }
 
   onChangeFinalAssetCost(value, form) {
@@ -416,11 +514,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         form.get('discount').setValidators([Validators.required]);
         form.get('discount').updateValueAndValidity();
 
-        form.get('insurance').setValue(insurance === 0 ? null : insurance);
-        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? null : oneTimeTax);
-        form.get('others').setValue(others === 0 ? null : others);
-        form.get('amcAmount').setValue(amcAmount === 0 ? null : amcAmount);
-        form.get('discount').setValue(discount === 0 ? null : discount);
+        form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
+        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax + '');
+        form.get('others').setValue(others === 0 ? '' : others + '');
+        form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount + '');
+        form.get('discount').setValue(discount === 0 ? '' : discount + '');
 
         if (exShowRoomCost >= discount) {
           let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount) - discount;
@@ -441,19 +539,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         setTimeout(() => {
 
           form.get('insurance').disable();
-          form.get('insurance').setValue(insurance === 0 ? null : insurance);
+          form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
 
           form.get('oneTimeTax').disable();
-          form.get('oneTimeTax').setValue(oneTimeTax === 0 ? null : oneTimeTax);
+          form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax + '');
 
           form.get('others').disable();
-          form.get('others').setValue(others === 0 ? null : others);
+          form.get('others').setValue(others === 0 ? '' : others + '');
 
           form.get('amcAmount').disable();
-          form.get('amcAmount').setValue(amcAmount === 0 ? null : amcAmount);
+          form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount + '');
 
           form.get('discount').disable();
-          form.get('discount').setValue(discount === 0 ? null : discount);
+          form.get('discount').setValue(discount === 0 ? '' : discount + '');
 
         })
         this.onPatchFinalAssetCost(form.controls.exShowRoomCost.value)
@@ -477,7 +575,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ]
     }
     let formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-    let details = formArray.at(0) as FormGroup;
 
     this.vehicleDetailService.getAnVehicleDetails(data).subscribe((res: any) => {
       this.getAVehicleDetails(res, formArray)
@@ -526,7 +623,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       finalAssetCost: VehicleDetail.finalAssetCost || null,
       fitnessDate: VehicleDetail.fitnessDate ? this.utilityService.getDateFromString(VehicleDetail.fitnessDate) : '',
       fsrdFundingReq: VehicleDetail.fsrdFundingReq === '1' ? true : false || '',
-      firFiled: VehicleDetail.firFiled === '1' ? true : false || '',
+      firFiled: VehicleDetail.firFiled === '1' ? true : false || false,
       fsrdPremiumAmount: VehicleDetail.fsrdPremiumAmount || null,
       grossVehicleWeight: VehicleDetail.grossVehicleWeight || '',
       idv: VehicleDetail.idv || null,
@@ -553,7 +650,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       oneTimeTax: VehicleDetail.oneTimeTax || '',
       orpValue: VehicleDetail.orpValue || '',
       others: VehicleDetail.others || '',
-      onlineVerification: VehicleDetail.onlineVerification === '1' ? true : false || '',
+      onlineVerification: VehicleDetail.onlineVerification === '1' ? true : false || false,
       amcAmount: VehicleDetail.amcAmount || '',
       loanAmount: VehicleDetail.loanAmount ? VehicleDetail.loanAmount : this.eligibleLoanAmount || 0,
       bodyCost: VehicleDetail.bodyCost || null,
@@ -613,10 +710,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.isVehicleDedupe = true;
     }
 
-    if (this.productCatoryCode === 'UCV') {
+    if (this.productCatoryCode !== 'NCV') {
       this.onGetDateValue(formArray.controls[0].get('manuFacMonthYear').value)
     }
 
+    this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
   }
 
   onVehicleRegion(value: any, obj) {
@@ -787,13 +885,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.getSchemeData(formArray.controls[0])
     }
 
-    if (this.productCatoryCode === 'UCV') {
+    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
       this.getVehicleGridValue(formArray)
     }
 
     obj.patchValue({
       scheme: ''
     })
+
   }
 
   onChangeMobileNumber(value) {
@@ -850,7 +949,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.basicVehicleForm.patchValue({
       isValidPincode: true
     })
-    if (pincode.length === 6) {
+    if (pincode && pincode.length === 6) {
       const pincodeNumber = Number(pincode);
       this.getPincodeResult(pincodeNumber);
     }
@@ -905,6 +1004,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetModel: ['', Validators.required],
         assetVariant: ['', Validators.required],
         assetSubVarient: [''],
+        manuFacMonthYear: ['', Validators.required],
         exShowRoomCost: ['', Validators.required],
         finalAssetCost: [''],
         scheme: [''],
@@ -924,6 +1024,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetModel: ['', Validators.required],
         assetVariant: ['', Validators.required],
         assetSubVarient: [''],
+        manuFacMonthYear: ['', Validators.required],
         vehicleUsage: ['', Validators.required],
         exShowRoomCost: ['', Validators.required],
         finalAssetCost: [''],
@@ -935,7 +1036,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         userId: this.userId
       });
 
-    } else if (this.productCatoryCode === 'UCV') {
+    } else if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR') {
       controls = this._fb.group({
         vehicleRegNo: ['', Validators.required],
         region: ['', Validators.required],
@@ -1000,7 +1101,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   addCreditFormControls() {
     this.productCatoryCode === 'NCV' ? this.addNewCVFormControls() : this.productCatoryCode === 'NC' ? this.addNewcarFormControls :
-      this.productCatoryCode === 'UCV' ? this.addUserCVFormControls() : this.addUserCarFormControls();
+      this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UTCR' ? this.addUserCVFormControls() : this.addUserCarFormControls();
     this.sharedService.getFormValidation(this.basicVehicleForm)
   }
 
@@ -1015,6 +1116,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetSubVarient: '',
       scheme: [''],
       assetBodyType: ['', Validators.required],
+      manuFacMonthYear: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
       finalAssetCost: ['', Validators.required],
@@ -1064,6 +1166,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
       assetBodyType: ['', Validators.required],
+      manuFacMonthYear: ['', Validators.required],
       vehicleType: ['', Validators.required],
       exShowRoomCost: [null, Validators.required],
       finalAssetCost: ['', Validators.required],
@@ -1126,7 +1229,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       isVehAvailInGrid: [0],
       typeOfPermitOthers: [''],
       permitExpiryDate: [''],
-      permitUpload: [''],
       chasisNumber: ['', Validators.required],
       engineNumber: ['', Validators.required],
       vehiclePurchasedCost: [null],
@@ -1299,23 +1401,34 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   getRegistrationNumber(val: any, form) {
 
-    if (form.controls['vehicleRegNo'].valid && val && val.length >= 9) {
-
+    if (form.controls['vehicleRegNo'].valid) {
       if (this.vehicleRegNoChange !== val) {
-
         this.basicVehicleForm.patchValue({
           isCheckDedpue: false
         })
         this.isVehicleRegNoChange = true;
+        setTimeout(() => {
+          const grp = this.basicVehicleForm.get('vehicleFormArray') as FormArray;
+          const arrayObj = grp.at(0) as FormGroup;
+          for (const key in arrayObj['controls']) {
+            if (key !== 'vehicleRegNo') {
+              arrayObj.get(key).clearValidators();
+              arrayObj.updateValueAndValidity();
+            }
+          }
+        })
       } else {
         this.isVehicleRegNoChange = false;
       }
+    } else {
+      this.isVehicleRegNoChange = false;
     }
   }
 
   onClose() {
     this.isShowParentLoan = false;
     this.isVehicleRegNoChange = false;
+    this.isVehicleDedupe = false;
   }
 
   getparentLoanAccountNumber(obj) {
@@ -1330,8 +1443,34 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     this.childLoanApiService.searchChildLoanApi(childData).subscribe((res: any) => {
 
-      const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
-      const details = formArray.at(0) as FormGroup;
+      let ObjKeys = Object.keys(obj.controls)
+
+      ObjKeys.forEach((control) => {
+
+        if (control !== 'scheme' && control !== 'assetSubVarient' && control !== 'finalAssetCost') {
+          obj.get(control).setValidators([Validators.required]);
+          obj.get(control).updateValueAndValidity();
+          if (this.roleType !== 1) {
+            this.removeControls(obj);
+            if (this.productCatoryCode === 'UC') {
+              obj.get('assetCostLeast').clearValidators();
+              obj.get('assetCostLeast').updateValueAndValidity()
+            } else {
+              obj.get('fitnessDate').clearValidators();
+              obj.get('fitnessDate').updateValueAndValidity()
+
+              obj.get('typeOfPermit').clearValidators();
+              obj.get('typeOfPermit').updateValueAndValidity()
+
+              obj.get('typeOfPermitOthers').clearValidators();
+              obj.get('typeOfPermitOthers').updateValueAndValidity()
+
+              obj.get('permitExpiryDate').clearValidators();
+              obj.get('permitExpiryDate').updateValueAndValidity()
+            }
+          }
+        }
+      })
 
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.searchChildLoanData = res;
@@ -1346,9 +1485,95 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.isVehicleRegNoChange = false;
         obj.get('parentLoanAccountNumber').clearValidators();
         obj.get('parentLoanAccountNumber').updateValueAndValidity();
+        obj.get('parentLoanAccountNumber').setValue('')
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
+
     })
+  }
+
+  removeControls(obj) {
+
+    obj.get('vehiclePurchasedCost').clearValidators();
+    obj.get('vehiclePurchasedCost').updateValueAndValidity()
+
+    obj.get('vehicleOwnerShipNumber').clearValidators();
+    obj.get('vehicleOwnerShipNumber').updateValueAndValidity()
+
+    obj.get('vehicleRegDate').clearValidators();
+    obj.get('vehicleRegDate').updateValueAndValidity()
+
+    obj.get('grossVehicleWeight').clearValidators();
+    obj.get('grossVehicleWeight').updateValueAndValidity()
+
+    obj.get('reRegVehicle').clearValidators();
+    obj.get('reRegVehicle').updateValueAndValidity()
+
+    obj.get('interStateVehicle').clearValidators();
+    obj.get('interStateVehicle').updateValueAndValidity()
+
+    obj.get('duplicateRC').clearValidators();
+    obj.get('duplicateRC').updateValueAndValidity()
+
+    obj.get('cubicCapacity').clearValidators();
+    obj.get('cubicCapacity').updateValueAndValidity()
+
+    obj.get('seatingCapacity').clearValidators();
+    obj.get('seatingCapacity').updateValueAndValidity()
+
+    obj.get('idv').clearValidators();
+    obj.get('idv').updateValueAndValidity()
+
+    obj.get('insuranceCopy').clearValidators();
+    obj.get('insuranceCopy').updateValueAndValidity()
+
+    obj.get('fsrdFundingReq').clearValidators();
+    obj.get('fsrdFundingReq').updateValueAndValidity()
+
+    obj.get('fsrdPremiumAmount').clearValidators();
+    obj.get('fsrdPremiumAmount').updateValueAndValidity()
+
+    obj.get('loanAmount').clearValidators();
+    obj.get('loanAmount').updateValueAndValidity()
+
+    obj.get('bodyCost').clearValidators();
+    obj.get('bodyCost').updateValueAndValidity()
+
+    obj.get('expectedNOCDate').clearValidators();
+    obj.get('expectedNOCDate').updateValueAndValidity()
+
+    obj.get('insuranceValidity').clearValidators();
+    obj.get('insuranceValidity').updateValueAndValidity()
+
+  }
+
+  getLoanDetails(obj) {
+    let data = {
+      "loanAccountNumber": obj.get('parentLoanAccountNumber').value,
+    }
+
+    this.childLoanApiService.searchChildLoanApi(data).subscribe((res: any) => {
+
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+
+        if (res.ProcessVariables.loanDetails && res.ProcessVariables.loanDetails.length > 0) {
+          this.loanAccountDetails = res.ProcessVariables.loanDetails[0];
+
+          this.loanAccountDetails.principalPaid = this.loanAccountDetails.totalLoanAmount - this.loanAccountDetails.principalOutstanding
+
+          this.loanDetails = true;
+          this.isShowLoanDetails = true;
+        }
+
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
+      }
+    })
+
+  }
+
+  onCloseLoanDetails() {
+    this.isShowLoanDetails = false;
   }
 
   onLoanAccNoSelect(data) {
@@ -1422,7 +1647,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
-      this.sharedService.getFormValidation(this.basicVehicleForm)
+      this.sharedService.getFormValidation(this.basicVehicleForm);
+
+      this.sharedService.getApiValue(this.isApiValue)
       this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
       this.isShowParentLoan = false;
       this.isVehicleRegNoChange = false;
@@ -1430,5 +1657,254 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
     }
   }
+
+  onChangeValue() {
+    this.sharedService.getFormValidation(this.basicVehicleForm);
+  }
+
+  onFormSubmit() {
+
+    let isUdfField = true;
+    this.isDirty = true;
+    const url = this.location.path();
+    if (this.userDefineForm) {
+      isUdfField = this.userDefineForm.udfData ? this.userDefineForm.udfData.valid ? true : false : true
+    }
+
+    if (this.basicVehicleForm.valid && isUdfField) {
+      let data = this.basicVehicleForm.value.vehicleFormArray[0];
+
+      this.isDirty = false;
+
+      if (this.basicVehicleForm.value.isCheckDedpue === false) {
+        this.toasterService.showError('Please check dedupe', 'Vehicle Detail')
+        return
+      }
+
+      if (this.basicVehicleForm.value.isValidPincode && this.basicVehicleForm.value.isInvalidMobileNumber) {
+
+        if (data && data.fcExpiryDate) {
+          data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
+        }
+
+        // if (data.firFiled) {
+        data.firFiled = data.firFiled && data.firFiled === true ? '1' : '0';
+        // }
+
+        // if (data.onlineVerification) {
+        data.onlineVerification = data.onlineVerification && data.onlineVerification === true ? '1' : '0';
+        // } 
+
+        if (data.insuranceValidity) {
+          data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.accidentDate) {
+          data.accidentDate = data.accidentDate ? this.utilityService.convertDateTimeTOUTC(data.accidentDate, 'DD/MM/YYYY') : '';
+        }
+
+        if (data.invoiceDate) {
+          data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
+        }
+
+        data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
+
+        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
+
+          data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
+          data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
+          if (url.includes('dde') && data.expectedNOCDate) {
+            data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
+          }
+        }
+        if (url.includes('dde')) {
+          data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
+          data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
+          data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : '';
+          data.fsrdFundingReq = data.fsrdFundingReq === true ? '1' : '0';
+        }
+
+        data.udfDetails = [{
+          "udfGroupId": this.udfGroupId,
+          // "udfScreenId": this.udfScreenId,
+          "udfData": JSON.stringify(
+            this.userDefineForm && this.userDefineForm.udfData ?
+              this.userDefineForm.udfData.getRawValue() : {}
+          )
+        }]
+
+        this.vehicleDetailService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
+          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+            this.isApiValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
+            this.initUDFValues = this.userDefineForm.udfData.getRawValue();
+            this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Vehicle Details');
+            this.getVehicleDetails(this.leadId);
+          } else {
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Details')
+          }
+        }, error => {
+          console.log(error, 'error')
+          this.toasterService.showError(error, 'Vehicle Details')
+        })
+      } else {
+        if (!this.basicVehicleForm.value.isInvalidMobileNumber) {
+          this.toasterService.showError('applicant and dealer of vehicle owner mobile number both are same', 'Invalid mobile no')
+        } else if (!this.basicVehicleForm.value.isValidPincode) {
+          this.toasterService.showError('Please enter valid pincode', 'Invalid pincode')
+        } else if (!(this.basicVehicleForm.value.isValidPincode && this.basicVehicleForm.value.isInvalidMobileNumber)) {
+          this.toasterService.showError('Please enter valid pincode and mobile no', 'Invalid pincode & mobile no')
+        } else if (url.includes('dde') && !this.basicVehicleForm.value.isVaildFinalAssetCost) {
+          this.toasterService.showError('Discount should not greater than Ex show room price', 'Invalid Final Asset Cost')
+        }
+      }
+    } else {
+      this.isDirty = true;
+      this.utilityService.validateAllFormFields(this.basicVehicleForm)
+      console.log(this.basicVehicleForm, 'basicVehicleForm')
+      this.toasterService.showError('Please enter all mandatory field', 'Vehicle Detail')
+    }
+  }
+
+  onCredit() {
+
+    const body = { leadId: this.leadId };
+    this.creditService.getCreditScore(body).subscribe((res: any) => {
+      const resObj = res;
+      // tslint:disable-next-line: no-bitwise
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        const bodyRes = res;
+        this.creditService.setResponseForCibil(bodyRes);
+
+        const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+        const product = leadSectioData.leadDetails.productCatCode;
+        if (product === 'NCV' || product === 'UCV' || product === 'UC' || product === 'UTCR') {
+          this.showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
+          if (!this.showNotCoApplicant) {
+            this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+          }
+        }
+
+        if (product === "NCV") {
+          const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+          if (!result) {
+            this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+          }
+        }
+
+        this.showEligibilityScreen = res.ProcessVariables.showEligibilityScreen;
+        if (!this.showEligibilityScreen) {
+          this.eligibleModal = true;
+          return;
+        }
+
+        this.router.navigate([`pages/lead-section/${this.leadId}/credit-score`]);
+      } else {
+        this.errorMessage = res.ProcessVariables.error ? res.ProcessVariables.error.message : res.ErrorMessage;
+        this.isModelShow = true;
+      }
+    });
+  }
+
+  navigateToSales() {
+    const body = {
+      leadId: this.leadId,
+      userId: this.userId,
+      statusType: 'accept'
+    };
+    this.termsService.acceptTerms(body).subscribe((res: any) => {
+      if (res && res.ProcessVariables.error.code === '0') {
+        this.router.navigateByUrl(`/pages/sales/${this.leadId}/lead-details`);
+      }
+    });
+  }
+
+  onEligibleModalClose() {
+    this.eligibleModal = false;
+  }
+
+  onBack() {
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      this.router.navigateByUrl(`/pages/sales/${this.leadId}/applicant-list`)
+
+    } else if (currentUrl.includes('dde')) {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`)
+    } else {
+      this.router.navigateByUrl(`/pages/lead-section/${this.leadId}/applicant-details`)
+    }
+  }
+
+  onUrlOfNext() {
+    const currentUrl = this.location.path();
+    if (currentUrl.includes('sales')) {
+      this.router.navigate([`pages/sales/${this.leadId}/reference`]);
+    } else if (currentUrl.includes('dde')) {
+      this.router.navigate([`pages/dde/${this.leadId}/additional-collateral-list`]);
+    } else {
+      this.onCredit()
+    }
+  }
+
+  onNext() {
+    const currentUrl = this.location.path();
+    this.finalValue = this.basicVehicleForm.getRawValue().vehicleFormArray[0];
+    this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
+    const isValueCheck = this.objectComparisonService.compare(this.isApiValue, this.finalValue);
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
+
+    if (this.loanViewService.checkIsLoan360() || this.toggleDdeService.getOperationType()) {
+      this.onUrlOfNext();
+      return;
+    }
+
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    if (this.basicVehicleForm.invalid || isUDFInvalid) {
+      this.toasterService.showInfo('Please SAVE details before proceeding', '');
+      return;
+    }
+
+    if (!isValueCheck || !isUDFCheck) {
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+
+    if (currentUrl.includes('sales')) {
+      const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+      const product = leadSectioData.leadDetails.productCatCode;
+
+      if (product === 'NCV' || product === 'UCV' || product === 'UC' || product === 'UTCR') {
+        const showNotCoApplicant = this.applicantDataStoreService.findCoApplicant(this.applicantList)
+        if (!showNotCoApplicant) {
+          this.toasterService.showInfo('There should be one Co-Applicant for this lead', '')
+        }
+      }
+
+      if (product === "NCV") {
+        const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+        if (!result) {
+          this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+        }
+      }
+
+      this.onUrlOfNext();
+
+    } else if (currentUrl.includes('dde')) {
+      const leadSectioData: any = this.createLeadDataService.getLeadSectionData();
+      const product = leadSectioData.leadDetails.productCatCode;
+
+      if (product === "NCV") {
+        const result = this.applicantDataStoreService.checkFemaleAppForNCV(this.applicantList)
+        if (!result) {
+          this.toasterService.showInfo('There should be atleast one FEMALE applicant for this lead', '');
+        }
+      }
+      this.router.navigate([`pages/dde/${this.leadId}/additional-collateral-list`]);
+
+    } else {
+      this.onCredit()
+    }
+  }
+
+
 
 }

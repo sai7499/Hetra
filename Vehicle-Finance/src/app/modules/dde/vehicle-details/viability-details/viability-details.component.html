@@ -4,7 +4,9 @@
 
         <div class="row">
 
-            <h3 class="banner-con">Viability Details ({{udfScreenId}}) </h3>
+            <h3 class="banner-con">Viability Details
+                <span class="float-right">{{udfScreenId}}</span>
+            </h3>
 
             <select class="btn btn-primary col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-mar" id="vehicle_viability_navigate"
                 formControlName="type" (change)="vehicle_viability_navigate($event.target.value)" *ngIf="hideSubmit">
@@ -849,44 +851,70 @@
             <!-- </form> -->
 
         </div>
-        <div class="row" formGroupName="gpsPosition">
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="b_latitude">{{label.branchLat}}
-                    <!-- <sub class="star_red_col">*</sub> -->
-                </label>
-                <app-custom-input formControlName="bLatitude" [className]="'form-control'" [isDisabled]="true"
-                    [placeholder]="''">
-                </app-custom-input>
+        <div formGroupName="gpsPosition">
+            <div class="row" style="margin-bottom: 6px;">
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="b_latitude">{{label.branchLat}}
+                        <!-- <sub class="star_red_col">*</sub> -->
+                    </label>
+                    <app-custom-input formControlName="bLatitude" [className]="'form-control'" [isDisabled]="true"
+                        [placeholder]="''">
+                    </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                    <label for="b_longitude">{{label.branchLng}}
+                        <!-- <sub class="star_red_col">*</sub> -->
+                    </label>
+                    <app-custom-input formControlName="bLongitude" [className]="'form-control'" [isDisabled]="true"
+                        [placeholder]="''">
+                    </app-custom-input>
+                </div>
+                <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="captured_latitude">{{label.capturedLat}}
+                    </label>
+                    <app-custom-input formControlName="latitude" [className]="'form-control'" [isDisabled]="true"
+                        [placeholder]="''">
+                    </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="captured_longitude">{{label.capturedLng}}
+                    </label>
+                    <app-custom-input formControlName="longitude" [className]="'form-control'" [isDisabled]="true"
+                        [placeholder]="''">
+                    </app-custom-input>
+                </div> -->
+
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="b_longitude">{{label.branchLng}}
-                    <!-- <sub class="star_red_col">*</sub> -->
-                </label>
-                <app-custom-input formControlName="bLongitude" [className]="'form-control'" [isDisabled]="true"
-                    [placeholder]="''">
-                </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="captured_latitude">{{label.capturedLat}}
-                    <!-- <sub class="star_red_col">*</sub> -->
-                </label>
-                <app-custom-input formControlName="latitude" [className]="'form-control'" [isDisabled]="true"
-                    [placeholder]="''">
-                </app-custom-input>
-            </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="captured_longitude">{{label.capturedLng}}
-                    <!-- <sub class="star_red_col">*</sub> -->
-                </label>
-                <app-custom-input formControlName="longitude" [className]="'form-control'" [isDisabled]="true"
-                    [placeholder]="''">
-                </app-custom-input>
-            </div>
-            <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="timeOf_verification">{{label.routeMap}}
-                </label>
-                <div class="photo">
-                    <img src="{{base64Image}}" width="235" />
+            <h3 class="banner-sub"> {{label.viabilityDoneAt}} </h3>
+            <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="captured_latitude">{{label.capturedLat}}
+                    </label>
+                    <app-custom-input formControlName="latitude" [className]="'form-control'" [isDisabled]="true"
+                        [placeholder]="''">
+                    </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="captured_longitude">{{label.capturedLng}}
+                    </label>
+                    <app-custom-input formControlName="longitude" [className]="'form-control'" [isDisabled]="true"
+                        [placeholder]="''">
+                    </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="captured_address">{{label.addressLatLng}}
+                        <!-- <sub class="star_red_col">*</sub> -->
+                    </label>
+                    <app-custom-input formControlName="capturedAddress" [className]="'form-control'" [isDisabled]="true"
+                        [placeholder]="''">
+                    </app-custom-input>
+                </div>
+                <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3">
+                    <label for="timeOf_verification">{{label.routeMap}}
+                    </label>
+                    <div class="photo">
+                        <img src="{{base64Image}}" width="235" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -957,7 +985,7 @@
 
             <!-- Modal body -->
             <div class="modal-body" style="text-align: center;">
-                <p>Are you sure want to ReInitiate Viability ?</p>
+                <p>Are you sure want to Re-Initiate Viability ?</p>
             </div>
 
             <!-- Modal footer -->

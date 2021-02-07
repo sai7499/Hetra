@@ -10,6 +10,7 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { async } from '@angular/core/testing';
 import { CommomLovService } from '@services/commom-lov-service';
 import { LovDataService } from '@services/lov-data.service';
+import { PdDataService } from '../fi-cum-pd-report/pd-data.service';
 @Component({
   selector: 'app-pd-list',
   templateUrl: './pd-list.component.html',
@@ -123,6 +124,8 @@ export class PdListComponent implements OnInit {
   pdPrevExpMatched: string;
   fileName: string;
   isFiCumPdModal: boolean;
+  udfScreenId: any;
+  tabName: any;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
@@ -133,7 +136,8 @@ export class PdListComponent implements OnInit {
     private createLeadDataService: CreateLeadDataService,
     private personalDiscussion: PersonalDiscussionService,
     private commomLovService: CommomLovService,
-    private lovDataService: LovDataService
+    private lovDataService: LovDataService, 
+    private pdDataService : PdDataService
 
   ) { }
 
@@ -146,6 +150,8 @@ export class PdListComponent implements OnInit {
       this.fiCumPdStatus = true
       this.fileName = 'FIcumPD';
     }
+
+    this.tabName = this.sharedService.getTabName();
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -172,6 +178,12 @@ export class PdListComponent implements OnInit {
     } else {
       this.show = false;
     }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.router.url.includes('/dde') ? udfScreenId.DDE.fiCumPdListDDE : udfScreenId.FICUMPD.fiCumPdList ;
+
+    })
   }
 
   getPdLOV() {
@@ -225,9 +237,13 @@ export class PdListComponent implements OnInit {
 
   }
 
-  navigatePage(applicantId: string, cibilScore?: any, version?: any) {
+  navigatePage(applicantId: string, cibilScore?: any, version?: any, index? : number) {
 
-    console.log('in navigate page', cibilScore);
+    console.log(this.applicantDetailsFromLead,'in navigate page', index);
+    const applicantType = this.applicantDetailsFromLead.find((ele) => ele.applicantId === applicantId);
+    const entity = applicantType.entity
+    this.pdDataService.setFiCumPdApplicantType(entity);
+    
 
     if (this.isFiCumPD === true) { // for routing to fi cum pd screens
 
@@ -341,20 +357,34 @@ export class PdListComponent implements OnInit {
   }
 
   onNavigateBack() {
-    if (this.fiCumPdStatus == false) {
+    if (this.tabName['isFI']) {
       this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
-
-    } else if (this.productCatCode == 'UC' && this.fiCumPdStatus == true) {
+    }else if (this.productCatCode == 'UC') {
       this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+    }else {
+      this.router.navigateByUrl(`/pages/dde/${this.leadId}/tvr-details`);
+    }
+    //this.router.navigateByUrl(`/pages/dde/${this.leadId}/viability-list`);
+  }
+  //   if (this.fiCumPdStatus == false) {
+  //     this.router.navigate(['pages/dde/' + this.leadId + '/fi-list']);
 
-    } else if (this.productCatCode != 'UC' && this.fiCumPdStatus == true) {
-      this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+  //   } else if (this.productCatCode == 'UC' && this.fiCumPdStatus == true) {
+  //     this.router.navigate(['pages/dde/' + this.leadId + '/rcu']);
+
+  //   } else if (this.productCatCode != 'UC' && this.fiCumPdStatus == true) {
+  //     this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
+  //   }
+
+  // }
+  onNavigateNext() {
+    if (this.tabName['isVV']) {
+      this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+    }else {
+      this.router.navigate(['pages/dde/' + this.leadId + '/cibil-od']);
     }
 
-  }
-  onNavigateNext() {
-
-    this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+    //this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
 
   }
 

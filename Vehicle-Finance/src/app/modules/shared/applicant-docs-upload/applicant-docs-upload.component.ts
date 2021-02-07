@@ -95,9 +95,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
   documentArr: DocumentDetails[] = [];
   apiRes: any[];
 
-  // documentMaxLength = {
-  //   rule: 15,
-  // };
+  isApplicantDetails: boolean;
+
+    // userDefineFields
+    udfScreenId = 'RCS002';
+    udfDetails: any = [];
+    userDefineForm: any;
+    udfGroupId: string = 'RCG001';
+    jsonScreenId: any;
 
   currentlySelectedDocs: number;
   documentNumberPattern: string;
@@ -148,9 +153,20 @@ export class ApplicantDocsUploadComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.labelsData.getScreenId().subscribe((data: any) => {
+      this.jsonScreenId = data.ScreenIDS;
+      this.udfScreenId = this.jsonScreenId.Common.documentUploadCommon;
+    })
+
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].applicantDocument[0];
     });
+
+    const url = this.location.path();
+    this.isApplicantDetails = url.includes('sales-applicant-details') ? true : false
+    console.log(url, 'isApplicantDetails' ,this.isApplicantDetails)
+
   }
 
   getApplicantDetails() {
@@ -737,17 +753,17 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const bas64String = this.base64StorageService.getString(
       this.applicantId + documentId
     );
-    if (bas64String) {
-      this.setContainerPosition(el);
-      this.showDraggableContainer = {
-        ...bas64String
-      };
-      this.draggableContainerService.setContainerValue({
-        image: this.showDraggableContainer,
-        css: this.setCss,
-      });
-      return;
-    }
+    // if (bas64String) {
+    //   this.setContainerPosition(el);
+    //   this.showDraggableContainer = {
+    //     ...bas64String
+    //   };
+    //   this.draggableContainerService.setContainerValue({
+    //     image: this.showDraggableContainer,
+    //     css: this.setCss,
+    //   });
+    //   return;
+    // }
     const imageValue: any = await this.getBase64String(documentId);
     if (imageValue.imageType.includes('xls')) {
       console.log('xls', imageValue.imageUrl);
@@ -1064,6 +1080,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.toasterService.showWarning('No documents uploaded to save', '');
       return;
     }
+
     const apiValue = {};
 
     this.apiRes.forEach((value) => {
@@ -1110,6 +1127,26 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.toasterService.showWarning('No changes done to save', '');
       
     }
+    console.log('documentArr', this.documentArr);
+    const docNotAvailable =  this.documentArr.find((doc) => {
+      return !doc.dmsDocumentId;
+    });
+    console.log('docNotAvailable', docNotAvailable);
+    if (docNotAvailable) {
+      const category = this.categories.find((category) => {
+        return category.code === Number(docNotAvailable.categoryCode)
+      });
+      const subCategory = category.subcategories.find((subCategory) => {
+        return subCategory.code === Number(docNotAvailable.subCategoryCode);
+      })
+      const docList = subCategory.docList;
+      const docName = docList.find((value) => {
+        return value.code === Number(docNotAvailable.documentType);
+      })
+      return this.toasterService.showError(`Please upload document for ${docName.displayName}`, '')
+    }
+    
+    
     this.callAppiyoUploadApi();
   }
 

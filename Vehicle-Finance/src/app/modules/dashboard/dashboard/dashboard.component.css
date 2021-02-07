@@ -24,7 +24,7 @@ body{
 .nav>li>a {
     position: relative;
     display: block;
-    padding: 10px 8px !important;
+    padding: 6px 8px !important;
 }
 
 .nav-pills>li>a {
@@ -32,7 +32,11 @@ body{
 }
 
 .mar-bottom {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.mar-right{
+    margin-right:10px;
 }
 
 .nav>li>a:hover {
@@ -339,11 +343,13 @@ tr:hover {background-color:#ddd;}
 
 td,
 th {
-    padding-top:10px;
-    padding-bottom:10px;
+    /* padding-top:10px;
+    padding-bottom:10px; */
     border: 1px solid #ccc;
     text-align: left;
-    text-align: center
+    /* text-align: center; */
+    padding: 10px 5px;
+   
 }
 
 /* Tooltip */
@@ -393,7 +399,7 @@ th {
     th {
         border: 1px solid #ccc;
         text-align: left;
-        text-align: center;
+        /* text-align: center; */
         /* margin: 12px; */
         line-height: 1.5;
         /* color: white; */
@@ -453,6 +459,10 @@ th {
     padding-right:5px!important;
 }
 
+.txt-rgt{
+    text-align:right;
+}
+
 @media (min-width:260px) and (max-width:767px){
 .btn-re{
     padding:2px!important;
@@ -463,8 +473,16 @@ th {
 .table{
     table-layout: fixed;
     width:100%;
+    
 }
 
+.txt-rgt{
+    text-align:left!important;
+}
+
+.table td{
+    text-align:left!important;
+}
 .main-tab{
     width: fit-content;
    

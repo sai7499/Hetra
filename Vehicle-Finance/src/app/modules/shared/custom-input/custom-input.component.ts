@@ -280,7 +280,7 @@ export class CustomInputComponent
       }
     }
 
-    if (this.type.includes('decimal')) {
+    if (this.type && this.type.includes('decimal')) {
       this.checkDecimalValidation(this.inputValue);
       return;
     }
@@ -301,8 +301,10 @@ export class CustomInputComponent
   }
 
   displayError(msg: string) {
-    this.errorMsg = msg;
-    this.inputError = true;
+    // if (!msg) {
+      this.errorMsg = msg;
+      this.inputError = true;
+    // }
   }
 
   setDisabledState(disabled: boolean) {
@@ -324,7 +326,7 @@ export class CustomInputComponent
         // this.allowAlphaOnly(event);
         break;
       case 'custom-special-alpha-numeric':
-        this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n\-\\|:]/g);;
+        this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n\-\/|:]/g);;
         break;
       case 'special-alpha-numeric':
         this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g);
@@ -340,6 +342,10 @@ export class CustomInputComponent
       case 'alpha-numeric-slash':
         this.valuePatternCheck(event, /[^a-zA-Z0-9/]/g);
         // this.allowAlphaNumericWithSlashOnly(event)
+        break;
+      case 'alpha-nospace':
+        this.valuePatternCheck(event, /[^a-zA-Z]/g);
+        // this.allowAlphaNumericNoSpace(event);
         break;
     }
     if (this.type.includes('decimal')) {

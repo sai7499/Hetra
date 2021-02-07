@@ -10,17 +10,20 @@ import { ToasterService } from '@services/toaster.service';
 
 interface CibilData {
   ageOfAsset?: number;
-// applicantList: [ApplicantDetails]
-customerSegment: string;
-eligibleAmount: number;
-leadId?: string;
-loanAmount: number;
-loanTenure: number;
-productCategoryCode: string;
-productCategoryName?: string;
-productId?: string;
-totalAmount: number;
-ageAfterTenure:number;
+  // applicantList: [ApplicantDetails]
+  customerSegment: string;
+  eligibleAmount: number;
+  leadId?: string;
+  loanAmount: number;
+  loanTenure: number;
+  productCategoryCode: string;
+  productCategoryName?: string;
+  productId?: string;
+  totalAmount: number;
+  ageAfterTenure: number;
+  ageOfAssetInMonths: any;
+  loanTenorInMonths: any;
+  ageOfLoanTenureInMonths: any;
 }
 @Component({
   selector: 'app-credit-score',
@@ -44,11 +47,12 @@ export class CreditScoreComponent implements OnInit {
     title: string,
     product: any;
     flowStage: string;
-   
+
   }
 
   showModal: boolean;
   isChildLoan: string;
+  udfScreenId: any;
 
   constructor(
     private aRoute: ActivatedRoute,
@@ -58,7 +62,8 @@ export class CreditScoreComponent implements OnInit {
     private termsService: TermAcceptanceService,
     private commonLovService: CommomLovService,
     private createLeadService: LeadDetails,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private labelsData: LabelsService,
 
   ) {
   }
@@ -72,6 +77,12 @@ export class CreditScoreComponent implements OnInit {
     this.leadId = (await this.getLeadId()) as number;
 
     this.leadData = this.getCreditFromService(this.leadId);
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.eligiblityDisplayQDE ;
+
+    })
   }
 
   getCreditFromService(data: any) {
@@ -85,9 +96,28 @@ export class CreditScoreComponent implements OnInit {
       ) {
         this.applicantList = this.creditScore.ProcessVariables.applicantList;
         this.variable = this.creditScore.ProcessVariables;
+
+        let nullValue = (0 + ' Year ' + 0 + ' Month')
+
+        let ageOfAssetInMonths = this.variable ? this.variable.ageOfAsset ?
+          Math.floor(Number(this.variable.ageOfAsset) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.ageOfAsset % 12)) + ' Months ' : nullValue : nullValue;
+
+        let ageOfLoanTenureInMonths = this.variable ? this.variable.ageAfterTenure ?
+          Math.floor(Number(this.variable.ageAfterTenure) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.ageAfterTenure % 12)) + ' Months ' : nullValue : nullValue;
+
+        let loanTenorInMonths = this.variable ? this.variable.loanTenure ?
+          Math.floor(Number(this.variable.loanTenure) / 12) + ' Years ' +
+          Math.floor(Number(this.variable.loanTenure % 12)) + ' Months ' : nullValue : nullValue;
+
+        this.variable['ageOfAssetInMonths'] = ageOfAssetInMonths;
+        this.variable['ageOfLoanTenureInMonths'] = ageOfLoanTenureInMonths;
+        this.variable['loanTenorInMonths'] = loanTenorInMonths;
+
         this.isChildLoan = this.creditScore.ProcessVariables.isChildLoan;
-        this.loanAmount = Number(this.variable.loanAmount ).toLocaleString('en-IN');
-        this.eligibleAmount = Number(this.variable.eligibleAmount ).toLocaleString('en-IN');
+        this.loanAmount = Number(this.variable.loanAmount).toLocaleString('en-IN');
+        this.eligibleAmount = Number(this.variable.eligibleAmount).toLocaleString('en-IN');
         console.log(this.creditScore);
       } else {
         this.router.navigate([
@@ -116,13 +146,13 @@ export class CreditScoreComponent implements OnInit {
   }
   declineOffer() {
     const body = {
-      leadId : this.leadId,
-      userId:  this.userId,
-      statusType : 'reject'
+      leadId: this.leadId,
+      userId: this.userId,
+      statusType: 'reject'
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
       console.log(res);
-      if ( res && res.ProcessVariables.error.code === '0') {
+      if (res && res.ProcessVariables.error.code === '0') {
         this.router.navigateByUrl(`/pages/dashboard`);
       }
     });
@@ -134,28 +164,28 @@ export class CreditScoreComponent implements OnInit {
     this.showModal = true;
     this.rejectData = {
       title: 'Select Reject Reason',
-      product:productId,
+      product: productId,
       flowStage: '15'
     }
   }
 
   onOkay(reasonData) {
-    
+
 
     const body = {
-      leadId : this.leadId,
-      userId:  this.userId,
-      statusType : 'reject',
+      leadId: this.leadId,
+      userId: this.userId,
+      statusType: 'reject',
       isSoRejected: true,
       reasonCode: reasonData['reason'].reasonCode
     };
     this.termsService.acceptTerms(body).subscribe((res: any) => {
       console.log(res);
-      if ( res && res.ProcessVariables.error.code === '0') {
-        this.toasterService.showSuccess('Record Rejected successfully!','')
+      if (res && res.ProcessVariables.error.code === '0') {
+        this.toasterService.showSuccess('Record Rejected successfully!', '')
         this.router.navigateByUrl(`/pages/dashboard`);
-      }else {
-        this.toasterService.showError(res.ProcessVariables.error.message,'')
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '')
       }
     });
   }
@@ -163,9 +193,9 @@ export class CreditScoreComponent implements OnInit {
   onCancel() {
     this.showModal = false;
   }
-  onBack(){
+  onBack() {
     this.router.navigateByUrl(`/pages/lead-section/${this.leadId}`);
-    
+
   }
 
 

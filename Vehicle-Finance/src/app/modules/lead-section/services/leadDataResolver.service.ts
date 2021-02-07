@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   Resolve,
-  ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
 } from '@angular/router';
@@ -10,39 +9,61 @@ import RequestEntity from '@model/request.entity';
 import { ApiService } from '@services/api.service';
 import { HttpService } from '@services/http.service';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
-import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LoanViewService } from '@services/loan-view.service';
 
 @Injectable()
 export class LeadDataResolverService implements Resolve<any> {
   leadId: any;
   udfGroupId: string = 'LDG001';
   udfScreenId: any;
+  loanAccountDetails: any;
 
   constructor(
     private httpService: HttpService,
     private apiService: ApiService,
     private router: Router,
-    private createLeadDataService: CreateLeadDataService
+    private sharedService: SharedService,
+    private loanViewService: LoanViewService
   ) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     this.leadId = route.params.leadId;
+
+
+    let isChangeStatus = null;
+
+    this.sharedService.isdedupdeStatus$.subscribe((res: any) => {
+      console.log(res, 'res')
+      isChangeStatus = res;
+    })
+
     this.udfScreenId = this.router.getCurrentNavigation().extras.state ? this.router.getCurrentNavigation().extras.state : null;
 
     const processId = this.apiService.api.getLeadById.processId;
     const workflowId = this.apiService.api.getLeadById.workflowId;
     const projectId = this.apiService.api.getLeadById.projectId;
-
-    const body: RequestEntity = {
-      processId,
-      ProcessVariables: {
+    let data: any;
+   
+      data = {
         leadId: Number(this.leadId),
         udfDetails: [{
           "udfGroupId": this.udfGroupId,
           // "udfScreenId": this.udfScreenId.udfScreenId
         }]
-      },
+      }
+    
+
+
+    let resolveData = data
+
+    if (isChangeStatus) {
+      data['isChangeStatus'] = isChangeStatus;
+    }
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: data,
       workflowId,
       projectId,
     };

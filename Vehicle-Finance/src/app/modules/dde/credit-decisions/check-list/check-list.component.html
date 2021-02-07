@@ -1,14 +1,16 @@
-<form class="form multisteps-form__form" style="height: auto" [formGroup]="checklistForm" >
+<form class="form multisteps-form__form content" style="height: auto" [formGroup]="checklistForm" >
     <div class="container overflow-hidden">
 
 
         <div class="row js-active" data-animation="scaleIn">
             <div class="panel-group hidden-xs" id="accordion">
                 <div class="panel panel-default">
-                    <div class="panel-heading panel-primary" id="headingTwo1">
-                        <h4 class="panel-title">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
-                               Check List ({{udfScreenId}}) <i class="fa fa-angle-down"></i>
+                    <div class="" id="headingTwo1">
+                        <h4 class="banner-con">
+                            <a style="color:#fff;" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
+                               Check List 
+                               <span class="float-right">{{udfScreenId}}</span>
+                               <i class="fa fa-angle-down"></i>
                             </a>
                         </h4>
                     </div>
@@ -61,13 +63,13 @@
                                         </div>
                                         <div class="form-group col-sm-3 col-md-4 col-lg-4  text-center row paddingNgContainer">
 
-                                            <p class="text-center">{{ item['controls'].checklistName.value}}</p>
+                                            <p class="text-left">{{ item['controls'].checklistName.value}}</p>
                                         </div>
                                         <div class="form-group col-sm-2 col-md-2 paddingNgContainer">
 
                                             <select class="form-control" formControlName="coAnswer">
                                                 <!-- [attr.disabled]="roleType != '2'" -->
-                                                <option value="null">-- Select One --</option>
+                                                <option value="">-- Select One --</option>
                                                 <option *ngFor="let checklist of checklistObject"
                                                     value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
@@ -82,7 +84,7 @@
                                             *ngIf="roleType == '4' || roleType == '5'">
                                             <!-- *ngIf="roleType == '4' || roleType == '5'" -->
                                             <select class="form-control" formControlName="cpcMaker">
-                                                <option value="null">-- Select One --</option>
+                                                <option value="">-- Select One --</option>
                                                 <option *ngFor="let checklist of checklistObject"
                                                     value="{{checklist.key}}">
                                                     {{checklist.value}}</option>
@@ -96,7 +98,7 @@
                                         <div class="form-group col-sm-2 col-md-2 text-center paddingNgContainer" *ngIf="roleType ==  '5'">
                                             <!-- *ngIf="roleType ==  '5'" -->
                                             <select class="form-control" formControlName="cpcChecker">
-                                                <option value="null">-- Select One --</option>
+                                                <option value="">-- Select One --</option>
                                                 <option *ngFor="let checklist of checklistObject"
                                                     value="{{checklist.key}}">
                                                     {{checklist.value}}</option>

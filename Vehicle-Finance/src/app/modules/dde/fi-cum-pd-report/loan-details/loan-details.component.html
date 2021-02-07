@@ -2,7 +2,8 @@
 
   <form class="multisteps-form__form" [formGroup]="loanDetailsForm" *ngIf="this.loanDetailsForm">
     <h3 class="banner-con" *ngIf="productCatCode === 'NC' || productCatCode === 'NCV'">
-      {{ labels.loanDetailsForNewVehicle }} ({{udfScreenId}})
+      {{ labels.loanDetailsForNewVehicle }}
+      <span class="float-right">{{udfScreenId}}</span>
     </h3>
     <div class="row" *ngIf="productCatCode === 'NC' || productCatCode === 'NCV'">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -45,10 +46,12 @@
 
     </div>
 
-    <ng-container *ngIf="productCatCode === 'UCV' || productCatCode === 'UC'">
+    <ng-container *ngIf="productCatCode !== 'NCV' ">
+      <!-- productCatCode === 'UCV' || productCatCode === 'UC' -->
 
       <h3 class="banner-con">
-        {{ labels.loanDetailsUsedVehicleTitle }} ({{udfScreenId}})
+        {{ labels.loanDetailsUsedVehicleTitle }}
+        <span class="float-right">{{udfScreenId}}</span>
       </h3>
 
       <div class="row">
@@ -73,6 +76,7 @@
           <label for="model/type">{{ labels.modelType }} <sub class="star_red_col">*</sub></label>
 
           <app-vf-custom-select [values]="(LOV?.LOVS)['vehicleType']" formControlName="usedVehicleType"
+          (change)="OnChangeVehType($event.target.value)"
             [isRequired]="'Please select one'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
@@ -330,7 +334,9 @@
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="permit_date">{{ labels.permitDate }} <sub class="star_red_col">*</sub></label>
+          <label for="permit_date">{{ labels.permitDate }} 
+            <sub *ngIf="isPermitMandatory" class="star_red_col">*</sub>
+          </label>
           <div class="input-group input-medium">
 
           </div>
@@ -339,15 +345,11 @@
             [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'" [min]="toDayDate">
           </kendo-datepicker>
           <div class="invalid-feedback">
-            <div *ngIf="
-              loanDetailsForm.controls['permitValidity'].touched &&
+            <div *ngIf=" 
+              isDirty && isPermitMandatory &&
               !loanDetailsForm.controls['permitValidity'].value
             ">
-              <div *ngIf="
-                loanDetailsForm.controls['permitValidity'].hasError('required')
-              ">
                 permit validity is required
-              </div>
             </div>
             <div *ngIf="
               loanDetailsForm.controls['permitValidity'].value &&
@@ -355,13 +357,14 @@
             ">
               Validity date should not be past date
             </div>
+            
           </div>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="fitness_date">{{ labels.fitnessDate1 }} <sub class="star_red_col">*</sub></label>
 
           <kendo-datepicker width="100%" class="form-control mandatory" formControlName="fitnessValidity"
-            [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'" [min]="toDayDate">
+            [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'">
           </kendo-datepicker>
           <div class="invalid-feedback">
             <div *ngIf="
@@ -374,12 +377,12 @@
                 fitness validity is required
               </div>
             </div>
-            <div *ngIf="
+            <!-- <div *ngIf="
             loanDetailsForm.controls['fitnessValidity'].value &&
             loanDetailsForm.controls['fitnessValidity'].errors
           ">
               Validity date should not be past date
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -534,7 +537,8 @@
         {{ labels.save }}
       </button>
       <button class="btn btn-primary hvr-sweep-to-right" type="button"
-        (click)="productCatCode === 'UCV' || productCatCode === 'UC' ? onFormSubmit('next') : onNavigateNext('next')">
+        (click)="productCatCode !== 'NCV'? onFormSubmit('next') : onNavigateNext('next')">
+        <!-- productCatCode === 'UCV' || productCatCode === 'UC'  -->
         {{ labels.next }}
       </button>
     </div>

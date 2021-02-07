@@ -79,7 +79,7 @@ export class BankDetailsComponent implements OnInit {
   isToDate = false;
 
   // User defined
-  udfScreenId: any = 'APS018';
+  udfScreenId: any = '';
   udfGroupId: any = 'APG010';
   udfDetails: any = [];
   userDefineForm: any;
@@ -95,7 +95,7 @@ export class BankDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private labelsService: LabelsService,
     private toggleDdeService: ToggleDdeService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
   ) {
     this.listArray = this.fb.array([]);
   }
@@ -115,7 +115,7 @@ export class BankDetailsComponent implements OnInit {
       period: ['', { disabled: true }],
       limit: [''],
       accountBranch: [''],
-      micrNumber: [''],
+      micrNumber: ['', [Validators.required]],
       totalCredits: [''],
       id: this.leadId,
       // transactionDetails: this.fb.array([]),
@@ -149,7 +149,12 @@ export class BankDetailsComponent implements OnInit {
       // } else {
       // }
     });
-    this.getBankDetails();
+
+    let bankId = this.bankTransaction.getBankId()
+    console.log(bankId, 'bankId')
+    if (bankId && bankId.id) {
+      this.getBankDetails(bankId);
+    }
     this.bankForm.get('accountType').valueChanges.subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res == '4BNKACCTYP') {
@@ -163,6 +168,13 @@ export class BankDetailsComponent implements OnInit {
       }
     });
     console.log(this.f);
+    this.labelsService.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.DDE.bankDetailDDE ;
+
+    })
+
   }
   get f() {
     // console.log(this.bankForm.controls, ' contrl f');
@@ -222,9 +234,10 @@ export class BankDetailsComponent implements OnInit {
       abbOfTheMonth: data.abbOfTheMonth ? Number(data.abbOfTheMonth) : null,
     });
   }
-  getBankDetails() {
+  getBankDetails(bankData) {
     const data = {
       applicantId: this.applicantId,
+      id: bankData.id,
       udfDetails: [
         {
           "udfGroupId": this.udfGroupId,
@@ -296,6 +309,9 @@ export class BankDetailsComponent implements OnInit {
       accountBranch: data.ProcessVariables.accountBranch
         ? (data.ProcessVariables.accountBranch)
         : null,
+        id:  data.ProcessVariables.id
+        ? (data.ProcessVariables.id)
+        : null,
     });
     const transactionDetailsList = data.ProcessVariables.transactionDetails;
     // tslint:disable-next-line: prefer-for-of
@@ -359,7 +375,7 @@ export class BankDetailsComponent implements OnInit {
     this.bankForm.value.period = this.bankForm.value.period;
     this.bankForm.value.totalCredits = Number(this.bankForm.value.totalCredits);
     this.bankForm.value.applicantId = this.applicantId;
-    this.bankForm.value.id = 7;
+    // this.bankForm.value.id = 7;
     const transactionArray = this.bankForm.value
       .transactionDetails as FormArray;
     console.log(transactionArray, ' transaction data');
@@ -437,21 +453,11 @@ export class BankDetailsComponent implements OnInit {
     const toDate = this.bankForm.value.toDate
       ? this.bankForm.value.toDate
       : new Date();
-    this.todayDateNew = toDate;
-    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
-      this.isToDate = true;
-    } else {
-      this.isToDate = false
-    }
+    // this.todayDateNew = toDate; 
     this.getMonths();
   }
 
   async getMonths() {
-    if((this.bankForm.value.toDate < this.bankForm.value.fromDate) || (this.bankForm.value.toDate > new Date())) {
-      this.isToDate = true;
-    } else {
-      this.isToDate = false
-    }
     const tempArray: Array<any> = this.listArray.value;
     console.log('temp array', tempArray);
     // setTimeout(() => {

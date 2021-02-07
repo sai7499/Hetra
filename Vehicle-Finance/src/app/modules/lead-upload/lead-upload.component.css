@@ -11,6 +11,19 @@
     border-radius: 5px;
 }
 
+.align-btn-remove{
+  text-align:right;  
+  margin-top:2px ;
+}
+
+.align-btn-upload{
+  text-align:left;
+  margin-top:2px ;
+}
+
+.mar-top-10{
+  margin-top:10px;
+}
 
 .remove-btn {
     background: #dc1818;
@@ -63,11 +76,35 @@
   .wid-70{
     width:70%;
   }
+
+  .sel-row
+  {
+    width:50%;
+    margin: 0 auto;
+  }
+
+
   @media (min-width:200px) and (max-width:767px) {
     .mid-mar{
     margin: 0 auto;
     text-align:center;
   }
+  .sel-row
+  {
+    width:80%;
+    margin: 0 auto;
+  }
+
+  .align-btn-remove{
+    text-align:center;  
+    margin-top:2px ;
+  }
+  
+  .align-btn-upload{
+    text-align:center;
+    margin-top:2px ;
+  }
+
   
   .mid-text{
     text-align: center;

@@ -98,12 +98,15 @@ export class BasicDetailsComponent implements OnInit {
   occupation: any[];
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId = 'APS010';
+  udfScreenId = '';
   udfGroupId = 'APG008';
   salariedMaxAge: any;
   selfMaxAge: any;
   editedUDFValues: any;
   initUDFValues: any;
+  relationShipLov: any[];
+  isAppNonInd: boolean;
+  islastNameReq: boolean = true;
 
 
   constructor(
@@ -135,6 +138,12 @@ export class BasicDetailsComponent implements OnInit {
         console.log(error);
       }
     );
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.ADE.applicantBasicDataADE ;
+
+    })
 
     this.basicForm = new FormGroup({
       title: new FormControl(''),
@@ -163,8 +172,13 @@ export class BasicDetailsComponent implements OnInit {
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 
     this.applicantData = leadData['applicantDetails'];
-
-
+    
+  }
+  
+  getIdentifyAppNonInd(){
+    this.isAppNonInd= this.applicantData.some((data : any)=>{
+      return data.applicantTypeKey == 'APPAPPRELLEAD' && data.entityTypeKey == 'NONINDIVENTTYP'   
+   })
   }
 
   getAgeValidation() {
@@ -202,7 +216,27 @@ export class BasicDetailsComponent implements OnInit {
         // } 
       }
 
-    })
+    })  
+    this.getRelationShip(value)
+  }
+
+  getRelationShip(value){
+    if(!this.isIndividual){
+      return;
+    }
+    
+    if(!this.isAppNonInd){
+      this.relationShipLov = this.applicantLov.relationship;
+      if(value==='APPAPPRELLEAD'){
+        this.relationShipLov=  this.relationShipLov.filter((data)=>data.key === '5RELATION')  
+        this.basicForm.get('applicantRelationship').setValue(this.relationShipLov[0].key) 
+       }else{
+         this.relationShipLov=  this.relationShipLov.filter((data)=>data.key !== '5RELATION') 
+         this.basicForm.get('applicantRelationship').setValue('')  
+       }
+    }
+    
+
   }
 
 
@@ -251,6 +285,7 @@ export class BasicDetailsComponent implements OnInit {
         houseOwnerProperty: houseOwner,
         ownHouseAppRelationship: ownHouseAppRelationship
       })
+      this.enableOwnerProperty(details)
 
     } else {
       this.hideMsgForOwner = false;
@@ -262,8 +297,20 @@ export class BasicDetailsComponent implements OnInit {
         houseOwnerProperty: '',
         ownHouseAppRelationship: ''
       })
+      this.disableOwnerProperty(details)
     }
   }
+  enableOwnerProperty(details){
+    details.get('houseOwnerProperty').enable();
+    details.get('ownHouseAppRelationship').enable();
+  }
+
+  disableOwnerProperty(details){
+    details.get('houseOwnerProperty').disable();
+    details.get('ownHouseAppRelationship').disable();
+
+  }
+
 
   clearFatherOrSpouseValidation() {
     const formArray = this.basicForm.get('details') as FormArray;
@@ -528,8 +575,10 @@ export class BasicDetailsComponent implements OnInit {
     this.isIndividual =
       this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP';
     const dob = this.applicant.aboutIndivProspectDetails.dob;
-
     // this.clearFormArray();
+    const applicantType = this.applicant.applicantDetails.applicantTypeKey
+    this.getRelationShip(applicantType);
+   
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       applicantRelationshipWithLead:
@@ -537,8 +586,26 @@ export class BasicDetailsComponent implements OnInit {
       title: this.applicant.applicantDetails.title || '',
       bussinessEntityType:
         this.applicant.applicantDetails.bussinessEntityType || '',
-      applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
+      
     });
+    
+    const relationshipVal = this.applicant.aboutIndivProspectDetails.relationWithApplicant;
+    const relValue = this.relationShipLov.find((data : any)=>{
+      return data.key ===  relationshipVal;
+    })
+    console.log('relValue', relValue)
+    const appRelationship = this.basicForm.get('applicantRelationship')
+    if(this.applicant.aboutIndivProspectDetails.relationWithApplicant){
+      appRelationship.setValue(relValue ?relationshipVal : '')
+    }else{
+      if(!this.isAppNonInd && applicantType === 'APPAPPRELLEAD'){
+        appRelationship.setValue(this.relationShipLov[0].key)
+      }
+    }
+    
+      
+    
+
     const applicantDetails = this.applicant.applicantDetails;
 
     this.custCatValue = applicantDetails.custSegment;
@@ -565,10 +632,12 @@ export class BasicDetailsComponent implements OnInit {
       this.checkedBoxHouse = true;
       this.isChecked = true;
       this.hideMsgForOwner = true;
+      this.enableOwnerProperty(details)
     } else {
       this.checkedBoxHouse = false;
       this.isChecked = false;
       this.hideMsgForOwner = false;
+      this.disableOwnerProperty(details)
     }
 
     // this.checkedBoxHouse = applicantDetails.ownHouseProofAvail == '1' ? true : false;
@@ -658,7 +727,11 @@ export class BasicDetailsComponent implements OnInit {
       recommendations: aboutIndivProspectDetails.recommendations || ''
     });
 
-
+   if(this.applicant.ucic){
+    details.get('name3').clearValidators();
+    details.get('name3').updateValueAndValidity();
+    this.islastNameReq = false
+   }
     // this.clearFatherOrSpouseValidation();
     // this.eitherFathOrspouse();
     this.listenerForMobilechange()
@@ -746,7 +819,15 @@ export class BasicDetailsComponent implements OnInit {
   getLovData() {
     this.lovService.getLovData().subscribe((value: LovList) => {
       this.applicantLov = value.LOVS;
-      this.ownerPropertyRelation = this.applicantLov.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
+      console.log('this.applicantLov',this.applicantLov)
+      this.ownerPropertyRelation = this.applicantLov.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor');
+      this.getIdentifyAppNonInd();
+      if(this.isAppNonInd){
+        this.relationShipLov = this.applicantLov['concernType-SelfEmployed'];
+      }else{
+        this.relationShipLov = this.applicantLov['relationship'];
+      }
+      
 
       this.activatedRoute.params.subscribe((value) => {
         if (!value && !value.applicantId) {
@@ -794,8 +875,8 @@ export class BasicDetailsComponent implements OnInit {
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl(''),
       ownHouseProofAvail: new FormControl(''),
-      houseOwnerProperty: new FormControl(''),
-      ownHouseAppRelationship: new FormControl(''),
+      houseOwnerProperty: new FormControl({ value: '', disabled: true }),
+      ownHouseAppRelationship: new FormControl({ value: '', disabled: true }),
       averageBankBalance: new FormControl(''),
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
@@ -855,8 +936,8 @@ export class BasicDetailsComponent implements OnInit {
       monthlyIncomeAmount: new FormControl(''),
       annualIncomeAmount: new FormControl(''),
       ownHouseProofAvail: new FormControl(''),
-      houseOwnerProperty: new FormControl(''),
-      ownHouseAppRelationship: new FormControl(''),
+      houseOwnerProperty: new FormControl({ value: '', disabled: true }),
+      ownHouseAppRelationship: new FormControl({ value: '', disabled: true }),
       averageBankBalance: new FormControl(''),
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
@@ -905,6 +986,14 @@ export class BasicDetailsComponent implements OnInit {
       );
       return;
     }
+    if (this.basicForm.get('')) {
+      this.toasterService.showError(
+        'Please fill all mandatory fields.',
+        'Applicant Details'
+      );
+      return;
+    }
+
 
     if (this.showNotApplicant) {
 
@@ -1228,6 +1317,7 @@ export class BasicDetailsComponent implements OnInit {
 
     if (this.mobileNumberChange) {
       const currentUrl = this.location.path();
+        this.applicantDataService.setNavigateForDedupe(true)
       this.applicantDataService.setUrl(currentUrl);
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`

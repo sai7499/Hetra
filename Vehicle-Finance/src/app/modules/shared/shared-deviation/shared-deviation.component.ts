@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
-
 import { LoanViewService } from '@services/loan-view.service';
 
 @Component({
@@ -23,6 +22,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   deviationsForm: FormGroup;
   modalForm: FormGroup;
   taskId: any;
+
+  @ViewChild('closebutton', { static: true }) closebutton;
 
   public labels: any = {};
   public autoDeviationArray: any = [];
@@ -56,6 +57,16 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   isLoan360: boolean;
 
+  deviationListRes: any;
+
+  // userDefineFields
+  udfScreenId = 'RCS002';
+  udfGroupId: string = 'RCG001';
+  jsonScreenId: any;
+
+  isDeviationEmpty: boolean;
+  isShowReferModal: boolean;
+
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
     private loginStoreService: LoginStoreService, private router: Router, private utilityService: UtilityService, private location: Location,
@@ -65,14 +76,10 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   ngOnInit() {
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+
+    this.labelsData.getScreenId().subscribe((data: any) => {
+      this.jsonScreenId = data.ScreenIDS;
+    })
 
     this.initForms();
 
@@ -103,7 +110,16 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.taskId = id ? id : '';
     })
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
-    this.sharedService.getFormValidation(this.deviationsForm)
+    this.sharedService.getFormValidation(this.deviationsForm);
+
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   disableInputs() {
@@ -175,15 +191,18 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     if (url.includes('dde')) {
       this.isSubmitToCredit = false;
       this.isSendBacktoCredit = false;
+      this.udfScreenId = this.jsonScreenId.DDE.triggerDeviaitonsDDE;
       return 'dde';
     } else if (url.includes('credit-decisions')) {
       this.isSubmitToCredit = true;
       this.isSendBacktoCredit = true;
+      this.udfScreenId = this.jsonScreenId.creditDecision.deviaitonsListCreditDecision;
       return 'credit-decisions';
     } else if (url.includes('deviation-dashboard')) {
       this.isSubmitToCredit = true;
       this.isApprove = true;
       this.isSendBacktoCredit = false;
+      this.udfScreenId = this.jsonScreenId.DeviationApproval.deviationsApproval;
       return 'deviation-dashboard';
     }
   }
@@ -307,6 +326,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       type: 0,
       isManualDev: '1',
       hierarchy: [0],
+      isSameRole: false,
       justification: ['', Validators.required],
       statusCode: [{ value: null, disabled: true }],
     });
@@ -316,6 +336,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     const memberListForm = <FormArray>this.deviationsForm.controls['manualDeviationFormArray'];
     const add = memberListForm.value.length + 1;
     memberListForm.insert(add, this.getManualDeviations())
+    this.isDeviationEmpty = false;
   }
 
   softDeleteDeviation(index: number, id) {
@@ -327,6 +348,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.modalForm.patchValue({
       typeOfModal: value
     })
+    this.isShowReferModal = true;
   }
 
   removeDeviationIndex(id, i?: any) {
@@ -345,6 +367,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     } else {
       if (control.controls.length > 0) {
         control.removeAt(i);
+
+        this.isDeviationEmpty = control.controls.length === 0 ? true : false;
       }
     }
   }
@@ -353,16 +377,19 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.deviationService.getDeviationsDetails(this.leadId).subscribe((res: any) => {
       if (res.Error === '0' && res.ProcessVariables && res.ProcessVariables.error.code === '0') {
         if (res.ProcessVariables.deviation && res.ProcessVariables.deviation.length > 0) {
+          this.isDeviationEmpty = false;
           this.autoDeviationArray = res.ProcessVariables.deviation ? res.ProcessVariables.deviation : [];
-          this.recommendationArray = res.ProcessVariables.recommendation ? res.ProcessVariables.recommendation : [];
-          this.deviationsForm.patchValue({
-            enableApprove: res.ProcessVariables.enableApprove ? res.ProcessVariables.enableApprove : false,
-            enableSendBack: res.ProcessVariables.enableSendBack ? res.ProcessVariables.enableSendBack : false,
-          })
-          if (this.locationIndex === 'dde' && this.deviationsForm.get('enableApprove').value === true) {
-            this.isApprove = true;
-          }
           this.onPatchFormArrayValue(this.autoDeviationArray)
+        } else {
+          this.isDeviationEmpty = true;
+        }
+        this.recommendationArray = res.ProcessVariables.recommendation ? res.ProcessVariables.recommendation : [];
+        this.deviationsForm.patchValue({
+          enableApprove: res.ProcessVariables.enableApprove,
+          enableSendBack: res.ProcessVariables.enableSendBack
+        })
+        if (this.locationIndex === 'dde' && res.ProcessVariables.enableApprove === true) {
+          this.isApprove = true;
         }
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Deviation Details')
@@ -457,6 +484,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             justification: data.justification,
             otherMitigant: data.other_mitigant,
             rulesRemarks: data.rulesRemarks,
+            isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
       } else if (data.isWaiverNormsDev === null || data.isWaiverNormsDev === false) {
@@ -476,6 +504,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               justification: data.justification,
               isWaiverNormsDev: data.isWaiverNormsDev,
+              isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
         } else if (data.isManualDev === '0') {
@@ -493,6 +522,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               hierarchy: hierarchy,
               justification: data.justification,
+              isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
         }
@@ -534,10 +564,8 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.getFormValidation(this.deviationsForm)
   }
 
-  ReferDeviation() {
-
+  public ReferDeviation() {
     if (this.modalForm.valid) {
-
       let data = {};
 
       if (this.modalForm.controls['typeOfModal'].value === 'Recommendation') {
@@ -572,12 +600,15 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
         this.deviationService.getReferNextLevel(data).subscribe((res: any) => {
-          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-            this.router.navigate(['pages/dashboard'])
-            this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Leads Refer Deviation')
-          } else {
-            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Leads Refer Deviation')
-          }
+          this.closebutton.nativeElement.click();
+          setTimeout(() => {
+            if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+              this.router.navigate(['pages/dashboard'])
+              this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Leads Refer Deviation')
+            } else {
+              this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Leads Refer Deviation')
+            }
+          }, 1000)
         }, err => {
           console.log('err', err)
           this.toasterService.showError(err, 'Refer Error')
@@ -593,12 +624,15 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
         this.deviationService.approveDeviation(data).subscribe((res: any) => {
+          this.closebutton.nativeElement.click();
+          setTimeout(() => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Approve Deviation')
             this.router.navigateByUrl('/pages/dashboard')
           } else {
             this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Approve Deviation Error')
           }
+        }, 1000)
         }, err => {
           console.log('err', err)
           this.toasterService.showError(err, 'Approve Error')
@@ -613,19 +647,22 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
         this.deviationService.sendBackToCredit(data).subscribe((res: any) => {
+          this.closebutton.nativeElement.click();
+          setTimeout(() => {
           if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
             this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Send Back to Credit')
             this.router.navigate(['pages/dashboard'])
           } else {
             this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Send Back to Credit')
           }
+        }, 1000)
         }, err => {
           console.log('err', err)
           this.toasterService.showError(err, 'Send Back to Credit Error')
         })
       }
     } else {
-      this.utilityService.validateAllFormFields(this.modalForm)
+      this.utilityService.validateAllFormFields(this.modalForm);
       this.toasterService.showInfo('Please Select Recommend', 'Recommend')
     }
   }

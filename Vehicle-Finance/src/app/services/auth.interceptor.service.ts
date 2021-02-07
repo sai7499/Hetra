@@ -38,7 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.idleTimerService.updateExpiredTime();
     this.apiCount++;
     let httpMethod = req.method;
-    const reqBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    const reqBody = typeof (req.body) === 'string' && !req.url.includes('/complete') ? JSON.parse(req.body) : req.body;
 
     if (reqBody && reqBody.showLoader !== false) {
       this.ngxUiLoaderService.start();
@@ -47,6 +47,8 @@ export class AuthInterceptor implements HttpInterceptor {
     console.log('req', req);
 
     let token = '';
+    let userId = localStorage.getItem('userId')
+    // req.body.userId = userId;
 
     if (reqBody && reqBody.headers !== undefined) {
       token = reqBody.headers;
@@ -56,14 +58,31 @@ export class AuthInterceptor implements HttpInterceptor {
         : ''
     }
 
+    if (reqBody && reqBody.ProcessVariables && reqBody.ProcessVariables['userId']) {
+    } else if (reqBody && reqBody.ProcessVariables && userId) {
+      const parsedBody = JSON.parse(req.body);
+
+      if (parsedBody.ProcessVariables) {
+        parsedBody.ProcessVariables.userId = userId;
+      } else {
+        parsedBody.ProcessVariables = { 'userId': userId }
+      }
+
+      req = req.clone({
+        body: JSON.stringify(parsedBody),
+      });
+    }
+
     if (httpMethod == 'POST') {
       if (req.url.includes('appiyo')) {
+
         if (environment.encryptionType == true) {
           const encryption = this.encrytionService.encrypt(
             req.body,
             environment.aesPublicKey
           );
-          console.log('Body', req.body)
+
+          console.log(reqBody, 'Body', req.body)
 
           req = req.clone({
             setHeaders: encryption.headers,
@@ -71,7 +90,6 @@ export class AuthInterceptor implements HttpInterceptor {
             responseType: 'text',
           });
           console.log('setHeadera', req)
-
         }
       }
     } else {
@@ -86,6 +104,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     let authReq;
+
     if (req.url.includes('appiyo')) {
       authReq = req.clone({
         headers: req.headers.set(
@@ -99,7 +118,7 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     } else {
       authReq = req;
-    console.log('wizard api', JSON.stringify(req));
+      console.log('wizard api', JSON.stringify(req));
 
     }
     console.log('authReq', req);
@@ -132,9 +151,9 @@ export class AuthInterceptor implements HttpInterceptor {
               res = event.body;
             } else {
               if (
-                event.headers.get('content-type') != 'text/plain' && 
-                event.headers.get('content-type')!="text/html" &&
-                typeof event.body != 'object' 
+                event.headers.get('content-type') != 'text/plain' &&
+                event.headers.get('content-type') != "text/html" &&
+                typeof event.body != 'object'
               ) {
                 res = JSON.parse(event.body);
               }

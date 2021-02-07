@@ -26,6 +26,7 @@
 	.navbar-toggle, .navbar-default .navbar-toggle, .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
 		background-color: #272264;
 		border: 1px solid #272264;
+		padding:6px;
 	}
 	.navbar-toggle .icon-bar, .navbar-default .navbar-toggle .icon-bar{
 		background: #fff;

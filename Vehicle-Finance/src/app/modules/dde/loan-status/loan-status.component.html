@@ -36,10 +36,10 @@
             <tr *ngFor="let item of processLogs">
                 <td [attr.data-label]="labels?.name">{{item.name ? item.name : '--'}}</td>
                 <td [attr.data-label]="labels?.applicantType">{{item.type ? item.type : '--'}}</td>
-                <td [attr.data-label]="labels?.stage">{{item.stage ? item.stage : '--'}}</td>
+                <td [attr.data-label]="labels?.stage" class="text-left">{{item.stage ? item.stage : '--'}}</td>
                 <td [attr.data-label]="labels?.status">{{item.status ? item.status : '--'}}</td>
                 <td [attr.data-label]="labels?.loanNumber">{{item.loanAccountNo ? item.loanAccountNo : '--'}}</td>
-                <td [attr.data-label]="labels?.errorMsg">{{item.errorMsg ? item.errorMsg : '--'}}</td>
+                <td [attr.data-label]="labels?.errorMsg" class="text-left">{{item.errorMsg ? item.errorMsg : '--'}}</td>
                 <td *ngIf="!item.checkDuplicates &&
                 item?.stage != 'CREATE_HDFC_POLICY' &&
                  item?.stage != 'CREATE_ICICI_POLICY' && 

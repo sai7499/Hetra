@@ -20,6 +20,10 @@ export class BankListComponent {
   labels: any;
   disableAddbankDetailsBtn: boolean;
   isLoan360: boolean;
+  udfScreenId: any;
+
+  deleteBankData: any;
+
   constructor(private bankService: BankTransactionsService,
               private route: Router, private activatedRoute: ActivatedRoute,
               private location: Location,
@@ -48,8 +52,14 @@ export class BankListComponent {
     if (operationType) {
       this.disableAddbankDetailsBtn = true;
     }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
 
+      this.udfScreenId = udfScreenId.DDE.bankListDDE ;
+
+    })
   }
+
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.parent.params.subscribe((value) => {
@@ -60,6 +70,7 @@ export class BankListComponent {
       });
     });
   }
+
   getApplicantId() {
     return new Promise((resolve, reject) => {
       this.activatedRoute.params.subscribe((value) => {
@@ -71,36 +82,50 @@ export class BankListComponent {
       });
     });
   }
+
   routeDetails(data: any) {
     const id = {
       applicantId: this.applicantId,
       formType: 'edit'
     };
+    this.bankService.setBankId(data)
     this.route.navigate([`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`],
     );
   }
+
   bankDetail() {
+    this.bankService.setBankId(null)
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/bank-details/${this.applicantId}`);
   }
+
   onBack() {
     // this.location.back();
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/address-details/${this.applicantId}`);
   }
+
   onNext() {
     this.route.navigateByUrl(`pages/applicant-details/${this.leadId}/employment-details/${this.applicantId}`);
   }
+
   loadAppplicant() {
     this.route.navigateByUrl(`pages/dde/${this.leadId}/applicant-list`);
   }
+
+  softDelete(data) {
+    this.deleteBankData = data;
+  }
+
   onDelete() {
     const body = {
       applicantId: this.applicantId,
+      id: this.deleteBankData.id,
       userId: this.userId
     };
+
     this.bankService.deleteBankList(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
-        this.toasterService.showSuccess('Record Saved Succesfully', '');
+        this.toasterService.showSuccess('Record deleted successfully', '');
         this.bankService.getBankList({ applicantId: this.applicantId }).subscribe((resVar: any) => {
           this.bankDetails = resVar.ProcessVariables.applicantBankDetails;
         });

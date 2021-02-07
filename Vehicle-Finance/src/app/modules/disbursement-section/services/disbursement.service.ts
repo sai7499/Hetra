@@ -51,7 +51,7 @@ getCoAppNames(leadId) {
   const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
   return this.httpService.post(url, body);
 }
-getDealerDetails(dealerCode) { 
+getDealerDetails(dealerCode,productCode) { 
   const processId = this.apiService.api.fetchDealerDetails.processId;
   const workflowId = this.apiService.api.fetchDealerDetails.workflowId;
   const projectId = this.apiService.api.fetchDealerDetails.projectId;
@@ -59,7 +59,8 @@ getDealerDetails(dealerCode) {
   const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        "dealerCode":dealerCode          
+        "dealerCode":dealerCode,
+        "productCatCode": productCode          
       },
       workflowId: workflowId,
       projectId: projectId
@@ -127,7 +128,7 @@ fetchDisbursement(leadId) {
       const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
       return this.httpService.post(url, body);
       }
-      dealerCode(code) {
+      dealerCode(code,productCode?) {
         const processId = this.apiService.api.dealerCode.processId;
         const workflowId = this.apiService.api.dealerCode.workflowId;
         const projectId = this.apiService.api.dealerCode.projectId;
@@ -135,7 +136,8 @@ fetchDisbursement(leadId) {
         const body: RequestEntity = {
             processId: processId,
             ProcessVariables: {
-                "code": code
+                "code": code,
+                "productCatCode": productCode
             },
             workflowId: workflowId,
             projectId: projectId
@@ -175,6 +177,58 @@ fetchDisbursement(leadId) {
       const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
       return this.httpService.post(url, body);
   }
+  //Disbursement Enhancement Start
+  getLoanDetailList(leadID){
+    const processId = this.apiService.api.loanDetailList.processId;
+    const workflowId = this.apiService.api.loanDetailList.workflowId;
+    const projectId = this.apiService.api.loanDetailList.projectId;
+
+    const body: RequestEntity = {
+        processId: processId,
+        ProcessVariables: {
+            "LeadID": leadID
+        },
+        workflowId: workflowId,
+        projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+  getLoanDetailListDisburse(leadID,usubRefID){
+    const processId = this.apiService.api.loanDetailListDisburse.processId;
+    const workflowId = this.apiService.api.loanDetailListDisburse.workflowId;
+    const projectId = this.apiService.api.loanDetailListDisburse.projectId;
+
+    const body: RequestEntity = {
+        processId: processId,
+        ProcessVariables: {
+            "LeadID": leadID,
+            "UniqueSubLeadReferenceID": usubRefID
+        },
+        workflowId: workflowId,
+        projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+  getDisbursementDetails(leadID,usubRefID){
+    const processId = this.apiService.api.getDisbursementData.processId;
+    const workflowId = this.apiService.api.getDisbursementData.workflowId;
+    const projectId = this.apiService.api.getDisbursementData.projectId;
+
+    const body: RequestEntity = {
+        processId: processId,
+        ProcessVariables: {
+            "LeadID": leadID,
+            "UniqueSubLeadReferenceID": usubRefID
+        },
+        workflowId: workflowId,
+        projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+  //Disbursement Enhancement End
   getTDDetails(reqData,val){
       if(val == '2'){
         const processId = this.apiService.api.getTDDetailsByTask.processId;

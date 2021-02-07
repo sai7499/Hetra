@@ -1,7 +1,8 @@
 <main>
   <div class="container-fluid">
     <form class="multisteps-form" [formGroup]="fieldReportForm" *ngIf="this.fieldReportForm">
-      <h3 class="banner-con">FI - Residence ({{udfScreenId}}) </h3>
+      <h3 class="banner-con">FI - Residence <span class="float-right">{{udfScreenId}}</span>
+      </h3>
       <div class="row">
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -10,13 +11,13 @@
             <app-vf-custom-select [values]="" formControlName="externalAgencyName" [isDirty]="isDirty">
             </app-vf-custom-select>
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-4">
+          <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="contactPoint">{{ labels?.contactPointVerification }}
               <sub class="star_red_col">*</sub></label>
             <app-vf-custom-select [values]="(LOV?.LOVS)['contactPointVerification']"
               formControlName="contactPointVerification" [isRequired]="'Please select one'" [isDirty]="isDirty">
             </app-vf-custom-select>
-          </div>
+          </div> -->
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="referenceNo">{{ labels?.referenceNo }}
               <sub class="star_red_col">*</sub></label>
@@ -30,10 +31,13 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="cpv_date">{{ labels?.cpvIntiatedDate }}
               <sub class="star_red_col">*</sub></label>
-            <kendo-datepicker id="cpv_date" class="form-control mandatory" formControlName="cpvInitiatedDate"
+              <app-custom-input id="cpv_date"  formControlName="cpvInitiatedDate"
+              >
+            </app-custom-input>
+            <!-- <kendo-datepicker id="cpv_date" class="form-control mandatory" formControlName="cpvInitiatedDate"
               [format]="'dd/MM/yyyy'" [placeholder]="'Enter initiated date'" [activeView]="'decade'"
-              [min]="leadCreatedDateFromLead" [max]="toDayDate"></kendo-datepicker>
-            <div class="invalid-feedback" *ngIf="!fieldReportForm.controls['cpvInitiatedDate'].valid">
+              [min]="leadCreatedDateFromLead" [max]="toDayDate"></kendo-datepicker> -->
+            <!-- <div class="invalid-feedback" *ngIf="!fieldReportForm.controls['cpvInitiatedDate'].valid">
               <div *ngIf="
                   fieldReportForm.controls['cpvInitiatedDate'].hasError(
                     'required'
@@ -52,13 +56,14 @@
                 </div>
 
               </div>
-            </div>
+            </div> -->
           </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-4">
+          <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="cpv_time">{{ labels?.cpvIntiatedTime }}
               <sub class="star_red_col">*</sub></label>
             <input type="time" class="form-control mandatory" placeholder="'cpv initiated time'"
-              formControlName="cpvInitiatedTime" />
+              formControlName="cpvInitiatedTime" /> -->
+
             <!-- <app-custom-input
           id="cpv_time"
           [placeholder]="'Enter initiated time'"
@@ -76,7 +81,8 @@
           placeholder=" cpv initiated time"
         >
         </kendo-timepicker> -->
-            <div class="invalid-feedback" *ngIf="!fieldReportForm.controls['cpvInitiatedTime'].valid">
+
+            <!-- <div class="invalid-feedback" *ngIf="!fieldReportForm.controls['cpvInitiatedTime'].valid">
               <div *ngIf="
                   fieldReportForm.controls['cpvInitiatedTime'].hasError(
                     'required'
@@ -85,15 +91,14 @@
                 CPV initiated time is required
               </div>
             </div>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-4">
+          </div> -->
+          <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="report_date">{{ labels?.reportSubmitDate }}
               <sub class="star_red_col">*</sub></label>
             <kendo-datepicker id="cpv_date" class="form-control mandatory" formControlName="reportSubmitDate"
               [format]="'dd/MM/yyyy'" placeholder="Enter submit date" [activeView]="'decade'"
               (valueChange)="validateSubmitDate()">
             </kendo-datepicker>
-            <!-- (valueChange)="validateSubmitDate()" -->
             <div class="invalid-feedback" *ngIf="!fieldReportForm.controls['reportSubmitDate'].valid">
               <div *ngIf="
                   fieldReportForm.controls['reportSubmitDate'].hasError(
@@ -110,9 +115,9 @@
               </div>
 
             </div>
-          </div>
+          </div> -->
 
-          <div class="form-group col-sm-6 col-md-4 col-lg-4">
+          <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="report_time">{{ labels?.reportSubmitTime }}
               <sub class="star_red_col">*</sub></label>
 
@@ -127,7 +132,7 @@
                 Report submitted time is required
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="applicantsName">{{ labels?.applicantsName }}
               <sub class="star_red_col">*</sub></label>
@@ -239,7 +244,7 @@
 
       <!-- if Residence -->
       <div class="row">
-        <h3 class="banner-con">Residence Observation</h3>
+        <h3 class="banner-sub">Residence Observation</h3>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="residenceApproach">{{ labels?.residenceApproach }}
@@ -402,7 +407,7 @@
           </div>
         </div>
 
-        <h3 class="banner-con">Asset & family member details</h3>
+        <h3 class="banner-sub">Asset & family member details</h3>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="propertyOwned">{{ labels?.propertyOwned }}
@@ -446,7 +451,7 @@
       </div>
 
       <div class="row">
-        <h3 class="banner-con">Comments and Recommendations</h3>
+        <h3 class="banner-sub">Comments and Recommendations</h3>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label for="comments">{{ labels?.commentsAndRecommendations }}
@@ -486,13 +491,13 @@
             </app-custom-input>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
-            <label>{{ labels.date }} <sub class="star_red_col">*</sub></label>
+            <label>{{ roleType == '2' ? labels.receivedDate : labels.submitDate }} <sub class="star_red_col">*</sub></label>
             <kendo-datepicker class="form-control mandatory" formControlName="fiDate" [format]="'dd/MM/yyyy'"
               placeholder="Enter Date" [activeView]="'decade'" [min]="leadCreatedDateFromLead" [max]="toDayDate">
             </kendo-datepicker>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
-            <label for="">{{ labels?.time }} <sub class="star_red_col">*</sub></label>
+            <label for="">{{ roleType == '2' ? labels.receivedTime : labels.submitTime }} <sub class="star_red_col">*</sub></label>
             <!-- <app-custom-input
           [placeholder]="'Enter time'"
           [type]="labels?.validationData?.cubicCapacity?.type"

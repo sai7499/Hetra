@@ -92,6 +92,7 @@ export class LoanDetailsComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   udfGroupId: string = 'FPG001';
+  isPermitMandatory: boolean = true;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -126,7 +127,7 @@ export class LoanDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'FPS003' : 'FPS007';
+    //this.udfScreenId = this.roleType === 1 ? 'FPS003' : 'FPS007';
 
     this.initForm();
 
@@ -163,6 +164,12 @@ export class LoanDetailsComponent implements OnInit {
     this.getLOV();
     this.getPdDetails();
     this.RemoveAddControls();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.loanFIcumPD : udfScreenId.DDE.loanDetailsFIcumPDDDE ;
+
+    })
   }
 
   getLeadId() {
@@ -430,7 +437,8 @@ export class LoanDetailsComponent implements OnInit {
       controls.removeControl('remarks');
       controls.removeControl('vehicleContract');
       controls.removeControl('isPrevExpMatched');
-    } else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+    } else if (this.productCatCode !== 'NCV') {
+      // this.productCatCode === 'UCV' || this.productCatCode === 'UC'
       controls.removeControl('newVehicleCost');
       controls.removeControl('newVehModel');
       controls.removeControl('newVehicleType');
@@ -456,7 +464,7 @@ export class LoanDetailsComponent implements OnInit {
       if (processVariables.error.code === '0') {
 
         this.newCvDetails = value.ProcessVariables.loanDetailsForNewCv;
-        this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory;
+        //this.custCategory = value.ProcessVariables.applicantPersonalDiscussionDetails.custCategory || '';
         this.usedVehicleDetails = value.ProcessVariables.applicableForUsedVehicle;
         this.assetDetailsUsedVehicle = value.ProcessVariables.applicableForAssetDetailsUsedVehicle;
         // console.log('asset details used vehilce', this.assetDetailsUsedVehicle);
@@ -474,6 +482,17 @@ export class LoanDetailsComponent implements OnInit {
         if (this.loanDetailsForm.get('vehiclePhsicallyVerified') != null) {
           this.vehCondVerified(this.loanDetailsForm.get('vehiclePhsicallyVerified').value);
         }
+        setTimeout(() => {
+          if(this.usedVehicleDetails && this.usedVehicleDetails.type){
+            if(this.usedVehicleDetails.type === 'MCVVEHTYP' || this.usedVehicleDetails.type === 'SCVVEHTYP'){
+              this.loanDetailsForm.get('permitValidity').clearValidators();
+              this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+              this.isPermitMandatory = false;
+            }
+          }
+        });
+        
+        
       }
     });
   }
@@ -496,7 +515,9 @@ export class LoanDetailsComponent implements OnInit {
         newVehicleReqLoanAmount: newCvModel.reqLoanAmount || '',
         newVehicleMarginMoney: newCvModel.marginMoney || ''
       });
-    } else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+    } else if (this.productCatCode !== 'NCV') {
+
+      // this.productCatCode === 'UCV' || this.productCatCode === 'UC'
 
       this.loanDetailsForm.patchValue({
         // used cv details patching
@@ -616,6 +637,21 @@ export class LoanDetailsComponent implements OnInit {
 
   // }
 
+
+
+  OnChangeVehType(value){
+    console.log('value', value)
+    if(value === 'MCVVEHTYP' || value === 'SCVVEHTYP'){
+      this.loanDetailsForm.get('permitValidity').clearValidators();
+      this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+      this.isPermitMandatory = false;
+    }else{
+      this.loanDetailsForm.get('permitValidity').setValidators(Validators.required);
+      this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+      this.isPermitMandatory = true;
+    }
+  }
+
   onSaveuserDefinedFields(event) {
     this.userDefineForm = event;
   }
@@ -664,7 +700,9 @@ export class LoanDetailsComponent implements OnInit {
           }
         });
 
-      } else if (this.productCatCode === 'UCV' || this.productCatCode === 'UC') {
+      } else if (this.productCatCode !== 'NCV') {
+
+        // this.productCatCode === 'UCV' || this.productCatCode === 'UC'
 
         // used  vehicle details
 
@@ -707,7 +745,7 @@ export class LoanDetailsComponent implements OnInit {
           vehicleHpaNbfc: loanDetailsModal.vehicleHpaNbfc,
           engineNumber: loanDetailsModal.engineNumber,
           chasisNumber: loanDetailsModal.chasisNumber,
-          permitValidity: this.sendDate(loanDetailsModal.permitValidity),
+          permitValidity: loanDetailsModal.permitValidity ? this.sendDate(loanDetailsModal.permitValidity) : null,
           fitnessValidity: this.sendDate(loanDetailsModal.fitnessValidity),
           taxValidity: this.sendDate(loanDetailsModal.taxValidity),
           insuranceCopyVerified: loanDetailsModal.insuranceCopyVerified,

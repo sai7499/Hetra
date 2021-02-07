@@ -1,3 +1,6 @@
+body{
+    overflow-x:hidden;
+}
 .top-border{
     border-top: 2px solid;
 }
@@ -19,13 +22,16 @@
  }
 
  .typeId {
-    width: 100;
     position: absolute;
     width: 100%;
+    font-size: 70px;
+    /* letter-spacing: 10px; */
     color: gray;
-    left: 87px;
-    /* font-weight: bolder; */
-    opacity: 0.5;
+    left: -10px;
+    text-align: center;
+    opacity: 0.2;
+    transform: rotate(-60deg);
+    display: none;
  }
 
 @media (min-width:300px) and (max-width:767px) {

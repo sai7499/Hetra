@@ -24,7 +24,7 @@ export class AddvehicleComponent implements OnInit {
   isDirty: boolean;
   routerId = 0;
 
-  udfScreenId: string = 'VLS002';
+  udfScreenId: string = '';
   udfGroupId: string = 'VLG002';
   udfDetails: any = [];
 
@@ -64,6 +64,13 @@ export class AddvehicleComponent implements OnInit {
         error => {
           this.errorMsg = error;
         });
+
+        this.labelsData.getScreenId().subscribe((data) => {
+          let udfScreenId = data.ScreenIDS;
+    
+          this.udfScreenId = udfScreenId.QDE.vehicleDetailQDE ;
+    
+        })
 
     this.activatedRoute.params.subscribe((value) => {
       this.routerId = value ? value.vehicleId : null;
@@ -121,7 +128,7 @@ export class AddvehicleComponent implements OnInit {
           data.invoiceDate = data.invoiceDate ? this.utilityService.convertDateTimeTOUTC(data.invoiceDate, 'DD/MM/YYYY') : '';
         }
 
-        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC') {
+        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC'|| this.productCatoryCode === 'UTCR') {
           data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
           data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
           data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;

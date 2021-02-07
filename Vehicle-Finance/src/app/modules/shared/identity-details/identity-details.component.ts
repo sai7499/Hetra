@@ -80,6 +80,7 @@ export class IdentityDetailsComponent implements OnInit {
   udfGroupId: any;
   initUDFValues: any;
   editedUDFValues: any;
+  FormValidate: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -98,13 +99,19 @@ export class IdentityDetailsComponent implements OnInit {
   ) {
 
     const url = this.location.path();
-    if (url.includes('sales')) {
-      this.udfScreenId = 'APS011';
-      this.udfGroupId = 'APG008';
-    } else {
-      this.udfScreenId = 'APS015';
-      this.udfGroupId = 'APG008';
-    }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      if (url.includes('sales')) {
+        this.udfScreenId = udfScreenId.ADE.applicantIdentityADE;
+        this.udfGroupId = 'APG008';
+      } else {
+        this.udfScreenId = udfScreenId.DDE.applicantIdentityDDE;
+        this.udfGroupId = 'APG008';
+      }
+
+    })
+    
 
     console.log(this.udfScreenId, 'udf', this.udfScreenId)
     this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
@@ -168,6 +175,7 @@ export class IdentityDetailsComponent implements OnInit {
       this.identityForm.disable();
       this.disableSaveBtn = true;
     }
+
   }
 
   getLeadId() {
@@ -241,14 +249,14 @@ export class IdentityDetailsComponent implements OnInit {
     const controls = new FormGroup({
       aadhar: new FormControl({ value: null, disabled: true }),
       panType: new FormControl({ value: '', disabled: true }),
-      pan: new FormControl(null),
-      passportNumber: new FormControl(null),
+      pan: new FormControl({ value: null, disabled: true }),
+      passportNumber: new FormControl({ value: null, disabled: true }),
       passportIssueDate: new FormControl(null),
       passportExpiryDate: new FormControl(null),
-      drivingLicenseNumber: new FormControl(null),
+      drivingLicenseNumber: new FormControl({ value: null, disabled: true }),
       drivingLicenseIssueDate: new FormControl(null),
       drivingLicenseExpiryDate: new FormControl(null),
-      voterIdNumber: new FormControl(null),
+      voterIdNumber: new FormControl({ value: null, disabled: true }),
       voterIdIssueDate: new FormControl(null),
       voterIdExpiryDate: new FormControl(null),
     });
@@ -259,12 +267,12 @@ export class IdentityDetailsComponent implements OnInit {
     const controls = new FormGroup({
       aadhar: new FormControl({ value: '', disabled: true }),
       panType: new FormControl({ value: '', disabled: true }),
-      panNumber: new FormControl(null),
+      panNumber: new FormControl({ value: null, disabled: true }),
 
-      corporateIdentificationNumber: new FormControl(null),
-      cstVatNumber: new FormControl(null),
-      gstNumber: new FormControl(null),
-      tanNumber: new FormControl(null),
+      corporateIdentificationNumber: new FormControl({ value: null, disabled: true }),
+      cstVatNumber: new FormControl({ value: null, disabled: true }),
+      gstNumber: new FormControl({ value: null, disabled: true }),
+      tanNumber: new FormControl({ value: null, disabled: true }),
     });
     (this.identityForm.get('details') as FormArray).push(controls);
   }
@@ -365,6 +373,13 @@ export class IdentityDetailsComponent implements OnInit {
 
   addNonIndividualForm() {
     this.addNonIndividualFormControls();
+  }
+
+
+  validateForm(){
+    const formArray = this.identityForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    return details;
   }
 
 
@@ -502,18 +517,30 @@ export class IdentityDetailsComponent implements OnInit {
     }
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);
-    const value = this.indivIdentityInfoDetails;
+    const value = this.getIdentityDetails();
+    
     this.referenceNo = value.aadhar;
     this.applicantService.retreiveAdhar(this.referenceNo).subscribe((res) => {
       if (res['ProcessVariables'].error.code == "0") {
         const uid = res['ProcessVariables'].uid;
         details.get('aadhar').setValue(uid)
+      }else{
+        this.toasterService.showError(res['ProcessVariables'].error.message, '')
       }
     })
   }
 
+  getIdentityDetails(){
+    let value;
+    if (this.isIndividual) {
+      return value = this.indivIdentityInfoDetails;   
+    } else {
+      return value = this.corporateProspectDetails;
+    }
+  }
+
   onRelieve() {
-    const value = this.indivIdentityInfoDetails;
+    const value = this.getIdentityDetails();
     this.referenceNo = value.aadhar;
     const formArray = this.identityForm.get('details') as FormArray;
     const details = formArray.at(0);

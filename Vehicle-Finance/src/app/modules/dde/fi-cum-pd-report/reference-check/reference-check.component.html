@@ -2,34 +2,38 @@
   <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV?.LOVS">
 
     <form class="multisteps-form__form" [formGroup]="referenceCheckForm" *ngIf="referenceCheckForm">
-      <h4 class="banner-con">{{ labels.referenceCheckTitle }} ({{udfScreenId}}) </h4>
+      <h4 class="banner-con">{{ labels.referenceCheckTitle }}
+        <span class="float-right">{{udfScreenId}}</span>
+      </h4>
       <div class="row">
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="person_name">{{ labels.personName }} <sub class="star_red_col">*</sub></label>
           <app-custom-input id="person_name" formControlName="nameOfReference" placeholder="name of the person"
             [type]="labels?.validationData?.name?.type" [isRequired]="'Name is required'"
             [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="address_of_the_person">{{ labels.addressOfThePerson }}
             <sub class="star_red_col">*</sub></label>
           <app-custom-input id="address_of_the_person" formControlName="addressOfReference" placeholder="address"
             [isRequired]="'Address is required'" [maxLength]="validationData?.fullName?.maxLength" [isDirty]="isDirty">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="contact_number">{{ labels.contactNumber }} <sub class="star_red_col">*</sub></label>
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
+          <label for="contact_number">{{ labels.contactNumber }} </label>
 
           <app-custom-input id="contact_number" placeholder="contact number"
             [type]="labels?.validationData?.mobileNumber?.type" formControlName="referenceMobile"
-            [patternCheck]="labels?.validationData?.mobileNumber?.pattern" [isRequired]="'Mobile number is required'"
-            [maxLength]="labels?.validationData?.mobileNumber?.maxLength" [isDirty]="isDirty">
+            [patternCheck]="labels?.validationData?.mobileNumber?.pattern" 
+            [maxLength]="labels?.validationData?.mobileNumber?.maxLength" >
+            <!-- [isRequired]="'Mobile number is required'"
+            [isDirty]="isDirty" -->
           </app-custom-input>
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="mobile">{{ labels.negativeProfile }} <sub class="star_red_col">*</sub></label>
           <app-vf-custom-select [values]="[
             { key: '0', value: 'Yes' },
@@ -38,7 +42,7 @@
           </app-vf-custom-select>
         </div>
 
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="overall_report">{{ labels.overallReport }} <sub class="star_red_col">*</sub></label>
 
           <app-vf-custom-select [values]="[
@@ -47,7 +51,7 @@
           ]" formControlName="overallFiReport">
           </app-vf-custom-select>
         </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="remarks">{{ labels.referenceRemarks }}
             <sub class="star_red_col">*</sub></label>
 
@@ -70,10 +74,10 @@
           </div>
         </div>
       </div>
-      <h4 class="banner-con" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
+      <h4 class="banner-sub" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
         {{ labels.marketAndFinancierReference }}
       </h4>
-      <div class="row" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
+      <div class="" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
         <div class="table-responsive application">
           <table class="table">
             <thead>
@@ -152,14 +156,14 @@
                     [isDirty]="isDirty" [placeholder]="'comments'"></app-custom-input>
                 </td>
                 <td>
-                  <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"
+                  <button class="fa fa-plus mar-1" aria-hidden="true" id="addmorePOIbutton" value="Add"
                     [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
-                  &nbsp;
+                 
 
-                  <a data-toggle="modal" data-target="#myDeleteModel" id="reject_credit">
-                    <button type="button" class="fa fa-minus" aria-hidden="true" value="Delete" (click)="delete(i)">
+                 
+                    <button type="button" data-toggle="modal" data-target="#myDeleteModel" id="reject_credit" class="fa fa-minus mar-1" aria-hidden="true" value="Delete" (click)="delete(i)">
                     </button>
-                  </a>
+                 
                 </td>
               </tr>
             </tbody>
@@ -167,9 +171,9 @@
         </div>
       </div>
       &nbsp; &nbsp;
-      <h4 class="banner-con">{{ labels.genericDetails }}</h4>
+      <h4 class="banner-sub">{{ labels.genericDetails }}</h4>
       <div class="row">
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="application_no">{{ labels?.applicationNo }}
             <sub class="star_red_col">*</sub>
           </label>
@@ -178,7 +182,7 @@
           </app-custom-input>
         </div>
 
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="product">{{ labels.product }}
             <sub class="star_red_col">*</sub>
           </label>
@@ -187,7 +191,7 @@
             [maxLength]="labels?.validationData?.equitasBranchName?.maxLength" [isDirty]="isDirty">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="sourcing_channel">
             {{ labels.sourcingChannel }}
             <sub class="star_red_col">*</sub>
@@ -200,7 +204,7 @@
       </div>
       <div class="row">
 
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="equitas_branch_name">{{ labels.equitasBranchName }}
             <sub class="star_red_col">*</sub>
           </label>
@@ -210,44 +214,46 @@
           </app-custom-input>
         </div>
 
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="mobile">{{ labels.distanceEquitasAssetBranch }}
             <sub class="star_red_col">*</sub></label>
           <input type="text" class="form-control" id="negativeProfile" formControlName="distanceFromEquitas" />
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="so_name">{{ labels.soName }} <sub class="star_red_col">*</sub></label>
 
           <app-custom-input id="so_name" formControlName="soName" [isDisabled]="true" [maxLength]="maxlength30"
             [isDirty]="isDirty">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="employee_code">{{ labels.employeeCode }} <sub class="star_red_col">*</sub></label>
 
           <app-custom-input id="employee_code" formControlName="employeeCode" [placeholder]="'Employee Code'"
             [isRequired]="' Employee Code is required'" [isDirty]="isDirty">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label>{{ labels.date }} <sub class="star_red_col">*</sub></label>
           <kendo-datepicker class="form-control mandatory" formControlName="date" [format]="'dd/MM/yyyy'"
             placeholder="Enter Date" [activeView]="'decade'"></kendo-datepicker>
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="area">{{ labels.area }}
-            <sub class="star_red_col">*</sub>
+            <!-- <sub class="star_red_col">*</sub> -->
           </label>
           <app-custom-input formControlName="area" [className]="'form-control mandatory'" [placeholder]="'Area'"
-            [isRequired]="' Area is required'" [type]="labels?.validationData?.area?.type"
-            [maxLength]="labels?.validationData?.area?.maxLength" [isDirty]="isDirty">
+             [type]="labels?.validationData?.area?.type"
+            [maxLength]="labels?.validationData?.area?.maxLength" >
           </app-custom-input>
+          <!-- [isDirty]="isDirty"
+          [isRequired]="' Area is required'" -->
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="place">{{ labels.place }}
             <sub class="star_red_col">*</sub>
           </label>
@@ -256,7 +262,7 @@
             [isDirty]="isDirty">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="timeOf_verification">{{ labels.tomeOfVerification }}
             <sub class="star_red_col">*</sub>
           </label>
@@ -267,33 +273,45 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="b_latitude">{{ labels.branchLat }}
           </label>
           <app-custom-input formControlName="bLatitude" [className]="'form-control mandatory'" [placeholder]="''">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="b_longitude">{{ labels.branchLng }}
           </label>
           <app-custom-input formControlName="bLongitude" [className]="'form-control mandatory'" [placeholder]="''">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+      </div>
+        &nbsp; &nbsp;
+        <h4 class="banner-sub">{{ labels.pdDoneAt }}</h4>
+      <div class="row">
+
+        
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="captured_latitude">Latitude
           </label>
           <app-custom-input formControlName="latitude" [className]="'form-control mandatory'" [placeholder]="''">
           </app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="captured_longitude">Longitude
           </label>
           <app-custom-input formControlName="longitude" [className]="'form-control mandatory'" [placeholder]="''">
           </app-custom-input>
         </div>
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="captured_longitude">Captured Address
+          </label>
+          <app-custom-input formControlName="capturedAddress" [className]="'form-control mandatory'" [placeholder]="''">
+          </app-custom-input>
+        </div>
       </div>
       <div class="row">
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="sourceOf_margin_money">{{ labels.selfieImageTitle }}
           </label>
           <div class="photo">
@@ -306,7 +324,7 @@
           <app-upload-modal [showModal]="showModal" (close)="showModal = false"
             (uploadSuccess)="onUploadSuccess($event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
         </div>
-        <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-3">
+        <div *ngIf="showRouteMap" class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="timeOf_verification">{{ labels.routeMap }} </label>
           <div class="photo">
             <img src="{{ base64Image }}" width="235" />

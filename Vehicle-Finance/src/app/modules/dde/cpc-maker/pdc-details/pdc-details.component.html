@@ -1,7 +1,12 @@
 <form class="form multisteps-form__form" style="height: auto" [formGroup]="pdcForm">
     <div class="container overflow-hidden">       
         
-        <div class="content">   
+        <div class="content">  
+            <div class="row">       
+                <h3 class="banner-con">PDC Details
+                  <span class="float-right">{{udfScreenId}}</span>
+                </h3>        
+              </div> 
             <div class="row" >
                 <div class="col-lg-5 col-md-5 col-sm-5"></div>
                 <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
@@ -10,12 +15,13 @@
                 </div>
             </div>        
             <div class="multisteps-form__panel js-active" data-animation="scaleIn">              
-                <div class="panel-group hidden-xs" id="accordion">
+                <div class="panel-group" id="accordion1">
                     <div class="panel panel-default">
+                       
                         
-                        <div class="panel-heading panel-primary" id="headingTwo1">
-                            <h4 class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
+                        <div class="" id="headingTwo1">
+                            <h4 class="banner-sub">
+                                <a class="collapsed" style="color:#fff;" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1">
                                      PDC<i class="fa fa-angle-down"></i>
                                 </a>
                               </h4>
@@ -44,9 +50,9 @@
                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                     <label  >Instr.Amount</label>
                                 </div>
-                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                            <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                     <label  >Action</label>
-                            </div>
+                            </div> -->
                             
                         </div>
                             
@@ -61,7 +67,7 @@
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
                                     <app-custom-input
                                     formControlName="emiAmount"
-                                    [patternCheck]="inputValidation"
+                                    
                                     [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                     [type]="labels?.validationData?.amountValue?.type"
                                     [isRequired]="'*required'"
@@ -70,6 +76,7 @@
                                     [id]="'emiAmount'+i+i"
                                     [isDisabled]="true"
                                   ></app-custom-input>
+                                  <!-- [patternCheck]="inputValidation" -->
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                    
@@ -77,7 +84,6 @@
                                         placeholder="" name="lead_id" value="" formControlName= "instrNo"> -->
                                     <app-custom-input
                                     formControlName="instrNo"
-                                    [patternCheck]="inputValidation"
                                     [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                     [type]="labels?.validationData?.amountValue?.type"
                                     [isRequired]="'*required'"
@@ -102,11 +108,14 @@
                                           
                                           ></kendo-datepicker>
                                         </div>
-                                        <span class="invalid-feedback" *ngIf = "f.pdcList.controls[i].controls.instrDate.value && f.pdcList.controls[i].controls.instrDate.invalid"> 
-                                            Invalid date </span>
+                                        <div class="invalid-feedback">
+                                            <span  *ngIf = "isDirty && !f.pdcList.controls[i].controls.instrDate.value"> 
+                                                Select date </span>
 
-                                        <span class="invalid-feedback" *ngIf = "submitted && f.pdcList.controls[i].controls.instrDate.invalid"> 
-                                            InstrDate cannot be lesser than Offer date. </span>
+                                            <span  *ngIf = "f.pdcList.controls[i].controls.instrDate.value && f.pdcList.controls[i].controls.instrDate.invalid"> 
+                                                Invalid date - InstrDate cannot be lesser than Offer date. </span>
+                                        </div>
+                                        
                                 </div>
                                 <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                     <!-- <label for="business_division" class="height_label"></label> -->
@@ -116,6 +125,7 @@
                                         <option value="Housing Finance">HDFC</option>
                                     </select>  -->
                                     <app-vf-custom-select formControlName="instrBankName" [values]="lovData?.bankMaster" 
+                                    [isDirty]="isDirty"
                                         [isRequired]="'Please Select Instr Bank'"></app-vf-custom-select>
                                     
       
@@ -126,7 +136,7 @@
                                         name="lead_id" value="" formControlName= "instrBranchName"> -->
                                     <app-custom-input
                                     formControlName="instrBranchName"
-                                    [patternCheck]="inputValidation"
+                                    
                                     [maxLength]="labels?.validationData?.name?.maxLength"
                                     [type]="labels?.validationData?.name?.type"
                                     [isRequired]="'*required'"
@@ -155,7 +165,7 @@
                                     <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName= "instrAmount"> -->
                                     <app-custom-input
                                     formControlName="instrAmount"
-                                    [patternCheck]="inputValidation"
+                                    
                                     [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                     [type]="labels?.validationData?.amountValue?.type"
                                     [isRequired]="'*required'"
@@ -164,13 +174,11 @@
                                     [id]="'instrAmount'+i+i"
                                   ></app-custom-input>
                                 </div>
-                                <div class="form-group col-lg-3 col-sm-6 col-md-3 text-center">
-                                    <!-- <label   class="height_label"></label> -->
+                                <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3 text-center">
                                     <div class=" row" for="upload_files"  >
-                                        <!-- <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addPdcUnit()" ></i> &nbsp;  -->
                                         <a data-toggle="modal" data-target="#myModalthree" class="cursor-pointer" (click)="getIndex(i)"><i class="fa fa-trash fa-3 " aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -183,11 +191,11 @@
                         <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()" *ngIf = "showspdcButton" >Add SPDC Row</button>
                     </div>
                 </div> 
-                <div class="panel-group hidden-xs" id="accordion">
+                <div class="panel-group" id="accordion2">
                     <div class="panel panel-default">
-                        <div class="panel-heading panel-primary" id="headingTwo2">
-                            <h4 class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo2">
+                        <div class="" id="headingTwo2">
+                            <h4 class="banner-sub">
+                                <a class="collapsed" style="color:#fff;" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo2">
                                      SPDC<i class="fa fa-angle-down"></i>
                                 </a>
                               </h4>
@@ -217,9 +225,9 @@
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                             <label  >Instr.Amount</label>
                                         </div>
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                    <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                             <label  >Action</label>
-                                    </div>
+                                    </div> -->
                                     
                                 </div>
                                 <div class="row col-lg-12 test_class" style="margin-bottom: 8px;" 
@@ -236,7 +244,7 @@
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
                                         <app-custom-input
                                         formControlName="emiAmount"
-                                        [patternCheck]="inputValidation"
+                                        
                                         [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                         [type]="labels?.validationData?.amountValue?.type"
                                         [placeholder]="'EMI Amount'" 
@@ -250,10 +258,11 @@
                                             placeholder="" name="lead_id" value="" formControlName= "instrNo"> -->
                                         <app-custom-input
                                         formControlName="instrNo"
-                                        [patternCheck]="inputValidation"
+                                        
                                         [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                         [type]="labels?.validationData?.amountValue?.type"
-                                        
+                                        [isRequired]="'*required'"
+                                        [isDirty]="isDirty"
                                         [placeholder]="'Instr Number'"
                                         (keyup)="findUnique($event.target.value, i, 'spdcList', 'pdcList')"
                                         [id]="'instrNo'+i"
@@ -274,11 +283,17 @@
                                         
                                               ></kendo-datepicker>
                                             </div>
-                                            <span class="invalid-feedback" 
-                                            *ngIf = "f.spdcList.controls[i].controls.instrDate.value && f.spdcList.controls[i].controls.instrDate.invalid"> 
-                                            Invalid date 
-                                        </span>
-                                            <span class="invalid-feedback" *ngIf = "submitted && f.spdcList.controls[i].controls.instrDate.invalid"> InstrDate cannot be lesser than Offer date. </span>
+                                            <div class="invalid-feedback" >
+                                                <!-- <span 
+                                                *ngIf = "isDirty && !f.spdcList.controls[i].controls.instrDate.value"> 
+                                                Select date 
+                                            </span> -->
+                                                <span 
+                                                *ngIf = "f.spdcList.controls[i].controls.instrDate.value && f.spdcList.controls[i].controls.instrDate.invalid"> 
+                                                Invalid date - InstrDate cannot be lesser than Offer date. 
+                                            </span>
+                                            </div>
+                                            
                                     </div>
                                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                                         <!-- <label for="business_division" class="height_label">Instr.Bank Name</label> -->
@@ -288,6 +303,7 @@
                                             <option value="Housing Finance">HDFC</option>
                                         </select>  -->
                                         <app-vf-custom-select formControlName="instrBankName" [values]="lovData?.bankMaster" 
+                                        [isDirty]="isDirty"
                                         [isRequired]="'Please Select Instr Bank'"></app-vf-custom-select>
                                         
           
@@ -298,7 +314,7 @@
                                             name="lead_id" value="" formControlName= "instrBranchName"> -->
                                         <app-custom-input
                                         formControlName="instrBranchName"
-                                        [patternCheck]="inputValidation"
+                                        
                                         [maxLength]="labels?.validationData?.name?.maxLength"
                                         [type]="labels?.validationData?.name?.type"
                                         [isRequired]="'*required'"
@@ -328,7 +344,7 @@
                                         <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName= "instrAmount"> -->
                                         <app-custom-input
                                         formControlName="instrAmount"
-                                        [patternCheck]="inputValidation"
+                                        
                                         [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                         [type]="labels?.validationData?.amountValue?.type"
                                         [isRequired]="'*required'"
@@ -337,12 +353,11 @@
                                         [id]="'instrAmount'+i"
                                       ></app-custom-input>
                                     </div>
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                    <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                         <label class=" row" for="upload_files">
-                                            <!-- <i class="fa fa-plus fa-3" aria-hidden="true"  id="add_more_documents1" (click)="addSPdcUnit()" ></i> &nbsp;  -->
                                             <a data-toggle="modal" data-target="#myModaltwo" class="cursor-pointer" (click)="getIndex(i)" class="text-center"><i class="fa fa-trash fa-3" aria-hidden="true"  id="add_more_documents_remove1"  ></i></a>
                                         </label>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

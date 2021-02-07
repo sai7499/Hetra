@@ -70,6 +70,9 @@
 	cursor: pointer;
 }
 
+#get_role_details_btn{
+    padding:2px;
+  }
 .mar-30{
 	margin-bottom:45px!important;
 }

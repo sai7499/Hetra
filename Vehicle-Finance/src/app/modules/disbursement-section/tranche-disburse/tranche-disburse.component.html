@@ -1,14 +1,16 @@
 <main class="mar-top90">
-    <div class="container-fluid">
-        <h3>Disbursements Details</h3>
+    <div class="content">
+        <h3 class="banner-con">Disbursements Details
+            <span class="float-right">{{udfScreenId}}</span>
+        </h3>
         <form class="form no-pad-top">
             <div class="container overflow-hidden">
                 <div class="row js-active" data-animation="scaleIn">
                     <div class="panel-group lead-detail-panel hidden-xs" id="accordion3">
-                        <div class="panel panel-default">
-                            <div class="panel-heading panel-primary" id="headingTwo1">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo3">
+                        <div class="panel-default">
+                            <div class="headingTwo" id="headingTwo1">
+                                <h4 class="banner-sub">
+                                    <a class="font-white" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo3">
                                         Reference Details
                                         <i class="fa fa-angle-down"></i>
                                     </a>
@@ -190,19 +192,18 @@
 
             </div>
         </form>
-    </div>
-    <div class="container-fluid">
-        <div class="pending-earlier-section">
+    
+        <div class="">
             <div class="">
                 <div class="container">
-                    <h4 class="tranch-inner-heading">Pending Disbursements</h4>
+                    <h4 class="banner-sub">Pending Disbursements</h4>
                     <form class="form" [formGroup]="pendingTDForm">
                         <div class="container overflow-hidden">
                             <div class="row js-active" data-animation="scaleIn">
                                 <div class="panel-group hidden-xs" id="accordion">
                                     <div class="panel panel-default pending-disburse-container">
                                         <div class="pending-disburse-table-container">
-                                            <div class="panel-heading panel-primary" id="headingTwo1">
+                                            <div class="headingTwo" id="headingTwo1">
                                                 <div class="">
                                                     <div class="form-group pending-data-label">
                                                         <label for="document" class="label_height">{{labels?.disburseTo}}</label>
@@ -316,14 +317,14 @@
                     </form>
                 </div>
                 <div class="container">
-                    <h4 class="tranch-inner-heading">Earlier Disbursements</h4>
+                    <h4 class="banner-sub">Earlier Disbursements</h4>
                     <form class="form" [formGroup]="earlierTDForm">
                         <div class="container overflow-hidden">
                             <div class="row js-active" data-animation="scaleIn">
                                 <div class="panel-group hidden-xs" id="accordion2">
                                     <div class="panel panel-default earlier-disburse-container">
                                         <div class="earlier-disburse-table-container">
-                                            <div class="panel-heading panel-primary" id="headingTwo2">
+                                            <div class="headingTwo" id="headingTwo2">
                                                 <div class="earlier-disbursement-table">
                                                     <div class="form-group earlier-data-label">
                                                         <label for="document" class="label_height">{{labels?.disburseTo}}</label>
@@ -424,7 +425,7 @@
                     </form>
                 </div>
             </div>
-            <div class="btn-sec marb-100 text-right clear-both  cst_btm_btns mar-bot">
+            <div class="btn-sec clearfix text-right clear-both  cst_btm_btns mar-bot">
                 <div class="col-sm-5"></div>
                 <div class="col-sm-7">
                     <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
@@ -510,7 +511,7 @@
                         <div class="form-group">
                             <label class="col-form-label" for="lead_created_by">{{labels?.amountToBeDisbursed}}
                             </label>
-                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['disbursementAmount']}}
+                            <label for="lead_created_by_name" class="col-form-label-two">{{disbursementData['tranche_disbursement_amount']}}
                             </label>
                         </div>
                     </div>
@@ -692,9 +693,9 @@
               <p>{{message}}</p>                                      
         </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="statusModal = false" >Close</button>
-            <button *ngIf = "statusFlag == 'Unable to Approve'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="onApprove(); approveModal= false" >Retry</button>
-            <button *ngIf = "statusFlag == 'Approved Successfully'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="navigateToDashboard(); approveModal= false" >OK</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="navigateToDashboard(); statusModal = false" >Back</button>
+            <button *ngIf = "statusFlag == 'Unable to Approve'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="onApprove(); statusModal= false" >Retry</button>
+            <button *ngIf = "statusFlag == 'Approved Successfully'" type="button" class="btn btn-primary" data-dismiss="modal" (click)="navigateToDashboard(); statusModal= false" >OK</button>
         </div> 
     </div>
 

@@ -1,6 +1,8 @@
 <form class="multisteps-form__form">
-    <div class="row">
-        <h3>Field Investigation</h3>
+    <div class="">
+        <h3 class="banner-con">Field Investigation
+            <span class="float-right">{{udfScreenId}}</span>
+        </h3>
     </div>
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <div class="container">
@@ -32,7 +34,7 @@
                         <tbody>
                             <tr *ngFor="let item of fiList">
                                 <td [attr.data-label]="labels?.ucicId">{{ item.ucic ? item.ucic : "-" }}</td>
-                                <td [attr.data-label]="labels?.applicantName">
+                                <td class="text-left" [attr.data-label]="labels?.applicantName">
                                     {{ item.applicantName ? item.applicantName : "-" }}</td>
                                 <td [attr.data-label]="labels?.mobileNumber">
                                     {{ item.mobileNumber ? item.mobileNumber : item.companyPhoneNumber }}</td>

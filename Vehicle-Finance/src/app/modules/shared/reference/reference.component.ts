@@ -11,6 +11,7 @@ import { ObjectComparisonService } from '@services/obj-compare.service';
 import { ToasterService } from '@services/toaster.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-reference',
@@ -116,6 +117,8 @@ export class ReferenceComponent implements OnInit {
   initUDFValues: any;
   editedUDFValues: any;
 
+  isViewDde: boolean;
+
   constructor(
     private commonLovService: CommomLovService,
     private labelsData: LabelsService,
@@ -126,7 +129,8 @@ export class ReferenceComponent implements OnInit {
     private location: Location,
     private router: Router,
     private objectComparisonService: ObjectComparisonService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private toggleDdeService: ToggleDdeService
   ) {
     this.refOnefirstName = '';
     this.refOnemiddleName = '';
@@ -134,7 +138,7 @@ export class ReferenceComponent implements OnInit {
     this.refTwofirstName = '';
     this.refTwomiddleName = '';
     this.refTwolastName = '';
-    this.namePattern = 'alpha';
+    this.namePattern = 'alpha-nospace';
 
     this.mobileOneErrorMsg = 'Mobile No. required';
     this.mobileTwoErrorMsg = 'Mobile No. required';
@@ -147,16 +151,23 @@ export class ReferenceComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.isViewDde = this.toggleDdeService.getOperationType();
+    
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
     this.currentUrl = this.location.path();
-    if (this.currentUrl.includes('sales')) {
-      this.udfGroupId = 'RDG001'
-      this.udfScreenId = 'RDS001'
-    } else if (this.currentUrl.includes('dde')) {
-      this.udfGroupId = 'RDG001'
-      this.udfScreenId = 'RDS002'
-    }
+    
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      if (this.currentUrl.includes('sales')) {
+        this.udfGroupId = 'RDG001'
+        this.udfScreenId = udfScreenId.ADE.leadReferenceADE;
+      } else if (this.currentUrl.includes('dde')) {
+        this.udfGroupId = 'RDG001'
+        this.udfScreenId = udfScreenId.DDE.leadReferenceDDE;
+      }
+    })
     if (this.currentUrl) {
       this.leadId = (await this.getLeadId()) as number;
     };
@@ -473,6 +484,9 @@ export class ReferenceComponent implements OnInit {
             const message = response.ProcessVariables.error.message;
             this.toasterService.error(message, 'Reference Details');
           }
+          if (this.isViewDde) {
+            this.referenceForm.disable();
+          }
           if (this.loanViewService.checkIsLoan360()) {
             this.referenceForm.disable();
           }
@@ -571,7 +585,7 @@ export class ReferenceComponent implements OnInit {
     if (this.currentUrl.includes('sales')) {
       this.router.navigateByUrl(`pages/sales/${this.leadId}/vehicle-list`);
     } else if (this.currentUrl.includes('dde')) {
-      this.router.navigateByUrl(`pages/dde/${this.leadId}/vehicle-list`);
+      this.router.navigateByUrl(`pages/dde/${this.leadId}/additional-collateral-list`);
     }
   }
 

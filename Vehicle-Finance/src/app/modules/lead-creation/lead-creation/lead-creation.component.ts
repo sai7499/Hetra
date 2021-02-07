@@ -87,7 +87,6 @@ export class LeadCreationComponent implements OnInit {
   sourcingCodeKeyForDealer: string;
   dealorCodeKey: string;
 
-
   obj = {};
   test = [];
   childLoanData: any;
@@ -142,6 +141,8 @@ export class LeadCreationComponent implements OnInit {
     fromCreateLead?: boolean
   }
 
+  directSourcingCode: any;
+
   constructor(
     private router: Router,
     private leadStoreService: LeadStoreService,
@@ -190,6 +191,14 @@ export class LeadCreationComponent implements OnInit {
     // } else {
     //   this.createLeadForm.removeControl('loanAccountNumber');
     // }
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.leadCreateQDE;
+
+    })
+
   }
 
   updateChildLoan(data) {
@@ -279,6 +288,8 @@ export class LeadCreationComponent implements OnInit {
           this.minAge = new Date();
           this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
           this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+          this.minAge = this.utilityService.setTimeForDates(this.minAge)
+          this.maxAge = this.utilityService.setTimeForDates(this.maxAge)
         } else {
           this.minAge = null;
           this.maxAge = new Date();
@@ -556,8 +567,12 @@ export class LeadCreationComponent implements OnInit {
       'sourcingCode'
     );
     console.log('placeholder', this.placeholder);
+    if (this.sourchingTypeId === '4SOURTYP') {
+      this.onSourcingCodeSearch(this.userId)
+    }
     this.createLeadForm.controls.sourcingCode.reset();
     this.sourcingCodePlaceholder = this.placeholder[0].value;
+
     if (this.sourcingCodePlaceholder === 'Not Applicable') {
       this.isSourchingCode = true;
       this.isSourceCode = true;
@@ -565,17 +580,17 @@ export class LeadCreationComponent implements OnInit {
       this.isSourchingCode = false;
       this.isSourceCode = false;
     }
+
   }
 
   onSourcingCodeSearch(event) {
     let inputString = event;
     let sourcingCode = [];
-    console.log('inputStringSorc', event);
     sourcingCode = this.socuringTypeData.filter(
       (data) => data.sourcingCodeType === this.placeholder[0].key
     );
     console.log('sourcingCode', sourcingCode);
-    if (sourcingCode.length === 0) {
+    if (inputString.length === 0) {
       return;
     }
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
@@ -588,6 +603,11 @@ export class LeadCreationComponent implements OnInit {
         const apiError = response.ProcessVariables.error.code;
         if (appiyoError === '0' && apiError === '0') {
           this.sourcingCodeData = response.ProcessVariables.codeList;
+          if (sourcingCode[0].sourcingTypeId === '4SOURTYP') {
+            this.createLeadForm.patchValue({ sourcingCode: this.sourcingCodeData[0].value });
+            this.isSourceCode = this.sourcingCodeData[0].key ? true : false;
+            this.directSourcingCode = this.sourcingCodeData[0];
+          }
         }
       });
   }
@@ -617,8 +637,8 @@ export class LeadCreationComponent implements OnInit {
       if (appiyoError === '0' && apiError === '0') {
         this.dealerCodeData = response.ProcessVariables.dealorDetails;
         if (this.sourchingTypeId === '2SOURTYP') {
-          if (this.dealerCodeData != null){
-          this.selectDealerEvent(this.dealerCodeData[0]);
+          if (this.dealerCodeData != null) {
+            this.selectDealerEvent(this.dealerCodeData[0]);
           }
         }
         console.log('this.dealerCodeData', this.dealerCodeData);
@@ -666,7 +686,7 @@ export class LeadCreationComponent implements OnInit {
   onIndividual() {
     this.createLeadForm.controls['nameThree'].setValidators(Validators.required);
     this.createLeadForm.controls['nameThree'].updateValueAndValidity();
-    this.namePattern = 'alpha';
+    this.namePattern = 'alpha-nospace';
     this.nameFirstErrorMessage = 'First Name is mandatory';
     this.nameLastErrorMessage = 'Last Name is mandatory';
     this.firstPlaceholder = 'First Name';
@@ -736,12 +756,21 @@ export class LeadCreationComponent implements OnInit {
       this.isMobile !== ''
     ) {
       const leadModel: any = { ...formValue };
+
       this.leadStoreService.setLeadCreation(leadModel);
       if (this.sourchingTypeId === '2SOURTYP') {
         this.dealorCodeKey = this.dealorCodeKey;
       } else {
         this.dealorCodeKey = leadModel.dealerCode ? leadModel.dealerCode.dealorCode : '';
       }
+
+      let mySourceCode;
+
+      if (this.sourchingTypeId === '4SOURTYP') {
+        mySourceCode = this.directSourcingCode;
+      }
+
+      leadModel.sourcingCode = mySourceCode ? mySourceCode : leadModel.sourcingCode;
 
       this.loanLeadDetails = {
         bizDivision: leadModel.bizDivision,
@@ -881,7 +910,7 @@ export class LeadCreationComponent implements OnInit {
   }
 
   navgiateToNextPage() {
-    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`, { state: { udfScreenId: 'LDS001' }});    
+    this.router.navigateByUrl(`pages/lead-section/${this.leadId}`, { state: { udfScreenId: 'LDS001' } });
     // , skipLocationChange: true
     // this.router.navigate([`pages/lead-section/${this.leadId}`], { queryParams: { udfScreenId: this.udfScreenId } });
   }

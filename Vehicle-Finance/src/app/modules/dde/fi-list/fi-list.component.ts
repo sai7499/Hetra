@@ -7,6 +7,8 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { LoginStoreService } from '@services/login-store.service';
 import { CommomLovService } from '@services/commom-lov-service';
 import html2pdf from 'html2pdf.js';
+import { PdDataService } from '../fi-cum-pd-report/pd-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-fi-list',
@@ -19,7 +21,7 @@ export class FiListComponent implements OnInit {
   labels: any;
   leadId: number;
   fiList: Array<any>;
-  leadData: {};
+  leadData: any;
   applicantId: any;
   userId: any;
   show: boolean;
@@ -54,6 +56,8 @@ export class FiListComponent implements OnInit {
   stringTime = String(new Date(new Date().getTime()).toLocaleTimeString()).split(':', 2);
   currentTime: any;
   isFiModal: boolean;
+  udfScreenId: any;
+  tabName: any;
 
   constructor(
     private labelDetails: LabelsService,
@@ -63,7 +67,9 @@ export class FiListComponent implements OnInit {
     private fieldInvestigationService: FieldInvestigationService,
     private personalDiscussionService: PersonalDiscussionService,
     private createLeadDataService: CreateLeadDataService,
-    private commonLovService: CommomLovService
+    private commonLovService: CommomLovService,
+    private pdDataService: PdDataService,
+    private sharedService: SharedService,
   ) {
     this.currentTime = this.stringTime[0] + ':' + this.stringTime[1];
     this.showTypeOfConcern = true;
@@ -84,6 +90,7 @@ export class FiListComponent implements OnInit {
   async ngOnInit() {
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     //  details from loginstore service
+    this.tabName = this.sharedService.getTabName();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.labelDetails.getLabelsData().subscribe(
       data => {
@@ -105,6 +112,13 @@ export class FiListComponent implements OnInit {
     } else {
       this.show = false;
     }
+
+    this.labelDetails.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.router.url.includes('/dde') ? udfScreenId.DDE.fiListDDE : udfScreenId.FI.fiList ;
+
+    })
 
 
   }
@@ -168,6 +182,10 @@ export class FiListComponent implements OnInit {
     this.router.navigateByUrl(`pages/fi-dashboard/${this.leadId}/fi-report/${applicantIdFromHtml}/fi-residence`);
   }
   navigatePage(applicantId: string, version: any) {
+
+    const applicantType = this.leadData.applicantDetails.find((ele) => ele.applicantId === applicantId);
+    const entity = applicantType.entity
+    this.pdDataService.setApplicantType(entity);
     console.log(
       'applicantId',
       applicantId,
@@ -181,27 +199,43 @@ export class FiListComponent implements OnInit {
       console.log(' in fi-dashboard flow');
 
       // this.show = true;
+      
       if (version) {
         console.log('in fi-dashboard version conditon');
-        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+        if( entity == 'Individual') {
+          this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+        }else{
+          this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-business/${version}`]);
+        }
+        
       } else if (version === undefined || version === null) {
         console.log('in fi-cum-pd-dashboard undefined version conditon');
-        this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+        if( entity == 'Individual') {
+          this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+        }else{
+          this.router.navigate([`/pages/fi-dashboard/${this.leadId}/fi-report/${applicantId}/fi-business`]);
+        }
       }
 
     } else if (this.router.url.includes('/dde')) {
       console.log(' in dde flow');
       // this.showStatus = true;
       if (version) {
-        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+        if( entity == 'Individual') { 
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence/${version}`]);
+        } else {
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-business/${version}`]);
+        }
       } else if (version === undefined || version === null) {
-
-        this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+        if( entity == 'Individual') { 
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-residence`]);
+        } else {
+          this.router.navigate([`/pages/dde/${this.leadId}/fi-report/${applicantId}/fi-business`]);
+        }
       }
 
     }
   }
-
 
   onNavigate(action) { // fun for routing into next and back pages using argument ==> 'action'
     // console.log('in on navigate', action);
@@ -213,7 +247,16 @@ export class FiListComponent implements OnInit {
       this.router.navigate(['pages/dde/' + this.leadId + '/tvr-details']);
     }
     else if (action === 'next') {
-      this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      if (this.tabName['isPD']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      }else if (this.tabName['isFiCumPD']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
+      }else if (this.tabName['isVV']) {
+        this.router.navigate(['pages/dde/' + this.leadId + '/viability-list']);
+      }else {
+        this.router.navigate(['pages/dde/' + this.leadId + '/cibil-od']);
+      }
+      //this.router.navigate(['pages/dde/' + this.leadId + '/pd-list']);
     }
 
 

@@ -1,12 +1,10 @@
 <div class="content">
-  <form
-    class="multisteps-form__form basic_scroll"
-    method="POST">
-    
+  <form class="multisteps-form__form basic_scroll" method="POST">
+
     <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
-      <!-- <h4 class="banner-con">Document upload</h4> -->
-      <!-- <div class="panel-group" id="accordion"> -->
-        <!---<div class="panel panel-default active">
+    <!-- <h4 class="banner-con">Document upload</h4> -->
+    <!-- <div class="panel-group" id="accordion"> -->
+    <!---<div class="panel panel-default active">
                     <div class="panel-heading" id="headingOne">
                       <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
@@ -43,7 +41,7 @@
                         </div>
                     </div>
                   </div> ----->
-        <!---- <div class="panel panel-default">
+    <!---- <div class="panel panel-default">
                     <div class="panel-heading" id="headingThree">
                       <h4 class="panel-title">
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" >
@@ -88,9 +86,9 @@
                         </div>
                     </div>
                 </div> ---->
-                <!--//******** document updload table -->
+    <!--//******** document updload table -->
 
-        <!-- <div class="panel panel-default">
+    <!-- <div class="panel panel-default">
           <div class="panel-heading" id="headingTwo1">
             <h4 class="panel-title">
               <a
@@ -799,11 +797,11 @@
           </div>
         </div> -->
 
-        <!---- <p class="btn btn-primary" id="add_more_documents" >Add More Additional Documents</p> ----->
-        <br />
-      <!-- </div> -->
+    <!---- <p class="btn btn-primary" id="add_more_documents" >Add More Additional Documents</p> ----->
+    <br />
+    <!-- </div> -->
 
-      <!--mobile view start
+    <!--mobile view start
             <div class="col-xs-12 visible-xs">
                 <div class="box active" data-toggle="modal" data-target="#photo">
                     <div><i class="fa fa-image"></i></div>
@@ -824,7 +822,7 @@
             </div>
             <mobile view end-->
     <!-- </div> -->
-    
+
   </form>
   <div class="btn-sec clear-both row mar-btn">
     <div class="col-sm-5"></div>
@@ -833,19 +831,47 @@
         <a [routerLink]="['../reference']">Back</a>
       </button>
       <!-- <button class="btn btn-primary" id="submit">Save</button> -->
-      <button
-        class="btn btn-primary dash_href"
-        type="button"
-        data-toggle="modal"
-        data-target="#myModal"
-        (click)="submitToCredit()"
-        *ngIf="!isLoan360"
-      >
+      <button class="btn btn-primary dash_href" type="button" data-toggle="modal" data-target="#sumbitModal"
+        *ngIf="!isLoan360">
         Submit To Credit
       </button>
     </div>
   </div>
 </div>
+
+<!-- Sumbit to credit modal -->
+
+<div class="modal" id="sumbitModal">
+  <div class="modal-dialog modal-center">
+    <div class="modal-content" style="text-align: center">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p>Are you sure you want to submit to credit?</p>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
+          (click)="submitToCredit()">
+          Yes
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
 
 <div id="overlay" *ngIf="isModelShow">
   <div id="text">

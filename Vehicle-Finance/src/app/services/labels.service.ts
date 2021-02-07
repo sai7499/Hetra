@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpService } from '@services/http.service';
 import { environment } from './../../environments/environment';
 
@@ -20,14 +20,16 @@ import mChildLoanLabels from '../../assets/jsonData/child-loan.json';
 
 import commonLables from '../../assets/jsonData/common-fields.json';
 
+import screenIdLabels from '../../assets/jsonData/screenId-udf.json';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class LabelsService {
   isMobile: any;
-
-  // private labelsurl = '../../../../../assets/labels/labels.json';
+  private  lablesData: Observable<any>;
+  private labelsurl = './assets/labels/labels.json';
   // private labelDDEsurl = '../../../../../assets/labels/label_credit_vehicle_details.json';
   // private labelFleetUrl = '../../../../../assets/labels/labelFleetDetails.json';
   // private languageLabelsurl = '../../../../../assets/labels/labels-hindi.json';
@@ -39,9 +41,12 @@ export class LabelsService {
   getLabelsData(): Observable<any> {
     // if(this.isMobile) {
     //   return this.createObservableObj(mLabelsurl);
-    // }
-    return this.createObservableObj(mLabelsurl);
-    // return this.httpService.get(this.labelsurl);
+    // }  
+    if(this.lablesData){
+      return of( this.lablesData);
+    }
+      return this.createObservableObj(mLabelsurl,this.labelsurl);
+      // return this.httpService.get(this.labelsurl);      
     }
 
  getWelcomeDatatelugu(): Observable<any> {
@@ -135,11 +140,28 @@ export class LabelsService {
     }
   }
 
-  createObservableObj(labelsurl:string){
-    const obs = new Observable(observer => {
-      observer.next(labelsurl);
-      observer.complete();
-    });
-    return obs;
+  getScreenId() : Observable<any> {
+    try {
+      return this.createObservableObj(screenIdLabels);
+    } catch (error) {
+      
+    }
   }
+
+  createObservableObj(labelsurl:string,webUrl?:string){
+    if(!this.isMobile && webUrl){       
+       return this.httpService.get(webUrl);
+    }else{      
+      const obs = new Observable(observer => {
+        observer.next(labelsurl);
+        observer.complete();
+      });
+      return obs;
+    }
+  }
+  setLablesData(myData){
+    this.lablesData = myData;
+    // return  of(this.lablesData);
+  }
+
 }

@@ -12,7 +12,6 @@
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="text-align: left;" id="vf_sheet_tag8">
                 <img class="img-style" src="assets\images\equitas-logo.png">
-            <!-- <div id="typeId" class="typeId"></div> -->
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 font-fam" style="text-align: right; ">
                 <p><span
@@ -21,7 +20,7 @@
             </div>
         </div>
         <div class="row">
-            <h4 id="vf_sheet_tag4" class="text-center banner-con"><i>{{labels?.sanctionLetter}}</i></h4>
+            <h4 id="" class="text-center banner-con">{{labels?.sanctionLetter}}</h4>
         </div>
         <!-- <div id="vf_sheet_tag5">
             <p id="vf_sheet_tag6" class="text-right"><strong>{{labels?.date}}</strong> &nbsp; :{{todayDate}}</p>
@@ -90,8 +89,9 @@
         <!-- <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}</strong>&nbsp;&nbsp;<sup>{{this.leadId}}</sup></p> -->
         <p id="vf_sheet_tag31"><strong>{{labels?.proposalNumber}}:</strong> {{this.leadId}}</p>
         <div id="">
+        <span id="typeId" class="typeId"></span>
             <div id="" class="table-responsive">
-                <p id=" " class="banner-con text-center"><strong>{{labels?.vehicleDetails}}</strong></p>
+                <h3 id=" " class="banner-sub ">{{labels?.vehicleDetails}}</h3>
                 <table class="table table-align">
                     <tbody *ngFor="let vehicleDetails of vehicleDetailsArray">
                         <tr class="top-border">
@@ -117,7 +117,7 @@
                 </table>
             </div>
             <div class="align-justify table-responsive" id="vf_sheet_second_table">
-                <p id="vf_sheet_tag33" class="banner-con text-center"><strong> {{labels?.loanApprovedDetails}} </strong></p>
+                <h3 id="" class="banner-sub ">{{labels?.loanApprovedDetails}}</h3>
                 <table class="table " id="table-align">
                     <tbody>
                         <tr>
@@ -219,6 +219,7 @@
                         <!-- <p id="vf_sheet_tag43"><strong> {{labels?.coBorrower2Signature}} </strong></p> -->
                     </div>
                 </div>
+        <span id="typeId1" class="typeId"></span>
                 <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
                     <div class="mar-top" *ngFor="let guarantor of guarantorList; let i = index">
                         <p id="vf_sheet_tag44"><strong> {{guarantor?.applicantType}} {{i+1}} {{labels?.signature}}
@@ -228,7 +229,7 @@
                 </div>
             </div>
         </div>
-        <p class="banner-con" id="vf_sheet_text_tag"> <strong>{{labels?.generalTermsAndConditions}}</strong> </p>
+        <h3 class="banner-sub" id="">{{labels?.generalTermsAndConditions}} </h3>
         <div style="line-height:2em;" [innerHTML]="generalTermsAndConditions"></div>
         <div class="align-justify" id="vf_sheet_row_space">
             <div class="row">
@@ -253,9 +254,10 @@
             </div>
         </div>
         <div class="align-justify table-responsive" id="page_break">
-            <h4 class="banner-con text-center">
+            <h3 class="banner-sub ">
                {{labels?.vfSheetTag75}}
-            </h4>
+            </h3> 
+        <span id="typeId2" class="typeId"></span>
             <p id="vf_sheet_tag76"><strong> {{labels?.vfSheetTag76}} </strong></p>
             <p id="vf_sheet_tag77"> {{labels?.vfSheetTag77}} </p>
             <p id="vf_sheet_tag78"> {{labels?.vfSheetTag78}} </p>
@@ -266,14 +268,14 @@
                 ({{sanctionDetailsObject.employeeId}}){{labels?.vfSheetTag82A}} </p>
             <table class="table table-align table-bordered">
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let item of disbursementDetails">
                         <td [attr.data-label]="labels?.paymentType"><strong> {{labels?.paymentType}} </strong></td>
                         <td [attr.data-label]="sanctionDetailsObject?.paymentType">
-                            {{sanctionDetailsObject?.paymentType}}</td>
+                            {{item?.paymentType}}</td>
                         <td [attr.data-label]="labels?.payeeName"><strong> {{labels?.payeeName}} </strong></td>
-                        <td [attr.data-label]="labels?.payeeName">{{sanctionDetailsObject?.payeeName}}</td>
+                        <td [attr.data-label]="labels?.payeeName">{{item?.payeeName}}</td>
                         <td [attr.data-label]="labels?.paymentAmount"><strong> {{labels?.paymentAmount}} </strong></td>
-                        <td [attr.data-label]="labels?.paymentAmount">{{sanctionDetailsObject?.paymentAmount}}</td>
+                        <td [attr.data-label]="labels?.paymentAmount">{{item?.paymentAmount}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -327,7 +329,7 @@
                 (click)="onNext()">{{labels?.next}}</button>
 
             <button class="btn btn-primary btn_div hvr-sweep-to-right" type="button" 
-            *ngIf="roleType == '2' && isPreDisbursement == 'true' && salesResponse == 'true' " 
+            *ngIf="roleType == '2' && isPreDone == 'true' && salesResponse == 'true' " 
             (click)="onNext()" >{{labels?.next}}</button>
                 </ng-container>
 
@@ -341,8 +343,8 @@
             <!-- <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submit}}</button> -->
                 <!-- <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf()" type="button">{{'Download'}}</button> -->
-                <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf('Customer')" type="button">{{'Download Customer Copy'}}</button>
-                <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf('Bank')" type="button">{{'Download Bank Copy'}}</button>
+                <button class="btn btn-primary btn_div" id="btn" *ngIf="!isLoan360" (click)="downloadpdf('CUSTOMER')" type="button">{{'Download Customer Copy'}}</button>
+                <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf('BANK')" type="button">{{'Download Bank Copy'}}</button>
 
 
         </div>

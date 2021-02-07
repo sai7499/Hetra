@@ -73,6 +73,7 @@ export class OtherDetailsComponent implements OnInit {
   longitude: string = null;
   branchLatitude: string;
   branchLongitude: string;
+  capturedAddress: string = null;
   custProfileDetails: {};
   showRouteMap: boolean;
   pdList: [];
@@ -127,7 +128,7 @@ export class OtherDetailsComponent implements OnInit {
     this.roles = roleAndUserDetails.roles;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'PDS004' : 'PDS008';
+    //this.udfScreenId = this.roleType === 1 ? 'PDS004' : 'PDS008';
 
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
@@ -154,6 +155,13 @@ export class OtherDetailsComponent implements OnInit {
         },
       ],
     };
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.PD.otherPD : udfScreenId.DDE.otherPDDDE ;
+
+    })
   }
 
   async checkGpsEnabled() {
@@ -251,6 +259,7 @@ export class OtherDetailsComponent implements OnInit {
       bLongitude: [{ value: '', disabled: true }],
       latitude: [{ value: '', disabled: true }],
       longitude: [{ value: '', disabled: true }],
+      capturedAddress: [{ value: '', disabled: true }]
     });
   }
 
@@ -278,6 +287,7 @@ export class OtherDetailsComponent implements OnInit {
         this.branchLatitude = value.ProcessVariables.customerProfileDetails.branchLatitude;
         this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
         this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
+        this.capturedAddress = value.ProcessVariables.customerProfileDetails.capturedAddress;
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
       }
       if (this.otherDetails) {
@@ -321,7 +331,8 @@ export class OtherDetailsComponent implements OnInit {
       latitude: this.latitude || "",
       longitude: this.longitude || "",
       bLatitude: this.branchLatitude || "",
-      bLongitude: this.branchLongitude || ""
+      bLongitude: this.branchLongitude || "",
+      capturedAddress: this.capturedAddress || ""
     });
   }
 
@@ -334,6 +345,7 @@ export class OtherDetailsComponent implements OnInit {
     this.custProfileDetails = {
       latitude: this.latitude || '',
       longitude: this.longitude || '',
+      capturedAddress: this.capturedAddress
     }
 
     let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
@@ -573,6 +585,15 @@ export class OtherDetailsComponent implements OnInit {
       this.getRouteMap();
       this.otherDetailsForm.get("latitude").patchValue(this.latitude);
       this.otherDetailsForm.get("longitude").patchValue(this.longitude);
+
+      var lat: number = +this.latitude;
+      var lng: number = +this.longitude;
+      this.loginService.geocode(new google.maps.LatLng(lat, lng)).subscribe((position) => {
+        console.log("Position"+position[0].formatted_address);
+        this.capturedAddress = position[0].formatted_address.toString();
+        this.otherDetailsForm.get("capturedAddress").patchValue(this.capturedAddress);
+      });
+
     } else {
       this.latitude = "";
       this.longitude = "";

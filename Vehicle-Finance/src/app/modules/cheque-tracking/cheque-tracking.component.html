@@ -2,7 +2,9 @@
 <div class="multisteps-form" >
     <form [formGroup]="chequeForm">
     <div class="table-responsive application" id="cheque_results_section">
-                        <h3 class="mt-0">{{labels?.chequeTracking}} </h3>
+                        <h3 class="banner-con">{{labels?.chequeTracking}} 
+                          <span class="float-right">{{udfScreenId}}</span>
+                        </h3>
                                 <table class="table">
                                     <thead>
                                       <tr class="table-head-bg">
@@ -192,6 +194,8 @@
                                              formControlName="chequeDate"
                                              [format]="'dd/MM/yyyy'"
                                              [min]="disburseDate"
+                                             [max]="toDayDate"
+
                                              placeholder="Cheque Date"
                                              [activeView]="'decade'"
                                              [disabled]="disableUpdate"
@@ -202,7 +206,7 @@
                                            <div class="invalid-feedback ShowError">
                                             <div 
                                             *ngIf="isDirty">
-                                              <div *ngIf="chequeForm.get('chequeDate').invalid">
+                                              <div *ngIf="!chequeForm.get('chequeDate').value && chequeForm.get('chequeDate').invalid">
                                                   Select Date
                                               </div>
                                             </div>
@@ -241,7 +245,7 @@
                                               <div class="invalid-feedback ShowError"
                                               >
 
-                                                <div *ngIf="isDirty && chequeForm.get('statusUpdatedOn').invalid">
+                                                <div *ngIf="isDirty && !chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">
                                                     Select Date
                                                 </div>
                                                <div *ngIf="chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">

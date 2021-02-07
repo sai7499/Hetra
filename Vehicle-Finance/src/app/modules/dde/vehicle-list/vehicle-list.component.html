@@ -1,15 +1,30 @@
-<div class="content">
+<!-- <div class="content" >
+    <form class="multisteps-form__panel js-active" data-animation="scaleIn">
 
-    <div class="container cus-wid-sty">
-        <app-shared-vehicle-details></app-shared-vehicle-details>
+    <div class="row"> -->
+
+        <!-- <app-shared-vehicle-details [isDirty]="isDirty"></app-shared-vehicle-details> -->
+    <!-- <div> -->
+
+    <div *ngIf="label">
+        <app-shared-basic-vehicle-details [isDirty]="isDirty" [id]="routerId" [udfScreenId]="udfScreenId"
+            [udfGroupId]="udfGroupId">
+        </app-shared-basic-vehicle-details>
     </div>
-    <div class="btn-sec clear-both btn-mar-15" id="clickButton">
+
+    <!-- </div>
+    <div class="btn-sec clear-both " id="clickButton">
         <div class="col-sm-4"> </div>
-        <div class="col-sm-8 text-right mar-btm">
-            <button class="btn btn-primary hvr-sweep-to-left" type="button" [routerLink]="['../applicant-list']">{{label.back}}</button>
+        <div class="col-sm-8 text-right ">
+            <button class="btn btn-primary hvr-sweep-to-left" type="button"
+                [routerLink]="['../applicant-list']">{{label.back}}</button>
+
+            <button class="btn btn-primary hvr-sweep-to-right" (click)="onSubmit()" *ngIf="!disableSaveBtn">
+                {{label.save}}
+            </button>
+
             <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">{{label.next}}</button>
         </div>
     </div>
-
-</div>
-
+    </form>
+</div> -->

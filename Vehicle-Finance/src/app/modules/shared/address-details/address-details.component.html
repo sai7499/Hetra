@@ -1,10 +1,13 @@
 <div class="content">
   <form class="" [formGroup]="addressForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-
+    <div class="row">
       <h3 class="banner-con">
-        Address Details ({{udfScreenId}})
+        Address Details
+        <span class="float-right">{{udfScreenId}}</span>
       </h3>
+    </div>
+          
 
       <div class="btn-sec clear-both row">
         <div class="col-sm-3">
@@ -19,8 +22,11 @@
         <div id="individual_section_start" *ngIf="isIndividual" [formGroupName]="0">
           <!-- <h4 class="title">individual</h4> -->
           <div class="btn-sec clear-both row">
-            <div class="col-lg-3 col-sm-5">
-              <h3 class="banner-con">Permanent Address</h3>
+            <div class="col-lg-12 col-sm-12" *ngIf="showAppAddressCheckBox" >
+              <h3 class="banner-sub">Permanent Address</h3>
+            </div>
+            <div class="col-lg-3 col-sm-5" *ngIf="!showAppAddressCheckBox">
+              <h3 class="banner-sub">Permanent Address</h3>
             </div>
             <div class="col-lg-3 text-left" id="Same_AppAddress" *ngIf="!showAppAddressCheckBox">
               <input type="checkbox" id="address_section_checkbox" (click)="onAddSameAsApplicant($event)"
@@ -125,10 +131,26 @@
               </div>
             </div>
           </div>
-          <div class="btn-sec clear-both row">
-            <div class="custom-col-22">
-              <h3 class="banner-con">Communication Address</h3>
+          <div class="btn-sec clear-both row" *ngIf="!showModCurrCheckBox && !showSrField ">
+            <div class="col-sm-5">
+              <h3 class="banner-sub">Communication Address</h3>
             </div>
+            <div class="col-sm-7" id="align_this_texbox">
+              <input type="checkbox" class="mar-12" id="address_section_checkbox" (change)="isSameAddress($event)"
+                [checked]="onPerAsCurChecked" [disabled]="disableCurrent || disableSaveBtn || isLoan360" />
+              <span id="address_section_checkbox_text">&nbsp;Is it same as your permanent Address?
+              </span>
+            </div>
+          </div>
+
+
+          <div class="btn-sec clear-both" *ngIf="showModCurrCheckBox || showSrField ">
+            <div class="custom-col-22">
+              <h3 class="banner-sub">Communication Address</h3>
+            </div>
+           
+            <div class="row">
+
             <div class="custom-col-30" id="align_this_texbox">
               <input type="checkbox" class="mar-12" id="address_section_checkbox" (change)="isSameAddress($event)"
                 [checked]="onPerAsCurChecked" [disabled]="disableCurrent || disableSaveBtn || isLoan360" />
@@ -154,7 +176,9 @@
                 Invalid SR Number
               </div>
             </div>
+
           </div>
+        </div>
           <!-- <div class="row">
            
           </div> -->
@@ -263,7 +287,8 @@
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                 id="alternate_mobile" /> -->
                 <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"></app-custom-input>
+                  [type]="validationData?.landlineNumber?.type"
+                  [patternCheck]="validationData?.phone?.patternCheck"></app-custom-input>
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -296,7 +321,7 @@
           </div>
           <div class="btn-sec clear-both row">
             <div class="col-sm-5">
-              <h4 class="banner-con">Office/Business Address</h4>
+              <h4 class="banner-sub">Office/Business Address</h4>
             </div>
             <div class="col-sm-7" id="align_this_texbox">
               <input type="checkbox" id="address_section_checkbox" (change)="officeSameAddress($event)"
@@ -439,7 +464,8 @@
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control"
                                     id="alternate_mobile_num" /> -->
                 <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type"></app-custom-input>
+                  [type]="validationData?.landlineNumber?.type"
+                  [patternCheck]="validationData?.phone?.patternCheck"></app-custom-input>
               </div>
 
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -457,7 +483,7 @@
         </div>
         <div id="non_individual_section_start" *ngIf="!isIndividual" formGroupName="0">
           <!-- <h4 class="title">Non-individual</h4>-->
-          <h4 class="title">Registered Address</h4>
+          <h4 class="banner-sub">Registered Address</h4>
           <div class="" formGroupName="registeredAddress">
             <div class="row">
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -564,7 +590,8 @@
                 <label for="passport">{{ labels.alternateContactNumber }}</label>
                 <!-- <input formControlName="mobileNumber" type="text" class="form-control" id="line3" /> -->
                 <app-custom-input formControlName="mobileNumber" [maxLength]="validationData?.landlineNumber?.maxLength"
-                  [type]="validationData?.landlineNumber?.type">
+                  [type]="validationData?.landlineNumber?.type"
+                  [patternCheck]="validationData?.phone?.patternCheck">
                 </app-custom-input>
               </div>
 
@@ -575,7 +602,7 @@
           <div>
             <div class="btn-sec clear-both row">
               <div class="col-sm-5">
-                <h4 class="title">Office Address</h4>
+                <h4 class="banner-sub">Office Address</h4>
               </div>
               <div class="col-sm-7" id="align_this_texbox">
                 <input type="checkbox" id="address_section_checkbox" (change)="onSameRegistered($event)"
@@ -685,13 +712,7 @@
         </div>
       </ng-container>
     </div>
-  </form>
-  <!-- {{udfDetails | json}} -->
-  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-</div>
-
-<div class="btn-sec clear-both row">
+    <div class="btn-sec clear-both row">
   <div class="col-sm-5">
     <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="navigateToApplicantList()">
       Back To Applicant Details
@@ -710,8 +731,12 @@
     <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
         Next
       </button></a>
-    <br />
-    <br />
-    <br />
+    
   </div>
 </div>
+  </form>
+  <!-- {{udfDetails | json}} -->
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+</div>
+

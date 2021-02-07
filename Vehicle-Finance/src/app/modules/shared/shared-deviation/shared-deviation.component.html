@@ -1,16 +1,21 @@
-<form class="multisteps-form__form p-0" [formGroup]="deviationsForm">
+<form class="multisteps-form__form p-0" [formGroup]="deviationsForm" *ngIf="labels">
   <div class="multisteps-form__panel js-active" data-animation="scaleIn">
+
+    <h3 class="banner-con">Deviation
+      <span class="float-right">{{udfScreenId}}</span>
+    </h3>
 
     <ng-container formArrayName="waiverNormsFormArray">
 
-      <div class="text-right" id="get_role_details_btn" *ngIf="isSendBacktoCredit && isWaiverTrigger">
+      <div class="text-right" id="get_role_details_btn"
+        *ngIf="isSendBacktoCredit && isWaiverTrigger && !disableSaveBtn">
         <button class="btn btn-primary" type="button" (click)="getTriggerWaiverNorms()">Trigger Waiver
           Norms</button>
       </div>
 
       <div *ngIf="deviationsForm.get('waiverNormsFormArray')['controls'].length > 0">
 
-        <h3 class="banner-con">{{labels?.waiverDeviation}}</h3>
+        <h3 class="banner-sub">{{labels?.waiverDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -22,13 +27,13 @@
             </tr>
           </thead>
 
-          <tbody *ngFor=" let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let k=index;let l=last"
-            [formGroupName]="k">
+          <tbody *ngFor="let waiver of deviationsForm.get('waiverNormsFormArray')['controls']; let k=index;let l=last"
+            [ngClass]="waiver.controls['isSameRole'].value ? 'action-color': ''" [formGroupName]="k">
             <tr>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>{{waiver.controls['devDesc'].value}}</p>
               </td>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>{{waiver.controls['rulesRemarks'].value}}</p>
               </td>
               <td class="wid-10">
@@ -103,7 +108,7 @@
     <ng-container formArrayName="autoDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
-        <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit">
+        <div class="text-right" id="get_role_details_btn" *ngIf="!isSubmitToCredit && !disableSaveBtn">
           <button class="btn btn-primary" type="button"
             (click)="getTrigurePolicy()">{{labels.getTriggerPolicy}}</button>
         </div>
@@ -111,7 +116,7 @@
 
       <div *ngIf="deviationsForm.get('autoDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="banner-con">{{labels?.autoDeviation}}</h3>
+        <h3 class="banner-sub">{{labels?.autoDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -123,12 +128,12 @@
             </tr>
           </thead>
           <tbody *ngFor=" let obj of deviationsForm.get('autoDeviationFormArray')['controls']; let i=index;let l=last"
-            [formGroupName]="i">
+            [formGroupName]="i" [ngClass]="obj.controls['isSameRole'].value ? 'action-color': ''">
             <tr>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>{{obj.controls['devDesc'].value}}</p>
               </td>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>{{obj.controls['rulesRemarks'].value}}</p>
               </td>
               <td class="wid-10">
@@ -187,16 +192,15 @@
     <ng-container formArrayName="manualDeviationFormArray">
 
       <ng-container *ngIf="!isLoan360">
-        <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit">
+        <div class="text-right" id="add_manual_deviation_btn" *ngIf="!isSubmitToCredit && !disableSaveBtn">
           <button class="btn mb-5 btn-primary" type="button"
             (click)="addDeviationUnit()">{{labels?.addManualDeviation}}</button>
         </div>
       </ng-container>
 
-
       <div *ngIf="deviationsForm.get('manualDeviationFormArray')['controls'].length > 0">
 
-        <h3 class="banner-con">{{labels?.manualDeviation}}</h3>
+        <h3 class="banner-sub">{{labels?.manualDeviation}}</h3>
 
         <table class="table table-responsive table-bordered text-left">
           <thead class="text-center">
@@ -211,10 +215,10 @@
 
           <tbody class="panel-body row" id="show_1_div_identity"
             *ngFor="let item of deviationsForm.get('manualDeviationFormArray')['controls']; let j = index"
-            [formGroupName]="j">
+            [formGroupName]="j" [ngClass]="item.controls['isSameRole'].value ? 'action-color': ''">
 
             <tr>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <app-vf-custom-select [values]="deviationLov?.deviation" [id]="'deviation'" formControlName="devCode"
                   [isRequired]="'Deviation Required'" [isDisabled]="isSubmitToCredit" [isDirty]="isDirty"
                   (change)="onGetDeviationCode($event, j)">
@@ -223,7 +227,7 @@
                   Duplicate Deviation
                 </div>
               </td>
-              <td class="wid-30">
+              <td class="wid-30 cus-left-align">
                 <p>
                   {{item.controls['rulesRemarks'].value}}
                 </p>
@@ -306,7 +310,7 @@
 
     <div class="row" *ngIf="recommendationArray.length > 0">
 
-      <h3 class="banner-con">{{labels?.recommendation}}</h3>
+      <h3 class="banner-sub">{{labels?.recommendation}}</h3>
 
       <div class="table-responsive">
         <table class="table" id="recommendation_table">
@@ -351,7 +355,7 @@
 
           <div class="form-group col-sm-8 col-md-8">
             <app-vf-custom-select [values]="deviationLov?.approverRole" [id]="'approval_level'"
-              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value">
+              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value || isLoan360">
             </app-vf-custom-select>
           </div>
         </div>
@@ -364,11 +368,12 @@
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
           [disabled]="!deviationsForm.get('enableApprove').value"
           (click)="onPatchRecommendationModal('ApproveDeviations')"
-          *ngIf="isApprove">{{labels?.approveDeviations}}</button>
+          *ngIf="isApprove && !disableSaveBtn">{{!isDeviationEmpty ? labels?.approveDeviations : 'Send To Credit
+          Decision '}}</button>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#referRecommedation"
-          [disabled]="!deviationsForm.get('enableSendBack').value"
+          [disabled]="!(deviationsForm.get('enableSendBack').value)"
           (click)="onPatchRecommendationModal('sendBackToCredit')"
-          *ngIf="isSubmitToCredit && !isSendBacktoCredit">{{labels?.sendBackToCredit}}</button>
+          *ngIf="isSubmitToCredit && !isSendBacktoCredit && !disableSaveBtn">{{labels?.sendBackToCredit}}</button>
 
       </div>
     </div>
@@ -409,36 +414,36 @@
 
 <!-- Delete Modal Ends -->
 
-<div class="modal fade" id="referRecommedation" role="dialog">
+<div class="modal" data-dismiss="modal" id="referRecommedation" [ngClass]="{ 'dis-block': isShowReferModal }">
   <div class="modal-dialog">
     <form class="multisteps-form__form p-0" [formGroup]="modalForm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">
-            {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' : labels?.commend}}
-          </h4>
-        </div>
-        <div class="modal-body">
-          <textarea class="form-control" rows="10" cols="5" formControlName="recommendation"
-            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' : 'Comments'}}"></textarea>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' :
+          labels?.commend}}
+        </h4>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" rows="10" cols="5" formControlName="recommendation"
+        placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' : 'Comments'}}"></textarea>
 
-          <div class="invalid-feedback"
-            *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
-            <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
-              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks ' : 'Comments '}}
-              Required
-            </div>
-          </div>
-
-        </div>
-        <div class="modal-footer">
-
-          <button type="button" class="btn btn-primary" data-dismiss="modal"
-            (click)="ReferDeviation()">{{labels?.ok}}</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
+      <div class="invalid-feedback"
+        *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
+        <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
+          {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks ' : 'Comments
+          '}}
+          Required
         </div>
       </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="closeModal"   (click)="ReferDeviation()">{{labels?.ok}}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
+
+       </div> 
+    </div>
     </form>
   </div>
 </div>

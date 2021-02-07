@@ -13,6 +13,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoanViewService } from '@services/loan-view.service';
 import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
 import { UtilityService } from '@services/utility.service';
+import { PdDataService } from '../pd-data.service';
 
 @Component({
   templateUrl: './applicant-details.component.html',
@@ -62,6 +63,8 @@ export class ApplicantDetailComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   udfGroupId: string = 'FPG001';
+  entityType: any;
+  isNonInd: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -75,7 +78,9 @@ export class ApplicantDetailComponent implements OnInit {
     private toggleDdeService: ToggleDdeService,
     private utilityService: UtilityService,
     private loanViewService: LoanViewService,
-    private ficumpdPdfService: FicumpdPdfService
+    private ficumpdPdfService: FicumpdPdfService,
+    private pdDataService : PdDataService
+
   ) { }
 
   async ngOnInit() {
@@ -88,7 +93,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'FPS001' : 'FPS005';
+    //this.udfScreenId = this.roleType === 1 ? 'FPS001' : 'FPS005';
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
@@ -114,6 +119,14 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.disable();
       this.disableSaveBtn = true;
     }
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.applicantDetailFIcumPD : udfScreenId.DDE.applicantDetailsFIcumPDDDE ;
+
+    })
+    
   }
 
   getLeadId() {  // fun to get lead id from router
@@ -154,12 +167,12 @@ export class ApplicantDetailComponent implements OnInit {
         const applicantDetailsFromLead = value;
         this.serviceApplicantFullName = applicantDetailsFromLead['fullName'];
         if (applicantDetailsFromLead['entityTypeKey'] === "NONINDIVENTTYP") {
-          this.serviceMoblieNo = applicantDetailsFromLead['companyPhoneNumber'];
-          this.serviceDobOrDio = this.reformatDate((applicantDetailsFromLead['doi']).slice(0, 10));
+          this.serviceMoblieNo =applicantDetailsFromLead['companyPhoneNumber'] ?  applicantDetailsFromLead['companyPhoneNumber'] : '';
+          this.serviceDobOrDio =applicantDetailsFromLead['doi']? this.reformatDate((applicantDetailsFromLead['doi']).slice(0, 10)) : '';
 
         } else if (applicantDetailsFromLead['entityTypeKey'] === "INDIVENTTYP") {
-          this.serviceMoblieNo = applicantDetailsFromLead['mobileNumber'];
-          this.serviceDobOrDio = this.reformatDate((applicantDetailsFromLead['dob']).slice(0, 10));
+          this.serviceMoblieNo = applicantDetailsFromLead['mobileNumber']? applicantDetailsFromLead['mobileNumber'] : '';
+          this.serviceDobOrDio = applicantDetailsFromLead['dob']? this.reformatDate((applicantDetailsFromLead['dob']).slice(0, 10)) : '';
         }
       }
     }
@@ -177,10 +190,15 @@ export class ApplicantDetailComponent implements OnInit {
       this.ownerNamePropertyAreaRequired = true;
       this.ownerNamePropertyAreaDisabled = false;
       this.applicantForm.get('owner').enable();
-      this.applicantForm.get('owner').setValidators(Validators.required);
       this.applicantForm.get('areaOfProperty').enable();
-      this.applicantForm.get('areaOfProperty').setValidators(Validators.required);
       this.applicantForm.get('propertyValue').enable();
+      if(this.isNonInd){
+        return;
+      }
+      this.applicantForm.get('owner').setValidators(Validators.required);
+      
+      this.applicantForm.get('areaOfProperty').setValidators(Validators.required);
+      
       this.applicantForm.get('propertyValue').setValidators(Validators.required);
 
     } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
@@ -194,12 +212,17 @@ export class ApplicantDetailComponent implements OnInit {
         this.applicantForm.get('propertyValue').setValue(null);
       });
       this.applicantForm.get('owner').disable();
+      this.applicantForm.get('areaOfProperty').disable();
+      this.applicantForm.get('propertyValue').disable();
+      if(this.isNonInd){
+        return;
+      }
       this.applicantForm.get('owner').clearValidators();
       this.applicantForm.get('owner').updateValueAndValidity();
-      this.applicantForm.get('areaOfProperty').disable();
+      
       this.applicantForm.get('areaOfProperty').clearValidators();
       this.applicantForm.get('areaOfProperty').updateValueAndValidity();
-      this.applicantForm.get('propertyValue').disable();
+      
       this.applicantForm.get('propertyValue').clearValidators();
       this.applicantForm.get('propertyValue').updateValueAndValidity();
     }
@@ -210,6 +233,9 @@ export class ApplicantDetailComponent implements OnInit {
     if (this.resAddressType === '2') {
       this.addressRequired = true;
       this.applicantForm.get('alternateAddr').enable();
+      if(this.isNonInd){
+        return;
+      }
       this.applicantForm.get('alternateAddr').setValidators(Validators.required);
       this.applicantForm.get('alternateAddr').updateValueAndValidity();
     } else {
@@ -219,6 +245,9 @@ export class ApplicantDetailComponent implements OnInit {
       });
 
       this.applicantForm.get('alternateAddr').disable();
+      if(this.isNonInd){
+        return;
+      }
       this.applicantForm.get('alternateAddr').clearValidators();
       this.applicantForm.get('alternateAddr').updateValueAndValidity();
 
@@ -270,7 +299,7 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.applicantForm.patchValue({
       applicantName: this.serviceApplicantFullName ? this.serviceApplicantFullName : null,
-      fatherFullName: applicantModal.fatherFullName || '',
+      fatherFullName: applicantModal.fatherFullName ? applicantModal.fatherFullName : applicantModal.husbandFullName,
       gender: applicantModal.gender || '',
       maritalStatus: applicantModal.maritalStatus || '',
       dob: this.dobOrDio ? this.dobOrDio : null,
@@ -297,6 +326,22 @@ export class ApplicantDetailComponent implements OnInit {
       ratingbySO: applicantModal.ratingbySO || '',
       alternateAddr: applicantModal.alternateAddr || ''
     });
+
+    setTimeout(()=>{
+      this.entityType = this.pdDataService.getFiCumPdApplicantType();
+      if(this.entityType !== 'Individual'){
+        this.isNonInd = true
+      }else{
+        this.isNonInd = false
+      }
+    if(this.isNonInd){
+      const grp = this.applicantForm.controls;
+      for (const key in grp){
+        this.applicantForm.get(key).clearValidators();
+        this.applicantForm.get(key).updateValueAndValidity();
+      }
+    }
+    })
   }
 
   getPdDetails() { // function to get the pd details with respect to applicant id
@@ -313,14 +358,18 @@ export class ApplicantDetailComponent implements OnInit {
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
-      if (processVariables.error.code === '0') {
+      if (value.Error === '0' && processVariables.error.code === '0') {
 
         this.applicantPdDetails = value.ProcessVariables.applicantPersonalDiscussionDetails;
 
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
-
+        this.setFormValue();
+        if(this.applicantPdDetails && this.applicantPdDetails.maritalStatus){
+          this.setMaritalStatusValue(this.applicantPdDetails.maritalStatus);
+        }
+        
         if (this.applicantPdDetails) {
-          this.setFormValue();
+          
           this.ficumpdPdfService.setApplicantPdDetails(this.applicantPdDetails);
           // this.pdDataService.setCustomerProfile(this.applicantPdDetails);
         }
@@ -343,7 +392,8 @@ export class ApplicantDetailComponent implements OnInit {
       this.onNavigateNext();
       return;
     }
-    const formModal = this.applicantForm.value;
+    
+    const formModal = this.applicantForm.getRawValue();
     const applicantFormModal = { ...formModal };
 
     // if (this.applicantForm.invalid && this.userDefineForm.udfData.invalid) {
@@ -351,10 +401,10 @@ export class ApplicantDetailComponent implements OnInit {
     //   this.toasterService.showWarning('please enter required details', '');
     //   return;
     // }
-
+    
     this.applicantDetails = {
-      applicantName: this.applicantFullName,
-      fatherFullName: applicantFormModal.fatherFullName,
+      applicantName: this.applicantFullName || applicantFormModal.applicantName,
+      fatherFullName: applicantFormModal.fatherFullName ? applicantFormModal.fatherFullName : applicantFormModal.husbandFullName,
       gender: applicantFormModal.gender,
       maritalStatus: applicantFormModal.maritalStatus,
       physicallyChallenged: applicantFormModal.physicallyChallenged,
@@ -439,6 +489,20 @@ export class ApplicantDetailComponent implements OnInit {
       this.router.navigate([`/pages/dde/${this.leadId}/pd-list`]);
     } else {
       this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
+    }
+  }
+  setMaritalStatusValue(status){
+    const details = this.applicantForm;
+    if(status === '1MRGSTS'){
+      details.get('dependants').clearValidators();
+      details.get('dependants').updateValueAndValidity();  
+      const depValue = details.value.dependants; 
+      details.get('dependants').setValue(depValue || null);
+
+    }else{
+      details.get('dependants').setValidators(Validators.required);
+      details.get('dependants').updateValueAndValidity();
+      
     }
   }
 

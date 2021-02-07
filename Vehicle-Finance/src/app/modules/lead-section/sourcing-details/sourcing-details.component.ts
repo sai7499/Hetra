@@ -182,6 +182,7 @@ export class SourcingDetailsComponent implements OnInit {
   // User defined Fields
   udfScreenId: string = 'LDS001';
   udfGroupId: string = 'LDG001';
+  roleType: any;
   udfDetails: any = [];
   userDefineForm: any;
 
@@ -219,13 +220,25 @@ export class SourcingDetailsComponent implements OnInit {
   ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.initForm();
-    this.getLabels();
     this.getLOV();
+    this.getLabels();
     this.getSourcingChannel();
     this.tenureMonthlyValidation = this.loanTenureMonth();
     this.operationType = this.toggleDdeService.getOperationType();
     const currentUrl = this.location.path();
-    this.udfScreenId = currentUrl.includes('sales') ? 'LDS002' : currentUrl.includes('dde') ? 'LDS003' : 'LDS001';
+
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.leadDetailADE : currentUrl.includes('dde') ?
+        udfScreenId.DDE.leadDetailDDE : udfScreenId.QDE.leadDetailQDE;
+
+    })
+
+    if (this.roleType !== 1) {
+      this.sourcingDetailsForm.get('applicationNo').setValidators(Validators.required)
+    }
+
   }
 
   navigateToPrevious() {
@@ -252,6 +265,7 @@ export class SourcingDetailsComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
+      this.LOV.LOVS.defaultloanType = this.LOV.LOVS.loanType;
       this.getLeadSectionData();
       this.getUserDetailsData();
     });
@@ -270,6 +284,9 @@ export class SourcingDetailsComponent implements OnInit {
 
     const userId = roleAndUserDetails.userDetails.userId;
     const userName = roleAndUserDetails.userDetails.firstName;
+
+    this.roleType = roleAndUserDetails.roles[0].roleType;
+
     this.leadHandeledBy = `${userId}-${userName}`;
     this.userId = userId;
     this.isSpoke = roleAndUserDetails.userDetails.isSpokes;
@@ -335,7 +352,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.dealorCodeValue = data.leadDetails.dealorCodeDesc;
 
     const priorityFromLead = data.leadDetails.priority || '';
-    const CommunicationFromLead = data.loanLeadDetails.isCommSuppressed;
+    const CommunicationFromLead = data.leadDetails.isCommSuppressed;
     this.leadId = data.leadId ? data.leadId : data.leadDetails.leadId;
 
     const sourchingType = this.leadData.leadDetails.sourcingType;
@@ -362,8 +379,6 @@ export class SourcingDetailsComponent implements OnInit {
     const applicationNO = data.leadDetails.applicationNo;
     this.sourcingDetailsForm.patchValue({ applicationNo: applicationNO });
 
-    const loanTypeFromLead = (data.leadDetails.typeOfLoan) ? data.leadDetails.typeOfLoan : '';
-    this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
 
     this.getBusinessDivision(businessDivisionFromLead);
     this.sourcingDetailsForm.patchValue({ priority: priorityFromLead });
@@ -377,6 +392,7 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingDetailsForm.disable();
     }
   }
+
 
   patchSourcingDetails(data) {
     this.sourcingDetailsForm.patchValue({
@@ -478,6 +494,36 @@ export class SourcingDetailsComponent implements OnInit {
       }
       this.tenureAmountValidation = this.loanTenureAmount(this.productCategoryLoanAmount);
     }
+
+    
+    let loanTypeFromLead = (this.leadData.leadDetails.typeOfLoan) ? this.leadData.leadDetails.typeOfLoan : '';
+    // if(!isBool){
+
+    // }else{
+
+    // }
+    this.LOV.LOVS.defaultloanType = this.LOV.LOVS.loanType;
+    if (productCategorySelected === 'NCV') {
+      
+      loanTypeFromLead = '8LOANTYP';
+      this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
+      this.sourcingDetailsForm.get('loanType').disable();
+    } else {
+      let defaultType = this.LOV.LOVS.loanType.filter((loan) => {
+        if (loan.key !== '8LOANTYP') {
+          return {
+            key: loan.key,
+            value: loan.value
+          }
+        }
+      })
+      this.LOV.LOVS.defaultloanType = defaultType;
+      this.sourcingDetailsForm.get('loanType').enable();
+      console.log('isBool', isBool)
+      this.sourcingDetailsForm.patchValue({ loanType: isBool? '' : loanTypeFromLead });
+    }
+
+    
   }
 
   productChange(event) {
@@ -593,9 +639,13 @@ export class SourcingDetailsComponent implements OnInit {
       this.isSourceCode = false;
     }
     this.onFormDisable();
+    if (this.sourchingTypeId === '4SOURTYP') {
+      this.onSourcingCodeSearch(this.userId)
+    }
   }
 
   onSourcingCodeSearch(event) {
+
     let inputString = event;
     let sourcingCode = [];
 
@@ -605,17 +655,26 @@ export class SourcingDetailsComponent implements OnInit {
 
     let sourcingCodeType: string = sourcingCode[0].sourcingCodeType;
     let sourcingSubCodeType: string = sourcingCode[0].sourcingSubCodeType;
-    this.createLeadService
-      .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
-      .subscribe((res: any) => {
-        const response = res;
-        const appiyoError = response.Error;
-        const apiError = response.ProcessVariables.error.code;
-        if (appiyoError === '0' && apiError === '0') {
-          this.sourcingCodeData = response.ProcessVariables.codeList;
-          this.keyword = 'value';
-        }
-      });
+
+    if (inputString && inputString.length >= 2) {
+      this.createLeadService
+        .sourcingCode(sourcingCodeType, sourcingSubCodeType, inputString, this.productCode)
+        .subscribe((res: any) => {
+          const response = res;
+          const appiyoError = response.Error;
+          const apiError = response.ProcessVariables.error.code;
+          if (appiyoError === '0' && apiError === '0') {
+            this.sourcingCodeData = response.ProcessVariables.codeList;
+            this.keyword = 'value';
+            if (sourcingCode[0].sourcingTypeId === '4SOURTYP') {
+              // this.sourcingDetailsForm.patchValue({ sourcingCode: this.sourcingCodeData[0].value });
+              this.isSourceCode = this.sourcingCodeData[0].key ? true : false;
+              this.sourcingCodeKey = this.sourcingCodeData[0].key;
+              this.sourcingCodeValue = this.sourcingCodeData[0].value;
+            }
+          }
+        });
+    }
   }
 
   selectSourcingEvent(event) {
@@ -640,20 +699,22 @@ export class SourcingDetailsComponent implements OnInit {
     let inputString = event;
     let dealerCode = [];
 
-    this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
-      const response = res;
-      const appiyoError = response.Error;
-      const apiError = response.ProcessVariables.error.code;
-      if (appiyoError === '0' && apiError === '0') {
-        this.dealerCodeData = response.ProcessVariables.dealorDetails;
-        if (this.sourchingTypeId === '2SOURTYP') {
-          if (this.dealerCodeData != null){
-          this.selectDealorEvent(this.dealerCodeData[0]);
+    if (inputString && inputString.length >= 2) {
+      this.createLeadService.dealerCode(inputString, this.productCode).subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        const apiError = response.ProcessVariables.error.code;
+        if (appiyoError === '0' && apiError === '0') {
+          this.dealerCodeData = response.ProcessVariables.dealorDetails;
+          if (this.sourchingTypeId === '2SOURTYP') {
+            if (this.dealerCodeData != null) {
+              this.selectDealorEvent(this.dealerCodeData[0]);
+            }
           }
+          this.keyword = 'dealorName';
         }
-        this.keyword = 'dealorName';
-      }
-    });
+      });
+    }
   }
 
   selectDealorEvent(event) {
@@ -786,6 +847,7 @@ export class SourcingDetailsComponent implements OnInit {
     if (this.sourcingDetailsForm.valid && this.isSourceCode && dealer && isUdfField) {
 
       const saveAndUpdate: any = { ...formValue };
+
       this.saveUpdate = {
         userId: this.userId,
         leadId: Number(this.leadId),
@@ -854,6 +916,7 @@ export class SourcingDetailsComponent implements OnInit {
       //     this.toasterService.showError(response.ProcessVariables.error.message, 'Lead Details');
       //   }
       // });
+
       this.leadDetail
         .saveAndUpdateLead(this.saveUpdate)
         .subscribe((res: any) => {

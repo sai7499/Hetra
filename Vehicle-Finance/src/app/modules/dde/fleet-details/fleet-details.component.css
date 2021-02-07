@@ -256,10 +256,11 @@ form .form-control {
     text-transform: uppercase;
 }
 
-.mrg-10  {
-    margin: 10px;
-}
 
+.wid-full{
+    width:100%;
+    margin: 10px 2px;
+}
 .dis-block {
     display: block;
   }
@@ -343,4 +344,8 @@ form .form-control {
   height:224px;
    overflow:auto;
     background:#fff;
+}
+
+.pagination-padding {
+    padding: 6px 10px;
 }

@@ -11,6 +11,8 @@ export class PdDataService {
   private customerProfile: any;
   private loanDetails: any;
   pdStatus: any;
+  applicantType: any;
+  fiCumPdAppType: any;
 
   constructor() { }
 
@@ -51,5 +53,21 @@ export class PdDataService {
 
   }
 
+  setApplicantType(data) {
+    this.applicantType = data;
+  }
+
+  getApplicantType() {
+    return this.applicantType;
+  }
+  
+
+  setFiCumPdApplicantType(data){
+    this.fiCumPdAppType = data;
+  } 
+
+  getFiCumPdApplicantType(){
+    return this.fiCumPdAppType
+  }
 
 }

@@ -17,6 +17,7 @@ import { VehicleDetailService } from '@services/vehicle-detail.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToasterService } from '@services/toaster.service';
 import { THRESHOLD_DIFF } from '@progress/kendo-angular-popup/dist/es2015/services/scrollable.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-existing-lead-creation',
@@ -148,6 +149,7 @@ export class ExistingLeadCreationComponent implements OnInit {
     mobileNumber: any,
     dobOrDoc: any
   }
+  udfScreenId: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -161,9 +163,19 @@ export class ExistingLeadCreationComponent implements OnInit {
     private toasterService: ToasterService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private leadStoreService: LeadStoreService,  
+    private leadStoreService: LeadStoreService,
+    private sharedService: SharedService,
     private createLeadDataService: CreateLeadDataService,
-  ) { }
+  ) {
+
+    // date
+    let toDayDate = new Date()
+    var day = toDayDate.getDate();
+    var month = toDayDate.getMonth();
+    var year = toDayDate.getFullYear();
+    toDayDate = new Date(year, month, day, 0, 0);
+    this.minDate = new Date(new Date().getFullYear() - 15, month, month)
+  }
 
   ngOnInit() {
     this.onChangeLanguage('English');
@@ -178,6 +190,12 @@ export class ExistingLeadCreationComponent implements OnInit {
       this.getLeadIdPool();
       this.createExternalLeadForm.disable();
     }
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.leadCreateExternal ;
+
+    })
   }
 
   getLabels() {
@@ -256,7 +274,6 @@ export class ExistingLeadCreationComponent implements OnInit {
     if (!roleAndUserDetails) {
       return;
     }
-    console.log(roleAndUserDetails, 'Test');
     this.getBusinessDivision(roleAndUserDetails);
     this.userId = roleAndUserDetails.userDetails.userId;
     this.getSourcingDetails(this.userId);
@@ -292,6 +309,8 @@ export class ExistingLeadCreationComponent implements OnInit {
     this.createLeadService
       .getProductCategory(this.bizDivId)
       .subscribe((res: any) => {
+        console.log(res, 'Test');
+
         this.productCategoryList = res.ProcessVariables.productCategoryDetails;
         this.productCategoryData = this.utilityService.getValueFromJSON(
           this.productCategoryList,
@@ -368,7 +387,6 @@ export class ExistingLeadCreationComponent implements OnInit {
       // const errorMessage = response.ProcessVariables.error.message;
 
       // if (appiyoError === '0' && apiError === '0') {
-      console.log('extSRC', response);
       this.extSourcingChannelData = response.ProcessVariables.srcChannel;
       this.extSourcingTypeData = response.ProcessVariables.srcType;
       this.extSourcingCodeData = response.ProcessVariables.srcCode;
@@ -394,6 +412,8 @@ export class ExistingLeadCreationComponent implements OnInit {
         });
         this.isSourcingCode = true;
       }
+      console.log(this.createExternalLeadForm, 'extSRC', response);
+
     })
   }
 
@@ -458,6 +478,8 @@ export class ExistingLeadCreationComponent implements OnInit {
           this.minAge = new Date();
           this.minAge.setFullYear(this.minAge.getFullYear() - minAge);
           this.maxAge.setFullYear(this.maxAge.getFullYear() - maxAge);
+          this.minAge = this.utilityService.setTimeForDates(this.minAge)
+          this.maxAge = this.utilityService.setTimeForDates(this.maxAge)
         } else {
           this.minAge = null;
           this.maxAge = new Date();
@@ -693,10 +715,10 @@ export class ExistingLeadCreationComponent implements OnInit {
       }
 
       const vehicleId = data.vehicleId;
-      const vehicleRegNo = data.vehicleRegNo; 
+      const vehicleRegNo = data.vehicleRegNo;
       //check product type 
-      const manuFacMonthYear = data.productCategory!='NCV'?
-          this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY'): null;
+      const manuFacMonthYear = data.productCategory != 'NCV' ?
+        this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY') : null;
 
       this.createLeadService.createExternalLead(
         this.loanLeadDetails,
@@ -741,7 +763,7 @@ export class ExistingLeadCreationComponent implements OnInit {
 
         if (appiyoError === '0' && apiError === '0') {
           console.log('byPool', response);
-         
+
           const productCategory = response.ProcessVariables.leadDetails.productCatCode;
           this.productCategoryChange(productCategory);
           const product = response.ProcessVariables.leadDetails.productId;
@@ -752,7 +774,7 @@ export class ExistingLeadCreationComponent implements OnInit {
           const nameTwo = response.ProcessVariables.applicantDetails[0].name2;
           const nameThree = response.ProcessVariables.applicantDetails[0].name3;
           this.firstName = nameOne;
-          this.middleName = nameTwo ? nameTwo: '';
+          this.middleName = nameTwo ? nameTwo : '';
           this.lastName = nameThree;
           const mobileNumber: string = response.ProcessVariables.applicantDetails[0].mobileNumber;
           let mobile = mobileNumber;
@@ -763,6 +785,21 @@ export class ExistingLeadCreationComponent implements OnInit {
           const dateOfBirth = dob ? this.utilityService.getDateFromString(dob.slice()) : null;
           this.mobileApprove = mobile;
           this.dobApprove = dob;
+
+          this.extSourcingChannelData = [{
+            key: response.ProcessVariables.leadDetails.sourcingChannel,
+            value: response.ProcessVariables.leadDetails.sourcingChannelDesc
+          }]
+
+          this.extSourcingTypeData = [{
+            key: response.ProcessVariables.leadDetails.sourcingType,
+            value: response.ProcessVariables.leadDetails.sourcingTypeDesc
+          }]
+
+          this.extSourcingCodeData = [{
+            key: response.ProcessVariables.leadDetails.sourcingCode,
+            value: response.ProcessVariables.leadDetails.sourcingCodeDesc
+          }]
 
           const sourcingChannel = response.ProcessVariables.leadDetails.sourcingChannel;
           const sourcingType = response.ProcessVariables.leadDetails.sourcingType;
@@ -824,7 +861,7 @@ export class ExistingLeadCreationComponent implements OnInit {
               assetBodyType = response.ProcessVariables.vehicleCollateral[0].segmentCode;
               assetModel = response.ProcessVariables.vehicleCollateral[0].modelCode;
               assetVariant = 'variantKey';
-              if(response.ProcessVariables.leadDetails.productCatCode != 'NCV'){
+              if (response.ProcessVariables.leadDetails.productCatCode != 'NCV') {
                 dobyymm = response.ProcessVariables.vehicleCollateral[0].manuMonYear;
                 manuFacMonthYear = this.utilityService.getDateFromString(dobyymm.slice());
               }
@@ -870,6 +907,7 @@ export class ExistingLeadCreationComponent implements OnInit {
             this.router.navigateByUrl('pages/lead-creation/lead-dedupe');
             return;
           }
+          this.sharedService.getDedupdeStatus(true);
           this.router.navigateByUrl(`pages/lead-section/${this.leadIdFromDashboard}`);
         } else {
           this.toasterService.showError(errorMessage, 'Approve Lead');

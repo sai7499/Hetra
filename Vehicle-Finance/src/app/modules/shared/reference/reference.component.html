@@ -5,7 +5,12 @@
       <div class="btn-sec clear-both row">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-            <h3 class="banner-con">Reference 1 ({{udfScreenId}}) </h3>
+            <h3 class="banner-con">Reference 
+              <span class="float-right">{{udfScreenId}}</span>
+            </h3>
+            <h3 class="banner-sub">Reference 1
+             
+            </h3>
           </div>
         </div>
       </div>
@@ -148,7 +153,7 @@
       <div class="btn-sec clear-both row">
         <div class="row">
           <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-            <h3 class="banner-con">Reference 2</h3>
+            <h3 class="banner-sub">Reference 2</h3>
           </div>
         </div>
       </div>
@@ -293,9 +298,11 @@
           <button type="button" class="btn btn-primary hvr-sweep-to-left" value="submit" (click)="onBack()">
             Back
           </button>
+          <ng-container *ngIf="!isViewDde">
           <button type="button" class="btn btn-primary" value="submit" (click)="onSubmit()" *ngIf="!isLoan360">
             Save
           </button>
+          </ng-container>
           <button type="button" class="btn btn-primary hvr-sweep-to-right" value="submit" (click)="onNext()">
             Next
           </button>

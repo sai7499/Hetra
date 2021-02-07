@@ -1,5 +1,5 @@
 <header class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
+  <div class="">
     <div class="navbar-header">
       <button class="btn navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar">
         <span class="sr-only">Toggle navigation</span>
@@ -40,8 +40,8 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title text-center ">Lead History</h4>
       </div>
-      <div class="modal-body ">
-        <div class="container-fluid modal_top_bar">
+      <div class="modal-body " [hidden]="showleadModal">
+        <div class=" modal_top_bar">
           <div class="row ">
             <div class=" col-lg-4 col-md-4 col-sm-4 form-group mb-0">
               <label class="col-form-label_modal" for="lead_created_by">Lead Id
@@ -74,10 +74,10 @@
             </div>
           </div>
         </div>
-        <div class="container-fluid">
+        <div class="">
           <div class="row">
-            <div id="wrapper">
-              <table class="table table-bordered mb-0 main-table">
+            <div id="wrapper ">
+              <table class="table table-bordered mb-0 main-table tablewithdetails">
                 <thead>
                   <tr class="table-head-bg">
                     <th>S.No <i class="fa fa-sort"></i></th>
@@ -123,6 +123,11 @@
             </div>
           </div>
         </div>
+      </div>
+      <div *ngIf="showleadModal">
+        <p style="text-align: center">
+        <strong>No Data Found</strong> 
+        </p>
       </div>
       <div class="HeaderFooter">
         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

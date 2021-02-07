@@ -42,6 +42,7 @@ export class LeadDedupeComponent implements OnInit {
   isReasonSelected: boolean;
 
   @ViewChild('radioSelect', { static: true }) radioButtonSelected: ElementRef;
+  udfScreenId: any;
 
   constructor(
     private route: Router,
@@ -58,6 +59,12 @@ export class LeadDedupeComponent implements OnInit {
     this.getLabels();
     this.getUserDetails();
     this.getDedupeData();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = udfScreenId.QDE.leadDedupeQDE;
+
+    })
   }
 
   getLabels() {
@@ -203,7 +210,7 @@ export class LeadDedupeComponent implements OnInit {
     const data: any = { ...leadData };
     console.log("get Lead Data",data);
     if (this.showModal === 'proceedModal_without') {   
-      if(data.leadDetails.stage == 7) {
+      if(data.leadDetails && data.leadDetails.stage == 7) {
         this.leadId = data.leadId;
         return this.proceedWithSelectedLead(true);        
       }else{

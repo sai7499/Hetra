@@ -1,368 +1,400 @@
-<div class="content">
-    <form class="multisteps-form__form" [formGroup]="fleetForm" *ngIf="this.fleetForm">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-10">
-                    <h3 class="banner-con">Fleet Details ({{udfScreenId}}) </h3>
-                </div>
-                <div class="col-sm-2 text-right" *ngIf="!isLoan360">
-                    <span id="edit_vehicle_details_replace"></span>
-                    <a id="back_vehicle_details"><button class="btn btn-primary mrg-10" type="button"
+<form class="multisteps-form__form content" [formGroup]="fleetForm" *ngIf="this.fleetForm">
+    <div class="">
+        <div class="row">
+            <div class="col-sm-12 p-0">
+                <h3 class="banner-con">Fleet Details
+                    <span class="float-right">{{udfScreenId}}</span>
+                </h3>
+            </div>
+
+            <div class="col-sm-12 col-lg-12 text-right p-0" *ngIf="!isLoan360">
+                <span id="edit_vehicle_details_replace">
+                    <a id="back_vehicle_details"><button class="btn btn-primary btn-spc" type="button"
                             (click)="openUploadModal()">
                             Upload
-                        </button></a>
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="table-responsive application">
-                    <table class="table">
-
-                        <thead>
-                            <tr class="table-head-bg text-center">
-                                <td role="columnheader">{{labels.sNo}} </td>
-                                <td role="columnheader">{{labels.regdNo }} </td>
-                                <td role="columnheader">{{labels.regdOwner}}</td>
-                                <td role="columnheader" style="min-width: 165px;">{{labels.relation}}</td>
-                                <td role="columnheader" style="min-width: 165px;"> {{ labels.vechicalRegion }}</td>
-                                <td role="columnheader" style="min-width: 200px;">{{labels.make}} </td>
-                                <td role="columnheader" style="min-width: 200px;">{{ labels.vechicalType }}</td>
-                                <td role="columnheader" style="min-width: 200px;"> {{ labels.assetSegement }}</td>
-                                <td role="columnheader" style="min-width: 200px;">{{labels.assetModel}}</td>
-                                <td role="columnheader">{{labels.yom}} </td>
-                                <td role="columnheader" style="min-width: 120px;">{{labels.financier}} </td>
-                                <td role="columnheader">{{labels.loanNo}} </td>
-                                <td role="columnheader">{{labels.purchaseDate}} </td>
-                                <td role="columnheader">{{labels.tenure}} </td>
-                                <td role="columnheader">{{labels.accrued}} </td>
-                                <td role="columnheader">{{labels.seasoning}} </td>
-                                <td role="columnheader">{{labels.ad}} </td>
-                                <td role="columnheader">{{labels.pd}} </td>
-                                <td role="columnheader">{{labels.gridValue}}</td>
-                                <td role="columnheader">{{labels.track}} </td>
-                                <td role="columnheader" *ngIf="!isLoan360">{{labels.action}} </td>
-                            </tr>
-                        </thead>
-                        <tbody formArrayName="Rows">
-                            <tr id="applicant_1_row"
-                                *ngFor="let itemrow of fleetForm.get('Rows')['controls']; let i=index;let l=last"
-                                [formGroupName]="i">
-
-                                <td>{{i+1}}</td>
-                                <td style="min-width: 150px;">
-                                    <app-custom-input [id]="'regdNo_'" formControlName="regdNo"
-                                        [className]="'form-control mandatory'" [placeholder]="'regdNo'"
-                                        [maxLength]="validationData?.vehicleRegNo['maxLength']"
-                                        [isRequired]="'Registration number is mandatory'"
-                                        [type]="validationData?.vehicleRegNo['type']" [isDirty]="isDirty"
-                                        [patternCheck]="validationData?.vehicleRegNo.pattern"
-                                        [inputClass]="'input-upper'"
-                                        [minLength]="validationData?.vehicleRegNo['minLength']">
-                                    </app-custom-input>
-
-                                </td>
-                                <td style="min-width: 130px;">
-
-                                    <app-custom-input [id]="'regdOwner'" formControlName="regdOwner"
-                                        [className]="'form-control mandatory'" [placeholder]="'Owner name'"
-                                        [maxLength]="validationData?.name.maxLength"
-                                        [isRequired]="'Owner name is mandatory'" [isDirty]="isDirty"
-                                        [type]="validationData?.name.type">
-                                    </app-custom-input>
-                                </td>
-                                <td style="min-width: 165px;">
-                                    <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead"
-                                        formControlName="relation" (change)="relationShipChange($event)"
-                                        [isRequired]="'Please select alteast one '">
-                                    </app-vf-custom-select>
-
-                                    <div class="cus-mandatory-field"
-                                        *ngIf="itemrow.controls['relation'].touched && !itemrow.controls['relation'].vaild">
-                                        <div class="cus-mandatory-field"
-                                            *ngIf="itemrow.controls['relation'].hasError('required')">
-                                            relation is mandatory
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <app-vf-custom-select [values]="regionLov[i]" [id]="'vechical_region'"
-                                        formControlName="region" [isRequired]="'Vehicle Region Required'"
-                                        (change)="onVehicleRegion($event.target.value, itemrow,i)" [isDirty]="isDirty">
-                                    </app-vf-custom-select>
-
-                                </td>
-                                <td style="min-width: 200px;">
-                                    <app-vf-custom-select (change)="onAssetMake($event.target.value, itemrow , i)"
-                                        [values]="vehicleManufacturer[i]" formControlName="make"
-                                        (change)="makeChange($event)" [isRequired]="'Please select atleast one'">
-                                    </app-vf-custom-select>
-                                    <div class="cus-mandatory-field"
-                                        *ngIf="itemrow.controls['relation'].touched && !itemrow.controls['relation'].vaild">
-                                        <div class="cus-mandatory-field"
-                                            *ngIf="itemrow.controls['relation'].hasError('required')">
-                                            make is mandatory
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-
-                                    <app-vf-custom-select [values]="vehicleTypeLov[i]" [id]="'vechical_type'"
-                                        formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
-                                        (change)="onVehicleType($event.target.value, itemrow, i)" [isDirty]="isDirty">
-                                    </app-vf-custom-select>
-
-                                </td>
-
-                                <td>
-                                    <app-vf-custom-select [values]="assetBodyTypeLov[i]" [id]="'asset_body_type'"
-                                        formControlName="assetBodyType" [isRequired]="'Asset Body Type Required'"
-                                        (change)="onAssetBodyType($event.target.value, itemrow , i)"
-                                        [isDirty]="isDirty">
-                                    </app-vf-custom-select>
-                                </td>
-                                <td>
-
-                                    <app-vf-custom-select [values]="assetModelTypeLov[i]" formControlName="assetModel"
-                                        [id]="'asset_model'" [isRequired]="'Asset Model Required'"
-                                        (change)="onAssetModel($event.target.value, itemrow , i)" [isDirty]="isDirty">
-                                    </app-vf-custom-select>
-                                </td>
-
-                                <td>
-                                    <div>
-
-                                        <div style="width: 90px;">
-                                            <app-custom-input formControlName="yom" id="yom_{{i}}"
-                                                [className]="'form-control mandatory'" [placeholder]="'YOM'"
-                                                [maxLength]="formValidation?.validationData?.yom.maxLength"
-                                                [isRequired]="'YOM mandatory'"
-                                                [type]="formValidation?.validationData?.yom.type" [custom]="yearCheck"
-                                                [isDirty]="isDirty"
-                                                (change)="onGetDateValue($event.target.value, i, itemrow)">
-                                            </app-custom-input>
-                                        </div>
-
-                                    </div>
-                                </td>
-
-                                <td style="min-width: 120px;">
-                                    <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers"
-                                        formControlName="financier" (change)="financierChange($event)"
-                                        [isRequired]="'Please select atleast one'">
-                                    </app-vf-custom-select>
-
-                                </td>
-                                <td style="min-width: 150px;">
-                                    <app-custom-input [id]="'loanNo'" formControlName="loanNo"
-                                        [className]="'form-control mandatory'" [placeholder]="'loanNo'"
-                                        [maxLength]="validationData?.loanNumber.maxLength"
-                                        [isRequired]="'Loan No is mandatory'" [type]="validationData?.loanNumber.type"
-                                        [isDirty]="isDirty" [inputClass]="'input-upper'"
-                                        [minLength]='validationData?.loanNumber.minLength'>
-                                    </app-custom-input>
-
-                                </td>
-                                <td>
-                                    <div class="form-group ">
-                                        <div class='input-group date' id='datetimepicker1'>
-
-                                            <kendo-datepicker width="100%" class="form-control mandatory"
-                                                formControlName="purchaseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-                                                placeholder="dd/mm/yyyy" [activeView]="'decade'"
-                                                (keyup)="onCheckPurchaseDate($event.target.value, i, itemrow)"
-                                                (valueChange)="onCheckPurchaseDate($event, i, itemrow)">
-                                            </kendo-datepicker>
-
-                                        </div>
-                                        <div class="cus-mandatory-field"
-                                            *ngIf="itemrow.controls['purchaseDate'].touched && !itemrow.controls['purchaseDate'].vaild">
-                                            <div class="cus-mandatory-field"
-                                                *ngIf="itemrow.controls['purchaseDate'].hasError('required')">
-                                                Purchase date is needed
-                                            </div>
-                                            <div class="cus-mandatory-field"
-                                                *ngIf="itemrow.controls['purchaseDate'].value !== null && itemrow.controls['purchaseDate'].value > toDayDate">
-                                                Invalid Date
-                                            </div>
-                                        </div>
-
-                                        <div class="cus-mandatory-field" *ngIf="
-                                            itemrow.controls['purchaseDate'].value !== null && 
-                                            fleetForm.controls['isValidPurchaseDate'].value === false">
-                                            Invalid Date
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td style="min-width: 120px;">
-
-                                    <app-custom-input [id]="'tenure'" formControlName="tenure"
-                                        [className]="'form-control mandatory'" [placeholder]="'Tenure'"
-                                        [maxLength]="validationData?.tenurePaid['maxLength']"
-                                        [isRequired]="'Tenure is mandatory'" [type]="validationData?.tenurePaid['type']"
-                                        (keyup)="checkPaid($event ,i)" [isDirty]="isDirty">
-                                    </app-custom-input>
-
-                                </td>
-                                <td style="min-width: 120px;">
-                                    <div>
-                                        <app-custom-input [id]="'paid'" formControlName="paid"
-                                            [className]="'form-control mandatory'" [placeholder]="'paid'"
-                                            [maxLength]="validationData?.tenurePaid['maxLength']"
-                                            [isRequired]="'Accrued is mandatory'"
-                                            [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
-                                            (keyup)="checkPaid($event ,i)" (change)="calcSeasoning($event ,i)">
-                                        </app-custom-input>
-
-                                        <div class="cus-mandatory-field"
-                                            *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
-                                            Accrued not greater than Tenure
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <td style="min-width: 120px;">
-                                    <app-custom-input [id]="'seasoning'" formControlName="seasoning"
-                                        [className]="'form-control mandatory'" [placeholder]="''">
-                                    </app-custom-input>
-                                </td>
-                                <td style="min-width: 120px;">
-                                    <app-custom-input [id]="'ad'" formControlName="ad"
-                                        [className]="'form-control mandatory'" [placeholder]="''">
-                                    </app-custom-input>
-                                </td>
-                                <td style="min-width: 120px;">
-                                    <app-custom-input [id]="'pd'" formControlName="pd"
-                                        [className]="'form-control mandatory'" [placeholder]="''">
-                                    </app-custom-input>
-                                </td>
-                                <td style="min-width: 120px;">
-                                    <app-custom-input [id]="'gridValue'" formControlName="gridValue"
-                                        [className]="'form-control mandatory'" [placeholder]="''">
-                                    </app-custom-input>
-                                </td>
-                                <td><u><button class="a_tag" (click)="onFormSubmit(i)">RTR</button></u></td>
-
-                                <td *ngIf="!isLoan360">
-                                    <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton_{{i}}"
-                                        value="Add" [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
-                                    <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton"
-                                        data-toggle="modal" data-target="#deleteModal" [disabled]="disableSaveBtn"
-                                        value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-                [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
-            </app-shared-user-defined-fields>
-
-            <div class="btn-sec clear-both row btn-mar-15 cst_btm_btns">
-                <div class="col-sm-5">
-
-                </div>
-                <div class="col-sm-7 text-right nxt-mar-15 p-0">
-                    <button class="btn btn-primary hvr-sweep-to-left " type="button"
-                        (click)="toReference()">Back</button>
-                    <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)"
-                        *ngIf="!disableSaveBtn">Save
-                    </button>
-                    <button class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
-                        (click)="onFormSubmit('next')"> Next </button>
-                </div>
+                        </button></a></span>
             </div>
         </div>
+        <div class="row">
 
-        <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showUploadModal }">
-            <div class="modal-dialog top-space">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" (click)="onClose()">
-                            ×
-                        </button>
-                        <h4 class="modal-title">Upload Document</h4>
-                    </div>
+            <div class="table-responsive application">
+                <table class="table">
 
-                    <div class="modal-body ">
-                        <div class="row">
+                    <thead>
+                        <tr class="table-head-bg text-center">
+                            <td role="columnheader">{{labels.sNo}} </td>
+                            <td role="columnheader">{{labels.regdNo }} </td>
+                            <td role="columnheader">{{labels.regdOwner}}</td>
+                            <td role="columnheader" style="min-width: 165px;">{{labels.relation}}</td>
+                            <td role="columnheader" style="min-width: 165px;"> {{ labels.vechicalRegion }}</td>
+                            <td role="columnheader" style="min-width: 200px;">{{labels.make}} </td>
+                            <td role="columnheader" style="min-width: 200px;">{{ labels.vechicalType }}</td>
+                            <td role="columnheader" style="min-width: 200px;"> {{ labels.assetSegement }}</td>
+                            <td role="columnheader" style="min-width: 200px;">{{labels.assetModel}}</td>
+                            <td role="columnheader">{{labels.yom}} </td>
+                            <td role="columnheader">{{labels.purchaseDate}} </td>
+                            <td role="columnheader" style="min-width: 120px;">{{labels.financier}} </td>
+                            <td role="columnheader">{{labels.loanNo}} </td>
+                            <td role="columnheader">{{labels.tenure}} </td>
+                            <td role="columnheader">{{labels.accrued}} </td>
+                            <td role="columnheader">{{labels.seasoning}} </td>
+                            <td role="columnheader">{{labels.ad}} </td>
+                            <td role="columnheader">{{labels.pd}} </td>
+                            <td role="columnheader">{{labels.gridValue}}</td>
+                            <td role="columnheader">{{labels.track}} </td>
+                            <td role="columnheader" *ngIf="!isLoan360">{{labels.action}} </td>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="Rows">
+                        <tr id="applicant_1_row"
+                            *ngFor="let itemrow of fleetForm.get('Rows')['controls']| paginate: { itemsPerPage: itemsPerPage,currentPage: q }  let i=index;let l=last"
+                            [formGroupName]="i">
 
-                            <br />
+                            <td>{{i+1}}</td>
+                            <td style="min-width: 150px;">
+                                <app-custom-input [id]="'regdNo_'" formControlName="regdNo"
+                                    [className]="'form-control mandatory'" [placeholder]="'regdNo'"
+                                    [maxLength]="validationData?.vehicleRegNo['maxLength']"
+                                    [isRequired]="'Registration number is mandatory'"
+                                    [type]="validationData?.vehicleRegNo['type']" [isDirty]="isDirty"
+                                    [patternCheck]="validationData?.vehicleRegNo.pattern" [inputClass]="'input-upper'"
+                                    [minLength]="validationData?.vehicleRegNo['minLength']">
+                                </app-custom-input>
 
-                            <div class="row ">
-                                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+                            </td>
+                            <td style="min-width: 130px;">
 
-                                    <div class="col-12 mid-text">
-                                        <button class="btn upload-btn" (click)="fileInput.click()" *ngIf="!fileUrl">
-                                            Select Document
-                                        </button>
-                                        <button class="btn upload-btn" (click)="removeFile(); fileInput.click()"
-                                            *ngIf="fileUrl">
-                                            Change Document</button>
-                                        <button class="btn upload-btn remove-btn" (click)="removeFile()"
-                                            *ngIf="fileUrl">
-                                            Remove
-                                        </button>
+                                <app-vf-custom-select [values]="applicantList" formControlName="regdOwner"
+                                    [isDirty]="isDirty" (change)="regdOwnerChange($event, i)"
+                                    [isRequired]="'Owner name is mandatory '">
+                                </app-vf-custom-select>
 
+                                <!-- <app-custom-input [id]="'regdOwner'" formControlName="regdOwner"
+                                    [className]="'form-control mandatory'" [placeholder]="'Owner name'"
+                                    [maxLength]="validationData?.name.maxLength"
+                                    [isRequired]="'Owner name is mandatory'" [isDirty]="isDirty"
+                                    [type]="validationData?.name.type">
+                                </app-custom-input> -->
+                            </td>
+                            <td style="min-width: 165px;">
+                                <app-vf-custom-select [values]="fleetLov?.applicantRelationshipWithLead"
+                                    formControlName="relation">
+                                </app-vf-custom-select>
+
+                                <div class="cus-mandatory-field"
+                                    *ngIf="itemrow.controls['relation'].touched && !itemrow.controls['relation'].vaild">
+                                    <div class="cus-mandatory-field"
+                                        *ngIf="itemrow.controls['relation'].hasError('required')">
+                                        relation is mandatory
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <app-vf-custom-select [values]="regionLov[i]" [id]="'vechical_region'"
+                                    formControlName="region" [isRequired]="'Vehicle Region Required'"
+                                    (change)="onVehicleRegion($event.target.value, itemrow,i)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
+
+                            </td>
+                            <td style="min-width: 200px;">
+                                <app-vf-custom-select (change)="onAssetMake($event.target.value, itemrow , i)"
+                                    [values]="vehicleManufacturer[i]" formControlName="make"
+                                    (change)="makeChange($event)" [isRequired]="'Please select atleast one'">
+                                </app-vf-custom-select>
+                                <div class="cus-mandatory-field"
+                                    *ngIf="itemrow.controls['relation'].touched && !itemrow.controls['relation'].vaild">
+                                    <div class="cus-mandatory-field"
+                                        *ngIf="itemrow.controls['relation'].hasError('required')">
+                                        make is mandatory
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+
+                                <app-vf-custom-select [values]="vehicleTypeLov[i]" [id]="'vechical_type'"
+                                    formControlName="vehicleType" [isRequired]="'Vehicle Type Required'"
+                                    (change)="onVehicleType($event.target.value, itemrow, i)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
+
+                            </td>
+
+                            <td>
+                                <app-vf-custom-select [values]="assetBodyTypeLov[i]" [id]="'asset_body_type'"
+                                    formControlName="assetBodyType" [isRequired]="'Asset Body Type Required'"
+                                    (change)="onAssetBodyType($event.target.value, itemrow , i)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
+                            </td>
+                            <td>
+
+                                <app-vf-custom-select [values]="assetModelTypeLov[i]" formControlName="assetModel"
+                                    [id]="'asset_model'" [isRequired]="'Asset Model Required'"
+                                    (change)="onAssetModel($event.target.value, itemrow , i)" [isDirty]="isDirty">
+                                </app-vf-custom-select>
+                            </td>
+
+                            <td>
+                                <div>
+
+                                    <div style="width: 90px;">
+                                        <app-custom-input formControlName="yom" id="yom_{{i}}"
+                                            [className]="'form-control mandatory'" [placeholder]="'YOM'"
+                                            [maxLength]="formValidation?.validationData?.yom.maxLength"
+                                            [isRequired]="'YOM mandatory'"
+                                            [type]="formValidation?.validationData?.yom.type" [custom]="yearCheck"
+                                            [isDirty]="isDirty"
+                                            (change)="onGetDateValue($event.target.value, i, itemrow)">
+                                        </app-custom-input>
                                     </div>
 
                                 </div>
+                            </td>
 
-                                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="col-6">Name : {{ fileName }} </div>
+                            <td>
+                                <div class="form-group ">
+                                    <div class='input-group date' id='datetimepicker1'>
+
+                                        <kendo-datepicker width="100%" class="form-control mandatory"
+                                            formControlName="purchaseDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+                                            placeholder="dd/mm/yyyy" [activeView]="'decade'"
+                                            (keyup)="onCheckPurchaseDate($event.target.value, i, itemrow)"
+                                            (valueChange)="onCheckPurchaseDate($event, i, itemrow)">
+                                        </kendo-datepicker>
+
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="col-6">Size : {{ fileSize }}</div>
+                                    <div class="cus-mandatory-field"
+                                        *ngIf="itemrow.controls['purchaseDate'].touched && !itemrow.controls['purchaseDate'].vaild">
+                                        <div class="cus-mandatory-field"
+                                            *ngIf="itemrow.controls['purchaseDate'].hasError('required')">
+                                            Purchase date is needed
+                                        </div>
+                                        <div class="cus-mandatory-field"
+                                            *ngIf="itemrow.controls['purchaseDate'].value !== null && itemrow.controls['purchaseDate'].value > toDayDate">
+                                            Invalid Date
+                                        </div>
                                     </div>
+
+                                    <div class="cus-mandatory-field" *ngIf="itemrow.controls['purchaseDate'].value !== null && 
+                                    fleetForm.controls['isValidPurchaseDate'].value === false">
+                                        Invalid Date
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td style="min-width: 120px;">
+                                <!-- <app-vf-custom-select [values]="fleetLov?.vehicleFinanciers" formControlName="financier"
+                                
+                                    (change)="financierChange($event, i)" [isRequired]="'Please select atleast one'">
+                                </app-vf-custom-select> -->
+                                <select class="form-control" (change)="financierChange($event, i, itemrow)"
+                                    formControlName="financier">
+                                    <option value="Not-Applicable">NA</option>
+                                    <option *ngFor="let item of fleetLov?.vehicleFinanciers" [value]="item.key">
+                                        {{item.value}}</option>
+                                </select>
+                            </td>
+                            <td style="min-width: 150px;">
+                                <app-custom-input [id]="'loanNo'" formControlName="loanNo"
+                                    [className]="'form-control mandatory'" [placeholder]="'loanNo'"
+                                    [maxLength]="validationData?.loanNumber.maxLength"
+                                    [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
+                                    [isRequired]="itemrow.controls['financier'].value !== 'Not-Applicable' ? 'Loan No is mandatory' : ''"
+                                    [type]="validationData?.loanNumber.type" [isDirty]="isDirty"
+                                    [inputClass]="'input-upper'" [minLength]='validationData?.loanNumber.minLength'>
+                                </app-custom-input>
+
+                            </td>
+
+                            <td style="min-width: 120px;">
+
+                                <app-custom-input [id]="'tenure'" formControlName="tenure" [custom]="initalZeroCheck"
+                                    [className]="'form-control mandatory'" [placeholder]="'Tenure'"
+                                    [maxLength]="validationData?.tenurePaid['maxLength']"
+                                    [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
+                                    [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''"
+                                    [type]="validationData?.tenurePaid['type']" (keyup)="checkPaid($event ,i, itemrow)"
+                                    [isDirty]="isDirty">
+                                </app-custom-input>
+
+                            </td>
+                            <td style="min-width: 120px;">
+                                <div>
+                                    <app-custom-input [id]="'paid'" formControlName="paid" [custom]="initalZeroCheck"
+                                        [className]="'form-control mandatory'" [placeholder]="'paid'"
+                                        [maxLength]="validationData?.tenurePaid['maxLength']"
+                                        [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
+                                        [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Accrued is mandatory' : ''"
+                                        [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
+                                        (keyup)="checkPaid($event ,i, itemrow)" (change)="calcSeasoning($event ,i)">
+                                    </app-custom-input>
+
+                                    <div class="cus-mandatory-field"
+                                        *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
+                                        Accrued not greater than Tenure
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td style="min-width: 120px;">
+                                <app-custom-input [id]="'seasoning'" formControlName="seasoning"
+                                    [className]="'form-control mandatory'" [placeholder]="''">
+                                </app-custom-input>
+                            </td>
+                            <td style="min-width: 120px;">
+                                <app-custom-input [id]="'ad'" formControlName="ad"
+                                    [className]="'form-control mandatory'" [placeholder]="''">
+                                </app-custom-input>
+                            </td>
+                            <td style="min-width: 120px;">
+                                <app-custom-input [id]="'pd'" formControlName="pd"
+                                    [className]="'form-control mandatory'" [placeholder]="''">
+                                </app-custom-input>
+                            </td>
+                            <td style="min-width: 120px;">
+                                <app-custom-input [id]="'gridValue'" formControlName="gridValue"
+                                    [className]="'form-control mandatory'" [placeholder]="''">
+                                </app-custom-input>
+                            </td>
+                            <td><u><button class="a_tag"
+                                        [disabled]="formArr.controls[i]['controls']['financier'].value =='Not-Applicable'"
+                                        (click)="onFormSubmit(i)">RTR</button></u></td>
+
+                            <td *ngIf="!isLoan360">
+                                <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton_{{i}}" value="Add"
+                                    [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
+                                <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton"
+                                    data-toggle="modal" data-target="#deleteModal" [disabled]="disableSaveBtn"
+                                    value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+            [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)">
+        </app-shared-user-defined-fields>
+
+        <div class="btn-sec clear-both row btn-mar-15 cst_btm_btns">
+            <div class="col-sm-8 pagination-padding">
+                <div class="records col-xs-3 col-sm-4 col-md-6">
+
+                    <div class="col-lg-3"><label>No. of Rows </label>
+                        <!-- (change)="setPage($event)" -->
+                        <select class="form-control  input-sm" [value]="itemsPerPage" (change)="pageChange($event)">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option class="disable" value="25">25</option>
+                            <option class="disable" value="50">50</option>
+                        </select>
+                    </div>
+
+                </div>
+                <!-- <div class="col-xs-3 col-sm-4 col-md-6"> -->
+                <nav class="text-right margin-18">
+                    <!-- (pageChange)="setPage($event)" -->
+                    <pagination-controls previousLabel="" nextLabel="" (pageChange)="q = $event"></pagination-controls>
+                </nav>
+                <!-- </div> -->
+
+            </div>
+            <div class="col-sm-4 text-right nxt-mar-15 p-0">
+                <button class="btn btn-primary hvr-sweep-to-left " type="button" (click)="toReference()">Back</button>
+                <button class="btn btn-primary " type="button" (click)="onFormSubmit(i)" *ngIf="!disableSaveBtn">Save
+                </button>
+                <button class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
+                    (click)="onFormSubmit('next')"> Next </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showUploadModal }">
+        <div class="modal-dialog top-space">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="onClose()">
+                        ×
+                    </button>
+                    <h4 class="modal-title">Upload Document</h4>
+                </div>
+
+                <div class="modal-body ">
+                    <div class="row">
+
+                        <br />
+
+                        <div class="row ">
+                            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+
+                                <div class="col-12 mid-text">
+                                    <button class="btn upload-btn" (click)="fileInput.click()" *ngIf="!fileUrl">
+                                        Select Document
+                                    </button>
+                                    <button class="btn upload-btn" (click)="removeFile(); fileInput.click()"
+                                        *ngIf="fileUrl">
+                                        Change Document</button>
+                                    <button class="btn upload-btn remove-btn" (click)="removeFile()" *ngIf="fileUrl">
+                                        Remove
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-6">Name : {{ fileName }} </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-6">Size : {{ fileSize }}</div>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="showError" class="show-error">
-                            {{ showError }}
-                        </div>
                     </div>
-
-                    <div class="modal-footer text-center">
-                        <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead"
-                            (click)="uploadFile()" [disabled]="!fileUrl">
-                            Upload
-                        </button>
-
+                    <div *ngIf="showError" class="show-error">
+                        {{ showError }}
                     </div>
                 </div>
-            </div>
-            <input #fileInput type="file" style="visibility: hidden;" (input)="onFileSelect($event)" />
-        </div>
 
-        <div class="modal" id="deleteModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title"></h4>
-                        <button type="button" class="close" data-dismiss="modal">
-                            &times;
-                        </button>
-                    </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-info" data-dismiss="modal" id="reject_dlead"
+                        (click)="uploadFile()" [disabled]="!fileUrl">
+                        Upload
+                    </button>
 
-                    <div class="modal-body">
-                        Are you sure you want to Delete?
-                    </div>
-
-                    <div class="modal-footer text-center">
-                        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="callDeleteRecord()">
-                            Yes
-                        </button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">
-                            Cancel
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
+        <input #fileInput type="file" style="visibility: hidden;" (input)="onFileSelect($event)" />
+    </div>
 
-    </form>
-</div>
+    <div class="modal" id="deleteModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Are you sure you want to Delete?
+                </div>
+
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" (click)="callDeleteRecord()">
+                        Yes
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
 <app-upload-discussion *ngIf="docsFleetDetails" [showUpload]="!!docsFleetDetails" [details]="docsFleetDetails"
     (cancel)="onModalClose()" (save)="saveValidRecords()"></app-upload-discussion>

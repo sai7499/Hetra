@@ -40,7 +40,7 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
     subscription: any;
 
     // user defined Fields
-    udfScreenId: string = 'CLS007';
+    udfScreenId: string = '';
     udfGroupId: string = 'CLG003';
     udfDetails: any = [];
     userDefineForm: any;
@@ -69,6 +69,12 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
             }, error => {
                 console.log('error', error)
             });
+            this.labelsData.getScreenId().subscribe((data) => {
+                let udfScreenId = data.ScreenIDS;
+          
+                this.udfScreenId = udfScreenId.DDE.additionalCollateralDDE ;
+          
+              })
 
         this.leadData = this.createLeadDataService.getLeadSectionData();
         this.leadId = this.leadData['leadId'];
@@ -436,7 +442,7 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
             this.collateralService.saveOrUpdateAdditionalCollaterals(data).subscribe((res: any) => {
                 if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
                     this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Additional Collateral Detail');
-                    this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-list']);
+                    this.router.navigate(['pages/dde/' + this.leadId + '/additional-collateral-list']);
                 } else {
                     this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Additional CollateralAdditional Collateral Detail')
                 }

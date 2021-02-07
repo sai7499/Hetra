@@ -1,7 +1,9 @@
 <form class="multisteps-form__form content" [formGroup]="pslDataForm">
     <!-- <div class="multisteps-form__panel js-active" data-animation="scaleIn"> -->
-    <h3 class="banner-con">{{labels.pslDataTitle}} ({{udfScreenId}}) </h3>
-    <div class="row">
+    <h3 class="banner-con">{{labels.pslDataTitle}}
+        <span class="float-right">{{udfScreenId}}</span>
+    </h3>
+    <div class="col-lg-12 col-sm-12 p-0">
 
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
             <label for="activity">{{labels.activity}}
@@ -256,7 +258,6 @@
         <div class="" id="agriculture" formGroupName="agriculture" *ngIf="activityChange === '1PSLACTVTY'">
             <div class="form-group col-lg-12 col-md-12 col-sm-12 row">
 
-
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="detail_activity">{{labels.detailActivity}}
                         <sub class="star_red_col">*</sub>
@@ -422,6 +423,10 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
+
+                    <div class="invalid-feedback" *ngIf="submitted && pslDataForm.get('agriculture').controls.weakerSection.invalid">
+                        Weaker Section is required
+                    </div>
                 </div>
             </div>
         </div>

@@ -49,8 +49,9 @@ export class ChequeTrackingComponent implements OnInit {
   isInvalidChequeNum : boolean= false;
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId= 'CTS001';
+  udfScreenId= '';
   udfGroupId= 'CTG001';
+  toDayDate = new Date();
 
   constructor(
     private labelsData: LabelsService,
@@ -63,7 +64,9 @@ export class ChequeTrackingComponent implements OnInit {
     private sharedService: SharedService,
     private applicantStoreService: ApplicantDataStoreService,
     private createLeadDataService: CreateLeadDataService
-  ) { }
+  ) { 
+    this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
+  }
 
   async ngOnInit() {
     this.initForm()
@@ -78,16 +81,23 @@ export class ChequeTrackingComponent implements OnInit {
       }
     );
     this.getLOV();
-    this.getApplicantDetails()
+    
 
     this.leadId = (await this.getLeadId()) as number;
+
     console.log('leadid', this.leadId)
+    this.getApplicantDetails()
     // this.sharedService.loanNumber$.subscribe((loanNumber) => {
     //   console.log('loanNumber', loanNumber)
     //   this.loanNumber = loanNumber
     // })
     this.getChequeTrckingData();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
 
+      this.udfScreenId = udfScreenId.sales.chequeTrackingSales ;
+
+    })
   }
   initForm() {
     this.chequeForm = new FormGroup({
@@ -115,6 +125,13 @@ export class ChequeTrackingComponent implements OnInit {
   }
 
   getApplicantDetails() {
+    if (this.leadId) {
+      const gotLeadData = this.activatedRoute.snapshot.data.leadData;
+      if (gotLeadData.Error === '0') {
+        const leadData = gotLeadData.ProcessVariables;
+        this.createLeadDataService.setLeadSectionData(leadData);
+      }
+    }
     this.leadSectioData = this.createLeadDataService.getLeadSectionData();
     this.applicantArray = this.leadSectioData['applicantDetails']
 
@@ -224,17 +241,17 @@ export class ChequeTrackingComponent implements OnInit {
   // }
 
   onChangeCheque(event) {
-    const isValid=this.chequeForm.get('chequeNum').valid;
-    if(isValid){
-      const value = Number(event)
-      if(value === 0){
-        this.isInvalidChequeNum = true;
-        console.log('INVALID')
-      }else{
-        this.isInvalidChequeNum = false;
-        console.log("Valid")
-      }
-    }
+    // const isValid=this.chequeForm.get('chequeNum').valid;
+    // if(isValid){
+    //   const value = Number(event)
+    //   if(value === 0){
+    //     this.isInvalidChequeNum = true;
+    //     console.log('INVALID')
+    //   }else{
+    //     this.isInvalidChequeNum = false;
+    //     console.log("Valid")
+    //   }
+    // }
     this.selectedData.chequeNum = event;
   }
 
@@ -426,7 +443,7 @@ export class ChequeTrackingComponent implements OnInit {
     const value = this.chequeForm.value;
     console.log('value', value);
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
-    if (this.chequeForm.invalid || this.isInvalidChequeNum || isUDFInvalid) {
+    if (this.chequeForm.invalid  || isUDFInvalid) {
       this.isDirty = true;
       this.toasterService.showError('Please fill mandatory fields.',
         'Cheque Tracking')

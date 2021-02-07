@@ -1,77 +1,85 @@
-<div class="multisteps-form__panel js-active" data-animation="scaleIn">
+<form class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="label">
 
-    <div class="container controlWidth">
-        <div class="btn-sec clear-both row">
-            <div class="col-sm-5">
-                <h4 class="cus-title title"><b>{{ roleType === 1 ? label.vehcileDetailsTitle : '' }}</b></h4>
+    <div class="row">
+        <div class="">
+            <h4 class="banner-con">{{label.vehicleListTitle}}
+                <span class="float-right">{{udfScreenId}}</span>
+            </h4>
+            <div class="col-sm-12 col-lg-12  ">
+
             </div>
-            <div class="col-sm-7 text-right" id="add_vehicle_details_btn">
-                <button class="btn btn-primary" type="button" [disabled]="disableSaveBtn || isChildLoan"
+            <div class="col-sm-12 col-lg-12 text-right " id="add_vehicle_details_btn">
+                <button class="btn btn-primary btn-spc" type="button" [disabled]="disableSaveBtn || isChildLoan"
                     [routerLink]="roleType === 1 ? ['../add-vehicle/0'] : ['/pages/vehicle-details/' + leadId + '/basic-vehicle-details/0']">{{label.addVehicle}}</button>
             </div>
         </div>
     </div>
 
-    <div id="wrapper">
-        <table id="add_vhd_table">
-            <thead>
-                <tr class=" table-head-bg ">
-                    <th>{{label.registrationNo}}</th>
-                    <th>{{label.make}} </th>
-                    <th>{{label.model}}</th>
-                    <th>{{label.variant}}</th>
-                    <th>{{label.finalAssetCost}}</th>
-                    <th>{{label.action}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="add_vhd_tabletr" *ngFor="let item of vehicleArray; let i = index">
-                    <td [attr.data-label]="label?.registrationNo" data-title="Registration Number">
-                        {{item.regNo | uppercase}}
-                    </td>
-                    <td [attr.data-label]="label?.make" data-title="Make">
-                        {{item.make}}
-                    </td>
-                    <td [attr.data-label]="label?.model" data-title="Model">
-                        {{item.model}}
-                    </td>
-                    <td [attr.data-label]="label?.variant" data-title="Variant">
-                        {{item.variant}}
-                    </td>
-                    <td [attr.data-label]="label?.finalAssetCost" data-title="FinalAssetCost">
-                        {{item.finalAssetCost}}
-                    </td>
-                    <td [attr.data-label]="label?.action" data-title="Action">
+    <div class="">
 
-                        <ng-container *ngIf="isLoan360">
-                            <a (click)="roleType === 1 ? editVehicle(item.collateralId, item.eligibleLoanAmount) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
-                                title="Edit collateral"><i class="fa fa-eye cursor-pointer" aria-hidden="true"></i></a>
-                        </ng-container>
+        <div id="wrapper">
+            <table id="add_vhd_table">
+                <thead>
+                    <tr class=" table-head-bg ">
+                        <th>{{label?.registrationNo}}</th>
+                        <th>{{label?.make}} </th>
+                        <th>{{label?.model}}</th>
+                        <th>{{label?.variant}}</th>
+                        <th>{{label?.finalAssetCost}}</th>
+                        <th>{{label?.action}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="add_vhd_tabletr" *ngFor="let item of vehicleArray; let i = index">
+                        <td [attr.data-label]="label?.registrationNo" data-title="Registration Number">
+                            {{item.regNo | uppercase}}
+                        </td>
+                        <td [attr.data-label]="label?.make" data-title="Make">
+                            {{item.make}}
+                        </td>
+                        <td [attr.data-label]="label?.model" data-title="Model">
+                            {{item.model}}
+                        </td>
+                        <td [attr.data-label]="label?.variant" data-title="Variant">
+                            {{item.variant}}
+                        </td>
+                        <td [attr.data-label]="label?.finalAssetCost" data-title="FinalAssetCost">
+                            {{item.finalAssetCost}}
+                        </td>
+                        <td [attr.data-label]="label?.action" data-title="Action">
 
-                        <ng-container *ngIf="!isLoan360">
-                            <a (click)="roleType === 1 ? editVehicle(item.collateralId, item.eligibleLoanAmount) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
-                                title="Edit collateral"><i class="fa fa-pencil cursor-pointer"
-                                    aria-hidden="true"></i></a>
-                            <a data-toggle="modal" data-target="#exampleModal"
-                                [ngClass]="{'pointer_non': disableSaveBtn || isChildLoan }"
-                                (click)="softDeleteCollateral(i, item.collateralId, 'Collateral')"
-                                title="Delete collateral"><i class="fa fa-trash cursor-pointer"
-                                    aria-hidden="true"></i></a>
-                        </ng-container>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                            <ng-container *ngIf="isLoan360">
+                                <a (click)="roleType === 1 ? editVehicle(item.collateralId, item.eligibleLoanAmount) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
+                                    title="Edit collateral"><i class="fa fa-eye cursor-pointer"
+                                        aria-hidden="true"></i></a>
+                            </ng-container>
+
+                            <ng-container *ngIf="!isLoan360">
+                                <a (click)="roleType === 1 ? editVehicle(item.collateralId, item.eligibleLoanAmount) : onEditVehicleDetails(item.collateralId, item.eligibleLoanAmount)"
+                                    title="Edit collateral"><i class="fa fa-pencil cursor-pointer"
+                                        aria-hidden="true"></i></a>
+                                <a data-toggle="modal" data-target="#exampleModal"
+                                    [ngClass]="{'pointer_non': disableSaveBtn || isChildLoan }"
+                                    (click)="softDeleteCollateral(i, item.collateralId, 'Collateral')"
+                                    title="Delete collateral"><i class="fa fa-trash cursor-pointer"
+                                        aria-hidden="true"></i></a>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
     <!-- Additional Collateral -->
 
     <div style="margin-top: 15px;" *ngIf="roleType !== 1">
 
-        <div class="container controlWidth">
+        <div class="">
             <div class="btn-sec clear-both row">
                 <div class="col-sm-12 text-right">
-                    <button class="btn btn-color" type="button"
+                    <button class="btn btn-primary" type="button"
                         [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']"
                         [disabled]="disableSaveBtn">
                         {{label?.addAdditionalCollaterals}} </button>
@@ -131,8 +139,7 @@
         </div>
 
     </div>
-
-</div>
+</form>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

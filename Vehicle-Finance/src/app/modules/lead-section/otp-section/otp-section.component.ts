@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApplicantService } from '@services/applicant.service';
 import { ToasterService } from '@services/toaster.service';
 import { ApplicantDataStoreService } from '@services/applicant-data-store.service';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   selector: 'app-otp-section',
@@ -22,6 +23,11 @@ export class OtpSectionComponent implements OnInit {
   otp: number;
   applicantList: any;
 
+  // User defined Fields
+  udfScreenId: string = '';
+  udfGroupId: string = 'APG005';
+  isNavigateToApplicant: any;
+
   constructor(
     private _fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -30,7 +36,8 @@ export class OtpSectionComponent implements OnInit {
     private applicantService: ApplicantService,
     private router: Router,
     private toasterService: ToasterService,
-    private applicantDataService: ApplicantDataStoreService
+    private applicantDataService: ApplicantDataStoreService,
+    private labelsData: LabelsService,
   ) { }
 
   getLeadIdAndApplicantId() {
@@ -59,6 +66,12 @@ export class OtpSectionComponent implements OnInit {
         ]),
       ],
     });
+    this.isNavigateToApplicant=this.applicantDataService.getNavigateForDedupe();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.creditBureauOTPADE : udfScreenId.QDE.creditBureauOTPQDE
+    })
 
     this.applicantId = (await this.getLeadIdAndApplicantId()) as string;
     console.log(this.applicantId);
@@ -73,6 +86,8 @@ export class OtpSectionComponent implements OnInit {
 
 
     this.sendOtp();
+    
+
   }
 
   getLeadId() {
@@ -186,8 +201,8 @@ export class OtpSectionComponent implements OnInit {
   onBack() {
     const url = this.applicantDataService.getUrl()
     this.router.navigateByUrl(
-          `${url}`
-        );
+      `${url}`
+    );
     // if (!sales) {
     //   this.router.navigateByUrl(
     //     `/pages/lead-section/${this.leadId}/co-applicant/${this.applicantId}`

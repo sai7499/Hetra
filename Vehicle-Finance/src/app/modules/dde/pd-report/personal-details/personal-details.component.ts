@@ -92,7 +92,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.userId = roleAndUserDetails.userDetails.userId;
     let roleType = roleAndUserDetails.roles[0].roleType;
 
-    this.udfScreenId = roleType === 1 ? 'PDS001' : 'PDS005';
+    //this.udfScreenId = roleType === 1 ? 'PDS001' : 'PDS005';
 
     const leadData = this.createLeadDataService.getLeadSectionData();
 
@@ -107,6 +107,12 @@ export class PersonalDetailsComponent implements OnInit {
     });
 
     this.monthValidation = this.monthValiationCheck();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+
+      this.udfScreenId = roleType === 1 ? udfScreenId.PD.applicantDetailPD : udfScreenId.DDE.personalPDDDE;
+
+    })
   }
   async getLeadSectionData() { // fun to get all data related to a particular lead from create lead service
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
@@ -247,7 +253,7 @@ export class PersonalDetailsComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    console.log('PDlov',this.LOV);
+    console.log('PDlov', this.LOV);
     this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -282,6 +288,7 @@ export class PersonalDetailsComponent implements OnInit {
 
     this.personaldiscussion.getPdData(data).subscribe((value: any) => {
       if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
+
         this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ?
           value.ProcessVariables.applicantPersonalDiscussionDetails : {};
 
@@ -297,6 +304,10 @@ export class PersonalDetailsComponent implements OnInit {
 
         if (this.personalPDDetais.applicantName) {
           this.setFormValue(this.personalPDDetais);
+          if (this.personalPDDetais && this.personalPDDetais.maritalStatus) {
+            this.onValidateWeddingDate(this.personalPDDetais.maritalStatus)
+          }
+
           this.pdDataService.setCustomerProfile(this.personalPDDetais);
         } else if (!this.personalPDDetais.applicantName) {
 
@@ -411,13 +422,25 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onValidateWeddingDate(event) {
-    if (event.target.value === '2MRGSTS') {
+    if (event === '2MRGSTS') {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate');
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
     } else {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate')
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl({ value: '', disabled: true }));
     }
+    if (event === '1MRGSTS') {
+      this.personalDetailsForm.get('noOfChildrenDependant').clearValidators();
+      this.personalDetailsForm.get('noOfChildrenDependant').updateValueAndValidity();
+      const depValue = this.personalDetailsForm.get('noOfChildrenDependant').value;
+      this.personalDetailsForm.get('noOfChildrenDependant').setValue(depValue || null);
+
+    } else {
+      this.personalDetailsForm.get('noOfChildrenDependant').setValidators(Validators.required);
+      this.personalDetailsForm.get('noOfChildrenDependant').updateValueAndValidity();
+
+    }
+
   }
 
   getLeadId() {
@@ -469,7 +492,7 @@ export class PersonalDetailsComponent implements OnInit {
     formValue.noOfYearsResidingInCurrResidence = String((Number(formValue.noOfYears) * 12) + Number(formValue.noOfMonths)) || '';
 
     let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
-  
+
     if (this.personalDetailsForm.valid && isUdfField) {
 
       let data = {
@@ -494,7 +517,7 @@ export class PersonalDetailsComponent implements OnInit {
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
           this.personalPDDetais = value.ProcessVariables.applicantPersonalDiscussionDetails ? value.ProcessVariables.applicantPersonalDiscussionDetails : {};
           this.getLOV();
-          this.toasterService.showSuccess('Successfully Save Personal Details', 'Save/Update Personal Details');
+          this.toasterService.showSuccess('Record Saved Successfully', 'Save/Update Personal Details');
         } else {
           this.toasterService.showSuccess(value.ErrorMessage, 'Error Personal Details');
         }

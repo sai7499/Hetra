@@ -16,7 +16,7 @@ import { LoanViewService } from '@services/loan-view.service';
 })
 export class DdeComponent implements OnInit, OnChanges {
   locationIndex: number;
-  leadId: number;
+  leadId: string;
   show: number ;
   showNav: boolean = false;
   fiCumPdStatusString: any;
@@ -33,6 +33,7 @@ export class DdeComponent implements OnInit, OnChanges {
   productId: any;
   ShowChildValuationScreen: boolean;
   showValuationScreen: boolean;
+  tabName: any;
 
   constructor(
     public router: Router,
@@ -62,29 +63,33 @@ export class DdeComponent implements OnInit, OnChanges {
 
   async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
-    this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
-    if (this.fiCumPdStatusString == 'false') {
-      this.fiCumPdStatus = false;
-    } else if (this.fiCumPdStatusString == 'true') {
-      this.fiCumPdStatus = true;
-    }
+    // this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
+    // if (this.fiCumPdStatusString == 'false') {
+    //   this.fiCumPdStatus = false;
+    // } else if (this.fiCumPdStatusString == 'true') {
+    //   this.fiCumPdStatus = true;
+    // }
 
-    console.log('ficumpd status', this.fiCumPdStatus);
-
+    // console.log('ficumpd status', this.fiCumPdStatus);
+    this.tabName = this.sharedService.getTabName();
     if (this.leadId) {
       const gotLeadData = this.route.snapshot.data.leadData;
       if (gotLeadData.Error === '0') {
         const leadData = gotLeadData.ProcessVariables;
         console.log('LEAD_SECTION_DATA::', leadData);
-        this.productCatCode = leadData.leadDetails.productCatCode;
+        if(leadData.leadDetails){
+          this.productCatCode = leadData.leadDetails.productCatCode;
+        }
+        
         console.log('ProductCODE::', this.productCatCode);
         this.createLeadDataService.setLeadSectionData(leadData);
         this.leadStoreService.setLeadCreation(leadData);
-        this.isChildLoan = leadData.leadDetails.isChildLoan;
-        this.productId = leadData.leadDetails.productId;
-        console.log('child loan:', this.isChildLoan, 'product id:', this.productId);
+        if(leadData.leadDetails){
+          this.isChildLoan = leadData.leadDetails.isChildLoan;
+          this.productId = leadData.leadDetails.productId;
+        }
       }
-      if ((this.isChildLoan === '1') && ((this.productId === '1078') || (this.productId === '1078') || (this.productId === '1078'))) {
+      if ((this.isChildLoan === '1') && ((this.productId === '1078') || (this.productId === '1079') || (this.productId === '1080'))) {
         this.ShowChildValuationScreen = true;
       }
       if ((this.isChildLoan === '0') && (this.productCatCode !== 'NCV')) {
@@ -109,9 +114,9 @@ export class DdeComponent implements OnInit, OnChanges {
     this.locationIndex = this.getLocationIndex(currentUrl);
     this.location.onUrlChange((url: string) => {
       this.locationIndex = this.getLocationIndex(url);
-      if (this.locationIndex >= 19) {
+      if (this.locationIndex >= 20) {
         this.show = 3;
-      } else if (this.locationIndex >= 9) {
+      } else if (this.locationIndex >= 10) {
         this.show = 2;
       } else {
         this.show = 1;
@@ -132,7 +137,7 @@ export class DdeComponent implements OnInit, OnChanges {
       this.router.url.includes('/cheque-tracking') ||
       this.router.url.includes('/pdd-details') ||
       this.router.url.includes('/loan-status') ||
-      this.router.url.includes('/valuation-dashboard')
+      this.router.url.includes('/valuation-dashboard') 
 
     ) {
       this.showNav = false;
@@ -144,6 +149,8 @@ export class DdeComponent implements OnInit, OnChanges {
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
       this.showNav = true;
     }
+
+    console.log(this.productId, 'on change', this.isChildLoan);
 
   }
 
@@ -205,56 +212,56 @@ export class DdeComponent implements OnInit, OnChanges {
       return 1;
     } else if (url.includes('vehicle-list')) {
       return 2;
-    } else if (url.includes('reference')) {
+    } else if (url.includes('additional-collateral-list')) {
       return 3;
-    } else if (url.includes('fleet-details') || url.includes('track-vehicle')) {
+    } else if (url.includes('reference')) {
       return 4;
-    } else if (url.includes('exposure')) {
+    } else if (url.includes('fleet-details') || url.includes('track-vehicle')) {
       return 5;
-    } else if (url.includes('income-details')) {
+    } else if (url.includes('exposure')) {
       return 6;
-    } else if (url.includes('psl-data')) {
+    } else if (url.includes('income-details')) {
       return 7;
-    } else if (url.includes('vehicle-valuation')) {
+    } else if (url.includes('psl-data')) {
       return 8;
-    } else if (url.includes('tvr-details')) {
+    } else if (url.includes('vehicle-valuation')) {
       return 9;
-    } else if (url.includes('rcu')) {
+    } else if (url.includes('tvr-details')) {
       return 10;
-    } else if (url.includes('fi-list')) {
+    } else if (url.includes('rcu')) {
       return 11;
-    } else if (url.includes('pd-list')) {
+    } else if (url.includes('fi-list')) {
       return 12;
-    } else if (url.includes('viability')) {
+    } else if (url.includes('pd-list')) {
       return 13;
-    } else if (url.includes('viability-dashboard')) {
-      return 13;
-    } else if (url.includes('cibil-od')) {
+    } else if (url.includes('viability') || url.includes('viability-dashboard')) {
       return 14;
-    } else if (url.includes('score-card')) {
+    } else if (url.includes('cibil-od')) {
       return 15;
-    } else if (url.includes('insurance-details')) {
+    } else if (url.includes('score-card')) {
       return 16;
-    } else if (url.includes('cam')) {
+    } else if (url.includes('insurance-details')) {
       return 17;
-    } else if (url.includes('deviations')) {
+    } else if (url.includes('cam')) {
       return 18;
-    } else if (url.includes('disbursement')) {
+    } else if (url.includes('deviations')) {
       return 19;
-    } else if (url.includes('negotiation')) {
+    } else if (url.includes('disbursement')) {
       return 20;
-    } else if (url.includes('credit-conditions')) {
+    } else if (url.includes('negotiation')) {
       return 21;
-    } else if (url.includes('sanction-letter')) {
+    } else if (url.includes('credit-conditions')) {
       return 22;
-    } else if (url.includes('term-sheet')) {
+    } else if (url.includes('sanction-letter')) {
       return 23;
-    } else if (url.includes('welcome-letter')) {
+    } else if (url.includes('term-sheet')) {
       return 24;
-    } else if (url.includes('delivery-order')) {
+    } else if (url.includes('welcome-letter')) {
       return 25;
-    } else if (url.includes('pdd')) {
+    } else if (url.includes('delivery-order')) {
       return 26;
+    } else if (url.includes('pdd')) {
+      return 27;
     } else if (url.includes('loan-details')) {
       return -1;
     }

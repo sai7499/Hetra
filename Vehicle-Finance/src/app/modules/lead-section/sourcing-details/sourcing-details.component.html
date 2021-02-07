@@ -1,9 +1,11 @@
 <div class="content">
   <form class="multisteps-form__form" [formGroup]="sourcingDetailsForm" autocomplete="off">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
-     
+
       <div class="row">
-        <h3 class="banner-con">Lead Details ({{udfScreenId}}) </h3>
+        <h3 class="banner-con">{{labels.leadDetails}}
+          <span class="float-right">{{udfScreenId}}</span>
+        </h3>
       </div>
 
       <div class="row">
@@ -23,9 +25,12 @@
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_branch">{{ labels.applicationNo }}</label>
+          <label for="account_branch">{{ labels.applicationNo }}
+            <sub class="star_red_col" *ngIf="roleType !== 1">*</sub>
+          </label>
           <app-custom-input formControlName="applicationNo" [className]="'form-control mandatory'"
-            [placeholder]="'Application No.'" [isDirty]="isDirty" [type]="'number'" [maxLength]="applicationNoLength">
+            [placeholder]="'Application No.'" [isDirty]="isDirty" [type]="'number'" [maxLength]="applicationNoLength"
+            [isRequired]="roleType !== 1 ? 'Application No. is Required' : ''">
           </app-custom-input>
         </div>
 
@@ -107,7 +112,9 @@
               (selected)='selectSourcingEvent($event)' (inputChanged)='onSourcingCodeSearch($event)'
               (inputCleared)='onSourcingCodeClear($event)' [itemTemplate]="sourcingCodeTemplate"
               [notFoundTemplate]="notFoundTemplate" formControlName="sourcingCode"
-              [placeHolder]="sourcingCodePlaceholder" [debounceTime]="400" [disabled]="isSourchingCode">
+              [placeHolder]="sourcingCodePlaceholder" [debounceTime]="400" 
+              [disabled]="isSourchingCode"
+              [minQueryLength]="2">
             </ng-autocomplete>
             <div class="invalid-feedback" *ngIf="!isSourceCode">
               <div> Sourcing code required.</div>
@@ -130,8 +137,11 @@
             <ng-autocomplete [data]="dealerCodeData" [searchKeyword]="keyword"
               (inputChanged)="onDealerCodeSearch($event)" (inputCleared)="onDealerCodeClear($event)"
               (selected)="selectDealorEvent($event)" [itemTemplate]="dealerCodeTemplate"
-              [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" [placeHolder]="'Dealer Code'"
-              [debounceTime]="400" [disabled]="isDisabledDealerCode">
+              [notFoundTemplate]="notFoundTemplate" formControlName="dealerCode" 
+              [placeHolder]="'Dealer Code'"
+              [debounceTime]="400" 
+              [disabled]="isDisabledDealerCode"
+              [minQueryLength]="2">
             </ng-autocomplete>
             <div class="invalid-feedback">
               <div *ngIf="isDealerCode"> Dealer code required.</div>
@@ -155,14 +165,14 @@
       </div>
 
       <div class="row">
-        <h3 class="banner-con">Loan Details</h3>
+        <h3 class="banner-sub">Loan Details</h3>
       </div>
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_type">{{ labels.loanType }}</label>
           <sub class="star_red_col">*</sub>
-          <app-vf-custom-select [values]="LOV.LOVS.loanType" formControlName="loanType"
+          <app-vf-custom-select [values]="LOV.LOVS.defaultloanType" formControlName="loanType"
             (change)="onLoanTypeTypeChange($event)" [isRequired]="'Loan Type required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
@@ -187,7 +197,7 @@
 
       <div *ngIf="isChildLoan !== '0'">
         <div class="row">
-          <h3 class="banner-con">Parent Loan Details</h3>
+          <h3 class="banner-sub">Parent Loan Details</h3>
         </div>
         <div class="row">
           <div class="form-group col-sm-6 col-md-4 col-lg-3">

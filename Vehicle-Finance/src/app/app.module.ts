@@ -56,6 +56,7 @@ import { LettersOnlyDirective } from './services/directives/letters-only.directi
 import { CanActivateService } from '@services/can-activate.service';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 import { ChildLoanModule } from '@modules/child-loan/child-loan.module';
+import { ChildLeadModule } from '@modules/child-lead/child-lead.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CameraPreview } from '@ionic-native/camera-preview/ngx';
 import { QueryDataResolverService } from '@modules/lead-section/services/queryDataResolver.service';
@@ -69,12 +70,15 @@ setTheme('bs4');
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: 'red',
   fgsColor: '#fa6745',
+  fgsSize:80,
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 100,
-  bgsType: SPINNER.cubeGrid, // background spinner type
-  fgsType: SPINNER.cubeGrid, // foreground spinner type
+  bgsType: SPINNER.ballSpinClockwise, // background spinner type
+  fgsType: SPINNER.ballSpinClockwise, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
   pbThickness: 5, // progress bar thickness
+  overlayColor: "rgba(238,237,235,0.86)",
+  
 };
 
 @NgModule({
@@ -108,6 +112,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     // DateInputsModule,
     DatePickerModule,
     ChildLoanModule,
+    ChildLeadModule,
     WindowModule
   ],
   providers: [

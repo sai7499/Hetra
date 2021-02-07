@@ -1,10 +1,12 @@
 <div class="content">
   <form class="multisteps-form__form" [formGroup]="basicForm">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn" id="form-class">
-
+    <div class="row">
       <h3 class="banner-con">
-        Basic Applicant Details ({{udfScreenId}})
-      </h3>
+        Basic Applicant Details
+        <span class="float-right">{{udfScreenId}}</span>
+      </h3>  
+    </div>    
 
       <div class="btn-sec clear-both row">
         <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -44,8 +46,8 @@
                             <option value="Co-applicant"> Co-applicant </option>
                             <option value="Guarantor"> Guarantor </option>
                         </select> -->
-          <app-vf-custom-select formControlName="applicantRelationship" [values]="LOV?.LOVS?.relationship"
-            (change)="selectApplicantType($event)" [isRequired]="'Please select one'" [isDirty]="isDirty">
+          <app-vf-custom-select formControlName="applicantRelationship" [values]="relationShipLov"
+             [isRequired]="'Please select one'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -88,7 +90,9 @@
                 
               /> -->
               <app-custom-input formControlName="name1" [maxLength]="validationData?.name?.maxLength"
-                [type]="validationData?.name?.type"></app-custom-input>
+                [type]="validationData?.nameWithoutSpace?.type"
+                [isRequired]="'First name is required'" 
+                [isDirty]="isDirty"></app-custom-input>
               <!-- [isRequired]="'First Name is required'"
                 [isDirty]="isDirty" -->
             </div>
@@ -102,7 +106,7 @@
                 
               /> -->
               <app-custom-input formControlName="name2" [maxLength]="validationData?.name?.maxLength"
-                [type]="validationData?.name?.type"></app-custom-input>
+                [type]="validationData?.nameWithoutSpace?.type"></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="name">{{ labels?.lastName }} <sub class="star_red_col">*</sub></label>
@@ -114,7 +118,9 @@
                 
               /> -->
               <app-custom-input formControlName="name3" [maxLength]="validationData?.name?.maxLength"
-                [type]="validationData?.name?.type"></app-custom-input>
+                [type]="validationData?.nameWithoutSpace?.type"
+                [isRequired]="islastNameReq? 'Last name is required' : ''" 
+                [isDirty]="isDirty"></app-custom-input>
               <!-- [isRequired]="'Last Name is required'"
                 [isDirty]="isDirty" -->
             </div>
@@ -318,7 +324,7 @@
                 name="email_id"
                 formControlName="emailId"
               /> -->
-              <app-custom-input formControlName="emailId" [patternCheck]="emailPattern"
+              <app-custom-input formControlName="emailId" [patternCheck]="validationData?.emailPattern?.patternCheck"
                 [maxLength]="validationData?.emailPattern?.maxLength"></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -332,7 +338,7 @@
                 name="alternate_email_id"
                 formControlName="alternateEmailId"
               /> -->
-              <app-custom-input formControlName="alternateEmailId" [patternCheck]="emailPattern"
+              <app-custom-input formControlName="alternateEmailId" [patternCheck]="validationData?.emailPattern?.patternCheck"
                 [maxLength]="validationData?.emailPattern?.maxLength"></app-custom-input>
             </div>
           </div>
@@ -641,11 +647,12 @@
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="no_of_children_dependant">{{labels?.noOfChildrenDependant}}
-                <sub class="star_red_col">*</sub></label>
+                <sub *ngIf="details.get('maritalStatus').value !== '1MRGSTS'" class="star_red_col">*</sub></label>
               <app-custom-input formControlName="noOfChildrenDependant"
                 [maxLength]="validationData?.noOfChildrenDependant?.maxLength"
                 [type]="validationData?.noOfChildrenDependant?.type"
-                [isRequired]="'No of Children Dependant is required'" [isDirty]="isDirty"></app-custom-input>
+                [isRequired]="details.get('maritalStatus').value !== '1MRGSTS' ?'No of Children Dependant is required' : ''" 
+                [isDirty]="details.get('maritalStatus').value !== '1MRGSTS' ?isDirty : ''"></app-custom-input>
             </div>
 
           </div>
@@ -676,22 +683,19 @@
           <div class="row">
             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
 
-              <label for="recommendations">{{ labels?.recommendations }}
+              <label for="recommendations">Sales Recommendations
               </label>
               <textarea class="form-control" id="recommendations" cols="1" rows="3" placeholder="Recommendations"
-                formControlName="recommendations" maxlength="4000" style="resize: none;"></textarea>
+                formControlName="recommendations" maxlength="4000" style="resize: none;" disabled></textarea>
 
             </div>
           </div>
-
-          <div class="row" *ngIf="custCatValue=='SALCUSTSEG'">
-
+          <div class="row" *ngIf="custCatValue ==='SALCUSTSEG'">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12" id="align_this_checkbox">
               <input type="checkbox" id="" (click)="isRelativeEquitas($event)" [checked]="checkedRelativeEquitas=='1'"
                 formControlName="isEquitasEmployeeRelative" class="senior_minor" />
               <span class="is_senior">{{labels?.equitasEmployeesRelative}}</span>
             </div>
-
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12" id="align_this_checkbox">
               <!-- {{disableEquitasEmployee}} -->
               <input type="checkbox" id="" (click)="isEquitasEmployee($event)" [checked]="checkedEquitasEmployee=='1'"
@@ -709,181 +713,104 @@
 
             </div>
           </div>
-
-
-          <div *ngIf="custCatValue=='SALCUSTSEG'">
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="designation">{{ labels?.designation }}
-                  <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select formControlName="designation" [values]="LOV.LOVS.designation"
-                  [isRequired]="'Please Select One'" [isDirty]="isDirty"></app-vf-custom-select>
-              </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="office_name">{{ labels?.officeName }}
-                  <sub class="star_red_col">*</sub></label>
-                <app-custom-input formControlName="employerName" [maxLength]="validationData?.name?.maxLength"
-                  [isRequired]="'Office Name is Required'" [isDirty]="isDirty"></app-custom-input>
-                <!-- [patternCheck]="nameSpacePattern" -->
-              </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3 pad-zero">
-
-
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                  <label for="yr_curr_employment">{{ labels?.noOfyearsInCurrEmployment }}
-                  </label>
-                </div>
-
-                <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                  <label for="no_of_year">Years
+          <div class="row" *ngIf="custCatValue !=='SALCUSTSEG'">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12" id="align_this_checkbox">
+              <input type="checkbox" id="" (click)="isRelativeEquitas($event)" [checked]="checkedRelativeEquitas=='1'"
+                formControlName="isEquitasEmployeeRelative" class="senior_minor" />
+              <span class="is_senior">{{labels?.equitasEmployeesRelative}}</span>
+            </div>
+          </div>
+          
+          
+          <div class="row" *ngIf="custCatValue=='SALCUSTSEG'">
+            <h3 class="banner-sub">Employement Details</h3>
+          </div>
+          <div *ngIf="custCatValue=='SALCUSTSEG'">  
+            <div >
+              <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                  <label for="designation">{{ labels?.designation }}
                     <sub class="star_red_col">*</sub></label>
-                  <app-custom-input formControlName="noOfYearsCurrEmp" [id]="'no_of_emp_year'"
-                    [type]="labels.validationData?.yearsOfMonths.type"
-                    [maxLength]="labels.validationData?.yearsOfMonths.maxLength"
-                    [isRequired]="'No. of Years is Required'" [placeholder]="'No of Years'" [custom]="yearValidation"
-                    [isDirty]="isDirty">
+                  <app-vf-custom-select formControlName="designation" [values]="LOV.LOVS.designation"
+                    [isRequired]="'Please Select One'" [isDirty]="isDirty"></app-vf-custom-select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                  <label for="office_name">{{ labels?.officeName }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="employerName" [maxLength]="validationData?.name?.maxLength"
+                    [isRequired]="'Office Name is Required'" [isDirty]="isDirty"></app-custom-input>
+                  <!-- [patternCheck]="nameSpacePattern" -->
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3 pad-zero">
+  
+  
+                  <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                    <label for="yr_curr_employment">{{ labels?.noOfyearsInCurrEmployment }}
+                    </label>
+                  </div>
+  
+                  <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                    <label for="no_of_year">Years
+                      <sub class="star_red_col">*</sub></label>
+                    <app-custom-input formControlName="noOfYearsCurrEmp" [id]="'no_of_emp_year'"
+                      [type]="labels.validationData?.yearsOfMonths.type"
+                      [maxLength]="labels.validationData?.yearsOfMonths.maxLength"
+                      [isRequired]="'No. of Years is Required'" [placeholder]="'No of Years'" [custom]="yearValidation"
+                      [isDirty]="isDirty">
+                    </app-custom-input>
+                  </div>
+                  <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                    <label for="no_of_month">Months
+                      <sub class="star_red_col">*</sub></label>
+                    <app-custom-input formControlName="noOfMonthsCurrEmp" [isRequired]="'No. of Months is Required'"
+                      [id]="'no_of_emp_month'" [type]="labels.validationData?.yearsOfMonths.type"
+                      [maxLength]="labels.validationData?.yearsOfMonths.maxLength" [placeholder]="'No of Months'"
+                      [custom]="monthValidation" [isDirty]="isDirty">
+                    </app-custom-input>
+                  </div>
+  
+  
+                  <!-- <label for="yr_curr_employment"
+                  >{{ labels?.noOfyearsInCurrEmployment }}
+                  <sub class="star_red_col">*</sub></label
+                >
+               
+                <app-custom-input
+                  formControlName="currentEmpYears"
+                  [maxLength]="validationData?.numberOfYears?.maxLength"
+                  [isRequired]="'Employeement Year is required'"
+                  [isDirty]="isDirty"
+                  [type]="validationData?.numberOfYears?.type"
+                ></app-custom-input> -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                  <label for="employee_code">{{ labels?.employeeCode }}
+                    <sub class="star_red_col">*</sub></label>
+  
+                  <app-custom-input formControlName="employeeCode" [isRequired]="'Employee Code is required'"
+                    [isDirty]="isDirty" [inputClass]="'text-uppercase'"
+                    [maxLength]="validationData?.employeeCode?.maxLength" [type]="validationData?.employeeCode?.type">
                   </app-custom-input>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                  <label for="no_of_month">Months
+                <div class="form-group col-sm-6 col-md-4 col-lg-3">
+                  <label for="employee_type">{{ labels?.employeeType }}
                     <sub class="star_red_col">*</sub></label>
-                  <app-custom-input formControlName="noOfMonthsCurrEmp" [isRequired]="'No. of Months is Required'"
-                    [id]="'no_of_emp_month'" [type]="labels.validationData?.yearsOfMonths.type"
-                    [maxLength]="labels.validationData?.yearsOfMonths.maxLength" [placeholder]="'No of Months'"
-                    [custom]="monthValidation" [isDirty]="isDirty">
-                  </app-custom-input>
+                  <!-- <select class="form-control" id="employee_type" name="employee_type">
+                              <option value="">Select</option>
+                          </select> -->
+                  <app-vf-custom-select formControlName="employerType" [values]="LOV.LOVS.applicantEmployerTpe"
+                    [isRequired]="'Please Select One'" [isDirty]="isDirty"></app-vf-custom-select>
                 </div>
-
-
-                <!-- <label for="yr_curr_employment"
-                >{{ labels?.noOfyearsInCurrEmployment }}
-                <sub class="star_red_col">*</sub></label
-              >
-             
-              <app-custom-input
-                formControlName="currentEmpYears"
-                [maxLength]="validationData?.numberOfYears?.maxLength"
-                [isRequired]="'Employeement Year is required'"
-                [isDirty]="isDirty"
-                [type]="validationData?.numberOfYears?.type"
-              ></app-custom-input> -->
               </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="employee_code">{{ labels?.employeeCode }}
-                  <sub class="star_red_col">*</sub></label>
+  
+              </div>
+          </div >
 
-                <app-custom-input formControlName="employeeCode" [isRequired]="'Employee Code is required'"
-                  [isDirty]="isDirty" [inputClass]="'text-uppercase'"
-                  [maxLength]="validationData?.employeeCode?.maxLength" [type]="validationData?.employeeCode?.type">
-                </app-custom-input>
-              </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                <label for="employee_type">{{ labels?.employeeType }}
-                  <sub class="star_red_col">*</sub></label>
-                <!-- <select class="form-control" id="employee_type" name="employee_type">
-                            <option value="">Select</option>
-                        </select> -->
-                <app-vf-custom-select formControlName="employerType" [values]="LOV.LOVS.applicantEmployerTpe"
-                  [isRequired]="'Please Select One'" [isDirty]="isDirty"></app-vf-custom-select>
-              </div>
-            </div>
-
-            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="department">{{ labels?.department }}</label>
-             
-              <app-vf-custom-select
-                formControlName="department"
-                [values]=""
-              ></app-vf-custom-select>
-            </div> -->
-            <!-- <div
-              class="form-group col-sm-6 col-md-4 col-lg-3"
-              id="type_of_business_div"
-              *ngIf="isSelfEmployed"
-            >
-              <label for="type_of_business">{{ labels?.typeOfBusiness }}</label>
-              <select class="form-control" id="type_of_business" name="type_of_business" required="required">
-                            <option value="">Select</option>
-                        </select>
-              <app-vf-custom-select
-                formControlName="businessType"
-              ></app-vf-custom-select>
-            </div>
-            <div
-              class="form-group col-sm-6 col-md-4 col-lg-3"
-              id="business_name_div"
-              *ngIf="isSelfEmployed"
-            >
-              <label for="business_name">{{ labels?.businessName }}</label>
-              <input
-                formControlName="businessName"
-                type="text"
-                class="form-control"
-                name="business_name"
-                id="business_name"
-                required="required"
-              />
-            </div>
-            <div
-              class="form-group col-sm-6 col-md-4 col-lg-3"
-              id="business_start_date_div"
-              *ngIf="isSelfEmployed"
-            >
-              <label for="business_start_date">{{
-                labels?.businessStartDate
-              }}</label>
-              <div class="input-group input-medium" id="datetimepicker6">
-                <span class="input-group-btn">
-                  <button class="btn btn-default">
-                    <i class="fa fa-calendar"></i>
-                  </button>
-                </span>
-                <input
-                  formControlName="businessStartDate"
-                  type="text"
-                  class="form-control"
-                  id="business_start_date"
-                  name="business_start_date"
-                />
-              </div>
-            </div> -->
-            <!-- <div
-              class="form-group col-sm-6 col-md-4 col-lg-3"
-              id="yrs_current_business_div"
-              *ngIf="isSelfEmployed"
-            >
-              <label for="yrs_current_business">{{
-                labels?.numberOfYearsInCurrentBusiness
-              }}</label>
-              <input
-                formControlName="currentBusinessYear"
-                type="text"
-                class="form-control"
-                name="yrs_current_business"
-                id="yrs_current_business"
-                required="required"
-              />
-            </div>
-            <div
-              class="form-group col-sm-6 col-md-4 col-lg-3"
-              id="turn_over_div"
-              *ngIf="isSelfEmployed"
-            >
-              <label for="turn_over">{{ labels?.turnOver }}</label>
-              <input
-                formControlName="turnOver"
-                type="text"
-                class="form-control"
-                name="turn_over"
-                id="turn_over"
-              />
-            </div> -->
-            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3" id="annual_income_div" style="display: none;" *ngIf="isSelfEmployed">
-                        <label for="annual_income">{{labels?.annualIncome}}</label>
-                        <input formControlName="name" type="text" class="form-control" name="annual_income" id="annual_income">
-                    </div> -->
+          <div class="row" *ngIf="custCatValue=='SEMCUSTSEG' || custCatValue=='FTBCUSTSEG'
+          || custCatValue=='FTUCUSTSEG' || custCatValue=='TROPCUSTSEG'">
+            <h3 class="banner-sub">Business Details</h3>
           </div>
           <div *ngIf="custCatValue=='SEMCUSTSEG' || custCatValue=='FTBCUSTSEG'
            || custCatValue=='FTUCUSTSEG' || custCatValue=='TROPCUSTSEG'">
@@ -970,7 +897,7 @@
 
 
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div class="form-group col-sm-6 col-md-4 col-lg-3" style="margin-top: 23px;">
                 <label for="employee_code">Turn Over
                   <sub class="star_red_col">*</sub></label>
 
@@ -1125,14 +1052,14 @@
           <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="Lead Created">{{ labels?.emailID }}</label>
-              <app-custom-input formControlName="companyEmailId" [patternCheck]="emailPattern"
+              <app-custom-input formControlName="companyEmailId" [patternCheck]="validationData?.emailPattern?.patternCheck"
                 [maxLength]="validationData?.emailPattern?.maxLength"></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="Lead Created By">{{
                 labels?.alternateEmailID
                 }}</label>
-              <app-custom-input formControlName="alternateEmailId" [patternCheck]="emailPattern"
+              <app-custom-input formControlName="alternateEmailId" [patternCheck]="validationData?.emailPattern?.patternCheck"
                 [maxLength]="validationData?.emailPattern?.maxLength"></app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -1484,23 +1411,23 @@
       </ng-container>
       <!-- Non-Individual Section End-->
     </div>
+    <div class="btn-sec clear-both row cst_btm_btns ">
+      <div class="col-sm-5">
+        <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBackToApplicant()">
+          Back To Applicant Details
+        </button>
+      </div>
+      <div class="col-sm-7 text-right">
+        <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
+          Back
+        </button>
+        <button class="btn btn-primary" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save</button>
+        <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" (click)="onNext()">
+          Next
+        </button>
+      </div>
+    </div>
   </form>
   <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
     [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-</div>
-<div class="btn-sec clear-both row cst_btm_btns mar-btn-bot">
-  <div class="col-sm-5">
-    <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBackToApplicant()">
-      Back To Applicant Details
-    </button>
-  </div>
-  <div class="col-sm-7 text-right">
-    <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" (click)="onBack()">
-      Back
-    </button>
-    <button class="btn btn-primary" (click)="onSubmit()" *ngIf="!disableSaveBtn">Save</button>
-    <button class="btn btn-primary dash_href hvr-sweep-to-right" type="button" (click)="onNext()">
-      Next
-    </button>
-  </div>
 </div>

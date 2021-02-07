@@ -6,6 +6,7 @@ import { PersonalDiscussionService } from '@services/personal-discussion.service
 import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 @Component({
   selector: 'app-income-details',
   templateUrl: './income-details.component.html',
@@ -36,9 +37,13 @@ export class IncomeDetailsComponent implements OnInit {
   userDefineForm: any;
   udfGroupId: string = 'PDG001';
 
+  applicantDetails: any = [];
+  applicant: any;
+
   constructor(private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private createLeadDataService: CreateLeadDataService,
     private toasterService: ToasterService,
     private loginStoreService: LoginStoreService,
     private formBuilder: FormBuilder,
@@ -50,6 +55,9 @@ export class IncomeDetailsComponent implements OnInit {
     this.initForm();
     this.leadId = (await this.getLeadId()) as number;
 
+    const leadData = this.createLeadDataService.getLeadSectionData();
+    this.applicantDetails = leadData['applicantDetails'];
+
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
@@ -57,7 +65,7 @@ export class IncomeDetailsComponent implements OnInit {
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
 
-    this.udfScreenId = this.roleType === 1 ? 'PDS002' : 'PDS006';
+    //this.udfScreenId = this.roleType === 1 ? 'PDS002' : 'PDS006';
 
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
@@ -68,6 +76,28 @@ export class IncomeDetailsComponent implements OnInit {
     });
     this.getLOV();
     this.getIncomeDetails();
+    this.labelsData.getScreenId().subscribe((data) => {
+      let udfScreenId = data.ScreenIDS;
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.PD.applicantIncomePD : udfScreenId.DDE.incomePDDDE;
+    })
+
+    if (this.applicantDetails && this.applicantDetails.length > 0) {
+      this.applicantDetails.filter((applicant) => {
+        if (applicant.applicantId === this.applicantId) {
+          this.applicant = applicant;
+          if (applicant.entityTypeKey !== 'INDIVENTTYP') {
+            this.incomeDetailsForm.get('grossSalary').clearValidators()
+            this.incomeDetailsForm.get('grossSalary').updateValueAndValidity()
+            this.incomeDetailsForm.get('netSalary').clearValidators()
+            this.incomeDetailsForm.get('netSalary').updateValueAndValidity()
+            this.incomeDetailsForm.get('individualIncome').clearValidators()
+            this.incomeDetailsForm.get('individualIncome').updateValueAndValidity()
+          }
+        }
+      })
+    }
+
+
   }
 
   getLabels() {
@@ -149,12 +179,12 @@ export class IncomeDetailsComponent implements OnInit {
       cashBankBalance: new FormControl('', Validators.required),
       monthlyInflow: new FormControl('', Validators.required),
       monthlyOutflow: new FormControl('', Validators.required),
-      ccHolderFirstName: new FormControl('', Validators.required),
+      ccHolderFirstName: new FormControl(''),
       ccHolderSecondName: new FormControl(''),
-      ccHolderThirdName: new FormControl('', Validators.required),
+      ccHolderThirdName: new FormControl(''),
       ccHolderFullName: new FormControl({ value: '', disabled: true }),
-      ccIssuedBy: new FormControl('', Validators.required),
-      ccLimit: new FormControl('', Validators.required)
+      ccIssuedBy: new FormControl(''),
+      ccLimit: new FormControl('')
     });
   }
 

@@ -21,7 +21,7 @@ import { LoanViewService } from '@services/loan-view.service';
 export class LeadSectionHeaderComponent implements OnInit {
   labels: any = {};
   userName: string;
-  leadId: number;
+  leadId: string;
   productId: any;
   productIdFromLead: any;
   applicantName: string;
@@ -125,6 +125,9 @@ export class LeadSectionHeaderComponent implements OnInit {
   getUserDetails() {
     const data = this.createLeadDataService.getLeadSectionData();
     const leadSectionData = data as any;
+    if(!leadSectionData.leadDetails){
+      return;
+    }
     // console.log('leadSectionData', leadSectionData);
     this.leadId = leadSectionData.leadId;
     // this.loanAmount = leadSectionData.leadDetails?.reqLoanAmt;
@@ -143,7 +146,7 @@ export class LeadSectionHeaderComponent implements OnInit {
 
     this.isBeforeEligibility = leadSectionData.leadDetails.stage !== '10';
 
-    this.stageDescription = leadSectionData.leadDetails.stageDesc;
+    this.stageDescription = (leadSectionData.leadDetails.stageDesc).toString().trim();
 
     this.sharedService.leadData$.subscribe((value) => {
       this.productId = value;
@@ -158,6 +161,14 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
       ? Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
       : '0';
+      
+      
+      if(this.isLoan360){
+        const loanAccountDetails = this.loanViewService.getLoanAccountDetails();
+        console.log('loanAccountDetails', loanAccountDetails)
+        const disburseAmnt = loanAccountDetails ? loanAccountDetails.totalLoanAmount : ''
+        this.loanAmount = disburseAmnt || this.loanAmount;
+      }
   }
   getLeadId() {
     return new Promise((resolve, reject) => {

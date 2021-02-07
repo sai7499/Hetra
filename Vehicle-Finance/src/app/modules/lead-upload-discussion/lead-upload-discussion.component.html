@@ -4,7 +4,7 @@
   [ngClass]="{ 'dis-block': showUpload }"
 >
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" style="height:500px;">
       <!-- Modal Header -->
       <div class="modal-header text-center">
         <!-- <h4 class="modal-title">Customer Dedupe Match Found</h4> -->
@@ -14,10 +14,10 @@
       <!-- Modal body -->
       <div class="modal-body">
         <form action="" method="POST">
-            <div class="table-responsive tab-content">
+            <div class="table-responsive tab-content tab-hgt" >
               <!-- <p id="probale_title4">Probable Matches</p> -->
       
-              <table class="table" id="exact_macth_title4_sec">
+              <table class="table" id="exact_macth_title4_sec" >
                 <thead>
                   <tr class="table-head-bg">
                     <td>Product Category</td>
@@ -39,12 +39,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of details">
+                  <tr *ngFor="let data of details | paginate: { itemsPerPage: itemsPerPage,currentPage: q }">
                     <td>{{data.productCategory}}</td>
                     <td>{{data.product}}</td>
-                    <td>{{data.sourcingChannel}}</td>
-                    <td>{{data.sourcingType}}</td>
-                    <td>{{data.sourcingCode}}</td>
+                    <td>{{data.sourcingChannelDesc}}</td>
+                    <td>{{data.sourcingTypeDesc}}</td>
+                    <td>{{data.sourcingCodeDesc}}</td>
                     <td>{{data.appFirstName}}</td>
                     <td>{{data.appLastName}}</td>
                     <td>{{data.appPhoneNumber}}</td>
@@ -61,9 +61,31 @@
               </table>
             </div>
           </form>
+          <div class="row">
+            <div class="records col-xs-6 col-sm-4 col-md-6">
+      
+                <div class="col-6"><label>No. of Rows </label>
+                  <!-- (change)="setPage($event)" -->
+                    <select class="form-control  input-sm"  [(ngModel)]="itemsPerPage">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option class="disable" value="25">25</option>
+                    <option class="disable" value="50">50</option>
+                </select>
+                </div>
+      
+            </div>
+            <!-- <div class="col-xs-3 col-sm-4 col-md-6"> -->
+              <nav class="text-right margin-18">
+                <!-- (pageChange)="setPage($event)" -->
+                  <pagination-controls previousLabel="" nextLabel=""  (pageChange)="q = $event"></pagination-controls>
+              </nav>
+          <!-- </div> -->
+        </div>
       </div>
 
       <!-- Modal footer -->
+      
       <div class="modal-footer text-center">
         <button
         type="button"

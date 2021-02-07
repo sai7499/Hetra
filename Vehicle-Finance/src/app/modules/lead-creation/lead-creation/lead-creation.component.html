@@ -1,10 +1,12 @@
 <main class="mar-top90">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-6">
-        <h3 class="margin_zero">{{ labels.leadCreationTitle }}</h3>
+      <div class="col-12 side-pad">
+        <h3 class="banner-con">{{ labels.leadCreationTitle }}
+          <span class="float-right">{{udfScreenId}}</span>
+        </h3>
       </div>
-      <div class="col-md-6 text-right"></div>
+      <!-- <div class="col-md-6 text-right"></div> -->
     </div>
 
     <div class="content">
@@ -353,15 +355,15 @@
             </app-custom-input>
           </div>
 
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="dob" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.dateOfBirth }}
+          <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+            <label for="dob" class="kento-date" *ngIf="applicantType == 'INDIVENTTYP'">{{ labels.dateOfBirth }}
               <sub class="star_red_col">*</sub>
             </label>
-            <label for="dob" *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.dateOfIncorporation }}
+            <label for="dob" class="kento-date"  *ngIf="applicantType == 'NONINDIVENTTYP'">{{ labels.dateOfIncorporation }}
               <sub class="star_red_col">*</sub>
             </label>
 
-            <kendo-datepicker class="form-control mandatory" 
+            <kendo-datepicker class="form-control mandatory " 
               formControlName="dateOfBirth" 
               [disabled]="isFromChild"
               [format]="'dd/MM/yyyy'"

@@ -1,0 +1,116 @@
+<div class="content">
+    <form class="multisteps-form__panel js-active" data-animation="scaleIn">
+
+        <div class="row">
+            <div class="">
+                <h4 class="banner-con">Additional Collateral Details
+                    <span class="float-right">{{udfScreenId}}</span>
+                </h4>
+                <div class="col-sm-12 col-lg-12  ">
+
+                </div>
+            </div>
+            <div class="">
+                <div class="btn-sec clear-both row">
+                    <div class="col-sm-12 text-right">
+                        <button class="btn btn-primary" type="button"
+                            [routerLink]="['/pages/vehicle-details/' + leadId + '/additional-collateral-details']"
+                            [disabled]="disableSaveBtn">
+                            {{label?.addAdditionalCollaterals}} </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wrapper">
+                <table id="add_vhd_table">
+                    <thead>
+                        <tr class=" table-head-bg ">
+                            <th>{{label?.collateralType}}</th>
+                            <th>{{label?.ownerName}}</th>
+                            <th>{{label?.relationWithLead}}</th>
+                            <th>{{label?.relationWithApplicantStatus}}</th>
+                            <th>{{label?.value}}</th>
+                            <th>{{label?.action}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="add_vhd_tabletr" *ngFor="let obj of collateralArray; let i = index">
+                            <td [attr.data-label]="label?.collateralType" data-title="Collateral Type">
+                                {{obj.collateralType}}
+                            </td>
+                            <td [attr.data-label]="label?.ownerName" data-title="Owner Name">
+                                {{obj.ownerName}}
+                            </td>
+                            <td [attr.data-label]="label?.applicantType" data-title="Applicant Type">
+                                {{obj.applicantType}}
+                            </td>
+                            <td [attr.data-label]="label?.relationshipWithApplicant" data-title="Relationship Type">
+                                {{obj.relationship}}
+                            </td>
+                            <td [attr.data-label]="label?.value" data-title="Value">
+                                {{obj.value}}
+                            </td>
+                            <td [attr.data-label]="label?.action" data-title="Action">
+
+                                <ng-container *ngIf="isLoan360">
+                                    <a title="Edit collateral" (click)="editCollateralDetails(obj.collateralId)"><i
+                                            class="fa fa-eye cursor-pointer" aria-hidden="true"></i></a>
+                                </ng-container>
+
+                                <ng-container *ngIf="!isLoan360">
+                                    <a title="Edit collateral" (click)="editCollateralDetails(obj.collateralId)"><i
+                                            class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
+                                    <a data-toggle="modal" data-target="#exampleModal"
+                                        [ngClass]="{'pointer_non': disableSaveBtn }"
+                                        (click)="softDeleteCollateral(i, obj.collateralId, 'Additional Collateral')"
+                                        title="Delete collateral"><i class="fa fa-trash cursor-pointer"
+                                            aria-hidden="true"></i></a>
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn" id="clickButton">
+            <div class="col-sm-4"> </div>
+            <div class="col-sm-8 text-right ">
+                <button class="btn btn-primary hvr-sweep-to-left" type="button"
+                    [routerLink]="['../vehicle-list']">{{label.back}}</button>
+                <button class="btn btn-primary hvr-sweep-to-right" type="button"
+                    (click)="onNext()">{{label.next}}</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Collateral
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete {{ isCollateralSrting }}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="DeleteVehicleDetails()">
+                    Yes
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
