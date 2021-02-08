@@ -281,9 +281,12 @@
                                     <kendo-datepicker class=" form-control mandatory" formControlName="dob"
                                         [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Date of birth"
                                         [activeView]="'decade'"></kendo-datepicker>
-                                    <div *ngIf="isDirty || teleVerificationForm.get('dob').touched">
-                                        <div style="color:red" *ngIf="teleVerificationForm.get('dob').errors?.required">
+                                    <div class="invalid-feedback" *ngIf="isDirty || teleVerificationForm.get('dob').touched">
+                                        <div *ngIf="teleVerificationForm.get('dob').errors?.required">
                                             Date is mandatory
+                                        </div>
+                                        <div *ngIf="teleVerificationForm.get('dob').invalid && teleVerificationForm.get('dob').value">
+                                            Invalid date
                                         </div>
                                     </div>
                                 </div>
