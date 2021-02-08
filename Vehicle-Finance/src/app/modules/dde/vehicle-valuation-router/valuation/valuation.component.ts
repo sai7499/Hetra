@@ -1323,7 +1323,7 @@ console.log(insuranceValidUpto.getFullYear());
       inspectedBy: this.vehicleValuationDetails.inspectedBy || '',
       inspectionDate: this.vehicleValuationDetails.inspectionDate ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.inspectionDate) : '',
-      timeOfInspection: this.vehicleValuationDetails.timeOfInspection || '',
+       timeOfInspection: this.vehicleValuationDetails.timeOfInspection || this.presentTime,
       engineStarted: this.vehicleValuationDetails.engineStarted || '',
       vehicleMoved: this.vehicleValuationDetails.vehicleMoved || '',
       
