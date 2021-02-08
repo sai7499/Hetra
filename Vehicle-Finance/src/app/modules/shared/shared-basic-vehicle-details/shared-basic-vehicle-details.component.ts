@@ -275,7 +275,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onGetDateValue(event, isVehicleGrid?: string) {
 
-    if (!(event > this.maxDate && event < this.minDate)) {
+    if (event && !(event > this.maxDate && event < this.minDate)) {
       const formArray = (this.basicVehicleForm.get('vehicleFormArray') as FormArray);
 
       let ageOfAssetYear = this.utilityService.ageOfAssetYear(event)['_data'];
@@ -445,13 +445,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
                   let addressDetail = this.leadSectionData.addressDetails[0];
 
-                  let addressLineTwo, addressLineThree = '';
+                  let addressLineTwo = '';
+                  let addressLineThree = '';
 
-                  if (addressDetail.addressLineTwo !== undefined && addressDetail.addressLineTwo !== null) {
+                  if (addressDetail.addressLineTwo) {
                     addressLineTwo = addressDetail.addressLineTwo
                   }
 
-                  if (addressDetail.addressLineThree !== undefined && addressDetail.addressLineThree !== null) {
+                  if (addressDetail.addressLineThree) {
                     addressLineThree = addressDetail.addressLineThree
                   }
 
@@ -587,7 +588,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     formArray.controls[0].patchValue({
       accidentDate: VehicleDetail.accidentDate ? this.utilityService.getDateFromString(VehicleDetail.accidentDate) : '',
       accidentType: VehicleDetail.accidentType || null,
-      ageOfAsset: VehicleDetail.ageOfAsset || null,
+      ageOfAsset: VehicleDetail.ageOfAsset || '',
       assetBodyType: VehicleDetail.vehicleSegmentUniqueCode || '',
       assetCost: VehicleDetail.assetCost || null,
       assetCostCarTrade: VehicleDetail.assetCostCarTrade || null,
@@ -1427,7 +1428,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   onClose() {
     this.isShowParentLoan = false;
-    this.isVehicleRegNoChange = false;
+    this.isVehicleRegNoChange = true;
     this.isVehicleDedupe = false;
   }
 
@@ -1447,7 +1448,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       ObjKeys.forEach((control) => {
 
-        if (control !== 'scheme' && control !== 'assetSubVarient' && control !== 'finalAssetCost') {
+        if (control !== 'scheme' && control !== 'assetSubVarient' && control !== 'finalAssetCost' && control !== 'collateralId'
+        && control !== 'vehicleId') {
           obj.get(control).setValidators([Validators.required]);
           obj.get(control).updateValueAndValidity();
           if (this.roleType !== 1) {
@@ -1488,6 +1490,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         obj.get('parentLoanAccountNumber').setValue('')
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
+
+      this.vehicleRegNoChange = obj.controls['vehicleRegNo'].value
 
     })
   }
@@ -1711,8 +1715,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
         if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
 
-          data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : null;
-          data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : null;
+          data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : '';
+          data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : '';
           if (url.includes('dde') && data.expectedNOCDate) {
             data.expectedNOCDate = data.expectedNOCDate ? this.utilityService.convertDateTimeTOUTC(data.expectedNOCDate, 'DD/MM/YYYY') : '';
           }
