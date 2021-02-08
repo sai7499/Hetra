@@ -832,7 +832,7 @@ console.log(insuranceValidUpto.getFullYear());
       this.invalidInsuDiff = true;
       this.toasterService.showWarning('Insurance Validity Date should be one year after insurance Start Date', '');
 
-    } else if (diffDays > this.count) {
+    } else {
       this.invalidInsuDiff = false;
     }
 
@@ -1186,7 +1186,7 @@ console.log(insuranceValidUpto.getFullYear());
       inspectedBy: new FormControl('', Validators.required),
       inspectionDate: new FormControl('', Validators.required),
       inspectionPlace: new FormControl('', Validators.required),
-      timeOfInspection: new FormControl({value : this.presentTime, disabled :true}),
+      timeOfInspection: new FormControl({value : '', disabled :true}),
       engineStarted: new FormControl('', Validators.required),
       vehicleMoved: new FormControl('')
     }
@@ -1323,7 +1323,7 @@ console.log(insuranceValidUpto.getFullYear());
       inspectedBy: this.vehicleValuationDetails.inspectedBy || '',
       inspectionDate: this.vehicleValuationDetails.inspectionDate ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.inspectionDate) : '',
-      timeOfInspection: this.vehicleValuationDetails.timeOfInspection || '',
+       timeOfInspection: this.vehicleValuationDetails.timeOfInspection? this.vehicleValuationDetails.timeOfInspection : this.presentTime,
       engineStarted: this.vehicleValuationDetails.engineStarted || '',
       vehicleMoved: this.vehicleValuationDetails.vehicleMoved || '',
       
@@ -1641,8 +1641,19 @@ console.log(insuranceValidUpto.getFullYear());
     this.validateTaxDate();
     this.validateDateOfReg();
     this.insuranceValidUptoCheck();
-    if(this.invalidFitnessDate || this.invalidInsDate || this.invalidTaxDate || this.invalidRegDate|| this.invalidInsuranceValidity || this.invalidInsuDiff){
-      return;
+    if(this.invalidFitnessDate || 
+      this.invalidInsDate || 
+      this.invalidTaxDate || 
+      this.invalidRegDate|| 
+      this.invalidInsuranceValidity || 
+      this.invalidInsuDiff){
+        this.invalidFitnessDate = false 
+        this.invalidInsDate = false 
+        this.invalidTaxDate = false 
+        this.invalidRegDate = false 
+        this.invalidInsuranceValidity = false 
+        this.invalidInsuDiff = false
+      return
     }
     
     console.log('latitude::', this.latitude);
