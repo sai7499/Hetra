@@ -43,6 +43,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   isLoan360: boolean;
   isButtonNameChange : boolean;
   isBeforeEligibility: boolean;
+  queue: any;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -147,6 +148,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.isBeforeEligibility = leadSectionData.leadDetails.stage !== '10';
 
     this.stageDescription = (leadSectionData.leadDetails.stageDesc).toString().trim();
+    this.queue = leadSectionData.leadDetails.queue;
 
     this.sharedService.leadData$.subscribe((value) => {
       this.productId = value;
