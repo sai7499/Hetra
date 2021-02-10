@@ -620,7 +620,7 @@ export class FleetDetailsComponent implements OnInit {
     if(!tenure || !paid) {
       this.formArr.controls[i]['controls']['seasoning'].patchValue(null);
     }
-    this.formArr.controls[i]['controls']['seasoning'].patchValue((paid / tenure) * 100);
+    this.formArr.controls[i]['controls']['seasoning'].patchValue(((paid / tenure) * 100).toFixed(2));
   }
 
   getDateFormat(date) {
