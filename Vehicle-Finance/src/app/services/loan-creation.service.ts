@@ -81,4 +81,20 @@ export class LoanCreationService {
     const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     return this.httpService.post(url, requestEntity);
   }
+
+  getEPolicyDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.loanDedupeUpdate.processId;
+    const workflowId = this.apiService.api.loanDedupeUpdate.workflowId;
+    const projectId = this.apiService.api.loanDedupeUpdate.projectId;
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    console.log(data)
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 }
