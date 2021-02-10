@@ -345,7 +345,7 @@
                                     formControlName="receiptNo" (change)="receiptNumber($event ,i)"></td> -->
                 <app-custom-input formControlName="receiptNo" [className]="'form-control mandatory'"
                   [placeholder]="'Receipt No'" [maxLength]="validationData?.receiptNo.maxLength"
-                  [isRequired]="'Receipt No is mandatory'" [inputClass]="'input-upper'" [isDirty]="isDirty"
+                   [inputClass]="'input-upper'" 
                   [type]="validationData?.receiptNo.type" (change)="receiptNumber($event ,i)">
                 </app-custom-input>
               </td>

@@ -308,10 +308,10 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                    <label for="relationWithApplicant">{{labels?.relationWithApplicant}}</label>
-                                    <app-vf-custom-select [values]="LOV.LOVS.relationship"
+                                    <label for="relationWithApplicant">{{labels?.relationWithApplication}}</label>
+                                    <app-vf-custom-select [values]="LOV.LOVS.applicantRelationshipWithLead"
                                         formControlName="relationShip" [isDirty]="isDirty"
-                                        [isRequired]="'Select any relationship Type'"></app-vf-custom-select>
+                                        [isRequired]="'Please select one'"></app-vf-custom-select>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="spoke_code_location"
@@ -413,7 +413,7 @@
                                     <app-custom-input id="workStability" formControlName="wrkStability"
                                         [className]="'form-control mandatory'"
                                         [maxLength]="validationData?.pattaNo.maxLength"
-                                        [isRequired]="'Work stability is required'" [isDirty]="isDirty"
+                                        [isRequired]="'Stability in current Employment/Business is required'" [isDirty]="isDirty"
                                         [type]="validationData?.contractDetails.type">
                                     </app-custom-input>
                                 </div>

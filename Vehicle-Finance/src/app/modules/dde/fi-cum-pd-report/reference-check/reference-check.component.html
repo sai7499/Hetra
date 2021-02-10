@@ -312,8 +312,9 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
-          <label for="sourceOf_margin_money">{{ labels.selfieImageTitle }}
+          <label for="sourceOf_margin_money">{{!isNonInd ? labels.selfieImageTitle : labels.selfieTitleForNonInd }}
           </label>
+          
           <div class="photo">
             <img [src]="SELFIE_IMAGE || 'assets/images/user.jpg'" alt="[Image: Photo]" width="100" />
           </div>
