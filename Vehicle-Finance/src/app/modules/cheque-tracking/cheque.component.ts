@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { Location } from '@angular/common';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
     templateUrl: './cheque.component.html',
@@ -10,10 +11,12 @@ export class ChequeComponent implements OnInit {
 
     leadId: any;
     locationIndex: number;
+  isSales: boolean;
 
     constructor(private router: Router,
                 private activatedRoute: ActivatedRoute,
-                private location: Location) {}
+                private location: Location,
+                private loginStoreService: LoginStoreService,) {}
 
 
     ngOnInit() {
@@ -22,9 +25,11 @@ export class ChequeComponent implements OnInit {
         this.location.onUrlChange((url: string) => {
         this.locationIndex = this.getLocationIndex(url);
         });
+        const roles = this.loginStoreService.getRolesAndUserDetails();
         this.activatedRoute.params.subscribe((value) => {
             console.log('value params', value);
             this.leadId = value.leadId;
+            this.isSales = roles.roles[0].roleType === 1;
         });
     }
 

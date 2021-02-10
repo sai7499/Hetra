@@ -93,7 +93,7 @@ export class ChequeTrackingComponent implements OnInit {
     const roles = this.loginStoreService.getRolesAndUserDetails();
     this.activatedRoute.params.subscribe((params) => {
       if (roles) {
-        this.isSales = roles.roles[0].roleType === 2;
+        this.isSales = roles.roles[0].roleType === 1;
       }
     })
 
@@ -207,7 +207,7 @@ export class ChequeTrackingComponent implements OnInit {
         const disbDate = res['ProcessVariables'].disbDate
         //this.addUnit(data)
         this.disburseDate = this.utilityService.getDateFromString(disbDate);
-        this.statusHistory = res['ProcessVariables'].chequeTrackingList || [];
+        this.statusHistory = res['ProcessVariables'].chequeStatusList || [];
         console.log('this.disburseDate', this.disburseDate)
         // data.map((element)=>{
         //   if(element.chequeNum.length !==6){
@@ -517,6 +517,12 @@ export class ChequeTrackingComponent implements OnInit {
     this.chequeTrackingService.saveUpdateChequeTracking(data).subscribe((res) => {
 
       if (res['ProcessVariables'].error.code == '0') {
+        if(!this.isSales){
+          this.toasterService.showSuccess('Disbursement Initiated Successfully',
+          '')
+          this.router.navigate([`/pages/dashboard`]);
+          return;
+        }
         this.toasterService.showSuccess('Record Updated Successfully',
           '')
         this.selectedData = {};
