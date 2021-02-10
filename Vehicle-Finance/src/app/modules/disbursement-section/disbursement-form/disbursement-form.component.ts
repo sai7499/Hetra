@@ -5199,7 +5199,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }
 
-        if (this.disbursementDetailsData.CoApplicantDetails) {
+        if (this.disbursementDetailsData.CoApplicantDetails.length != 0) {
           var fetchCoAppList = this.disbursementDetailsData.CoApplicantDetails;
           var fetchedCoApplicantList = []
           for (let i = 0; i < this.coAppNamesLov.length; i++) {
@@ -5238,7 +5238,7 @@ export class DisbursementFormComponent implements OnInit {
           }
           //console.log('fetchedCoApp',this.coAppName)  
         }
-        if (this.coApplicant1) {     
+        if (this.coApp1 && this.coApplicant1) {     
           this.coApp1DisbursementID = this.coApplicant1['disbursementID'];
           this.fetchedCoApp1Data = this.coApp1DisbursementID ? true : false;
           this.coApplicant1['trancheDisbursementFlag'] = (this.coApplicant1['trancheDisbursementFlag'] == 'Y') ? true : false;
@@ -5273,7 +5273,7 @@ export class DisbursementFormComponent implements OnInit {
             });
           }
         }
-        if (this.coApplicant2) {
+        if (this.coApp2 && this.coApplicant2) {
           this.coApp2DisbursementID = this.coApplicant2['disbursementID'];
           this.fetchedCoApp2Data = this.coApp2DisbursementID ? true : false;
           this.coApplicant2['trancheDisbursementFlag'] = (this.coApplicant2['trancheDisbursementFlag'] == 'Y') ? true : false;
@@ -5308,7 +5308,7 @@ export class DisbursementFormComponent implements OnInit {
             });
           }
         }
-        if (this.coApplicant3) { 
+        if (this.coApp3 && this.coApplicant3) { 
           this.coApp3DisbursementID = this.coApplicant3['disbursementID'];
           this.fetchedCoApp3Data = this.coApp3DisbursementID ? true : false;
           this.coApplicant3['trancheDisbursementFlag'] = (this.coApplicant3['trancheDisbursementFlag'] == 'Y') ? true : false;
