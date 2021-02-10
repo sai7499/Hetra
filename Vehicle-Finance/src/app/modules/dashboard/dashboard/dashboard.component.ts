@@ -978,9 +978,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   // changing main tabs
   onLeads(data?, subTab?, tabName?: string) {
-
-    console.log(data, 'after data', subTab , 'subTab', tabName)
-
     this.selectedArray = [];
     this.disableButton = false;
     this.selectAll = false;
