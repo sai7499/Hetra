@@ -123,9 +123,13 @@
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="name_of_financier">{{ labels.nameOfFinancer }} <sub class="star_red_col">*</sub></label>
-          <app-vf-custom-select [values]="(LOV?.LOVS)['vehicleFinanciers']" formControlName="financierName"
+          <!-- <app-vf-custom-select [values]="(LOV?.LOVS)['vehicleFinanciers']" formControlName="financierName"
             [isRequired]="'Please select one'" [isDirty]="isDirty">
-          </app-vf-custom-select>
+          </app-vf-custom-select> -->
+          <select class="form-control" formControlName="financierName">
+                  <option value="Not-Applicable">NA</option>
+                  <option *ngFor="let item of LOV?.LOVS.vehicleFinanciers" [value]="item.key">{{item.value}}</option>
+          </select>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="aware_of_margin">{{ labels.awareMarginMoney }}<sub class="star_red_col">*</sub></label>
@@ -209,9 +213,13 @@
           <label for="vehicle_conditions">{{ labels.vehicleConditions }}
             <sub class="star_red_col">*</sub></label>
 
-          <app-vf-custom-select [values]="(LOV?.LOVS)['fi/PdEarlierVehicleApplication']"
+          <app-vf-custom-select [values]="(LOV?.LOVS)['customPdEarlierVehicleApplication']"
             formControlName="earlierVehicleApplication" [isRequired]="'Please select one'" [isDirty]="isDirty">
           </app-vf-custom-select>
+          <!-- <select class="form-control" formControlName="earlierVehicleApplication">
+            <option value="Not-Applicable">NA</option>
+            <option *ngFor="let item of LOV?.LOVS['fi/PdEarlierVehicleApplication']" [value]="item.key">{{item.value}}</option>
+    </select> -->
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="earlier_driving">{{ labels.earlierDriving }} <sub class="star_red_col">*</sub></label>

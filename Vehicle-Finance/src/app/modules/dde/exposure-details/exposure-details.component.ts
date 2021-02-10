@@ -156,7 +156,7 @@ export class ExposureDetailsComponent implements OnInit {
                     Validators.max(this.currentYear)]],
         gridValue: ['',[Validators.required] ],
         loanAmount: ['', Validators.required],
-        ltv: [{value: '', disabled: true}],
+        // ltv: [{value: '', disabled: true}],
         currentPos: ['',[Validators.required] ],
         tenure: ['',[Validators.required] ],
         emiPaid: ['',[Validators.required]]
@@ -170,7 +170,7 @@ export class ExposureDetailsComponent implements OnInit {
       yom: [data.yom ? data.yom : '' ],
       gridValue: [data.gridValue ? data.gridValue : '' ],
       loanAmount: [data.loanAmount ? data.loanAmount : '' ],
-      ltv: [{value: data.ltv ? data.ltv : '', disabled: true} ],
+      // ltv: [{value: data.ltv ? data.ltv : '', disabled: true} ],
       currentPos: [data.currentPos ? data.currentPos : '' ],
       tenure: [data.tenure ? data.tenure : '' ],
       emiPaid: [data.emiPaid ? data.emiPaid : '']
@@ -186,7 +186,7 @@ export class ExposureDetailsComponent implements OnInit {
         yom: ['',[Validators.minLength(4),Validators.maxLength(4),Validators.max(this.currentYear)] ],
         gridValue: ['',[Validators.required] ],
         loanAmount: ['', Validators.required],
-        ltv: [{value: '', disabled: true}],
+        // ltv: [{value: '', disabled: true}],
         currentPos: ['',[Validators.required] ],
         tenure: ['',[Validators.required] ],
         emiPaid: ['',[Validators.required] ]
@@ -200,7 +200,7 @@ export class ExposureDetailsComponent implements OnInit {
       yom: [data.yom ? data.yom : '' ],
       gridValue: [data.gridValue ? data.gridValue : '' ],
       loanAmount: [data.loanAmount ? data.loanAmount : '' ],
-      ltv: [{value: data.ltv ? data.ltv : '', disabled: true}],
+      // ltv: [{value: data.ltv ? data.ltv : '', disabled: true}],
       currentPos: [data.currentPos ? data.currentPos : '', Validators.required],
       tenure: [data.tenure ? data.tenure : '' ],
       emiPaid: [data.emiPaid ? data.emiPaid : '', Validators.required]
@@ -292,7 +292,7 @@ onSubmit() {
         {ele.loanNo = (ele.loanNo).toString();
         ele.yom = (ele.yom).toString();
         ele.gridValue = ele.gridValue;
-        ele.ltv = ele.ltv;
+        // ele.ltv = ele.ltv;
         ele.currentPos = ele.currentPos;
         ele.tenure = ele.tenure;
         ele.emiPaid = ele.emiPaid;
@@ -382,19 +382,38 @@ onSubmit() {
     
   }
 
-  calcLTV(i) {
+  // calcLTV(i) {
     
-    for(let i = 0; i < this.exposureArray.length; i++ ) {
-      const gridValue = this.exposureArray.controls[i]['controls']['gridValue'].value;
-      const loanAmount = this.exposureArray.controls[i]['controls']['loanAmount'].value;
+  //   for(let i = 0; i < this.exposureArray.length; i++ ) {
+  //     const gridValue = this.exposureArray.controls[i]['controls']['gridValue'].value;
+  //     const loanAmount = this.exposureArray.controls[i]['controls']['loanAmount'].value;
 
-      if(!loanAmount || !gridValue) {
-        this.exposureArray.controls[i]['controls']['ltv'].patchValue(null);
-        return;
-      }
-       this.exposureArray.controls[i]['controls']['ltv'].patchValue(((loanAmount / gridValue)*100).toFixed(2));
+  //     if(!loanAmount || !gridValue) {
+  //       this.exposureArray.controls[i]['controls']['ltv'].patchValue(null);
+  //       return;
+  //     }
+  //      this.exposureArray.controls[i]['controls']['ltv'].patchValue(((loanAmount / gridValue)*100).toFixed(2));
       
+  //   }
+  // }
+
+  checkEMIPaid(event, i) {
+    console.log(i);
+    
+
+    let tenure = Number(this.exposureArray.controls[i]['controls']['tenure'].value) || 0;
+    let emiPaid = Number(this.exposureArray.controls[i]['controls']['emiPaid'].value)  || 0;
+
+    if (emiPaid > tenure) {
+      // this.formArr.controls[i]['controls']['emiPaid'].setErrors({ 'incorrect': true })
+      this.exposureArray.controls[i]['controls']['emiPaid'].setErrors({ 'incorrect': true });
+    // let emiPaid = this.exposureArray.controls[i]['controls']['emiPaid']
     }
+     else {
+      this.exposureArray.controls[i]['controls']['emiPaid'].setErrors(null);
+     
+    }
+
   }
 
 
