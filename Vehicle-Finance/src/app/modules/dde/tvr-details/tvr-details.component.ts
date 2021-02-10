@@ -24,7 +24,10 @@ export class TvrDetailsComponent implements OnInit {
   fiCumPdStatus: boolean;
   productCatCode: string;
   isLoan360: boolean;
-  tabName : any = {}
+  tabName : any = {};
+
+  isChildLoan: any;
+  productId: any;
 
   constructor(
     private labelDetails: LabelsService,
@@ -84,6 +87,10 @@ export class TvrDetailsComponent implements OnInit {
   //GET LEAD SECTION DATA
   getLeadSectiondata() {
     const leadData = this.createLeadDataService.getLeadSectionData();
+    if (leadData['leadDetails']) {
+      this.isChildLoan = leadData['leadDetails'].isChildLoan;
+      this.productId = leadData['leadDetails'].productId;
+    }
     this.productCatCode = leadData['leadDetails'].productCatCode;
     console.log("PRODUCT_CODE::", this.productCatCode);
   }
@@ -98,8 +105,15 @@ export class TvrDetailsComponent implements OnInit {
     //   // this.sharedService.getTvrDetailsPrevious(true);
     //   this.sharedService.getPslDataNext(false);
     // }
-   
 
+    if (this.isChildLoan === '1') {
+      if ((this.productId === '1078') || (this.productId === '1079') || (this.productId === '1080')) {
+        this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
+      } else {
+        this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
+      }
+    } else if ((this.isChildLoan === '0')) {
+   
     if (this.productCatCode == 'UCV' || this.productCatCode == 'UC') {
       this.router.navigate(['pages/dde/' + this.leadId + '/vehicle-valuation']);
       // this.sharedService.getTvrDetailsPrevious(true);
@@ -107,6 +121,7 @@ export class TvrDetailsComponent implements OnInit {
     }else{
       this.router.navigate(['pages/dde/' + this.leadId + '/psl-data']);
     }
+  }
     this.sharedService.getPslDataNext(false);
 
 

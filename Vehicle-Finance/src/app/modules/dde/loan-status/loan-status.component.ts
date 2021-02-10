@@ -103,7 +103,26 @@ export class LoanStatusComponent implements OnInit {
     });
   }
   
-  getEPolicy(){
+  getEPolicy(data){
+
+    let isICICI = false;
+    let isHDFC = false;
+    let isCHOLA = false
+
+    if (data.stage && data.stage.includes('ICICI')) {
+      isICICI = true;
+      isHDFC = false;
+      isCHOLA = false;
+    } else if (data.stage && data.stage.includes('HDFC')) {
+      isICICI = false;
+      isHDFC = true;
+      isCHOLA = false;
+    } else if (data.stage && data.stage.includes('CHOLA')) {
+      isICICI = false;
+      isHDFC = false;
+      isCHOLA = true;
+    }
+
     this.toasterService.showError("Document is not available","Download E-Policy")
   }
 }
