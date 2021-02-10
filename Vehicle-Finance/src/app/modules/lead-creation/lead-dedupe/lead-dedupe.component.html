@@ -1,5 +1,5 @@
 <main class="mar-top90">
-  <div class="container-fluid">
+  <div class="content">
     <h3 class="banner-con">{{labels?.leadDedupetitle}}
       <span class="float-right">{{udfScreenId}}</span>
 
@@ -33,7 +33,7 @@
                     <input [ngStyle]="{'cursor': 'pointer'}" [ngClass]="{'pointerEvent':isRadioDisable}"
                       (click)="onLeadSelect($event, i)" class="checkbox" type="radio" name="selectLead"
                       [checked]="selectedIndex === i"
-                      [disabled]="(dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created') && (dedupe.status === 'Lead Created')? false : true" style="botton:0px" />
+                      [disabled]="(dedupe.createdBy === userName) && (dedupe.stage === 'Lead Created') && (dedupe.status === 'Lead Created')? false : true" style="bottom:0px" />
                   </td>
                   <!-- <td align="center"><input type="radio" name="radio-207" value="howtomeasure" style="botton:0px"> </td> -->
                   <td [attr.data-label]="labels?.leadID">{{ dedupe.leadID }}</td>
@@ -52,7 +52,7 @@
                 </tr>
               </tbody>
             </table>
-            <div class="btn-sec clear-both btn-mar-reject">
+            <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
 
               <div class="text-center">
                 <button (click)="OnCreateNew()" class="btn btn-primary js-btn-next mar-right8" id="reject_button"
