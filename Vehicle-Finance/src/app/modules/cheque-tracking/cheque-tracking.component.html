@@ -1,5 +1,5 @@
 
-<div class="multisteps-form" >
+<div class="content" >
     <form [formGroup]="chequeForm">
     <div class="table-responsive application" id="cheque_results_section">
                         <h3 class="banner-con">{{labels?.chequeTracking}} 
@@ -8,7 +8,7 @@
                                 <table class="table">
                                     <thead>
                                       <tr class="table-head-bg">
-                                        <th>  </th>
+                                        <th *ngIf="isSales">  </th>
                                         <th>{{labels?.chequeMode}}<i class="fa fa-sort"></i> </th>
                                         <th>{{labels?.chequeNumber}}<i class="fa fa-sort"></i> </th>
                                         <th>{{labels?.chequeDate}}<i class="fa fa-sort"></i> </th>
@@ -24,7 +24,7 @@
                                       <tr
                                       *ngFor="let data of chequeData ; let i =index ">
                                         
-                                        <td><input type="radio"
+                                        <td *ngIf="isSales"><input type="radio"
                                            name="cheque_radio" 
                                            id="cheque_radio_1"
                                             (click)="onGetChequeData(data, i, $event)"
@@ -89,7 +89,7 @@
                                       
                                     </tbody>
                                 </table>
-                                <div id="cheque_results_1">
+                                <div id="cheque_results_1" *ngIf="isSales">
                                     <div class="row" style="margin-right:0px;margin-left:0px;">
                                         <div class="col-lg-6 col-sm-4 col-md-3">
                                             <div class="row">
@@ -129,7 +129,7 @@
                                   </div>
 
                                         </div>
-                                        <div class="col-lg-6 col-sm-4 col-md-3">
+                                        <div class="col-lg-6 col-sm-4 col-md-3" >
                                           
                                             <div class="row"
                                             >
@@ -331,6 +331,27 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <ng-container *ngIf="!isSales && statusHistory.length >= 1">
+                                  <form action="" method="POST">
+                                    <div class="table-responsive" id="exact_macth_title2_sec">
+                                      <table class="table">
+                                        <thead>
+                                          <tr class="table-head-bg">
+                                            <td>Status</td>
+                                            <td>Status changed on</td>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor = "let status of statusHistory; let i = index">
+                                            <td>{{status.chequeStatus}}</td>
+                                            <td>{{status.statusUpdatedOn}}</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </form>
+                                </ng-container>
                                
                     </div>               
 </form>
@@ -341,22 +362,35 @@
 </div>
 <div class="for_space"></div> -->
 
-<div class="row btn-sec clear-both mar-bot">
+<div class="row btn-sec clear-both mar-bot" *ngIf="isSales">
                 
     <div class="col-sm-5"></div>
     <div class="col-sm-7 "
     >
         <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBack()">{{labels.back}}</button>
-        <button class="btn btn-primary dash_href "
+        <button  class="btn btn-primary dash_href "
         [disabled]="disableUpdate"
         
         (click)="checkFormUpdate()"
         >Update</button>
-        <button class="btn btn-primary dash_href hvr-sweep-to-right" (click)="onNext()">Next</button>
+        <button  class="btn btn-primary dash_href hvr-sweep-to-right" (click)="onNext()">Next</button>
     </div>
     <!-- data-toggle="modal"
         data-target="#myModal" -->
             
+</div>
+
+<div class="row btn-sec clear-both mar-bot" *ngIf="!isSales">
+                
+  <div class="col-sm-5"></div>
+  <div class="col-sm-5"></div>
+  <div class="col-sm-2">
+    <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBack()">{{labels.back}}</button>
+    <button class="btn btn-primary dash_href hvr-sweep-to-right" (click)="showModal = true">{{labels?.disburse}}</button>
+  </div>
+      
+          
+</div>
 </div>
 <!-- <div class="modal" id="myModal">
     <div class="modal-dialog">
@@ -402,7 +436,7 @@
                 <button type="button" class="close" data-dismiss="modal" (click)="showModal=false">&times;</button>
             </div>
             <div class="modal-body" >
-                <p>Are You Sure you Want to Update Record?</p>
+                <p>Are you Sure you want to {{isSales ? 'Update' : 'Disburse' }} Record?</p>
             </div>
            
             <div class="modal-footer">
