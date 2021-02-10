@@ -185,6 +185,22 @@ export class LoanDetailsComponent implements OnInit {
 
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
+   let forNA = [{
+      key: 'Not-Applicable',
+      value: 'NA'
+    }]
+
+    this.LOV.LOVS['customPdEarlierVehicleApplication'] = forNA.concat(this.LOV.LOVS['fi/PdEarlierVehicleApplication'])
+    // this.LOV.LOVS['customPdEarlierVehicleApplication'].(this.LOV.LOVS['fi/PdEarlierVehicleApplication']);
+    // this.LOV.LOVS['customPdEarlierVehicleApplication'].unshift(forNA)
+    // const financierLov = this.LOV.LOVS.vehicleFinanciers;
+    // this.LOV.LOVS['fi/PdEarlierVehicleApplication'].push(forNA)
+    // console.log(financierLov.unshift(forNA));
+    console.log(this.LOV.LOVS['customPdEarlierVehicleApplication'], 'Duplicate LOv');
+    
+
+
+    
     this.activatedRoute.params.subscribe((value) => {
       this.getLeadSectionData();
       if (!value && !value.applicantId) {

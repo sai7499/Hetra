@@ -371,12 +371,12 @@ export class ValuationComponent implements OnInit {
 
       this.LOV.defaultfinanciers = this.LOV.financiers;
 
-      let defaultfinanciers = {
+      let defaultfinanciers = [{
         key: 'Not-Applicable', 
         value: 'NA'
-      }
+      }]
 
-      this.LOV.defaultfinanciers.splice(0, 0, defaultfinanciers)
+      this.LOV.defaultfinanciers = defaultfinanciers.concat(this.LOV.financiers);
 
     });
     console.log(' LOV**** --->', this.LOV);
