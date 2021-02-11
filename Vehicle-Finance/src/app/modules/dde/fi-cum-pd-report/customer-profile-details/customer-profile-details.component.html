@@ -46,7 +46,7 @@
         </app-vf-custom-select>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="selfie_with_house">{{ labels.selfieWithHouse }} <sub class="star_red_col">*</sub></label>
+        <label for="selfie_with_house">{{!isNonInd ? labels.selfieWithHouse : labels.selfieTitleForNonInd}} <sub class="star_red_col">*</sub></label>
         <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="customerHouseSelfie"
           [isRequired]="'Please select one'" [isDirty]="isDirty">
         </app-vf-custom-select>

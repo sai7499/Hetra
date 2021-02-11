@@ -44,6 +44,7 @@ export class UploadModalComponent {
   isMobile: any;
 
   inAppCamera:boolean = false;
+  docTyp: any = [];
 
   constructor(
     private uploadService: UploadService,
@@ -359,5 +360,23 @@ export class UploadModalComponent {
 
   onClosePressed() {
     this.inAppCamera= false;
+  }
+  selectDoc(){
+    this.docTyp = [];
+    let docDetails;
+     docDetails = this.docsDetails.docsType;
+     console.log('docDetails', docDetails)
+     if(docDetails.includes('/')){
+      docDetails = docDetails.split('/');
+      docDetails.map((element) => {
+        const docType = '.' + element;
+        this.docTyp.push(docType)
+      });  
+     }
+     const docTyp = this.docTyp? this.docTyp.toString() : '';
+  
+      this.fileInput.nativeElement.accept = docTyp;
+      this.fileInput.nativeElement.click();
+    
   }
 }
