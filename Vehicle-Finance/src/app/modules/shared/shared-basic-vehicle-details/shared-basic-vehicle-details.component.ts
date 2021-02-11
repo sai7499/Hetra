@@ -1642,8 +1642,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
-      console.log(this.LOV, 'after LOV', this.vehicleLov)
-
       this.vehicleLov.assetMake = [{
         key: VehicleDetail.vehicleMfrUniqueCode,
         value: VehicleDetail.vehicleMfrCode
@@ -1651,6 +1649,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       this.vehicleLov.assetBodyType = [{
         key: VehicleDetail.vehicleSegmentUniqueCode,
+
         value: VehicleDetail.vehicleSegmentCode
       }]
 
