@@ -28,6 +28,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { LoanViewService } from '@services/loan-view.service';
 import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { PdDataService } from '../pd-data.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -119,6 +120,8 @@ export class ReferenceCheckComponent implements OnInit {
   udfGroupId: string = 'FPG001';
   initUDFValues: any;
   editedUDFValues: any;
+  entityType: any;
+  isNonInd: boolean;
 
   constructor(
     private labelsData: LabelsService, // service to access labels
@@ -140,7 +143,8 @@ export class ReferenceCheckComponent implements OnInit {
     private commonLovService: CommomLovService,
     private loanViewService: LoanViewService,
     private ficumpdPdfService: FicumpdPdfService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private pdDataService : PdDataService
 
   ) {
     this.listArray = this.fb.array([]);
@@ -245,6 +249,13 @@ export class ReferenceCheckComponent implements OnInit {
       this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.applicantReferenceFIcumPD : udfScreenId.DDE.referenceCheckFIcumPDDDE ;
 
     })
+
+    this.entityType = this.pdDataService.getFiCumPdApplicantType();
+      if(this.entityType !== 'Individual'){
+        this.isNonInd = true
+      }else{
+        this.isNonInd = false
+      }
   }
 
   async checkGpsEnabled() {

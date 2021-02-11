@@ -85,6 +85,8 @@ export class OtherDetailsComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   udfGroupId: string = 'PDG001';
+  entityType: any;
+  isNonInd: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -162,6 +164,12 @@ export class OtherDetailsComponent implements OnInit {
       this.udfScreenId = this.roleType === 1 ? udfScreenId.PD.otherPD : udfScreenId.DDE.otherPDDDE ;
 
     })
+    this.entityType = this.pdDataService.getFiCumPdApplicantType();
+      if(this.entityType !== 'Individual'){
+        this.isNonInd = true
+      }else{
+        this.isNonInd = false
+      }
   }
 
   async checkGpsEnabled() {
