@@ -1454,7 +1454,7 @@ if(flag){
     this.SPDCvalueCheck = [{ rule: spdcvalue => Number(spdcvalue) > Number(this.maxValueSPDC), msg: 'value should be between 5 and 8' },
     { rule: spdcvalue => Number(spdcvalue) < Number(this.minValueSPDC), msg: 'value should be between 5 and 8' }];
   }
-  setLMSCode(i){
+  setLMSCode(i,val){
     this.tempLMSScheduleLOVData = [];
     this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['loanBookingDetails']['controls']['SelectAppropriateLMSScheduleCode'].setValue('');
     let aR = this.createNegotiationForm.get('tickets')['controls'][i]['controls']['loanBookingDetails']['controls']['repaymentFrequency'].value;
@@ -1480,7 +1480,9 @@ if(flag){
               this.tempLMSScheduleLOVData.push(obj)
             }
             });
-             
+            if((val == true) && this.tempLMSScheduleLOVData.length == 1) {
+              this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['loanBookingDetails']['controls']['SelectAppropriateLMSScheduleCode'].patchValue(this.tempLMSScheduleLOVData[0].key)
+            }
           }
          
     }
@@ -1975,6 +1977,7 @@ if(flag){
                       LoanAmountincludingCrossSell: [{ value: (this.view == false)?(this.AssetDetailsList[i].EligibleLoanAmnt):'', disabled: true }],
                       LoanAmountincludingCrossSellsubtractSubvent: [{ value: (this.view == false) ? '':'', disabled: true }],
                       finalLTV: [{ value: '', disabled: true }],
+                      finalLTVwithoutcrs: [{ value: '', disabled: true }],
                       MIPremiumAmount: [{ value: '', disabled: true }],
                       PACPremiumAmount: [{ value: '', disabled: true }],
                       VASPremiumAmount: [{ value: '', disabled: true }],
@@ -2509,6 +2512,7 @@ setCrosSell(i,val){
             
             emi_after_crossell: ticket.loanBookingDetails.loanBookingEMI,
             final_ltv: ticket.loanAmountBreakup.finalLTV,
+            final_ltv_without_crossell: ticket.loanAmountBreakup.finalLTVwithoutcrs,
             final_asset_cost: ticket.loanAmountBreakup.finalAssetCost,
             total_charges: ticket.loanAmountBreakup.charges,
             gap_days_interest: ticket.loanAmountBreakup.gapDaysInterest,
@@ -2813,6 +2817,7 @@ setCrosSell(i,val){
               this.loanBreakupSelected['controls'].LoanAmountincludingCrossSell.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell);
               this.loanBreakupSelected['controls'].LoanAmountincludingCrossSellsubtractSubvent.setValue(this.CrossSellIns[index].loan_booking_dtls.loan_amount_incl_cross_sell_subtract_subvention);
               this.loanBreakupSelected['controls'].finalLTV.setValue(this.CrossSellIns[index].loan_booking_dtls.final_ltv);
+              this.loanBreakupSelected['controls'].finalLTVwithoutcrs.setValue(this.CrossSellIns[index].loan_booking_dtls.final_ltv_without_crossell);
               this.loanBreakupSelected['controls'].MIPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[0].premium_amount);
               this.loanBreakupSelected['controls'].PACPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[1].premium_amount);
               this.loanBreakupSelected['controls'].VASPremiumAmount.setValue(this.CrossSellIns[index].cross_sell_ins[3].premium_amount);
@@ -2948,7 +2953,7 @@ setCrosSell(i,val){
               if (this.roleType === 5 || this.roleType === 4) {
                 this.deductChargesArray.disable()
               }
-              this.setLMSCode(index);
+              this.setLMSCode(index,false);
               this.loanBookingSelected['controls'].SelectAppropriateLMSScheduleCode.setValue(this.CrossSellIns[index].loan_booking_dtls.lms_schedule_code);              
             })
           }
@@ -3089,12 +3094,21 @@ setCrosSell(i,val){
   finalAssetCal(i) { //Mani
     let netAsset = this.createNegotiationForm.get('tickets')['controls'][i]['controls']['netAssetCost'].value;
     let loanAmountIncludeCrossSell = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['LoanAmountincludingCrossSell']['value'];
+    let loanAmountwithoutCrossSell = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedLoanAmount'].value;
     if(Number(netAsset) > Number(loanAmountIncludeCrossSell) || (Number(netAsset) < Number(loanAmountIncludeCrossSell) && !this.isSecured)){
       this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'].finalAssetCost.setValue(netAsset)
     }else if ((Number(netAsset) < Number(loanAmountIncludeCrossSell) ) && this.isSecured){
       this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'].finalAssetCost.setValue(loanAmountIncludeCrossSell)
     }
-    this.ltvPercent(i,this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls']['finalAssetCost']['value'])
+    this.ltvPercent(i,this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls']['finalAssetCost']['value']);
+
+    if(Number(netAsset) > Number(loanAmountwithoutCrossSell) || (Number(netAsset) < Number(loanAmountwithoutCrossSell) && !this.isSecured)){
+      //this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'].finalAssetCost.setValue(netAsset)
+      this.ltvwithoutCrsPercent(i,netAsset);
+    }else if ((Number(netAsset) < Number(loanAmountwithoutCrossSell) ) && this.isSecured){
+      //this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'].finalAssetCost.setValue(loanAmountwithoutCrossSell)
+      this.ltvwithoutCrsPercent(i,loanAmountwithoutCrossSell);
+    }
   }
   fetchLoanBreakValues(i){
     let valueSet = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'];
@@ -3116,9 +3130,13 @@ setCrosSell(i,val){
     valueSet.FASTagAmount.setValue(b.fastTag['controls'].FASTagAmount.value);
     valueSet.charges.setValue(Math.round(sumValue));
   }
-  ltvPercent(i,val){ //Mani
+  ltvPercent(i,val){ 
     let loanAmountIncludeCrossSell = Number(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['LoanAmountincludingCrossSell']['value']);
     this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'].finalLTV.setValue(((loanAmountIncludeCrossSell/Number(val)) * 100).toFixed(2));
+  }
+  ltvwithoutCrsPercent(i,val){ 
+    let loanAmountwithoutCrossSell = Number(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedLoanAmount'].value);
+    this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanAmountBreakup['controls'].finalLTVwithoutcrs.setValue(((loanAmountwithoutCrossSell/Number(val)) * 100).toFixed(2));
   }
   fetchPrmAmount(insuranceType, event, i,fun) {     //Mani
     const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {

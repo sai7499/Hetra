@@ -341,9 +341,9 @@
                                     <app-custom-input formControlName="rcOwnerName"
                                         [type]="label.validationData?.name.type" [id]="'name_vehicle_owner'"
                                         [className]="'form-control mandatory'"
-                                        [placeholder]="'Name of Vehicle Owner/Dealer'"
+                                        [placeholder]="'Name of Vehicle Owner/Dealer/Dealer'"
                                         [maxLength]="label.validationData?.name.maxLength"
-                                        [isRequired]="'Name of Vehicle Owner/Dealer Required'" [isDirty]="isDirty">
+                                        [isRequired]="'Name of Vehicle Owner/Dealer/Driver Required'" [isDirty]="isDirty">
                                     </app-custom-input>
 
                                 </div>
@@ -356,12 +356,12 @@
                                     <app-custom-input formControlName="ownerMobileNo"
                                         [type]="label.validationData?.mobileNumber.type" [id]="'mobile_vehicle_owner'"
                                         [className]="'form-control mandatory'"
-                                        [placeholder]="'Mobile Number of Vehicle Owner/Dealer'"
+                                        [placeholder]="'Mobile Number of Vehicle Owner/Dealer/Driver'"
                                         [maxLength]="label.validationData?.mobileNumber.maxLength"
                                         [patternCheck]="label.validationData?.mobileNumber.pattern"
                                         (change)="onChangeMobileNumber($event.target.value)"
                                         (keyUp)="onChangeMobileNumber($event.target.value)"
-                                        [isRequired]="'Mobile Number of Vehicle Owner/Dealer Required'"
+                                        [isRequired]="'Mobile Number of Vehicle Owner/Dealer/Driver Required'"
                                         [isDirty]="isDirty">
                                     </app-custom-input>
 

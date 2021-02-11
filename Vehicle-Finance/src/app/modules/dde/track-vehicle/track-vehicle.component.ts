@@ -249,6 +249,11 @@ export class TrackVehicleComponent implements OnInit {
 
     })
 
+    setTimeout(() => {
+      let balanceTenor = Number(this.trackVehicleForm.controls['noOfEmi'].value) - Number(this.trackVehicleForm.controls['emisPaid'].value)
+      this.trackVehicleForm.get('balanceTenor').setValue(balanceTenor)
+    }, 1000)
+
   }
   checkFinanceCharge() {
     let financeCharges = parseInt(this.trackVehicleForm.controls['financeCharges'].value);

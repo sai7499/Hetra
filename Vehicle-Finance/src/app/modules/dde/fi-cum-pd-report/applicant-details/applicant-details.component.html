@@ -238,9 +238,9 @@
           <label for="owner_name">{{ labels.dependents }} 
             <sub *ngIf="!isNonInd && applicantForm.get('maritalStatus').value !== '1MRGSTS'" class="star_red_col">*</sub>
           </label>
-          <app-custom-input id="dependents" [placeholder]="'Enter dependents'" formControlName="dependants"
+          <app-custom-input id="dependents" [placeholder]="'Enter number of Dependents'" formControlName="dependants"
             [type]="labels?.validationData?.dependents?.type" 
-            [isRequired]="!isNonInd && applicantForm.get('maritalStatus').value !== '1MRGSTS'? 'Dependents are required' : ''"
+            [isRequired]="!isNonInd && applicantForm.get('maritalStatus').value !== '1MRGSTS'? 'Number of Dependents are required' : ''"
             [maxLength]="labels?.validationData?.dependents?.maxLength" [isDirty]="applicantForm.get('maritalStatus').value !== '1MRGSTS'? isDirty : ''">
           </app-custom-input>
         </div>

@@ -42,6 +42,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (reqBody && reqBody.showLoader !== false) {
       this.ngxUiLoaderService.start();
+    } else if (!reqBody) {
+      this.ngxUiLoaderService.start();
     }
     console.log('Before Encryption', req.body);
     console.log('req', req);
