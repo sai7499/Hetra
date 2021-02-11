@@ -443,9 +443,9 @@
                 (click)="onLeads(displayTabs?.TranchesDisburse, displayTabs?.TrancheDisburseReversedWithMe)"
                 [ngClass]="{'active':displayTabs?.TranchesDisburse === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Tranche Disbursement</a></li>
-            <!-- <li class="btn-dash" (click)="onLeads(displayTabs?.ChequeTracking, displayTabs?.ChequeTrackingLeadsWithMe)"
+            <li class="btn-dash" (click)="onLeads(displayTabs?.ChequeTracking, displayTabs?.ChequeTrackingLeadsWithMe)"
                 [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Cheque Tracking</a></li> -->
+                    data-toggle="tab">Cheque Tracking</a></li>
         </ul>
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
@@ -474,14 +474,14 @@
                 [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithBranch === subActiveTab}"
                 routerLinkActive="active"><a data-toggle="tab">Pending With CPC</a></li>
         </ul>
-        <!-- <ul *ngIf="displayTabs?.ChequeTracking === activeTab" class="nav nav-pills nav-justified" id="background_white">
+        <ul *ngIf="displayTabs?.ChequeTracking === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.ChequeTrackingLeadsWithMe)"
                 [ngClass]="{'active':displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab}"
                 routerLinkActive="active"><a data-toggle="tab">Leads With Me</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.ChequeTrackingLeadsWithBranch)"
                 [ngClass]="{'active':displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab}"
                 routerLinkActive="active"><a data-toggle="tab">Leads With Branch</a></li>
-        </ul> -->
+        </ul>
     </div>
     <!-- CPC Maker and CPC Checker Ends -->
 
@@ -835,7 +835,7 @@
                                 <a *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
                                 displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab)" class="text-underline"
                                     style="cursor: pointer;"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.leadId
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); getLoanNumber(item.loanNumber)">{{item.leadId
                                     ? item.leadId : '--'}}</a>
 
                                 <a *ngIf="(displayTabs?.ChequeTracking === activeTab &&

@@ -533,6 +533,8 @@ export class TrackVehicleComponent implements OnInit {
       this.paymentExcessOrShort(null, 0)
       this.delayDaysCalc();
     }
+    let balanceTenor = Number(this.trackVehicleForm.controls['noOfEmi'].value) - Number(this.trackVehicleForm.controls['emisPaid'].value)
+    this.trackVehicleForm.get('balanceTenor').setValue(balanceTenor)
   }
   get formArr() {
     return this.trackVehicleForm.get('installment') as
