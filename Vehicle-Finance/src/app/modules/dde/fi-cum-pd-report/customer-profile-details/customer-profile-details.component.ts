@@ -59,6 +59,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   udfGroupId: string = 'FPG001';
+  entityType: any;
+  isNonInd: boolean;
 
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
@@ -121,6 +123,12 @@ export class CustomerProfileDetailsComponent implements OnInit {
       this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.customerProfileFIcumPD : udfScreenId.DDE.customerProfileDetailsFIcumPDDDE ;
 
     })
+    this.entityType = this.pdDataService.getFiCumPdApplicantType();
+      if(this.entityType !== 'Individual'){
+        this.isNonInd = true
+      }else{
+        this.isNonInd = false
+      }
 
   }
   getLeadSectionData() {

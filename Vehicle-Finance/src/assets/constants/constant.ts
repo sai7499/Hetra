@@ -15,5 +15,5 @@ export abstract class Constant {
   public static readonly PROFILE_ALLOWED_TYPES = 'png/jpg/jpeg';
   public static readonly OTHER_DOCUMENTS_SIZE = 2097152; // 2 mb
   public static readonly OTHER_DOCUMENTS_ALLOWED_TYPES =
-    'png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc/zip';
+    'png/jpg/jpeg/pdf/tiff/xlsx/xls/docx/doc';
 }
