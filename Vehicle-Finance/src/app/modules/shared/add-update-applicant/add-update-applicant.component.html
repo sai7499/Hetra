@@ -783,7 +783,7 @@
                       <label for="permanent_address_city">{{ labels?.city }}
                         <sub class="star_red_col">*</sub></label>
                       <app-vf-custom-select [values]="permanentPincode?.city" formControlName="city"
-                        (change)="cityChange($event)" [isDirty]="isDirty" [isRequired]="'City is required'">
+                        (change)="cityChange($event)" [isDirty]="isDirty" [isRequired]="labels.city + ' ' + 'is required'">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -897,7 +897,7 @@
                       <label for="current_address_city">{{ labels?.city
                         }}<sub class="star_red_col">*</sub></label>
                       <app-vf-custom-select [values]="currentPincode?.city" formControlName="city"
-                        [isRequired]="'City is required'" [isDirty]="isDirtyUcic">
+                      [isRequired]="labels.city + ' ' + 'is required'" [isDirty]="isDirtyUcic">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -986,7 +986,7 @@
                       <label for="registered_address_city">{{ labels?.city
                         }}<sub class="star_red_col">*</sub></label>
                       <app-vf-custom-select [values]="registerPincode?.city" formControlName="city"
-                        (change)="cityChange($event)" [isDirty]="isDirty" [isRequired]="'City is required'">
+                        (change)="cityChange($event)" [isDirty]="isDirty" [isRequired]="labels.city + ' ' + 'is required'">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -1080,7 +1080,7 @@
                       <label for="registered_address_city">{{ labels?.city
                         }}<sub class="star_red_col">*</sub></label>
                       <app-vf-custom-select [values]="communicationPincode?.city" formControlName="city"
-                        [isDirty]="isDirty" [isRequired]="'City is required'">
+                        [isDirty]="isDirty" [isRequired]="labels.city + ' ' + 'is required'">
                       </app-vf-custom-select>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">

@@ -93,7 +93,7 @@
             <sub class="star_red_col">*</sub>
           </label>
           <app-vf-custom-select [values]="refOnePincode?.city" formControlName="refOneCity"
-            [isRequired]="'City Required'" [isDirty]="isDirty">
+          [isRequired]="labels.city + ' ' + 'Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -235,7 +235,7 @@
             <sub class="star_red_col">*</sub>
           </label>
           <app-vf-custom-select [values]="refTwoPincode?.city" formControlName="refTwoCity"
-            [isRequired]="'City Required'" [isDirty]="isDirty">
+          [isRequired]="labels.city + ' ' + 'Required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
