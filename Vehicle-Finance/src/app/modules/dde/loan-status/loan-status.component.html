@@ -48,9 +48,9 @@
                 [routerLink]="['../dedupe-check', item.applicantId]"><a style="cursor: pointer;">{{ 'Show Duplicate'}}</a></td>
                 <td *ngIf="item?.stage == 'CREATE_HDFC_POLICY' ||
                  item?.stage == 'CREATE_ICICI_POLICY' || 
-                 item?.stage == 'CREATE_ICICI_POLICY'"
+                 item?.stage == 'CREATE_CHOLA_POLICY'"
                  [attr.data-label]="labels?.action" class="text-underline" 
-                 (click)="getEPolicy()"
+                 (click)="getEPolicy(item)"
                 >
                     <a style="cursor: pointer;">{{ 'Download E-Policy'}}</a></td>
                 <!-- <td [attr.data-label]="labels?.name">{{item.name ? item.name : '--'}}</td>

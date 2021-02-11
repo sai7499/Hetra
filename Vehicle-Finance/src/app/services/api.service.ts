@@ -896,6 +896,11 @@ export class ApiService {
       processId: '051213a00eb211eb825000505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
+    getEPolicyDetails: {
+      workflowId: '3f9ab1b24a9911eba44300505695f93b',
+      processId: '400194c24a9911eba2ee00505695f93b',
+      projectId: environment.projectIds.epolicyProjectId
+    },
     getFoirAsPerPolicy: {
       processId: 'ccdee5ee09f211ebb00500505695f93b',
       workflowId: 'b06ab746bf4a11eab26100505695f93b',
