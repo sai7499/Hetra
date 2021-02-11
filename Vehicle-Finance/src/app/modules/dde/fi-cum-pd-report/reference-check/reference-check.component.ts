@@ -160,9 +160,6 @@ export class ReferenceCheckComponent implements OnInit {
 
     this.checkGpsEnabled();
 
-    console.log(this.taskId, 'taskId')
-
-
     if (this.router.url.includes('/pd-dashboard')) {
       this.show = false;
     }

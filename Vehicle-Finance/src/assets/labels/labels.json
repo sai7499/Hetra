@@ -228,6 +228,7 @@
     "loanAmountRange": "Loan Amount Range",
     "ageOfCar": "Age of the asset at the end of tenor (months)",
     "loanToValue ": "Loan to Value ",
+    "fuelType": "Fuel Type",
     "insuranceCrossSell": "Insurance Cross sell",
     "loanToValueInsuranceFunded": "Loan to Value Insurance Funded",
     "equitasFastTagRequired": "Equitas Fast tag required",

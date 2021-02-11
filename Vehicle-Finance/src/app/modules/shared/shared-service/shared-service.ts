@@ -9,6 +9,7 @@ export class SharedService {
 
     popStateActivity$: BehaviorSubject<boolean> = new BehaviorSubject(true);
     leadItem: any;
+    trancheId: any = {};
     
     browserPopState(data) {
         this.popStateActivity$.next(data)
@@ -132,12 +133,21 @@ export class SharedService {
         this.isdedupdeStatus$.next(data);
     }
 
+
     setTabName(data){
        this.leadItem = data
     }
 
     getTabName(){
         return this.leadItem
+    }
+
+    setDataIds(data) {
+        this.trancheId = data;
+    }
+
+    getDataIds() {
+        return this.trancheId
     }
 
 

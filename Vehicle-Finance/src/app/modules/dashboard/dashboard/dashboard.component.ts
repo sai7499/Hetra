@@ -1404,7 +1404,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.disableButton = false;
   }
 
-  onRoutingTabs(data) {
+  onRoutingTabs(data, item?) {
     switch (this.activeTab) {
       case 15:
         this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
@@ -1413,6 +1413,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
       case 17:
+        
+        if (item) {
+
+          let setId = {
+            'trancheId': item.trancheId,
+            'disbId': item.disbId,
+            'taskId': item.taskId
+          }
+          console.log(item, 'Item')
+          this.sharedService.setDataIds(setId)
+        }
         this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
         break;
 
@@ -1505,7 +1516,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRoute(leadId, stageCode?, taskId?) {
+  onRoute(leadId, stageCode?, taskId?, data?) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
       subActiveTab: this.subActiveTab,
@@ -1522,7 +1533,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
-    this.onRoutingTabs(this.subActiveTab);
+    this.onRoutingTabs(this.subActiveTab, data)
   }
 
   onClear() {

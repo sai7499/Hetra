@@ -37,6 +37,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   maxDate = new Date();
   initalZeroCheck = [];
+  invalidZeroCheck = [];
   isNegativeValue = [];
   eligibleLoanAmount: any = 0;
 
@@ -147,6 +148,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private termsService: TermAcceptanceService,
     private location: Location) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+    this.invalidZeroCheck = [{ rule: val => val < 2, msg: 'Invalid'}]
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
     var day = this.toDayDate.getDate();
@@ -600,6 +602,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: VehicleDetail.vehicleModelCode || '',
       assetVariant: VehicleDetail.assetVarient || '',
       assetSubVarient: VehicleDetail.assetSubVarient || '',
+      fuelType: VehicleDetail.fuelType || '',
       category: VehicleDetail.category || '',
       chasisNumber: VehicleDetail.chasisNumber || '',
       collateralId: VehicleDetail.collateralId || null,
@@ -741,6 +744,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
             assetBodyType: '',
             assetModel: '',
             assetVariant: '',
+            fuelType: '',
             scheme: ''
           })
         } else {
@@ -784,6 +788,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
               assetBodyType: '',
               assetModel: '',
               assetVariant: '',
+              fuelType: '',
               scheme: ''
             })
 
@@ -832,6 +837,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
               assetBodyType: '',
               assetModel: '',
               assetVariant: '',
+              fuelType: '',
               scheme: ''
             })
 
@@ -859,6 +865,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     obj.patchValue({
       assetModel: '',
       assetVariant: '',
+      fuelType: '',
       scheme: ''
     })
   }
@@ -870,6 +877,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
     obj.patchValue({
       assetVariant: '',
+      fuelType: '',
       scheme: ''
     })
 
@@ -882,6 +890,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleId: val ? Number(val) : 0
     })
 
+    this.vehicleLov.fuelType = this.utilityService.getValueFromJSON(this.assetVariant,
+      'uniqueFuelType', "fuelType")
+
     if (val) {
       this.getSchemeData(formArray.controls[0])
     }
@@ -891,7 +902,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
 
     obj.patchValue({
-      scheme: ''
+      scheme: '',
+      fuelType: this.vehicleLov.fuelType && this.vehicleLov.fuelType.length > 0 ? this.vehicleLov.fuelType[0].key : ''
     })
 
   }
@@ -1004,6 +1016,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetBodyType: ['', Validators.required],
         assetModel: ['', Validators.required],
         assetVariant: ['', Validators.required],
+        fuelType: [''],
         assetSubVarient: [''],
         manuFacMonthYear: ['', Validators.required],
         exShowRoomCost: ['', Validators.required],
@@ -1025,6 +1038,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetModel: ['', Validators.required],
         assetVariant: ['', Validators.required],
         assetSubVarient: [''],
+        fuelType: [''],
         manuFacMonthYear: ['', Validators.required],
         vehicleUsage: ['', Validators.required],
         exShowRoomCost: ['', Validators.required],
@@ -1047,6 +1061,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetModel: ['', Validators.required],
         assetVariant: ['', Validators.required],
         assetSubVarient: [''],
+        fuelType: [''],
         manuFacMonthYear: ['', Validators.required],
         ageOfAsset: ['', Validators.required],
         ageAfterTenure: ['', Validators.required],
@@ -1074,6 +1089,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         assetBodyType: ['', Validators.required],
         assetModel: ['', Validators.required],
         assetVariant: ['', Validators.required],
+        fuelType: [''],
         assetSubVarient: [''],
         manuFacMonthYear: ['', Validators.required],
         ageOfAsset: ['', Validators.required],
@@ -1115,6 +1131,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
+      fuelType: [''],
       scheme: [''],
       assetBodyType: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
@@ -1166,6 +1183,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
+      fuelType: [''],
       assetBodyType: ['', Validators.required],
       manuFacMonthYear: ['', Validators.required],
       vehicleType: ['', Validators.required],
@@ -1216,6 +1234,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
+      fuelType: [''],
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
@@ -1278,6 +1297,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetModel: ['', Validators.required],
       assetVariant: ['', Validators.required],
       assetSubVarient: '',
+      fuelType: '',
       assetBodyType: ['', Validators.required],
       vehicleType: ['', Validators.required],
       region: ['', Validators.required],
@@ -1448,7 +1468,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       ObjKeys.forEach((control) => {
 
-        if (control !== 'scheme' && control !== 'assetSubVarient' && control !== 'finalAssetCost' && control !== 'collateralId'
+        if (control !== 'scheme' && control !== 'assetSubVarient' && control !== 'fuelType' && control !== 'finalAssetCost' && control !== 'collateralId'
         && control !== 'vehicleId') {
           obj.get(control).setValidators([Validators.required]);
           obj.get(control).updateValueAndValidity();
@@ -1622,6 +1642,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
+      console.log(this.LOV, 'after LOV', this.vehicleLov)
+
       this.vehicleLov.assetMake = [{
         key: VehicleDetail.vehicleMfrUniqueCode,
         value: VehicleDetail.vehicleMfrCode
@@ -1648,6 +1670,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         key: VehicleDetail.vehicleTypeUniqueCode,
         value: VehicleDetail.vehicleTypeCode
       }]
+
+      this.vehicleLov.fuelType = this.LOV.fuelType.filter((res) => res.key === VehicleDetail.fuelType)
 
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])

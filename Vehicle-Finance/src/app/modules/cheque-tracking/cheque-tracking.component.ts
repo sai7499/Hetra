@@ -192,15 +192,34 @@ export class ChequeTrackingComponent implements OnInit {
 
   }
   getChequeTrckingData() {
-    const data = {
-      leadId: this.leadId,
-      "udfDetails": [
-        {
-          "udfGroupId": this.udfGroupId,
-        }
-      ]
 
+  let getDataId = this.sharedService.getDataIds();
+  console.log('getDataId', getDataId)
+    let data = {}
+    if(this.isSales){
+      data = {
+        leadId: this.leadId,
+        "udfDetails": [
+          {
+            "udfGroupId": this.udfGroupId,
+          }
+        ]
+  
+      }
+    }else{
+      data = {
+        trancheId : getDataId.trancheId,
+        disbId : getDataId.disbId,
+        taskId : getDataId.taskId,
+        "udfDetails": [
+          {
+            "udfGroupId": this.udfGroupId,
+          }
+        ]
+  
+      }
     }
+
     this.chequeTrackingService.getChequeTracking(data).subscribe((res) => {
       if (res['ProcessVariables'].error.code == '0') {
         const data = res['ProcessVariables'].chequeData;
