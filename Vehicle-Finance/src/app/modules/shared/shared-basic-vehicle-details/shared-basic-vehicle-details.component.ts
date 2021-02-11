@@ -1649,14 +1649,13 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       this.vehicleLov.assetBodyType = [{
         key: VehicleDetail.vehicleSegmentUniqueCode,
-
         value: VehicleDetail.vehicleSegmentCode
       }]
 
       this.vehicleLov.assetModel = [
         {
           key: VehicleDetail.vehicleModelCode,
-          value: VehicleDetail.vehicleModel
+          value: VehicleDetail.vehicleModel + ' - ' + VehicleDetail.vehicleModelCode
         }
       ]
 
