@@ -849,7 +849,7 @@ export class PSLdataComponent implements OnInit {
           pslCCertificate: ''
         });
       }
-      if (this.weakerSectionValues.length == 1) {
+      if (this.weakerSectionValues.length >= 1) {
         this.pslDataForm.get('agriculture').patchValue({
           weakerSection: this.weakerSectionValues[0].key
         });

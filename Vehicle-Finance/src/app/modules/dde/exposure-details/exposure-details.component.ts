@@ -194,15 +194,15 @@ export class ExposureDetailsComponent implements OnInit {
     } else {
     return this.formBuilder.group({
       id: [data.id ? data.id : null],
-      loanType: [data.loanType ? data.loanType : ''],
-      loanNo: [data.loanNo ? data.loanNo  : '' ],
-      assetType: [data.assetType ? data.assetType : ''],
-      yom: [data.yom ? data.yom : '' ],
-      gridValue: [data.gridValue ? data.gridValue : '' ],
-      loanAmount: [data.loanAmount ? data.loanAmount : '' ],
+      loanType: [data.loanType ? data.loanType : '', Validators.required],
+      loanNo: [data.loanNo ? data.loanNo  : '', Validators.required],
+      assetType: [data.assetType ? data.assetType : '', Validators.required],
+      yom: [data.yom ? data.yom : '', Validators.required],
+      gridValue: [data.gridValue ? data.gridValue : '', Validators.required],
+      loanAmount: [data.loanAmount ? data.loanAmount : '', Validators.required],
       // ltv: [{value: data.ltv ? data.ltv : '', disabled: true}],
       currentPos: [data.currentPos ? data.currentPos : '', Validators.required],
-      tenure: [data.tenure ? data.tenure : '' ],
+      tenure: [data.tenure ? data.tenure : '', Validators.required],
       emiPaid: [data.emiPaid ? data.emiPaid : '', Validators.required]
     });
     }
