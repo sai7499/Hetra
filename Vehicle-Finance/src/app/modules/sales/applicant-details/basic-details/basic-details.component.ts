@@ -1315,7 +1315,7 @@ export class BasicDetailsComponent implements OnInit {
     }
 
 
-    if (this.mobileNumberChange) {
+    if (this.mobileNumberChange || !this.applicant.otpVerified) {
       const currentUrl = this.location.path();
         this.applicantDataService.setNavigateForDedupe(true)
       this.applicantDataService.setUrl(currentUrl);
