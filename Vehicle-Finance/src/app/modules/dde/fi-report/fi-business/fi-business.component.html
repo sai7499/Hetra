@@ -146,19 +146,19 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-      <label for="residenceAddressline2">{{ labels?.addressline2 }} <sub class="star_red_col">*</sub></label>
+      <label for="residenceAddressline2">{{ labels?.addressline2 }}</label>
       <app-custom-input id="residenceAddressline2" [placeholder]="'Enter address'"
         [type]="labels?.validationData?.address?.type" formControlName="addressLine2"
-        [isRequired]="'Address is required'" [maxLength]="labels?.validationData?.address?.maxLength"
-        [isDirty]="isDirty">
+        [maxLength]="labels?.validationData?.address?.maxLength"
+        >
       </app-custom-input>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-      <label for="residenceAddressline3">{{ labels?.addressline3 }} <sub class="star_red_col">*</sub></label>
+      <label for="residenceAddressline3">{{ labels?.addressline3 }}</label>
       <app-custom-input id="residenceAddressline3" [placeholder]="'Enter address'"
         [type]="labels?.validationData?.address?.type" formControlName="addressLine3"
-        [isRequired]="'Address is required'" [maxLength]="labels?.validationData?.address?.maxLength"
-        [isDirty]="isDirty">
+        [maxLength]="labels?.validationData?.address?.maxLength"
+        >
       </app-custom-input>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -564,14 +564,6 @@
     <h3 class="banner-sub">Comments and Recommendations</h3>
     <div class="row">
       <div class="form-group col-sm-6 col-md-4 col-lg-4">
-        <label for="comments">{{ labels?.commentsAndRecommendations }}
-          <sub class="star_red_col">*</sub></label>
-        <app-custom-input id="comments" [placeholder]="'comments'" [type]="labels?.validationData?.assetsVisible?.type"
-          formControlName="fiComments" [isRequired]="'Comments are required'"
-          [maxLength]="labels?.validationData?.assetsVisible?.maxLength" [isDirty]="isDirty">
-        </app-custom-input>
-      </div>
-      <div class="form-group col-sm-6 col-md-4 col-lg-4">
         <label for="distance">{{ labels?.distanceinKMs }} <sub class="star_red_col">*</sub></label>
         <app-custom-input id="distance" [placeholder]="'distance in KMs'"
           [type]="labels?.validationData?.noOfVehicles?.type" formControlName="distanceInKms"
@@ -605,6 +597,28 @@
         <label for="">{{ roleType == '2' ? labels.receivedTime : labels.submitTime }} <sub class="star_red_col">*</sub></label>
         <input type="text" class="form-control mandatory" placeholder="Enter time" formControlName="fiTime"
           disabled="true" />
+      </div>
+    </div>
+    <div class="row">
+      <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
+        <label for="comments">{{ labels?.commentsAndRecommendations }}
+          <sub class="star_red_col">*</sub></label>
+        <app-custom-input id="comments" [placeholder]="'comments'" [type]="labels?.validationData?.assetsVisible?.type"
+          formControlName="fiComments" [isRequired]="'Comments are required'"
+          [maxLength]="labels?.validationData?.assetsVisible?.maxLength" [isDirty]="isDirty">
+        </app-custom-input>
+      </div> -->
+      <div class="form-group col-sm-12 col-md-12 col-lg-12">
+        <label for="comments">{{ labels?.commentsAndRecommendations }}
+          <sub class="star_red_col">*</sub></label>
+        <textarea type="text" class="form-control text_area mar-5" maxlength="1500" formControlName="fiComments"
+          required></textarea>
+        <div class="invalid-feedback" *ngIf="isDirty || fieldReportForm.get('fiComments').touched">
+
+          <div *ngIf="!fieldReportForm.get('fiComments').value">
+            Comments are required
+          </div>
+        </div>
       </div>
     </div>
   </div>

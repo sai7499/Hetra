@@ -189,7 +189,7 @@ export class LoanDetailsComponent implements OnInit {
       key: 'Not-Applicable',
       value: 'NA'
     }]
-
+    this.LOV.LOVS['customVehicleFinanciers'] = forNA.concat(this.LOV.LOVS['vehicleFinanciers'])
     this.LOV.LOVS['customPdEarlierVehicleApplication'] = forNA.concat(this.LOV.LOVS['fi/PdEarlierVehicleApplication'])
     // this.LOV.LOVS['customPdEarlierVehicleApplication'].(this.LOV.LOVS['fi/PdEarlierVehicleApplication']);
     // this.LOV.LOVS['customPdEarlierVehicleApplication'].unshift(forNA)
@@ -229,6 +229,8 @@ export class LoanDetailsComponent implements OnInit {
 
   regCopyVerified(event: any) { // fun for conditional based validation for regcopy verified data field
     this.regStatus = event ? event : event;
+    const engineNo = this.loanDetailsForm.get('engineNumber').value;
+    const chassisNo = this.loanDetailsForm.get('chasisNumber').value;
     if (this.regStatus === '1') {
       this.engChassDisabled = false;
       this.engChassRequired = true;
@@ -238,6 +240,10 @@ export class LoanDetailsComponent implements OnInit {
       this.loanDetailsForm.get('chasisNumber').enable();
       this.loanDetailsForm.get('chasisNumber').setValidators(Validators.required);
       this.loanDetailsForm.get('chasisNumber').updateValueAndValidity();
+      setTimeout(() => {
+        this.loanDetailsForm.get('engineNumber').patchValue(engineNo || null);
+        this.loanDetailsForm.get('chasisNumber').patchValue(chassisNo || null);
+      });
     } else if (this.regStatus !== '1') {
       this.engChassDisabled = true;
       this.engChassRequired = false;
@@ -276,15 +282,24 @@ export class LoanDetailsComponent implements OnInit {
 
   vehCondVerified(event: any) { // fun that triggers when vehicle condition verified gets changes
     this.vehCondStatus = event ? event : event;
+    const vehCondVerified = this.loanDetailsForm.get('conditionOfVehicle').value;
+    console.log(vehCondVerified);
+    
     if (this.vehCondStatus === '1') {
       this.vehCondRequired = true;
       this.loanDetailsForm.get('conditionOfVehicle').enable();
       this.loanDetailsForm.get('conditionOfVehicle').setValidators(Validators.required);
-    } else if (this.vehCondStatus !== '1') {
+      setTimeout(() => {
+        this.loanDetailsForm.get('conditionOfVehicle').patchValue(vehCondVerified || null);
+      });
+    } else {
       this.vehCondRequired = false;
       this.loanDetailsForm.get('conditionOfVehicle').disable();
       this.loanDetailsForm.get('conditionOfVehicle').clearValidators();
       this.loanDetailsForm.get('conditionOfVehicle').updateValueAndValidity();
+      setTimeout(() => {
+        this.loanDetailsForm.get('conditionOfVehicle').patchValue(null);
+      });
     }
   }
 
@@ -333,7 +348,7 @@ export class LoanDetailsComponent implements OnInit {
       investmentAmount: new FormControl(''),
       marginMoneyBorrowed: new FormControl(''),
       marketValueProposedVehicle: new FormControl(''),
-      purchasePrice: new FormControl(''),
+      // purchasePrice: new FormControl(''),
       vehicleCondition: new FormControl(''),
       fundsUsage: new FormControl(''),
       earlierVehicleApplication: new FormControl(''),
@@ -348,7 +363,7 @@ export class LoanDetailsComponent implements OnInit {
 
       vehicleMake: new FormControl(''),
       modelInYear: new FormControl(''),
-      regNo: new FormControl(''),
+      regNo: new FormControl('', Validators.required),
       regCopVfd: new FormControl(''),
       vehicleHpaNbfc: new FormControl(''),
       engineNumber: new FormControl(''),
@@ -423,7 +438,7 @@ export class LoanDetailsComponent implements OnInit {
       controls.removeControl('investmentAmount');
       controls.removeControl('marginMoneyBorrowed');
       controls.removeControl('marketValueProposedVehicle');
-      controls.removeControl('purchasePrice');
+      // controls.removeControl('purchasePrice');
       controls.removeControl('vehicleCondition');
       controls.removeControl('fundsUsage');
       controls.removeControl('earlierVehicleApplication');
@@ -552,7 +567,7 @@ export class LoanDetailsComponent implements OnInit {
         investmentAmount: usedVehicleModel.investmentAmount || '',
         marginMoneyBorrowed: usedVehicleModel.marginMoneyBorrowed || '',
         marketValueProposedVehicle: usedVehicleModel.marketValueProposedVehicle || '',
-        purchasePrice: usedVehicleModel.purchasePrice || '',
+        // purchasePrice: usedVehicleModel.purchasePrice || '',
         vehicleCondition: usedVehicleModel.vehicleCondition || '',
         fundsUsage: usedVehicleModel.fundsUsage || '',
         earlierVehicleApplication: usedVehicleModel.earlierVehicleApplication || '',
@@ -739,7 +754,7 @@ export class LoanDetailsComponent implements OnInit {
           investmentAmount: loanDetailsModal.investmentAmount,
           marginMoneyBorrowed: loanDetailsModal.marginMoneyBorrowed,
           marketValueProposedVehicle: loanDetailsModal.marketValueProposedVehicle,
-          purchasePrice: loanDetailsModal.purchasePrice,
+          // purchasePrice: loanDetailsModal.purchasePrice,
           vehicleCondition: loanDetailsModal.vehicleCondition,
           fundsUsage: loanDetailsModal.fundsUsage,
           earlierVehicleApplication: loanDetailsModal.earlierVehicleApplication,
