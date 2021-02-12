@@ -56,6 +56,7 @@ export class ChequeTrackingComponent implements OnInit {
   isSales: boolean;
   isCPC = false;
   statusHistory = [];
+  getDataId: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -193,8 +194,8 @@ export class ChequeTrackingComponent implements OnInit {
   }
   getChequeTrckingData() {
 
-  let getDataId = this.sharedService.getDataIds();
-  console.log('getDataId', getDataId)
+    this.getDataId = this.sharedService.getDataIds();
+  //console.log('getDataId', getDataId)
     let data = {}
     if(this.isSales){
       data = {
@@ -204,13 +205,12 @@ export class ChequeTrackingComponent implements OnInit {
             "udfGroupId": this.udfGroupId,
           }
         ]
-  
       }
     }else{
       data = {
-        trancheId : getDataId.trancheId,
-        disbId : getDataId.disbId,
-        taskId : getDataId.taskId,
+        trancheId : this.getDataId.trancheId,
+        disbId : this.getDataId.disbId,
+        
         "udfDetails": [
           {
             "udfGroupId": this.udfGroupId,
@@ -490,31 +490,24 @@ export class ChequeTrackingComponent implements OnInit {
       this.isCPC = true;
     }
 
-    // if (this.statusValue == 'BRNCHRECEIVEDCHEQUESTS') {
-    //   const chequeNumValue=control.controls[this.index].get('chequeNum').value
-    //   if (chequeNumValue == null ||chequeNumValue== undefined || chequeNumValue== '') {
-    //     this.toasterService.showError( 'Please fill mandatory fields.',
-    //     'Cheque Tracking')
-    //     return;
-    //   }
-
-    // }
+    console.log('this.selectedData', this.selectedData)
 
     const chequeData = {
       chequeAmt: this.selectedData.chequeAmt || '',
       chequeDate: this.selectedData.chequeDate || '',
       chequeNum: this.selectedData.chequeNum || '',
-      chequeStatus: value.status || '',
+      chequeStatus: this.isSales? value.status : this.selectedData.chequeStatus || '',
       disbId: this.selectedData.disbId || '',
       favTo: this.selectedData.favTo || '',
       mode: this.selectedData.mode || '',
       payableTo: this.selectedData.payableTo || '',
-      statusUpdatedOn: this.utilityService.getDateFormat(value.statusUpdatedOn) || '',
+      statusUpdatedOn:this.isSales? this.utilityService.getDateFormat(value.statusUpdatedOn) :
+                      this.utilityService.getDateFormat(this.selectedData.statusUpdatedOn)  || '',
       trancheId: this.selectedData.trancheId || '',
-      remarks: value.remarks || '',
+      remarks: this.isSales?  value.remarks : this.selectedData.remarks || '',
       loanAccNo: this.selectedData.loanAccNo || '',
-      idProof: value.idProof,
-      chequeCollectedBy: value.chequeCollectedBy
+      idProof: this.isSales? value.idProof : this.selectedData.idProof || '',
+      chequeCollectedBy:this.isSales?  value.chequeCollectedBy :  this.selectedData.chequeCollectedBy || ''
 
 
     }
@@ -530,6 +523,9 @@ export class ChequeTrackingComponent implements OnInit {
         //"udfScreenId": this.udfScreenId,
         "udfData": udfData
       }]
+    }
+    if(!this.isSales){
+      data['taskId'] = this.getDataId.taskId
     }
     //return console.log('DATA', data);
     

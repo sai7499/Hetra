@@ -424,13 +424,13 @@ export class FiResidenceComponent implements OnInit {
 
     if (this.fiDetails) {
 
-      noofmonthsCity = String(Number(this.fiDetails.yrsOfStayInCity) % 12) || '';
-      noofyearsCity = String(Math.floor(Number(this.fiDetails.yrsOfStayInCity) / 12)) || '';
+      noofmonthsCity = this.fiDetails.yrsOfStayInCity ? String(Number(this.fiDetails.yrsOfStayInCity) % 12) : '';
+      noofyearsCity = this.fiDetails.yrsOfStayInCity ? String(Math.floor(Number(this.fiDetails.yrsOfStayInCity) / 12)) : '';
     }
     if (this.fiDetails) {
 
-      noofmonthsResi = String(Number(this.fiDetails.yrsOfStayInResi) % 12) || '';
-      noofyearsResi = String(Math.floor(Number(this.fiDetails.yrsOfStayInResi) / 12)) || '';
+      noofmonthsResi = this.fiDetails.yrsOfStayInResi ? String(Number(this.fiDetails.yrsOfStayInResi) % 12) : '';
+      noofyearsResi = this.fiDetails.yrsOfStayInResi ? String(Math.floor(Number(this.fiDetails.yrsOfStayInResi) / 12)) : '';
     }
 
     this.fieldReportForm.patchValue({
