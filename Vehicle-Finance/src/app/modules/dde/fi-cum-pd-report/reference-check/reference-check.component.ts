@@ -713,6 +713,8 @@ export class ReferenceCheckComponent implements OnInit {
       applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */
     };
 
+    console.log(this.taskId, 'taskId')
+
     this.personalDiscussion.submitPdReport(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;
       if (processVariables.error.code === '0') {

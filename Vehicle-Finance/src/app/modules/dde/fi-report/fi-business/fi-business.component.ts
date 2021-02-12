@@ -12,6 +12,7 @@ import { ApplicantService } from '@services/applicant.service';
 import { UtilityService } from '@services/utility.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 @Component({
   selector: 'app-fi-business',
   templateUrl: './fi-business.component.html',
@@ -67,6 +68,8 @@ export class FiBusinessComponent implements OnInit {
   editedUDFValues: any;
   isApplicantInd: boolean;
 
+  taskId: any;
+
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
@@ -78,12 +81,16 @@ export class FiBusinessComponent implements OnInit {
     private toasterService: ToasterService, // service for accessing the toaster
     private applicantService: ApplicantService,
     private utilityService: UtilityService,
+    private sharedSercive: SharedService,
     private objectComparisonService: ObjectComparisonService,
     private pdDataService: PdDataService) {
     this.leadId = Number(this.activatedRoute.snapshot.parent.params.leadId);
     this.applicantId = Number(this.activatedRoute.snapshot.parent.firstChild.params.applicantId);
     this.version = String(this.activatedRoute.snapshot.parent.firstChild.params.version);
     this.fiTime = this.stringTime[0] + ':' + this.stringTime[1];
+    this.sharedSercive.taskId$.subscribe((value) => {
+      this.taskId = value;
+    });
   }
 
   async ngOnInit() {
@@ -450,7 +457,8 @@ export class FiBusinessComponent implements OnInit {
     const data = {
       applicantId: this.applicantId,
       leadId: this.leadId,
-      userId: this.userId
+      userId: this.userId,
+      taskId: this.taskId
     };
 
     this.fieldInvestigationService.SumbitFiReportDetails(data).subscribe((res: any) => {

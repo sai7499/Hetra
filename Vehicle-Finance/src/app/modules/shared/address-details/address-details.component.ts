@@ -126,6 +126,7 @@ export class AddressDetailsComponent implements OnInit {
   initUDFValues: any;
   editedUDFValues: any;
 
+  isShowNextBut: boolean;
 
   constructor(
     private lovData: LovDataService,
@@ -149,10 +150,12 @@ export class AddressDetailsComponent implements OnInit {
 
       if (url.includes('sales')) {
         this.udfScreenId = udfScreenId.ADE.applicantAddressADE;
+        this.isShowNextBut = false;
         this.udfGroupId = 'APG008';
       } else {
         this.udfScreenId = udfScreenId.DDE.applicantAddressDDE;
         this.udfGroupId = 'APG008';
+        this.isShowNextBut = true;
       }
 
     })

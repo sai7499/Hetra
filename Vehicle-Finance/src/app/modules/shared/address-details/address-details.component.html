@@ -728,10 +728,11 @@
         Save
       </p>
     </ng-container>
-    <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
+    <ng-container *ngIf="isShowNextBut">
+      <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
         Next
       </button></a>
-    
+    </ng-container>
   </div>
 </div>
   </form>
