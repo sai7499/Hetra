@@ -89,4 +89,40 @@ export class BankTransactionsService {
     let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
     return this.httpService.post(url, requestEntity);
   }
+
+  getBankName(data) {
+    const processData = data;
+    const processId = this.apiService.api.getBankName.processId;
+    const workflowId = this.apiService.api.getBankName.workflowId;
+    const projectId = this.apiService.api.getBankName.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    // tslint:disable-next-line: prefer-const
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+
+  getBranchDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.getBranchDetails.processId;
+    const workflowId = this.apiService.api.getBranchDetails.workflowId;
+    const projectId = this.apiService.api.getBranchDetails.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
+    // tslint:disable-next-line: prefer-const
+    let url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+
+
 }
