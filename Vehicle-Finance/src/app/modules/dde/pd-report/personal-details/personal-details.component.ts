@@ -424,7 +424,7 @@ export class PersonalDetailsComponent implements OnInit {
   onValidateWeddingDate(event) {
     if (event === '2MRGSTS') {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate');
-      this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
+      this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl(''));
     } else {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate')
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl({ value: '', disabled: true }));

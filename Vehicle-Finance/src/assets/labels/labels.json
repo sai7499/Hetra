@@ -1870,6 +1870,7 @@
     "relationWithApplication" : "Relation with Application ",
     "noOfTenure" : "No.of tenure",
     "noOfEmiPaid" : "No of EMI Paid",
+    "fundingAmount" : "Funding Amount",
 
     
     "validationData": {
