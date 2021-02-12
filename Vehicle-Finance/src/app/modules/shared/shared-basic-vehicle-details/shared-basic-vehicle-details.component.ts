@@ -37,7 +37,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   maxDate = new Date();
   initalZeroCheck = [];
-  invalidZeroCheck = [];
   isNegativeValue = [];
   eligibleLoanAmount: any = 0;
 
@@ -148,7 +147,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private termsService: TermAcceptanceService,
     private location: Location) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
-    this.invalidZeroCheck = [{ rule: val => val < 2, msg: 'Invalid' }]
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
     var day = this.toDayDate.getDate();
