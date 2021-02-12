@@ -37,7 +37,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
   maxDate = new Date();
   initalZeroCheck = [];
-  invalidZeroCheck = [];
   isNegativeValue = [];
   eligibleLoanAmount: any = 0;
 
@@ -148,7 +147,6 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     private termsService: TermAcceptanceService,
     private location: Location) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
-    this.invalidZeroCheck = [{ rule: val => val < 2, msg: 'Invalid'}]
     this.isNegativeValue = [{ rule: val => val < 0, msg: 'Negative value not accepted' }];
     // date
     var day = this.toDayDate.getDate();
@@ -1469,7 +1467,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       ObjKeys.forEach((control) => {
 
         if (control !== 'scheme' && control !== 'assetSubVarient' && control !== 'fuelType' && control !== 'finalAssetCost' && control !== 'collateralId'
-        && control !== 'vehicleId') {
+          && control !== 'vehicleId') {
           obj.get(control).setValidators([Validators.required]);
           obj.get(control).updateValueAndValidity();
           if (this.roleType !== 1) {
@@ -1642,34 +1640,20 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
-      this.vehicleLov.assetMake = [{
-        key: VehicleDetail.vehicleMfrUniqueCode,
-        value: VehicleDetail.vehicleMfrCode
-      }]
-
-      this.vehicleLov.assetBodyType = [{
-        key: VehicleDetail.vehicleSegmentUniqueCode,
-        value: VehicleDetail.vehicleSegmentCode
-      }]
-
-      this.vehicleLov.assetModel = [
-        {
+      this.vehicleLov.assetModel = [{
           key: VehicleDetail.vehicleModelCode,
           value: VehicleDetail.vehicleModel + ' - ' + VehicleDetail.vehicleModelCode
-        }
-      ]
+        }]
 
       this.vehicleLov.assetVariant = [{
         key: VehicleDetail.assetVarient,
         value: VehicleDetail.assetVarient
       }]
 
-      this.vehicleLov.vehicleType = [{
-        key: VehicleDetail.vehicleTypeUniqueCode,
-        value: VehicleDetail.vehicleTypeCode
-      }]
-
-      this.vehicleLov.fuelType = this.LOV.fuelType.filter((res) => res.key === VehicleDetail.fuelType)
+      this.vehicleLov.assetMake = this.LOV.vehicleManufacturer.filter((res) => res.key === VehicleDetail.vehicleMfrUniqueCode);
+      this.vehicleLov.vehicleType = this.LOV.vehicleType.filter((res) => res.key === VehicleDetail.vehicleTypeUniqueCode);
+      this.vehicleLov.assetBodyType = this.LOV.vehicleSegment.filter((res) => res.key === VehicleDetail.vehicleSegmentUniqueCode);
+      this.vehicleLov.fuelType = this.LOV.fuelType.filter((res) => res.key === VehicleDetail.fuelType);
 
       this.onPatchArrayValue(formArray, VehicleDetail)
       this.onChangeFinalAssetCost(VehicleDetail.isOrpFunding, formArray.controls[0])
