@@ -454,6 +454,11 @@ export class ViabilityDetailsComponent implements OnInit {
     privateViability.get('busInsurenceExpenses').setValidators(Validators.required);
     privateViability.get('emi').setValidators(Validators.required);
     privateViability.get('totalExpenses').setValidators(Validators.required);
+
+    for (const key in privateViability.controls) {  
+        privateViability.get(key).updateValueAndValidity();
+    }
+    
   }
 
   private StandOverViability() {
@@ -468,6 +473,9 @@ export class ViabilityDetailsComponent implements OnInit {
     privateStandViability.get('totalExpenses').setValidators(Validators.required);
     privateStandViability.get('netCashFlow').setValidators(Validators.required);
     privateStandViability.get('emi').setValidators(Validators.required);
+    for (const key in privateStandViability.controls) {
+      privateStandViability.get(key).updateValueAndValidity();
+  }
   }
 
   private captiveViability() {
@@ -484,6 +492,9 @@ export class ViabilityDetailsComponent implements OnInit {
     captive.get('totalExpenses').setValidators(Validators.required);
     captive.get('netCashFlow').setValidators(Validators.required);
     captive.get('emi').setValidators(Validators.required);
+    for (const key in captive.controls) {
+      captive.get(key).updateValueAndValidity();
+  }
   }
 
   public removePassengerValidators() {
