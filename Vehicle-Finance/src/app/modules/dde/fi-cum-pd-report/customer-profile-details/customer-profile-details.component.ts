@@ -207,16 +207,24 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
   addressMismatch(event: any) { // fun for conditional mandatory for mismatch in off/buss address
     this.addressStatus = event ? event : event;
+    const mismatchInAddress = this.customerProfileForm.get('mismatchInAddress').value;
     if (this.addressStatus === '1') {
       this.addressDisabled = true;
       this.addressRequired = false;
       this.customerProfileForm.get('mismatchInAddress').disable();
       this.customerProfileForm.get('mismatchInAddress').updateValueAndValidity();
+      setTimeout(() => {
+        this.customerProfileForm.get('mismatchInAddress').patchValue(null);
+      });
     } else if (this.addressStatus !== '1') {
       this.addressDisabled = false;
       this.addressRequired = true;
       this.customerProfileForm.get('mismatchInAddress').enable();
       this.customerProfileForm.get('mismatchInAddress').setValidators(Validators.required);
+      setTimeout(() => {
+        this.customerProfileForm.get('mismatchInAddress').patchValue(mismatchInAddress || null);
+      });
+
     }
   }
 
@@ -339,7 +347,7 @@ export class CustomerProfileDetailsComponent implements OnInit {
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('please enter required details', '');
     }
   }
 
