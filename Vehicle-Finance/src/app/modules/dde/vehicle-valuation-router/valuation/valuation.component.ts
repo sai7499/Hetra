@@ -225,7 +225,7 @@ export class ValuationComponent implements OnInit {
     private sharedService: SharedService,
     private loginService: LoginService,
     private objectComparisonService: ObjectComparisonService) {
-    this.initalZeroCheck = [{ rule: val => val < 2, msg: 'Invalid' }];
+    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Invalid' }];
 
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
