@@ -1959,9 +1959,6 @@ export class BasicDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 
-  getAnniversaryDate(event) {
-
-  }
   get details(){
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0) as FormGroup;
@@ -1978,7 +1975,7 @@ export class BasicDetailsComponent implements OnInit {
       details.removeControl('weddingAnniversaryDate');
     } else {
       this.isMarried = true;
-      details.addControl('weddingAnniversaryDate', new FormControl('', Validators.required))
+      details.addControl('weddingAnniversaryDate', new FormControl(''))
     }
 
     if(status === '1MRGSTS'){
