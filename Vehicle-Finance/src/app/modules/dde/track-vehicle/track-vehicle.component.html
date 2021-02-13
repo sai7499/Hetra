@@ -11,7 +11,7 @@
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="Vechical Type">{{labels?.nameOfTheClient}} <sub class="star_red_col">*</sub></label>
         <app-custom-input formControlName="clientName" [className]="'form-control mandatory'"
-          [placeholder]="'Client Name'" [isDisabled]="true" [isDirty]="isDirty">
+          [placeholder]="'Client Name'">
         </app-custom-input>
         <!-- <input type="text" class="form-control" id="client_name" formControlName="clientName">
                 <span *ngIf="submitted && f.clientName.errors"style= "color:red;" class="invalid-feedback">
@@ -22,7 +22,7 @@
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="Vechical Type">{{labels?.nameOfTheFinancier}}<sub class="star_red_col">*</sub></label>
         <app-custom-input formControlName="financierName" [className]="'form-control mandatory'"
-          [placeholder]="'Financier'" [isDirty]="isDirty">
+          [placeholder]="'Financier'" >
         </app-custom-input>
         <!-- <input type="text" class="form-control" id="financier_name" formControlName="financierName">
                 <span *ngIf="submitted && f.financierName.errors"style= "color:red;" class="invalid-feedback">
@@ -32,7 +32,7 @@
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="Vechical Type">{{labels?.assetFinanced}}<sub class="star_red_col">*</sub></label>
         <app-custom-input formControlName="assetFinancied" [className]="'form-control mandatory'"
-          [placeholder]="'Asset Financier'" [isDirty]="isDirty">
+          [placeholder]="'Asset Financier'" >
         </app-custom-input>
         <!-- <input type="text" class="form-control" id="asset_financed" formControlName="assetFinancied">
                 <span *ngIf="submitted && f.assetFinancied.errors"style= "color:red;" class="invalid-feedback">
@@ -145,6 +145,7 @@
             <div *ngIf="submitted && f.loanStartDate.errors" style="color:red;" class="invalid-feedback">
               <span *ngIf="f.loanStartDate.errors.required">loanStartDate is required</span>
             </div>
+            <span class="invalid-feedback" *ngIf="f.loanStartDate.value && f.loanStartDate.invalid">Invalid date</span>
             <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
                             (change)="loanStartDate($event)" /> -->
           <!-- </div>
@@ -166,7 +167,9 @@
             </kendo-datepicker>
             <div *ngIf="submitted && f.emiStartDate.errors" style="color:red;" class="invalid-feedback">
               <span *ngIf="f.emiStartDate.errors.required">Emi Start Date is required</span>
+             
             </div>
+            <span class="invalid-feedback" *ngIf="f.emiStartDate.value && f.emiStartDate.invalid">Invalid date</span>
             <!-- <input type='date' class="form-control" value="05-01-2018" formControlName="loanStartDate"
                             (change)="loanStartDate($event)" /> -->
           <!-- </div>
@@ -178,7 +181,7 @@
         <kendo-datepicker width="100%" class="form-control mandatory" formControlName="loanMaturityDate"
           [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'"></kendo-datepicker>
         <span *ngIf="submitted && f.loanMaturityDate.errors" style="color:red;" class="invalid-feedback">
-          <span *ngIf="f.loanMaturityDate.errors.required">{{labels?.loanMaturityDate}} is required</span>
+          <span *ngIf="f.loanMaturityDate.errors.required">{{labels?.loanMaturityDate}} is required</span>       
         </span>
         <!-- <input type="date" class="form-control" id="laon_maturity_date" formControlName="loanMaturityDate"> -->
       </div>
@@ -353,7 +356,7 @@
                 <div class="form-group date">
                   <div class='input-group date'>
                     <kendo-datepicker class="form-control mandatory" formControlName="receivedDate"
-                      [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/MM/yyyy"
+                      [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="dd/mm/yyyy"
                       (valueChange)="delayDays($event ,i , itemrow)" [focusedDate]="focusedDate ? focusedDate[i] : ''">
                     </kendo-datepicker>
                     <!-- [focusedDate]="focusedDate" -->

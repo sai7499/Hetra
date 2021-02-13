@@ -172,15 +172,15 @@ export class TrackVehicleComponent implements OnInit {
 
     } else {
       this.trackVehicleForm = this.fb.group({
-        clientName: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.pattern(/^[a-zA-Z ]*$/)]),
-        financierName: new FormControl({ value: '', disabled: true }, Validators.required),
-        assetFinancied: new FormControl({ value: '', disabled: true }, Validators.required),
+        clientName: new FormControl({ value: '', disabled: true }),
+        financierName: new FormControl({ value: '', disabled: true }),
+        assetFinancied: new FormControl({ value: '', disabled: true }),
         repaymentMode: new FormControl('', Validators.required),
         financeAmount: new FormControl('', Validators.required),
         financeCharges: new FormControl('', Validators.required),
         contractValue: new FormControl('', Validators.required),
-        contNo: new FormControl({ value: '', disabled: true }, Validators.required),
-        vehicleNo: new FormControl({ value: '', disabled: true }, Validators.required),
+        contNo: new FormControl({ value: '', disabled: true }),
+        vehicleNo: new FormControl({ value: '', disabled: true }),
         financeType: new FormControl('', Validators.required),
         accountStatus: new FormControl('', Validators.required),
         loanStartDate: new FormControl('', Validators.required),
@@ -188,8 +188,8 @@ export class TrackVehicleComponent implements OnInit {
         loanMaturityDate: new FormControl('', Validators.required),
         thirtyDpdCount: new FormControl({ value: 0, disabled: true }),
         ninetyDpdCount: new FormControl({ value: 0, disabled: true }),
-        noOfEmi: new FormControl({ value: '', disabled: true }, Validators.required),
-        emisPaid: new FormControl({ value: '', disabled: false }, Validators.required),
+        noOfEmi: new FormControl({ value: '', disabled: true }),
+        emisPaid: new FormControl({ value: '', disabled: false }),
         balanceTenor: new FormControl({ value: 0, disabled: true }),
         totalDelay: new FormControl({ value: 0, disabled: true }),
         peakDelay: new FormControl({ value: 0, disabled: true }),
@@ -514,8 +514,9 @@ export class TrackVehicleComponent implements OnInit {
     }
     else {
       let addIndex = Number(this.trackVehicleForm.value['emisPaid']) - this.formArr['controls'].length;
-      let receivedDate = this.addingReceviedDate();
+      
       for (let i = 0; i < addIndex; i++) {
+        let receivedDate = this.addingReceviedDate();
         let addDueDate2 = this.trackVehicleForm.value['emiStartDate'] ? new Date(this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length - 1)]['dueDate'], 1)) : new Date();
         const dueDate = addDueDate2;
         const recDate = new Date(receivedDate);
@@ -524,7 +525,7 @@ export class TrackVehicleComponent implements OnInit {
         this.fleetRtrDetails.push({
           installmentAmt: this.trackVehicleForm.controls['emiAmount'].value,
           'dueDate': this.trackVehicleForm.value['emiStartDate']?  addDueDate2 : '',
-          'receivedDate':this.trackVehicleForm.value['loanMaturityDate']? receivedDate : '',
+          'receivedDate':this.trackVehicleForm.value['emiStartDate']? receivedDate : '',
           'delayDays': delayedDays.toFixed(0)
         })
         this.addNewRow(this.fleetRtrDetails[this.fleetRtrDetails.length - 1]);
@@ -542,7 +543,10 @@ export class TrackVehicleComponent implements OnInit {
   }
   get f() { return this.trackVehicleForm.controls; }
   setMinEmiStartDate(event) {
-    this.minEmiStartDate = event;
+    if(this.trackVehicleForm.get('loanStartDate').valid){
+      this.minEmiStartDate = event;
+    }
+    
   }
   onChangeLoanStartDate() {
     this.trackVehicleForm.controls['loanStartDate'].valueChanges.pipe(debounceTime(0)).subscribe((data) => {
@@ -772,19 +776,19 @@ export class TrackVehicleComponent implements OnInit {
   }
 
   addingReceviedDate() {
-    let matureDate;
-    if (this.trackVehicleForm.value['loanMaturityDate']) {
-      matureDate = this.trackVehicleForm.value['loanMaturityDate'];
-    } else {
-      matureDate = new Date();
-    }
+    // let matureDate;
+    // if (this.trackVehicleForm.value['loanMaturityDate']) {
+    //   matureDate = this.trackVehicleForm.value['loanMaturityDate'];
+    // } else {
+    //   matureDate = new Date();
+    // }
     let currentDate = new Date();
-    if (matureDate > currentDate) {
-      //currentDate = this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length - 1)]['receivedDate'], 1)
+    // if (matureDate > currentDate) {
+      currentDate = this.addMonth(this.fleetRtrDetails[(this.formArr['controls'].length - 1)]['receivedDate'], 1)
       return currentDate
-    } else {
-      return matureDate
-    }
+    // } else {
+    //   return matureDate
+    // }
   }
 
   paymentCalc(installmentAmount, receivedAmt) {
