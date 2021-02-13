@@ -187,22 +187,36 @@ export class ApplicantDetailComponent implements OnInit {
 
   houseOwnerShip(event: any) {
     this.ownerShipType = event ? event : event;
+    const owner = this.applicantForm.get('owner').value;
+    const areaOfProperty = this.applicantForm.get('areaOfProperty').value;
+    const propertyValue = this.applicantForm.get('propertyValue').value;
     if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
       this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
       this.ownerShipType === '5HOUOWN') {
       this.ownerNamePropertyAreaRequired = true;
       this.ownerNamePropertyAreaDisabled = false;
       this.applicantForm.get('owner').enable();
+      this.applicantForm.get('owner').updateValueAndValidity();
       this.applicantForm.get('areaOfProperty').enable();
+      this.applicantForm.get('areaOfProperty').updateValueAndValidity();
       this.applicantForm.get('propertyValue').enable();
+      this.applicantForm.get('propertyValue').updateValueAndValidity();
+      setTimeout(() => {
+        this.applicantForm.get('owner').patchValue(owner || null);
+        this.applicantForm.get('areaOfProperty').patchValue(areaOfProperty || null);
+        this.applicantForm.get('propertyValue').patchValue(propertyValue || null);
+      });
       if(this.isNonInd){
         return;
       }
       this.applicantForm.get('owner').setValidators(Validators.required);
+      this.applicantForm.get('owner').updateValueAndValidity();
       
       this.applicantForm.get('areaOfProperty').setValidators(Validators.required);
+      this.applicantForm.get('areaOfProperty').updateValueAndValidity();
       
       this.applicantForm.get('propertyValue').setValidators(Validators.required);
+      this.applicantForm.get('propertyValue').updateValueAndValidity();
 
     } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
       this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
@@ -478,7 +492,7 @@ export class ApplicantDetailComponent implements OnInit {
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showWarning(this.applicantForm.get('bankName').invalid ? 'enter valid bank name' : 'please enter required details', '');
+      this.toasterService.showError(this.applicantForm.get('bankName').invalid ? 'enter valid bank name' : 'please enter required details', '');
     }
   }
 
@@ -528,14 +542,15 @@ export class ApplicantDetailComponent implements OnInit {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Bank List')
         }
       })
-
+     
+      setTimeout(() => {
       if (this.searchBankNameList.length === 0) {
         this.applicantForm.get('bankName').setErrors({incorrect: true})
         this.toasterService.showInfo('Please enter valid bank name', '')
       } else {
         this.applicantForm.get('bankName').setErrors(null)
       }
-
+    }, 1000)
     }
   }
 

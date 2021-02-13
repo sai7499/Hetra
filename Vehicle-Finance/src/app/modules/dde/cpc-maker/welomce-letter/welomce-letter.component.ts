@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import html2pdf from 'html2pdf.js';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
-import { CommomLovService } from '@services/commom-lov-service';
 import { WelcomeService } from "../welomce-letter/welcome.service";
 import { ToasterService } from "@services/toaster.service"
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -11,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ElementSchemaRegistry } from '@angular/compiler';
 import { Location } from '@angular/common';
 import { LoanViewService } from '@services/loan-view.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-welomce-letter',
@@ -93,7 +93,7 @@ export class WelomceLetterComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private labelsData: LabelsService, 
-              private commonLovService: CommomLovService, 
+              private loginStoreService: LoginStoreService, 
               private WelcomeService: WelcomeService, 
               private toasterService: ToasterService,
               private createLeadDataService: CreateLeadDataService,
@@ -107,8 +107,14 @@ export class WelomceLetterComponent implements OnInit {
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
 
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+    });
+
     const path = this.location.path();
-    console.log('path', path);
+    console.log(typeof
+      (this.roleType), 'path', path);
 
     if (path.includes('loanbooking')) {
         this.isLoanBooking = true;
@@ -293,7 +299,7 @@ export class WelomceLetterComponent implements OnInit {
 
   onNext() {
     if (this.productCatCode === 'NCV') {
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/delivery-order`);
+        this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/delivery-order`);
     } else {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/pdd`);
     }

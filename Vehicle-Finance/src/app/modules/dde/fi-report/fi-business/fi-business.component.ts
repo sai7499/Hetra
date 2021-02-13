@@ -277,7 +277,7 @@ export class FiBusinessComponent implements OnInit {
       pincode: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
       state: new FormControl('', Validators.required),
-      landmark: new FormControl('', Validators.required),
+      landmark: new FormControl(''),
       personMetName: new FormControl('', Validators.required),
       designation: new FormControl('', Validators.required),
       natureOfBusiness: new FormControl('', Validators.required),
