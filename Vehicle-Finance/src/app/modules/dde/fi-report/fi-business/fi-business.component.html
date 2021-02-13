@@ -186,6 +186,11 @@
       </app-vf-custom-select>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
+      <label for="landmark">{{ labels?.landmark }} </label>
+      <app-custom-input formControlName="landmark" [maxLength]="labels?.validationData?.landmark?.maxLength"
+        [id]="'landmark'"[isDirty]="isDirty"></app-custom-input>
+    </div>
+    <div class="form-group col-sm-6 col-md-4 col-lg-4">
       <label for="designation">{{ labels?.designation }} <sub class="star_red_col">*</sub></label>
       <app-vf-custom-select id="designation" [values]="(LOV?.LOVS)['designation']" formControlName="designation"
         [isRequired]="'Please select one'" [isDirty]="isDirty">

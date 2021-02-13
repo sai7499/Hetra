@@ -193,6 +193,14 @@
             </app-vf-custom-select>
           </div>
         </div>
+        <div class="row">
+          <div class="form-group col-sm-6 col-md-4 col-lg-4">
+            <label for="landmark">{{ labels?.landmark }} </label>
+            <app-custom-input formControlName="landmark" [maxLength]="labels?.validationData?.landmark?.maxLength"
+              [id]="'landmark'"[isDirty]="isDirty"
+              ></app-custom-input>
+          </div>
+        </div>
         <!-- if Bussiness -->
         <!-- <div class="row">
       <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -482,7 +490,7 @@
           <div class="form-group col-sm-6 col-md-4 col-lg-4">
             <label>{{ roleType == '2' ? labels.receivedDate : labels.submitDate }} <sub class="star_red_col">*</sub></label>
             <kendo-datepicker class="form-control mandatory" formControlName="fiDate" [format]="'dd/MM/yyyy'"
-              placeholder="Enter Date" [activeView]="'decade'" [min]="leadCreatedDateFromLead" [max]="toDayDate">
+              placeholder="Enter Date" [activeView]="'decade'">
             </kendo-datepicker>
           </div>
           <div class="form-group col-sm-6 col-md-4 col-lg-4">

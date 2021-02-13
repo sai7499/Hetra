@@ -650,7 +650,7 @@ export class ReferenceCheckComponent implements OnInit {
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('please enter required details', '');
     }
   }
 

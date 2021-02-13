@@ -328,7 +328,7 @@ export class LoanDetailsComponent implements OnInit {
       newVehicleCost: new FormControl(''),
       newVehModel: new FormControl('', Validators.required),
       newVehicleType: new FormControl(''),
-      newVehicleReqLoanAmount: new FormControl(''),
+      newVehicleReqLoanAmount: new FormControl('', Validators.required),
       newVehicleMarginMoney: new FormControl(''),
 
       usedVehicleCost: new FormControl(''),
@@ -829,7 +829,7 @@ export class LoanDetailsComponent implements OnInit {
       }
     } else {
       this.isDirty = true;
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('please enter required details', '');
       return;
     }
   }
