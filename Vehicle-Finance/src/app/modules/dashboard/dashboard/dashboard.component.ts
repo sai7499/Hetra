@@ -1405,6 +1405,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onRoutingTabs(data, item?) {
+    console.log(this.activeTab, 'activetab');
+    
     switch (this.activeTab) {
       case 15:
         this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
@@ -1421,10 +1423,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
             'disbId': item.disbId,
             'taskId': item.taskId
           }
-          console.log(item, 'Item')
           this.sharedService.setDataIds(setId)
         }
-        this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
+        // console.log(item, 'Item')
+
+        setTimeout(() => {
+          this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
+        }, 1000)
         break;
 
       default:
@@ -1533,6 +1538,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
+    console.log(data, 'Item')
+
     this.onRoutingTabs(this.subActiveTab, data)
   }
 

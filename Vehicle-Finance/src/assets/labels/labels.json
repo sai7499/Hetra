@@ -1873,6 +1873,7 @@
     "noOfTenure" : "No.of tenure",
     "noOfEmiPaid" : "No of EMI Paid",
     "fundingAmount" : "Funding Amount",
+    "purchaseCost": "Purchase cost",
 
     
     "validationData": {

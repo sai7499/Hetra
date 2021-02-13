@@ -631,9 +631,11 @@ export class BankDetailsComponent implements OnInit {
         }
       })
 
-      if (this.searchBankNameList.length === 0) {
-        this.toasterService.showInfo('Please enter valid bank name', '')
-      }
+      setTimeout(() => {
+        if (this.searchBankNameList.length === 0) {
+          this.toasterService.showInfo('Please enter valid bank name', '')
+        }
+      }, 1000)
 
     }
   }
@@ -646,17 +648,17 @@ export class BankDetailsComponent implements OnInit {
 
       this.bankTransaction.getBranchDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-        this.getBankBranchDetails = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
-        this.bankForm.patchValue({
-          ifscCode: '',
-          accountBranch: ''
-        })
-        this.bankForm.get('micrNumber').setValue(null);
-        this.searchIFSCCode = [];
-        this.searchBranchName = [];
-        this.isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false
+          this.getBankBranchDetails = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
+          this.bankForm.patchValue({
+            ifscCode: '',
+            accountBranch: ''
+          })
+          this.bankForm.get('micrNumber').setValue(null);
+          this.searchIFSCCode = [];
+          this.searchBranchName = [];
+          this.isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false
         } else {
-          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage: res.ProcessVariables.error.message, '')
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
         }
       })
     }
@@ -674,10 +676,12 @@ export class BankDetailsComponent implements OnInit {
         }
       }); 
 
-      if (this.searchIFSCCode.length === 0) {
-        this.bankForm.get('ifscCode').setErrors({incorrect: true})
-        this.toasterService.showInfo('Please enter valid ifsc code', '')
-      }
+      setTimeout(() => {
+        if (this.searchIFSCCode.length === 0) {
+          this.bankForm.get('ifscCode').setErrors({ incorrect: true })
+          this.toasterService.showInfo('Please enter valid ifsc code', '')
+        }
+      }, 1000)
 
     }
   }
@@ -696,10 +700,12 @@ export class BankDetailsComponent implements OnInit {
       this.uiLoader.stop();
       });
 
-      if (this.searchBranchName.length === 0) {
-        this.bankForm.get('accountBranch').setErrors({incorrect: true})
-        this.toasterService.showInfo('Please enter valid branch', '')
-      }
+      setTimeout(() => {
+        if (this.searchBranchName.length === 0) {
+          this.bankForm.get('accountBranch').setErrors({ incorrect: true })
+          this.toasterService.showInfo('Please enter valid branch', '')
+        }
+      }, 1000)
 
     }
   }

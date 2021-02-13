@@ -193,6 +193,11 @@
                                     <option *ngFor="let item of fleetLov?.vehicleFinanciers" [value]="item.key">
                                         {{item.value}}</option>
                                 </select>
+                                <div class="invalid-feedback">
+                                    <div *ngIf="isDirty && !itemrow.controls['financier'].value">
+                                        Financier is required
+                                    </div>
+                                </div>
                             </td>
                             <td style="min-width: 150px;">
                                 <app-custom-input [id]="'loanNo'" formControlName="loanNo"

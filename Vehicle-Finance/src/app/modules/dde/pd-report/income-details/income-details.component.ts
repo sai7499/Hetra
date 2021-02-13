@@ -312,9 +312,11 @@ export class IncomeDetailsComponent implements OnInit {
         }
       })
 
+      setTimeout(() => {
       if (this.searchBankNameList.length === 0) {
         this.toasterService.showInfo('Please enter valid bank name', '')
       }
+    }, 1000)
 
     }
   }
