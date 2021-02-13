@@ -369,7 +369,7 @@ export class ViabilityDetailsComponent implements OnInit {
     if (this.viabilityForm.invalid || this.userDefineForm.udfData.invalid) {
       this.toasterService.showError('Details Not Saved', 'Please Save before submitting');
       return;
-    } else { this.onSave(); }
+    }
     const body = {
       leadId: this.leadId,
       collateralId: this.collataralId,
@@ -378,7 +378,7 @@ export class ViabilityDetailsComponent implements OnInit {
     this.viabilityService.submitViabilityTask(body).subscribe((res: any) => {
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
-        this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
+        this.toasterService.showSuccess('Record Submitted Successfully', 'Viability');
         this.router.navigateByUrl(`pages/dashboard`);
         // tslint:disable-next-line: triple-equals
       } else if (res.ProcessVariables.error.code == '1') {
@@ -578,7 +578,7 @@ export class ViabilityDetailsComponent implements OnInit {
           }
           this.viabilityForm.value.type = this.viabliityDataToPatch.type;
           this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
-          this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
+          //this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
           this.calculatePassenger();
           this.calculatePassengerB();
           this.calculatePassengerC();
@@ -596,7 +596,7 @@ export class ViabilityDetailsComponent implements OnInit {
           }
           this.viabilityForm.value.type = this.viabliityDataToPatch.type;
           this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
-          this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
+          //this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
           this.viabilityForm.patchValue({
             type: this.viabliityDataToPatch.type
           });
@@ -613,7 +613,7 @@ export class ViabilityDetailsComponent implements OnInit {
           this.viabilityForm.patchValue({
             type: this.viabliityDataToPatch.type
           });
-          this.vehicle_viability_navigate(this.viabliityDataToPatch.type);
+          //his.vehicle_viability_navigate(this.viabliityDataToPatch.type);
           this.vehicleModel = this.viabliityDataToPatch.vehicleModel;
           this.setCapative(this.viabliityDataToPatch);
           this.calculateCaptive();
@@ -624,14 +624,16 @@ export class ViabilityDetailsComponent implements OnInit {
         this.viabilityForm.patchValue({
           type: this.vehicle_viability_value
         });
+        
       }
+      this.vehicle_viability_navigate(this.viabilityForm.value.type);
     });
     // this.patchGpsposition();
   }
 
   onSave() {
     this.isDirty = true;
-    this.vehicle_viability_navigate(this.viabilityForm.value.type);
+    
 
     if (this.viabilityForm.invalid || this.userDefineForm.udfData.invalid) {
       console.log(this.viabilityForm, 'form')
@@ -662,7 +664,7 @@ export class ViabilityDetailsComponent implements OnInit {
       this.viabilityService.setViabilityDetails(body).subscribe((res: any) => {
         if (res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', 'Viability');
-          this.getViability();
+          //this.getViability();
         } else {
           this.toasterService.showError(res.ProcessVariables.error.message, 'Viability');
         }
