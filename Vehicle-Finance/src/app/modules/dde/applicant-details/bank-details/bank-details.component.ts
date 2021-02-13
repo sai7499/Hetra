@@ -16,7 +16,8 @@ import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, retry } from 'rxjs/operators';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 // import * as $ from 'jquery';
 
@@ -100,7 +101,7 @@ export class BankDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private utilityService: UtilityService,
-    private location: Location,
+    private uiLoader: NgxUiLoaderService,
     private toasterService: ToasterService,
     private labelsService: LabelsService,
     private toggleDdeService: ToggleDdeService,
@@ -260,6 +261,7 @@ export class BankDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
+        this.isEnableBranch = res.ProcessVariables.bankId ? true: false;
         this.udfDetails = res.ProcessVariables.udfDetails;
         console.log(this.bankDetailsNew, ' bank details new');
         if (this.bankDetailsNew) {
@@ -623,7 +625,7 @@ export class BankDetailsComponent implements OnInit {
       this.bankTransaction.getBankName(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.searchBankNameList = res.ProcessVariables.bankNames ? res.ProcessVariables.bankNames : [];
-          this.keyword = 'searchBankNameList';
+          this.keyword = '';
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Bank List')
         }
@@ -643,12 +645,19 @@ export class BankDetailsComponent implements OnInit {
       }
 
       this.bankTransaction.getBranchDetails(data).subscribe((res: any) => {
-        // if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.getBankBranchDetails = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
+        this.bankForm.patchValue({
+          ifscCode: '',
+          accountBranch: ''
+        })
+        this.bankForm.get('micrNumber').setValue(null);
+        this.searchIFSCCode = [];
+        this.searchBranchName = [];
         this.isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false
-        // } else {
-        //   this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage: res.ProcessVariables.error.message, '')
-        // }
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage: res.ProcessVariables.error.message, '')
+        }
       })
     }
   }
@@ -676,13 +685,15 @@ export class BankDetailsComponent implements OnInit {
 
   onChangeBranch(val) {
     if (val && val.trim().length > 0) {
+      this.uiLoader.start();
+      val = val.toString().toLowerCase();
       this.searchBranchName = this.getBankBranchDetails.filter(e => {
-        val = val.toString().toLowerCase();
         const eName = e.branchName.toString().toLowerCase();
         if (eName.includes(val)) {
           this.keyword = 'branchName';
           return e;
         }
+      this.uiLoader.stop();
       });
 
       if (this.searchBranchName.length === 0) {
@@ -691,6 +702,17 @@ export class BankDetailsComponent implements OnInit {
       }
 
     }
+  }
+
+  onBankNameClear(val) {
+    this.bankForm.patchValue({
+      ifscCode: '',
+      accountBranch: ''
+    })
+    this.bankForm.get('micrNumber').setValue(null);
+    this.searchIFSCCode = [];
+    this.searchBranchName = [];
+    this.searchBankNameList = []
   }
 
   selectIFSCCode(val, isString?) {

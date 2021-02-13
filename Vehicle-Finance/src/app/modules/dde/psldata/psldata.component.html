@@ -290,7 +290,7 @@
                     <label for="land_owner">{{labels.landOwner}}
                         <sub class="star_red_col">*</sub>
                     </label>
-                    <app-vf-custom-select [values]="LOV.LOVS.applicantRelationshipWithLead" formControlName="landOwner"
+                    <app-vf-custom-select [values]="LOV.LOVS.landOwnerArray" formControlName="landOwner"
                         (click)="onChangeLandOwner($event)" name="landOwner" [isRequired]="'Please Select One Option'"
                         [isDirty]="isDirty">
                     </app-vf-custom-select>

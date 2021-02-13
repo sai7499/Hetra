@@ -337,6 +337,7 @@ export class ApplicantDetailComponent implements OnInit {
       if(this.entityType !== 'Individual'){
         this.isNonInd = true
       }else{
+        this.onBankNameSearch(applicantModal.bankName)
         this.isNonInd = false
       }
     if(this.isNonInd){

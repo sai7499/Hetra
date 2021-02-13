@@ -205,12 +205,11 @@
             <ng-autocomplete class="custom-select-box" [data]="searchBankNameList" [searchKeyword]="keyword"
               (selected)='selectBankNameEvent($event)' (inputChanged)='onBankNameSearch($event)'
               [itemTemplate]="favBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="bankName"
-              [placeHolder]="'Bank Name'">
-              <!-- [minQueryLength]="3" -->
+              [placeHolder]="'Bank Name'" [minQueryLength]="3">
             </ng-autocomplete>
             <div class="invalid-feedback" *ngIf="!isNonInd">
-              <div *ngIf="applicantForm.get('bankName').toched && applicantForm.get('bankName').invalid"> Bank name required.</div>
-              <div *ngIf="applicantForm.get('bankName').toched && applicantForm.get('bankName').hasError('minlength')"> at least 3 characters required.</div>
+              <div *ngIf="applicantForm.get('bankName').touched && applicantForm.get('bankName').invalid"> Bank name required.</div>
+              <div *ngIf="applicantForm.get('bankName').touched && applicantForm.get('bankName').hasError('minlength')"> at least 3 characters required.</div>
 
             </div>
             <ng-template #favBankNameTemplate let-item>

@@ -25,12 +25,14 @@
 
             <ng-autocomplete class="custom-select-box" [data]="searchBankNameList" [searchKeyword]="keyword"
               (selected)='selectBankNameEvent($event)' (inputChanged)='onBankNameSearch($event)'
+              (inputCleared)='onBankNameClear($event)'
               [itemTemplate]="favBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="bankId"
-              [placeHolder]="'Bank Name'" [minQueryLength]="3">
+              [placeHolder]="'Bank Name'" [debounceTime]="400" [minQueryLength]="3">
             </ng-autocomplete>
 
             <div class="invalid-feedback">
-              <div *ngIf="bankForm.get('bankId').toched && bankForm.get('bankId').invalid"> Bank name required.</div>
+              <div *ngIf="bankForm.get('bankId').touched && bankForm.get('bankId').hasError('required')"> Bank name
+                required.</div>
               <div *ngIf="bankForm.get('bankId').hasError('minlength')"> Mininum 3 Charates
                 required</div>
             </div>
@@ -47,16 +49,17 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="bank_name">{{labels?.ifscCode}}<sub class="star_red_col">*</sub></label>
 
-          <div class="ng-autopopulate" style="width: 100%;"
-            [ngClass]="{ 'codeDisable disableCode': isEnableBranch }">
+          <div class="ng-autopopulate" style="width: 100%;">
 
             <ng-autocomplete class="custom-select-box" [data]="searchIFSCCode" [searchKeyword]="keyword"
-              (selected)="selectIFSCCode($event, 'IFSC')" (inputChanged)='onIFSCSearcn($event)'
-              [itemTemplate]="searchIFSCTemplate" [notFoundTemplate]="notFoundIFSC" formControlName="ifscCode"
-              [placeHolder]="'IFSC Code'" [minQueryLength]="3" [disabled]="!isEnableBranch">
+              [ngClass]="{ 'codeDisable disableCode': !isEnableBranch }" (selected)="selectIFSCCode($event, 'IFSC')"
+              (inputChanged)='onIFSCSearcn($event)' [itemTemplate]="searchIFSCTemplate"
+              [notFoundTemplate]="notFoundIFSC" formControlName="ifscCode" [placeHolder]="'IFSC Code'"
+              [minQueryLength]="3" [disabled]="!isEnableBranch">
             </ng-autocomplete>
             <div class="invalid-feedback">
-              <div *ngIf="bankForm.get('ifscCode').toched && bankForm.get('ifscCode').invalid"> IFSC code required.
+              <div *ngIf="bankForm.get('ifscCode').touched && bankForm.get('ifscCode').hasError('required')"> IFSC code
+                required.
               </div>
               <div *ngIf="bankForm.get('ifscCode').hasError('minlength')"> Mininum 3 Charates
                 required</div>
@@ -71,19 +74,25 @@
 
         </div>
 
+      </div>
+
+      <div class="row">
+
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_number">{{labels?.accountBranchname}} <sub class="star_red_col">*</sub></label>
 
-          <div class="ng-autopopulate" style="width: 100%;"
-            [ngClass]="{ 'codeDisable disableCode': isEnableBranch }">
+          <div class="ng-autopopulate" style="width: 100%;">
 
             <ng-autocomplete class="custom-select-box" [data]="searchBranchName" [searchKeyword]="keyword"
-              (selected)="selectIFSCCode($event, 'Branch')" (inputChanged)='onChangeBranch($event)'
-              [itemTemplate]="searchBranchTemplate" [notFoundTemplate]="accountBranch" formControlName="accountBranch"
-              [placeHolder]="'Account Branch'" [minQueryLength]="3" [disabled]="!isEnableBranch">
+              [ngClass]="{ 'codeDisable disableCode': !isEnableBranch }" (selected)="selectIFSCCode($event, 'Branch')"
+              (inputChanged)='onChangeBranch($event)' [itemTemplate]="searchBranchTemplate"
+              [notFoundTemplate]="notFoundBranch" formControlName="accountBranch" [placeHolder]="'Account Branch'"
+              [minQueryLength]="3" [disabled]="!isEnableBranch">
             </ng-autocomplete>
             <div class="invalid-feedback">
-              <div *ngIf="bankForm.get('accountBranch').touched && bankForm.get('accountBranch').invalid"> IFSC code
+              <div *ngIf="bankForm.get('accountBranch').touched && bankForm.get('accountBranch').hasError('required')">
+                Account
+                Branch
                 required.
               </div>
               <div *ngIf="bankForm.get('accountBranch').hasError('minlength')"> Mininum 3 Charates
@@ -101,8 +110,7 @@
             [isRequired]="'Please Select Account Branch'" [isDirty]="isDirty"></app-vf-custom-select> -->
 
         </div>
-      </div>
-      <div class="row">
+
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_number">{{labels?.accountNo}} <sub class="star_red_col">*</sub></label>
 
@@ -114,12 +122,18 @@
           </app-custom-input>
           <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
         </div>
+
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="account_type">{{labels?.accountType}} <sub class="star_red_col">*</sub></label>
 
           <app-vf-custom-select formControlName="accountType" [values]="lovData?.bankAccountType" [isDirty]="isDirty"
             [isRequired]="'Please Select Account Type'"></app-vf-custom-select>
         </div>
+
+      </div>
+
+      <div class="row">
+
         <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLimitRequire">
           <label for="limit">{{labels?.limit}}</label>
           <app-custom-input formControlName="limit" [patternCheck]="limitNumberPattern"
@@ -129,7 +143,6 @@
           <!-- [isRequired]="'Limit is required'" -->
           <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
         </div>
-
 
       </div>
       <div class="row">
@@ -166,7 +179,6 @@
           <input formControlName="period" type="number" class="form-control" name="period" id="period" min="0"
             required="required" disabled>
         </div>
-
 
       </div>
       <div class="row">
