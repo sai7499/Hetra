@@ -571,14 +571,13 @@
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
-                                    <sub class="star_red_col">*</sub>
-                                  </label>
-                                  <div class="col-sm-6 col-md-4 col-lg-3">
-                                    <!-- <app-vf-custom-select formControlName="EMIStartDateAfterDisbursement" [values]="EMIStartDateLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'">
-                                    </app-vf-custom-select> -->
-                                    <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'" formControlName="EMIStartDateAfterDisbursement">
-                                      </app-vf-custom-select>
+                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentFrequency">{{labels?.repaymentFrequency}}
+                                      <sub class="star_red_col">*</sub>
+                                    </label>
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <app-vf-custom-select formControlName="repaymentFrequency" [values]="RepayFrequencyLOV" [isDirty]="isDirty"
+                                    (change)="changeRepaymentFrequency($event,i);getEMIDate(i,repaymentFrequency);setLMSCode(i,true)" [isRequired]="'Repayment Frequency is Required'">
+                                    </app-vf-custom-select>
                                   </div>
                                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PaymentModeforGapDaysInterest">{{ labels?.PaymentModeforGapDaysInterest }}
                                     <sub class="star_red_col">*</sub>
@@ -595,14 +594,15 @@
                                 </div> -->
                                 <!-- *ngIf="LeadReferenceDetails[i].ProductCode == 'UTCR' || LeadReferenceDetails[i].ProductCode == 'NTCR' " -->
                                 <div class="form-group">
-                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentFrequency">{{labels?.repaymentFrequency}}
-                                    <sub class="star_red_col">*</sub>
-                                  </label>
-                                  <div class="col-sm-6 col-md-4 col-lg-3">
-                                  <app-vf-custom-select formControlName="repaymentFrequency" [values]="RepayFrequencyLOV" [isDirty]="isDirty"
-                                  (change)="changeRepaymentFrequency($event,i);setLMSCode(i,true)" [isRequired]="'Repayment Frequency is Required'">
-                                  </app-vf-custom-select>
-                                </div>
+                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
+                                      <sub class="star_red_col">*</sub>
+                                    </label>
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                      <!-- <app-vf-custom-select formControlName="EMIStartDateAfterDisbursement" [values]="EMIStartDateLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'">
+                                      </app-vf-custom-select> -->
+                                      <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'" formControlName="EMIStartDateAfterDisbursement">
+                                        </app-vf-custom-select>
+                                    </div>
                                 <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStructure">{{labels?.repaymentStructure}}
                                   <sub class="star_red_col">*</sub>
                                 </label>
@@ -640,6 +640,7 @@
                                   <thead>
                                     <th>{{labels?.fromMonth}}</th>
                                     <th>{{labels?.toMonth}}</th>
+                                    <th *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']!='4EMISTRUCT'">{{labels?.installmentAmount}}</th>
                                     <th>{{labels?.EMIAmount}}</th>
                                   <th class="emi-table-action" *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']!='4EMISTRUCT'">Action</th>
                                   </thead>
@@ -652,8 +653,12 @@
                                       <td>
                                       <input formControlName="toMonth" (keypress)="isNumber($event)"(change)="getToMonthVal($event,i,o)" class="form-control">
                                       </td>
+                                      <td *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']!='4EMISTRUCT'">                                       
+                                        <app-custom-input formControlName="installmentPercent" [className]="'form-control'" 
+                                        [type]="'decimal'" step="0.01" (keypress)="isDecimal($event)" (change)="instalPercentCal($event,i,o,true)"></app-custom-input>
+                                        </td>
                                       <td>
-                                      <input formControlName="emiAmount" (keypress)="isNumber($event)" (change)="enterEmiCall($event,i,o)" class="form-control">
+                                      <input formControlName="emiAmount" (keypress)="isNumber($event)" (change)="enterEmiCall($event,i,o)" class="form-control" disabled>
                                     </td>
                                       <td *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'] !='4EMISTRUCT'">
                                       <button type="button" (click)="addNewRow(i,o)" class="btn btn-primary btn-sm" title="Add New Row"

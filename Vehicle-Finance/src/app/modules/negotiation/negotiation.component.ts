@@ -189,6 +189,7 @@ export class NegotiationComponent implements OnInit {
   LMSScheduleLOVData: any;
   tempLMSScheduleLOVData = [];
   varErrToaster: boolean = true;
+  fetchAssetsJson: any;
   //tempDeductionDetails: any;
 
   constructor(
@@ -388,29 +389,11 @@ export class NegotiationComponent implements OnInit {
     return this.fb.group({
       fromMonth: [{value:'1',disabled:true},[Validators.required]],
       toMonth: [{value:indexEmiStruVal=='4EMISTRUCT'?indexMaxTenorMonth-2:null,disabled:indexEmiStruVal=='4EMISTRUCT'?true:false},[Validators.required]],
+      installmentPercent: [{value:null,disabled:indexEmiStruVal=='4EMISTRUCT'?true:false},[Validators.required]],
       emiAmount: [{value:indexEmiStruVal=='4EMISTRUCT'?indexBaseEmiValue:null,disabled:indexEmiStruVal=='4EMISTRUCT'?true:false},[Validators.required]],
     });
   }
-  // initRows(i,j) { //nego Enhance
-  //   let varFormArrayValues=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'];
-  //   let defFromMonth = Number(varFormArrayValues['controls'][j]['controls']['toMonth'].value) + 1;
-  //   varFormArrayValues['controls'][j]['controls']['toMonth'].value
-
-   
-  //   let newObj= this.fb.group({
-  //     fromMonth: [{value:defFromMonth,disabled:true},[Validators.required]],
-  //     toMonth: ["",[Validators.required]],
-  //     emiAmount: ["",[Validators.required]],
-  //   });
-  //   let getLength=Number(this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'].controls.length);
-  //       getLength = getLength-1;
-  //     this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.toMonth.disable();
-  //     this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.emiAmount.disable();
-  //   console.log(this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'].controls.length);
-
-  //   return newObj;
-  // }
-
+ 
   initRows(i,j,flag,objDetaills) { //nego Enhance
     if(!flag){
     let varFormArrayValues=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'];
@@ -421,19 +404,21 @@ export class NegotiationComponent implements OnInit {
     let newObj= this.fb.group({
       fromMonth: [{value:defFromMonth,disabled:true},[Validators.required]],
       toMonth: ["",[Validators.required]],
+      installmentPercent: ["",[Validators.required]],
       emiAmount: ["",[Validators.required]],
     });
     let getLength=Number(this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'].controls.length);
         getLength = getLength-1;
       this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.toMonth.disable();
+      this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.installmentPercent.disable();
       this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.emiAmount.disable();
-    //console.log(this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'].controls.length);
 
     return newObj;
    }else{
     return this.fb.group({
       fromMonth: [{value:objDetaills.fromMonth.value,disabled:true}],
       toMonth: [{value:objDetaills.toMonth.value,disabled:true}],
+      installmentPercent: [{value:objDetaills.installmentPercent.value,disabled:true}],
       emiAmount: [{value:objDetaills.emiAmount.value,disabled:true}],
      
     });
@@ -476,7 +461,8 @@ export class NegotiationComponent implements OnInit {
     getLength=getLength-1;
    
     deleteArray['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.toMonth.enable();
-    deleteArray['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.emiAmount.enable();
+    deleteArray['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.installmentPercent.enable();
+      //deleteArray['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.emiAmount.enable();
     //console.log(getLength)
     //this.formArr.removeAt(index);
   }
@@ -495,22 +481,105 @@ export class NegotiationComponent implements OnInit {
 
     if(Number(enteredValue)>(loanTenorMonth - 1)){
       this.toasterService.showError('To Month should not be greater than  '+ (loanTenorMonth-1) + ' Months', '');
-
-       varFormArrayValues.controls[j]['controls']['toMonth'].setValue(null)
+       varFormArrayValues.controls[j]['controls']['toMonth'].setValue(null);
+       varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
+       varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null);
         return;
     }                  
     if (Number(enteredValue)<=Number(fromMonthVal)){
       this.toasterService.showError('To Month should be greater than from Month', '');
-      varFormArrayValues.controls[j]['controls']['toMonth'].setValue(null)
+      varFormArrayValues.controls[j]['controls']['toMonth'].setValue(null);
+      varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
+      varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null);
         return;
     }
- 
+    if(varFormArrayValues.controls[j]['controls'].installmentPercent.value){
+      this.instalPercentCal(varFormArrayValues.controls[j]['controls'].installmentPercent.value,i,j,false)
+    }
+
+  }
+
+  instalPercentCal(event,i,j,flag){
+    let enteredValue :any;
+    if(flag){
+      enteredValue= event.target.value?Number(event.target.value):null;
+    }else{
+      enteredValue= Number(event);
+    }
+    let varFormArrayValues=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'];
+    if(!(varFormArrayValues.controls[j]['controls']['toMonth']['value'])){ // with out filling month this will get error
+      varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
+      varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null);
+      this.toasterService.showError('Kindly fill To Month to proceed further', '');
+      return;
+    }
+    if(!enteredValue){ // if there is no Value,existing Value will get clear
+      varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
+      varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null);
+      return;
+    }
+    let totalinstallmentPercent = null;
+    //newValidation Included
+    for (let k = 0; k < varFormArrayValues['controls'].length; k++) {
+      let addTotalinstallmentPercent = varFormArrayValues['controls'][k]['controls']['installmentPercent']['value'];
+      addTotalinstallmentPercent = addTotalinstallmentPercent?Number(addTotalinstallmentPercent):0;
+      totalinstallmentPercent  = totalinstallmentPercent + addTotalinstallmentPercent;
+      if(totalinstallmentPercent>100){
+        varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
+        varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null)
+        this.toasterService.showError('Total Installment should not be greater than 100%', '');
+        return;
+      }
+    }
+
+    let indexValue=j;
+    if(indexValue>0){
+      indexValue = j - 1;
+      indexValue=Number(varFormArrayValues.controls[indexValue]['controls']['installmentPercent']['value']);
+    }
+
+    let arrVals=this.createNegotiationForm.controls.tickets;   
+    let indexEmiStruVal=arrVals['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'];
+
+    if(indexEmiStruVal=='2EMISTRUCT'){ //Step Down
+      if((indexValue?enteredValue>=indexValue:false)){ // if enetered Value is lesser than InstallmentPercentage
+        this.toasterService.showError('Installment Percentage should be lesser than Previous row value' + '.','');           
+        varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
+        return;
+      } 
+    }else if(indexEmiStruVal=='3EMISTRUCT'){ //Step Up
+      if((indexValue?enteredValue<=indexValue:false)){ // if enetered Value is greater than InstallmentPercentage
+        this.toasterService.showError('Installment Percentage should be greater than previous row value' + '.','');           
+        varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
+        return;
+      } 
+    }else if(indexEmiStruVal=='5EMISTRUCT'){ // Baloon
+      if((indexValue?enteredValue<=indexValue:false)){ // if enetered Value is lesser than InstallmentPercentage
+        this.toasterService.showError('Installment Percentage should be greater than previous row value' + '.','');           
+        varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
+        return;
+      }
+    }
+      
+    if(this.repaymentAmnt){
+      let getFM = varFormArrayValues.controls[j]['controls']['fromMonth']['value'];
+      let getTM = varFormArrayValues.controls[j]['controls']['toMonth']['value'];
+      if(getTM && getFM){
+        let repayAmnt = Number(this.repaymentAmnt);
+        let emiCycleMonths = (Number(getTM)-Number(getFM))+1;
+        let calculatedAmnt = (repayAmnt * enteredValue) / 100;
+        calculatedAmnt  = calculatedAmnt / emiCycleMonths;
+        calculatedAmnt = calculatedAmnt?Math.round(calculatedAmnt):null;
+        varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(calculatedAmnt);
+        this.enterEmiCall(calculatedAmnt,i,j);
+      }
+    }
+    
   }
 
   enterEmiCall(event,i,j){ //nego Enhance
-    let enteredValue= event.target.value?Number(event.target.value):null;
+    let enteredValue= event;
     let varFormArrayValues=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'];
-    let emiValue=varFormArrayValues.controls[j]['controls']['emiAmount']['value'];
     let indexBaseEmiValue = this.createNegotiationForm.controls.tickets['controls'][i]['controls'].loanBookingDetails['controls']['emiDefaultValue']['value'];   
     //clearing the MockScheduleArray whenever
     this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['mockSchForm'].get('mockSchFormArray').controls=[];
@@ -520,8 +589,6 @@ export class NegotiationComponent implements OnInit {
           this.toasterService.showError('Default Base EMI Value for this table not yet calculated','');  
            return
         }
-        //console.log(indexBaseEmiValue);
-        //console.log(this.emiIndexValue);
     let indexValue=j;
     if(indexValue>0){
       indexValue = j - 1;
@@ -549,6 +616,50 @@ export class NegotiationComponent implements OnInit {
       }
     }
   }
+
+  // enterEmiCall(event,i,j){ //nego Enhance Existing
+  //   //let enteredValue= event.target.value?Number(event.target.value):null;
+  //   let enteredValue= event;
+  //   let varFormArrayValues=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'];
+  //   let emiValue=varFormArrayValues.controls[j]['controls']['emiAmount']['value'];
+  //   let indexBaseEmiValue = this.createNegotiationForm.controls.tickets['controls'][i]['controls'].loanBookingDetails['controls']['emiDefaultValue']['value'];   
+  //   //clearing the MockScheduleArray whenever
+  //   this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['mockSchForm'].get('mockSchFormArray').controls=[];
+  //   indexBaseEmiValue = indexBaseEmiValue?Number(indexBaseEmiValue):0
+  //       if(!indexBaseEmiValue){
+  //         varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null)
+  //         this.toasterService.showError('Default Base EMI Value for this table not yet calculated','');  
+  //          return
+  //       }
+  //       //console.log(indexBaseEmiValue);
+  //       //console.log(this.emiIndexValue);
+  //   let indexValue=j;
+  //   if(indexValue>0){
+  //     indexValue = j - 1;
+  //     indexValue=Number(varFormArrayValues.controls[indexValue]['controls']['emiAmount']['value']);
+  //   }
+
+  //   let arrVals=this.createNegotiationForm.controls.tickets;   
+  //   let indexEmiStruVal=arrVals['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'];
+
+   
+  //   if(indexEmiStruVal=='2EMISTRUCT'){ //Step Down
+  //     if((enteredValue<indexBaseEmiValue) || (indexValue?enteredValue>=indexValue:false)){ // if enetered Value is lesser than emiValue
+  //       this.toasterService.showError('EMI Value should be greater than ' + indexBaseEmiValue + ' and lesser than Previous row EmiAmountValue' + '.','');           
+  //       varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null)
+  //     } 
+  //   }else if(indexEmiStruVal=='3EMISTRUCT'){ //Step Up
+  //     if((enteredValue<indexBaseEmiValue) || (indexValue?enteredValue<=indexValue:false)){ // if enetered Value is greater than emiValue
+  //       this.toasterService.showError('EMI Value should be greater than ' + indexBaseEmiValue + ' and Previous row EmiAmountValue' + '.','');           
+  //       varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null)
+  //     } 
+  //   }else if(indexEmiStruVal=='5EMISTRUCT'){ // Baloon
+  //     if((enteredValue<indexBaseEmiValue) || (indexValue?enteredValue<=indexValue:false)){ // if enetered Value is lesser than emiValue
+  //       this.toasterService.showError('EMI Value should be greater than ' + indexBaseEmiValue + ' and Previous row EmiAmountValue' + '.','');           
+  //       varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null)
+  //     }
+  //   }
+  // }
 
   emiStrutureChange(i){  //nego Enhance
     let arrVals=this.createNegotiationForm.controls.tickets;   
@@ -697,6 +808,7 @@ export class NegotiationComponent implements OnInit {
   
     let loanTenorMonth:any = 0;
     let arrVals=this.createNegotiationForm.controls.tickets; 
+    let varFormArrayValues=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'];
 
     let indexEmiStruVal=arrVals['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'];
     let keyObj = false;
@@ -708,13 +820,25 @@ export class NegotiationComponent implements OnInit {
       }
     });
     if(keyObj){
-      return;
+      return;``
+    }
+
+    if(indexEmiStruVal!='4EMISTRUCT'){
+      let totalinstallmentPercent = null;
+      for (let k = 0; k < varFormArrayValues['controls'].length; k++) {
+        let addTotalinstallmentPercent = varFormArrayValues['controls'][k]['controls']['installmentPercent']['value'];      
+        addTotalinstallmentPercent = addTotalinstallmentPercent?Number(addTotalinstallmentPercent):0;
+        totalinstallmentPercent  = totalinstallmentPercent + addTotalinstallmentPercent;       
+      } 
+      if(totalinstallmentPercent!=100){        
+        this.toasterService.showError('Total Installment should be equal to 100%', '');
+        return;
+      }
     }
 
       let negoArray=arrVals['controls'][i]['controls']['negotiationformArray']['controls'];
           loanTenorMonth=negoArray['NegotiatedLoanTenor']['value']?Number(negoArray['NegotiatedLoanTenor']['value']):0;
 
-      let varFormArrayValues=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray'];
   
       let loanEmiVal= (this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI']['value'])?
                       Number(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI']['value']):0
@@ -732,38 +856,75 @@ export class NegotiationComponent implements OnInit {
 
       let totalEmiVal = 0;
 
-     if(indexEmiStruVal=='5EMISTRUCT'){ // Baloon Validation
-          var emiTotalValue = 0;
-          var threeMonthsEmi = 0;//last Object
-          let arrayLength=varFormArrayValues['controls'].length;
-          let fromMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['fromMonth']['value'];
-          let toMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['toMonth']['value'];
-          let lastThreeMonths=(Number(toMonth)-Number(fromMonth))+1;//from month is 1 & to month is 2,total 2months
-           //console.log(lastThreeMonths)   
-           if(lastThreeMonths>=3){ // if satisfies in last obje of Array 
-              emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-1]['controls']['emiAmount']['value']);
-              threeMonthsEmi =(emiTotalValue)*3;
-              //console.log(threeMonthsEmi)
-           }else{
-            emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-1]['controls']['emiAmount']['value']);
-            threeMonthsEmi =(emiTotalValue*2); //lastThreeMonths,in last toMonth should not be lesser han from Month,minimum 2 month will be available in all objects
-            emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-2]['controls']['emiAmount']['value']);
-            threeMonthsEmi = threeMonthsEmi+emiTotalValue;
-            //console.log(threeMonthsEmi);
-           }   
-           //console.log(threeMonthsEmi)
-          //last before Object
-          let loanBookingDetails=this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls'];
-          let crossSellLoan=loanBookingDetails['LoanAmountincludingCrossSellsubtractSubvent']['value']?Number(loanBookingDetails['LoanAmountincludingCrossSellsubtractSubvent']['value']):0;
+    //  if(indexEmiStruVal=='5EMISTRUCT'){ //Existing Baloon Validation
+    //       var emiTotalValue = 0;
+    //       var threeMonthsEmi = 0;//last Object
+    //       let arrayLength=varFormArrayValues['controls'].length;
+    //       let fromMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['fromMonth']['value'];
+    //       let toMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['toMonth']['value'];
+    //       let lastThreeMonths=(Number(toMonth)-Number(fromMonth))+1;//from month is 1 & to month is 2,total 2months
+    //        //console.log(lastThreeMonths)   
+    //        if(lastThreeMonths>=3){ // if satisfies in last obje of Array 
+    //           emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-1]['controls']['emiAmount']['value']);
+    //           threeMonthsEmi =(emiTotalValue)*3;
+    //           //console.log(threeMonthsEmi)
+    //        }else{
+    //         emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-1]['controls']['emiAmount']['value']);
+    //         threeMonthsEmi =(emiTotalValue*2); //lastThreeMonths,in last toMonth should not be lesser han from Month,minimum 2 month will be available in all objects
+    //         emiTotalValue=Number(varFormArrayValues['controls'][arrayLength-2]['controls']['emiAmount']['value']);
+    //         threeMonthsEmi = threeMonthsEmi+emiTotalValue;
+    //         //console.log(threeMonthsEmi);
+    //        }   
+    //        //console.log(threeMonthsEmi)
+    //       //last before Object
+    //       let loanBookingDetails=this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls'];
+    //       let crossSellLoan=loanBookingDetails['LoanAmountincludingCrossSellsubtractSubvent']['value']?Number(loanBookingDetails['LoanAmountincludingCrossSellsubtractSubvent']['value']):0;
          
-             crossSellLoan = crossSellLoan*25/100; //(52)
-          if(threeMonthsEmi<crossSellLoan){
-            //console.log(threeMonthsEmi);
-            this.toasterService.showError('This installment structure is not matching with Balloon EMI type. Please revise','');  
-            return;         
-          }
+    //          crossSellLoan = crossSellLoan*25/100; //(52)
+    //       if(threeMonthsEmi<crossSellLoan){
+    //         //console.log(threeMonthsEmi);
+    //         this.toasterService.showError('This installment structure is not matching with Balloon EMI type. Please revise','');  
+    //         return;         
+    //       }
           
+    //   }
+
+    if(varFormArrayValues['controls'].length!=0){
+      let arrayLength=varFormArrayValues['controls'].length;
+      let toMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['toMonth']['value'];
+      if(Number(toMonth)!=(loanTenorMonth-1)){
+        this.toasterService.showError('Tenure Month should not be greater than or lesser than '+ (loanTenorMonth-1) + 'Months', '');
+        return;
       }
+    }
+
+      if(indexEmiStruVal=='5EMISTRUCT'){ // new Change Baloon Validation
+        var emiTotalValue = 0;
+        var threeMonthsEmi = 0;//last Object
+
+        let arrayLength=varFormArrayValues['controls'].length;
+        let fromMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['fromMonth']['value'];
+        let toMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['toMonth']['value'];
+        let installmentPercentage=varFormArrayValues['controls'][arrayLength-1]['controls']['installmentPercent']['value'];
+
+        let lastThreeMonths=(Number(toMonth)-Number(fromMonth))+1;//from month is 1 & to month is 2,total 2months
+         if(lastThreeMonths>=3){ // if satisfies in last obje of Array 
+          threeMonthsEmi = (installmentPercentage/lastThreeMonths)*3        
+         }else{ // when last row holds only 2 months
+          //Note : installmentPercentage // last two month percentage value == percentangeValue/2(last two months)*2(last two emis) ==>same Value;
+          let lastBeforefromMonth=varFormArrayValues['controls'][arrayLength-2]['controls']['fromMonth']['value'];
+          let lastBeforetoMonth=varFormArrayValues['controls'][arrayLength-2]['controls']['toMonth']['value'];
+          let lastBeforeInstallmentPercentage=varFormArrayValues['controls'][arrayLength-2]['controls']['installmentPercent']['value'];
+          let rowtotalMonths=(Number(lastBeforetoMonth)-Number(lastBeforefromMonth))+1;//from month is 1 & to month is 2,total 2months
+          lastBeforeInstallmentPercentage = lastBeforeInstallmentPercentage/rowtotalMonths
+          threeMonthsEmi = Number(installmentPercentage)+Number(lastBeforeInstallmentPercentage);
+         }         
+        if(threeMonthsEmi<25){
+          console.log(threeMonthsEmi);
+          this.toasterService.showError('This installment structure is not matching with Balloon EMI type. Please revise','');  
+          return;         
+        }        
+    }
   
       for (let x = 0; x < varFormArrayValues['controls'].length; x++) {
         let objFromMonth=Number(varFormArrayValues['controls'][x]['controls']['fromMonth']['value']);
@@ -837,16 +998,16 @@ if(flag){
       VariableEPISchedule.push(obj);
     }
   
-    let getTableLength=VariableEPISchedule.length;
-    if(getTableLength!=0){
-      getTableLength = Number(getTableLength)-1;
-      let lastRowToMonth=varArrayControls[getTableLength]['controls']['toMonth']['value'];
-      if(lastRowToMonth!=(loanTenorMonth-1)){
-        VariableEPISchedule = [];
-        this.toasterService.showError('Tenure Month should not be greater than or lesser than '+ (loanTenorMonth-1) + 'Months', '');
-        return;
-      }
-    }
+    // let getTableLength=VariableEPISchedule.length;
+    // if(getTableLength!=0){
+    //   getTableLength = Number(getTableLength)-1;
+    //   let lastRowToMonth=varArrayControls[getTableLength]['controls']['toMonth']['value'];
+    //   if(lastRowToMonth!=(loanTenorMonth-1)){
+    //     VariableEPISchedule = [];
+    //     this.toasterService.showError('Tenure Month should not be greater than or lesser than '+ (loanTenorMonth-1) + 'Months', '');
+    //     return;
+    //   }
+    // }
 
     this.mockformArr.push(this.msInitRowsDefault(false,''));
 }
@@ -1213,6 +1374,24 @@ if(flag){
           loanBreak.MIPremiumAmount.setValue('0');
           loanBreak.PACPremiumAmount.setValue('0');
           loanBreak.VASPremiumAmount.setValue('0');
+          let selectedIndex;
+        //714 Motor,715 PAC,716 VAS
+            for (let j = 0; j < this.DeductionDetails.length; j++) {
+              if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "714" || this.DeductionDetails[j].DeductionChargeCode == "715" || this.DeductionDetails[j].DeductionChargeCode == "716" || 
+              this.DeductionDetails[j].DeductionChargeCode == "723" || this.DeductionDetails[j].DeductionChargeCode == "726" || this.DeductionDetails[j].DeductionChargeCode == "728")) {
+                selectedIndex = j;
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+              }
+              else if (this.view && (this.DeductionDetails[j].charge_code == "714" || this.DeductionDetails[j].charge_code == "715" || this.DeductionDetails[j].charge_code == "716" ||
+              this.DeductionDetails[j].charge_code == "723" || this.DeductionDetails[j].charge_code == "726" || this.DeductionDetails[j].charge_code == "728")) {
+                selectedIndex = j;
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+               
+              }
+            }
+          
         }
         else if (isBool === true && productCategorySelected != 4) {
           this.showapplicable = false;
@@ -1251,6 +1430,20 @@ if(flag){
               this.VASInsuranceProvidersLOV.push(obj)
             }
           }
+          let selectedIndex;
+        //714 Motor,715 PAC,716 VAS
+            for (let j = 0; j < this.DeductionDetails.length; j++) {
+              if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "714" || this.DeductionDetails[j].DeductionChargeCode == "715" || this.DeductionDetails[j].DeductionChargeCode == "716" || 
+              this.DeductionDetails[j].DeductionChargeCode == "723" || this.DeductionDetails[j].DeductionChargeCode == "726" || this.DeductionDetails[j].DeductionChargeCode == "728")) {
+                selectedIndex = j;
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+              }
+              else if (this.view && (this.DeductionDetails[j].charge_code == "714" || this.DeductionDetails[j].charge_code == "715" || this.DeductionDetails[j].charge_code == "716" || 
+              this.DeductionDetails[j].charge_code == "723" || this.DeductionDetails[j].charge_code == "726" || this.DeductionDetails[j].charge_code == "728")) {
+                selectedIndex = j;
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable() 
+              }
+            }
         }
         this.motorInsuranceProviderName = event.target.value
       }
@@ -1265,6 +1458,20 @@ if(flag){
           y.fundingRequiredforPAC.setErrors(null); //GIT
           y.PACPremiumAmount.setErrors(null); //GIT
           loanBreak.PACPremiumAmount.setValue(0);
+          let selectedIndex;
+          for (let j = 0; j < this.DeductionDetails.length; j++) {
+            if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "715" || this.DeductionDetails[j].DeductionChargeCode == "726")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+            }
+            else if (this.view && (this.DeductionDetails[j].charge_code == "715" || this.DeductionDetails[j].charge_code == "726")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+             
+            }
+          }
         }
         else if (isBool === true && productCategorySelected != 4) {
           this.showapplicable = false;
@@ -1273,6 +1480,18 @@ if(flag){
           y.fundingRequiredforPAC.enable();
           y.PACPremiumAmount.enable();
           loanBreak.PACPremiumAmount.setValue(null);
+          let selectedIndex;
+          for (let j = 0; j < this.DeductionDetails.length; j++) {
+            if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "715" || this.DeductionDetails[j].DeductionChargeCode == "726")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+            }
+            else if (this.view && (this.DeductionDetails[j].charge_code == "715" || this.DeductionDetails[j].charge_code == "726")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+             
+            }
+          }
         }
         this.pACInsuranceProviderName = event.target.value
       }
@@ -1287,6 +1506,20 @@ if(flag){
           z.fundingRequiredforVAS.setErrors(null) //GIT
           z.VASPremiumAmount.setErrors(null)//GIT
           loanBreak.VASPremiumAmount.setValue(0);
+          let selectedIndex;
+          for (let j = 0; j < this.DeductionDetails.length; j++) {
+            if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "716" || this.DeductionDetails[j].DeductionChargeCode == "728")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+            }
+            else if (this.view && (this.DeductionDetails[j].charge_code == "716" || this.DeductionDetails[j].charge_code == "728")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+             
+            }
+          }
         }
         else if (isBool === true && productCategorySelected != 4) {
           this.showapplicable = false;
@@ -1295,6 +1528,18 @@ if(flag){
           z.fundingRequiredforVAS.enable();
           z.VASPremiumAmount.enable();
           loanBreak.VASPremiumAmount.setValue(null);
+          let selectedIndex;
+          for (let j = 0; j < this.DeductionDetails.length; j++) {
+            if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "716" || this.DeductionDetails[j].DeductionChargeCode == "728")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+            }
+            else if (this.view && (this.DeductionDetails[j].charge_code == "716" || this.DeductionDetails[j].charge_code == "728")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+             
+            }
+          }
         }
         this.vASInsuranceProvidersName = event.target.value
       }
@@ -1312,6 +1557,20 @@ if(flag){
           a.lifeCoverPremiumAmount.disable();
           a.fundingforLifeCover.disable();
           loanBreak.lifeCoverPremiumAmount.setValue(0);
+          let selectedIndex;
+          for (let j = 0; j < this.DeductionDetails.length; j++) {
+            if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "713" || this.DeductionDetails[j].DeductionChargeCode == "720" || this.DeductionDetails[j].DeductionChargeCode == "719")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+            }
+            else if (this.view && (this.DeductionDetails[j].charge_code == "713" || this.DeductionDetails[j].charge_code == "720" || this.DeductionDetails[j].charge_code == "719")) {
+              selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+             
+            }
+          }
         }
         else if (isBool === true && productCategorySelected != 4) {
           this.showapplicableCredit = false;
@@ -1328,6 +1587,42 @@ if(flag){
           a.fundingRequiredforlifeCover.enable();
           a.lifeCoverPremiumAmount.enable();
           loanBreak.lifeCoverPremiumAmount.setValue(null);
+          let selectedIndex;
+          for (let j = 0; j < this.DeductionDetails.length; j++) {
+            if(productCategorySelected == 2){
+              if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "713" || this.DeductionDetails[j].DeductionChargeCode == "720")) {
+                selectedIndex = j;
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+              } else if(!this.view && this.DeductionDetails[j].DeductionChargeCode == "719"){
+                selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+              } else if (this.view && (this.DeductionDetails[j].charge_code == "713" || this.DeductionDetails[j].charge_code == "720")) {
+                selectedIndex = j;
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+              } else if(this.view && this.DeductionDetails[j].charge_code == "719"){
+                selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+              }
+            } else if (productCategorySelected == 3){
+              if (!this.view && (this.DeductionDetails[j].DeductionChargeCode == "713" || this.DeductionDetails[j].DeductionChargeCode == "719")) {
+                selectedIndex = j;
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+              } else if(!this.view && this.DeductionDetails[j].DeductionChargeCode == "720"){
+                selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+              } else if (this.view && (this.DeductionDetails[j].charge_code == "713" || this.DeductionDetails[j].charge_code == "719")) {
+                selectedIndex = j;
+                this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.enable()
+              } else if(this.view && this.DeductionDetails[j].charge_code == "720"){
+                selectedIndex = j;
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex].patchValue({ DeductionChargefixedRate: 0 })
+              this.createNegotiationForm.get('tickets')['controls'][i]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+              }
+            }
+          }
         }
         this.creditShieldInsuranceProviderName = event.target.value
       }
@@ -1569,14 +1864,22 @@ if(flag){
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     //var moratoriumDays = parseInt(this.createNegotiationForm.controls.MoratoriumPeriod.value);
     var moratoriumDays = parseInt(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['MoratoriumPeriod'].value);
-    if (moratoriumDays == 1 || val == 1) {
-      moratoriumDays = 0;
-    } else if (moratoriumDays == 2) {
+    var repaymentDays = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['repaymentFrequency'].value
+    
+    if ((moratoriumDays == 1 && repaymentDays == '1LOSREPAYFRE') || val == 1) {
       moratoriumDays = 30;
-    } else if (moratoriumDays == 3) {
+    } else if ((moratoriumDays == 1 && repaymentDays == '2LOSREPAYFRE') || (moratoriumDays == 2 && repaymentDays == '1LOSREPAYFRE')) {
+      moratoriumDays = 30;
+    } else if (moratoriumDays == 1 && repaymentDays == '3LOSREPAYFRE' || moratoriumDays == 3 && repaymentDays == '1LOSREPAYFRE' || moratoriumDays == 2 && repaymentDays == '2LOSREPAYFRE') {
       moratoriumDays = 60;
-    } else if (moratoriumDays == 4) {
+    } else if (moratoriumDays == 1 && repaymentDays == '4LOSREPAYFRE' || moratoriumDays == 4 && repaymentDays == '1LOSREPAYFRE' || moratoriumDays == 3 && repaymentDays == '2LOSREPAYFRE' || moratoriumDays == 2 && repaymentDays == '3LOSREPAYFRE') {
       moratoriumDays = 90;
+    } else if (moratoriumDays == 2 && repaymentDays == '4LOSREPAYFRE' || moratoriumDays == 3 && repaymentDays == '3LOSREPAYFRE' || moratoriumDays == 4 && repaymentDays == '2LOSREPAYFRE'){
+      moratoriumDays = 120;
+    } else if (moratoriumDays == 3 && repaymentDays == '4LOSREPAYFRE' || moratoriumDays == 4 && repaymentDays == '3LOSREPAYFRE'){
+      moratoriumDays = 150;
+    } else if (moratoriumDays == 4 && repaymentDays == '4LOSREPAYFRE'){
+      moratoriumDays = 180;
     }
 
     var disbursementDay = new Date();
@@ -2524,6 +2827,7 @@ setCrosSell(i,val){
         var object = {
           from_month: ticket.variableForm.variableFormArray[key].fromMonth,
           to_month: ticket.variableForm.variableFormArray[key].toMonth,
+          installment_Percentage: ticket.variableForm.variableFormArray[key].installmentPercent,          
           emi_amount: ticket.variableForm.variableFormArray[key].emiAmount
         }
         variableGrid.push(object);
@@ -2631,6 +2935,17 @@ setCrosSell(i,val){
       .subscribe((res: any) => {
         if (res.Error == 0 && (!res.ProcessVariables.error || res.ProcessVariables.error.code == 0)) {
           this.NegotiationId = res.ProcessVariables.NegotiationDetails.NegotiationID;
+          this.fetchAssetsJson = JSON.parse(res.ProcessVariables.NegotiationDetails.AssetsJson);
+          const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
+          this.DeductionDetails = this.fetchAssetsJson[index].deductions;
+              for (let i = this.deductChargesArray.length; i < this.DeductionDetails.length; i++) {
+                this.deductionLabel[i] = this.DeductionDetails[i].charge_name;
+                this.deductChargesArray.push(this.fb.group({
+                  DeductionChargefixedRate: this.DeductionDetails[i].charge_amount,
+                }));
+                
+              };
+})
           this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
         }
         else if (res.ProcessVariables.error || res.ProcessVariables.error.code == 1) {
@@ -2811,6 +3126,17 @@ setCrosSell(i,val){
               if(this.AssetDetailsList[index].schemeType=='S' || this.AssetDetailsList[index].schemeType=='SI'){
                 this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['controls']['loanBookingEMI'].disable();
               }
+              let getloanTenor:any = null;
+              let getloanBookingEmi= (this.loanBookingSelected['controls'].loanBookingEMI.value)?Number(this.loanBookingSelected['controls'].loanBookingEMI.value):null;
+              if(!(this.AssetDetailsList[index].schemeType=='S' || this.AssetDetailsList[index].schemeType=='I' || this.AssetDetailsList[index].schemeType=='SI')){              
+                getloanTenor=(this.negotiationSelected['controls'].NegotiatedLoanTenor.value)?Number(this.negotiationSelected['controls'].NegotiatedLoanTenor.value):null;  
+              }else{ // if it is Subvention
+                getloanTenor=(this.negotiationSelected['controls'].subventSchemeLoanTenor.value)?Number(this.negotiationSelected['controls'].subventSchemeLoanTenor.value):null;
+              }
+
+              if(getloanTenor && getloanBookingEmi){ // to Calculate Repayment value
+                this.repaymentAmnt = (getloanTenor-1)*getloanBookingEmi;
+              }
 
               this.loanBreakupSelected['controls'].finalAssetCost.setValue(this.CrossSellIns[index].loan_booking_dtls.final_asset_cost);
               this.loanBreakupSelected['controls'].NegotiatedLoanAmount.setValue(this.CrossSellIns[index].negotiation_dtls.negotiated_loan_amount);
@@ -2882,6 +3208,7 @@ setCrosSell(i,val){
                 var object = {
                     fromMonth: this.AssetsJson[index].variable_emi_grid[key].from_month,
                     toMonth: this.AssetsJson[index].variable_emi_grid[key].to_month,
+                    installmentPercent: this.AssetsJson[index].variable_emi_grid[key].installment_Percentage,
                     emiAmount: this.AssetsJson[index].variable_emi_grid[key].emi_amount
                 }
                 variableGrid.push(object);
@@ -2896,6 +3223,7 @@ setCrosSell(i,val){
 
                 fetchedVarArray.controls[0].controls.fromMonth.setValue(varSchValues[x]['fromMonth'])
                 fetchedVarArray.controls[0].controls.toMonth.setValue(varSchValues[x]['toMonth'])
+                fetchedVarArray.controls[0].controls.installmentPercent.setValue(varSchValues[x]['installmentPercent'])
                 fetchedVarArray.controls[0].controls.emiAmount.setValue(varSchValues[x]['emiAmount'])
                 this.formArr.push(this.initRows(index,x,true,fetchedVarArray.controls[0].controls))
               }
@@ -2937,8 +3265,6 @@ setCrosSell(i,val){
                 totalMockTableSize['controls']['mockSchFormArray'].removeAt(0);
               }
               }
-              
-
 
               this.DeductionDetails = this.AssetsJson[index].deductions;
               for (let i = this.deductChargesArray.length; i < this.DeductionDetails.length; i++) {
@@ -2950,6 +3276,25 @@ setCrosSell(i,val){
                 }));
                 
               };
+              let selectedIndex
+              for (let j = 0; j < this.DeductionDetails.length; j++) {
+                if(this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '4' && (this.DeductionDetails[j].charge_code == "713" || this.DeductionDetails[j].charge_code == "719" || this.DeductionDetails[j].charge_code == "720")){
+                  selectedIndex = j;
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+                } else if(this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '2' && this.DeductionDetails[j].charge_code == "719"){
+                  selectedIndex = j;
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+                } else if (this.CrossSellIns[index].cross_sell_ins[2].insurance_code == '3' && this.DeductionDetails[j].charge_code == "720"){
+                  selectedIndex = j;
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+                 }
+                 if((this.CrossSellIns[index].cross_sell_ins[0].insurance_code == '4' && (this.DeductionDetails[j].charge_code == "714" || this.DeductionDetails[j].charge_code == "723")) || 
+                 (this.CrossSellIns[index].cross_sell_ins[1].insurance_code == '4' && (this.DeductionDetails[j].charge_code == "715" || this.DeductionDetails[j].charge_code == "726")) || 
+                 (this.CrossSellIns[index].cross_sell_ins[3].insurance_code == '4'  && (this.DeductionDetails[j].charge_code == "716" || this.DeductionDetails[j].charge_code == "728"))){
+                  selectedIndex = j;
+                  this.createNegotiationForm.get('tickets')['controls'][index]['controls']['DeductionChargefixedRate']['controls'][selectedIndex]['controls'].DeductionChargefixedRate.disable()
+                 }
+              }
               if (this.roleType === 5 || this.roleType === 4) {
                 this.deductChargesArray.disable()
               }
