@@ -7,8 +7,8 @@
     </h3>
     <div class="row" *ngIf="productCatCode === 'NC' || productCatCode === 'NCV'">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="cost_of_vehicle">{{ labels.costOfVehicle }}</label>
-        <app-custom-input id="cost_of_vehicle" formControlName="newVehicleCost" placeholder="cost of vehicle"
+        <label for="cost_of_vehicle">{{ labels.purchaseCost }}</label>
+        <app-custom-input id="cost_of_vehicle" formControlName="newVehicleCost" placeholder="Purchase Cost"
           [type]="labels?.validationData?.amountValue?.type"
           [maxLength]="labels?.validationData?.amountValue?.maxLength">
         </app-custom-input>
@@ -57,8 +57,8 @@
       <div class="row">
 
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="cost_of_vehicle">{{ labels.costOfVehicle }}</label>
-          <app-custom-input id="cost_of_vehicle" formControlName="usedVehicleCost" placeholder="cost of vehicle"
+          <label for="cost_of_vehicle">{{ labels.purchaseCost }}</label>
+          <app-custom-input id="cost_of_vehicle" formControlName="usedVehicleCost" placeholder="Purchase Cost"
             [type]="labels?.validationData?.amountValue?.type"
             [maxLength]="labels?.validationData?.amountValue?.maxLength">
           </app-custom-input>
@@ -261,7 +261,7 @@
 
           <div class="invalid-feedback">
             <div *ngIf="
-                loanDetailsForm.controls['othersRemarks'].touched &&
+                isDirty &&
                 !loanDetailsForm.controls['othersRemarks'].valid
               ">
               <div *ngIf="
@@ -377,7 +377,7 @@
           </kendo-datepicker>
           <div class="invalid-feedback">
             <div *ngIf="
-              loanDetailsForm.controls['fitnessValidity'].touched &&
+              isDirty &&
               !loanDetailsForm.controls['fitnessValidity'].value
             ">
               <div *ngIf="
@@ -405,7 +405,7 @@
           </kendo-datepicker>
           <div class="invalid-feedback">
             <div *ngIf="
-            loanDetailsForm.controls['taxValidity'].touched &&
+            isDirty &&
             !loanDetailsForm.controls['taxValidity'].value
           ">
               <div *ngIf="loanDetailsForm.controls['taxValidity'].hasError('required')">
@@ -521,7 +521,7 @@
             formControlName="remarks" maxlength="1500" style="resize: none"></textarea>
   
           <div class="invalid-feedback" *ngIf="
-            loanDetailsForm.controls['remarks'].touched &&
+            isDirty &&
             !loanDetailsForm.controls['remarks'].valid
           ">
             <div *ngIf="loanDetailsForm.controls['remarks'].hasError('required')">
