@@ -33,7 +33,8 @@
             [isRequired]="roleType !== 1 ? 'Application No. is Required' : ''">
           </app-custom-input>
         </div>
-
+      </div>
+      <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="product_type">{{ labels.productCategory }}</label>
           <app-vf-custom-select [values]="productCategoryData" formControlName="productCategory"
@@ -54,7 +55,10 @@
             [isRequired]="'Funding Program required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
+      </div>
 
+        
+      <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="lead_number">{{ labels?.leadNumber }}</label>
           <input formControlName="leadNumber" type="text" class="form-control mandatory" id="lead_number"
@@ -70,7 +74,9 @@
           <input formControlName="leadCreatedBy" type="text" class="form-control mandatory select2" id="lead_created_by"
             placeholder="Lead Created By" name="lead_created_by" disabled="true" />
         </div>
-
+      </div>
+        
+      <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3" id="subvention">
           <label for="lead_handled">{{ labels.leadHandledBy }}</label>
           <!-- <app-vf-custom-select 
@@ -91,7 +97,9 @@
                   formControlName="loanAccountBranch"></app-vf-custom-select> -->
           <input type="text" class="form-control mandatory" formControlName="loanBranch" />
         </div>
-
+      </div>
+        
+      <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="sourcing_channel">{{ labels.sourcingChannel }}</label>
           <app-vf-custom-select [values]="sourcingChannelData" formControlName="sourcingChannel"
@@ -127,7 +135,9 @@
             </ng-template>
           </div>
         </div>
-
+      </div>
+       
+      <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isChildLoan === '0'">
           <label for="sourcing_code">Dealer Code
             <sub class="star_blue_col">*</sub>

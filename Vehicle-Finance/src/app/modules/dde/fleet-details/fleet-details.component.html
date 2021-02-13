@@ -35,6 +35,7 @@
                             <td role="columnheader">{{labels.purchaseDate}} </td>
                             <td role="columnheader" style="min-width: 120px;">{{labels.financier}} </td>
                             <td role="columnheader">{{labels.loanNo}} </td>
+                            <td role="columnheader">{{labels.fundingAmount}} </td>
                             <td role="columnheader">{{labels.tenure}} </td>
                             <td role="columnheader">{{labels.accrued}} </td>
                             <td role="columnheader">{{labels.seasoning}} </td>
@@ -198,10 +199,26 @@
                                     [className]="'form-control mandatory'" [placeholder]="'loanNo'"
                                     [maxLength]="validationData?.loanNumber.maxLength"
                                     [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
-                                    [isRequired]="itemrow.controls['financier'].value !== 'Not-Applicable' ? 'Loan No is mandatory' : ''"
-                                    [type]="validationData?.loanNumber.type" [isDirty]="isDirty"
+                                    
+                                    [type]="validationData?.loanNumber.type" 
                                     [inputClass]="'input-upper'" [minLength]='validationData?.loanNumber.minLength'>
                                 </app-custom-input>
+                                <!-- [isRequired]="itemrow.controls['financier'].value !== 'Not-Applicable' ? 'Loan No is mandatory' : ''"
+                                [isDirty]="isDirty" -->
+
+                            </td>
+
+                            <td style="min-width: 150px;">
+                                <app-custom-input [id]="'fundingAmt'" formControlName="fundingAmt"
+                                    [className]="'form-control mandatory'" [placeholder]="'Funding Amount'"
+                                    [maxLength]="validationData?.amountValue.maxLength"
+                                    [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
+                                    
+                                    [type]="validationData?.amountValue.type" 
+                                    [inputClass]="'input-upper'">
+                                </app-custom-input>
+                                <!-- [isRequired]="itemrow.controls['financier'].value !== 'Not-Applicable' ? 'Loan No is mandatory' : ''"
+                                [isDirty]="isDirty" -->
 
                             </td>
 
@@ -211,10 +228,12 @@
                                     [className]="'form-control mandatory'" [placeholder]="'Tenure'"
                                     [maxLength]="validationData?.tenurePaid['maxLength']"
                                     [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
-                                    [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''"
+                                   
                                     [type]="validationData?.tenurePaid['type']" (keyup)="checkPaid($event ,i, itemrow)"
-                                    [isDirty]="isDirty">
+                                    >
                                 </app-custom-input>
+                                <!-- [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Tenure is mandatory' : ''"
+                                [isDirty]="isDirty" -->
 
                             </td>
                             <td style="min-width: 120px;">
@@ -223,10 +242,12 @@
                                         [className]="'form-control mandatory'" [placeholder]="'paid'"
                                         [maxLength]="validationData?.tenurePaid['maxLength']"
                                         [isDisabled]="itemrow.controls['financier'].value !== 'Not-Applicable' ? false : true"
-                                        [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Accrued is mandatory' : ''"
-                                        [type]="validationData?.tenurePaid['type']" [isDirty]="isDirty"
+                                        
+                                        [type]="validationData?.tenurePaid['type']" 
                                         (keyup)="checkPaid($event ,i, itemrow)" (change)="calcSeasoning($event ,i)">
                                     </app-custom-input>
+                                    <!-- [isRequired]="formArr.controls[i]['controls']['financier'].value !=='Not-Applicable' ? 'Accrued is mandatory' : ''"
+                                    [isDirty]="isDirty" -->
 
                                     <div class="cus-mandatory-field"
                                         *ngIf="itemrow.controls['paid'].errors && itemrow.controls['paid'].errors['incorrect']">
