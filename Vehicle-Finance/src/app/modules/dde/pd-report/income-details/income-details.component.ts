@@ -7,6 +7,7 @@ import { ToasterService } from '@services/toaster.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { BankTransactionsService } from '@services/bank-transactions.service';
 @Component({
   selector: 'app-income-details',
   templateUrl: './income-details.component.html',
@@ -40,6 +41,12 @@ export class IncomeDetailsComponent implements OnInit {
   applicantDetails: any = [];
   applicant: any;
 
+  searchBankNameList: any = [];
+  keyword: string = '';
+  getBankBranchDetails: any = [];
+  isEnableBranch: boolean = false;
+  searchBranchName: any = []
+
   constructor(private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -47,6 +54,7 @@ export class IncomeDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private loginStoreService: LoginStoreService,
     private formBuilder: FormBuilder,
+    private bankTransaction: BankTransactionsService,
     private personalDiscussion: PersonalDiscussionService,
     private commomLovService: CommomLovService) { }
 
@@ -150,6 +158,7 @@ export class IncomeDetailsComponent implements OnInit {
       const processVariables = value.ProcessVariables;
       if (value.Error === '0' && processVariables.error.code === '0') {
         this.pdDetail = value.ProcessVariables['incomeDetails'];
+        this.isEnableBranch = this.pdDetail.branch ? true : false;
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
         if (this.pdDetail) {
           if (value.ProcessVariables['incomeDetails'].typeOfAccount == "4BNKACCTYP") {
@@ -272,7 +281,7 @@ export class IncomeDetailsComponent implements OnInit {
         if (res.ProcessVariables.error.code === '0') {
           this.toasterService.showSuccess('Record Saved Successfully', '');
         } else {
-          this.toasterService.showError('ivalid save', 'message');
+          this.toasterService.showError('invalid save', 'message');
         }
       });
     } else {
@@ -284,6 +293,80 @@ export class IncomeDetailsComponent implements OnInit {
 
   onSaveuserDefinedFields(val) {
     this.userDefineForm = val;
+  }
+
+  onBankNameSearch(val: any) {
+
+    if (val && val.trim().length > 0) {
+
+      let data = {
+        "bankName": val.trim()
+      }
+
+      this.bankTransaction.getBankName(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.searchBankNameList = res.ProcessVariables.bankNames ? res.ProcessVariables.bankNames : [];
+          this.keyword = 'searchBankNameList';
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Bank List')
+        }
+      })
+
+      if (this.searchBankNameList.length === 0) {
+        this.toasterService.showInfo('Please enter valid bank name', '')
+      }
+
+    }
+  }
+
+  selectBankNameEvent(val) {
+    if (val) {
+      let data = {
+        "bankName": val
+      }
+
+      this.bankTransaction.getBranchDetails(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.getBankBranchDetails = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
+          this.incomeDetailsForm.get('branch').setValue('')
+          this.isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
+          this.isEnableBranch = false;
+        }
+      })
+    }
+  }
+
+  onChangeBranch(val) {
+    if (val && val.trim().length > 0) {
+      this.searchBranchName = this.getBankBranchDetails.filter(e => {
+        val = val.toString().toLowerCase();
+        const eName = e.branchName.toString().toLowerCase();
+        if (eName.includes(val)) {
+          this.keyword = 'branchName';
+          return e;
+        }
+      });
+
+      if (this.searchBranchName.length === 0) {
+        this.incomeDetailsForm.get('branch').setErrors({ incorrect: true })
+        this.toasterService.showInfo('Please enter valid branch', '')
+      }
+
+    }
+  }
+
+  selectBranch(val) {
+    setTimeout(() => {
+      this.incomeDetailsForm.get('branch').setValue(val.branchName)
+    }, 1000)
+  }
+
+  onBankNameClear(val) {
+    this.incomeDetailsForm.get('branch').setValue(null);
+    this.searchBranchName = [];
+    this.searchBankNameList = [];
   }
 
 }

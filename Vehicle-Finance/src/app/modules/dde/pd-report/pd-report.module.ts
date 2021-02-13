@@ -9,11 +9,12 @@ import { DdeSharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PdReportRoutingModule } from './pd-report-routing';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [PersonalDetailsComponent, OtherDetailsComponent, ReferenceDetailsComponent, PdReportComponent, IncomeDetailsComponent],
   imports: [
-    CommonModule, ReactiveFormsModule, FormsModule, PdReportRoutingModule, SharedModule, DdeSharedModule
+    CommonModule, ReactiveFormsModule, FormsModule, PdReportRoutingModule, SharedModule, DdeSharedModule, AutocompleteLibModule
   ]
 })
 export class PdReportModule { }

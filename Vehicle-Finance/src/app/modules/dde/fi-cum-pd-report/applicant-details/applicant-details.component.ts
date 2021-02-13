@@ -12,8 +12,8 @@ import { CreateLeadDataService } from '@modules/lead-creation/service/createLead
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoanViewService } from '@services/loan-view.service';
 import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
-import { UtilityService } from '@services/utility.service';
 import { PdDataService } from '../pd-data.service';
+import { BankTransactionsService } from '@services/bank-transactions.service';
 
 @Component({
   templateUrl: './applicant-details.component.html',
@@ -66,6 +66,9 @@ export class ApplicantDetailComponent implements OnInit {
   entityType: any;
   isNonInd: boolean;
 
+  searchBankNameList: any = [];
+  keyword: string;
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router,
@@ -76,7 +79,7 @@ export class ApplicantDetailComponent implements OnInit {
     private toasterService: ToasterService,
     private createLeadDataService: CreateLeadDataService,
     private toggleDdeService: ToggleDdeService,
-    private utilityService: UtilityService,
+    private bankTransaction: BankTransactionsService,
     private loanViewService: LoanViewService,
     private ficumpdPdfService: FicumpdPdfService,
     private pdDataService : PdDataService
@@ -283,6 +286,8 @@ export class ApplicantDetailComponent implements OnInit {
       owner: new FormControl(''),
       ratingbySO: new FormControl('', Validators.required)
     });
+    this.applicantForm.get('bankName').setValidators(Validators.minLength(3));
+    this.applicantForm.get('bankName').updateValueAndValidity()
   }
 
   setFormValue() { // patching the form values
@@ -332,6 +337,7 @@ export class ApplicantDetailComponent implements OnInit {
       if(this.entityType !== 'Individual'){
         this.isNonInd = true
       }else{
+        this.onBankNameSearch(applicantModal.bankName)
         this.isNonInd = false
       }
     if(this.isNonInd){
@@ -472,7 +478,7 @@ export class ApplicantDetailComponent implements OnInit {
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showError('please enter required details', '');
+      this.toasterService.showWarning(this.applicantForm.get('bankName').invalid ? 'enter valid bank name' : 'please enter required details', '');
     }
   }
 
@@ -504,6 +510,37 @@ export class ApplicantDetailComponent implements OnInit {
       details.get('dependants').updateValueAndValidity();
       
     }
+  }
+
+  onBankNameSearch(val: any) {
+
+    if (val && val.trim().length > 0) {
+
+      let data = {
+        "bankName": val.trim()
+      }
+
+      this.bankTransaction.getBankName(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.searchBankNameList = res.ProcessVariables.bankNames ? res.ProcessVariables.bankNames : [];
+          this.keyword = 'searchBankNameList';
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Bank List')
+        }
+      })
+
+      if (this.searchBankNameList.length === 0) {
+        this.applicantForm.get('bankName').setErrors({incorrect: true})
+        this.toasterService.showInfo('Please enter valid bank name', '')
+      } else {
+        this.applicantForm.get('bankName').setErrors(null)
+      }
+
+    }
+  }
+
+  selectBankNameEvent(val) {
+    this.applicantForm.get('bankName').setValue(val)
   }
 
 }

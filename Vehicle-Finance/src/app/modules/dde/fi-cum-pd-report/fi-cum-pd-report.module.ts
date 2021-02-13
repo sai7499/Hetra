@@ -12,6 +12,7 @@ import { DdeSharedModule } from '../shared/shared.module';
 import { ReferenceCheckComponent } from './reference-check/reference-check.component';
 import { PdDashboardComponent } from './pd-dashboard/pd-dashboard.component';
 import { PdReportModule } from '../pd-report/pd-report.module';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { PdReportModule } from '../pd-report/pd-report.module';
     LoanDetailsComponent, ReferenceCheckComponent
   ],
   imports: [
-    CommonModule, ReactiveFormsModule, FormsModule, FiCumPdReportRouterModule, SharedModule, DdeSharedModule, PdReportModule
+    CommonModule, ReactiveFormsModule, FormsModule, FiCumPdReportRouterModule, SharedModule, DdeSharedModule, PdReportModule, AutocompleteLibModule
   ],
 })
 export class FiCumPdReportModule { }
