@@ -322,6 +322,8 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
 
         this.LOV.relationLov = this.typeOfApplicant ? this.typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship
             : this.LOV.relationship;
+            details.get('relationWithApplicant').setValue(this.LOV.relationLov[0].key)
+
     }
 
     setFormValue(id) {

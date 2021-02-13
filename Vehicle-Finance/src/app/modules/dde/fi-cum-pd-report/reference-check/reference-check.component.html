@@ -35,7 +35,7 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="mobile">{{ labels.negativeProfile }} <sub class="star_red_col">*</sub></label>
-          <app-vf-custom-select [values]="[
+          <app-vf-custom-select [isRequired]="'Overall Report is required'"  [isDirty]="isDirty" [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
           ]" formControlName="negativeProfile">
@@ -45,27 +45,29 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="overall_report">{{ labels.overallReport }} <sub class="star_red_col">*</sub></label>
 
-          <app-vf-custom-select [values]="[
+          <app-vf-custom-select [isRequired]="'Overall Report is required'"  [isDirty]="isDirty" [values]="[
             { key: '0', value: 'Positive' },
             { key: '1', value: 'Negative' }
           ]" formControlName="overallFiReport">
           </app-vf-custom-select>
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-4">
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-12 col-md-12 col-lg-12">
           <label for="remarks">{{ labels.referenceRemarks }}
             <sub class="star_red_col">*</sub></label>
 
           <textarea class="form-control mandatory" name="pdRemarks" id="pdRemarks" cols="1" rows="3"
-            placeholder="remarks" formControlName="pdRemarks" maxlength="120" style="resize: none"></textarea>
+            placeholder="remarks" formControlName="pdRemarks" maxlength="1500" style="resize: none"></textarea>
 
           <div class="invalid-feedback" *ngIf="
-            referenceCheckForm.controls['pdRemarks'].touched &&
+            isDirty &&
             !referenceCheckForm.controls['pdRemarks'].vaild
           ">
             <div *ngIf="
               referenceCheckForm.controls['pdRemarks'].hasError('required')
             ">
-              remarks are required
+              Remarks are required
             </div>
 
             <div *ngIf="referenceCheckForm.controls['pdRemarks'].hasError('pattern')">
@@ -312,8 +314,9 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
-          <label for="sourceOf_margin_money">{{ labels.selfieImageTitle }}
+          <label for="sourceOf_margin_money">{{!isNonInd ? labels.selfieImageTitle : labels.selfieTitleForNonInd }}
           </label>
+          
           <div class="photo">
             <img [src]="SELFIE_IMAGE || 'assets/images/user.jpg'" alt="[Image: Photo]" width="100" />
           </div>

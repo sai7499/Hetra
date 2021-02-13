@@ -120,6 +120,9 @@ export class PSLdataComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
+      this.LOV.LOVS.landOwnerArray = lov.LOVS.applicantRelationshipWithLead.filter((res =>
+        res.key !== 'GUARAPPRELLEAD'
+      ));
       this.getDependentDropdownLOV();
       // this.getProofOfInvestmentLOVS();
     });
@@ -705,13 +708,13 @@ export class PSLdataComponent implements OnInit {
         {
           rule: (inputValue) => {
             let patttern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$';
-              return !RegExp(patttern).test(inputValue);
+            return !RegExp(patttern).test(inputValue);
           },
           msg: 'Invalid Email Id',
         }
       ];
       return regPatternData;
-    }  else {
+    } else {
       obj.get('uRegisteredEmailId').setErrors({ 'incorrect': true })
     }
 
@@ -849,7 +852,7 @@ export class PSLdataComponent implements OnInit {
           pslCCertificate: ''
         });
       }
-      if (this.weakerSectionValues.length == 1) {
+      if (this.weakerSectionValues.length >= 1) {
         this.pslDataForm.get('agriculture').patchValue({
           weakerSection: this.weakerSectionValues[0].key
         });

@@ -278,6 +278,16 @@ export class ApiService {
       workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    getBankName: {
+      processId: '1ed5bd386cfd11eba31900505695f93b',
+      workflowId: '1eb617806cfd11ebb7ee00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getBranchDetails: {
+      processId: '5329f13e6c6311ebb7ee00505695f93b',
+      workflowId: '7c5d15646c6211eb80fb00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveTvrDetails: {
       processId: '04e204a89a8611eabdcff2fa9bec3d63',
       workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
@@ -895,6 +905,11 @@ export class ApiService {
       workflowId: '666fe8320e9111ebb3ca00505695f93b',
       processId: '051213a00eb211eb825000505695f93b',
       projectId: environment.projectIds.salesProjectId
+    },
+    getEPolicyDetails: {
+      workflowId: '3f9ab1b24a9911eba44300505695f93b',
+      processId: '400194c24a9911eba2ee00505695f93b',
+      projectId: environment.projectIds.epolicyProjectId
     },
     getFoirAsPerPolicy: {
       processId: 'ccdee5ee09f211ebb00500505695f93b',

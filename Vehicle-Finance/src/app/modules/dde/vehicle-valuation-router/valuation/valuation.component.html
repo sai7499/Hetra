@@ -36,7 +36,7 @@
                     labels.nameOfVehicleOwner
                     }}</label>
                   <app-custom-input formControlName="vehicleOwnerName"
-                    [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer'">
+                    [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer/Driver'">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -44,7 +44,7 @@
                     labels.mobileNumberOfVehicle
                     }}</label>
                   <app-custom-input formControlName="vehicleOwnerMobile"
-                    [className]="'form-control mandatory'" [placeholder]="'Mobile Number of Vehicle Owner/Dealer'">
+                    [className]="'form-control mandatory'" [placeholder]="'Mobile Number of Vehicle Owner/Dealer/Driver'">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -700,7 +700,7 @@
                   </label>
                   <app-custom-input formControlName="seatingCapacity" [custom]="initalZeroCheck" [className]="'form-control mandatory'"
                     [placeholder]="'Seating Capacity'" [maxLength]="
-                      labels?.validationData?.noOfBusinessYears.maxLength
+                      labels?.validationData?.seatingCapacity.maxLength
                     " [isRequired]="'Seating Capacity is Required'"
                     [type]="labels?.validationData?.seatingCapacity.type" [isDirty]="isDirty">
                   </app-custom-input>
@@ -820,11 +820,11 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="tax_paid">{{ labels?.taxPaid }}
-                    <sub class="star_red_col">*</sub>
+                    <!-- <sub class="star_red_col">*</sub> -->
                   </label>
                   <app-custom-input formControlName="taxPaid" [className]="'form-control mandatory'"
                     [placeholder]="'Tax Paid'" [maxLength]="labels?.validationData?.idv.maxLength"
-                    [isRequired]="'Tax Paid is Required'" [type]="labels?.validationData?.idv.type" [isDirty]="isDirty"
+                    [type]="labels?.validationData?.idv.type" 
                     (change)="taxPaidCheck()">
                   </app-custom-input>
                 </div>
@@ -995,12 +995,12 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="original_invouice">{{ labels?.originalInvoice }}
-                    <sub class="star_red_col">*</sub>
+                    <!-- <sub class="star_red_col">*</sub> -->
                   </label>
                   <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Original Invoice'"
                     formControlName="originalInvoice" [maxLength]="labels?.validationData?.idv.maxLength"
-                    [isRequired]="'Original invoice is Required'" [type]="labels?.validationData?.idv.type"
-                    [isDirty]="isDirty">
+                     [type]="labels?.validationData?.idv.type"
+                    >
                   </app-custom-input>
                 </div>
               </div>
@@ -1016,7 +1016,7 @@
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="current_invoice_value">{{ labels?.noOfOriginalTyres }}
-                    <sub class="star_blue_col">*</sub>
+                    <!-- <sub class="star_blue_col">*</sub> -->
                   </label>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="noOfOriginalTyres"
                     [placeholder]="'No Of Original Tyres'" [maxLength]="labels?.validationData?.numberOfYears.maxLength"
@@ -1025,7 +1025,7 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="current_invoice_value">{{ labels?.noOfRetreadedTyres }}
-                    <sub class="star_blue_col">*</sub>
+                    <!-- <sub class="star_blue_col">*</sub> -->
                   </label>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="noOfRetreadedTyres"
                     [placeholder]="'No Of Retreaded Tyres'"

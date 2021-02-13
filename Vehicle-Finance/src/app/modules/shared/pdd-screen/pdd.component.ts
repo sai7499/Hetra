@@ -625,7 +625,7 @@ export class PddComponent implements OnInit {
     }
 
     onOrcStatusChange(event) {
-        //console.log('event', event, this.pddForm)
+        console.log('event', event, this.pddForm)
         const control = this.pddForm.get('processForm')
         if (event.key !== 'RECDFRMRTOAGNTPDDDOCS') {
             this.isDisableSubmitToCpc = true;
@@ -643,6 +643,7 @@ export class PddComponent implements OnInit {
 
             control.get('endorsementDate').enable();
             control.get('rtoAgent').disable();
+            control.get('rtoAgent').setValue(null);
         } else if (event.key === 'HNDOVRRTOAGNTPDDDOCS') {
             this.isEndorsDateMsg = false;
             this.isRtoAgentMsg = true;
@@ -652,6 +653,8 @@ export class PddComponent implements OnInit {
 
             control.get('rtoAgent').enable();
             control.get('endorsementDate').disable();
+            control.get('endorsementDate').setValue(null);
+
         } else {
             this.isRtoAgentMsg = false;
             this.isEndorsDateMsg = false;
@@ -661,6 +664,8 @@ export class PddComponent implements OnInit {
             control.get('rtoAgent').updateValueAndValidity();
             control.get('endorsementDate').disable();
             control.get('rtoAgent').disable();
+            control.get('endorsementDate').setValue(null);
+            control.get('rtoAgent').setValue(null);
         }
 
 

@@ -28,6 +28,7 @@ import { CommomLovService } from '@services/commom-lov-service';
 import { LoanViewService } from '@services/loan-view.service';
 import { FicumpdPdfService } from '@services/ficumpd-pdf.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
+import { PdDataService } from '../pd-data.service';
 
 @Component({
   selector: 'app-reference-check',
@@ -119,6 +120,8 @@ export class ReferenceCheckComponent implements OnInit {
   udfGroupId: string = 'FPG001';
   initUDFValues: any;
   editedUDFValues: any;
+  entityType: any;
+  isNonInd: boolean;
 
   constructor(
     private labelsData: LabelsService, // service to access labels
@@ -140,7 +143,8 @@ export class ReferenceCheckComponent implements OnInit {
     private commonLovService: CommomLovService,
     private loanViewService: LoanViewService,
     private ficumpdPdfService: FicumpdPdfService,
-    private objectComparisonService: ObjectComparisonService
+    private objectComparisonService: ObjectComparisonService,
+    private pdDataService : PdDataService
 
   ) {
     this.listArray = this.fb.array([]);
@@ -245,6 +249,13 @@ export class ReferenceCheckComponent implements OnInit {
       this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.applicantReferenceFIcumPD : udfScreenId.DDE.referenceCheckFIcumPDDDE ;
 
     })
+
+    this.entityType = this.pdDataService.getFiCumPdApplicantType();
+      if(this.entityType !== 'Individual'){
+        this.isNonInd = true
+      }else{
+        this.isNonInd = false
+      }
   }
 
   async checkGpsEnabled() {
@@ -639,7 +650,7 @@ export class ReferenceCheckComponent implements OnInit {
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('please enter required details', '');
     }
   }
 
@@ -701,6 +712,8 @@ export class ReferenceCheckComponent implements OnInit {
       taskId: this.taskId,
       applicantId: this.applicantId  /* Uncomment this after getting applicant Id from Lead */
     };
+
+    console.log(this.taskId, 'taskId')
 
     this.personalDiscussion.submitPdReport(data).subscribe((value: any) => {
       const processVariables = value.ProcessVariables;

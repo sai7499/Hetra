@@ -197,6 +197,7 @@ export class ValuationComponent implements OnInit {
   remarksRequired: boolean;
   apiValue: any;
   finalValue: any;
+  applicantFullName: any;
  
 
 
@@ -224,7 +225,7 @@ export class ValuationComponent implements OnInit {
     private sharedService: SharedService,
     private loginService: LoginService,
     private objectComparisonService: ObjectComparisonService) {
-    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
+    this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Invalid' }];
 
     this.listArray = this.fb.array([]);
     this.partsArray = this.fb.array([]);
@@ -371,12 +372,12 @@ export class ValuationComponent implements OnInit {
 
       this.LOV.defaultfinanciers = this.LOV.financiers;
 
-      let defaultfinanciers = {
+      let defaultfinanciers = [{
         key: 'Not-Applicable', 
         value: 'NA'
-      }
+      }]
 
-      this.LOV.defaultfinanciers.splice(0, 0, defaultfinanciers)
+      this.LOV.defaultfinanciers = defaultfinanciers.concat(this.LOV.financiers);
 
     });
     console.log(' LOV**** --->', this.LOV);
@@ -486,6 +487,18 @@ export class ValuationComponent implements OnInit {
     // console.log("LEAD_CREATED_DATE::", this.vehicleValuationForm.get('valuationDate').value >= this.leadCreatedDate);
     // console.log('LEAD_CREATED_DATE::', this.leadCreatedDate);
     // console.log('MAX_DATE::', this.toDayDate);
+
+    const applicantList = leadData['applicantDetails'];
+    if(applicantList.length > 0){
+      this.applicantFullName = applicantList.find((data)=>{
+        if(data.applicantTypeKey === 'APPAPPRELLEAD'){
+          return data
+        }
+      }).fullName
+    }
+
+    console.log('this.applicantFullName', this.applicantFullName)
+    
 
 
   }
@@ -1242,7 +1255,7 @@ console.log(insuranceValidUpto.getFullYear());
       permitValidUpto: new FormControl(''),
       fcExpiryDate: new FormControl('', Validators.required),
       routeOfOperation: new FormControl('', Validators.required),
-      taxPaid: new FormControl('', Validators.required),
+      taxPaid: new FormControl(''),
       taxValidUpto: new FormControl('', Validators.required)
     }
   }
@@ -1262,7 +1275,7 @@ console.log(insuranceValidUpto.getFullYear());
     return {
       modelUnderProduction: new FormControl('', Validators.required),
       currInvoiceValue: new FormControl(''),
-      originalInvoice: new FormControl('', Validators.required),
+      originalInvoice: new FormControl(''),
       rcBookStatus: new FormControl('', Validators.required),
       noOfOriginalTyres: new FormControl(''),
       noOfRetreadedTyres: new FormControl(''),
@@ -1318,7 +1331,7 @@ console.log(insuranceValidUpto.getFullYear());
 
     })
     this.vehicleValuationForm.get('inspectionDetails').patchValue({
-      borrowersName: this.vehicleValuationDetails.borrowersName || '',
+      borrowersName: this.vehicleValuationDetails.borrowersName || this.applicantFullName ,
       inspectionPlace: this.vehicleValuationDetails.inspectionPlace || '',
       inspectedBy: this.vehicleValuationDetails.inspectedBy || '',
       inspectionDate: this.vehicleValuationDetails.inspectionDate ?

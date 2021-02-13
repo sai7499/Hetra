@@ -191,11 +191,35 @@
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="bank_name">{{ labels.bankName }} <sub *ngIf="!isNonInd" class="star_red_col">*</sub></label>
-          <app-custom-input id="bank_name" [placeholder]="'Enter Bank Name'" formControlName="bankName"
+          <!-- <app-custom-input id="bank_name" [placeholder]="'Enter Bank Name'" formControlName="bankName"
             [type]="labels?.validationData?.pdBankName?.type"
             [patternCheck]="labels?.validationData?.pdBankName?.pattern" [isRequired]="!isNonInd ? 'Bank Name is required' : ''"
             [maxLength]="labels?.validationData?.pdBankName?.maxLength" [isDirty]="isDirty">
-          </app-custom-input>
+          </app-custom-input> -->
+          <!-- <app-vf-custom-select [values]="(LOV?.LOVS)['bankMaster']" formControlName="bankName"
+            [isRequired]="!isNonInd ? 'Please select one' : ''" [isDirty]="isDirty">
+          </app-vf-custom-select> -->
+
+          <div class="ng-autopopulate" style="width: 100%;">
+
+            <ng-autocomplete class="custom-select-box" [data]="searchBankNameList" [searchKeyword]="keyword"
+              (selected)='selectBankNameEvent($event)' (inputChanged)='onBankNameSearch($event)'
+              [itemTemplate]="favBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="bankName"
+              [placeHolder]="'Bank Name'" [minQueryLength]="3">
+            </ng-autocomplete>
+            <div class="invalid-feedback" *ngIf="!isNonInd">
+              <div *ngIf="applicantForm.get('bankName').touched && applicantForm.get('bankName').invalid"> Bank name required.</div>
+              <div *ngIf="applicantForm.get('bankName').touched && applicantForm.get('bankName').hasError('minlength')"> at least 3 characters required.</div>
+
+            </div>
+            <ng-template #favBankNameTemplate let-item>
+              <a [innerHTML]="item"></a>
+            </ng-template>
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+          
         </div>
 
       </div>
@@ -238,9 +262,9 @@
           <label for="owner_name">{{ labels.dependents }} 
             <sub *ngIf="!isNonInd && applicantForm.get('maritalStatus').value !== '1MRGSTS'" class="star_red_col">*</sub>
           </label>
-          <app-custom-input id="dependents" [placeholder]="'Enter dependents'" formControlName="dependants"
+          <app-custom-input id="dependents" [placeholder]="'Enter number of Dependents'" formControlName="dependants"
             [type]="labels?.validationData?.dependents?.type" 
-            [isRequired]="!isNonInd && applicantForm.get('maritalStatus').value !== '1MRGSTS'? 'Dependents are required' : ''"
+            [isRequired]="!isNonInd && applicantForm.get('maritalStatus').value !== '1MRGSTS'? 'Number of Dependents are required' : ''"
             [maxLength]="labels?.validationData?.dependents?.maxLength" [isDirty]="applicantForm.get('maritalStatus').value !== '1MRGSTS'? isDirty : ''">
           </app-custom-input>
         </div>

@@ -835,7 +835,7 @@
                                 <a *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
                                 displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab)" class="text-underline"
                                     style="cursor: pointer;"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.leadId
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); getLoanNumber(item.loanNumber)">{{item.leadId
                                     ? item.leadId : '--'}}</a>
 
                                 <a *ngIf="(displayTabs?.ChequeTracking === activeTab &&

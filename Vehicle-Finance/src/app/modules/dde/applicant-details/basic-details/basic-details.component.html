@@ -606,18 +606,17 @@
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12" *ngIf="isMarried">
 
 
-              <label for="wedding_anniv_date">{{ labels?.weddingAnniversaryDate }}<sub
-                  class="star_red_col">*</sub></label>
+              <label for="wedding_anniv_date">{{ labels?.weddingAnniversaryDate }}</label>
 
               <kendo-datepicker class="form-control" formControlName="weddingAnniversaryDate" [format]="'dd/MM/yyyy'"
                 placeholder="Select wedding anniversay date" [activeView]="'decade'" [max]="toDayDate"
-                (valueChange)="getAnniversaryDate($event)"></kendo-datepicker>
+               ></kendo-datepicker>
 
               <div class="ShowError" *ngIf="
-            isDirty &&
-            validation.get('weddingAnniversaryDate').errors?.required
+            
+            validation.get('weddingAnniversaryDate').value && validation.get('weddingAnniversaryDate').invalid
             ">
-                Wedding anniversary date is Mandatory
+                Invalid date
               </div>
 
 
