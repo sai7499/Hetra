@@ -80,7 +80,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
                         <label>OTP Sent To {{mobileNo}}</label>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                         <input class="form-control text-center" type="password" maxlength="6" placeholder="Enter OTP"
                             autofocus="" formControlName="otp" />
                         <div *ngIf="otpForm.get('otp').errors?.minlength || otpForm.get('otp').errors?.maxlength">
@@ -95,7 +95,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="text-align: center;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
                         <button class="btn  btn-primary top-margin hvr-sweep-to-left" id="back" (click)="onBack()"> Back
                         </button>&nbsp;
                         <button class="btn  btn-info top-margin" id="resendotp_button" (click)=sendOtp()> Resend OTP
