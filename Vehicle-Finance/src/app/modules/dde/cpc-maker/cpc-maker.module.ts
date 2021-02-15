@@ -17,6 +17,8 @@ import { NegotiationModule } from '@modules/negotiation/negotiation.module';
 import { DisbursementSectionModule } from '@modules/disbursement-section/disbursement-section.module';
 import { WelomceLetterComponent } from './welomce-letter/welomce-letter.component';
 import { DeliveryOrderComponent } from './delivery-order/delivery-order.component';
+import { SearchPipe } from '@services/search.pipe';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 // import { RemarksComponent } from './remarks/remarks.component';
 
 @NgModule({
@@ -30,7 +32,8 @@ import { DeliveryOrderComponent } from './delivery-order/delivery-order.componen
     // TermSheetComponent,
     // SanctionDetailsComponent,
     // CheckListComponent,
-    // CustomerFeedbackComponent
+    // CustomerFeedbackComponent,
+    SearchPipe
   ],
   imports: [
     CommonModule,
@@ -41,7 +44,8 @@ import { DeliveryOrderComponent } from './delivery-order/delivery-order.componen
     DdeSharedModule,
     CreditConditionModule,
     NegotiationModule,
-    DisbursementSectionModule
+    DisbursementSectionModule,
+    AutocompleteLibModule
   ],
   exports: [
     CpcMakerDdeComponent,
