@@ -147,8 +147,22 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginData = this.loginForm.value;
-    this.loginData.email = this.loginData.email + window["env"]["userConfig"];
-    this.loginData.useADAuth = window["env"]["useADAuth"];
+    let loginDataEmail;
+    let loginDataADAuth;
+    // this.loginData.email =   this.loginData.email + window["env"]["userDEVConfig"]  ;
+    if(window["env"]["hostEnvironment"] === "DEV") {
+     loginDataEmail =  this.loginData.email + window["env"]["userDEVConfig"];
+     loginDataADAuth = window["env"]["useDEVADAuth"];
+    } else if (window["env"]["hostEnvironment"] === "UAT") {
+      loginDataEmail =  this.loginData.email + window["env"]["userUATConfig"];
+      loginDataADAuth = window["env"]["useUATADAuth"];
+    } else if (window["env"]["hostEnvironment"] === "PRD") {
+      loginDataEmail =  this.loginData.email + window["env"]["userPRDConfig"];
+      loginDataADAuth = window["env"]["usePRDADAuth"];
+    }
+    this.loginData.email = loginDataEmail;
+    this.loginData.useADAuth = loginDataADAuth;
+    // this.loginData.useADAuth = window["env"]["useADAuth"];
     // if (environment.hostingEnvironment === 'DEV') {
     //   this.loginData.email = `${this.loginData.email}@equitasbank.in`;
     //   this.loginData.useADAuth = false;

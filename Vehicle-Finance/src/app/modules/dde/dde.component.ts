@@ -9,6 +9,7 @@ import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoginStoreService } from '@services/login-store.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   templateUrl: './dde.component.html',
@@ -34,6 +35,7 @@ export class DdeComponent implements OnInit, OnChanges {
   ShowChildValuationScreen: boolean;
   showValuationScreen: boolean;
   tabName: any;
+  isMobile: boolean;
 
   constructor(
     public router: Router,
@@ -63,6 +65,7 @@ export class DdeComponent implements OnInit, OnChanges {
 
   async ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
+    this.isMobile = environment.isMobile;
     // this.fiCumPdStatusString = localStorage.getItem('isFiCumPd');
     // if (this.fiCumPdStatusString == 'false') {
     //   this.fiCumPdStatus = false;
