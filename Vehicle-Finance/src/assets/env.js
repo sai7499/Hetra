@@ -3,11 +3,15 @@
   
     // Environment variables
     window["env"]["hostUrl"] = "/appiyo/";
+    // window["env"]["hostEnvironment"] = "PRD";
     // window["env"]["hostEnvironment"] = "UAT";
     window["env"]["hostEnvironment"] = "DEV";
-    // window["env"]["userConfig"] = "@esfbuat.in";
-    window["env"]["userConfig"] = "@equitasbank.in";
-    window["env"]["useADAuth"] = false;
+    window["env"]["userUATConfig"] = "@esfbuat.in"; // for UAT
+    window["env"]["userDEVConfig"] = "@equitasbank.in"; // for dev
+    window["env"]["userPRDConfig"]=""; // for production
+    window["env"]["useDEVADAuth"] = false; // for DEV
+    window["env"]["useUATADAuth"] = true; // for UAT
+    window["env"]["usePRDADAuth"] = true; // for production
     window["env"]["version"] = "0.42"; 
     window["env"]["buildDate"] = "10-02-2021";
     window["env"]["sessionTime"] = "14";
