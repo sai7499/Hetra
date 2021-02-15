@@ -145,6 +145,22 @@ fetchDisbursement(leadId) {
         const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
         return this.httpService.post(url, body);
     }
+    ifscCodeSearch(ifsc) {
+        const processId = this.apiService.api.disbIfsc.processId;
+        const workflowId = this.apiService.api.disbIfsc.workflowId;
+        const projectId = this.apiService.api.disbIfsc.projectId;
+  
+        const body: RequestEntity = {
+            processId: processId,
+            ProcessVariables: {
+                "ifscCode": ifsc
+            },
+            workflowId: workflowId,
+            projectId: projectId
+        };
+        const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+        return this.httpService.post(url, body);
+    }
     BnfBankName(name) {
       const processId = this.apiService.api.disbBankName.processId;
       const workflowId = this.apiService.api.disbBankName.workflowId;
