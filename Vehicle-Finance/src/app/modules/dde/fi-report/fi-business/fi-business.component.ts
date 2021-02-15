@@ -94,7 +94,7 @@ export class FiBusinessComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
+    // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
 
     if (this.router.url.includes('/fi-dashboard')) {
       this.showReinitiate = false;
@@ -234,7 +234,7 @@ export class FiBusinessComponent implements OnInit {
         } else if (value['ProcessVariables'].error.code === '1') {
           if (value['ProcessVariables'].error.message && value['ProcessVariables'].error.message != null) {
             const message = value.ProcessVariables.error.message;
-            this.toasterService.showWarning('', message);
+            this.toasterService.showError('', message);
             this.invalidPincode = true
           } else {
             this.invalidPincode = true
@@ -272,11 +272,12 @@ export class FiBusinessComponent implements OnInit {
       // reportSubmitTime: new FormControl('', Validators.required),
       applicantName: new FormControl({ value: '', disabled: true }),
       addressLine1: new FormControl('', Validators.required),
-      addressLine2: new FormControl('', Validators.required),
-      addressLine3: new FormControl('', Validators.required),
+      addressLine2: new FormControl(''),
+      addressLine3: new FormControl(''),
       pincode: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
       state: new FormControl('', Validators.required),
+      landmark: new FormControl(''),
       personMetName: new FormControl('', Validators.required),
       designation: new FormControl('', Validators.required),
       natureOfBusiness: new FormControl('', Validators.required),
@@ -318,6 +319,7 @@ export class FiBusinessComponent implements OnInit {
       pincode: fiModel.pincode ? fiModel.pincode : null,
       city: fiModel.city ? fiModel.city : null,
       state: fiModel.state ? fiModel.state : null,
+      landmark: fiModel.landmark ? fiModel.landmark : null,
       personMetName: fiModel.personMetName ? fiModel.personMetName : null,
       designation: fiModel.designation ? fiModel.designation : null,
       natureOfBusiness: fiModel.natureOfBusiness ? fiModel.natureOfBusiness : null,
@@ -447,7 +449,7 @@ export class FiBusinessComponent implements OnInit {
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     if (this.fieldReportForm.invalid || isUDFInvalid) {
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('please enter required details', '');
       return;
     }
     if (!isUDFCheck) {
@@ -504,8 +506,9 @@ export class FiBusinessComponent implements OnInit {
     const fieldReportModal = { ...formModal };
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     this.isDirty = true;
+    console.log('businessForm',this.fieldReportForm )
     if (this.fieldReportForm.invalid || isUDFInvalid) {
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('please enter required details', '');
       return;
     } else if (this.initDate) {
       this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
@@ -528,6 +531,7 @@ export class FiBusinessComponent implements OnInit {
       pincode: fieldReportModal.pincode,
       city: fieldReportModal.city,
       state: fieldReportModal.state,
+      landmark: fieldReportModal.landmark,
       personMetName: fieldReportModal.personMetName,
       designation: fieldReportModal.designation,
       natureOfBusiness: fieldReportModal.natureOfBusiness,

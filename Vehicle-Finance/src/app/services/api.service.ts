@@ -278,6 +278,16 @@ export class ApiService {
       workflowId: 'bba4f1028f5811eabdc4f2fa9bec3d63',
       projectId: environment.projectIds.salesProjectId
     },
+    getBankName: {
+      processId: '1ed5bd386cfd11eba31900505695f93b',
+      workflowId: '1eb617806cfd11ebb7ee00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    getBranchDetails: {
+      processId: '5329f13e6c6311ebb7ee00505695f93b',
+      workflowId: '7c5d15646c6211eb80fb00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
     saveTvrDetails: {
       processId: '04e204a89a8611eabdcff2fa9bec3d63',
       workflowId: '04ae6c069a8611eabdcff2fa9bec3d63',
@@ -865,6 +875,11 @@ export class ApiService {
       processId: '34408268f75811eab4f500505695f93b',
       workflowId: '340d11b2f75811eab78c00505695f93b',
       projectId: '403a8a12b79511ea8afff2fa9bec3d63'
+    },
+    disbIfsc: {
+      processId: '19c59d126b5f11eb977000505695f93b',
+      workflowId: 'e9e298f65a2011eb920200505695f93b',
+      projectId: environment.projectIds.camProjectId
     },
     disbBankName: {
       processId: 'f9fcc4a6f3ef11eaaeda00505695f93b',

@@ -636,7 +636,7 @@
                     </div>
                     <div class="row">
                         <h3 class="banner-sub">{{labels?.referenceRemarks}}</h3>
-                        <textarea type="text" class="form-control text_area mar-5" maxlength="200" formControlName="remarks" required></textarea>
+                        <textarea type="text" class="form-control text_area mar-5" maxlength="1500" formControlName="remarks" required></textarea>
                         <div class="col-sm-12 col-lg-12" *ngIf="isDirty || teleVerificationForm.get('remarks').touched">
 
                             <div style="color:red" *ngIf="teleVerificationForm.get('remarks').errors?.required">
@@ -648,7 +648,7 @@
                         <h3 class="banner-sub">{{labels?.cibilRemarks}}</h3>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <h5>{{labels?.cibilOverdue}}</h5>
-                            <textarea type="text" class="form-control" maxlength="200" formControlName="cibilOverDue"
+                            <textarea type="text" class="form-control" maxlength="1500" formControlName="cibilOverDue"
                                 id="cibilOverdur" name=""></textarea>
                             <div *ngIf="isDirty || teleVerificationForm.get('cibilOverDue').touched">
                                 <div style="color:red"
@@ -660,7 +660,7 @@
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <h5>{{labels?.cibilReport}}</h5>
-                            <textarea type="text" class="form-control" maxlength="200"
+                            <textarea type="text" class="form-control" maxlength="1500"
                                 formControlName="cibilClarification" id="cibilReport" name=""></textarea>
                             <div *ngIf="isDirty || teleVerificationForm.get('cibilClarification').touched">
                                 <div style="color:red"

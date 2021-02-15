@@ -208,12 +208,29 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="dealerBenAccNo" [(ngModel)]="dealerObjInfo['beneficiaryAccountNo']"
-                [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
+              <input type={{typeDeclare1}} id="dealerBenAccNo" (keyup)="cnfAccountNumber(dealerDetailsForm,'1',true)" [(ngModel)]="dealerObjInfo['beneficiaryAccountNo']"
+                class="form-control" required (change)="cnfAccountNumber(dealerDetailsForm,'1',false)" formControlName="beneficiaryAccountNo">
+              <!-- <app-custom-input id="dealerBenAccNo" [(ngModel)]="dealerObjInfo['beneficiaryAccountNo']"
+                [isRequired]="'Beneficiary Account is required'" (change)="cnfAccountNumber(dealerDetailsForm,'1')" formControlName="beneficiaryAccountNo"
+                [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'password'"
+                [isDirty]="isDirty"> 
+              </app-custom-input>-->
+            </div>
+          </div>
+          <div class="form-group" *ngIf="dealercnfAccShow">
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input id="dealerBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
                 [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                 [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                 [isDirty]="isDirty">
               </app-custom-input>
+              <div *ngIf="dealerDetailsForm.errors" class="invalid-feedback">
+                  Account numbers entered mismatch
+                </div>
             </div>
           </div>
           <div *ngIf="showBankDetails">
@@ -265,7 +282,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input id="dealerIFSC" [(ngModel)]="dealerObjInfo['ifscCode']"
-                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),1,true)'
                   [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                 </app-custom-input>
@@ -408,6 +425,16 @@
               <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
             </div>
           </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+            <div class="col-sm-6 col-md-4 col-lg-4">
+              <input type="checkbox" id="deferredDisbursementFlag1" [(ngModel)]="dealerObjInfo['deferredDisbursementFlag']"
+                formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag1"
+                [checked]="dealerObjInfo['deferredDisbursementFlag']"
+                (change)="selectDeferredCheckBox(dealerObjInfo['deferredDisbursementFlag'],1)">
+              <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
+            </div>
+          </div>
           <div class="form-group" *ngIf="vehicleProductCatCode">
             <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
             <div class="col-sm-6 col-md-4 col-lg-3" >
@@ -546,14 +573,31 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="appBenAccNo" [(ngModel)]="applicantObjInfo['beneficiaryAccountNo']"
+                <input type={{typeDeclare2}} id="appBenAccNo" (keyup)="cnfAccountNumber(appDetailsForm,'2',true)" [(ngModel)]="applicantObjInfo['beneficiaryAccountNo']"
+                class="form-control" required (change)="cnfAccountNumber(appDetailsForm,'2',false)" formControlName="beneficiaryAccountNo">
+              <!-- <app-custom-input id="appBenAccNo" [(ngModel)]="applicantObjInfo['beneficiaryAccountNo']"
                 [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
-                [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                [className]="'form-control mandatory'" [placeholder]="'Account Number'" (change)="cnfAccountNumber(appDetailsForm,'2')"
                 [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                 [isDirty]="isDirty">
-              </app-custom-input>
+              </app-custom-input> -->
             </div>
           </div>
+          <div class="form-group" *ngIf="applicantcnfAccShow">
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input id="applicantBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                  [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                  [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                  [isDirty]="isDirty">
+                </app-custom-input>
+                <div *ngIf="appDetailsForm.errors" class="invalid-feedback">
+                    Account numbers entered mismatch
+                  </div>
+              </div>
+            </div>
           <div *ngIf="showAppBankDetails">
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -602,7 +646,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input id="appIFSC" [(ngModel)]="applicantObjInfo['ifscCode']"
-                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),2,true)'
                   [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                 </app-custom-input>
@@ -744,6 +788,16 @@
                 [checked]="applicantObjInfo['deductChargesFlag']"
                 (change)="selectCheckBox(applicantObjInfo['deductChargesFlag'],2)">
               <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+            <div class="col-sm-6 col-md-4 col-lg-4">
+              <input type="checkbox" id="deferredDisbursementFlag2" [(ngModel)]="applicantObjInfo['deferredDisbursementFlag']"
+                formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag2"
+                [checked]="applicantObjInfo['deferredDisbursementFlag']"
+                (change)="selectDeferredCheckBox(applicantObjInfo['deferredDisbursementFlag'],2)">
+              <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
             </div>
           </div>
           <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -905,14 +959,31 @@
                   <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp1BenAccNo" [(ngModel)]="coApplicant1['beneficiaryAccountNo']"
+                    <input type={{typeDeclare3}} id="coApp1BenAccNo" (keyup)="cnfAccountNumber(coApp1Form,'3',true)" [(ngModel)]="coApplicant1['beneficiaryAccountNo']"
+                    class="form-control" required (change)="cnfAccountNumber(coApp1Form,'3',false)" formControlName="beneficiaryAccountNo">
+                  <!-- <app-custom-input id="coApp1BenAccNo" [(ngModel)]="coApplicant1['beneficiaryAccountNo']"
                     [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
                     [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                     [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                     [isDirty]="isDirty">
-                  </app-custom-input>
+                  </app-custom-input> -->
                 </div>
               </div>
+              <div class="form-group" *ngIf="coApp1cnfAccShow">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="applicantBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                      [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                      [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                      [isDirty]="isDirty">
+                    </app-custom-input>
+                    <div *ngIf="coApp1Form.errors" class="invalid-feedback">
+                        Account numbers entered mismatch
+                      </div>
+                  </div>
+                </div>
               <div *ngIf="showCoApp1BankDetails">
                 <div class="form-group">
                   <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -961,7 +1032,7 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input id="coApp1IFSC" [(ngModel)]="coApplicant1['ifscCode']"
-                      [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                      [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),3,true)'
                       [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                       [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                     </app-custom-input>
@@ -1104,6 +1175,16 @@
                     [checked]="coApplicant1['deductChargesFlag']"
                     (change)="selectCheckBox(coApplicant1['deductChargesFlag'],8)">
                   <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                  <input type="checkbox" id="deferredDisbursementFlag8" [(ngModel)]="coApplicant1['deferredDisbursementFlag']"
+                    formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag8"
+                    [checked]="coApplicant1['deferredDisbursementFlag']"
+                    (change)="selectDeferredCheckBox(coApplicant1['deferredDisbursementFlag'],8)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
                 </div>
               </div>
               <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -1249,14 +1330,31 @@
                   <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp2BenAccNo" [(ngModel)]="coApplicant2['beneficiaryAccountNo']"
+                    <input type={{typeDeclare4}} id="coApp2BenAccNo" (keyup)="cnfAccountNumber(coApp2Form,'4',true)" [(ngModel)]="coApplicant2['beneficiaryAccountNo']"
+                    class="form-control" required (change)="cnfAccountNumber(coApp2Form,'4',false)" formControlName="beneficiaryAccountNo">
+                  <!-- <app-custom-input id="coApp2BenAccNo" [(ngModel)]="coApplicant2['beneficiaryAccountNo']"
                     [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
                     [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                     [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                     [isDirty]="isDirty">
-                  </app-custom-input>
+                  </app-custom-input> -->
                 </div>
               </div>
+              <div class="form-group" *ngIf="coApp2cnfAccShow">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="applicantBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                      [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                      [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                      [isDirty]="isDirty">
+                    </app-custom-input>
+                    <div *ngIf="coApp2Form.errors" class="invalid-feedback">
+                        Account numbers entered mismatch
+                      </div>
+                  </div>
+                </div>
               <div *ngIf="showCoApp2BankDetails">
                 <div class="form-group">
                   <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -1305,7 +1403,7 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input id="coApp2IFSC" [(ngModel)]="coApplicant2['ifscCode']"
-                      [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                      [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),4,true)'
                       [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                       [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                     </app-custom-input>
@@ -1450,6 +1548,16 @@
                   <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
                 </div>
               </div>
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                  <input type="checkbox" id="deferredDisbursementFlag9" [(ngModel)]="coApplicant2['deferredDisbursementFlag']"
+                    formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag9"
+                    [checked]="coApplicant2['deferredDisbursementFlag']"
+                    (change)="selectDeferredCheckBox(coApplicant2['deferredDisbursementFlag'],9)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
+                </div>
+              </div>
               <div class="form-group" *ngIf="vehicleProductCatCode">
                 <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
@@ -1592,15 +1700,31 @@
                   <sub class="star_red_col">*</sub>
                 </label>
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                  <app-custom-input id="coApp3BenAccNo" [(ngModel)]="coApplicant3['beneficiaryAccountNo']"
+                    <input type={{typeDeclare5}} id="coApp3BenAccNo" (keyup)="cnfAccountNumber(coApp3Form,'5',true)" [(ngModel)]="coApplicant3['beneficiaryAccountNo']"
+                    class="form-control" required (change)="cnfAccountNumber(coApp3Form,'5',false)" formControlName="beneficiaryAccountNo">
+                  <!-- <app-custom-input id="coApp3BenAccNo" [(ngModel)]="coApplicant3['beneficiaryAccountNo']"
                     [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
                     [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                     [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                     [isDirty]="isDirty">
-                  </app-custom-input>
+                  </app-custom-input> -->
                 </div>
               </div>
-
+              <div class="form-group" *ngIf="coApp3cnfAccShow">
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                    <sub class="star_red_col">*</sub>
+                  </label>
+                  <div class="col-sm-6 col-md-4 col-lg-3">
+                    <app-custom-input id="applicantBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                      [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                      [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                      [isDirty]="isDirty">
+                    </app-custom-input>
+                    <div *ngIf="coApp3Form.errors" class="invalid-feedback">
+                        Account numbers entered mismatch
+                      </div>
+                  </div>
+                </div>
               <div *ngIf="showCoApp3BankDetails">
                 <div class="form-group">
                   <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -1649,7 +1773,7 @@
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <app-custom-input id="coApp3IFSC" [(ngModel)]="coApplicant3['ifscCode']"
-                      [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                      [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),5,true)'
                       [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                       [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                     </app-custom-input>
@@ -1792,6 +1916,16 @@
                     [checked]="coApplicant3['deductChargesFlag']"
                     (change)="selectCheckBox(coApplicant3['deductChargesFlag'],10)">
                   <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                  <input type="checkbox" id="deferredDisbursementFlag10" [(ngModel)]="coApplicant3['deferredDisbursementFlag']"
+                    formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag10"
+                    [checked]="coApplicant3['deferredDisbursementFlag']"
+                    (change)="selectDeferredCheckBox(coApplicant3['deferredDisbursementFlag'],10)">
+                  <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
                 </div>
               </div>
               <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -1958,14 +2092,31 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="bankerBenAccNo" [(ngModel)]="bankerObjInfo['beneficiaryAccountNo']"
+                <input type={{typeDeclare6}} id="bankerBenAccNo" (keyup)="cnfAccountNumber(bankerDetailsForm,'6',true)" [(ngModel)]="bankerObjInfo['beneficiaryAccountNo']"
+                class="form-control" required (change)="cnfAccountNumber(bankerDetailsForm,'6',false)" formControlName="beneficiaryAccountNo">
+              <!-- <app-custom-input id="bankerBenAccNo" [(ngModel)]="bankerObjInfo['beneficiaryAccountNo']"
                 [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
                 [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                 [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                 [isDirty]="isDirty">
-              </app-custom-input>
+              </app-custom-input> -->
             </div>
           </div>
+          <div class="form-group" *ngIf="bankercnfAccShow">
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input id="bankerBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                  [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                  [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                  [isDirty]="isDirty">
+                </app-custom-input>
+                <div *ngIf="bankerDetailsForm.errors" class="invalid-feedback">
+                    Account numbers entered mismatch
+                  </div>
+              </div>
+            </div>
           <div *ngIf="showBankerBankDetails">
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -2015,7 +2166,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input id="bankerIFSC" [(ngModel)]="bankerObjInfo['ifscCode']"
-                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),6,true)'
                   [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                 </app-custom-input>
@@ -2155,6 +2306,16 @@
                 [checked]="bankerObjInfo['deductChargesFlag']"
                 (change)="selectCheckBox(bankerObjInfo['deductChargesFlag'],4)">
               <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+            <div class="col-sm-6 col-md-4 col-lg-4">
+              <input type="checkbox" id="deferredDisbursementFlag4" [(ngModel)]="bankerObjInfo['deferredDisbursementFlag']"
+                formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag4"
+                [checked]="bankerObjInfo['deferredDisbursementFlag']"
+                (change)="selectDeferredCheckBox(bankerObjInfo['deferredDisbursementFlag'],4)">
+              <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
             </div>
           </div>
           <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -2305,15 +2466,31 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="finBenAccNo" [(ngModel)]="financierObjInfo['beneficiaryAccountNo']"
+                <input type={{typeDeclare7}} id="finBenAccNo" (keyup)="cnfAccountNumber(financierDetailsForm,'7',true)" [(ngModel)]="financierObjInfo['beneficiaryAccountNo']"
+                class="form-control" required (change)="cnfAccountNumber(financierDetailsForm,'7',false)" formControlName="beneficiaryAccountNo">
+              <!-- <app-custom-input id="finBenAccNo" [(ngModel)]="financierObjInfo['beneficiaryAccountNo']"
                 [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
                 [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                 [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                 [isDirty]="isDirty">
-              </app-custom-input>
+              </app-custom-input> -->
             </div>
           </div>
-
+          <div class="form-group" *ngIf="fincnfAccShow">
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input id="finBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                  [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                  [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                  [isDirty]="isDirty">
+                </app-custom-input>
+                <div *ngIf="financierDetailsForm.errors" class="invalid-feedback">
+                    Account numbers entered mismatch
+                  </div>
+              </div>
+            </div>
           <div *ngIf="showFinBankDetails">
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -2363,7 +2540,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input id="finIFSC" [(ngModel)]="financierObjInfo['ifscCode']"
-                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),7,true)'
                   [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                 </app-custom-input>
@@ -2503,6 +2680,16 @@
                 [checked]="financierObjInfo['deductChargesFlag']"
                 (change)="selectCheckBox(financierObjInfo['deductChargesFlag'],5)">
               <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+            <div class="col-sm-6 col-md-4 col-lg-4">
+              <input type="checkbox" id="deferredDisbursementFlag5" [(ngModel)]="financierObjInfo['deferredDisbursementFlag']"
+                formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag5"
+                [checked]="financierObjInfo['deferredDisbursementFlag']"
+                (change)="selectDeferredCheckBox(financierObjInfo['deferredDisbursementFlag'],5)">
+              <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
             </div>
           </div>
 
@@ -2663,14 +2850,31 @@
             <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfAccount}}
               <sub class="star_red_col">*</sub></label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="tpBenAccNo" [(ngModel)]="thirdPartyObjInfo['beneficiaryAccountNo']"
+                <input type={{typeDeclare8}} id="tpBenAccNo" (keyup)="cnfAccountNumber(thirdPartyDetailsForm,'8',true)" [(ngModel)]="thirdPartyObjInfo['beneficiaryAccountNo']"
+                class="form-control" required (change)="cnfAccountNumber(thirdPartyDetailsForm,'8',false)" formControlName="beneficiaryAccountNo">
+              <!-- <app-custom-input id="tpBenAccNo" [(ngModel)]="thirdPartyObjInfo['beneficiaryAccountNo']"
                 [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
                 [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                 [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                 [isDirty]="isDirty">
-              </app-custom-input>
+              </app-custom-input> -->
             </div>
           </div>
+          <div class="form-group" *ngIf="tpcnfAccShow">
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input id="tpBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                  [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                  [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                  [isDirty]="isDirty">
+                </app-custom-input>
+                <div *ngIf="thirdPartyDetailsForm.errors" class="invalid-feedback">
+                    Account numbers entered mismatch
+                  </div>
+              </div>
+            </div>
           <div *ngIf="showTPBankDetails">
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -2720,7 +2924,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input id="tpIFSC" [(ngModel)]="thirdPartyObjInfo['ifscCode']"
-                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),8,true)'
                   [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                 </app-custom-input>
@@ -2860,6 +3064,16 @@
                 [checked]="thirdPartyObjInfo['deductChargesFlag']"
                 (change)="selectCheckBox(thirdPartyObjInfo['deductChargesFlag'],6)">
               <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+            <div class="col-sm-6 col-md-4 col-lg-4">
+              <input type="checkbox" id="deferredDisbursementFlag6" [(ngModel)]="thirdPartyObjInfo['deferredDisbursementFlag']"
+                formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag6"
+                [checked]="thirdPartyObjInfo['deferredDisbursementFlag']"
+                (change)="selectDeferredCheckBox(thirdPartyObjInfo['deferredDisbursementFlag'],6)">
+              <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
             </div>
           </div>
 
@@ -3054,14 +3268,31 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="sellerBenAccNo" [(ngModel)]="sellerObjInfo['beneficiaryAccountNo']"
+                <input type={{typeDeclare9}} id="sellerBenAccNo" (keyup)="cnfAccountNumber(sellerDetailsForm,'9',true)" [(ngModel)]="sellerObjInfo['beneficiaryAccountNo']"
+                class="form-control" required (change)="cnfAccountNumber(sellerDetailsForm,'9',false)" formControlName="beneficiaryAccountNo">
+              <!-- <app-custom-input id="sellerBenAccNo" [(ngModel)]="sellerObjInfo['beneficiaryAccountNo']"
                 [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
                 [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                 [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                 [isDirty]="isDirty">
-              </app-custom-input>
+              </app-custom-input> -->
             </div>
           </div>
+          <div class="form-group" *ngIf="sellercnfAccShow">
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input id="sellerBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                  [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                  [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                  [isDirty]="isDirty">
+                </app-custom-input>
+                <div *ngIf="sellerDetailsForm.errors" class="invalid-feedback">
+                    Account numbers entered mismatch
+                  </div>
+              </div>
+            </div>
           <div *ngIf="showSellerBankDetails">
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -3083,7 +3314,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}{{sellerObjInfo['beneficiaryBranch']}}
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBranch}}
                 <sub class="star_red_col">*</sub></label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <select class="form-control" [(ngModel)]="sellerObjInfo['beneficiaryBranch']"
@@ -3105,7 +3336,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input id="sellerIFSC" [(ngModel)]="sellerObjInfo['ifscCode']"
-                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),9,true)'
                   [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                 </app-custom-input>
@@ -3231,6 +3462,16 @@
                 [checked]="sellerObjInfo['deductChargesFlag']"
                 (change)="selectCheckBox(sellerObjInfo['deductChargesFlag'],11)">
               <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+            <div class="col-sm-6 col-md-4 col-lg-4">
+              <input type="checkbox" id="deferredDisbursementFlag11" [(ngModel)]="sellerObjInfo['deferredDisbursementFlag']"
+                formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag11"
+                [checked]="sellerObjInfo['deferredDisbursementFlag']"
+                (change)="selectDeferredCheckBox(sellerObjInfo['deferredDisbursementFlag'],11)">
+              <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
             </div>
           </div>
           <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -3368,14 +3609,31 @@
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <app-custom-input id="buyerBenAccNo" [(ngModel)]="buyerObjInfo['beneficiaryAccountNo']"
+                <input type={{typeDeclare10}} id="buyerBenAccNo" (keyup)="cnfAccountNumber(buyerDetailsForm,'10',true)" [(ngModel)]="buyerObjInfo['beneficiaryAccountNo']"
+                class="form-control" required (change)="cnfAccountNumber(buyerDetailsForm,'10',false)" formControlName="beneficiaryAccountNo">
+              <!-- <app-custom-input id="buyerBenAccNo" [(ngModel)]="buyerObjInfo['beneficiaryAccountNo']"
                 [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
                 [className]="'form-control mandatory'" [placeholder]="'Account Number'"
                 [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
                 [isDirty]="isDirty">
-              </app-custom-input>
+              </app-custom-input> -->
             </div>
           </div>
+          <div class="form-group" *ngIf="buyercnfAccShow">
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                <sub class="star_red_col">*</sub>
+              </label>
+              <div class="col-sm-6 col-md-4 col-lg-3">
+                <app-custom-input id="buyerBencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+                  [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+                  [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+                  [isDirty]="isDirty">
+                </app-custom-input>
+                <div *ngIf="buyerDetailsForm.errors" class="invalid-feedback">
+                    Account numbers entered mismatch
+                  </div>
+              </div>
+            </div>
           <div *ngIf="showBuyerBankDetails">
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -3419,7 +3677,7 @@
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <app-custom-input id="buyerIFSC" [(ngModel)]="buyerObjInfo['ifscCode']"
-                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+                  [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),10,true)'
                   [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
                   [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
                 </app-custom-input>
@@ -3545,6 +3803,16 @@
                 [checked]="buyerObjInfo['deductChargesFlag']"
                 (change)="selectCheckBox(buyerObjInfo['deductChargesFlag'],12)">
               <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+            <div class="col-sm-6 col-md-4 col-lg-4">
+              <input type="checkbox" id="deferredDisbursementFlag12" [(ngModel)]="buyerObjInfo['deferredDisbursementFlag']"
+                formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag12"
+                [checked]="buyerObjInfo['deferredDisbursementFlag']"
+                (change)="selectDeferredCheckBox(buyerObjInfo['deferredDisbursementFlag'],12)">
+              <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
             </div>
           </div>
           <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -3682,14 +3950,31 @@
         <sub class="star_red_col">*</sub>
       </label>
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <app-custom-input id="additionalTab1BenAccNo" [(ngModel)]="additionalTab1Info['beneficiaryAccountNo']"
+          <input type={{typeDeclare11}} id="additionalTab1BenAccNo" (keyup)="cnfAccountNumber(additionalTab1Form,'11',true)" [(ngModel)]="additionalTab1Info['beneficiaryAccountNo']"
+          class="form-control" required (change)="cnfAccountNumber(additionalTab1Form,'11',false)" formControlName="beneficiaryAccountNo">
+        <!-- <app-custom-input id="additionalTab1BenAccNo" [(ngModel)]="additionalTab1Info['beneficiaryAccountNo']"
           [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
           [className]="'form-control mandatory'" [placeholder]="'Account Number'"
           [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
           [isDirty]="isDirty">
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
     </div>
+    <div class="form-group" *ngIf="add1cnfAccShow">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="add1BencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+            [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+            [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+            [isDirty]="isDirty">
+          </app-custom-input>
+          <div *ngIf="additionalTab1Form.errors" class="invalid-feedback">
+              Account numbers entered mismatch
+            </div>
+        </div>
+      </div>
     <div *ngIf="showAdditionalTab1BankDetails">
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -3733,7 +4018,7 @@
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <app-custom-input id="additionalTab1IFSC" [(ngModel)]="additionalTab1Info['ifscCode']"
-            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),11,true)'
             [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
             [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
           </app-custom-input>
@@ -3859,6 +4144,16 @@
           [checked]="additionalTab1Info['deductChargesFlag']"
           (change)="selectCheckBox(additionalTab1Info['deductChargesFlag'],13)">
         <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="deferredDisbursementFlag13" [(ngModel)]="additionalTab1Info['deferredDisbursementFlag']"
+          formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag13"
+          [checked]="additionalTab1Info['deferredDisbursementFlag']"
+          (change)="selectDeferredCheckBox(additionalTab1Info['deferredDisbursementFlag'],13)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
       </div>
     </div>
     <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -3996,14 +4291,31 @@
         <sub class="star_red_col">*</sub>
       </label>
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <app-custom-input id="additionalTab2BenAccNo" [(ngModel)]="additionalTab2Info['beneficiaryAccountNo']"
+          <input type={{typeDeclare12}} id="additionalTab2BenAccNo" (keyup)="cnfAccountNumber(additionalTab2Form,'12',true)" [(ngModel)]="additionalTab2Info['beneficiaryAccountNo']"
+          class="form-control" required (change)="cnfAccountNumber(additionalTab2Form,'12',false)" formControlName="beneficiaryAccountNo">
+        <!-- <app-custom-input id="additionalTab2BenAccNo" [(ngModel)]="additionalTab2Info['beneficiaryAccountNo']"
           [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
           [className]="'form-control mandatory'" [placeholder]="'Account Number'"
           [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
           [isDirty]="isDirty">
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
     </div>
+    <div class="form-group" *ngIf="add2cnfAccShow">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="add2BencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+            [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+            [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+            [isDirty]="isDirty">
+          </app-custom-input>
+          <div *ngIf="additionalTab2Form.errors" class="invalid-feedback">
+              Account numbers entered mismatch
+            </div>
+        </div>
+      </div>
     <div *ngIf="showAdditionalTab2BankDetails">
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -4047,7 +4359,7 @@
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <app-custom-input id="additionalTab2IFSC" [(ngModel)]="additionalTab2Info['ifscCode']"
-            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),12,true)'
             [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
             [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
           </app-custom-input>
@@ -4173,6 +4485,16 @@
           [checked]="additionalTab2Info['deductChargesFlag']"
           (change)="selectCheckBox(additionalTab2Info['deductChargesFlag'],14)">
         <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="deferredDisbursementFlag14" [(ngModel)]="additionalTab2Info['deferredDisbursementFlag']"
+          formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag14"
+          [checked]="additionalTab2Info['deferredDisbursementFlag']"
+          (change)="selectDeferredCheckBox(additionalTab2Info['deferredDisbursementFlag'],14)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
       </div>
     </div>
     <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -4310,14 +4632,31 @@
         <sub class="star_red_col">*</sub>
       </label>
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <app-custom-input id="additionalTab3BenAccNo" [(ngModel)]="additionalTab3Info['beneficiaryAccountNo']"
+          <input type={{typeDeclare13}} id="additionalTab3BenAccNo" (keyup)="cnfAccountNumber(additionalTab3Form,'13',true)" [(ngModel)]="additionalTab3Info['beneficiaryAccountNo']"
+          class="form-control" required (change)="cnfAccountNumber(additionalTab3Form,'13',false)" formControlName="beneficiaryAccountNo">
+        <!-- <app-custom-input id="additionalTab3BenAccNo" [(ngModel)]="additionalTab3Info['beneficiaryAccountNo']"
           [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
           [className]="'form-control mandatory'" [placeholder]="'Account Number'"
           [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
           [isDirty]="isDirty">
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
     </div>
+    <div class="form-group" *ngIf="add3cnfAccShow">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="add3BencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+            [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+            [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+            [isDirty]="isDirty">
+          </app-custom-input>
+          <div *ngIf="additionalTab13Form.errors" class="invalid-feedback">
+              Account numbers entered mismatch
+            </div>
+        </div>
+      </div>
     <div *ngIf="showAdditionalTab3BankDetails">
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -4361,7 +4700,7 @@
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <app-custom-input id="additionalTab3IFSC" [(ngModel)]="additionalTab3Info['ifscCode']"
-            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),13,true)'
             [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
             [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
           </app-custom-input>
@@ -4487,6 +4826,16 @@
           [checked]="additionalTab3Info['deductChargesFlag']"
           (change)="selectCheckBox(additionalTab3Info['deductChargesFlag'],15)">
         <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="deferredDisbursementFlag15" [(ngModel)]="additionalTab3Info['deferredDisbursementFlag']"
+          formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag15"
+          [checked]="additionalTab3Info['deferredDisbursementFlag']"
+          (change)="selectDeferredCheckBox(additionalTab3Info['deferredDisbursementFlag'],15)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
       </div>
     </div>
     <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -4624,14 +4973,31 @@
         <sub class="star_red_col">*</sub>
       </label>
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <app-custom-input id="additionalTab4BenAccNo" [(ngModel)]="additionalTab4Info['beneficiaryAccountNo']"
+          <input type={{typeDeclare14}} id="additionalTab4BenAccNo" (keyup)="cnfAccountNumber(additionalTab4Form,'14',true)" [(ngModel)]="additionalTab4Info['beneficiaryAccountNo']"
+          class="form-control" required (change)="cnfAccountNumber(additionalTab4Form,'14',false)" formControlName="beneficiaryAccountNo">
+        <!-- <app-custom-input id="additionalTab4BenAccNo" [(ngModel)]="additionalTab4Info['beneficiaryAccountNo']"
           [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
           [className]="'form-control mandatory'" [placeholder]="'Account Number'"
           [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
           [isDirty]="isDirty">
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
     </div>
+    <div class="form-group" *ngIf="add4cnfAccShow">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="add4BencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+            [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+            [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+            [isDirty]="isDirty">
+          </app-custom-input>
+          <div *ngIf="additionalTab4Form.errors" class="invalid-feedback">
+              Account numbers entered mismatch
+            </div>
+        </div>
+      </div>
     <div *ngIf="showAdditionalTab4BankDetails">
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -4675,7 +5041,7 @@
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <app-custom-input id="additionalTab4IFSC" [(ngModel)]="additionalTab4Info['ifscCode']"
-            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),14,true)'
             [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
             [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
           </app-custom-input>
@@ -4801,6 +5167,16 @@
           [checked]="additionalTab4Info['deductChargesFlag']"
           (change)="selectCheckBox(additionalTab4Info['deductChargesFlag'],16)">
         <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="deferredDisbursementFlag16" [(ngModel)]="additionalTab4Info['deferredDisbursementFlag']"
+          formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag16"
+          [checked]="additionalTab4Info['deferredDisbursementFlag']"
+          (change)="selectDeferredCheckBox(additionalTab4Info['deferredDisbursementFlag'],16)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
       </div>
     </div>
     <div class="form-group" *ngIf="vehicleProductCatCode">
@@ -4938,14 +5314,31 @@
         <sub class="star_red_col">*</sub>
       </label>
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <app-custom-input id="additionalTab5BenAccNo" [(ngModel)]="additionalTab5Info['beneficiaryAccountNo']"
+          <input type={{typeDeclare15}} id="additionalTab5BenAccNo" (keyup)="cnfAccountNumber(additionalTab5Form,'15',true)" [(ngModel)]="additionalTab5Info['beneficiaryAccountNo']"
+          class="form-control" required (change)="cnfAccountNumber(additionalTab5Form,'15',false)" formControlName="beneficiaryAccountNo">
+        <!-- <app-custom-input id="additionalTab5BenAccNo" [(ngModel)]="additionalTab5Info['beneficiaryAccountNo']"
           [isRequired]="'Beneficiary Account is required'" formControlName="beneficiaryAccountNo"
           [className]="'form-control mandatory'" [placeholder]="'Account Number'"
           [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
           [isDirty]="isDirty">
-        </app-custom-input>
+        </app-custom-input> -->
       </div>
     </div>
+    <div class="form-group" *ngIf="add5cnfAccShow">
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+          <sub class="star_red_col">*</sub>
+        </label>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <app-custom-input id="add5BencnfAccNo" formControlName="beneficiaryCNFAccountNo"
+            [className]="'form-control mandatory'" [placeholder]="'Account Number'"
+            [maxLength]="labels?.validationData?.accountNumber?.maxLength" [type]="'alpha-numeric-nospace'"
+            [isDirty]="isDirty">
+          </app-custom-input>
+          <div *ngIf="additionalTab5Form.errors" class="invalid-feedback">
+              Account numbers entered mismatch
+            </div>
+        </div>
+      </div>
     <div *ngIf="showAdditionalTab5BankDetails">
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.bnfBank}}
@@ -4989,7 +5382,7 @@
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <app-custom-input id="additionalTab5IFSC" [(ngModel)]="additionalTab5Info['ifscCode']"
-            [isRequired]="'IFSC Code is required'" formControlName="ifscCode"
+            [isRequired]="'IFSC Code is required'" formControlName="ifscCode" (change)='onIFSCSearch($event.target.value.toUpperCase(),15,true)'
             [className]="'form-control mandatory'" [placeholder]="'IFSC Code'" [maxLength]="ifscLength"
             [isDirty]="isDirty" [type]="'alpha-numeric-nospace'">
           </app-custom-input>
@@ -5115,6 +5508,16 @@
           [checked]="additionalTab5Info['deductChargesFlag']"
           (change)="selectCheckBox(additionalTab5Info['deductChargesFlag'],17)">
         <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeductDisbursement}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <input type="checkbox" id="deferredDisbursementFlag17" [(ngModel)]="additionalTab5Info['deferredDisbursementFlag']"
+          formControlName="deferredDisbursementFlag" class="deferredDisbursementFlag17"
+          [checked]="additionalTab5Info['deferredDisbursementFlag']"
+          (change)="selectDeferredCheckBox(additionalTab5Info['deferredDisbursementFlag'],17)">
+        <span class="deduct_Charges disburse-checkbox">{{labels?.applyDeferred}}</span>
       </div>
     </div>
     <div class="form-group" *ngIf="vehicleProductCatCode">

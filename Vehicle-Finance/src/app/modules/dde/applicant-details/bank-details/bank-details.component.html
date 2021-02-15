@@ -8,53 +8,132 @@
       </h3>
 
       <div class="row">
+
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_holder_name">{{labels?.accountHolderName}} <sub
-            class="star_red_col">*</sub></label>
+          <label for="account_holder_name">{{labels?.accountHolderName}} <sub class="star_red_col">*</sub></label>
           <!-- <input formControlName="accountHolderName" type="text" class="form-control"
                      name="account_holder_name" id="account_holder_name" required="required" appLettersOnly> -->
           <app-custom-input formControlName="accountHolderName" [patternCheck]="namePattern"
             [maxLength]="labels?.validationData?.name?.maxLength" [type]="labels?.validationData?.name?.type"
             [isRequired]="'Account Holder name is required '" [isDirty]="isDirty"></app-custom-input>
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="bank_name">{{labels?.bankName}}<sub
-            class="star_red_col">*</sub></label>
-          <app-vf-custom-select formControlName="bankId" [values]="lovData?.bankMaster"
-            [isRequired]="'Please Select Bank Name'"
-            [isDirty]="isDirty"></app-vf-custom-select>
-        </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_number">{{labels?.accountBranchname}} <sub
-            class="star_red_col">*</sub></label>
 
-          <app-custom-input formControlName="accountBranch" [maxLength]="labels?.validationData?.branchName?.maxLength"
-            [isRequired]="'Account Branch name is required'" [isDirty]="isDirty" [inputClass]="'input-upper'">
-          </app-custom-input>
-          <!-- [type]="labels?.validationData?.branchName?.type" -->
-          <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
-        </div>
-      </div>
-      <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_number">{{labels?.accountNo}} <sub
-            class="star_red_col">*</sub></label>
+          <label for="bank_name">{{labels?.bankName}}<sub class="star_red_col">*</sub></label>
+
+          <div class="ng-autopopulate" style="width: 100%;">
+
+            <ng-autocomplete class="custom-select-box" [data]="searchBankNameList" [searchKeyword]="keyword"
+              (selected)='selectBankNameEvent($event)' (inputChanged)='onBankNameSearch($event)'
+              (inputCleared)='onBankNameClear($event)'
+              [itemTemplate]="favBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="bankId"
+              [placeHolder]="'Bank Name'" [debounceTime]="400" [minQueryLength]="3">
+            </ng-autocomplete>
+
+            <div class="invalid-feedback">
+              <div *ngIf="bankForm.get('bankId').touched && bankForm.get('bankId').hasError('required')"> Bank name
+                required.</div>
+              <div *ngIf="bankForm.get('bankId').hasError('minlength')"> Mininum 3 Charates
+                required</div>
+            </div>
+            <ng-template #favBankNameTemplate let-item>
+              <a [innerHTML]="item"></a>
+            </ng-template>
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+
+        </div>
+
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="bank_name">{{labels?.ifscCode}}<sub class="star_red_col">*</sub></label>
+
+          <div class="ng-autopopulate" style="width: 100%;">
+
+            <ng-autocomplete class="custom-select-box" [data]="searchIFSCCode" [searchKeyword]="keyword"
+              [ngClass]="{ 'codeDisable disableCode': !isEnableBranch }" (selected)="selectIFSCCode($event, 'IFSC')"
+              (inputChanged)='onIFSCSearcn($event)' [itemTemplate]="searchIFSCTemplate"
+              [notFoundTemplate]="notFoundIFSC" formControlName="ifscCode" [placeHolder]="'IFSC Code'"
+              [minQueryLength]="3" [disabled]="!isEnableBranch">
+            </ng-autocomplete>
+            <div class="invalid-feedback">
+              <div *ngIf="bankForm.get('ifscCode').touched && bankForm.get('ifscCode').hasError('required')"> IFSC code
+                required.
+              </div>
+              <div *ngIf="bankForm.get('ifscCode').hasError('minlength')"> Mininum 3 Charates
+                required</div>
+            </div>
+            <ng-template #searchIFSCTemplate let-item>
+              <a [innerHTML]="item.ifscCode"></a>
+            </ng-template>
+            <ng-template #notFoundIFSC let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="account_number">{{labels?.accountBranchname}} <sub class="star_red_col">*</sub></label>
+
+          <div class="ng-autopopulate" style="width: 100%;">
+
+            <ng-autocomplete class="custom-select-box" [data]="searchBranchName" [searchKeyword]="keyword"
+              [ngClass]="{ 'codeDisable disableCode': !isEnableBranch }" (selected)="selectIFSCCode($event, 'Branch')"
+              (inputChanged)='onChangeBranch($event)' [itemTemplate]="searchBranchTemplate"
+              [notFoundTemplate]="notFoundBranch" formControlName="accountBranch" [placeHolder]="'Account Branch'"
+              [minQueryLength]="3" [disabled]="!isEnableBranch">
+            </ng-autocomplete>
+            <div class="invalid-feedback">
+              <div *ngIf="bankForm.get('accountBranch').touched && bankForm.get('accountBranch').hasError('required')">
+                Account
+                Branch
+                required.
+              </div>
+              <div *ngIf="bankForm.get('accountBranch').hasError('minlength')"> Mininum 3 Charates
+                required</div>
+            </div>
+            <ng-template #searchBranchTemplate let-item>
+              <a [innerHTML]="item.branchName"></a>
+            </ng-template>
+            <ng-template #notFoundBranch let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+
+          <!-- <app-vf-custom-select formControlName="accountBranch" [values]="lovData?.bankMaster"
+            [isRequired]="'Please Select Account Branch'" [isDirty]="isDirty"></app-vf-custom-select> -->
+
+        </div>
+
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="account_number">{{labels?.accountNo}} <sub class="star_red_col">*</sub></label>
 
           <app-custom-input formControlName="accountNumber"
             [maxLength]="labels?.validationData?.pdAccountNumber?.maxLength"
             [type]="labels?.validationData?.pdAccountNumber?.type"
-            [patternCheck]="labels?.validationData?.pdAccountNumber?.pattern" [isRequired]="'Account Number is required'"
-            [isDirty]="isDirty" [inputClass]="'input-upper'"></app-custom-input>
+            [patternCheck]="labels?.validationData?.pdAccountNumber?.pattern"
+            [isRequired]="'Account Number is required'" [isDirty]="isDirty" [inputClass]="'input-upper'">
+          </app-custom-input>
           <!-- [patternCheck]="labels?.validationData?.accountNumber?.pattern" -->
         </div>
-        <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_type">{{labels?.accountType}} <sub
-            class="star_red_col">*</sub></label>
 
-          <app-vf-custom-select formControlName="accountType" [values]="lovData?.bankAccountType"
-          [isDirty]="isDirty"
+        <div class="form-group col-sm-6 col-md-4 col-lg-3">
+          <label for="account_type">{{labels?.accountType}} <sub class="star_red_col">*</sub></label>
+
+          <app-vf-custom-select formControlName="accountType" [values]="lovData?.bankAccountType" [isDirty]="isDirty"
             [isRequired]="'Please Select Account Type'"></app-vf-custom-select>
         </div>
+
+      </div>
+
+      <div class="row">
+
         <div class="form-group col-sm-6 col-md-4 col-lg-3" *ngIf="isLimitRequire">
           <label for="limit">{{labels?.limit}}</label>
           <app-custom-input formControlName="limit" [patternCheck]="limitNumberPattern"
@@ -65,38 +144,35 @@
           <!-- <input formControlName="limit" type="number" class="form-control" name="limit" id="limit"   min= "0"required="required"> -->
         </div>
 
-
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="from_date">{{labels?.fromDate}} <sub
-            class="star_red_col">*</sub></label>        
-              <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'"
-                placeholder="Select Start Month" [activeView]="'decade'" (valueChange)="getMonths()"
-                [max]="todayDateNew"></kendo-datepicker>
-            
-            <div class="invalid-feedback">
-              <span  *ngIf="bankForm.get('fromDate').value && bankForm.get('fromDate').invalid">
-                Invalid Date </span>
-                <span  *ngIf="isDirty && !bankForm.get('fromDate').value">
-                  Select Date </span>
-            </div>
+          <label for="from_date">{{labels?.fromDate}} <sub class="star_red_col">*</sub></label>
+          <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'"
+            placeholder="Select Start Month" [activeView]="'decade'" (valueChange)="getMonths()" [max]="todayDateNew">
+          </kendo-datepicker>
+
+          <div class="invalid-feedback">
+            <span *ngIf="bankForm.get('fromDate').value && bankForm.get('fromDate').invalid">
+              Invalid Date </span>
+            <span *ngIf="isDirty && !bankForm.get('fromDate').value">
+              Select Date </span>
+          </div>
         </div>
         <div [ngClass]="{'disablField': !f.fromDate.value}" class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="to_date">{{labels?.toDate}} <sub
-              class="star_red_col">*</sub></label>
-             <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
-                [min]="bankForm.get('fromDate').valid ? bankForm.get('fromDate').value : ''" placeholder="Select Latest Month" [activeView]="'decade'"
-                (valueChange)="setToDateMax()"></kendo-datepicker>
-            <div class="invalid-feedback">
-              <span  *ngIf="bankForm.get('toDate').value && bankForm.get('toDate').invalid">
-                Invalid Date </span>
-                <span  *ngIf="isDirty &&  !bankForm.get('toDate').value ">
-                  Select Date </span>
+          <label for="to_date">{{labels?.toDate}} <sub class="star_red_col">*</sub></label>
+          <kendo-datepicker class="form-control" formControlName="toDate" [format]="'dd/MM/yyyy'" [max]="toDayDate"
+            [min]="bankForm.get('fromDate').valid ? bankForm.get('fromDate').value : ''"
+            placeholder="Select Latest Month" [activeView]="'decade'" (valueChange)="setToDateMax()"></kendo-datepicker>
+          <div class="invalid-feedback">
+            <span *ngIf="bankForm.get('toDate').value && bankForm.get('toDate').invalid">
+              Invalid Date </span>
+            <span *ngIf="isDirty &&  !bankForm.get('toDate').value ">
+              Select Date </span>
 
-            </div>
-            
-          
+          </div>
+
+
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
           <label for="period">{{labels?.period}}</label>
@@ -104,12 +180,10 @@
             required="required" disabled>
         </div>
 
-
       </div>
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="limit">{{labels?.micrNo}}<sub
-            class="star_red_col">*</sub></label>
+          <label for="limit">{{labels?.micrNo}}<sub class="star_red_col">*</sub></label>
           <app-custom-input formControlName="micrNumber" [patternCheck]="labels?.validationData?.micrFormat?.pattern"
             [maxLength]="labels?.validationData?.micrFormat?.maxLength"
             [type]="labels?.validationData?.micrFormat?.type" [isRequired]="'MICR No is required'"
