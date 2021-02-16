@@ -9,7 +9,7 @@
           <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">
             {{leadId && leadId != 'null' ? leadId : ' NA'}} 
             <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
-              (click)="onLeadHistory()" *ngIf="leadId && leadId != 'null'"></i>
+              (click)="onLeadHistory()" *ngIf="leadId && leadId != 'null' && !isExtUser"></i>
           </label>
         </div>
       </div>
@@ -46,7 +46,7 @@
             }}</label>
         </div>
       </div>
-      <div class="row col-lg-4 col-md-4 col-sm-12">
+      <div *ngIf="!isExtUser" class="row col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_handled_by">{{ labels?.status }}
           </label>
@@ -79,7 +79,7 @@
           <label for="lead_created_by_name" class="col-form-label-two" data-tooltip="Lead History">:{{
             leadId && leadId !== 'null' ? leadId : ' NA'
             }} <i class="fa fa-history lead-history" data-toggle="modal" data-target="#leadHistoryModal"
-              (click)="onLeadHistory()" *ngIf="leadId && leadId != 'null'"></i></label>
+              (click)="onLeadHistory()" *ngIf="leadId && leadId != 'null' && !isExtUser"></i></label>
         </div>
       </div>
       <div class=" col-lg-4 col-md-4 col-sm-12">
@@ -115,7 +115,7 @@
             }}</label>
         </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-12">
+      <div *ngIf="!isExtUser" class="col-lg-4 col-md-4 col-sm-12">
         <div class="form-group mb-0">
           <label class="col-form-label" for="lead_handled_by">{{ labels?.status }}
           </label>
