@@ -12,6 +12,7 @@ import { ToasterService } from '@services/toaster.service';
 // import { LeadHistoriesDataService } from '@services/lead-histories-data.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-lead-section-header',
@@ -44,6 +45,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   isButtonNameChange : boolean;
   isBeforeEligibility: boolean;
   queue: any;
+  isExtUser: boolean;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -56,7 +58,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     private leadHistoryService: LeadHistoryService,
     private commonDataService: CommonDataService,
     private toasterService: ToasterService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private loginStoreService: LoginStoreService
   ) {
     // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
     this.leadId = this.aRoute.snapshot.params['leadId'];
@@ -69,6 +72,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
     this.getLabels();
     this.userId = localStorage.getItem('userId');
+    const roles = this.loginStoreService.getRolesAndUserDetails();
+    this.isExtUser = roles.fullData.isExtUser;
 
     if (this.leadId) {
       // console.log(this.aRoute.snapshot)

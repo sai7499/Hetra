@@ -770,10 +770,13 @@
                                 *ngIf="(onReleaseTab || onAssignTab) && displayTabs?.PDDforCPC === activeTab || (displayTabs?.ChequeTracking === activeTab &&
                             displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab || displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">
                                 {{labels?.action}}</th>
-                            <th
+                                <th
+                                *ngIf="displayTabs?.LoanBooking === activeTab">
+                                {{labels?.leadID}}</th>
+                            <!-- <th
                                 *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
                             displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab || displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">
-                                {{labels?.leadID}}</th>
+                                {{labels?.leadID}}</th> -->
                             <th *ngIf="displayTabs?.LoanBooking === activeTab">{{labels?.loanAccNumber}}&nbsp;<i
                                     style="cursor: pointer" class="fa fa-sort"
                                     [ngClass]="{'active':sortTables?.ByLoanAccNo === sortTab}"
@@ -828,19 +831,26 @@
                                     (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
                                     value="Assign" data-toggle="modal" data-target="#assignModel" />
                             </td>
-                            <td *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
-                            displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab || displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)"
+                            <td *ngIf="displayTabs?.LoanBooking === activeTab"
                                 [attr.data-label]="labels?.leadID">
+                            <!-- <td *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
+                            displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab || displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)"
+                                [attr.data-label]="labels?.leadID"> -->
 
-                                <a *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
-                                displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab)" class="text-underline"
+                                <a *ngIf="displayTabs?.LoanBooking === activeTab" class="text-underline"
                                     style="cursor: pointer;"
                                     (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); getLoanNumber(item.loanNumber)">{{item.leadId
                                     ? item.leadId : '--'}}</a>
 
-                                <a *ngIf="(displayTabs?.ChequeTracking === activeTab &&
+                                <!-- <a *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
+                                displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab)" class="text-underline"
+                                    style="cursor: pointer;"
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); getLoanNumber(item.loanNumber)">{{item.leadId
+                                    ? item.leadId : '--'}}</a> -->
+
+                                <!-- <a *ngIf="(displayTabs?.ChequeTracking === activeTab &&
                                 displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.leadId
-                                    ? item.leadId : '--'}}</a>
+                                    ? item.leadId : '--'}}</a> -->
                             </td>
                             <td *ngIf="displayTabs?.PDDforCPC === activeTab && (!onReleaseTab && onAssignTab)"
                                 [attr.data-label]="labels?.loanNumber">
@@ -849,13 +859,11 @@
                             <td *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab"
                                 [attr.data-label]="labels?.loanNumber">
 
-                                <a *ngIf="displayTabs?.PDD === activeTab || (displayTabs?.ChequeTracking === activeTab &&
-                                displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab)" class="text-underline"
+                                <a *ngIf="displayTabs?.PDD === activeTab || (displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch !== subActiveTab)" class="text-underline"
                                     style="cursor: pointer;"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber}}</a>
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); getLoanNumber(item.loanNumber)">{{item.loanNumber}}</a>
 
-                                <a *ngIf="(displayTabs?.ChequeTracking === activeTab &&
-                                    displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.loanNumber
+                                <a *ngIf="(displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.loanNumber
                                     ? item.loanNumber : '--'}}</a>
                             </td>
                             <td *ngIf="displayTabs?.PDDforCPC === activeTab && (onReleaseTab && !onAssignTab)"

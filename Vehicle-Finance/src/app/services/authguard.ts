@@ -45,13 +45,15 @@ export class Authguard implements CanActivate {
                 response.ProcessVariables.businessDivisionLIst;
               const activityList = response.ProcessVariables.activityList;
               let userRoleActivityList = response.ProcessVariables.userRoleActivityList;
+              const fullData = response.ProcessVariables;
 
               this.loginStoreService.setRolesAndUserDetails(
                 roles,
                 userDetails,
                 businessDivisionList,
                 activityList,
-                userRoleActivityList
+                userRoleActivityList,
+                fullData
               );
               observer.next(true);
             }
