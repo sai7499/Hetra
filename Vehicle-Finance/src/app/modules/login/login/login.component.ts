@@ -186,6 +186,7 @@ export class LoginComponent implements OnInit {
             const response = res;
             if (response.Error === '0') {
               const roles = response.ProcessVariables.roles;
+              const fullData = response.ProcessVariables;
               const userDetails = response.ProcessVariables.userDetails;
               const businessDivisionList =
                 response.ProcessVariables.businessDivisionLIst;
@@ -199,7 +200,8 @@ export class LoginComponent implements OnInit {
                 userDetails,
                 businessDivisionList,
                 activityList,
-                userRoleActivityList
+                userRoleActivityList,
+                fullData
               );
               this.router.navigateByUrl('/activity-search');
             }
