@@ -1249,7 +1249,7 @@
                             </div>
 
                             <div class="row">
- 
+
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="discount_div">
                                     <label for="discount">{{label.discount}} <sub class="star_blue_col">*</sub> </label>
                                     <app-custom-input formControlName="discount"
@@ -1337,7 +1337,8 @@
 
                         </div>
 
-                        <div class="" id="used_cv_show" *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UTCR'">
+                        <div class="" id="used_cv_show"
+                            *ngIf="productCatoryCode === 'UCV' || productCatoryCode === 'UTCR'">
 
                             <div class="row">
 
@@ -1545,14 +1546,14 @@
                                 <div class="row">
 
                                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="is_veh_availIn_grid"
-                                    *ngIf="productCatoryCode === 'UCV' ||  productCatoryCode ==='UTCR'">
-                                    <label for="is_veh_availIn_grid"> {{ label.isVehAvailInGrid }}
-                                    </label>
+                                        *ngIf="productCatoryCode === 'UCV' ||  productCatoryCode ==='UTCR'">
+                                        <label for="is_veh_availIn_grid"> {{ label.isVehAvailInGrid }}
+                                        </label>
 
-                                    <app-vf-custom-select [values]="vehicleLov?.isVehAvailInGrid"
-                                        [id]="'is_veh_availIn_grid'" formControlName="isVehAvailInGrid"
-                                        [isDisabled]="true">
-                                    </app-vf-custom-select>
+                                        <app-vf-custom-select [values]="vehicleLov?.isVehAvailInGrid"
+                                            [id]="'is_veh_availIn_grid'" formControlName="isVehAvailInGrid"
+                                            [isDisabled]="true">
+                                        </app-vf-custom-select>
 
                                     </div>
 
@@ -1831,8 +1832,7 @@
                                         <label for="cubic_capacity">{{label.cubicCapacity}} </label>
                                         <app-custom-input formControlName="cubicCapacity"
                                             [type]="label.validationData?.cubicCapacity.type" [id]="'cubic_capacity'"
-                                            [className]="'form-control'"
-                                            [custom]="initalZeroCheck"
+                                            [className]="'form-control'" [custom]="initalZeroCheck"
                                             [maxLength]="label.validationData?.cubicCapacity.maxLength"
                                             [placeholder]="'Cubic Capacity'">
                                         </app-custom-input>
@@ -2006,7 +2006,7 @@
                             </div>
 
                             <ng-container *ngIf="!isVehicleRegNoChange">
-                                
+
                                 <div class="row">
 
                                     <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -2429,8 +2429,7 @@
                                         <label for="cubic_capacity">{{label.cubicCapacity}}</label>
                                         <app-custom-input formControlName="cubicCapacity"
                                             [type]="label.validationData?.cubicCapacity.type" [id]="'cubic_capacity'"
-                                            [className]="'form-control'"
-                                            [custom]="initalZeroCheck"
+                                            [className]="'form-control'" [custom]="initalZeroCheck"
                                             [maxLength]="label.validationData?.cubicCapacity.maxLength"
                                             [placeholder]="'Cubic Capacity'">
                                         </app-custom-input>
@@ -2572,7 +2571,7 @@
 
                                 <div class="invalid-feedback"
                                     *ngIf="roleType !==1 && obj.controls['fcExpiryDate'].touched && obj.controls['fcExpiryDate'].hasError('required')">
-                                    Invalid Date
+                                    {{label.fcExpiryDate}} Required
                                 </div>
 
                             </div>
@@ -2642,11 +2641,16 @@
                                     placeholder="Insurance Validity">
                                 </kendo-datepicker>
 
-                                <div class="invalid-feedback" *ngIf="roleType !==1 && obj.controls['insuranceValidity'].touched &&
-                            obj.controls['insuranceValidity'].hasError('required') ||
-                            obj.controls['insuranceValidity'].value < onlyFutureDate">
+                                <div class="invalid-feedback"
+                                    *ngIf="roleType !==1 && obj.controls['insuranceValidity'].touched && obj.controls['insuranceValidity'].hasError('required')">
+                                    {{label.insuranceValidity}} Required
+                                </div>
+
+                                <div class="invalid-feedback"
+                                    *ngIf="obj.controls['insuranceValidity'].value && obj.controls['insuranceValidity'].value < onlyFutureDate">
                                     Invalid Date (Future Date Only)
                                 </div>
+
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 mt"
@@ -2763,8 +2767,12 @@
                                 </kendo-datepicker>
 
                                 <div class="invalid-feedback"
-                                    *ngIf="roleType !==1 && obj.controls['accidentDate'].touched && 
-                            obj.controls['accidentDate'].hasError('required') || obj.controls['accidentDate'].value > onlyFutureDate">
+                                    *ngIf="roleType !==1 && obj.controls['accidentDate'].touched && obj.controls['accidentDate'].hasError('required')">
+                                    {{label.accidentDate}} Required
+                                </div>
+
+                                <div class="invalid-feedback"
+                                    *ngIf="obj.controls['accidentDate'].value && obj.controls['accidentDate'].value > onlyFutureDate">
                                     Invalid Date
                                 </div>
 
@@ -2874,8 +2882,12 @@
                                 </kendo-datepicker>
 
                                 <div class="invalid-feedback"
-                                    *ngIf="roleType !==1 && obj.controls['invoiceDate'].touched && 
-                           obj.controls['invoiceDate'].hasError('required') || obj.controls['invoiceDate'].value > toDayDate">
+                                    *ngIf="roleType !==1 && obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].hasError('required')">
+                                    {{label.proformaInvoiceDate}} Required
+                                </div>
+
+                                <div class="invalid-feedback"
+                                    *ngIf="obj.controls['invoiceDate'].value && obj.controls['invoiceDate'].value > toDayDate">
                                     Invalid Date
                                 </div>
 
@@ -2985,9 +2997,6 @@
     <div id="text">
         <div class="panel">
             <div class="panel-body">
-                <!-- <button type="button" class="close" aria-label="Close" (click)="isModelShow = false" >
-              <span aria-hidden="true">&times;</span>
-            </button> -->
                 <div class="modal-dialog">
                     <div class="modal-body" style="text-align:center;">
                         <p>{{errorMessage}}</p>
