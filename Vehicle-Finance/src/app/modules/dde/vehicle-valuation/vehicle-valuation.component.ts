@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -51,6 +51,7 @@ export class VehicleValuationComponent implements OnInit {
   roles: any;
   roleType: any;
   extValuator: boolean;
+  @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
 
   constructor(
     private labelsData: LabelsService,
@@ -119,7 +120,7 @@ export class VehicleValuationComponent implements OnInit {
 
   initForm() {
     this.modalDataForm = this.formBuilder.group({
-      remarks: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$')]],
+      remarks: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$')])],
       valuatorCode: ['', [Validators.required]]
     });
   }
@@ -195,7 +196,7 @@ export class VehicleValuationComponent implements OnInit {
   }
 
   initiateVehicleValuation() {
-    this.isDirty = true;
+    // this.isDirty = true;
     const formValues = this.modalDataForm.getRawValue();
 
     const data = {
@@ -204,7 +205,7 @@ export class VehicleValuationComponent implements OnInit {
       ...formValues
     };
 
-    if (this.modalDataForm.valid === true) {
+    // if (this.modalDataForm.valid === true) {
       this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
         const response = res;
 
@@ -212,6 +213,7 @@ export class VehicleValuationComponent implements OnInit {
           this.toasterService.showSuccess('Valuation Initiated Successfully', '');
           const getData = response["ProcessVariables"]["collateralDetails"];
           this.getCollateralDetailsForVehicleValuation();
+          this.isOk = false;
           return this.collateralDetailsData.forEach(element => {
             if (element.collateralId == getData.collateralId) {
               element.valuationStatus = getData.valuationStatus;
@@ -224,9 +226,9 @@ export class VehicleValuationComponent implements OnInit {
             '');
         }
       });
-    } else {
-      this.toasterService.showError('Please fill all mandatory fields', '');
-    }
+    // } else {
+    //   this.toasterService.showError('Please fill all mandatory fields', '');
+    // }
 
   }
 
@@ -256,10 +258,17 @@ export class VehicleValuationComponent implements OnInit {
 
   closeModal() {
     this.isModal = false;
+    this.isOk  = false;
   }
 
   okModal() {
+    this.isDirty = true;
+    if(this.modalDataForm.valid === true) {
+      this.closeModal1.nativeElement.click();
     this.isOk = true;
+    } else {
+      this.toasterService.showError('Please enter mandatory fields', '')
+    }
   }
 
   yesModal() {

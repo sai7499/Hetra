@@ -186,15 +186,11 @@
               </label>
               <textarea class="form-control" formControlName="remarks">
               </textarea>
-              <div *ngIf="
-                  modalDataForm.controls['remarks'].invalid &&
-                  (modalDataForm.controls['remarks'].dirty ||
-                    modalDataForm.controls['remarks'].touched)
-                " class="invalid-feedback">
-                <div *ngIf="modalDataForm.controls['remarks'].errors.required">
+              <div class="invalid-feedback">
+                <div *ngIf="isDirty && !modalDataForm.controls['remarks'].value">
                   Remarks is required
                 </div>
-                <div *ngIf="modalDataForm.controls['remarks'].errors.pattern">
+                <div *ngIf="modalDataForm.controls['remarks'].value && modalDataForm.controls['remarks'].invalid">
                   Invalid Input/ Only Alphabets & Numbers allowed
                 </div>
               </div>
@@ -212,10 +208,12 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary table-head-bg" data-dismiss="modal" data-toggle="modal"
+        <button type="button" class="btn btn-primary table-head-bg"
           data-target="#myModal_one" (click)="okModal()" id="model_ok">
           {{ labels.ok }}
         </button>
+        <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal1>
+          close</button>
         <button type="button" (click)="closeModal()" class="btn btn-primary table-head-bg" data-dismiss="modal">
           {{ labels.cancel }}
         </button>
@@ -229,7 +227,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header table-head-bg">
-        <button type="button" (click)="isModal = false" class="close" data-dismiss="modal"
+        <button type="button" (click)="closeModal()" class="close" data-dismiss="modal"
           style="color: white; opacity: 1">
           &times;
         </button>
@@ -239,8 +237,7 @@
         <p>{{ labels.modalBody }} {{ vendorName }}?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary table-head-bg" data-dismiss="modal" data-toggle="modal"
-          data-target="#myModal_two" (click)="initiateVehicleValuation()" id="model_ok">
+        <button type="button" class="btn btn-primary table-head-bg" data-dismiss="modal" (click)="initiateVehicleValuation()" id="model_ok">
           {{ labels.yes }}
         </button>
         <button type="button" (click)="closeModal()" class="btn btn-primary table-head-bg" data-dismiss="modal">
