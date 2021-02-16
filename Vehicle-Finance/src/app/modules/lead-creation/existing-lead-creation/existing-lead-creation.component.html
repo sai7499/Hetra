@@ -44,7 +44,7 @@
               <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
             <app-vf-custom-select [values]="extSourcingChannelData" formControlName="sourcingChannel"
-              (change)="sourcingChannelChange($event)" name="sourcingChannel" [isRequired]="'Sourcing Channel required'"
+              (change)="sourcingChannelChange($event)" name="sourcingChannel" [isRequired]="isUploaded === '1' ? '' : 'Sourcing Channel required'"
               [isDirty]="isDirty" [isDisabled]="isSourcingChannel">
             </app-vf-custom-select>
           </div>
@@ -54,7 +54,7 @@
               <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
             <app-vf-custom-select [values]="extSourcingTypeData" formControlName="sourcingType"
-              (change)="sourchingTypeChange($event)" [isRequired]="'Sourcing Type required'" [isDirty]="isDirty"
+              (change)="sourchingTypeChange($event)" [isRequired]="isUploaded === '1' ? '' : 'Sourcing Type required'" [isDirty]="isDirty"
               [isDisabled]="isSourcingType">
             </app-vf-custom-select>
           </div>
@@ -65,7 +65,7 @@
               <sub class="star_red_col" *ngIf="!leadIdFromDashboard">*</sub>
             </label>
             <app-vf-custom-select [values]="extSourcingCodeData" formControlName="sourcingCode"
-              (change)="sourchingCodeChange($event) " [isRequired]="'Sourcing Code required'" [isDirty]="isDirty"
+              (change)="sourchingCodeChange($event) " [isRequired]="isUploaded === '1' ? '' : 'Sourcing Code required'" [isDirty]="isDirty"
               [isDisabled]="isSourcingCode">
             </app-vf-custom-select>
           </div>

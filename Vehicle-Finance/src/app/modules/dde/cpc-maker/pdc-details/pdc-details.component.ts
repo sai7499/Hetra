@@ -56,7 +56,6 @@ export class PdcDetailsComponent implements OnInit {
   searchBankNameList: any = [];
   getBankBranchDetails: any = [];
   searchBranchName: any = [];
-  isEnableBranch: boolean = false;
   keyword: string = '';
 
   constructor(
@@ -135,6 +134,7 @@ export class PdcDetailsComponent implements OnInit {
       instrBranchName: [null, Validators.required],
       instrBranchAccountNumber: [null, Validators.required],
       instrAmount: [null, Validators.required],
+      isEnableBranch: false
     });
   }
   private initSpdcRows() {
@@ -147,6 +147,7 @@ export class PdcDetailsComponent implements OnInit {
       instrBranchName: [null, Validators.required],
       instrBranchAccountNumber: [null, Validators.required],
       instrAmount: [null, Validators.required],
+      isEnableBranch: false
     });
   }
   addPdcUnit(data?: any) {
@@ -273,28 +274,24 @@ export class PdcDetailsComponent implements OnInit {
       }
     });
   }
+
   onSave(dataString: string) {
-    //this.submitted = true;
-    //  localStorage.setItem('pdcData', JSON.stringify(this.pdcForm.value));
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.pdcForm.controls.pdcList.length; i++) {
       // tslint:disable-next-line: prefer-const
-      let value = this.pdcForm.value.pdcList[i].instrDate;
-      this.pdcForm.value.pdcList[i].instrDate = value
+      let value = this.pdcForm.controls.pdcList.controls[i].value.instrDate;
+
+      this.pdcForm.controls.pdcList.controls[i].value.instrDate = value
         ? this.utilityService.getDateFormat(value)
         : null;
     }
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < this.pdcForm.controls.spdcList.controls.length; i++) {
-      // tslint:disable-next-line: max-line-length
-      this.pdcForm.value.spdcList[i].instrDate = this.pdcForm.value.spdcList[i]
-        .instrDate
-        ? this.utilityService.getDateFormat(
-          this.pdcForm.value.spdcList[i].instrDate
-        )
+    for (let i = 0; i < this.pdcForm.controls.spdcList.length; i++) {
+      let datevalue = this.pdcForm.controls.spdcList.controls[i].value.instrDate;
+      
+      this.pdcForm.controls.spdcList.controls[i].value.instrDate = datevalue
+        ? this.utilityService.getDateFormat(datevalue)
         : null;
     }
-    console.log(this.pdcForm, 'pdc Form');
+
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
@@ -310,8 +307,6 @@ export class PdcDetailsComponent implements OnInit {
       this.toasterService.showWarning('Mandatory Fields Missing', '');
       return;
     }
-
-    //return alert('SAVED')
     this.pdcService.savePdcDetails(body).subscribe((res: any) => {
       console.log(res);
       // tslint:disable-next-line: triple-equals
@@ -329,8 +324,8 @@ export class PdcDetailsComponent implements OnInit {
         this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
     });
-    //  this.router.navigate([`pages/dashboard`]);
   }
+
   onBack() {
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '4') {
@@ -703,14 +698,14 @@ export class PdcDetailsComponent implements OnInit {
 
     for (let j = 1; j < this.pdcForm.get('pdcList').length; j++) {
       pdcArray.controls[j].patchValue({
-      emiAmount: obj.get('emiAmount').value,
-      instrAmount: obj.get('instrAmount').value,
-      instrBankName:  obj.get('instrBankName').value,
-      instrBranchAccountNumber:  obj.get('instrBranchAccountNumber').value,
-      instrBranchName:  obj.get('instrBranchName').value,
-      instrDate:  obj.get('instrDate').value,
-      instrNo:  obj.get('instrNo').value,
-      pdcId:  obj.get('pdcId').value
+        emiAmount: obj.get('emiAmount').value,
+        instrAmount: obj.get('instrAmount').value,
+        instrBankName: obj.get('instrBankName').value,
+        instrBranchAccountNumber: obj.get('instrBranchAccountNumber').value,
+        instrBranchName: obj.get('instrBranchName').value,
+        instrDate: obj.get('instrDate').value,
+        instrNo: obj.get('instrNo').value,
+        pdcId: obj.get('pdcId').value
       })
       // this.pdcForm.get('pdcList').controls[j].disable()
 
@@ -724,14 +719,14 @@ export class PdcDetailsComponent implements OnInit {
 
     for (let j = 1; j < this.pdcForm.get('spdcList').length; j++) {
       spdcArray.controls[j].patchValue({
-      emiAmount: obj.get('emiAmount').value,
-      instrAmount: obj.get('instrAmount').value,
-      instrBankName:  obj.get('instrBankName').value,
-      instrBranchAccountNumber:  obj.get('instrBranchAccountNumber').value,
-      instrBranchName:  obj.get('instrBranchName').value,
-      instrDate:  obj.get('instrDate').value,
-      instrNo:  obj.get('instrNo').value,
-      pdcId:  obj.get('pdcId').value
+        emiAmount: obj.get('emiAmount').value,
+        instrAmount: obj.get('instrAmount').value,
+        instrBankName: obj.get('instrBankName').value,
+        instrBranchAccountNumber: obj.get('instrBranchAccountNumber').value,
+        instrBranchName: obj.get('instrBranchName').value,
+        instrDate: obj.get('instrDate').value,
+        instrNo: obj.get('instrNo').value,
+        pdcId: obj.get('pdcId').value
       })
       // this.pdcForm.get('spdcList').controls[j].disable()
 
@@ -772,11 +767,12 @@ export class PdcDetailsComponent implements OnInit {
       this.bankTransaction.getBranchDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.getBankBranchDetails = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
-          obj.patchValue({
-            instrBranchName: ''
-          })
           this.searchBranchName = [];
-          this.isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false;
+          let isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false;
+          obj.patchValue({
+            instrBranchName: '',
+            isEnableBranch: isEnableBranch
+          })
           if (isString === 'isPdc') {
             this.changePdcList(obj, 0)
           } else if (isString === 'isSpdc') {
@@ -792,11 +788,12 @@ export class PdcDetailsComponent implements OnInit {
   onChangeBranch(val, obj) {
     if (val && val.trim().length > 0) {
       val = val.toString().toLowerCase();
-      this.searchBranchName = this.getBankBranchDetails.filter(e => {
+      let searchBranchName = this.getBankBranchDetails.filter(e => {
         const eName = e.branchName.toString().toLowerCase();
         if (eName.includes(val)) {
           this.keyword = 'branchName';
-          return e;
+          this.searchBranchName.push(e.branchName)
+          return e.branchName;
         }
       });
 
@@ -807,16 +804,17 @@ export class PdcDetailsComponent implements OnInit {
         }
       }, 30000)
 
-          }
+    }
   }
 
   selectIFSCCode(val, obj, isString) {
-    obj.get('instrBranchName').setValue(val.branchName)
+    obj.get('instrBranchName').setValue(val)
     if (isString === 'isPdc') {
       this.changePdcList(obj, 0)
     } else if (isString === 'isSpdc') {
       this.changeSpdcList(obj, 0)
-    }  }
+    }
+  }
 
   onBankNameClear(val, obj) {
     obj.patchValue({
