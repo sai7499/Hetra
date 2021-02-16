@@ -185,6 +185,7 @@ export class SourcingDetailsComponent implements OnInit {
   roleType: any;
   udfDetails: any = [];
   userDefineForm: any;
+  updatedLeadCreated: any;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -363,7 +364,11 @@ export class SourcingDetailsComponent implements OnInit {
 
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
-
+    if(this.leadCreatedDateFromLead.includes('-')){
+      this.updatedLeadCreated = this.leadCreatedDateFromLead.split('-').reverse().join('/');
+    }else if(this.leadCreatedDateFromLead.includes('/')){
+      this.updatedLeadCreated = this.leadCreatedDateFromLead.split('/').reverse().join('/');
+    }
     const requiredLoanAmount = data.leadDetails.reqLoanAmt;
     const requiredLoanTenor = data.leadDetails.reqTenure;
     this.reqLoanAmount = requiredLoanAmount;
@@ -385,7 +390,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.sourcingDetailsForm.patchValue({ communication: CommunicationFromLead });
     this.sourcingDetailsForm.patchValue({ leadNumber: this.leadId });
     this.sourcingDetailsForm.patchValue({
-      leadCreatedDate: this.leadCreatedDateFromLead,
+      leadCreatedDate: this.updatedLeadCreated,
     });
     this.apiValue = this.sourcingDetailsForm.getRawValue();
     if (this.isLoan360) {

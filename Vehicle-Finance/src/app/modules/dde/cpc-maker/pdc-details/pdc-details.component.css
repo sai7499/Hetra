@@ -150,8 +150,31 @@ p {
   #date {
       width: 100px !important;
   }
-  
-  
+
+  .cus-emi-wid {
+    width: 9.5% !important;
+  }
+
+  .cus-instr-no {
+    width: 8.5% !important;
+  }
+
+  .cus-bank-name {
+      width: 21% !important;
+  }
+
+  .cus-branch {
+      width: 16.5% !important;
+  }
+
+  .cus-instr-date {
+    width: 12% !important;
+  }
+
+  .cus-z {
+      z-index: 0;
+  }
+
   #credit_sourcing_details:after, #credit_application_details:after, #credit_vehicle_details:after, #credit_fleet_details:after,#credit_liveloan:after, #credit_income_details:after, #credit_psl_data:after{width:100% !important;left: 70px;}
   
   #credit_tvr_details:after, #credit_fi_pd:after, #credit_vehicle_viability:after, #credit_existing_relationship:after,#credit_score_card:after, #credit_cam:after, #credit_deviations:after, #credit_insurance:after, #credit_conditions:after{width:100% !important;}
