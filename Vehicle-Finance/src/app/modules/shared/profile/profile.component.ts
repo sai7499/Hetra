@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   branchName: string;
   roles = [];
   activityClass = false;
+  fullData: any;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -103,7 +104,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     let roles = findRoleActivity.concat(remainingArray)
 
     this.sharedService.setSearchBarActivity(activityList)
-    this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList)
+    this.loginStoreService.setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList, this.fullData)
   }
 
 }

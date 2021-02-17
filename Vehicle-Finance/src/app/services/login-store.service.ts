@@ -19,13 +19,14 @@ export class LoginStoreService {
     businessDivisionList: any;
     userDetails: any;
 
-    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList) {
+    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList, fullData) {
         this.roleAndUserDetails = {
             roles,
             userDetails,
             businessDivisionList,
             activityList,
-            userRoleActivityList
+            userRoleActivityList,
+            fullData
         }
 
         this.sharedService.setSearchBarActivity(activityList)
@@ -35,7 +36,8 @@ export class LoginStoreService {
             userDetails,
             businessDivisionList,
             activityList,
-            userRoleActivityList
+            userRoleActivityList,
+            fullData
         });
         this.cds.changeCdsStatus(true);
         this.creditDashboardMethod({
