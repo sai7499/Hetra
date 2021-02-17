@@ -280,9 +280,9 @@ Equitas Finance Private Limited<br />
                         *ngFor="let loanData of loanApprovedDetails">
                         <tr>
                             <td class="vech_tab">{{labels?.AssetCost}}</td>
-                            <td class="vech_tab">{{loanData?.assetCost | currency: 'INR'}}</td>
+                            <td class="vech_tab">{{loanData?.assetCost}}</td>
                             <td class="vech_tab">{{labels?.LoanAmount}}</td>
-                            <td class="vech_tab">{{loanData?.loanAmt | currency: 'INR'}}</td>
+                            <td class="vech_tab">{{loanData?.loanAmt}}</td>
                         </tr>
                         <tr>
                             <td>{{labels?.LoanTenorMonths}}</td>
@@ -300,24 +300,24 @@ Equitas Finance Private Limited<br />
                             <td>{{labels?.NoofAdvMI}}</td>
                             <td>{{loanData?.noOfAdvEmi}}</td>
                             <td>{{labels?.AdvEMIAmount}}</td>
-                            <td>{{loanData?.advEmiAmt | currency: 'INR'}}</td>
+                            <td>{{loanData?.advEmiAmt}}</td>
                         </tr>
                         <tr>
                             <td>{{labels?.ProcessingCharges}}</td>
                             <td>{{loanData?.processingCharges}}</td>
                             <td>{{labels?.CreditShieldCharges}}</td>
-                            <td>{{loanData?.creditShield | currency: 'INR'}}</td>
+                            <td>{{loanData?.creditShield}}</td>
                         </tr>
                         <tr>
                             <td>{{labels?.NPDCCharges}}</td>
                             <td>{{loanData?.npdcCharges}}</td>
                             <td>{{labels?.RollOverPDCCharges}}</td>
-                            <td>{{loanData?.rollOverPdc | currency: 'INR'}}</td>
+                            <td>{{loanData?.rollOverPdc}}</td>
                         </tr>
 
                         <tr>
                             <td>{{labels?.InsurancePremium}}</td>
-                            <td>{{loanData?.insPremium | currency: 'INR'}}</td>
+                            <td>{{loanData?.insPremium}}</td>
                             <td>{{labels?.Rateofpenalinterestfordelayinrepayment}}</td>
                             <td>{{loanData?.penalInterest}}</td>
                         </tr>
@@ -325,7 +325,7 @@ Equitas Finance Private Limited<br />
                             <td>{{labels?.EMIDueDate}} </td>
                             <td>{{loanData?.emiDueDt}}</td>
                             <td>{{labels?.EMIAmount}}</td>
-                            <td>{{loanData?.emiAmt | currency: 'INR'}}</td>
+                            <td>{{loanData?.emiAmt}}</td>
                         </tr>
                         <tr>
                             <td>{{labels?.EMIStartDate}}</td>
@@ -338,7 +338,7 @@ Equitas Finance Private Limited<br />
                             <td>{{labels?.ModeofPayment}}</td>
                             <td>{{loanData?.modeOfPayment}}</td>
                             <td>{{labels?.FieldVisitChargesApplicable}}</td>
-                            <td>{{loanData?.fieldVisitChargesApplicable | currency: 'INR'}}</td>
+                            <td>{{loanData?.fieldVisitChargesApplicable}}</td>
                         </tr>
                     </table>
                 </div>
@@ -557,11 +557,11 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
                         <tr *ngFor="let repaymentData of repaymentDetails; let i = index">
                             <td class="text-center">{{i+1}}</td>
                             <td class="text-center">{{repaymentData?.dueDate}}</td>
-                            <td class="text-right">{{repaymentData?.instalmentAmt | currency: 'INR'}}</td>
-                            <td class="text-right">{{repaymentData?.motorIns | currency: 'INR'}}</td>
-                            <td class="text-right">{{repaymentData?.principleAmt | currency: 'INR'}}</td>
-                            <td class="text-right">{{repaymentData?.interestAmt | currency: 'INR'}}</td>
-                            <td class="text-right">{{repaymentData?.pricipleOutstanding | currency: 'INR'}}</td>
+                            <td class="text-right">{{repaymentData?.instalmentAmt}}</td>
+                            <td class="text-right">{{repaymentData?.motorIns}}</td>
+                            <td class="text-right">{{repaymentData?.principleAmt}}</td>
+                            <td class="text-right">{{repaymentData?.interestAmt}}</td>
+                            <td class="text-right">{{repaymentData?.pricipleOutstanding}}</td>
                         </tr>
 
                     </tbody>

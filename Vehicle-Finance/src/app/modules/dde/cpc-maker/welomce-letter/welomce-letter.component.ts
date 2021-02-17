@@ -166,6 +166,19 @@ export class WelomceLetterComponent implements OnInit {
         // let text =' <p>hii helo bye</p>'
         // this.dummy = btoa(text);
         // this.dummy = atob(text);
+        for(var i = 0; i <this.loanApprovedDetails.length; i++){
+          this.loanApprovedDetails[i]['loanAmt'] = Number(this.loanApprovedDetails[i]['loanAmt']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['assetCost'] = Number(this.loanApprovedDetails[i]['assetCost']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['advEmiAmt'] = Number(this.loanApprovedDetails[i]['advEmiAmt']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['creditShield'] = Number(this.loanApprovedDetails[i]['creditShield']).toLocaleString('en-IN')
+
+          this.loanApprovedDetails[i]['rollOverPdc'] = Number(this.loanApprovedDetails[i]['rollOverPdc']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['insPremium'] = Number(this.loanApprovedDetails[i]['insPremium']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['emiAmt'] = Number(this.loanApprovedDetails[i]['emiAmt']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['fieldVisitChargesApplicable'] = Number(this.loanApprovedDetails[i]['fieldVisitChargesApplicable']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['processingCharges'] = Number(this.loanApprovedDetails[i]['processingCharges']).toLocaleString('en-IN')
+        }
+        
 
         this.div2Data = this.isWelcomeDetails["div2Data"];
         this.div2Data = decodeURI(this.div2Data);
@@ -189,7 +202,14 @@ export class WelomceLetterComponent implements OnInit {
         // } 
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
         
-        this.repaymentDetails = res['ProcessVariables'].repaymentDetails;         
+        this.repaymentDetails = res['ProcessVariables'].repaymentDetails;
+        for(var i =0 ; i<this.repaymentDetails.length; i++){
+          this.repaymentDetails[i]['instalmentAmt'] = Number(this.repaymentDetails[i]['instalmentAmt']).toLocaleString('en-IN')
+          this.repaymentDetails[i]['motorIns'] = Number(this.repaymentDetails[i]['motorIns']).toLocaleString('en-IN')
+          this.repaymentDetails[i]['principleAmt'] = Number(this.repaymentDetails[i]['principleAmt']).toLocaleString('en-IN')
+          this.repaymentDetails[i]['interestAmt'] = Number(this.repaymentDetails[i]['interestAmt']).toLocaleString('en-IN')
+          this.repaymentDetails[i]['pricipleOutstanding'] = Number(this.repaymentDetails[i]['pricipleOutstanding']).toLocaleString('en-IN')
+        }       
         this.showWelcomeLetter= true;
       } else {
         this.toasterService.showError(res['ProcessVariables'].error["message"], '')
