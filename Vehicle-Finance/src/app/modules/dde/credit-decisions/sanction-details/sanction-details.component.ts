@@ -16,6 +16,7 @@ import { UploadService } from '@services/upload.service';
 import { map } from 'rxjs/operators';
 import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 declare var $;
 
 @Component({
@@ -53,6 +54,8 @@ export class SanctionDetailsComponent implements OnInit {
   isDownload = true;
   disbursementDetails: any = [];
 
+  isShowDownloadDoc: boolean = false;
+
   constructor(
     private labelsData: LabelsService,
     private router: Router,
@@ -63,7 +66,8 @@ export class SanctionDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private uploadService: UploadService,
     private loanViewService: LoanViewService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private createLeadDataService: CreateLeadDataService
   ) { }
 
   ngOnInit() {
@@ -88,6 +92,12 @@ export class SanctionDetailsComponent implements OnInit {
       this.getSanctionDetails();
     }
     this.getSanctionDetails();
+
+    const leadSectionData = this.createLeadDataService.getLeadSectionData();
+
+    if (localStorage.getItem('is_pred_done') === 'true' && leadSectionData['issCCApproved'] === 1) {
+      this.isShowDownloadDoc = true;
+    }
   }
 
   getLabels() {

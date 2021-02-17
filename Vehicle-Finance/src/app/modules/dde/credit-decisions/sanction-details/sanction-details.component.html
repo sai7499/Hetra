@@ -343,8 +343,8 @@
             <!-- <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submit}}</button> -->
                 <!-- <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf()" type="button">{{'Download'}}</button> -->
-                <button class="btn btn-primary btn_div" id="btn" *ngIf="!isLoan360" (click)="downloadpdf('CUSTOMER')" type="button">{{'Download Customer Copy'}}</button>
-                <button class="btn btn-primary btn_div" *ngIf="!isLoan360" (click)="downloadpdf('BANK')" type="button">{{'Download Bank Copy'}}</button>
+                <button class="btn btn-primary btn_div" id="btn" *ngIf="!isLoan360 && isShowDownloadDoc" (click)="downloadpdf('CUSTOMER')" type="button">{{'Download Customer Copy'}}</button>
+                <button class="btn btn-primary btn_div" *ngIf="!isLoan360 && isShowDownloadDoc" (click)="downloadpdf('BANK')" type="button">{{'Download Bank Copy'}}</button>
 
 
         </div>

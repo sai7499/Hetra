@@ -82,7 +82,7 @@ export class ApplicantDetailComponent implements OnInit {
     private bankTransaction: BankTransactionsService,
     private loanViewService: LoanViewService,
     private ficumpdPdfService: FicumpdPdfService,
-    private pdDataService : PdDataService
+    private pdDataService: PdDataService
 
   ) { }
 
@@ -126,10 +126,10 @@ export class ApplicantDetailComponent implements OnInit {
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.applicantDetailFIcumPD : udfScreenId.DDE.applicantDetailsFIcumPDDDE ;
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.applicantDetailFIcumPD : udfScreenId.DDE.applicantDetailsFIcumPDDDE;
 
     })
-    
+
   }
 
   getLeadId() {  // fun to get lead id from router
@@ -170,12 +170,12 @@ export class ApplicantDetailComponent implements OnInit {
         const applicantDetailsFromLead = value;
         this.serviceApplicantFullName = applicantDetailsFromLead['fullName'];
         if (applicantDetailsFromLead['entityTypeKey'] === "NONINDIVENTTYP") {
-          this.serviceMoblieNo =applicantDetailsFromLead['companyPhoneNumber'] ?  applicantDetailsFromLead['companyPhoneNumber'] : '';
-          this.serviceDobOrDio =applicantDetailsFromLead['doi']? this.reformatDate((applicantDetailsFromLead['doi']).slice(0, 10)) : '';
+          this.serviceMoblieNo = applicantDetailsFromLead['companyPhoneNumber'] ? applicantDetailsFromLead['companyPhoneNumber'] : '';
+          this.serviceDobOrDio = applicantDetailsFromLead['doi'] ? this.reformatDate((applicantDetailsFromLead['doi']).slice(0, 10)) : '';
 
         } else if (applicantDetailsFromLead['entityTypeKey'] === "INDIVENTTYP") {
-          this.serviceMoblieNo = applicantDetailsFromLead['mobileNumber']? applicantDetailsFromLead['mobileNumber'] : '';
-          this.serviceDobOrDio = applicantDetailsFromLead['dob']? this.reformatDate((applicantDetailsFromLead['dob']).slice(0, 10)) : '';
+          this.serviceMoblieNo = applicantDetailsFromLead['mobileNumber'] ? applicantDetailsFromLead['mobileNumber'] : '';
+          this.serviceDobOrDio = applicantDetailsFromLead['dob'] ? this.reformatDate((applicantDetailsFromLead['dob']).slice(0, 10)) : '';
         }
       }
     }
@@ -206,15 +206,15 @@ export class ApplicantDetailComponent implements OnInit {
         this.applicantForm.get('areaOfProperty').patchValue(areaOfProperty || null);
         this.applicantForm.get('propertyValue').patchValue(propertyValue || null);
       });
-      if(this.isNonInd){
+      if (this.isNonInd) {
         return;
       }
       this.applicantForm.get('owner').setValidators(Validators.required);
       this.applicantForm.get('owner').updateValueAndValidity();
-      
+
       this.applicantForm.get('areaOfProperty').setValidators(Validators.required);
       this.applicantForm.get('areaOfProperty').updateValueAndValidity();
-      
+
       this.applicantForm.get('propertyValue').setValidators(Validators.required);
       this.applicantForm.get('propertyValue').updateValueAndValidity();
 
@@ -231,15 +231,15 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.get('owner').disable();
       this.applicantForm.get('areaOfProperty').disable();
       this.applicantForm.get('propertyValue').disable();
-      if(this.isNonInd){
+      if (this.isNonInd) {
         return;
       }
       this.applicantForm.get('owner').clearValidators();
       this.applicantForm.get('owner').updateValueAndValidity();
-      
+
       this.applicantForm.get('areaOfProperty').clearValidators();
       this.applicantForm.get('areaOfProperty').updateValueAndValidity();
-      
+
       this.applicantForm.get('propertyValue').clearValidators();
       this.applicantForm.get('propertyValue').updateValueAndValidity();
     }
@@ -250,7 +250,7 @@ export class ApplicantDetailComponent implements OnInit {
     if (this.resAddressType === '2') {
       this.addressRequired = true;
       this.applicantForm.get('alternateAddr').enable();
-      if(this.isNonInd){
+      if (this.isNonInd) {
         return;
       }
       this.applicantForm.get('alternateAddr').setValidators(Validators.required);
@@ -262,7 +262,7 @@ export class ApplicantDetailComponent implements OnInit {
       });
 
       this.applicantForm.get('alternateAddr').disable();
-      if(this.isNonInd){
+      if (this.isNonInd) {
         return;
       }
       this.applicantForm.get('alternateAddr').clearValidators();
@@ -284,7 +284,7 @@ export class ApplicantDetailComponent implements OnInit {
       mobile: new FormControl({ value: '', disabled: true }),
       residenceAddressAsPerLoanApplication: new FormControl('', Validators.required),
       alternateAddr: new FormControl(''),
-      bankName: new FormControl('', Validators.required),
+      bankName: new FormControl(null, Validators.required),
       accountNumber: new FormControl('', Validators.required),
       landmark: new FormControl('', Validators.required),
       addressAccessibility: new FormControl('', Validators.required),
@@ -300,8 +300,6 @@ export class ApplicantDetailComponent implements OnInit {
       owner: new FormControl(''),
       ratingbySO: new FormControl('', Validators.required)
     });
-    this.applicantForm.get('bankName').setValidators(Validators.minLength(3));
-    this.applicantForm.get('bankName').updateValueAndValidity()
   }
 
   setFormValue() { // patching the form values
@@ -346,21 +344,21 @@ export class ApplicantDetailComponent implements OnInit {
       alternateAddr: applicantModal.alternateAddr || ''
     });
 
-    setTimeout(()=>{
+    setTimeout(() => {
       this.entityType = this.pdDataService.getFiCumPdApplicantType();
-      if(this.entityType !== 'Individual'){
+      if (this.entityType !== 'Individual') {
         this.isNonInd = true
-      }else{
-        this.onBankNameSearch(applicantModal.bankName)
+      } else {
+        // this.onBankNameSearch(applicantModal.bankName)
         this.isNonInd = false
       }
-    if(this.isNonInd){
-      const grp = this.applicantForm.controls;
-      for (const key in grp){
-        this.applicantForm.get(key).clearValidators();
-        this.applicantForm.get(key).updateValueAndValidity();
+      if (this.isNonInd) {
+        const grp = this.applicantForm.controls;
+        for (const key in grp) {
+          this.applicantForm.get(key).clearValidators();
+          this.applicantForm.get(key).updateValueAndValidity();
+        }
       }
-    }
     })
   }
 
@@ -384,12 +382,12 @@ export class ApplicantDetailComponent implements OnInit {
 
         this.udfDetails = value.ProcessVariables.udfDetails ? value.ProcessVariables.udfDetails : [];
         this.setFormValue();
-        if(this.applicantPdDetails && this.applicantPdDetails.maritalStatus){
+        if (this.applicantPdDetails && this.applicantPdDetails.maritalStatus) {
           this.setMaritalStatusValue(this.applicantPdDetails.maritalStatus);
         }
-        
+
         if (this.applicantPdDetails) {
-          
+
           this.ficumpdPdfService.setApplicantPdDetails(this.applicantPdDetails);
           // this.pdDataService.setCustomerProfile(this.applicantPdDetails);
         }
@@ -412,16 +410,10 @@ export class ApplicantDetailComponent implements OnInit {
       this.onNavigateNext();
       return;
     }
-    
+
     const formModal = this.applicantForm.getRawValue();
     const applicantFormModal = { ...formModal };
 
-    // if (this.applicantForm.invalid && this.userDefineForm.udfData.invalid) {
-    //   this.isDirty = true;
-    //   this.toasterService.showWarning('please enter required details', '');
-    //   return;
-    // }
-    
     this.applicantDetails = {
       applicantName: this.applicantFullName || applicantFormModal.applicantName,
       fatherFullName: applicantFormModal.fatherFullName ? applicantFormModal.fatherFullName : applicantFormModal.husbandFullName,
@@ -455,7 +447,6 @@ export class ApplicantDetailComponent implements OnInit {
     let isUdfField = this.userDefineForm ? this.userDefineForm.udfData.valid ? true : false : true;
 
     if (this.applicantForm.valid && isUdfField) {
-
       const data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
@@ -475,8 +466,8 @@ export class ApplicantDetailComponent implements OnInit {
 
       this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
         const processVariables = value.ProcessVariables;
+        const message = value.ErrorMessage ? value.ErrorMessage : processVariables.error.message;
         if (processVariables.error.code === '0') {
-          const message = processVariables.error.message;
           this.toasterService.showSuccess('Record Saved Successfully', '');
           this.getPdDetails();
           if (action === 'next') {
@@ -487,12 +478,13 @@ export class ApplicantDetailComponent implements OnInit {
             }
           }
         } else {
-          this.toasterService.showError('ivalid save', 'message');
+          this.toasterService.showError(message, 'message');
         }
       });
     } else {
       this.isDirty = true;
-      this.toasterService.showError(this.applicantForm.get('bankName').invalid ? 'enter valid bank name' : 'please enter required details', '');
+      console.log(this.applicantForm, 'Form')
+      this.toasterService.showError(!this.applicantForm.get('bankName').valid ? 'please enter valid bank name' : 'please enter required details', '');
     }
   }
 
@@ -511,18 +503,18 @@ export class ApplicantDetailComponent implements OnInit {
       this.router.navigateByUrl(`/pages/fi-cum-pd-dashboard/${this.leadId}/pd-list`);
     }
   }
-  setMaritalStatusValue(status){
+  setMaritalStatusValue(status) {
     const details = this.applicantForm;
-    if(status === '1MRGSTS'){
+    if (status === '1MRGSTS') {
       details.get('dependants').clearValidators();
-      details.get('dependants').updateValueAndValidity();  
-      const depValue = details.value.dependants; 
+      details.get('dependants').updateValueAndValidity();
+      const depValue = details.value.dependants;
       details.get('dependants').setValue(depValue || null);
 
-    }else{
+    } else {
       details.get('dependants').setValidators(Validators.required);
       details.get('dependants').updateValueAndValidity();
-      
+
     }
   }
 
@@ -542,20 +534,20 @@ export class ApplicantDetailComponent implements OnInit {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Bank List')
         }
       })
-     
+
+      this.applicantForm.get('bankName').setErrors({ incorrect: true })
+
       setTimeout(() => {
-      if (this.searchBankNameList.length === 0) {
-        this.applicantForm.get('bankName').setErrors({incorrect: true})
-        this.toasterService.showInfo('Please enter valid bank name', '')
-      } else {
-        this.applicantForm.get('bankName').setErrors(null)
-      }
-    }, 1000)
+        if (this.searchBankNameList.length === 0) {
+          this.toasterService.showInfo('Please enter valid bank name', '')
+        }
+      }, 1000)
     }
   }
 
   selectBankNameEvent(val) {
     this.applicantForm.get('bankName').setValue(val)
+    this.applicantForm.get('bankName').setErrors(null)
   }
 
 }

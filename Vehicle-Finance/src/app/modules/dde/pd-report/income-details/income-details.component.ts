@@ -362,6 +362,7 @@ export class IncomeDetailsComponent implements OnInit {
   selectBranch(val) {
     setTimeout(() => {
       this.incomeDetailsForm.get('branch').setValue(val.branchName)
+      this.incomeDetailsForm.get('branch').setErrors(null)
     }, 1000)
   }
 

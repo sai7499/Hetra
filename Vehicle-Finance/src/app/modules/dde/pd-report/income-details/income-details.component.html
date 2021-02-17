@@ -84,7 +84,7 @@
           </ng-autocomplete>
 
           <div class="invalid-feedback">
-            <div *ngIf="incomeDetailsForm.get('bankName').touched && incomeDetailsForm.get('bankName').invalid"> Bank
+            <div *ngIf="incomeDetailsForm.get('bankName').hasError('required') && isDirty"> Bank
               name required.</div>
             <div *ngIf="incomeDetailsForm.get('bankName').hasError('minlength')"> Mininum 3 Charates
               required</div>
@@ -116,7 +116,7 @@
             [minQueryLength]="1" [disabled]="!isEnableBranch">
           </ng-autocomplete>
           <div class="invalid-feedback">
-            <div *ngIf="incomeDetailsForm.get('branch').touched && incomeDetailsForm.get('branch').invalid"> Branch
+            <div *ngIf="incomeDetailsForm.get('branch').hasError('required') && isDirty"> Branch
               required.
             </div>
           </div>
