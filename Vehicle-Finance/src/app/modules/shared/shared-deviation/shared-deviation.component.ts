@@ -83,7 +83,21 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.jsonScreenId = data.ScreenIDS;
     })
 
+    this.labelsData.getLabelsData().subscribe(
+      data => {
+        this.labels = data;
+        
+       
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    console.log(this.labels, 'maxlength');
+    console.log(this.labels.validationData.remarks.maxLength, 'maxlength');
+
     this.initForms();
+   
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     let roles = roleAndUserDetails.roles;
@@ -114,14 +128,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
     this.sharedService.getFormValidation(this.deviationsForm);
 
-    this.labelsData.getLabelsData().subscribe(
-      data => {
-        this.labels = data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    console.log(this.deviationsForm, 'deviationsForm')
   }
 
   isCheckReferButton(form) {

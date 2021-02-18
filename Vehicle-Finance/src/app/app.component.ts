@@ -7,7 +7,7 @@ declare var cordova:any;
 // declare var channel:any
 
 import { DraggableContainerService } from '@services/draggable.service';
-import { Router,NavigationStart,NavigationEnd } from '@angular/router';
+import { Router,NavigationStart,NavigationEnd, ActivatedRoute } from '@angular/router';
 import { UtilityService } from '@services/utility.service';
 import {SharedService} from './modules/shared/shared-service/shared-service'
 import { filter } from 'rxjs/operators'
@@ -216,13 +216,14 @@ export class AppComponent implements OnInit, OnDestroy {
               private sharedService: SharedService,
               private idleTimerService: IdleTimerService,
               private location: Location,
-              private labelsData: LabelsService) {}
+              private labelsData: LabelsService,
+              private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
 
     this.timer = this.idleTimerService.getModalTimer();
 
-
+    
     this.location.onUrlChange((url) => {
       console.log('url', url);
       if(url.includes('login')) {
@@ -262,6 +263,10 @@ export class AppComponent implements OnInit, OnDestroy {
       })
 
     let that = this;
+
+    const lablesData = this.activatedRoute.snapshot.data.getLables;
+    console.log('lable value',lablesData)
+    this.labelsData.setLablesData(lablesData);
 
     this.isMaas360Enabled = environment.isMaas360Enabled;
     if(this.isMaas360Enabled) {

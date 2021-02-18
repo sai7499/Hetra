@@ -368,7 +368,7 @@ export class LoanDetailsComponent implements OnInit {
       vehicleHpaNbfc: new FormControl(''),
       engineNumber: new FormControl(''),
       chasisNumber: new FormControl(''),
-      permitValidity: new FormControl('', Validators.required),
+      permitValidity: new FormControl(''),
       fitnessValidity: new FormControl('', Validators.compose([Validators.required])),
       taxValidity: new FormControl('', Validators.compose([Validators.required])),
       insuranceCopyVerified: new FormControl(''),
@@ -513,15 +513,15 @@ export class LoanDetailsComponent implements OnInit {
         if (this.loanDetailsForm.get('vehiclePhsicallyVerified') != null) {
           this.vehCondVerified(this.loanDetailsForm.get('vehiclePhsicallyVerified').value);
         }
-        setTimeout(() => {
-          if(this.usedVehicleDetails && this.usedVehicleDetails.type){
-            if(this.usedVehicleDetails.type === 'MCVVEHTYP' || this.usedVehicleDetails.type === 'SCVVEHTYP'){
-              this.loanDetailsForm.get('permitValidity').clearValidators();
-              this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
-              this.isPermitMandatory = false;
-            }
-          }
-        });
+        // setTimeout(() => {
+        //   if(this.usedVehicleDetails && this.usedVehicleDetails.type){
+        //     if(this.usedVehicleDetails.type === 'MCVVEHTYP' || this.usedVehicleDetails.type === 'SCVVEHTYP'){
+        //       this.loanDetailsForm.get('permitValidity').clearValidators();
+        //       this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+        //       this.isPermitMandatory = false;
+        //     }
+        //   }
+        // });
         
         
       }
@@ -670,18 +670,18 @@ export class LoanDetailsComponent implements OnInit {
 
 
 
-  OnChangeVehType(value){
-    console.log('value', value)
-    if(value === 'MCVVEHTYP' || value === 'SCVVEHTYP'){
-      this.loanDetailsForm.get('permitValidity').clearValidators();
-      this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
-      this.isPermitMandatory = false;
-    }else{
-      this.loanDetailsForm.get('permitValidity').setValidators(Validators.required);
-      this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
-      this.isPermitMandatory = true;
-    }
-  }
+  // OnChangeVehType(value){
+  //   console.log('value', value)
+  //   if(value === 'MCVVEHTYP' || value === 'SCVVEHTYP'){
+  //     this.loanDetailsForm.get('permitValidity').clearValidators();
+  //     this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+  //     this.isPermitMandatory = false;
+  //   }else{
+  //     this.loanDetailsForm.get('permitValidity').setValidators(Validators.required);
+  //     this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+  //     this.isPermitMandatory = true;
+  //   }
+  // }
 
   onSaveuserDefinedFields(event) {
     this.userDefineForm = event;

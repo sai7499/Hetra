@@ -241,6 +241,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    isPD : false,
    isVV : false,
   };
+  isExtUser: boolean;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -306,8 +307,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.userDetailsRoleType = userDetails.roleType;
       this.selfAssignLoginId = userDetails.loginId;
+      this.isExtUser = userDetails.fullData.isExtUser;
     });
-    console.log(this.userDetailsRoleId);
 
 
     if (this.supervisorRoleType == this.userDetailsRoleType) {
@@ -1151,6 +1152,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   })
     // } else {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
+
       this.setPageData(res);
       if (this.subActiveTab === this.displayTabs.NewLeads) {
         if (res.ProcessVariables.loanLead != null) {
@@ -1190,7 +1193,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             break;
         }
       }
-
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     });
     // }
   }
@@ -1235,6 +1240,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // For TaskDashboard Api Starts
   responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
@@ -1242,6 +1248,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.newArray = [];
       }
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     });
   }
 
@@ -1284,6 +1293,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // External User API Atarts
   responseForEcxternalUser(data) {
     this.dashboardService.getExternalUserDashboardDetails(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
+
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
@@ -1291,6 +1302,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.newArray = [];
       }
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     })
   }
 
@@ -1361,6 +1375,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   responseForTrancheDisburse(data) {
     this.dashboardService.getTrancheDisburseDetails(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
+      
       this.setTrancheDispersePageData(res, 1);
       if (res.ProcessVariables.TrancheDisbList != null) {
         this.isLoadLead = true;
@@ -1369,11 +1385,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.TrancheDisbList = [];
       }
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     });
   }
   // for Dashboard Task Tranche Disburse
   responseForTaskTrancheDisburse(data) {
     this.dashboardService.getTaskTrancheDisburseDetails(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
+
       this.setTrancheDispersePageData(res, 2);
       if (res.ProcessVariables.TrancheDisbTaskList != null) {
         this.isLoadLead = true;
@@ -1382,6 +1403,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.TrancheDisbTaskList = [];
       }
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     });
   }
   setTrancheDispersePageData(res, val) {

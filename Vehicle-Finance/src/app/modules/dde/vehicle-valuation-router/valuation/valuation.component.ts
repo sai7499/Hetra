@@ -64,6 +64,7 @@ export class ValuationComponent implements OnInit {
   public assetBodyType: any = [];
   public assetModelType: any = [];
   public assetVariant: any = [];
+  public fuelTypeList = this.LOV.fuelType;
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
   public vehicleRegPattern: {
@@ -141,7 +142,7 @@ export class ValuationComponent implements OnInit {
   engineStartedType: any;
   vehicleMovedDisabled: boolean;
   vehicleMovedRequired: boolean;
-  isOnline: any;
+  isOnline: boolean;
   disableForm: boolean;
   yearMonthOfManufact: any;
   yearMonthOfManufacturer: any;
@@ -232,9 +233,12 @@ export class ValuationComponent implements OnInit {
     this.accessoriesArray = this.fb.array([]);
     this.isMobile = environment.isMobile;
     // this.isMobile = true;
-    const hour = this.toDayDate.getHours();
-    const minutes = this.toDayDate.getMinutes();
+    const toDayDate : Date = new Date()
+    const hour = toDayDate.getHours();
+    const minutes = toDayDate.getMinutes();
     this.presentTime = hour + ':' + minutes
+
+    this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
   }
 
   async ngOnInit() {
@@ -371,11 +375,14 @@ export class ValuationComponent implements OnInit {
       this.fuelTypeLOV = this.LOV.fuelType;
 
       this.LOV.defaultfinanciers = this.LOV.financiers;
+      this.fuelTypeList  = this.LOV.fuelType;
 
       let defaultfinanciers = [{
         key: 'Not-Applicable', 
         value: 'NA'
       }]
+
+      this.LOV.
 
       this.LOV.defaultfinanciers = defaultfinanciers.concat(this.LOV.financiers);
 
@@ -557,12 +564,7 @@ export class ValuationComponent implements OnInit {
       this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').disable();
       this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').clearValidators();
       this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').updateValueAndValidity();
-      // setTimeout(() => {
-      //   this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').patchValue(null);
-
-      // });
-      this.vehicleValuationForm.removeControl('permitValidUpto');
-      console.log('this form after permit', this.vehicleValuationForm);
+      //console.log('this form after permit', this.vehicleValuationForm);
     } else if (this.engineStartedType !== '3VEHPERSTATUS') {
       this.permitDisabled = false;
       this.permitRequired = true;
@@ -1023,8 +1025,8 @@ console.log(insuranceValidUpto.getFullYear());
       //     control.push(this.initRows(null, 'accessoriesCondition'));
       //   }
       // }
-      // this.onPermitChange(this.vehicleValuationDetails.permitStatus);
-      // this.engineStarted(this.vehicleValuationDetails.engineStarted);
+       this.onPermitChange(this.vehicleValuationDetails.permitStatus);
+       this.engineStarted(this.vehicleValuationDetails.engineStarted);
       // this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
       if ((this.vehicleValuationDetails.modelUnderProduction) && (this.vehicleValuationDetails.preReRegNumber)) {
         if ((this.vehicleValuationDetails.preReRegNumber !== null) &&
@@ -1342,6 +1344,17 @@ console.log(insuranceValidUpto.getFullYear());
       
 
     })
+    if (this.isOnline){
+      this.isDirty = false;
+      this.fuelTypeList = [] ; 
+
+      this.fuelTypeList =[
+        { key: this.vehicleValuationDetails.fuelUsed? this.vehicleValuationDetails.fuelUsed:null,
+          value:this.vehicleValuationDetails.fuelUsed? this.vehicleValuationDetails.fuelUsed:null}
+      ]
+      } else {
+        this.fuelTypeList = this.LOV.fuelType
+      }
     this.vehicleValuationForm.get('vehicleIdentityDetails').patchValue({
 
       assetMake: this.vehicleValuationDetails.vehicleMfrCode || '',

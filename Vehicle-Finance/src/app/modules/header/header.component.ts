@@ -53,15 +53,18 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.labelsData.getLabelsData().subscribe(
-      (data) => {
-        this.labels = data;
-        this.labelsData.setLablesData(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    const lablesData = this.activatedRoute.snapshot.data.getLables;
+    console.log('lable value',lablesData)
+    this.labelsData.setLablesData(lablesData);
+    // this.labelsData.getLabelsData().subscribe(
+    //   (data) => {
+    //     this.labels = data;
+    
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
     this.commonDataService.leadHistoryData$.subscribe(
       (data: any) => {
         console.log('leadHistory', data);
