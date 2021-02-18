@@ -31,7 +31,7 @@
             </ng-autocomplete>
 
             <div class="invalid-feedback">
-              <div *ngIf="bankForm.get('bankId').touched && bankForm.get('bankId').hasError('required')"> Bank name
+              <div *ngIf="bankForm.get('bankId').hasError('required') && isDirty"> Bank name
                 required.</div>
               <div *ngIf="bankForm.get('bankId').hasError('minlength')"> Mininum 3 Charates
                 required</div>
@@ -58,7 +58,7 @@
               [minQueryLength]="3" [disabled]="!isEnableBranch">
             </ng-autocomplete>
             <div class="invalid-feedback">
-              <div *ngIf="bankForm.get('ifscCode').touched && bankForm.get('ifscCode').hasError('required')"> IFSC code
+              <div *ngIf="bankForm.get('ifscCode').hasError('required') && isDirty"> IFSC code
                 required.
               </div>
               <div *ngIf="bankForm.get('ifscCode').hasError('minlength')"> Mininum 3 Charates
@@ -90,7 +90,7 @@
               [minQueryLength]="3" [disabled]="!isEnableBranch">
             </ng-autocomplete>
             <div class="invalid-feedback">
-              <div *ngIf="bankForm.get('accountBranch').touched && bankForm.get('accountBranch').hasError('required')">
+              <div *ngIf="bankForm.get('accountBranch').hasError('required') && isDirty">
                 Account
                 Branch
                 required.

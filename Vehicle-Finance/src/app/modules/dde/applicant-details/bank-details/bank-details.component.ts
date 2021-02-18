@@ -369,11 +369,12 @@ export class BankDetailsComponent implements OnInit {
     this.submitForm = true;
     this.isDirty = true;
     if (this.bankForm.invalid || this.userDefineForm.udfData.invalid) {
+      console.log(this.bankForm, 'Invalid Form');
+      // if (this.bankDetails.get('bankId').valid && this.bankDetails.get('accountBranch').) {
       this.toasterService.showError(
         'Mandatory Fields Missing ',
         'Bank Transactions'
       );
-      console.log(this.bankForm, 'Invalid Form');
       return;
     }
     this.bankForm.value.fromDate = this.bankForm.value.fromDate
