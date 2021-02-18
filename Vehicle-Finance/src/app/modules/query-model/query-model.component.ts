@@ -806,7 +806,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     if (this.queryModalForm.value.leadId) {
 
       this.showModal = true;
-      const docNm = 'OTHER_QUERY_DOCUMENTS';
+      const docNm = 'QUERY_DOCUMENTS';
       const docCtgryCd = 102;
       const docTp = 'LEAD';
       const docSbCtgry = 'VF LOAN DOCS';

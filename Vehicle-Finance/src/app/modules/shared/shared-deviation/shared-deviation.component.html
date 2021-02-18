@@ -362,9 +362,10 @@
             </app-vf-custom-select>
           </div>
         </div>
-        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal"
-          data-target="#referRecommedation" [disabled]="!deviationsForm.controls['approverRole'].value"
+        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" [disabled]="!deviationsForm.controls['approverRole'].value"
           (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
+          <!--  data-toggle="modal"
+          data-target="#referRecommedation" -->
       </div>
       <div class="col-sm-3 row text-right" *ngIf="!isLoan360">
 
@@ -417,7 +418,9 @@
 
 <!-- Delete Modal Ends -->
 
-<div class="modal" data-dismiss="modal" id="referRecommedation" [ngClass]="{ 'dis-block': isShowReferModal }">
+<!-- [hidden]="true" #openModal [ngClass]="{ 'dis-block': isShowReferModal }" -->
+
+<div class="modal fade" role="dialog" class="modal fade" #referRecommedation id="referRecommedation">
   <div class="modal-dialog">
     <form class="multisteps-form__form p-0" [formGroup]="modalForm">
     <div class="modal-content">

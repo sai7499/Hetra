@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -12,6 +12,8 @@ import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoanViewService } from '@services/loan-view.service';
 
+declare const $: any;
+
 @Component({
   selector: 'app-shared-deviation',
   templateUrl: './shared-deviation.component.html',
@@ -24,6 +26,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   taskId: any;
 
   @ViewChild('closebutton', { static: true }) closebutton;
+  @ViewChild('referRecommedation', {static: true}) myModal:ElementRef;
 
   public labels: any = {};
   public autoDeviationArray: any = [];
@@ -386,7 +389,14 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.modalForm.patchValue({
       typeOfModal: value
     })
-    this.isShowReferModal = true;
+
+    console.log(this.myModal, 'nativeElement')
+
+    $('#referRecommedation').modal('show');
+
+
+    document.getElementById('referRecommedation').hidden = false
+
     // if (value === 'Recommendation') {
     //   this.isCheckReferButton(this.deviationsForm)
     //   this.isShowReferModal = false;
