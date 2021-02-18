@@ -184,7 +184,8 @@
               <label for="remarks">{{ labels.referenceRemarks }}
                 <sub class="star_red_col">*</sub>
               </label>
-              <textarea class="form-control" formControlName="remarks">
+              <textarea class="form-control" 
+              [maxlength]="labels?.validationData.remarks.maxLength" formControlName="remarks">
               </textarea>
               <div class="invalid-feedback">
                 <div *ngIf="isDirty && !modalDataForm.controls['remarks'].value">

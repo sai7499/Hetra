@@ -639,31 +639,34 @@
                         <textarea type="text" class="form-control text_area mar-5" maxlength="1500" formControlName="remarks" required></textarea>
                         <div class="col-sm-12 col-lg-12" *ngIf="isDirty || teleVerificationForm.get('remarks').touched">
 
-                            <div style="color:red" *ngIf="teleVerificationForm.get('remarks').errors?.required">
+                            <div class="invalid-feedback" *ngIf="teleVerificationForm.get('remarks').errors?.required">
                                 Remarks is required
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <h3 class="banner-sub">{{labels?.cibilRemarks}}</h3>
-                        <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
                             <h5>{{labels?.cibilOverdue}}</h5>
                             <textarea type="text" class="form-control" maxlength="1500" formControlName="cibilOverDue"
                                 id="cibilOverdur" name=""></textarea>
-                            <div *ngIf="isDirty || teleVerificationForm.get('cibilOverDue').touched">
-                                <div style="color:red"
+                            <div class="invalid-feedback" *ngIf="isDirty || teleVerificationForm.get('cibilOverDue').touched">
+                                <div
                                     *ngIf="teleVerificationForm.get('cibilOverDue').errors?.required">
                                     Cibil remarks is required
                                 </div>
                             </div>
 
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6">
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
                             <h5>{{labels?.cibilReport}}</h5>
                             <textarea type="text" class="form-control" maxlength="1500"
                                 formControlName="cibilClarification" id="cibilReport" name=""></textarea>
-                            <div *ngIf="isDirty || teleVerificationForm.get('cibilClarification').touched">
-                                <div style="color:red"
+                            <div class="invalid-feedback" *ngIf="isDirty || teleVerificationForm.get('cibilClarification').touched">
+                                <div
                                     *ngIf="teleVerificationForm.get('cibilClarification').errors?.required">
                                     Cibil Clarification report is required
                                 </div>

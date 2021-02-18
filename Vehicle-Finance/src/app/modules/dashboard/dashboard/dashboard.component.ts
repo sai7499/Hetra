@@ -241,6 +241,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    isPD : false,
    isVV : false,
   };
+  isExtUser: boolean;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -306,8 +307,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.userDetailsRoleType = userDetails.roleType;
       this.selfAssignLoginId = userDetails.loginId;
+      this.isExtUser = userDetails.fullData.isExtUser;
     });
-    console.log(this.userDetailsRoleId);
 
 
     if (this.supervisorRoleType == this.userDetailsRoleType) {

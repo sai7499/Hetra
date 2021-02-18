@@ -123,7 +123,11 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => {
+        this.labels = data;
+        this.labelsData.setLablesData(data);
+        }
+        ,
       (error) => console.log(error)
     );
   }
