@@ -1012,6 +1012,7 @@ export class DisbursementFormComponent implements OnInit {
     }
 
     if (cumulativeDisAmnt > this.totalDisbursementAmount) {
+      this.toasterService.showError('Disbursement amount should not exceed loan amount', '');
       if (container == '1') {
         this.dealerObjInfo['disbursementAmount'] = null;
         if (this.dealerObjInfo['trancheDisbursementFlag']) {
