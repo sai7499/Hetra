@@ -314,7 +314,7 @@ export class ReferenceDetailsComponent implements OnInit {
       referenceDistrict: ["", Validators.required],
       referenceState: ["", Validators.required],
       referencePincode: ["", Validators.required],
-      referenceMobile: ["", Validators.required],
+      referenceMobile: [""],
       referenceRelationship: ["", Validators.required],
       natureOfBusiness: ["", Validators.required],
       selfieWithCustomer: [""],

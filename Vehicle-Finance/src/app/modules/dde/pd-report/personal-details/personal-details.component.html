@@ -219,11 +219,11 @@
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="business_key">{{ labels.businessKey }}
-                    <sub class="star_red_col">*</sub>
+                   
                 </label>
 
                 <app-custom-input formControlName="businessKey" [id]="'business_key'" [className]="'form-control'"
-                    [isRequired]="'Business Key is Required'" [isDirty]="isDirty" [placeholder]="'Enter Business Key'">
+                     [placeholder]="'Enter Business Key'">
                 </app-custom-input>
 
             </div>
@@ -266,9 +266,9 @@
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="srto">{{ labels.srto }}
-                    <sub class="star_red_col">*</sub></label>
-                <app-custom-input id="srto'" formControlName="srto" [isRequired]="'SRTO is Required'"
-                    [maxLength]="labels.validationData?.srto?.maxLength" [isDirty]="isDirty"
+                    </label>
+                <app-custom-input id="srto'" formControlName="srto" 
+                    [maxLength]="labels.validationData?.srto?.maxLength" 
                     [placeholder]="'Enter SRTO'" [type]="labels.validationData?.srto?.type"></app-custom-input>
             </div>
 
@@ -304,9 +304,9 @@
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="email_id">{{ labels?.emailAddress }}
-                    <sub class="star_red_col">*</sub></label>
-                <app-custom-input id="'email_id'" formControlName="email" [isRequired]="'Email Address is Required'"
-                    [patternCheck]="labels.validationData?.emailPattern?.patternCheck" [isDirty]="isDirty"
+                    </label>
+                <app-custom-input id="'email_id'" formControlName="email"
+                    [patternCheck]="labels.validationData?.emailPattern?.patternCheck" 
                     [maxlength]="labels.validationData?.emailPattern?.maxLength" [placeholder]="'Enter Email Address'">
                 </app-custom-input>
             </div>
