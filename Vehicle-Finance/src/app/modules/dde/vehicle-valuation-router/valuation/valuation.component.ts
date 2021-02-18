@@ -64,6 +64,7 @@ export class ValuationComponent implements OnInit {
   public assetBodyType: any = [];
   public assetModelType: any = [];
   public assetVariant: any = [];
+  public fuelTypeList = this.LOV.fuelType;
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
   public vehicleRegPattern: {
@@ -141,7 +142,7 @@ export class ValuationComponent implements OnInit {
   engineStartedType: any;
   vehicleMovedDisabled: boolean;
   vehicleMovedRequired: boolean;
-  isOnline: any;
+  isOnline: boolean;
   disableForm: boolean;
   yearMonthOfManufact: any;
   yearMonthOfManufacturer: any;
@@ -374,11 +375,14 @@ export class ValuationComponent implements OnInit {
       this.fuelTypeLOV = this.LOV.fuelType;
 
       this.LOV.defaultfinanciers = this.LOV.financiers;
+      this.fuelTypeList  = this.LOV.fuelType;
 
       let defaultfinanciers = [{
         key: 'Not-Applicable', 
         value: 'NA'
       }]
+
+      this.LOV.
 
       this.LOV.defaultfinanciers = defaultfinanciers.concat(this.LOV.financiers);
 
@@ -1340,6 +1344,17 @@ console.log(insuranceValidUpto.getFullYear());
       
 
     })
+    if (this.isOnline){
+      this.isDirty = false;
+      this.fuelTypeList = [] ; 
+
+      this.fuelTypeList =[
+        { key: this.vehicleValuationDetails.fuelUsed? this.vehicleValuationDetails.fuelUsed:null,
+          value:this.vehicleValuationDetails.fuelUsed? this.vehicleValuationDetails.fuelUsed:null}
+      ]
+      } else {
+        this.fuelTypeList = this.LOV.fuelType
+      }
     this.vehicleValuationForm.get('vehicleIdentityDetails').patchValue({
 
       assetMake: this.vehicleValuationDetails.vehicleMfrCode || '',

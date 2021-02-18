@@ -6,7 +6,8 @@
      
         <textarea class="form-control" id="recommendations"
             cols="1" rows="9" [placeholder]="'Remarks'" formControlName="remarks"
-            maxlength="10000" style="resize: none;">
+            
+[maxlength]="labels?.validationData.remarks.maxLength" style="resize: none;">
         </textarea>
 
         <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
