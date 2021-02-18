@@ -24,7 +24,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   taskId: any;
 
   @ViewChild('closebutton', { static: true }) closebutton;
-  @ViewChild('openModal', { static: true }) openModal;
 
   public labels: any = {};
   public autoDeviationArray: any = [];
@@ -381,7 +380,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       typeOfModal: value
     })
     this.isShowReferModal = true;
-    // this.openModal.nativeElement.click()
     // if (value === 'Recommendation') {
     //   this.isCheckReferButton(this.deviationsForm)
     //   this.isShowReferModal = false;
@@ -704,11 +702,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       this.utilityService.validateAllFormFields(this.modalForm);
       this.toasterService.showInfo('Please Select Recommend', 'Recommend')
     }
-  }
-
-  onClose() {
-    this.isShowReferModal = false;
-    this.closebutton.nativeElement.click();
   }
 
 }

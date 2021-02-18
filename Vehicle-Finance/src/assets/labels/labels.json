@@ -2005,7 +2005,7 @@
         },
         "landMark": {
             "maxLength": {
-                "rule": 60
+                "rule": 30
             },
             "pattern": {
                 "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
