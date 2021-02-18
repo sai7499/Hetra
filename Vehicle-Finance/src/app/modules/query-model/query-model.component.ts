@@ -30,7 +30,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   scrolltop: number = null;
 
   showModal: boolean = false;
-  selectedDocDetails;
+  selectedDocDetails: DocRequest;
   queryModalForm: FormGroup;
   queryModelLov: any = {};
   labels: any = {};
@@ -806,14 +806,14 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     if (this.queryModalForm.value.leadId) {
 
       this.showModal = true;
-      const docNm = 'ACCOUNT_OPENING_FORM';
-      const docCtgryCd = 70;
+      const docNm = 'OTHER_QUERY_DOCUMENTS';
+      const docCtgryCd = 102;
       const docTp = 'LEAD';
-      const docSbCtgry = 'ACCOUNT OPENING FORM';
-      const docCatg = 'KYC - I';
-      const docCmnts = 'Addition of document for Lead Creation';
-      const docTypCd = 276;
-      const docSbCtgryCd = 204;
+      const docSbCtgry = 'VF LOAN DOCS';
+      const docCatg = 'VF LOAN DOCS';
+      const docCmnts = 'Addition of document for Applicant Creation';
+      const docTypCd = 502;
+      const docSbCtgryCd = 43;
 
       this.selectedDocDetails = {
         docSize: 2097152,

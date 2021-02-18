@@ -1,400 +1,417 @@
 <form class="form multisteps-form__form" style="height: auto" [formGroup]="pdcForm">
-    <div class="container overflow-hidden">       
-        
-        <div class="content">  
-            <div class="row">       
+    <div class="container overflow-hidden">
+
+        <div class="content">
+            <div class="row">
                 <h3 class="banner-con">PDC Details
-                  <span class="float-right">{{udfScreenId}}</span>
-                </h3>        
-              </div> 
-            <div class="row" >
+                    <span class="float-right">{{udfScreenId}}</span>
+                </h3>
+            </div>
+            <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-5"></div>
-                <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
-                    <button class="btn btn-primary btn-mar"(click)="addPdcUnit()" *ngIf = "showPdcButton" >Add PDC Row</button>
+                <div class="col-lg-7 col-md-7 col-sm-7 text-right">
+                    <button class="btn btn-primary btn-mar" (click)="addPdcUnit()" *ngIf="showPdcButton">Add PDC
+                        Row</button>
                     <!-- <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()"  >Add SPDC Row</button> -->
                 </div>
-            </div>        
-            <div class="multisteps-form__panel js-active" data-animation="scaleIn">              
+            </div>
+            <div class="multisteps-form__panel js-active" data-animation="scaleIn">
                 <div class="panel-group" id="accordion1">
                     <div class="panel panel-default">
-                       
-                        
+
                         <div class="" id="headingTwo1">
                             <h4 class="banner-sub">
-                                <a class="collapsed" style="color:#fff;" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1">
-                                     PDC<i class="fa fa-angle-down"></i>
+                                <a class="collapsed" style="color:#fff;" data-toggle="collapse"
+                                    data-parent="#accordion1" href="#collapseTwo1">
+                                    PDC<i class="fa fa-angle-down"></i>
                                 </a>
-                              </h4>
+                            </h4>
                         </div>
-                        <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true"  >
-                        <div class="panel-body text-center float_right" formArrayName="pdcList">
-                         <div class="row test_class">
-                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                            <label  >{{labels?.pdcEmiAmount}}</label>
-                            </div>
-                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                <label  >Instr Number</label>
-                                </div>
-                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                <label  >Instr.Date</label>
-                            </div>
-                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                <label  >Instr.Bank Name</label>
-                                </div>
-                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label  >Instr.Branch Name</label>
-                             </div>
-                             <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                <label  >Instr.Branch Account Number</label>
-                                </div>
-                            <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label  >Instr.Amount</label>
-                                </div>
-                            <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                        <div id="collapseTwo1" class="panel-collapse collapse in" aria-expanded="true">
+                            <div class="panel-body text-center float_right" formArrayName="pdcList">
+                                <div class="row test_class">
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-emi-wid">
+                                        <label>{{labels?.pdcEmiAmount}}</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-no">
+                                        <label>Instr Number</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-date">
+                                        <label>Instr.Date</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-bank-name">
+                                        <label>Instr.Bank Name</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-branch">
+                                        <label>Instr.Branch Name</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                        <label>Instr.Branch Account Number</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                        <label>Instr.Amount</label>
+                                    </div>
+                                    <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3">
                                     <label  >Action</label>
                             </div> -->
-                            
-                        </div>
-                            
-                            <div class="row col-lg-12 test_class" id="show_1_div_identity" style="margin-bottom: 8px;"
-                                *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index " [formGroupName]="i">
-                                 <!-- <div class="form-group col-sm-6 col-md-2 col-lg-2">
-                                   
-                                    
-                                </div>  -->
-                                <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                   
-                                    <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
-                                    <app-custom-input
-                                    formControlName="emiAmount"
-                                    
-                                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                                    [type]="labels?.validationData?.amountValue?.type"
-                                    [isRequired]="'*required'"
-                                    [isDirty]="isDirty"
-                                    [placeholder]="'EMI Amount'"
-                                    [id]="'emiAmount'+i+i"
-                                    [isDisabled]="true"
-                                  ></app-custom-input>
-                                  <!-- [patternCheck]="inputValidation" -->
+
                                 </div>
-                                <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                   
-                                    <!-- <input type="text" class="form-control mandatory" id="lead_id" 
-                                        placeholder="" name="lead_id" value="" formControlName= "instrNo"> -->
-                                    <app-custom-input
-                                    formControlName="instrNo"
-                                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                                    [type]="labels?.validationData?.amountValue?.type"
-                                    [isRequired]="'*required'"
-                                    [isDirty]="isDirty"
-                                    [placeholder]="'Instr Number'"
-                                    (keyup)="findUnique($event.target.value, i, 'pdcList', 'spdcList')"
-                                    [id]="'instrNo'+i+i"
-                                  ></app-custom-input>
-                                </div>
-                                <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <!-- <label   class="height_label"></label> -->
-                                     <div class="input-group input-medium">
-                                          
-                                          <!-- <input type="date" class="form-control date_caps" id="date" formControlName= "instrDate " >  -->
-                                          <kendo-datepicker class="form-control" 
-                                          formControlName="instrDate" 
-                                          [format]="'dd/MM/yyyy'"
-                                          [min]="toDayDate"
-                                          placeholder="Select Latest Month"
-                                          [activeView]="'decade'"
-                                          (valueChange)="findUniqueDate($event, i, 'pdcList', 'spdcList')"
-                                          
-                                          ></kendo-datepicker>
-                                        </div>
+
+                                <div class="row col-lg-12 test_class" id="show_1_div_identity"
+                                    style="margin-bottom: 8px;"
+                                    *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index "
+                                    [formGroupName]="i" (change)="changePdcList(item, i)">
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-emi-wid">
+
+                                        <app-custom-input formControlName="emiAmount"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [isRequired]="'emiAmount required'" [isDirty]="isDirty"
+                                            [placeholder]="'EMI Amount'" [id]="'emiAmount'+i+i" [isDisabled]="true">
+                                        </app-custom-input>
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-no">
+
+                                        <app-custom-input formControlName="instrNo"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [isRequired]="'*required'" [isDirty]="isDirty"
+                                            [placeholder]="'Instr No'"
+                                            (keyup)="findUnique($event.target.value, i, 'pdcList', 'spdcList')"
+                                            [id]="'instrNo'+i+i"></app-custom-input>
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-date">
+                                        <!-- <div class="input-group input-medium"> -->
+
+                                            <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
+                                                [format]="'dd/MM/yyyy'" [min]="toDayDate"
+                                                placeholder="Select Month" [activeView]="'decade'"
+                                                (valueChange)="findUniqueDate($event, i, 'pdcList', 'spdcList')">
+                                            </kendo-datepicker>
+                                        <!-- </div> -->
+                                       
                                         <div class="invalid-feedback">
-                                            <span  *ngIf = "isDirty && !f.pdcList.controls[i].controls.instrDate.value"> 
+                                            <span *ngIf="isDirty && !f.pdcList.controls[i].controls.instrDate.value">
                                                 Select date </span>
 
-                                            <span  *ngIf = "f.pdcList.controls[i].controls.instrDate.value && f.pdcList.controls[i].controls.instrDate.invalid"> 
+                                            <span
+                                                *ngIf="f.pdcList.controls[i].controls.instrDate.value && f.pdcList.controls[i].controls.instrDate.invalid">
                                                 Invalid date - InstrDate cannot be lesser than Offer date. </span>
                                         </div>
-                                        
-                                </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <!-- <label for="business_division" class="height_label"></label> -->
-      
-                                    <!-- <select class="form-control mandatory" id="business_division" formControlName= "instrBankName" >
-                                        <option value="Vehicle Finance">ICICI</option>
-                                        <option value="Housing Finance">HDFC</option>
-                                    </select>  -->
-                                    <app-vf-custom-select formControlName="instrBankName" [values]="lovData?.bankMaster" 
-                                    [isDirty]="isDirty"
-                                        [isRequired]="'Please Select Instr Bank'"></app-vf-custom-select>
-                                    
-      
-                                </div>
-                                <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <!-- <label   class="height_label"></label> -->
-                                    <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" 
-                                        name="lead_id" value="" formControlName= "instrBranchName"> -->
-                                    <app-custom-input
-                                    formControlName="instrBranchName"
-                                    
-                                    [maxLength]="labels?.validationData?.name?.maxLength"
-                                    [type]="labels?.validationData?.name?.type"
-                                    [isRequired]="'*required'"
-                                    [isDirty]="isDirty"
-                                    [placeholder]="'Instr BranchName'"
-                                    [id]="'instrBranchName'+i+i"
-                                  ></app-custom-input>
-                                </div>
-                                <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <!-- <label  >Instr.Branch Account Number</label> -->
-                                    <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder=""
-                                     name="lead_id" value="" formControlName= "instrBranchAccountNumber"> -->
-                                    <app-custom-input
-                                    formControlName="instrBranchAccountNumber"
-                                    [patternCheck]="labels?.validationData?.pdAccountNumber?.pattern"
-                                    [maxLength]="labels?.validationData?.pdAccountNumber?.maxLength"
-                                    [type]="labels?.validationData?.pdAccountNumber?.type"
-                                    [isRequired]="'*required'"
-                                    [isDirty]="isDirty"
-                                    [placeholder]="'Instr Acc Number'"
-                                    [id]="'instrBranchAccountNumber'+i+i"
-                                  ></app-custom-input>
-                                </div>
-                                <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <!-- <label   class="height_label"></label> -->
-                                    <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName= "instrAmount"> -->
-                                    <app-custom-input
-                                    formControlName="instrAmount"
-                                    
-                                    [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                                    [type]="labels?.validationData?.amountValue?.type"
-                                    [isRequired]="'*required'"
-                                    [isDirty]="isDirty"
-                                    [placeholder]="'Instr Amount'"
-                                    [id]="'instrAmount'+i+i"
-                                  ></app-custom-input>
-                                </div>
-                                <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3 text-center">
+
+                                    </div>
+
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3 cus-bank-name">
+
+                                        <div class="ng-autopopulate" style="width: 100%;word-wrap: break-word;">
+
+                                            <ng-autocomplete class="custom-select-box" [data]="searchBankNameList"
+                                                [searchKeyword]="keyword"
+                                                (selected)="selectBankNameEvent($event, item, 'isPdc')"
+                                                (inputChanged)='onBankNameSearch($event)'
+                                                (inputCleared)='onBankNameClear($event, item)'
+                                                [itemTemplate]="favBankNameTemplate"
+                                                [notFoundTemplate]="notFoundTemplate" formControlName="instrBankName"
+                                                [placeHolder]="'Bank Name'" [debounceTime]="400" [minQueryLength]="3">
+                                            </ng-autocomplete>
+
+                                            <div class="invalid-feedback">
+                                                <div
+                                                    *ngIf="item.get('instrBankName').touched && item.get('instrBankName').hasError('required')">
+                                                    Bank name
+                                                    required.</div>
+                                                <div *ngIf="item.get('instrBankName').hasError('minlength')"> Mininum 3
+                                                    Charates
+                                                    required</div>
+                                            </div>
+                                            <ng-template #favBankNameTemplate let-item>
+                                                <a [innerHTML]="item"></a>
+                                            </ng-template>
+                                            <ng-template #notFoundTemplate let-notFound>
+                                                <div [innerHTML]="notFound"></div>
+                                            </ng-template>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-branch">
+                                        <div class="ng-autopopulate" style="width: 100%;">
+
+                                            <ng-autocomplete class="custom-select-box" [data]="searchBranchName"
+                                                [searchKeyword]="keyword"
+                                                [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }"
+                                                (selected)="selectIFSCCode($event, item, 'isPdc')"
+                                                (inputChanged)='onChangeBranch($event, item)'
+                                                [itemTemplate]="searchBranchTemplate"
+                                                [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
+                                                [placeHolder]="'Account Branch'" [minQueryLength]="3"
+                                                [disabled]="!item.get('isEnableBranch').value">
+                                            </ng-autocomplete>
+                                            <div class="invalid-feedback">
+                                                <div
+                                                    *ngIf="item.get('instrBranchName').touched && item.get('instrBranchName').hasError('required')">
+                                                    Account
+                                                    Branch
+                                                    required.
+                                                </div>
+                                                <div *ngIf="item.get('instrBranchName').hasError('minlength')">
+                                                    Mininum 3 Charates
+                                                    required</div>
+                                            </div>
+                                            <ng-template #searchBranchTemplate let-item>
+                                                <a [innerHTML]="item"></a>
+                                            </ng-template>
+                                            <ng-template #notFoundBranch let-notFound>
+                                                <div [innerHTML]="notFound"></div>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+
+                                        <app-custom-input formControlName="instrBranchAccountNumber"
+                                            [patternCheck]="labels?.validationData?.pdAccountNumber?.pattern"
+                                            [maxLength]="labels?.validationData?.pdAccountNumber?.maxLength"
+                                            [type]="labels?.validationData?.pdAccountNumber?.type"
+                                            [isRequired]="'*required'" [isDirty]="isDirty"
+                                            [placeholder]="'Instr Acc No'" [id]="'instrBranchAccountNumber'+i+i">
+                                        </app-custom-input>
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
+                                        <app-custom-input formControlName="instrAmount"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [isRequired]="'*required'" [isDirty]="isDirty"
+                                            [placeholder]="'Instr Amount'" [id]="'instrAmount'+i+i"></app-custom-input>
+                                    </div>
+
+                                    <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3 text-center">
                                     <div class=" row" for="upload_files"  >
                                         <a data-toggle="modal" data-target="#myModalthree" class="cursor-pointer" (click)="getIndex(i)"><i class="fa fa-trash fa-3 " aria-hidden="true"  id="add_more_documents_remove1" ></i></a>
                                     </div>
                                 </div> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-5"></div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 text-right" >
-                        <!-- <button class="btn btn-primary btn-mar"(click)="addPdcUnit()"  >Add PDC Row</button> -->
-                        <button class="btn btn-primary btn-mar"(click)="addSPdcUnit()" *ngIf = "showspdcButton" >Add SPDC Row</button>
+                    <div class="col-lg-7 col-md-7 col-sm-7 text-right">
+                        <button class="btn btn-primary btn-mar" (click)="addSPdcUnit()" *ngIf="showspdcButton">Add SPDC
+                            Row</button>
                     </div>
-                </div> 
+                </div>
                 <div class="panel-group" id="accordion2">
                     <div class="panel panel-default">
                         <div class="" id="headingTwo2">
                             <h4 class="banner-sub">
-                                <a class="collapsed" style="color:#fff;" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo2">
-                                     SPDC<i class="fa fa-angle-down"></i>
+                                <a class="collapsed" style="color:#fff;" data-toggle="collapse"
+                                    data-parent="#accordion2" href="#collapseTwo2">
+                                    SPDC<i class="fa fa-angle-down"></i>
                                 </a>
-                              </h4>
+                            </h4>
                         </div>
-                        <div id="collapseTwo2" class="panel-collapse collapse in" aria-expanded="true"  >
-                            
+                        <div id="collapseTwo2" class="panel-collapse collapse in" aria-expanded="true">
+
                             <div class="panel-body text-center float_right" formArrayName="spdcList">
                                 <div class="row test_class">
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                    <label  >{{labels?.pdcEmiAmount}}</label>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-emi-wid">
+                                        <label>{{labels?.pdcEmiAmount}}</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-no">
+                                        <label>Instr Number</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-date">
+                                        <label>Instr.Date</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-bank-name">
+                                        <label>Instr.Bank Name</label>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-branch">
+                                        <label>Instr.Branch Name</label>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label  >Instr Number</label>
-                                        </div>
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label  >Instr.Date</label>
+                                        <label>Instr.Branch Account Number</label>
                                     </div>
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label  >Instr.Bank Name</label>
-                                        </div>
-                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                            <label  >Instr.Branch Name</label>
-                                     </div>
-                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label  >Instr.Branch Account Number</label>
-                                        </div>
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                            <label  >Instr.Amount</label>
-                                        </div>
-                                    <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                            <label  >Action</label>
-                                    </div> -->
-                                    
+                                        <label>Instr.Amount</label>
+                                    </div>
+
                                 </div>
-                                <div class="row col-lg-12 test_class" style="margin-bottom: 8px;" 
-                                    id="show_1_div_identity" *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index " [formGroupName]="i">
-                                    <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <label for="business_division" class="height_label"></label> -->
-          
-                                        
-           <!-- <app-vf-custom-select formControlName="instrType" [values]="lovData?.instrumentType" 
-           [isRequired]="'Please Select Instr Type'"></app-vf-custom-select> -->
-                                    <!-- </div> -->
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label  >Pre EMI / EMI Amount</label> -->
-                                        <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName="emiAmount"> -->
-                                        <app-custom-input
-                                        formControlName="emiAmount"
-                                        
-                                        [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                                        [type]="labels?.validationData?.amountValue?.type"
-                                        [placeholder]="'EMI Amount'" 
-                                        [id]="'emiAmtount'+i"                            
-                                        [isDisabled]="true"
-                                      ></app-custom-input>
+                                <div class="row col-lg-12 test_class" style="margin-bottom: 8px;"
+                                    id="show_1_div_identity"
+                                    *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index "
+                                    [formGroupName]="i" (change)="changeSpdcList(item, i)">
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-emi-wid">
+                                        <app-custom-input formControlName="emiAmount"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [placeholder]="'EMI Amount'" [id]="'emiAmtount'+i" [isDisabled]="true">
+                                        </app-custom-input>
                                     </div>
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label   class="height_label">Instr.No</label> -->
-                                        <!-- <input type="text" class="form-control mandatory" id="lead_id" 
-                                            placeholder="" name="lead_id" value="" formControlName= "instrNo"> -->
-                                        <app-custom-input
-                                        formControlName="instrNo"
-                                        
-                                        [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                                        [type]="labels?.validationData?.amountValue?.type"
-                                        [isRequired]="'*required'"
-                                        [isDirty]="isDirty"
-                                        [placeholder]="'Instr Number'"
-                                        (keyup)="findUnique($event.target.value, i, 'spdcList', 'pdcList')"
-                                        [id]="'instrNo'+i"
-                                      ></app-custom-input>
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-no">
+                                        <app-custom-input formControlName="instrNo"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [isRequired]="'*required'" [isDirty]="isDirty" [placeholder]="'Instr No'"
+                                            (keyup)="findUnique($event.target.value, i, 'spdcList', 'pdcList')"
+                                            [id]="'instrNo'+i"></app-custom-input>
                                     </div>
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label   class="height_label">Instr.Date</label> -->
-                                         <div class="input-group input-medium">
-                                              
-                                              <!-- <input type="date" class="form-control date_caps" id="date" formControlName= "instrDate " >  -->
-                                              <kendo-datepicker class="form-control" 
-                                              formControlName="instrDate" 
-                                              [format]="'dd/MM/yyyy'"
-                                              [min]="toDayDate"
-                                              placeholder="Select Latest Month"
-                                              [activeView]="'decade'"
-                                              (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList')"
-                                        
-                                              ></kendo-datepicker>
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-date">
+                                        <!-- <div class="input-group input-medium"> -->
+
+                                            <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
+                                                [format]="'dd/MM/yyyy'" [min]="toDayDate"
+                                                placeholder="Select Month" [activeView]="'decade'"
+                                                (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList')">
+                                            </kendo-datepicker>
+                                        <!-- </div> -->
+
+                                        <div class="invalid-feedback">
+                                            <span *ngIf="isDirty && !f.spdcList.controls[i].controls.instrDate.value">
+                                                Select date </span>
+
+                                            <span
+                                                *ngIf="f.spdcList.controls[i].controls.instrDate.value && f.spdcList.controls[i].controls.instrDate.invalid">
+                                                Invalid date - InstrDate cannot be lesser than Offer date. </span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group col-sm-6 col-md-3 col-lg-3 cus-bank-name">
+
+                                        <div class="ng-autopopulate" style="width: 100%;">
+
+                                            <ng-autocomplete class="custom-select-box" [data]="searchBankNameList"
+                                                [searchKeyword]="keyword"
+                                                (selected)="selectBankNameEvent($event, item, 'isSpdc')"
+                                                (inputChanged)='onBankNameSearch($event)'
+                                                (inputCleared)='onBankNameClear($event, item)'
+                                                [itemTemplate]="favBankNameTemplate"
+                                                [notFoundTemplate]="notFoundTemplate" formControlName="instrBankName"
+                                                [placeHolder]="'Bank Name'" [debounceTime]="400" [minQueryLength]="3">
+                                            </ng-autocomplete>
+
+                                            <div class="invalid-feedback">
+                                                <div
+                                                    *ngIf="item.get('instrBankName').touched && item.get('instrBankName').hasError('required')">
+                                                    Bank name
+                                                    required.</div>
+                                                <div *ngIf="item.get('instrBankName').hasError('minlength')"> Mininum 3
+                                                    Charates
+                                                    required</div>
                                             </div>
-                                            <div class="invalid-feedback" >
-                                                <!-- <span 
-                                                *ngIf = "isDirty && !f.spdcList.controls[i].controls.instrDate.value"> 
-                                                Select date 
-                                            </span> -->
-                                                <span 
-                                                *ngIf = "f.spdcList.controls[i].controls.instrDate.value && f.spdcList.controls[i].controls.instrDate.invalid"> 
-                                                Invalid date - InstrDate cannot be lesser than Offer date. 
-                                            </span>
+                                            <ng-template #favBankNameTemplate let-item | search>
+                                                <a [innerHTML]="item"></a>
+                                            </ng-template>
+                                            <ng-template #notFoundTemplate let-notFound>
+                                                <div [innerHTML]="notFound"></div>
+                                            </ng-template>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-branch">
+
+                                        <div class="ng-autopopulate" style="width: 100%;">
+
+                                            <ng-autocomplete class="custom-select-box" [data]="searchBranchName"
+                                                [searchKeyword]="keyword"
+                                                [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }"
+                                                (selected)="selectIFSCCode($event, item, 'isSpdc')"
+                                                (inputChanged)='onChangeBranch($event, item)'
+                                                [itemTemplate]="searchBranchTemplate"
+                                                [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
+                                                [placeHolder]="'Account Branch'" [minQueryLength]="3"
+                                                [disabled]="!item.get('isEnableBranch').value">
+                                            </ng-autocomplete>
+                                            <div class="invalid-feedback">
+                                                <div
+                                                    *ngIf="item.get('instrBranchName').touched && item.get('instrBranchName').hasError('required')">
+                                                    Account
+                                                    Branch
+                                                    required.
+                                                </div>
+                                                <div *ngIf="item.get('instrBranchName').hasError('minlength')">
+                                                    Mininum 3 Charates
+                                                    required</div>
                                             </div>
-                                            
+                                            <ng-template #searchBranchTemplate let-item>
+                                                <a [innerHTML]="item"></a>
+                                            </ng-template>
+                                            <ng-template #notFoundBranch let-notFound>
+                                                <div [innerHTML]="notFound"></div>
+                                            </ng-template>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                        <!-- <label for="business_division" class="height_label">Instr.Bank Name</label> -->
-          
-                                        <!-- <select class="form-control mandatory" id="business_division" formControlName= "instrBankName" >
-                                            <option value="Vehicle Finance">ICICI</option>
-                                            <option value="Housing Finance">HDFC</option>
-                                        </select>  -->
-                                        <app-vf-custom-select formControlName="instrBankName" [values]="lovData?.bankMaster" 
-                                        [isDirty]="isDirty"
-                                        [isRequired]="'Please Select Instr Bank'"></app-vf-custom-select>
-                                        
-          
-                                    </div>
+
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label   class="height_label">Instr.Branch Name</label> -->
-                                        <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" 
-                                            name="lead_id" value="" formControlName= "instrBranchName"> -->
-                                        <app-custom-input
-                                        formControlName="instrBranchName"
-                                        
-                                        [maxLength]="labels?.validationData?.name?.maxLength"
-                                        [type]="labels?.validationData?.name?.type"
-                                        [isRequired]="'*required'"
-                                        [isDirty]="isDirty"
-                                        [placeholder]="'Instr.Branch Name'"
-                                        [id]="'instrBranchName'+i"
-                                        
-                                      ></app-custom-input>
+
+                                        <app-custom-input formControlName="instrBranchAccountNumber"
+                                            [patternCheck]="labels?.validationData?.pdAccountNumber?.pattern"
+                                            [maxLength]="labels?.validationData?.pdAccountNumber?.maxLength"
+                                            [type]="labels?.validationData?.pdAccountNumber?.type"
+                                            [isRequired]="'*required'" [isDirty]="isDirty"
+                                            [placeholder]="'Instr Acc No'"
+                                            [id]="'instrBranchAccountNumber'+i"></app-custom-input>
                                     </div>
+
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label  >Instr.Branch Account Number</label> -->
-                                        <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder=""
-                                         name="lead_id" value="" formControlName= "instrBranchAccountNumber"> -->
-                                        <app-custom-input
-                                        formControlName="instrBranchAccountNumber"
-                                        [patternCheck]="labels?.validationData?.pdAccountNumber?.pattern"
-                                        [maxLength]="labels?.validationData?.pdAccountNumber?.maxLength"
-                                        [type]="labels?.validationData?.pdAccountNumber?.type"
-                                        [isRequired]="'*required'"
-                                        [isDirty]="isDirty"
-                                        [placeholder]="'Instr.Branch Account Number'"
-                                        [id]="'instrBranchAccountNumber'+i"
-                                      ></app-custom-input>
+                                        <app-custom-input formControlName="instrAmount"
+                                            [maxLength]="labels?.validationData?.amountValue?.maxLength"
+                                            [type]="labels?.validationData?.amountValue?.type"
+                                            [isRequired]="'*required'" [isDirty]="isDirty"
+                                            [placeholder]="'Instr.Amount'" [id]="'instrAmount'+i"></app-custom-input>
                                     </div>
-                                    <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <!-- <label   class="height_label">Instr.Amount</label> -->
-                                        <!-- <input type="text" class="form-control mandatory" id="lead_id" placeholder="" name="lead_id" value="" formControlName= "instrAmount"> -->
-                                        <app-custom-input
-                                        formControlName="instrAmount"
-                                        
-                                        [maxLength]="labels?.validationData?.amountValue?.maxLength"
-                                        [type]="labels?.validationData?.amountValue?.type"
-                                        [isRequired]="'*required'"
-                                        [isDirty]="isDirty"
-                                        [placeholder]="'Instr.Amount'"
-                                        [id]="'instrAmount'+i"
-                                      ></app-custom-input>
-                                    </div>
-                                    <!-- <div class="form-group col-lg-3 col-sm-6 col-md-3">
-                                        <label class=" row" for="upload_files">
-                                            <a data-toggle="modal" data-target="#myModaltwo" class="cursor-pointer" (click)="getIndex(i)" class="text-center"><i class="fa fa-trash fa-3" aria-hidden="true"  id="add_more_documents_remove1"  ></i></a>
-                                        </label>
-                                    </div> -->
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
 
             <div>
-                <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-                [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-            
+                <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId"
+                    [udfGroupId]="udfGroupId" [udfDetails]="udfDetails"
+                    (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+
             </div>
             <div class="row ">
 
                 <div class="col-sm-5 text-right">
-    
+
                 </div>
                 <div class="col-sm-7 text-right">
-                     <button class="btn btn-primary dash_href marginAdd" type="button" (click)="onBack()"><a>Back</a></button>
-              <button class="btn btn-primary dash_href marginAdd" (click)="onSave('save')"> Save </button>
-              
-                    <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a data-toggle="modal"
-                            data-target="#myModal">Submit to CPC Checker</a></button>
-                   
+                    <button class="btn btn-primary dash_href marginAdd" type="button"
+                        (click)="onBack()"><a>Back</a></button>
+                    <button class="btn btn-primary dash_href marginAdd" (click)="onSave('save')"> Save </button>
+
+                    <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a
+                            data-toggle="modal" data-target="#myModal">Submit to CPC Checker</a></button>
+
                     <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
-                    <!-- <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a data-toggle="modal" -->
-                            <!-- data-target="#myModal">Book Loan</a></button>    -->
 
-                <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()" *ngIf="roleType == '5'"><a>Next</a></button> 
+                    <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"
+                        *ngIf="roleType == '5'"><a>Next</a></button>
                 </div>
-    
-            </div>        
+
+            </div>
         </div>
-        <!-- </div> -->     
     </div>
 </form>
+
+<!-- Model Content -->
+
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
 
@@ -404,19 +421,17 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Submit </h4>
             </div>
-            <div class="modal-body" >
+            <div class="modal-body">
                 <p>Are you sure want to submit record ?</p>
             </div>
-            <!-- <div class="modal-body" *ngIf = "roleType == '5'">
-            <p>Are you sure you want to move lead to CPC maker?</p>
-        </div> -->
+
             <div class="modal-footer" *ngIf="roleType == '4'">
-                <button type="button" class="btn btn-primary " (click)="onSave('cpc')" 
-                    data-dismiss="modal">Yes</button> &nbsp;
+                <button type="button" class="btn btn-primary " (click)="onSave('cpc')" data-dismiss="modal">Yes</button>
+                &nbsp;
                 <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
             </div>
             <div class="modal-footer" *ngIf="roleType == '5'">
-                <button type="button" class="btn btn-primary " (click)="sendLoanCreationWrapper()"  
+                <button type="button" class="btn btn-primary " (click)="sendLoanCreationWrapper()"
                     data-dismiss="modal">Yes</button> &nbsp;
                 <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
             </div>
@@ -424,6 +439,7 @@
 
     </div>
 </div>
+
 <div class="modal fade" id="myModaltwo" role="dialog">
     <div class="modal-dialog">
 
@@ -437,7 +453,8 @@
                 <p>Are you sure want to delete record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('spdcList')">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="deleteRows('spdcList')">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -458,13 +475,15 @@
                 <p>Are you sure want to delete record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRows('pdcList')">Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="deleteRows('pdcList')">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
 
     </div>
 </div>
+
 <div class="modal fade" id="myModalfour" role="dialog">
     <div class="modal-dialog">
 
@@ -478,7 +497,7 @@
                 <p>Are you sure want to submit record ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" >Yes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
                 <!-- (click)="sendBackToMaker()" -->
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
@@ -486,3 +505,5 @@
 
     </div>
 </div>
+
+<!-- Model Content -->

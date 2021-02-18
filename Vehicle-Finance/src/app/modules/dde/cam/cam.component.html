@@ -2961,7 +2961,7 @@ labels?.strengthsOrMitigates
                             class="btn btn-primary dash_href" type="button">
                             {{ labels?.sendBackToSales }}
                         </button>
-                        <button *ngIf="!isCamDetails" (click)="downloadpdf()" class="btn btn-primary dash_href"
+                        <button *ngIf="!isCamDetails && isShowDownloadDoc" (click)="downloadpdf()" class="btn btn-primary dash_href"
                             type="button">
                             {{ 'Download' }}
                         </button>

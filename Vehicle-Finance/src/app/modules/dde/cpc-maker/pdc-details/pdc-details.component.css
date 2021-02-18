@@ -120,8 +120,13 @@ p {
   }
   
   .col-lg-3 {
-      width: 13.5% !important;
+      width: 14% !important;
   }
+
+  .form-group {
+    padding: 5px !important;
+  }
+
   .image-upload {
       margin-top: 50px;
   }
@@ -150,8 +155,70 @@ p {
   #date {
       width: 100px !important;
   }
-  
-  
+
+  @media (min-width:200px) and (max-width:767px) {
+      .col-lg-3 {
+          width: auto !important;
+          margin: 5px 0px;
+      }
+      
+      .cus-emi-wid {
+        width: auto !important;
+        margin: 5px 0px;
+      }
+    
+      .cus-instr-no {
+        width: auto !important;
+        margin: 5px 0px;
+
+      }
+    
+      .cus-bank-name {
+        width: auto !important;
+        margin: 5px 0px;
+
+      }
+    
+      .cus-branch {
+        width: auto !important;
+        margin: 5px 0px;
+
+      }
+    
+      .cus-instr-date {
+        width: auto !important;
+        margin: 5px 0px;
+
+      }
+  }
+
+  @media (min-width:1091px) and (max-width:3000px) {
+
+  .cus-emi-wid {
+    width: 10.5% !important;
+  }
+
+  .cus-instr-no {
+    width: 10.5% !important;
+  }
+
+  .cus-bank-name {
+      width: 21% !important;
+  }
+
+  .cus-branch {
+      width: 16.5% !important;
+  }
+
+ .cus-instr-date {
+  width: 12.5% !important;
+}
+}
+
+  .cus-z {
+    z-index: 0;
+  }
+
   #credit_sourcing_details:after, #credit_application_details:after, #credit_vehicle_details:after, #credit_fleet_details:after,#credit_liveloan:after, #credit_income_details:after, #credit_psl_data:after{width:100% !important;left: 70px;}
   
   #credit_tvr_details:after, #credit_fi_pd:after, #credit_vehicle_viability:after, #credit_existing_relationship:after,#credit_score_card:after, #credit_cam:after, #credit_deviations:after, #credit_insurance:after, #credit_conditions:after{width:100% !important;}
@@ -169,5 +236,5 @@ p {
 .test_class {
     margin: auto;
     padding: 0px;
-    width:106%;
+    width:100%;
 }

@@ -126,6 +126,8 @@ export class CamComponent implements OnInit {
   udfGroupId: string = 'RCG001';
   jsonScreenId: any;
 
+  isShowDownloadDoc: boolean = false;
+
   constructor(private labelsData: LabelsService,
     private camService: CamService,
     private activatedRoute: ActivatedRoute,
@@ -169,7 +171,6 @@ export class CamComponent implements OnInit {
     })
 
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
-    console.log(this.taskId);
 
     this.getLeadId();
     this.userId = localStorage.getItem("userId");
@@ -203,9 +204,7 @@ export class CamComponent implements OnInit {
           if (this.currentUrl.includes('dde')) {
             this.showSave = true
             this.showSendBackToSales = true
-
           }
-
         }
       })
     }
@@ -524,6 +523,12 @@ export class CamComponent implements OnInit {
       this.udfScreenId = this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR' ? this.jsonScreenId.DDE.camUCVDDE :
         this.productCategoryCode == "NCV" ? this.jsonScreenId.DDE.camNCVDDE : this.jsonScreenId.DDE.camUCDDE;
     }
+
+    if (localStorage.getItem('is_pred_done') === 'true' && leadSectionData['issCCApproved'] === 1) {
+      this.isShowDownloadDoc = true;
+    }
+
+    console.log(localStorage.getItem('is_pred_done'), 'leadSectionData', leadSectionData['issCCApproved'])
 
   }
 
