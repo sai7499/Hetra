@@ -414,12 +414,12 @@
 
 <!-- Delete Modal Ends -->
 
-<div class="modal" data-dismiss="modal" id="referRecommedation" [ngClass]="{ 'dis-block': isShowReferModal }">
+<div class="modal" data-dismiss="modal" id="referRecommedation" #openModal [ngClass]="{ 'dis-block': isShowReferModal }">
   <div class="modal-dialog">
     <form class="multisteps-form__form p-0" [formGroup]="modalForm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+        <button type="button" #closebutton class="close" data-dismiss="modal" (click)="onClose()">&times;</button>
         <h4 class="modal-title">
           {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' :
           labels?.commend}}
@@ -439,8 +439,8 @@
       </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="closeModal"   (click)="ReferDeviation()">{{labels?.ok}}</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
+        <button type="button" class="btn btn-primary" id="closeModal" (click)="ReferDeviation()">{{labels?.ok}}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"  (click)="onClose()">{{labels?.close}}</button>
 
        </div> 
     </div>

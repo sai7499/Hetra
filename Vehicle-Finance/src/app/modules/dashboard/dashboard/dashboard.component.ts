@@ -1024,6 +1024,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (tabName === 'CPC' || tabName === 'CAD' ) {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', tabName, currentUrl);
+    } else if (tabName === 'termSheet' && (this.userDetailsRoleId === 5 || this.userDetailsRoleId == 6)) {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('3', 'Term Sheet', currentUrl);
     } else {
       this.toggleDdeService.clearToggleData();
     }
