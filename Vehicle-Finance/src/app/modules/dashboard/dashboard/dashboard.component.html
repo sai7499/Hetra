@@ -191,7 +191,7 @@
                 (click)="onLeads(displayTabs?.PreDisbursementQueue, displayTabs?.PreDisbursementWithMe)"
                 [ngClass]="{'active':displayTabs?.PreDisbursementQueue === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Pre-Disbursement</a></li>
-            <li class="btn-dash" (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"
+            <li class="btn-dash" (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe, 'termSheet')"
                 [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Term Sheet</a></li>
             <li class="btn-dash"
@@ -325,7 +325,7 @@
                 [ngClass]="{'active':displayTabs?.Decision === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Credit
                     Decision</a></li>
-            <li class="btn-dash" (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"
+            <li class="btn-dash" (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe, 'termSheet')"
                 [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Term
                     Sheet</a></li>
