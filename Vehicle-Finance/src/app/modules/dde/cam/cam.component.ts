@@ -87,7 +87,7 @@ export class CamComponent implements OnInit {
   recommendation: any;
   disableSaveBtn: boolean;
   isCamGeneratedValue: boolean;
-  isCamDetails: boolean;
+  isCamDetails: boolean = false;
   generateCam: boolean = false;
   roleId: any;
   roleType: any;
@@ -497,7 +497,11 @@ export class CamComponent implements OnInit {
       })
     }
 
-    this.isViewDde = this.toggleDdeService.getOperationType();
+    // this.isViewDde = this.toggleDdeService.getOperationType();
+    this.isViewDde = localStorage.getItem('isNeedBackButton') && localStorage.getItem('isNeedBackButton') === 'true' ? true : false;
+
+    console.log(localStorage.getItem('isNeedBackButton'), 'isNeedBackButton', typeof(localStorage.getItem('isNeedBackButton')))
+    // this.isViewDde = this.toggleDdeService.getDdeClickedValue() && !(this.toggleDdeService.getOperationType())
 
     if (this.isViewDde) {
       this.disableSaveBtn = true;
@@ -515,7 +519,7 @@ export class CamComponent implements OnInit {
       this.showSave = false;
 
       this.udfScreenId = this.productCategoryCode == "UCV" || this.productCategoryCode === 'UTCR' ? this.jsonScreenId.creditDecision.camUCVCreditDecision :
-      this.productCategoryCode == "NCV" ? this.jsonScreenId.creditDecision.camNCVCreditDecision : this.jsonScreenId.creditDecision.camUCCreditDecision;
+        this.productCategoryCode == "NCV" ? this.jsonScreenId.creditDecision.camNCVCreditDecision : this.jsonScreenId.creditDecision.camUCCreditDecision;
       this.camDetailsForm.disable();
     } else if (this.currentUrl.includes('dde')) {
       this.showSave = true
@@ -528,7 +532,8 @@ export class CamComponent implements OnInit {
       this.isShowDownloadDoc = true;
     }
 
-    console.log(localStorage.getItem('is_pred_done'), 'leadSectionData', leadSectionData['issCCApproved'])
+    console.log(typeof (localStorage.getItem('is_pred_done')), 'leadSectionData', leadSectionData['issCCApproved'],
+      this.isCamDetails, 'isShowDownloadDoc', this.isShowDownloadDoc)
 
   }
 
