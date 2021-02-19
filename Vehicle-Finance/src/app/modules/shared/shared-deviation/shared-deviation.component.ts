@@ -121,8 +121,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     })
     this.disableSaveBtn = (this.roleType === 5) ? true : false;
     this.sharedService.getFormValidation(this.deviationsForm);
-
-    console.log(this.deviationsForm, 'deviationsForm')
   }
 
   isCheckReferButton(form) {
@@ -136,22 +134,26 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         this.checkIsSameRole(form.get('manualDeviationFormArray').controls) : false;
       let waiverNormsFormArray = form.get('waiverNormsFormArray').length > 0 ? this.checkIsSameRole(form.get('waiverNormsFormArray').controls) : false;
 
-      console.log(autoDeviationFormArray, 'deviationForm autoDeviationFormArray')
-      console.log(manualDeviationFormArray, 'deviationForm manualDeviationFormArray')
-      console.log(waiverNormsFormArray, 'deviationForm waiverNormsFormArray')
+      if (autoDeviationFormArray || manualDeviationFormArray || waiverNormsFormArray) {
+        this.isAllowReferBut = true;
+        this.toasterService.showError('Please choose any one of the action buttons','')
+      } else {
+        this.isAllowReferBut = false;
+      }
 
     }
   }
 
   checkIsSameRole(form) {
-    let setType = form.filter((res: any) => {
-      console.log(res.get('isSameRole').value, 'deviationForm', res.get('statusCode').value)
-      return (res.get('isSameRole').value === true && res.get('statusCode').value !== null)
+    let setType = []
+     form.filter((res: any) => {
+      if (res.get('isSameRole').value === true && res.get('statusCode').value === null) {
+        setType.push(res.value)
+        return true
+      }
+      return setType
     })
-    console.log('deviationForm', form)
-
     return setType.length > 0 ? true : false
-
   }
 
   disableInputs() {

@@ -17,6 +17,7 @@ import { CreateLeadService } from '@modules/lead-creation/service/creatLead.serv
 import { DraggableContainerService } from '@services/draggable.service';
 import { environment } from 'src/environments/environment';
 import { PollingService } from '@services/polling.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-query-model',
@@ -122,7 +123,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
     private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute, private location: Location, private pollingService: PollingService,
-    private changeDetector: ChangeDetectorRef) { }
+    private changeDetector: ChangeDetectorRef, private sharedService: SharedService) { }
 
   async ngOnInit() {
 
@@ -1108,6 +1109,13 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       queryTo: resVal.key,
       searchText: resVal.value
     })
+  }
+
+  viewDDE() {
+    this.sharedService.getQueryModel(this.location.path())
+    localStorage.setItem('isNeedBackButton', 'true');
+    this.router.navigate(['/pages/dde/' + this.leadId])
+    // this.toggleDdeService.setCurrentPath(this.location.path())
   }
 
 }

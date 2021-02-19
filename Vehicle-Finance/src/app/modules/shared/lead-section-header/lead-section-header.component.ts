@@ -109,6 +109,13 @@ export class LeadSectionHeaderComponent implements OnInit {
 
     this.getInitiateQueryCount(this.leadId);
 
+    this.sharedService.viewDDE$.subscribe(dde => {
+      console.log(dde, 'dde')
+      if (dde) {
+        this.viewOrEditDde(dde)
+      }
+    })
+
   }
 
   getLocationIndex(url: string) {
@@ -204,13 +211,16 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   }
 
-  viewOrEditDde() {
+  viewOrEditDde(isString?) {
     this.toggleDdeService.setIsDDEClicked();
     this.isEnableDdeButton = false;
     this.isNeedBackButton = true;
     localStorage.setItem('isNeedBackButton', 'true');
     this.router.navigate(['/pages/dde/' + this.leadId])
-    this.toggleDdeService.setCurrentPath(this.location.path())
+    console.log(isString, 'isString')
+    if (!isString) {
+      this.toggleDdeService.setCurrentPath(this.location.path())
+    }
     this.setDdeBackButton()
   }
 
@@ -250,7 +260,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     const currentUrl = this.location.path();
     localStorage.setItem('forQueryUrl', currentUrl);
     this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
-    // this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
+    this.toggleDdeService.setIsDDEClicked('0');
+    this.toggleDdeService.setOperationType('4', 'Query Model', currentUrl);
   }
 
   onLeadHistory() {
