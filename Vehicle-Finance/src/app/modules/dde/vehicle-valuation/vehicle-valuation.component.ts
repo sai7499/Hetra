@@ -120,7 +120,7 @@ export class VehicleValuationComponent implements OnInit {
 
   initForm() {
     this.modalDataForm = this.formBuilder.group({
-      remarks: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9 ]*$')])],
+      remarks: ['', [Validators.required]],
       valuatorCode: ['', [Validators.required]]
     });
   }

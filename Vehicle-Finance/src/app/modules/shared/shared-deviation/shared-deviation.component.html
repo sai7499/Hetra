@@ -89,7 +89,8 @@
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
                   <div class="col-sm-10 col-md-10 col-lg-10">
-                    <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+                    <textarea class="form-control" 
+                    [maxlength]="labels?.validationData.remarks.maxLength" formControlName="justification" [readonly]="isSubmitToCredit"
                       style="resize: none;"></textarea>
                   </div>
                 </div>
@@ -177,7 +178,8 @@
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
                   <div class="col-sm-10 col-md-10 col-lg-10">
-                    <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+                    <textarea class="form-control" 
+                    [maxlength]="labels?.validationData.remarks.maxLength" formControlName="justification" [readonly]="isSubmitToCredit"
                       style="resize: none;"></textarea>
                   </div>
                 </div>
@@ -293,7 +295,8 @@
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
                   <div class="col-sm-10 col-md-10 col-lg-10">
-                    <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
+                    <textarea class="form-control" 
+                    [maxlength]="labels?.validationData.remarks.maxLength" formControlName="justification" [readonly]="isSubmitToCredit"
                       style="resize: none;"></textarea>
                   </div>
                 </div>
@@ -426,7 +429,7 @@
         </h4>
       </div>
       <div class="modal-body">
-        <textarea class="form-control" rows="10" cols="5" formControlName="recommendation"
+        <textarea class="form-control" rows="10" cols="5" [maxlength]="labels?.validationData.remarks.maxLength" formControlName="recommendation"
         placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' : 'Comments'}}"></textarea>
 
       <div class="invalid-feedback"
@@ -439,7 +442,7 @@
       </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="closeModal"   (click)="ReferDeviation()">{{labels?.ok}}</button>
+        <button type="button" class="btn btn-primary" id="closeModal" (click)="ReferDeviation()">{{labels?.ok}}</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
 
        </div> 

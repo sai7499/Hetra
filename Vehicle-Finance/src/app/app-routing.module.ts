@@ -8,6 +8,7 @@ import { TermSheetFromDashboardComponent } from './modules/dde/credit-decisions/
 import { DetectBrowserActivityService } from '@services/detect-browser-activity.service'
 import { PddComponent } from '@modules/shared/pdd-screen/pdd.component';
 import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
+import { LabelsResolverService } from '@services/lablesresolver.service';
 const routes: Routes = [
   {
     path: '',
@@ -28,6 +29,7 @@ const routes: Routes = [
     path: 'activity-search',
     canActivate: [Authguard],
     canActivateChild: [DetectBrowserActivityService],
+    
     loadChildren: () =>
       import('./modules/activity-search/activity-search.module').then(
         (m) => m.ActivitySearchModule
@@ -40,6 +42,7 @@ const routes: Routes = [
     canActivateChild: [DetectBrowserActivityService],
     resolve: {
       getLOV: LovResolverService,
+      getLables: LabelsResolverService
     },
     children: [
       {

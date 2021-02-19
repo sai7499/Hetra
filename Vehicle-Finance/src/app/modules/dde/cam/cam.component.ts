@@ -240,52 +240,52 @@ export class CamComponent implements OnInit {
         this.camDetailsForm = this.formBuilder.group({
           proposedVehicleRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           cibilSynopsisRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           trackValidationRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           fleetRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           concernsAndRisks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           strengthAndMitigates: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           keyFinancialRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           commentsOnBankingIfAny: new FormControl(),
           commentsOnRtr: new FormControl(),
@@ -321,52 +321,52 @@ export class CamComponent implements OnInit {
         this.camDetailsForm = this.formBuilder.group({
           proposedVehicleRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           cibilSynopsisRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           trackValidationRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           fleetRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           concernsAndRisks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           strengthAndMitigates: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           keyFinancialRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           commentsOnBankingIfAny: new FormControl(),
           commentsOnRtr: new FormControl(),
@@ -404,52 +404,52 @@ export class CamComponent implements OnInit {
         this.camDetailsForm = this.formBuilder.group({
           proposedVehicleRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           cibilSynopsisRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           trackValidationRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           fleetRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           concernsAndRisks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           strengthAndMitigates: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           keyFinancialRemarks: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           // commentsOnBankingIfAny:new FormControl(null, [
           // Validators.required,
@@ -460,17 +460,17 @@ export class CamComponent implements OnInit {
           // ]),
           commentsOnBankingIfAny: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ]),
           commentsOnRtr: new FormControl(null, [
             // Validators.required,
-            Validators.maxLength(5000),
-            Validators.pattern(
-              /^[a-zA-Z0-9 ]*$/
-            ),
+            Validators.maxLength(1500),
+            // Validators.pattern(
+            //   /^[a-zA-Z0-9 ]*$/
+            // ),
           ])
 
         })
@@ -482,14 +482,14 @@ export class CamComponent implements OnInit {
 
         concernsAndRisks: new FormControl(null, [
           // Validators.required,
-          Validators.maxLength(5000),
+          Validators.maxLength(1500),
           Validators.pattern(
             /^[a-zA-Z0-9 ]*$/
           ),
         ]),
         strengthAndMitigates: new FormControl(null, [
           // Validators.required,
-          Validators.maxLength(5000),
+          Validators.maxLength(1500),
           Validators.pattern(
             /^[a-zA-Z0-9 ]*$/
           ),

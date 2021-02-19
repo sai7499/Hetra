@@ -550,7 +550,8 @@
               <label for="recommendations">{{ labels?.recommendations }}
               </label>
               <textarea class="form-control" id="recommendations" cols="1" rows="3" placeholder="Recommendations"
-                formControlName="recommendations" maxlength="4000" style="resize: none;"></textarea>
+                formControlName="recommendations" 
+                [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none;"></textarea>
 
             </div>
           </div>

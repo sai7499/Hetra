@@ -2011,7 +2011,7 @@
         },
         "landMark": {
             "maxLength": {
-                "rule": 60
+                "rule": 30
             },
             "pattern": {
                 "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
@@ -3084,6 +3084,9 @@
                 "rule": "[1-9]",
                 "msg": "Invalid Characters not allowed"
             }
+        },
+        "remarks": {
+            "maxLength": 1500
         } 
     }
 }
