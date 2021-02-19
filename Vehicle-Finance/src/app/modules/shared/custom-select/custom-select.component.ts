@@ -105,6 +105,11 @@ export class CustomSelectComponent
 
   writeValue(val) {
     this.val = val;
+    if(val == '') {
+      // this.val = this.selectedOption || this.defaultOption.key;
+      this.inputError = false;
+      return;
+    }
     if ((!val && this.isFirst) || this.isFirst) {
       this.isFirst = false;
       this.inputError = false;

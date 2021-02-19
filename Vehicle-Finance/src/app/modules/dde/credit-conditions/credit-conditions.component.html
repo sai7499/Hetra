@@ -34,12 +34,14 @@
         [formGroupName]="i">
         <div class="col-xs-6 col-sm-3 c">
 
-          <textarea class="form-control" formControlName="creditCondition"
+          <textarea class="form-control" 
+          [maxlength]="labels?.validationData.remarks.maxLength" formControlName="creditCondition"
             placeholder="Content Goes here......"></textarea>
 
         </div>
         <div class="col-xs-6 col-sm-3 ">
-          <textarea class="form-control" formControlName="salesResponse"
+          <textarea class="form-control" 
+          [maxlength]="labels?.validationData.remarks.maxLength" formControlName="salesResponse"
             placeholder="Content Goes here......"></textarea>
         </div>
         <div class="col-xs-6 col-sm-3 ">

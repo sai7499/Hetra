@@ -60,7 +60,7 @@ export class CheckListComponent implements OnInit {
     // tslint:disable-next-line: deprecation
     $(document).ready(() => {
       $('.collapse')
-        .on('shown.bs.collapse', function(event) {
+        .on('shown.bs.collapse', function (event) {
           event.stopPropagation();
           console.log('open');
           $(this)
@@ -72,7 +72,7 @@ export class CheckListComponent implements OnInit {
             .removeClass('btn_bar')
             .addClass('btn_bar_pink');
         })
-        .on('hidden.bs.collapse', function(event) {
+        .on('hidden.bs.collapse', function (event) {
           console.log('closed');
           event.stopPropagation();
           $(this)
@@ -88,7 +88,7 @@ export class CheckListComponent implements OnInit {
   }
 
   async ngOnInit() {
-    
+
     this.salesResponse = localStorage.getItem('salesResponse');
     this.isPreDone = localStorage.getItem('is_pred_done');
     this.commonLovService.getLovData().subscribe((res: any) => {
@@ -110,16 +110,16 @@ export class CheckListComponent implements OnInit {
     // } else if(this.roleType == '5') {
     //   this.udfScreenId = "CLS003";
     // }
-   console.log('this.checkrole', this.roleType)
+    console.log('this.checkrole', this.roleType)
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
-      if(this.roleType == '7' ) {
-        this.udfScreenId = udfScreenId.CAD.checkListCAD; 
-      }else if(this.roleType == '2') {
+      if (this.roleType == '7') {
+        this.udfScreenId = udfScreenId.CAD.checkListCAD;
+      } else if (this.roleType == '2') {
         this.udfScreenId = udfScreenId.creditDecision.checkListCreditDecision;
-      } else if(this.roleType == '4') {
+      } else if (this.roleType == '4') {
         this.udfScreenId = udfScreenId.CPCMaker.checkListCPCMaker;
-      } else if(this.roleType == '5') {
+      } else if (this.roleType == '5') {
         this.udfScreenId = udfScreenId.CPCChecker.checkListCPCChecker;
       }
 
@@ -143,8 +143,8 @@ export class CheckListComponent implements OnInit {
     });
     this.getCheckList();
     // this.getCheckList();
-    
-    
+
+
 
     // tslint:disable-next-line: triple-equals
   }
@@ -162,14 +162,14 @@ export class CheckListComponent implements OnInit {
     for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
       if (this.roleType == '7') {
         this.userDefineForm.udfData.disable();
-       }
+      }
       // tslint:disable-next-line: triple-equals
-      if (this.roleType == '4' || this.roleType == '7' ) {
-       this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
-      // tslint:disable-next-line: triple-equals
-      } else if ( this.roleType == '5') {
-       this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
-       this.checklistForm.controls.checklistArray.controls[i].controls.cpcMaker.disable();
+      if (this.roleType == '4' || this.roleType == '7') {
+        this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
+        // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '5') {
+        this.checklistForm.controls.checklistArray.controls[i].controls.coAnswer.disable();
+        this.checklistForm.controls.checklistArray.controls[i].controls.cpcMaker.disable();
       }
     }
     this.addValidatorsCO();
@@ -188,7 +188,7 @@ export class CheckListComponent implements OnInit {
       console.log(res, ' checklist get response');
       this.udfDetails = res.ProcessVariables.udfDetails;
       // tslint:disable-next-line: triple-equals
-      if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.checkList ) {
+      if (res.ProcessVariables.error.code == '0' && res.ProcessVariables.checkList) {
         this.initForm(res.ProcessVariables.checkList);
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < res.ProcessVariables.checkList.length; i++) {
@@ -205,11 +205,11 @@ export class CheckListComponent implements OnInit {
         const applicantId = value.applicantId;
         if (applicantId) {
           resolve(Number(applicantId));
-          
+
         }
         resolve(null);
       });
-      
+
     });
   }
   getLeadId() {
@@ -227,9 +227,9 @@ export class CheckListComponent implements OnInit {
     return this.formBuilder.group({
       checkListId: [Number(list.checkListId)],
       checklistName: [list.checkListName],
-      coAnswer: [null ],
-      cpcChecker: [null ],
-      cpcMaker: [null ]
+      coAnswer: [null],
+      cpcChecker: [null],
+      cpcMaker: [null]
     });
   }
 
@@ -237,12 +237,11 @@ export class CheckListComponent implements OnInit {
   get t() { return this.f.checklistArray as FormArray; } // controls of coAwnser array.error
 
   onSave(btnType) {
-  console.log(this.checklistForm.status, 'status before add validators');
-  this.addValidatorsCO();
+    this.addValidatorsCO();
 
-  this.checkListFormArray = [];
+    this.checkListFormArray = [];
     // tslint:disable-next-line: prefer-for-of
-  for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
+    for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
       const data = this.checklistForm.controls.checklistArray.value[i];
       // tslint:disable-next-line: triple-equals
       if (this.roleType == '2') {
@@ -253,9 +252,9 @@ export class CheckListComponent implements OnInit {
         };
 
         this.checkListFormArray.push(body);
-        this.checkListFormArray = this.checkListFormArray.filter((res) => res.coAnswer !== null );
+        this.checkListFormArray = this.checkListFormArray.filter((res) => res.coAnswer !== null);
         console.log(this.checkListFormArray);
-      // tslint:disable-next-line: triple-equals
+        // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
         const body = {
           checkListId: data.checkListId,
@@ -263,81 +262,86 @@ export class CheckListComponent implements OnInit {
           cpcMaker: data.cpcMaker
         };
         this.checkListFormArray.push(body);
-        this.checkListFormArray = this.checkListFormArray.filter((res) => res.cpcMaker !== null );
-      // tslint:disable-next-line: triple-equals
-      } else if ( this.roleType == '5') {
+        this.checkListFormArray = this.checkListFormArray.filter((res) => res.cpcMaker !== null);
+        // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '5') {
         const body = {
           checkListId: data.checkListId,
           checklistName: data.checklistName,
           cpcChecker: data.cpcChecker
         };
         this.checkListFormArray.push(body);
-        this.checkListFormArray = this.checkListFormArray.filter((res) => res.cpcChecker !== null );
+        this.checkListFormArray = this.checkListFormArray.filter((res) => res.cpcChecker !== null);
 
       }
     }
-  const bodyReq = {
+    const bodyReq = {
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
       checkList: this.checkListFormArray,
-      udfDetails :  [{
+      udfDetails: [{
         "udfGroupId": this.udfGroupId,
         // "udfScreenId": this.udfScreenId,
         "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
       }],
     };
-  if ( this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
-          console.log(this.checklistForm);
-          this.toasterService.showError('Select Mandatory Fields', ' ');
-          return ;
-        }
-  console.log(bodyReq);
-  this.checkListService.saveCheckListDetails(bodyReq).subscribe((res: any) => {
-      // tslint:disable-next-line: triple-equals
-      if (res.ProcessVariables.error.code == '0') {
-       this.toasterService.showSuccess('Record Saved Successfully', ' ');
-       this.initUDFValues = this.userDefineForm.udfData.getRawValue();
+    if (this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
+      console.log(this.checklistForm);
+      this.toasterService.showError('Select Mandatory Fields', ' ');
+      return;
+    }
+    console.log(bodyReq);
 
-       // tslint:disable-next-line: triple-equals
-       if (btnType == 'submitTocpc') {
-        this.submitTocpc('submitTocpc');
-       // tslint:disable-next-line: triple-equals
-       } else if (btnType == 'bcm') {
-       this.submitTocpc('bcm');
-       } else {
-        this.getCheckList();
-       }
-     } else {
-       this.toasterService.showError(res.ProcessVariables.error.message, '');
-     }
-    });
+    if (btnType == 'submitTocpc') {
+      this.submitTocpc('submitTocpc');
+      // tslint:disable-next-line: triple-equals
+    } else {
+
+      this.checkListService.saveCheckListDetails(bodyReq).subscribe((res: any) => {
+        // tslint:disable-next-line: triple-equals
+        if (res.ProcessVariables.error.code == '0') {
+          this.toasterService.showSuccess('Record Saved Successfully', ' ');
+          this.initUDFValues = this.userDefineForm.udfData.getRawValue();
+
+          // tslint:disable-next-line: triple-equals
+          if (btnType == 'bcm') {
+            this.submitTocpc('bcm');
+          } else {
+            this.getCheckList();
+          }
+        } else {
+          this.toasterService.showError(res.ProcessVariables.error.message, '');
+        }
+      });
+    }
+
   }
   patchChecklist(data?: any) {
     const array = this.t as FormArray;
     array.controls.forEach((element: any) => {
       if (element.value.checkListId === data.checkListId) {
-         element.patchValue({
-          coAnswer : data.coAnswer ? data.coAnswer : null,
+        element.patchValue({
+          coAnswer: data.coAnswer ? data.coAnswer : null,
           cpcChecker: data.cpcChecker ? data.cpcChecker : null,
           cpcMaker: data.cpcMaker ? data.cpcMaker : null
-         });
+        });
       }
     });
   }
   addValidatorsCO() {
     const group: any = this.checklistForm.controls.checklistArray as FormGroup;
     // const groupLength: any = group.controls.length;
-    for (let i = 0; i < this.checklistForm.controls.checklistArray.length ; i ++) {
+    for (let i = 0; i < this.checklistForm.controls.checklistArray.length; i++) {
       // tslint:disable-next-line: triple-equals
       if (this.roleType == '2') {
         group.at(i).controls.coAnswer.setValidators(Validators.required);
         group.at(i).controls.coAnswer.updateValueAndValidity();
-      // tslint:disable-next-line: triple-equals
+        // tslint:disable-next-line: triple-equals
       } else if (this.roleType == '4') {
         group.at(i).controls.cpcMaker.setValidators(Validators.required);
         group.at(i).controls.cpcMaker.updateValueAndValidity();
-      // tslint:disable-next-line: triple-equals
-      } else if ( this.roleType == '5') {
+        // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '5') {
         group.at(i).controls.cpcChecker.setValidators(Validators.required);
         group.at(i).controls.cpcChecker.updateValueAndValidity();
       }
@@ -349,17 +353,17 @@ export class CheckListComponent implements OnInit {
 
   submitTocpc(data: string) {
     const verifyString = data;
-    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
-    if(!isUDFCheck) {
+    if (!isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
-    if ( this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
+    if (this.checklistForm.invalid || this.userDefineForm.udfData.invalid) {
       console.log(this.checklistForm);
-      
+
       this.toasterService.showError('Select Mandatory Fields', 'Save Checklist ');
-      return ;
+      return;
     }
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '2' && verifyString == 'bcm') {
@@ -370,17 +374,17 @@ export class CheckListComponent implements OnInit {
         isCPCChecker: false,
         sendBackToCredit: false,
         taskId: this.taskId
-        };
+      };
       this.termSheetService.assignTaskToTSAndCPC(body).subscribe((res: any) => {
-         // tslint:disable-next-line: triple-equals
-         if (res.ProcessVariables.error.code == '0') {
-       this.toasterService.showSuccess('Record Saved Successfully', ' ');
-       this.router.navigate([`pages/dashboard`]);
-     } else {
-       this.toasterService.showError(res.ProcessVariables.error.message, '');
-     }
-        });
-    // tslint:disable-next-line: triple-equals
+        // tslint:disable-next-line: triple-equals
+        if (res.ProcessVariables.error.code == '0') {
+          this.toasterService.showSuccess('Record Saved Successfully', ' ');
+          this.router.navigate([`pages/dashboard`]);
+        } else {
+          this.toasterService.showError(res.ProcessVariables.error.message, '');
+        }
+      });
+      // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '2' && verifyString == 'submitTocpc') {
       const body = {
         leadId: this.leadId,
@@ -389,7 +393,7 @@ export class CheckListComponent implements OnInit {
         isCPCChecker: false,
         sendBackToCredit: false,
         taskId: this.taskId,
-        };
+      };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
@@ -399,9 +403,9 @@ export class CheckListComponent implements OnInit {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
         }
 
-        });
-    // tslint:disable-next-line: triple-equals
-    }  else if (this.roleType == '4') {
+      });
+      // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '4') {
       const body = {
         leadId: this.leadId,
         userId: localStorage.getItem('userId'),
@@ -409,7 +413,7 @@ export class CheckListComponent implements OnInit {
         isCPCChecker: true,
         sendBackToCredit: false,
         taskId: this.taskId,
-        };
+      };
       this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
         // tslint:disable-next-line: triple-equals
         if (res.ProcessVariables.error.code == '0') {
@@ -419,9 +423,9 @@ export class CheckListComponent implements OnInit {
           this.toasterService.showError(res.ProcessVariables.error.message, '');
         }
 
-        });
-    // tslint:disable-next-line: triple-equals
-    } else if ( this.roleType == '5') {
+      });
+      // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '5') {
       const body = {
         leadId: this.leadId,
         userId: localStorage.getItem('userId'),
@@ -429,78 +433,78 @@ export class CheckListComponent implements OnInit {
         isCPCChecker: false,
         sendBackToCredit: false,
         taskId: this.taskId,
-        };
+      };
       this.cpcService.getCPCRolesDetails(body).subscribe((res) => {
         this.router.navigate([`pages/dashboard`]);
-        });
+      });
     }
 
   }
-onNext()  {
-  // this.onSave();
-  // tslint:disable-next-line: triple-equals
-  if (this.checklistForm.valid && this.userDefineForm.udfData.valid) {
+  onNext() {
+    // this.onSave();
+    // tslint:disable-next-line: triple-equals
+    if (this.checklistForm.valid && this.userDefineForm.udfData.valid) {
+      // tslint:disable-next-line: triple-equals
+      if (this.roleType == '2') {
+        this.router.navigate([`pages/dashboard`]);
+        // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '4') {
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/pdc-details`]);
+        // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '5') {
+        this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
+      }
+      else if (this.roleType == '7') {
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/remarks`]);
+      }
+    } else {
+      this.toasterService.showError('Select Mandatory Fields', ' ');
+    }
+  }
+
+  onBack() {
     // tslint:disable-next-line: triple-equals
     if (this.roleType == '2') {
-    this.router.navigate([`pages/dashboard`]);
-    // tslint:disable-next-line: triple-equals
-    } else if (this.roleType == '4') {
-      this.router.navigate([`pages/cpc-maker/${this.leadId}/pdc-details`]);
-    // tslint:disable-next-line: triple-equals
-    } else if ( this.roleType == '5') {
-    this.router.navigate([`pages/cpc-checker/${this.leadId}/disbursement`]);
-    }
-    else if ( this.roleType == '7') {
-      this.router.navigate([`pages/cpc-maker/${this.leadId}/remarks`]);
-      }
-  } else {
-    this.toasterService.showError('Select Mandatory Fields', ' ');
-  }
-}
-
-onBack() {
-  // tslint:disable-next-line: triple-equals
-  if (this.roleType == '2' ) {
-    this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
-    // tslint:disable-next-line: triple-equals
+      this.router.navigate([`pages/credit-decisions/${this.leadId}/sanction-details`]);
+      // tslint:disable-next-line: triple-equals
     } else if (this.roleType == '4') {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
-    // tslint:disable-next-line: triple-equals
-    } else if ( this.roleType == '5') {
-    this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
-    } else if ( this.roleType == '7') {
+      // tslint:disable-next-line: triple-equals
+    } else if (this.roleType == '5') {
+      this.router.navigate([`pages/cpc-checker/${this.leadId}/negotiation`]);
+    } else if (this.roleType == '7') {
       this.router.navigate([`pages/cpc-maker/${this.leadId}/disbursement`]);
-      }
-
-}
-
-// tslint:disable-next-line: adjacent-overload-signatures
-sendBackToMaker() {
-  const body = {
-    leadId: this.leadId,
-    userId: localStorage.getItem('userId'),
-    isCPCMaker: true,
-    isCPCChecker: false,
-    sendBackToCredit: false,
-    taskId: this.taskId,
-  };
-  this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
-    // tslint:disable-next-line: triple-equals
-    if (res.ProcessVariables.error.code == '0') {
-      this.toasterService.showSuccess('Submitted Sucessfully', '');
-      this.router.navigate([`pages/dashboard`]);
-    } else {
-      this.toasterService.showError(res.Processvariables.error.message, '');
     }
-  });
-}
 
-onSaveuserDefinedFields(value) {
-  this.userDefineForm = value;
-  console.log('identify', value)
-  if(value.event === 'init'){
-    this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
   }
-}
+
+  // tslint:disable-next-line: adjacent-overload-signatures
+  sendBackToMaker() {
+    const body = {
+      leadId: this.leadId,
+      userId: localStorage.getItem('userId'),
+      isCPCMaker: true,
+      isCPCChecker: false,
+      sendBackToCredit: false,
+      taskId: this.taskId,
+    };
+    this.cpcService.getCPCRolesDetails(body).subscribe((res: any) => {
+      // tslint:disable-next-line: triple-equals
+      if (res.ProcessVariables.error.code == '0') {
+        this.toasterService.showSuccess('Submitted Sucessfully', '');
+        this.router.navigate([`pages/dashboard`]);
+      } else {
+        this.toasterService.showError(res.Processvariables.error.message, '');
+      }
+    });
+  }
+
+  onSaveuserDefinedFields(value) {
+    this.userDefineForm = value;
+    console.log('identify', value)
+    if (value.event === 'init') {
+      this.initUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
+    }
+  }
 
 }

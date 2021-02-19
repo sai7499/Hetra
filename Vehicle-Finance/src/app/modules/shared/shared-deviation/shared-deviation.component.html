@@ -23,6 +23,7 @@
               <td>{{labels?.deviation}}</td>
               <td>{{labels?.referenceRemarks}}</td>
               <td>{{labels?.approvalLevel}}</td>
+              <td>{{labels?.approvedBy}}</td>
               <td>{{labels?.action}}</td>
             </tr>
           </thead>
@@ -38,6 +39,11 @@
               </td>
               <td class="wid-10">
                 <p>{{waiver.controls['approverRoleName'].value}}</p>
+              </td>
+              <td class="wid-10">
+                <p *ngIf="waiver.controls['deviationApproverId'].value">{{waiver.controls['deviationApproverId'].value + '/' + waiver.controls['deviationApproverName'].value
+                  + '/' + waiver.controls['deviationApproverRole'].value
+                  }}</p>
               </td>
               <td rowspan="6" style="width: 10%;">
                 <div class="row m-0 radio-inline"
@@ -85,12 +91,12 @@
               </td>
             </tr>
             <tr>
-              <td [attr.colspan]="3">
+              <td [attr.colspan]="4">
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
                   <div class="col-sm-10 col-md-10 col-lg-10">
-                    <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
-                      style="resize: none;"></textarea>
+                    <textarea class="form-control" [maxlength]="labels?.validationData.remarks.maxLength"
+                      formControlName="justification" [readonly]="isSubmitToCredit" style="resize: none;"></textarea>
                   </div>
                 </div>
               </td>
@@ -124,6 +130,7 @@
               <td>{{labels?.deviation}}</td>
               <td>{{labels?.referenceRemarks}}</td>
               <td>{{labels?.approvalLevel}}</td>
+              <td>{{labels?.approvedBy}}</td>
               <td>{{labels?.action}}</td>
             </tr>
           </thead>
@@ -138,6 +145,11 @@
               </td>
               <td class="wid-10">
                 <p>{{obj.controls['approverRoleName'].value}}</p>
+              </td>
+              <td class="wid-10">
+                <p *ngIf="obj.controls['deviationApproverId'].value">{{obj.controls['deviationApproverId'].value + '/' + obj.controls['deviationApproverName'].value
+                  + '/' + obj.controls['deviationApproverRole'].value
+                  }}</p>
               </td>
               <td rowspan="6" style="width: 10%;">
                 <div class="row m-0 radio-inline"
@@ -173,12 +185,12 @@
               </td>
             </tr>
             <tr>
-              <td [attr.colspan]="3">
+              <td [attr.colspan]="4">
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
                   <div class="col-sm-10 col-md-10 col-lg-10">
-                    <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
-                      style="resize: none;"></textarea>
+                    <textarea class="form-control" [maxlength]="labels?.validationData.remarks.maxLength"
+                      formControlName="justification" [readonly]="isSubmitToCredit" style="resize: none;"></textarea>
                   </div>
                 </div>
               </td>
@@ -208,6 +220,8 @@
               <td>{{labels?.deviation}}</td>
               <td>{{labels?.referenceRemarks}}</td>
               <td>{{labels?.approvalLevel}}</td>
+              <td>{{labels?.approvedBy}}</td>
+
               <td>{{labels?.action}}</td>
               <td *ngIf="!isSubmitToCredit"> {{labels?.more}}</td>
             </tr>
@@ -240,6 +254,11 @@
                 <div class="invalid-feedback" *ngIf="findDuplicate(item, j) && j > 0">
                   Duplicate Role
                 </div>
+              </td>
+              <td class="wid-10">
+                <p *ngIf="item.controls['deviationApproverId'].value">{{item.controls['deviationApproverId'].value + '/' + item.controls['deviationApproverName'].value
+                  + '/' + item.controls['deviationApproverRole'].value
+                  }}</p>
               </td>
               <td rowspan="6">
                 <div class="row m-0 radio-inline"
@@ -288,13 +307,13 @@
               </td>
             </tr>
             <tr>
-              <td [attr.colspan]="3">
+              <td [attr.colspan]="4">
 
                 <div class="row">
                   <div class="col-sm-2 col-md-2 col-lg-2">{{labels?.justification}}</div>
                   <div class="col-sm-10 col-md-10 col-lg-10">
-                    <textarea class="form-control" formControlName="justification" [readonly]="isSubmitToCredit"
-                      style="resize: none;"></textarea>
+                    <textarea class="form-control" [maxlength]="labels?.validationData.remarks.maxLength"
+                      formControlName="justification" [readonly]="isSubmitToCredit" style="resize: none;"></textarea>
                   </div>
                 </div>
               </td>
@@ -414,36 +433,42 @@
 
 <!-- Delete Modal Ends -->
 
-<div class="modal" data-dismiss="modal" id="referRecommedation" [ngClass]="{ 'dis-block': isShowReferModal }">
+<!-- *ngIf="isShowReferModal" 
+
+[ngClass]="{ 'dis-block': isShowReferModal }"-->
+
+<div class="modal" id="referRecommedation">
   <div class="modal-dialog">
     <form class="multisteps-form__form p-0" [formGroup]="modalForm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">
-          {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' :
-          labels?.commend}}
-        </h4>
-      </div>
-      <div class="modal-body">
-        <textarea class="form-control" rows="10" cols="5" formControlName="recommendation"
-        placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' : 'Comments'}}"></textarea>
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">
+            {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' :
+            labels?.commend}}
+          </h4>
+        </div>
+        <div class="modal-body">
+          <textarea class="form-control" rows="10" cols="5" [maxlength]="labels?.validationData.remarks.maxLength"
+            formControlName="recommendation"
+            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' : 'Comments'}}"></textarea>
 
-      <div class="invalid-feedback"
-        *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
-        <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
-          {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks ' : 'Comments
-          '}}
-          Required
+          <div class="invalid-feedback"
+            *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
+            <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
+              {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks ' : 'Comments
+              '}}
+              Required
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="closeModal"
+            (click)="ReferDeviation()">{{labels?.ok}}</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
+
         </div>
       </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="closeModal"   (click)="ReferDeviation()">{{labels?.ok}}</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
-
-       </div> 
-    </div>
     </form>
   </div>
 </div>

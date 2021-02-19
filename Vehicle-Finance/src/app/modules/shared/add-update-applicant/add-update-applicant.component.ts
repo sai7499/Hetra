@@ -266,6 +266,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   negativeDedupeUdfScreenId: string  = '';
   negativeDedupeUGroupId: string = 'APG004';
+  businessMand: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -1286,22 +1287,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       };
 
       if (processVariables.ucic) {
-        this.isPermanantAddressSame = true;
-        this.isDisabledCheckbox = true;
-        this.isRegAddressSame = true;
-        this.addDisabledCheckBox = true;
-
-        //if(processVariables.addressDetails){
-        this.disablePermanentAddress();
-        this.disableCurrentAddress();
-
-        this.disableRegisteredAddress();
-        this.disableCommunicationAddress();
-        //}
-        this.showModifyCurrCheckBox = true;
+        
         const applicantDetails = processVariables.applicantDetails;
-        const indivIdentityInfoDetails = processVariables.indivIdentityInfoDetails;
-        const corporateProspectDetails = processVariables.corporateProspectDetails;
 
         if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
           this.lastName = processVariables.applicantDetails.name3
@@ -1330,21 +1317,21 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.showEkycbutton = true;
         }
       }
-      if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
-        const datas = {
-          ...processVariables.applicantDetails,
-          ...processVariables.aboutIndivProspectDetails,
-          ...processVariables.indivIdentityInfoDetails
-        }
-        this.individualDatas.push(datas)
+      // if (processVariables.applicantDetails.entityTypeKey == "INDIVENTTYP") {
+      //   const datas = {
+      //     ...processVariables.applicantDetails,
+      //     ...processVariables.aboutIndivProspectDetails,
+      //     ...processVariables.indivIdentityInfoDetails
+      //   }
+      //   this.individualDatas.push(datas)
 
-      } else {
-        const datas = {
-          ...processVariables.applicantDetails,
-          ...processVariables.corporateProspectDetails
-        }
-        this.nonIndividualDatas.push(datas)
-      }
+      // } else {
+      //   const datas = {
+      //     ...processVariables.applicantDetails,
+      //     ...processVariables.corporateProspectDetails
+      //   }
+      //   this.nonIndividualDatas.push(datas)
+      // }
 
 
       this.applicantDataService.setApplicant(applicant);
@@ -1436,8 +1423,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     if (applicantDetails.entityTypeKey == "INDIVENTTYP") {
       dedupe.get('custSegment').enable();
-    } else {
-      dedupe.get('bussinessEntityType').enable();
     }
     dedupe.get('loanApplicationRelation').enable();
     dedupe.get('monthlyIncomeAmount').enable();
@@ -1979,9 +1964,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
     }
     if (this.checkedModifyCurrent) {
-      this.isDisabledCheckbox = false;
-      this.isPermanantAddressSame = false;
-      this.coApplicantForm.get('currentAddress').enable();
+      if(!this.isDisabledCheckbox && this.isPermanantAddressSame){
+        this.disablePermanentAddress();
+        this.disableCurrentAddress();
+        this.isDisabledCheckbox = false
+      }else if(!this.isDisabledCheckbox && !this.isPermanantAddressSame){
+        this.disablePermanentAddress();
+        this.coApplicantForm.get('currentAddress').enable();
+      }  
+      this.showModifyCurrCheckBox = true;
+      return;
+    }
+
+    if(this.applicant.ucic){
+      this.disablePermanentAddress();
+        this.disableCurrentAddress();
+      this.isPermanantAddressSame = true;
+      this.addDisabledCheckBox = true;
+        this.isDisabledCheckbox = true;
+        this.showModifyCurrCheckBox = true;
     }
   }
 
@@ -1990,8 +1991,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const details = this.getDetails()
     dedupe.get('aadhar').clearValidators();
     dedupe.get('aadhar').updateValueAndValidity();
-    dedupe.get('bussinessEntityType').setValidators([Validators.required]);
-    dedupe.get('bussinessEntityType').updateValueAndValidity();
+    if(!this.applicant.ucic){
+      this.businessMand = true;
+      dedupe.get('bussinessEntityType').setValidators([Validators.required]);
+      dedupe.get('bussinessEntityType').updateValueAndValidity();
+    }
+    
 
     this.addNonIndFormControls();
     this.removeIndFormControls();
@@ -2089,6 +2094,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           pobox: communicationAddressObj.pobox
         })
       }
+    }
+    if(this.applicant.ucic){
+        this.isRegAddressSame = true;
+        
+        this.isDisabledCheckbox = true
+        this.disableRegisteredAddress();
+        this.disableCommunicationAddress();
     }
   }
 
@@ -2776,31 +2788,30 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       mobileNumber = mobileNumber.slice(2, 12);
     }
     this.gender = dedupe.gender
-    this.aboutIndivProspectDetails = {
-      dob: dedupe.dob,
-      mobilePhone: mobileNumber,
-      gender: this.gender
-    };
+    
+    this.aboutIndivProspectDetails = this.applicant.aboutIndivProspectDetails
 
-    this.indivIdentityInfoDetails = {
-      panType: dedupe.panType,
-      pan: String(dedupe.pan || '').toUpperCase(),
-      aadhar: this.referenceAdharNo,
-      passportNumber: String(dedupe.passportNumber || '').toUpperCase(),
-      passportIssueDate: this.formatGivenDate(dedupe.passportIssueDate),
-      passportExpiryDate: this.formatGivenDate(dedupe.passportExpiryDate),
-      drivingLicenseNumber: String(
-        dedupe.drivingLicenseNumber || ''
-      ).toUpperCase(),
-      drivingLicenseIssueDate: this.formatGivenDate(
-        dedupe.drivingLicenseIssueDate
-      ),
-      drivingLicenseExpiryDate: this.formatGivenDate(
-        dedupe.drivingLicenseExpiryDate
-      ),
-      voterIdNumber: String(dedupe.voterIdNumber || '').toUpperCase(),
-    };
+    this.aboutIndivProspectDetails.dob =dedupe.dob;
+    this.aboutIndivProspectDetails.mobilePhone =mobileNumber;
+    this.aboutIndivProspectDetails.gender =this.gender;
 
+    // this.aboutIndivProspectDetails = {
+    //   dob: dedupe.dob,
+    //   mobilePhone: mobileNumber,
+    //   gender: this.gender
+    // };
+    this.indivIdentityInfoDetails = this.applicant.indivIdentityInfoDetails;
+    this.indivIdentityInfoDetails.panType = dedupe.panType,
+    this.indivIdentityInfoDetails.pan= String(dedupe.pan || '').toUpperCase(),
+    this.indivIdentityInfoDetails.aadhar= this.referenceAdharNo,
+    this.indivIdentityInfoDetails.passportNumber= String(dedupe.passportNumber || '').toUpperCase(),
+    this.indivIdentityInfoDetails.passportIssueDate= this.formatGivenDate(dedupe.passportIssueDate),
+    this.indivIdentityInfoDetails.drivingLicenseNumber= String(dedupe.drivingLicenseNumber || '').toUpperCase(),
+    this.indivIdentityInfoDetails. drivingLicenseIssueDate= this.formatGivenDate(dedupe.drivingLicenseIssueDate),
+    this.indivIdentityInfoDetails.drivingLicenseExpiryDate= this.formatGivenDate(dedupe.drivingLicenseExpiryDate),
+    this.indivIdentityInfoDetails.voterIdNumber= String(dedupe.voterIdNumber || '').toUpperCase(),
+
+    
     this.addressDetails = [];
     this.isCurrAddSameAsPermAdd = this.isPermanantAddressSame ? '1' : '0'
     const permanentAddress = coApplicantModel.permentAddress;
@@ -2821,6 +2832,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         isCurrAddSameAsPermAdd: this.isCurrAddSameAsPermAdd,
       });
     }
+
+
+    const apiaddressArray = this.applicant.addressDetails
+    if(apiaddressArray){
+      let filterdApiAddress = apiaddressArray.filter((data)=>{
+        return data.addressType !== 'PERMADDADDTYP' && data.addressType !== 'CURRADDADDTYP'
+      })
+  
+      this.addressDetails = this.addressDetails.concat(filterdApiAddress)
+    }
+   
+    
+
   }
 
   storeNonIndividualValueInService(coApplicantModel) {
@@ -2835,23 +2859,36 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     else {
       this.referenceAdharNo = dedupe.aadhar
     }
+    this.applicantDetails = this.applicant.applicantDetails;
+    this.applicantDetails.title= dedupe.title,
+    this.applicantDetails.title= dedupe.bussinessEntityType,
+    // this.applicantDetails = {
+    //   title: dedupe.title,
+    //   bussinessEntityType: dedupe.bussinessEntityType,
+    // };
+    this.corporateProspectDetails = this.applicant.corporateProspectDetails;
+    this.corporateProspectDetails.aadhar = this.referenceAdharNo;
+    this.corporateProspectDetails.gstNumber= dedupe.gstNumber,
+    this.corporateProspectDetails.tanNumber= dedupe.tanNumber,
+    this.corporateProspectDetails.cstVatNumber= dedupe.cstVatNumber,
+    this.corporateProspectDetails.dateOfIncorporation= this.formatGivenDate(dedupe.dateOfIncorporation),
+    this.corporateProspectDetails.panNumber= String(dedupe.pan || '').toUpperCase(),
+    this.corporateProspectDetails.panType= dedupe.panType,
+    this.corporateProspectDetails.corporateIdentificationNumber= dedupe.corporateIdentificationNumber,
+    this.corporateProspectDetails.contactPerson= dedupe.contactPerson
 
-    this.applicantDetails = {
-      title: dedupe.title,
-      bussinessEntityType: dedupe.bussinessEntityType,
-    };
-    this.corporateProspectDetails = {
-      aadhar: this.referenceAdharNo,
-      gstNumber: dedupe.gstNumber,
-      tanNumber: dedupe.tanNumber,
-      cstVatNumber: dedupe.cstVatNumber,
-      companyPhoneNumber: dedupe.companyPhoneNumber,
-      dateOfIncorporation: this.formatGivenDate(dedupe.dateOfIncorporation),
-      panNumber: String(dedupe.pan || '').toUpperCase(),
-      panType: dedupe.panType,
-      corporateIdentificationNumber: dedupe.corporateIdentificationNumber,
-      contactPerson: dedupe.contactPerson,
-    };
+    // this.corporateProspectDetails = {
+    //   aadhar: this.referenceAdharNo,
+    //   gstNumber: dedupe.gstNumber,
+    //   tanNumber: dedupe.tanNumber,
+    //   cstVatNumber: dedupe.cstVatNumber,
+    //   companyPhoneNumber: dedupe.companyPhoneNumber,
+    //   dateOfIncorporation: this.formatGivenDate(dedupe.dateOfIncorporation),
+    //   panNumber: String(dedupe.pan || '').toUpperCase(),
+    //   panType: dedupe.panType,
+    //   corporateIdentificationNumber: dedupe.corporateIdentificationNumber,
+    //   contactPerson: dedupe.contactPerson,
+    // };
 
     const registerAddress = coApplicantModel.registeredAddress;
     if (registerAddress) {
@@ -2873,6 +2910,16 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         pobox: communicationAddress.pobox
       });
     }
+
+    const apiaddressArray = this.applicant.addressDetails
+   if(apiaddressArray) {
+    let filterdApiAddress = apiaddressArray.filter((data)=>{
+      return data.addressType !== 'REGADDADDTYP' && data.addressType !== 'COMMADDADDTYP'
+    })
+
+    this.addressDetails = this.addressDetails.concat(filterdApiAddress)
+   }
+   
   }
   onFormSubmit() {
     console.log('Form', this.coApplicantForm);
@@ -3000,34 +3047,61 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
 
     this.leadStoreService.setCoApplicantDetails(coApplicantModel);
-    this.applicantDetails = {
-      entityType: coApplicantModel.dedupe.entityType,
-      name1: coApplicantModel.dedupe.name1,
-      name2: coApplicantModel.dedupe.name2,
-      name3: coApplicantModel.dedupe.name3,
-      loanApplicationRelation: coApplicantModel.dedupe.loanApplicationRelation,
-      bussinessEntityType: coApplicantModel.dedupe.bussinessEntityType,
-      custSegment: coApplicantModel.dedupe.custSegment,
-      monthlyIncomeAmount: coApplicantModel.dedupe.monthlyIncomeAmount,
-      annualIncomeAmount: coApplicantModel.dedupe.annualIncomeAmount,
-      ownHouseProofAvail: this.isChecked == true ? '1' : '0',
-      houseOwnerProperty: coApplicantModel.dedupe.houseOwnerProperty,
-      ownHouseAppRelationship: coApplicantModel.dedupe.ownHouseAppRelationship,
-      averageBankBalance: coApplicantModel.dedupe.averageBankBalance,
-      rtrType: coApplicantModel.dedupe.rtrType,
-      prevLoanAmount: coApplicantModel.dedupe.prevLoanAmount,
-      loanTenorServiced: Number(coApplicantModel.dedupe.loanTenorServiced),
-      currentEMILoan: coApplicantModel.dedupe.currentEMILoan,
-      agriNoOfAcres: Number(coApplicantModel.dedupe.agriNoOfAcres),
-      agriOwnerProperty: coApplicantModel.dedupe.agriOwnerProperty,
-      agriAppRelationship: coApplicantModel.dedupe.agriAppRelationship,
-      grossReceipt: coApplicantModel.dedupe.grossReceipt,
-      isAddrSameAsApplicant: this.checkedAddressLead,
-      modifyCurrentAddress: this.checkedModifyCurrent == true ? '1' : '0',
-      srNumber: coApplicantModel.srNumber
+    this.applicantDetails = this.applicant.applicantDetails;
+    this.applicantDetails.entityType = coApplicantModel.dedupe.entityType;
+    this.applicantDetails.name1= coApplicantModel.dedupe.name1,
+    this.applicantDetails.name2= coApplicantModel.dedupe.name2,
+    this.applicantDetails.name3= coApplicantModel.dedupe.name3,
+    this.applicantDetails.loanApplicationRelation= coApplicantModel.dedupe.loanApplicationRelation,
+    this.applicantDetails.bussinessEntityType= coApplicantModel.dedupe.bussinessEntityType,
+    this.applicantDetails.custSegment= coApplicantModel.dedupe.custSegment,
+    this.applicantDetails.monthlyIncomeAmount= coApplicantModel.dedupe.monthlyIncomeAmount,
+    this.applicantDetails.annualIncomeAmount= coApplicantModel.dedupe.annualIncomeAmount,
+    this.applicantDetails.ownHouseProofAvail= this.isChecked == true ? '1' : '0',
+    this.applicantDetails.houseOwnerProperty= coApplicantModel.dedupe.houseOwnerProperty,
+    this.applicantDetails.ownHouseAppRelationship= coApplicantModel.dedupe.ownHouseAppRelationship,
+    this.applicantDetails.averageBankBalance= coApplicantModel.dedupe.averageBankBalance,
+    this.applicantDetails.rtrType= coApplicantModel.dedupe.rtrType,
+    this.applicantDetails.prevLoanAmount= coApplicantModel.dedupe.prevLoanAmount,
+    this.applicantDetails.loanTenorServiced= Number(coApplicantModel.dedupe.loanTenorServiced),
+    this.applicantDetails.currentEMILoan= coApplicantModel.dedupe.currentEMILoan,
+    this.applicantDetails.agriNoOfAcres= Number(coApplicantModel.dedupe.agriNoOfAcres),
+    this.applicantDetails.agriOwnerProperty= coApplicantModel.dedupe.agriOwnerProperty,
+    this.applicantDetails.agriAppRelationship= coApplicantModel.dedupe.agriAppRelationship,
+    this.applicantDetails.grossReceipt= coApplicantModel.dedupe.grossReceipt,
+    this.applicantDetails.isAddrSameAsApplicant= this.checkedAddressLead,
+    this.applicantDetails.modifyCurrentAddress= this.checkedModifyCurrent == true ? '1' : '0',
+    this.applicantDetails.srNumber= coApplicantModel.srNumber
 
-      //customerCategory: 'SALCUSTCAT',
-    };
+
+    // this.applicantDetails = {
+    //   entityType: coApplicantModel.dedupe.entityType,
+    //   name1: coApplicantModel.dedupe.name1,
+    //   name2: coApplicantModel.dedupe.name2,
+    //   name3: coApplicantModel.dedupe.name3,
+    //   loanApplicationRelation: coApplicantModel.dedupe.loanApplicationRelation,
+    //   bussinessEntityType: coApplicantModel.dedupe.bussinessEntityType,
+    //   custSegment: coApplicantModel.dedupe.custSegment,
+    //   monthlyIncomeAmount: coApplicantModel.dedupe.monthlyIncomeAmount,
+    //   annualIncomeAmount: coApplicantModel.dedupe.annualIncomeAmount,
+    //   ownHouseProofAvail: this.isChecked == true ? '1' : '0',
+    //   houseOwnerProperty: coApplicantModel.dedupe.houseOwnerProperty,
+    //   ownHouseAppRelationship: coApplicantModel.dedupe.ownHouseAppRelationship,
+    //   averageBankBalance: coApplicantModel.dedupe.averageBankBalance,
+    //   rtrType: coApplicantModel.dedupe.rtrType,
+    //   prevLoanAmount: coApplicantModel.dedupe.prevLoanAmount,
+    //   loanTenorServiced: Number(coApplicantModel.dedupe.loanTenorServiced),
+    //   currentEMILoan: coApplicantModel.dedupe.currentEMILoan,
+    //   agriNoOfAcres: Number(coApplicantModel.dedupe.agriNoOfAcres),
+    //   agriOwnerProperty: coApplicantModel.dedupe.agriOwnerProperty,
+    //   agriAppRelationship: coApplicantModel.dedupe.agriAppRelationship,
+    //   grossReceipt: coApplicantModel.dedupe.grossReceipt,
+    //   isAddrSameAsApplicant: this.checkedAddressLead,
+    //   modifyCurrentAddress: this.checkedModifyCurrent == true ? '1' : '0',
+    //   srNumber: coApplicantModel.srNumber
+
+    //   //customerCategory: 'SALCUSTCAT',
+    // };
     const DOB = this.utilityService.getDateFormat(coApplicantModel.dedupe.dob);
 
 

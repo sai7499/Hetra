@@ -635,7 +635,7 @@ export class PdcDetailsComponent implements OnInit {
       if (res.ProcessVariables.error.code == '0') {
         this.toasterService.showSuccess('Lead submitted For Loan Creation', '');
       } else {
-        this.toasterService.showSuccess(res.ProcessVariables.error.message, '');
+        this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
     });
   }

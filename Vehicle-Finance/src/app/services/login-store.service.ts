@@ -46,7 +46,8 @@ export class LoginStoreService {
             roleType: roles[0].roleType,
             userName: userDetails.firstName,
             businessDivision: businessDivisionList,
-            loginId: userDetails['loginId']
+            loginId: userDetails['loginId'],
+            fullData
         });
         this.userRoleActivityList = userRoleActivityList;
         this.userDetails = userDetails;
@@ -81,7 +82,7 @@ export class LoginStoreService {
         return this.emailId;
     }
 
-    public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({ branchId: '', roleId: '', roleType: '', userName: '' });
+    public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({});
     isCreditDashboard = this.creditDashboard.asObservable();
     creditDashboardMethod(value: object) {
         this.creditDashboard.next(value);

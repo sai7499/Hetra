@@ -215,13 +215,13 @@ export class UploadModalComponent {
       '.' +
       this.fileType;
     }
-    this.docsDetails.docNm = fileName;
+    // this.docsDetails.docNm = fileName;
     const addDocReq = [
       {
         // ...this.docsDetails,
         docTp: this.docsDetails.docTp,
         docSbCtgry: this.docsDetails.docSbCtgry,
-        docNm: this.docsDetails.docNm,
+        docNm: fileName,
         docCtgryCd: this.docsDetails.docCtgryCd,
         docCatg: this.docsDetails.docCatg,
         docTypCd: this.docsDetails.docTypCd,

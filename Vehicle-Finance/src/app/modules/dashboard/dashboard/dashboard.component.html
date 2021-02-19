@@ -191,7 +191,7 @@
                 (click)="onLeads(displayTabs?.PreDisbursementQueue, displayTabs?.PreDisbursementWithMe)"
                 [ngClass]="{'active':displayTabs?.PreDisbursementQueue === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Pre-Disbursement</a></li>
-            <li class="btn-dash" (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"
+            <li class="btn-dash" (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe, 'termSheet')"
                 [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Term Sheet</a></li>
             <li class="btn-dash"
@@ -325,7 +325,7 @@
                 [ngClass]="{'active':displayTabs?.Decision === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Credit
                     Decision</a></li>
-            <li class="btn-dash" (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe)"
+            <li class="btn-dash" (click)="onLeads(displayTabs?.TermSheet, displayTabs?.TermSheetWithMe, 'termSheet')"
                 [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Term
                     Sheet</a></li>
@@ -604,34 +604,34 @@
                         <th>{{labels?.product}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByProduct === sortTab}"
                                 (click)="onSort(sortTables?.ByProduct)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">
+                        <th *ngIf="!isExtUser">
                             {{labels?.loanAmount}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByLoanAmt === sortTab}"
                                 (click)="onSort(sortTables?.ByLoanAmt)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">
+                        <th *ngIf="!isExtUser">
                             {{labels?.applicant+'s'}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByApplicants === sortTab}"
                                 (click)="onSort(sortTables?.ByApplicants)"> </i> </th>
                         <th>{{labels?.createdOn}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByDate === sortTab}"
                                 (click)="onSort(sortTables?.ByDate)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">
+                        <th *ngIf="!isExtUser">
                             {{labels?.createdBy}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByCreated === sortTab}"
                                 (click)="onSort(sortTables?.ByCreated)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">
+                        <th *ngIf="!isExtUser">
                             {{labels?.priority}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByPriority === sortTab}"
                                 (click)="onSort(sortTables?.ByPriority)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.promoCode}}
+                        <th *ngIf="!isExtUser">{{labels?.promoCode}}
                         </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.status}} <i
+                        <th *ngIf="!isExtUser">{{labels?.status}} <i
                                 style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"
                                 (click)="onSort(sortTables?.ByStage)"> </i> </th>
-                        <th *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">{{labels?.history}}
+                        <th *ngIf="!isExtUser">{{labels?.history}}
                         </th>
-                        <th *ngIf="roleId == 86 || roleId == 65 || roleId == 83 || roleId == 66">{{labels?.branchName}}
+                        <th *ngIf="isExtUser">{{labels?.branchName}}
                         </th>
                     </tr>
                 </thead>
@@ -733,30 +733,30 @@
                         </td>
                         <td class="text-left" [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}
                         </td>
-                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="txt-rgt"
+                        <td *ngIf="!isExtUser" class="txt-rgt"
                             [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
-                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66"
+                        <td *ngIf="!isExtUser"
                             [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
                         <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
-                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-left"
+                        <td *ngIf="!isExtUser" class="text-left"
                             [attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
-                        <ng-container *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66">
+                        <ng-container *ngIf="!isExtUser">
                             <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
                             <td [attr.data-label]="labels?.priority"
                                 *ngIf="item.priority == '0' || item.priority == null">
                                 No</td>
                         </ng-container>
-                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66"
+                        <td *ngIf="!isExtUser"
                             [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
-                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66" class="text-left"
+                        <td *ngIf="!isExtUser" class="text-left"
                             [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
-                        <td *ngIf="roleId != 86 && roleId != 65 && roleId != 83 && roleId != 66"
+                        <td *ngIf="!isExtUser"
                             [attr.data-label]="labels?.history">
                             <a data-toggle="modal" data-target="#leadHistoryModal" data-tooltip="Lead History"
                                 data-placement="bottom" (click)="onLeadHistory(item.leadId)"> <i
                                     class="fa fa-history"></i></a>
                         </td>
-                        <td *ngIf="roleId == 86 || roleId == 65 || roleId == 83 || roleId == 66">{{item.branchName ?
+                        <td *ngIf="isExtUser">{{item.branchName ?
                             item.branchName : '--'}}</td>
                     </tr>
                 </tbody>
@@ -897,7 +897,7 @@
                                 {{item.branchName ? item.branchName : '--'}}</td>
                             <td class="txt-rgt"
                                 *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.ChequeTracking === activeTab"
-                                [attr.data-label]="labels?.loanAmount">{{item.loanAmount ? item.loanAmount : '--'}}</td>
+                                [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
                             <td *ngIf="displayTabs?.LoanBooking === activeTab" [attr.data-label]="labels?.applicants">
                                 {{item.applicants ? item.applicants : '--'}}</td>
                             <!-- <td *ngIf="displayTabs?.LoanBooking != activeTab" [attr.data-label]="labels?.applicantName">
@@ -962,8 +962,8 @@
                                 item.productName : '--'}}
                             </td>
                             <!-- <td [attr.data-label]="labels?.productCategory">{{item.productCatCode ? item.productCatCode : '--'}}</td> -->
-                            <td class="txt-rgt" [attr.data-label]="labels?.loanAmount">{{item.loanAmount ?
-                                item.loanAmount : '--'}}</td>
+                            <td class="txt-rgt" [attr.data-label]="labels?.loanAmount">{{item.loanAmt ?
+                                item.loanAmt : '--'}}</td>
                             <td class="text-left" [attr.data-label]="labels?.applicant">{{item.applicantName ?
                                 item.applicantName : '--'}}
                             </td>

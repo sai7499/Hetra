@@ -123,7 +123,11 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => {
+        this.labels = data;
+        this.labelsData.setLablesData(data);
+        }
+        ,
       (error) => console.log(error)
     );
   }
@@ -204,6 +208,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.toggleDdeService.setIsDDEClicked();
     this.isEnableDdeButton = false;
     this.isNeedBackButton = true;
+    localStorage.setItem('isNeedBackButton', 'true');
     this.router.navigate(['/pages/dde/' + this.leadId])
     this.toggleDdeService.setCurrentPath(this.location.path())
     this.setDdeBackButton()
@@ -213,11 +218,13 @@ export class LeadSectionHeaderComponent implements OnInit {
     const value = localStorage.getItem('ddePath');
     if (!value) {
       this.isNeedBackButton = false;
+      localStorage.setItem('isNeedBackButton', 'false');
       return;
     }
     const ddeButton = JSON.parse(value);
     if (this.toggleDdeService.getDdeClickedValue()) {
       this.isNeedBackButton = true;
+      localStorage.setItem('isNeedBackButton', 'true');
     }
 
     this.ddeBackLabel = ddeButton.labelName;
@@ -230,6 +237,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.router.navigateByUrl(ddeButton.currentUrl);
     localStorage.removeItem('isDdeClicked');
     this.isNeedBackButton = false
+    localStorage.setItem('isNeedBackButton', 'false');
+
   }
 
   getInitiateQueryCount(lead) {
