@@ -51,7 +51,7 @@ export const environment = {
   mobileBaseUrl: "https://hetrauat.equitasbank.com",
   isMobile: false,
   isMaas360Enabled: false,
-  lmsSITDate:'2021-11-30'
+  lmsSITDate:'2021-12-31'
 };
 
 /*
