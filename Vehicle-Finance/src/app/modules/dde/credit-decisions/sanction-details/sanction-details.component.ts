@@ -95,7 +95,7 @@ export class SanctionDetailsComponent implements OnInit {
 
     const leadSectionData = this.createLeadDataService.getLeadSectionData();
 
-    if (localStorage.getItem('is_pred_done') === 'true' && leadSectionData['issCCApproved'] === 1) {
+    if (localStorage.getItem('salesResponse') === 'true' && leadSectionData['issCCApproved'] === 1) {
       this.isShowDownloadDoc = true;
     }
   }

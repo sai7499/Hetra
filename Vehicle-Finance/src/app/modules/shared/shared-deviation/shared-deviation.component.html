@@ -374,13 +374,21 @@
 
           <div class="form-group col-sm-8 col-md-8">
             <app-vf-custom-select [values]="deviationLov?.approverRole" [id]="'approval_level'"
-              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value || isLoan360">
+              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value || isLoan360"
+              (change)="isCheckReferButton(deviationsForm)">
             </app-vf-custom-select>
           </div>
         </div>
-        <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal"
-          data-target="#referRecommedation" [disabled]="!deviationsForm.controls['approverRole'].value"
-          (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
+        <ng-container *ngIf="!isAllowReferBut">
+          <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal"
+            data-target="#referRecommedation" [disabled]="!deviationsForm.controls['approverRole'].value"
+            (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
+        </ng-container>
+
+        <ng-container *ngIf="isAllowReferBut">
+          <button *ngIf="!isLoan360" class="btn btn-primary" type="button" [disabled]="true"
+            (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>
+        </ng-container>
       </div>
       <div class="col-sm-3 row text-right" *ngIf="!isLoan360">
 

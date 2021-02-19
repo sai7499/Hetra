@@ -1063,7 +1063,7 @@
                     <sub class="star_blue_col">*</sub>
                   </label>
                   <textarea class="form-control mandatory" name="valuatorRemarks" id="valuatorRemarks" cols="1" rows="3"
-                    placeholder="valuator remarks" formControlName="valuatorRemarks" maxlength="1500"
+                    placeholder="valuator remarks" formControlName="valuatorRemarks" [maxlength]="labels?.validationData.remarks.maxLength"
                     style="resize: none"></textarea>
                   <div class="invalid-feedback">
                     <div *ngIf="
@@ -1072,11 +1072,11 @@
                         !vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').valid
                       ">
 
-                      <div *ngIf="
+                      <!-- <div *ngIf="
                       vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').hasError('pattern')
                         ">
                         Special characters are not allowed
-                      </div>
+                      </div> -->
                     </div>
                     <div *ngIf="remarksRequired && vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').invalid">
                       Remarks are required
