@@ -1874,6 +1874,12 @@
     "noOfEmiPaid" : "No of EMI Paid",
     "fundingAmount" : "Funding Amount",
     "purchaseCost": "Purchase cost",
+    "regNo" : "Registration No",
+    "engineNum" : "Engine Number",
+    "chassisNo" : "Chassis Number",
+    "orcStatus" : "ORC Status",
+    "orcStatusChanged" : "ORC Status changed on",
+    "orcRemarks" : "Remarks",
 
     
     "validationData": {

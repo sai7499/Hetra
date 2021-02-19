@@ -72,6 +72,7 @@ export class PddComponent implements OnInit {
     initUDFValues: any;
     editedUDFValues: any;
     productCatCode: string;
+    label: any;
 
     constructor(
         private location: Location,
@@ -140,6 +141,15 @@ export class PddComponent implements OnInit {
             this.udfScreenId = this.isSales ? udfScreenId.sales.pddUpdateSales : udfScreenId.CPCChecker.pddUpdateCPCChecker ;
       
           })
+
+          this.labelsData.getLabelsData()
+            .subscribe(data => {
+        this.label = data;
+      },
+        error => {
+          console.log(error, 'error');
+        });
+
     }
 
     getLeadSectiondata() {
@@ -524,6 +534,7 @@ export class PddComponent implements OnInit {
         } else {
             const numberForm = this.pddForm.get('numberForm').value;
             if (!numberForm.regNumber || !numberForm.engNumber || !numberForm.chasNumber || isUDFInvalid) {
+                this.isDirty = true;
                 return true;
             }
         }
