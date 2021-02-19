@@ -519,9 +519,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             justification: data.justification,
             otherMitigant: data.other_mitigant,
             rulesRemarks: data.rulesRemarks,
-            deviationApproverId: data.deviationApproverId,
-            deviationApproverName: data.deviationApproverName,
-            deviationApproverRole: data.deviationApproverRole,
+            deviationApproverId: data.deviationApproverId ? data.deviationApproverId : '',
+            deviationApproverName: data.deviationApproverName ? data.deviationApproverName : '',
+            deviationApproverRole: data.deviationApproverRole ? data.deviationApproverRole : '',
             isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
@@ -542,9 +542,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               justification: data.justification,
               isWaiverNormsDev: data.isWaiverNormsDev,
-              deviationApproverId: data.deviationApproverId,
-              deviationApproverName: data.deviationApproverName,
-              deviationApproverRole: data.deviationApproverRole,
+              deviationApproverId: data.deviationApproverId ? data.deviationApproverId : '',
+              deviationApproverName: data.deviationApproverName ? data.deviationApproverName : '',
+              deviationApproverRole: data.deviationApproverRole ? data.deviationApproverRole : '',
               isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
@@ -563,9 +563,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               hierarchy: hierarchy,
               justification: data.justification,
-              deviationApproverId: data.deviationApproverId,
-              deviationApproverName: data.deviationApproverName,
-              deviationApproverRole: data.deviationApproverRole,
+              deviationApproverId: data.deviationApproverId ? data.deviationApproverId : '',
+              deviationApproverName: data.deviationApproverName ? data.deviationApproverName : '',
+              deviationApproverRole: data.deviationApproverRole ? data.deviationApproverRole : '',
               isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))

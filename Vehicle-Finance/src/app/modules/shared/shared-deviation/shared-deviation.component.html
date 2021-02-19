@@ -41,7 +41,7 @@
                 <p>{{waiver.controls['approverRoleName'].value}}</p>
               </td>
               <td class="wid-10">
-                <p>{{waiver.controls['deviationApproverId'].value + '/' + waiver.controls['deviationApproverName'].value
+                <p *ngIf="waiver.controls['deviationApproverId'].value">{{waiver.controls['deviationApproverId'].value + '/' + waiver.controls['deviationApproverName'].value
                   + '/' + waiver.controls['deviationApproverRole'].value
                   }}</p>
               </td>
@@ -147,7 +147,7 @@
                 <p>{{obj.controls['approverRoleName'].value}}</p>
               </td>
               <td class="wid-10">
-                <p>{{obj.controls['deviationApproverId'].value + '/' + obj.controls['deviationApproverName'].value
+                <p *ngIf="obj.controls['deviationApproverId'].value">{{obj.controls['deviationApproverId'].value + '/' + obj.controls['deviationApproverName'].value
                   + '/' + obj.controls['deviationApproverRole'].value
                   }}</p>
               </td>
@@ -256,7 +256,7 @@
                 </div>
               </td>
               <td class="wid-10">
-                <p>{{item.controls['deviationApproverId'].value + '/' + item.controls['deviationApproverName'].value
+                <p *ngIf="item.controls['deviationApproverId'].value">{{item.controls['deviationApproverId'].value + '/' + item.controls['deviationApproverName'].value
                   + '/' + item.controls['deviationApproverRole'].value
                   }}</p>
               </td>

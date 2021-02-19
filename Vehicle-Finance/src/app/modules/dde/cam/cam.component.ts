@@ -497,8 +497,10 @@ export class CamComponent implements OnInit {
       })
     }
 
-    this.isViewDde = this.toggleDdeService.getOperationType();
-    console.log(localStorage.getItem('isNeedBackButton'))
+    // this.isViewDde = this.toggleDdeService.getOperationType();
+    this.isViewDde = localStorage.getItem('isNeedBackButton') && localStorage.getItem('isNeedBackButton') === 'true' ? true : false;
+
+    console.log(localStorage.getItem('isNeedBackButton'), 'isNeedBackButton', typeof(localStorage.getItem('isNeedBackButton')))
     // this.isViewDde = this.toggleDdeService.getDdeClickedValue() && !(this.toggleDdeService.getOperationType())
 
     if (this.isViewDde) {
