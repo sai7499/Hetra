@@ -60,7 +60,7 @@
                                 <div class="row col-lg-12 test_class" id="show_1_div_identity"
                                     style="margin-bottom: 8px;"
                                     *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index "
-                                    [formGroupName]="i" (change)="changePdcList(item, i)">
+                                    [formGroupName]="i" >
 
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-emi-wid">
 
@@ -110,7 +110,7 @@
 
                                             <ng-autocomplete class="custom-select-box" [data]="searchBankNameList"
                                                 [searchKeyword]="keyword"
-                                                (selected)="selectBankNameEvent($event, item, 'isPdc')"
+                                                (selected)="selectBankNameEvent($event, item, 'isPdc', i, 'instrBankName', 'pdcList')"
                                                 (inputChanged)='onBankNameSearch($event)'
                                                 (inputCleared)='onBankNameClear($event, item)'
                                                 [itemTemplate]="favBankNameTemplate"
@@ -143,7 +143,7 @@
                                             <ng-autocomplete class="custom-select-box" [data]="searchBranchName"
                                                 [searchKeyword]="keyword"
                                                 
-                                                (selected)="selectIFSCCode($event, item, 'isPdc')"
+                                                (selected)="selectIFSCCode($event, item, 'isPdc', i, 'instrBranchName', 'pdcList')"
                                                 (inputChanged)='onChangeBranch($event, item)'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
@@ -179,6 +179,7 @@
                                             [maxLength]="labels?.validationData?.pdAccountNumber?.maxLength"
                                             [type]="labels?.validationData?.pdAccountNumber?.type"
                                             [isRequired]="'*required'" [isDirty]="isDirty"
+                                            (change)="changeSpdcList(item, i,'instrBranchAccountNumber', 'pdcList')"
                                             [placeholder]="'Instr Acc No'" [id]="'instrBranchAccountNumber'+i+i">
                                         </app-custom-input>
                                     </div>
@@ -188,6 +189,7 @@
                                             [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                             [type]="labels?.validationData?.amountValue?.type"
                                             [isRequired]="'*required'" [isDirty]="isDirty"
+                                            (change)="changeSpdcList(item, i,'instrAmount', 'pdcList')"
                                             [placeholder]="'Instr Amount'" [id]="'instrAmount'+i+i"></app-custom-input>
                                     </div>
 
@@ -248,7 +250,7 @@
                                 <div class="row col-lg-12 test_class" style="margin-bottom: 8px;"
                                     id="show_1_div_identity"
                                     *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index "
-                                    [formGroupName]="i" (change)="changeSpdcList(item, i)">
+                                    [formGroupName]="i" >
 
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-emi-wid">
                                         <app-custom-input formControlName="emiAmount"
@@ -273,7 +275,7 @@
                                             <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
                                                 [format]="'dd/MM/yyyy'" [min]="toDayDate"
                                                 placeholder="Select Month" [activeView]="'decade'"
-                                                (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList')">
+                                                (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList'); ">
                                             </kendo-datepicker>
                                         <!-- </div> -->
 
@@ -294,7 +296,7 @@
 
                                             <ng-autocomplete class="custom-select-box" [data]="searchBankNameList"
                                                 [searchKeyword]="keyword"
-                                                (selected)="selectBankNameEvent($event, item, 'isSpdc')"
+                                                (selected)="selectBankNameEvent($event, item, 'isSpdc',i, 'instrBankName', 'spdcList')"
                                                 (inputChanged)='onBankNameSearch($event)'
                                                 (inputCleared)='onBankNameClear($event, item)'
                                                 [itemTemplate]="favBankNameTemplate"
@@ -328,7 +330,7 @@
                                             <ng-autocomplete class="custom-select-box" [data]="searchBranchName"
                                                 [searchKeyword]="keyword"
                                                 
-                                                (selected)="selectIFSCCode($event, item, 'isSpdc')"
+                                                (selected)="selectIFSCCode($event, item, 'isSpdc', i, 'instrBranchName', 'spdcList')"
                                                 (inputChanged)='onChangeBranch($event, item)'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
@@ -365,6 +367,7 @@
                                             [type]="labels?.validationData?.pdAccountNumber?.type"
                                             [isRequired]="'*required'" [isDirty]="isDirty"
                                             [placeholder]="'Instr Acc No'"
+                                            (change)="changeSpdcList(item, i,'instrBranchAccountNumber', 'spdcList')"
                                             [id]="'instrBranchAccountNumber'+i"></app-custom-input>
                                     </div>
 
@@ -373,6 +376,7 @@
                                             [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                             [type]="labels?.validationData?.amountValue?.type"
                                             [isRequired]="'*required'" [isDirty]="isDirty"
+                                            (change)="changeSpdcList(item, i, 'instrAmount', 'spdcList')"
                                             [placeholder]="'Instr.Amount'" [id]="'instrAmount'+i"></app-custom-input>
                                     </div>
 
