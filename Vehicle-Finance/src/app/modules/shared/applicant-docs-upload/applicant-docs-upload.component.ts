@@ -120,6 +120,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   docError = {};
   isProfileSignUploaded: boolean;
   isLoan360: boolean;
+  docNumberError: boolean = true;
  
   constructor(
     private lovData: LovDataService,
@@ -388,8 +389,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const isChecked = formGroup.get('isDeferred').value;
     if (isChecked) {
       formGroup.get('deferredDate').enable();
+      this.docNumberError = false;
     } else {
       formGroup.get('deferredDate').disable();
+      formGroup.get('deferredDate').setValue(null);
+      this.docNumberError = true;
+
+      
     }
   }
 
@@ -652,7 +658,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           ''
         );
       }
-      if (!documentNumber && !isDeferred) {
+      if (!documentNumber) {
         return this.toasterService.showError(
           'Please enter the document number',
           ''
@@ -1013,7 +1019,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
             this.utilityService.getDateFormat(value.deferredDate) || '';
           if (documentName || deferredDate) {
             const documentNumber = value.documentNumber;
-            if (!documentNumber && subCategoryCode !== 1 && subCategoryCode !== 2 && subCategoryCode !== 3) {
+            const isDeferred = value.isDeferred
+            if (!isDeferred && !documentNumber && subCategoryCode !== 1 && subCategoryCode !== 2 && subCategoryCode !== 3) {
                 isDocNumberError = true;
                 this.docError[`${key}_${index}`] = true;
             } else {
@@ -1129,7 +1136,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
     console.log('documentArr', this.documentArr);
     const docNotAvailable =  this.documentArr.find((doc) => {
-      return !doc.dmsDocumentId;
+      return !doc.dmsDocumentId && doc.isDeferred !== '1';
     });
     console.log('docNotAvailable', docNotAvailable);
     if (docNotAvailable) {

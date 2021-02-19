@@ -107,6 +107,7 @@ export class BasicDetailsComponent implements OnInit {
   relationShipLov: any[];
   isAppNonInd: boolean;
   islastNameReq: boolean = true;
+  isUCICavail: boolean;
 
 
   constructor(
@@ -402,6 +403,7 @@ export class BasicDetailsComponent implements OnInit {
   getApplicantDetails() {
 
     this.applicant = this.applicantDataService.getApplicant();
+    this.isUCICavail = this.applicant.ucic ? true : false;
     console.log('this.applicant', this.applicant)
     this.udfDetails = this.applicant.udfDetails;
     this.setBasicData();
@@ -434,22 +436,46 @@ export class BasicDetailsComponent implements OnInit {
   disableUCICIndividualDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    details.get('name1').disable();
-    details.get('name2').disable();
-    details.get('name3').disable();
-    details.get('dob').disable();
-    details.get('mobilePhone').disable();
-    details.get('gender').disable();
+    this.clearDisControls(details.get('name1'));
+    this.clearDisControls(details.get('name2'));
+    this.clearDisControls(details.get('name3'));
+    this.clearDisControls(details.get('dob'));
+    this.clearDisControls(details.get('mobilePhone'));
+    this.clearDisControls(details.get('gender'));
+    this.clearDisControls(this.basicForm.get('title'));
+    this.clearDisControls(details.get('fatherName'));
+    this.clearDisControls(details.get('spouseName'));
+    this.clearDisControls(details.get('motherMaidenName'));
+    this.clearDisControls(details.get('politicallyExposedPerson'));
+    this.clearDisControls(details.get('preferredLanguage'));
+    this.clearDisControls(details.get('occupation'));
+    this.clearDisControls(details.get('emailId'));
+    this.clearDisControls(details.get('nationality'));
 
   }
   disableUCICNonIndividualDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    details.get('name1').disable();
-    details.get('name2').disable();
-    details.get('name3').disable();
-    details.get('dateOfIncorporation').disable();
-    details.get('companyPhoneNumber').disable();
+    this.clearDisControls(details.get('name1'));
+    this.clearDisControls(details.get('name2'));
+    this.clearDisControls(details.get('name3'));
+    this.clearDisControls(details.get('dateOfIncorporation'));
+    this.clearDisControls(details.get('companyPhoneNumber'));
+    this.clearDisControls(this.basicForm.get('bussinessEntityType'));
+    this.clearDisControls(details.get('companyEmailId'));
+    this.clearDisControls(details.get('contactPerson'));
+    this.clearDisControls(this.basicForm.get('title'));
+    this.clearDisControls(details.get('preferredLanguageCommunication'));
+    this.clearDisControls(details.get('alternateEmailId'));
+    this.clearDisControls(details.get('businessType'));
+    
+  }
+
+  clearDisControls(control){
+    control.disable();
+    control.setValue(control.value || null)
+    control.clearValidators();
+    control.updateValueAndValidity();
   }
   initiallayAgecal(dob) {
     const convertDate = new Date(this.utilityService.getDateFromString(dob));

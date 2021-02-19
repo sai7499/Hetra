@@ -110,7 +110,7 @@
                                 formControlName="tripsPerMonth" /></td> -->
                             <app-custom-input formControlName="tripsPerMonth" [patternCheck]=" "
                                 [maxLength]="label?.validationData?. amountFiveCharc?.maxLength"
-                                [isRequired]="'TripsPerMonth is Required'" [placeholder]="'Enter Trips Per Month'"
+                                [isRequired]="label.noOfTripsPeMonth + ' ' + 'is Required'" [placeholder]="'Enter'+ ' ' + label.noOfTripsPeMonth"
                                 [isDirty]="isDirty" [type]="label?.validationData?. amountFiveCharc?.type"
                                 (keyup)="calculatePassenger()"></app-custom-input>
                     </tr>
@@ -537,8 +537,8 @@
                             <app-custom-input [id]="gross_income_perday" formControlName="businessEarningPerDay"
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Trips Per Month Is Required'" [isDirty]="isDirty" [custom]="daysCheck"
-                                (keyup)="calculateStandOperator()" [placeholder]="'Enter Business Trips Per Month'">
+                                [isRequired]="label.noOfTripsPeMonth + ' ' + 'is Required'" [isDirty]="isDirty" [custom]="daysCheck"
+                                (keyup)="calculateStandOperator()" [placeholder]="'Enter'+ ' ' + label.noOfTripsPeMonth">
                             </app-custom-input>
                         </td>
                     </tr>
@@ -725,8 +725,8 @@
                             <app-custom-input [id]="num_earnings_perday" formControlName="businessEarningPerDay"
                                 [custom]="daysCheck" [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Business Trips Per Month Is Required'" [isDirty]="isDirty"
-                                [placeholder]="'Enter No of Trips Per Month'" (keyup)="calculateCaptive()">
+                                [isRequired]="label.noOfTripsPeMonth + ' ' + 'is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter'+ ' ' + label.noOfTripsPeMonth" (keyup)="calculateCaptive()">
                             </app-custom-input>
                         </td>
                     </tr>

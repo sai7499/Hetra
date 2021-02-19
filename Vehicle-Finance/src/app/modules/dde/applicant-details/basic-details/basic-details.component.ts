@@ -123,6 +123,7 @@ export class BasicDetailsComponent implements OnInit {
   relationShipLov: any[];
   isAppNonInd: boolean;
   islastNameReq: boolean = true;
+  isUCICavail: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -1113,6 +1114,7 @@ export class BasicDetailsComponent implements OnInit {
       })
 
       this.applicant = this.applicantDataService.getApplicant(); // To get Applicant details from api
+      this.isUCICavail = this.applicant.ucic ? true : false;
       this.udfDetails = this.applicant.udfDetails;
       this.setBasicData();
       if (this.applicant.ucic) {
@@ -1153,22 +1155,50 @@ export class BasicDetailsComponent implements OnInit {
   disableUCICIndividualDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    details.get('name1').disable();
-    details.get('name2').disable();
-    details.get('name3').disable();
-    details.get('dob').disable();
-    details.get('mobilePhone').disable();
-    details.get('gender').disable();
 
+    this.clearDisControls(details.get('name1'));
+    this.clearDisControls(details.get('name2'));
+    this.clearDisControls(details.get('name3'));
+    this.clearDisControls(details.get('dob'));
+    this.clearDisControls(details.get('mobilePhone'));
+    this.clearDisControls(details.get('gender'));
+    this.clearDisControls(this.basicForm.get('title'));
+    this.clearDisControls(details.get('fatherName'));
+    this.clearDisControls(details.get('spouseName'));
+    this.clearDisControls(details.get('motherMaidenName'));
+    this.clearDisControls(details.get('politicallyExposedPerson'));
+    this.clearDisControls(details.get('preferredLanguage'));
+    this.clearDisControls(details.get('occupation'));
+    this.clearDisControls(details.get('emailId'));
+    this.clearDisControls(details.get('educationalQualification'));
+    this.clearDisControls(details.get('maritalStatus'));
+    this.clearDisControls(details.get('isMinority'));
+    this.clearDisControls(details.get('employerName'));
+    this.clearDisControls(details.get('employerType'));
+    this.clearDisControls(details.get('nationality'));
   }
   disableUCICNonIndividualDetails() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0);
-    details.get('name1').disable();
-    details.get('name2').disable();
-    details.get('name3').disable();
-    details.get('dateOfIncorporation').disable();
-    details.get('companyPhoneNumber').disable();
+    this.clearDisControls(details.get('name1'));
+    this.clearDisControls(details.get('name2'));
+    this.clearDisControls(details.get('name3'));
+    this.clearDisControls(details.get('dateOfIncorporation'));
+    this.clearDisControls(details.get('companyPhoneNumber'));
+    this.clearDisControls(this.basicForm.get('bussinessEntityType'));
+    this.clearDisControls(details.get('companyEmailId'));
+    this.clearDisControls(details.get('contactPerson'));
+    this.clearDisControls(this.basicForm.get('title'));
+    this.clearDisControls(details.get('preferredLanguageCommunication'));
+    this.clearDisControls(details.get('alternateEmailId'));
+    this.clearDisControls(details.get('businessType'));
+  }
+
+  clearDisControls(control){
+    control.disable();
+    control.setValue(control.value || null)
+    control.clearValidators();
+    control.updateValueAndValidity();
   }
   clearFormArray() {
     const formArray = this.basicForm.get('details') as FormArray;
@@ -1234,8 +1264,11 @@ export class BasicDetailsComponent implements OnInit {
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
       this.showSalaried = true;
-      this.setSalriedValidators();
-      this.removeSelfEmpValidators()
+      if(!this.applicant.ucic){
+        this.setSalriedValidators();
+        this.removeSelfEmpValidators()
+      }
+      
     }
 
     else if (this.custCatValue == 'FTBCUSTSEG' || this.custCatValue == 'FTUCUSTSEG' || this.custCatValue == 'TROPCUSTSEG') {
@@ -1560,7 +1593,7 @@ export class BasicDetailsComponent implements OnInit {
 
       const fatherName = details.get('fatherName').value
       const spouseName = details.get('spouseName').value
-      if (!fatherName && !spouseName) {
+      if (!fatherName && !spouseName && !this.applicant.ucic) {
         this.toasterService.showInfo(
           'Please enter either father name or spouse name',
           ''
