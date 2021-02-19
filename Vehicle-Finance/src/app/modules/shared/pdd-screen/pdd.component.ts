@@ -241,6 +241,7 @@ export class PddComponent implements OnInit {
                 if (this.orcHistory) {
                     this.minEndorsementDate = this.utilityService.getDateFromString(this.orcHistory[0].orcReceivedDate);
                     //this.minEndorsementDate.setDate(this.minEndorsementDate.getDate()-1)
+                    this.minEndorsementDate = this.utilityService.setTimeForDates(this.minEndorsementDate)
                 }
 
                 this.showEngineNumber = response.showEngineNumber;
@@ -564,6 +565,7 @@ export class PddComponent implements OnInit {
                     if (this.orcHistory) {
                         this.minEndorsementDate = this.utilityService.getDateFromString(this.orcHistory[0].orcReceivedDate);
                         //this.minEndorsementDate.setDate(this.minEndorsementDate.getDate()-1)
+                        this.minEndorsementDate = this.utilityService.setTimeForDates(this.minEndorsementDate)
                     }
 
                     if (error.code === '0') {

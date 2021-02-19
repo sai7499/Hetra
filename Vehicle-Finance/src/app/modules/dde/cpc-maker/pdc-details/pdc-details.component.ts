@@ -506,17 +506,18 @@ export class PdcDetailsComponent implements OnInit {
       }
     }
 
-    if (this.pdcForm.get('pdcList').value.length >= 1) {
-      for (let i = 1; i < this.pdcForm.get('pdcList').length; i++) {
-        this.pdcForm.get('pdcList').controls[i].disable()
-      }
-    }
+    // if (this.pdcForm.get('pdcList').value.length >= 1) {
+    //   for (let i = 1; i < this.pdcForm.get('pdcList').length; i++) {
+    //     this.pdcForm.get('pdcList').controls[i].disable()
+    //   }
+    // }
 
-    if (this.pdcForm.get('spdcList').value.length >= 1) {
-      for (let j = 1; j < this.pdcForm.get('spdcList').length; j++) {
-        this.pdcForm.get('spdcList').controls[j].disable()
-      }
-    }
+    // if (this.pdcForm.get('spdcList').value.length >= 1) {
+    //   for (let j = 1; j < this.pdcForm.get('spdcList').length; j++) {
+    //     this.pdcForm.get('spdcList').controls[j].disable();
+        
+    //   }
+    // }
 
   }
 
@@ -704,7 +705,7 @@ export class PdcDetailsComponent implements OnInit {
         instrBranchAccountNumber: obj.get('instrBranchAccountNumber').value,
         instrBranchName: obj.get('instrBranchName').value,
         instrDate: obj.get('instrDate').value,
-        instrNo: obj.get('instrNo').value,
+        //instrNo: obj.get('instrNo').value,
         pdcId: obj.get('pdcId').value
       })
       // this.pdcForm.get('pdcList').controls[j].disable()
@@ -725,7 +726,7 @@ export class PdcDetailsComponent implements OnInit {
         instrBranchAccountNumber: obj.get('instrBranchAccountNumber').value,
         instrBranchName: obj.get('instrBranchName').value,
         instrDate: obj.get('instrDate').value,
-        instrNo: obj.get('instrNo').value,
+        //instrNo: obj.get('instrNo').value,
         pdcId: obj.get('pdcId').value
       })
       // this.pdcForm.get('spdcList').controls[j].disable()

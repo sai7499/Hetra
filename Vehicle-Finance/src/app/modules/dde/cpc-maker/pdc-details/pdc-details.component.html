@@ -142,14 +142,16 @@
 
                                             <ng-autocomplete class="custom-select-box" [data]="searchBranchName"
                                                 [searchKeyword]="keyword"
-                                                [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }"
+                                                
                                                 (selected)="selectIFSCCode($event, item, 'isPdc')"
                                                 (inputChanged)='onChangeBranch($event, item)'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
                                                 [placeHolder]="'Account Branch'" [minQueryLength]="3"
-                                                [disabled]="!item.get('isEnableBranch').value">
+                                                >
                                             </ng-autocomplete>
+                                            <!-- [disabled]="!item.get('isEnableBranch').value" -->
+                                            <!-- [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }" -->
                                             <div class="invalid-feedback">
                                                 <div
                                                     *ngIf="item.get('instrBranchName').touched && item.get('instrBranchName').hasError('required')">
@@ -276,8 +278,8 @@
                                         <!-- </div> -->
 
                                         <div class="invalid-feedback">
-                                            <span *ngIf="isDirty && !f.spdcList.controls[i].controls.instrDate.value">
-                                                Select date </span>
+                                            <!-- <span *ngIf="isDirty && !f.spdcList.controls[i].controls.instrDate.value">
+                                                Select date </span> -->
 
                                             <span
                                                 *ngIf="f.spdcList.controls[i].controls.instrDate.value && f.spdcList.controls[i].controls.instrDate.invalid">
@@ -325,14 +327,16 @@
 
                                             <ng-autocomplete class="custom-select-box" [data]="searchBranchName"
                                                 [searchKeyword]="keyword"
-                                                [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }"
+                                                
                                                 (selected)="selectIFSCCode($event, item, 'isSpdc')"
                                                 (inputChanged)='onChangeBranch($event, item)'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
                                                 [placeHolder]="'Account Branch'" [minQueryLength]="3"
-                                                [disabled]="!item.get('isEnableBranch').value">
+                                                >
                                             </ng-autocomplete>
+                                            <!-- [disabled]="!item.get('isEnableBranch').value" -->
+                                            <!-- [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }" -->
                                             <div class="invalid-feedback">
                                                 <div
                                                     *ngIf="item.get('instrBranchName').touched && item.get('instrBranchName').hasError('required')">
