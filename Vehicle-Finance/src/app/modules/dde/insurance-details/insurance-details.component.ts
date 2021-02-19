@@ -127,11 +127,13 @@ export class InsuranceDetailsComponent implements OnInit {
 
     // tslint:disable-next-line: no-string-literal
     this.leadData['applicantDetails'].map((element => {
+      console.log('element', element)
       const body = {
         key: element.applicantTypeKey,
         value: element.fullName,
         applicantId: element.applicantId,
-        applicantType: element.applicantType
+        applicantType: element.applicantType,
+        entityTypeKey: element.entityTypeKey
       };
       this.applicantList.push(body);
     }));
@@ -624,6 +626,16 @@ export class InsuranceDetailsComponent implements OnInit {
       const control = this.insuranceDetailForm as FormGroup;
       if (element.key == event) {
         this.applicantId = element.applicantId;
+        const entityType = element.entityTypeKey;
+        console.log('entityType', entityType)
+        if(entityType === 'NONINDIVENTTYP'){
+          this.toasterService.showInfo('Credit shield policy holder cannot be a NON-INDIVIDUAL entity', '')
+          control.patchValue({
+            nameOfCreditShieldPolicy : null,
+            typeOfApplicant: null
+          });
+          return;
+        }
         control.patchValue({
           typeOfApplicant: element.applicantType
         });

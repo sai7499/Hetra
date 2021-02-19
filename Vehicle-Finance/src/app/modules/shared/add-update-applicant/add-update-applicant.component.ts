@@ -266,6 +266,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
   negativeDedupeUdfScreenId: string  = '';
   negativeDedupeUGroupId: string = 'APG004';
+  businessMand: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -1422,8 +1423,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     if (applicantDetails.entityTypeKey == "INDIVENTTYP") {
       dedupe.get('custSegment').enable();
-    } else {
-      dedupe.get('bussinessEntityType').enable();
     }
     dedupe.get('loanApplicationRelation').enable();
     dedupe.get('monthlyIncomeAmount').enable();
@@ -1992,8 +1991,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const details = this.getDetails()
     dedupe.get('aadhar').clearValidators();
     dedupe.get('aadhar').updateValueAndValidity();
-    dedupe.get('bussinessEntityType').setValidators([Validators.required]);
-    dedupe.get('bussinessEntityType').updateValueAndValidity();
+    if(!this.applicant.ucic){
+      this.businessMand = true;
+      dedupe.get('bussinessEntityType').setValidators([Validators.required]);
+      dedupe.get('bussinessEntityType').updateValueAndValidity();
+    }
+    
 
     this.addNonIndFormControls();
     this.removeIndFormControls();

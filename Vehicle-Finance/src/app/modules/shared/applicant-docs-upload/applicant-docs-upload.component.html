@@ -149,7 +149,7 @@
                           {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
                         </div>
                       </div>
-                      <div class="invalid-feedback" *ngIf="docError[FORM_ARRAY_NAME+'_'+subCat.code+'_'+i] && !docsList(subCat.code)?.controls[i]?.get('documentNumber')?.value">
+                      <div class="invalid-feedback" *ngIf="docNumberError&& docError[FORM_ARRAY_NAME+'_'+subCat.code+'_'+i] && !docsList(subCat.code)?.controls[i]?.get('documentNumber')?.value">
                         Please enter document number
                       </div>
                     </div>

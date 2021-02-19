@@ -186,6 +186,7 @@ export class SourcingDetailsComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
   updatedLeadCreated: any;
+  isShowDealerCode: boolean;
 
   constructor(
     private leadSectionService: VehicleDetailService,
@@ -528,6 +529,18 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingDetailsForm.patchValue({ loanType: isBool? '' : loanTypeFromLead });
     }
 
+    if(productCategorySelected === 'UC'){
+      this.sourcingDetailsForm.get('dealerCode').setValidators(Validators.required)
+      this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
+      setTimeout(()=>{
+        this.isShowDealerCode = true;
+      })
+    }else{
+      this.sourcingDetailsForm.get('dealerCode').clearValidators()
+      this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
+      this.isShowDealerCode = false;
+    }
+
     
   }
 
@@ -615,12 +628,15 @@ export class SourcingDetailsComponent implements OnInit {
   sourchingTypeChange(event) {
     this.sourchingTypeId = event.target ? event.target.value : event;
     if (this.sourchingTypeId === '2SOURTYP') {
-      this.sourcingDetailsForm.controls['dealerCode'].setValidators(Validators.required);
-      this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
-      // this.isDealerCode = true;
-      this.isDealerCode = this.dealorCodeKey ? false : true;
+      if(this.productCategoryFromLead === 'UC'){
+        this.sourcingDetailsForm.controls['dealerCode'].setValidators(Validators.required);
+        this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
+        // this.isDealerCode = true;
+        this.isDealerCode = this.dealorCodeKey ? false : true;
+      }
+      
     } else {
-      this.sourcingDetailsForm.controls['dealerCode'].setValidators([]);
+      this.sourcingDetailsForm.controls['dealerCode'].clearValidators();
       this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
       this.isDealerCode = false;
     }
@@ -761,7 +777,7 @@ export class SourcingDetailsComponent implements OnInit {
       sourcingChannel: new FormControl('', Validators.required),
       sourcingType: new FormControl('', Validators.required),
       sourcingCode: new FormControl(''),
-      dealerCode: new FormControl('', Validators.required),
+      dealerCode: new FormControl(''),
       spokeCodeLocation: new FormControl({ value: '', disabled: true }),
       loanBranch: new FormControl({ value: '', disabled: true }),
       loanType: new FormControl('', Validators.required),
