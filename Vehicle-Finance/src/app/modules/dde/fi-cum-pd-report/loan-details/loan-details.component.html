@@ -256,7 +256,7 @@
           <label for="remarks_others">{{ labels.remarksOthers }} <sub class="star_red_col">*</sub></label>
 
           <textarea class="form-control mandatory" name="othersRemarks" id="othersRemarks" cols="1" rows="3"
-            placeholder="other remarks" formControlName="othersRemarks" maxlength="1500" style="resize: none"></textarea>
+            placeholder="other remarks" formControlName="othersRemarks" [maxlength]="labels?.validationData.remarks.maxLength"  style="resize: none"></textarea>
 
           <div class="invalid-feedback">
             <div *ngIf="
@@ -269,11 +269,11 @@
                 Remarks are required
               </div>
 
-              <div *ngIf="
+              <!-- <div *ngIf="
                   loanDetailsForm.controls['othersRemarks'].hasError('pattern')
                 ">
                 special characters are not allowed
-              </div>
+              </div> -->
             </div>
           </div>
       </div>
@@ -526,9 +526,9 @@
               remarks are required
             </div>
   
-            <div *ngIf="loanDetailsForm.controls['remarks'].hasError('pattern')">
+            <!-- <div *ngIf="loanDetailsForm.controls['remarks'].hasError('pattern')">
               special characters are not allowed
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
