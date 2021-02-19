@@ -654,7 +654,6 @@ export class BankDetailsComponent implements OnInit {
             ifscCode: '',
             accountBranch: ''
           })
-          this.bankForm.get('micrNumber').setValue(null);
           this.searchIFSCCode = [];
           this.searchBranchName = [];
           this.isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false
@@ -716,7 +715,6 @@ export class BankDetailsComponent implements OnInit {
       ifscCode: '',
       accountBranch: ''
     })
-    this.bankForm.get('micrNumber').setValue(null);
     this.searchIFSCCode = [];
     this.searchBranchName = [];
     this.searchBankNameList = []
@@ -735,9 +733,8 @@ export class BankDetailsComponent implements OnInit {
     setTimeout(() => {
       this.bankForm.patchValue({
         ifscCode: val.ifscCode,
-        accountBranch: val.branchName,
-        micrNumber: val.micrCode
-      })
+        accountBranch: val.branchName
+        })
     })
   }
 
