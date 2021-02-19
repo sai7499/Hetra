@@ -320,7 +320,7 @@ export class ReferenceCheckComponent implements OnInit {
       overallFiReport: new FormControl('', Validators.required),
       negativeProfile: new FormControl('', Validators.required),
       pdRemarks: new FormControl('', Validators.compose
-        ([Validators.maxLength(1500), Validators.pattern(/^[a-zA-Z .:,]*$/), Validators.required])),
+        ([Validators.required])),
       applicationNo: new FormControl({ value: '', disabled: true }),
       product: new FormControl({ value: '', disabled: true }),
       sourcingChannel: new FormControl({ value: '', disabled: true }),

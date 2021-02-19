@@ -58,7 +58,7 @@
             <sub class="star_red_col">*</sub></label>
 
           <textarea class="form-control mandatory" name="pdRemarks" id="pdRemarks" cols="1" rows="3"
-            placeholder="remarks" formControlName="pdRemarks" maxlength="1500" style="resize: none"></textarea>
+            placeholder="remarks" formControlName="pdRemarks" [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
 
           <div class="invalid-feedback" *ngIf="
             isDirty &&
@@ -70,9 +70,9 @@
               Remarks are required
             </div>
 
-            <div *ngIf="referenceCheckForm.controls['pdRemarks'].hasError('pattern')">
+            <!-- <div *ngIf="referenceCheckForm.controls['pdRemarks'].hasError('pattern')">
               special characters are not allowed
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
