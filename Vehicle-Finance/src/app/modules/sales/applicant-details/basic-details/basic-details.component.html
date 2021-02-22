@@ -19,7 +19,7 @@
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="!isIndividual">
           <label for="Vechical Type">Business Entity Type <sub class="star_red_col">*</sub></label>
-          <app-vf-custom-select [values]="applicantLov?.bussinessEntityType" [isRequired]="'Please select one'"
+          <app-vf-custom-select [values]="applicantLov?.bussinessEntityType" [isRequired]="!isUCICavail ? 'Please select one' : ''"
             [isDirty]="isDirty" formControlName="bussinessEntityType"></app-vf-custom-select>
         </div>
 
@@ -45,7 +45,7 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="entity">{{ labels?.title }} <sub class="star_red_col">*</sub></label>
           <app-vf-custom-select formControlName="title" [values]="applicantLov?.salutation"
-            [isRequired]="'Please select one'" [isDirty]="isDirty" [isDisabled]="
+            [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty" [isDisabled]="
               this.applicant.applicantDetails.entityTypeKey == 'NONINDIVENTTYP'
             "></app-vf-custom-select>
         </div>
@@ -123,7 +123,7 @@
                 formControlName="mobilePhone"
               /> -->
               <app-custom-input formControlName="mobilePhone" [patternCheck]="validationData?.mobile?.patternCheck"
-                [isRequired]="'Mobile Number is required'" [maxLength]="validationData?.mobile?.maxLength"
+                [isRequired]="!isUCICavail ? 'Mobile Number is required' : ''" [maxLength]="validationData?.mobile?.maxLength"
                 [isDirty]="isDirty" [type]="validationData?.mobile?.type"></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -179,7 +179,7 @@
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="customer_category">{{ labels?.gender }} <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select formControlName="gender" [values]="applicantLov?.gender"
-                [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty"></app-vf-custom-select>
 
               <!-- <div class="cus-mandatory-field"
               *ngIf="obj.controls['gender'].touched && !obj.controls['gender'].valid">
@@ -284,7 +284,7 @@
                 formControlName="motherMaidenName"
               /> -->
               <app-custom-input formControlName="motherMaidenName" [maxLength]="validationData?.name?.maxLength"
-                [isDirty]="isDirty" [isRequired]="'Mother name is Required'" [type]="validationData?.name?.type">
+                [isDirty]="isDirty" [isRequired]="!isUCICavail ?'Mother name is Required' : ''" [type]="validationData?.name?.type">
               </app-custom-input>
             </div>
           </div>
@@ -475,13 +475,13 @@
               <label for="occupation">{{ labels?.occupation }}
                 <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select formControlName="occupation" [values]="occupation"
-                [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty"></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="nationality">{{ labels?.nationality }}
                 <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select formControlName="nationality" [values]="applicantLov?.nationality"
-                [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty"></app-vf-custom-select>
               <!-- <app-custom-input formControlName="nationality"
                 [type]="validationData?.name.type"
                 [isRequired]="'Nationality is Required'" 
@@ -500,7 +500,7 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <app-vf-custom-select formControlName="preferredLanguage" [values]="applicantLov?.preferredLanguage"
-                [isRequired]="'Please select one'" [isDirty]="isDirty">
+                [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
           </div>
@@ -509,7 +509,7 @@
               <label for="customer_category">{{labels?.politicallyExposedPerson}} <sub class="star_red_col">*</sub>
               </label>
               <app-vf-custom-select formControlName="politicallyExposedPerson"
-                [values]="applicantLov?.politicallyExposed" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                [values]="applicantLov?.politicallyExposed" [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
               </app-vf-custom-select>
               <!-- <span class="showErrorMessage"  
               *ngIf="validation.get('customerCategory').errors?.value !== ''
@@ -618,7 +618,7 @@
               <label for="contact_person_mobile_number">{{ labels?.contactNumber }}
                 <sub class="star_red_col">*</sub></label>
 
-              <app-custom-input formControlName="companyPhoneNumber" [isRequired]="'Contact Number is required'"
+              <app-custom-input formControlName="companyPhoneNumber" [isRequired]="!isUCICavail ? 'Contact Number is required' : ''"
                 [isDirty]="isDirty" [maxLength]="validationData?.mobileNumber?.maxLength"
                 [type]="validationData?.mobileNumber?.type" [patternCheck]="validationData?.mobileNumber?.patternCheck">
               </app-custom-input>
@@ -662,7 +662,7 @@
                 required="required"
               /> -->
               <app-custom-input formControlName="contactPerson" [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="'Contact Person Name is required'" [isDirty]="isDirty"
+                [isRequired]="!isUCICavail ? 'Contact Person Name is required' : ''" [isDirty]="isDirty"
                 [type]="validationData?.name?.type"></app-custom-input>
             </div>
 
@@ -825,7 +825,7 @@
               <label for="businessType">{{ labels?.typeOfBusiness }}
                 <sub class="star_red_col">*</sub></label>
               <app-vf-custom-select formControlName="businessType" [values]="applicantLov?.businessType"
-                [isRequired]="'Please Select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                [isRequired]="!isUCICavail ? 'Please Select one' : ''" [isDirty]="isDirty"></app-vf-custom-select>
             </div>
             <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4" >
               <label for="industry">{{
@@ -882,7 +882,7 @@
                                 <option>Select</option>
                             </select> -->
               <app-vf-custom-select formControlName="preferredLanguageCommunication"
-                [values]="applicantLov?.preferredLanguage" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                [values]="applicantLov?.preferredLanguage" [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
                 ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">

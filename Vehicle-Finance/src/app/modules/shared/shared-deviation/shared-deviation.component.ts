@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -11,7 +11,6 @@ import { UtilityService } from '@services/utility.service';
 import { Location } from '@angular/common';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoanViewService } from '@services/loan-view.service';
-
 @Component({
   selector: 'app-shared-deviation',
   templateUrl: './shared-deviation.component.html',
@@ -24,6 +23,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
   taskId: any;
 
   @ViewChild('closebutton', { static: true }) closebutton;
+  @ViewChild('referRecommedation', { static: true }) myModal: ElementRef;
 
   public labels: any = {};
   public autoDeviationArray: any = [];
@@ -86,18 +86,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.labelsData.getLabelsData().subscribe(
       data => {
         this.labels = data;
-        
-       
-      },
-      error => {
+      }, error => {
         console.log(error);
       }
     );
-    console.log(this.labels, 'maxlength');
-    console.log(this.labels.validationData.remarks.maxLength, 'maxlength');
 
     this.initForms();
-   
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
     let roles = roleAndUserDetails.roles;
@@ -129,35 +123,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.sharedService.getFormValidation(this.deviationsForm);
 
     console.log(this.deviationsForm, 'deviationsForm')
-  }
-
-  isCheckReferButton(form) {
-
-    if (form.get('autoDeviationFormArray').length > 0 || form.get('manualDeviationFormArray').length > 0 ||
-      form.get('waiverNormsFormArray').length > 0) {
-
-      let autoDeviationFormArray = form.get('autoDeviationFormArray').length > 0 ?
-        this.checkIsSameRole(form.get('autoDeviationFormArray').controls) : false;
-      let manualDeviationFormArray = form.get('manualDeviationFormArray').length > 0 ?
-        this.checkIsSameRole(form.get('manualDeviationFormArray').controls) : false;
-      let waiverNormsFormArray = form.get('waiverNormsFormArray').length > 0 ? this.checkIsSameRole(form.get('waiverNormsFormArray').controls) : false;
-
-      console.log(autoDeviationFormArray, 'deviationForm autoDeviationFormArray')
-      console.log(manualDeviationFormArray, 'deviationForm manualDeviationFormArray')
-      console.log(waiverNormsFormArray, 'deviationForm waiverNormsFormArray')
-
-    }
-  }
-
-  checkIsSameRole(form) {
-  let setType = form.filter((res: any) => {
-      console.log(res.get('isSameRole').value, 'deviationForm', res.get('statusCode').value)
-      return (res.get('isSameRole').value === true && res.get('statusCode').value !== null)
-    })
-    console.log( 'deviationForm', form)
-    
-    return setType.length > 0 ? true: false
-
   }
 
   disableInputs() {
@@ -357,7 +322,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       approverRoleName: [''],
       approverRoles: [''],
       devCode: ['', Validators.required],
-      devDesc: [""],
+      devDesc: [''],
       otherMitigant: [''],
       rulesRemarks: [''],
       devRuleId: 0,
@@ -365,6 +330,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       isManualDev: '1',
       hierarchy: [0],
       isSameRole: false,
+      deviationApproverId: [''],
+      deviationApproverName: [''],
+      deviationApproverRole: [''],
       justification: ['', Validators.required],
       statusCode: [{ value: null, disabled: true }],
     });
@@ -387,12 +355,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       typeOfModal: value
     })
     this.isShowReferModal = true;
-    // if (value === 'Recommendation') {
-    //   this.isCheckReferButton(this.deviationsForm)
-    //   this.isShowReferModal = false;
-    // } else {
-    //   this.isShowReferModal = true;
-    // }
   }
 
   removeDeviationIndex(id, i?: any) {
@@ -528,6 +490,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             justification: data.justification,
             otherMitigant: data.other_mitigant,
             rulesRemarks: data.rulesRemarks,
+            deviationApproverId: data.deviationApproverId ? data.deviationApproverId : '',
+            deviationApproverName: data.deviationApproverName ? data.deviationApproverName : '',
+            deviationApproverRole: data.deviationApproverRole ? data.deviationApproverRole : '',
             isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
             statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
           }))
@@ -548,6 +513,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               justification: data.justification,
               isWaiverNormsDev: data.isWaiverNormsDev,
+              deviationApproverId: data.deviationApproverId ? data.deviationApproverId : '',
+              deviationApproverName: data.deviationApproverName ? data.deviationApproverName : '',
+              deviationApproverRole: data.deviationApproverRole ? data.deviationApproverRole : '',
               isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
@@ -566,6 +534,9 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
               rulesRemarks: data.rulesRemarks,
               hierarchy: hierarchy,
               justification: data.justification,
+              deviationApproverId: data.deviationApproverId ? data.deviationApproverId : '',
+              deviationApproverName: data.deviationApproverName ? data.deviationApproverName : '',
+              deviationApproverRole: data.deviationApproverRole ? data.deviationApproverRole : '',
               isSameRole: typeofRole ? typeofRole.id === this.roleId ? true : false : false,
               statusCode: [{ value: data.statusCode, disabled: !(type === this.roleType && hierarchy <= this.hierarchy) }]
             }))
@@ -588,7 +559,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
             this.disableInputs();
             this.disableAutoDeviation()
           })
-
         }
 
         if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
@@ -644,10 +614,12 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
         this.deviationService.getReferNextLevel(data).subscribe((res: any) => {
+          this.isShowReferModal = true;
           this.closebutton.nativeElement.click();
           setTimeout(() => {
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
               this.router.navigate(['pages/dashboard'])
+              this.isShowReferModal = false;
               this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Leads Refer Deviation')
             } else {
               this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Leads Refer Deviation')
@@ -669,6 +641,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
         this.deviationService.approveDeviation(data).subscribe((res: any) => {
           this.closebutton.nativeElement.click();
+          this.isShowReferModal = false;
           setTimeout(() => {
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
               this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Approve Deviation')
@@ -692,6 +665,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
         this.deviationService.sendBackToCredit(data).subscribe((res: any) => {
           this.closebutton.nativeElement.click();
+          this.isShowReferModal = false;
           setTimeout(() => {
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
               this.toasterService.showSuccess(res.ProcessVariables.error.message, 'Send Back to Credit')
@@ -707,8 +681,42 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
       }
     } else {
       this.utilityService.validateAllFormFields(this.modalForm);
+      this.isShowReferModal = true;
       this.toasterService.showInfo('Please Select Recommend', 'Recommend')
     }
   }
+  isCheckReferButton(form) {
+
+    if (form.get('autoDeviationFormArray').length > 0 || form.get('manualDeviationFormArray').length > 0 ||
+      form.get('waiverNormsFormArray').length > 0) {
+
+      let autoDeviationFormArray = form.get('autoDeviationFormArray').length > 0 ?
+        this.checkIsSameRole(form.get('autoDeviationFormArray').controls) : false;
+      let manualDeviationFormArray = form.get('manualDeviationFormArray').length > 0 ?
+        this.checkIsSameRole(form.get('manualDeviationFormArray').controls) : false;
+      let waiverNormsFormArray = form.get('waiverNormsFormArray').length > 0 ? this.checkIsSameRole(form.get('waiverNormsFormArray').controls) : false;
+
+      if (autoDeviationFormArray || manualDeviationFormArray || waiverNormsFormArray) {
+        this.isAllowReferBut = true;
+        this.toasterService.showError('Please choose any one of the action buttons','')
+      } else {
+        this.isAllowReferBut = false;
+      }
+
+    }
+  }
+
+  checkIsSameRole(form) {
+    let setType = []
+     form.filter((res: any) => {
+      if (res.get('isSameRole').value === true && res.get('statusCode').value === null) {
+        setType.push(res.value)
+        return true
+      }
+      return setType
+    })
+    return setType.length > 0 ? true : false
+  }
+  
 
 }

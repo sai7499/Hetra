@@ -8,6 +8,9 @@ import { LoginStoreService } from '@services/login-store.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { LoanViewService } from '@services/loan-view.service';
 import { esDoLocale } from 'ngx-bootstrap/chronos';
+import { CreateLeadService } from '@modules/lead-creation/service/creatLead.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { LeadStoreService } from '@services/lead-store.service';
 
 interface dataObject {
   creditId: string;
@@ -87,8 +90,10 @@ export class CreditConditionsComponent implements OnInit {
     private toasterService: ToasterService,
     private sharedService: SharedService,
     private creditConditionService: CreditConditionService,
-    private loanViewService: LoanViewService
-  ) {
+    private loanViewService: LoanViewService,
+    private createLeadService: CreateLeadService,
+    private createLeadDataService: CreateLeadDataService,
+    private leadStoreService: LeadStoreService){
     this.sharedService.productCatCode$.subscribe((value) => {
       this.productCatCode = value;
     });
@@ -487,9 +492,23 @@ export class CreditConditionsComponent implements OnInit {
           this.errorGenerated = true;
           // const message = res['ProcessVariables'].rctaMessage;
           this.errorMessage = res['ProcessVariables'].rctaMessage;
+
         } else {
           this.toasterService.showSuccess("Record Approved successfully!", '')
-
+          
+          if (this.leadId) {
+            // console.log(this.aRoute.snapshot)
+            this.createLeadService.leadIdByPool(this.leadId).subscribe( res => 
+              {
+                const gotLeadData = res;
+            if (gotLeadData['Error'] === '0') {
+              const leadData = gotLeadData['ProcessVariables'];
+              this.createLeadDataService.setLeadSectionData(leadData);
+              this.leadStoreService.setLeadCreation(leadData);
+              
+            }
+          } );
+          }
         }
         // this.toasterService.showSuccess("Record Approved successfully!", '')
       } else if (res['ProcessVariables'].error['code'] == "1") {

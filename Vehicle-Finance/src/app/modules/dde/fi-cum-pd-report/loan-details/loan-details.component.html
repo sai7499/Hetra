@@ -516,7 +516,7 @@
         <div class="form-group col-sm-12 col-md-12 col-lg-12">
           <label for="remarks">{{ labels.remarks }} <sub class="star_red_col">*</sub></label>
           <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3" placeholder="remarks"
-            formControlName="remarks" maxlength="1500" style="resize: none"></textarea>
+            formControlName="remarks" [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
   
           <div class="invalid-feedback" *ngIf="
             isDirty &&

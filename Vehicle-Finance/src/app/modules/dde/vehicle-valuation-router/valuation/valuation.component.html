@@ -781,7 +781,7 @@
                   <label for="permit_date">{{ labels.permitDate }}
                     <sub class="star_blue_col">*</sub></label>
                   <kendo-datepicker width="100%" formControlName="permitValidUpto" class="form-control mandatory"
-                    [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="dd/mm/yyyy" [activeView]="'decade'"
+                    [format]="'dd/MM/yyyy'" [max]="permitMaxDate" [min]="permitMinDate" placeholder="dd/mm/yyyy" [activeView]="'decade'"
                     (valueChange)="validatePermitDate()">
                   </kendo-datepicker>
                   <div class="invalid-feedback">
@@ -791,7 +791,7 @@
                       ">
                       Invalid Date
                     </div>
-                    <div *ngIf="permitRequired && vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').invalid">
+                    <div *ngIf="permitRequired && vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').hasError('required')">
                       Permit Valid upto date is required
                     </div>
                   </div>
