@@ -72,6 +72,7 @@ export class PddComponent implements OnInit {
     initUDFValues: any;
     editedUDFValues: any;
     productCatCode: string;
+    label: any;
 
     constructor(
         private location: Location,
@@ -140,6 +141,15 @@ export class PddComponent implements OnInit {
             this.udfScreenId = this.isSales ? udfScreenId.sales.pddUpdateSales : udfScreenId.CPCChecker.pddUpdateCPCChecker ;
       
           })
+
+          this.labelsData.getLabelsData()
+            .subscribe(data => {
+        this.label = data;
+      },
+        error => {
+          console.log(error, 'error');
+        });
+
     }
 
     getLeadSectiondata() {
@@ -231,6 +241,7 @@ export class PddComponent implements OnInit {
                 if (this.orcHistory) {
                     this.minEndorsementDate = this.utilityService.getDateFromString(this.orcHistory[0].orcReceivedDate);
                     //this.minEndorsementDate.setDate(this.minEndorsementDate.getDate()-1)
+                    this.minEndorsementDate = this.utilityService.setTimeForDates(this.minEndorsementDate)
                 }
 
                 this.showEngineNumber = response.showEngineNumber;
@@ -524,6 +535,7 @@ export class PddComponent implements OnInit {
         } else {
             const numberForm = this.pddForm.get('numberForm').value;
             if (!numberForm.regNumber || !numberForm.engNumber || !numberForm.chasNumber || isUDFInvalid) {
+                this.isDirty = true;
                 return true;
             }
         }
@@ -553,6 +565,7 @@ export class PddComponent implements OnInit {
                     if (this.orcHistory) {
                         this.minEndorsementDate = this.utilityService.getDateFromString(this.orcHistory[0].orcReceivedDate);
                         //this.minEndorsementDate.setDate(this.minEndorsementDate.getDate()-1)
+                        this.minEndorsementDate = this.utilityService.setTimeForDates(this.minEndorsementDate)
                     }
 
                     if (error.code === '0') {

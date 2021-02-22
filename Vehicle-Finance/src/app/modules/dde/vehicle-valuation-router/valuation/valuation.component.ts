@@ -1290,8 +1290,7 @@ export class ValuationComponent implements OnInit {
       noOfRetreadedTyres: new FormControl(''),
       majorRepairTillDate: new FormControl('', Validators.required),
       anyAccidentsInPast: new FormControl('', Validators.required),
-      valuatorRemarks: new FormControl('', Validators.compose([Validators.maxLength(1500),
-      Validators.pattern(/^[a-zA-Z0-9 ]*$/)])),
+      valuatorRemarks: new FormControl(''),
     }
   }
   getrecomendationDetails() {
