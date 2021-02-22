@@ -92,7 +92,7 @@ export class FiResidenceComponent implements OnInit {
 
   async ngOnInit() {
 
-    this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
+    // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
@@ -225,6 +225,11 @@ export class FiResidenceComponent implements OnInit {
 
   houseOwnerShip(event: any) {
     this.ownerShipType = event ? event : event;
+    console.log(event);
+    
+    const rentAmt = this.fieldReportForm.get('rentAmt').value;
+    const areaOfProperty = this.fieldReportForm.get('areaOfProperty').value;
+    const propertyValue = this.fieldReportForm.get('propertyValue').value;
     if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
       this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
       this.ownerShipType === '5HOUOWN') {
@@ -236,6 +241,9 @@ export class FiResidenceComponent implements OnInit {
         this.fieldReportForm.get('rentAmt').enable();
         this.fieldReportForm.get('rentAmt').setValidators(Validators.required);
         this.fieldReportForm.get('rentAmt').updateValueAndValidity();
+        setTimeout(() => {
+          this.fieldReportForm.get('rentAmt').patchValue(rentAmt || null);
+        });
 
       } else if (this.resedenceType !== '2HOUOWN') { //  checking the condition if resi is not rented
         this.fieldReportForm.get('rentAmt').disable();
@@ -243,7 +251,6 @@ export class FiResidenceComponent implements OnInit {
         this.rentRequired = false;
         setTimeout(() => {
           this.fieldReportForm.get('rentAmt').patchValue(null);
-
         });
         this.fieldReportForm.get('rentAmt').clearValidators();
         this.fieldReportForm.get('rentAmt').updateValueAndValidity();
@@ -254,6 +261,10 @@ export class FiResidenceComponent implements OnInit {
       this.fieldReportForm.get('areaOfProperty').setValidators(Validators.required);
       this.fieldReportForm.get('propertyValue').enable();
       this.fieldReportForm.get('propertyValue').setValidators(Validators.required);
+      setTimeout(() => {
+        this.fieldReportForm.get('areaOfProperty').setValue(areaOfProperty || null);
+        this.fieldReportForm.get('propertyValue').setValue(propertyValue || null);
+      });
 
     } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
       this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
@@ -378,11 +389,12 @@ export class FiResidenceComponent implements OnInit {
       // reportSubmitTime: new FormControl('', Validators.required),
       applicantName: new FormControl({ value: '', disabled: true }),
       addressLine1: new FormControl('', Validators.required),
-      addressLine2: new FormControl('', Validators.required),
-      addressLine3: new FormControl('', Validators.required),
+      addressLine2: new FormControl(''),
+      addressLine3: new FormControl(''),
       pincode: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
       state: new FormControl('', Validators.required),
+      landmark: new FormControl(''),
       residenceApproach: new FormControl('', Validators.required),
       residenceDetails: new FormControl('', Validators.required),
       rentAmt: new FormControl(''),
@@ -424,13 +436,13 @@ export class FiResidenceComponent implements OnInit {
 
     if (this.fiDetails) {
 
-      noofmonthsCity = String(Number(this.fiDetails.yrsOfStayInCity) % 12) || '';
-      noofyearsCity = String(Math.floor(Number(this.fiDetails.yrsOfStayInCity) / 12)) || '';
+      noofmonthsCity = this.fiDetails.yrsOfStayInCity ? String(Number(this.fiDetails.yrsOfStayInCity) % 12) : '';
+      noofyearsCity = this.fiDetails.yrsOfStayInCity ? String(Math.floor(Number(this.fiDetails.yrsOfStayInCity) / 12)) : '';
     }
     if (this.fiDetails) {
 
-      noofmonthsResi = String(Number(this.fiDetails.yrsOfStayInResi) % 12) || '';
-      noofyearsResi = String(Math.floor(Number(this.fiDetails.yrsOfStayInResi) / 12)) || '';
+      noofmonthsResi = this.fiDetails.yrsOfStayInResi ? String(Number(this.fiDetails.yrsOfStayInResi) % 12) : '';
+      noofyearsResi = this.fiDetails.yrsOfStayInResi ? String(Math.floor(Number(this.fiDetails.yrsOfStayInResi) / 12)) : '';
     }
 
     this.fieldReportForm.patchValue({
@@ -450,6 +462,7 @@ export class FiResidenceComponent implements OnInit {
       pincode: fiModel.pincode ? fiModel.pincode : null,
       city: fiModel.city ? fiModel.city : null,
       state: fiModel.state ? fiModel.state : null,
+      landmark: fiModel.landmark ? fiModel.landmark : null,
       residenceApproach: fiModel.residenceApproach ? fiModel.residenceApproach : null,
       residenceDetails: fiModel.residenceDetails ? fiModel.residenceDetails : null,
       rentAmt: fiModel.rentAmt ? fiModel.rentAmt : null,
@@ -527,7 +540,7 @@ export class FiResidenceComponent implements OnInit {
         if (this.fiDetails) {
           if (this.fiDetails.pincode != null) {
             this.getPincodeResult(Number(this.fiDetails.pincode));
-            this.initiatedDate = new Date(this.getDateFormat(this.fiDetails.cpvInitiatedDate));
+            // this.initiatedDate = new Date(this.getDateFormat(this.fiDetails.cpvInitiatedDate));
           }
         }
       }
@@ -543,8 +556,9 @@ export class FiResidenceComponent implements OnInit {
     const fieldReportModal = { ...formModal };
     const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false;
     this.isDirty = true;
+    console.log('businessForm',this.fieldReportForm )
     if (this.fieldReportForm.invalid || isUDFInvalid) {
-      this.toasterService.showWarning('please enter required details', '');
+      this.toasterService.showError('please enter required details', '');
       return;
     } else if (this.initDate) {
       this.toasterService.showWarning('Submit Date should be greater than Initiated Date', '');
@@ -565,6 +579,7 @@ export class FiResidenceComponent implements OnInit {
       pincode: fieldReportModal.pincode,
       city: fieldReportModal.city,
       state: fieldReportModal.state,
+      landmark: fieldReportModal.landmark,
       residenceApproach: fieldReportModal.residenceApproach,
       residenceDetails: fieldReportModal.residenceDetails,
       rentAmt: fieldReportModal.rentAmt,

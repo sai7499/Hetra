@@ -127,7 +127,8 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse) {
-          if (err.status != 200) {
+          console.log("error url **** ",err.url)
+          if (err.status != 200 && !err.url.includes('logout')) {
             console.log('httpErr', err);
             this.ngxUiLoaderService.stop();
             if (err.status != 401 && err.status != 500) {
@@ -146,6 +147,7 @@ export class AuthInterceptor implements HttpInterceptor {
           let res;
           this.apiCount--;
           if (event instanceof HttpResponse) {
+           
             if (event.headers.get('content-type') == 'text/plain') {
               event = event.clone({
                 body: JSON.parse(this.encrytionService.decryptResponse(event)),

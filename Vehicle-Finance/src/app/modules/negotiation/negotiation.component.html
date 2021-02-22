@@ -571,20 +571,19 @@
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
-                                    <sub class="star_red_col">*</sub>
-                                  </label>
-                                  <div class="col-sm-6 col-md-4 col-lg-3">
-                                    <!-- <app-vf-custom-select formControlName="EMIStartDateAfterDisbursement" [values]="EMIStartDateLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'">
-                                    </app-vf-custom-select> -->
-                                    <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'" formControlName="EMIStartDateAfterDisbursement">
-                                      </app-vf-custom-select>
+                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentFrequency">{{labels?.repaymentFrequency}}
+                                      <sub class="star_red_col">*</sub>
+                                    </label>
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <app-vf-custom-select formControlName="repaymentFrequency" [values]="RepayFrequencyLOV" [isDirty]="isDirty"
+                                    (change)="changeRepaymentFrequency($event,i);getEMIDate(i,repaymentFrequency);setLMSCode(i,true)" [isRequired]="'Repayment Frequency is Required'">
+                                    </app-vf-custom-select>
                                   </div>
                                   <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PaymentModeforGapDaysInterest">{{ labels?.PaymentModeforGapDaysInterest }}
                                     <sub class="star_red_col">*</sub>
                                   </label>
                                   <div class="col-sm-6 col-md-4 col-lg-3">
-                                    <app-vf-custom-select formControlName="PaymentModeforGapDaysInterest" (change)="setLMSCode(i)" [isDirty]="isDirty" [isRequired]="'Payment Mode for Gap Days Interest is Required'" [values]="GapDaysIntPayMode">
+                                    <app-vf-custom-select formControlName="PaymentModeforGapDaysInterest" (change)="setLMSCode(i,true)" [isDirty]="isDirty" [isRequired]="'Payment Mode for Gap Days Interest is Required'" [values]="GapDaysIntPayMode">
                                     </app-vf-custom-select>
                                   </div>
                                 </div>
@@ -595,19 +594,20 @@
                                 </div> -->
                                 <!-- *ngIf="LeadReferenceDetails[i].ProductCode == 'UTCR' || LeadReferenceDetails[i].ProductCode == 'NTCR' " -->
                                 <div class="form-group">
-                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentFrequency">{{labels?.repaymentFrequency}}
-                                    <sub class="star_red_col">*</sub>
-                                  </label>
-                                  <div class="col-sm-6 col-md-4 col-lg-3">
-                                  <app-vf-custom-select formControlName="repaymentFrequency" [values]="RepayFrequencyLOV" [isDirty]="isDirty"
-                                  (change)="changeRepaymentFrequency($event,i);setLMSCode(i)" [isRequired]="'Repayment Frequency is Required'">
-                                  </app-vf-custom-select>
-                                </div>
-                                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStructure">{{labels?.EMIStructure}}
+                                  <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStartDateAfterDisbursement">{{ labels?.EMIStartDateAfterDisbursement }}
+                                      <sub class="star_red_col">*</sub>
+                                    </label>
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                      <!-- <app-vf-custom-select formControlName="EMIStartDateAfterDisbursement" [values]="EMIStartDateLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'">
+                                      </app-vf-custom-select> -->
+                                      <app-vf-custom-select [values]="EMICycleDaysLOV" [isDirty]="isDirty" [isRequired]="'EMI Start Date After Disbursement is Required'" formControlName="EMIStartDateAfterDisbursement">
+                                        </app-vf-custom-select>
+                                    </div>
+                                <label class="control-label col-sm-5 col-md-4 col-lg-3" for="EMIStructure">{{labels?.repaymentStructure}}
                                   <sub class="star_red_col">*</sub>
                                 </label>
                                 <div class="col-sm-6 col-md-4 col-lg-3">
-                                  <app-vf-custom-select formControlName="EMIStructure" [values]="EMIStructureLOV" (change)="emiStrutureChange(i);setLMSCode(i)" [isDirty]="isDirty" [isRequired]="'EMI Structure is Required'">
+                                  <app-vf-custom-select formControlName="EMIStructure" [values]="EMIStructureLOV" (change)="emiStrutureChange(i);setLMSCode(i,true)" [isDirty]="isDirty" [isRequired]="'EMI Structure is Required'">
                                   </app-vf-custom-select>
                                 <input *ngIf="!AssetDetailsList[i]" formControlName="emiDefaultValue" class="form-control">
                                 </div>
@@ -640,6 +640,7 @@
                                   <thead>
                                     <th>{{labels?.fromMonth}}</th>
                                     <th>{{labels?.toMonth}}</th>
+                                    <th *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']!='4EMISTRUCT'">{{labels?.installmentAmount}}</th>
                                     <th>{{labels?.EMIAmount}}</th>
                                   <th class="emi-table-action" *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']!='4EMISTRUCT'">Action</th>
                                   </thead>
@@ -652,8 +653,12 @@
                                       <td>
                                       <input formControlName="toMonth" (keypress)="isNumber($event)"(change)="getToMonthVal($event,i,o)" class="form-control">
                                       </td>
+                                      <td *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value']!='4EMISTRUCT'">                                       
+                                        <app-custom-input formControlName="installmentPercent" [className]="'form-control'" 
+                                        [type]="'decimal'" step="0.01" (keypress)="isDecimal($event)" (change)="instalPercentCal($event,i,o,true)"></app-custom-input>
+                                        </td>
                                       <td>
-                                      <input formControlName="emiAmount" (keypress)="isNumber($event)" (change)="enterEmiCall($event,i,o)" class="form-control">
+                                      <input formControlName="emiAmount" (keypress)="isNumber($event)" (change)="enterEmiCall($event,i,o)" class="form-control" disabled>
                                     </td>
                                       <td *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'] !='4EMISTRUCT'">
                                       <button type="button" (click)="addNewRow(i,o)" class="btn btn-primary btn-sm" title="Add New Row"
@@ -788,45 +793,48 @@
                               </div>
                             </div>
                             <div class="form-group">
-                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="finalLTV">{{labels?.finalLTV}}</label>
+                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="finalLTV">{{labels?.finalLTVwithcrs}}</label>
                               <div class="col-sm-6 col-md-4 col-lg-3">
-                                <app-custom-input formControlName="finalLTV" id="finalLTV" placeholder="Final LTV (in %)"
+                                <app-custom-input formControlName="finalLTV" id="finalLTV" placeholder="Final LTV with cross sell (in %)"
                                   name="finalLTV" class="form-control select2 custom-negotiation-field">
                                 </app-custom-input>
                               </div>
-                              <label *ngIf="(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))" class="control-label col-sm-5 col-md-4 col-lg-3" for="FASTagAmount">{{ labels?.FASTagAmount }} </label>
-                              <div class="col-sm-6 col-md-4 col-lg-3" *ngIf="(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
-                                <app-custom-input type="number" formControlName="FASTagAmount" class="form-control mandatory select2 custom-negotiation-field"
-                                  id="FASTagAmount" placeholder="FASTag Amount (in INR)" name="FASTagAmount"></app-custom-input>
-                              </div>
-                              <label *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))" class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}</label>
-                              <div class="col-sm-6 col-md-4 col-lg-3" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
-                                <app-custom-input type="number" formControlName="MIPremiumAmount" id="MIPremiumAmount" placeholder="MI Premium Amount (in INR)"
-                                  name="MIPremiumAmount"  class="form-control mandatory select2 custom-negotiation-field">
+                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="finalLTVwithoutcrs">{{labels?.finalLTVwithoutcrs}}</label>
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <app-custom-input formControlName="finalLTVwithoutcrs" id="finalLTVwithoutcrs" placeholder="Final LTV with out cross sell (in %)"
+                                  name="finalLTVwithoutcrs" class="form-control select2 custom-negotiation-field">
                                 </app-custom-input>
                               </div>
                             </div>
                             <div class="form-group" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
+                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="MIPremiumAmount">{{ labels?.MIPremiumAmount }}</label>
+                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                <app-custom-input type="number" formControlName="MIPremiumAmount" id="MIPremiumAmount" placeholder="MI Premium Amount (in INR)"
+                                  name="MIPremiumAmount"  class="form-control mandatory select2 custom-negotiation-field">
+                                </app-custom-input>
+                              </div>
                               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="PACPremiumAmount">{{ labels?.PACPremiumAmount }}</label>
                               <div class="col-sm-6 col-md-4 col-lg-3">
                                 <app-custom-input formControlName="PACPremiumAmount" type="number" id="PACPremiumAmount" placeholder="PAC Premium Amount (in INR)"
                                   name="PACPremiumAmount" class="form-control mandatory select2 custom-negotiation-field">
                                 </app-custom-input>
                               </div>
+                            </div>
+                            <div class="form-group" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="VASPremiumAmount">{{ labels?.VASPremiumAmount }}</label>
                               <div class="col-sm-6 col-md-4 col-lg-3">
                                 <app-custom-input type="number" formControlName="VASPremiumAmount" class="form-control mandatory select2 custom-negotiation-field"
                                    id="VASPremiumAmount" placeholder="VAS Premium Amount (in INR)" name="VASPremiumAmount">
                                 </app-custom-input>
                               </div>
-                            </div>
-                            <div class="form-group" *ngIf="!(showInsuranceFields && (AssetDetailsList[i].IsORPFunding ==  '1'))">
                               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="lifeCoverPremiumAmount">{{ labels?.lifeCoverPremiumAmount }}</label>
                               <div class="col-sm-6 col-md-4 col-lg-3">
                                 <app-custom-input type="number" formControlName="lifeCoverPremiumAmount" class="form-control mandatory select2 custom-negotiation-field"
                                   id="lifeCoverPremiumAmount" placeholder="Life Cover Premium Amount (in INR)" name="lifeCoverPremiumAmount">
                                 </app-custom-input>
                               </div>
+                            </div>
+                            <div class="form-group">
                               <label class="control-label col-sm-5 col-md-4 col-lg-3" for="FASTagAmount">{{ labels?.FASTagAmount }} </label>
                               <div class="col-sm-6 col-md-4 col-lg-3">
                                 <app-custom-input type="number" formControlName="FASTagAmount" class="form-control mandatory select2 custom-negotiation-field"

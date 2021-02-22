@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { CpcRolesService } from '@services/cpc-roles.service';
+import { LabelsService } from '@services/labels.service';
 import { LoginStoreService } from '@services/login-store.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { ReappealService } from '@services/reappeal.service';
@@ -36,6 +37,8 @@ export class RemarksComponent implements OnInit {
   showRejectModal: boolean;
   rejectData: { title: string; product: string; productCode: string; flowStage: string; };
   roleAndUserDetails: any;
+  labels: any;
+  validationData: any;
 
   constructor(
     private router: Router,
@@ -45,7 +48,8 @@ export class RemarksComponent implements OnInit {
     private objectComparisonService: ObjectComparisonService,
     private loginStoreService: LoginStoreService,
     private sharedService: SharedService,
-    private reappealService: ReappealService
+    private reappealService: ReappealService,
+    private labelService: LabelsService
   ) {
     this.sharedService.isDeclinedFlow.subscribe((res: any) => {
       console.log(res, ' declined flow');
@@ -56,6 +60,11 @@ export class RemarksComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+    this.labelService.getLabelsData().subscribe(res => {
+      this.labels = res;
+      this.validationData = res.validationData;
+    });
 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleType = value.roleType;

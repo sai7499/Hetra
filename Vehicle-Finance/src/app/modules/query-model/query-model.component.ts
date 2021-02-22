@@ -17,6 +17,7 @@ import { CreateLeadService } from '@modules/lead-creation/service/creatLead.serv
 import { DraggableContainerService } from '@services/draggable.service';
 import { environment } from 'src/environments/environment';
 import { PollingService } from '@services/polling.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
 
 @Component({
   selector: 'app-query-model',
@@ -30,7 +31,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   scrolltop: number = null;
 
   showModal: boolean = false;
-  selectedDocDetails;
+  selectedDocDetails: DocRequest;
   queryModalForm: FormGroup;
   queryModelLov: any = {};
   labels: any = {};
@@ -122,7 +123,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
     private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute, private location: Location, private pollingService: PollingService,
-    private changeDetector: ChangeDetectorRef) { }
+    private changeDetector: ChangeDetectorRef, private sharedService: SharedService) { }
 
   async ngOnInit() {
 
@@ -806,14 +807,14 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     if (this.queryModalForm.value.leadId) {
 
       this.showModal = true;
-      const docNm = 'ACCOUNT_OPENING_FORM';
-      const docCtgryCd = 70;
+      const docNm = 'QUERY_DOCUMENTS';
+      const docCtgryCd = 102;
       const docTp = 'LEAD';
-      const docSbCtgry = 'ACCOUNT OPENING FORM';
-      const docCatg = 'KYC - I';
-      const docCmnts = 'Addition of document for Lead Creation';
-      const docTypCd = 276;
-      const docSbCtgryCd = 204;
+      const docSbCtgry = 'VF LOAN DOCS';
+      const docCatg = 'VF LOAN DOCS';
+      const docCmnts = 'Addition of document for Applicant Creation';
+      const docTypCd = 502;
+      const docSbCtgryCd = 43;
 
       this.selectedDocDetails = {
         docSize: 2097152,
@@ -1108,6 +1109,13 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       queryTo: resVal.key,
       searchText: resVal.value
     })
+  }
+
+  viewDDE() {
+    this.sharedService.getQueryModel(this.location.path())
+    localStorage.setItem('isNeedBackButton', 'true');
+    this.router.navigate(['/pages/dde/' + this.leadId])
+    // this.toggleDdeService.setCurrentPath(this.location.path())
   }
 
 }

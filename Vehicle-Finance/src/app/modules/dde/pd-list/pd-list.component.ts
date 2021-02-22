@@ -126,6 +126,7 @@ export class PdListComponent implements OnInit {
   isFiCumPdModal: boolean;
   udfScreenId: any;
   tabName: any;
+  isNonInd: boolean;
 
   constructor(private labelsData: LabelsService,
     private router: Router,
@@ -497,7 +498,16 @@ export class PdListComponent implements OnInit {
 
 
   getPdf(event?) {
-    this.selectedApplicantId = event;
+    
+    this.selectedApplicantId = event.applicantId;
+    const applicantType = this.applicantDetailsFromLead.find((ele) => ele.applicantId === event.applicantId);
+    const entity = applicantType.entity
+    console.log('event', entity)
+    if(entity === 'Individual'){
+      this.isNonInd = false 
+    }else{
+      this.isNonInd = true
+    }
     this.getFiCumPdAndPdData();
     this.isFiCumPdModal = true;
   }

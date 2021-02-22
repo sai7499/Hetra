@@ -16,7 +16,8 @@ import { LabelsService } from '@services/labels.service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, retry } from 'rxjs/operators';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 // import * as $ from 'jquery';
 
@@ -84,6 +85,15 @@ export class BankDetailsComponent implements OnInit {
   udfDetails: any = [];
   userDefineForm: any;
 
+  // bank search
+  searchBankNameList: any = [];
+  keyword: string;
+  getBankBranchDetails: any = [];
+  searchIFSCCode: any = [];
+  searchBranchName: any = [];
+
+  isEnableBranch: boolean;
+
   constructor(
     private fb: FormBuilder,
     private bankTransaction: BankTransactionsService,
@@ -91,7 +101,7 @@ export class BankDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private utilityService: UtilityService,
-    private location: Location,
+    private uiLoader: NgxUiLoaderService,
     private toasterService: ToasterService,
     private labelsService: LabelsService,
     private toggleDdeService: ToggleDdeService,
@@ -107,14 +117,15 @@ export class BankDetailsComponent implements OnInit {
         null,
         [Validators.required, Validators.pattern('^[A-Z,a-z, ]*$')],
       ],
-      bankId: [null, [Validators.required]],
+      bankId: ['', [Validators.required, Validators.minLength(3)]],
+      ifscCode: ['', [Validators.required, Validators.minLength(3)]],
       accountNumber: [null, [Validators.required]],
       accountType: [null, [Validators.required]],
       fromDate: ['', [Validators.required]],
       toDate: ['', [Validators.required]],
       period: ['', { disabled: true }],
       limit: [''],
-      accountBranch: [''],
+      accountBranch: ['', [Validators.required, Validators.minLength(3)]],
       micrNumber: ['', [Validators.required]],
       totalCredits: [''],
       id: this.leadId,
@@ -171,7 +182,7 @@ export class BankDetailsComponent implements OnInit {
     this.labelsService.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = udfScreenId.DDE.bankDetailDDE ;
+      this.udfScreenId = udfScreenId.DDE.bankDetailDDE;
 
     })
 
@@ -250,6 +261,7 @@ export class BankDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('res from bank', res);
         this.bankDetailsNew = res.ProcessVariables.transactionDetails;
+        this.isEnableBranch = res.ProcessVariables.bankId ? true: false;
         this.udfDetails = res.ProcessVariables.udfDetails;
         console.log(this.bankDetailsNew, ' bank details new');
         if (this.bankDetailsNew) {
@@ -269,7 +281,7 @@ export class BankDetailsComponent implements OnInit {
         if (this.loanViewService.checkIsLoan360()) {
           this.bankForm.disable();
           this.disableSaveBtn = true;
-       }
+        }
         // }
       });
   }
@@ -285,6 +297,7 @@ export class BankDetailsComponent implements OnInit {
       accountNumber: data.ProcessVariables.accountNumber
         ? data.ProcessVariables.accountNumber
         : null,
+      ifscCode: data.ProcessVariables.ifscCode ? data.ProcessVariables.ifscCode : null,
       accountType: data.ProcessVariables.accountTypeId
         ? data.ProcessVariables.accountTypeId
         : null,
@@ -309,7 +322,7 @@ export class BankDetailsComponent implements OnInit {
       accountBranch: data.ProcessVariables.accountBranch
         ? (data.ProcessVariables.accountBranch)
         : null,
-        id:  data.ProcessVariables.id
+      id: data.ProcessVariables.id
         ? (data.ProcessVariables.id)
         : null,
     });
@@ -356,11 +369,12 @@ export class BankDetailsComponent implements OnInit {
     this.submitForm = true;
     this.isDirty = true;
     if (this.bankForm.invalid || this.userDefineForm.udfData.invalid) {
+      console.log(this.bankForm, 'Invalid Form');
+      // if (this.bankDetails.get('bankId').valid && this.bankDetails.get('accountBranch').) {
       this.toasterService.showError(
         'Mandatory Fields Missing ',
         'Bank Transactions'
       );
-      console.log(this.bankForm, 'Invalid Form');
       return;
     }
     this.bankForm.value.fromDate = this.bankForm.value.fromDate
@@ -371,6 +385,7 @@ export class BankDetailsComponent implements OnInit {
     );
     // this.bankForm.value.year = Number(this.bankForm.value.year);
     this.bankForm.value.accountNumber = this.bankForm.value.accountNumber;
+    this.bankForm.value.ifscCode = this.bankForm.value.ifscCode;
     this.bankForm.value.limit = this.bankForm.value.limit;
     this.bankForm.value.period = this.bankForm.value.period;
     this.bankForm.value.totalCredits = Number(this.bankForm.value.totalCredits);
@@ -405,7 +420,7 @@ export class BankDetailsComponent implements OnInit {
     }
     this.bankForm.value.transactionDetails = transactionArray;
     // console.log(this.bankForm.value.transactionDetails);
-    this.bankForm.value.udfDetails =  [{
+    this.bankForm.value.udfDetails = [{
       "udfGroupId": this.udfGroupId,
       // "udfScreenId": this.udfScreenId,
       "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
@@ -471,13 +486,13 @@ export class BankDetailsComponent implements OnInit {
       : null;
     const fromDateLength = fromDate.getFullYear().toString().length;
     const toDateLength = toDate.getFullYear().toString().length;
-    if (fromDateLength == 4 &&  toDateLength == 4) {
+    if (fromDateLength == 4 && toDateLength == 4) {
       // await  this.checkDates(fromDate, toDate);
 
 
-    // setTimeout(async () => {
+      // setTimeout(async () => {
 
-    // }, 2000);
+      // }, 2000);
 
       const fromDateNew = this.bankForm.value.fromDate;
       const toDateNew = this.bankForm.value.toDate;
@@ -485,78 +500,78 @@ export class BankDetailsComponent implements OnInit {
       this.OldToDate = toDateNew;
       const diff = toDate.getMonth() - fromDate.getMonth();
       const numberOfMonths = Math.round(
-      (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
-      (toDate.getMonth() - fromDate.getMonth()) + 1);
+        (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
+        (toDate.getMonth() - fromDate.getMonth()) + 1);
 
       if (
-      diff === undefined ||
-      (diff === null && fromDate.getFullYear() > toDate.getFullYear())
-    ) {
-      this.listArray.controls = [];
-    } else {
-      if (numberOfMonths >= 1) {
-        this.bankForm.patchValue({
-          period: numberOfMonths,
-        });
-      } else {
-        this.bankForm.value.period = '';
-        return false;
-      }
-      this.assignedArray = [];
-      let stratMonth = fromDate.getMonth();
-      const startYear = fromDate.getFullYear().toString();
-      const endYear = toDate.getFullYear().toString();
-      for (let i = 0; i < numberOfMonths; i++) {
-        const count = stratMonth % 12;
-        stratMonth = stratMonth + 1;
-        console.log('start monthy', stratMonth);
-        // tslint:disable-next-line: one-variable-per-declaration
-        const array = this.monthArray[count];
-        if (stratMonth <= 12) {
-          const fullMonth = array + '-' + startYear;
-          this.assignedArray.push(fullMonth);
-        } else {
-          const fullMonth = array + '-' + endYear;
-          this.assignedArray.push(fullMonth);
-        }
-        if (this.assignedArray.length > numberOfMonths) {
-          return;
-        }
-      }
-      if (this.transactionData && this.transactionData.length > 0) {
+        diff === undefined ||
+        (diff === null && fromDate.getFullYear() > toDate.getFullYear())
+      ) {
         this.listArray.controls = [];
-        for (let i = 0; i <= numberOfMonths - 1; i++) {
-          this.listArray.push(this.initRows(i));
+      } else {
+        if (numberOfMonths >= 1) {
+          this.bankForm.patchValue({
+            period: numberOfMonths,
+          });
+        } else {
+          this.bankForm.value.period = '';
+          return false;
         }
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < this.listArray.controls.length; i++) {
-          // tslint:disable-next-line: prefer-const
-          for (let j = 0; j < this.transactionData.length; j++) {
-            if (this.listArray.controls[i].value.month === this.transactionData[j].month) {
-              console.log(i, j, 'indexes of arrays');
-              this.listArray.controls[i].patchValue({
-                // month: ,
-                // year: [2020],
-                inflow: this.transactionData[j].inflow,
-                outflow: this.transactionData[j].outflow,
-                noOfInWardBounces: this.transactionData[j].noOfInWardBounces,
-                noOfOutWardBounces: this.transactionData[j].noOfOutWardBounces,
-                balanceOn5th: this.transactionData[j].balanceOn5th,
-                balanceOn15th: this.transactionData[j].balanceOn15th,
-                balanceOn20th: this.transactionData[j].balanceOn20th,
-                abbOfTheMonth: this.transactionData[j].abbOfTheMonth,
-              });
-            }
+        this.assignedArray = [];
+        let stratMonth = fromDate.getMonth();
+        const startYear = fromDate.getFullYear().toString();
+        const endYear = toDate.getFullYear().toString();
+        for (let i = 0; i < numberOfMonths; i++) {
+          const count = stratMonth % 12;
+          stratMonth = stratMonth + 1;
+          console.log('start monthy', stratMonth);
+          // tslint:disable-next-line: one-variable-per-declaration
+          const array = this.monthArray[count];
+          if (stratMonth <= 12) {
+            const fullMonth = array + '-' + startYear;
+            this.assignedArray.push(fullMonth);
+          } else {
+            const fullMonth = array + '-' + endYear;
+            this.assignedArray.push(fullMonth);
+          }
+          if (this.assignedArray.length > numberOfMonths) {
+            return;
           }
         }
-      } else {
-        this.listArray.controls = [];
-        for (let i = 0; i <= numberOfMonths - 1; i++) {
-          this.listArray.push(this.initRows(i));
+        if (this.transactionData && this.transactionData.length > 0) {
+          this.listArray.controls = [];
+          for (let i = 0; i <= numberOfMonths - 1; i++) {
+            this.listArray.push(this.initRows(i));
+          }
+          // tslint:disable-next-line: prefer-for-of
+          for (let i = 0; i < this.listArray.controls.length; i++) {
+            // tslint:disable-next-line: prefer-const
+            for (let j = 0; j < this.transactionData.length; j++) {
+              if (this.listArray.controls[i].value.month === this.transactionData[j].month) {
+                console.log(i, j, 'indexes of arrays');
+                this.listArray.controls[i].patchValue({
+                  // month: ,
+                  // year: [2020],
+                  inflow: this.transactionData[j].inflow,
+                  outflow: this.transactionData[j].outflow,
+                  noOfInWardBounces: this.transactionData[j].noOfInWardBounces,
+                  noOfOutWardBounces: this.transactionData[j].noOfOutWardBounces,
+                  balanceOn5th: this.transactionData[j].balanceOn5th,
+                  balanceOn15th: this.transactionData[j].balanceOn15th,
+                  balanceOn20th: this.transactionData[j].balanceOn20th,
+                  abbOfTheMonth: this.transactionData[j].abbOfTheMonth,
+                });
+              }
+            }
+          }
+        } else {
+          this.listArray.controls = [];
+          for (let i = 0; i <= numberOfMonths - 1; i++) {
+            this.listArray.push(this.initRows(i));
+          }
         }
       }
     }
-  }
     // this.assignedArray.forEach(
     //   monName =>
     //     {
@@ -576,29 +591,151 @@ export class BankDetailsComponent implements OnInit {
   }
 
   async checkDates(fromDate: Date, toDate: Date) {
-  if (this.OldToDate && this.OldFromDate) {
-        const txt = confirm('Are You Sure Want To Change Dates ?');
-        if (txt === false) {
-          return;
-        } else if (( fromDate > toDate ) && txt === true ) {
-          if (this.OldFromDate && this.OldToDate) {
-            // this.listArray.controls = [];
-            this.toasterService.showWarning('Invalid Date Selection', '');
-            const date = new Date(this.OldFromDate);
-            this.bankForm.patchValue({
-              fromDate: this.OldFromDate,
-              toDate: this.OldFromDate,
-            });
-          }
-          return;
+    if (this.OldToDate && this.OldFromDate) {
+      const txt = confirm('Are You Sure Want To Change Dates ?');
+      if (txt === false) {
+        return;
+      } else if ((fromDate > toDate) && txt === true) {
+        if (this.OldFromDate && this.OldToDate) {
+          // this.listArray.controls = [];
+          this.toasterService.showWarning('Invalid Date Selection', '');
+          const date = new Date(this.OldFromDate);
+          this.bankForm.patchValue({
+            fromDate: this.OldFromDate,
+            toDate: this.OldFromDate,
+          });
         }
+        return;
       }
+    }
 
   }
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
-    console.log('identify', value)
+  }
+
+  onBankNameSearch(val: any) {
+
+    if (val && val.trim().length > 0) {
+
+      let data = {
+        "bankName": val.trim()
+      }
+
+      this.bankTransaction.getBankName(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.searchBankNameList = res.ProcessVariables.bankNames ? res.ProcessVariables.bankNames : [];
+          this.keyword = '';
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Bank List')
+        }
+      })
+
+      setTimeout(() => {
+        if (this.searchBankNameList.length === 0) {
+          this.toasterService.showInfo('Please enter valid bank name', '')
+        }
+      }, 1000)
+
+    }
+  }
+
+  selectBankNameEvent(val) {
+    if (val) {
+      let data = {
+        "bankName": val
+      }
+
+      this.bankTransaction.getBranchDetails(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.getBankBranchDetails = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
+          this.bankForm.patchValue({
+            ifscCode: '',
+            accountBranch: ''
+          })
+          this.searchIFSCCode = [];
+          this.searchBranchName = [];
+          this.isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
+        }
+      })
+    }
+  }
+
+  onIFSCSearcn(val: string) {
+
+    if (val && val.trim().length > 0) {
+      this.searchIFSCCode = this.getBankBranchDetails.filter(e => {
+        val = val.toString().toLowerCase();
+        const eName = e.ifscCode.toString().toLowerCase();
+        if (eName.includes(val)) {
+          this.keyword = 'ifscCode';
+          return e;
+        }
+      }); 
+
+      setTimeout(() => {
+        if (this.searchIFSCCode.length === 0) {
+          this.bankForm.get('ifscCode').setErrors({ incorrect: true })
+          this.toasterService.showInfo('Please enter valid ifsc code', '')
+        }
+      }, 1000)
+
+    }
+  }
+  
+
+  onChangeBranch(val) {
+    if (val && val.trim().length > 0) {
+      this.uiLoader.start();
+      val = val.toString().toLowerCase();
+      this.searchBranchName = this.getBankBranchDetails.filter(e => {
+        const eName = e.branchName.toString().toLowerCase();
+        if (eName.includes(val)) {
+          this.keyword = 'branchName';
+          return e;
+        }
+      this.uiLoader.stop();
+      });
+
+      setTimeout(() => {
+        if (this.searchBranchName.length === 0) {
+          this.bankForm.get('accountBranch').setErrors({ incorrect: true })
+          this.toasterService.showInfo('Please enter valid branch', '')
+        }
+      }, 1000)
+
+    }
+  }
+
+  onBankNameClear(val) {
+    this.bankForm.patchValue({
+      ifscCode: '',
+      accountBranch: ''
+    })
+    this.searchIFSCCode = [];
+    this.searchBranchName = [];
+    this.searchBankNameList = []
+  }
+
+  selectIFSCCode(val, isString?) {
+    this.bankForm.get('ifscCode').setValue(val.ifscCode)
+
+    if (isString && isString === 'Branch') {
+      this.keyword = 'branchName';
+      this.searchIFSCCode =  this.searchBranchName;
+    } else if (isString && isString === 'IFSC') {
+      this.keyword = 'ifscCode';
+      this.searchBranchName =  this.searchIFSCCode
+    }
+    setTimeout(() => {
+      this.bankForm.patchValue({
+        ifscCode: val.ifscCode,
+        accountBranch: val.branchName
+        })
+    })
   }
 
 }

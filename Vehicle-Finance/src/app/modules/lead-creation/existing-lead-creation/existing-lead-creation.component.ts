@@ -117,7 +117,6 @@ export class ExistingLeadCreationComponent implements OnInit {
     dob: any
   }
 
-
   public vehicleRegPattern: {
     rule?: any;
     msg?: string;
@@ -391,9 +390,10 @@ export class ExistingLeadCreationComponent implements OnInit {
       this.extSourcingTypeData = response.ProcessVariables.srcType;
       this.extSourcingCodeData = response.ProcessVariables.srcCode;
       this.extBranchData = response.ProcessVariables.branch;
-      const srcChannel = this.extSourcingChannelData.length;
-      const srcType = this.extSourcingTypeData.length;
-      const srcCode = this.extSourcingCodeData.length;
+
+      const srcChannel = this.extSourcingChannelData ? this.extSourcingChannelData.length : 0;
+      const srcType = this.extSourcingTypeData ?  this.extSourcingTypeData.length : 0;
+      const srcCode =  this.extSourcingCodeData ? this.extSourcingCodeData.length : 0;
       if (srcChannel === 1) {
         this.createExternalLeadForm.patchValue({
           sourcingChannel: this.extSourcingChannelData[0].key

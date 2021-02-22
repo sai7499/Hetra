@@ -147,13 +147,14 @@ export class OtpSectionComponent implements OnInit {
 
     this.otpService.sendOtp(data).subscribe((res: any) => {
       console.log('in sendotp', res);
+      this.mobileNo = res.ProcessVariables.mobileNo;
       if (
         res['ProcessVariables']['error']['code'] == '0' &&
         res['ProcessVariables'].referenceNo != ''
       ) {
         console.log(res.ProcessVariables);
         this.referenceNo = res.ProcessVariables.referenceNo;
-        this.mobileNo = res.ProcessVariables.mobileNo;
+        
         console.log('reference number ==>', this.referenceNo);
         console.log('mobile number ==>', this.mobileNo);
         this.toasterService.showSuccess('OTP sent successfully !', '');

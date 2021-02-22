@@ -718,7 +718,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row" id="terms_sheet_headline9" class="table-responsive">
+                <!-- <div class="row" id="terms_sheet_headline9" class="table-responsive">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                         {{labels.ecsMandate}} :
                     </div>
@@ -732,7 +732,7 @@
                         {{ecsDetails?.ecs_bank}}
                     </div>
 
-                </div>
+                </div> -->
                 <div id="terms_sheet_headline10" class="">
                     <!-- Deduction Charges from Loan Amount -->
                     <p class="text-center">
@@ -990,7 +990,7 @@
                 <!-- <p class="btn btn-primary save btn_div"> Save </p> -->
                 <button class="btn btn-primary btn_div hvr-sweep-to-right" (click)="onNext()"
                     type="button">Next</button>
-                <button *ngIf="!isLoan360" class="btn btn-primary btn_div" (click)="downloadpdf()"
+                <button *ngIf="!isLoan360 && isShowDownloadDoc" class="btn btn-primary btn_div" (click)="downloadpdf()"
                     type="button">Download</button>
 
             </div>

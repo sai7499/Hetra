@@ -84,7 +84,9 @@ export enum DisplayTabs {
   UploadedLead,
   VehicleValuvator,
   VehicleValuvatorWithMe,
-  VehicleValuvatorWithBranch
+  VehicleValuvatorWithBranch,
+  ChequeTrackingLeadsWithMe,
+  ChequeTrackingLeadsWithBranch
 }
 
 export enum sortingTables {
@@ -239,6 +241,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    isPD : false,
    isVV : false,
   };
+  isExtUser: boolean;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   constructor(
@@ -304,8 +307,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.businessDivision = userDetails.businessDivision[0].bizDivId;
       this.userDetailsRoleType = userDetails.roleType;
       this.selfAssignLoginId = userDetails.loginId;
+      this.isExtUser = userDetails.fullData.isExtUser;
     });
-    console.log(this.userDetailsRoleId);
 
 
     if (this.supervisorRoleType == this.userDetailsRoleType) {
@@ -833,7 +836,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isPDD = false;
         this.isChequeTracking = true;
         this.isLog = false;
+        console.log(this.roleType)
+        if (this.roleType === 1) {
         this.getSalesLeads(this.itemsPerPage, event);
+        }
         break;
       case 58:
         this.isBM = false;
@@ -844,12 +850,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55: case 61:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55: case 61: case 63:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59: case 62:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59: case 62: case 64:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -962,6 +968,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.taskName = 'Vehicle Valuation';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
+        case 63: case 64:
+          this.taskName = 'CPC Cheque Tracking';
+          this.getTaskDashboardLeads(this.itemsPerPage, event);
+          break;
 
       default:
         break;
@@ -969,7 +979,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   // changing main tabs
   onLeads(data?, subTab?, tabName?: string) {
-
     this.selectedArray = [];
     this.disableButton = false;
     this.selectAll = false;
@@ -1016,18 +1025,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (tabName === 'CPC' || tabName === 'CAD' ) {
       this.toggleDdeService.setIsDDEClicked('0');
       this.toggleDdeService.setOperationType('1', tabName, currentUrl);
+    } else if (tabName === 'termSheet' && (this.userDetailsRoleId === 5 || this.userDetailsRoleId == 6)) {
+      this.toggleDdeService.setIsDDEClicked('0');
+      this.toggleDdeService.setOperationType('3', 'Term Sheet', currentUrl);
     } else {
       this.toggleDdeService.clearToggleData();
     }
 
     if (this.activeTab === this.displayTabs.Leads && this.subActiveTab === this.displayTabs.NewLeads || this.activeTab === this.displayTabs.ExternalUserDashboard ||
-      this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
+      this.activeTab === this.displayTabs.TranchesDisburse && this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch)  {
       this.onReleaseTab = false;
       this.onAssignTab = false;
     } else {
       this.onReleaseTab = true;
       this.onAssignTab = false;
     }
+    // || this.activeTab === this.displayTabs.ChequeTracking && this.subActiveTab === this.displayTabs.ChequeTrackingLeadsWithBranch
   }
 
   // changing sub tabs
@@ -1038,7 +1051,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.disableButton = false;
     this.sortTab = '';
     this.subActiveTab = data;
-    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch) {
+    if (this.subActiveTab === this.displayTabs.NewLeads || this.subActiveTab === this.displayTabs.TrancheDisburseWithBranch || this.subActiveTab === this.subActiveTab.ChequeTrackingLeadsWithBranch) {
       this.onReleaseTab = false;
       this.onAssignTab = false;
     } else {
@@ -1108,7 +1121,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.newArray = res.ProcessVariables.pddDetails;
         break;
       case 17:
-        this.newArray = res.ProcessVariables.chequeTrackingDetails;
+        this.newArray = this.roleType === 1 ? res.ProcessVariables.chequeTrackingDetails : res.ProcessVariables.loanLead;
         break;
 
       default:
@@ -1139,6 +1152,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   })
     // } else {
     this.dashboardService.myLeads(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
+
       this.setPageData(res);
       if (this.subActiveTab === this.displayTabs.NewLeads) {
         if (res.ProcessVariables.loanLead != null) {
@@ -1178,7 +1193,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             break;
         }
       }
-
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     });
     // }
   }
@@ -1223,6 +1240,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // For TaskDashboard Api Starts
   responseForCredit(data) {
     this.taskDashboard.taskDashboard(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
@@ -1230,6 +1248,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.newArray = [];
       }
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     });
   }
 
@@ -1272,6 +1293,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // External User API Atarts
   responseForEcxternalUser(data) {
     this.dashboardService.getExternalUserDashboardDetails(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
+
       this.setPageData(res);
       if (res.ProcessVariables.loanLead != null) {
         this.isLoadLead = true;
@@ -1279,6 +1302,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.newArray = [];
       }
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     })
   }
 
@@ -1349,6 +1375,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   responseForTrancheDisburse(data) {
     this.dashboardService.getTrancheDisburseDetails(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
+      
       this.setTrancheDispersePageData(res, 1);
       if (res.ProcessVariables.TrancheDisbList != null) {
         this.isLoadLead = true;
@@ -1357,11 +1385,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.TrancheDisbList = [];
       }
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     });
   }
   // for Dashboard Task Tranche Disburse
   responseForTaskTrancheDisburse(data) {
     this.dashboardService.getTaskTrancheDisburseDetails(data).subscribe((res: any) => {
+      if(res.Error == 0 && res.ProcessVariables.error.code == 0) {
+
       this.setTrancheDispersePageData(res, 2);
       if (res.ProcessVariables.TrancheDisbTaskList != null) {
         this.isLoadLead = true;
@@ -1370,6 +1403,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.TrancheDisbTaskList = [];
       }
+    } else {
+      this.toasterService.showError(res.ProcessVariables.error.message, '');
+    }
     });
   }
   setTrancheDispersePageData(res, val) {
@@ -1395,7 +1431,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.disableButton = false;
   }
 
-  onRoutingTabs(data) {
+  onRoutingTabs(data, item?) {
+    console.log(this.activeTab, 'activetab');
+    
     switch (this.activeTab) {
       case 15:
         this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/loan-booking-status`);
@@ -1404,7 +1442,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`/pages/pdd/${this.leadId}`);
         break;
       case 17:
-        this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
+        
+        if (item) {
+
+          let setId = {
+            'trancheId': item.trancheId,
+            'disbId': item.disbId,
+            'taskId': item.taskId
+          }
+          this.sharedService.setDataIds(setId)
+        }
+        // console.log(item, 'Item')
+
+        setTimeout(() => {
+          this.router.navigateByUrl(`/pages/cheque-tracking/${this.leadId}`);
+        }, 1000)
         break;
 
       default:
@@ -1496,7 +1548,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRoute(leadId, stageCode?, taskId?) {
+  onRoute(leadId, stageCode?, taskId?, data?) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
       subActiveTab: this.subActiveTab,
@@ -1513,7 +1565,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
-    this.onRoutingTabs(this.subActiveTab);
+    console.log(data, 'Item')
+
+    this.onRoutingTabs(this.subActiveTab, data)
   }
 
   onClear() {

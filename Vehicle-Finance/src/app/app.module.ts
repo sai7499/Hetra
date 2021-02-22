@@ -64,6 +64,7 @@ import { QueryDataResolverService } from '@modules/lead-section/services/queryDa
 import { LeadUploadDiscussionComponent } from '@modules/lead-upload-discussion/lead-upload-discussion.component';
 import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
 import { WindowModule } from '@progress/kendo-angular-dialog';
+import { LabelsResolverService } from '@services/lablesresolver.service';
 
 setTheme('bs4');
 
@@ -143,6 +144,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FileTransferObject,
     CanActivateService,
     CameraPreview,
+    LabelsResolverService
   ],
   bootstrap: [AppComponent],
 })

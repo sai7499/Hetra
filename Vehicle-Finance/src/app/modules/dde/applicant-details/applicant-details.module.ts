@@ -16,6 +16,7 @@ import { DocumentUploadComponent } from './document-upload/document-upload.compo
 import { SharedModule } from '@shared/shared.module';
 import {NumberOnlyDirective} from '../../../services/directives/number-only.directive';
 import { DdeModule } from '../dde.module';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { DdeModule } from '../dde.module';
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
+        AutocompleteLibModule,
         DdeModule
     ]
 })

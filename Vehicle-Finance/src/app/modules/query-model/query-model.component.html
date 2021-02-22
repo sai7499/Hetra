@@ -13,8 +13,8 @@
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                   <div class="input-group search-btn">
 
-                    <app-custom-input [id]="'mob_search'" formControlName="searchName" [className]="'form-control input-search'"
-                      [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                    <app-custom-input [id]="'mob_search'" formControlName="searchName"
+                      [className]="'form-control input-search'" [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                       queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                     </app-custom-input>
 
@@ -23,7 +23,7 @@
                 </div>
 
                 <br /><br />
-                <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox" >
+                <div class="panel-group  scroll-box cus-mob-bac" id="scrollBox">
                   <div class="panel-group " id="accordion" *ngFor="let chat of chatList; let i=index; let last=last">
                     <div class="text-center">
                       <div class="" (click)="getQueries(chat)" [ngClass]="selectedList === chat ? 'side-border' : ''">
@@ -61,9 +61,9 @@
                         <form class="clearfix">
                           <div class="form-group col-xs-12">
                             <div class="input-group">
-                              <app-custom-input [className]="'form-control'" [id]="'mob_stake_holder'" [placeholder]="'Search'" [type]="'text'"
-                                [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
-                                (keyup)="getvalueCheck($event.target.value)">
+                              <app-custom-input [className]="'form-control'" [id]="'mob_stake_holder'"
+                                [placeholder]="'Search'" [type]="'text'" [(ngModel)]="searchStakeHolders"
+                                [ngModelOptions]="{standalone: true}" (keyup)="getvalueCheck($event.target.value)">
                               </app-custom-input>
                               <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             </div>
@@ -99,9 +99,9 @@
                         <form>
                           <div class="form-group col-xs-12 bloc">
                             <div class="input-group bloc-search">
-                              <app-custom-input [id]="'mob_documents'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
-                                [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
-                                (keyup)="getDocuments($event.target.value)">
+                              <app-custom-input [id]="'mob_documents'" [className]="'form-control'"
+                                [placeholder]="'Search'" [type]="'text'" [(ngModel)]="searchDocuments"
+                                [ngModelOptions]="{standalone: true}" (keyup)="getDocuments($event.target.value)">
                               </app-custom-input>
                               <span class="input-group-addon "><i class="fa fa-search"></i></span>
                             </div>
@@ -134,8 +134,8 @@
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
 
-                  <app-custom-input [id]="'search'" formControlName="searchName" [className]="'form-control input-search'"
-                    [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  <app-custom-input [id]="'search'" formControlName="searchName"
+                    [className]="'form-control input-search'" [placeholder]="'Search'" [type]="'text'" (keyup)="queryModalForm.value.searchName.length >= 4 ? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   </app-custom-input>
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
@@ -186,9 +186,9 @@
                         <div class="form-group col-xs-12">
                           <div class="input-group">
 
-                            <app-custom-input [id]="'stake_holder'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
-                              [(ngModel)]="searchStakeHolders" [ngModelOptions]="{standalone: true}"
-                              (keyup)="getvalueCheck($event.target.value)">
+                            <app-custom-input [id]="'stake_holder'" [className]="'form-control'"
+                              [placeholder]="'Search'" [type]="'text'" [(ngModel)]="searchStakeHolders"
+                              [ngModelOptions]="{standalone: true}" (keyup)="getvalueCheck($event.target.value)">
                             </app-custom-input>
                             <span class="input-group-addon"><i class="fa fa-search"></i></span>
                           </div>
@@ -226,8 +226,8 @@
                       <form>
                         <div class="form-group col-xs-12 bloc">
                           <div class="input-group bloc-search">
-                            <app-custom-input [id]="'document'" [className]="'form-control'" [placeholder]="'Search'" [type]="'text'"
-                              [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
+                            <app-custom-input [id]="'document'" [className]="'form-control'" [placeholder]="'Search'"
+                              [type]="'text'" [(ngModel)]="searchDocuments" [ngModelOptions]="{standalone: true}"
                               (keyup)="getDocuments($event.target.value)">
                             </app-custom-input>
                             <span class="input-group-addon "><i class="fa fa-search"></i></span>
@@ -264,17 +264,22 @@
                     class="btn btn-warning back-arrow view-button" type="button" (click)="openNav()"><i
                       class="fa fa-angle-double-left"></i>
                   </button></div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 p-0">
                   <button class="btn btn-warning view-button" type="button" (click)="backFromQuery()"><i
                       class="fa fa-arrow-left"></i>
                     {{labels.backToLead}}</button>
                 </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8 p-0 text-right" style="float: right;">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 p-0">
+                  <button class="btn btn-primary view-button" type="button" (click)="viewDDE()">
+                    View DDE</button>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 p-0 text-right" style="float: right;">
 
                   <div class="input-group search-btn-msg" style="float: right;">
-                    <input id="query_id_search" type="text" class="form-control input-search" placeholder="Query Id Search"
-                      [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
+                    <input id="query_id_search" type="text" class="form-control input-search"
+                      placeholder="Query Id Search" [(ngModel)]="searchQueryId" [ngModelOptions]="{standalone: true}"
                       (keyup)="searchQueryIdMessage($event.target.value)" style="float: right;">
                     <span class="input-group-addon glass-span" (click)="clearSearch()"><i
                         [ngClass]="searchQueryId.length >= 1 ? 'fa fa-close cus-close' : 'fa fa-search'"></i></span>
@@ -549,8 +554,8 @@
             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-12 left" id="search-message" style="display:none;">
               <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 p-0 search-bar">
                 <div class="input-group search-btn">
-                  <input id="chat_search" type="text" class="form-control input-search" placeholder="Search" formControlName="searchName"
-                    (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
+                  <input id="chat_search" type="text" class="form-control input-search" placeholder="Search"
+                    formControlName="searchName" (keyup)="queryModalForm.value.searchName.length >= 3? getLeads(getLeadSendObj, queryModalForm.value.searchName, '') : 
                   queryModalForm.value.searchName.length === 0 ? getLeads(getLeadSendObj) : ''">
                   <span class="input-group-addon glass-span"><i class="fa fa-search"></i></span>
                 </div>

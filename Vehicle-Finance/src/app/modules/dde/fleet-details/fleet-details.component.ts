@@ -158,7 +158,7 @@ export class FleetDetailsComponent implements OnInit {
       }
       this.applicantList.push(keyValue)
     })
-    
+
     this.getLov();
     this.getFleetDetails();
 
@@ -269,10 +269,11 @@ export class FleetDetailsComponent implements OnInit {
         gridValue: new FormControl({ value: rowData.gridValue, disabled: true }),
         id: rowData.id,
         leadId: rowData.leadId,
-        loanNo: new FormControl(rowData.loanNo, Validators.compose([Validators.required])),
+        loanNo: new FormControl(rowData.loanNo),
+        fundingAmt : new FormControl(rowData.fundingAmt),
         make: new FormControl(rowData.make, [Validators.required]),
         makeDesc: new FormControl(rowData.makeDesc),
-        paid: new FormControl(rowData.paid, Validators.required),
+        paid: new FormControl(rowData.paid),
         pd: new FormControl({ value: rowData.pd, disabled: true }),
         purchaseDate: new FormControl(rowData.purchaseDate ? this.getDateFormat(rowData.purchaseDate) : "", Validators.compose([Validators.required])),
         regdNo: new FormControl(rowData.regdNo, Validators.compose([Validators.required])),
@@ -282,7 +283,7 @@ export class FleetDetailsComponent implements OnInit {
         relation: new FormControl({ value: rowData.relation, disabled: true }),
         relationDesc: new FormControl(rowData.relationDesc),
         seasoning: new FormControl({ value: rowData.seasoning, disabled: true }),
-        tenure: new FormControl(rowData.tenure, Validators.compose([Validators.required])),
+        tenure: new FormControl(rowData.tenure),
         vehicleId: rowData.vehicleId,
         vehicleType: new FormControl(rowData.vehicleType, [Validators.required]),
         vehicleTypeDesc: new FormControl(rowData.vehicleTypeDesc),
@@ -300,10 +301,11 @@ export class FleetDetailsComponent implements OnInit {
       region: new FormControl('', [Validators.required]),
       yom: new FormControl('', Validators.compose([Validators.required])),
       financier: new FormControl('', [Validators.required]),
-      loanNo: new FormControl('', Validators.compose([Validators.required])),
+      loanNo: new FormControl(''),
+      fundingAmt: new FormControl(''),
       purchaseDate: new FormControl('', [Validators.required]),
-      tenure: new FormControl('', Validators.compose([Validators.required])),
-      paid: new FormControl('', Validators.required),
+      tenure: new FormControl(''),
+      paid: new FormControl(''),
       seasoning: new FormControl({ value: '', disabled: true }),
       ad: new FormControl({ value: '', disabled: true }),
       pd: new FormControl({ value: '', disabled: true }),
@@ -565,20 +567,21 @@ export class FleetDetailsComponent implements OnInit {
 
     if (financierName && financierName === 'Not-Applicable') {
       // this.disableFinanceierBased(index);
-      this.removeValidatoresFinanceierBased(index);
-      this.isDirty = false;
+      //this.removeValidatoresFinanceierBased(index);
+      //this.isDirty = false;
       setTimeout(() => {
         obj.patchValue({
           loanNo: null,
+          fundingAmt : null,
           tenure: null,
           paid: null,
           seasoning: null
         })
       })
     } else {
-      this.addValidatoresFinanceierBased(index);
+      //this.addValidatoresFinanceierBased(index);
       // this.enableFinanceierBased(index);
-      this.isDirty = true;
+      //this.isDirty = true;
     }
 
   }
@@ -619,8 +622,9 @@ export class FleetDetailsComponent implements OnInit {
     let paid = parseInt(this.formArr.controls[i]['controls']['paid'].value)
     if(!tenure || !paid) {
       this.formArr.controls[i]['controls']['seasoning'].patchValue(null);
+      return;
     }
-    this.formArr.controls[i]['controls']['seasoning'].patchValue((paid / tenure) * 100);
+    this.formArr.controls[i]['controls']['seasoning'].patchValue(((paid / tenure) * 100).toFixed(2));
   }
 
   getDateFormat(date) {
@@ -690,26 +694,28 @@ export class FleetDetailsComponent implements OnInit {
         this.fleetIDs = res.ProcessVariables.ids
         this.toasterService.showSuccess('Record saved successfully!', '');
         const fleetList: Array<any> = res.ProcessVariables.fleets;
+        const fleets = res['ProcessVariables'].fleets;
+        this.apiValue = fleets;
         // for (let i = 0; i < fleetList.length; i++) {
         //   this.onGetDateValue(fleetList[i], i)
         // }
-        this.fleetArrayList.controls = [];        
+        this.fleetArrayList.controls = [];
         fleetList.map((val: any, i) =>
           this.fleetArrayList.push(this.initRows(val)));
-          console.log(this.fleetForm.get('Rows')['controls']);
-          const fleetArray = this.fleetForm.get('Rows')['controls'];
+        console.log(this.fleetForm.get('Rows')['controls']);
+        const fleetArray = this.fleetForm.get('Rows')['controls'];
 
-          for(let i = 0; i < fleetArray.length; i++) {
-            if(fleetArray[i].value.financier == 'Not-Applicable') {
-              this.formArr.controls[i]['controls']['loanNo'].clearValidators();
-              this.formArr.controls[i]['controls']['tenure'].clearValidators();
-              this.formArr.controls[i]['controls']['paid'].clearValidators();
-              this.formArr.controls[i]['controls']['loanNo'].updateValueAndValidity();
-              this.formArr.controls[i]['controls']['tenure'].updateValueAndValidity();
-              this.formArr.controls[i]['controls']['paid'].updateValueAndValidity();
-            }
+        for(let i = 0; i < fleetArray.length; i++) {
+          if(fleetArray[i].value.financier == 'Not-Applicable') {
+            this.formArr.controls[i]['controls']['loanNo'].clearValidators();
+            this.formArr.controls[i]['controls']['tenure'].clearValidators();
+            this.formArr.controls[i]['controls']['paid'].clearValidators();
+            this.formArr.controls[i]['controls']['loanNo'].updateValueAndValidity();
+            this.formArr.controls[i]['controls']['tenure'].updateValueAndValidity();
+            this.formArr.controls[i]['controls']['paid'].updateValueAndValidity();
           }
-          
+        }
+
         if (index != null && index != 'next') {
           this.fleetId = this.fleetIDs[index];
           this.router.navigate(['pages/dde/' + this.leadId + '/track-vehicle/' + this.fleetId]);
@@ -764,13 +770,13 @@ export class FleetDetailsComponent implements OnInit {
           }
 
           const financierName = this.apiValue[i].financier
-          if (financierName === 'Not-Applicable') {
-            // this.disableFinanceierBased(i);
-            this.removeValidatoresFinanceierBased(i);
-          } else {
-            this.addValidatoresFinanceierBased(i);
-            // this.enableFinanceierBased(i);
-          }
+          // if (financierName === 'Not-Applicable') {
+          //   // this.disableFinanceierBased(i);
+          //   this.removeValidatoresFinanceierBased(i);
+          // } else {
+          //   this.addValidatoresFinanceierBased(i);
+          //   // this.enableFinanceierBased(i);
+          // }
           // this.onGetDateValue(fleets[i].yom, i)
         }
       } else {

@@ -374,7 +374,8 @@
         <div class="form-group row">
           <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12"><label>{{labels?.remark}}</label></div>
           <div class="form-group col-lg-11 col-md-11 col-sm-11 col-xs-12">
-            <textarea class="form-control form-control-sm" placeholder="Remarks" formControlName="remarks"></textarea>
+            <textarea class="form-control form-control-sm" 
+            [maxlength]="labels?.validationData.remarks.maxLength" placeholder="Remarks" formControlName="remarks"></textarea>
           </div>
 
         </div>

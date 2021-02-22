@@ -223,17 +223,17 @@ export class PersonalDetailsComponent implements OnInit {
       physicallyChallenged: ['', Validators.required],
       customerProfile: ['', Validators.required],
       priorInfo: ['', Validators.required],
-      businessKey: ['', Validators.required],
+      businessKey: [''],
       occupationType: ['', Validators.required],
       businessType: ['', Validators.required],
       vehicleApplication: [''],
       educationalBackgroundType: ['', Validators.required],
       isMinority: ['', Validators.required],
       community: ['', Validators.required],
-      srto: ['', Validators.compose([Validators.maxLength(10), Validators.required])],
+      srto: ['', Validators.compose([Validators.maxLength(10)])],
       contactNo: ['', Validators.required],
       alternateContactNo: [''],
-      email: ['', Validators.required],
+      email: [''],
       residentStatus: ['', Validators.required],
       accomodationType: ['', Validators.required],
       noOfYears: ['', Validators.required],
@@ -424,7 +424,7 @@ export class PersonalDetailsComponent implements OnInit {
   onValidateWeddingDate(event) {
     if (event === '2MRGSTS') {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate');
-      this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl('', [Validators.required]));
+      this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl(''));
     } else {
       this.personalDetailsForm.removeControl('weddingAnniversaryDate')
       this.personalDetailsForm.addControl('weddingAnniversaryDate', new FormControl({ value: '', disabled: true }));

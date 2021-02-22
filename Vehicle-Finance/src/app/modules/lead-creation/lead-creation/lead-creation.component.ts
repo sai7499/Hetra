@@ -142,6 +142,7 @@ export class LeadCreationComponent implements OnInit {
   }
 
   directSourcingCode: any;
+  isShowRcLimit: boolean;
 
   constructor(
     private router: Router,
@@ -245,6 +246,7 @@ export class LeadCreationComponent implements OnInit {
     this.createLeadForm.addControl('rcUtilizedLimit', new FormControl({ value: '', disabled: true }));
     this.createLeadForm.addControl('rcUnutilizedLimit', new FormControl({ value: '', disabled: true }));
     this.createLeadForm.updateValueAndValidity();
+    this.isremoveDealerRC = true;
 
   }
 
@@ -422,6 +424,12 @@ export class LeadCreationComponent implements OnInit {
     console.log('productCategoryChange', (event.target != undefined) ? event.target.value : event);
     const productCategorySelected = event.target ? event.target.value : event;
     this.filterProduct(productCategorySelected)
+    if(productCategorySelected === 'UC'){
+      this.addDealerRClimit();
+      
+    }else{
+      this.removeDealerRClimit();
+    }
   }
 
   filterProduct(productCategorySelected) {

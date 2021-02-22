@@ -12,6 +12,7 @@ import { ToasterService } from '@services/toaster.service';
 // import { LeadHistoriesDataService } from '@services/lead-histories-data.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-lead-section-header',
@@ -44,6 +45,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   isButtonNameChange : boolean;
   isBeforeEligibility: boolean;
   queue: any;
+  isExtUser: boolean;
   constructor(
     private labelsData: LabelsService,
     public router: Router,
@@ -56,7 +58,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     private leadHistoryService: LeadHistoryService,
     private commonDataService: CommonDataService,
     private toasterService: ToasterService,
-    private loanViewService: LoanViewService
+    private loanViewService: LoanViewService,
+    private loginStoreService: LoginStoreService
   ) {
     // this.aRoute.parent.params.subscribe(value => this.leadId = Number(value.leadId))
     this.leadId = this.aRoute.snapshot.params['leadId'];
@@ -69,6 +72,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
     this.getLabels();
     this.userId = localStorage.getItem('userId');
+    const roles = this.loginStoreService.getRolesAndUserDetails();
+    this.isExtUser = roles.fullData.isExtUser;
 
     if (this.leadId) {
       // console.log(this.aRoute.snapshot)
@@ -104,6 +109,13 @@ export class LeadSectionHeaderComponent implements OnInit {
 
     this.getInitiateQueryCount(this.leadId);
 
+    this.sharedService.viewDDE$.subscribe(dde => {
+      console.log(dde, 'dde')
+      if (dde) {
+        this.viewOrEditDde(dde)
+      }
+    })
+
   }
 
   getLocationIndex(url: string) {
@@ -118,7 +130,11 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
-      (data) => (this.labels = data),
+      (data) => {
+        this.labels = data;
+        this.labelsData.setLablesData(data);
+        }
+        ,
       (error) => console.log(error)
     );
   }
@@ -195,12 +211,16 @@ export class LeadSectionHeaderComponent implements OnInit {
 
   }
 
-  viewOrEditDde() {
+  viewOrEditDde(isString?) {
     this.toggleDdeService.setIsDDEClicked();
     this.isEnableDdeButton = false;
     this.isNeedBackButton = true;
+    localStorage.setItem('isNeedBackButton', 'true');
     this.router.navigate(['/pages/dde/' + this.leadId])
-    this.toggleDdeService.setCurrentPath(this.location.path())
+    console.log(isString, 'isString')
+    if (!isString) {
+      this.toggleDdeService.setCurrentPath(this.location.path())
+    }
     this.setDdeBackButton()
   }
 
@@ -208,11 +228,13 @@ export class LeadSectionHeaderComponent implements OnInit {
     const value = localStorage.getItem('ddePath');
     if (!value) {
       this.isNeedBackButton = false;
+      localStorage.setItem('isNeedBackButton', 'false');
       return;
     }
     const ddeButton = JSON.parse(value);
     if (this.toggleDdeService.getDdeClickedValue()) {
       this.isNeedBackButton = true;
+      localStorage.setItem('isNeedBackButton', 'true');
     }
 
     this.ddeBackLabel = ddeButton.labelName;
@@ -225,6 +247,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.router.navigateByUrl(ddeButton.currentUrl);
     localStorage.removeItem('isDdeClicked');
     this.isNeedBackButton = false
+    localStorage.setItem('isNeedBackButton', 'false');
+
   }
 
   getInitiateQueryCount(lead) {
@@ -236,7 +260,8 @@ export class LeadSectionHeaderComponent implements OnInit {
     const currentUrl = this.location.path();
     localStorage.setItem('forQueryUrl', currentUrl);
     this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
-    // this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
+    this.toggleDdeService.setIsDDEClicked('0');
+    this.toggleDdeService.setOperationType('4', 'Query Model', currentUrl);
   }
 
   onLeadHistory() {

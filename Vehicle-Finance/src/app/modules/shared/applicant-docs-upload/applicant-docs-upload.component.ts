@@ -652,7 +652,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           ''
         );
       }
-      if (!documentNumber) {
+      if (!documentNumber && !isDeferred) {
         return this.toasterService.showError(
           'Please enter the document number',
           ''

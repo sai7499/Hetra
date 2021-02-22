@@ -19,13 +19,14 @@ export class LoginStoreService {
     businessDivisionList: any;
     userDetails: any;
 
-    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList) {
+    setRolesAndUserDetails(roles, userDetails, businessDivisionList, activityList, userRoleActivityList, fullData) {
         this.roleAndUserDetails = {
             roles,
             userDetails,
             businessDivisionList,
             activityList,
-            userRoleActivityList
+            userRoleActivityList,
+            fullData
         }
 
         this.sharedService.setSearchBarActivity(activityList)
@@ -35,7 +36,8 @@ export class LoginStoreService {
             userDetails,
             businessDivisionList,
             activityList,
-            userRoleActivityList
+            userRoleActivityList,
+            fullData
         });
         this.cds.changeCdsStatus(true);
         this.creditDashboardMethod({
@@ -44,7 +46,8 @@ export class LoginStoreService {
             roleType: roles[0].roleType,
             userName: userDetails.firstName,
             businessDivision: businessDivisionList,
-            loginId: userDetails['loginId']
+            loginId: userDetails['loginId'],
+            fullData
         });
         this.userRoleActivityList = userRoleActivityList;
         this.userDetails = userDetails;
@@ -79,7 +82,7 @@ export class LoginStoreService {
         return this.emailId;
     }
 
-    public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({ branchId: '', roleId: '', roleType: '', userName: '' });
+    public creditDashboard: BehaviorSubject<object> = new BehaviorSubject<object>({});
     isCreditDashboard = this.creditDashboard.asObservable();
     creditDashboardMethod(value: object) {
         this.creditDashboard.next(value);

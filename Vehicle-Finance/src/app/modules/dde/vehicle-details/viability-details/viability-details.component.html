@@ -530,15 +530,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>(b) {{label?.noOfEarningDays}}</td>
+                        <td>(b) {{label?.noOfTripsPeMonth}}</td>
                         <td>
                             <!-- <input type="text" name="earnings_perday" class="form-control" id="earnings_perday"
                                 formControlName="businessEarningPerDay" /> -->
                             <app-custom-input [id]="gross_income_perday" formControlName="businessEarningPerDay"
                                 [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Earnings Per Month Is Required'" [isDirty]="isDirty" [custom]="daysCheck"
-                                (keyup)="calculateStandOperator()" [placeholder]="'Enter Business Earning Per Month'">
+                                [isRequired]="'Trips Per Month Is Required'" [isDirty]="isDirty" [custom]="daysCheck"
+                                (keyup)="calculateStandOperator()" [placeholder]="'Enter Business Trips Per Month'">
                             </app-custom-input>
                         </td>
                     </tr>
@@ -718,15 +718,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>(b) {{label?.noOfEarningDays}} </td>
+                        <td>(b) {{label?.noOfTripsPeMonth}} </td>
                         <td>
                             <!-- <input type="text" class="form-control" name="num_earnings_perday" id="num_earnings_perday"
                                 formControlName="businessEarningPerDay" /> -->
                             <app-custom-input [id]="num_earnings_perday" formControlName="businessEarningPerDay"
                                 [custom]="daysCheck" [maxLength]="label?.validationData?. daysFormat?.maxLength"
                                 [type]="label?.validationData?. daysFormat?.type"
-                                [isRequired]="'Business Earning Per Month Is Required'" [isDirty]="isDirty"
-                                [placeholder]="'Enter No of Earnings Per Month'" (keyup)="calculateCaptive()">
+                                [isRequired]="'Business Trips Per Month Is Required'" [isDirty]="isDirty"
+                                [placeholder]="'Enter No of Trips Per Month'" (keyup)="calculateCaptive()">
                             </app-custom-input>
                         </td>
                     </tr>

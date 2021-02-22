@@ -122,9 +122,9 @@
                           [placeholder]="'Business Entity Name'" [type]="labels?.validationData?.businessEntity?.type"
                           [className]="'form-control mandatory'" [maxLength]="
                         labels?.validationData?.businessEntity?.maxLength
-                      " [isDirty]="isDirty" [isRequired]="'Business Entity Name is required.'">
+                      " [isDirty]="isDirty" [isRequired]="'Business Entity Name mandatory.'">
                         </app-custom-input>
-                        <div *ngIf="
+                        <!-- <div *ngIf="
                         incomeDetailsForm.get('businessIncomeDetails').controls[
                           i
                         ].controls.businessEnterpriseName.invalid &&
@@ -137,7 +137,7 @@
                         ">
                             Business Enterprise Name is required.
                           </div>
-                        </div>
+                        </div> -->
                       </td>
                       <td>
                         <app-custom-input formControlName="netProfit" [placeholder]="'Net Profit'"
@@ -146,7 +146,7 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isRequired]="'Net Profit mandatory'" [isDirty]="isDirty"
                           (keyup)="onIncome($event.target.value, i)"></app-custom-input>
-                        <div *ngIf="
+                        <!-- <div *ngIf="
                         incomeDetailsForm.get('businessIncomeDetails').controls[
                           i
                         ].controls.netProfit.invalid && submitted == true
@@ -157,7 +157,7 @@
                         ">
                             Net Profit is required.
                           </div>
-                        </div>
+                        </div> -->
                       </td>
                       <td>
                         <app-custom-input formControlName="depreciation" [placeholder]="'Depreciation'"
@@ -166,7 +166,7 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isRequired]="'Depreciation mandatory'" [isDirty]="isDirty"
                           (keyup)="onIncome($event.target.value, i)"></app-custom-input>
-                        <div *ngIf="
+                        <!-- <div *ngIf="
                         incomeDetailsForm.get('businessIncomeDetails').controls[
                           i
                         ].controls.depreciation.invalid && submitted == true
@@ -177,7 +177,7 @@
                         ">
                             'Depreciation is required.
                           </div>
-                        </div>
+                        </div> -->
                       </td>
                       <td>
                         <app-custom-input formControlName="directorSalary" [placeholder]="'Director Salary'"
@@ -186,7 +186,7 @@
                         labels?.validationData?.amountValue?.maxLength
                       " [isRequired]="'Director Salary mandatory'" [isDirty]="isDirty"
                           (keyup)="onIncome($event.target.value, i)"></app-custom-input>
-                        <div *ngIf="
+                        <!-- <div *ngIf="
                         incomeDetailsForm.get('businessIncomeDetails').controls[
                           i
                         ].controls.directorSalary.invalid && submitted == true
@@ -197,7 +197,7 @@
                         ">
                             Director Salary is required.
                           </div>
-                        </div>
+                        </div> -->
                       </td>
                       <td>
                         <app-custom-input formControlName="grossDerivedIncome"
@@ -326,23 +326,23 @@
                       <td class="bank_name">{{ labels?.shareCapital }}</td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearOne.controls.shareCapital"
-                          [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [placeholder]="'Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
                           [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
-                          [isRequired]="item.controls.yearOne.controls.shareCapital.invalid ? 'Share Captial Required' : ''">
+                          [isRequired]="item.controls.yearOne.controls.shareCapital.invalid ? 'Captial is Required' : ''">
                         </app-custom-input>
                       </td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearTwo.controls.shareCapital"
-                          [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [placeholder]="'Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
                           [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
-                          [isRequired]="item.controls.yearTwo.controls.shareCapital.invalid ? 'Share Captial Required' : ''">
+                          [isRequired]="item.controls.yearTwo.controls.shareCapital.invalid ? 'Captial is Required' : ''">
                         </app-custom-input>
                       </td>
                       <td>
                         <app-custom-input [formControl]="item.controls.yearThree.controls.shareCapital"
-                          [placeholder]="'Share Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
+                          [placeholder]="'Capital'" [type]="labels?.validationData?.keyFinancialAmount?.type"
                           [maxLength]="labels?.validationData?.keyFinancialAmount?.maxLength" [isDirty]="isDirty"
-                          [isRequired]="item.controls.yearThree.controls.shareCapital.invalid ? 'Share Captial Required' : ''">
+                          [isRequired]="item.controls.yearThree.controls.shareCapital.invalid ? 'Captial is Required' : ''">
                         </app-custom-input>
                       </td>
                     </tr>

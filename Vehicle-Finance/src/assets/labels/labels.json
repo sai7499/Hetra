@@ -124,8 +124,8 @@
     "discount": "Discount",
     "variant": "Variant",
     "finalAssetCost": "Final Asset Cost",
-    "nameOfVehicleOwner": "Name of Vehicle Owner/Dealer",
-    "mobileNumberOfVehicle": "Mobile Number of Vehicle Owner/Dealer",
+    "nameOfVehicleOwner": "Name of Vehicle Owner/Dealer/Driver",
+    "mobileNumberOfVehicle": "Mobile Number of Vehicle Owner/Dealer/Driver",
     "vehicleAddress": "Vehicle Address",
     "vehiclePinCode": "Vehicle Address PINCODE",
     "idv": "IDV",
@@ -147,7 +147,7 @@
     "reRegisteredVehicle": "Re-Registered Vehicle",
     "frsdRequired": "FRSD Funding Required",
     "frsdAmount": "FRSD Premium Amount",
-    "fitnessDate": "Fitness Date",
+    "fitnessDate": "Fitness valid upto",
     "fitnessCopy": "Fitness Upload",
     "noVehicle": "No of Vehicles",
     "back": "Back",
@@ -202,7 +202,7 @@
     "addressline2": "Address Line 2",
     "addressline3": "Address Line 3",
     "code": "Pin Code",
-    "city": "City",
+    "city": "Area",
     "district": "District",
     "state": "State",
     "country": "Country",
@@ -228,6 +228,7 @@
     "loanAmountRange": "Loan Amount Range",
     "ageOfCar": "Age of the asset at the end of tenor (months)",
     "loanToValue ": "Loan to Value ",
+    "fuelType": "Fuel Type",
     "insuranceCrossSell": "Insurance Cross sell",
     "loanToValueInsuranceFunded": "Loan to Value Insurance Funded",
     "equitasFastTagRequired": "Equitas Fast tag required",
@@ -330,7 +331,7 @@
     "office": "Office",
     "workExperience": "Work Experience",
     "extn": "Extn",
-    "workStability": "Work Stability",
+    "workStability": "Stability in current Employment/Business",
     "natureOfBusiness": "Nature of Business",
     "educationalBackground": "Educational Background Type",
     "vehicleApplication": "Vehicle Application",
@@ -697,7 +698,7 @@
     "fleetSummaryTitle": "FLEET SUMMARY",
     "trackValidationSummaryTitle": "TRACK VALIDATION SUMMARY",
     "keyFinancialTitle": "Key Financial",
-    "shareCapital": "Share Capital",
+    "shareCapital": "Capital",
     "lorryHireChargesPaid": "Lorry hire charges paid (Freight charges )",
     "netProfitAfterTaxA": "Net Profit after Tax (A)",
     "depreciationB": "Depreciation (B)",
@@ -1038,7 +1039,7 @@
     "houseOwnership": "House Ownership",
     "ownerName": "Owner Name",
     "propertyArea": "Area of the property(sq.feet)",
-    "dependents": "Dependents",
+    "dependents": "Number of Dependents",
     "ratingBySo": "Rating By SO",
     "customerLocality": "Locality",
     "customerProfileTitle": "Customer Profile Details",
@@ -1646,6 +1647,7 @@
     "favourBankBranch": "Favouring Bank Branch",
     "disburseLoanNumber": "Loan Number",
     "applyDeductDisbursement": "Apply deduction in this disbursement",
+    "applyDeferred": "Deferred disbursement",
     "disburseInTranches": "Disburse in Tranches",
     "disbursementPercent": "Disbursement Percentage",
     "disbursementAmount": "Disbursement Amount",
@@ -1839,10 +1841,11 @@
     "incentiveAmount":"Incentive Amount (in INR)",
     "loanAmountincludingCrossSellsubtracSubvention":"Loan Amount including Cross Sell Funding but subtracting Subvention (in INR)",
     "repaymentFrequency" : "Repayment Frequency",
-    "EMIStructure": "EMI Structure",
+    "repaymentStructure": "Repayment Structure",
     "EMIAfterCrossSell" : "EMI After Cross Sell",
     "fromMonth":"From Month",
     "toMonth": "To Month",
+    "installmentAmount": "% of Repayment Amount",
     "EMIAmount": "EMI Amount(in Rs)",
     "instalmentNo" : "Installment No",
     "installmentDate" : "Installment Date",
@@ -1852,13 +1855,25 @@
     "principleOutstanding": "Principle Outstanding (in Rs)",
     "charges": "Charges",
     "finalAssetCosts": "Final Asset Cost (in INR)",
-    "finalLTV":"Final LTV (in %)",
+    "finalLTVwithcrs":"Final LTV With Cross Sell (in %)",
+    "finalLTVwithoutcrs":"Final LTV Without Cross Sell (in %)",
     "chargesinINR":"Charges (in INR)",
     "gapDaysInterest": "Gap Days Interest (in INR) ",
     "submitDate": "Submit Date",
     "submitTime": "Submit Time",
     "receivedDate": "Received Date",
     "receivedTime": "Received Time",
+    "disburse" : "Disburse",
+
+    "customerRejOffer" : "Self declined by customer",
+    "assetValue" : "Asset Value",
+    "pdcEmiAmount" : "EMI Amount",
+    "selfieTitleForNonInd" : "Selfie With Customer Office",
+    "relationWithApplication" : "Relation with Application ",
+    "noOfTenure" : "No.of tenure",
+    "noOfEmiPaid" : "No of EMI Paid",
+    "fundingAmount" : "Funding Amount",
+    "purchaseCost": "Purchase cost",
 
     
     "validationData": {
@@ -1990,7 +2005,7 @@
         },
         "landMark": {
             "maxLength": {
-                "rule": 60
+                "rule": 30
             },
             "pattern": {
                 "rule": "^[0-9A-Za-z, _&*#/\\-@]{0,99}$",
@@ -3063,6 +3078,9 @@
                 "rule": "[1-9]",
                 "msg": "Invalid Characters not allowed"
             }
+        },
+        "remarks": {
+            "maxLength": 1500
         } 
     }
 }

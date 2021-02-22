@@ -245,13 +245,21 @@
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture">
                 <label for="weaker_section_ag">{{labels.weakerSection}}</label>
-                <app-vf-custom-select [values]="" formControlName="weakerSection" name="weakerSection">
-                </app-vf-custom-select>
+                <mat-form-field>
+                    <mat-select id="disburseTo" formControlName="weakerSection" multiple>
+                        <mat-option *ngFor="let x of weakerSectionValues" [value]="x.key">{{x.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-3  msme">
+            <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
                 <label for="weaker_section_msme">{{labels.weakerSection}}</label>
-                <app-vf-custom-select [values]="" formControlName="weakerSection" name="weakerSection">
-                </app-vf-custom-select>
+                <mat-form-field>
+                    <mat-select id="disburseTo" formControlName="weakerSection" multiple>
+                        <mat-option *ngFor="let x of weakerSectionValues" [value]="x.key">{{x.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </div>
         <!-----------------------------------End Of Other Option------------------------------------>
@@ -290,7 +298,7 @@
                     <label for="land_owner">{{labels.landOwner}}
                         <sub class="star_red_col">*</sub>
                     </label>
-                    <app-vf-custom-select [values]="LOV.LOVS.applicantRelationshipWithLead" formControlName="landOwner"
+                    <app-vf-custom-select [values]="LOV.LOVS.landOwnerArray" formControlName="landOwner"
                         (click)="onChangeLandOwner($event)" name="landOwner" [isRequired]="'Please Select One Option'"
                         [isDirty]="isDirty">
                     </app-vf-custom-select>
@@ -316,10 +324,6 @@
                     <label for="land_area_in_acres">{{labels.landAreaInAcres}}
                         <sub class="star_red_col">*</sub>
                     </label>
-                    <!-- <input type="number" formControlName="landArea" class="form-control" name="land_area_in_acres"
-                    id="land_area_in_acres" required="required" [(ngModel)]="landAreaInAcresValue"
-                    (change)="onLandAreaChange($event)"  
-                    /> -->
                     <app-custom-input (keyup)="onChangelandUnitType()" formControlName="landUnitValue"
                         [className]="'form-control mandatory'" [placeholder]="'Land Area'"
                         [maxLength]="labels?.validationData?.landArea.maxLength"
@@ -327,7 +331,7 @@
                         [isDirty]="isDirty">
                     </app-custom-input>
                 </div>
-                <!-- </div>  -->
+
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture" *ngIf="isLandHoldingYes">
                     <label for="land_proof">{{labels.landUnitType}}
                         <sub class="star_red_col">*</sub>
@@ -341,10 +345,7 @@
                     <label for="land_area_in_acres">{{labels.landAreaInHectares}}
                         <sub class="star_red_col">*</sub>
                     </label>
-                    <!-- <input type="number" formControlName="landArea" class="form-control" name="land_area_in_acres"
-                    id="land_area_in_acres" required="required" [(ngModel)]="landAreaInAcresValue"
-                    (change)="onLandAreaChange($event)"  
-                    /> -->
+
                     <app-custom-input (change)="onLandAreaChange($event)" formControlName="landInHectare"
                         [className]="'form-control mandatory'" [placeholder]="'Land Area in Hectares'"
                         [maxLength]="labels?.validationData?.landArea.maxLength"
@@ -405,18 +406,7 @@
                     </app-vf-custom-select>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 agriculture">
-                    <label for="weaker_section_ag">{{labels.weakerSection}}
-                        <sub class="star_red_col">*</sub>
-                    </label>
-                    <!-- <app-vf-custom-select 
-                    [values]="weakerSectionValues" 
-                    formControlName="weakerSection"
-                    (change)="onChangeWeakerSection($event)"
-                    name="weakerSection"
-                    [isRequired]="'Please Select One Option'"
-                    [isDirty] = "isDirty"
-                    >
-                </app-vf-custom-select> -->
+                    <label for="weaker_section_ag">{{labels.weakerSection}}</label>
                     <mat-form-field>
                         <mat-select id="disburseTo" formControlName="weakerSection" multiple>
                             <mat-option *ngFor="let x of weakerSectionValues" [value]="x.key">{{x.value}}
@@ -435,7 +425,7 @@
 
         <div class="" id="micro_small__medium_enterprises" formGroupName="nonAgriculture"
             *ngIf="activityChange !== '1PSLACTVTY' ">
-            <!-- [isRequired]="'Please Select One Option'" -->
+
             <div class="form-group col-lg-12 col-md-12 col-sm-12 row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                     <label for="detail_activity">{{labels.detailActivity}}
@@ -464,8 +454,6 @@
                     <label for="goods_manufactured">{{labels.goodsManufactured}}
                         <sub class="star_red_col">*</sub>
                     </label>
-                    <!-- <input type="text" formControlName="goodsManufactured" class="form-control" name="goods_manufactured"
-                            id="goods_manufactured" required="required"  /> -->
                     <app-custom-input formControlName="goodsManufactured" [className]="'form-control mandatory'"
                         [placeholder]="'Goods Manufactured'"
                         [maxLength]="labels?.validationData?.goodsManufactured.maxLength"
@@ -477,6 +465,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group col-lg-12 col-md-12 col-sm-12 row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
                     <label for="type_of_service">{{labels.typeOfService}}
@@ -494,15 +483,10 @@
                     <label for="loan_amount">{{labels.loanAmount}}
                         <sub class="star_red_col">*</sub>
                     </label>
-                    <!-- <input type="text" formControlName="loanAmount" class="form-control" name="loan_amount" id="loan_amount"
-                        required="required" />  [value]="loanAmount"  [isRequired]="'Required Input is mandatory'"-->
                     <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
                         [placeholder]="'Loan Amount'" [maxLength]="" [patternCheck]="" [isDirty]="isDirty"
                         name="loan_amount" [isDisabled]="true">
                     </app-custom-input>
-                    <!-- <div class="invalid-feedback" *ngIf = "submitted && f.controls.detailActivity.invalid">
-                    <p>Please select detail activity</p>
-                </div> -->
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
@@ -520,6 +504,7 @@
 
                 </div>
             </div>
+
             <div class="col-lg-12 col-md-12 col-sm-12 row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3 msme">
                     <label for="mobile_number">{{labels.uRegisteredMobileNo}}
@@ -531,8 +516,7 @@
                         [className]="'form-control mandatory'" [placeholder]="'Enter UDHYAM Registered Mobile Number'"
                         [maxLength]="labels.validationData?.mobileNumber.maxLength"
                         [patternCheck]="labels.validationData?.mobileNumber.pattern"
-                        (change)="onValidMobileNumber($event.target.value, f)"
-                        [isDirty]="isDirty">
+                        (change)="onValidMobileNumber($event.target.value, f)" [isDirty]="isDirty">
                     </app-custom-input>
 
                     <div class="invalid-feedback" *ngIf="submitted && f.controls.uRegisteredMobileNo.invalid">
@@ -591,16 +575,17 @@
                         <p>Please select psl certificate</p>
                     </div>
                 </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-3  msme">
+                    <label for="weaker_section_msme">{{labels.weakerSection}}</label>
+                    <mat-form-field>
+                        <mat-select id="disburseTo" formControlName="weakerSection" multiple>
+                            <mat-option *ngFor="let x of weakerSectionValues" [value]="x.key">{{x.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </div>
 
-            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3  msme" >
-                <label for="weaker_section_msme">{{labels.weakerSection}}</label>
-                <app-vf-custom-select 
-                    formControlName="weakerSection"
-                    name="weakerSection"
-                >
-                </app-vf-custom-select>
-            </div> -->
         </div>
         <!---------------------------------End of MSME Section ----------------------------------->
 

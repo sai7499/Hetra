@@ -1,87 +1,96 @@
 <main class="welcmlter_body">
-    <div class="container-fluid content">
-    <div class="text-center">
-        <button class="btn btn-primary view-button" 
-            type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
-            (click)="viweWelcomeLetter()">View Welcome Letter</button>&nbsp;
-            <button class="btn btn-primary view-button hvr-sweep-to-left" 
-            type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
-            (click)="onBack()">Back</button>&nbsp;
-            <button class="btn btn-primary view-button hvr-sweep-to-right" 
-                type="button" id="" tabindex="8" *ngIf="!showWelcomeLetter && productCatCode =='NCV'"
-                 (click)="onNext()">Next</button><br> 
-    </div>
+    <div class="container-fluid">
+        <div class="text-center">
+            <button class="btn btn-primary view-button" type="button" id="" tabindex="7" *ngIf="!showWelcomeLetter"
+                (click)="viweWelcomeLetter()">View Welcome Letter</button>&nbsp;
+            <button class="btn btn-primary view-button hvr-sweep-to-left" type="button" id="" tabindex="7"
+                *ngIf="!showWelcomeLetter" (click)="onBack()">Back</button>&nbsp;
+                <ng-container *ngIf="roleType !== 1">
+                <button class="btn btn-primary view-button hvr-sweep-to-right" type="button" id="" tabindex="8"
+                    *ngIf="!showWelcomeLetter && productCatCode =='NCV'" (click)="onNext()">Next</button><br>
+            </ng-container>
 
-        <div *ngIf="showWelcomeLetter" >
+        </div>
+
+        <div *ngIf="showWelcomeLetter">
             <div id="ContentToConvert">
                 <div class="row">
-            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
-            <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
-            </div>
-            
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
-                <img class="img-style" src="assets\images\equitas-logo.png">
-                </div>
-            </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                        <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+                        <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+                    </div>
 
-            <table class="margin-add">
-                <tbody>
-                    <tr>
-                    <td width="60%" class='style-strong'>{{labels?.AgreementNo}}: {{isWelcomeDetails?.agreementNo}} </td>
-                        <td width="40%" class='style-strong text-right'>{{labels?.Date}} : {{isWelcomeDetails?.loanBookedDate}}
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="row margtin_buttom">
-                <div class="col-md-4">
-                    <strong>{{labels?.To}}</strong><br>
-                    <strong>{{labels?.Customer}}</strong>
-                    <div>
-                        <strong>{{applicantList?.name}}</strong><br>
-                        {{applicantList?.addressLine1}}<br>
-                        <ng-container *ngIf="applicantList?.addressLine2 === 'null' ? true : false ">{{applicantList?.addressLine2}}</ng-container>
-                        <ng-container *ngIf="applicantList?.addressLine3 === 'null' ? true : false ">{{applicantList?.addressLine3}}</ng-container>
-                        {{applicantList?.city}}<br>
-                        {{applicantList?.district}}<br>
-                        {{applicantList?.state +'-'+applicantList?.pincode}}<br>
-                        {{applicantList?.country}}
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;"
+                        id="vf_sheet_tag8">
+                        <img class="img-style" src="assets\images\equitas-logo.png">
                     </div>
                 </div>
-                <div class="col-md-4" *ngIf="coApplicantList?.length>0">
-                    <div *ngFor="let coAppliacnt of coApplicantList; let i=index">
-                        <strong>{{labels?.CoBorrower}} {{i+1}}</strong> <br>
-                        <strong>{{coAppliacnt?.name}}</strong><br>
-                        {{coAppliacnt?.addressLine1}}<br>
-                        <ng-container *ngIf="coAppliacnt?.addressLine2 === 'null' ? true : false ">{{coAppliacnt?.addressLine2}}</ng-container>
-                        <ng-container *ngIf="coAppliacnt?.addressLine3 === 'null' ? true : false ">{{coAppliacnt?.addressLine3}}</ng-container>
-                        {{coAppliacnt?.city}}<br>
-                        {{coAppliacnt?.district}}<br>
-                        {{coAppliacnt?.state +'-'+coAppliacnt?.pincode}}<br>
-                        {{coAppliacnt?.country}}
-                    </div>
-                </div>
-                <div class="col-md-4" *ngIf="guarantorList?.length>0">
 
-                    <div *ngFor="let guarantor of guarantorList; let i=index">
-                        <strong>{{labels?.Guarantor}} {{i+1}}</strong> <br>
-                        <strong>{{guarantor?.name}}</strong><br>
-                        {{guarantor?.addressLine1}}<br>
-                        <ng-container *ngIf="guarantor?.addressLine2 === 'null' ? true : false ">{{guarantor?.addressLine2}}</ng-container>
-                        <ng-container *ngIf ="guarantor?.addressLine3 === 'null' ? true : false ">{{guarantor?.addressLine3}}</ng-container>
-                        <!-- {{guarantor?.addressLine2=== 'null' ? true : false }}
+                <table class="margin-add">
+                    <tbody>
+                        <tr>
+                            <td width="60%" class='style-strong'>{{labels?.AgreementNo}}:
+                                {{isWelcomeDetails?.agreementNo}} </td>
+                            <td width="40%" class='style-strong text-right'>{{labels?.Date}} :
+                                {{isWelcomeDetails?.loanBookedDate}}
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row margtin_buttom">
+                    <div class="col-md-4">
+                        <strong>{{labels?.To}}</strong><br>
+                        <strong>{{labels?.Customer}}</strong>
+                        <div>
+                            <strong>{{applicantList?.name}}</strong><br>
+                            {{applicantList?.addressLine1}}<br>
+                            <ng-container *ngIf="applicantList?.addressLine2 === 'null' ? true : false ">
+                                {{applicantList?.addressLine2}}</ng-container>
+                            <ng-container *ngIf="applicantList?.addressLine3 === 'null' ? true : false ">
+                                {{applicantList?.addressLine3}}</ng-container>
+                            {{applicantList?.city}}<br>
+                            {{applicantList?.district}}<br>
+                            {{applicantList?.state +'-'+applicantList?.pincode}}<br>
+                            {{applicantList?.country}}
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="coApplicantList?.length>0">
+                        <div *ngFor="let coAppliacnt of coApplicantList; let i=index">
+                            <strong>{{labels?.CoBorrower}} {{i+1}}</strong> <br>
+                            <strong>{{coAppliacnt?.name}}</strong><br>
+                            {{coAppliacnt?.addressLine1}}<br>
+                            <ng-container *ngIf="coAppliacnt?.addressLine2 === 'null' ? true : false ">
+                                {{coAppliacnt?.addressLine2}}</ng-container>
+                            <ng-container *ngIf="coAppliacnt?.addressLine3 === 'null' ? true : false ">
+                                {{coAppliacnt?.addressLine3}}</ng-container>
+                            {{coAppliacnt?.city}}<br>
+                            {{coAppliacnt?.district}}<br>
+                            {{coAppliacnt?.state +'-'+coAppliacnt?.pincode}}<br>
+                            {{coAppliacnt?.country}}
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="guarantorList?.length>0">
+
+                        <div *ngFor="let guarantor of guarantorList; let i=index">
+                            <strong>{{labels?.Guarantor}} {{i+1}}</strong> <br>
+                            <strong>{{guarantor?.name}}</strong><br>
+                            {{guarantor?.addressLine1}}<br>
+                            <ng-container *ngIf="guarantor?.addressLine2 === 'null' ? true : false ">
+                                {{guarantor?.addressLine2}}</ng-container>
+                            <ng-container *ngIf="guarantor?.addressLine3 === 'null' ? true : false ">
+                                {{guarantor?.addressLine3}}</ng-container>
+                            <!-- {{guarantor?.addressLine2=== 'null' ? true : false }}
                         {{guarantor?.addressLine3=== 'null' ? true : false }} -->
-                        {{guarantor?.city}}<br>
-                        {{guarantor?.district}}<br>
-                        {{guarantor?.state +'-'+guarantor?.pincode}}<br>
-                        {{guarantor?.country}}
+                            {{guarantor?.city}}<br>
+                            {{guarantor?.district}}<br>
+                            {{guarantor?.state +'-'+guarantor?.pincode}}<br>
+                            {{guarantor?.country}}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- <table>
+                <!-- <table>
             <tbody>
                 <tr>
                     <td colspan="2">To,</td>
@@ -108,11 +117,11 @@
                 </tr>
             </tbody>
         </table> -->
-            <div class="margin-add" [innerHTML]="div1Data"></div>
-            <p class="text-right font-small">{{labels?.Regdoffice}}<br>
-                {{labels?.phTollfree}}</p> 
+                <div class="margin-add" [innerHTML]="div1Data"></div>
+                <p class="text-right font-small">{{labels?.Regdoffice}}<br>
+                    {{labels?.phTollfree}}</p>
 
-            <!-- <p>Dear Sir/Madam,
+                <!-- <p>Dear Sir/Madam,
 
 We thank you for choosing us as your preferred financial partner. We welcome you to the family of Equitas. Equitas
 is a Latin word which means equitable, i.e. fair & transparent. We are proud to reiterate our commitment to fairness
@@ -185,200 +194,203 @@ Equitas Finance Private Limited<br />
 
 (Please note this is a computer generated letter and hence requires no signature)<br />
 
-</p> -->    <div class="html2pdf__page-break"></div>
-<div class="row margin-add">
-    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-        <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
-    <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
-    </div>
-    
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
-        <img class="img-style" src="assets\images\equitas-logo.png">
-        </div>
-    </div>
-            <table class="table">
-                <tr class="top-border">
-                    <td>{{labels?.LoanAgreementNo}}</td>
-                    <td>{{isWelcomeDetails?.agreementNo}} </td>
-                    <td>{{labels?.AgreementDate}}</td>
-                    <td>{{isWelcomeDetails?.agreementDate}}</td>
-                </tr>
-                <tr class="top-border">
-                    <td>{{labels?.NameandAddressoftheBorrower}}</td>
-                    <td colspan="3">{{applicantList?.name}}<br />
-                        <!-- 418 MAHADEV NAGAR TAL-KOPARGAON DIST-AHMED NAGAR KOPERGAON AHMED NAGAR - 423601<br />
-                    MAHARASHTRA -->
-                        {{applicantList?.addressLine1}}, 
-                    {{applicantList?.addressLine2}},
-                    {{applicantList?.addressLine3}}
-                    </td>
-                </tr>
-                <tr class="top-border">
-                    <td>{{labels?.NameandAddressoftheCoBorrower}}</td>
-                    <td colspan="3">
-                        <div class="margin-add" *ngFor="let coAppliacnt of coApplicantList; let i=index">
-                            {{coAppliacnt?.name}}<br />
+</p> -->
+                <div class="html2pdf__page-break"></div>
+                <div class="row margin-add">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                        <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+                        <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;"
+                        id="vf_sheet_tag8">
+                        <img class="img-style" src="assets\images\equitas-logo.png">
+                    </div>
+                </div>
+                <table class="table">
+                    <tr class="top-border">
+                        <td>{{labels?.LoanAgreementNo}}</td>
+                        <td>{{isWelcomeDetails?.agreementNo}} </td>
+                        <td>{{labels?.AgreementDate}}</td>
+                        <td>{{isWelcomeDetails?.agreementDate}}</td>
+                    </tr>
+                    <tr class="top-border">
+                        <td>{{labels?.NameandAddressoftheBorrower}}</td>
+                        <td colspan="3">{{applicantList?.name}}<br />
                             <!-- 418 MAHADEV NAGAR TAL-KOPARGAON DIST-AHMED NAGAR KOPERGAON AHMED NAGAR - 423601<br />
                     MAHARASHTRA -->
-                            {{coAppliacnt?.addressLine1}},
-                            {{coAppliacnt?.addressLine2}},
-                            {{coAppliacnt?.addressLine3}}</div>
-                    </td>
-                </tr>
-                <tr class="top-border ">
-                    <td>{{labels?.NameandAddressoftheGuarantor}}</td>
-                    <td colspan="3">
-                        <div *ngFor="let guarantor of guarantorList;"><br />
+                            {{applicantList?.addressLine1}},
+                            {{applicantList?.addressLine2}},
+                            {{applicantList?.addressLine3}}
+                        </td>
+                    </tr>
+                    <tr class="top-border">
+                        <td>{{labels?.NameandAddressoftheCoBorrower}}</td>
+                        <td colspan="3">
+                            <div class="margin-add" *ngFor="let coAppliacnt of coApplicantList; let i=index">
+                                {{coAppliacnt?.name}}<br />
+                                <!-- 418 MAHADEV NAGAR TAL-KOPARGAON DIST-AHMED NAGAR KOPERGAON AHMED NAGAR - 423601<br />
+                    MAHARASHTRA -->
+                                {{coAppliacnt?.addressLine1}},
+                                {{coAppliacnt?.addressLine2}},
+                                {{coAppliacnt?.addressLine3}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="top-border ">
+                        <td>{{labels?.NameandAddressoftheGuarantor}}</td>
+                        <td colspan="3">
+                            <div *ngFor="let guarantor of guarantorList;"><br />
 
-                            {{guarantor?.name}}<br />
-                            {{guarantor?.addressLine1}},
-                            {{guarantor?.addressLine2}},
-                            {{guarantor?.addressLine3}}</div>
-                        <div *ngIf="guarantorList?.length <= 0">NOT APPLICABLE</div>
-                    </td>
-                </tr>
-            </table>
-
-            <p class='text-center' id='vech_tab'><strong>{{labels?.VEHICLEDETAILS}}</strong></p>
-            <table cellspacing="0" cellpadding="0" dir="ltr" border="1"
-                *ngFor="let vechicleList of vehicleDetailsArray">
-                <tr>
-                    <td class="vech_tab">{{labels?.VehicleMake}}</td>
-                    <td class="vech_tab">{{vechicleList?.vehMake}}</td>
-                    <td class="vech_tab">{{labels?.VehicleModel}}</td>
-                    <td class="vech_tab">{{vechicleList?.vehModel}}</td>
-                </tr>
-                <tr>
-                    <td class="vech_tab">{{labels?.YearofManufacture}}</td>
-                    <td class="vech_tab">{{vechicleList?.manufacYear}}</td>
-                    <td class="vech_tab">{{labels?.VehicleRegistrationNo}}</td>
-                    <td class="vech_tab">{{vechicleList?.vehRegNo}}</td>
-                </tr>
-                <tr>
-                    <td class="vech_tab">{{labels?.EngineNo}}</td>
-                    <td class="vech_tab">{{vechicleList?.engineNo}}</td>
-                    <td class="vech_tab">{{labels?.ChassisNo}}</td>
-                    <td class="vech_tab">{{vechicleList?.chassisNo}}</td>
-                </tr>
-            </table>
-
-            <div class="margin-add" id='vf_sheet_second_table'>
-                <p id='vf_sheet_tag33' class='text-center'><strong>{{labels?.LOANAPPROVEDDETAILS}}</strong></p>
-                <table cellspacing="0" cellpadding="0" dir="ltr" border="1"
-                    *ngFor="let loanData of loanApprovedDetails">
-                    <tr>
-                        <td class="vech_tab">{{labels?.AssetCost}}</td>
-                        <td class="vech_tab">{{loanData?.assetCost | currency: 'INR'}}</td>
-                        <td class="vech_tab">{{labels?.LoanAmount}}</td>
-                        <td class="vech_tab">{{loanData?.loanAmt | currency: 'INR'}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{labels?.LoanTenorMonths}}</td>
-                        <td>{{loanData?.loanTenor}}</td>
-                        <td>{{labels?.RepayMonths}}</td>
-                        <td>{{loanData?.repay}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{labels?.InterestRate}}</td>
-                        <td>{{loanData?.interestRate}}</td>
-                        <td>{{labels?.AllinclusiveIRR}}</td>
-                        <td>{{loanData?.allIncIRR}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{labels?.NoofAdvMI}}</td>
-                        <td>{{loanData?.noOfAdvEmi}}</td>
-                        <td>{{labels?.AdvEMIAmount}}</td>
-                        <td>{{loanData?.advEmiAmt | currency: 'INR'}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{labels?.ProcessingCharges}}</td>
-                        <td>{{loanData?.processingCharges}}</td>
-                        <td>{{labels?.CreditShieldCharges}}</td>
-                        <td>{{loanData?.creditShield | currency: 'INR'}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{labels?.NPDCCharges}}</td>
-                        <td>{{loanData?.npdcCharges}}</td>
-                        <td>{{labels?.RollOverPDCCharges}}</td>
-                        <td>{{loanData?.rollOverPdc | currency: 'INR'}}</td>
-                    </tr>
-
-                    <tr>
-                        <td>{{labels?.InsurancePremium}}</td>
-                        <td>{{loanData?.insPremium | currency: 'INR'}}</td>
-                        <td>{{labels?.Rateofpenalinterestfordelayinrepayment}}</td>
-                        <td>{{loanData?.penalInterest}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{labels?.EMIDueDate}} </td>
-                        <td>{{loanData?.emiDueDt}}</td>
-                        <td>{{labels?.EMIAmount}}</td>
-                        <td>{{loanData?.emiAmt | currency: 'INR'}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{labels?.EMIStartDate}}</td>
-                        <td>{{loanData?.emiStartDt}}</td>
-                        <!-- | date: 'dd/MM/yyyy' -->
-                        <td>{{labels?.EMIEndDate}}</td>
-                        <td>{{loanData?.emiEndDt}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{labels?.ModeofPayment}}</td>
-                        <td>{{loanData?.modeOfPayment}}</td>
-                        <td>{{labels?.FieldVisitChargesApplicable}}</td>
-                        <td>{{loanData?.fieldVisitChargesApplicable | currency: 'INR'}}</td>
+                                {{guarantor?.name}}<br />
+                                {{guarantor?.addressLine1}},
+                                {{guarantor?.addressLine2}},
+                                {{guarantor?.addressLine3}}</div>
+                            <div *ngIf="guarantorList?.length <= 0">NOT APPLICABLE</div>
+                        </td>
                     </tr>
                 </table>
-            </div>
 
-
-            <table>
-                <tbody>
+                <p class='text-center' id='vech_tab'><strong>{{labels?.VEHICLEDETAILS}}</strong></p>
+                <table cellspacing="0" cellpadding="0" dir="ltr" border="1"
+                    *ngFor="let vechicleList of vehicleDetailsArray">
                     <tr>
-                        <td class="style-strong">{{labels?.Accepted}}:</td>
+                        <td class="vech_tab">{{labels?.VehicleMake}}</td>
+                        <td class="vech_tab">{{vechicleList?.vehMake}}</td>
+                        <td class="vech_tab">{{labels?.VehicleModel}}</td>
+                        <td class="vech_tab">{{vechicleList?.vehModel}}</td>
                     </tr>
                     <tr>
-                        <td class="style-strong tab_wid">{{labels?.Customer}}, {{applicantList?.name}}</td>
-                        <td class="style-strong">{{labels?.Signature}}</td>
-                        <td class="style-strong">{{labels?.Date}}</td>
+                        <td class="vech_tab">{{labels?.YearofManufacture}}</td>
+                        <td class="vech_tab">{{vechicleList?.manufacYear}}</td>
+                        <td class="vech_tab">{{labels?.VehicleRegistrationNo}}</td>
+                        <td class="vech_tab">{{vechicleList?.vehRegNo}}</td>
                     </tr>
-                    <!-- <tr>
+                    <tr>
+                        <td class="vech_tab">{{labels?.EngineNo}}</td>
+                        <td class="vech_tab">{{vechicleList?.engineNo}}</td>
+                        <td class="vech_tab">{{labels?.ChassisNo}}</td>
+                        <td class="vech_tab">{{vechicleList?.chassisNo}}</td>
+                    </tr>
+                </table>
+
+                <div class="margin-add" id='vf_sheet_second_table'>
+                    <p id='vf_sheet_tag33' class='text-center'><strong>{{labels?.LOANAPPROVEDDETAILS}}</strong></p>
+                    <table cellspacing="0" cellpadding="0" dir="ltr" border="1"
+                        *ngFor="let loanData of loanApprovedDetails">
+                        <tr>
+                            <td class="vech_tab">{{labels?.AssetCost}}</td>
+                            <td class="vech_tab">{{loanData?.assetCost}}</td>
+                            <td class="vech_tab">{{labels?.LoanAmount}}</td>
+                            <td class="vech_tab">{{loanData?.loanAmt}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{labels?.LoanTenorMonths}}</td>
+                            <td>{{loanData?.loanTenor}}</td>
+                            <td>{{labels?.RepayMonths}}</td>
+                            <td>{{loanData?.repay}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{labels?.InterestRate}}</td>
+                            <td>{{loanData?.interestRate}}</td>
+                            <td>{{labels?.AllinclusiveIRR}}</td>
+                            <td>{{loanData?.allIncIRR}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{labels?.NoofAdvMI}}</td>
+                            <td>{{loanData?.noOfAdvEmi}}</td>
+                            <td>{{labels?.AdvEMIAmount}}</td>
+                            <td>{{loanData?.advEmiAmt}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{labels?.ProcessingCharges}}</td>
+                            <td>{{loanData?.processingCharges}}</td>
+                            <td>{{labels?.CreditShieldCharges}}</td>
+                            <td>{{loanData?.creditShield}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{labels?.NPDCCharges}}</td>
+                            <td>{{loanData?.npdcCharges}}</td>
+                            <td>{{labels?.RollOverPDCCharges}}</td>
+                            <td>{{loanData?.rollOverPdc}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{labels?.InsurancePremium}}</td>
+                            <td>{{loanData?.insPremium}}</td>
+                            <td>{{labels?.Rateofpenalinterestfordelayinrepayment}}</td>
+                            <td>{{loanData?.penalInterest}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{labels?.EMIDueDate}} </td>
+                            <td>{{loanData?.emiDueDt}}</td>
+                            <td>{{labels?.EMIAmount}}</td>
+                            <td>{{loanData?.emiAmt}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{labels?.EMIStartDate}}</td>
+                            <td>{{loanData?.emiStartDt}}</td>
+                            <!-- | date: 'dd/MM/yyyy' -->
+                            <td>{{labels?.EMIEndDate}}</td>
+                            <td>{{loanData?.emiEndDt}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{labels?.ModeofPayment}}</td>
+                            <td>{{loanData?.modeOfPayment}}</td>
+                            <td>{{labels?.FieldVisitChargesApplicable}}</td>
+                            <td>{{loanData?.fieldVisitChargesApplicable}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="style-strong">{{labels?.Accepted}}:</td>
+                        </tr>
+                        <tr>
+                            <td class="style-strong tab_wid">{{labels?.Customer}}, {{applicantList?.name}}</td>
+                            <td class="style-strong">{{labels?.Signature}}</td>
+                            <td class="style-strong">{{labels?.Date}}</td>
+                        </tr>
+                        <!-- <tr>
                     <td class=""></td>
                     <td></td>
                     <td></td>
                 </tr> -->
-                <!-- reshma -->
-                    <tr *ngFor="let coAppliacnt of coApplicantList; let i=index">
-                        <td class="style-strong tab_wid">{{labels?.CoBorrower}}{{i+1}}, {{coAppliacnt?.name}}</td>
-                        <td class="style-strong">{{labels?.Signature}}</td> 
-                        <td class="style-strong">{{labels?.Date}}</td> 
-                    </tr> 
-                    <!-- <tr >
+                        <!-- reshma -->
+                        <tr *ngFor="let coAppliacnt of coApplicantList; let i=index">
+                            <td class="style-strong tab_wid">{{labels?.CoBorrower}}{{i+1}}, {{coAppliacnt?.name}}</td>
+                            <td class="style-strong">{{labels?.Signature}}</td>
+                            <td class="style-strong">{{labels?.Date}}</td>
+                        </tr>
+                        <!-- <tr >
                     <td class="tab_wid">{{coAppliacnt?.name+'('+'Co-Borrower'}})</td>
                     <td></td>
                     <td></td>
                 </tr> -->
-                    <!-- <tr>
+                        <!-- <tr>
                     <td class="style-strong tab_wid">Co-Borrower 2, Name</td>
                     <td class="style-strong">Signature</td>
                     <td class="style-strong">Date</td>
                 </tr> -->
-                    <!-- <tr>
+                        <!-- <tr>
                     <td class="">#co_borrower_2</td>
                     <td></td>
                     <td>#date</td>
                 </tr> -->
-                    <tr *ngFor="let guarantor of guarantorList; let i=index">
-                        <td class="style-strong tab_wid">{{labels?.Guarantor}} {{i+1}}, {{guarantor?.name}}</td>
-                        <td class="style-strong">{{labels?.Signature}}</td>
-                        <td class="style-strong">{{labels?.Date}}</td>
-                    </tr>
-                    <!-- <tr >
+                        <tr *ngFor="let guarantor of guarantorList; let i=index">
+                            <td class="style-strong tab_wid">{{labels?.Guarantor}} {{i+1}}, {{guarantor?.name}}</td>
+                            <td class="style-strong">{{labels?.Signature}}</td>
+                            <td class="style-strong">{{labels?.Date}}</td>
+                        </tr>
+                        <!-- <tr >
                     <td class="">{{guarantor?.name+'('+'Guarantor'}}{{i+1}})</td>
                     <td></td>
                     <td></td>
                 </tr> -->
-                    <!-- <tr>
+                        <!-- <tr>
                     <td class="style-strong tab_wid">Guarantor 2, Name</td>
                     <td class="style-strong">Signature</td>
                     <td class="style-strong">Date</td>
@@ -388,17 +400,17 @@ Equitas Finance Private Limited<br />
                     <td></td>
                     <td>#date</td>
                 </tr> -->
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <p class="text-right font-small">{{labels?.Regdoffice}}<br>
-                {{labels?.phTollfree}}</p> 
-            <div class="row">
-                <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
+                <p class="text-right font-small">{{labels?.Regdoffice}}<br>
+                    {{labels?.phTollfree}}</p>
+                <div class="row">
+                    <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
                 <img class="img-style" src="assets\images\equitas-logo.png">
                 </div> -->
-            </div>
-            <!-- <ol>
+                </div>
+                <!-- <ol>
 <li>All Payments should be made promptly on the due dates. Please note that any delay from the due date to
 date of actual payment would attract an interest at the rate of 3% per month.</li>
 <li>The borrower can opt for repayment of the loan thorough PDC / ECS / NPDC [Non PDC] / RPDC [Rolling PDC]
@@ -469,20 +481,21 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
 <p class="author_style">For Equitas Finance Pvt Ltd</p>
 
 <p class="author_style">Authorised Signatory</p> -->
-<div class="html2pdf__page-break"></div>
-<div class="row ">
-    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-        <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
-    <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
-    </div>
-    
-        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
-        <img class="img-style" src="assets\images\equitas-logo.png">
-        </div>
-    </div>
-            <div class="margin-add" [innerHTML]="div2Data"></div>
-            <!-- logo -->
-            <!-- <div class="row">
+                <div class="html2pdf__page-break"></div>
+                <div class="row ">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                        <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+                        <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;"
+                        id="vf_sheet_tag8">
+                        <img class="img-style" src="assets\images\equitas-logo.png">
+                    </div>
+                </div>
+                <div class="margin-add" [innerHTML]="div2Data"></div>
+                <!-- logo -->
+                <!-- <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
                 <img class="img-style" src="assets\images\equitas-logo.png">
                 </div>
@@ -490,74 +503,76 @@ Care Unit at Tollfree No.: 1800 3000 506, to help us serve you better.</li>
             <div class="html2pdf__page-break"></div>
             <p class="style-strong text-center">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
             <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p> -->
-            <div class="html2pdf__page-break"></div>
-            <div class="row ">
-                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                    <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
-                <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
-                </div>
-                
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;" id="vf_sheet_tag8">
-                    <img class="img-style" src="assets\images\equitas-logo.png">
+                <div class="html2pdf__page-break"></div>
+                <div class="row ">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                        <p class="style-strong text-center ">{{labels?.EQUITASFINANCEPRIVATELIMITED}}</p>
+                        <p class="text-center">{{labels?.WhollyownedsubsidiaryofEquitasHoldingPrivateLimited}}</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 pull-right" style="text-align: right;"
+                        id="vf_sheet_tag8">
+                        <img class="img-style" src="assets\images\equitas-logo.png">
                     </div>
                 </div>
 
-            <div class="" [innerHTML]="div3Data"></div>
-            <p class="text-center style-strong">{{labels?.REPAYMENTSCHEDULE}} - {{labels?.AgreementNo}}: {{isWelcomeDetails?.agreementNo}}
-            </p>
-            <table cellspacing="0" cellpadding="0" dir="ltr" border="1">
-                <colgroup>
-                    <col width="100" />
-                    <col width="100" />
-                    <col width="100" />
-                    <col width="100" />
-                    <col width="100" />
-                    <col width="100" />
-                    <col width="100" />
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <td class="text-center style-strong">
-                            {{labels?.InstalmentNo}}
-                        </td>
-                        <td class="text-center style-strong">
-                            {{labels?.DueDate}}
-                        </td>
-                        <td class="text-center style-strong">
-                            {{labels?.TotalInstalmentAmount}}
-                        </td>
-                        <td class="text-center style-strong">
-                            {{labels?.MotorInsurance}}
-                        </td>
-                        <td class="text-center style-strong">
-                            {{labels?.Principle}}
-                        </td>
-                        <td class="text-center style-strong">
-                            {{labels?.Interest}}
-                        </td>
-                        <td class="text-center style-strong">
-                            {{labels?.PrincipleOutStanding}}
-                        </td>
-                    </tr>
-                    <tr *ngFor="let repaymentData of repaymentDetails; let i = index">
-                        <td class="text-center">{{i+1}}</td>
-                        <td class="text-center">{{repaymentData?.dueDate}}</td>
-                        <td class="text-right">{{repaymentData?.instalmentAmt | currency: 'INR'}}</td>
-                        <td class="text-right">{{repaymentData?.motorIns | currency: 'INR'}}</td>
-                        <td class="text-right">{{repaymentData?.principleAmt | currency: 'INR'}}</td>
-                        <td class="text-right">{{repaymentData?.interestAmt | currency: 'INR'}}</td>
-                        <td class="text-right">{{repaymentData?.pricipleOutstanding | currency: 'INR'}}</td>
-                    </tr>
+                <div class="" [innerHTML]="div3Data"></div>
+                <p class="text-center style-strong">{{labels?.REPAYMENTSCHEDULE}} - {{labels?.AgreementNo}}:
+                    {{isWelcomeDetails?.agreementNo}}
+                </p>
+                <table cellspacing="0" cellpadding="0" dir="ltr" border="1">
+                    <colgroup>
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td class="text-center style-strong">
+                                {{labels?.InstalmentNo}}
+                            </td>
+                            <td class="text-center style-strong">
+                                {{labels?.DueDate}}
+                            </td>
+                            <td class="text-center style-strong">
+                                {{labels?.TotalInstalmentAmount}}
+                            </td>
+                            <td class="text-center style-strong">
+                                {{labels?.MotorInsurance}}
+                            </td>
+                            <td class="text-center style-strong">
+                                {{labels?.Principle}}
+                            </td>
+                            <td class="text-center style-strong">
+                                {{labels?.Interest}}
+                            </td>
+                            <td class="text-center style-strong">
+                                {{labels?.PrincipleOutStanding}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let repaymentData of repaymentDetails; let i = index">
+                            <td class="text-center">{{i+1}}</td>
+                            <td class="text-center">{{repaymentData?.dueDate}}</td>
+                            <td class="text-right">{{repaymentData?.instalmentAmt}}</td>
+                            <td class="text-right">{{repaymentData?.motorIns}}</td>
+                            <td class="text-right">{{repaymentData?.principleAmt}}</td>
+                            <td class="text-right">{{repaymentData?.interestAmt}}</td>
+                            <td class="text-right">{{repaymentData?.pricipleOutstanding}}</td>
+                        </tr>
 
-                </tbody>
-            </table>
-			<div class="margin-add">
-                <strong>
-                <p class="\&quot;author_style\&quot;">{{labels?.ForEquitasFinancePvtLtd}}</p><br>
-                <p class="\&quot;author_style\&quot;">{{labels?.AuthorisedSignatory}}</p>
-                </strong>
-            </div>
-            <!-- <p class="style-strong">For Equitas Finance Pvt Ltd</p>
+                    </tbody>
+                </table>
+                <div class="margin-add">
+                    <strong>
+                        <p class="\&quot;author_style\&quot;">{{labels?.ForEquitasFinancePvtLtd}}</p><br>
+                        <p class="\&quot;author_style\&quot;">{{labels?.AuthorisedSignatory}}</p>
+                    </strong>
+                </div>
+                <!-- <p class="style-strong">For Equitas Finance Pvt Ltd</p>
 <p class="style-strong">Authorised Signatory</p>
 
 <p class="style-strong">ANNEXURE 1 - FAQ’s</p>
@@ -639,59 +654,48 @@ Chennai - 600 002.
 Ph: 044-4299 5000 Customer Care Toll-free: 1800 3000 5060 Fax: 044-42995050 E-mail: corporate@equitas.in
 </p> -->
 
-            <!-- <div class="margin-add" [innerHTML]="div3Data"></div> -->
-			<p class="text-right font-small">{{labels?.Regdoffice}}<br>
-                {{labels?.phTollfree}}</p> 
+                <!-- <div class="margin-add" [innerHTML]="div3Data"></div> -->
+                <p class="text-right font-small">{{labels?.Regdoffice}}<br>
+                    {{labels?.phTollfree}}</p>
             </div>
-			
+
             <div class="text-right">
-            <button class="btn btn-primary view-button text-center" type="button" id="" tabindex="7"
-                (click)="downloadpdf()" *ngIf="!isLoan360">DownLoad</button>&nbsp;
-            <button class="btn btn-primary view-button hvr-sweep-to-left" 
-                type="button" id="" tabindex="7" *ngIf="showWelcomeLetter"
-                 (click)="onBack()">Back</button>&nbsp;
-                <button class="btn btn-primary view-button hvr-sweep-to-right" 
-                type="button" id="" tabindex="8" *ngIf="showWelcomeLetter && productCatCode=='NCV'"
-                routerLink="../delivery-order">Next</button><br> 
+                <button class="btn btn-primary view-button text-center" type="button" id="" tabindex="7"
+                    (click)="downloadpdf()" *ngIf="!isLoan360">DownLoad</button>&nbsp;
+                <button class="btn btn-primary view-button hvr-sweep-to-left" type="button" id="" tabindex="7"
+                    *ngIf="showWelcomeLetter" (click)="onBack()">Back</button>&nbsp;
+                <button class="btn btn-primary view-button hvr-sweep-to-right" type="button" id="" tabindex="8"
+                    *ngIf="showWelcomeLetter && productCatCode=='NCV'" routerLink="../delivery-order">Next</button><br>
             </div>
 
 
         </div>
     </div>
 
-    <div
-  class="modal"
-  id="ucicModel2"
-  [ngClass]="{ 'dis-block': showModal }"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <!-- Modal Header -->
-      <div class="modal-header text-center">
-        <h4 class="modal-title">Welcome Letter</h4>
-        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
-      </div>
+    <div class="modal" id="ucicModel2" [ngClass]="{ 'dis-block': showModal }">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header text-center">
+                    <h4 class="modal-title">Welcome Letter</h4>
+                    <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+                </div>
 
-      <!-- Modal body -->
-      <div class="modal-body">
-        <p id="" style="font-size:16px">
-         {{chequeModeMsg}}
-        </p>
-      </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p id="" style="font-size:16px">
+                        {{chequeModeMsg}}
+                    </p>
+                </div>
 
-      <!-- Modal footer -->
-      <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-success"
-          data-dismiss="modal"
-          id="ucic_lead"
-          (click)="onModalClick()"
-        >
-          Okay
-        </button>
-      </div>
+                <!-- Modal footer -->
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="ucic_lead"
+                        (click)="onModalClick()">
+                        Okay
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 </main>

@@ -244,21 +244,21 @@ export class DisbursementFormComponent implements OnInit {
   leadID: any;
   //disburseTo: any;
   loanDetailsData: Object = {};
-  ReqDealerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; dealerCode: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqApplicantDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqSellerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqBuyerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqAdditionalTab1Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqAdditionalTab2Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqAdditionalTab3Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqAdditionalTab4Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqAdditionalTab5Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqBankerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; bankerId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqFinancierDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; financierId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqTPDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; mobilePhone: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqCoApp1Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqCoApp2Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
-  ReqCoApp3Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqDealerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; dealerCode: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqApplicantDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqSellerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqBuyerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqAdditionalTab1Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqAdditionalTab2Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqAdditionalTab3Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqAdditionalTab4Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqAdditionalTab5Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqBankerDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; bankerId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqFinancierDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; financierId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqTPDetails: { leadID: any; disbursementID: any; payableTo: String; favouring: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; instrumentType: String; mobilePhone: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqCoApp1Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqCoApp2Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
+  ReqCoApp3Details: { leadID: any; disbursementID: any; payableTo: String; favouring: String; applicantId: String; beneficiaryName: String; applicantName: String; favouringName: String; beneficiaryAccountNo: String; beneficiaryBank: String; ifscCode: String; beneficiaryBranch: String; mobilePhone: String; instrumentType: String; instrumentNumber: String; instrumentDate: String; favouringBankOfDraw: String; favouringBankBranch: String;  beneficiaryAddress1: String; beneficiaryAddress2: String; beneficiaryAddress3: String; paymentMethod: String; disbursementAmount: String; deductChargesFlag: String; deferredDisbursementFlag: String; trancheDisbursementFlag: String; trancheDisbursementJson: any; active: String };
   roleId: any;
   roleType: any;
   salesResponse: string;
@@ -421,6 +421,37 @@ export class DisbursementFormComponent implements OnInit {
   UniqueSubLeadReferenceID: any;
   leadLists: boolean;
   navigationFlag:number;
+  dealercnfAccShow: boolean = false;
+  applicantcnfAccShow: boolean = false;
+  typeDeclare1: string;
+  typeDeclare2: string;
+  typeDeclare3: string;
+  typeDeclare4: string;
+  typeDeclare5: string;
+  typeDeclare6: string;
+  typeDeclare7: string;
+  typeDeclare8: string;
+  typeDeclare9: string;
+  typeDeclare10: string;
+  typeDeclare11: string;
+  typeDeclare12: string;
+  typeDeclare13: string;
+  typeDeclare14: string;
+  typeDeclare15: string;
+  coApp1cnfAccShow: boolean = false;
+  coApp2cnfAccShow: boolean = false;
+  coApp3cnfAccShow: boolean = false;
+  bankercnfAccShow: boolean = false;
+  fincnfAccShow: boolean = false;
+  tpcnfAccShow: boolean = false;
+  sellercnfAccShow: boolean = false;
+  buyercnfAccShow: boolean = false;
+  add1cnfAccShow: boolean = false;
+  add2cnfAccShow: boolean = false;
+  add3cnfAccShow: boolean = false;
+  add4cnfAccShow: boolean = false;
+  add5cnfAccShow: boolean = false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -981,6 +1012,7 @@ export class DisbursementFormComponent implements OnInit {
     }
 
     if (cumulativeDisAmnt > this.totalDisbursementAmount) {
+      this.toasterService.showError('Disbursement amount should not exceed loan amount', '');
       if (container == '1') {
         this.dealerObjInfo['disbursementAmount'] = null;
         if (this.dealerObjInfo['trancheDisbursementFlag']) {
@@ -1366,6 +1398,153 @@ export class DisbursementFormComponent implements OnInit {
 
       }
     });
+  }
+  onIFSCSearch(event,val,flag){
+    let inputString = event;
+    if(inputString.length == '11'){
+      this.disbursementService.ifscCodeSearch(inputString).subscribe((res: any) => {
+        const response = res;
+        const appiyoError = response.Error;
+        let fetchData = (response.ProcessVariables.BankDetails) ? response.ProcessVariables.BankDetails : [];
+        if (appiyoError === '0') {
+          if(val == '1'){
+            this.bankDealerDetailsData = fetchData;
+            if(flag){
+              this.dealerDetailsForm.patchValue({ beneficiaryBank: this.bankDealerDetailsData.length>0 ? this.bankDealerDetailsData[0].externalBankName : null });
+                if(this.bankDealerDetailsData.length == 1){
+                  this.dealerDetailsForm.patchValue({ beneficiaryBranch: this.bankDealerDetailsData.length>0 ? this.bankDealerDetailsData[0].externalBankCode : null });
+                }
+            }
+          }
+          if(val == '2'){
+            this.bankAppDetailsData = fetchData;
+            if(flag){
+              this.appDetailsForm.patchValue({ beneficiaryBank: this.bankAppDetailsData.length>0 ? this.bankAppDetailsData[0].externalBankName : null });
+              if(this.bankAppDetailsData.length == 1){
+                this.appDetailsForm.patchValue({ beneficiaryBranch: this.bankAppDetailsData.length>0 ? this.bankAppDetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '3'){
+            this.bankCoApp1DetailsData = fetchData;
+            if(flag){
+              this.coApp1Form.patchValue({ beneficiaryBank: this.bankCoApp1DetailsData.length>0 ? this.bankCoApp1DetailsData[0].externalBankName : null });
+              if(this.bankCoApp1DetailsData.length == 1){
+                this.coApp1Form.patchValue({ beneficiaryBranch: this.bankCoApp1DetailsData.length>0 ? this.bankCoApp1DetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '4'){
+            this.bankCoApp2DetailsData = fetchData;
+            if(flag){
+              this.coApp2Form.patchValue({ beneficiaryBank: this.bankCoApp2DetailsData.length>0 ? this.bankCoApp2DetailsData[0].externalBankName : null });
+              if(this.bankCoApp2DetailsData.length == 1){
+                this.coApp2Form.patchValue({ beneficiaryBranch: this.bankCoApp2DetailsData.length>0 ? this.bankCoApp2DetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '5'){
+            this.bankCoApp3DetailsData = fetchData;
+            if(flag){
+              this.coApp3Form.patchValue({ beneficiaryBank: this.bankCoApp3DetailsData.length>0 ? this.bankCoApp3DetailsData[0].externalBankName : null });
+              if(this.bankCoApp3DetailsData.length == 1){
+                this.coApp3Form.patchValue({ beneficiaryBranch: this.bankCoApp3DetailsData.length>0 ? this.bankCoApp3DetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '6'){
+            this.bankBankerDetailsData = fetchData;
+            if(flag){
+              this.bankerDetailsForm.patchValue({ beneficiaryBank: this.bankBankerDetailsData.length>0 ? this.bankBankerDetailsData[0].externalBankName : null });
+              if(this.bankBankerDetailsData.length == 1){
+                this.bankerDetailsForm.patchValue({ beneficiaryBranch: this.bankBankerDetailsData.length>0 ? this.bankBankerDetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '7'){
+            this.bankFinDetailsData = fetchData;
+            if(flag){
+              this.financierDetailsForm.patchValue({ beneficiaryBank: this.bankFinDetailsData.length>0 ? this.bankFinDetailsData[0].externalBankName : null });
+                if(this.bankFinDetailsData.length == 1){
+                  this.financierDetailsForm.patchValue({ beneficiaryBranch: this.bankFinDetailsData.length>0 ? this.bankFinDetailsData[0].externalBankCode : null });
+                }
+            }
+          }
+          if(val == '8'){
+            this.bankTPDetailsData = fetchData;
+            if(flag){
+              this.thirdPartyDetailsForm.patchValue({ beneficiaryBank: this.bankTPDetailsData.length>0 ? this.bankTPDetailsData[0].externalBankName : null });
+              if(this.bankTPDetailsData.length == 1){
+                this.thirdPartyDetailsForm.patchValue({ beneficiaryBranch: this.bankTPDetailsData.length>0 ? this.bankTPDetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '9'){
+            this.bankSellerDetailsData = fetchData;
+            if(flag){
+              this.sellerDetailsForm.patchValue({ beneficiaryBank: this.bankSellerDetailsData.length>0 ? this.bankSellerDetailsData[0].externalBankName : null });
+              if(this.bankSellerDetailsData.length == 1){
+                this.sellerDetailsForm.patchValue({ beneficiaryBranch: this.bankSellerDetailsData.length>0 ? this.bankSellerDetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '10'){
+            this.bankBuyerDetailsData = fetchData;
+            if(flag){
+              this.buyerDetailsForm.patchValue({ beneficiaryBank: this.bankBuyerDetailsData.length>0 ? this.bankBuyerDetailsData[0].externalBankName : null });
+              if(this.bankBuyerDetailsData.length == 1){
+                this.buyerDetailsForm.patchValue({ beneficiaryBranch: this.bankBuyerDetailsData.length>0 ? this.bankBuyerDetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '11'){
+            this.bankAdditionalTab1DetailsData = fetchData;
+            if(flag){
+              this.additionalTab1DetailsForm.patchValue({ beneficiaryBank: this.bankAdditionalTab1DetailsData.length>0 ? this.bankAdditionalTab1DetailsData[0].externalBankName : null });
+              if(this.bankAdditionalTab1DetailsData.length == 1){
+                this.additionalTab1DetailsForm.patchValue({ beneficiaryBranch: this.bankAdditionalTab1DetailsData.length>0 ? this.bankAdditionalTab1DetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '12'){
+            this.bankAdditionalTab2DetailsData = fetchData;
+            if(flag){
+              this.additionalTab2DetailsForm.patchValue({ beneficiaryBank: this.bankAdditionalTab2DetailsData.length>0 ? this.bankAdditionalTab2DetailsData[0].externalBankName : null });
+              if(this.bankAdditionalTab2DetailsData.length == 1){
+                this.additionalTab2DetailsForm.patchValue({ beneficiaryBranch: this.bankAdditionalTab2DetailsData.length>0 ? this.bankAdditionalTab2DetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '13'){
+            this.bankAdditionalTab3DetailsData = fetchData;
+            if(flag){
+              this.additionalTab3DetailsForm.patchValue({ beneficiaryBank: this.bankAdditionalTab3DetailsData.length>0 ? this.bankAdditionalTab3DetailsData[0].externalBankName : null });
+              if(this.bankAdditionalTab3DetailsData.length == 1){
+                this.additionalTab3DetailsForm.patchValue({ beneficiaryBranch: this.bankAdditionalTab3DetailsData.length>0 ? this.bankAdditionalTab3DetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '14'){
+            this.bankAdditionalTab4DetailsData = fetchData;
+            if(flag){
+              this.additionalTab4DetailsForm.patchValue({ beneficiaryBank: this.bankAdditionalTab4DetailsData.length>0 ? this.bankAdditionalTab4DetailsData[0].externalBankName : null });
+              if(this.bankAdditionalTab4DetailsData.length == 1){
+                this.additionalTab4DetailsForm.patchValue({ beneficiaryBranch: this.bankAdditionalTab4DetailsData.length>0 ? this.bankAdditionalTab4DetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+          if(val == '15'){
+            this.additionalTab5DetailsForm = fetchData;
+            if(flag){
+              this.additionalTab5DetailsForm.patchValue({ beneficiaryBank: this.bankAdditionalTab5DetailsData.length>0 ? this.bankAdditionalTab5DetailsData[0].externalBankName : null });
+              if(this.bankAdditionalTab2DetailsData.length == 1){
+                this.additionalTab5DetailsForm.patchValue({ beneficiaryBranch: this.bankAdditionalTab5DetailsData.length>0 ? this.bankAdditionalTab5DetailsData[0].externalBankCode : null });
+              }
+            }
+          }
+        }
+      })
+    }
   }
   onBankNameSearch(event,val) {
     let inputString = event;
@@ -3964,14 +4143,50 @@ export class DisbursementFormComponent implements OnInit {
     //   this.internalBTObjInfo['deductChargesFlag'] = true
     // }
   }
+
+  selectDeferredCheckBox(flag, val) {
+    if (val == 1 && flag) {
+      this.dealerObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 2 && flag) {
+      this.applicantObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 4 && flag) {
+      this.bankerObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 5 && flag) {
+      this.financierObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 6 && flag) {
+      this.thirdPartyObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 8 && flag) {
+      this.coApplicant1['deferredDisbursementFlag'] = true;
+    } else if (val == 9 && flag) {
+      this.coApplicant2['deferredDisbursementFlag'] = true;
+    } else if (val == 10 && flag) {
+      this.coApplicant3['deferredDisbursementFlag'] = true;
+    } else if (val == 11 && flag) {
+      this.sellerObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 12 && flag) {
+      this.buyerObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 13 && flag) {
+      this.additionalTab1ObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 14 && flag) {
+      this.additionalTab2ObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 15 && flag) {
+      this.additionalTab3ObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 16 && flag) {
+      this.additionalTab4ObjInfo['deferredDisbursementFlag'] = true;
+    } else if (val == 17 && flag) {
+      this.additionalTab5ObjInfo['deferredDisbursementFlag'] = true;
+    }
+  }
+  
   initForm() {
     //console.log(this.disburseToDealer)
     this.dealerDetailsForm = this.fb.group({
       dealerCode: new FormControl({ value: this.dealerCode }, Validators.required),
       beneficiaryName: new FormControl({ value: this.dealerObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.dealerObjInfo['beneficiaryAccountNo'] }, Validators.required),
-      beneficiaryBank: new FormControl({ value: this.dealerObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.dealerObjInfo['ifscCode'],disabled:true }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
+      beneficiaryBank: new FormControl({ value: this.dealerObjInfo['beneficiaryBank']}, Validators.required),
+      ifscCode: new FormControl({ value: this.dealerObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.dealerObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.dealerObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.dealerObjInfo['instrumentType'] }, Validators.required),
@@ -3988,12 +4203,14 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.dealerObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.appDetailsForm = this.fb.group({
       beneficiaryName: new FormControl({ value: this.applicantObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.applicantObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.applicantObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.applicantObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.applicantObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.applicantObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.applicantObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.applicantObjInfo['instrumentType'] }, Validators.required),
@@ -4010,13 +4227,14 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.applicantObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
-
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.sellerDetailsForm = this.fb.group({
       beneficiaryName: new FormControl({ value: this.sellerObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.sellerObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.sellerObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.sellerObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.sellerObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.sellerObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.sellerObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.sellerObjInfo['instrumentType'] }, Validators.required),
@@ -4031,13 +4249,15 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.sellerObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
   
     })
     this.buyerDetailsForm = this.fb.group({
       beneficiaryName: new FormControl({ value: this.buyerObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.buyerObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.buyerObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.buyerObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.buyerObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.buyerObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.buyerObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.buyerObjInfo['instrumentType'] }, Validators.required),
@@ -4052,12 +4272,14 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.buyerObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.additionalTab1DetailsForm = this.fb.group({
       beneficiaryName: new FormControl({ value: this.additionalTab1ObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.additionalTab1ObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.additionalTab1ObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.additionalTab1ObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.additionalTab1ObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.additionalTab1ObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.additionalTab1ObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.additionalTab1ObjInfo['instrumentType'] }, Validators.required),
@@ -4072,12 +4294,14 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.additionalTab1ObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.additionalTab2DetailsForm = this.fb.group({
       beneficiaryName: new FormControl({ value: this.additionalTab2ObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.additionalTab2ObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.additionalTab2ObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.additionalTab2ObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.additionalTab2ObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.additionalTab2ObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.additionalTab2ObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.additionalTab2ObjInfo['instrumentType'] }, Validators.required),
@@ -4092,12 +4316,14 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.additionalTab2ObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.additionalTab3DetailsForm = this.fb.group({
       beneficiaryName: new FormControl({ value: this.additionalTab3ObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.additionalTab3ObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.additionalTab3ObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.additionalTab3ObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.additionalTab3ObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.additionalTab3ObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.additionalTab3ObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.additionalTab3ObjInfo['instrumentType'] }, Validators.required),
@@ -4112,12 +4338,14 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.additionalTab3ObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.additionalTab4DetailsForm = this.fb.group({
       beneficiaryName: new FormControl({ value: this.additionalTab4ObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.additionalTab4ObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.additionalTab4ObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.additionalTab4ObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.additionalTab4ObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.additionalTab4ObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.additionalTab4ObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.additionalTab4ObjInfo['instrumentType'] }, Validators.required),
@@ -4132,12 +4360,14 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.additionalTab4ObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.additionalTab5DetailsForm = this.fb.group({
       beneficiaryName: new FormControl({ value: this.additionalTab5ObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.additionalTab5ObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.additionalTab5ObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.additionalTab5ObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.additionalTab5ObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.additionalTab5ObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.additionalTab5ObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.additionalTab5ObjInfo['instrumentType'] }, Validators.required),
@@ -4152,6 +4382,7 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.additionalTab5ObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.coAppDetailsForm = this.fb.group({
       coAppName: new FormControl({ value: this.coAppName }, Validators.required),
@@ -4160,8 +4391,9 @@ export class DisbursementFormComponent implements OnInit {
     this.coApp1Form = this.fb.group({
       beneficiaryName: new FormControl({ value: this.coApplicant1['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.coApplicant1['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.coApplicant1['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.coApplicant1['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.coApplicant1['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant1['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.coApplicant1['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.coApplicant1['instrumentType'] }, Validators.required),
@@ -4178,13 +4410,15 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.coApplicant1['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
 
     this.coApp2Form = this.fb.group({
       beneficiaryName: new FormControl({ value: this.coApplicant2['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.coApplicant2['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.coApplicant2['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.coApplicant2['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.coApplicant2['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant2['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.coApplicant2['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.coApplicant2['instrumentType'] }, Validators.required),
@@ -4201,13 +4435,15 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.coApplicant2['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
 
     this.coApp3Form = this.fb.group({
       beneficiaryName: new FormControl({ value: this.coApplicant3['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.coApplicant3['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.coApplicant3['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.coApplicant3['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.coApplicant3['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.coApplicant3['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.coApplicant3['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.coApplicant3['instrumentType'] }, Validators.required),
@@ -4224,14 +4460,16 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.coApplicant3['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
 
     this.bankerDetailsForm = this.fb.group({
       bankerId: new FormControl({ value: this.bankerObjInfo['bankerId'] }, Validators.required),
       beneficiaryName: new FormControl({ value: this.bankerObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.bankerObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.bankerObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.bankerObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.bankerObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.bankerObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.bankerObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.bankerObjInfo['instrumentType'] }, Validators.required),
@@ -4248,13 +4486,15 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.bankerObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.financierDetailsForm = this.fb.group({
       financierId: new FormControl({ value: this.financierObjInfo['financierId'] }, Validators.required),
       beneficiaryName: new FormControl({ value: this.financierObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.financierObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.financierObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.financierObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.financierObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.financierObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.financierObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.financierObjInfo['instrumentType'] }, Validators.required),
@@ -4271,13 +4511,15 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.financierObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.thirdPartyDetailsForm = this.fb.group({
       // beneficiaryName:new FormControl(''),
       beneficiaryName: new FormControl({ value: this.thirdPartyObjInfo['beneficiaryName'] }, Validators.required),
       beneficiaryAccountNo: new FormControl({ value: this.thirdPartyObjInfo['beneficiaryAccountNo'] }, Validators.required),
+      beneficiaryCNFAccountNo: new FormControl(''),
       beneficiaryBank: new FormControl({ value: this.thirdPartyObjInfo['beneficiaryBank'] }, Validators.required),
-      ifscCode: new FormControl({ value: this.thirdPartyObjInfo['ifscCode'],disabled:true }, Validators.required),
+      ifscCode: new FormControl({ value: this.thirdPartyObjInfo['ifscCode']}, Validators.required),
       beneficiaryBranch: new FormControl({ value: this.thirdPartyObjInfo['beneficiaryBranch'] }, Validators.required),
       mobilePhone: new FormControl({ value: this.thirdPartyObjInfo['mobilePhone']}, Validators.required),
       instrumentType: new FormControl({ value: this.thirdPartyObjInfo['instrumentType'] }, Validators.required),
@@ -4294,6 +4536,7 @@ export class DisbursementFormComponent implements OnInit {
       disbursementAmount: new FormControl({ value: this.thirdPartyObjInfo['disbursementAmount'] }, Validators.required),
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
+      deferredDisbursementFlag: new FormControl(''),
     })
     this.ibtDetailsForm = this.fb.group({
       ibtFavoringName: new FormControl({ value:'Equitas Small Finance Bank',disabled:true}),
@@ -4328,6 +4571,136 @@ export class DisbursementFormComponent implements OnInit {
       this.coApp2Form.disable();
       this.coApp3Form.disable();    
     }
+  }
+  //Enhance
+  beneficiaryAccountNo(formGroup:FormGroup){
+   const {value:beneficiaryAccountNo} = formGroup.get('beneficiaryAccountNo')
+   const {value:beneficiaryCNFAccountNo} = formGroup.get('beneficiaryCNFAccountNo')
+   return beneficiaryAccountNo === beneficiaryCNFAccountNo ? null : {accountmismatch : true}
+
+  }
+  cnfAccountNumber(formGroup:FormGroup,val,flag){
+    if(val == '1'){
+      if(flag){
+        this.typeDeclare1 = 'text';
+      }else{
+        this.dealercnfAccShow = true;
+        this.typeDeclare1 = 'password';
+      }
+    }
+    if(val == '2'){
+      if(flag){
+        this.typeDeclare2 = 'text';
+      }else{
+        this.applicantcnfAccShow = true;
+        this.typeDeclare2 = 'password';
+      }
+    }
+    if(val == '3'){
+      if(flag){
+        this.typeDeclare3 = 'text';
+      }else{
+        this.coApp1cnfAccShow = true;
+        this.typeDeclare3 = 'password';
+      }
+    }
+    if(val == '4'){
+      if(flag){
+        this.typeDeclare4 = 'text';
+      }else{
+        this.coApp2cnfAccShow = true;
+        this.typeDeclare4 = 'password';
+      }
+    }
+    if(val == '5'){
+      if(flag){
+        this.typeDeclare5 = 'text';
+      }else{
+        this.coApp3cnfAccShow = true;
+        this.typeDeclare5 = 'password';
+      }
+    }
+    if(val == '6'){
+      if(flag){
+        this.typeDeclare6 = 'text';
+      }else{
+        this.bankercnfAccShow = true;
+        this.typeDeclare6 = 'password';
+      }
+    }
+    if(val == '7'){
+      if(flag){
+        this.typeDeclare7 = 'text';
+      }else{
+        this.fincnfAccShow = true;
+        this.typeDeclare7 = 'password';
+      }
+    }
+    if(val == '8'){
+      if(flag){
+        this.typeDeclare8 = 'text';
+      }else{
+        this.tpcnfAccShow = true;
+        this.typeDeclare8 = 'password';
+      }
+    }
+    if(val == '9'){
+      if(flag){
+        this.typeDeclare9 = 'text';
+      }else{
+        this.sellercnfAccShow = true;
+        this.typeDeclare9 = 'password';
+      }
+    }
+    if(val == '10'){
+      if(flag){
+        this.typeDeclare10 = 'text';
+      }else{
+        this.buyercnfAccShow = true;
+        this.typeDeclare10 = 'password';
+      }
+    }
+    if(val == '11'){
+      if(flag){
+        this.typeDeclare11 = 'text';
+      }else{
+        this.add1cnfAccShow = true;
+        this.typeDeclare11 = 'password';
+      }
+    }
+    if(val == '12'){
+      if(flag){
+        this.typeDeclare12 = 'text';
+      }else{
+        this.add2cnfAccShow = true;
+        this.typeDeclare12 = 'password';
+      }
+    }
+    if(val == '13'){
+      if(flag){
+        this.typeDeclare13 = 'text';
+      }else{
+        this.add3cnfAccShow = true;
+        this.typeDeclare13 = 'password';
+      }
+    }
+    if(val == '14'){
+      if(flag){
+        this.typeDeclare14 = 'text';
+      }else{
+        this.add4cnfAccShow = true;
+        this.typeDeclare14 = 'password';
+      }
+    }
+    if(val == '15'){
+      if(flag){
+        this.typeDeclare15 = 'text';
+      }else{
+        this.add5cnfAccShow = true;
+        this.typeDeclare15 = 'password';
+      }
+    }
+    formGroup.setValidators(this.beneficiaryAccountNo.bind(this))
   }
 
   saveAndUpdate(fromButton?:string) {
@@ -4519,6 +4892,7 @@ export class DisbursementFormComponent implements OnInit {
           paymentMethod: objForm['paymentMethod'],
           disbursementAmount: '' + objForm['disbursementAmount'],
           deductChargesFlag: (objForm['deductChargesFlag'] == true) ? 'Y' : 'N',
+          deferredDisbursementFlag: (objForm['deferredDisbursementFlag'] == true) ? 'Y' : 'N',
           trancheDisbursementFlag: (objForm['trancheDisbursementFlag'] == true) ? 'Y' : 'N',
           trancheDisbursementJson: trancheDisbursementJson,
           active: '1'
@@ -4557,6 +4931,7 @@ export class DisbursementFormComponent implements OnInit {
       paymentMethod: this.coApplicant1['paymentMethod'],
       disbursementAmount: this.coApplicant1['disbursementAmount'],
       deductChargesFlag: (this.coApplicant1['deductChargesFlag'] == true) ? 'Y' : 'N',
+      deferredDisbursementFlag: (this.coApplicant1['deferredDisbursementFlag'] == true) ? 'Y' : 'N',
       trancheDisbursementFlag: (this.coApplicant1['trancheDisbursementFlag'] == true) ? 'Y' : 'N',
       trancheDisbursementJson: coApp1FormValue.trancheDisbursementJson,
       active: '1'
@@ -4588,6 +4963,7 @@ export class DisbursementFormComponent implements OnInit {
       paymentMethod: this.coApplicant2['paymentMethod'],
       disbursementAmount: this.coApplicant2['disbursementAmount'],
       deductChargesFlag: (this.coApplicant2['deductChargesFlag'] == true) ? 'Y' : 'N',
+      deferredDisbursementFlag: (this.coApplicant2['deferredDisbursementFlag'] == true) ? 'Y' : 'N',
       trancheDisbursementFlag: (this.coApplicant2['trancheDisbursementFlag'] == true) ? 'Y' : 'N',
       trancheDisbursementJson: coApp2FormValue.trancheDisbursementJson,
       active: '1'
@@ -4619,6 +4995,7 @@ export class DisbursementFormComponent implements OnInit {
       paymentMethod: this.coApplicant3['paymentMethod'],
       disbursementAmount: this.coApplicant3['disbursementAmount'],
       deductChargesFlag: (this.coApplicant3['deductChargesFlag'] == true) ? 'Y' : 'N',
+      deferredDisbursementFlag: (this.coApplicant3['deferredDisbursementFlag'] == true) ? 'Y' : 'N',
       trancheDisbursementFlag: (this.coApplicant3['trancheDisbursementFlag'] == true) ? 'Y' : 'N',
       trancheDisbursementJson: coApp3FormValue.trancheDisbursementJson,
       active: '1'
@@ -4785,7 +5162,11 @@ export class DisbursementFormComponent implements OnInit {
           this.toasterService.showError('Please fill all mandatory fields', '');         
         }
       } else {
-        this.toasterService.showError('Please select "from whom" deductions to be levied', '');        
+        if((this.disburseTo.length == 1) && (this.disburseTo[0] == '7DISBURSETO')){
+          this.toasterService.showError('Total Disbursement Amount should be equal to Approved Loan Amount', '');
+        }else{
+          this.toasterService.showError('Please select "from whom" deductions to be levied', '');        
+        }
       }
     } else {
       this.toasterService.showError('Please select "to whom" disbursement to be done', '');     
@@ -4855,13 +5236,15 @@ export class DisbursementFormComponent implements OnInit {
           this.dealerDetailsForm.patchValue({ instrumentDate: (this.dealerObjInfo['instrumentDate']) ? new Date(this.utilityService.getDateFromString(this.dealerObjInfo['instrumentDate'])) : '' });
           this.dealerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.DealerDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.dealerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.DealerDetails.deductChargesFlag == 'Y') ? true : false;
+          this.dealerObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.DealerDetails.deferredDisbursementFlag == 'Y') ? true : false;
           this.dealerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.DealerDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.DealerDetails.disbursementAmount) : null;
           //this.dealerDetailsForm.patchValue({ address: (this.disbursementDetailsData.DealerDetails)? this.disbursementDetailsData.DealerDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.DealerDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.DealerDetails.beneficiaryAddress3: null });
 
           this.dealerObjInfo['paymentMethod'] = this.disbursementDetailsData.DealerDetails.paymentMethod;
           if (this.dealerObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.dealerObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showBankDetails = true;
-            this.selectBankNameEvent(this.dealerObjInfo['beneficiaryBank'],'1')
+            //this.selectBankNameEvent(this.dealerObjInfo['beneficiaryBank'],'1')
+            this.onIFSCSearch(this.dealerObjInfo['ifscCode'],'1',false);
           } else if (this.dealerObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showDDDetails = true;
             this.selectBankNameEvent(this.dealerObjInfo['favouringBankOfDraw'],'10')
@@ -4896,13 +5279,15 @@ export class DisbursementFormComponent implements OnInit {
           this.applicantDisbursementID = this.applicantObjInfo['disbursementID'];
           this.applicantObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ApplicantDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.applicantObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.ApplicantDetails.deductChargesFlag == 'Y') ? true : false;
+          this.applicantObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.ApplicantDetails.deferredDisbursementFlag == 'Y') ? true : false;
           this.applicantObjInfo['disbursementAmount'] = (this.disbursementDetailsData.ApplicantDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.ApplicantDetails.disbursementAmount) : null;
           //this.appDetailsForm.patchValue({ appAddress: (this.disbursementDetailsData.ApplicantDetails)? this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress1 +','+ this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress2 + ',' + this.disbursementDetailsData.ApplicantDetails.beneficiaryAddress3: null });
 
           this.applicantObjInfo['paymentMethod'] = this.disbursementDetailsData.ApplicantDetails.paymentMethod;
           if (this.applicantObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.applicantObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showAppBankDetails = true;
-            this.selectBankNameEvent(this.applicantObjInfo['beneficiaryBank'],'2')
+            //this.selectBankNameEvent(this.applicantObjInfo['beneficiaryBank'],'2')
+            this.onIFSCSearch(this.applicantObjInfo['ifscCode'],'2',false);
           } else if (this.applicantObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showAppDDDetails = true;
             this.selectBankNameEvent(this.applicantObjInfo['favouringBankOfDraw'],'11')
@@ -4936,12 +5321,14 @@ export class DisbursementFormComponent implements OnInit {
           this.sellerDisbursementID = this.sellerObjInfo['disbursementID'];
           this.sellerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.SellerDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.sellerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.SellerDetails.deductChargesFlag == 'Y') ? true : false;
+          this.sellerObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.SellerDetails.deferredDisbursementFlag == 'Y') ? true : false;
           this.sellerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.SellerDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.SellerDetails.disbursementAmount) : null;
       
           this.sellerObjInfo['paymentMethod'] = this.disbursementDetailsData.SellerDetails.paymentMethod;
           if (this.sellerObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.sellerObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showSellerBankDetails = true;
-            this.selectBankNameEvent(this.sellerObjInfo['beneficiaryBank'],'18')
+            //this.selectBankNameEvent(this.sellerObjInfo['beneficiaryBank'],'18')
+            this.onIFSCSearch(this.sellerObjInfo['ifscCode'],'9',false);
           } else if (this.sellerObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showSellerDDDetails = true;
             this.selectBankNameEvent(this.sellerObjInfo['favouringBankOfDraw'],'19')
@@ -4975,12 +5362,14 @@ export class DisbursementFormComponent implements OnInit {
           this.buyerDisbursementID = this.buyerObjInfo['disbursementID'];
           this.buyerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.BuyerDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.buyerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.BuyerDetails.deductChargesFlag == 'Y') ? true : false;
+          this.buyerObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.BuyerDetails.deferredDisbursementFlag == 'Y') ? true : false;
           this.buyerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.BuyerDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.BuyerDetails.disbursementAmount) : null;
       
           this.buyerObjInfo['paymentMethod'] = this.disbursementDetailsData.BuyerDetails.paymentMethod;
           if (this.buyerObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.buyerObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showBuyerBankDetails = true;
-            this.selectBankNameEvent(this.buyerObjInfo['beneficiaryBank'],'20')
+            //this.selectBankNameEvent(this.buyerObjInfo['beneficiaryBank'],'20')
+            this.onIFSCSearch(this.buyerObjInfo['ifscCode'],'10',false);
           } else if (this.buyerObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showBuyerDDDetails = true;
             this.selectBankNameEvent(this.buyerObjInfo['favouringBankOfDraw'],'21')
@@ -5013,12 +5402,14 @@ export class DisbursementFormComponent implements OnInit {
           this.additionalTab1DisbursementID = this.additionalTab1ObjInfo['disbursementID'];
           this.additionalTab1ObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.additionalTab1Details.trancheDisbursementFlag == 'Y') ? true : false;
           this.additionalTab1ObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.additionalTab1Details.deductChargesFlag == 'Y') ? true : false;
+          this.additionalTab1ObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.additionalTab1Details.deferredDisbursementFlag == 'Y') ? true : false;
           this.additionalTab1ObjInfo['disbursementAmount'] = (this.disbursementDetailsData.additionalTab1Details.disbursementAmount) ? parseInt(this.disbursementDetailsData.additionalTab1Details.disbursementAmount) : null;
       
           this.additionalTab1ObjInfo['paymentMethod'] = this.disbursementDetailsData.additionalTab1Details.paymentMethod;
           if (this.additionalTab1ObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.additionalTab1ObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showAdditionalTab1BankDetails = true;
-            this.selectBankNameEvent(this.additionalTab1ObjInfo['beneficiaryBank'],'20')
+            //this.selectBankNameEvent(this.additionalTab1ObjInfo['beneficiaryBank'],'20')
+            this.onIFSCSearch(this.additionalTab1ObjInfo['ifscCode'],'11',false);
           } else if (this.additionalTab1ObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showAdditionalTab1DDDetails = true;
             this.selectBankNameEvent(this.additionalTab1ObjInfo['favouringBankOfDraw'],'21')
@@ -5051,12 +5442,14 @@ export class DisbursementFormComponent implements OnInit {
           this.additionalTab2DisbursementID = this.additionalTab2ObjInfo['disbursementID'];
           this.additionalTab2ObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.additionalTab2Details.trancheDisbursementFlag == 'Y') ? true : false;
           this.additionalTab2ObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.additionalTab2Details.deductChargesFlag == 'Y') ? true : false;
+          this.additionalTab2ObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.additionalTab2Details.deferredDisbursementFlag == 'Y') ? true : false;
           this.additionalTab2ObjInfo['disbursementAmount'] = (this.disbursementDetailsData.additionalTab2Details.disbursementAmount) ? parseInt(this.disbursementDetailsData.additionalTab2Details.disbursementAmount) : null;
       
           this.additionalTab2ObjInfo['paymentMethod'] = this.disbursementDetailsData.additionalTab2Details.paymentMethod;
           if (this.additionalTab2ObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.additionalTab2ObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showAdditionalTab2BankDetails = true;
-            this.selectBankNameEvent(this.additionalTab2ObjInfo['beneficiaryBank'],'20')
+            //this.selectBankNameEvent(this.additionalTab2ObjInfo['beneficiaryBank'],'20')
+            this.onIFSCSearch(this.additionalTab2ObjInfo['ifscCode'],'12',false);
           } else if (this.additionalTab2ObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showAdditionalTab2DDDetails = true;
             this.selectBankNameEvent(this.additionalTab2ObjInfo['favouringBankOfDraw'],'21')
@@ -5089,12 +5482,14 @@ export class DisbursementFormComponent implements OnInit {
           this.additionalTab3DisbursementID = this.additionalTab3ObjInfo['disbursementID'];
           this.additionalTab3ObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.additionalTab3Details.trancheDisbursementFlag == 'Y') ? true : false;
           this.additionalTab3ObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.additionalTab3Details.deductChargesFlag == 'Y') ? true : false;
+          this.additionalTab3ObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.additionalTab3Details.deferredDisbursementFlag == 'Y') ? true : false;
           this.additionalTab3ObjInfo['disbursementAmount'] = (this.disbursementDetailsData.additionalTab3Details.disbursementAmount) ? parseInt(this.disbursementDetailsData.additionalTab3Details.disbursementAmount) : null;
       
           this.additionalTab3ObjInfo['paymentMethod'] = this.disbursementDetailsData.additionalTab3Details.paymentMethod;
           if (this.additionalTab3ObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.additionalTab3ObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showAdditionalTab3BankDetails = true;
-            this.selectBankNameEvent(this.additionalTab3ObjInfo['beneficiaryBank'],'20')
+            //this.selectBankNameEvent(this.additionalTab3ObjInfo['beneficiaryBank'],'20')
+            this.onIFSCSearch(this.additionalTab3ObjInfo['ifscCode'],'13',false);
           } else if (this.additionalTab3ObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showAdditionalTab3DDDetails = true;
             this.selectBankNameEvent(this.additionalTab3ObjInfo['favouringBankOfDraw'],'21')
@@ -5127,12 +5522,14 @@ export class DisbursementFormComponent implements OnInit {
           this.additionalTab4DisbursementID = this.additionalTab4ObjInfo['disbursementID'];
           this.additionalTab4ObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.additionalTab4Details.trancheDisbursementFlag == 'Y') ? true : false;
           this.additionalTab4ObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.additionalTab4Details.deductChargesFlag == 'Y') ? true : false;
+          this.additionalTab4ObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.additionalTab4Details.deferredDisbursementFlag == 'Y') ? true : false;
           this.additionalTab4ObjInfo['disbursementAmount'] = (this.disbursementDetailsData.additionalTab4Details.disbursementAmount) ? parseInt(this.disbursementDetailsData.additionalTab4Details.disbursementAmount) : null;
       
           this.additionalTab4ObjInfo['paymentMethod'] = this.disbursementDetailsData.additionalTab4Details.paymentMethod;
           if (this.additionalTab4ObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.additionalTab4ObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showAdditionalTab4BankDetails = true;
-            this.selectBankNameEvent(this.additionalTab4ObjInfo['beneficiaryBank'],'20')
+            //this.selectBankNameEvent(this.additionalTab4ObjInfo['beneficiaryBank'],'20')
+            this.onIFSCSearch(this.additionalTab4ObjInfo['ifscCode'],'14',false);
           } else if (this.additionalTab4ObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showAdditionalTab4DDDetails = true;
             this.selectBankNameEvent(this.additionalTab4ObjInfo['favouringBankOfDraw'],'21')
@@ -5165,12 +5562,14 @@ export class DisbursementFormComponent implements OnInit {
           this.additionalTab5DisbursementID = this.additionalTab5ObjInfo['disbursementID'];
           this.additionalTab5ObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.additionalTab5Details.trancheDisbursementFlag == 'Y') ? true : false;
           this.additionalTab5ObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.additionalTab5Details.deductChargesFlag == 'Y') ? true : false;
+          this.additionalTab5ObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.additionalTab5Details.deferredDisbursementFlag == 'Y') ? true : false;
           this.additionalTab5ObjInfo['disbursementAmount'] = (this.disbursementDetailsData.additionalTab5Details.disbursementAmount) ? parseInt(this.disbursementDetailsData.additionalTab5Details.disbursementAmount) : null;
       
           this.additionalTab5ObjInfo['paymentMethod'] = this.disbursementDetailsData.additionalTab5Details.paymentMethod;
           if (this.additionalTab5ObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.additionalTab5ObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showAdditionalTab5BankDetails = true;
-            this.selectBankNameEvent(this.additionalTab5ObjInfo['beneficiaryBank'],'20')
+            //this.selectBankNameEvent(this.additionalTab5ObjInfo['beneficiaryBank'],'20')
+            this.onIFSCSearch(this.additionalTab5ObjInfo['ifscCode'],'15',false);
           } else if (this.additionalTab5ObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showAdditionalTab5DDDetails = true;
             this.selectBankNameEvent(this.additionalTab5ObjInfo['favouringBankOfDraw'],'21')
@@ -5199,7 +5598,7 @@ export class DisbursementFormComponent implements OnInit {
           }
         }
 
-        if (this.disbursementDetailsData.CoApplicantDetails) {
+        if (this.disbursementDetailsData.CoApplicantDetails.length != 0) {
           var fetchCoAppList = this.disbursementDetailsData.CoApplicantDetails;
           var fetchedCoApplicantList = []
           for (let i = 0; i < this.coAppNamesLov.length; i++) {
@@ -5238,14 +5637,16 @@ export class DisbursementFormComponent implements OnInit {
           }
           //console.log('fetchedCoApp',this.coAppName)  
         }
-        if (this.coApplicant1) {     
+        if (this.coApp1 && this.coApplicant1) {     
           this.coApp1DisbursementID = this.coApplicant1['disbursementID'];
           this.fetchedCoApp1Data = this.coApp1DisbursementID ? true : false;
           this.coApplicant1['trancheDisbursementFlag'] = (this.coApplicant1['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant1['deductChargesFlag'] = (this.coApplicant1['deductChargesFlag'] == 'Y') ? true : false;
+          this.coApplicant1['deferredDisbursementFlag'] = (this.coApplicant1['deferredDisbursementFlag'] == 'Y') ? true : false;
           if (this.coApplicant1['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant1['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showCoApp1BankDetails = true;
-            this.selectBankNameEvent(this.coApplicant1['beneficiaryBank'],'3')
+           //this.selectBankNameEvent(this.coApplicant1['beneficiaryBank'],'3')
+           this.onIFSCSearch(this.coApplicant1['ifscCode'],'3',false);
           } else if (this.coApplicant1['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showCoApp1DDDetails = true;
             this.selectBankNameEvent(this.coApplicant1['favouringBankOfDraw'],'12')
@@ -5273,14 +5674,16 @@ export class DisbursementFormComponent implements OnInit {
             });
           }
         }
-        if (this.coApplicant2) {
+        if (this.coApp2 && this.coApplicant2) {
           this.coApp2DisbursementID = this.coApplicant2['disbursementID'];
           this.fetchedCoApp2Data = this.coApp2DisbursementID ? true : false;
           this.coApplicant2['trancheDisbursementFlag'] = (this.coApplicant2['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant2['deductChargesFlag'] = (this.coApplicant2['deductChargesFlag'] == 'Y') ? true : false;
+          this.coApplicant2['deferredDisbursementFlag'] = (this.coApplicant2['deferredDisbursementFlag'] == 'Y') ? true : false;
           if (this.coApplicant2['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant2['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showCoApp2BankDetails = true;
-            this.selectBankNameEvent(this.coApplicant2['beneficiaryBank'],'4')
+            //this.selectBankNameEvent(this.coApplicant2['beneficiaryBank'],'4')
+            this.onIFSCSearch(this.coApplicant2['ifscCode'],'4',false);
           } else if (this.coApplicant2['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showCoApp2DDDetails = true;
             this.selectBankNameEvent(this.coApplicant2['favouringBankOfDraw'],'13')
@@ -5308,14 +5711,16 @@ export class DisbursementFormComponent implements OnInit {
             });
           }
         }
-        if (this.coApplicant3) { 
+        if (this.coApp3 && this.coApplicant3) { 
           this.coApp3DisbursementID = this.coApplicant3['disbursementID'];
           this.fetchedCoApp3Data = this.coApp3DisbursementID ? true : false;
           this.coApplicant3['trancheDisbursementFlag'] = (this.coApplicant3['trancheDisbursementFlag'] == 'Y') ? true : false;
           this.coApplicant3['deductChargesFlag'] = (this.coApplicant3['deductChargesFlag'] == 'Y') ? true : false;
+          this.coApplicant3['deferredDisbursementFlag'] = (this.coApplicant3['deferredDisbursementFlag'] == 'Y') ? true : false;
           if (this.coApplicant3['paymentMethod'] == '7MODEOFPAYMENT' || this.coApplicant3['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showCoApp3BankDetails = true;
-            this.selectBankNameEvent(this.coApplicant3['beneficiaryBank'],'5')
+            //this.selectBankNameEvent(this.coApplicant3['beneficiaryBank'],'5')
+            this.onIFSCSearch(this.coApplicant3['ifscCode'],'5',false);
           } else if (this.coApplicant3['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showCoApp3DDDetails = true;
             this.selectBankNameEvent(this.coApplicant3['favouringBankOfDraw'],'14')
@@ -5348,12 +5753,14 @@ export class DisbursementFormComponent implements OnInit {
           this.bankerDisbursementID = this.bankerObjInfo['disbursementID'];
           this.bankerObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.BankerDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.bankerObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.BankerDetails.deductChargesFlag == 'Y') ? true : false;
+          this.bankerObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.BankerDetails.deferredDisbursementFlag == 'Y') ? true : false;
           this.bankerObjInfo['disbursementAmount'] = (this.disbursementDetailsData.BankerDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.BankerDetails.disbursementAmount) : null;
 
           this.bankerObjInfo['paymentMethod'] = this.disbursementDetailsData.BankerDetails.paymentMethod;
           if (this.bankerObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.bankerObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showBankerBankDetails = true;
-            this.selectBankNameEvent(this.bankerObjInfo['beneficiaryBank'],'6')
+            //this.selectBankNameEvent(this.bankerObjInfo['beneficiaryBank'],'6')
+            this.onIFSCSearch(this.bankerObjInfo['ifscCode'],'6',false);
           } else if (this.bankerObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showBankerDDDetails = true;
             this.selectBankNameEvent(this.bankerObjInfo['favouringBankOfDraw'],'15')
@@ -5386,12 +5793,14 @@ export class DisbursementFormComponent implements OnInit {
           this.finDisbursementID = this.financierObjInfo['disbursementID'];
           this.financierObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.FinancierDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.financierObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.FinancierDetails.deductChargesFlag == 'Y') ? true : false;
+          this.financierObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.FinancierDetails.deferredDisbursementFlag == 'Y') ? true : false;
           this.financierObjInfo['disbursementAmount'] = (this.disbursementDetailsData.FinancierDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.FinancierDetails.disbursementAmount) : null;
 
           this.financierObjInfo['paymentMethod'] = this.disbursementDetailsData.FinancierDetails.paymentMethod;
           if (this.financierObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.financierObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showFinBankDetails = true;
-            this.selectBankNameEvent(this.financierObjInfo['beneficiaryBank'],'7')
+            //this.selectBankNameEvent(this.financierObjInfo['beneficiaryBank'],'7')
+            this.onIFSCSearch(this.financierObjInfo['ifscCode'],'7',false);
           } else if (this.financierObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showFinDDDetails = true;
             this.selectBankNameEvent(this.financierObjInfo['favouringBankOfDraw'],'16')
@@ -5424,12 +5833,14 @@ export class DisbursementFormComponent implements OnInit {
           this.tpDisbursementID = this.thirdPartyObjInfo['disbursementID'];
           this.thirdPartyObjInfo['trancheDisbursementFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.trancheDisbursementFlag == 'Y') ? true : false;
           this.thirdPartyObjInfo['deductChargesFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.deductChargesFlag == 'Y') ? true : false;
+          this.thirdPartyObjInfo['deferredDisbursementFlag'] = (this.disbursementDetailsData.ThirdPartyDetails.deferredDisbursementFlag == 'Y') ? true : false;
           this.thirdPartyObjInfo['disbursementAmount'] = (this.disbursementDetailsData.ThirdPartyDetails.disbursementAmount) ? parseInt(this.disbursementDetailsData.ThirdPartyDetails.disbursementAmount) : null;
 
           this.thirdPartyObjInfo['paymentMethod'] = this.disbursementDetailsData.ThirdPartyDetails.paymentMethod;
           if (this.thirdPartyObjInfo['paymentMethod'] == '7MODEOFPAYMENT' || this.thirdPartyObjInfo['paymentMethod'] == '8MODEOFPAYMENT') {
             this.showTPBankDetails = true;
-            this.selectBankNameEvent(this.thirdPartyObjInfo['beneficiaryBank'],'8')
+            //this.selectBankNameEvent(this.thirdPartyObjInfo['beneficiaryBank'],'8')
+            this.onIFSCSearch(this.thirdPartyObjInfo['ifscCode'],'8',false);
           } else if (this.thirdPartyObjInfo['paymentMethod'] == '1MODEOFPAYMENT') {
             this.showTPDDDetails = true;
             this.selectBankNameEvent(this.thirdPartyObjInfo['favouringBankOfDraw'],'17')

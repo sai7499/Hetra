@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import html2pdf from 'html2pdf.js';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LabelsService } from 'src/app/services/labels.service';
-import { CommomLovService } from '@services/commom-lov-service';
 import { WelcomeService } from "../welomce-letter/welcome.service";
 import { ToasterService } from "@services/toaster.service"
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -11,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ElementSchemaRegistry } from '@angular/compiler';
 import { Location } from '@angular/common';
 import { LoanViewService } from '@services/loan-view.service';
+import { LoginStoreService } from '@services/login-store.service';
 
 @Component({
   selector: 'app-welomce-letter',
@@ -93,7 +93,7 @@ export class WelomceLetterComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private labelsData: LabelsService, 
-              private commonLovService: CommomLovService, 
+              private loginStoreService: LoginStoreService, 
               private WelcomeService: WelcomeService, 
               private toasterService: ToasterService,
               private createLeadDataService: CreateLeadDataService,
@@ -107,8 +107,14 @@ export class WelomceLetterComponent implements OnInit {
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
 
+    this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
+      this.roleId = value.roleId;
+      this.roleType = value.roleType;
+    });
+
     const path = this.location.path();
-    console.log('path', path);
+    console.log(typeof
+      (this.roleType), 'path', path);
 
     if (path.includes('loanbooking')) {
         this.isLoanBooking = true;
@@ -160,6 +166,19 @@ export class WelomceLetterComponent implements OnInit {
         // let text =' <p>hii helo bye</p>'
         // this.dummy = btoa(text);
         // this.dummy = atob(text);
+        for(var i = 0; i <this.loanApprovedDetails.length; i++){
+          this.loanApprovedDetails[i]['loanAmt'] = Number(this.loanApprovedDetails[i]['loanAmt']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['assetCost'] = Number(this.loanApprovedDetails[i]['assetCost']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['advEmiAmt'] = Number(this.loanApprovedDetails[i]['advEmiAmt']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['creditShield'] = Number(this.loanApprovedDetails[i]['creditShield']).toLocaleString('en-IN')
+
+          this.loanApprovedDetails[i]['rollOverPdc'] = Number(this.loanApprovedDetails[i]['rollOverPdc']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['insPremium'] = Number(this.loanApprovedDetails[i]['insPremium']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['emiAmt'] = Number(this.loanApprovedDetails[i]['emiAmt']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['fieldVisitChargesApplicable'] = Number(this.loanApprovedDetails[i]['fieldVisitChargesApplicable']).toLocaleString('en-IN')
+          this.loanApprovedDetails[i]['processingCharges'] = Number(this.loanApprovedDetails[i]['processingCharges']).toLocaleString('en-IN')
+        }
+        
 
         this.div2Data = this.isWelcomeDetails["div2Data"];
         this.div2Data = decodeURI(this.div2Data);
@@ -183,7 +202,14 @@ export class WelomceLetterComponent implements OnInit {
         // } 
         this.vehicleDetailsArray = this.isWelcomeDetails["vehicleDetails"];
         
-        this.repaymentDetails = res['ProcessVariables'].repaymentDetails;         
+        this.repaymentDetails = res['ProcessVariables'].repaymentDetails;
+        for(var i =0 ; i<this.repaymentDetails.length; i++){
+          this.repaymentDetails[i]['instalmentAmt'] = Number(this.repaymentDetails[i]['instalmentAmt']).toLocaleString('en-IN')
+          this.repaymentDetails[i]['motorIns'] = Number(this.repaymentDetails[i]['motorIns']).toLocaleString('en-IN')
+          this.repaymentDetails[i]['principleAmt'] = Number(this.repaymentDetails[i]['principleAmt']).toLocaleString('en-IN')
+          this.repaymentDetails[i]['interestAmt'] = Number(this.repaymentDetails[i]['interestAmt']).toLocaleString('en-IN')
+          this.repaymentDetails[i]['pricipleOutstanding'] = Number(this.repaymentDetails[i]['pricipleOutstanding']).toLocaleString('en-IN')
+        }       
         this.showWelcomeLetter= true;
       } else {
         this.toasterService.showError(res['ProcessVariables'].error["message"], '')
@@ -293,7 +319,7 @@ export class WelomceLetterComponent implements OnInit {
 
   onNext() {
     if (this.productCatCode === 'NCV') {
-        this.router.navigateByUrl(`/pages/dde/${this.leadId}/delivery-order`);
+        this.router.navigateByUrl(`/pages/loanbooking/${this.leadId}/delivery-order`);
     } else {
       this.router.navigateByUrl(`/pages/dde/${this.leadId}/pdd`);
     }

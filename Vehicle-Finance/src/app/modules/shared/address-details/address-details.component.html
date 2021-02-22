@@ -117,7 +117,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="landline">{{labels?.nearestLandmark}}</label>
 
-                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landmark?.maxLength">
+                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landMark?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -264,7 +264,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="landline">{{labels?.nearestLandmark}}</label>
 
-                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landmark?.maxLength">
+                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landMark?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -571,7 +571,7 @@
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
                 <label for="landline">{{labels?.nearestLandmark}}</label>
 
-                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landmark?.maxLength">
+                <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landMark?.maxLength">
                 </app-custom-input>
               </div>
             </div>
@@ -683,7 +683,7 @@
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                   <label for="landline">{{labels?.nearestLandmark}}</label>
 
-                  <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landmark?.maxLength">
+                  <app-custom-input formControlName="nearestLandmark" [maxLength]="validationData?.landMark?.maxLength">
                   </app-custom-input>
                 </div>
               </div>
@@ -728,10 +728,11 @@
         Save
       </p>
     </ng-container>
-    <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
+    <ng-container *ngIf="isShowNextBut">
+      <a id="next_vehicle_details"><button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
         Next
       </button></a>
-    
+    </ng-container>
   </div>
 </div>
   </form>
