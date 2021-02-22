@@ -149,6 +149,78 @@
           <div class="col-sm-6"></div>
         </div>
       </ng-container>
+
+      <ng-container *ngIf="!isSales && this.showEngineNumber">
+        <div class="row" >
+          
+          <!-- <label for="middle_name">ORC Process</label> -->
+          <h3 class="banner-sub">Vehicle Details</h3>
+          <!-- <app-custom-input
+            formControlName="orcProcess"
+            [className]="'form-control mandatory'"
+            >
+          </app-custom-input> -->
+       
+      </div>
+        <div formGroupName="numberForm">
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">{{label?.regNo}}
+              <sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input
+              formControlName="regNumber"
+              [className]="'form-control mandatory'"
+              [custom]="vehicleRegPattern"
+              [minLength]="labels?.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
+                            [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
+              [isRequired]="label?.regNo + ' ' + 'is required'"   
+              [isDirty] = "isDirty"          
+              >
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">{{label?.engineNum}}
+              <sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input
+              formControlName="engNumber"
+              [className]="'form-control mandatory'"
+              [type]="labels?.validationData?.engineNo.type"
+              [maxLength]="labels?.validationData?.engineNo.maxLength"
+              [isRequired]="label?.engineNum + ' ' + 'is required'"    
+              [isDirty] = "isDirty"  
+              >
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3">
+            <label for="middle_name">{{label?.chassisNo}}
+              <sub class="star_red_col">*</sub>
+            </label>
+            <app-custom-input
+              formControlName="chasNumber"
+              [className]="'form-control mandatory'"
+              [type]="labels?.validationData?.chasisNo?.type"
+              [maxLength]="labels?.validationData?.chasisNo?.maxLength"
+              [isRequired]="label?.chassisNo + ' ' + 'is required'"  
+              [isDirty] = "isDirty"  
+              >
+            </app-custom-input>
+          </div>
+      </div>
+      <ng-container *ngIf="!isLoan360">
+        <div class="btn-sec clear-both row" *ngIf="!isSales && showEngineNumber">
+          <div class="col-sm-6 text-right">
+            <span id="edit_vehicle_details_replace"></span>
+            <a id="back_vehicle_details"
+              ><button  class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
+                Update
+              </button></a
+            >
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+      </ng-container>
+      </ng-container>
         <ng-container >
         <div  formGroupName="processForm">
           <div class="row" >
@@ -164,7 +236,9 @@
           </div>
           <div class="row" *ngIf="isSales">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="middle_name">ORC Status</label>
+              <label for="middle_name">ORC Status
+                <sub class="star_red_col">*</sub>
+              </label>
               <app-vf-custom-select formControlName="orcStatus" [className]="'form-control mandatory'" 
               [values]="modifiedOrcStatusList" 
               [isRequired]="'ORC status is required'"
@@ -178,7 +252,9 @@
               </app-custom-input> -->
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="middle_name">Date</label>
+              <label for="middle_name">Date
+                <sub class="star_red_col">*</sub>
+              </label>
               <kendo-datepicker class="form-control mandatory" formControlName="orcReceivedDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'month'" [max]="toDayDate" [min]="disbursementDate">
                   </kendo-datepicker>
@@ -199,12 +275,16 @@
           </div>
           <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="middle_name">RTO Agent</label>
+              <label for="middle_name">RTO Agent
+                <sub *ngIf="isSales" class="star_blue_col">*</sub>
+              </label>
               <app-vf-custom-select formControlName="rtoAgent" [className]="'form-control mandatory'"
                [values]="rtoAgentsList" [isRequired]=" isRtoAgentMsg ?'RTO Agent is required' : ''" [isDirty]="isDirty" ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-              <label for="middle_name">Endorsement Date</label>
+              <label for="middle_name">Endorsement Date
+                <sub *ngIf="isSales" class="star_blue_col">*</sub>
+              </label>
               <kendo-datepicker class="form-control mandatory" formControlName="endorsementDate"
                     [format]="'dd/MM/yyyy'"  [activeView]="'month'" 
                     [min]="orcHistory? minEndorsementDate : ''"
@@ -415,68 +495,33 @@
           </div>
         
       </ng-container>
-      <ng-container *ngIf="!isSales && this.showEngineNumber">
-        <div formGroupName="numberForm">
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name">{{label?.regNo}}</label>
-            <app-custom-input
-              formControlName="regNumber"
-              [className]="'form-control mandatory'"
-              [custom]="vehicleRegPattern"
-              [minLength]="labels?.validationData?.vehicleRegNo.minLength" [inputClass]="'input-upper'"
-                            [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
-              [isRequired]="label?.regNo + ' ' + 'is required'"   
-              [isDirty] = "isDirty"          
-              >
-            </app-custom-input>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name">{{label?.engineNum}}</label>
-            <app-custom-input
-              formControlName="engNumber"
-              [className]="'form-control mandatory'"
-              [type]="labels?.validationData?.engineNo.type"
-              [maxLength]="labels?.validationData?.engineNo.maxLength"
-              [isRequired]="label?.engineNum + ' ' + 'is required'"    
-              [isDirty] = "isDirty"  
-              >
-            </app-custom-input>
-          </div>
-          <div class="form-group col-sm-6 col-md-4 col-lg-3">
-            <label for="middle_name">{{label?.chassisNo}}</label>
-            <app-custom-input
-              formControlName="chasNumber"
-              [className]="'form-control mandatory'"
-              [type]="labels?.validationData?.chasisNo?.type"
-              [maxLength]="labels?.validationData?.chasisNo?.maxLength"
-              [isRequired]="label?.chassisNo + ' ' + 'is required'"  
-              [isDirty] = "isDirty"  
-              >
-            </app-custom-input>
-          </div>
-      </div>
-      </ng-container>
+      
       <div class="btn-sec clear-both row" *ngIf="!isSales">
-        <div class="col-sm-6 text-right">
-          <a id="back_vehicle_details" class="btn-margin-right"
+        <div class="col-sm-12 text-center">
+          <a id="back_vehicle_details" 
           ><button class="btn btn-primary" type="button" (click)="onBack()">
             Back
           </button></a
-        >
+        >&nbsp;
         <ng-container *ngIf="!isLoan360">
-        <a id="back_vehicle_details" *ngIf="showEngineNumber"
+        <!-- <a id="back_vehicle_details" *ngIf="showEngineNumber"
         ><button class="btn btn-primary" type="button" (click)="callAPIForNumberForm()">
           Update
         </button></a
-      >
+      > -->
       <a id="back_vehicle_details" *ngIf="!showEngineNumber"
         ><button class="btn btn-primary" type="button" (click)="updateTable()">
           Update
         </button></a
-      >
+      >&nbsp;
+      <a id="back_vehicle_details"
+            ><button class="btn btn-primary" type="button" (click)="onSubmit()" [disabled]="isDisableCpcSubmit">
+              Submit
+            </button></a
+          >
     </ng-container>
         </div>
-        <ng-container *ngIf="!isLoan360">
+        <!-- <ng-container *ngIf="!isLoan360">
         <div class="col-sm-6 text-left"><span id="edit_vehicle_details_replace"></span>
           <a id="back_vehicle_details"
             ><button class="btn btn-primary" type="button" (click)="onSubmit()" [disabled]="isDisableCpcSubmit">
@@ -484,7 +529,7 @@
             </button></a
           >
           </div>
-        </ng-container>
+        </ng-container> -->
       </div>
       </div>
     </div>
