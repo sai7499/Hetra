@@ -833,7 +833,23 @@ export class PddComponent implements OnInit {
                 return this.toasterService.showError('Please enter Chassis Number', '');
             }
 
+        }else if(this.isSales){
+            let documentList ;
+            documentList = this.pddForm.get('pddDocumentDetails');
+            documentList = documentList.getRawValue();
+            const isDocumentUploaded = documentList.every((data)=>{
+                return data.dmsDocId
+            })
+            console.log('PDDForm', isDocumentUploaded)
+    
+            if(!this.disableDocumentList && !isDocumentUploaded){
+                this.toasterService.showError('Please upload PDD Document details ', '');
+                return;
+            }
         }
+        
+       
+
         this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
         const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
 
@@ -841,7 +857,6 @@ export class PddComponent implements OnInit {
             this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
             return;
           }
-
 
         this.showDialog = true;
     }
