@@ -64,7 +64,7 @@ export class ValuationComponent implements OnInit {
   public assetBodyType: any = [];
   public assetModelType: any = [];
   public assetVariant: any = [];
-  public fuelTypeList = this.LOV.fuelType;
+  public fuelTypeList: any;
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
   public vehicleRegPattern: {
@@ -143,7 +143,7 @@ export class ValuationComponent implements OnInit {
   vehicleMovedDisabled: boolean;
   vehicleMovedRequired: boolean;
   isOnline: boolean;
-  disableForm: boolean;
+  disableForm: boolean = false;
   yearMonthOfManufact: any;
   yearMonthOfManufacturer: any;
   reportUrl: any;
@@ -199,6 +199,27 @@ export class ValuationComponent implements OnInit {
   apiValue: any;
   finalValue: any;
   applicantFullName: any;
+  vehicleUsedFor: any = [];
+  vehicleType: any = [];
+  regFuelUsed: any = [];
+  rcBookStatus: any = [];
+  anyAccidentsInPast: any = [];
+  hypothecation: any = [];
+  vehicleSegment: any = [];
+  vehicleMfrCode: any = [];
+  vehicleModelCode: any = [];
+  inspectionEngineStarted: any;
+  vehicleMoved: any;
+  vehicleRegion: any;
+  reRegisteredVechicle: any;
+  interStateVehicle: any;
+  permitStatus: any;
+  modelUnderProduction: any;
+  noOfOwners: any;
+  rating: any;
+  ratingScale: any;
+  isOnlinevariable: boolean;
+  yearOfManufacturer: any;
  
 
 
@@ -294,17 +315,33 @@ export class ValuationComponent implements OnInit {
     this.getLeadSectionData();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
-    this.vehicleRegPattern = this.validateCustomPattern();
+    // this.vehicleRegPattern = this.validateCustomPattern();
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();
+      console.log(operationType, "operationType");
+      
       if (operationType) {
         this.vehicleValuationForm.disable();
+        this.vehicleValuationForm.clearValidators();
+        this.vehicleValuationForm.updateValueAndValidity();
         this.disableSaveBtn = true;
+      //   // setTimeout(() => {
+      //     this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
+      // this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
+      // this.vehicleValuationForm.updateValueAndValidity();
+      //   // });
       }
 
       if (this.loanViewService.checkIsLoan360()) {
         this.vehicleValuationForm.disable();
+        this.vehicleValuationForm.clearValidators();
+        this.vehicleValuationForm.updateValueAndValidity();
         this.disableSaveBtn = true;
+      //   // setTimeout(() => {
+      //     this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
+      // this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
+      // this.vehicleValuationForm.updateValueAndValidity();
+      //   // });
       }
 
     });
@@ -376,13 +413,32 @@ export class ValuationComponent implements OnInit {
 
       this.LOV.defaultfinanciers = this.LOV.financiers;
       this.fuelTypeList  = this.LOV.fuelType;
+      this.vehicleUsedFor = this.LOV.vehicleUsage;
+      this.vehicleType = this.vehicleLov.vehicleType;
+      this.rcBookStatus = this.rcBookStatusLOV;
+      this.anyAccidentsInPast = this.valuesToYesNo;
+      this.hypothecation = this.LOV.defaultfinanciers;
+      this.vehicleSegment = this.vehicleLov.assetBodyType;
+      this.vehicleMfrCode = this.vehicleLov.assetMake;
+      this.vehicleModelCode = this.vehicleLov.assetModel;
+      this.noOfOwners = this.ownerSerialNo;
+      // not reflecting
+      this.regFuelUsed = this.LOV.fuelType;
+      this.inspectionEngineStarted = this.valuesToYesNo;
+      this.vehicleMoved = this.valuesToYesNo;
+      this.vehicleRegion = this.vehicleLov.region;
+      this.reRegisteredVechicle = this.valuesToYesNo;
+      this.interStateVehicle = this.valuesToYesNo;
+      this.permitStatus = this.vehiclePermitStatus;
+      this.modelUnderProduction = this.valuesToYesNo;
+      this.rating = this.conditionLov;
+      this.ratingScale = this.remarksRatingScaleLov;
+
 
       let defaultfinanciers = [{
         key: 'Not-Applicable', 
         value: 'NA'
       }]
-
-      this.LOV.
 
       this.LOV.defaultfinanciers = defaultfinanciers.concat(this.LOV.financiers);
 
@@ -463,6 +519,9 @@ export class ValuationComponent implements OnInit {
 
   // Custom Validation Pattern For Vehicle Number
   validateCustomPattern() {
+    if(this.isOnline) {
+      return;
+    }
     const regPatternData = [
       {
         rule: (inputValue) => {
@@ -922,6 +981,8 @@ console.log(insuranceValidUpto.getFullYear());
         this.initiationDate = new Date(this.getDateFormat(this.vehicleValuationDetails.valuationInitiationDate));
       }
       this.isOnline = response.ProcessVariables.isOnline;
+    this.vehicleRegPattern = this.validateCustomPattern();
+
       // this.isOnline = true;
       // this.isOnline = false;
       console.log('is online valutation', this.isOnline);
@@ -929,8 +990,16 @@ console.log(insuranceValidUpto.getFullYear());
         if (this.isOnline) {
           console.log('from is disabled', this.isOnline);
           this.vehicleValuationForm.disable();
-          this.disableSaveBtn = true;
+          this.vehicleValuationForm.clearValidators();
+        this.vehicleValuationForm.updateValueAndValidity();
+          // this.disableSaveBtn = true;
           this.disableForm = true;
+          // setTimeout(() => {
+            this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
+        this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
+        this.vehicleValuationForm.updateValueAndValidity();
+          // });
+          
           // this.vehicleValuationDetails.pdfUrl = 'sampleurl.com';
           if (this.vehicleValuationDetails.pdfUrl !== null) {
             this.reportUrl = this.vehicleValuationDetails.pdfUrl;
@@ -942,6 +1011,7 @@ console.log(insuranceValidUpto.getFullYear());
           }
         }
         console.log('after set timeout', this.disablePdfDownload);
+        
       });
       console.log('after set timeout', this.isOnline);
       // console.log('after set timeout', this.disablePdfDownload);
@@ -954,12 +1024,31 @@ console.log(insuranceValidUpto.getFullYear());
       //   this.downloadDocs(this.dmsDocumentId);
       // }
 
-
-      if (this.isOnline) {
-        this.vehicleValuationForm.disable();
-        this.disableSaveBtn = true;
+      if(this.isOnline) {
         this.disableForm = true;
+        const dateToChange = this.vehicleValuationDetails.yearOfManufacturer;
+        console.log(dateToChange.split('/'), 'Date');
+        const storeDate = dateToChange.split('/'); 
+        const day = '01'
+        storeDate.unshift(day);
+        // console.log(storeDate.join('/'), 'StoreDate');
+        this.yearOfManufacturer = storeDate.join('/');
       }
+
+
+      // if (this.isOnline) {
+      //   this.vehicleValuationForm.disable();
+      //   this.vehicleValuationForm.clearValidators();
+      //   this.vehicleValuationForm.updateValueAndValidity();
+      //   // this.disableSaveBtn = true;
+      //   this.disableForm = true;
+      //   // setTimeout(() => {
+      //     this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
+      // this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
+      // this.vehicleValuationForm.updateValueAndValidity();
+      //   // });
+
+      // }
       // const lastvaluationsList = this.vehicleValuationDetails.valuationList;
       const lastvaluationsList = null;
       const assetsConditionList = null;
@@ -1027,6 +1116,7 @@ console.log(insuranceValidUpto.getFullYear());
       // }
        this.onPermitChange(this.vehicleValuationDetails.permitStatus);
        this.engineStarted(this.vehicleValuationDetails.engineStarted);
+       this.accidentsInPast(this.vehicleValuationDetails.anyAccidentsInPast);
       // this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
       if ((this.vehicleValuationDetails.modelUnderProduction) && (this.vehicleValuationDetails.preReRegNumber)) {
         if ((this.vehicleValuationDetails.preReRegNumber !== null) &&
@@ -1060,6 +1150,7 @@ console.log(insuranceValidUpto.getFullYear());
       // }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
+    
   }
   redirectUrl() {
     // this.router.navigate([this.reportUrl]);
@@ -1170,7 +1261,7 @@ console.log(insuranceValidUpto.getFullYear());
     this.vehicleValuationForm = new FormGroup({
       valuatorType: new FormControl({ value: '', disabled: true }),
       valuatorCode: new FormControl({ value: '', disabled: true }),
-      vehicleCode: new FormControl({ value: 0 }),
+      vehicleCode: new FormControl('0'),
       referenceDetails: new FormGroup(this.getReferenceDetails()),
       inspectionDetails: new FormGroup(this.getInspectionDetails()),
       vehicleIdentityDetails: new FormGroup(this.getvehicleIdentityDetails()),
@@ -1283,8 +1374,7 @@ console.log(insuranceValidUpto.getFullYear());
       noOfRetreadedTyres: new FormControl(''),
       majorRepairTillDate: new FormControl('', Validators.required),
       anyAccidentsInPast: new FormControl('', Validators.required),
-      valuatorRemarks: new FormControl('', Validators.compose([Validators.maxLength(1500),
-      Validators.pattern(/^[a-zA-Z0-9 ]*$/)])),
+      valuatorRemarks: new FormControl(''),
     }
   }
   getrecomendationDetails() {
@@ -1309,14 +1399,148 @@ console.log(insuranceValidUpto.getFullYear());
   
   setFormValue() {
 
+    if (this.isOnline){
+      this.isDirty = false;
+      this.fuelTypeList = [];
+      this.vehicleType = [];
+      this.vehicleUsedFor = [];
+      this.rcBookStatus = [];
+      this.anyAccidentsInPast = [];
+      this.hypothecation = [];
+      this.vehicleSegment = [];
+      this.vehicleMfrCode = [];
+      this.vehicleModelCode = [];
+      this.noOfOwners = [];
+      // not reflecting
+      this.regFuelUsed = [];
+      this.inspectionEngineStarted = [];
+      this.vehicleMoved = [];
+      this.vehicleRegion = [];
+      this.reRegisteredVechicle = [];
+      this.interStateVehicle = [];
+      this.permitStatus = [];
+      this.modelUnderProduction = [];
+      // this.rating = [];
+      // this.ratingScale = [];
+
+      this.vehicleModelCode = [{
+        key: this.vehicleValuationDetails.vehicleModelCode ? this.vehicleValuationDetails.vehicleModelCode : null,
+        value: this.vehicleValuationDetails.vehicleModelCode ? this.vehicleValuationDetails.vehicleModelCode : null
+      }];
+
+      this.vehicleMfrCode = [{
+        key: this.vehicleValuationDetails.vehicleMfrCode ? this.vehicleValuationDetails.vehicleMfrCode : null,
+        value: this.vehicleValuationDetails.vehicleMfrCode ? this.vehicleValuationDetails.vehicleMfrCode : null
+      }];
+
+      this.vehicleSegment = [{
+        key: this.vehicleValuationDetails.vehicleSegCode ? this.vehicleValuationDetails.vehicleSegCode : null,
+        value: this.vehicleValuationDetails.vehicleSegCode ? this.vehicleValuationDetails.vehicleSegCode : null
+      }];
+
+      this.hypothecation = [{
+        key: this.vehicleValuationDetails.hypothecation ? this.vehicleValuationDetails.hypothecation : null,
+        value: this.vehicleValuationDetails.hypothecation ? this.vehicleValuationDetails.hypothecation : null
+      }];
+
+      this.anyAccidentsInPast = [{
+        key: this.vehicleValuationDetails.anyAccidentsInPast ? this.vehicleValuationDetails.anyAccidentsInPast : null,
+        value: this.vehicleValuationDetails.anyAccidentsInPast ? this.vehicleValuationDetails.anyAccidentsInPast : null
+      }];
+      this.rcBookStatus = [{
+        key: this.vehicleValuationDetails.rcBookStatus ? this.vehicleValuationDetails.rcBookStatus : null,
+        value: this.vehicleValuationDetails.rcBookStatus ? this.vehicleValuationDetails.rcBookStatus : null
+      }];
+
+      this.vehicleType = [{
+          key: this.vehicleValuationDetails.vehicleTypeCode ? this.vehicleValuationDetails.vehicleTypeCode : null,
+          value: this.vehicleValuationDetails.vehicleTypeCode ? this.vehicleValuationDetails.vehicleTypeCode : null
+        }];
+
+        this.vehicleUsedFor = [{
+          key: this.vehicleValuationDetails.vehicleUsedFor ? this.vehicleValuationDetails.vehicleUsedFor : null,
+          value: this.vehicleValuationDetails.vehicleUsedFor ? this.vehicleValuationDetails.vehicleUsedFor : null
+        }];
+
+      this.fuelTypeList =[{
+          key: this.vehicleValuationDetails.fuelUsed ? this.vehicleValuationDetails.fuelUsed : null,
+          value: this.vehicleValuationDetails.fuelUsed ? this.vehicleValuationDetails.fuelUsed : null
+        }];
+
+        this.noOfOwners =[{
+          key: this.vehicleValuationDetails.ownerSerialNo ? this.vehicleValuationDetails.ownerSerialNo : null,
+          value: this.vehicleValuationDetails.ownerSerialNo ? this.vehicleValuationDetails.ownerSerialNo : null
+        }];
+        // not reflecting
+        this.regFuelUsed =[{ 
+          key: this.vehicleValuationDetails.regFuelUsed ? this.vehicleValuationDetails.regFuelUsed : null,
+          value: this.vehicleValuationDetails.regFuelUsed ? this.vehicleValuationDetails.regFuelUsed : null
+        }];
+        this.inspectionEngineStarted =[{
+          key: this.vehicleValuationDetails.engineStarted ? this.vehicleValuationDetails.engineStarted : null,
+          value: this.vehicleValuationDetails.engineStarted ? this.vehicleValuationDetails.engineStarted : null
+        }];
+        this.vehicleRegion =[{ 
+          key: this.vehicleValuationDetails.region ? this.vehicleValuationDetails.region : null,
+          value: this.vehicleValuationDetails.region ? this.vehicleValuationDetails.region : null
+        }];
+        this.reRegisteredVechicle =[{
+          key: this.vehicleValuationDetails.preReRegNumber ? this.vehicleValuationDetails.preReRegNumber : null,
+          value: this.vehicleValuationDetails.preReRegNumber ? this.vehicleValuationDetails.preReRegNumber : null
+        }];
+        this.interStateVehicle =[{ 
+          key: this.vehicleValuationDetails.interStateVehicle ? this.vehicleValuationDetails.interStateVehicle : null,
+          value: this.vehicleValuationDetails.interStateVehicle ? this.vehicleValuationDetails.interStateVehicle : null
+        }];
+        this.permitStatus =[{ 
+          key: this.vehicleValuationDetails.permitStatus ? this.vehicleValuationDetails.permitStatus : null,
+          value: this.vehicleValuationDetails.permitStatus ? this.vehicleValuationDetails.permitStatus : null
+        }];
+        this.modelUnderProduction =[{ 
+          key: this.vehicleValuationDetails.modelUnderProduction ? this.vehicleValuationDetails.modelUnderProduction : null,
+          value: this.vehicleValuationDetails.modelUnderProduction ? this.vehicleValuationDetails.modelUnderProduction : null
+        }];
+        // this.rating =[{ 
+        //   key: this.vehicleValuationDetails.remarksRating ? this.vehicleValuationDetails.remarksRating : null,
+        //   value: this.vehicleValuationDetails.remarksRating ? this.vehicleValuationDetails.remarksRating : null
+        // }];
+        // this.ratingScale =[{ 
+        //   key: this.vehicleValuationDetails.remarksRatingScale ? this.vehicleValuationDetails.remarksRatingScale : null,
+        //   value: this.vehicleValuationDetails.remarksRatingScale ? this.vehicleValuationDetails.remarksRatingScale : null
+        // }];
+      } else {
+        this.fuelTypeList = this.LOV.fuelType
+        this.vehicleUsedFor = this.LOV.vehicleUsage;
+        this.vehicleType = this.vehicleLov.vehicleType;
+        this.rcBookStatus = this.rcBookStatusLOV;
+        this.anyAccidentsInPast = this.valuesToYesNo;
+        this.hypothecation = this.LOV.defaultfinanciers;
+        this.vehicleSegment = this.vehicleLov.assetBodyType;
+        this.vehicleMfrCode = this.vehicleLov.assetMake;
+        this.vehicleModelCode = this.vehicleLov.assetModel;
+        this.noOfOwners = this.ownerSerialNo;
+        // not reflecting 
+        this.regFuelUsed = this.LOV.fuelType;
+        this.inspectionEngineStarted = this.valuesToYesNo;
+        this.vehicleMoved = this.valuesToYesNo;
+        this.vehicleRegion = this.vehicleLov.region;
+        this.reRegisteredVechicle = this.valuesToYesNo;
+        this.interStateVehicle = this.valuesToYesNo;
+        this.permitStatus = this.vehiclePermitStatus;
+        this.modelUnderProduction = this.valuesToYesNo;
+        this.rating = this.conditionLov;
+        this.ratingScale = this.remarksRatingScaleLov;
+      }
+
     if (this.disableForm) {
-      this.yearMonthOfManufact = this.vehicleValuationDetails.yearOfManufacturer || '';
+      // this.yearMonthOfManufact = this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer)  || '';
+      this.yearMonthOfManufacturer = this.utilityService.getDateFromString(this.yearOfManufacturer)  || '';
       this.personInitiatedBy = this.vehicleValuationDetails.personInitiated;
     } else {
       this.yearMonthOfManufacturer = this.vehicleValuationDetails.yearOfManufacturer ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '';
     }
-
+ 
     this.vehicleValuationForm.patchValue({
       valuatorCode : this.valuatorCode,
       valuatorType : this.valuatorType,
@@ -1344,17 +1568,7 @@ console.log(insuranceValidUpto.getFullYear());
       
 
     })
-    if (this.isOnline){
-      this.isDirty = false;
-      this.fuelTypeList = [] ; 
-
-      this.fuelTypeList =[
-        { key: this.vehicleValuationDetails.fuelUsed? this.vehicleValuationDetails.fuelUsed:null,
-          value:this.vehicleValuationDetails.fuelUsed? this.vehicleValuationDetails.fuelUsed:null}
-      ]
-      } else {
-        this.fuelTypeList = this.LOV.fuelType
-      }
+    
     this.vehicleValuationForm.get('vehicleIdentityDetails').patchValue({
 
       assetMake: this.vehicleValuationDetails.vehicleMfrCode || '',
@@ -1659,8 +1873,21 @@ console.log(insuranceValidUpto.getFullYear());
 
   }
 
+  isOnlineSaveMethod() {
+    
+  }
+
   onFormSubmit() {
-    this.isDirty = true;
+    
+    if(this.isOnline) {
+      if(this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').invalid ||
+      this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').invalid) {
+        this.isOnlinevariable = true;
+      } 
+    } else {
+      this.isDirty = true;
+    }
+    // this.isDirty = true;
     this.validateFitnessDate();
     this.validateInsuranceDate();
     this.validatePermitDate();
@@ -1726,20 +1953,29 @@ console.log(insuranceValidUpto.getFullYear());
     referenceDetails.valuationInitiationDate = this.utilityService.convertDateTimeTOUTC(referenceDetails.valuationInitiationDate, 'DD/MM/YYYY');
     console.log(recomendationDetails,'after converting date to utc', formValue);
 
-   formValue= {
-    valuatorType :formValue.valuatorType,
-    valuatorCode :formValue.valuatorCode,
-    vehicleCode : formValue.vehicleCode,
-    ...referenceDetails,
-    ...inspectionDetails,
-    ...vehicleIdentityDetails,
-    ...registerationDetails,
-    ...permitAndTaxDetails,
-    ...insuranceDetails,
-    ...remarksDetails,
-    ...recomendationDetails,
-    ...vehiclePhotoDetails
-   }
+    if(this.isOnline) {
+      formValue ={
+        remarksRating :  recomendationDetails.remarksRating,
+        remarksRatingScale  : recomendationDetails.remarksRatingScale
+      }
+      
+    }else{
+      formValue= {
+        valuatorType :formValue.valuatorType,
+        valuatorCode :formValue.valuatorCode,
+        vehicleCode : formValue.vehicleCode,
+        ...referenceDetails,
+        ...inspectionDetails,
+        ...vehicleIdentityDetails,
+        ...registerationDetails,
+        ...permitAndTaxDetails,
+        ...insuranceDetails,
+        ...remarksDetails,
+        ...recomendationDetails,
+        ...vehiclePhotoDetails
+       }
+    }
+   
     
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
     if (this.vehicleValuationForm.invalid || isUDFInvalid) {
@@ -1752,6 +1988,7 @@ console.log(insuranceValidUpto.getFullYear());
       userId: localStorage.getItem('userId'),
       leadId: this.leadId,
       collateralId: this.colleteralId,
+      isOnline: this.isOnline,
       latitude: this.latitude || '',
       longitude: this.longitude || '',
       capturedAddress: this.capturedAddress || '',
