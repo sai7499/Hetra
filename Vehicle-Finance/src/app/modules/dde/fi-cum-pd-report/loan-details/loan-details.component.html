@@ -335,13 +335,6 @@
 
       <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
-          <label for="hpa_with_nbfc">{{ labels.hpaNbfc }} <sub class="star_red_col">*</sub></label>
-
-          <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehicleHpaNbfc"
-            [isRequired]="'Please select one'" [isDirty]="isDirty">
-          </app-vf-custom-select>
-        </div>
-        <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="permit_date">{{ labels.permitDate }} 
           </label>
           <div class="input-group input-medium">
@@ -392,9 +385,6 @@
             </div> -->
           </div>
         </div>
-      </div>
-
-      <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="tax_date">{{ labels.taxDate }} <sub class="star_red_col">*</sub></label>
 
@@ -417,6 +407,9 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="row">
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="insurance_copy">{{ labels.insuranceCopyVerfied }}
             <sub class="star_red_col">*</sub></label>
@@ -449,6 +442,13 @@
               Validity date should not be past date
             </div>
           </div>
+        </div>
+        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+          <label for="hpa_with_nbfc">{{ labels.hpaNbfc }} <sub class="star_red_col">*</sub></label>
+      
+          <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehicleHpaNbfc"
+            [isRequired]="'Please select one'" [isDirty]="isDirty">
+          </app-vf-custom-select>
         </div>
       </div>
 
