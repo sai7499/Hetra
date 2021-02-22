@@ -17,6 +17,8 @@ import { CreateLeadService } from '@modules/lead-creation/service/creatLead.serv
 import { DraggableContainerService } from '@services/draggable.service';
 import { environment } from 'src/environments/environment';
 import { PollingService } from '@services/polling.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-query-model',
@@ -122,7 +124,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
     private utilityService: UtilityService, private draggableContainerService: DraggableContainerService, private base64StorageService: Base64StorageService,
     private createLeadService: CreateLeadService, private activatedRoute: ActivatedRoute, private location: Location, private pollingService: PollingService,
-    private changeDetector: ChangeDetectorRef) { }
+    private changeDetector: ChangeDetectorRef, private sharedService: SharedService, private toggleDdeService: ToggleDdeService) { }
 
   async ngOnInit() {
 
@@ -410,6 +412,9 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   backFromQuery() {
     const currentUrl = localStorage.getItem('forQueryUrl');
     this.router.navigateByUrl(currentUrl);
+    this.sharedService.getQueryModel(null)
+    // localStorage.removeItem('ddePath');
+    // localStorage.setItem('isNeedBackButton', 'false');
   }
 
   getQueries(lead, isSelected?: boolean) {
@@ -1108,6 +1113,14 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       queryTo: resVal.key,
       searchText: resVal.value
     })
+  }
+
+  viewDDE() {
+    this.toggleDdeService.setIsDDEClicked('0');
+    this.toggleDdeService.setOperationType('4', 'Query Model', this.location.path());
+    this.sharedService.getQueryModel(this.location.path())
+    localStorage.setItem('isNeedBackButton', 'true');
+    this.router.navigate(['/pages/dde/' + this.leadId])
   }
 
 }
