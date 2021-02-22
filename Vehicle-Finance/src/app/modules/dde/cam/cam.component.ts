@@ -528,7 +528,7 @@ export class CamComponent implements OnInit {
         this.productCategoryCode == "NCV" ? this.jsonScreenId.DDE.camNCVDDE : this.jsonScreenId.DDE.camUCDDE;
     }
 
-    if (localStorage.getItem('is_pred_done') === 'true' && leadSectionData['issCCApproved'] === 1) {
+    if (localStorage.getItem('salesResponse') === 'true' && leadSectionData['issCCApproved'] === 1) {
       this.isShowDownloadDoc = true;
     }
 
