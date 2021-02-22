@@ -1888,9 +1888,6 @@ export class ValuationComponent implements OnInit {
 
   }
 
-  isOnlineSaveMethod() {
-    
-  }
 
   onFormSubmit() {
     
