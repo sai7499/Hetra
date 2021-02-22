@@ -193,9 +193,8 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   checkApiCount() {
+    console.log('apiCount', this.apiCount) 
     if (this.apiCount <= 0) {
-      console.log('this.apiCount', this.apiCount)
-      this.apiCount = 0;
       this.ngxUiLoaderService.stop();
       this.apiCount = 0;
     }
