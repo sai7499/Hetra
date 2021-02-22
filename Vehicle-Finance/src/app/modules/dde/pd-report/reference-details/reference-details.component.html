@@ -1,6 +1,6 @@
 <div class="multisteps-form__panel js-active" data-animation="scaleIn" *ngIf="LOV.LOVS">
   <form class="multisteps-form__form p-0" [formGroup]="referenceDetailsForm" *ngIf="labels?.validationData">
-    <h3 class="banner-con">{{ labels.refereanceDetails}} 
+    <h3 class="banner-con">{{ labels.refereanceDetails}}
       <span class="float-right">{{udfScreenId}}</span>
     </h3>
 
@@ -137,7 +137,7 @@
           <sub class="star_red_col">*</sub>
         </label>
         <app-vf-custom-select [values]="refererPincode?.city" formControlName="refererCity" [isDirty]="isDirty"
-        [isRequired]="labels.city + ' ' + 'is required'">
+          [isRequired]="labels.city + ' ' + 'is required'">
         </app-vf-custom-select>
       </div>
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -173,11 +173,11 @@
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
         <label for="referrer_asset_name">
           {{ labels.referrerAssetName }}
-          <sub class="star_red_col">*</sub>
+          <!-- <sub class="star_red_col">*</sub> -->
         </label>
-        <app-vf-custom-select [values]="applicantLov?.referrerAssetName" formControlName="refererAssetName"
-          [isRequired]="'Please select one'" [isDirty]="isDirty">
+        <app-vf-custom-select [values]="applicantLov?.referrerAssetName" formControlName="refererAssetName">
         </app-vf-custom-select>
+        <!-- [isRequired]="'Please select one'" [isDirty]="isDirty" -->
       </div>
     </div>
 
@@ -191,7 +191,8 @@
         </label>
         <app-custom-input id="reference_info_first_name" formControlName="referenceFirstName"
           [className]="'form-control mandatory'" [placeholder]="'Reference Info -First Name'"
-          [isRequired]="'Reference Info -First Name is required'" [type]="labels?.validationData?.nameWithoutSpace?.type"
+          [isRequired]="'Reference Info -First Name is required'"
+          [type]="labels?.validationData?.nameWithoutSpace?.type"
           [maxLength]="labels?.validationData?.referrerName?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
       </div>
@@ -294,7 +295,7 @@
           <sub class="star_red_col">*</sub>
         </label>
         <app-vf-custom-select [values]="referencePincode?.city" formControlName="referenceCity" [isDirty]="isDirty"
-        [isRequired]="labels.city + ' ' + 'is required'">
+          [isRequired]="labels.city + ' ' + 'is required'">
         </app-vf-custom-select>
       </div>
     </div>
@@ -336,9 +337,8 @@
         </label>
         <app-custom-input id="referenece_info_office_phone_no" formControlName="referenceMobile"
           [className]="'form-control mandatory'" [placeholder]="'Reference Info - Office Phone No.'"
-          
           [type]="labels?.validationData?.referrerOfficePhoneNo?.type"
-          [maxLength]="labels?.validationData?.referrerOfficePhoneNo?.maxLength" >
+          [maxLength]="labels?.validationData?.referrerOfficePhoneNo?.maxLength">
         </app-custom-input>
       </div>
       <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -420,27 +420,28 @@
               " [formGroupName]="i">
               <td>{{ i + 1 }}</td>
               <td style="min-width: 59px">
-                <app-vf-custom-select [values]="(LOV?.LOVS)['references']" formControlName="typeReference"
-                  [isRequired]="'Please select alteast one '">
+                <app-vf-custom-select [values]="(LOV?.LOVS)['references']" formControlName="typeReference">
                 </app-vf-custom-select>
+                <!-- [isRequired]="'Please select alteast one '" -->
               </td>
               <td>
                 <app-custom-input [className]="'form-control mandatory'" formControlName="companyName"
                   [maxLength]="labels?.validationData?.companyName?.maxLength"
-                  [type]="labels?.validationData?.companyName?.type" [isRequired]="'company name is required'"
-                  [isDirty]="isDirty"></app-custom-input>
+                  [type]="labels?.validationData?.companyName?.type"></app-custom-input>
+                <!-- [isRequired]="'company name is required'" [isDirty]="isDirty" -->
               </td>
               <td>
                 <app-custom-input [className]="'form-control mandatory'" formControlName="officerName"
                   [maxLength]="labels?.validationData?.officerName?.maxLength"
-                  [type]="labels?.validationData?.officerName?.type" [isRequired]="'officer name is required'"
-                  [isDirty]="isDirty"></app-custom-input>
+                  [type]="labels?.validationData?.officerName?.type"></app-custom-input>
+                  <!--  [isRequired]="'officer name is required'" [isDirty]="isDirty" -->
               </td>
               <td>
                 <app-custom-input [className]="'form-control mandatory'" formControlName="designation"
                   [maxLength]="labels?.validationData?.companyName?.maxLength"
-                  [type]="labels?.validationData?.companyName?.type" [isRequired]="'designation is required'"
-                  [isDirty]="isDirty"></app-custom-input>
+                  [type]="labels?.validationData?.companyName?.type" ></app-custom-input>
+                  <!-- [isRequired]="'designation is required'"
+                  [isDirty]="isDirty" -->
               </td>
               <td>
                 <app-custom-input [className]="'form-control mandatory'" formControlName="teleNo" [patternCheck]="
@@ -450,14 +451,16 @@
                   " [minLength]="
                     labels?.validationData?.fiCumPDLandlineNumber?.minLength
                   " [type]="labels?.validationData?.fiCumPDLandlineNumber?.type"
-                  [isRequired]="'telephone number is required'" [isDirty]="isDirty" [placeholder]="'landline number'">
+                  [placeholder]="'landline number'">
                 </app-custom-input>
+                <!-- [isRequired]="'telephone number is required'" [isDirty]="isDirty"  -->
               </td>
               <td>
                 <app-custom-input [className]="'form-control mandatory'" formControlName="comments"
                   [maxLength]="labels?.validationData?.comments?.maxLength"
-                  [type]="labels?.validationData?.comments?.type" [isRequired]="'comments are required'"
-                  [isDirty]="isDirty"></app-custom-input>
+                  [type]="labels?.validationData?.comments?.type" ></app-custom-input>
+                  <!-- [isRequired]="'comments are required'"
+                  [isDirty]="isDirty" -->
               </td>
               <td>
                 <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton" value="Add"

@@ -133,7 +133,6 @@ export class SharedService {
         this.isdedupdeStatus$.next(data);
     }
 
-
     setTabName(data){
        this.leadItem = data
     }
@@ -150,5 +149,9 @@ export class SharedService {
         return this.trancheId
     }
 
+    viewDDE$: BehaviorSubject<any> = new BehaviorSubject(null);
+    getQueryModel(data) {
+        this.viewDDE$.next(data);
+    }
 
 }

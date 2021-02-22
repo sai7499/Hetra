@@ -238,9 +238,8 @@
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
                 <label for="business_type">{{ labels.businessType }}
-                    <sub class="star_red_col">*</sub></label>
-                <app-vf-custom-select [values]="LOV?.LOVS.businessType" formControlName="businessType"
-                    [isRequired]="'Please select one'" [isDirty]="isDirty">
+                    </label>
+                <app-vf-custom-select [values]="LOV?.LOVS.businessType" formControlName="businessType">
                 </app-vf-custom-select>
             </div>
 

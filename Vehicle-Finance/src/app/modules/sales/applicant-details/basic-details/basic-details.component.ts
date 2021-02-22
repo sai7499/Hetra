@@ -1032,7 +1032,7 @@ export class BasicDetailsComponent implements OnInit {
     if (this.isIndividual) {
       const fatherName = details.get('fatherName').value
       const spouseName = details.get('spouseName').value
-      if (!fatherName && !spouseName) {
+      if (!fatherName && !spouseName && !this.applicant.ucic) {
         this.toasterService.showInfo(
           'Please enter either father name or spouse name',
           ''
