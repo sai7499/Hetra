@@ -268,6 +268,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   negativeDedupeUGroupId: string = 'APG004';
   businessMand: boolean;
 
+  
   constructor(
     private labelsData: LabelsService,
     private lovData: LovDataService,
@@ -3782,6 +3783,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
     let that = this;
 
+
+
     let applicantId = this.applicantId;
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
 
@@ -3905,38 +3908,38 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
     let datas = geoMasterData.find((data) => {
-      return cityId === data.cityId;
+      if(cityId === data.cityId){
+       this.permanentPincode = {
+          city: [
+            {
+              key: value.cityId,
+              value: data.cityName || value.villageTownOrCity
+            },
+          ],
+          district: [
+            {
+              key: value.districtId,
+              value: data.districtName || value.district
+            },
+          ],
+          state: [
+            {
+              key: value.stateId,
+              value: data.stateName || value.state
+            },
+          ],
+          country: [
+            {
+              key: value.countryId,
+              value: data.country || value.country
+            },
+          ],
+        };
+        
+
+      }
     })
     console.log('cityDatas', datas)
-
-
-    this.permanentPincode = {
-      city: [
-        {
-          key: value.cityId,
-          value: datas.cityName || value.villageTownOrCity
-        },
-      ],
-      district: [
-        {
-          key: value.districtId,
-          value: datas.districtName || value.district
-        },
-      ],
-      state: [
-        {
-          key: value.stateId,
-          value: datas.stateName || value.state
-        },
-      ],
-      country: [
-        {
-          key: value.countryId,
-          value: datas.country || value.country
-        },
-      ],
-    };
-
     permanantAddress.patchValue({
       addressLineOne: value.addressLineOne,
       addressLineTwo: value.addressLineTwo,
