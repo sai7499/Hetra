@@ -404,13 +404,13 @@ export class ValuationComponent implements OnInit {
       this.LOV.defaultfinanciers = this.LOV.financiers;
       this.fuelTypeList  = this.LOV.fuelType;
       this.vehicleUsedFor = this.LOV.vehicleUsage;
-      this.vehicleType = this.vehicleLov.vehicleType;
+      // this.vehicleType = this.LOV.vehicleType;
       this.rcBookStatus = this.rcBookStatusLOV;
       this.anyAccidentsInPast = this.valuesToYesNo;
       this.hypothecation = this.LOV.defaultfinanciers;
-      this.vehicleSegment = this.vehicleLov.assetBodyType;
-      this.vehicleMfrCode = this.vehicleLov.assetMake;
-      this.vehicleModelCode = this.vehicleLov.assetModel;
+      // this.vehicleSegment = this.LOV.vehicleSegment;
+      // this.vehicleMfrCode = this.LOV.vehicleManufacturer;
+      // this.vehicleModelCode = this.vehicleModelCode;
       this.noOfOwners = this.ownerSerialNo;
       // not reflecting
       this.regFuelUsed = this.LOV.fuelType;
@@ -1075,17 +1075,17 @@ export class ValuationComponent implements OnInit {
 
       // patching lovs for vehicle details
       if (this.vehicleCode != null) {
-        this.vehicleLov.assetMake = [{
+        this.vehicleMfrCode = [{
           key: this.vehicleValuationDetails.vehicleMfrCode,
           value: this.vehicleValuationDetails.vehicleMfr
         }];
 
-        this.vehicleLov.assetBodyType = [{
+        this.vehicleSegment = [{
           key: this.vehicleValuationDetails.vehicleSegCode,
           value: this.vehicleValuationDetails.vehicleSegment
         }];
 
-        this.vehicleLov.assetModel = [
+        this.vehicleModelCode = [
           {
             key: this.vehicleValuationDetails.vehicleModelCode,
             value: this.vehicleValuationDetails.vehicleModel
@@ -1096,7 +1096,7 @@ export class ValuationComponent implements OnInit {
           value: this.vehicleValuationDetails.assetVariant
         }];
 
-        this.vehicleLov.vehicleType = [{
+        this.vehicleType = [{
           key: this.vehicleValuationDetails.vehicleTypeCode,
           value: this.vehicleValuationDetails.vehicleType
         }];
@@ -1526,13 +1526,15 @@ export class ValuationComponent implements OnInit {
       } else {
         this.fuelTypeList = this.LOV.fuelType
         this.vehicleUsedFor = this.LOV.vehicleUsage;
-        this.vehicleType = this.vehicleLov.vehicleType;
+        // this.vehicleType = this.LOV.vehicleType;
         this.rcBookStatus = this.rcBookStatusLOV;
         this.anyAccidentsInPast = this.valuesToYesNo;
         this.hypothecation = this.LOV.defaultfinanciers;
-        this.vehicleSegment = this.vehicleLov.assetBodyType;
-        this.vehicleMfrCode = this.vehicleLov.assetMake;
-        this.vehicleModelCode = this.vehicleLov.assetModel;
+        // this.vehicleSegment = this.LOV.vehicleSegment;
+        // this.vehicleMfrCode = this.LOV.vehicleManufacturer;
+        console.log(this.vehicleLov, 'assetMake', this.LOV);
+        
+        // this.vehicleModelCode = this.vehicleModelCode;
         this.noOfOwners = this.ownerSerialNo;
         // not reflecting 
         this.regFuelUsed = this.LOV.fuelType;
@@ -1711,7 +1713,7 @@ export class ValuationComponent implements OnInit {
 
           assetMakeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
             'uniqueMFRCode', 'mfrCode');
-          this.vehicleLov.assetMake = assetMakeArray;
+          this.vehicleMfrCode = assetMakeArray;
           obj.get('vehicleIdentityDetails').patchValue({
             assetMake: '',
             vehicleType: '',
@@ -1720,11 +1722,11 @@ export class ValuationComponent implements OnInit {
             // assetVariant: ''valuatorRemarks
           });
         } else {
-          this.vehicleLov.assetMake = [];
+          this.vehicleMfrCode = [];
           this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region');
         }
       } else {
-        this.vehicleLov.assetMake = [];
+        this.vehicleMfrCode = [];
         this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Region');
       }
       this.uiLoader.stop();
@@ -1755,7 +1757,7 @@ export class ValuationComponent implements OnInit {
             VehicleTypeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "vehicleTypeUniqueCode", "vehicleTypeCode");
 
-            this.vehicleLov.vehicleType = VehicleTypeArray;
+            this.vehicleType = VehicleTypeArray;
             obj.get('vehicleIdentityDetails').patchValue({
               vehicleType: '',
               assetBodyType: '',
@@ -1764,11 +1766,11 @@ export class ValuationComponent implements OnInit {
             });
 
           } else {
-            this.vehicleLov.vehicleType = [];
+            this.vehicleType = [];
             this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Vehicle Master Asset Make')
           }
         } else {
-          this.vehicleLov.vehicleType = [];
+          this.vehicleType = [];
           this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Asset Make')
         }
         this.uiLoader.stop();
@@ -1802,7 +1804,7 @@ export class ValuationComponent implements OnInit {
             assetBodyType = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "uniqueSegmentCode", "segmentCode");
 
-            this.vehicleLov.assetBodyType = assetBodyType;
+            this.vehicleSegment = assetBodyType;
 
             obj.get('vehicleIdentityDetails').patchValue({
               assetBodyType: '',
@@ -1811,11 +1813,11 @@ export class ValuationComponent implements OnInit {
             })
 
           } else {
-            this.vehicleLov.assetBodyType = []
+            this.vehicleSegment = []
             this.toasterService.showWarning('No Data in Vehicle Master Vehicle Type', 'Vehicle Master Vehicle Type');
           }
         } else {
-          this.vehicleLov.assetBodyType = [];
+          this.vehicleSegment = [];
           this.toasterService.showWarning(res.ErrorMessage ?
             res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Vehicle Type')
         }
@@ -1829,7 +1831,7 @@ export class ValuationComponent implements OnInit {
 
   onAssetBodyType(value: any, obj) {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
-    this.vehicleLov.assetModel = this.utilityService.getValueFromJSON(this.assetModelType,
+    this.vehicleModelCode = this.utilityService.getValueFromJSON(this.assetModelType,
       'vehicleModelCode', 'vehicleModel');
     // console.log(this.assetModelType, 'data', this.vehicleLov);
     obj.get('vehicleIdentityDetails').patchValue({
