@@ -413,8 +413,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     const currentUrl = localStorage.getItem('forQueryUrl');
     this.router.navigateByUrl(currentUrl);
     this.sharedService.getQueryModel(null)
-    // localStorage.removeItem('ddePath');
-    // localStorage.setItem('isNeedBackButton', 'false');
+    if (localStorage.getItem('ddeType') === '0' || localStorage.getItem('ddeType') === '4') {
+      this.toggleDdeService.setIsDDEClicked('1');
+      this.toggleDdeService.setOperationType('0');
+    }
   }
 
   getQueries(lead, isSelected?: boolean) {
@@ -500,13 +502,14 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     return validDate
   }
 
-  getleadIdvalue(value: string) {
+  getleadIdvalue(val: string) {
 
+    let value = val.trim()
     if (value && value.length > 0) {
       this.leadIdDeductValue = true;
     }
 
-    this.isLeadShow = (value === '') ? false : true;
+    this.isLeadShow = (value === '' && value.trim().length > 0) ? false : true;
     if (value.length >= 1) {
       this.getSearchableLead = this.queryLeads.filter(e => {
         value = value.toString().toLowerCase();
