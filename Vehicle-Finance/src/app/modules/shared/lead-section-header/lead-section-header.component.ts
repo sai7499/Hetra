@@ -36,7 +36,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   ddeBackLabel: string;
   ddeBackRouter: string;
 
-  isEnableInitiateQuery: boolean = true;
+  isEnableInitiateQuery: boolean;
   locationIndex: number;
 
   isEnableDdeButton: boolean = false;
@@ -110,14 +110,11 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.getInitiateQueryCount(this.leadId);
 
     this.sharedService.viewDDE$.subscribe(dde => {
-      console.log(dde, 'dde')
       if (dde) {
         this.viewOrEditDde(dde)
-      } else {
-        this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
+        this.isEnableInitiateQuery = false;
       }
     })
-
   }
 
   getLocationIndex(url: string) {
@@ -125,7 +122,11 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.isEnableInitiateQuery = false
       return 0;
     } else {
-      this.isEnableInitiateQuery = true;
+      if (this.ddeBackLabel === 'Back To Query Model') {
+        this.isEnableInitiateQuery = false;
+      } else {
+        this.isEnableInitiateQuery = true;
+      }
       return 1;
     }
   }
@@ -215,13 +216,12 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.isEnableDdeButton = false;
     this.isNeedBackButton = true;
     localStorage.setItem('isNeedBackButton', 'true');
-    console.log(isString, 'isString')
     if (!isString) {
       this.router.navigate(['/pages/dde/' + this.leadId])
       this.toggleDdeService.setCurrentPath(this.location.path())
     } else {
       this.toggleDdeService.setCurrentPath(isString)
-      this.isEnableInitiateQuery = false;
+      localStorage.setItem('forQueryUrl', this.location.path());
     }
     this.setDdeBackButton()
   }
