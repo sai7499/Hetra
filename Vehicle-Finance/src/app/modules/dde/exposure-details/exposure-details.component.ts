@@ -11,6 +11,7 @@ import { element } from 'protractor';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 
 @Component({
   selector: 'app-exposure-details',
@@ -39,6 +40,9 @@ export class ExposureDetailsComponent implements OnInit {
   liveloanControl: FormArray;
   isProposed: any;
   initalZeroCheck = [];
+  grandTotal: any;
+  totalLoanAmount: any;
+  loanAmountGrandTotal: any;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -47,7 +51,9 @@ export class ExposureDetailsComponent implements OnInit {
               private location: Location,
               private toStarService: ToasterService,
               private toggleDdeService: ToggleDdeService,
-              private loanViewService: LoanViewService ) {
+              private loanViewService: LoanViewService,
+              private createLeadDataService: CreateLeadDataService
+              ) {
               this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Initial Zero value not accepted' }];
                 this.yearCheck = [{rule: val => val>this.currentYear,
                                    msg:'Future year not accepted'}];
@@ -87,6 +93,7 @@ export class ExposureDetailsComponent implements OnInit {
     this.exposureLiveLoan = this.formBuilder.group({
       loanTable: this.formBuilder.array([]),      
     });
+    this.getLeadSectiondata();
     this.getExposure();
     this.labelService.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
@@ -95,6 +102,16 @@ export class ExposureDetailsComponent implements OnInit {
 
     })
     }
+
+    getLeadSectiondata() {
+      const leadData: any = this.createLeadDataService.getLeadSectionData();
+      console.log(leadData);
+      
+      this.grandTotal  = leadData.proposedLoanAmount;
+      console.log(this.grandTotal);
+      
+    }
+     
 
   async getExposure() {
     this.leadId = (await this.getLeadId()) as number;
@@ -113,8 +130,21 @@ export class ExposureDetailsComponent implements OnInit {
       if (this.getExposureDetails && this.getExposureDetails.length > 0 ) {        
         for (let i = 0; i < this.getExposureDetails.length; i++) {         
             this.liveloanArray.push(this.getExposureDetails[i]);          
+            // var totalLoanAmount = this.getExposureDetails.map((ele) => Number(ele.loanAmount));
+            
         }
+        // console.log(totalLoanAmount);
+
+        // this.totalLoanAmount = totalLoanAmount.map(parseFloat).reduce((a, b) => a + b);
+        // console.log(this.totalLoanAmount, 'grandTotal');
+
+        // this.loanAmountGrandTotal = this.grandTotal + this.totalLoanAmount;
+
+        
+        
+
         this.addUnit(this.liveloanArray);
+        this.loanAmountChange();
         // this.addProposedUnit(this.proposedArray);
       } else {
         this.addUnit(null);
@@ -207,6 +237,25 @@ export class ExposureDetailsComponent implements OnInit {
     });
     }
   }
+  async loanAmountChange() {
+    
+    console.log(this.exposureArray);
+    this.loanAmountGrandTotal = '';
+    
+    for (let i = 0; i < this.exposureArray.length; i++) {         
+      // this.liveloanArray.push(this.getExposureDetails[i]);
+
+      var totalLoanAmount = this.exposureArray.value.map((ele) => Number(ele.loanAmount));
+      
+  }
+  console.log(totalLoanAmount);
+
+  this.totalLoanAmount = totalLoanAmount.map(parseFloat).reduce((a, b) => a + b);
+  console.log(this.totalLoanAmount, 'grandTotal');
+
+  this.loanAmountGrandTotal = await this.grandTotal + this.totalLoanAmount;
+
+  }
   addUnit(data?: any) {
     const control = this.exposureLiveLoan.controls.loanTable as FormArray;
     if (data && data.length > 0 ) {
@@ -237,12 +286,26 @@ export class ExposureDetailsComponent implements OnInit {
             control.removeAt(i);            
             this.toStarService.showInfo(res.ProcessVariables.error.message,"Exposure Details")
             this.isModelShow = false;
+
           });
         } else{
           control.removeAt(i);
           this.toStarService.showInfo("Row is Removed","Exposure Details")
           this.isModelShow = false;
         }  
+        this.loanAmountChange();
+        // for (let i = 0; i< this.getExposureDetails.length; i++) {
+        //   var totalLoanAmount = this.getExposureDetails.map((ele) => Number(ele.loanAmount));
+        //   console.log(totalLoanAmount);
+        // }
+        // this.totalLoanAmount = totalLoanAmount.map(parseFloat).reduce((a, b) => a + b);
+        // console.log(this.totalLoanAmount, 'grandTotal');
+
+        // this.loanAmountGrandTotal = this.grandTotal + this.totalLoanAmount;
+        // this.liveloanArray = [];
+        //   this.proposedArray = [];
+        //   this.getExposure();
+        // this.getExposure();
   }
 
 

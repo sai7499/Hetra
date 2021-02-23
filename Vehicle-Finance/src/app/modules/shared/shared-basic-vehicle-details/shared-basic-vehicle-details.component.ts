@@ -371,7 +371,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.getDynamicFormControls(details)
     }
 
-    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
+    if (this.productCatoryCode !== 'NCV') {
       this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
     }
   }
@@ -692,7 +692,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleOwnerShipNumber: VehicleDetail.vehicleOwnerShipNumber || null,
       vehiclePurchasedCost: VehicleDetail.vehiclePurchasedCost || null,
       vehicleRegDate: VehicleDetail.vehicleRegDate ? this.utilityService.getDateFromString(VehicleDetail.vehicleRegDate) : '',
-      vehicleRegNo: VehicleDetail.vehicleRegNo || '',
+      vehicleRegNo: VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo.toUpperCase() : '',
       vehicleType: VehicleDetail.vehicleTypeUniqueCode || '',
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
       address: VehicleDetail.address || '',
@@ -703,7 +703,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
-    this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
+    this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo.toUpperCase() : '';
     VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : '';
 
     this.udfDetails = VehicleDetail.udfDetails ? VehicleDetail.udfDetails : [];
@@ -1453,7 +1453,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   getparentLoanAccountNumber(obj) {
 
     let childData = {
-      vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value
+      vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value.toUpperCase()
     }
 
     this.basicVehicleForm.patchValue({
@@ -1509,7 +1509,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
 
-      this.vehicleRegNoChange = obj.controls['vehicleRegNo'].value
+      this.vehicleRegNoChange = obj.controls['vehicleRegNo'].value.toUpperCase()
 
     })
   }
@@ -1616,7 +1616,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.id
 
     let data = {
-      'vehicleRegNo': details.get('vehicleRegNo').value,
+      'vehicleRegNo': details.get('vehicleRegNo').value.toUpperCase(),
       'parentLoanAccountNumber': details.get('parentLoanAccountNumber').value,
       "checkDedupe": true,
       "udfDetails": [
@@ -1641,9 +1641,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
       this.vehicleLov.assetModel = [{
-          key: VehicleDetail.vehicleModelCode,
-          value: VehicleDetail.vehicleModel + ' - ' + VehicleDetail.vehicleModelCode
-        }]
+        key: VehicleDetail.vehicleModelCode,
+        value: VehicleDetail.vehicleModel + ' - ' + VehicleDetail.vehicleModelCode
+      }]
 
       this.vehicleLov.assetVariant = [{
         key: VehicleDetail.assetVarient,
@@ -1719,8 +1719,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
         data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
 
-        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
-
+        if (this.productCatoryCode !== 'NCV') {
+          data.vehicleRegNo = data.vehicleRegNo ? data.vehicleRegNo.toUpperCase() : '';
           data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : '';
           data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : '';
           if (url.includes('dde') && data.expectedNOCDate) {

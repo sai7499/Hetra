@@ -7,6 +7,9 @@
       </h3>
       </div>
       
+      <div style="text-align: center;">
+        Grand Total : {{loanAmountGrandTotal}}
+      </div>
 
       <div class="">
         <div class="">
@@ -69,7 +72,7 @@
                     </app-custom-input>
                   </td>
                   <td>
-                    <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'"
+                    <app-custom-input formControlName="loanAmount" [className]="'form-control mandatory'" (change)="loanAmountChange($event.target.value, i)"
                       [placeholder]="'Loan Amount'" [maxLength]="labels?.validationData.amountValue.maxLength"
                       [isRequired]="'Loan Amount mandatory'" [custom]="initalZeroCheck" [type]="labels?.validationData.amountValue.type"
                       [isDirty]="isDirty">

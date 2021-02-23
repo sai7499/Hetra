@@ -270,11 +270,6 @@
                     {{labels.backToLead}}</button>
                 </div>
 
-                <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 p-0" *ngIf="routerId">
-                  <button class="btn btn-primary view-button" type="button" (click)="viewDDE()">
-                    View DDE</button>
-                </div> -->
-
                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 p-0 text-right" style="float: right;">
 
                   <div class="input-group search-btn-msg" style="float: right;">
@@ -392,8 +387,8 @@
 
                 <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-5 col-lg-5 col-md-5 col-xs-12" for="lead_id">{{labels.leadID}}</label>
-                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
+                    <label class="col-sm-3 col-lg-3 col-md-3 col-xs-12" for="lead_id">{{labels.leadID}}</label>
+                    <div class="col-sm-6 col-lg-6 col-md-6 col-xs-12" (mouseleave)="mouseLeaveLeadId()">
 
                       <app-custom-input id="'lead_id'" autocomplete="off" formControlName="searchLeadId"
                         (keyup)="getleadIdvalue($event.target.value)" (blur)="onBlurleadId()">
@@ -414,6 +409,10 @@
                         </div>
                       </div>
                     </div>
+
+                    <label class="col-sm-2 col-lg-2 col-md-2 col-xs-12" for="tooltip">
+                      <a data-tooltip="View DDE" *ngIf="leadId">
+                        <i class="fa fa-rub view-dde" (click)="viewDDE()"></i></a> </label>
                   </div>
                 </div>
 
@@ -466,8 +465,8 @@
                 <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 ">
                   <div class="form-group">
 
-                    <label for="query_to" class="col-sm-5 col-lg-5 col-md-5 col-xs-12">{{labels.tagQueryTo}}</label>
-                    <div class="col-sm-7 col-lg-7 col-md-7 col-xs-12" (mouseleave)="mouseLeave()">
+                    <label for="query_to" class="col-sm-3 col-lg-3 col-md-3 col-xs-12">{{labels.tagQueryTo}}</label>
+                    <div class="col-sm-6 col-lg-6 col-md-6 col-xs-12" (mouseleave)="mouseLeave()">
 
                       <app-custom-input #foo id="'query_to'" autocomplete="off" formControlName="searchText"
                         [className]="'form-control'" [placeholder]="'Tag Query To'" [type]="'text'"
