@@ -379,7 +379,7 @@ export class LoanDetailsComponent implements OnInit {
       amtPerTrip: new FormControl(''),
       selfDrivenOrDriver: new FormControl(''),
       isPrevExpMatched: new FormControl('', Validators.required),
-      remarks: new FormControl('', Validators.compose([Validators.required])),
+      remarks: new FormControl('', Validators.required),
     });
   }
 
