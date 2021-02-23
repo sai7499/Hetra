@@ -309,9 +309,10 @@
           
 
           <div class="row" *ngIf="isSales">
-            <div class="form-group col-sm-6 col-md-6 col-lg-8">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12">
               <label for="middle_name">Remarks</label>
-            <textarea class="form-control mandatory" formControlName="orcRemarks" maxlength="1250"></textarea>
+            <textarea class="form-control mandatory" formControlName="orcRemarks" 
+            [maxlength]="labels?.validationData?.remarks.maxLength" ></textarea>
             </div>
           </div>
 
