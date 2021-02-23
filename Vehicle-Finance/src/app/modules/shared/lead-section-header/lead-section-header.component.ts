@@ -113,6 +113,8 @@ export class LeadSectionHeaderComponent implements OnInit {
       console.log(dde, 'dde')
       if (dde) {
         this.viewOrEditDde(dde)
+      } else {
+        this.isEnableDdeButton = !this.toggleDdeService.getDdeClickedValue() && (operationType);
       }
     })
 
@@ -179,8 +181,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
       ? Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
       : '0';
-      
-      
+
       if(this.isLoan360){
         const loanAccountDetails = this.loanViewService.getLoanAccountDetails();
         console.log('loanAccountDetails', loanAccountDetails)
@@ -205,10 +206,8 @@ export class LeadSectionHeaderComponent implements OnInit {
   }
 
   onBackDocumentUpload(){
-    
     const url=  localStorage.getItem('currentUrl');
     this.router.navigateByUrl(url)
-
   }
 
   viewOrEditDde(isString?) {
@@ -216,10 +215,13 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.isEnableDdeButton = false;
     this.isNeedBackButton = true;
     localStorage.setItem('isNeedBackButton', 'true');
-    this.router.navigate(['/pages/dde/' + this.leadId])
     console.log(isString, 'isString')
     if (!isString) {
+      this.router.navigate(['/pages/dde/' + this.leadId])
       this.toggleDdeService.setCurrentPath(this.location.path())
+    } else {
+      this.toggleDdeService.setCurrentPath(isString)
+      this.isEnableInitiateQuery = false;
     }
     this.setDdeBackButton()
   }
@@ -248,7 +250,6 @@ export class LeadSectionHeaderComponent implements OnInit {
     localStorage.removeItem('isDdeClicked');
     this.isNeedBackButton = false
     localStorage.setItem('isNeedBackButton', 'false');
-
   }
 
   getInitiateQueryCount(lead) {
@@ -260,8 +261,6 @@ export class LeadSectionHeaderComponent implements OnInit {
     const currentUrl = this.location.path();
     localStorage.setItem('forQueryUrl', currentUrl);
     this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
-    this.toggleDdeService.setIsDDEClicked('0');
-    this.toggleDdeService.setOperationType('4', 'Query Model', currentUrl);
   }
 
   onLeadHistory() {

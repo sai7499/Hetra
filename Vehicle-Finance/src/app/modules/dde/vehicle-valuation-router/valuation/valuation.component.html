@@ -14,17 +14,23 @@
           <div id="individual_section_start">
 
             <div class="row">
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div class="form-group col-sm-4 col-md-4 col-lg-3">
                 <label for="valuator_type">{{ labels.valuatorType }}</label>
                 <app-custom-input  formControlName="valuatorType"
                   [placeholder]="'Valuator Type'">
                 </app-custom-input>
               </div>
-              <div class="form-group col-sm-6 col-md-4 col-lg-3">
+              <div class="form-group col-sm-4 col-md-4 col-lg-3">
                 <label for="valuator_code">{{ labels.valuatorCode }}</label>
                 <app-custom-input formControlName="valuatorCode"
                   [placeholder]="'Valuator Code'">
                 </app-custom-input>
+              </div>
+              <div class="col-sm-4 report-align">
+                <button class="btn btn-primary js-btn-prev" type="button" *ngIf="disableForm"
+                  [disabled]="disablePdfDownload">
+                  <a (click)="redirectUrl()">{{ labels.downloadReport }}</a>
+                </button>
               </div>
             </div>
 
@@ -188,7 +194,7 @@
                   <label for="engine_started">{{ labels.engineStarted }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty"
+                  <app-vf-custom-select [values]="inspectionEngineStarted" [isDirty]="isDirty"
                     [isRequired]="'Please Select One Option'" formControlName="engineStarted"
                     (change)="engineStarted($event.target.value)" [isDisabled]="disableForm?true : false">
                   </app-vf-custom-select>
@@ -199,7 +205,7 @@
                   <label for="vehicle_moved">{{ labels.vehicleMoved }}
                     <sub *ngIf="!disableForm" class="star_blue_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty" [isDisabled]="vehicleMovedDisabled"
+                  <app-vf-custom-select [values]="vehicleMoved" [isDirty]="isDirty" [isDisabled]="vehicleMovedDisabled"
                     [isRequired]="
                       vehicleMovedRequired ? 'Vehicle moved is required' : ''
                     " formControlName="vehicleMoved" [isDisabled]="disableForm?true : false">
@@ -246,7 +252,7 @@
                   <label for="asset_manufacturer">{{ labels.make }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="vehicleLov?.assetMake" [id]="'asset_make'" formControlName="assetMake"
+                  <app-vf-custom-select [values]="vehicleMfrCode" [id]="'asset_make'" formControlName="assetMake"
                     [isRequired]="'Make is Required'" (change)="
                       onAssetMake($event.target.value, vehicleValuationForm)
                     " [isDirty]="isDirty">
@@ -260,7 +266,7 @@
                     {{ labels.typeOfBody }} <sub class="star_red_col">*</sub>
                   </label>
 
-                  <app-vf-custom-select [values]="vehicleLov?.vehicleType" [id]="'vechical_type'"
+                  <app-vf-custom-select [values]="vehicleType" [id]="'vechical_type'"
                     formControlName="vehicleType" [isRequired]="'Vehicle Type is Required'" (change)="
                       onVehicleType($event.target.value, vehicleValuationForm)
                     " [isDirty]="isDirty">
@@ -271,7 +277,7 @@
                     {{ labels.vehicleSegment }} <sub class="star_red_col">*</sub>
                   </label>
 
-                  <app-vf-custom-select [values]="vehicleLov?.assetBodyType" [id]="'asset_body_type'"
+                  <app-vf-custom-select [values]="vehicleSegment" [id]="'asset_body_type'"
                     formControlName="assetBodyType" [isRequired]="'Vehicle Segment is Required'" (change)="
                       onAssetBodyType($event.target.value, vehicleValuationForm)
                     " [isDirty]="isDirty">
@@ -282,7 +288,7 @@
                   <label for="asset_model">{{ labels.model }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="vehicleLov?.assetModel" [id]="'asset_model'"
+                  <app-vf-custom-select [values]="vehicleModelCode" [id]="'asset_model'"
                     formControlName="assetModel" [isRequired]="'Model is Required'" (change)="
                       onAssetModel($event.target.value, vehicleValuationForm)
                     " [isDirty]="isDirty">
@@ -381,7 +387,7 @@
                   <label for="version">{{ labels.vehicleUsedFor }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select formControlName="vehicleUsedFor" [values]="LOV?.vehicleUsage"
+                  <app-vf-custom-select formControlName="vehicleUsedFor" [values]="vehicleUsedFor"
                     [isDirty]="isDirty" [isRequired]="'Please Select One Option'"
                     [isDisabled]="disableForm?true : false">
                   </app-vf-custom-select>
@@ -440,7 +446,7 @@
                   <label for="re_registered_vechicle">{{ labels.reRegisteredVechicle }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="valuesToYesNo" formControlName="preReRegNumber"
+                  <app-vf-custom-select [values]="reRegisteredVechicle" formControlName="preReRegNumber"
                     [isRequired]="'Please Select One Option'" [isDirty]="isDirty"
                     (change)="onRegTypeChange($event.target.value)" [isDisabled]="disableForm? true : false">
                   </app-vf-custom-select>
@@ -467,7 +473,7 @@
                     <sub class="star_red_col">*</sub>
                   </label>
                   <app-custom-input formControlName="regOwnerName" [className]="'form-control mandatory'"
-                    [placeholder]="'Registered Owner Name'"
+                    [placeholder]="'Registered Vehicle Owner Name'"
                     [maxLength]="labels?.validationData?.regdOwnerName.maxLength"
                     [type]="labels?.validationData?.regdOwnerName.type" [isRequired]="'Owner Name is Required'"
                     [isDirty]="isDirty">
@@ -489,7 +495,7 @@
                   <label for="version">{{ labels.ownerSerialNo }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select formControlName="ownerSerialNo" [values]="ownerSerialNo" [isDirty]="isDirty"
+                  <app-vf-custom-select formControlName="ownerSerialNo" [values]="noOfOwners" [isDirty]="isDirty"
                     [isRequired]="'Please Select One Option'" [isDisabled]="disableForm? true : false">
                   </app-vf-custom-select>
                 </div>
@@ -687,7 +693,7 @@
                   <label for="version">{{ labels.fuelUsed }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select formControlName="regFuelUsed" [values]="LOV?.fuelType" [isDirty]="isDirty"
+                  <app-vf-custom-select formControlName="regFuelUsed" [values]="regFuelUsed" [isDirty]="isDirty"
                     [isRequired]="'Please Select One Option'" [isDisabled]="disableForm ? true : false">
                   </app-vf-custom-select>
                 </div>
@@ -736,7 +742,7 @@
                     <option *ngFor="let item of LOV?.financiers" [value]="item.key">
                       {{item.value}}</option>
                   </select> -->
-                  <app-vf-custom-select [values]=" LOV?.defaultfinanciers" formControlName="hypothecation"
+                  <app-vf-custom-select [values]="hypothecation" formControlName="hypothecation"
                     [isRequired]="'Please Select One Option'" [isDirty]="isDirty">
                   </app-vf-custom-select>
                 </div>
@@ -744,7 +750,7 @@
                   <label for="inner_state_vechicle">{{ labels.interStateVehicle }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="valuesToYesNo" formControlName="interStateVehicle"
+                  <app-vf-custom-select [values]="interStateVehicle" formControlName="interStateVehicle"
                     [isRequired]="'Please Select One Option'" [isDirty]="isDirty"
                     [isDisabled]="disableForm? true : false">
                   </app-vf-custom-select>
@@ -765,7 +771,7 @@
                   <label for="permit_status">{{ labels.permitStatus }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="vehiclePermitStatus" formControlName="permitStatus"
+                  <app-vf-custom-select [values]="permitStatus" formControlName="permitStatus"
                     [isDirty]="isDirty" [isRequired]="'Please Select One Option'"
                     (change)="onPermitChange($event.target.value)" [isDisabled]="disableForm ? true : false">
                   </app-vf-custom-select>
@@ -978,7 +984,7 @@
                   <label for="model_in_production">{{ labels.isModelInProduction }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty"
+                  <app-vf-custom-select [values]="modelUnderProduction" [isDirty]="isDirty"
                     formControlName="modelUnderProduction" [isRequired]="'Please Select One Option'"
                     (change)="modelInProdChange($event.target.value)" [isDisabled]="disableForm? true : false">
                   </app-vf-custom-select>
@@ -1009,7 +1015,7 @@
                   <label for="rc_book">{{ labels?.rcBookStatus }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="rcBookStatusLOV" formControlName="rcBookStatus" [isDirty]="isDirty"
+                  <app-vf-custom-select [values]="rcBookStatus" formControlName="rcBookStatus" [isDirty]="isDirty"
                     [isRequired]="'Please Select One Option'" [isDisabled]="disableForm? true : false">
                   </app-vf-custom-select>
                 </div>
@@ -1050,7 +1056,7 @@
                   <label for="any_accidents_past">{{ labels.anyAccidentsInPast }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="valuesToYesNo" [isDirty]="isDirty"
+                  <app-vf-custom-select [values]="anyAccidentsInPast" [isDirty]="isDirty"
                     formControlName="anyAccidentsInPast" [isRequired]="'Please Select One Option'"
                     (change)="accidentsInPast($event.target.value)" [isDisabled]="disableForm ? true : false">
                   </app-vf-custom-select>
@@ -1063,7 +1069,7 @@
                     <sub class="star_blue_col">*</sub>
                   </label>
                   <textarea class="form-control mandatory" name="valuatorRemarks" id="valuatorRemarks" cols="1" rows="3"
-                    placeholder="valuator remarks" formControlName="valuatorRemarks" maxlength="1500"
+                    placeholder="valuator remarks" formControlName="valuatorRemarks" [maxlength]="labels?.validationData.remarks.maxLength" 
                     style="resize: none"></textarea>
                   <div class="invalid-feedback">
                     <div *ngIf="
@@ -1072,11 +1078,11 @@
                         !vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').valid
                       ">
 
-                      <div *ngIf="
+                      <!-- <div *ngIf="
                       vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').hasError('pattern')
                         ">
                         Special characters are not allowed
-                      </div>
+                      </div> -->
                     </div>
                     <div *ngIf="remarksRequired && vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').invalid">
                       Remarks are required
@@ -1159,10 +1165,10 @@
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="rating">{{ labels.rating }}
-                    <sub *ngIf="!disableForm" class="star_red_col">*</sub>
+                    <sub class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="conditionLov" formControlName="remarksRating" [isDirty]="isDirty"
-                    [isRequired]="'Please Select One Option'" [isDisabled]="disableForm ? true : false">
+                  <app-vf-custom-select [values]="conditionLov" formControlName="remarksRating" [isDirty]="isOnline ? isOnlinevariable : isDirty"
+                    [isRequired]="'Please Select One Option'">
                   </app-vf-custom-select>
                 </div>
 
@@ -1171,8 +1177,8 @@
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
                   <app-vf-custom-select formControlName="remarksRatingScale" [values]="remarksRatingScaleLov"
-                    [isDirty]="isDirty" [isRequired]="'Please Select One Option'"
-                    [isDisabled]="disableForm ? true : false">
+                    [isDirty]="isOnline ? isOnlinevariable : isDirty" [isRequired]="'Please Select One Option'"
+                   >
                   </app-vf-custom-select>
                 </div>
 
@@ -1549,12 +1555,11 @@
           </app-shared-user-defined-fields>
           &nbsp;
           <div class="row">
-            <!-- <div class="col-sm-5"> -->
             <div class="col-sm-5 text-left">
-              <button class="btn btn-primary js-btn-prev" type="button" *ngIf="disableForm"
+              <!-- <button class="btn btn-primary js-btn-prev" type="button" *ngIf="disableForm"
                 [disabled]="disablePdfDownload">
                 <a (click)="redirectUrl()">{{ labels.downloadReport }}</a>
-              </button>
+              </button> -->
             </div>
 
             <div class="col-sm-7 text-right">
@@ -1563,7 +1568,7 @@
               </button>
               &nbsp;
               <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
-                <button class="btn btn-primary" (click)="onFormSubmit('save')" *ngIf="!isOnline">
+                <button class="btn btn-primary" (click)="onFormSubmit('save')">
                   {{ labels.save }}
                 </button>
               </ng-container>

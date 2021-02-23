@@ -127,6 +127,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse) {
+          this.apiCount--;
           console.log("error url **** ",err.url)
           if (err.status != 200 && !err.url.includes('logout')) {
             console.log('httpErr', err);
@@ -138,16 +139,17 @@ export class AuthInterceptor implements HttpInterceptor {
                 this.toasterService.error(`${err.status}: ${err.statusText}`, 'Technical error..');
               }
             }
-          }
+          }         
         }
+        this.checkApiCount();
         return throwError(err);
       }),
       map(
         (event: HttpEvent<any>) => {
           let res;
-          this.apiCount--;
+        
           if (event instanceof HttpResponse) {
-           
+            this.apiCount--;
             if (event.headers.get('content-type') == 'text/plain') {
               event = event.clone({
                 body: JSON.parse(this.encrytionService.decryptResponse(event)),
@@ -193,7 +195,9 @@ export class AuthInterceptor implements HttpInterceptor {
   checkApiCount() {
     if (this.apiCount <= 0) {
       console.log('this.apiCount', this.apiCount)
+      this.apiCount = 0;
       this.ngxUiLoaderService.stop();
+      this.apiCount = 0;
     }
   }
 }

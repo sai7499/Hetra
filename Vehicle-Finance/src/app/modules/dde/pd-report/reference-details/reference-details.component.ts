@@ -301,7 +301,7 @@ export class ReferenceDetailsComponent implements OnInit {
       refererDistrict: ["", Validators.required],
       refererState: ["", Validators.required],
       refererCountry: ["", Validators.required],
-      refererAssetName: ["", Validators.required],
+      refererAssetName: [""],
       referenceFirstName: ["", Validators.required],
       referenceSecondName: [""],
       referenceThirdName: ["", Validators.required],
@@ -347,12 +347,17 @@ export class ReferenceDetailsComponent implements OnInit {
 
   public initRows(index: number) {
     return this.fb.group({
-      typeReference: new FormControl('', [Validators.required]),
-      companyName: new FormControl('', [Validators.required]),
-      officerName: new FormControl('', [Validators.required]),
-      designation: new FormControl('', [Validators.required]),
-      teleNo: new FormControl('', [Validators.required]),
-      comments: new FormControl('', [Validators.required]),
+      typeReference: new FormControl(''),
+      // , [Validators.required]
+      companyName: new FormControl(''),
+      // , [Validators.required]
+      officerName: new FormControl(''),
+      // , [Validators.required]
+      designation: new FormControl(''),
+      // , [Validators.required]
+      teleNo: new FormControl(''),
+      // , [Validators.required]
+      comments: new FormControl(''),
       id: 0,
       applicantId: this.applicantId
     });
@@ -494,10 +499,11 @@ export class ReferenceDetailsComponent implements OnInit {
 
     if (this.referenceDetailsForm.valid && isUdfField) {
 
-      if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
-        this.toasterService.showWarning('atleast one market and finance reference required', '');
-        return;
-      }
+      // if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+      //   this.toasterService.showWarning('atleast one market and finance reference required', '');
+      //   return;
+      // }
+
       const data = {
         leadId: this.leadId,
         applicantId: this.applicantId,
