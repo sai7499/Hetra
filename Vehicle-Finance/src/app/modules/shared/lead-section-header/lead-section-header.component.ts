@@ -36,7 +36,7 @@ export class LeadSectionHeaderComponent implements OnInit {
   ddeBackLabel: string;
   ddeBackRouter: string;
 
-  isEnableInitiateQuery: boolean = true;
+  isEnableInitiateQuery: boolean;
   locationIndex: number;
 
   isEnableDdeButton: boolean = false;
@@ -109,6 +109,12 @@ export class LeadSectionHeaderComponent implements OnInit {
 
     this.getInitiateQueryCount(this.leadId);
 
+    this.sharedService.viewDDE$.subscribe(dde => {
+      if (dde) {
+        this.viewOrEditDde(dde)
+        this.isEnableInitiateQuery = false;
+      }
+    })
   }
 
   getLocationIndex(url: string) {
@@ -116,7 +122,11 @@ export class LeadSectionHeaderComponent implements OnInit {
       this.isEnableInitiateQuery = false
       return 0;
     } else {
-      this.isEnableInitiateQuery = true;
+      if (this.ddeBackLabel === 'Back To Query Model') {
+        this.isEnableInitiateQuery = false;
+      } else {
+        this.isEnableInitiateQuery = true;
+      }
       return 1;
     }
   }
@@ -172,8 +182,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.loanAmount = leadSectionData['leadDetails']['reqLoanAmt']
       ? Number(leadSectionData['leadDetails']['reqLoanAmt']).toLocaleString('en-IN')
       : '0';
-      
-      
+
       if(this.isLoan360){
         const loanAccountDetails = this.loanViewService.getLoanAccountDetails();
         console.log('loanAccountDetails', loanAccountDetails)
@@ -198,19 +207,22 @@ export class LeadSectionHeaderComponent implements OnInit {
   }
 
   onBackDocumentUpload(){
-    
     const url=  localStorage.getItem('currentUrl');
     this.router.navigateByUrl(url)
-
   }
 
-  viewOrEditDde() {
+  viewOrEditDde(isString?) {
     this.toggleDdeService.setIsDDEClicked();
     this.isEnableDdeButton = false;
     this.isNeedBackButton = true;
     localStorage.setItem('isNeedBackButton', 'true');
-    this.router.navigate(['/pages/dde/' + this.leadId])
-    this.toggleDdeService.setCurrentPath(this.location.path())
+    if (!isString) {
+      this.router.navigate(['/pages/dde/' + this.leadId])
+      this.toggleDdeService.setCurrentPath(this.location.path())
+    } else {
+      this.toggleDdeService.setCurrentPath(isString)
+      localStorage.setItem('forQueryUrl', this.location.path());
+    }
     this.setDdeBackButton()
   }
 
@@ -238,7 +250,6 @@ export class LeadSectionHeaderComponent implements OnInit {
     localStorage.removeItem('isDdeClicked');
     this.isNeedBackButton = false
     localStorage.setItem('isNeedBackButton', 'false');
-
   }
 
   getInitiateQueryCount(lead) {
@@ -250,7 +261,6 @@ export class LeadSectionHeaderComponent implements OnInit {
     const currentUrl = this.location.path();
     localStorage.setItem('forQueryUrl', currentUrl);
     this.router.navigate(['//pages/query-model/', { leadId: this.leadId }]);
-    // this.router.navigateByUrl(`/pages/query-model/${this.leadId}`)
   }
 
   onLeadHistory() {

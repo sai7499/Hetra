@@ -225,7 +225,7 @@ export class PersonalDetailsComponent implements OnInit {
       priorInfo: ['', Validators.required],
       businessKey: [''],
       occupationType: ['', Validators.required],
-      businessType: ['', Validators.required],
+      businessType: [''],
       vehicleApplication: [''],
       educationalBackgroundType: ['', Validators.required],
       isMinority: ['', Validators.required],
