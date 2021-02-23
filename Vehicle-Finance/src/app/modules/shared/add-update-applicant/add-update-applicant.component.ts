@@ -268,6 +268,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   negativeDedupeUGroupId: string = 'APG004';
   businessMand: boolean;
 
+
+
+
+
   
   constructor(
     private labelsData: LabelsService,
@@ -3782,9 +3786,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     // return
 
     let that = this;
-
-
-
+    
     let applicantId = this.applicantId;
     let aadhar = this.coApplicantForm.get('dedupe').get('aadhar').value;
 
@@ -3904,51 +3906,54 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const permanantAddress = ctx.coApplicantForm.get('permentAddress');
 
     const cityId = value.cityId;
+    const resultPincode = value.resultPincode;
     const geoMasterData = value.geoMasterData;
 
 
-    let datas = geoMasterData.find((data) => {
-      if(cityId === data.cityId){
-       this.permanentPincode = {
-          city: [
-            {
-              key: value.cityId,
-              value: data.cityName || value.villageTownOrCity
-            },
-          ],
+      const first = geoMasterData[0];
+       const obj = {
           district: [
             {
-              key: value.districtId,
-              value: data.districtName || value.district
+              key: first.districtId,
+              value: first.districtName || value.district
             },
           ],
           state: [
             {
-              key: value.stateId,
-              value: data.stateName || value.state
+              key: first.stateId,
+              value: first.stateName || value.state
             },
           ],
           country: [
             {
-              key: value.countryId,
-              value: data.country || value.country
+              key: first.countryId,
+              value: first.country || value.country
             },
           ],
         };
-        
+        const city = geoMasterData.map((val) => {
+          return {
+            key: val.cityId,
+            value: val.cityName,
+          };
+        });
 
-      }
-    })
-    console.log('cityDatas', datas)
+        this.permanentPincode = {
+          city, 
+          ...obj
+        }
+
+        
+    console.log('cityDatas', this.permanentPincode, value)
     permanantAddress.patchValue({
       addressLineOne: value.addressLineOne,
       addressLineTwo: value.addressLineTwo,
       addressLineThree: value.addressLineThree,
       pincode: value.resultPincode,
-      city: value.cityId,
-      state: value.stateId,
-      country: value.countryId,
-      district: value.districtId,
+      city: value.cityId || '',
+      state: value.stateId || this.permanentPincode.state[0].key,
+      country: value.countryId || this.permanentPincode.country[0].key,
+      district: value.districtId || this.permanentPincode.district[0].key,
       nearestLandmark: value.landmark
     })
     value.disableAddrData == '0' ? permanantAddress.enable() : permanantAddress.disable();
