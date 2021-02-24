@@ -110,7 +110,7 @@ export class PddComponent implements OnInit {
             console.log('params', params);
             this.leadId = Number(params.leadId || 0);
             if (roles) {
-                this.isSales = roles.roles[0].roleType === 1;
+                this.isSales = roles.roles[0].roleType === 1 || roles.roles[0].roleType === 2;
             }
             this.initForm();
             if(this.isSales){
