@@ -46,7 +46,8 @@
         </app-vf-custom-select>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="selfie_with_house">{{!isNonInd ? labels.selfieWithHouse : labels.selfieTitleForNonInd}} <sub class="star_red_col">*</sub></label>
+        <label for="selfie_with_house">{{!isNonInd ? labels.selfieWithHouse : labels.selfieTitleForNonInd}} <sub
+            class="star_red_col">*</sub></label>
         <app-vf-custom-select [values]="customerProfileLov?.commonLov" formControlName="customerHouseSelfie"
           [isRequired]="'Please select one'" [isDirty]="isDirty">
         </app-vf-custom-select>
@@ -55,12 +56,10 @@
 
     <div class="row">
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
-        <label for="locality">{{ labels.customerLocality }}
-          <sub class="star_red_col">*</sub></label>
-        <app-custom-input id="locality" formControlName="locality" placeholder="Enter locality"
-          [type]="labels?.validationData?.locality?.type" [isRequired]="'locality is required'"
-          [maxLength]="labels?.validationData?.locality?.maxLength" [isDirty]="isDirty">
-        </app-custom-input>
+        <label for="locality">{{ labels.officeLocality }} <sub class="star_red_col">*</sub></label>
+        <app-vf-custom-select [values]="(LOV?.LOVS)['fi/PdResidentialLocality']" formControlName="locality"
+          [isRequired]="'Please select one'" [isDirty]="isDirty">
+        </app-vf-custom-select>
       </div>
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="met_customer">{{ labels.metCustomer }} <sub class="star_red_col">*</sub></label>
@@ -85,7 +84,7 @@
           placeholder="mismatch in Address" formControlName="mismatchInAddress" maxlength="200"
           style="resize: none"></textarea>
 
-        <div class="invalid-feedback" *ngIf="
+        <div class="invalid-feedback" *ngIf=" isDirty && 
             !customerProfileForm.controls['mismatchInAddress'].vaild
           ">
           <div *ngIf="
@@ -95,14 +94,13 @@
             ">
             mismatch in address is Required
           </div>
-
-          <div *ngIf="
-              customerProfileForm.controls['mismatchInAddress'].hasError(
-                'pattern'
-              )
-            ">
-            special characters are not allowed
-          </div>
+        </div>
+        <div *ngIf="
+        customerProfileForm.controls['mismatchInAddress'].hasError(
+          'pattern'
+        )
+      ">
+          special characters are not allowed
         </div>
       </div>
 

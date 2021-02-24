@@ -131,6 +131,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   loanDetails: boolean;
   loanAccountDetails: any;
 
+  proformaMaxDate: Date = new Date();
+  proformaMinDate: Date = new Date();
+
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
@@ -205,6 +208,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
 
     this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt;
+    this.getProformaDateValidation()
   }
 
   getLeadSectionData() {
@@ -235,6 +239,24 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       }
     })
+  }
+
+  getProformaDateValidation() {
+    let leadCreateDate = this.leadDetails['leadCreatedOn'];
+    let LeadDate = new Date(leadCreateDate.split(' ')[0]);
+    var day = LeadDate.getDate();
+    var month = LeadDate.getMonth();
+    var year = LeadDate.getFullYear();
+    this.proformaMaxDate = new Date(year, month, day, 0, 0);
+    
+    let leadCreatedDateFromLead = new Date(year, month, day, 0, 0);
+    leadCreatedDateFromLead.setDate(leadCreatedDateFromLead.getDate() - 30);
+    // var dateString = leadCreatedDateFromLead.toISOString().split('T')[0];
+
+    var minDay = leadCreatedDateFromLead.getDate();
+    var minMonth = leadCreatedDateFromLead.getMonth();
+    var minYear = leadCreatedDateFromLead.getFullYear();
+    this.proformaMinDate = new Date(minYear, minMonth, minDay, 0, 0);
   }
 
   onGetMarginAmount(value, form) {
@@ -515,11 +537,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         form.get('discount').setValidators([Validators.required]);
         form.get('discount').updateValueAndValidity();
 
-        form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
-        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax + '');
-        form.get('others').setValue(others === 0 ? '' : others + '');
-        form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount + '');
-        form.get('discount').setValue(discount === 0 ? '' : discount + '');
+        // form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
+        // form.get('oneTimeTax').setValue(oneTimeTax === 0 ?  '' : oneTimeTax + '');
+        // form.get('others').setValue(others === 0 ?  '' : others + '');
+        // form.get('amcAmount').setValue(amcAmount === 0 ?  '' : amcAmount + '');
+        // form.get('discount').setValue(discount === 0 ? '' : discount + '');
 
         if (exShowRoomCost >= discount) {
           let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount) - discount;
@@ -1164,9 +1186,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     });
 
     if (this.Product !== 'TyreLoan') {
-      controls.addControl('invoiceAmount', this._fb.control(null))
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
+      controls.addControl('invoiceAmount', this._fb.control('', Validators.required))
+      controls.addControl('invoiceNumber', this._fb.control('', Validators.required))
+      controls.addControl('invoiceDate', this._fb.control('', Validators.required))
     }
 
     formArray.push(controls);
@@ -1215,9 +1237,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     })
     if (this.Product !== 'TyreLoan') {
-      controls.addControl('invoiceAmount', this._fb.control(null))
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
+      controls.addControl('invoiceAmount', this._fb.control(null, Validators.required))
+      controls.addControl('invoiceNumber', this._fb.control(null, Validators.required))
+      controls.addControl('invoiceDate', this._fb.control('', Validators.required))
     }
 
     formArray.push(controls);
