@@ -377,7 +377,8 @@
           <sub class="star_red_col">*</sub>
         </label>
         <app-custom-input id="opinion_of_pd_officer" formControlName="opinionOfPdOfficer"
-          [className]="'form-control mandatory'" [placeholder]="'Opinion of PD Officer'">
+          [className]="'form-control mandatory'" [placeholder]="'Opinion of PD Officer'"
+          [isRequired]="'Opinion of PD Officer is required'" [isDirty]="isDirty">
         </app-custom-input>
       </div>
     </div>

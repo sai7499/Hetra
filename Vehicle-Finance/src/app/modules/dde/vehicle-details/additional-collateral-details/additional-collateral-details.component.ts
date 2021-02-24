@@ -69,12 +69,12 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
             }, error => {
                 console.log('error', error)
             });
-            this.labelsData.getScreenId().subscribe((data) => {
-                let udfScreenId = data.ScreenIDS;
-          
-                this.udfScreenId = udfScreenId.DDE.additionalCollateralDDE ;
-          
-              })
+        this.labelsData.getScreenId().subscribe((data) => {
+            let udfScreenId = data.ScreenIDS;
+
+            this.udfScreenId = udfScreenId.DDE.additionalCollateralDDE;
+
+        })
 
         this.leadData = this.createLeadDataService.getLeadSectionData();
         this.leadId = this.leadData['leadId'];
@@ -322,7 +322,8 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
 
         this.LOV.relationLov = this.typeOfApplicant ? this.typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship
             : this.LOV.relationship;
-            details.get('relationWithApplicant').setValue(this.LOV.relationLov[0].key)
+
+        details.get('relationWithApplicant').setValue(this.LOV.relationLov[0].key)
 
     }
 

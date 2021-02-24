@@ -167,6 +167,7 @@
                         <th class="bank_name">{{ labels?.age }}</th>
                         <th class="bank_name">{{ labels?.relationshipToApplicant }}</th>
                         <th class="bank_name">{{ labels?.bureauScore }}</th>
+                        <th class="bank_name">{{ labels?.rcuStatus }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -177,6 +178,7 @@
                         <td>{{ applicantDetails?.age }}</td>
                         <td>{{ applicantDetails?.relationship}}</td>
                         <td>{{ applicantDetails?.cibilScore }}</td>
+                        <td>{{ applicantDetails?.rcuStatus ? applicantDetails?.rcuStatus : '-' }}</td>
                     </tr>
                     <tr>
                         <td class="bank_name">{{ labels?.overAllFiStatus }}</td>

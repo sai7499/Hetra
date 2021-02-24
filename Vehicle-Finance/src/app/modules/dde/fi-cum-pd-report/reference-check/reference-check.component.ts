@@ -172,6 +172,7 @@ export class ReferenceCheckComponent implements OnInit {
     // calling login store service to retrieve the user data
 
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
+    console.log(roleAndUserDetails.userDetails.userId, 'Details', localStorage.getItem('userId'))
     this.userId = roleAndUserDetails.userDetails.userId;
     this.roles = roleAndUserDetails.roles;
     this.userDetails = roleAndUserDetails.userDetails;
@@ -328,7 +329,7 @@ export class ReferenceCheckComponent implements OnInit {
       equitasBranchName: new FormControl({ value: '', disabled: true }),
       distanceFromEquitas: new FormControl({ value: '', disabled: true }),
       soName: new FormControl({ value: '', disabled: true }),
-      employeeCode: new FormControl({ value: '', disabled: true }),
+      employeeCode: new FormControl({ value: localStorage.getItem('userId'), disabled: true }),
       area: new FormControl(''),
       date: new FormControl({ value: '', disabled: true }),
       place: new FormControl({ value: '', disabled: true }),
@@ -396,11 +397,14 @@ export class ReferenceCheckComponent implements OnInit {
         this.otherDetails = value.ProcessVariables.otherDetails;
         this.showReinitiate = value.ProcessVariables.showReinitiate;
 
-        this.branchLongitude = value.ProcessVariables.customerProfileDetails.branchLongitude;
-        this.branchLatitude = value.ProcessVariables.customerProfileDetails.branchLatitude;
-        this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
-        this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
-        this.capturedAddress = value.ProcessVariables.customerProfileDetails.capturedAddress;
+        if (value.ProcessVariables.customerProfileDetails) {
+          this.branchLongitude = value.ProcessVariables.customerProfileDetails.branchLongitude;
+          this.branchLatitude = value.ProcessVariables.customerProfileDetails.branchLatitude;
+          this.latitude = value.ProcessVariables.customerProfileDetails.latitude;
+          this.longitude = value.ProcessVariables.customerProfileDetails.longitude;
+          this.capturedAddress = value.ProcessVariables.customerProfileDetails.capturedAddress;
+        }
+
         this.SELFIE_IMAGE = value.ProcessVariables.profilePhoto;
         const referenceDetails = processVariables.marketFinRefData;
         this.ficumpdPdfService.setReferenceCheckDetails(value.ProcessVariables);
@@ -520,7 +524,7 @@ export class ReferenceCheckComponent implements OnInit {
       overallFiReport: refCheckModel.overallFiReport ? refCheckModel.overallFiReport : null,
       pdRemarks: refCheckModel.pdRemarks ? refCheckModel.pdRemarks : null,
       soName: this.soName ? this.soName : null,
-      employeeCode: this.employeeCode ? this.employeeCode : null,
+      employeeCode: this.employeeCode ? this.employeeCode : this.userId,
       product: this.productCat ? this.productCat : null,
       sourcingChannel: this.sourcingChannel ? this.sourcingChannel : null,
       routeMap: otherDetailsModel.routeMap ? otherDetailsModel.routeMap : null,
@@ -599,7 +603,7 @@ export class ReferenceCheckComponent implements OnInit {
         overallFiReport: referenceCheckModel.overallFiReport ? referenceCheckModel.overallFiReport : null,
         pdRemarks: referenceCheckModel.pdRemarks ? referenceCheckModel.pdRemarks : null,
         soName: this.userName ? this.userName : null,
-        employeeCode: this.userId ? this.userId : null,
+        employeeCode: this.userId ? this.userId : localStorage.getItem('userId'),
       };
 
       this.otherDetails = {

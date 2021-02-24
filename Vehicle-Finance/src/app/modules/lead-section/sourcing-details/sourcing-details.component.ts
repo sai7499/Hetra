@@ -240,7 +240,6 @@ export class SourcingDetailsComponent implements OnInit {
     if (this.roleType !== 1) {
       this.sourcingDetailsForm.get('applicationNo').setValidators(Validators.required)
     }
-
   }
 
   navigateToPrevious() {
@@ -460,10 +459,11 @@ export class SourcingDetailsComponent implements OnInit {
 
   productCategory(event, isBool) {
     if (!isBool) {
-      this.sourcingDetailsForm.patchValue({ reqLoanAmt: this.reqLoanAmount });
+      this.sourcingDetailsForm.patchValue({ reqLoanAmt: this.reqLoanAmount ? this.reqLoanAmount : '' });
     } else {
       this.sourcingDetailsForm.patchValue({ reqLoanAmt: 0 });
     }
+
     this.productCategorySelectedList = [];
     const productCategorySelected = isBool ? event.target.value : event;
     let filterList = [];
