@@ -141,7 +141,7 @@
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="standard_of_living">{{ labels.stdOfLiving }} <sub *ngIf="!isNonInd"
               class="star_red_col">*</sub></label>
-          <app-vf-custom-select [values]="standardOfLiving" formControlName="standardOfLiving"
+          <app-vf-custom-select [values]="(LOV?.LOVS)['fi/PdHouseStandard']" formControlName="standardOfLiving"
             [isRequired]="!isNonInd? 'Please select one' : ''" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
@@ -208,7 +208,7 @@
             </ng-autocomplete>
 
             <div class="invalid-feedback" *ngIf="!isNonInd">
-              <div *ngIf="applicantForm.get('bankName').hasError('required')"> Bank name required.</div>
+              <div *ngIf="applicantForm.get('bankName').hasError('required') && isDirty"> Bank name required.</div>
               <div *ngIf="applicantForm.get('bankName').hasError('minlength')">
                 at least 3 characters required.</div>
             </div>

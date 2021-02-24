@@ -240,7 +240,6 @@ export class SourcingDetailsComponent implements OnInit {
     if (this.roleType !== 1) {
       this.sourcingDetailsForm.get('applicationNo').setValidators(Validators.required)
     }
-
   }
 
   navigateToPrevious() {
@@ -460,10 +459,11 @@ export class SourcingDetailsComponent implements OnInit {
 
   productCategory(event, isBool) {
     if (!isBool) {
-      this.sourcingDetailsForm.patchValue({ reqLoanAmt: this.reqLoanAmount });
+      this.sourcingDetailsForm.patchValue({ reqLoanAmt: this.reqLoanAmount ? this.reqLoanAmount : '' });
     } else {
       this.sourcingDetailsForm.patchValue({ reqLoanAmt: 0 });
     }
+
     this.productCategorySelectedList = [];
     const productCategorySelected = isBool ? event.target.value : event;
     let filterList = [];
@@ -529,17 +529,13 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingDetailsForm.patchValue({ loanType: isBool? '' : loanTypeFromLead });
     }
 
-    if(productCategorySelected === 'UC'){
-      this.sourcingDetailsForm.get('dealerCode').setValidators(Validators.required)
-      this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
-      setTimeout(()=>{
-        this.isShowDealerCode = true;
-      })
-    }else{
-      this.sourcingDetailsForm.get('dealerCode').clearValidators()
-      this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
-      this.isShowDealerCode = false;
-    }
+    // if(productCategorySelected === 'UC'){
+    //   this.sourcingDetailsForm.get('dealerCode').setValidators(Validators.required)
+    //   this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
+    // }else{
+    //   this.sourcingDetailsForm.get('dealerCode').clearValidators()
+    //   this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
+    // }
 
     
   }

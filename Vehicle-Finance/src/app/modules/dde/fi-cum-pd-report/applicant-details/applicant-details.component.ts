@@ -145,7 +145,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   getLOV() { // fun call to get all lovs
     this.commomLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-    this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard'].filter(data => data.value !== 'Very Good');
+    this.standardOfLiving = this.LOV.LOVS['fi/PdHouseStandard']
     this.activatedRoute.params.subscribe((value) => {
       if (!value && !value.applicantId) {
         return;
@@ -186,13 +186,13 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   houseOwnerShip(event: any) {
-    this.ownerShipType = event ? event : event;
+    this.ownerShipType = event;
     const owner = this.applicantForm.get('owner').value;
     const areaOfProperty = this.applicantForm.get('areaOfProperty').value;
     const propertyValue = this.applicantForm.get('propertyValue').value;
-    if (this.ownerShipType === '1HOUOWN' || this.ownerShipType === '2HOUOWN' ||
-      this.ownerShipType === '4HOUOWN' || this.ownerShipType === '9HOUOWN' ||
-      this.ownerShipType === '5HOUOWN') {
+
+    if (this.ownerShipType === '1HOUOWN'|| this.ownerShipType === '7HOUOWN' || this.ownerShipType === '9HOUOWN' ||
+        this.ownerShipType === '5HOUOWN') {
       this.ownerNamePropertyAreaRequired = true;
       this.ownerNamePropertyAreaDisabled = false;
       this.applicantForm.get('owner').enable();
@@ -218,9 +218,10 @@ export class ApplicantDetailComponent implements OnInit {
       this.applicantForm.get('propertyValue').setValidators(Validators.required);
       this.applicantForm.get('propertyValue').updateValueAndValidity();
 
-    } else if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
-      this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
-      this.ownerShipType !== '5HOUOWN') {
+    } else {
+      // if (this.ownerShipType !== '1HOUOWN' || this.ownerShipType !== '2HOUOWN' ||
+      // this.ownerShipType !== '4HOUOWN' || this.ownerShipType !== '9HOUOWN' ||
+      // this.ownerShipType !== '5HOUOWN' || this.ownerShipType !== '7HOUOWN') 
       this.ownerNamePropertyAreaRequired = false;
       this.ownerNamePropertyAreaDisabled = true;
       setTimeout(() => {
