@@ -921,7 +921,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 40: case 41:
+        if(this.roleType == '2') {
+          this.taskName = 'PDD'
+        } else {
         this.taskName = 'CPC-PDD';
+        }
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
       case 42: case 43:
@@ -989,6 +993,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       activeTab: this.activeTab,
       subActiveTab: this.subActiveTab,
     };
+    console.log(this.activeTab, 'activeTab', this.subActiveTab, 'subActiveTab');
+    
     if (this.sortTab === '') {
       if (this.activeTab === this.displayTabs.PDD || this.activeTab === this.displayTabs.ChequeTracking) {
         this.sortByLead = false;
@@ -1058,6 +1064,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.onReleaseTab = true;
       this.onAssignTab = false;
     }
+    console.log(this.activeTab, 'activeTab', this.subActiveTab, 'subActiveTab');
+
     // this.onTabsLoading(this.subActiveTab);
     if (this.sortTab === '') {
       this.sortByLead = true;
@@ -1218,6 +1226,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
+      disbFromDate: this.filterFormDetails ? this.filterFormDetails.disbFromDate : '',
+      disbToDate: this.filterFormDetails ? this.filterFormDetails.disbToDate : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,

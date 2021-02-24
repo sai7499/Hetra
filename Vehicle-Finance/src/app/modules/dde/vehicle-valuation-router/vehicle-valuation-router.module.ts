@@ -7,6 +7,7 @@ import { ValuationComponent } from './valuation/valuation.component';
 import { DdeSharedModule } from '../shared/shared.module';
 import { SharedModule } from '@shared/shared.module';
 import { VehicleValuationRouterComponent } from './vehicle-valuation-router.component';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   declarations: [VehicleValuationRouterComponent, ValuationComponent],
@@ -15,7 +16,9 @@ import { VehicleValuationRouterComponent } from './vehicle-valuation-router.comp
     ReactiveFormsModule,
     DdeSharedModule,
     SharedModule,
-    VehicleValuationRoutingModule
+    VehicleValuationRoutingModule,
+    AutocompleteLibModule
+
   ]
 })
 export class VehicleValuationRouterModule { }

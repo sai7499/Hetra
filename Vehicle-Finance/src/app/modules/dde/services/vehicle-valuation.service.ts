@@ -38,14 +38,17 @@ export class VehicleValuationService {
     return this.httpService.post(url, body);
   }
 
-  getVendorCode() {
+  getVendorCode(data) {
+    const processData = data;
     const processId = this.apiService.api.getVendorCode.processId;
     const workflowId = this.apiService.api.getVendorCode.workflowId;
     const projectId = this.apiService.api.getVendorCode.projectId;
 
     const body: RequestEntity = {
       processId: processId,
-      ProcessVariables: {},
+      ProcessVariables: {
+        ...processData
+      },
       workflowId: workflowId,
       projectId: projectId
     };
@@ -77,7 +80,7 @@ export class VehicleValuationService {
     return this.httpService.post(url, body);
   }
 
-  getVehicleValuation(data, udfData) {
+  getVehicleValuation(data, udfData, version) {
     const processData = data;
 
     const processId = this.apiService.api.getVehicleValuation.processId;
@@ -91,7 +94,8 @@ export class VehicleValuationService {
       processId: processId,
       ProcessVariables: {
         collateralId: processData,
-        udfDetails : [udfData]
+        udfDetails : [udfData],
+        version: version
       },
       workflowId: workflowId,
       projectId: projectId
@@ -127,6 +131,28 @@ export class VehicleValuationService {
     const processId = this.apiService.api.submitValuationTask.processId;
     const workflowId = this.apiService.api.submitValuationTask.workflowId;
     const projectId = this.apiService.api.submitValuationTask.projectId;
+
+    const email = localStorage.getItem('email');
+    const userId = localStorage.getItem('userId');
+
+    const body: RequestEntity = {
+      // tslint:disable-next-line: object-literal-shorthand
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+
+  }
+  getUserByBranch(data) {
+    const processData = data;
+
+    const processId = this.apiService.api.getUserByBranch.processId;
+    const workflowId = this.apiService.api.getUserByBranch.workflowId;
+    const projectId = this.apiService.api.getUserByBranch.projectId;
 
     const email = localStorage.getItem('email');
     const userId = localStorage.getItem('userId');
