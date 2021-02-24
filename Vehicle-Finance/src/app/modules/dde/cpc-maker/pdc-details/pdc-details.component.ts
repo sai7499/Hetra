@@ -277,15 +277,15 @@ export class PdcDetailsComponent implements OnInit {
 
   onSave(dataString: string) {
     for (let i = 0; i < this.pdcForm.controls.pdcList.length; i++) {
-      // tslint:disable-next-line: prefer-const
-      let value = this.pdcForm.controls.pdcList.controls[i].value.instrDate;
 
+      // tslint:disable-next-line: prefer-const
+      let value = this.pdcForm.controls.pdcList.controls[i]['controls']['instrDate'].value;
       this.pdcForm.controls.pdcList.controls[i].value.instrDate = value
         ? this.utilityService.getDateFormat(value)
         : null;
     }
     for (let i = 0; i < this.pdcForm.controls.spdcList.length; i++) {
-      let datevalue = this.pdcForm.controls.spdcList.controls[i].value.instrDate;
+      let datevalue = this.pdcForm.controls.spdcList.controls[i]['controls']['instrDate'].value;
 
       this.pdcForm.controls.spdcList.controls[i].value.instrDate = datevalue
         ? this.utilityService.getDateFormat(datevalue)
@@ -360,35 +360,36 @@ export class PdcDetailsComponent implements OnInit {
       if (pdcCount != '' && pdcCount != null) {
         for (let i = 0; i < pdcCount; i++) {
           this.addPdcUnit();
+          //this.removeInstAmtValidator()
         }
         if (data.pdcList != null) {
           for (let i = 0; i < pdcCount; i++) {
             PdcControl.at(i).patchValue({
-              pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
+              pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
               instrType: data.pdcList[i].instrType
                 ? data.pdcList[i].instrType
-                : null,
+                : '',
               emiAmount: data.pdcList[i].emiAmount
                 ? data.pdcList[i].emiAmount
                 : this.negotiatedEmi,
-              instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : null,
+              instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : '',
               instrDate: data.pdcList[i].instrDate
                 ? this.utilityService.getDateFromString(
                   data.pdcList[i].instrDate
                 )
-                : null,
+                : '',
               instrBankName: data.pdcList[i].instrBankName
                 ? data.pdcList[i].instrBankName
-                : null,
+                : '',
               instrBranchName: data.pdcList[i].instrBranchName
                 ? data.pdcList[i].instrBranchName
-                : null,
+                : '',
               instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
                 ? data.pdcList[i].instrBranchAccountNumber
-                : null,
+                : '',
               instrAmount: data.pdcList[i].instrAmount
                 ? data.pdcList[i].instrAmount
-                : null,
+                : '',
             });
           }
         }
@@ -398,35 +399,36 @@ export class PdcDetailsComponent implements OnInit {
         for (let i = 0; i < data.pdcList.length; i++) {
           this.addPdcUnit();
           PdcControl.at(i).patchValue({
-            pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : null,
+            pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
             instrType: data.pdcList[i].instrType
               ? data.pdcList[i].instrType
-              : null,
+              : '',
             emiAmount: data.pdcList[i].emiAmount
               ? data.pdcList[i].emiAmount
               : this.negotiatedEmi,
-            instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : null,
+            instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : '',
             instrDate: data.pdcList[i].instrDate
               ? this.utilityService.getDateFromString(data.pdcList[i].instrDate)
-              : null,
+              : '',
             instrBankName: data.pdcList[i].instrBankName
               ? data.pdcList[i].instrBankName
-              : null,
+              : '',
             instrBranchName: data.pdcList[i].instrBranchName
               ? data.pdcList[i].instrBranchName
-              : null,
+              : '',
             instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
               ? data.pdcList[i].instrBranchAccountNumber
-              : null,
+              : '',
             instrAmount: data.pdcList[i].instrAmount
               ? data.pdcList[i].instrAmount
-              : null,
+              : '',
           });
         }
       } else {
         this.addPdcUnit();
         this.showPdcButton = true;
       }
+      
       // tslint:disable-next-line: triple-equals
       if (spdcCount != '' && spdcCount != null) {
         for (let i = 0; i < spdcCount; i++) {
@@ -435,34 +437,34 @@ export class PdcDetailsComponent implements OnInit {
         if (data.spdcList) {
           for (let j = 0; j < data.spdcList.length; j++) {
             spdcControl.at(j).patchValue({
-              pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : null,
+              pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : '',
               instrType: data.spdcList[j].instrType
                 ? data.spdcList[j].instrType
-                : null,
+                : '',
               emiAmount: data.spdcList[j].emiAmount
                 ? data.spdcList[j].emiAmount
                 : this.negotiatedEmi,
               instrNo: data.spdcList[j].instrNo
                 ? data.spdcList[j].instrNo
-                : null,
+                : '',
               instrDate: data.spdcList[j].instrDate
                 ? this.utilityService.getDateFromString(
                   data.spdcList[j].instrDate
                 )
-                : null,
+                : '',
               instrBankName: data.spdcList[j].instrBankName
                 ? data.spdcList[j].instrBankName
-                : null,
+                : '',
               instrBranchName: data.spdcList[j].instrBranchName
                 ? data.spdcList[j].instrBranchName
-                : null,
+                : '',
               instrBranchAccountNumber: data.spdcList[j]
                 .instrBranchAccountNumber
                 ? data.spdcList[j].instrBranchAccountNumber
-                : null,
+                : '',
               instrAmount: data.spdcList[j].instrAmount
                 ? data.spdcList[j].instrAmount
-                : null,
+                : '',
             });
           }
         }
@@ -473,31 +475,31 @@ export class PdcDetailsComponent implements OnInit {
         for (let j = 0; j < data.spdcList.length; j++) {
           this.addSPdcUnit();
           spdcControl.at(j).patchValue({
-            pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : null,
+            pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : '',
             instrType: data.spdcList[j].instrType
               ? data.spdcList[j].instrType
-              : null,
+              : '',
             emiAmount: data.spdcList[j].emiAmount
               ? data.spdcList[j].emiAmount
               : this.negotiatedEmi,
-            instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : null,
+            instrNo: data.spdcList[j].instrNo ? data.spdcList[j].instrNo : '',
             instrDate: data.spdcList[j].instrDate
               ? this.utilityService.getDateFromString(
                 data.spdcList[j].instrDate
               )
-              : null,
+              : '',
             instrBankName: data.spdcList[j].instrBankName
               ? data.spdcList[j].instrBankName
-              : null,
+              : '',
             instrBranchName: data.spdcList[j].instrBranchName
               ? data.spdcList[j].instrBranchName
-              : null,
+              : '',
             instrBranchAccountNumber: data.spdcList[j].instrBranchAccountNumber
               ? data.spdcList[j].instrBranchAccountNumber
-              : null,
+              : '',
             instrAmount: data.spdcList[j].instrAmount
               ? data.spdcList[j].instrAmount
-              : null,
+              : '',
           });
         }
       } else {
@@ -518,6 +520,17 @@ export class PdcDetailsComponent implements OnInit {
 
     //   }
     // }
+    setTimeout(()=>{
+      this.removeInstAmtValidator()
+    })
+
+  }
+
+  removeInstAmtValidator(){
+    const PdcControl = this.pdcForm.controls.pdcList as FormArray;
+    PdcControl.controls[0]['controls']['instrAmount'].clearValidators();
+    PdcControl.controls[0]['controls']['instrAmount'].updateValueAndValidity();
+
 
   }
 
@@ -726,33 +739,73 @@ export class PdcDetailsComponent implements OnInit {
       if (controlName === 'instrBranchAccountNumber') {
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           spdcArray.controls[j].patchValue({
-            instrBranchAccountNumber: obj.get(controlName).value,
+            instrBranchAccountNumber: obj.get(controlName).value || '',
           })
         }
       }else if(controlName === 'instrAmount'){
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
+          
           spdcArray.controls[j].patchValue({
-            instrAmount: obj.get(controlName).value,
+            instrAmount: obj.get(controlName).value || '',
           })
         }
       }
       else if(controlName === 'instrBranchName'){
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           spdcArray.controls[j].patchValue({
-            instrBranchName: obj.get(controlName).value,
+            instrBranchName: obj.get(controlName).value || '',
           })
         }
       }
       else if(controlName === 'instrBankName'){
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           spdcArray.controls[j].patchValue({
-            instrBankName: obj.get(controlName).value,
+            instrBankName: obj.get(controlName).value || '',
           })
         }
+      }
+      else if(controlName === 'instrDate'){
+        let getInstrDate = obj.get(controlName).value;
+        for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
+          const formatDate = this.addMonth(getInstrDate, j)
+          spdcArray.controls[j].patchValue({
+            instrDate: formatDate,
+          })
+        }
+
       }
       
 
     }
+
+  }
+
+  addMonth(date, n) {
+    const dateFormat: Date = new Date(date);
+    let year = Number(dateFormat.getFullYear());
+    let month = Number(dateFormat.getMonth()) + 1;
+    let fullmonth = month + n;
+    if (Math.floor(fullmonth / 12) >= 1 && fullmonth % 12 != 0) {
+      year = year + Math.floor(fullmonth / 12);
+    }
+    if (fullmonth <= 12) {
+      month = fullmonth;
+    } else if (fullmonth > 12 && fullmonth % 12 != 1 && fullmonth % 12 != 0) {
+      month = 0 + (fullmonth % 12);
+    } else if (fullmonth >= 12 && fullmonth % 12 == 1) {
+      month = 1;
+    }
+    if (fullmonth >= 12 && fullmonth % 12 == 0) {
+      month = 12;
+    }
+    if (month == 12) {
+      year = (year + Math.floor(fullmonth / 12)) - 1;
+    }
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = dateFormat.getDate().toString();
+    day = Number(day) < 10 ? '0' + day : '' + day; // ('' + month) for string result
+    const formattedDate = new Date(year + '/' + month1 + '/' + day);
+    return formattedDate;
   }
 
   

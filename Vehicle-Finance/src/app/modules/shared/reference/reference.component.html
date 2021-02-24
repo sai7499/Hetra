@@ -142,8 +142,11 @@
           </div>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_branch">Relationship</label>
-          <app-vf-custom-select [values]="relationShipLOV" formControlName="refOneRelationship" [isDirty]="isDirty">
+          <label for="account_branch">Relationship 
+            <sub class="star_red_col">*</sub>
+          </label>
+          <app-vf-custom-select [values]="relationShipLOV" formControlName="refOneRelationship" 
+          [isRequired]="'Relationship is required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
       </div>
@@ -284,8 +287,11 @@
           </div>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-3">
-          <label for="account_branch">Relationship</label>
-          <app-vf-custom-select [values]="relationShipLOV" formControlName="refTwoRelationship" [isDirty]="isDirty">
+          <label for="account_branch">Relationship 
+            <sub class="star_red_col">*</sub>
+          </label>
+          <app-vf-custom-select [values]="relationShipLOV" formControlName="refTwoRelationship" 
+          [isRequired]="'Relationship is required'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
       </div>
