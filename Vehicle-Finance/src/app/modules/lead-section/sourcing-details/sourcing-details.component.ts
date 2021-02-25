@@ -509,13 +509,14 @@ export class SourcingDetailsComponent implements OnInit {
 
     // }
     this.LOV.LOVS.defaultloanType = this.LOV.LOVS.loanType;
+    let defaultType
     if (productCategorySelected === 'NCV') {
       
       loanTypeFromLead = '8LOANTYP';
       this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
       this.sourcingDetailsForm.get('loanType').disable();
     } else {
-      let defaultType = this.LOV.LOVS.loanType.filter((loan) => {
+      defaultType = this.LOV.LOVS.loanType.filter((loan) => {
         if (loan.key !== '8LOANTYP') {
           return {
             key: loan.key,
@@ -523,10 +524,25 @@ export class SourcingDetailsComponent implements OnInit {
           }
         }
       })
+      if(this.isChildLoan === '0'){
+        defaultType = defaultType.filter((loan) => {
+          if (loan.key !== '6LOANTYP') {
+            return {
+              key: loan.key,
+              value: loan.value
+            }
+          }
+        })
+      }
       this.LOV.LOVS.defaultloanType = defaultType;
       this.sourcingDetailsForm.get('loanType').enable();
       console.log('isBool', isBool)
       this.sourcingDetailsForm.patchValue({ loanType: isBool? '' : loanTypeFromLead });
+    }
+    if (this.isChildLoan === '1'){
+      const loanType = "6LOANTYP";
+      this.sourcingDetailsForm.patchValue({ loanType: loanType });
+      this.sourcingDetailsForm.get('loanType').disable();
     }
 
     // if(productCategorySelected === 'UC'){
@@ -746,8 +762,9 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onDealerCodeClear(event) {
-    this.dealorCodeKey = '';
-    if (this.sourchingTypeId === '2SOURTYP') {
+    
+    if (this.sourchingTypeId === '2SOURTYP' && this.productCategoryFromLead === 'UC') {
+      this.dealorCodeKey = '';
       this.isDealerCode = true;
     } else {
       this.isDealerCode = false;

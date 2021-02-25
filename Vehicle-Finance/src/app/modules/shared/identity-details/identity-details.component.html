@@ -74,7 +74,7 @@
                     (valueChange)="passportIssueDateChange($event)" [disabled]="passportDates"></kendo-datepicker>
                     <div class="ShowError" *ngIf="
                     isDirty &&
-                    validateForm().get('passportNumber').value &&
+                    validateForm().get('passportNumber').value && !applicant.ucic &&
                       !validateForm().get('passportIssueDate').value
                 
                   ">
@@ -97,7 +97,7 @@
                     [activeView]="'decade'" (valueChange)="PassportExpiryDateChange($event)"></kendo-datepicker>
                     <div class="ShowError" *ngIf="
                       isDirty &&
-                      validateForm().get('passportNumber').value &&
+                      validateForm().get('passportNumber').value && !applicant.ucic &&
                         !validateForm().get('passportExpiryDate').value
                   
                     ">
