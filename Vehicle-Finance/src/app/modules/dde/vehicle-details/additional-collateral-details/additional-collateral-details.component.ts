@@ -304,6 +304,7 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
             key: "5RELATION",
             value: "Self"
         }]
+
         let lovOfRelationship = this.LOV.relationship.filter((data) => data.key !== "5RELATION")
 
         if (this.collateralType === 'PROPADDCOLTYP') {
@@ -320,11 +321,15 @@ export class AdditionalCollateralComponent implements OnInit, OnDestroy {
             details.get('propertyOwnerType').disable()
         }
 
-        this.LOV.relationLov = this.typeOfApplicant ? this.typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship
-            : this.LOV.relationship;
+        let relationLov = [{
+            key: this.typeOfApplicant ? this.typeOfApplicant.relationWithApplicant : '',
+            value: this.typeOfApplicant ? this.typeOfApplicant.relationWithApplicantDesc : ''
+        }]
 
+        // this.typeOfApplicant['applicantType'] === "Applicant" ? lovOfSelf : lovOfRelationship
+
+        this.LOV.relationLov = this.typeOfApplicant && this.typeOfApplicant.relationWithApplicant ? relationLov : this.LOV.relationship;
         details.get('relationWithApplicant').setValue(this.LOV.relationLov[0].key)
-
     }
 
     setFormValue(id) {

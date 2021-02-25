@@ -918,8 +918,10 @@
                                     <label for="body_cost">{{label.bodyCost}}</label>
 
                                     <app-custom-input formControlName="bodyCost" [className]="'form-control mandatory'"
+                                    (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                         [type]="label.validationData?.amountValue.type"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
+                                        [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Body Cost Required'"
                                         [placeholder]="'Body Cost'" [id]="'body_cost'" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>

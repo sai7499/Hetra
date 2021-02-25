@@ -365,12 +365,12 @@ export class ReferenceCheckComponent implements OnInit {
 
   public initRows(index: number) {
     return this.fb.group({
-      typeReference: new FormControl('', [Validators.required]),
-      companyName: new FormControl('', [Validators.required]),
-      officerName: new FormControl('', [Validators.required]),
-      designation: new FormControl('', [Validators.required]),
-      teleNo: new FormControl('', [Validators.required]),
-      comments: new FormControl('', [Validators.required]),
+      typeReference: new FormControl(''),
+      companyName: new FormControl(''),
+      officerName: new FormControl(''),
+      designation: new FormControl(''),
+      teleNo: new FormControl(''),
+      comments: new FormControl(''),
       id: 0,
       applicantId: this.applicantId,
     });
@@ -589,10 +589,10 @@ export class ReferenceCheckComponent implements OnInit {
 
     if (this.referenceCheckForm.valid && isUdfField) {
 
-      if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
-        this.toasterService.showWarning('atleast one market and finance reference required', '');
-        return;
-      }
+      // if (this.allowSave !== true && this.productCatCode === 'NCV' && this.applicantType === 'APPAPPRELLEAD') {
+      //   this.toasterService.showWarning('atleast one market and finance reference required', '');
+      //   return;
+      // }
 
       const referenceCheckModel = { ...formModel };
       this.refCheckDetails = {
