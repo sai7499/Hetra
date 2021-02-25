@@ -1,17 +1,8 @@
 <!-- <div class="content"> -->
 <div class="content">
-<form class="multisteps-form__form " style="height:200px"  method="post">
+<form class="multisteps-form__form"  method="post">
     <div class="multisteps-form__panel js-active" data-animation="scaleIn">
         <div class="">
-            <div class="btn-sec clear-both row">
-                <!-- <div class="col-sm-5">
-                        <h3 class="title"> {{ labels.flAndpdTitle }} </h3>
-                    </div> -->
-                <div class="col-sm-7 text-right">
-                    <!-- <button class="btn btn-secondary mar-right8" type="button" onclick="add_applicant();"> Add Applicant </button> -->
-                    <!-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#add_guarantor"> Add Guarantor </button> -->
-                </div>
-            </div>
             <div class="row">
                 <h3 class="banner-con">{{fiCumPdStatusString == 'true' ? 'FI cum PD Dashboard' : 'PD Dashboard'}}
                     <span class="float-right">{{udfScreenId}}</span>
@@ -158,7 +149,7 @@
             </div>
         </div>
     </div>
-    <div class="btn-sec clear-both" *ngIf="show">
+    <div class="btn-sec clear-both row" *ngIf="show">
         <div class="col-sm-5"></div>
         <div class="col-sm-7 text-right cst_btm_btns">
     

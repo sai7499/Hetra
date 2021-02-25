@@ -364,7 +364,6 @@ export class PersonalDetailsComponent implements OnInit {
     let noofmonths = '';
     let noofyears = ''
     if (personalPDDetais.noOfYearsResidingInCurrResidence) {
-
       noofmonths = String(Number(personalPDDetais.noOfYearsResidingInCurrResidence) % 12) || '';
       noofyears = String(Math.floor(Number(personalPDDetais.noOfYearsResidingInCurrResidence) / 12)) || '';
     }
@@ -477,6 +476,7 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onFormSubmit(url: string) {
+    this.isDirty = true;
 
     let formValue = this.personalDetailsForm.getRawValue();
     formValue.applicantName = formValue.firstName + ' ' + formValue.middleName + ' ' + formValue.lastName;
@@ -511,7 +511,7 @@ export class PersonalDetailsComponent implements OnInit {
           }
         ]
       };
-
+      this.isDirty = false;
       this.personaldiscussion.saveOrUpdatePdData(data).subscribe((value: any) => {
 
         if (value.Error === '0' && value.ProcessVariables.error.code === '0') {
@@ -524,7 +524,6 @@ export class PersonalDetailsComponent implements OnInit {
       })
 
     } else {
-      this.isDirty = true;
       this.toasterService.showError('Please enter valid details', 'Personal Details');
       this.utilityService.validateAllFormFields(this.personalDetailsForm);
     }
