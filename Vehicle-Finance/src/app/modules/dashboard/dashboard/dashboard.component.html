@@ -6,7 +6,7 @@
         <div class="pull-right dropdown nav">
             <div class="pull-right dropdown nav">
 
-                <button *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
+                <button
                     class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
                     {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
             </div>
@@ -33,7 +33,7 @@
 
     <!-- Filter Form Starts -->
     <div class="filter-block container-fluid mar-bottom"
-        *ngIf="showFilter && (displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab)">
+        *ngIf="showFilter">
         <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab">
             <form [formGroup]="filterForm">
                 <div class="row">
@@ -44,7 +44,7 @@
                             [type]="validationData?.extn.type">
                         </app-custom-input>
                     </div>
-                    <div *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab"
+                    <div *ngIf="(displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab) || displayTabs?.ChequeTracking === activeTab"
                         class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="leadId">{{labels?.loanNumber}}</label>
                         <app-custom-input id="leadId" formControlName="loanNumber" [className]="'form-control'"
@@ -198,6 +198,10 @@
                 (click)="onLeads(displayTabs?.TranchesDisburse, displayTabs?.TrancheDisburseWithBranch)"
                 [ngClass]="{'active':displayTabs?.TranchesDisburse === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Tranche Disbursement</a></li>
+            <li class="btn-dash" (click)="onLeads(displayTabs?.VehicleValuvator, displayTabs?.VehicleValuvatorWithMe)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvator === activeTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Vehicle Valuation</a>
+                        </li>
 
         </ul>
     </div>
@@ -301,6 +305,16 @@
                 [ngClass]="{'active':displayTabs?.TrancheDisburseReversedWithMe === subActiveTab}"
                 routerLinkActive="active"><a data-toggle="tab">Pending Curing With Me</a></li>
         </ul>
+        <ul *ngIf="displayTabs?.VehicleValuvator === activeTab" class="nav nav-pills nav-justified"
+            id="background_white">
+            <li class="btn-dash" class="active" (click)="leads(displayTabs?.VehicleValuvatorWithMe)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvatorWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab"> Leads with {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.VehicleValuvatorWithBranch)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvatorWithBranch === subActiveTab}"
+                routerLinkActive="active"><a data-toggle="tab">Leads with Branch</a></li>
+
+        </ul>
 
     </div>
     <!-- Sales Dashboard Ends -->
@@ -329,6 +343,13 @@
                 [ngClass]="{'active':displayTabs?.TermSheet === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Term
                     Sheet</a></li>
+            <li class="btn-dash" (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)"
+                [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a
+                   data-toggle="tab">PDD</a></li>
+            <li class="btn-dash" (click)="onLeads(displayTabs?.VehicleValuvator, displayTabs?.VehicleValuvatorWithMe)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvator === activeTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Vehicle Valuation</a>
+                    </li>
         </ul>
     </div>
 
@@ -388,6 +409,24 @@
             <li class="btn-dash" (click)="leads(displayTabs?.TermSheetWithBranch)"
                 [ngClass]="{'active':displayTabs?.TermSheetWithBranch === subActiveTab}" routerLinkActive="active"><a
                     data-toggle="tab">Termsheet With Branch</a></li>
+        </ul>
+        <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li class="btn-dash" (click)="leads(displayTabs?.PDDWithMe)"
+                [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Leads with {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.PDDWithBranch)"
+                [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Leads with Branch</a></li>
+        </ul>
+        <ul *ngIf="displayTabs?.VehicleValuvator === activeTab" class="nav nav-pills nav-justified"
+            id="background_white">
+            <li class="btn-dash" class="active" (click)="leads(displayTabs?.VehicleValuvatorWithMe)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvatorWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab"> Leads with {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.VehicleValuvatorWithBranch)"
+                [ngClass]="{'active':displayTabs?.VehicleValuvatorWithBranch === subActiveTab}"
+                routerLinkActive="active"><a data-toggle="tab">Leads with Branch</a></li>
+
         </ul>
 
     </div>
@@ -852,9 +891,9 @@
                                 displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.leadId
                                     ? item.leadId : '--'}}</a> -->
                             </td>
-                            <td *ngIf="displayTabs?.PDDforCPC === activeTab && (!onReleaseTab && onAssignTab)"
+                            <td *ngIf="displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithBranch === subActiveTab"
                                 [attr.data-label]="labels?.loanNumber">
-                                <a>{{item.loanNumber}}</a>
+                                <a>{{item.loanNumber ? item.loanNumber : '--'}}</a>
                             </td>
                             <td *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab"
                                 [attr.data-label]="labels?.loanNumber">
@@ -866,10 +905,10 @@
                                 <a *ngIf="(displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.loanNumber
                                     ? item.loanNumber : '--'}}</a>
                             </td>
-                            <td *ngIf="displayTabs?.PDDforCPC === activeTab && (onReleaseTab && !onAssignTab)"
+                            <td *ngIf="displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithMe === subActiveTab"
                                 [attr.data-label]="labels?.loanNumber"><a class="text-underline"
                                     style="cursor: pointer;"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber}}</a>
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber ? item.loanNumber : '--'}}</a>
                             </td>
                             <!-- <td *ngIf="displayTabs?.PDDforCPC === activeTab" [attr.data-label]="labels?.loanNumber"
                 class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)"><a

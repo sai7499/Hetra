@@ -131,6 +131,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   loanDetails: boolean;
   loanAccountDetails: any;
 
+  proformaMaxDate: Date = new Date();
+  proformaMinDate: Date = new Date();
+
   constructor(
     private _fb: FormBuilder, private toggleDdeService: ToggleDdeService,
     private loginStoreService: LoginStoreService, private labelsData: LabelsService,
@@ -205,6 +208,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     }
 
     this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt;
+    this.getProformaDateValidation()
   }
 
   getLeadSectionData() {
@@ -235,6 +239,24 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       }
     })
+  }
+
+  getProformaDateValidation() {
+    let leadCreateDate = this.leadDetails['leadCreatedOn'];
+    let LeadDate = new Date(leadCreateDate.split(' ')[0]);
+    var day = LeadDate.getDate();
+    var month = LeadDate.getMonth();
+    var year = LeadDate.getFullYear();
+    this.proformaMaxDate = new Date(year, month, day, 0, 0);
+    
+    let leadCreatedDateFromLead = new Date(year, month, day, 0, 0);
+    leadCreatedDateFromLead.setDate(leadCreatedDateFromLead.getDate() - 30);
+    // var dateString = leadCreatedDateFromLead.toISOString().split('T')[0];
+
+    var minDay = leadCreatedDateFromLead.getDate();
+    var minMonth = leadCreatedDateFromLead.getMonth();
+    var minYear = leadCreatedDateFromLead.getFullYear();
+    this.proformaMinDate = new Date(minYear, minMonth, minDay, 0, 0);
   }
 
   onGetMarginAmount(value, form) {
@@ -371,7 +393,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.getDynamicFormControls(details)
     }
 
-    if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
+    if (this.productCatoryCode !== 'NCV') {
       this.isChildLoan === true ? details.get('vehicleRegNo').disable() : details.get('vehicleRegNo').enable()
     }
   }
@@ -492,6 +514,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       let others = form.controls.others ? Number(form.controls.others.value) : 0;
       let discount = form.controls.discount.value ? Number(form.controls.discount.value) : 0;
       let amcAmount = form.controls.amcAmount.value ? Number(form.controls.amcAmount.value) : 0;
+      let bodyCost = form.controls.bodyCost.value ? Number(form.controls.bodyCost.value) : 0;
 
       if (value === '1') {
 
@@ -515,14 +538,18 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         form.get('discount').setValidators([Validators.required]);
         form.get('discount').updateValueAndValidity();
 
-        form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
-        form.get('oneTimeTax').setValue(oneTimeTax === 0 ? '' : oneTimeTax + '');
-        form.get('others').setValue(others === 0 ? '' : others + '');
-        form.get('amcAmount').setValue(amcAmount === 0 ? '' : amcAmount + '');
-        form.get('discount').setValue(discount === 0 ? '' : discount + '');
+        form.get('bodyCost').enable();
+        form.get('bodyCost').setValidators(Validators.required);
+        form.get('bodyCost').updateValueAndValidity();
+
+        // form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
+        // form.get('oneTimeTax').setValue(oneTimeTax === 0 ?  '' : oneTimeTax + '');
+        // form.get('others').setValue(others === 0 ?  '' : others + '');
+        // form.get('amcAmount').setValue(amcAmount === 0 ?  '' : amcAmount + '');
+        // form.get('discount').setValue(discount === 0 ? '' : discount + '');
 
         if (exShowRoomCost >= discount) {
-          let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount) - discount;
+          let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount + bodyCost) - discount;
           this.onPatchFinalAssetCost(costValue)
           this.basicVehicleForm.patchValue({
             isVaildFinalAssetCost: true
@@ -692,7 +719,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleOwnerShipNumber: VehicleDetail.vehicleOwnerShipNumber || null,
       vehiclePurchasedCost: VehicleDetail.vehiclePurchasedCost || null,
       vehicleRegDate: VehicleDetail.vehicleRegDate ? this.utilityService.getDateFromString(VehicleDetail.vehicleRegDate) : '',
-      vehicleRegNo: VehicleDetail.vehicleRegNo || '',
+      vehicleRegNo: VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo.toUpperCase() : '',
       vehicleType: VehicleDetail.vehicleTypeUniqueCode || '',
       ownerMobileNo: VehicleDetail.ownerMobileNo || null,
       address: VehicleDetail.address || '',
@@ -703,7 +730,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       assetCostGrid: VehicleDetail.assetCostGrid || null,
       userId: this.userId
     })
-    this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo : '';
+    this.vehicleRegNoChange = VehicleDetail.vehicleRegNo ? VehicleDetail.vehicleRegNo.toUpperCase() : '';
     VehicleDetail.vehicleId ? this.getSchemeData(formArray.controls[0]) : '';
 
     this.udfDetails = VehicleDetail.udfDetails ? VehicleDetail.udfDetails : [];
@@ -1164,9 +1191,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     });
 
     if (this.Product !== 'TyreLoan') {
-      controls.addControl('invoiceAmount', this._fb.control(null))
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
+      controls.addControl('invoiceAmount', this._fb.control('', Validators.required))
+      controls.addControl('invoiceNumber', this._fb.control('', Validators.required))
+      controls.addControl('invoiceDate', this._fb.control('', Validators.required))
     }
 
     formArray.push(controls);
@@ -1215,9 +1242,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       userId: this.userId
     })
     if (this.Product !== 'TyreLoan') {
-      controls.addControl('invoiceAmount', this._fb.control(null))
-      controls.addControl('invoiceNumber', this._fb.control(null))
-      controls.addControl('invoiceDate', this._fb.control(''))
+      controls.addControl('invoiceAmount', this._fb.control(null, Validators.required))
+      controls.addControl('invoiceNumber', this._fb.control(null, Validators.required))
+      controls.addControl('invoiceDate', this._fb.control('', Validators.required))
     }
 
     formArray.push(controls);
@@ -1453,7 +1480,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   getparentLoanAccountNumber(obj) {
 
     let childData = {
-      vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value
+      vehicleRegistrationNumber: obj.controls['vehicleRegNo'].value.toUpperCase()
     }
 
     this.basicVehicleForm.patchValue({
@@ -1509,7 +1536,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         this.toasterService.showInfo(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
       }
 
-      this.vehicleRegNoChange = obj.controls['vehicleRegNo'].value
+      this.vehicleRegNoChange = obj.controls['vehicleRegNo'].value.toUpperCase()
 
     })
   }
@@ -1616,7 +1643,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.id
 
     let data = {
-      'vehicleRegNo': details.get('vehicleRegNo').value,
+      'vehicleRegNo': details.get('vehicleRegNo').value.toUpperCase(),
       'parentLoanAccountNumber': details.get('parentLoanAccountNumber').value,
       "checkDedupe": true,
       "udfDetails": [
@@ -1641,9 +1668,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       let VehicleDetail = res.ProcessVariables ? res.ProcessVariables : {};
 
       this.vehicleLov.assetModel = [{
-          key: VehicleDetail.vehicleModelCode,
-          value: VehicleDetail.vehicleModel + ' - ' + VehicleDetail.vehicleModelCode
-        }]
+        key: VehicleDetail.vehicleModelCode,
+        value: VehicleDetail.vehicleModel + ' - ' + VehicleDetail.vehicleModelCode
+      }]
 
       this.vehicleLov.assetVariant = [{
         key: VehicleDetail.assetVarient,
@@ -1719,8 +1746,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
         data.manuFacMonthYear = this.utilityService.convertDateTimeTOUTC(data.manuFacMonthYear, 'DD/MM/YYYY');
 
-        if (this.productCatoryCode === 'UCV' || this.productCatoryCode === 'UC' || this.productCatoryCode === 'UTCR') {
-
+        if (this.productCatoryCode !== 'NCV') {
+          data.vehicleRegNo = data.vehicleRegNo ? data.vehicleRegNo.toUpperCase() : '';
           data.ageOfAsset = data.ageOfAsset ? data.ageOfAsset.split(' ')[0] : '';
           data.ageAfterTenure = data.ageAfterTenure ? data.ageAfterTenure.split(' ')[0] : '';
           if (url.includes('dde') && data.expectedNOCDate) {

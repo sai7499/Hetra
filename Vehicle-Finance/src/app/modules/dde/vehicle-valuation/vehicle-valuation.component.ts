@@ -10,6 +10,7 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ToggleDdeService } from '@services/toggle-dde.service';
 import { LoanViewService } from '@services/loan-view.service';
 import { LoginStoreService } from '@services/login-store.service';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -52,6 +53,13 @@ export class VehicleValuationComponent implements OnInit {
   roleType: any;
   extValuator: boolean;
   @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
+  branchDetails: any;
+  valuatorSelect = true;
+  userDetails: any;
+  keyValue: any;
+  getBranchDetails: any;
+  isInternalValuator: any;
+  version: any = [];
 
   constructor(
     private labelsData: LabelsService,
@@ -65,6 +73,7 @@ export class VehicleValuationComponent implements OnInit {
     private toggleDdeService: ToggleDdeService,
     private loanViewService: LoanViewService,
     private loginStoreService: LoginStoreService,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -74,8 +83,8 @@ export class VehicleValuationComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-
-    if (this.roleId === 86) {
+    const url = this.location.path();
+    if (this.roleId === 86 || !url.includes('dde')) {
       this.extValuator = true;
     } else {
       this.extValuator = false;
@@ -120,8 +129,11 @@ export class VehicleValuationComponent implements OnInit {
 
   initForm() {
     this.modalDataForm = this.formBuilder.group({
-      remarks: ['', [Validators.required]],
-      valuatorCode: ['', [Validators.required]]
+      remarks: [''],
+      valuatorCode: [''],
+      isInternalValuation: [''],
+      branchName: [''],
+      internalValuationUser: ['']
     });
   }
 
@@ -131,6 +143,8 @@ export class VehicleValuationComponent implements OnInit {
       subscribe((res: any) => {
         const response = res;
         this.collateralDetailsData = response.ProcessVariables.collateralDetails;
+        this.version = response.ProcessVariables.vehicleValuationVersionList;
+        console.log(this.version, 'after')
         if (this.collateralDetailsData) {
           this.collateralDetailsData.forEach((element) => {
             this.colleteralId = element.collateralId;
@@ -173,9 +187,14 @@ export class VehicleValuationComponent implements OnInit {
   }
 
   getVendorCode() {
-    this.vehicleValuationService.getVendorCode().subscribe((res: any) => {
+    const data  = {
+      leadId: this.leadId
+    }
+    this.vehicleValuationService.getVendorCode(data).subscribe((res: any) => {
 
       this.vendorDetails = res.ProcessVariables.vendorDetails;
+      this.branchDetails = res.ProcessVariables.branchDetails;
+      this.isInternalValuator = res.ProcessVariables.isInternalValuation;
       this.vendorDetails.filter((element) => {
         const data = {
           key: element.vendorCode,
@@ -184,6 +203,70 @@ export class VehicleValuationComponent implements OnInit {
         this.vendorDetailsData.push(data);
       });
     });
+  }
+
+  onBankNameClear(val) {
+    this.modalDataForm.patchValue({
+      internalValuationUser: '',
+    })
+    this.userDetails = [];
+  }
+
+  onSelectValuator(event) {
+    console.log(event, 'event');
+    if (event == 'internal') {
+      this.modalDataForm.get('isInternalValuation').setValue(true);
+      this.modalDataForm.get('valuatorCode').setValue(null);
+      this.modalDataForm.get('branchName').setValidators(Validators.required);
+      this.modalDataForm.get('internalValuationUser').setValidators(Validators.required);
+      this.modalDataForm.get('valuatorCode').clearValidators();
+      this.modalDataForm.get('valuatorCode').updateValueAndValidity();
+    } else if(event == 'external') {
+      this.modalDataForm.get('isInternalValuation').setValue(false);
+      this.modalDataForm.get('internalValuationUser').setValue(null);
+      this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
+      this.modalDataForm.get('branchName').clearValidators();
+      this.modalDataForm.get('internalValuationUser').clearValidators();
+      this.modalDataForm.get('valuatorCode').updateValueAndValidity();
+    }
+  }
+
+  onChangeBranchName(event) {
+    console.log(event);
+    
+    this.getUserByBranch();
+  }
+
+  getUserByBranch() {
+    const data = {
+      branchId: Number(this.modalDataForm.get('branchName').value)
+    }
+    this.vehicleValuationService.getUserByBranch(data).subscribe((res: any) => {
+      this.getBranchDetails = res.ProcessVariables.users;
+      console.log(this.userDetails);
+      
+      
+    })
+  }
+
+  onBankNameSearch(val) {
+    if (val && val.trim().length > 0) {
+      this.userDetails = this.getBranchDetails.filter(e => {
+        let myVal = val.toString().toLowerCase();
+        const eName = e.value.toString().toLowerCase();
+        if (eName.includes(myVal)) {
+          return e;
+        }
+      });
+    }
+  }
+
+  selectBankNameEvent(val: any) {
+    console.log(val, 'val')
+    this.keyValue = val;
+    this.modalDataForm.patchValue({
+      internalValuationUser: val['value']
+    })
   }
 
   onChangeVendorName(event: any) {
@@ -195,16 +278,37 @@ export class VehicleValuationComponent implements OnInit {
     });
   }
 
+
   initiateVehicleValuation() {
     // this.isDirty = true;
+    if(this.modalDataForm.get('isInternalValuation').value == '0') {
+      this.modalDataForm.patchValue({
+        internalValuationUser: '',
+      })
+    } else {
+      this.modalDataForm.patchValue({
+        internalValuationUser: this.keyValue.key ? this.keyValue.key : '' ,
+      })
+    }
+    this.modalDataForm.get('isInternalValuation').value
+    console.log( this.modalDataForm.get('isInternalValuation').value);
+    
+    // this.modalDataForm.patchValue({
+    //   internalValuationUser: this.keyValue.key ? this.keyValue.key : '' ,
+      
+    // })
     const formValues = this.modalDataForm.getRawValue();
+
+    formValues.isInternalValuation == 1 ? formValues.isInternalValuation = true : false;
+    formValues.isInternalValuation == 0 ? formValues.isInternalValuation = false : true;
 
     const data = {
       userId: localStorage.getItem('userId'),
       collateralId: this.colleteralId,
       ...formValues
     };
-
+    console.log(data);
+    
     // if (this.modalDataForm.valid === true) {
       this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
         const response = res;
@@ -232,14 +336,16 @@ export class VehicleValuationComponent implements OnInit {
 
   }
 
-  onClickValuationReport(status, collateralId) {
-    console.log('COLLATERAL_ID::', collateralId);
+  onClickValuationReport(status, collateralId, extValuator: boolean, version?) {
+    console.log(version,'COLLATERAL_ID::', collateralId);
     this.colleteralId = collateralId;
     console.log('vStatus', status);
     const data = this.collateralDetailsData.find((element) => {
       return element.collateralId === collateralId;
     });
 
+    this.sharedService.setValuationType(extValuator);
+    
     if (status == 'NOT INITIATED') {
       this.regNo = data.regNo;
       this.make = data.make;
@@ -252,7 +358,11 @@ export class VehicleValuationComponent implements OnInit {
       this.address = data.address;
     } else {
       this.isModal = false;
+      if (version) {
+        this.sharedService.getversion({'version': version, 'versionArray': this.version})
+      }
       this.router.navigateByUrl(`/pages/vehicle-valuation/${this.leadId}/valuation/${collateralId}`);
+
     }
   }
 
@@ -263,6 +373,8 @@ export class VehicleValuationComponent implements OnInit {
 
   okModal() {
     this.isDirty = true;
+    console.log(this.modalDataForm);
+    
     if(this.modalDataForm.valid === true) {
       this.closeModal1.nativeElement.click();
     this.isOk = true;

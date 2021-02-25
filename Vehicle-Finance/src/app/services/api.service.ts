@@ -1186,6 +1186,11 @@ export class ApiService {
       workflowId: 'e9e298f65a2011eb920200505695f93b',
       processId: '603b2d5a60ad11eb98bc00505695f93b',
       projectId: environment.projectIds.camProjectId
+    },
+    getUserByBranch: {
+      workflowId: '238f7d8c750e11eb962e00505695f93b',
+      processId: '2c33335c751311eb905200505695f93b',
+      projectId: environment.projectIds.camProjectId
     }
   };
 }

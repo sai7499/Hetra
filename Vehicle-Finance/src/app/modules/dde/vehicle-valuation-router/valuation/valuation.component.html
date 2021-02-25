@@ -16,14 +16,12 @@
             <div class="row">
               <div class="form-group col-sm-4 col-md-4 col-lg-3">
                 <label for="valuator_type">{{ labels.valuatorType }}</label>
-                <app-custom-input  formControlName="valuatorType"
-                  [placeholder]="'Valuator Type'">
+                <app-custom-input formControlName="valuatorType" [placeholder]="'Valuator Type'">
                 </app-custom-input>
               </div>
               <div class="form-group col-sm-4 col-md-4 col-lg-3">
                 <label for="valuator_code">{{ labels.valuatorCode }}</label>
-                <app-custom-input formControlName="valuatorCode"
-                  [placeholder]="'Valuator Code'">
+                <app-custom-input formControlName="valuatorCode" [placeholder]="'Valuator Code'">
                 </app-custom-input>
               </div>
               <div class="col-sm-4 report-align">
@@ -41,36 +39,35 @@
                   <label for="valuator_name">{{
                     labels.nameOfVehicleOwner
                     }}</label>
-                  <app-custom-input formControlName="vehicleOwnerName"
-                    [className]="'form-control mandatory'" [placeholder]="'Name of Vehicle Owner/Dealer/Driver'">
+                  <app-custom-input formControlName="vehicleOwnerName" [className]="'form-control mandatory'"
+                    [placeholder]="'Name of Vehicle Owner/Dealer/Driver'">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="valuator_name">{{
                     labels.mobileNumberOfVehicle
                     }}</label>
-                  <app-custom-input formControlName="vehicleOwnerMobile"
-                    [className]="'form-control mandatory'" [placeholder]="'Mobile Number of Vehicle Owner/Dealer/Driver'">
+                  <app-custom-input formControlName="vehicleOwnerMobile" [className]="'form-control mandatory'"
+                    [placeholder]="'Mobile Number of Vehicle Owner/Dealer/Driver'">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="valuator_name">{{ labels.vehicleAddress }}</label>
-                  <app-custom-input formControlName="vehicleAddress"
-                    [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'">
+                  <app-custom-input formControlName="vehicleAddress" [className]="'form-control mandatory'"
+                    [placeholder]="'Vehicle Address'">
                   </app-custom-input>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="valuator_name">{{ labels.vehiclePinCode }}</label>
-                  <app-custom-input formControlName="pincode"
-                    [className]="'form-control mandatory'" [placeholder]="'Vehicle Pincode'">
+                  <app-custom-input formControlName="pincode" [className]="'form-control mandatory'"
+                    [placeholder]="'Vehicle Pincode'">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
                   <label for="valuator_name">{{ labels.valuatorName }}</label>
-                  <app-custom-input formControlName="valuatorName"
-                    [placeholder]="'Valuator Name'">
+                  <app-custom-input formControlName="valuatorName" [placeholder]="'Valuator Name'">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -97,7 +94,8 @@
                   </label>
                   <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Ref No. '"
                     formControlName="valuatorRefNo" [maxLength]="labels?.validationData?.valuationRefNo.maxLength"
-                    [isRequired]="'Reference no is Required'" [isDirty]="isDirty" [type]="labels?.validationData?.valuationRefNo.type">
+                    [isRequired]="'Reference no is Required'" [isDirty]="isDirty"
+                    [type]="labels?.validationData?.valuationRefNo.type">
                   </app-custom-input>
                 </div>
 
@@ -266,8 +264,8 @@
                     {{ labels.typeOfBody }} <sub class="star_red_col">*</sub>
                   </label>
 
-                  <app-vf-custom-select [values]="vehicleType" [id]="'vechical_type'"
-                    formControlName="vehicleType" [isRequired]="'Vehicle Type is Required'" (change)="
+                  <app-vf-custom-select [values]="vehicleType" [id]="'vechical_type'" formControlName="vehicleType"
+                    [isRequired]="'Vehicle Type is Required'" (change)="
                       onVehicleType($event.target.value, vehicleValuationForm)
                     " [isDirty]="isDirty">
                   </app-vf-custom-select>
@@ -288,8 +286,8 @@
                   <label for="asset_model">{{ labels.model }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="vehicleModelCode" [id]="'asset_model'"
-                    formControlName="assetModel" [isRequired]="'Model is Required'" (change)="
+                  <app-vf-custom-select [values]="vehicleModelCode" [id]="'asset_model'" formControlName="assetModel"
+                    [isRequired]="'Model is Required'" (change)="
                       onAssetModel($event.target.value, vehicleValuationForm)
                     " [isDirty]="isDirty">
                   </app-vf-custom-select>
@@ -297,7 +295,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                  <label for="version">Variant (Eg:petrol)
+                  <label for="version">Variant
                     <sub class="star_red_col">*</sub>
                   </label>
                   <!-- <app-vf-custom-select
@@ -387,9 +385,8 @@
                   <label for="version">{{ labels.vehicleUsedFor }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select formControlName="vehicleUsedFor" [values]="vehicleUsedFor"
-                    [isDirty]="isDirty" [isRequired]="'Please Select One Option'"
-                    [isDisabled]="disableForm?true : false">
+                  <app-vf-custom-select formControlName="vehicleUsedFor" [values]="vehicleUsedFor" [isDirty]="isDirty"
+                    [isRequired]="'Please Select One Option'" [isDisabled]="disableForm?true : false">
                   </app-vf-custom-select>
                 </div>
                 <!-- <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -462,7 +459,7 @@
                     [minLength]="labels.validationData?.vehicleRegNo.minLength"
                     [maxLength]="labels?.validationData?.vehicleRegNo.maxLength"
                     [type]="labels?.validationData?.vehicleRegNo.type" [custom]="vehicleRegPattern" [isRequired]="
-                      isPreRegNoRequired ? 'Registration no is Required' : ''" [isDirty]="isDirty" >
+                      isPreRegNoRequired ? 'Registration no is Required' : ''" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
               </div>
@@ -704,8 +701,8 @@
                   <label for="seating_capacity">{{ labels.seatingCapacity }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <app-custom-input formControlName="seatingCapacity" [custom]="initalZeroCheck" [className]="'form-control mandatory'"
-                    [placeholder]="'Seating Capacity'" [maxLength]="
+                  <app-custom-input formControlName="seatingCapacity" [custom]="initalZeroCheck"
+                    [className]="'form-control mandatory'" [placeholder]="'Seating Capacity'" [maxLength]="
                       labels?.validationData?.seatingCapacity.maxLength
                     " [isRequired]="'Seating Capacity is Required'"
                     [type]="labels?.validationData?.seatingCapacity.type" [isDirty]="isDirty">
@@ -715,8 +712,9 @@
                   <label for="cubic_capacity">{{ labels.cubicCapacity }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <app-custom-input formControlName="cubicCapacity" [custom]="initalZeroCheck" [className]="'form-control mandatory'"
-                    [placeholder]="'Cubic Capacity'" [maxLength]="labels?.validationData?.cubicCapacity.maxLength"
+                  <app-custom-input formControlName="cubicCapacity" [custom]="initalZeroCheck"
+                    [className]="'form-control mandatory'" [placeholder]="'Cubic Capacity'"
+                    [maxLength]="labels?.validationData?.cubicCapacity.maxLength"
                     [isRequired]="'Cubic Capacity is Required'" [type]="labels?.validationData?.cubicCapacity.type"
                     [isDirty]="isDirty">
                   </app-custom-input>
@@ -771,9 +769,9 @@
                   <label for="permit_status">{{ labels.permitStatus }}
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="permitStatus" formControlName="permitStatus"
-                    [isDirty]="isDirty" [isRequired]="'Please Select One Option'"
-                    (change)="onPermitChange($event.target.value)" [isDisabled]="disableForm ? true : false">
+                  <app-vf-custom-select [values]="permitStatus" formControlName="permitStatus" [isDirty]="isDirty"
+                    [isRequired]="'Please Select One Option'" (change)="onPermitChange($event.target.value)"
+                    [isDisabled]="disableForm ? true : false">
                   </app-vf-custom-select>
                 </div>
 
@@ -781,8 +779,8 @@
                   <label for="permit_date">{{ labels.permitDate }}
                     <sub class="star_blue_col">*</sub></label>
                   <kendo-datepicker width="100%" formControlName="permitValidUpto" class="form-control mandatory"
-                    [format]="'dd/MM/yyyy'" [max]="permitMaxDate" [min]="permitMinDate" placeholder="dd/mm/yyyy" [activeView]="'decade'"
-                    (valueChange)="validatePermitDate()">
+                    [format]="'dd/MM/yyyy'" [max]="permitMaxDate" [min]="permitMinDate" placeholder="dd/mm/yyyy"
+                    [activeView]="'decade'" (valueChange)="validatePermitDate()">
                   </kendo-datepicker>
                   <div class="invalid-feedback">
                     <div *ngIf="
@@ -791,7 +789,8 @@
                       ">
                       Invalid Date
                     </div>
-                    <div *ngIf="permitRequired && vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').hasError('required')">
+                    <div
+                      *ngIf="permitRequired && vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').hasError('required')">
                       Permit Valid upto date is required
                     </div>
                   </div>
@@ -830,8 +829,7 @@
                   </label>
                   <app-custom-input formControlName="taxPaid" [className]="'form-control mandatory'"
                     [placeholder]="'Tax Paid'" [maxLength]="labels?.validationData?.idv.maxLength"
-                    [type]="labels?.validationData?.idv.type" 
-                    (change)="taxPaidCheck()">
+                    [type]="labels?.validationData?.idv.type" (change)="taxPaidCheck()">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -905,7 +903,7 @@
                       ">
                       Insurance Valid from Date is Required
                     </div>
-                      <!-- <div *ngIf="
+                    <!-- <div *ngIf="
                           vehicleValuationForm.get('insuranceDetails').get('validFrom').value &&
                           vehicleValuationForm.get('insuranceDetails').get('validFrom').errors
                         ">
@@ -926,7 +924,7 @@
                       ">
                       Insurance Valid upto Date is Required
                     </div>
-                      <!-- <div *ngIf="
+                    <!-- <div *ngIf="
                           vehicleValuationForm.get('insuranceDetails').get('validUpto').value &&
                           vehicleValuationForm.get('insuranceDetails').get('validUpto').errors
                         ">
@@ -995,8 +993,8 @@
                   </label>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="currInvoiceValue"
                     [placeholder]="'current Invoice'" [maxLength]="labels?.validationData?.idv.maxLength" [isRequired]="
-                    currentInvoiceRequired ? 'Current invoice is Required' : ''" [type]="labels?.validationData?.idv.type" [isDirty]="isDirty"
-                    [isDisabled]="currentInvoiceDisabled">
+                    currentInvoiceRequired ? 'Current invoice is Required' : ''"
+                    [type]="labels?.validationData?.idv.type" [isDirty]="isDirty" [isDisabled]="currentInvoiceDisabled">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -1005,8 +1003,7 @@
                   </label>
                   <app-custom-input [className]="'form-control mandatory'" [placeholder]="'Original Invoice'"
                     formControlName="originalInvoice" [maxLength]="labels?.validationData?.idv.maxLength"
-                     [type]="labels?.validationData?.idv.type"
-                    >
+                    [type]="labels?.validationData?.idv.type">
                   </app-custom-input>
                 </div>
               </div>
@@ -1047,8 +1044,8 @@
                   </label>
                   <app-custom-input [className]="'form-control mandatory'" formControlName="majorRepairTillDate"
                     [placeholder]="'any major repairs'" [maxLength]="labels?.validationData?.company.maxLength"
-                    [type]="labels?.validationData?.company.type" [isRequired]="'Any Other Major Repairs is required'" [isDirty]="isDirty"
-                    [isDisabled]="disableForm ? true : false">
+                    [type]="labels?.validationData?.company.type" [isRequired]="'Any Other Major Repairs is required'"
+                    [isDirty]="isDirty" [isDisabled]="disableForm ? true : false">
                   </app-custom-input>
                 </div>
 
@@ -1066,27 +1063,28 @@
               <div class="row">
                 <div class="form-group col-sm-12 col-md-12 col-lg-12">
                   <label for="valuator_remarks">{{ labels?.remark }}
-                    <sub class="star_blue_col">*</sub>
                   </label>
                   <textarea class="form-control mandatory" name="valuatorRemarks" id="valuatorRemarks" cols="1" rows="3"
-                    placeholder="valuator remarks" formControlName="valuatorRemarks" [maxlength]="labels?.validationData.remarks.maxLength" 
-                    style="resize: none"></textarea>
+                    placeholder="valuator remarks" formControlName="valuatorRemarks"
+                    [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
                   <div class="invalid-feedback">
-                    <div *ngIf="
+                   
+                    <!-- <div *ngIf="
                         vehicleValuationForm.get('remarksDetails').get('valuatorRemarks')
                           .touched &&
                         !vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').valid
-                      ">
+                      "> -->
 
                       <!-- <div *ngIf="
                       vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').hasError('pattern')
                         ">
                         Special characters are not allowed
                       </div> -->
-                    </div>
-                    <div *ngIf="remarksRequired && vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').invalid">
+                    <!-- </div> -->
+                    <!-- <div
+                      *ngIf="remarksRequired && vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').invalid">
                       Remarks are required
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -1167,8 +1165,8 @@
                   <label for="rating">{{ labels.rating }}
                     <sub class="star_red_col">*</sub>
                   </label>
-                  <app-vf-custom-select [values]="conditionLov" formControlName="remarksRating" [isDirty]="isOnline ? isOnlinevariable : isDirty"
-                    [isRequired]="'Please Select One Option'">
+                  <app-vf-custom-select [values]="conditionLov" formControlName="remarksRating"
+                    [isDirty]="isOnline ? isOnlinevariable : isDirty" [isRequired]="'Please Select One Option'">
                   </app-vf-custom-select>
                 </div>
 
@@ -1177,8 +1175,7 @@
                     <sub *ngIf="!disableForm" class="star_red_col">*</sub>
                   </label>
                   <app-vf-custom-select formControlName="remarksRatingScale" [values]="remarksRatingScaleLov"
-                    [isDirty]="isOnline ? isOnlinevariable : isDirty" [isRequired]="'Please Select One Option'"
-                   >
+                    [isDirty]="isOnline ? isOnlinevariable : isDirty" [isRequired]="'Please Select One Option'">
                   </app-vf-custom-select>
                 </div>
 
@@ -1563,6 +1560,10 @@
             </div>
 
             <div class="col-sm-7 text-right">
+              <button *ngIf="!extValuator && showReInitiate" data-toggle="modal" data-target="#reInitiateModal"  class="btn btn-primary">
+                <a>{{ labels.reinitiate }}</a>
+              </button>
+              &nbsp;
               <button class="btn btn-primary js-btn-prev" type="button" (click)="onBack()">
                 {{ labels.back }}
               </button>
@@ -1621,3 +1622,178 @@
     </div>
   </div>
 </div>
+
+<div class="modal" id="reInitiateModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header table-head-bg">
+        <button type="button" (click)="isModal = false" class="close" data-dismiss="modal"
+          style="color: white; opacity: 1">
+          &times;
+        </button>
+        <!-- <button type="button" (click)="isModal = false" class="close" data-dismiss="modal">&times;</button> -->
+        <h4 class="modal-title">{{ labels.modalTitle1 }}</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <!-- <p>{{ labels.submitValuation }}</p> -->
+         <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+            <label for="registration_cost">
+              {{ labels.registrationNumber }}
+            </label>
+            <input id type="text" class="form-control" name="registration_number" id="registration_number"
+              required="required" [value]="vehicleValuationDetails.registrationNo | uppercase" disabled />
+          </div>
+
+          <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+            <label for="registration_cost"> {{ labels.make }}</label>
+            <input type="text" class="form-control" name="make" id="make" required="required" [value]="vehicleValuationDetails.vehicleMfr" disabled />
+          </div>
+          <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+            <label for="registration_cost"> {{ labels.model }} </label>
+            <input type="text" class="form-control" name="model" id="model" required="required" [value]="vehicleValuationDetails.vehicleModel"
+              disabled />
+          </div>
+          <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
+            <label for="registration_cost">{{ labels.address }}</label>
+            <!-- <input type="text" class="form-control" name="address" id="address" required="required" [value]="address"
+              disabled /> -->
+              <textarea class="form-control" name="address" [value]="vehicleValuationDetails.vehicleAddress" disabled>
+                </textarea>
+          </div>
+          <div>
+            <form class="multisteps-form__form" [formGroup]="modalDataForm">
+              <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
+                <label for="remarks">{{ labels.referenceRemarks }}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <textarea class="form-control" 
+                [maxlength]="labels?.validationData.remarks.maxLength" formControlName="remarks">
+                </textarea>
+                <div class="invalid-feedback">
+                </div>
+              </div>
+              <div *ngIf="isInternalValuator" class="col-sm-12 col-md-12 col-lg-12 row">
+                <div class="col-sm-4 col-md-4 col-lg-4 ">
+                  <label>
+                    <input type="radio" (change)="onSelectValuator($event.target.value)" name="isInternalValuation" formControlName="isInternalValuation" value="1"> Internal
+                  </label>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                  <label >
+                    <input type="radio" (change)="onSelectValuator($event.target.value)" name="isInternalValuation" formControlName="isInternalValuation" value="0"> External
+                  </label>
+                </div>
+                
+              </div>
+  
+              <div *ngIf="modalDataForm.get('isInternalValuation').value == '0' || !isInternalValuator" class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+                
+  
+                <label for="property_located_city">
+                  {{ labels.chooseValuator }}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="vendorDetailsData" formControlName="valuatorCode"
+                  [isRequired]="'Please Select One Option'" (change)="onChangeVendorName($event)" [isDirty]="isDirty">
+                </app-vf-custom-select>
+              </div>
+              <!--  -->
+              <div *ngIf="modalDataForm.get('isInternalValuation').value == '1' " class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+                
+  
+                <label for="property_located_city">
+                  Select Branch
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="branchDetails" formControlName="branchName"
+                  [isRequired]="'Please Select One Option'" (change)="onChangeBranchName($event.target.value)" [isDirty]="isDirty">
+                </app-vf-custom-select>
+              </div>
+              <div *ngIf="modalDataForm.get('isInternalValuation').value == '1' " class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+                
+                <label for="property_located_city">
+                  Select User
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <ng-autocomplete class="custom-select-box" [data]="userDetails" [searchKeyword]="'value'"
+                (selected)='selectBankNameEvent($event)' (inputChanged)='onBankNameSearch($event)'
+                (inputCleared)='onBankNameClear($event)'
+                [itemTemplate]="favBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="internalValuationUser"
+                [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="3">
+              </ng-autocomplete>
+              <!-- <div class="invalid-feedback">
+                <div *ngIf="modalDataForm.get('internalValuationUser').hasError('required') && isDirty"> User name
+                  required.</div>
+                <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
+                  required</div>
+              </div> -->
+              <ng-template #favBankNameTemplate let-item>
+                <a [innerHTML]="item.value"></a>
+              </ng-template>
+              <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+              </ng-template>
+              </div>
+              <!--  -->
+            </form>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary table-head-bg" data-toggle="modal"
+          data-target="#myModal_one" (click)="okModal()" id="model_ok">
+          {{ labels.ok }}
+        </button>
+        <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal1>
+          close</button>
+        <button type="button" (click)="closeModal()" class="btn btn-primary table-head-bg" data-dismiss="modal">
+          {{ labels.cancel }}
+        </button>
+      </div>
+
+      <!-- Modal footer -->
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal_one" role="dialog" *ngIf="isOk">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header table-head-bg">
+        <button type="button" (click)="closeModal()" class="close" data-dismiss="modal"
+          style="color: white; opacity: 1">
+          &times;
+        </button>
+        <h4 class="modal-title">{{ labels.modalTitle1 }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ labels.modalBody }} {{ vendorName }}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary table-head-bg" data-dismiss="modal" (click)="initiateVehicleValuation()" id="model_ok">
+          {{ labels.yes }}
+        </button>
+        <button type="button" (click)="closeModal()" class="btn btn-primary table-head-bg" data-dismiss="modal">
+          {{ labels.cancel }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div class="modal-footer text-center">
+  <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
+    (click)="submitValuationTask()">
+    {{ labels.yes }}
+  </button>
+  <button type="button" class="btn btn-danger" data-dismiss="modal">
+    {{ labels.cancel }}
+  </button>
+</div> -->
+

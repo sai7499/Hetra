@@ -71,7 +71,8 @@ export class PSLdataComponent implements OnInit {
   userDefineForm: any;
 
   isChildLoan: any;
-  productId: any
+  productId: any;
+  applicantDetails: any = [];
 
   constructor(private formBuilder: FormBuilder,
     private labelsData: LabelsService,
@@ -83,24 +84,19 @@ export class PSLdataComponent implements OnInit {
     private toasterService: ToasterService,
     private toggleDdeService: ToggleDdeService,
     private sharedService: SharedService,
-    private loanViewService: LoanViewService) {
-
-    // this.isValidMobileNumber = this.onValidMobileNumber()
-  }
+    private loanViewService: LoanViewService) { }
 
   ngOnInit() {
     this.initForm();
     this.getLabels();
-    this.getLOV();
     this.getLeadSectiondata();
+    this.getLOV();
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
-
       this.udfScreenId = udfScreenId.DDE.pslDataDDE;
-
     })
-
   }
+
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data) => (this.labels = data),
@@ -120,9 +116,24 @@ export class PSLdataComponent implements OnInit {
   getLOV() {
     this.commomLovService.getLovData().subscribe((lov) => {
       this.LOV = lov;
-      this.LOV.LOVS.landOwnerArray = lov.LOVS.applicantRelationshipWithLead.filter((res =>
+      let type = [];
+      let landOwnerArray = [];
+
+      landOwnerArray = lov.LOVS.applicantRelationshipWithLead.filter((res =>
         res.key !== 'GUARAPPRELLEAD'
       ));
+
+      this.applicantDetails.filter((applicant: any) => {
+        if (applicant.applicantTypeKey !== 'GUARAPPRELLEAD') {
+          type.push({
+            key: applicant.applicantTypeKey,
+            value: applicant.applicantType
+          })
+        }
+      })
+
+      this.LOV.LOVS.landOwnerArray = type.length > 0 ? type : landOwnerArray;
+
       this.getDependentDropdownLOV();
       // this.getProofOfInvestmentLOVS();
     });
@@ -136,6 +147,7 @@ export class PSLdataComponent implements OnInit {
       this.isChildLoan = leadData['leadDetails'].isChildLoan;
       this.productId = leadData['leadDetails'].productId;
     }
+    this.applicantDetails = leadData['applicantDetails'] ? leadData['applicantDetails'] : []
     this.productCatCode = leadData['leadDetails'].productCatCode;
     console.log(leadData, 'PRODUCT_CODE::', this.productCatCode);
   }
@@ -901,8 +913,8 @@ export class PSLdataComponent implements OnInit {
         .get('nonAgriculture.goodsManufactured')
         .updateValueAndValidity();
 
-        // this.pslDataForm  .get('nonAgriculture.goodsManufactured')
-        // .setValue(this.pslData.goodsManufactured);
+      // this.pslDataForm  .get('nonAgriculture.goodsManufactured')
+      // .setValue(this.pslData.goodsManufactured);
     } else {
       this.isInvestmentInPlantMachinery = false;
       this.pslDataForm
@@ -1214,21 +1226,21 @@ export class PSLdataComponent implements OnInit {
           this.onChangelandUnitType();
 
           this.pslDataForm.get('agriculture').patchValue({
-              activity: this.pslData.activity,
-              detailActivity: this.pslData.detailActivity,
-              purposeOfLoan: this.pslData.purposeOfLoan,
-              landHolding: this.pslData.landHolding,
-              landOwner: this.pslData.landOwner,
-              relationshipWithLandOwner: this.pslData.relationshipWithLandOwner,
-              farmerType: this.pslData.farmerType,
-              landUnitValue: this.pslData.landUnitValue,
-              landUnitType: this.pslData.landUnitType,
-              landInHectare: this.pslData.landInHectare,
-              landProof: this.pslData.landProof,
-              pslCategory: this.pslData.pslCategory,
-              pslSubCategory: this.pslData.pslSubCategory,
-              pslCCertificate: this.pslData.pslCCertificate,
-              weakerSection: this.csvToArray(this.pslData.weakerSection),
+            activity: this.pslData.activity,
+            detailActivity: this.pslData.detailActivity,
+            purposeOfLoan: this.pslData.purposeOfLoan,
+            landHolding: this.pslData.landHolding,
+            landOwner: this.pslData.landOwner,
+            relationshipWithLandOwner: this.pslData.relationshipWithLandOwner,
+            farmerType: this.pslData.farmerType,
+            landUnitValue: this.pslData.landUnitValue,
+            landUnitType: this.pslData.landUnitType,
+            landInHectare: this.pslData.landInHectare,
+            landProof: this.pslData.landProof,
+            pslCategory: this.pslData.pslCategory,
+            pslSubCategory: this.pslData.pslSubCategory,
+            pslCCertificate: this.pslData.pslCCertificate,
+            weakerSection: this.csvToArray(this.pslData.weakerSection),
           });
         }, 1000);
         setTimeout(() => {
@@ -1261,8 +1273,8 @@ export class PSLdataComponent implements OnInit {
             uRegisteredMobileNo: this.pslData.uRegisteredMobileNo,
             uRegisteredEmailId: this.pslData.uRegisteredEmailId,
             weakerSection: this.csvToArray(this.pslData.weakerSection),
-        });
-        this.onChangePslSubcategory(this.pslData.pslSubCategory);
+          });
+          this.onChangePslSubcategory(this.pslData.pslSubCategory);
 
         }, 1000);
 

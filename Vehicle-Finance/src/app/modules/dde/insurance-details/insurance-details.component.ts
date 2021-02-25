@@ -96,6 +96,8 @@ export class InsuranceDetailsComponent implements OnInit {
   nomineeDetails: any;
   gaurdianDetails: any;
 
+  InsuranceLov: any = [];
+
   constructor(private fb: FormBuilder,
     private labelsData: LabelsService,
     private toggleDdeService: ToggleDdeService,
@@ -148,7 +150,20 @@ export class InsuranceDetailsComponent implements OnInit {
     });
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
-      console.log('lov data', this.lovData);
+
+      let insuranceSlabForCreditShieldLifeCover = this.lovData.insuranceSlabForCreditShieldLifeCover;
+
+      insuranceSlabForCreditShieldLifeCover.filter((res: any) => {
+        if (res.key !== "7INSSLAB") {
+          let data = {
+            key: res.key,
+            value: (res.value * 100) + '%'
+          }
+          this.InsuranceLov.push(data)
+          return data
+        }
+      })
+
       this.lovData.relationship.filter(element => {
         if (element.key !== '5RELATION') {
           const body = {
@@ -287,7 +302,7 @@ export class InsuranceDetailsComponent implements OnInit {
     this.insuranceDetailForm.value.nomineePincode = Number(this.insuranceDetailForm.value.nomineePincode);
     this.insuranceDetailForm.value.nomineeState = Number(this.insuranceDetailForm.value.nomineeState);
     this.insuranceDetailForm.value.nomineeAge = Number(this.insuranceDetailForm.value.nomineeAge);
-    this.insuranceDetailForm.value.usedCoverageAmount = Number(this.insuranceDetailForm.value.usedCoverageAmount);
+    this.insuranceDetailForm.value.usedCoverageAmount = this.insuranceDetailForm.value.usedCoverageAmount;
     // this.insuranceDetailForm.value.creditShieldRequired = this.creditShieldRequired;
     // this.insuranceDetailForm.value.motorInsuranceRequired = this.motorShieldRequired;
     this.insuranceDetailForm.value.nomineeDOB = this.utilityService.getDateFormat(this.insuranceDetailForm.value.nomineeDOB);
@@ -310,7 +325,7 @@ export class InsuranceDetailsComponent implements OnInit {
 
     };
     this.insuranceService.saveInsuranceDetails(body).subscribe((res: any) => {
-      if (res && res.ProcessVariables.error.code == '0') {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         if (event == 'save') {
           this.toasterService.showSuccess('Record saved successfully', '');
           this.getInsuranceDetails();
@@ -319,7 +334,7 @@ export class InsuranceDetailsComponent implements OnInit {
           this.onNext();
         }
       } else {
-        this.toasterService.showError(res.ProcessVariables.error.message, '');
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '');
       }
     });
   }
@@ -337,42 +352,42 @@ export class InsuranceDetailsComponent implements OnInit {
     }
   }
   checkOnMotor(event) {
-      if (event === 'no') {
-        // this.showCreditDetails = false;
-        this.motorShieldRequired = false;
-        this.isRtoCenter = true;
-        this.f.controls.vehicleType.clearValidators();
-        this.f.controls.vehicleType.updateValueAndValidity();
-        this.f.controls.insuranceProvider.clearValidators();
-        this.f.controls.insuranceProvider.updateValueAndValidity();
-        this.f.controls.vehicleMake.clearValidators();
-        this.f.controls.vehicleMake.updateValueAndValidity();
-        this.f.controls.variant.clearValidators();
-        this.f.controls.variant.updateValueAndValidity();
-        this.f.controls.rtoCentre.clearValidators();
-        this.f.controls.rtoCentre.updateValueAndValidity();
-        this.f.controls.model.clearValidators();
-        this.f.controls.model.updateValueAndValidity();
-        this.f.controls.fuelType.clearValidators();
-        this.f.controls.fuelType.updateValueAndValidity();
-      } else if (event === 'yes') {
-        // this.showCreditDetails = true;
-        this.motorShieldRequired = true;
-        this.f.controls.vehicleType.setValidators(Validators.required);
-        this.f.controls.vehicleType.updateValueAndValidity();
-        this.f.controls.insuranceProvider.setValidators(Validators.required);
-        this.f.controls.insuranceProvider.updateValueAndValidity();
-        this.f.controls.vehicleMake.setValidators(Validators.required);
-        this.f.controls.vehicleMake.updateValueAndValidity();
-        this.f.controls.variant.setValidators(Validators.required);
-        this.f.controls.variant.updateValueAndValidity();
-        this.f.controls.rtoCentre.setValidators(Validators.required);
-        this.f.controls.rtoCentre.updateValueAndValidity();
-        this.f.controls.model.setValidators(Validators.required);
-        this.f.controls.model.updateValueAndValidity();
-        this.f.controls.fuelType.setValidators(Validators.required);
-        this.f.controls.fuelType.updateValueAndValidity();
-      }
+    if (event === 'no') {
+      // this.showCreditDetails = false;
+      this.motorShieldRequired = false;
+      this.isRtoCenter = true;
+      this.f.controls.vehicleType.clearValidators();
+      this.f.controls.vehicleType.updateValueAndValidity();
+      this.f.controls.insuranceProvider.clearValidators();
+      this.f.controls.insuranceProvider.updateValueAndValidity();
+      this.f.controls.vehicleMake.clearValidators();
+      this.f.controls.vehicleMake.updateValueAndValidity();
+      this.f.controls.variant.clearValidators();
+      this.f.controls.variant.updateValueAndValidity();
+      this.f.controls.rtoCentre.clearValidators();
+      this.f.controls.rtoCentre.updateValueAndValidity();
+      this.f.controls.model.clearValidators();
+      this.f.controls.model.updateValueAndValidity();
+      this.f.controls.fuelType.clearValidators();
+      this.f.controls.fuelType.updateValueAndValidity();
+    } else if (event === 'yes') {
+      // this.showCreditDetails = true;
+      this.motorShieldRequired = true;
+      this.f.controls.vehicleType.setValidators(Validators.required);
+      this.f.controls.vehicleType.updateValueAndValidity();
+      this.f.controls.insuranceProvider.setValidators(Validators.required);
+      this.f.controls.insuranceProvider.updateValueAndValidity();
+      this.f.controls.vehicleMake.setValidators(Validators.required);
+      this.f.controls.vehicleMake.updateValueAndValidity();
+      this.f.controls.variant.setValidators(Validators.required);
+      this.f.controls.variant.updateValueAndValidity();
+      this.f.controls.rtoCentre.setValidators(Validators.required);
+      this.f.controls.rtoCentre.updateValueAndValidity();
+      this.f.controls.model.setValidators(Validators.required);
+      this.f.controls.model.updateValueAndValidity();
+      this.f.controls.fuelType.setValidators(Validators.required);
+      this.f.controls.fuelType.updateValueAndValidity();
+    }
   }
   getPincode(pincode, event: string) {
     // const id = pincode.id;
@@ -400,59 +415,59 @@ export class InsuranceDetailsComponent implements OnInit {
         console.log('map value', value);
 
         // tslint:disable-next-line: no-string-literal
-        
+
         console.log('in valid pincode', value.ProcessVariables);
-          const addressList: any[] = value.ProcessVariables.GeoMasterView ? value.ProcessVariables.GeoMasterView : [];
-          if (value['ProcessVariables'].error.code === '1') {
-            this.invalidPincode = true;
-            this.toasterService.showError('Invalid pincode', '');
-            if(event === 'nominee') {
-              this.insuranceDetailForm.controls.nomineePincode.reset();
-              this.insuranceDetailForm.controls.nomineeState.reset();
-              this.insuranceDetailForm.controls.nomineeDistrict.reset();
-              this.insuranceDetailForm.controls.nomineeCountry.reset();
-              this.insuranceDetailForm.controls.nomineeCity.reset();
-            } else if(event === 'guardian') {
-              this.insuranceDetailForm.controls.guardianPincode.reset();
-              this.insuranceDetailForm.controls.guardianState.reset();
-              this.insuranceDetailForm.controls.guardianDistrict.reset();
-              this.insuranceDetailForm.controls.guardianCountry.reset();
-              this.insuranceDetailForm.controls.guardianCity.reset();
-            }
-          } else {
-          this.invalidPincode = false;
+        const addressList: any[] = value.ProcessVariables.GeoMasterView ? value.ProcessVariables.GeoMasterView : [];
+        if (value['ProcessVariables'].error.code === '1') {
+          this.invalidPincode = true;
+          this.toasterService.showError('Invalid pincode', '');
+          if (event === 'nominee') {
+            this.insuranceDetailForm.controls.nomineePincode.reset();
+            this.insuranceDetailForm.controls.nomineeState.reset();
+            this.insuranceDetailForm.controls.nomineeDistrict.reset();
+            this.insuranceDetailForm.controls.nomineeCountry.reset();
+            this.insuranceDetailForm.controls.nomineeCity.reset();
+          } else if (event === 'guardian') {
+            this.insuranceDetailForm.controls.guardianPincode.reset();
+            this.insuranceDetailForm.controls.guardianState.reset();
+            this.insuranceDetailForm.controls.guardianDistrict.reset();
+            this.insuranceDetailForm.controls.guardianCountry.reset();
+            this.insuranceDetailForm.controls.guardianCity.reset();
           }
-          const first = addressList[0];
-          const obj = {
-            state: [
-              {
-                key: first.stateId,
-                value: first.stateName,
-              },
-            ],
-            district: [
-              {
-                key: first.districtId,
-                value: first.districtName,
-              },
-            ],
-            country: [
-              {
-                key: first.countryId,
-                value: first.country,
-              },
-            ],
-          };
-          const city = addressList.map((val) => {
-            return {
-              key: val.cityId,
-              value: val.cityName,
-            };
-          });
+        } else {
+          this.invalidPincode = false;
+        }
+        const first = addressList[0];
+        const obj = {
+          state: [
+            {
+              key: first.stateId,
+              value: first.stateName,
+            },
+          ],
+          district: [
+            {
+              key: first.districtId,
+              value: first.districtName,
+            },
+          ],
+          country: [
+            {
+              key: first.countryId,
+              value: first.country,
+            },
+          ],
+        };
+        const city = addressList.map((val) => {
           return {
-            ...obj,
-            city,
+            key: val.cityId,
+            value: val.cityName,
           };
+        });
+        return {
+          ...obj,
+          city,
+        };
       })
       ).subscribe((value: any) => {
         console.log('subscribe value', value);
@@ -482,7 +497,7 @@ export class InsuranceDetailsComponent implements OnInit {
             });
           }
         } else if (event === 'guardian') {
-          
+
           this.gaurdianDetails = value;
           console.log(this.gaurdianDetails);
 
@@ -628,10 +643,10 @@ export class InsuranceDetailsComponent implements OnInit {
         this.applicantId = element.applicantId;
         const entityType = element.entityTypeKey;
         console.log('entityType', entityType)
-        if(entityType === 'NONINDIVENTTYP'){
+        if (entityType === 'NONINDIVENTTYP') {
           this.toasterService.showInfo('Credit shield policy holder cannot be a NON-INDIVIDUAL entity', '')
           control.patchValue({
-            nameOfCreditShieldPolicy : null,
+            nameOfCreditShieldPolicy: null,
             typeOfApplicant: null
           });
           return;

@@ -191,7 +191,7 @@ export class ReferenceComponent implements OnInit {
       refOneState: new FormControl('', Validators.required),
       refOneCountry: new FormControl('', Validators.required),
       refOnePhoneNumber: new FormControl('', Validators.required),
-      refOneRelationship: new FormControl(''),
+      refOneRelationship: new FormControl('', Validators.required),
 
       refTwoFirstName: new FormControl('', Validators.required),
       refTwoMiddleName: new FormControl(''),
@@ -206,7 +206,7 @@ export class ReferenceComponent implements OnInit {
       refTwoState: new FormControl('', Validators.required),
       refTwoCountry: new FormControl('', Validators.required),
       refTwoPhoneNumber: new FormControl('', Validators.required),
-      refTwoRelationship: new FormControl(''),
+      refTwoRelationship: new FormControl('', Validators.required),
     });
   }
 

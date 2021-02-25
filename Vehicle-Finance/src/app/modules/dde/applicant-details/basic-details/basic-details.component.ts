@@ -66,7 +66,7 @@ export class BasicDetailsComponent implements OnInit {
   checkedBoxHouse: boolean;
   custCatValue: string;
   occupationValue: string;
-  ageOfSeniorCitizen : any;
+  ageOfSeniorCitizen: any;
   isMarried: boolean;
   applicantData = [];
   showNotApplicant: boolean;
@@ -114,8 +114,8 @@ export class BasicDetailsComponent implements OnInit {
   occupation: any[];
   udfDetails: any = [];
   userDefineForm: any;
-  udfScreenId= '';
-  udfGroupId= 'APG008';
+  udfScreenId = '';
+  udfGroupId = 'APG008';
   selfMaxAge: any;
   salariedMaxAge: any;
   initUDFValues: any;
@@ -201,7 +201,7 @@ export class BasicDetailsComponent implements OnInit {
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = udfScreenId.DDE.applicantBasicdataDDE ;
+      this.udfScreenId = udfScreenId.DDE.applicantBasicdataDDE;
 
     })
   }
@@ -239,8 +239,8 @@ export class BasicDetailsComponent implements OnInit {
         this.maxAge = this.utilityService.setTimeForDates(this.maxAge)
         this.salariedMaxAge = data.ages.seniorCitizen.salaried
         this.selfMaxAge = data.ages.seniorCitizen.selfEmployment;
-        console.log(this.salariedMaxAge,'AGES',this.selfMaxAge)
-        this.ageOfSeniorCitizen= this.selfMaxAge;
+        console.log(this.salariedMaxAge, 'AGES', this.selfMaxAge)
+        this.ageOfSeniorCitizen = this.selfMaxAge;
       }
     );
   }
@@ -283,22 +283,22 @@ export class BasicDetailsComponent implements OnInit {
     this.getRelationShip(value)
   }
 
-  getRelationShip(value){
-    if(!this.isIndividual){
+  getRelationShip(value) {
+    if (!this.isIndividual) {
       return;
     }
-    if(!this.isAppNonInd){
+    if (!this.isAppNonInd) {
       this.relationShipLov = this.LOV.LOVS.relationship;
-      if(value==='APPAPPRELLEAD'){
-        this.relationShipLov=  this.relationShipLov.filter((data)=>data.key === '5RELATION')  
-        this.basicForm.get('applicantRelationship').setValue(this.relationShipLov[0].key) 
-       }else{
-         this.relationShipLov=  this.relationShipLov.filter((data)=>data.key !== '5RELATION') 
-         this.basicForm.get('applicantRelationship').setValue('')  
-       }
-  
+      if (value === 'APPAPPRELLEAD') {
+        this.relationShipLov = this.relationShipLov.filter((data) => data.key === '5RELATION')
+        this.basicForm.get('applicantRelationship').setValue(this.relationShipLov[0].key)
+      } else {
+        this.relationShipLov = this.relationShipLov.filter((data) => data.key !== '5RELATION')
+        this.basicForm.get('applicantRelationship').setValue('')
+      }
+
     }
-    
+
   }
 
   calculateIncome(value) {
@@ -344,12 +344,12 @@ export class BasicDetailsComponent implements OnInit {
       this.disableOwnerProperty(details)
     }
   }
-  enableOwnerProperty(details){
+  enableOwnerProperty(details) {
     details.get('houseOwnerProperty').enable();
     details.get('ownHouseAppRelationship').enable();
   }
 
-  disableOwnerProperty(details){
+  disableOwnerProperty(details) {
     details.get('houseOwnerProperty').disable();
     details.get('ownHouseAppRelationship').disable();
 
@@ -535,16 +535,16 @@ export class BasicDetailsComponent implements OnInit {
       title: this.applicant.applicantDetails.title || '',
       // applicantRelationship: this.applicant.aboutIndivProspectDetails.relationWithApplicant || ''
     });
-    
+
     const relationshipVal = this.applicant.aboutIndivProspectDetails.relationWithApplicant;
-    const relValue = this.relationShipLov.find((data : any)=>{
-      return data.key ===  relationshipVal;
+    const relValue = this.relationShipLov.find((data: any) => {
+      return data.key === relationshipVal;
     })
     const appRelationship = this.basicForm.get('applicantRelationship')
-    if(this.applicant.aboutIndivProspectDetails.relationWithApplicant){
+    if (this.applicant.aboutIndivProspectDetails.relationWithApplicant) {
       appRelationship.setValue(relValue ? relationshipVal : '')
-    }else{
-      if(!this.isAppNonInd && applicantType === 'APPAPPRELLEAD'){
+    } else {
+      if (!this.isAppNonInd && applicantType === 'APPAPPRELLEAD') {
         appRelationship.setValue(this.relationShipLov[0].key)
       }
     }
@@ -558,8 +558,14 @@ export class BasicDetailsComponent implements OnInit {
       this.onCustCategoryChanged(this.custCatValue)
       this.setValuesForIndividual();
       this.initiallayAgecal(dob);
-      if(this.applicant.aboutIndivProspectDetails && this.applicant.aboutIndivProspectDetails.maritalStatus){
+
+      if (this.applicant.aboutIndivProspectDetails && this.applicant.aboutIndivProspectDetails.maritalStatus) {
         this.setMaritalStatusValue(this.applicant.aboutIndivProspectDetails.maritalStatus);
+      } else if (this.applicant.aboutIndivProspectDetails && !this.applicant.aboutIndivProspectDetails.maritalStatus) {
+        const formArray = this.basicForm.get('details') as FormArray;
+        const details = formArray.at(0) as FormGroup;
+        details.get('weddingAnniversaryDate').clearValidators()
+        details.get('weddingAnniversaryDate').updateValueAndValidity()
       }
     } else {
       this.addNonIndividualFormControls();
@@ -763,11 +769,11 @@ export class BasicDetailsComponent implements OnInit {
     });
     //this.clearFatherOrSpouseValidation();
     //this.eitherFathOrspouse();
-    if(this.applicant.ucic){
+    if (this.applicant.ucic) {
       details.get('name3').clearValidators();
       details.get('name3').updateValueAndValidity();
       this.islastNameReq = false
-     }
+    }
   }
 
   setValuesForNonIndividual() {
@@ -1101,9 +1107,9 @@ export class BasicDetailsComponent implements OnInit {
       console.log('this.LOV.LOVS', this.LOV.LOVS)
       this.ownerPropertyRelation = this.LOV.LOVS.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor')
       this.getIdentifyAppNonInd();
-      if(this.isAppNonInd){
+      if (this.isAppNonInd) {
         this.relationShipLov = this.LOV.LOVS['concernType-SelfEmployed'];
-      }else{
+      } else {
         this.relationShipLov = this.LOV.LOVS['relationship'];
       }
       const businessTypevalue = this.LOV.LOVS.businessType
@@ -1134,10 +1140,10 @@ export class BasicDetailsComponent implements OnInit {
     });
 
   }
-  getIdentifyAppNonInd(){
-    this.isAppNonInd= this.applicantData.some((data : any)=>{
-      return data.applicantTypeKey == 'APPAPPRELLEAD' && data.entityTypeKey == 'NONINDIVENTTYP'     
-   })
+  getIdentifyAppNonInd() {
+    this.isAppNonInd = this.applicantData.some((data: any) => {
+      return data.applicantTypeKey == 'APPAPPRELLEAD' && data.entityTypeKey == 'NONINDIVENTTYP'
+    })
   }
 
   disableEKYDetails() {
@@ -1194,7 +1200,7 @@ export class BasicDetailsComponent implements OnInit {
     this.clearDisControls(details.get('businessType'));
   }
 
-  clearDisControls(control){
+  clearDisControls(control) {
     control.disable();
     control.setValue(control.value || null)
     control.clearValidators();
@@ -1264,11 +1270,11 @@ export class BasicDetailsComponent implements OnInit {
       details.get('isSeniorCitizen').setValue(this.checkingSenior);
       this.isSeniorCitizen = this.checkingSenior == true ? '1' : '0';
       this.showSalaried = true;
-      if(!this.applicant.ucic){
+      if (!this.applicant.ucic) {
         this.setSalriedValidators();
         this.removeSelfEmpValidators()
       }
-      
+
     }
 
     else if (this.custCatValue == 'FTBCUSTSEG' || this.custCatValue == 'FTUCUSTSEG' || this.custCatValue == 'TROPCUSTSEG') {
@@ -1569,7 +1575,7 @@ export class BasicDetailsComponent implements OnInit {
 
     this.isDirty = true;
 
-    const isUDFInvalid= this.userDefineForm?  this.userDefineForm.udfData.invalid : false
+    const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
     if (this.basicForm.invalid || isUDFInvalid) {
 
       this.toasterService.showError(
@@ -1632,8 +1638,8 @@ export class BasicDetailsComponent implements OnInit {
     } else {
       this.storeNonIndividualValueInService(value);
     }
-    const udfDetails= this.userDefineForm? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
-    
+    const udfDetails = this.userDefineForm ? JSON.stringify(this.userDefineForm.udfData.getRawValue()) : ""
+
 
     const applicantData = this.applicantDataService.getApplicant();
     const leadId = (await this.getLeadId()) as number;
@@ -1642,7 +1648,7 @@ export class BasicDetailsComponent implements OnInit {
       applicantId: this.applicantId,
       ...applicantData,
       leadId: this.leadId,
-      udfDetails : [{
+      udfDetails: [{
         "udfGroupId": this.udfGroupId,
         //"udfScreenId": this.udfScreenId,
         "udfData": udfDetails
@@ -1658,8 +1664,8 @@ export class BasicDetailsComponent implements OnInit {
           'Record Saved Successfully',
           ''
         );
-        this.udfDetails[0].udfData=  udfDetails;
-    
+        this.udfDetails[0].udfData = udfDetails;
+
         this.applicantDataService.setUdfDatas(this.udfDetails)
         this.apiValue = this.basicForm.getRawValue();
         this.initUDFValues = this.userDefineForm.udfData.getRawValue();
@@ -1966,7 +1972,7 @@ export class BasicDetailsComponent implements OnInit {
     // console.log(JSON.stringify(this.apiValue));
     // console.log(JSON.stringify(this.finalValue));
     // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
-    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue);
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
@@ -1974,7 +1980,7 @@ export class BasicDetailsComponent implements OnInit {
       this.toasterService.showInfo('Please SAVE details before proceeding', '');
       return;
     }
-    if (!isValueCheck|| !isUDFCheck) {
+    if (!isValueCheck || !isUDFCheck) {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
@@ -1992,7 +1998,7 @@ export class BasicDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 
-  get details(){
+  get details() {
     const formArray = this.basicForm.get('details') as FormArray;
     const details = formArray.at(0) as FormGroup;
     return details
@@ -2011,16 +2017,16 @@ export class BasicDetailsComponent implements OnInit {
       details.addControl('weddingAnniversaryDate', new FormControl(''))
     }
 
-    if(status === '1MRGSTS'){
+    if (status === '1MRGSTS') {
       details.get('noOfChildrenDependant').clearValidators();
-      details.get('noOfChildrenDependant').updateValueAndValidity();  
-      const depValue = details.get('noOfChildrenDependant').value; 
+      details.get('noOfChildrenDependant').updateValueAndValidity();
+      const depValue = details.get('noOfChildrenDependant').value;
       details.get('noOfChildrenDependant').setValue(depValue || null);
 
-    }else{
+    } else {
       details.get('noOfChildrenDependant').setValidators(Validators.required);
       details.get('noOfChildrenDependant').updateValueAndValidity();
-      
+
     }
 
 
@@ -2029,8 +2035,8 @@ export class BasicDetailsComponent implements OnInit {
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
     console.log('identifyValue', value)
-    if(value.event === 'init'){
-      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    if (value.event === 'init') {
+      this.initUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -29,6 +29,7 @@ import { LoginService } from '@modules/login/login/login.service';
 export class ValuationComponent implements OnInit {
 
   vehicleValuationForm: FormGroup;
+  modalDataForm: FormGroup;
   leadId;
   colleteralId;
   public minDate = new Date(new Date().setFullYear(new Date().getFullYear() - 15));
@@ -66,6 +67,7 @@ export class ValuationComponent implements OnInit {
   public fuelTypeList: any;
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
+  @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
   public vehicleRegPattern: {
     rule?: any;
     msg?: string;
@@ -218,10 +220,21 @@ export class ValuationComponent implements OnInit {
   ratingScale: any;
   isOnlinevariable: boolean;
   yearOfManufacturer: any;
+  isValuator: any;
+  vendorDetails: any;
+  branchDetails: any;
+  vendorDetailsData: any = [];
+  getBranchDetails: any;
+  keyValue: any;
+  isOk: boolean;
+  collateralDetailsData: any;
+  isInternalValuator: any;
+  isModal: boolean;
+  vendorName: any;
  
-
-
-
+  showReInitiate: boolean = false;
+  versionArray: any = [];
+  version: any = 0;
 
   constructor(
     private labelsData: LabelsService,
@@ -287,7 +300,8 @@ export class ValuationComponent implements OnInit {
     } else if (this.roleType === 2) {
       this.udfGroupId = 'VAG001'
     }
-    if (this.roleId === 86) {
+    this.isValuator = this.sharedService.getValuationType();
+    if (this.roleId === 86 || this.isValuator == true) {
       this.extValuator = true;
     }
 
@@ -296,13 +310,13 @@ export class ValuationComponent implements OnInit {
 
     this.getLabels();
     this.InitForm();
+    this.modalInitForm();
     this.getLOV();
     //return;
     this.leadId = (await this.getLeadId()) as number;
 
     this.colleteralId = (await this.getCollateralId()) as Number;
-
-    this.getVehicleValuation();
+    this.getVendorCode();
     this.getLeadSectionData();
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
@@ -372,6 +386,15 @@ export class ValuationComponent implements OnInit {
       }
     })
 
+    this.sharedService.versionDetail$.subscribe((data: any) => {
+      if (data) {
+        this.versionArray = data.versionArray;
+        this.version = data.version;
+      }
+    })
+
+    this.getVehicleValuation();
+
   }
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
@@ -404,13 +427,13 @@ export class ValuationComponent implements OnInit {
       this.LOV.defaultfinanciers = this.LOV.financiers;
       this.fuelTypeList  = this.LOV.fuelType;
       this.vehicleUsedFor = this.LOV.vehicleUsage;
-      this.vehicleType = this.vehicleLov.vehicleType;
+      // this.vehicleType = this.LOV.vehicleType;
       this.rcBookStatus = this.rcBookStatusLOV;
       this.anyAccidentsInPast = this.valuesToYesNo;
       this.hypothecation = this.LOV.defaultfinanciers;
-      this.vehicleSegment = this.vehicleLov.assetBodyType;
-      this.vehicleMfrCode = this.vehicleLov.assetMake;
-      this.vehicleModelCode = this.vehicleLov.assetModel;
+      // this.vehicleSegment = this.LOV.vehicleSegment;
+      // this.vehicleMfrCode = this.LOV.vehicleManufacturer;
+      // this.vehicleModelCode = this.vehicleModelCode;
       this.noOfOwners = this.ownerSerialNo;
       // not reflecting
       this.regFuelUsed = this.LOV.fuelType;
@@ -506,6 +529,107 @@ export class ValuationComponent implements OnInit {
   //     this.invalidTimeError = false;
   //   }
   // }
+
+  getVendorCode() {
+    const data  = {
+      leadId: this.leadId
+    }
+    this.vehicleValuationService.getVendorCode(data).subscribe((res: any) => {
+
+      this.vendorDetails = res.ProcessVariables.vendorDetails;
+      this.branchDetails = res.ProcessVariables.branchDetails;
+      this.isInternalValuator = res.ProcessVariables.isInternalValuation;
+      this.vendorDetails.filter((element) => {
+        const data = {
+          key: element.vendorCode,
+          value: element.vendorName
+        };
+        this.vendorDetailsData.push(data);
+      });
+    });
+  }
+
+  initiateVehicleValuation() {
+    // this.isDirty = true;
+    if(this.modalDataForm.get('isInternalValuation').value == '0') {
+      this.modalDataForm.patchValue({
+        internalValuationUser: '',
+      })
+    } else {
+      this.modalDataForm.patchValue({
+        internalValuationUser: this.keyValue.key ? this.keyValue.key : '' ,
+      })
+    }
+    this.modalDataForm.get('isInternalValuation').value
+    console.log( this.modalDataForm.get('isInternalValuation').value);
+    const formValues = this.modalDataForm.getRawValue();
+
+    formValues.isInternalValuation == 1 ? formValues.isInternalValuation = true : false;
+    formValues.isInternalValuation == 0 ? formValues.isInternalValuation = false : true;
+
+    const data = {
+      userId: localStorage.getItem('userId'),
+      collateralId: this.colleteralId,
+      ...formValues,
+      isReInitiated: true
+    };
+    console.log(data);
+    
+    // if (this.modalDataForm.valid === true) {
+      this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
+        const response = res;
+
+        if (response["Error"] == 0 && response["ProcessVariables"]["error"]["code"] == 0) {
+          this.toasterService.showSuccess('Valuation Initiated Successfully', '');
+          const getData = response["ProcessVariables"]["collateralDetails"];
+          this.isOk = false;
+          return this.collateralDetailsData ? this.collateralDetailsData.forEach(element => {
+            if (element.collateralId == getData.collateralId) {
+              element.valuationStatus = getData.valuationStatus;
+              element.valuatorStatus = getData.valuatorStatus;
+            }
+          }) : []
+
+        } else {
+          this.toasterService.showError(response["ProcessVariables"]["error"]["message"],
+            '');
+        }
+      });
+    // } else {
+    //   this.toasterService.showError('Please fill all mandatory fields', '');
+    // }
+
+  }
+
+  onChangeBranchName(event) {
+    console.log(event);
+    
+    this.getUserByBranch();
+  }
+
+  getUserByBranch() {
+    const data = {
+      branchId: Number(this.modalDataForm.get('branchName').value)
+    }
+    this.vehicleValuationService.getUserByBranch(data).subscribe((res: any) => {
+      this.getBranchDetails = res.ProcessVariables.users;
+      console.log(this.userDetails);
+      
+      
+    })
+  }
+
+  onBankNameSearch(val) {
+    if (val && val.trim().length > 0) {
+      this.userDetails = this.getBranchDetails.filter(e => {
+        let myVal = val.toString().toLowerCase();
+        const eName = e.value.toString().toLowerCase();
+        if (eName.includes(myVal)) {
+          return e;
+        }
+      });
+    }
+  }
 
   // Custom Validation Pattern For Vehicle Number
   validateCustomPattern() {
@@ -845,8 +969,8 @@ export class ValuationComponent implements OnInit {
 
       });
       this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').enable();
-      this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').setValidators(Validators.required);
-      this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').updateValueAndValidity();
+      // this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').setValidators(Validators.required);
+      // this.vehicleValuationForm.get('remarksDetails').get('valuatorRemarks').updateValueAndValidity();
     }
 
   }
@@ -976,7 +1100,7 @@ export class ValuationComponent implements OnInit {
       "udfGroupId": this.udfGroupId,
     }
 
-    this.vehicleValuationService.getVehicleValuation(data, udfData).subscribe((res: any) => {
+    this.vehicleValuationService.getVehicleValuation(data, udfData, this.version).subscribe((res: any) => {
       const response = res;
       this.udfDetails = response.ProcessVariables.udfDetails;
       this.SELFIE_IMAGE = response.ProcessVariables.vehicleImage;
@@ -1075,17 +1199,17 @@ export class ValuationComponent implements OnInit {
 
       // patching lovs for vehicle details
       if (this.vehicleCode != null) {
-        this.vehicleLov.assetMake = [{
+        this.vehicleMfrCode = [{
           key: this.vehicleValuationDetails.vehicleMfrCode,
           value: this.vehicleValuationDetails.vehicleMfr
         }];
 
-        this.vehicleLov.assetBodyType = [{
+        this.vehicleSegment = [{
           key: this.vehicleValuationDetails.vehicleSegCode,
           value: this.vehicleValuationDetails.vehicleSegment
         }];
 
-        this.vehicleLov.assetModel = [
+        this.vehicleModelCode = [
           {
             key: this.vehicleValuationDetails.vehicleModelCode,
             value: this.vehicleValuationDetails.vehicleModel
@@ -1096,7 +1220,7 @@ export class ValuationComponent implements OnInit {
           value: this.vehicleValuationDetails.assetVariant
         }];
 
-        this.vehicleLov.vehicleType = [{
+        this.vehicleType = [{
           key: this.vehicleValuationDetails.vehicleTypeCode,
           value: this.vehicleValuationDetails.vehicleType
         }];
@@ -1165,6 +1289,12 @@ export class ValuationComponent implements OnInit {
       // }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
+
+    if (this.versionArray.length > 0) {
+      for (let i=0; i< this.versionArray.length; i++) {
+        this.showReInitiate = this.version === this.versionArray[this.versionArray.length-1] ? true : false;
+      }
+    }
     
   }
   redirectUrl() {
@@ -1288,6 +1418,17 @@ export class ValuationComponent implements OnInit {
       vehiclePhotoDetails: new FormGroup(this.getvehiclePhotoDetails()),
     });
   }
+
+  modalInitForm() {
+    this.modalDataForm = this.formBuilder.group({
+      remarks: [''],
+      valuatorCode: [''],
+      isInternalValuation: [''],
+      branchName: [''],
+      internalValuationUser: ['']
+    });
+  }
+
   getReferenceDetails() {
     return {
       vehicleOwnerName: new FormControl({ value: '', disabled: true }),
@@ -1410,6 +1551,8 @@ export class ValuationComponent implements OnInit {
     }
   }
 
+  
+
 
 
   setFormValue() {
@@ -1526,13 +1669,15 @@ export class ValuationComponent implements OnInit {
       } else {
         this.fuelTypeList = this.LOV.fuelType
         this.vehicleUsedFor = this.LOV.vehicleUsage;
-        this.vehicleType = this.vehicleLov.vehicleType;
+        // this.vehicleType = this.LOV.vehicleType;
         this.rcBookStatus = this.rcBookStatusLOV;
         this.anyAccidentsInPast = this.valuesToYesNo;
         this.hypothecation = this.LOV.defaultfinanciers;
-        this.vehicleSegment = this.vehicleLov.assetBodyType;
-        this.vehicleMfrCode = this.vehicleLov.assetMake;
-        this.vehicleModelCode = this.vehicleLov.assetModel;
+        // this.vehicleSegment = this.LOV.vehicleSegment;
+        // this.vehicleMfrCode = this.LOV.vehicleManufacturer;
+        console.log(this.vehicleLov, 'assetMake', this.LOV);
+        
+        // this.vehicleModelCode = this.vehicleModelCode;
         this.noOfOwners = this.ownerSerialNo;
         // not reflecting 
         this.regFuelUsed = this.LOV.fuelType;
@@ -1711,7 +1856,7 @@ export class ValuationComponent implements OnInit {
 
           assetMakeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
             'uniqueMFRCode', 'mfrCode');
-          this.vehicleLov.assetMake = assetMakeArray;
+          this.vehicleMfrCode = assetMakeArray;
           obj.get('vehicleIdentityDetails').patchValue({
             assetMake: '',
             vehicleType: '',
@@ -1720,11 +1865,11 @@ export class ValuationComponent implements OnInit {
             // assetVariant: ''valuatorRemarks
           });
         } else {
-          this.vehicleLov.assetMake = [];
+          this.vehicleMfrCode = [];
           this.toasterService.showWarning('No Data in Vehicle Master Region', 'Vehicle Master Region');
         }
       } else {
-        this.vehicleLov.assetMake = [];
+        this.vehicleMfrCode = [];
         this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Region');
       }
       this.uiLoader.stop();
@@ -1755,7 +1900,7 @@ export class ValuationComponent implements OnInit {
             VehicleTypeArray = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "vehicleTypeUniqueCode", "vehicleTypeCode");
 
-            this.vehicleLov.vehicleType = VehicleTypeArray;
+            this.vehicleType = VehicleTypeArray;
             obj.get('vehicleIdentityDetails').patchValue({
               vehicleType: '',
               assetBodyType: '',
@@ -1764,11 +1909,11 @@ export class ValuationComponent implements OnInit {
             });
 
           } else {
-            this.vehicleLov.vehicleType = [];
+            this.vehicleType = [];
             this.toasterService.showWarning('No Data in Vehicle Master Asset Make', 'Vehicle Master Asset Make')
           }
         } else {
-          this.vehicleLov.vehicleType = [];
+          this.vehicleType = [];
           this.toasterService.showWarning(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Asset Make')
         }
         this.uiLoader.stop();
@@ -1802,7 +1947,7 @@ export class ValuationComponent implements OnInit {
             assetBodyType = this.utilityService.getValueFromJSON(res.ProcessVariables.vehicleMasterDetails,
               "uniqueSegmentCode", "segmentCode");
 
-            this.vehicleLov.assetBodyType = assetBodyType;
+            this.vehicleSegment = assetBodyType;
 
             obj.get('vehicleIdentityDetails').patchValue({
               assetBodyType: '',
@@ -1811,11 +1956,11 @@ export class ValuationComponent implements OnInit {
             })
 
           } else {
-            this.vehicleLov.assetBodyType = []
+            this.vehicleSegment = []
             this.toasterService.showWarning('No Data in Vehicle Master Vehicle Type', 'Vehicle Master Vehicle Type');
           }
         } else {
-          this.vehicleLov.assetBodyType = [];
+          this.vehicleSegment = [];
           this.toasterService.showWarning(res.ErrorMessage ?
             res.ErrorMessage : res.ProcessVariables.error.message, 'Vehicle Master Vehicle Type')
         }
@@ -1829,7 +1974,7 @@ export class ValuationComponent implements OnInit {
 
   onAssetBodyType(value: any, obj) {
     this.assetModelType = this.assetBodyType.filter((data) => data.uniqueSegmentCode === value)
-    this.vehicleLov.assetModel = this.utilityService.getValueFromJSON(this.assetModelType,
+    this.vehicleModelCode = this.utilityService.getValueFromJSON(this.assetModelType,
       'vehicleModelCode', 'vehicleModel');
     // console.log(this.assetModelType, 'data', this.vehicleLov);
     obj.get('vehicleIdentityDetails').patchValue({
@@ -2099,7 +2244,7 @@ export class ValuationComponent implements OnInit {
   }
 
   onBack() {
-    if (this.roleId === 86) {
+    if (this.roleId === 86 || this.isValuator == true) {
       this.router.navigate([`/pages/valuation-dashboard/${this.leadId}/vehicle-valuation`]);
     } else {
       this.router.navigate([`/pages/dde/${this.leadId}/vehicle-valuation`]);
@@ -2208,6 +2353,65 @@ export class ValuationComponent implements OnInit {
     });
   }
 
+  closeModal() {
+    this.isModal = false;
+    this.isOk  = false;
+  }
+
+  okModal() {
+    this.isDirty = true;
+    console.log(this.modalDataForm);
+    
+    if(this.modalDataForm.valid === true) {
+      this.closeModal1.nativeElement.click();
+    this.isOk = true;
+    } else {
+      this.toasterService.showError('Please enter mandatory fields', '')
+    }
+  }
+
+  selectBankNameEvent(val: any) {
+    console.log(val, 'val')
+    this.keyValue = val;
+    this.modalDataForm.patchValue({
+      internalValuationUser: val['value']
+    })
+  }
+
+  onChangeVendorName(event: any) {
+    const vendorNameChange = event.target.value;
+    this.vendorDetailsData.filter(element => {
+      if (element.key == vendorNameChange) {
+        this.vendorName = element.value;
+      }
+    });
+  }
+
+  onBankNameClear(val) {
+    this.modalDataForm.patchValue({
+      internalValuationUser: '',
+    })
+    this.userDetails = [];
+  }
+
+  onSelectValuator(event) {
+    console.log(event, 'event');
+    if (event == 'internal') {
+      this.modalDataForm.get('isInternalValuation').setValue(true);
+      this.modalDataForm.get('valuatorCode').setValue(null);
+      this.modalDataForm.get('branchName').setValidators(Validators.required);
+      this.modalDataForm.get('internalValuationUser').setValidators(Validators.required);
+      this.modalDataForm.get('valuatorCode').clearValidators();
+      this.modalDataForm.get('valuatorCode').updateValueAndValidity();
+    } else if(event == 'external') {
+      this.modalDataForm.get('isInternalValuation').setValue(false);
+      this.modalDataForm.get('internalValuationUser').setValue(null);
+      this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
+      this.modalDataForm.get('branchName').clearValidators();
+      this.modalDataForm.get('internalValuationUser').clearValidators();
+      this.modalDataForm.get('valuatorCode').updateValueAndValidity();
+    }
+  }
   async checkGpsEnabled() {
     this.gpsService.getLatLong().subscribe((position) => {
       console.log("getLatLong", position);

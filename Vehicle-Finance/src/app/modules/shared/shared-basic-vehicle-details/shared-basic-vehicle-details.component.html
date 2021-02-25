@@ -640,38 +640,54 @@
                             <div class="row" *ngIf="Product !== 'TyreLoan'">
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                    <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}</label>
+                                    <label for="proforma_invoice_no">{{label.proformaInvoiceNo}}
+                                        <sub class="star_red_col">*</sub>
+                                    </label>
 
                                     <app-custom-input formControlName="invoiceNumber" [id]="'proforma_invoice_no'"
                                         [type]="label.validationData?.invoiceNumber.type" [inputClass]="'input-upper'"
                                         [className]="'form-control mandatory'" [placeholder]="'Invoice No'"
                                         [maxLength]="label.validationData?.invoiceNumber.maxLength"
-                                        [inputClass]="'input-upper'">
+                                        [inputClass]="'input-upper'" [isDirty]="isDirty"
+                                        [isRequired]="'Invoice No Required'">
                                     </app-custom-input>
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                                    <label for="proforma_invoice_date">{{label.proformaInvoiceDate}} </label>
+                                    <label for="proforma_invoice_date">{{label.proformaInvoiceDate}}
+                                        <sub class="star_red_col">*</sub>
+                                    </label>
                                     <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                                        [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'"
+                                        [format]="'dd/MM/yyyy'" [min]="proformaMinDate" [max]="proformaMaxDate" [activeView]="'decade'"
                                         placeholder="Proforma Invoice Date">
                                     </kendo-datepicker>
 
                                     <div class="invalid-feedback"
-                                        *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value && obj.controls['invoiceDate'].value > toDayDate">
+                                        *ngIf="obj.controls['invoiceDate'].touched && !obj.controls['invoiceDate'].valid">
+                                        <div *ngIf="obj.controls['invoiceDate'].hasError('required')">
+                                            Proforma Invoice Date Required
+                                        </div>
+                                    </div>
+
+                                    <div class="invalid-feedback"
+                                        *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value && 
+                                        obj.controls['invoiceDate'].errors">
                                         Invalid Date
                                     </div>
 
                                 </div>
 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                                    <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}</label>
+                                    <label for="proforma_invoice_amount">{{label.proformaInvoiceAmount}}
+                                        <sub class="star_red_col">*</sub>
+                                    </label>
 
                                     <app-custom-input formControlName="invoiceAmount"
                                         [type]="label.validationData?.amountValue.type" [id]="'proforma_invoice_amount'"
                                         [className]="'form-control'"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
-                                        [placeholder]="'Proforma Invoice Amount'">
+                                        [placeholder]="'Proforma Invoice Amount'" [isDirty]="isDirty"
+                                        [isRequired]="'Invoice Amount Required'">
                                     </app-custom-input>
 
                                 </div>
@@ -902,8 +918,10 @@
                                     <label for="body_cost">{{label.bodyCost}}</label>
 
                                     <app-custom-input formControlName="bodyCost" [className]="'form-control mandatory'"
+                                    (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                         [type]="label.validationData?.amountValue.type"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
+                                        [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Body Cost Required'"
                                         [placeholder]="'Body Cost'" [id]="'body_cost'" [isDirty]="isDirty">
                                     </app-custom-input>
                                 </div>
