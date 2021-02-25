@@ -387,11 +387,14 @@ export class ValuationComponent implements OnInit {
     })
 
     this.sharedService.versionDetail$.subscribe((data: any) => {
+      
       if (data) {
         this.versionArray = data.versionArray;
         this.version = data.version;
       }
     })
+
+    
 
     this.getVehicleValuation();
 
@@ -1286,7 +1289,9 @@ export class ValuationComponent implements OnInit {
         personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
       })
       // if (this.vehicleValuationDetails.valuatorRefNo) {
-      this.setFormValue();
+        setTimeout(() => {
+          this.setFormValue(); 
+        });
       // }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
@@ -2005,6 +2010,7 @@ export class ValuationComponent implements OnInit {
   engineStarted(event: any) {
     console.log(event);
     this.engineStartedType = event ? event : event;
+    const vehicleMoved = this.vehicleValuationDetails.vehicleMoved
     if (this.engineStartedType === '0') {
       this.vehicleMovedDisabled = true;
       this.vehicleMovedRequired = false;
