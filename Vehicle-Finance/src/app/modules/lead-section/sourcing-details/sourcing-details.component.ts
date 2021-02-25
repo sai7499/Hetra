@@ -529,17 +529,13 @@ export class SourcingDetailsComponent implements OnInit {
       this.sourcingDetailsForm.patchValue({ loanType: isBool? '' : loanTypeFromLead });
     }
 
-    if(productCategorySelected === 'UC'){
-      this.sourcingDetailsForm.get('dealerCode').setValidators(Validators.required)
-      this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
-      setTimeout(()=>{
-        this.isShowDealerCode = true;
-      })
-    }else{
-      this.sourcingDetailsForm.get('dealerCode').clearValidators()
-      this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
-      this.isShowDealerCode = false;
-    }
+    // if(productCategorySelected === 'UC'){
+    //   this.sourcingDetailsForm.get('dealerCode').setValidators(Validators.required)
+    //   this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
+    // }else{
+    //   this.sourcingDetailsForm.get('dealerCode').clearValidators()
+    //   this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
+    // }
 
     
   }

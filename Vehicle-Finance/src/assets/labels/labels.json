@@ -2797,6 +2797,12 @@
             },
             "type": "number"
         },
+        "avgLoadperTon" : {
+            "maxLength": {
+                "rule": 5
+            },
+            "type": "decimal-2"
+        },
         "noOfTyres": {
             "maxLength": {
                 "rule": 2
