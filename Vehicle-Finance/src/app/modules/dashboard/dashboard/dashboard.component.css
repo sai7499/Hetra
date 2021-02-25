@@ -3,7 +3,8 @@ body{
 }
 
 .actionbtn {
-    padding: 20px 0 0 200px
+    padding: 20px 0 0 200px;
+    float: right;
 }
 
 .disablField {

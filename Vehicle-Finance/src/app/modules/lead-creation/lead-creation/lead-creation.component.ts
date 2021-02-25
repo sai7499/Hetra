@@ -425,10 +425,11 @@ export class LeadCreationComponent implements OnInit {
     const productCategorySelected = event.target ? event.target.value : event;
     this.filterProduct(productCategorySelected)
     if(productCategorySelected === 'UC'){
-      this.addDealerRClimit();
-      
+      // this.addDealerRClimit();
+      this.isremoveDealerRC = true;
     }else{
-      this.removeDealerRClimit();
+      this.isremoveDealerRC = false;
+      // this.removeDealerRClimit();
     }
   }
 
@@ -543,8 +544,9 @@ export class LeadCreationComponent implements OnInit {
 
   sourchingTypeChange(event) {
     this.sourchingTypeId = event.target ? event.target.value : event;
-    if (this.isremoveDealerRC) {
+    
       if (this.sourchingTypeId === '2SOURTYP') {
+        if (this.isremoveDealerRC) {
         this.createLeadForm.controls['dealerCode'].setValidators(Validators.required);
         this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
         this.createLeadForm.controls['rcLimit'].setValidators(Validators.required);
@@ -553,19 +555,24 @@ export class LeadCreationComponent implements OnInit {
         this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
         this.createLeadForm.controls['rcUnutilizedLimit'].setValidators(Validators.required);
         this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+        
         this.isDealerCode = true;
-      } else {
-        this.createLeadForm.controls['dealerCode'].setValidators([]);
-        this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
-        this.createLeadForm.controls['rcLimit'].setValidators([]);
-        this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
-        this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
-        this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
-        this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
-        this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
-        this.isDealerCode = false;
       }
-    }
+      } else {
+        if (this.isremoveDealerRC) { 
+          this.createLeadForm.controls['dealerCode'].setValidators([]);
+          this.createLeadForm.controls['dealerCode'].updateValueAndValidity();
+          this.createLeadForm.controls['rcLimit'].setValidators([]);
+          this.createLeadForm.controls['rcLimit'].updateValueAndValidity();
+          this.createLeadForm.controls['rcUtilizedLimit'].setValidators([]);
+          this.createLeadForm.controls['rcUtilizedLimit'].updateValueAndValidity();
+          this.createLeadForm.controls['rcUnutilizedLimit'].setValidators([]);
+          this.createLeadForm.controls['rcUnutilizedLimit'].updateValueAndValidity();
+          this.isDealerCode = false;
+        }
+        
+      }
+    
     this.socuringTypeData = this.sourcingData.filter(
       (data) => data.sourcingTypeId === this.sourchingTypeId
     );
@@ -655,7 +662,7 @@ export class LeadCreationComponent implements OnInit {
   }
 
   onDealerCodeCleared(event) {
-    if (this.sourchingTypeId === '2SOURTYP') {
+    if (this.sourchingTypeId === '2SOURTYP' && this.isremoveDealerRC) {
       this.isDealerCode = true;
     } else {
       this.isDealerCode = false;
@@ -808,6 +815,7 @@ export class LeadCreationComponent implements OnInit {
         mobileNumber: `91${leadModel.mobile}`,
         dobOrDoc: this.utilityService.getDateFormat(leadModel.dateOfBirth),
       };
+
 
       this.createLeadService
         .createLead(this.loanLeadDetails, this.applicantDetails, false)

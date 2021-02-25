@@ -131,7 +131,7 @@ export class VehicleValuationComponent implements OnInit {
     this.modalDataForm = this.formBuilder.group({
       remarks: [''],
       valuatorCode: [''],
-      isInternalValuation: [''],
+      isInternalValuation: ['', Validators.required],
       branchName: [''],
       internalValuationUser: ['']
     });
@@ -211,23 +211,29 @@ export class VehicleValuationComponent implements OnInit {
     })
     this.userDetails = [];
   }
-
   onSelectValuator(event) {
     console.log(event, 'event');
-    if (event == 'internal') {
-      this.modalDataForm.get('isInternalValuation').setValue(true);
-      this.modalDataForm.get('valuatorCode').setValue(null);
+    if (event == '1') {
+      this.modalDataForm.patchValue({
+        branchName: this.branchDetails[0].key
+      });
+      this.getUserByBranch();
       this.modalDataForm.get('branchName').setValidators(Validators.required);
       this.modalDataForm.get('internalValuationUser').setValidators(Validators.required);
       this.modalDataForm.get('valuatorCode').clearValidators();
       this.modalDataForm.get('valuatorCode').updateValueAndValidity();
-    } else if(event == 'external') {
-      this.modalDataForm.get('isInternalValuation').setValue(false);
-      this.modalDataForm.get('internalValuationUser').setValue(null);
+      setTimeout(() => {
+        this.modalDataForm.get('valuatorCode').setValue(null); 
+      });
+    } else if(event == '0') {
       this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
       this.modalDataForm.get('branchName').clearValidators();
       this.modalDataForm.get('internalValuationUser').clearValidators();
       this.modalDataForm.get('valuatorCode').updateValueAndValidity();
+      setTimeout(() => {
+      this.modalDataForm.get('internalValuationUser').setValue(null); 
+      this.modalDataForm.get('branchName').setValue(null); 
+      });
     }
   }
 
@@ -255,6 +261,7 @@ export class VehicleValuationComponent implements OnInit {
         let myVal = val.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
         if (eName.includes(myVal)) {
+          e.Name = e.value + ' - ' + e.key;
           return e;
         }
       });
@@ -265,8 +272,9 @@ export class VehicleValuationComponent implements OnInit {
     console.log(val, 'val')
     this.keyValue = val;
     this.modalDataForm.patchValue({
-      internalValuationUser: val['value']
+      internalValuationUser: val['Name']
     })
+    this.vendorName = val['Name'];
   }
 
   onChangeVendorName(event: any) {
@@ -285,7 +293,7 @@ export class VehicleValuationComponent implements OnInit {
       this.modalDataForm.patchValue({
         internalValuationUser: '',
       })
-    } else {
+    } else if(this.modalDataForm.get('isInternalValuation').value == '1') {
       this.modalDataForm.patchValue({
         internalValuationUser: this.keyValue.key ? this.keyValue.key : '' ,
       })
@@ -293,10 +301,6 @@ export class VehicleValuationComponent implements OnInit {
     this.modalDataForm.get('isInternalValuation').value
     console.log( this.modalDataForm.get('isInternalValuation').value);
     
-    // this.modalDataForm.patchValue({
-    //   internalValuationUser: this.keyValue.key ? this.keyValue.key : '' ,
-      
-    // })
     const formValues = this.modalDataForm.getRawValue();
 
     formValues.isInternalValuation == 1 ? formValues.isInternalValuation = true : false;
@@ -308,7 +312,6 @@ export class VehicleValuationComponent implements OnInit {
       ...formValues
     };
     console.log(data);
-    
     // if (this.modalDataForm.valid === true) {
       this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
         const response = res;
@@ -369,11 +372,19 @@ export class VehicleValuationComponent implements OnInit {
   closeModal() {
     this.isModal = false;
     this.isOk  = false;
+    this.modalDataForm.get('internalValuationUser').setValue('');
   }
 
   okModal() {
     this.isDirty = true;
     console.log(this.modalDataForm);
+    if(!this.isInternalValuator) {
+      this.modalDataForm.get('isInternalValuation').clearValidators();
+      this.modalDataForm.get('isInternalValuation').updateValueAndValidity();
+      this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
+      this.modalDataForm.get('valuatorCode').updateValueAndValidity();
+
+    }
     
     if(this.modalDataForm.valid === true) {
       this.closeModal1.nativeElement.click();
