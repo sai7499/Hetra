@@ -316,7 +316,7 @@
             <button class="btn btn-primary btn_div" *ngIf="roleType == '2'" data-toggle="modal" data-target="#myModal"
                 type="button">{{labels?.submitToSales}}</button>
             <button class="btn btn-primary dash_href adjustMargins" type="button"
-                *ngIf="roleType == '2' && salesResponse == 'true'"><a data-toggle="modal"
+                *ngIf="roleType == '2' && salesResponse == 'true' && isPreDone == 'false'"><a data-toggle="modal"
                     data-target="#myModalForApproval">Submit for Approval</a></button>
             <button class="btn btn-primary dash_href adjustMargins " type="button"
                 *ngIf="roleType != '2' && isPreDisbursement == 'true'">
@@ -394,7 +394,7 @@
     </div>
 </div>
 <!-- SUBMIT_FOR_APPROVAL -->
-<div class="modal fade" id="myModalForApproval" role="dialog">
+<div class="modal fade" id="myModalForApproval" role="dialog" >
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -415,7 +415,7 @@
 
     </div>
 </div>
-<div class="modal fade" id="myModaltwo" role="dialog">
+<div class="modal fade" id="myModaltwo" role="dialog" >
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
