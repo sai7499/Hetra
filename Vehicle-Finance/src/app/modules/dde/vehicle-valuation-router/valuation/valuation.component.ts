@@ -2010,7 +2010,6 @@ export class ValuationComponent implements OnInit {
   engineStarted(event: any) {
     console.log(event);
     this.engineStartedType = event ? event : event;
-    const vehicleMoved = this.vehicleValuationDetails.vehicleMoved
     if (this.engineStartedType === '0') {
       this.vehicleMovedDisabled = true;
       this.vehicleMovedRequired = false;
