@@ -736,17 +736,20 @@
               <div id="individual_section_address" class="individual_section_leadco"
                 *ngIf="applicantType == 'INDIVENTTYP'">
                 <div class="btn-sec clear-both row">
-                  <div class="col-lg-12 col-sm-12"*ngIf="!showApplicantAddCheckBox" >
+                  <div class="col-lg-12 col-sm-12 ForModifyAddress"*ngIf="!showApplicantAddCheckBox" >
                     <h3 class="banner-sub">Permanent Address</h3>
                   </div>
-                  <div class="col-lg-3 col-sm-5"*ngIf="showApplicantAddCheckBox" >
+                  <div class="col-lg-3 col-sm-5 ForModifyAddress"*ngIf="showApplicantAddCheckBox" >
                     <h3 class="banner-sub">Permanent Address</h3>
                   </div>
-                  <div class="col-lg-3 text-left" id="align_this_checkbox" *ngIf="showApplicantAddCheckBox">
-                    <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event)"
+                  <div class="col-lg-3 text-left" *ngIf="showApplicantAddCheckBox">
+                    <button class="btn btn-primary" style="font-size: small;" (click)="onAddrSameAsApplicant($event, 'button')">
+                      Copy Address from Main Applicant
+                    </button>
+                    <!-- <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event)"
                       [checked]="checkedAddressLead=='1'" [disabled]="addDisabledCheckBox" />
                     <span id="address_section_checkbox_text"> Address From Main Applicant?
-                    </span>
+                    </span> -->
                   </div>
                 </div>
                 <div class="row container" formGroupName="permentAddress">
@@ -828,9 +831,16 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="btn-sec clear-both row">
-                  <div class="col-lg-2 col-sm-5">
+                  <div class="col-lg-3 col-sm-5">
                     <h3 class="banner-sub">Current Address</h3>
+                  </div>
+                  <div class="col-lg-3 text-center" id="align_this_checkbox" *ngIf="showApplicantAddCheckBox">
+                    <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event, 'checkBox')"
+                      [checked]="checkedAddressLead=='1'" [disabled]="addDisabledCheckBox" />
+                    <span id="address_section_checkbox_text"> Address From Main Applicant?
+                    </span>
                   </div>
                   <div class="col-lg-3 text-center" id="align_this_checkbox">
                     <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)"
@@ -838,14 +848,31 @@
                     <span id="address_section_checkbox_text">&nbsp;Check If It Is Same As Permanent Address?
                     </span>
                   </div>
-                  <div class="col-lg-2 text-left" id="align_this_checkbox" *ngIf="showModifyCurrCheckBox">
-
-                    <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
-                      [checked]="checkedModifyCurrent" />
-                    <span id="address_section_checkbox_text">&nbsp;Modify Current Address
+                  
+                </div>
+                <div class="row" *ngIf="showModifyCurrCheckBox">
+                  <!-- <div class="col-lg-2 col-sm-5">
+                    <h3 class="banner-sub">Current Address</h3>
+                  </div> -->
+                  
+                  <!-- <div class="col-lg-3 text-center" id="align_this_checkbox">
+                    <input type="checkbox" id="address_section_checkbox" (click)="onAddress($event)"
+                      [checked]="isPermanantAddressSame" [disabled]="isDisabledCheckbox" />
+                    <span id="address_section_checkbox_text">&nbsp;Check If It Is Same As Permanent Address?
                     </span>
-                  </div>
-                  <div class="form-group col-sm-6 col-md-3 col-lg-3" *ngIf="showSrField">
+                  </div> -->
+                  
+                  
+                    <div class="form-group col-sm-6 col-md-4 col-lg-4 ForModifyAddress">
+                      <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
+                      [checked]="checkedModifyCurrent" />
+                    <span id="address_section_checkbox_text">&nbsp;<b>Modify Current Address</b>
+                    </span>
+                    </div>
+
+                   
+                 
+                  <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="showSrField">
                     <label for="line1">SR Number<sub class="star_red_col">*</sub></label>
                     <app-custom-input formControlName="srNumber" (keyup)="validateSrNumber($event)"
                       [isRequired]="'SR Number is Required'" [isDirty]="isDirtyUcic"
