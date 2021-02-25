@@ -1,8 +1,8 @@
 <div class="content">
     <form [formGroup]="insuranceDetailForm " class="heading-style">
-        
-       
-       
+
+
+
         <div class="">
             <div class="row">
                 <div class="col-lg-12 p-0">
@@ -13,7 +13,7 @@
                 <div class="col-lg-12 p-0">
                     <h5 class="banner-sub">Motor Insurance Details </h5>
                 </div>
-                
+
                 <div class=" form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="spoke_code_location" class="asset_type">{{labels?.motorInsuranceRequired}}<sub
                             class="star_red_col">*</sub></label>
@@ -133,7 +133,7 @@
                 <div class="col-lg-12 p-0">
                     <h5 class="banner-sub">Credit Insurance Details</h5>
                 </div>
-               
+
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                     <label for="sourcing_type" class="asset_type">{{labels?.creditShieldRequired}}<sub
                             class="star_red_col">*</sub></label>
@@ -173,15 +173,17 @@
 
 
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                        <label for="lead_created_by_source" class="ellipsify">{{labels?.usedCoverageAmount}} <sub
+                        <label for="used_coverage" class="ellipsify">{{labels?.usedCoverageAmount}} <sub
                                 class="star_red_col">*</sub></label>
-                        <!-- formControlName="contractDetails" -->
-                        <app-custom-input id="usedCoverageAmount1" formControlName="usedCoverageAmount"
+                        <app-vf-custom-select id="used_coverage" formControlName="usedCoverageAmount"
+                            [values]="InsuranceLov" [isRequired]="'Please select one'" [isDirty]="isDirty">
+                        </app-vf-custom-select>
+                            <!-- <app-custom-input id="usedCoverageAmount1" formControlName="usedCoverageAmount"
                             [className]="'form-control mandatory'" [placeholder]="'Enter used coverage amount'"
                             [maxLength]="labels?.validationData?.amountValue?.maxLength"
                             [isRequired]="'Please enter  used coverage amount'"
                             [type]="labels?.validationData.amountValue?.type" [isDirty]="isDirty">
-                        </app-custom-input>
+                        </app-custom-input> -->
                     </div>
                 </div>
             </div>
@@ -189,7 +191,7 @@
                 <div class="col-lg-12">
                     <h5 class="banner-sub">{{labels?.nomineeDetails}}</h5>
                 </div>
-                
+
                 <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="needForProposedVehicle" class="ellipsify">{{labels?.firstName}} <sub
@@ -197,8 +199,9 @@
                         <app-custom-input id="needForProposedVehicle" formControlName="nomineeFirstName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter nominee first name'"
                             [maxLength]="labels?.validationData?.name?.maxLength"
-                            [isRequired]="'Please enter nominee first name'" [type]="labels?.validationData.nameWithoutSpace?.type"
-                            [isDirty]="isDirty" (keyup)="concatNomineeName()">
+                            [isRequired]="'Please enter nominee first name'"
+                            [type]="labels?.validationData.nameWithoutSpace?.type" [isDirty]="isDirty"
+                            (keyup)="concatNomineeName()">
                         </app-custom-input>
                     </div>
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -215,8 +218,9 @@
                         <app-custom-input id="contractDetails" formControlName="nomineeLastName"
                             [className]="'form-control mandatory'" [placeholder]="'Enter nominee last name'"
                             [maxLength]="labels?.validationData?.name?.maxLength"
-                            [isRequired]="'Please enter nominee last name'" [type]="labels?.validationData.nameWithoutSpace?.type"
-                            [isDirty]="isDirty" (keyup)="concatNomineeName()">
+                            [isRequired]="'Please enter nominee last name'"
+                            [type]="labels?.validationData.nameWithoutSpace?.type" [isDirty]="isDirty"
+                            (keyup)="concatNomineeName()">
 
                         </app-custom-input>
                     </div>
@@ -287,7 +291,7 @@
                 <div class="col-lg-12">
                     <h5 class="sub-head">{{labels?.nomineeAddress}}</h5>
                 </div>
-               
+
                 <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
@@ -374,7 +378,7 @@
                 <div class="col-lg-12">
                     <h5 class="banner-sub">{{labels?.guardianDetails}}</h5>
                 </div>
-               
+
                 <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label class="ellipsify">{{labels?.firstName}}<sub class="star_red_col">*</sub></label>
@@ -482,8 +486,8 @@
                 <div class="col-lg-12">
                     <h5 class="sub-head">{{labels?.guardianAddress}}</h5>
                 </div>
-               
-               
+
+
                 <div class="">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
@@ -589,7 +593,7 @@
             <div class="col-lg-12 p-0">
                 <h5 class="banner-sub">Health questions</h5>
             </div>
-           
+
             <!-- <div class="row" *ngFor="let ans  of healthQuestionAns; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>
             </div> -->
@@ -604,7 +608,7 @@
             <div class="col-lg-12 p-0">
                 <h5 class="banner-sub">Covid related questions</h5>
             </div>
-            
+
             <!-- <div class="row" *ngFor="let ans  of covidQuestions; let i=index">
                 <p class="text-justify">{{i + 1}} {{ans}} </p>      
             </div> -->
@@ -652,9 +656,9 @@
 
             <ng-container *ngIf="!isViewDde">
 
-            <button class="btn btn-primary" (click)="saveUpdateInsurance('save')" *ngIf="!this.isLoan360">
-                {{ labels.save }}
-            </button>
+                <button class="btn btn-primary" (click)="saveUpdateInsurance('save')" *ngIf="!this.isLoan360">
+                    {{ labels.save }}
+                </button>
 
             </ng-container>
 

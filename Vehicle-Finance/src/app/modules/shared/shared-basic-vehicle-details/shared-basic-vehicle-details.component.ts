@@ -514,6 +514,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       let others = form.controls.others ? Number(form.controls.others.value) : 0;
       let discount = form.controls.discount.value ? Number(form.controls.discount.value) : 0;
       let amcAmount = form.controls.amcAmount.value ? Number(form.controls.amcAmount.value) : 0;
+      let bodyCost = form.controls.bodyCost.value ? Number(form.controls.bodyCost.value) : 0;
 
       if (value === '1') {
 
@@ -537,6 +538,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         form.get('discount').setValidators([Validators.required]);
         form.get('discount').updateValueAndValidity();
 
+        form.get('bodyCost').enable();
+        form.get('bodyCost').setValidators(Validators.required);
+        form.get('bodyCost').updateValueAndValidity();
+
         // form.get('insurance').setValue(insurance === 0 ? '' : insurance + '');
         // form.get('oneTimeTax').setValue(oneTimeTax === 0 ?  '' : oneTimeTax + '');
         // form.get('others').setValue(others === 0 ?  '' : others + '');
@@ -544,7 +549,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         // form.get('discount').setValue(discount === 0 ? '' : discount + '');
 
         if (exShowRoomCost >= discount) {
-          let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount) - discount;
+          let costValue = (exShowRoomCost + insurance + oneTimeTax + others + amcAmount + bodyCost) - discount;
           this.onPatchFinalAssetCost(costValue)
           this.basicVehicleForm.patchValue({
             isVaildFinalAssetCost: true
