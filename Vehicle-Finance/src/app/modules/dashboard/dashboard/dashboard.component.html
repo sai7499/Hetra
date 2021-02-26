@@ -867,7 +867,7 @@
                             <td [attr.data-label]="labels?.action" *ngIf="onAssignTab && displayTabs?.PDDforCPC === activeTab || (displayTabs?.ChequeTracking === activeTab &&
                                 displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">
                                 <input type="button" class="btn btn-primary"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
+                                    (click)="onAssign(item.taskId, item.leadId, item);  assignTaskId(item.taskId); getLeadId(item)"
                                     value="Assign" data-toggle="modal" data-target="#assignModel" />
                             </td>
                             <td *ngIf="displayTabs?.LoanBooking === activeTab"

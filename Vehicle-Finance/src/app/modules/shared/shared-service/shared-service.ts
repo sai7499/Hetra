@@ -11,6 +11,7 @@ export class SharedService {
     leadItem: any;
     trancheId: any = {};
     isValuator: any;
+    isReinitiate: any;
     
     browserPopState(data) {
         this.popStateActivity$.next(data)
@@ -163,9 +164,16 @@ export class SharedService {
         this.viewDDE$.next(data);
     }
 
-    versionDetail$: BehaviorSubject<any> = new BehaviorSubject(null);
+    versionDetail$: BehaviorSubject<object> = new BehaviorSubject(null);
     getversion(data) {
         this.versionDetail$.next(data);
+    }
+
+    setIsReinitiate(data) {
+        this.isReinitiate = data;
+    }
+    getIsReinitiate() {
+        return this.isReinitiate;
     }
 
 }

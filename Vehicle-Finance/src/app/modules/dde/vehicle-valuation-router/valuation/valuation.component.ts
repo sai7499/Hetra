@@ -20,6 +20,7 @@ import { environment } from 'src/environments/environment';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { LoginService } from '@modules/login/login/login.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-valuation',
@@ -235,6 +236,8 @@ export class ValuationComponent implements OnInit {
   showReInitiate: boolean = false;
   versionArray: any = [];
   version: any = 0;
+  url: any;
+  path: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -257,7 +260,8 @@ export class ValuationComponent implements OnInit {
     private fb: FormBuilder,
     private sharedService: SharedService,
     private loginService: LoginService,
-    private objectComparisonService: ObjectComparisonService) {
+    private objectComparisonService: ObjectComparisonService,
+    private location: Location) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Invalid' }];
 
     this.listArray = this.fb.array([]);
@@ -279,6 +283,7 @@ export class ValuationComponent implements OnInit {
     }
 
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+    this.url = this.location.path();
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
@@ -389,10 +394,13 @@ export class ValuationComponent implements OnInit {
     this.sharedService.versionDetail$.subscribe((data: any) => {
       
       if (data) {
-        this.versionArray = data.versionArray;
+        this.showReInitiate = data.isReinitiate;
         this.version = data.version;
+        console.log(this.showReInitiate, "showReInitiate");
+        
       }
     })
+    this.path = this.sharedService.getIsReinitiate();
 
     
 
@@ -586,12 +594,14 @@ export class ValuationComponent implements OnInit {
           this.toasterService.showSuccess('Valuation Initiated Successfully', '');
           const getData = response["ProcessVariables"]["collateralDetails"];
           this.isOk = false;
+          this.onBack();
           return this.collateralDetailsData ? this.collateralDetailsData.forEach(element => {
             if (element.collateralId == getData.collateralId) {
               element.valuationStatus = getData.valuationStatus;
               element.valuatorStatus = getData.valuatorStatus;
             }
           }) : []
+
 
         } else {
           this.toasterService.showError(response["ProcessVariables"]["error"]["message"],
@@ -1104,7 +1114,11 @@ export class ValuationComponent implements OnInit {
       "udfGroupId": this.udfGroupId,
     }
 
-    this.vehicleValuationService.getVehicleValuation(data, udfData, this.version).subscribe((res: any) => {
+    if((this.roleId === 4||this.roleId === 86) && !this.path.includes('dde')) {
+      this.version = 0;
+    }
+
+    this.vehicleValuationService.getVehicleValuation(data, udfData, Number(this.version)).subscribe((res: any) => {
       const response = res;
       this.udfDetails = response.ProcessVariables.udfDetails;
       this.SELFIE_IMAGE = response.ProcessVariables.vehicleImage;
@@ -1280,9 +1294,9 @@ export class ValuationComponent implements OnInit {
       //  console.log('valuationTime', valuationTime)
       let valuationDate = this.vehicleValuationDetails.valuationInitiationDate ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : null;
-      const date = valuationDate.getDate();
-      const month = valuationDate.getMonth();
-      const year = valuationDate.getFullYear();
+      const date = valuationDate ? valuationDate.getDate() : null;
+      const month = valuationDate ?  valuationDate.getMonth() : null;
+      const year = valuationDate ? valuationDate.getFullYear() : null;
       valuationDate = new Date(year, month, date, hour, minute)
       this.vehicleValuationForm.get('referenceDetails').patchValue({
         valuationInitiationDate: valuationDate,
@@ -1296,11 +1310,11 @@ export class ValuationComponent implements OnInit {
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
 
-    if (this.versionArray.length > 0) {
-      for (let i=0; i< this.versionArray.length; i++) {
-        this.showReInitiate = this.version === this.versionArray[this.versionArray.length-1] ? true : false;
-      }
-    }
+    // if (this.versionArray.length > 0) {
+    //   for (let i=0; i< this.versionArray.length; i++) {
+    //     this.showReInitiate = this.version === this.versionArray[this.versionArray.length-1] ? true : false;
+    //   }
+    // }
     
   }
   redirectUrl() {

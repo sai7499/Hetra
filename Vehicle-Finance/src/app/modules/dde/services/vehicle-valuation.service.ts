@@ -15,7 +15,7 @@ export class VehicleValuationService {
   constructor(private httpService: HttpService,
     private apiService: ApiService) { }
 
-  getCollateralDetailsForVehicleValuation(data) {
+  getCollateralDetailsForVehicleValuation(data, isValuationInitiated) {
     const processData = data;
 
     const processId = this.apiService.api.getCollateralDetailsForVehicleValuation.processId;
@@ -28,7 +28,8 @@ export class VehicleValuationService {
     const body: RequestEntity = {
       processId: processId,
       ProcessVariables: {
-        leadId: processData
+        leadId: processData,
+        isValuationInitiated: isValuationInitiated
       },
       workflowId: workflowId,
       projectId: projectId

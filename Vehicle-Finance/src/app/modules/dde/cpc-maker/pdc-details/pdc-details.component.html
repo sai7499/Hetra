@@ -110,7 +110,7 @@
 
                                             <ng-autocomplete class="custom-select-box" [data]="searchBankNameList"
                                                 [searchKeyword]="keyword"
-                                                (selected)="selectBankNameEvent($event, item, 'isPdc', i, 'instrBankName', 'pdcList')"
+                                                (selected)="selectBankNameEvent($event, item, i, 'instrBankName', 'pdcList')"
                                                 (inputChanged)='onBankNameSearch($event)'
                                                 (inputCleared)='onBankNameClear($event, item)'
                                                 [itemTemplate]="favBankNameTemplate"
@@ -120,7 +120,7 @@
 
                                             <div class="invalid-feedback">
                                                 <div
-                                                    *ngIf="item.get('instrBankName').touched && item.get('instrBankName').hasError('required')">
+                                                    *ngIf="isDirty && item.get('instrBankName').hasError('required')">
                                                     Bank name
                                                     required.</div>
                                                 <div *ngIf="item.get('instrBankName').hasError('minlength')"> Mininum 3
@@ -147,14 +147,14 @@
                                                 (inputChanged)='onChangeBranch($event, item)'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
-                                                [placeHolder]="'Account Branch'" [minQueryLength]="3"
+                                                [placeHolder]="'Account Branch'" 
                                                 >
                                             </ng-autocomplete>
                                             <!-- [disabled]="!item.get('isEnableBranch').value" -->
                                             <!-- [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }" -->
                                             <div class="invalid-feedback">
                                                 <div
-                                                    *ngIf="item.get('instrBranchName').touched && item.get('instrBranchName').hasError('required')">
+                                                    *ngIf="isDirty && item.get('instrBranchName').hasError('required')">
                                                     Account
                                                     Branch
                                                     required.
@@ -296,7 +296,7 @@
 
                                             <ng-autocomplete class="custom-select-box" [data]="searchBankNameList"
                                                 [searchKeyword]="keyword"
-                                                (selected)="selectBankNameEvent($event, item, 'isSpdc',i, 'instrBankName', 'spdcList')"
+                                                (selected)="selectBankNameEvent($event, item,i, 'instrBankName', 'spdcList')"
                                                 (inputChanged)='onBankNameSearch($event)'
                                                 (inputCleared)='onBankNameClear($event, item)'
                                                 [itemTemplate]="favBankNameTemplate"
@@ -306,7 +306,7 @@
 
                                             <div class="invalid-feedback">
                                                 <div
-                                                    *ngIf="item.get('instrBankName').touched && item.get('instrBankName').hasError('required')">
+                                                    *ngIf="isDirty && item.get('instrBankName').hasError('required')">
                                                     Bank name
                                                     required.</div>
                                                 <div *ngIf="item.get('instrBankName').hasError('minlength')"> Mininum 3
@@ -334,14 +334,14 @@
                                                 (inputChanged)='onChangeBranch($event, item)'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
-                                                [placeHolder]="'Account Branch'" [minQueryLength]="3"
+                                                [placeHolder]="'Account Branch'" 
                                                 >
                                             </ng-autocomplete>
                                             <!-- [disabled]="!item.get('isEnableBranch').value" -->
                                             <!-- [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }" -->
                                             <div class="invalid-feedback">
                                                 <div
-                                                    *ngIf="item.get('instrBranchName').touched && item.get('instrBranchName').hasError('required')">
+                                                    *ngIf="isDirty && item.get('instrBranchName').hasError('required')">
                                                     Account
                                                     Branch
                                                     required.
