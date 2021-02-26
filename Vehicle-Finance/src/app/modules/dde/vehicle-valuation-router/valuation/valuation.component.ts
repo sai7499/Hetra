@@ -593,6 +593,8 @@ export class ValuationComponent implements OnInit {
             }
           }) : []
 
+          this.onBack();
+
         } else {
           this.toasterService.showError(response["ProcessVariables"]["error"]["message"],
             '');
