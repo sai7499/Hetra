@@ -891,7 +891,7 @@ export class PdcDetailsComponent implements OnInit {
             this.toasterService.showInfo('Please enter valid branch', '')
           }
         }, 30000)
-      }else{
+      }else if(val.length >= 2){
         const bankName = obj.get('instrBankName').value;
         this.selectBankNameEvent(bankName,obj)
 
