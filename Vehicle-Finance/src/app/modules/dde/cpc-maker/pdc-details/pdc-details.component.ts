@@ -528,8 +528,11 @@ export class PdcDetailsComponent implements OnInit {
 
   removeInstAmtValidator(){
     const PdcControl = this.pdcForm.controls.pdcList as FormArray;
-    PdcControl.controls[0]['controls']['instrAmount'].clearValidators();
-    PdcControl.controls[0]['controls']['instrAmount'].updateValueAndValidity();
+    if(PdcControl.controls.length >= 1){
+      PdcControl.controls[0]['controls']['instrAmount'].clearValidators();
+      PdcControl.controls[0]['controls']['instrAmount'].updateValueAndValidity();
+    }
+    
 
 
   }
@@ -586,12 +589,12 @@ export class PdcDetailsComponent implements OnInit {
       if (this.repaymentMode && this.repaymentMode == '4LOSREPAY') {
         for (let i = 0; i < spdcArray.length; i++) {
           spdcArray[i].patchValue({
-            instrBankName: bankType.key
+            instrBankName: bankType.value
           })
         }
         for (let i = 0; i < pdcArray.length; i++) {
           pdcArray[i].patchValue({
-            instrBankName: bankType.key
+            instrBankName: bankType.value
           })
         }
       }
@@ -836,7 +839,7 @@ export class PdcDetailsComponent implements OnInit {
     }
   }
 
-  selectBankNameEvent(val, obj, isString, rowIndex, controlName, formarray) {
+  selectBankNameEvent(val, obj, rowIndex?, controlName?, formarray?) {
     if (val) {
       let data = {
         "bankName": val
@@ -847,14 +850,20 @@ export class PdcDetailsComponent implements OnInit {
           this.getBankBranchDetails = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
           this.searchBranchName = [];
           let isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false;
-          obj.patchValue({
-            instrBranchName: '',
-            isEnableBranch: isEnableBranch
-          })
+          if(rowIndex){
+            obj.patchValue({
+              instrBranchName: '',
+              isEnableBranch: isEnableBranch
+            })
+          }
+         
           // if (isString === 'isPdc') {
           //   this.changePdcList(obj, rowIndex, controlName)
           // } else if (isString === 'isSpdc') {
-            this.changeSpdcList(obj, rowIndex, controlName,formarray)
+            if(controlName && formarray){
+              this.changeSpdcList(obj, rowIndex, controlName,formarray)
+            }
+            
           // }
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
@@ -866,21 +875,28 @@ export class PdcDetailsComponent implements OnInit {
   onChangeBranch(val, obj) {
     if (val && val.trim().length > 0) {
       val = val.toString().toLowerCase();
-      let searchBranchName = this.getBankBranchDetails.filter(e => {
-        const eName = e.branchName.toString().toLowerCase();
-        if (eName.includes(val)) {
-          this.keyword = 'branchName';
-          this.searchBranchName.push(e.branchName)
-          return e.branchName;
-        }
-      });
+      if(this.getBankBranchDetails.length > 0 && val.length >= 3){
+        let searchBranchName = this.getBankBranchDetails.filter(e => {
+          const eName = e.branchName.toString().toLowerCase();
+          if (eName.includes(val)) {
+            this.keyword = 'branchName';
+            this.searchBranchName.push(e.branchName)
+            return e.branchName;
+          }
+        });
+  
+        setTimeout(() => {
+          if (this.searchBranchName.length === 0) {
+            obj.get('instrBranchName').setErrors({ incorrect: true })
+            this.toasterService.showInfo('Please enter valid branch', '')
+          }
+        }, 30000)
+      }else{
+        const bankName = obj.get('instrBankName').value;
+        this.selectBankNameEvent(bankName,obj)
 
-      setTimeout(() => {
-        if (this.searchBranchName.length === 0) {
-          obj.get('instrBranchName').setErrors({ incorrect: true })
-          this.toasterService.showInfo('Please enter valid branch', '')
-        }
-      }, 30000)
+      }
+      
 
     }
   }

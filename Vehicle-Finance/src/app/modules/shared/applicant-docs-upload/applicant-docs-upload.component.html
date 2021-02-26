@@ -145,9 +145,13 @@
                       <input formControlName="documentNumber" [maxlength]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.maxLength || null" 
                       class="form-control" [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null" (keyup)="onDocumentNumberPress($event, i, subCat.code)"/>
                       <div class="invalid-feedback" *ngIf="(docsList(subCat.code)?.controls[i]?.get('documentNumber')?.touched  || docsList(subCat.code)?.controls[i]?.get('documentNumber')?.dirty)">
-                        <div *ngIf="docsList(subCat.code)?.controls[i]?.get('documentNumber').errors?.pattern">
+                        <!-- <div *ngIf="docsList(subCat.code)?.controls[i]?.get('documentNumber').errors?.pattern">
+                          {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
+                        </div> -->
+                        <div *ngIf="isPatternError">
                           {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
                         </div>
+                        
                       </div>
                       <div class="invalid-feedback" *ngIf="docNumberError&& docError[FORM_ARRAY_NAME+'_'+subCat.code+'_'+i] && !docsList(subCat.code)?.controls[i]?.get('documentNumber')?.value">
                         Please enter document number
