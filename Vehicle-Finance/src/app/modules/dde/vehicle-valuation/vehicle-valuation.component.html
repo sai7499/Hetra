@@ -62,19 +62,20 @@
                       ">--</a>
                       <a class="a_tag" *ngIf="
                         data.valuationStatus == 'SUBMITTED'
-                        && data.valuatorStatus == 0
+
                       " data-toggle="modal" data-target="#myModal">
-                        <ng-container *ngFor="let item of version">
+                        <ng-container>
                           <u (click)="
                           onClickValuationReport(
                             data.valuationStatus,
                             data.collateralId,
                             extValuator,
-                            item
+                            data.version,
+                            i
                           )
                         ">
                             <a class="a_tag" style="cursor: pointer;">
-                              Version - {{ item }}
+                              Version - {{data.version ? data.version : '-'}}
                             </a>
                           </u> &nbsp; &nbsp; &nbsp;
                           <span>
