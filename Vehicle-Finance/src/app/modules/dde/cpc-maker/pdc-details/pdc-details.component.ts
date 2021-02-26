@@ -739,28 +739,28 @@ export class PdcDetailsComponent implements OnInit {
       if (controlName === 'instrBranchAccountNumber') {
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           spdcArray.controls[j].patchValue({
-            instrBranchAccountNumber: obj.get(controlName).value || '',
+            instrBranchAccountNumber: obj.get(controlName).value || null,
           })
         }
       }else if(controlName === 'instrAmount'){
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           
           spdcArray.controls[j].patchValue({
-            instrAmount: obj.get(controlName).value || '',
+            instrAmount: obj.get(controlName).value || null,
           })
         }
       }
       else if(controlName === 'instrBranchName'){
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           spdcArray.controls[j].patchValue({
-            instrBranchName: obj.get(controlName).value || '',
+            instrBranchName: obj.get(controlName).value || null,
           })
         }
       }
       else if(controlName === 'instrBankName'){
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           spdcArray.controls[j].patchValue({
-            instrBankName: obj.get(controlName).value || '',
+            instrBankName: obj.get(controlName).value || null,
           })
         }
       }
