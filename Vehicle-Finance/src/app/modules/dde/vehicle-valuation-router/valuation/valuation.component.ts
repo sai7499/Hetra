@@ -1280,9 +1280,9 @@ export class ValuationComponent implements OnInit {
       //  console.log('valuationTime', valuationTime)
       let valuationDate = this.vehicleValuationDetails.valuationInitiationDate ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : null;
-      const date = valuationDate.getDate();
-      const month = valuationDate.getMonth();
-      const year = valuationDate.getFullYear();
+      const date = valuationDate ? valuationDate.getDate() : null;
+      const month = valuationDate ?  valuationDate.getMonth() : null;
+      const year = valuationDate ? valuationDate.getFullYear() : null;
       valuationDate = new Date(year, month, date, hour, minute)
       this.vehicleValuationForm.get('referenceDetails').patchValue({
         valuationInitiationDate: valuationDate,
