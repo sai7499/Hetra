@@ -3071,7 +3071,7 @@
                 </span>
            <span class="clearfix pull-left cursor" formGroupName='TPdocumentJson'>
               <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess(i,$event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
-              <input class="form-control file-input" *ngIf="thirdPartyDetailsForm.controls.TPdocumentJson.controls.dmsDocumentId.value" formControlName="dmsDocumentId" (click)="downloadDocs($event.target.value)" name="input" type="number"> 
+              <input class="form-control file-input" *ngIf="thirdPartyDetailsForm['controls']['TPdocumentJson']['controls']['dmsDocumentId'].value" formControlName="dmsDocumentId" (click)="downloadDocs($event.target.value)" name="input" type="number"> 
             </span>
                 <!-- <i class="fa fa-eye cursor-pointer" aria-hidden="true"  id="remove_Doc" (click)="downloadDocs(dmsDocumentId)"></i> &nbsp; -->
                 <i *ngIf="thirdPartyDetailsForm.controls.TPdocumentJson.controls.dmsDocumentId.value" class="fa fa-trash cursor-pointer text-danger btn" aria-hidden="true"  id="remove_Doc" data-toggle="modal" data-target="#kycmyModal"></i>
@@ -5724,7 +5724,7 @@
             type="button"
             class="btn btn-success"
             data-dismiss="modal"
-            (click)="deleteDocument(thirdPartyDetailsForm.controls.TPdocumentJson.controls.documentId.value)"
+            (click)="deleteDocument(thirdPartyDetailsForm['controls']['TPdocumentJson']['controls']['documentId'].value)"
           >
             Yes
           </button>
