@@ -388,7 +388,7 @@ export class NegotiationComponent implements OnInit {
     }
     return this.fb.group({
       fromMonth: [{value:'1',disabled:true},[Validators.required]],
-      toMonth: [{value:indexEmiStruVal=='4EMISTRUCT'?indexMaxTenorMonth-2:null,disabled:indexEmiStruVal=='4EMISTRUCT'?true:false},[Validators.required]],
+      toMonth: [{value:indexEmiStruVal=='4EMISTRUCT'?indexMaxTenorMonth-1:null,disabled:indexEmiStruVal=='4EMISTRUCT'?true:false},[Validators.required]],
       installmentPercent: [{value:null,disabled:indexEmiStruVal=='4EMISTRUCT'?true:false},[Validators.required]],
       emiAmount: [{value:indexEmiStruVal=='4EMISTRUCT'?indexBaseEmiValue:null,disabled:indexEmiStruVal=='4EMISTRUCT'?true:false},[Validators.required]],
     });
@@ -479,8 +479,8 @@ export class NegotiationComponent implements OnInit {
         loanTenorMonth=negoArray['NegotiatedLoanTenor']['value']?Number(negoArray['NegotiatedLoanTenor']['value']):0;
 
 
-    if(Number(enteredValue)>(loanTenorMonth - 1)){
-      this.toasterService.showError('To Month should not be greater than  '+ (loanTenorMonth-1) + ' Months', '');
+    if(Number(enteredValue)>(loanTenorMonth)){
+      this.toasterService.showError('To Month should not be greater than  '+ (loanTenorMonth) + ' Months', '');
        varFormArrayValues.controls[j]['controls']['toMonth'].setValue(null);
        varFormArrayValues.controls[j]['controls']['installmentPercent'].setValue(null);
        varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null);
@@ -597,21 +597,20 @@ export class NegotiationComponent implements OnInit {
 
     let arrVals=this.createNegotiationForm.controls.tickets;   
     let indexEmiStruVal=arrVals['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure']['value'];
-
    
     if(indexEmiStruVal=='2EMISTRUCT'){ //Step Down
       if((enteredValue<indexBaseEmiValue) || (indexValue?enteredValue>=indexValue:false)){ // if enetered Value is lesser than emiValue
-        this.toasterService.showError('EMI Value should be greater than ' + indexBaseEmiValue + ' and lesser than Previous row EmiAmountValue' + '.','');           
+        this.toasterService.showError('Variable EMI value calculated for given month range and repayment % is ' + enteredValue + '.  For Step Down, this should be greater than ' + indexBaseEmiValue +' and lesser than previous row EMI value',''); 
         varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null)
       } 
     }else if(indexEmiStruVal=='3EMISTRUCT'){ //Step Up
       if((enteredValue<indexBaseEmiValue) || (indexValue?enteredValue<=indexValue:false)){ // if enetered Value is greater than emiValue
-        this.toasterService.showError('EMI Value should be greater than ' + indexBaseEmiValue + ' and Previous row EmiAmountValue' + '.','');           
+        this.toasterService.showError('Variable EMI value calculated for given month range and repayment % is ' + enteredValue + '.  For Step Up, this should be greater than ' + indexBaseEmiValue +' and previous row EMI value',''); 
         varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null)
       } 
     }else if(indexEmiStruVal=='5EMISTRUCT'){ // Baloon
       if((enteredValue<indexBaseEmiValue) || (indexValue?enteredValue<=indexValue:false)){ // if enetered Value is lesser than emiValue
-        this.toasterService.showError('EMI Value should be greater than ' + indexBaseEmiValue + ' and Previous row EmiAmountValue' + '.','');           
+        this.toasterService.showError('Variable EMI value calculated for given month range and repayment % is ' + enteredValue + '.  For Baloon, this should be greater than ' + indexBaseEmiValue +' and previous row EMI value',''); 
         varFormArrayValues.controls[j]['controls']['emiAmount'].setValue(null)
       }
     }
@@ -744,7 +743,7 @@ export class NegotiationComponent implements OnInit {
         //console.log('emiValue-->',this.emiIndexValue)
         if(loanTenor && this.emiIndexValue){
           loanTenor = Number(loanTenor);
-         this.repaymentAmnt = (loanTenor-1)*Number(this.emiIndexValue);
+         this.repaymentAmnt = (loanTenor)*Number(this.emiIndexValue);
         }
         this.defaultIndexEmiValue(i);
         }
@@ -786,9 +785,9 @@ export class NegotiationComponent implements OnInit {
     }
 
     if(emiValue && loanTenor && crossSellLoanAmnt){
-      let emiBaseValue = emiValue*(loanTenor-1); //RepaymentValue;
+      let emiBaseValue = emiValue*(loanTenor); //RepaymentValue;
       emiBaseValue = emiBaseValue - crossSellLoanAmnt;
-      emiBaseValue = emiBaseValue / (loanTenor-1);
+      emiBaseValue = emiBaseValue / (loanTenor);
       //console.log(emiBaseValue) //base Emi Value for each table
       //round off Values      
         // if(!(emiBaseValue == Math.floor(emiBaseValue))){ //Decimal Number
@@ -844,7 +843,7 @@ export class NegotiationComponent implements OnInit {
                       Number(this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['loanBookingEMI']['value']):0
       
       if(loanTenorMonth && loanEmiVal){ // to Calculate Repayment value
-        this.repaymentAmnt = (loanTenorMonth-1)*loanEmiVal;
+        this.repaymentAmnt = (loanTenorMonth)*loanEmiVal;
        }else{
         this.repaymentAmnt=0;
        }
@@ -892,8 +891,8 @@ export class NegotiationComponent implements OnInit {
     if(varFormArrayValues['controls'].length!=0){
       let arrayLength=varFormArrayValues['controls'].length;
       let toMonth=varFormArrayValues['controls'][arrayLength-1]['controls']['toMonth']['value'];
-      if(Number(toMonth)!=(loanTenorMonth-1)){
-        this.toasterService.showError('Tenure Month should not be greater than or lesser than '+ (loanTenorMonth-1) + 'Months', '');
+      if(Number(toMonth)!=(loanTenorMonth)){
+        this.toasterService.showError('Tenure Month should not be greater than or lesser than '+ (loanTenorMonth) + 'Months', '');
         return;
       }
     }
@@ -937,10 +936,10 @@ export class NegotiationComponent implements OnInit {
       }
 
   
-  if((indexEmiStruVal!='4EMISTRUCT') && (totalEmiVal<this.repaymentAmnt) && flag){ // bullet is auto calculated , so not required to check this for bullet alone
-    this.toasterService.showError('Variable installements are not adding up to Total repayment amount ('+ this.repaymentAmnt +'). Please adjust EMI amount','');  
-  }         
-  else{
+  // if((indexEmiStruVal!='4EMISTRUCT') && (totalEmiVal<this.repaymentAmnt) && flag){ // bullet is auto calculated , so not required to check this for bullet alone
+  //   this.toasterService.showError('Variable installements are not adding up to Total repayment amount ('+ this.repaymentAmnt +'). Please adjust EMI amount','');  
+  // }         
+ // else{
         let loanBookingDetails=this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls'];
         let crossSellLoan=loanBookingDetails['LoanAmountincludingCrossSellsubtractSubvent']['value']?Number(loanBookingDetails['LoanAmountincludingCrossSellsubtractSubvent']['value']):0;
         let indexMaxTenorMonth:any = '';
@@ -983,9 +982,6 @@ export class NegotiationComponent implements OnInit {
       "termMonths": String(indexMaxTenorMonth)
      }
   
-     //console.log(LoanFundFlowInput);
-  
-  
      var VariableEPISchedule = [];  
 if(flag){
   let varArrayControls=this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls']
@@ -996,24 +992,9 @@ if(flag){
         "stageNumber":"2"
       }
       VariableEPISchedule.push(obj);
-    }
-  
-    // let getTableLength=VariableEPISchedule.length;
-    // if(getTableLength!=0){
-    //   getTableLength = Number(getTableLength)-1;
-    //   let lastRowToMonth=varArrayControls[getTableLength]['controls']['toMonth']['value'];
-    //   if(lastRowToMonth!=(loanTenorMonth-1)){
-    //     VariableEPISchedule = [];
-    //     this.toasterService.showError('Tenure Month should not be greater than or lesser than '+ (loanTenorMonth-1) + 'Months', '');
-    //     return;
-    //   }
-    // }
-
+    }  
     this.mockformArr.push(this.msInitRowsDefault(false,''));
 }
-  
-    //console.log("fund flow Api", LoanFundFlowInput)
-    //console.log("table", VariableEPISchedule)
   
       this.NegotiationService
         .fundFlowApi(LoanFundFlowInput,VariableEPISchedule
@@ -1053,10 +1034,7 @@ if(flag){
             this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['mockSchForm'].get('mockSchFormArray').controls=[];
           }
         });
-   }
-   
-  
-   
+ //  }   
       }
 
   get formArr() {
@@ -1783,23 +1761,21 @@ if(flag){
     }
     
   }
+  setEMIStru(i){   
+    let getValue=this.createNegotiationForm.get('tickets')['controls'][i]['controls']['loanBookingDetails']['controls']['PaymentModeforGapDaysInterest'].value;  
+    if(getValue=='3GAPDYS'){
+      this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['loanBookingDetails']['controls']['EMIStructure'].enable();
+    }else{
+      this.createNegotiationForm.get('tickets')['controls'][i]['controls'].loanBookingDetails['controls']['EMIStructure'].setValue('1EMISTRUCT');
+      this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['loanBookingDetails']['controls']['EMIStructure'].disable();
+    }
+  }
+  
   getLOV() {
     this.NegotiationService
       .getmotorInsuranceData().subscribe((res: any) => {
         if (res.Error == 0 && (!res.ProcessVariables.error || res.ProcessVariables.error.code == 0)) {
-          this.motorInsuranceData = res.ProcessVariables
-          // this.EMICycleDaysLOV = res.ProcessVariables.EMICycleDaysLOV;
-          // var today = new Date();
-          // this.EMIDay = new Date(today.setDate(this.today.getDate() + 35)).getDate();
-          // let result = this.EMICycleDaysLOV.map(({ value }) => value).map(Number);
-          // const sortedvalue = result.sort((a, b) => a > b).find(x => x > this.EMIDay)
-          // this.result1 = this.EMICycleDaysLOV.findIndex(x => x.value === sortedvalue + '');
-          // if (this.selectNegotiation == 1) {
-          //   this.createNegotiationForm.patchValue({
-          //     EMICycle: (this.result1 != -1) ? this.EMICycleDaysLOV[this.result1].key : this.EMICycleDaysLOV[0].key,
-          //   });
-          // }
-          // this.InsuranceSlabLOV = res.ProcessVariables.InsuranceSlabLOV
+          this.motorInsuranceData = res.ProcessVariables         
           this.FASTagLOV = res.ProcessVariables.FASTagLOV;
           this.FundingRequiredLOV = res.ProcessVariables.FundingRequiredLOV;
           this.tempDataFundingRequiredLOV = [];
@@ -3119,10 +3095,11 @@ setCrosSell(i,val){
               this.loanBookingSelected['controls'].EMIStructure.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_structure);
               this.loanBookingSelected['controls'].loanBookingEMI.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_after_crossell);
               this.loanBookingSelected['controls'].emiDefaultValue.setValue(this.CrossSellIns[index].loan_booking_dtls.emi_default_value);
+              this.setEMIStru(index);
               if(this.AssetDetailsList[index].schemeType=='S' || this.AssetDetailsList[index].schemeType=='I' || this.AssetDetailsList[index].schemeType=='SI'){
                 this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['controls']['EMIStructure'].disable();
               }
-
+              
               if(this.AssetDetailsList[index].schemeType=='S' || this.AssetDetailsList[index].schemeType=='SI'){
                 this.createNegotiationForm['controls']['tickets']['controls'][index]['controls']['loanBookingDetails']['controls']['loanBookingEMI'].disable();
               }
@@ -3135,7 +3112,7 @@ setCrosSell(i,val){
               }
 
               if(getloanTenor && getloanBookingEmi){ // to Calculate Repayment value
-                this.repaymentAmnt = (getloanTenor-1)*getloanBookingEmi;
+                this.repaymentAmnt = (getloanTenor)*getloanBookingEmi;
               }
 
               this.loanBreakupSelected['controls'].finalAssetCost.setValue(this.CrossSellIns[index].loan_booking_dtls.final_asset_cost);

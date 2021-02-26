@@ -1061,7 +1061,6 @@ export class RcuComponent implements OnInit {
         },
       ],
     };
-
   }
 
   onUploadSuccess(event) {

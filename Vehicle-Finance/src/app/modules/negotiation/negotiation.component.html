@@ -583,7 +583,7 @@
                                     <sub class="star_red_col">*</sub>
                                   </label>
                                   <div class="col-sm-6 col-md-4 col-lg-3">
-                                    <app-vf-custom-select formControlName="PaymentModeforGapDaysInterest" (change)="setLMSCode(i,true)" [isDirty]="isDirty" [isRequired]="'Payment Mode for Gap Days Interest is Required'" [values]="GapDaysIntPayMode">
+                                    <app-vf-custom-select formControlName="PaymentModeforGapDaysInterest" (change)="setLMSCode(i,true);setEMIStru(i)" [isDirty]="isDirty" [isRequired]="'Payment Mode for Gap Days Interest is Required'" [values]="GapDaysIntPayMode">
                                     </app-vf-custom-select>
                                   </div>
                                 </div>
