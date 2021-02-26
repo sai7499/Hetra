@@ -2,7 +2,7 @@ import { DatePipe, Location } from '@angular/common';
 import { AfterContentChecked, ChangeDetectorRef, Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DocRequest } from '@model/upload-model';
+import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { Constant } from '@assets/constants/constant';
 import { CommomLovService } from '@services/commom-lov-service';
@@ -96,6 +96,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
 
   conditionalClassArray: any = [];
   accordion: string = 'collapseBriefOne';
+  documentArr: DocumentDetails[] = [];
 
   routerId: any;
   isMobileView: boolean = false;
@@ -119,6 +120,8 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   getDisableQueryTo: any;
   searchQueryId: any = '';
   searchChatMessages: any = [];
+  collateralId: any;
+  associatedWith: string = '1';
 
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
@@ -176,6 +179,11 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       }
     } catch (error) {
 
+    }
+    this.collateralId =  this.leadSectionData['vehicleCollateral'][0] ? this.leadSectionData['vehicleCollateral'][0].collateralId : '0';
+
+    if (this.collateralId){
+      this.getDocumentDetails()
     }
   }
 
@@ -756,6 +764,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
         "assetQueries": assetQueries
       }
 
+      if (form.controls['docId'].value) {
+        this.callApiForReference()
+      }
+
       this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
           this.queryModalForm.patchValue({
@@ -796,6 +808,10 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       this.toasterService.showError('Please enter all mandatory field', '')
       this.utilityService.validateAllFormFields(form)
     }
+
+  }
+
+  callApiForReference() {
 
   }
 
@@ -1124,6 +1140,15 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
     this.sharedService.getQueryModel(this.location.path())
     localStorage.setItem('isNeedBackButton', 'true');
     this.router.navigate(['/pages/dde/' + this.leadId])
+  }
+
+  getDocumentDetails() {
+    this.uploadService
+      .getDocumentDetails(this.collateralId, this.associatedWith)
+      .subscribe((value: any) => {
+        console.log(value, 'value')
+      });
+
   }
 
 }
