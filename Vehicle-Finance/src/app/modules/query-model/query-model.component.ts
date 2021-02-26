@@ -122,6 +122,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   searchChatMessages: any = [];
   collateralId: any;
   associatedWith: string = '1';
+  documentDetails: any = [];
 
   constructor(private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService, private commonLovService: CommomLovService, private router: Router,
     private labelsData: LabelsService, private uploadService: UploadService, private queryModelService: QueryModelService, private toasterService: ToasterService,
@@ -151,6 +152,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       searchLeadId: ['', Validators.required],
       searchText: ['', Validators.required],
       docName: [''],
+      documentId: [''],
       repliedTo: [null],
       queryStatus: ['OPNQUESTAT'],
       leadId: ['', Validators.required]
@@ -178,12 +180,6 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
         this.intervalId = this.getPollLeads(this.getLeadSendObj)
       }
     } catch (error) {
-
-    }
-    this.collateralId =  this.leadSectionData['vehicleCollateral'][0] ? this.leadSectionData['vehicleCollateral'][0].collateralId : '0';
-
-    if (this.collateralId){
-      this.getDocumentDetails()
     }
   }
 
@@ -466,6 +462,9 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
               queryTo: val.queryTo
             }
           })
+          if (this.collateralId){
+            this.getDocumentDetails()
+          }
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Queries')
         }
@@ -487,6 +486,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
           const appiyoError = response.Error;
           const apiError = response.ProcessVariables.error.code;
           this.leadSectionData = response.ProcessVariables;
+          this.collateralId = this.leadSectionData && this.leadSectionData['vehicleCollateral'][0] ? this.leadSectionData['vehicleCollateral'][0].collateralId : '0';
 
           if (appiyoError === '0' && apiError === '0') {
             this.leadId = this.leadSectionData.leadId;
@@ -757,6 +757,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
         docName: form.controls['docName'].value,
         repliedTo: form.controls['repliedTo'].value,
         queryStatus: form.controls['queryStatus'].value,
+        documentId: form.controls['documentId'].value
       }]
 
       let data = {
@@ -765,7 +766,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       }
 
       if (form.controls['docId'].value) {
-        this.callApiForReference()
+        this.callAppiyoUploadApi()
       }
 
       this.queryModelService.saveOrUpdateVehcicleDetails(data).subscribe((res: any) => {
@@ -811,7 +812,41 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
 
   }
 
-  callApiForReference() {
+  callAppiyoUploadApi() {
+
+    this.documentArr = [{
+      documentId: this.documentDetails.length > 0 ?  this.documentDetails[this.documentDetails.length - 1].documentId : 0,
+      documentType: this.selectedDocDetails.docTypCd + '',
+      documentName:  this.selectedDocDetails.docTypCd+ '',
+      documentNumber: "",
+      dmsDocumentId: this.queryModalForm.controls['docId'].value,
+      categoryCode: this.selectedDocDetails.docCtgryCd + '',
+      subCategoryCode:  this.selectedDocDetails.docSbCtgryCd + '',
+      issuedAt: "check",
+      issueDate: "",
+      expiryDate: "",
+      associatedId: this.collateralId,
+      associatedWith: this.associatedWith,
+      formArrayIndex: 0,
+      imageUrl: "",
+      deferredDate: "",
+      isDeferred: "0"
+    }]
+
+    this.documentArr[0]['fileName'] = this.queryModalForm.controls['docName'].value;
+
+    this.uploadService
+    .saveOrUpdateDocument(this.documentArr)
+    .subscribe((value: any) => {
+      if (value.Error !== '0') {
+        return;
+      }
+      const processVariables = value.ProcessVariables;
+      const documentIds = processVariables.documentIds;
+      documentIds.forEach((id, index) => {
+        this.documentArr[index].documentId = id;
+      });
+    })
 
   }
 
@@ -823,6 +858,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
       docId: event.dmsDocumentId ? event.dmsDocumentId : '',
       docName: event.fileName ? event.fileName : ''
     })
+    this.callAppiyoUploadApi()
   }
 
   chooseFile() {
@@ -877,6 +913,8 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
 
     let collateralId = this.leadSectionData['vehicleCollateral'] ? this.leadSectionData['vehicleCollateral'][0] : this.leadSectionData['applicantDetails'][0];
 
+    this.collateralId = collateralId.collateralId;
+    
     if (!collateralId) {
       return;
     }
@@ -1145,10 +1183,15 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   getDocumentDetails() {
     this.uploadService
       .getDocumentDetails(this.collateralId, this.associatedWith)
-      .subscribe((value: any) => {
-        console.log(value, 'value')
+      .subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.documentDetails = res.ProcessVariables.documentDetails ? res.ProcessVariables.documentDetails : [];
+          if (this.documentDetails.length > 0) {
+            this.queryModalForm.controls['documentId'].setValue(this.documentDetails[this.documentDetails.length - 1].documentId)
+          }
+          this.associatedWith = res.ProcessVariables.associatedWith;
+        }
       });
-
   }
 
 }
