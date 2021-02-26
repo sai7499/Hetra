@@ -117,6 +117,7 @@ export class CustomInputComponent
     if (obj === '') {
       return;
     }
+    // this.data = String(obj || '' ).toUpperCase()
     this.data = obj;
     this.inputValue = this.data;
     this.checkValidation(this.data);
@@ -499,4 +500,8 @@ export class CustomInputComponent
 
     this.inputError = false;
   }
+  // valueChange(){
+  //   this.inputValue = String(this.inputValue || '').toUpperCase();
+  // }
+
 }
