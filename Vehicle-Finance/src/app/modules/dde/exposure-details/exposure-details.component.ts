@@ -144,12 +144,12 @@ export class ExposureDetailsComponent implements OnInit {
         
 
         this.addUnit(this.liveloanArray);
-        this.loanAmountChange();
         // this.addProposedUnit(this.proposedArray);
       } else {
         this.addUnit(null);
         // this.addProposedUnit(null);
        }
+       this.loanAmountChange();
        const operationType = this.toggleDdeService.getOperationType();
        if (operationType) {
            this.exposureLiveLoan.disable();

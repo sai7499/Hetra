@@ -1567,7 +1567,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRoute(leadId, stageCode?, taskId?, data?) {
+  onRoute(leadId, stageCode?, taskId?) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
       subActiveTab: this.subActiveTab,
@@ -1584,9 +1584,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
-    console.log(data, 'Item')
 
-    this.onRoutingTabs(this.subActiveTab, data)
+    this.onRoutingTabs(this.subActiveTab)
   }
 
   onClear() {
@@ -1635,7 +1634,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onAssign(taskId?, leadId?) {
+  onAssign(taskId?, leadId?, item?) {
     this.isClaim = true;
     this.isRelease = false;
     this.leadId = leadId;
@@ -1648,12 +1647,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: triple-equals
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
+        this.saveTaskLogs();
         if (this.userName) {
           return;
         } else {
-          this.onRoutingTabs(this.subActiveTab);
+          this.onRoutingTabs(this.subActiveTab, item);
         }
-        this.saveTaskLogs();
+        
       } else {
         this.toasterService.showError(response.Error, '');
       }
