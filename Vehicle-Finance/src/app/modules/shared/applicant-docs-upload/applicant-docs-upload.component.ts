@@ -33,7 +33,6 @@ import { LoanViewService } from '@services/loan-view.service';
 })
 export class ApplicantDocsUploadComponent implements OnInit {
   apiId;
-  isPatternError: boolean;
   @Input() set appId(value) {
     if (!value) {
       return;
@@ -550,24 +549,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onDocumentNumberPress(event, index, code) {
-    const value = event.target.value;
-    if (code === 12 || code === 13 || code === 15 || code === 16) {
-     
+    if (code === 11 ||code === 12 || code === 13 || code === 15 || code === 16) {
+      const value = event.target.value;
       const formArray = this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray;
       console.log('formArray.at[index]', formArray.at(index))
       formArray.at(index).get('documentNumber').setValue(String(value).toUpperCase());
-    }
-    this.isPatternError = false;
-    if(code === 12){
-      const patternCheck = event.target.pattern;
-      if (patternCheck) {
-        let toLower = String(value);
-        if (!RegExp(patternCheck).test(toLower)) {
-         this.isPatternError = true;
-        }else{
-          this.isPatternError = false;
-        }
-      }
     }
   }
 
