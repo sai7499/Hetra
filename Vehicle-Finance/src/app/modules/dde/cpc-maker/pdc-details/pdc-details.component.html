@@ -108,7 +108,8 @@
 
                                         <div class="ng-autopopulate" style="width: 100%;word-wrap: break-word;">
 
-                                            <ng-autocomplete class="custom-select-box" [data]="searchBankNameList"
+                                            <ng-autocomplete class="custom-select-box" 
+                                            [ngClass]="{ 'codeDisable disableCode': repaymentMode == '4LOSREPAY' }" [data]="searchBankNameList"
                                                 [searchKeyword]="keyword"
                                                 (selected)="selectBankNameEvent($event, item, i, 'instrBankName', 'pdcList')"
                                                 (inputChanged)='onBankNameSearch($event)'
@@ -294,7 +295,8 @@
 
                                         <div class="ng-autopopulate" style="width: 100%;">
 
-                                            <ng-autocomplete class="custom-select-box" [data]="searchBankNameList"
+                                            <ng-autocomplete class="custom-select-box"
+                                            [ngClass]="{ 'codeDisable disableCode': repaymentMode == '4LOSREPAY' }" [data]="searchBankNameList"
                                                 [searchKeyword]="keyword"
                                                 (selected)="selectBankNameEvent($event, item,i, 'instrBankName', 'spdcList')"
                                                 (inputChanged)='onBankNameSearch($event)'
