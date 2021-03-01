@@ -87,6 +87,7 @@ export class OtherDetailsComponent implements OnInit {
   udfGroupId: string = 'PDG001';
   entityType: any;
   isNonInd: boolean;
+  collateralId: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -132,19 +133,28 @@ export class OtherDetailsComponent implements OnInit {
 
     //this.udfScreenId = this.roleType === 1 ? 'PDS004' : 'PDS008';
 
+    const docNm = 'PD REPORT';
+    const docCtgryCd = 102;
+    const docTp = 'LEAD';
+    const docSbCtgry = 'VF GENERATED DOCS';
+    const docCatg = 'VF GENERATED DOCS';
+    const docCmnts = 'Addition of document for Applicant Creation';
+    const docTypCd = 478;
+    const docSbCtgryCd = 42;
+
     this.selectedDocDetails = {
-      docsType: this.PROFILE_TYPE,
       docSize: this.OTHER_DOCUMENTS_SIZE,
-      docTp: "LEAD",
-      docSbCtgry: "ACCOUNT OPENING FORM",
-      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
-      docCtgryCd: 70,
-      docCatg: "KYC - I",
-      docTypCd: 276,
-      flLoc: "",
-      docCmnts: "Addition of document for Lead Creation",
+      docsType: this.PROFILE_TYPE,
+      docNm,
+      docCtgryCd,
+      docTp,
+      docSbCtgry,
+      docCatg,
       bsPyld: "Base64 data of the image",
-      docSbCtgryCd: 204,
+      docCmnts,
+      docTypCd,
+      flLoc: "",
+      docSbCtgryCd,
       docsTypeForString: "selfie",
       docRefId: [
         {
@@ -224,6 +234,8 @@ export class OtherDetailsComponent implements OnInit {
     this.equitasBranchName = leadData['leadDetails'].branchName;
     this.applicationNo = String(this.leadId);
     this.product = leadData['leadDetails'].productCatName;
+    this.collateralId = leadData['vehicleCollateral'] ? leadData['vehicleCollateral'][0]['collateralId'] : 0;
+
     if (this.fundingProgram === 'CAT D') {
       this.otherDetailsForm.get('agricultureProof').enable(); //SET_VALIDATIONS
     } else {
@@ -578,6 +590,8 @@ export class OtherDetailsComponent implements OnInit {
     };
 
     event.imageUrl = '';
+    event.associatedId = this.collateralId;
+    event.associatedWith = "1";
 
     let index = 0;
     if (this.documentArr.length === 0) {
