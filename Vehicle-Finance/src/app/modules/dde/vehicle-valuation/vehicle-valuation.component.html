@@ -25,7 +25,7 @@
                   <td>{{ labels?.address }}</td>
                   <td>{{ labels?.valuationStatus }}</td>
                   <td>{{ labels?.initiatedOn }}</td>
-                  <td>{{ labels?.valuatorStatus }}</td>
+                  <td>{{ labels?.valuatorType }}</td>
                   <td>{{ labels?.requestId }}</td>
                   <td>{{ labels?.valuationReport }}</td>
                 </tr>
@@ -174,7 +174,7 @@
         <h4 class="modal-title">{{ labels.modalTitle1 }}</h4>
       </div>
       <div class="modal-body">
-        <div class="row">
+        <div>
           <div class="form-group col-sm-6 col-md-4 col-lg-3 housing">
             <label for="registration_cost">
               {{ labels.registrationNumber }}
@@ -200,7 +200,7 @@
               </textarea>
           </div>
           <form class="multisteps-form__form" [formGroup]="modalDataForm">
-            <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
+            <div style="padding: 0;" class="form-group col-sm-12 col-md-12 col-lg-12 housing">
               <label for="remarks">{{ labels.referenceRemarks }}
               </label>
               <textarea class="form-control" [maxlength]="labels?.validationData.remarks.maxLength"
@@ -215,37 +215,41 @@
                 </div>
               </div> -->
             </div>
-            <div *ngIf="isInternalValuator" class="col-sm-12 col-md-12 col-lg-12 row">
-              <div class="col-sm-4 col-md-4 col-lg-4 ">
-                <label>
-                  <input type="radio" (change)="onSelectValuator($event.target.value)" name="isInternalValuation"
-                    formControlName="isInternalValuation" value="1"> Internal
-                </label>
+            <div  class="col-sm-12 col-md-12 col-lg-12 row">
+              <div>
+                <div style="padding: 0;" *ngIf="isInternalValuator" class="col-sm-3 col-md-3 col-lg-3">
+                  <label style="margin-right: 10px;">
+                    <input type="radio" (change)="onSelectValuator($event.target.value)" name="isInternalValuation"
+                      formControlName="isInternalValuation" value="1"> Internal
+                  </label>
+                  <label>
+                    <input type="radio" (change)="onSelectValuator($event.target.value)" name="isInternalValuation"
+                      formControlName="isInternalValuation" value="0"> External
+                  </label>
+                </div>
+                <div class="invalid-feedback col-lg-12 col-md-12 col-sm-12" *ngIf="isDirty && !modalDataForm.get('isInternalValuation').value && isInternalValuator">
+                  Please select any one valuator
+                </div>
               </div>
-              <div class="col-sm-4 col-md-4 col-lg-4">
-                <label>
-                  <input type="radio" (change)="onSelectValuator($event.target.value)" name="isInternalValuation"
-                    formControlName="isInternalValuation" value="0"> External
-                </label>
-              </div>
-
-            </div>
-
-            <div *ngIf="modalDataForm.get('isInternalValuation').value == '0' || !isInternalValuator"
+              <div *ngIf="modalDataForm.get('isInternalValuation').value == '0' || !isInternalValuator"
               class="form-group col-sm-6 col-md-4 col-lg-3 housing">
-
-
               <label for="property_located_city">
                 {{ labels.chooseValuator }}
                 <sub class="star_red_col">*</sub>
               </label>
               <app-vf-custom-select [values]="vendorDetailsData" formControlName="valuatorCode"
-                [isRequired]="'Please Select One Option'" (change)="onChangeVendorName($event)" [isDirty]="isDirty">
+                (change)="onChangeVendorName($event)">
               </app-vf-custom-select>
+              <div class="invalid-feedback">
+                <div *ngIf="!modalDataForm.get('valuatorCode').value && isDirty"> Please select any one
+                </div>
+                <!-- <div *ngIf="modalDataForm.get('branchName').hasError('minlength')"> Mininum 3 Charates
+                  required</div> -->
+              </div>
             </div>
             <!--  -->
             <div *ngIf="modalDataForm.get('isInternalValuation').value == '1' "
-              class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+              class="form-group col-sm-4 col-md-4 col-lg-3 housing">
 
 
               <label for="property_located_city">
@@ -253,12 +257,17 @@
                 <sub class="star_red_col">*</sub>
               </label>
               <app-vf-custom-select [values]="branchDetails" formControlName="branchName"
-                [isRequired]="'Please Select One Option'" (change)="onChangeBranchName($event.target.value)"
-                [isDirty]="isDirty">
+                 (change)="onChangeBranchName($event.target.value)">
               </app-vf-custom-select>
+              <div class="invalid-feedback">
+                <div *ngIf="!modalDataForm.get('branchName').value && isDirty"> Please select any one
+                </div>
+                <!-- <div *ngIf="modalDataForm.get('branchName').hasError('minlength')"> Mininum 3 Charates
+                  required</div> -->
+              </div>
             </div>
             <div *ngIf="modalDataForm.get('isInternalValuation').value == '1' "
-              class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+              class="form-group col-sm-4 col-md-4 col-lg-3 housing">
 
               <label for="property_located_city">
                 Select User
@@ -277,27 +286,34 @@
                   required</div>
               </div>
               <ng-template #favBankNameTemplate let-item>
-                <a [innerHTML]="item.value"></a>
+                <a [innerHTML]="item.Name"></a>
               </ng-template>
               <ng-template #notFoundTemplate let-notFound>
                 <div [innerHTML]="notFound"></div>
               </ng-template>
             </div>
+           
+            </div>
+            <div class="row text-right">
+              <button type="button" class="btn btn-primary table-head-bg" data-target="#myModal_one" (click)="okModal()"
+                id="model_ok">
+                {{ labels.ok }}
+              </button>
+              <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal1>
+                close</button>
+              <button type="button" (click)="closeModal()" class="btn btn-primary table-head-bg" data-dismiss="modal">
+                {{ labels.cancel }}
+              </button>
+            </div>
+
+            
+
+            
             <!--  -->
           </form>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary table-head-bg" data-target="#myModal_one" (click)="okModal()"
-          id="model_ok">
-          {{ labels.ok }}
-        </button>
-        <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal1>
-          close</button>
-        <button type="button" (click)="closeModal()" class="btn btn-primary table-head-bg" data-dismiss="modal">
-          {{ labels.cancel }}
-        </button>
-      </div>
+     
     </div>
   </div>
 </div>

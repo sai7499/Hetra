@@ -263,7 +263,7 @@
     "flStatus": "Fl Status",
     "flReport": "Fl Report",
     "vehicleValTitle": "Vehicle Valuation",
-    "valuatorType": "Valuator Type",
+    "valuatorType": "Valuation Type",
     "valuatorCode": "Valuator Code",
     "valuatorName": "Valuator Name",
     "valuationAmount": "Valuation Amount",
@@ -2239,7 +2239,7 @@
             },
             "type": "alpha-numeric-nospace",
             "patternCheck": {
-                "rule": "^(?!0{12})[A-Z0-9]{12}",
+                "rule": "^(?!0{12})[A-Z0-9]{12,17}",
                 "msg": "Minimum 12 alpha-numeric characters are required"
             }
         },

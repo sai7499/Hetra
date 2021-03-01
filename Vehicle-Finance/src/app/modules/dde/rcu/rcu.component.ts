@@ -17,7 +17,7 @@ import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { Base64StorageService } from '@services/base64-storage.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
-import { DocRequest } from '@model/upload-model';
+import { DocRequest, DocumentDetails } from '@model/upload-model';
 @Component({
   selector: 'app-rcu',
   templateUrl: './rcu.component.html',
@@ -97,7 +97,12 @@ export class RcuComponent implements OnInit {
   rcuVersions: any;
   selectedRCUVersion: any;
   isReInitiate = true;
-  tabName: any = {}
+  tabName: any = {};
+
+  collateralId: any;
+  associatedWith: string = '1';
+  documentDetails: any = [];
+  documentArr: DocumentDetails[] = [];
 
   constructor(
     private labelsData: LabelsService,
@@ -143,6 +148,7 @@ export class RcuComponent implements OnInit {
     this.leadData = leadData;
     const leadSectionData = leadData as any;
     this.applicantId = leadSectionData.applicantDetails[0]['applicantId'];
+    this.collateralId = leadSectionData.vehicleCollateral ? leadSectionData.vehicleCollateral[0]['collateralId'] : 0;
 
     this.rcuDetailsForm = this.formBuilder.group({
       fileRCUStatus: [''],
@@ -154,8 +160,10 @@ export class RcuComponent implements OnInit {
       vehicleNo: [''],
       rcuReportStatus: ['', Validators.required],
       rcuDocumentId: [''],
+      fileName: [''],
       rcuReportReceivedDateTime: this.getTodayDate(null),
       remarks: [''],
+      documentId: [''],
       applicantDocuments: this.formBuilder.array([]),
       collateralDocuments: this.formBuilder.array([]),
     });
@@ -176,7 +184,7 @@ export class RcuComponent implements OnInit {
       // this.rcuDetailsForm.disable()
       const applicantDoc = this.rcuDetailsForm.get('applicantDocuments') as FormArray
 
-      console.log(applicantDoc.controls.length, 'applicantDoc', applicantDoc)
+      console.log(applicantDoc.controls.length, 'applicantDoc', this.collateralId)
 
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
 
@@ -402,7 +410,6 @@ export class RcuComponent implements OnInit {
         } else if (this.router.url.includes('/rcu') && this.roleType == '2' && this.response.rcuInitiated == false) {
           this.isRcuDetails = true;
           this.isErr = true;
-
         }
 
         this.applicantDocuments = this.response.applicantDocuments;
@@ -412,6 +419,10 @@ export class RcuComponent implements OnInit {
         this.apiValue = this.rcuDetailsForm.getRawValue();
 
         this.udfDetails = res.ProcessVariables.udfDetails ? res.ProcessVariables.udfDetails : [];
+
+        if (this.collateralId) {
+          this.getDocumentDetails()
+        }
 
       } else if (res && res.ProcessVariables.error.code == '1') {
         this.isRcuDetails = true;
@@ -472,6 +483,7 @@ export class RcuComponent implements OnInit {
         vehicleNo: this.rcuDetailsForm.controls.vehicleNo.value,
         rcuReportStatus: this.rcuDetailsForm.controls.rcuReportStatus.value,
         rcuDocumentId: this.rcuDetailsForm.controls.rcuDocumentId.value,
+        documentId: this.rcuDetailsForm.controls.documentId.value,
         rcuReportReceivedDateTime: this.rcuDetailsForm.controls
           .rcuReportReceivedDateTime.value,
         remarks: this.rcuDetailsForm.controls.remarks.value,
@@ -498,7 +510,7 @@ export class RcuComponent implements OnInit {
             'Updated Successfully',
             'RCU Details'
           );
-        this.apiValue = this.rcuDetailsForm.getRawValue();
+          this.apiValue = this.rcuDetailsForm.getRawValue();
           this.getAllRcuDetails();
         }
       });
@@ -921,6 +933,8 @@ export class RcuComponent implements OnInit {
 
     let collateralId = this.leadData['vehicleCollateral'] ? this.leadData['vehicleCollateral'][0] : this.leadData['applicantDetails'][0];
 
+    this.collateralId = collateralId.collateralId;
+
     if (!collateralId) {
       return;
     }
@@ -1016,7 +1030,7 @@ export class RcuComponent implements OnInit {
   uploadDoc() {
 
     this.showModal = true;
-    const docNm = 'RCU Report';
+    const docNm = 'RCU REPORT';
     const docCtgryCd = 102;
     const docTp = 'LEAD';
     const docSbCtgry = 'VF LOAN DOCS';
@@ -1047,7 +1061,7 @@ export class RcuComponent implements OnInit {
         },
       ],
     };
-      
+
   }
 
   onUploadSuccess(event) {
@@ -1056,7 +1070,9 @@ export class RcuComponent implements OnInit {
     // this.dmsDocumentId = event.dmsDocumentId,
     this.rcuDetailsForm.patchValue({
       rcuDocumentId: event.dmsDocumentId,
+      fileName: event.fileName ? event.fileName : ''
     });
+    this.callAppiyoUploadApi()
     // for (let i = 0; i < this.rcuDetailsForm.controls.collateralDocuments.length; i++) {
     //   const control = this.rcuDetailsForm.controls.collateralDocuments.controls as FormArray
     //   control[i].patchValue({
@@ -1109,4 +1125,57 @@ export class RcuComponent implements OnInit {
       }
     });
   }
+
+  getDocumentDetails() {
+    this.uploadService
+      .getDocumentDetails(this.collateralId, this.associatedWith)
+      .subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.documentDetails = res.ProcessVariables.documentDetails ? res.ProcessVariables.documentDetails : [];
+          if (this.documentDetails.length > 0) {
+            this.rcuDetailsForm.controls['documentId'].setValue(this.documentDetails[this.documentDetails.length - 1].documentId)
+          }
+          this.associatedWith = res.ProcessVariables.associatedWith;
+        }
+      });
+  }
+
+  callAppiyoUploadApi() {
+
+    this.documentArr = [{
+      documentId: this.documentDetails.length > 0 ? this.documentDetails[this.documentDetails.length - 1].documentId : 0,
+      documentType: this.selectedDocDetails.docTypCd + '',
+      documentName: this.selectedDocDetails.docTypCd + '',
+      documentNumber: "",
+      dmsDocumentId: this.rcuDetailsForm.controls['rcuDocumentId'].value,
+      categoryCode: this.selectedDocDetails.docCtgryCd + '',
+      subCategoryCode: this.selectedDocDetails.docSbCtgryCd + '',
+      issuedAt: "check",
+      issueDate: "",
+      expiryDate: "",
+      associatedId: this.collateralId,
+      associatedWith: this.associatedWith,
+      formArrayIndex: 0,
+      imageUrl: "",
+      deferredDate: "",
+      isDeferred: "0"
+    }]
+
+    this.documentArr[0]['fileName'] = this.rcuDetailsForm.controls['fileName'].value;
+
+    this.uploadService
+      .saveOrUpdateDocument(this.documentArr)
+      .subscribe((value: any) => {
+        if (value.Error !== '0') {
+          return;
+        }
+        const processVariables = value.ProcessVariables;
+        const documentIds = processVariables.documentIds;
+        documentIds.forEach((id, index) => {
+          this.documentArr[index].documentId = id;
+        });
+      })
+
+  }
+
 }

@@ -238,3 +238,7 @@ p {
     padding: 0px;
     width:100%;
 }
+
+::ng-deep .autocomplete-container .suggestions-container{
+  z-index: 10 !important;
+}

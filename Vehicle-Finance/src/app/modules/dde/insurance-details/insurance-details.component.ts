@@ -129,7 +129,6 @@ export class InsuranceDetailsComponent implements OnInit {
 
     // tslint:disable-next-line: no-string-literal
     this.leadData['applicantDetails'].map((element => {
-      console.log('element', element)
       const body = {
         key: element.applicantTypeKey,
         value: element.fullName,
@@ -150,8 +149,10 @@ export class InsuranceDetailsComponent implements OnInit {
     });
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
+      console.log('element', this.lovData)
 
       let insuranceSlabForCreditShieldLifeCover = this.lovData.insuranceSlabForCreditShieldLifeCover;
+      this.applicantRelation = this.lovData.bloodRelation;
 
       insuranceSlabForCreditShieldLifeCover.filter((res: any) => {
         if (res.key !== "7INSSLAB") {
@@ -164,15 +165,15 @@ export class InsuranceDetailsComponent implements OnInit {
         }
       })
 
-      this.lovData.relationship.filter(element => {
-        if (element.key !== '5RELATION') {
-          const body = {
-            key: element.key,
-            value: element.value
-          };
-          this.applicantRelation.push(body);
-        }
-      });
+      // this.lovData.relationship.filter(element => {
+      //   if (element.key !== '5RELATION') {
+      //     const body = {
+      //       key: element.key,
+      //       value: element.value
+      //     };
+      //     this.applicantRelation.push(body);
+      //   }
+      // });
     });
     this.applicantId = (await this.getApplicantId()) as number;
     this.leadId = (await this.getLeadId()) as number;
@@ -766,7 +767,8 @@ export class InsuranceDetailsComponent implements OnInit {
 
         const nomineeKey = this.nomineeArray[i];
         if (nomineeKey == 'nomineeAddLine2' || nomineeKey == 'nomineeAddLine3' || nomineeKey == 'nomineeFullName' ||
-          nomineeKey == 'nomineeMiddleName' || nomineeKey == 'nomineeMobileNumber') {
+          nomineeKey == 'nomineeMiddleName') {
+            //  || nomineeKey == 'nomineeMobileNumber'
           this.f.controls[nomineeKey].clearValidators();
           this.f.controls[nomineeKey].updateValueAndValidity();
           console.log(nomineeKey, 'value in nominee   array');
@@ -782,7 +784,8 @@ export class InsuranceDetailsComponent implements OnInit {
         for (let i = 0; i < this.guardianArray.length; i++) {
           const guardianKey = this.guardianArray[i];
           if (guardianKey == 'guardianAddLine2' || guardianKey == 'guardianAddLine3' || guardianKey == 'guardianFullName' ||
-            guardianKey == 'guardianMiddleName' || guardianKey == 'guardianMobileNumber') {
+            guardianKey == 'guardianMiddleName') {
+              // || guardianKey == 'guardianMobileNumber'
             console.log(this.guardianArray[i], 'value in nominee array');
             this.f.controls[guardianKey].clearValidators();
             this.f.controls[guardianKey].updateValueAndValidity();

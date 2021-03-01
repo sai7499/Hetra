@@ -34,7 +34,7 @@
     <!-- Filter Form Starts -->
     <div class="filter-block container-fluid mar-bottom"
         *ngIf="showFilter">
-        <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab">
+        <div>
             <form [formGroup]="filterForm">
                 <div class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -99,27 +99,27 @@
                 <div *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab" class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="startDate">{{labels?.disbursementStartDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="disbFromDate" [format]="'dd/MM/yyyy'"
+                        <kendo-datepicker class="form-control" formControlName="disbursementDate" [format]="'dd/MM/yyyy'"
                             [max]="toDayDate" placeholder="Start Date" (ngModelChange)="onChangeDisbFromDate($event)"
                             [activeView]="'decade'">
                         </kendo-datepicker>
 
                     </div>
-                    <div [ngClass]="{'disablField': !filterForm.get('disbFromDate').value}"
+                    <div
                         class="form-group col-sm-6 col-md-3 col-lg-3">
-                        <label for="endDate">{{labels?.disbursementEndDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="disbToDate" [format]="'dd/MM/yyyy'"
-                            [min]="filterForm.get('disbFromDate').value" (ngModelChange)="onChangeDisbToDate($event)"
-                            [max]="toDayDate" placeholder="End Date" [activeView]="'decade'">
+                        <label for="endDate">Expected Date</label>
+                        <kendo-datepicker class="form-control" formControlName="expectedDate" [format]="'dd/MM/yyyy'"
+                             (ngModelChange)="onChangeDisbToDate($event)"
+                             placeholder="End Date" [activeView]="'decade'">
                         </kendo-datepicker>
                         <!-- <div *ngIf="isFromDate">
                 End Date is required
             </div> -->
-                        <div *ngIf="disbFromDate && isFromDate">
+                        <!-- <div *ngIf="disbFromDate && isFromDate">
                             <div style="color:red">
                                 End Date is required
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <!--  -->
@@ -867,7 +867,7 @@
                             <td [attr.data-label]="labels?.action" *ngIf="onAssignTab && displayTabs?.PDDforCPC === activeTab || (displayTabs?.ChequeTracking === activeTab &&
                                 displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">
                                 <input type="button" class="btn btn-primary"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); onAssign(item.taskId, item.leadId);  assignTaskId(item.taskId); onClick(); getLeadId(item)"
+                                    (click)="onAssign(item.taskId, item.leadId, item);  assignTaskId(item.taskId); getLeadId(item)"
                                     value="Assign" data-toggle="modal" data-target="#assignModel" />
                             </td>
                             <td *ngIf="displayTabs?.LoanBooking === activeTab"

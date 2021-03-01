@@ -387,11 +387,14 @@ export class ValuationComponent implements OnInit {
     })
 
     this.sharedService.versionDetail$.subscribe((data: any) => {
+      
       if (data) {
         this.versionArray = data.versionArray;
         this.version = data.version;
       }
     })
+
+    
 
     this.getVehicleValuation();
 
@@ -555,7 +558,7 @@ export class ValuationComponent implements OnInit {
       this.modalDataForm.patchValue({
         internalValuationUser: '',
       })
-    } else {
+    } else if(this.modalDataForm.get('isInternalValuation').value == '1') {
       this.modalDataForm.patchValue({
         internalValuationUser: this.keyValue.key ? this.keyValue.key : '' ,
       })
@@ -589,6 +592,8 @@ export class ValuationComponent implements OnInit {
               element.valuatorStatus = getData.valuatorStatus;
             }
           }) : []
+
+          this.onBack();
 
         } else {
           this.toasterService.showError(response["ProcessVariables"]["error"]["message"],
@@ -625,6 +630,7 @@ export class ValuationComponent implements OnInit {
         let myVal = val.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
         if (eName.includes(myVal)) {
+          e.Name = e.value + ' - ' + e.key;
           return e;
         }
       });
@@ -1276,16 +1282,18 @@ export class ValuationComponent implements OnInit {
       //  console.log('valuationTime', valuationTime)
       let valuationDate = this.vehicleValuationDetails.valuationInitiationDate ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : null;
-      const date = valuationDate.getDate();
-      const month = valuationDate.getMonth();
-      const year = valuationDate.getFullYear();
+      const date = valuationDate ? valuationDate.getDate() : null;
+      const month = valuationDate ?  valuationDate.getMonth() : null;
+      const year = valuationDate ? valuationDate.getFullYear() : null;
       valuationDate = new Date(year, month, date, hour, minute)
       this.vehicleValuationForm.get('referenceDetails').patchValue({
         valuationInitiationDate: valuationDate,
         personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
       })
       // if (this.vehicleValuationDetails.valuatorRefNo) {
-      this.setFormValue();
+        setTimeout(() => {
+          this.setFormValue(); 
+        });
       // }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
@@ -1422,10 +1430,10 @@ export class ValuationComponent implements OnInit {
   modalInitForm() {
     this.modalDataForm = this.formBuilder.group({
       remarks: [''],
-      valuatorCode: [''],
+      valuatorCode: ['', Validators.required],
       isInternalValuation: [''],
-      branchName: [''],
-      internalValuationUser: ['']
+      branchName: ['', Validators.required],
+      internalValuationUser: ['', Validators.required]
     });
   }
 
@@ -2356,11 +2364,20 @@ export class ValuationComponent implements OnInit {
   closeModal() {
     this.isModal = false;
     this.isOk  = false;
+    this.modalDataForm.get('internalValuationUser').setValue('');
   }
 
   okModal() {
     this.isDirty = true;
     console.log(this.modalDataForm);
+
+    if(!this.isInternalValuator) {
+      this.modalDataForm.get('isInternalValuation').clearValidators();
+      this.modalDataForm.get('isInternalValuation').updateValueAndValidity();
+      this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
+      this.modalDataForm.get('valuatorCode').updateValueAndValidity();
+
+    }
     
     if(this.modalDataForm.valid === true) {
       this.closeModal1.nativeElement.click();
@@ -2374,8 +2391,9 @@ export class ValuationComponent implements OnInit {
     console.log(val, 'val')
     this.keyValue = val;
     this.modalDataForm.patchValue({
-      internalValuationUser: val['value']
+      internalValuationUser: val['Name']
     })
+    this.vendorName = val['Name'];
   }
 
   onChangeVendorName(event: any) {
@@ -2396,20 +2414,27 @@ export class ValuationComponent implements OnInit {
 
   onSelectValuator(event) {
     console.log(event, 'event');
-    if (event == 'internal') {
-      this.modalDataForm.get('isInternalValuation').setValue(true);
-      this.modalDataForm.get('valuatorCode').setValue(null);
+    if (event == '1') {
+      this.modalDataForm.patchValue({
+        branchName: this.branchDetails[0].key
+      });
+      this.getUserByBranch();
       this.modalDataForm.get('branchName').setValidators(Validators.required);
       this.modalDataForm.get('internalValuationUser').setValidators(Validators.required);
       this.modalDataForm.get('valuatorCode').clearValidators();
       this.modalDataForm.get('valuatorCode').updateValueAndValidity();
-    } else if(event == 'external') {
-      this.modalDataForm.get('isInternalValuation').setValue(false);
-      this.modalDataForm.get('internalValuationUser').setValue(null);
+      setTimeout(() => {
+        this.modalDataForm.get('valuatorCode').setValue(null); 
+      });
+    } else if(event == '0') {
       this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
       this.modalDataForm.get('branchName').clearValidators();
       this.modalDataForm.get('internalValuationUser').clearValidators();
       this.modalDataForm.get('valuatorCode').updateValueAndValidity();
+      setTimeout(() => {
+      this.modalDataForm.get('internalValuationUser').setValue(null); 
+      this.modalDataForm.get('branchName').setValue(null); 
+      });
     }
   }
   async checkGpsEnabled() {

@@ -196,8 +196,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   displayTabs = DisplayTabs;
   sortTables = sortingTables;
   endDateChange: string;
-  disbFromDate: any;
-  disbToDate: string;
+  disbursementDate: any;
+  expectedDate: string;
+  // disbToDate: string;
   supervisor: boolean;
   userName: any;
   reAssignData: any;
@@ -449,8 +450,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       leadStage: [''],
       fromDate: [''],
       toDate: [''],
-      disbFromDate: [''],
-      disbToDate: [''],
+      disbursementDate: [''],
+      // disbToDate: [''],
+      expectedDate: [''],
       loanMinAmt: [null],
       loanMaxAmt: [null]
     });
@@ -760,21 +762,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onChangeDisbFromDate(event) {
-    this.disbFromDate = this.utilityService.getDateFormat(event);
-    if (this.disbFromDate) {
-      this.isFromDate = true;
-    } else {
-      this.isFromDate = false;
-    }
+    // this.disbursementDate = this.utilityService.getDateFormat(event);
+    // if (this.disbursementDate) {
+    //   this.isFromDate = true;
+    // } else {
+    //   this.isFromDate = false;
+    // }
   }
 
   onChangeDisbToDate(event) {
-    this.disbToDate = this.utilityService.getDateFormat(event);
-    if (this.disbToDate) {
-      this.isFromDate = false;
-    } else if (this.disbFromDate && (this.disbToDate == undefined || this.disbToDate == '')) {
-      this.isFromDate = true;
-    }
+    // this.expectedDate = this.utilityService.getDateFormat(event);
+    // if (this.expectedDate) {
+    //   this.isFromDate = false;
+    // } else if (this.disbursementDate && (this.expectedDate == undefined || this.expectedDate == '')) {
+    //   this.isFromDate = true;
+    // }
   }
 
   onMinAmtChange(event) {
@@ -806,11 +808,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.filterForm.get('disbFromDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
-      if (data || this.filterForm.get('disbFromDate').dirty) {
+    this.filterForm.get('disbursementDate').valueChanges.pipe(debounceTime(0)).subscribe((data) => {
+      if (data || this.filterForm.get('disbursementDate').dirty) {
         // this.isFromDate = true;
-        this.filterForm.get('disbToDate').setValue(null);
-      } else if (this.disbFromDate == undefined) {
+        this.filterForm.get('expectedDate').setValue(null);
+      } else if (this.disbursementDate == undefined) {
         this.isFromDate = false;
       }
     });
@@ -1227,8 +1229,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
       loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
-      disbFromDate: this.filterFormDetails ? this.filterFormDetails.disbFromDate : '',
-      disbToDate: this.filterFormDetails ? this.filterFormDetails.disbToDate : '',
+      disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
+      expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1284,6 +1286,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
+      disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
+      expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1334,6 +1339,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       leadStage: this.filterFormDetails ? this.filterFormDetails.leadStage : '',
       loanMinAmt: this.filterFormDetails ? this.filterFormDetails.loanMinAmt : '',
       loanMaxAmt: this.filterFormDetails ? this.filterFormDetails.loanMaxAmt : '',
+      loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
+      disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
+      expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1559,7 +1567,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRoute(leadId, stageCode?, taskId?, data?) {
+  onRoute(leadId, stageCode?, taskId?) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
       subActiveTab: this.subActiveTab,
@@ -1576,9 +1584,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate([`/pages/lead-creation/external-lead/${this.leadId}`]);
       }
     }
-    console.log(data, 'Item')
 
-    this.onRoutingTabs(this.subActiveTab, data)
+    this.onRoutingTabs(this.subActiveTab)
   }
 
   onClear() {
@@ -1600,6 +1607,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.filterFormDetails.toDate = this.utilityService.getDateFormat(
         this.filterFormDetails.toDate
       );
+      this.filterFormDetails.disbursementDate = this.utilityService.getDateFormat(this.filterFormDetails.disbursementDate);
+      this.filterFormDetails.expectedDate = this.utilityService.getDateFormat(this.filterFormDetails.expectedDate);
       this.onTabsLoading(this.subActiveTab);
     } else {
       this.toasterService.showError('Please fill atleast one field.', 'Filter Details');
@@ -1625,7 +1634,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onAssign(taskId?, leadId?) {
+  onAssign(taskId?, leadId?, item?) {
     this.isClaim = true;
     this.isRelease = false;
     this.leadId = leadId;
@@ -1638,12 +1647,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line: triple-equals
       if (response.ErrorCode == 0) {
         this.toasterService.showSuccess('Assigned Successfully', 'Assigned');
+        this.saveTaskLogs();
         if (this.userName) {
           return;
         } else {
-          this.onRoutingTabs(this.subActiveTab);
+          this.onRoutingTabs(this.subActiveTab, item);
         }
-        this.saveTaskLogs();
+        
       } else {
         this.toasterService.showError(response.Error, '');
       }
