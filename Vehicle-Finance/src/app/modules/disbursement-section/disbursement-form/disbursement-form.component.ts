@@ -11,6 +11,10 @@ import { LoanCreationService } from '@services/loan-creation.service';
 import { retry } from 'rxjs/operators';
 import { LoanViewService } from '@services/loan-view.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { Constant } from '../../../../assets/constants/constant';
+import { DocRequest, DocumentDetails } from '@model/upload-model';
+import { UploadService } from '@services/upload.service';
+import { DraggableContainerService } from '@services/draggable.service';
 declare var jquery: any;
 declare var $: any;
 
@@ -20,7 +24,11 @@ declare var $: any;
   styleUrls: ['./disbursement-form.component.css']
 })
 export class DisbursementFormComponent implements OnInit {
-
+  
+tvrStatusLOV =[
+  { key: 'yes', value: 'Yes' },
+  { key: 'no', value: 'No' }
+]
 
   labels: any = {};
   disbursementDetailsForm: FormGroup;
@@ -223,6 +231,7 @@ export class DisbursementFormComponent implements OnInit {
   bankcasaformArray = ['beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch']
 
   commonFormArray = ['beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount']
+  thirdPartyFormArray = ['beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount', 'tvrStatus', 'kycIDNumber','kycIDType']
   dealerformArray = ['dealerCode', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount']
   bankerformArray = ['bankerId', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount']
   finformArray = ['financierId', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount']
@@ -451,6 +460,15 @@ export class DisbursementFormComponent implements OnInit {
   add3cnfAccShow: boolean = false;
   add4cnfAccShow: boolean = false;
   add5cnfAccShow: boolean = false;
+  showModal: boolean;
+  selectedDocDetails: DocRequest;
+  PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
+  OTHER_DOCUMENTS_SIZE = Constant.OTHER_DOCUMENTS_SIZE;
+  OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
+  KYC_IMAGE: string;
+  documentArr: DocumentDetails[] = [];
+  KYCIdentityLOV: any;
+  TPdocumentJson=[];
 
 
   constructor(
@@ -465,7 +483,9 @@ export class DisbursementFormComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private loanCreationService: LoanCreationService,
     private loanViewService: LoanViewService,
-    private createLeadDataService: CreateLeadDataService
+    private createLeadDataService: CreateLeadDataService,
+    private uploadService: UploadService,
+    private draggableContainerService: DraggableContainerService
   ) {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
@@ -551,6 +571,127 @@ export class DisbursementFormComponent implements OnInit {
   }
   get coApp3TrancheDetail(): FormArray {
     return <FormArray>this.trancheCoApp3Form.get('trancheCoApp3Array')
+  }
+  uploadDocument() {
+    this.selectedDocDetails = {
+      docsType: this.PROFILE_TYPE,
+      docSize: this.OTHER_DOCUMENTS_SIZE,
+      docTp: "LEAD",
+      docSbCtgry: "VF GENERATED DOCS" ,
+      docNm: "TERM_SHEET",
+      docCtgryCd: 102,
+      docCatg: "VF LOAN DOCS",
+      docTypCd: 150,
+      flLoc: "",
+      docCmnts: "Addition of document for Applicant Creation",
+      bsPyld: "Base64 data of the image",
+      docSbCtgryCd: 42,
+      docsTypeForString: "kyc",
+      docRefId: [
+        {
+          idTp: 'LEDID',
+          id: this.disbLeadId
+        },
+        {
+          idTp: 'BRNCH',
+          id: Number(localStorage.getItem('branchId')),
+        },
+      ],
+      associatedId:'',
+      associatedWith:'4'
+      
+    };
+  }
+  deleteDocument(documentId) {
+    this.uploadService
+    .disbursesoftDeleteDocument(documentId)
+    .subscribe((value: any) => {
+      if (value.Error !== '0') {
+        return;
+      }})
+      //this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].value = [];
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].dmsDocumentId.patchValue(null)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].documentType.patchValue(null)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].categoryCode.patchValue(null)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].subCategoryCode.patchValue(null)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].associatedId.patchValue(null)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].associatedWith.patchValue(null)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].documentId.patchValue(null)
+      this.toasterService.showSuccess('Document deleted successfully', '');
+      // for (var i = this.documentArr.length - 1; i >= 0; --i) {
+      //   if (this.documentArr[i].documentId == documentId) {
+      //     this.documentArr.splice(i,1);
+      //   }
+      //  }
+    }
+  async onUploadSuccess(i, event: DocumentDetails) {
+    // this.toasterService.showSuccess('Document uploaded successfully', '');
+    this.showModal = false;
+    this.KYC_IMAGE = 'data:image/jpeg;base64,' + event.imageUrl;
+    const data = {
+      inputValue: event.imageUrl,
+      isPhoto: true,
+      applicantId: "8bfa8dba945b11eabdcaf2fa9bec3d63",
+    };
+    event.imageUrl = '';
+
+    this.individualImageUpload(event, i);
+  }
+
+  // to upload document 
+  individualImageUpload(request: DocumentDetails, index: number) {
+    const documentId = request.dmsDocumentId;
+    this.uploadService
+      .saveOrUpdateDocument([request])
+      .subscribe((value: any) => {
+        if (value.Error !== '0') {
+          return;
+        }
+        this.toasterService.showSuccess('Document uploaded successfully', '');
+        console.log('saveOrUpdateDocument', value);
+        const processVariables = value.ProcessVariables;
+        const documentId = processVariables.documentIds[0];
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].dmsDocumentId.patchValue(request.dmsDocumentId)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].documentType.patchValue(request.documentType)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].categoryCode.patchValue(request.categoryCode)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].subCategoryCode.patchValue(request.subCategoryCode)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].associatedId.patchValue(request.associatedId)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].associatedWith.patchValue(request.associatedWith)
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].documentId.patchValue(documentId)
+          console.log("documentId******", documentId);
+      });
+  }
+
+  //to View uploaded Document
+  getBase64String(dmsDocumentId) {
+    return new Promise((resolve, reject) => {
+      this.uploadService
+        .getDocumentBase64String(dmsDocumentId)
+        .subscribe((value) => {
+
+          const imageUrl = value['dwnldDocumentRep'].msgBdy.bsPyld;
+          const documentName = value['dwnldDocumentRep'].msgBdy.docNm || '';
+          const imageType = documentName.split('.')[1].toLowerCase();
+
+          resolve({
+            imageUrl,
+            imageType,
+          });
+          console.log('downloadDocs', value);
+        });
+    });
+  }
+  //for document 
+  async downloadDocs(event) {
+    // let el = event.srcElement;
+    const dmsDocumentID: any = await this.getBase64String(event)
+    const showDraggableContainer = {
+      imageUrl: dmsDocumentID.imageUrl,
+      imageType: dmsDocumentID.imageType,
+    };
+    this.draggableContainerService.setContainerValue({
+      image: showDraggableContainer,
+    });
   }
 
   addEmptyTrancheRow(container, trancheId) {
@@ -1184,7 +1325,7 @@ export class DisbursementFormComponent implements OnInit {
       } else if (container == '4') {
         trancheList[i].tranche_disbursement_amount = Math.round((this.bankerObjInfo['disbursementAmount'] / 100) * tranchePercentage);
       } else if (container == '5') {
-        trancheList[i].tranche_disbursement_amount = Math.round((this.bankerObjInfo['disbursementAmount'] / 100) * tranchePercentage);
+        trancheList[i].tranche_disbursement_amount = Math.round((this.financierObjInfo['disbursementAmount'] / 100) * tranchePercentage);
       } else if (container == '6') {
         trancheList[i].tranche_disbursement_amount = Math.round((this.thirdPartyObjInfo['disbursementAmount'] / 100) * tranchePercentage);
       } else if (container == '8') {
@@ -1246,6 +1387,7 @@ export class DisbursementFormComponent implements OnInit {
           this.paymentLov = resData.PaymentMethod;
           this.trancheDisbLov = resData.TrancheDisbType;
           this.instrumentTypeLov = resData.InstrumentType;
+          this.KYCIdentityLOV = resData.KYCIdentityLOV;
           if(!this.leadLists){ // if loan details is 1
             this.fetchLoanDetails(this.UniqueSubLeadReferenceID,false);
           }          
@@ -3695,12 +3837,12 @@ export class DisbursementFormComponent implements OnInit {
       this.showTPDDDetails = false;
       this.showTPCASADetails = false;
       this.trancheTpList = [];
-      this.commonFormArray.forEach(key => {
+      this.thirdPartyFormArray.forEach(key => {
         this.thirdPartyDetailsForm.get(key).clearValidators();
         this.thirdPartyDetailsForm.get(key).setErrors(null);
       });
     } else {
-      this.commonFormArray.forEach(key => {
+      this.thirdPartyFormArray.forEach(key => {
         this.thirdPartyDetailsForm.get(key).setValidators([Validators.required]);
         //this.thirdPartyDetailsForm.get(key).updateValueAndValidity();
       });
@@ -4529,6 +4671,15 @@ export class DisbursementFormComponent implements OnInit {
       favouringBankBranch: new FormControl({ value: this.thirdPartyObjInfo['favouringBankBranch'] }, Validators.required),
       //loanNumber: new FormControl({ value: this.thirdPartyObjInfo['loanNumber'] }, Validators.required),
       //thirdPartyAddress: new FormControl(''),
+      TPdocumentJson : this.fb.group({
+        documentType: [''],
+        dmsDocumentId: [''],
+        categoryCode: [''],
+        subCategoryCode: [''] ,
+        associatedId: [''],
+        associatedWith: [''],
+        documentId:['']
+      }),
       beneficiaryAddress1: new FormControl(''),
       beneficiaryAddress2: new FormControl(''),
       beneficiaryAddress3: new FormControl(''),
@@ -4537,6 +4688,9 @@ export class DisbursementFormComponent implements OnInit {
       deductChargesFlag: new FormControl(''),
       trancheDisbursementFlag: new FormControl(''),
       deferredDisbursementFlag: new FormControl(''),
+      tvrStatus: new FormControl({ value: this.thirdPartyObjInfo['tvrStatus'] }, Validators.required),
+      kycIDNumber : new FormControl({ value: this.thirdPartyObjInfo['kycIDNumber'] }, Validators.required),
+      kycIDType : new FormControl({ value: this.thirdPartyObjInfo['kycIDType'] }, Validators.required),
     })
     this.ibtDetailsForm = this.fb.group({
       ibtFavoringName: new FormControl({ value:'Equitas Small Finance Bank',disabled:true}),
@@ -4711,6 +4865,7 @@ export class DisbursementFormComponent implements OnInit {
     let instrumentDate = '';
     let disbursementID = '';
     this.DisbursementDetails = [];
+    this.TPdocumentJson = [];
     for (let x = 0; x < this.disburseTo.length; x++) {
       if(this.disburseTo[x]=='7DISBURSETO' || this.disburseTo[x]=='3DISBURSETO'){
         continue
@@ -4770,7 +4925,9 @@ export class DisbursementFormComponent implements OnInit {
                 thirdPartyFormValue.trancheDisbursementJson = this.trancheTPForm ? JSON.stringify(this.trancheTPForm.value.trancheTpArray) : '';
                 trancheDisbursementJson=thirdPartyFormValue.trancheDisbursementJson;
                 instrumentDate = thirdPartyFormValue.instrumentDate ? this.utilityService.getDateFormat(thirdPartyFormValue.instrumentDate) : '';
-                disbursementID = this.tpDisbursementID ? this.tpDisbursementID : null
+                disbursementID = this.tpDisbursementID ? this.tpDisbursementID : null;
+                
+                this.TPdocumentJson.push(this.thirdPartyDetailsForm.controls.TPdocumentJson.value)
         }
         if(this.disburseTo[x] == '9DISBURSETO')
         {
@@ -4873,6 +5030,9 @@ export class DisbursementFormComponent implements OnInit {
           dealerCode: this.disburseTo[x] == '1DISBURSETO' ? objForm['dealerCode'] : null,
           bankerId: this.disburseTo[x] == '4DISBURSETO' ? objForm['bankerId'] : null,
           financierId: this.disburseTo[x] == '5DISBURSETO' ? objForm['financierId'] : null,
+          tvrStatus: this.disburseTo[x] == '6DISBURSETO' ? objForm['tvrStatus'] : null,
+          kycIDNumber: this.disburseTo[x] == '6DISBURSETO' ? objForm['kycIDNumber'] : null,
+          kycIDType: this.disburseTo[x] == '6DISBURSETO' ? objForm['kycIDType'] : null,
           beneficiaryName: objForm['beneficiaryName'],
           applicantName: objForm['beneficiaryName'],
           favouringName: objForm['beneficiaryName'],
@@ -4895,6 +5055,7 @@ export class DisbursementFormComponent implements OnInit {
           deferredDisbursementFlag: (objForm['deferredDisbursementFlag'] == true) ? 'Y' : 'N',
           trancheDisbursementFlag: (objForm['trancheDisbursementFlag'] == true) ? 'Y' : 'N',
           trancheDisbursementJson: trancheDisbursementJson,
+          documentJson: this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].dmsDocumentId.value ?  JSON.stringify(this.TPdocumentJson) : '',
           active: '1'
           }
       this.DisbursementDetails.push(this.DisburseIndex)
@@ -5867,6 +6028,10 @@ export class DisbursementFormComponent implements OnInit {
               this.tpTrancheDetail.push(this.initTranche());
             });
           }
+          let x = this.disbursementDetailsData.ThirdPartyDetails['documentJson'];
+          this.TPdocumentJson = x ? JSON.parse(this.disbursementDetailsData.ThirdPartyDetails['documentJson']) : '';
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].dmsDocumentId.patchValue(x ? this.TPdocumentJson[0].dmsDocumentId : null);
+          this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].documentId.patchValue(x ? this.TPdocumentJson[0].documentId : null)
         }
       }else{
         this.disburseToVal(this.disburseTo,false);

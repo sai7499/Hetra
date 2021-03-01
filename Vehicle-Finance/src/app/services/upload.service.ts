@@ -111,6 +111,22 @@ export class UploadService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body);
   }
+  disbursesoftDeleteDocument(documentId: string) {
+    const processId = '5ed873e6c78311eaaa7d00505695f93b';
+    const workflowId = '5eb62296c78311ea887700505695f93b';
+    const projectId = '74c36bec6da211eabdc2f2fa9bec3d63';
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        userId: localStorage.getItem('userId'),
+        documentId: Number(documentId),
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 
   getDocumentBase64String(documentId: string) {
     const data = {
