@@ -135,9 +135,9 @@ export class OtherDetailsComponent implements OnInit {
 
     const docNm = 'PD REPORT';
     const docCtgryCd = 102;
-    const docTp = 'LEAD';
+    const docTp = 'Lead';
     const docSbCtgry = 'VF GENERATED DOCS';
-    const docCatg = 'VF GENERATED DOCS';
+    const docCatg = 'VF LOAN DOCS';
     const docCmnts = 'Addition of document for Applicant Creation';
     const docTypCd = 478;
     const docSbCtgryCd = 42;
