@@ -60,6 +60,9 @@ export class VehicleValuationComponent implements OnInit {
   getBranchDetails: any;
   isInternalValuator: any;
   version: any = [];
+  url: string;
+  isValuableVersion: any;
+  isReInitiate: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -83,8 +86,8 @@ export class VehicleValuationComponent implements OnInit {
     this.roleId = this.roles[0].roleId;
     this.roleName = this.roles[0].name;
     this.roleType = this.roles[0].roleType;
-    const url = this.location.path();
-    if (this.roleId === 86 || !url.includes('dde')) {
+    this.url = this.location.path();
+    if (this.roleId === 86 || !this.url.includes('dde')) {
       this.extValuator = true;
     } else {
       this.extValuator = false;
@@ -139,7 +142,9 @@ export class VehicleValuationComponent implements OnInit {
 
   getCollateralDetailsForVehicleValuation() {
     const data = this.leadId;
-    this.vehicleValuationService.getCollateralDetailsForVehicleValuation(data).
+
+    const isValuationInitiated = this.roleId === 86 || !this.url.includes('dde') ? true : false;
+    this.vehicleValuationService.getCollateralDetailsForVehicleValuation(data, isValuationInitiated).
       subscribe((res: any) => {
         const response = res;
         this.collateralDetailsData = response.ProcessVariables.collateralDetails;
@@ -339,7 +344,7 @@ export class VehicleValuationComponent implements OnInit {
 
   }
 
-  onClickValuationReport(status, collateralId, extValuator: boolean, version?) {
+  onClickValuationReport(status, collateralId, extValuator: boolean, version?, index?) {
     console.log(version,'COLLATERAL_ID::', collateralId);
     this.colleteralId = collateralId;
     console.log('vStatus', status);
@@ -362,8 +367,20 @@ export class VehicleValuationComponent implements OnInit {
     } else {
       this.isModal = false;
       if (version) {
-        this.sharedService.getversion({'version': version, 'versionArray': this.version})
+        const valuationArrayLength = this.collateralDetailsData.length-1;
+        if(valuationArrayLength == index) {
+          this.isReInitiate = true;
+        } else {
+          this.isReInitiate = false;
+        }
+        this.sharedService.getversion({'version': version, 
+        'isReinitiate': this.isReInitiate});
+
+        console.log(valuationArrayLength);
+        // return;
+        // this.sharedService.getversion({'version': version, 'versionArray': this.version})
       }
+     this.sharedService.setIsReinitiate(this.url)
       this.router.navigateByUrl(`/pages/vehicle-valuation/${this.leadId}/valuation/${collateralId}`);
 
     }

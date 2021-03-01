@@ -131,7 +131,7 @@
                 <mat-form-field>
                   <mat-select [(ngModel)]="disburseTo" id="disburseTo" formControlName="disburseTo" multiple
                     (selectionChange)="disburseToVal(disburseTo,true)">
-                    <mat-option *ngFor="let x of disburseToLov" [value]="x.key">{{x.value}}
+                    <mat-option *ngFor="let x of disburseToLov" [value]="x.key" [disabled]="x.key == '7DISBURSETO'">{{x.value}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -3055,6 +3055,52 @@
                 name="Dealer Name" [className]="'form-control'" [placeholder]="'Fill Address 3'"></app-custom-input>
             </div>
           </div>
+          <div class="form-group">
+            <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3"> KYC ID Type
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-vf-custom-select [values]="KYCIdentityLOV" [isRequired]="'KYC ID Type is required'"
+                [(ngModel)]="thirdPartyObjInfo['kycIDType']" formControlName="kycIDType" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <p class="upload-icon" *ngIf="thirdPartyObjInfo['kycIDType']">
+                <span class="uploadsec">
+                    <i class="fa fa-upload fa-3 custom-file-label" aria-hidden="true" (click)="showModal = true;uploadDocument()"></i>
+                    <!-- uploadDocument(item.value.tranche_id) -->
+                </span>
+           <span class="clearfix pull-left cursor" formGroupName='TPdocumentJson'>
+              <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess(i,$event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
+              <input class="form-control file-input" *ngIf="thirdPartyDetailsForm['controls']['TPdocumentJson']['controls']['dmsDocumentId'].value" formControlName="dmsDocumentId" (click)="downloadDocs($event.target.value)" name="input" type="number"> 
+            </span>
+                <!-- <i class="fa fa-eye cursor-pointer" aria-hidden="true"  id="remove_Doc" (click)="downloadDocs(dmsDocumentId)"></i> &nbsp; -->
+                <i *ngIf="thirdPartyDetailsForm.controls.TPdocumentJson.controls.dmsDocumentId.value" class="fa fa-trash cursor-pointer text-danger btn" aria-hidden="true"  id="remove_Doc" data-toggle="modal" data-target="#kycmyModal"></i>
+                <span *ngIf="!thirdPartyDetailsForm.controls.TPdocumentJson.controls.dmsDocumentId.value" class="invalid-feedback kyc-error">KYC document is not uploaded. Please check once.</span>
+              </p>
+              
+          </div>
+          <div class="form-group">
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">KYC ID Number
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-custom-input [(ngModel)]="thirdPartyObjInfo['kycIDNumber']" id="kycIDNumber"
+                [isRequired]="'KYC ID Number is required'" formControlName="kycIDNumber"
+                [className]="'form-control mandatory'" [placeholder]="'KYC ID Number'" [isDirty]="isDirty"
+                [type]="'number'">
+              </app-custom-input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3"> TVR Status
+              <sub class="star_red_col">*</sub>
+            </label>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <app-vf-custom-select [values]="tvrStatusLOV" [isRequired]="'TVR Status is required'"
+                [(ngModel)]="thirdPartyObjInfo['tvrStatus']" formControlName="tvrStatus" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+          </div>
 
           <div class="form-group">
             <label class="control-label col-sm-5 col-md-4 col-lg-3 hide-label"></label>
@@ -5664,3 +5710,32 @@
 
   </div>
 </div>
+<div class="modal" id="kycmyModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+          Are you Sure Want to Delete?
+        </div>
+        <div class="modal-footer text-center">
+          <button
+            type="button"
+            class="btn btn-success"
+            data-dismiss="modal"
+            (click)="deleteDocument(thirdPartyDetailsForm['controls']['TPdocumentJson']['controls']['documentId'].value)"
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-dismiss="modal"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
