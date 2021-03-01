@@ -591,11 +591,13 @@ export class PdcDetailsComponent implements OnInit {
           spdcArray[i].patchValue({
             instrBankName: bankType.value
           })
+          spdcArray[i].controls.instrBankName.disable();
         }
         for (let i = 0; i < pdcArray.length; i++) {
           pdcArray[i].patchValue({
             instrBankName: bankType.value
           })
+          pdcArray[i].controls.instrBankName.disable();
         }
       }
     });
