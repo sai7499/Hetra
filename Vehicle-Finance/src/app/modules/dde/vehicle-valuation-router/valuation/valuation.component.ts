@@ -1114,7 +1114,9 @@ export class ValuationComponent implements OnInit {
       "udfGroupId": this.udfGroupId,
     }
 
-    if((this.roleId === 4||this.roleId === 86) && !this.path.includes('dde')) {
+    console.log(this.path, 'Path')
+
+    if((this.roleId === 4||this.roleId === 86) && this.path && !this.path.includes('dde')) {
       this.version = 0;
     }
 
@@ -2301,15 +2303,24 @@ export class ValuationComponent implements OnInit {
     if (position["latitude"]) {
       this.latitude = position["latitude"].toString();
       this.longitude = position["longitude"].toString();
-      this.vehicleValuationForm.get("latitude").patchValue(this.latitude);
-      this.vehicleValuationForm.get("longitude").patchValue(this.longitude);
+
+      this.vehicleValuationForm.get('vehiclePhotoDetails').patchValue({
+        latitude: this.latitude,
+        longitude: this.longitude
+      })
+
+      // this.vehicleValuationForm.get("latitude").patchValue(this.latitude);
+      // this.vehicleValuationForm.get("longitude").patchValue(this.longitude);
 
       var lat: number = +this.latitude;
       var lng: number = +this.longitude;
       this.loginService.geocode(new google.maps.LatLng(lat, lng)).subscribe((position) => {
         console.log("Position" + position[0].formatted_address);
         this.capturedAddress = position[0].formatted_address.toString();
-        this.vehicleValuationForm.get("capturedAddress").patchValue(this.capturedAddress);
+        // this.vehicleValuationForm.get("capturedAddress").patchValue(this.capturedAddress);'
+        this.vehicleValuationForm.get('vehiclePhotoDetails').patchValue({
+          capturedAddress: this.capturedAddress
+        })
       });
 
     } else {

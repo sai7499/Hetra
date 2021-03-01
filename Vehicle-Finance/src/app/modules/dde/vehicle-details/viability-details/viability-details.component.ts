@@ -261,20 +261,29 @@ export class ViabilityDetailsComponent implements OnInit {
       this.hideSubmit = false;
     }
 
+    const docNm = 'VIABILITY REPORT';
+    const docCtgryCd = 102;
+    const docTp = 'LEAD';
+    const docSbCtgry = 'VF GENERATED DOCS';
+    const docCatg = 'VF GENERATED DOCS';
+    const docCmnts = 'Addition of document for Applicant Creation';
+    const docTypCd = 479;
+    const docSbCtgryCd = 42;
+
     this.selectedDocDetails = {
-      docsType: this.PROFILE_TYPE,
       docSize: this.OTHER_DOCUMENTS_SIZE,
-      docTp: 'LEAD',
-      docSbCtgry: 'ACCOUNT OPENING FORM',
-      docNm: 'ACCOUNT_OPENING_FORM20206216328474448.pdf',
-      docCtgryCd: 70,
-      docCatg: 'KYC - I',
-      docTypCd: 276,
-      flLoc: '',
-      docCmnts: 'Addition of document for Lead Creation',
-      bsPyld: 'Base64 data of the image',
-      docSbCtgryCd: 204,
-      docsTypeForString: 'selfie',
+      docsType: this.PROFILE_TYPE,
+      docNm,
+      docCtgryCd,
+      docTp,
+      docSbCtgry,
+      docCatg,
+      bsPyld: "Base64 data of the image",
+      docCmnts,
+      docTypCd,
+      flLoc: "",
+      docSbCtgryCd,
+      docsTypeForString: "selfie",
       docRefId: [
         {
           idTp: 'LEDID',
@@ -1163,6 +1172,8 @@ export class ViabilityDetailsComponent implements OnInit {
     // this.uploadPhotoOrSignature(data);
 
     event.imageUrl = '';
+    event.associatedId = this.collataralId;
+    event.associatedWith = "1";
 
     let index = 0;
     if (this.documentArr.length === 0) {
