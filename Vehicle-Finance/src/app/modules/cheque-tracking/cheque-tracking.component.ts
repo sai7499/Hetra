@@ -57,6 +57,9 @@ export class ChequeTrackingComponent implements OnInit {
   isCPC = false;
   statusHistory = [];
   getDataId: any;
+  isUpdateForm: boolean = true;
+  isDisableCpcSubmit: boolean = true;
+  isSubmitCpc: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -395,8 +398,10 @@ export class ChequeTrackingComponent implements OnInit {
     if (this.isChecked && this.index === index) {
       if (this.selectedData.chequeStatus == "HANDEDOVERCHEQUESTS") {
         this.disableUpdate = true;
+        this.isDisableCpcSubmit = false;
       } else {
         this.disableUpdate = false;
+        this.isDisableCpcSubmit = true;
       }
 
       return;
@@ -437,6 +442,7 @@ export class ChequeTrackingComponent implements OnInit {
       this.chequeForm.get('status').updateValueAndValidity();
       this.statusMsg = ''
       this.disableUpdate = true;
+      this.isDisableCpcSubmit = false
     } else if (this.selectedData.chequeStatus == "ONHOLDCHEQUESTS") {
       this.showRemark = true;
       this.chequeForm.get('status').setValidators([Validators.required]);
@@ -447,6 +453,7 @@ export class ChequeTrackingComponent implements OnInit {
       })
       this.statusMsg = ''
       this.disableUpdate = false;
+      this.isDisableCpcSubmit = true;
     } else if (this.selectedData.chequeStatus == "BRNCHRECEIVEDCHEQUESTS") {
       this.showChequeNum = true;
       this.chequeForm.get('status').setValidators([Validators.required]);
@@ -458,11 +465,13 @@ export class ChequeTrackingComponent implements OnInit {
       })
       this.statusMsg = ''
       this.disableUpdate = false;
+      this.isDisableCpcSubmit = true;
     } else {
       this.chequeForm.get('status').setValidators([Validators.required]);
       this.chequeForm.get('status').updateValueAndValidity();
       this.statusMsg = 'Status is required'
       this.disableUpdate = false;
+      this.isDisableCpcSubmit = true;
     }
   }
   onRemarkValue(event) {
@@ -470,7 +479,7 @@ export class ChequeTrackingComponent implements OnInit {
     this.selectedData.remarks = event;
   }
 
-  checkFormUpdate() {
+  checkFormUpdate(type? : string) {
     const value = this.chequeForm.value;
     console.log('value', value);
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
@@ -480,6 +489,11 @@ export class ChequeTrackingComponent implements OnInit {
         'Cheque Tracking')
       return;
     }
+    if(type === 'update'){
+       this.isUpdateForm = true;
+    }else{
+      this.isUpdateForm = false
+    }
     this.showModal = true
   }
   onUpdate() {
@@ -488,6 +502,12 @@ export class ChequeTrackingComponent implements OnInit {
     if (!this.isSales) {
       this.selectedData = this.chequeData[0];
       this.isCPC = true;
+    }else{
+      if(this.isUpdateForm){
+        this.isSubmitCpc = false;
+      }else{
+        this.isSubmitCpc = true;
+      }
     }
 
     console.log('this.selectedData', this.selectedData)
@@ -515,6 +535,7 @@ export class ChequeTrackingComponent implements OnInit {
     const data = {
       leadId: this.leadId,
       isCPC: this.isCPC,
+      isSubmitCpc : this.isSubmitCpc,
       chequeData: {
         ...chequeData
       },
@@ -550,7 +571,10 @@ export class ChequeTrackingComponent implements OnInit {
         this.showStatusDate = false;
         this.showChequeNum = false;
         this.disableUpdate = true;
-        //this.router.navigate([`/pages/dashboard`]);
+        if(this.isSubmitCpc){
+          this.router.navigate([`/pages/dashboard`]);
+        }
+        
       }
       else {
         this.toasterService.showError(res['ProcessVariables'].error.message,

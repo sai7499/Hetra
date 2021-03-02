@@ -280,8 +280,10 @@ export class ValuationComponent implements OnInit {
     this.accessoriesArray = this.fb.array([]);
     this.isMobile = environment.isMobile;
     const toDayDate: Date = new Date()
-    const hour = toDayDate.getHours();
-    const minutes = toDayDate.getMinutes();
+    let hour : any = toDayDate.getHours()
+    hour = String(hour).length === 1 ?  '0' + String(hour) : hour;
+    let minutes : any = toDayDate.getMinutes()
+    minutes = String(minutes).length === 1 ?  '0' + String(minutes) : minutes;
     this.presentTime = hour + ':' + minutes
 
     this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
