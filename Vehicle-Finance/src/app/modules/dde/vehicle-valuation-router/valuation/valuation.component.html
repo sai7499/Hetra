@@ -27,7 +27,7 @@
               <div class="col-sm-4 report-align">
                 <button class="btn btn-primary js-btn-prev" type="button" *ngIf="disableForm"
                   [disabled]="disablePdfDownload">
-                  <a (click)="redirectUrl()">{{ labels.downloadReport }}</a>
+                  <a (click)="redirectUrl($event)">{{ labels.downloadReport }}</a>
                 </button>
               </div>
             </div>
