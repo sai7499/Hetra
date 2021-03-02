@@ -561,11 +561,6 @@ export class BasicDetailsComponent implements OnInit {
 
       if (this.applicant.aboutIndivProspectDetails && this.applicant.aboutIndivProspectDetails.maritalStatus) {
         this.setMaritalStatusValue(this.applicant.aboutIndivProspectDetails.maritalStatus);
-      } else if (this.applicant.aboutIndivProspectDetails && !this.applicant.aboutIndivProspectDetails.maritalStatus) {
-        const formArray = this.basicForm.get('details') as FormArray;
-        const details = formArray.at(0) as FormGroup;
-        details.get('weddingAnniversaryDate').clearValidators()
-        details.get('weddingAnniversaryDate').updateValueAndValidity()
       }
     } else {
       this.addNonIndividualFormControls();
@@ -985,7 +980,7 @@ export class BasicDetailsComponent implements OnInit {
       isMinority: new FormControl('', Validators.required),
       residentStatus: new FormControl('', Validators.required),
       maritalStatus: new FormControl('', Validators.required),
-      weddingAnniversaryDate: new FormControl('', Validators.required),
+      weddingAnniversaryDate: new FormControl(''),
       educationalQualification: new FormControl(''),
       noOfAdultsDependant: new FormControl('', Validators.required),
       noOfChildrenDependant: new FormControl('', Validators.required),

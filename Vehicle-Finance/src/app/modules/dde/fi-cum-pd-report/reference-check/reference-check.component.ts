@@ -53,6 +53,7 @@ export class ReferenceCheckComponent implements OnInit {
   userDetails: any;
   leadId: number;
   disableSaveBtn: boolean;
+  collateralId: any;
 
   selectedDocDetails: DocRequest;
 
@@ -205,19 +206,29 @@ export class ReferenceCheckComponent implements OnInit {
       });
     this.initForm();             // for initializing the form
     this.removeReferenceControls();
+
+    const docNm = 'PD REPORT';
+    const docCtgryCd = 102;
+    const docTp = 'LEAD';
+    const docSbCtgry = 'VF GENERATED DOCS';
+    const docCatg = 'VF GENERATED DOCS';
+    const docCmnts = 'Addition of document for Applicant Creation';
+    const docTypCd = 478;
+    const docSbCtgryCd = 42;
+
     this.selectedDocDetails = {
-      docsType: this.PROFILE_TYPE,
       docSize: this.OTHER_DOCUMENTS_SIZE,
-      docTp: "LEAD",
-      docSbCtgry: "ACCOUNT OPENING FORM",
-      docNm: "ACCOUNT_OPENING_FORM20206216328474448.pdf",
-      docCtgryCd: 70,
-      docCatg: "KYC - I",
-      docTypCd: 276,
-      flLoc: "",
-      docCmnts: "Addition of document for Lead Creation",
+      docsType: this.PROFILE_TYPE,
+      docNm,
+      docCtgryCd,
+      docTp,
+      docSbCtgry,
+      docCatg,
       bsPyld: "Base64 data of the image",
-      docSbCtgryCd: 204,
+      docCmnts,
+      docTypCd,
+      flLoc: "",
+      docSbCtgryCd,
       docsTypeForString: "selfie",
       docRefId: [
         {
@@ -290,6 +301,8 @@ export class ReferenceCheckComponent implements OnInit {
     this.serviceAppNo = leadData['leadDetails'].applicationNo;
     const leadDetailsFromLead = leadData['leadDetails'];
     this.productCatCode = leadDetailsFromLead.productCatCode;
+
+    this.collateralId = leadData['vehicleCollateral'] ? leadData['vehicleCollateral'][0]['collateralId'] : 0;
 
     for (const value of leadData['applicantDetails']) {
       if (value['applicantId'] === this.applicantId) {
@@ -787,12 +800,15 @@ export class ReferenceCheckComponent implements OnInit {
     };
 
     event.imageUrl = '';
+    event.associatedId = this.collateralId;
+    event.associatedWith = "1";
 
     let index = 0;
     if (this.documentArr.length === 0) {
       this.documentArr.push(event);
       index = 0;
     }
+
     this.individualImageUpload(event, index);
 
     const position = await this.getLatLong();
@@ -826,6 +842,7 @@ export class ReferenceCheckComponent implements OnInit {
   }
 
   individualImageUpload(request: DocumentDetails, index: number) {
+    console.log(request, 'DocumentDetails')
     this.uploadService
       .saveOrUpdateDocument([request])
       .subscribe((value: any) => {
