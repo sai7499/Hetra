@@ -145,7 +145,8 @@
                                                 [searchKeyword]="keyword"
                                                 
                                                 (selected)="selectIFSCCode($event, item, 'isPdc', i, 'instrBranchName', 'pdcList')"
-                                                (inputChanged)='onChangeBranch($event, item)'
+                                                (inputChanged)="onChangeBranch($event, item, i, 'pdcList')"
+                                                (inputCleared)='onBranchNameClear()'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
                                                 [placeHolder]="'Account Branch'" 
@@ -160,7 +161,7 @@
                                                     Branch
                                                     required.
                                                 </div>
-                                                <div *ngIf="item.get('instrBranchName').hasError('minlength')">
+                                                <div *ngIf="item.get('instrBranchName').value && item.get('instrBranchName').value.length <= 2">
                                                     Mininum 3 Charates
                                                     required</div>
                                             </div>
@@ -168,7 +169,7 @@
                                                 <a [innerHTML]="item"></a>
                                             </ng-template>
                                             <ng-template #notFoundBranch let-notFound>
-                                                <div [innerHTML]="notFound"></div>
+                                                <div *ngIf="item.get('instrBranchName').value.length >= 3" [innerHTML]="notFound"></div>
                                             </ng-template>
                                         </div>
                                     </div>
@@ -333,7 +334,8 @@
                                                 [searchKeyword]="keyword"
                                                 
                                                 (selected)="selectIFSCCode($event, item, 'isSpdc', i, 'instrBranchName', 'spdcList')"
-                                                (inputChanged)='onChangeBranch($event, item)'
+                                                (inputChanged)="onChangeBranch($event, item, i, 'spdcList')"
+                                                (inputCleared)='onBranchNameClear()'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
                                                 [placeHolder]="'Account Branch'" 
@@ -348,7 +350,7 @@
                                                     Branch
                                                     required.
                                                 </div>
-                                                <div *ngIf="item.get('instrBranchName').hasError('minlength')">
+                                                <div *ngIf="item.get('instrBranchName').value && item.get('instrBranchName').value.length <= 2">
                                                     Mininum 3 Charates
                                                     required</div>
                                             </div>
@@ -356,7 +358,7 @@
                                                 <a [innerHTML]="item"></a>
                                             </ng-template>
                                             <ng-template #notFoundBranch let-notFound>
-                                                <div [innerHTML]="notFound"></div>
+                                                <div *ngIf="item.get('instrBranchName').value.length >= 3" [innerHTML]="notFound"></div>
                                             </ng-template>
                                         </div>
                                     </div>

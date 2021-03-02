@@ -54,8 +54,9 @@ export class PdcDetailsComponent implements OnInit {
 
   // 
   searchBankNameList: any = [];
-  getBankBranchDetails: any = [];
-  searchBranchName: any = [];
+  getSpdcBranchDetails: any = {};
+  getPdcBranchDetails : any = {}
+  searchBranchName: any;
   keyword: string = '';
 
   constructor(
@@ -712,29 +713,7 @@ export class PdcDetailsComponent implements OnInit {
     this.userDefineForm = value;
   }
 
-  changePdcList(obj, i, controlName) {
-    let pdcArray = this.pdcForm.get('pdcList') as FormArray;
-    if (i === 0) {
 
-      for (let j = 1; j < this.pdcForm.get('pdcList').length; j++) {
-
-        pdcArray.controls[j].patchValue({
-          emiAmount: obj.get('emiAmount').value,
-          instrAmount: obj.get('instrAmount').value,
-          instrBankName: obj.get('instrBankName').value,
-          instrBranchAccountNumber: obj.get('instrBranchAccountNumber').value,
-          instrBranchName: obj.get('instrBranchName').value,
-          instrDate: obj.get('instrDate').value,
-          //instrNo: obj.get('instrNo').value,
-          pdcId: obj.get('pdcId').value
-        })
-      }
-
-      // this.pdcForm.get('pdcList').controls[j].disable()
-
-    }
-
-  }
 
   changeSpdcList(obj, i, controlName, formarray) {
 
@@ -756,10 +735,16 @@ export class PdcDetailsComponent implements OnInit {
         }
       }
       else if(controlName === 'instrBranchName'){
+      //  const bankName = spdcArray.controls[0].get('instrBankName').value;
+      //  const issameBank = spdcArray.controls.every((data)=>{
+      //   return data.value.instrBankName == bankName
+      //  })
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
+        // if (issameBank){
           spdcArray.controls[j].patchValue({
             instrBranchName: obj.get(controlName).value || null,
           })
+        // }    
         }
       }
       else if(controlName === 'instrBankName'){
@@ -833,10 +818,10 @@ export class PdcDetailsComponent implements OnInit {
       })
 
       setTimeout(() => {
-        if (this.searchBankNameList.length === 0) {
+        if (val && this.searchBankNameList.length === 0) {
           this.toasterService.showInfo('Please enter valid bank name', '')
         }
-      }, 30000)
+      }, 1000)
 
     }
   }
@@ -849,14 +834,20 @@ export class PdcDetailsComponent implements OnInit {
 
       this.bankTransaction.getBranchDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          this.getBankBranchDetails = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
+          if(formarray === 'spdcList'){
+            this.getSpdcBranchDetails[rowIndex] = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
+          }else{
+            this.getPdcBranchDetails[rowIndex] = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
+          }
           this.searchBranchName = [];
           let isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false;
-          if(rowIndex){
+          if(rowIndex && !obj.getRawValue().instrBankName){
             obj.patchValue({
               instrBranchName: '',
               isEnableBranch: isEnableBranch
             })
+          }else if(obj.getRawValue().instrBankName){
+            this.onChangeBranch(obj.value.instrBranchName, obj, rowIndex,formarray)
           }
          
           // if (isString === 'isPdc') {
@@ -874,11 +865,18 @@ export class PdcDetailsComponent implements OnInit {
     }
   }
 
-  onChangeBranch(val, obj) {
+  onChangeBranch(val, obj, rowIndex, formarray) {
     if (val && val.trim().length > 0) {
       val = val.toString().toLowerCase();
-      if(this.getBankBranchDetails.length > 0 && val.length >= 3){
-        let searchBranchName = this.getBankBranchDetails.filter(e => {
+      let branch;
+      if(formarray === 'spdcList'){
+        branch = this.getSpdcBranchDetails[rowIndex]
+      }else{
+        branch = this.getPdcBranchDetails[rowIndex]
+      }
+      if(branch){
+      if(branch.length > 0 && val.length >= 3){
+        let searchBranchName = branch.filter(e => {
           const eName = e.branchName.toString().toLowerCase();
           if (eName.includes(val)) {
             this.keyword = 'branchName';
@@ -888,19 +886,20 @@ export class PdcDetailsComponent implements OnInit {
         });
   
         setTimeout(() => {
-          if (this.searchBranchName.length === 0) {
+          if (val && this.searchBranchName.length === 0) {
             obj.get('instrBranchName').setErrors({ incorrect: true })
             this.toasterService.showInfo('Please enter valid branch', '')
           }
-        }, 30000)
-      }else if(val.length >= 2){
-        const bankName = obj.get('instrBankName').value;
-        this.selectBankNameEvent(bankName,obj)
-
+        }, 1000)
       }
-      
-
+    }else if(!branch && val.length >= 2){
+        const bankName = obj.get('instrBankName').value;
+        this.selectBankNameEvent(bankName,obj,rowIndex,'instrBankName',formarray )
+      }    
     }
+  }
+  onBranchNameClear(){
+    this.searchBranchName = []
   }
 
   selectIFSCCode(val, obj, isString, rowIndex, controlName, formarray) {

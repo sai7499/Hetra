@@ -83,7 +83,7 @@ export class InsuranceDetailsComponent implements OnInit {
   vehicleTypeList = [];
   productCode: string;
   rtoCenterName: any;
-  isRtoCenter = true;
+  isRtoCenter = false;
   isNomineeInvalid = false;
   isGetApi: boolean;
 
@@ -1156,6 +1156,10 @@ export class InsuranceDetailsComponent implements OnInit {
   selectRtoEvent(event) {
     this.isRtoCenter = event.key ? true : false;
     this.rtoCenterName = event ? event.key : null;
+  }
+
+  clearRtoAgent(){
+    this.isRtoCenter = false;
   }
 
   onSaveuserDefinedFields(value) {
