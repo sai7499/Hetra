@@ -297,6 +297,7 @@ export class ValuationComponent implements OnInit {
     this.url = this.location.path();
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
+    const operationType = this.toggleDdeService.getOperationType();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     //  details from loginstore service
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -337,35 +338,6 @@ export class ValuationComponent implements OnInit {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     // this.vehicleRegPattern = this.validateCustomPattern();
-    setTimeout(() => {
-      const operationType = this.toggleDdeService.getOperationType();
-      console.log(operationType, "operationType");
-
-      if (operationType) {
-        this.vehicleValuationForm.disable();
-        this.vehicleValuationForm.clearValidators();
-        this.vehicleValuationForm.updateValueAndValidity();
-        this.disableSaveBtn = true;
-        //   // setTimeout(() => {
-        //     this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
-        // this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
-        // this.vehicleValuationForm.updateValueAndValidity();
-        //   // });
-      }
-
-      if (this.loanViewService.checkIsLoan360()) {
-        this.vehicleValuationForm.disable();
-        this.vehicleValuationForm.clearValidators();
-        this.vehicleValuationForm.updateValueAndValidity();
-        this.disableSaveBtn = true;
-        //   // setTimeout(() => {
-        //     this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
-        // this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
-        // this.vehicleValuationForm.updateValueAndValidity();
-        //   // });
-      }
-
-    });
 
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
@@ -413,11 +385,17 @@ export class ValuationComponent implements OnInit {
     })
     this.path = this.sharedService.getIsReinitiate();
 
-
-
     this.getVehicleValuation();
-
   }
+
+  onFormDisable() {
+    this.vehicleValuationForm.disable();
+    // this.vehicleValuationForm.get('inspectionDetails').get('vehicleMoved').disable()
+    this.vehicleValuationForm.clearValidators(); 
+    this.vehicleValuationForm.updateValueAndValidity();
+    this.disableSaveBtn = true;
+  }
+
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data: any) => (this.labels = data),
@@ -1186,7 +1164,6 @@ export class ValuationComponent implements OnInit {
       console.log('after set timeout', this.isOnline);
       // console.log('after set timeout', this.disablePdfDownload);
 
-
       this.latitude = this.vehicleValuationDetails.latitude;
       this.longitude = this.vehicleValuationDetails.longitude;
       this.capturedAddress = this.vehicleValuationDetails.capturedAddress;
@@ -1322,12 +1299,6 @@ export class ValuationComponent implements OnInit {
       // }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
-
-    // if (this.versionArray.length > 0) {
-    //   for (let i=0; i< this.versionArray.length; i++) {
-    //     this.showReInitiate = this.version === this.versionArray[this.versionArray.length-1] ? true : false;
-    //   }
-    // }
 
   }
   async redirectUrl(event) {
@@ -1949,6 +1920,12 @@ export class ValuationComponent implements OnInit {
       // yearMonthOfManufact: this.yearMonthOfManufact ? this.yearMonthOfManufact : '',  
     });
     this.apiValue = this.vehicleValuationForm.getRawValue();
+
+    setTimeout(() => {
+      if (this.toggleDdeService.getOperationType() || this.loanViewService.checkIsLoan360()) {
+        this.onFormDisable()
+      }
+    }, 1000)
   }
 
   onVehicleRegion(value: any, obj) {

@@ -195,20 +195,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     this.getLov();
 
     this.vehicleRegPattern = this.validateCustomPattern()
-
-    const operationType = this.toggleDdeService.getOperationType();
-    if (operationType) {
-      this.basicVehicleForm.disable();
-      this.disableSaveBtn = true;
-    }
-
-    if (this.loanViewService.checkIsLoan360()) {
-      this.basicVehicleForm.disable();
-      this.disableSaveBtn = true;
-    }
-
     this.eligibleLoanAmount = this.leadDetails.eligibleLoanAmt;
-    this.getProformaDateValidation()
+    this.getProformaDateValidation();
+  }
+
+  onFormDisable() {
+    this.basicVehicleForm.disable();
+    this.disableInputs();
+    this.disableSaveBtn = true;
+  }
+
+  disableInputs() {
+    (<FormArray>this.basicVehicleForm.get('vehicleFormArray'))
+      .controls
+      .forEach(control => {
+        control.disable();
+      })
   }
 
   getLeadSectionData() {
@@ -1690,6 +1692,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.vehicleDataService.setIndividualVehicleDetail(VehicleDetail);
       this.isShowParentLoan = false;
       this.isVehicleRegNoChange = false;
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType) {
+        this.onFormDisable();
+      }
+  
+      if (this.loanViewService.checkIsLoan360()) {
+        this.onFormDisable()
+      }
     } else {
       this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get A Vehicle Collateral Details')
     }

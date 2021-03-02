@@ -9,6 +9,7 @@ import { DeviationService } from '@services/deviation.service';
 import { ToasterService } from '@services/toaster.service';
 import { Location } from '@angular/common';
 import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-deviations',
@@ -32,8 +33,7 @@ export class DeviationsComponent implements OnInit, OnDestroy {
 
   constructor(private labelsData: LabelsService, private sharedService: SharedService, private utilityService: UtilityService,
     private createLeadDataService: CreateLeadDataService, private loginStoreService: LoginStoreService, private deviationService: DeviationService,
-    private toasterService: ToasterService, private location: Location,
-    private loanViewService: LoanViewService,
+    private toasterService: ToasterService, private location: Location, private loanViewService: LoanViewService, private toggleDdeService: ToggleDdeService,
     private router: Router) { }
 
   ngOnInit() {
@@ -56,6 +56,7 @@ export class DeviationsComponent implements OnInit, OnDestroy {
     let roleType = roles[0].roleType;
 
     this.disableSaveBtn = (roleType === 5) ? true : false;
+
     this.userId = roleAndUserDetails.userDetails.userId;
 
     this.subscription = this.sharedService.vaildateForm$.subscribe((value) => {
@@ -69,6 +70,14 @@ export class DeviationsComponent implements OnInit, OnDestroy {
       this.locationIndex = this.getLocationIndex(url);
     });
 
+    const operationType = this.toggleDdeService.getOperationType();
+    if (operationType) {
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.disableSaveBtn = true;
+    }
   }
 
   getLocationIndex(url) {
@@ -98,31 +107,31 @@ export class DeviationsComponent implements OnInit, OnDestroy {
 
       if (this.formValue.controls.isDuplicateDeviation.value) {
 
-      if (this.formValue.value.autoDeviationFormArray.length > 0) {
-        data = data.concat(this.formValue.value.autoDeviationFormArray);
-        data = data.concat(this.formValue.value.manualDeviationFormArray);
-      } else {
-        data = this.formValue.value.manualDeviationFormArray
-      }
-
-      if (this.formValue.value.waiverNormsFormArray.length > 0) {
-        data = data.concat(this.formValue.value.waiverNormsFormArray);
-      }
-
-      this.deviationService.saveOrUpdateDeviations(this.leadId, data, this.userId).subscribe((res: any) => {
-        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []
-          this.sharedService.getUpdatedDeviation(updateDevision)
-          this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Deviation Save/Update')
+        if (this.formValue.value.autoDeviationFormArray.length > 0) {
+          data = data.concat(this.formValue.value.autoDeviationFormArray);
+          data = data.concat(this.formValue.value.manualDeviationFormArray);
         } else {
-          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Deviation Save/Update')
+          data = this.formValue.value.manualDeviationFormArray
         }
-      }, err => {
-        console.log('err', err)
-      })
-    } else {
-       this.toasterService.showError('Please change the deviation or approval role', 'Duplicate Deviation')
-    }
+
+        if (this.formValue.value.waiverNormsFormArray.length > 0) {
+          data = data.concat(this.formValue.value.waiverNormsFormArray);
+        }
+
+        this.deviationService.saveOrUpdateDeviations(this.leadId, data, this.userId).subscribe((res: any) => {
+          if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+            let updateDevision = res.ProcessVariables.updatedDev ? res.ProcessVariables.updatedDev : []
+            this.sharedService.getUpdatedDeviation(updateDevision)
+            this.toasterService.showSuccess('Record Saved/Updated Successfully', 'Deviation Save/Update')
+          } else {
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Deviation Save/Update')
+          }
+        }, err => {
+          console.log('err', err)
+        })
+      } else {
+        this.toasterService.showError('Please change the deviation or approval role', 'Duplicate Deviation')
+      }
 
     } else {
       this.isDirty = true;

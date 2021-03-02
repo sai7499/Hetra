@@ -221,20 +221,18 @@ export class SourcingDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
+    this.operationType = this.toggleDdeService.getOperationType();
     this.initForm();
     this.getLOV();
     this.getLabels();
     this.getSourcingChannel();
     this.tenureMonthlyValidation = this.loanTenureMonth();
-    this.operationType = this.toggleDdeService.getOperationType();
     const currentUrl = this.location.path();
 
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
-
       this.udfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.leadDetailADE : currentUrl.includes('dde') ?
         udfScreenId.DDE.leadDetailDDE : udfScreenId.QDE.leadDetailQDE;
-
     })
 
     if (this.roleType !== 1) {
@@ -364,9 +362,9 @@ export class SourcingDetailsComponent implements OnInit {
 
     const leadCreatedDate = data.leadDetails.leadCreatedOn;
     this.leadCreatedDateFromLead = String(leadCreatedDate).slice(0, 10);
-    if(this.leadCreatedDateFromLead.includes('-')){
+    if (this.leadCreatedDateFromLead.includes('-')) {
       this.updatedLeadCreated = this.leadCreatedDateFromLead.split('-').reverse().join('/');
-    }else if(this.leadCreatedDateFromLead.includes('/')){
+    } else if (this.leadCreatedDateFromLead.includes('/')) {
       this.updatedLeadCreated = this.leadCreatedDateFromLead.split('/').reverse().join('/');
     }
     const requiredLoanAmount = data.leadDetails.reqLoanAmt;
@@ -393,9 +391,6 @@ export class SourcingDetailsComponent implements OnInit {
       leadCreatedDate: this.updatedLeadCreated,
     });
     this.apiValue = this.sourcingDetailsForm.getRawValue();
-    if (this.isLoan360) {
-      this.sourcingDetailsForm.disable();
-    }
   }
 
 
@@ -501,7 +496,7 @@ export class SourcingDetailsComponent implements OnInit {
       this.tenureAmountValidation = this.loanTenureAmount(this.productCategoryLoanAmount);
     }
 
-    
+
     let loanTypeFromLead = (this.leadData.leadDetails.typeOfLoan) ? this.leadData.leadDetails.typeOfLoan : '';
     // if(!isBool){
 
@@ -511,7 +506,7 @@ export class SourcingDetailsComponent implements OnInit {
     this.LOV.LOVS.defaultloanType = this.LOV.LOVS.loanType;
     let defaultType
     if (productCategorySelected === 'NCV') {
-      
+
       loanTypeFromLead = '8LOANTYP';
       this.sourcingDetailsForm.patchValue({ loanType: loanTypeFromLead });
       this.sourcingDetailsForm.get('loanType').disable();
@@ -524,7 +519,7 @@ export class SourcingDetailsComponent implements OnInit {
           }
         }
       })
-      if(this.isChildLoan === '0'){
+      if (this.isChildLoan === '0') {
         defaultType = defaultType.filter((loan) => {
           if (loan.key !== '6LOANTYP') {
             return {
@@ -537,9 +532,9 @@ export class SourcingDetailsComponent implements OnInit {
       this.LOV.LOVS.defaultloanType = defaultType;
       this.sourcingDetailsForm.get('loanType').enable();
       console.log('isBool', isBool)
-      this.sourcingDetailsForm.patchValue({ loanType: isBool? '' : loanTypeFromLead });
+      this.sourcingDetailsForm.patchValue({ loanType: isBool ? '' : loanTypeFromLead });
     }
-    if (this.isChildLoan === '1'){
+    if (this.isChildLoan === '1') {
       const loanType = "6LOANTYP";
       this.sourcingDetailsForm.patchValue({ loanType: loanType });
       this.sourcingDetailsForm.get('loanType').disable();
@@ -553,7 +548,8 @@ export class SourcingDetailsComponent implements OnInit {
     //   this.sourcingDetailsForm.get('dealerCode').updateValueAndValidity()
     // }
 
-    
+    this.onFormDisable()
+
   }
 
   productChange(event) {
@@ -640,13 +636,13 @@ export class SourcingDetailsComponent implements OnInit {
   sourchingTypeChange(event) {
     this.sourchingTypeId = event.target ? event.target.value : event;
     if (this.sourchingTypeId === '2SOURTYP') {
-      if(this.productCategoryFromLead === 'UC'){
+      if (this.productCategoryFromLead === 'UC') {
         this.sourcingDetailsForm.controls['dealerCode'].setValidators(Validators.required);
         this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
         // this.isDealerCode = true;
         this.isDealerCode = this.dealorCodeKey ? false : true;
       }
-      
+
     } else {
       this.sourcingDetailsForm.controls['dealerCode'].clearValidators();
       this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
@@ -671,7 +667,6 @@ export class SourcingDetailsComponent implements OnInit {
       this.isSourchingCode = false;
       this.isSourceCode = false;
     }
-    this.onFormDisable();
     if (this.sourchingTypeId === '4SOURTYP') {
       this.onSourcingCodeSearch(this.userId)
     }
@@ -762,7 +757,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onDealerCodeClear(event) {
-    
+
     if (this.sourchingTypeId === '2SOURTYP' && this.productCategoryFromLead === 'UC') {
       this.dealorCodeKey = '';
       this.isDealerCode = true;
@@ -860,7 +855,7 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onFormDisable() {
-    if (this.operationType) {
+    if (this.operationType || this.isLoan360) {
       this.sourcingDetailsForm.disable();
       this.isSourchingCode = true;
       this.isDisabledDealerCode = true;

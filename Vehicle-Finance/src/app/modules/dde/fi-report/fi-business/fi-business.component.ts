@@ -13,6 +13,8 @@ import { UtilityService } from '@services/utility.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-fi-business',
   templateUrl: './fi-business.component.html',
@@ -69,6 +71,8 @@ export class FiBusinessComponent implements OnInit {
   isApplicantInd: boolean;
 
   taskId: any;
+  operationType: any;
+  disableSaveBtn: boolean;
 
   constructor(
     private labelService: LabelsService,
@@ -81,6 +85,8 @@ export class FiBusinessComponent implements OnInit {
     private toasterService: ToasterService, // service for accessing the toaster
     private applicantService: ApplicantService,
     private utilityService: UtilityService,
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService,
     private sharedSercive: SharedService,
     private objectComparisonService: ObjectComparisonService,
     private pdDataService: PdDataService) {
@@ -127,6 +133,16 @@ export class FiBusinessComponent implements OnInit {
       this.udfScreenId = this.roleType === 2 ? udfScreenId.DDE.businessFIDDE : udfScreenId.FI.businessFI ;
 
     })
+    this.operationType = this.toggleDdeService.getOperationType();
+    if (this.operationType) {
+      this.fieldReportForm.disable();
+      this.disableSaveBtn = true;
+    }
+
+    if (this.loanViewService.checkIsLoan360()) {
+      this.fieldReportForm.disable();
+      this.disableSaveBtn = true;
+    }
   }
 
   getLeadId() {

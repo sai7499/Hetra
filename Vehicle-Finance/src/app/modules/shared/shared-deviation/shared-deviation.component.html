@@ -46,9 +46,9 @@
                   + '/' + waiver.controls['deviationApproverRole'].value
                   }}</p>
               </td>
-              <td rowspan="6" style="width: 10%;">
+              <td rowspan="6" style="width: 10%;" [ngClass]="{'my-disabled': disableSaveBtn}">
                 <div class="row m-0 radio-inline"
-                  [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+                  [ngClass]="{'disabled': disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
                   <!-- <label for="approve_action">
                     <input type="radio" id="approve_action_waiver_{{k}}" formControlName="statusCode" value="1"
                       (click)="onApproveDeclineAction(1, waiver)">{{labels?.approve}}
@@ -64,28 +64,28 @@
                   <div>
                     <input type="radio" class="approve" id="approve_action_waiver_{{k}}" formControlName="statusCode"
                       value="1"
-                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
                     <label for="approve"
-                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, waiver)"><span></span>{{labels?.approve}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
+                      (click)=" disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, waiver)"><span></span>{{labels?.approve}}</label>
                   </div>
 
                   <div>
                     <input class="refer" type="radio" id="refer_action_waiver_{{k}}" formControlName="statusCode"
                       value="2"
-                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
                     <label for="refer"
-                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, waiver)"><span></span>{{labels?.referToNextLevel}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
+                      (click)=" disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, waiver)"><span></span>{{labels?.referToNextLevel}}</label>
                   </div>
 
                   <div>
                     <input class="decline" type="radio" id="decline_action_waiver_{{k}}" formControlName="statusCode"
                       value="0"
-                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}">
                     <label for="decline"
-                      [ngClass]="{'disabled': !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, waiver)"><span></span>{{labels?.decline}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy)}"
+                      (click)=" disableSaveBtn || !(waiver.controls['type'].value === roleType && waiver.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, waiver)"><span></span>{{labels?.decline}}</label>
                   </div>
 
                 </div>
@@ -153,34 +153,34 @@
                   + '/' + obj.controls['deviationApproverRole'].value
                   }}</p>
               </td>
-              <td rowspan="6" style="width: 10%;">
+              <td rowspan="6" style="width: 10%;" [ngClass]="{'my-disabled': disableSaveBtn}">
                 <div class="row m-0 radio-inline"
-                  [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
+                  [ngClass]="{'disabled': disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
                   <div>
                     <input type="radio" class="approve" id="approve_action_auto_{{i}}" formControlName="statusCode"
                       value="1"
-                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
                     <label for="approve"
-                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, obj)"><span></span>{{labels?.approve}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
+                      (click)=" disableSaveBtn ||!(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, obj)"><span></span>{{labels?.approve}}</label>
                   </div>
 
                   <div>
                     <input class="refer" type="radio" id="refer_action_auto_{{i}}" formControlName="statusCode"
                       value="2"
-                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
                     <label for="refer"
-                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, obj)"><span></span>{{labels?.referToNextLevel}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, obj)"><span></span>{{labels?.referToNextLevel}}</label>
                   </div>
 
                   <div>
                     <input class="decline" type="radio" id="decline_action_auto_{{i}}" formControlName="statusCode"
                       value="0"
-                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}">
                     <label for="decline"
-                      [ngClass]="{'disabled': !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, obj)"><span></span>{{labels?.decline}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="disableSaveBtn || !(obj.controls['type'].value === roleType && obj.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, obj)"><span></span>{{labels?.decline}}</label>
                   </div>
 
                 </div>
@@ -263,35 +263,35 @@
                   + '/' + item.controls['deviationApproverRole'].value
                   }}</p>
               </td>
-              <td rowspan="6">
+              <td rowspan="6" [ngClass]="{'my-disabled': disableSaveBtn}">
                 <div class="row m-0 radio-inline"
-                  [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
+                  [ngClass]="{'disabled': disableSaveBtn || !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
 
                   <div>
                     <input type="radio" class="approve" id="approve_action_manual_{{j}}" formControlName="statusCode"
                       value="1"
-                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn ||  !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
                     <label for="approve"
-                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, item)"><span></span>{{labels?.approve}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn ||  !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
+                      (click)="disableSaveBtn ||  !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(1, item)"><span></span>{{labels?.approve}}</label>
                   </div>
 
                   <div>
                     <input class="refer" type="radio" id="refer_action_manual_{{j}}" formControlName="statusCode"
                       value="2"
-                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn ||  !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
                     <label for="refer"
-                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, item)"><span></span>{{labels?.referToNextLevel}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn ||  !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
+                      (click)=" disableSaveBtn || !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(2, item)"><span></span>{{labels?.referToNextLevel}}</label>
                   </div>
 
                   <div>
                     <input class="decline" type="radio" id="decline_action_manual_{{j}}" formControlName="statusCode"
                       value="0"
-                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
+                      [ngClass]="{'disabled': disableSaveBtn ||  !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}">
                     <label for="decline"
-                      [ngClass]="{'disabled': !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
-                      (click)="!(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, item)"><span></span>{{labels?.decline}}</label>
+                      [ngClass]="{'disabled': disableSaveBtn ||  !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy)}"
+                      (click)=" disableSaveBtn || !(item.controls['type'].value === roleType && item.controls['hierarchy'].value <= hierarchy) ? '' : onApproveDeclineAction(0, item)"><span></span>{{labels?.decline}}</label>
                   </div>
 
                 </div>

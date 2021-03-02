@@ -567,6 +567,25 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
       }
 
+      const operationType = this.toggleDdeService.getOperationType();
+      if (operationType) {
+        this.disableSaveBtn = true;
+        this.deviationsForm.disable()
+        setTimeout(() => {
+          this.disableInputs();
+          this.disableAutoDeviation()
+        })
+      }
+  
+      if (this.loanViewService.checkIsLoan360()) {
+        this.disableSaveBtn = true;
+        this.deviationsForm.disable()
+        setTimeout(() => {
+          this.disableInputs();
+          this.disableAutoDeviation()
+        })
+      }
+
     })
 
     this.deviationsForm.patchValue({
