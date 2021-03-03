@@ -3087,7 +3087,7 @@
               <app-custom-input [(ngModel)]="thirdPartyObjInfo['kycIDNumber']" id="kycIDNumber"
                 [isRequired]="'KYC ID Number is required'" formControlName="kycIDNumber"
                 [className]="'form-control mandatory'" [placeholder]="'KYC ID Number'" [isDirty]="isDirty"
-                [type]="'number'">
+                [type]="'alpha-numeric-nospace'">
               </app-custom-input>
             </div>
           </div>
@@ -5671,7 +5671,7 @@
         <button (click)="saveAndUpdate()" class="btn btn-primary " type="button"
           *ngIf="roleType != 4 && roleType != 5 && (navigationFlag==1 || navigationFlag==3)">Save </button>
 
-        <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button"
+        <button data-toggle="modal" data-target="#bookLoanModal" class="btn btn-primary " type="button"
           *ngIf="roleType == '5' && navigationFlag==1">Book Loan </button>
         <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
           *ngIf="roleType != 4 && roleType != 5 && roleType !== 7 && (navigationFlag==1 || navigationFlag==2)"> Next </button>
@@ -5686,7 +5686,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="bookLoanModal" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
