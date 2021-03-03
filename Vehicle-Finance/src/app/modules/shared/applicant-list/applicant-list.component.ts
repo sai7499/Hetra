@@ -60,8 +60,23 @@ export class ApplicantListComponent implements OnInit {
   // User defined Fields
   udfScreenId: string = 'APS001';
   udfGroupId: string = 'APG001';
-  cbScreenId : string;
-  erScreenId : string;
+  cbScreenId: string;
+  erScreenId: string;
+  modalDetails = {
+    heading: 'Delete Applicant',
+    content: 'Are you sure you want to Delete?'
+  }
+  modalButtons: any = [
+    {
+      name: 'Yes',
+      isModalClose: false,
+      class: 'btn btn-success' //if button to be a primary, dont need to include
+    },
+    {
+      name: 'Cancel',
+      isModalClose: true,
+      class: 'btn btn-danger'
+    }];
 
   constructor(
     private labelsData: LabelsService,

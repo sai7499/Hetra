@@ -48,6 +48,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { SharedUserDefinedFieldsComponent } from './shared-user-defined-fields/shared-user-defined-fields.component';
 
 import { WindowModule } from '@progress/kendo-angular-dialog';
+import { CustomModalComponent } from './custom-modal/custom-modal.component';
 setTheme('bs4');
 
 @NgModule({
@@ -80,7 +81,8 @@ setTheme('bs4');
     UploadDiscussionComponent,
     WelomceLetterComponent,
     InAppcameraComponent,
-    SharedUserDefinedFieldsComponent
+    SharedUserDefinedFieldsComponent,
+    CustomModalComponent
   ],
   imports: [
     CommonModule,
@@ -124,7 +126,8 @@ setTheme('bs4');
     ReferenceComponent,
     PddComponent,
     UploadDiscussionComponent,
-    WelomceLetterComponent
+    WelomceLetterComponent,
+    CustomModalComponent
   ]
 })
 export class SharedModule { }

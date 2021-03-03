@@ -1,0 +1,62 @@
+<!-- <div class="modal" id="myModal" 
+  [ngStyle]="{'display': modalOpen ? 'block' : 'none' }">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header table-head-bg">
+             <h4 class="modal-title text-center" >{{heading}}</h4>
+            <button type="button" style="color: white;" class="close" data-dismiss="modal" (click)="onCancel()">
+              &times;
+            </button>
+          
+        </div>
+
+        <div class="modal-body">
+          {{content}}
+        </div>
+
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onYes()">
+            Yes
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onCancel()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="modal" id="deleteModal" [ngStyle]="{'display': isModalOpen ? 'block' : 'none' }">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                  <button type="button" style="color: white;"  class="close" data-dismiss="modal" (click)="onCancel()">
+                  &times;
+                </button>
+                <h4 class="modal-title">{{modal.heading}}</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body text-center">
+                <p id="">
+                    {{modal.content}}
+                </p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+              <ng-container *ngFor =" let item of buttons">
+                <button type="button" [class]="item?.class || 'btn btn-primary'" data-dismiss="modal"
+                (click)="onYes(item)" id="ucic_lead">
+              
+                {{item.name}}
+              </button>
+            </ng-container>
+                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onCancel()">
+        Cancel
+    </button> -->
+            </div>
+        </div>
+    </div>
+</div>
