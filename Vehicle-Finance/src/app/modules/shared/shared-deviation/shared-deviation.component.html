@@ -225,7 +225,7 @@
               <td>{{labels?.approvedBy}}</td>
 
               <td>{{labels?.action}}</td>
-              <td *ngIf="!isSubmitToCredit"> {{labels?.more}}</td>
+              <td *ngIf="!isSubmitToCredit && !disableSaveBtn"> {{labels?.more}}</td>
             </tr>
           </thead>
 
@@ -296,7 +296,7 @@
 
                 </div>
               </td>
-              <td rowspan="6" *ngIf="!isSubmitToCredit">
+              <td rowspan="6" *ngIf="!isSubmitToCredit && !disableSaveBtn">
                 <div class="row">
                   <div class="col-sm-12 col-md-12 col-lg-12">
                     <label class="image-upload" for="upload_files">
@@ -377,12 +377,12 @@
 
           <div class="form-group col-sm-8 col-md-8">
             <app-vf-custom-select [values]="deviationLov?.approverRole" [id]="'approval_level'"
-              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value || isLoan360"
+              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value || isLoan360 || disableSaveBtn"
               (change)="isCheckReferButton(deviationsForm)">
             </app-vf-custom-select>
           </div>
         </div>
-        <ng-container *ngIf="!isAllowReferBut">
+        <ng-container *ngIf="!isAllowReferBut && !disableSaveBtn">
           <button *ngIf="!isLoan360" class="btn btn-primary" type="button" data-toggle="modal"
             data-target="#referRecommedation" [disabled]="!deviationsForm.controls['approverRole'].value"
             (click)="onPatchRecommendationModal('Recommendation')">{{labels?.refer}}</button>

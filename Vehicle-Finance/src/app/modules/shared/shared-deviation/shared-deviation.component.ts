@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { LabelsService } from '@services/labels.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
@@ -16,7 +16,7 @@ import { LoanViewService } from '@services/loan-view.service';
   templateUrl: './shared-deviation.component.html',
   styleUrls: ['./shared-deviation.component.css']
 })
-export class SharedDeviationComponent implements OnInit, OnChanges {
+export class SharedDeviationComponent implements OnInit {
 
   deviationsForm: FormGroup;
   modalForm: FormGroup;
@@ -155,14 +155,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     this.modalForm = this._fb.group({
       typeOfModal: [''],
       recommendation: ['', Validators.required]
-    })
-  }
-
-  ngOnChanges() {
-    this.sharedService.updateDev$.subscribe((value: any) => {
-      if (value && value.length > 0) {
-        this.getDeviationMaster()
-      }
     })
   }
 
@@ -395,6 +387,28 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         if (this.locationIndex === 'dde' && res.ProcessVariables.enableApprove === true) {
           this.isApprove = true;
         }
+        const operationType = this.toggleDdeService.getOperationType();
+        let isViewDde = localStorage.getItem('isNeedBackButton') && localStorage.getItem('isNeedBackButton') === 'true' ? true : false;
+
+        console.log(operationType, 'operationType', isViewDde)
+
+        if (isViewDde) {
+          this.disableSaveBtn = true;
+          this.deviationsForm.disable()
+          setTimeout(() => {
+            this.disableInputs();
+            this.disableAutoDeviation()
+          })
+        }
+
+        if (this.loanViewService.checkIsLoan360()) {
+          this.disableSaveBtn = true;
+          this.deviationsForm.disable()
+          setTimeout(() => {
+            this.disableInputs();
+            this.disableAutoDeviation()
+          })
+        }
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Deviation Details')
       }
@@ -566,26 +580,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
         }
 
       }
-
-      const operationType = this.toggleDdeService.getOperationType();
-      if (operationType) {
-        this.disableSaveBtn = true;
-        this.deviationsForm.disable()
-        setTimeout(() => {
-          this.disableInputs();
-          this.disableAutoDeviation()
-        })
-      }
-  
-      if (this.loanViewService.checkIsLoan360()) {
-        this.disableSaveBtn = true;
-        this.deviationsForm.disable()
-        setTimeout(() => {
-          this.disableInputs();
-          this.disableAutoDeviation()
-        })
-      }
-
     })
 
     this.deviationsForm.patchValue({
@@ -715,7 +709,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
       if (autoDeviationFormArray || manualDeviationFormArray || waiverNormsFormArray) {
         this.isAllowReferBut = true;
-        this.toasterService.showError('Please choose any one of the action buttons','')
+        this.toasterService.showError('Please choose any one of the action buttons', '')
       } else {
         this.isAllowReferBut = false;
       }
@@ -725,7 +719,7 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
 
   checkIsSameRole(form) {
     let setType = []
-     form.filter((res: any) => {
+    form.filter((res: any) => {
       if (res.get('isSameRole').value === true && res.get('statusCode').value === null) {
         setType.push(res.value)
         return true
@@ -734,6 +728,6 @@ export class SharedDeviationComponent implements OnInit, OnChanges {
     })
     return setType.length > 0 ? true : false
   }
-  
+
 
 }

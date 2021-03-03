@@ -10,6 +10,8 @@ import { ToasterService } from '@services/toaster.service';
 import { UtilityService } from '@services/utility.service';
 import { PdDataService } from '@modules/dde/fi-cum-pd-report/pd-data.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 
 @Component({
   selector: 'app-personal-details',
@@ -60,6 +62,9 @@ export class PersonalDetailsComponent implements OnInit {
   userDefineForm: any;
   udfGroupId: string = 'PDG001';
 
+  operationType: any;
+  disableSaveBtn: boolean;
+
   constructor(private labelsData: LabelsService,
     private lovDataService: LovDataService,
     private router: Router, private createLeadDataService: CreateLeadDataService,
@@ -69,6 +74,8 @@ export class PersonalDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private loginStoreService: LoginStoreService,
     private toasterService: ToasterService,
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService,
     private utilityService: UtilityService) { }
 
   async ngOnInit() {
@@ -340,6 +347,17 @@ export class PersonalDetailsComponent implements OnInit {
             }
             return val
           })
+        }
+
+        this.operationType = this.toggleDdeService.getOperationType();
+        if (this.operationType) {
+          this.personalDetailsForm.disable();
+          this.disableSaveBtn = true;
+        }
+    
+        if (this.loanViewService.checkIsLoan360()) {
+          this.personalDetailsForm.disable();
+          this.disableSaveBtn = true;
         }
 
       } else {

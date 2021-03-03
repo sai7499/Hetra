@@ -102,20 +102,25 @@ export class DeviationsComponent implements OnInit, OnDestroy {
   saveorUpdateDeviationDetails() {
 
     if (this.formValue.valid) {
-      console.log(this.formValue, 'value')
       let data = [];
 
       if (this.formValue.controls.isDuplicateDeviation.value) {
 
         if (this.formValue.value.autoDeviationFormArray.length > 0) {
-          data = data.concat(this.formValue.value.autoDeviationFormArray);
-          data = data.concat(this.formValue.value.manualDeviationFormArray);
+
+          let autoDeviationFormArray  = this.getStatusCode(this.formValue.get('autoDeviationFormArray'))
+          let manualDeviationFormArray = this.getStatusCode(this.formValue.get('manualDeviationFormArray'))
+          
+          data = data.concat(autoDeviationFormArray);
+          data = data.concat(manualDeviationFormArray);
         } else {
           data = this.formValue.value.manualDeviationFormArray
         }
 
         if (this.formValue.value.waiverNormsFormArray.length > 0) {
-          data = data.concat(this.formValue.value.waiverNormsFormArray);
+          let waiverNormsFormArray  = this.getStatusCode(this.formValue.get('waiverNormsFormArray'))
+
+          data = data.concat(waiverNormsFormArray);
         }
 
         this.deviationService.saveOrUpdateDeviations(this.leadId, data, this.userId).subscribe((res: any) => {
@@ -138,6 +143,33 @@ export class DeviationsComponent implements OnInit, OnDestroy {
       this.toasterService.showError('Please enter all mandatory field', 'Deviation Save/Update')
       this.utilityService.validateAllFormFields(this.formValue)
     }
+  }
+
+  getStatusCode(data) {
+    let dataArray = [];
+    for (let i = 0; i < data.length; i++) {
+      let patchJsonValue = data.controls[i].controls;
+      dataArray.push({
+        approverRole: patchJsonValue.approverRole.value,
+        approverRoleName: patchJsonValue.approverRoleName.value,
+        devCode: patchJsonValue.devCode.value,
+        devDesc: patchJsonValue.devDesc.value,
+        devRuleId: patchJsonValue.devRuleId.value,
+        deviationApproverId: patchJsonValue.deviationApproverId.value,
+        deviationApproverName: patchJsonValue.deviationApproverName.value,
+        deviationApproverRole: patchJsonValue.deviationApproverRole.value,
+        hierarchy: patchJsonValue.hierarchy.value,
+        isManualDev: patchJsonValue.isManualDev.value,
+        isSameRole: patchJsonValue.isSameRole.value,
+        isWaiverNormsDev: patchJsonValue.isWaiverNormsDev.value,
+        justification: patchJsonValue.justification.value,
+        otherMitigant: patchJsonValue.otherMitigant.value,
+        rulesRemarks: patchJsonValue.rulesRemarks.value,
+        statusCode: patchJsonValue.statusCode.value,
+        type: patchJsonValue.type.value
+      })
+    }
+    return dataArray
   }
 
   ngOnDestroy() {

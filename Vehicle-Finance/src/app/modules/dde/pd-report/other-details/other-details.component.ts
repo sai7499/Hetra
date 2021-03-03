@@ -19,6 +19,8 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
 import { environment } from 'src/environments/environment';
 import { LoginService } from '@modules/login/login/login.service';
+import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-other-details',
   templateUrl: './other-details.component.html',
@@ -89,6 +91,9 @@ export class OtherDetailsComponent implements OnInit {
   isNonInd: boolean;
   collateralId: any;
 
+  disableSaveBtn: boolean;
+  operationType: any;
+
   constructor(
     private labelsData: LabelsService,
     private formBuilder: FormBuilder,
@@ -106,7 +111,8 @@ export class OtherDetailsComponent implements OnInit {
     private loginService: LoginService,
     private uploadService: UploadService,
     private base64StorageService: Base64StorageService,
-    private draggableContainerService: DraggableContainerService,
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService,
     private applicantService: ApplicantService
   ) {
     this.sharedSercive.taskId$.subscribe((value) => {
@@ -316,6 +322,16 @@ export class OtherDetailsComponent implements OnInit {
       }
       if (this.latitude) {
         this.getRouteMap();
+      }
+      this.operationType = this.toggleDdeService.getOperationType();
+      if (this.operationType) {
+        this.otherDetailsForm.disable();
+        this.disableSaveBtn = true;
+      }
+  
+      if (this.loanViewService.checkIsLoan360()) {
+        this.otherDetailsForm.disable();
+        this.disableSaveBtn = true;
       }
     });
   }

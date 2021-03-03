@@ -18,6 +18,7 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { Base64StorageService } from '@services/base64-storage.service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { DocRequest, DocumentDetails } from '@model/upload-model';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-rcu',
   templateUrl: './rcu.component.html',
@@ -104,6 +105,9 @@ export class RcuComponent implements OnInit {
   documentDetails: any = [];
   documentArr: DocumentDetails[] = [];
 
+  operationType: any;
+  disableSaveBtn: boolean;
+
   constructor(
     private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
@@ -118,7 +122,7 @@ export class RcuComponent implements OnInit {
     private draggableContainerService: DraggableContainerService,
     private loginStoreService: LoginStoreService,
     private loanViewService: LoanViewService,
-    public router: Router,
+    public router: Router, private toggleDdeService: ToggleDdeService,
     private sharedService: SharedService,
     private base64StorageService: Base64StorageService,
     private objectComparisonService: ObjectComparisonService,
@@ -138,6 +142,7 @@ export class RcuComponent implements OnInit {
   ngOnInit() {
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
     this.isLoan360 = this.loanViewService.checkIsLoan360();
+    this.operationType = this.toggleDdeService.getOperationType();
     this.tabName = this.sharedService.getTabName();
     this.getLabels();
     this.getLeadId();
@@ -183,9 +188,6 @@ export class RcuComponent implements OnInit {
       this.udfScreenId = this.jsonScreenId.RCU.rcu;
       // this.rcuDetailsForm.disable()
       const applicantDoc = this.rcuDetailsForm.get('applicantDocuments') as FormArray
-
-      console.log(applicantDoc.controls.length, 'applicantDoc', this.collateralId)
-
     } else if (this.router.url.includes('/rcu') && this.roleType == '2') {
 
       // this.isErr = false
@@ -205,13 +207,18 @@ export class RcuComponent implements OnInit {
           collatralDoc.controls[i].get('dmsDocumentID').enable();
         }
         this.rcuDetailsForm.get('applicantId').enable({ emitEvent: false });
+        if (this.isLoan360) {
+          this.rcuDetailsForm.disable();
+          this.disableSaveBtn = true;
+        }
+        if (this.operationType) {
+          this.rcuDetailsForm.disable();
+          this.disableSaveBtn = true;
+        }
       })
 
       this.showSave = false
       this.showBack = true
-
-      // this.rcuInitiated = false
-      // this.getAllRcuDetails( this.rcuInitiated)
     }
 
     // this.assignRcuTask()
@@ -315,10 +322,6 @@ export class RcuComponent implements OnInit {
         this.rcuDetailsForm.controls.collateralDocuments.push(
           this.getRcuDocumentDetails(this.collateralDocuments[i])
         );
-      }
-
-      if (this.isLoan360) {
-        this.rcuDetailsForm.disable();
       }
       return this.testRadio(event);
     }

@@ -90,6 +90,8 @@ export class CustomerProfileDetailsComponent implements OnInit {
 
     //this.udfScreenId = this.roleType === 1 ? 'FPS002' : 'FPS006';
 
+    this.operationType = this.toggleDdeService.getOperationType();
+
     this.initForm();
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
@@ -106,16 +108,6 @@ export class CustomerProfileDetailsComponent implements OnInit {
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.customerProfileLov = value ? value[0].customerProfile[0] : {};
     });
-    this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType) {
-      this.customerProfileForm.disable();
-      this.disableSaveBtn = true;
-    }
-
-    if (this.loanViewService.checkIsLoan360()) {
-      this.customerProfileForm.disable();
-      this.disableSaveBtn = true;
-    }
 
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
@@ -261,6 +253,15 @@ export class CustomerProfileDetailsComponent implements OnInit {
         }
         if (this.customerProfileForm.get('offAddSameAsRecord') != null) {
           this.addressMismatch(this.customerProfileForm.get('offAddSameAsRecord').value);
+        }
+        if (this.operationType) {
+          this.customerProfileForm.disable();
+          this.disableSaveBtn = true;
+        }
+    
+        if (this.loanViewService.checkIsLoan360()) {
+          this.customerProfileForm.disable();
+          this.disableSaveBtn = true;
         }
       }
     });

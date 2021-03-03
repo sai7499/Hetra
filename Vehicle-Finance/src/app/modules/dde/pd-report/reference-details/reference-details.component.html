@@ -499,7 +499,7 @@
         {{ labels.back }}
       </button>
 
-      <button class="btn btn-primary" (click)="onFormSubmit(referenceDetailsForm.value.marketFinRefData)">
+      <button class="btn btn-primary" *ngIf="!disableSaveBtn" (click)="onFormSubmit(referenceDetailsForm.value.marketFinRefData)">
         {{ labels.save }}
       </button>
       <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">

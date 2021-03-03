@@ -10,6 +10,8 @@ import { FieldInvestigation } from '@model/dde.model';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { ApplicantService } from '@services/applicant.service';
 import { UtilityService } from '@services/utility.service';
+import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-fi-residence',
   templateUrl: './fi-residence.component.html',
@@ -73,11 +75,16 @@ export class FiResidenceComponent implements OnInit {
   udfScreenId: any;
   udfGroupId: any;
   roleType: any;
+
+  operationType: any;
+  disableSaveBtn: boolean;
+
   constructor(
     private labelService: LabelsService,
     private commonLovService: CommomLovService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private router: Router, private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService,
     private fieldInvestigationService: FieldInvestigationService,
     private loginStoreService: LoginStoreService,
     private createLeadDataService: CreateLeadDataService,
@@ -105,6 +112,8 @@ export class FiResidenceComponent implements OnInit {
       this.udfGroupId = 'FIG001'
       //this.udfScreenId = 'FIS003'
     }
+    this.operationType = this.toggleDdeService.getOperationType();
+
     this.leadId = (await this.getLeadId()) as number;
     this.getLOV();
     this.getLabels();
@@ -543,6 +552,15 @@ export class FiResidenceComponent implements OnInit {
             // this.initiatedDate = new Date(this.getDateFormat(this.fiDetails.cpvInitiatedDate));
           }
         }
+      }
+      if (this.operationType) {
+        this.fieldReportForm.disable();
+        this.disableSaveBtn = true;
+      }
+  
+      if (this.loanViewService.checkIsLoan360()) {
+        this.fieldReportForm.disable();
+        this.disableSaveBtn = true;
       }
     });
   }
