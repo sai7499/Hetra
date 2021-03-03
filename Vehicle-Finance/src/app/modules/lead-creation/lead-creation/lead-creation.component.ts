@@ -498,7 +498,9 @@ export class LeadCreationComponent implements OnInit {
           }
         }
       });
-    this.createLeadForm.patchValue({ fundingProgram: '' });
+    if(this.createLeadForm.get('fundingProgram').value) {
+      this.createLeadForm.patchValue({ fundingProgram: '' });
+    }
   }
 
   getSourcingChannel() {
@@ -538,7 +540,9 @@ export class LeadCreationComponent implements OnInit {
       this.sourchingTypeChange(sourcingTypeData);
     } else {
       this.sourcingCodePlaceholder = 'Sourcing Code';
-      this.createLeadForm.patchValue({ sourcingType: '' });
+      if(this.createLeadForm.get('sourcingType').value) {
+        this.createLeadForm.patchValue({ sourcingType: '' });
+      }
     }
   }
 

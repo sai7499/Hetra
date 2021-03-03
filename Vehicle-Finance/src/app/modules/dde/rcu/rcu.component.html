@@ -1,8 +1,9 @@
 <div class="content">
 
   <div style="text-align: center;">
-    <ng-container *ngIf="!isLoan360"> <button class="btn btn-primary btn_div" *ngIf="isRcuDetails && isErr == true"
-        (click)="showInitiateTask()" type="button">{{labels?.initiateRcu}}</button>
+    <ng-container *ngIf="!isLoan360 && !disableSaveBtn"> <button class="btn btn-primary btn_div"
+        *ngIf="isRcuDetails && isErr == true" (click)="showInitiateTask()"
+        type="button">{{labels?.initiateRcu}}</button>
     </ng-container>
 
   </div>
@@ -36,44 +37,45 @@
       <!--progress bar-->
       <div class="">
         <div class="form-group od-row">
-        <!-- <div class="flex-container form-group text-center"> -->
+          <!-- <div class="flex-container form-group text-center"> -->
           <div class="flex-con"></div>
-         
-            <div *ngIf="!isRcuDetails && isErr == true && roleType == '2'" 
+
+          <div *ngIf="!isRcuDetails && isErr == true && roleType == '2'"
             class="form-group col-lg-2 col-sm-2 col-md-3 col-xs-12"><label>Select Version</label></div>
-            <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"
+          <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12"
             *ngIf="!isRcuDetails && isErr == true && roleType == '2'">
-                     
-              <select class="form-control mandatory select2" id="" name="rcuVersion"
-                        (change)="onRcuVersionChange($event.target.value, i) ">
-                        <option *ngFor="let version of rcuVersions" [value]="version">
-                         Version - {{version}}
-                        </option>
-                      </select>
-              
-            </div>
-            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12"><label>{{ labels?.fileRcuStatus }} :</label></div>
-            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
-              <input type="radio" name="fileRCUStatus" value="screened" id="screened" formControlName="fileRCUStatus"
-                (click)="testRadio('screened')">
-              <label for="screened"> Screened</label>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
-              <input type="radio" name="fileRCUStatus" value="sampled" id="sampled" formControlName="fileRCUStatus"
-                (click)="testRadio('sampled')">
-              <label for="sampled"> Sampled</label>
-            </div>
-         
+
+            <select class="form-control mandatory select2" id="" name="rcuVersion"
+              (change)="onRcuVersionChange($event.target.value, i) ">
+              <option *ngFor="let version of rcuVersions" [value]="version">
+                Version - {{version}}
+              </option>
+            </select>
+
+          </div>
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12"><label>{{ labels?.fileRcuStatus }} :</label></div>
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
+            <input type="radio" name="fileRCUStatus" value="screened" id="screened" formControlName="fileRCUStatus"
+              (click)="testRadio('screened')">
+            <label for="screened"> Screened</label>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
+            <input type="radio" name="fileRCUStatus" value="sampled" id="sampled" formControlName="fileRCUStatus"
+              (click)="testRadio('sampled')">
+            <label for="sampled"> Sampled</label>
+          </div>
+
           <!-- <div class="flex-con"></div> -->
 
-        <!-- </div> -->
-        <div class="clearfix"></div>
+          <!-- </div> -->
+          <div class="clearfix"></div>
 
-        <!-- Applicant Details -->
+          <!-- Applicant Details -->
 
-        
+
           <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
-            <label>{{labels?.applicantNameCam}}</label></div>
+            <label>{{labels?.applicantNameCam}}</label>
+          </div>
           <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-12">
             <select class="form-control mandatory select2" id="" formControlName="applicantId" name="applicantId"
               class="form-control text-center" (change)="onRcuApplicantChange($event.target.value) ">
@@ -171,8 +173,7 @@
               </tr>
             </thead>
 
-            <tbody formArrayName="applicantDocuments" 
-            *ngIf="!showColletralDocuments">
+            <tbody formArrayName="applicantDocuments" *ngIf="!showColletralDocuments">
 
               <tr *ngFor="
             let item of rcuDetailsForm.controls.applicantDocuments.controls;
@@ -182,9 +183,10 @@
                   {{i+1}}
                 </td>
                 <td [attr.data-label]="labels?.documentName" data-title="Member">
-                  <app-custom-input id="documentName" [placeholder]="'Document Name'" formControlName="documentName" [isDisabled]='true'
-                    [type]="labels?.validationData?.name?.type" [className]="'form-control-ins mandatory'"
-                    [maxLength]="labels?.validationData?.name?.maxLength" [isDirty]="isDirty">
+                  <app-custom-input id="documentName" [placeholder]="'Document Name'" formControlName="documentName"
+                    [isDisabled]='true' [type]="labels?.validationData?.name?.type"
+                    [className]="'form-control-ins mandatory'" [maxLength]="labels?.validationData?.name?.maxLength"
+                    [isDirty]="isDirty">
                   </app-custom-input>
                 </td>
                 <td [attr.data-label]="labels?.documentCategory" data-title="Member">
@@ -210,42 +212,36 @@
                 </td>
                 <td [attr.data-label]="labels?.expiryDate" data-title="Member">
 
-                  <kendo-datepicker id="expiryDate" class="" formControlName="expiryDate" [activeView]="'decade'" readonly
-                    [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
+                  <kendo-datepicker id="expiryDate" class="" formControlName="expiryDate" [activeView]="'decade'"
+                    readonly [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Enquiry date"
                     class="form-control form-control-cus">
                   </kendo-datepicker>
                 </td>
                 <td [attr.data-label]="labels?.documentId" data-title="Member"
                   (click)="clickForLoan360(i,'applicantDocuments')">
-                  <input id="documentId" name="input" type="text" class="form-control form-control-cus file-input box-height"
-                    formControlName="dmsDocumentID" readonly (click)="downloadDocs($event.target.value)" />
+                  <input id="documentId" name="input" type="text"
+                    class="form-control form-control-cus file-input box-height" formControlName="dmsDocumentID" readonly
+                    (click)="downloadDocs($event.target.value)" />
                 </td>
-                
+
                 <td [attr.data-label]="labels?.screened" data-title="Member">
 
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
-            ]" formControlName="screened" 
-            class="form-control-cus">
+            ]" formControlName="screened" class="form-control-cus">
                   </app-vf-custom-select>
                 </td>
-                <td [attr.data-label]="labels?.sampled" 
-                data-title="Member">
-                  <app-vf-custom-select
-                   [values]="[
+                <td [attr.data-label]="labels?.sampled" data-title="Member">
+                  <app-vf-custom-select [values]="[
                     { key: '0', value: 'Yes' },
                     { key: '1', value: 'No' }
-                    ]" formControlName="sampled" 
-                    class="form-control-cus">
+                    ]" formControlName="sampled" class="form-control-cus">
                   </app-vf-custom-select>
                 </td>
                 <td [attr.data-label]="labels?.status" data-title="Member">
 
-                  <app-vf-custom-select 
-                  [values]="rcuLov?.status" 
-                  class="form-control-cus"
-                    formControlName="rcuStatus">
+                  <app-vf-custom-select [values]="rcuLov?.status" class="form-control-cus" formControlName="rcuStatus">
                   </app-vf-custom-select>
                 </td>
               </tr>
@@ -299,7 +295,7 @@
                   <input name="input" type="text" class=" form-control form-control-cus file-input"
                     formControlName="dmsDocumentID" (click)="downloadDocs($event.target.value)" />
                 </td>
-                
+
                 <td [attr.data-label]="labels?.screened" data-title="Member">
 
                   <app-vf-custom-select [values]="[
@@ -308,8 +304,7 @@
             ]" formControlName="screened" class="form-control-cus">
                   </app-vf-custom-select>
                 </td>
-                <td [attr.data-label]="labels?.sampled" 
-                data-title="Member">
+                <td [attr.data-label]="labels?.sampled" data-title="Member">
                   <app-vf-custom-select [values]="[
               { key: '0', value: 'Yes' },
               { key: '1', value: 'No' }
@@ -339,23 +334,22 @@
                 Status is required
               </span>
             </span>
-            
+
           </div>
-          
+
           <div *ngIf="roleType == '6'" class="grid-items">
             <label class="">RCU Upload</label>
           </div>
-          <div  *ngIf="roleType == '6'" class="grid-items">
+          <div *ngIf="roleType == '6'" class="grid-items">
             <label><i aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer"
                 id="add_more_documents_upload1a" (click)="uploadDoc()"></i></label>
           </div>
-         
+
           <div class="grid-items">
             <label>RCU Document Id</label>
           </div>
           <div class="grid-items">
-            <input class="form-control file-input ng-untouched ng-pristine" 
-            formControlName="rcuDocumentId" 
+            <input class="form-control file-input ng-untouched ng-pristine" formControlName="rcuDocumentId"
               (click)="clickForLoan360(); downloadDocs($event.target.value)">
             <!-- downloadDocs(rcuDetailsForm.get('rcuDocumentId').value, $event) -->
           </div>
@@ -368,14 +362,14 @@
               value="{{today}}">
           </div>
         </div>
-        
+
 
 
         <div class="form-group row">
           <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12"><label>{{labels?.remark}}</label></div>
           <div class="form-group col-lg-11 col-md-11 col-sm-11 col-xs-12">
-            <textarea class="form-control form-control-sm" 
-            [maxlength]="labels?.validationData.remarks.maxLength" placeholder="Remarks" formControlName="remarks"></textarea>
+            <textarea class="form-control form-control-sm" [maxlength]="labels?.validationData.remarks.maxLength"
+              placeholder="Remarks" formControlName="remarks"></textarea>
           </div>
 
         </div>
@@ -390,21 +384,22 @@
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      <button *ngIf="roleType == '2' && !isRcuDetails && isErr == true && isReInitiate == true" class="btn btn-primary dash_href hvr-sweep-to-left"
-       type="button" data-toggle="modal"
-       data-target="#myModalReinitiate" >
+      {{showBack}}
+      <button *ngIf="roleType == '2' && !isRcuDetails && isErr == true && isReInitiate == true"
+        class="btn btn-primary dash_href hvr-sweep-to-left" type="button" data-toggle="modal"
+        data-target="#myModalReinitiate">
         ReInitiate
       </button>
       <button class="btn btn-primary dash_href hvr-sweep-to-left" type="button" routerLink="../tvr-details"
         *ngIf="showBack == true">
         Back
       </button>
-      <ng-container *ngIf="!isLoan360">
+      <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
         <button class="btn btn-primary mar-right8" type="button" (click)="onSave()" *ngIf="showSave == true">
           Save
         </button>
       </ng-container>
-      <ng-container *ngIf="!isLoan360">
+      <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
         <button class="btn btn-primary mar-right8" type="button" (click)="onSubmit()" *ngIf="showSave == true">
           Submit
         </button>
@@ -418,32 +413,32 @@
   <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
     [docsDetails]="selectedDocDetails"></app-upload-modal>
 
-    <div class="modal" id="myModalReinitiate">
-      <div class="modal-dialog">
-          <div class="modal-content">
-  
-              <!-- Modal Header -->
-              <div class="modal-header">
-                  <h4 class="modal-title"></h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-  
-              <!-- Modal body -->
-              <div class="modal-body" style="text-align: center;">
-                  <p>Are you sure want to Re-Initiate RCU ?</p>
-              </div>
-  
-              <!-- Modal footer -->
-              <div class="modal-footer text-center">
-                  <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
-                  (click)="onReInitiate()">{{labels?.yes}}</button>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">{{labels?.cancel}}</button>
-              </div>
-  
-          </div>
+  <div class="modal" id="myModalReinitiate">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body" style="text-align: center;">
+          <p>Are you sure want to Re-Initiate RCU ?</p>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
+            (click)="onReInitiate()">{{labels?.yes}}</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">{{labels?.cancel}}</button>
+        </div>
+
       </div>
-  
-  
+    </div>
+
+
   </div>
 
   <div id="overlay" *ngIf="isInitiateScreen">
