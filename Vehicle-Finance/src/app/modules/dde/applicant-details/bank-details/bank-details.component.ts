@@ -274,16 +274,19 @@ export class BankDetailsComponent implements OnInit {
         }
         const operationType = this.toggleDdeService.getOperationType();
         if (operationType) {
-          this.bankForm.disable();
-          this.disableSaveBtn = true;
+          this.onFormDisable();
         }
 
         if (this.loanViewService.checkIsLoan360()) {
-          this.bankForm.disable();
-          this.disableSaveBtn = true;
+          this.onFormDisable();
         }
-        // }
       });
+  }
+
+  onFormDisable() {
+    this.bankForm.disable();
+    this.disableSaveBtn = true;
+    this.isEnableBranch = false;
   }
 
   public populateData(data?: any) {

@@ -328,6 +328,12 @@
       .disabled {
           cursor: not-allowed;
       }
+ 
+      .my-disabled {
+        cursor: not-allowed;
+        color: #a9a8a8;
+
+      }
 
    input[type="radio"] + label span, input[type="radio"]:checked + label span {
      -webkit-transition:background-color 0.4s linear;

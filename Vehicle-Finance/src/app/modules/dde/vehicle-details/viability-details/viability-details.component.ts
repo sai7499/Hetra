@@ -263,9 +263,9 @@ export class ViabilityDetailsComponent implements OnInit {
 
     const docNm = 'VIABILITY REPORT';
     const docCtgryCd = 102;
-    const docTp = 'LEAD';
+    const docTp = 'Lead';
     const docSbCtgry = 'VF GENERATED DOCS';
-    const docCatg = 'VF GENERATED DOCS';
+    const docCatg = 'VF LOAN DOCS';
     const docCmnts = 'Addition of document for Applicant Creation';
     const docTypCd = 479;
     const docSbCtgryCd = 42;

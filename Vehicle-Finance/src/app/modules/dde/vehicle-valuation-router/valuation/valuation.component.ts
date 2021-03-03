@@ -21,7 +21,8 @@ import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { ObjectComparisonService } from '@services/obj-compare.service';
 import { LoginService } from '@modules/login/login/login.service';
 import { Location } from '@angular/common';
-
+import { Base64StorageService } from '@services/base64-storage.service';
+import { DraggableContainerService } from '@services/draggable.service';
 @Component({
   selector: 'app-valuation',
   templateUrl: './valuation.component.html',
@@ -66,6 +67,16 @@ export class ValuationComponent implements OnInit {
   public assetModelType: any = [];
   public assetVariant: any = [];
   public fuelTypeList: any;
+
+  setCss = {
+    top: '',
+    left: '',
+  };
+
+  showDraggableContainer: {
+    imageUrl: string;
+    imageType: string;
+  };
 
   valuesToYesNo: any = [{ key: 1, value: 'Yes' }, { key: 0, value: 'No' }];
   @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
@@ -232,7 +243,7 @@ export class ValuationComponent implements OnInit {
   isInternalValuator: any;
   isModal: boolean;
   vendorName: any;
- 
+
   showReInitiate: boolean = false;
   versionArray: any = [];
   version: any = 0;
@@ -257,9 +268,9 @@ export class ValuationComponent implements OnInit {
     private loanViewService: LoanViewService,
     private uploadService: UploadService,
     private gpsService: GpsService,
-    private fb: FormBuilder,
+    private fb: FormBuilder, private draggableContainerService: DraggableContainerService,
     private sharedService: SharedService,
-    private loginService: LoginService,
+    private loginService: LoginService, private base64StorageService: Base64StorageService,
     private objectComparisonService: ObjectComparisonService,
     private location: Location) {
     this.initalZeroCheck = [{ rule: val => val < 1, msg: 'Invalid' }];
@@ -269,8 +280,10 @@ export class ValuationComponent implements OnInit {
     this.accessoriesArray = this.fb.array([]);
     this.isMobile = environment.isMobile;
     const toDayDate: Date = new Date()
-    const hour = toDayDate.getHours();
-    const minutes = toDayDate.getMinutes();
+    let hour : any = toDayDate.getHours()
+    hour = String(hour).length === 1 ?  '0' + String(hour) : hour;
+    let minutes : any = toDayDate.getMinutes()
+    minutes = String(minutes).length === 1 ?  '0' + String(minutes) : minutes;
     this.presentTime = hour + ':' + minutes
 
     this.toDayDate = this.utilityService.setTimeForDates(this.toDayDate)
@@ -286,6 +299,7 @@ export class ValuationComponent implements OnInit {
     this.url = this.location.path();
 
     this.isLoan360 = this.loanViewService.checkIsLoan360();
+    const operationType = this.toggleDdeService.getOperationType();
     const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();  // getting  user roles and
     //  details from loginstore service
     this.userId = roleAndUserDetails.userDetails.userId;
@@ -326,35 +340,6 @@ export class ValuationComponent implements OnInit {
     this.yearCheck = [{ rule: val => val > this.currentYear, msg: 'Future year not accepted' }];
     // this.toDayDate = this.utilityService.getDateFromString(this.utilityService.getDateFormat(this.toDayDate));
     // this.vehicleRegPattern = this.validateCustomPattern();
-    setTimeout(() => {
-      const operationType = this.toggleDdeService.getOperationType();
-      console.log(operationType, "operationType");
-      
-      if (operationType) {
-        this.vehicleValuationForm.disable();
-        this.vehicleValuationForm.clearValidators();
-        this.vehicleValuationForm.updateValueAndValidity();
-        this.disableSaveBtn = true;
-      //   // setTimeout(() => {
-      //     this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
-      // this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
-      // this.vehicleValuationForm.updateValueAndValidity();
-      //   // });
-      }
-
-      if (this.loanViewService.checkIsLoan360()) {
-        this.vehicleValuationForm.disable();
-        this.vehicleValuationForm.clearValidators();
-        this.vehicleValuationForm.updateValueAndValidity();
-        this.disableSaveBtn = true;
-      //   // setTimeout(() => {
-      //     this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
-      // this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
-      // this.vehicleValuationForm.updateValueAndValidity();
-      //   // });
-      }
-
-    });
 
     this.selectedDocDetails = {
       docsType: this.PROFILE_TYPE,
@@ -392,21 +377,27 @@ export class ValuationComponent implements OnInit {
     })
 
     this.sharedService.versionDetail$.subscribe((data: any) => {
-      
+
       if (data) {
         this.showReInitiate = data.isReinitiate;
         this.version = data.version;
         console.log(this.showReInitiate, "showReInitiate");
-        
+
       }
     })
     this.path = this.sharedService.getIsReinitiate();
 
-    
-
     this.getVehicleValuation();
-
   }
+
+  onFormDisable() {
+    this.vehicleValuationForm.disable();
+    // this.vehicleValuationForm.get('inspectionDetails').get('vehicleMoved').disable()
+    this.vehicleValuationForm.clearValidators(); 
+    this.vehicleValuationForm.updateValueAndValidity();
+    this.disableSaveBtn = true;
+  }
+
   getLabels() {
     this.labelsData.getLabelsData().subscribe(
       (data: any) => (this.labels = data),
@@ -436,7 +427,7 @@ export class ValuationComponent implements OnInit {
       this.vehiclePermitStatus = this.LOV.vehiclePermitStatus;
 
       this.LOV.defaultfinanciers = this.LOV.financiers;
-      this.fuelTypeList  = this.LOV.fuelType;
+      this.fuelTypeList = this.LOV.fuelType;
       this.vehicleUsedFor = this.LOV.vehicleUsage;
       // this.vehicleType = this.LOV.vehicleType;
       this.rcBookStatus = this.rcBookStatusLOV;
@@ -542,7 +533,7 @@ export class ValuationComponent implements OnInit {
   // }
 
   getVendorCode() {
-    const data  = {
+    const data = {
       leadId: this.leadId
     }
     this.vehicleValuationService.getVendorCode(data).subscribe((res: any) => {
@@ -562,17 +553,17 @@ export class ValuationComponent implements OnInit {
 
   initiateVehicleValuation() {
     // this.isDirty = true;
-    if(this.modalDataForm.get('isInternalValuation').value == '0') {
+    if (this.modalDataForm.get('isInternalValuation').value == '0') {
       this.modalDataForm.patchValue({
         internalValuationUser: '',
       })
-    } else if(this.modalDataForm.get('isInternalValuation').value == '1') {
+    } else if (this.modalDataForm.get('isInternalValuation').value == '1') {
       this.modalDataForm.patchValue({
-        internalValuationUser: this.keyValue.key ? this.keyValue.key : '' ,
+        internalValuationUser: this.keyValue.key ? this.keyValue.key : '',
       })
     }
     this.modalDataForm.get('isInternalValuation').value
-    console.log( this.modalDataForm.get('isInternalValuation').value);
+    console.log(this.modalDataForm.get('isInternalValuation').value);
     const formValues = this.modalDataForm.getRawValue();
 
     formValues.isInternalValuation == 1 ? formValues.isInternalValuation = true : false;
@@ -585,29 +576,29 @@ export class ValuationComponent implements OnInit {
       isReInitiated: true
     };
     console.log(data);
-    
+
     // if (this.modalDataForm.valid === true) {
-      this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
-        const response = res;
+    this.vehicleValuationService.initiateVehicleValuation(data).subscribe((res) => {
+      const response = res;
 
-        if (response["Error"] == 0 && response["ProcessVariables"]["error"]["code"] == 0) {
-          this.toasterService.showSuccess('Valuation Initiated Successfully', '');
-          const getData = response["ProcessVariables"]["collateralDetails"];
-          this.isOk = false;
-          this.onBack();
-          return this.collateralDetailsData ? this.collateralDetailsData.forEach(element => {
-            if (element.collateralId == getData.collateralId) {
-              element.valuationStatus = getData.valuationStatus;
-              element.valuatorStatus = getData.valuatorStatus;
-            }
-          }) : []
+      if (response["Error"] == 0 && response["ProcessVariables"]["error"]["code"] == 0) {
+        this.toasterService.showSuccess('Valuation Initiated Successfully', '');
+        const getData = response["ProcessVariables"]["collateralDetails"];
+        this.isOk = false;
+        this.onBack();
+        return this.collateralDetailsData ? this.collateralDetailsData.forEach(element => {
+          if (element.collateralId == getData.collateralId) {
+            element.valuationStatus = getData.valuationStatus;
+            element.valuatorStatus = getData.valuatorStatus;
+          }
+        }) : []
 
 
-        } else {
-          this.toasterService.showError(response["ProcessVariables"]["error"]["message"],
-            '');
-        }
-      });
+      } else {
+        this.toasterService.showError(response["ProcessVariables"]["error"]["message"],
+          '');
+      }
+    });
     // } else {
     //   this.toasterService.showError('Please fill all mandatory fields', '');
     // }
@@ -616,7 +607,7 @@ export class ValuationComponent implements OnInit {
 
   onChangeBranchName(event) {
     console.log(event);
-    
+
     this.getUserByBranch();
   }
 
@@ -627,8 +618,8 @@ export class ValuationComponent implements OnInit {
     this.vehicleValuationService.getUserByBranch(data).subscribe((res: any) => {
       this.getBranchDetails = res.ProcessVariables.users;
       console.log(this.userDetails);
-      
-      
+
+
     })
   }
 
@@ -647,7 +638,7 @@ export class ValuationComponent implements OnInit {
 
   // Custom Validation Pattern For Vehicle Number
   validateCustomPattern() {
-    if(this.isOnline) {
+    if (this.isOnline) {
       return;
     }
     const regPatternData = [
@@ -764,17 +755,17 @@ export class ValuationComponent implements OnInit {
         this.permitMaxDate = new Date(year, month, yesterDayDate, 0, 0, 0)
       } else if (this.permitType === '1VEHPERSTATUS') {
         this.permitMinDate = this.toDayDate;
-        this.permitMaxDate = new Date (2050, month, day, 0, 0, 0)
+        this.permitMaxDate = new Date(2050, month, day, 0, 0, 0)
       }
     } else if (this.permitType === '2VEHPERSTATUS' || this.permitType === '4VEHPERSTATUS') {
-        this.permitDisabled = true;
-        this.permitRequired = false;
-        this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').disable();
-        this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').setValue(null);
-        this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').updateValueAndValidity();
+      this.permitDisabled = true;
+      this.permitRequired = false;
+      this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').disable();
+      this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').setValue(null);
+      this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').updateValueAndValidity();
 
-        this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').clearValidators();
-        this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').updateValueAndValidity();
+      this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').clearValidators();
+      this.vehicleValuationForm.get('permitAndTaxDetails').get('permitValidUpto').updateValueAndValidity();
     }
   }
 
@@ -1116,7 +1107,7 @@ export class ValuationComponent implements OnInit {
 
     console.log(this.path, 'Path')
 
-    if((this.roleId === 4||this.roleId === 86) && this.path && !this.path.includes('dde')) {
+    if ((this.roleId === 4 || this.roleId === 86) && this.path && !this.path.includes('dde')) {
       this.version = 0;
     }
 
@@ -1140,7 +1131,7 @@ export class ValuationComponent implements OnInit {
         this.initiationDate = new Date(this.getDateFormat(this.vehicleValuationDetails.valuationInitiationDate));
       }
       this.isOnline = response.ProcessVariables.isOnline;
-    this.vehicleRegPattern = this.validateCustomPattern();
+      this.vehicleRegPattern = this.validateCustomPattern();
 
       // this.isOnline = true;
       // this.isOnline = false;
@@ -1150,15 +1141,15 @@ export class ValuationComponent implements OnInit {
           console.log('from is disabled', this.isOnline);
           this.vehicleValuationForm.disable();
           this.vehicleValuationForm.clearValidators();
-        this.vehicleValuationForm.updateValueAndValidity();
+          this.vehicleValuationForm.updateValueAndValidity();
           // this.disableSaveBtn = true;
           this.disableForm = true;
           // setTimeout(() => {
-            this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
-        this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
-        this.vehicleValuationForm.updateValueAndValidity();
+          this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').enable();
+          this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').enable();
+          this.vehicleValuationForm.updateValueAndValidity();
           // });
-          
+
           // this.vehicleValuationDetails.pdfUrl = 'sampleurl.com';
           if (this.vehicleValuationDetails.pdfUrl !== null) {
             this.reportUrl = this.vehicleValuationDetails.pdfUrl;
@@ -1170,11 +1161,10 @@ export class ValuationComponent implements OnInit {
           }
         }
         console.log('after set timeout', this.disablePdfDownload);
-        
+
       });
       console.log('after set timeout', this.isOnline);
       // console.log('after set timeout', this.disablePdfDownload);
-
 
       this.latitude = this.vehicleValuationDetails.latitude;
       this.longitude = this.vehicleValuationDetails.longitude;
@@ -1183,11 +1173,11 @@ export class ValuationComponent implements OnInit {
       //   this.downloadDocs(this.dmsDocumentId);
       // }
 
-      if(this.isOnline) {
+      if (this.isOnline) {
         this.disableForm = true;
         const dateToChange = this.vehicleValuationDetails.yearOfManufacturer;
         console.log(dateToChange.split('/'), 'Date');
-        const storeDate = dateToChange.split('/'); 
+        const storeDate = dateToChange.split('/');
         const day = '01'
         storeDate.unshift(day);
         // console.log(storeDate.join('/'), 'StoreDate');
@@ -1273,9 +1263,9 @@ export class ValuationComponent implements OnInit {
       //     control.push(this.initRows(null, 'accessoriesCondition'));
       //   }
       // }
-       this.onPermitChange(this.vehicleValuationDetails.permitStatus);
-       this.engineStarted(this.vehicleValuationDetails.engineStarted);
-       this.accidentsInPast(this.vehicleValuationDetails.anyAccidentsInPast);
+      this.onPermitChange(this.vehicleValuationDetails.permitStatus);
+      this.engineStarted(this.vehicleValuationDetails.engineStarted);
+      this.accidentsInPast(this.vehicleValuationDetails.anyAccidentsInPast);
       // this.modelInProdChange(this.vehicleValuationDetails.modelUnderProduction);
       if ((this.vehicleValuationDetails.modelUnderProduction) && (this.vehicleValuationDetails.preReRegNumber)) {
         if ((this.vehicleValuationDetails.preReRegNumber !== null) &&
@@ -1297,7 +1287,7 @@ export class ValuationComponent implements OnInit {
       let valuationDate = this.vehicleValuationDetails.valuationInitiationDate ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.valuationInitiationDate) : null;
       const date = valuationDate ? valuationDate.getDate() : null;
-      const month = valuationDate ?  valuationDate.getMonth() : null;
+      const month = valuationDate ? valuationDate.getMonth() : null;
       const year = valuationDate ? valuationDate.getFullYear() : null;
       valuationDate = new Date(year, month, date, hour, minute)
       this.vehicleValuationForm.get('referenceDetails').patchValue({
@@ -1305,28 +1295,102 @@ export class ValuationComponent implements OnInit {
         personInitiated: this.personInitiatedBy ? this.personInitiatedBy : '',
       })
       // if (this.vehicleValuationDetails.valuatorRefNo) {
-        setTimeout(() => {
-          this.setFormValue(); 
-        });
+      setTimeout(() => {
+        this.setFormValue();
+      });
       // }
       // console.log("VALUATION DATE****", this.vehicleValuationDetails.valuationDate);
     });
 
-    // if (this.versionArray.length > 0) {
-    //   for (let i=0; i< this.versionArray.length; i++) {
-    //     this.showReInitiate = this.version === this.versionArray[this.versionArray.length-1] ? true : false;
-    //   }
-    // }
+  }
+  async redirectUrl(event) {
+    if (this.vehicleValuationDetails.valuationDocumentId) {
+
+      let el = event.srcElement;
+
+      let documentId = this.vehicleValuationDetails.valuationDocumentId
+
+      if (!documentId) {
+        return;
+      }
     
-  }
-  redirectUrl() {
-    // this.router.navigate([this.reportUrl]);
+      if (!this.colleteralId) {
+        return;
+      }
+  
+      const bas64String = this.base64StorageService.getString(
+        this.colleteralId + documentId
+      );
+      if (bas64String) {
+        this.setContainerPosition(el);
+        this.showDraggableContainer = {
+          imageUrl: bas64String.imageUrl,
+          imageType: bas64String.imageType,
+        };
+        this.draggableContainerService.setContainerValue({
+          image: this.showDraggableContainer,
+          css: this.setCss,
+        });
+        return;
+      }
+      const imageValue: any = await this.getBase64String(documentId);
+      imageValue.documentName = 'Vehicle Valuation Report';
+      return this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/pdf');
 
-    window.open(this.reportUrl, '_blank');
-    // window.focus();
-    return;
-
+    } else {
+      this.toasterService.showError('No document available', '')
+    }
   }
+
+  getDownloadXlsFile(base64: string, fileName: string, type) {
+    const contentType = type;
+    const blob1 = this.base64ToBlob(base64, contentType);
+    const blobUrl1 = URL.createObjectURL(blob1);
+
+    setTimeout(() => {
+
+      const a: any = document.createElement('a');
+      document.body.appendChild(a);
+      a.style = "display: none";
+      a.href = blobUrl1;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(blobUrl1);
+    });
+  }
+
+  base64ToBlob(b64Data, contentType, sliceSize?: any) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
+
+  setContainerPosition(el) {
+    let offsetLeft = 0;
+    let offsetTop = 0;
+    while (el) {
+      offsetLeft += el.offsetLeft;
+      offsetTop += el.offsetTop;
+      el = el.offsetParent;
+    }
+    this.setCss = {
+      top: offsetTop + 'px',
+      left: offsetLeft + 'px',
+    };
+  }
+
 
   public populateData(data?: any, type?: any) {
     if (type === 'last3Valuations') {
@@ -1573,13 +1637,13 @@ export class ValuationComponent implements OnInit {
     }
   }
 
-  
+
 
 
 
   setFormValue() {
 
-    if (this.isOnline){
+    if (this.isOnline) {
       this.isDirty = false;
       this.fuelTypeList = [];
       this.vehicleType = [];
@@ -1633,96 +1697,96 @@ export class ValuationComponent implements OnInit {
       }];
 
       this.vehicleType = [{
-          key: this.vehicleValuationDetails.vehicleTypeCode ? this.vehicleValuationDetails.vehicleTypeCode : null,
-          value: this.vehicleValuationDetails.vehicleTypeCode ? this.vehicleValuationDetails.vehicleTypeCode : null
-        }];
+        key: this.vehicleValuationDetails.vehicleTypeCode ? this.vehicleValuationDetails.vehicleTypeCode : null,
+        value: this.vehicleValuationDetails.vehicleTypeCode ? this.vehicleValuationDetails.vehicleTypeCode : null
+      }];
 
-        this.vehicleUsedFor = [{
-          key: this.vehicleValuationDetails.vehicleUsedFor ? this.vehicleValuationDetails.vehicleUsedFor : null,
-          value: this.vehicleValuationDetails.vehicleUsedFor ? this.vehicleValuationDetails.vehicleUsedFor : null
-        }];
+      this.vehicleUsedFor = [{
+        key: this.vehicleValuationDetails.vehicleUsedFor ? this.vehicleValuationDetails.vehicleUsedFor : null,
+        value: this.vehicleValuationDetails.vehicleUsedFor ? this.vehicleValuationDetails.vehicleUsedFor : null
+      }];
 
-      this.fuelTypeList =[{
-          key: this.vehicleValuationDetails.fuelUsed ? this.vehicleValuationDetails.fuelUsed : null,
-          value: this.vehicleValuationDetails.fuelUsed ? this.vehicleValuationDetails.fuelUsed : null
-        }];
+      this.fuelTypeList = [{
+        key: this.vehicleValuationDetails.fuelUsed ? this.vehicleValuationDetails.fuelUsed : null,
+        value: this.vehicleValuationDetails.fuelUsed ? this.vehicleValuationDetails.fuelUsed : null
+      }];
 
-        this.noOfOwners =[{
-          key: this.vehicleValuationDetails.ownerSerialNo ? this.vehicleValuationDetails.ownerSerialNo : null,
-          value: this.vehicleValuationDetails.ownerSerialNo ? this.vehicleValuationDetails.ownerSerialNo : null
-        }];
-        // not reflecting
-        this.regFuelUsed =[{ 
-          key: this.vehicleValuationDetails.regFuelUsed ? this.vehicleValuationDetails.regFuelUsed : null,
-          value: this.vehicleValuationDetails.regFuelUsed ? this.vehicleValuationDetails.regFuelUsed : null
-        }];
-        this.inspectionEngineStarted =[{
-          key: this.vehicleValuationDetails.engineStarted ? this.vehicleValuationDetails.engineStarted : null,
-          value: this.vehicleValuationDetails.engineStarted ? this.vehicleValuationDetails.engineStarted : null
-        }];
-        this.vehicleRegion =[{ 
-          key: this.vehicleValuationDetails.region ? this.vehicleValuationDetails.region : null,
-          value: this.vehicleValuationDetails.region ? this.vehicleValuationDetails.region : null
-        }];
-        this.reRegisteredVechicle =[{
-          key: this.vehicleValuationDetails.preReRegNumber ? this.vehicleValuationDetails.preReRegNumber : null,
-          value: this.vehicleValuationDetails.preReRegNumber ? this.vehicleValuationDetails.preReRegNumber : null
-        }];
-        this.interStateVehicle =[{ 
-          key: this.vehicleValuationDetails.interStateVehicle ? this.vehicleValuationDetails.interStateVehicle : null,
-          value: this.vehicleValuationDetails.interStateVehicle ? this.vehicleValuationDetails.interStateVehicle : null
-        }];
-        this.permitStatus =[{ 
-          key: this.vehicleValuationDetails.permitStatus ? this.vehicleValuationDetails.permitStatus : null,
-          value: this.vehicleValuationDetails.permitStatus ? this.vehicleValuationDetails.permitStatus : null
-        }];
-        this.modelUnderProduction =[{ 
-          key: this.vehicleValuationDetails.modelUnderProduction ? this.vehicleValuationDetails.modelUnderProduction : null,
-          value: this.vehicleValuationDetails.modelUnderProduction ? this.vehicleValuationDetails.modelUnderProduction : null
-        }];
-        // this.rating =[{ 
-        //   key: this.vehicleValuationDetails.remarksRating ? this.vehicleValuationDetails.remarksRating : null,
-        //   value: this.vehicleValuationDetails.remarksRating ? this.vehicleValuationDetails.remarksRating : null
-        // }];
-        // this.ratingScale =[{ 
-        //   key: this.vehicleValuationDetails.remarksRatingScale ? this.vehicleValuationDetails.remarksRatingScale : null,
-        //   value: this.vehicleValuationDetails.remarksRatingScale ? this.vehicleValuationDetails.remarksRatingScale : null
-        // }];
-      } else {
-        this.fuelTypeList = this.LOV.fuelType
-        this.vehicleUsedFor = this.LOV.vehicleUsage;
-        // this.vehicleType = this.LOV.vehicleType;
-        this.rcBookStatus = this.rcBookStatusLOV;
-        this.anyAccidentsInPast = this.valuesToYesNo;
-        this.hypothecation = this.LOV.defaultfinanciers;
-        // this.vehicleSegment = this.LOV.vehicleSegment;
-        // this.vehicleMfrCode = this.LOV.vehicleManufacturer;
-        console.log(this.vehicleLov, 'assetMake', this.LOV);
-        
-        // this.vehicleModelCode = this.vehicleModelCode;
-        this.noOfOwners = this.ownerSerialNo;
-        // not reflecting 
-        this.regFuelUsed = this.LOV.fuelType;
-        this.inspectionEngineStarted = this.valuesToYesNo;
-        this.vehicleMoved = this.valuesToYesNo;
-        this.vehicleRegion = this.vehicleLov.region;
-        this.reRegisteredVechicle = this.valuesToYesNo;
-        this.interStateVehicle = this.valuesToYesNo;
-        this.permitStatus = this.vehiclePermitStatus;
-        this.modelUnderProduction = this.valuesToYesNo;
-        this.rating = this.conditionLov;
-        this.ratingScale = this.remarksRatingScaleLov;
-      }
+      this.noOfOwners = [{
+        key: this.vehicleValuationDetails.ownerSerialNo ? this.vehicleValuationDetails.ownerSerialNo : null,
+        value: this.vehicleValuationDetails.ownerSerialNo ? this.vehicleValuationDetails.ownerSerialNo : null
+      }];
+      // not reflecting
+      this.regFuelUsed = [{
+        key: this.vehicleValuationDetails.regFuelUsed ? this.vehicleValuationDetails.regFuelUsed : null,
+        value: this.vehicleValuationDetails.regFuelUsed ? this.vehicleValuationDetails.regFuelUsed : null
+      }];
+      this.inspectionEngineStarted = [{
+        key: this.vehicleValuationDetails.engineStarted ? this.vehicleValuationDetails.engineStarted : null,
+        value: this.vehicleValuationDetails.engineStarted ? this.vehicleValuationDetails.engineStarted : null
+      }];
+      this.vehicleRegion = [{
+        key: this.vehicleValuationDetails.region ? this.vehicleValuationDetails.region : null,
+        value: this.vehicleValuationDetails.region ? this.vehicleValuationDetails.region : null
+      }];
+      this.reRegisteredVechicle = [{
+        key: this.vehicleValuationDetails.preReRegNumber ? this.vehicleValuationDetails.preReRegNumber : null,
+        value: this.vehicleValuationDetails.preReRegNumber ? this.vehicleValuationDetails.preReRegNumber : null
+      }];
+      this.interStateVehicle = [{
+        key: this.vehicleValuationDetails.interStateVehicle ? this.vehicleValuationDetails.interStateVehicle : null,
+        value: this.vehicleValuationDetails.interStateVehicle ? this.vehicleValuationDetails.interStateVehicle : null
+      }];
+      this.permitStatus = [{
+        key: this.vehicleValuationDetails.permitStatus ? this.vehicleValuationDetails.permitStatus : null,
+        value: this.vehicleValuationDetails.permitStatus ? this.vehicleValuationDetails.permitStatus : null
+      }];
+      this.modelUnderProduction = [{
+        key: this.vehicleValuationDetails.modelUnderProduction ? this.vehicleValuationDetails.modelUnderProduction : null,
+        value: this.vehicleValuationDetails.modelUnderProduction ? this.vehicleValuationDetails.modelUnderProduction : null
+      }];
+      // this.rating =[{ 
+      //   key: this.vehicleValuationDetails.remarksRating ? this.vehicleValuationDetails.remarksRating : null,
+      //   value: this.vehicleValuationDetails.remarksRating ? this.vehicleValuationDetails.remarksRating : null
+      // }];
+      // this.ratingScale =[{ 
+      //   key: this.vehicleValuationDetails.remarksRatingScale ? this.vehicleValuationDetails.remarksRatingScale : null,
+      //   value: this.vehicleValuationDetails.remarksRatingScale ? this.vehicleValuationDetails.remarksRatingScale : null
+      // }];
+    } else {
+      this.fuelTypeList = this.LOV.fuelType
+      this.vehicleUsedFor = this.LOV.vehicleUsage;
+      // this.vehicleType = this.LOV.vehicleType;
+      this.rcBookStatus = this.rcBookStatusLOV;
+      this.anyAccidentsInPast = this.valuesToYesNo;
+      this.hypothecation = this.LOV.defaultfinanciers;
+      // this.vehicleSegment = this.LOV.vehicleSegment;
+      // this.vehicleMfrCode = this.LOV.vehicleManufacturer;
+      console.log(this.vehicleLov, 'assetMake', this.LOV);
+
+      // this.vehicleModelCode = this.vehicleModelCode;
+      this.noOfOwners = this.ownerSerialNo;
+      // not reflecting 
+      this.regFuelUsed = this.LOV.fuelType;
+      this.inspectionEngineStarted = this.valuesToYesNo;
+      this.vehicleMoved = this.valuesToYesNo;
+      this.vehicleRegion = this.vehicleLov.region;
+      this.reRegisteredVechicle = this.valuesToYesNo;
+      this.interStateVehicle = this.valuesToYesNo;
+      this.permitStatus = this.vehiclePermitStatus;
+      this.modelUnderProduction = this.valuesToYesNo;
+      this.rating = this.conditionLov;
+      this.ratingScale = this.remarksRatingScaleLov;
+    }
 
     if (this.disableForm) {
       // this.yearMonthOfManufact = this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer)  || '';
-      this.yearMonthOfManufacturer = this.utilityService.getDateFromString(this.yearOfManufacturer)  || '';
+      this.yearMonthOfManufacturer = this.utilityService.getDateFromString(this.yearOfManufacturer) || '';
       this.personInitiatedBy = this.vehicleValuationDetails.personInitiated;
     } else {
       this.yearMonthOfManufacturer = this.vehicleValuationDetails.yearOfManufacturer ?
         this.utilityService.getDateFromString(this.vehicleValuationDetails.yearOfManufacturer) : '';
     }
- 
+
     this.vehicleValuationForm.patchValue({
       valuatorCode: this.valuatorCode,
       valuatorType: this.valuatorType,
@@ -1750,7 +1814,7 @@ export class ValuationComponent implements OnInit {
 
 
     })
-    
+
     this.vehicleValuationForm.get('vehicleIdentityDetails').patchValue({
 
       assetMake: this.vehicleValuationDetails.vehicleMfrCode || '',
@@ -1858,6 +1922,12 @@ export class ValuationComponent implements OnInit {
       // yearMonthOfManufact: this.yearMonthOfManufact ? this.yearMonthOfManufact : '',  
     });
     this.apiValue = this.vehicleValuationForm.getRawValue();
+
+    setTimeout(() => {
+      if (this.toggleDdeService.getOperationType() || this.loanViewService.checkIsLoan360()) {
+        this.onFormDisable()
+      }
+    }, 1000)
   }
 
   onVehicleRegion(value: any, obj) {
@@ -2057,12 +2127,12 @@ export class ValuationComponent implements OnInit {
 
 
   onFormSubmit() {
-    
-    if(this.isOnline) {
-      if(this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').invalid ||
-      this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').invalid) {
+
+    if (this.isOnline) {
+      if (this.vehicleValuationForm.get('recomendationDetails').get('remarksRating').invalid ||
+        this.vehicleValuationForm.get('recomendationDetails').get('remarksRatingScale').invalid) {
         this.isOnlinevariable = true;
-      } 
+      }
     } else {
       this.isDirty = true;
     }
@@ -2130,19 +2200,19 @@ export class ValuationComponent implements OnInit {
     insuranceDetails.validUpto = this.utilityService.convertDateTimeTOUTC(insuranceDetails.validUpto, 'DD/MM/YYYY');
     permitAndTaxDetails.fcExpiryDate = this.utilityService.convertDateTimeTOUTC(permitAndTaxDetails.fcExpiryDate, 'DD/MM/YYYY');
     referenceDetails.valuationInitiationDate = this.utilityService.convertDateTimeTOUTC(referenceDetails.valuationInitiationDate, 'DD/MM/YYYY');
-    console.log(recomendationDetails,'after converting date to utc', formValue);
+    console.log(recomendationDetails, 'after converting date to utc', formValue);
 
-    if(this.isOnline) {
-      formValue ={
-        remarksRating :  recomendationDetails.remarksRating,
-        remarksRatingScale  : recomendationDetails.remarksRatingScale
+    if (this.isOnline) {
+      formValue = {
+        remarksRating: recomendationDetails.remarksRating,
+        remarksRatingScale: recomendationDetails.remarksRatingScale
       }
-      
-    }else{
-      formValue= {
-        valuatorType :formValue.valuatorType,
-        valuatorCode :formValue.valuatorCode,
-        vehicleCode : formValue.vehicleCode,
+
+    } else {
+      formValue = {
+        valuatorType: formValue.valuatorType,
+        valuatorCode: formValue.valuatorCode,
+        vehicleCode: formValue.vehicleCode,
         ...referenceDetails,
         ...inspectionDetails,
         ...vehicleIdentityDetails,
@@ -2152,10 +2222,10 @@ export class ValuationComponent implements OnInit {
         ...remarksDetails,
         ...recomendationDetails,
         ...vehiclePhotoDetails
-       }
+      }
     }
-   
-    
+
+
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false;
     if (this.vehicleValuationForm.invalid || isUDFInvalid) {
       this.toasterService.showError('Please enter required details', '');
@@ -2386,7 +2456,7 @@ export class ValuationComponent implements OnInit {
 
   closeModal() {
     this.isModal = false;
-    this.isOk  = false;
+    this.isOk = false;
     this.modalDataForm.get('internalValuationUser').setValue('');
   }
 
@@ -2394,17 +2464,17 @@ export class ValuationComponent implements OnInit {
     this.isDirty = true;
     console.log(this.modalDataForm);
 
-    if(!this.isInternalValuator) {
+    if (!this.isInternalValuator) {
       this.modalDataForm.get('isInternalValuation').clearValidators();
       this.modalDataForm.get('isInternalValuation').updateValueAndValidity();
       this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
       this.modalDataForm.get('valuatorCode').updateValueAndValidity();
 
     }
-    
-    if(this.modalDataForm.valid === true) {
+
+    if (this.modalDataForm.valid === true) {
       this.closeModal1.nativeElement.click();
-    this.isOk = true;
+      this.isOk = true;
     } else {
       this.toasterService.showError('Please enter mandatory fields', '')
     }
@@ -2447,16 +2517,16 @@ export class ValuationComponent implements OnInit {
       this.modalDataForm.get('valuatorCode').clearValidators();
       this.modalDataForm.get('valuatorCode').updateValueAndValidity();
       setTimeout(() => {
-        this.modalDataForm.get('valuatorCode').setValue(null); 
+        this.modalDataForm.get('valuatorCode').setValue(null);
       });
-    } else if(event == '0') {
+    } else if (event == '0') {
       this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
       this.modalDataForm.get('branchName').clearValidators();
       this.modalDataForm.get('internalValuationUser').clearValidators();
       this.modalDataForm.get('valuatorCode').updateValueAndValidity();
       setTimeout(() => {
-      this.modalDataForm.get('internalValuationUser').setValue(null); 
-      this.modalDataForm.get('branchName').setValue(null); 
+        this.modalDataForm.get('internalValuationUser').setValue(null);
+        this.modalDataForm.get('branchName').setValue(null);
       });
     }
   }
@@ -2508,7 +2578,6 @@ export class ValuationComponent implements OnInit {
         });
     });
   }
-
 
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;

@@ -27,7 +27,7 @@
               <div class="col-sm-4 report-align">
                 <button class="btn btn-primary js-btn-prev" type="button" *ngIf="disableForm"
                   [disabled]="disablePdfDownload">
-                  <a (click)="redirectUrl()">{{ labels.downloadReport }}</a>
+                  <a (click)="redirectUrl($event)">{{ labels.downloadReport }}</a>
                 </button>
               </div>
             </div>
@@ -1560,7 +1560,7 @@
             </div>
 
             <div class="col-sm-7 text-right">
-              <button *ngIf="!extValuator && showReInitiate" data-toggle="modal" data-target="#reInitiateModal"  class="btn btn-primary">
+              <button *ngIf="!extValuator && showReInitiate && !disableSaveBtn" data-toggle="modal" data-target="#reInitiateModal"  class="btn btn-primary">
                 <a>{{ labels.reinitiate }}</a>
               </button>
               &nbsp;

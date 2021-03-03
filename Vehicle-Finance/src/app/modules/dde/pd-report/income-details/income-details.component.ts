@@ -8,6 +8,8 @@ import { LoginStoreService } from '@services/login-store.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { BankTransactionsService } from '@services/bank-transactions.service';
+import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-income-details',
   templateUrl: './income-details.component.html',
@@ -47,6 +49,9 @@ export class IncomeDetailsComponent implements OnInit {
   isEnableBranch: boolean = false;
   searchBranchName: any = []
 
+  disableSaveBtn: boolean;
+  operationType: any;
+
   constructor(private labelsData: LabelsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -54,6 +59,8 @@ export class IncomeDetailsComponent implements OnInit {
     private toasterService: ToasterService,
     private loginStoreService: LoginStoreService,
     private formBuilder: FormBuilder,
+    private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService,
     private bankTransaction: BankTransactionsService,
     private personalDiscussion: PersonalDiscussionService,
     private commomLovService: CommomLovService) { }
@@ -166,6 +173,18 @@ export class IncomeDetailsComponent implements OnInit {
             this.addCCOd(value.ProcessVariables['incomeDetails'].typeOfAccount)
           }
           this.setFormValue(value.ProcessVariables['incomeDetails']);
+        }
+        this.operationType = this.toggleDdeService.getOperationType();
+        if (this.operationType) {
+          this.incomeDetailsForm.disable();
+          this.isEnableBranch = false;
+          this.disableSaveBtn = true;
+        }
+    
+        if (this.loanViewService.checkIsLoan360()) {
+          this.incomeDetailsForm.disable();
+          this.isEnableBranch = false;
+          this.disableSaveBtn = true;
         }
       }
     });

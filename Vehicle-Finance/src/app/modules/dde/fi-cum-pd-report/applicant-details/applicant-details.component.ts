@@ -97,6 +97,7 @@ export class ApplicantDetailComponent implements OnInit {
     this.roleType = this.roles[0].roleType;
 
     //this.udfScreenId = this.roleType === 1 ? 'FPS001' : 'FPS005';
+    this.operationType = this.toggleDdeService.getOperationType();
 
     this.getLabels = this.labelsData.getLabelsData().subscribe(
       data => {
@@ -112,16 +113,6 @@ export class ApplicantDetailComponent implements OnInit {
     this.lovDataService.getLovData().subscribe((value: any) => {
       this.applicantLov = value ? value[0].applicantDetails[0] : {};
     });
-    this.operationType = this.toggleDdeService.getOperationType();
-    if (this.operationType) {
-      this.applicantForm.disable();
-      this.disableSaveBtn = true;
-    }
-
-    if (this.loanViewService.checkIsLoan360()) {
-      this.applicantForm.disable();
-      this.disableSaveBtn = true;
-    }
 
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
@@ -397,6 +388,15 @@ export class ApplicantDetailComponent implements OnInit {
         }
         if (this.applicantForm.get('houseOwnership') != null) {
           this.houseOwnerShip(this.applicantForm.get('houseOwnership').value);
+        }
+        if (this.operationType) {
+          this.applicantForm.disable();
+          this.disableSaveBtn = true;
+        }
+    
+        if (this.loanViewService.checkIsLoan360()) {
+          this.applicantForm.disable();
+          this.disableSaveBtn = true;
         }
       }
     });

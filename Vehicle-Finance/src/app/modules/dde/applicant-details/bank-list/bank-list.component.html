@@ -15,7 +15,7 @@
           <!-- <div class="col-sm-5">
                            <h4 class="title">Vehicle Details</h4> 
                        </div> -->
-          <div class="col-lg-12 p-0 btn-spc text-right" *ngIf="!isLoan360">
+          <div class="col-lg-12 p-0 btn-spc text-right" *ngIf="!isLoan360 && !disableAddbankDetailsBtn">
             <button
               class="btn btn-secondary table-head-bg"
               id="btnColor"
@@ -80,7 +80,7 @@
                   <td [attr.data-label]="labels?.toDate">{{ item?.toDate }}</td>
                   <td [attr.data-label]="labels?.period">{{ item?.period }}</td>
                   <td class="cursor-pointer" [attr.data-label]="labels?.action">
-                    <ng-container *ngIf="isLoan360">
+                    <ng-container *ngIf="isLoan360 || disableAddbankDetailsBtn">
                       <i
                       class="fa fa-eye"
                       (click)="routeDetails(item)"
@@ -88,7 +88,7 @@
                     ></i
                     >
                     </ng-container>
-                    <ng-container *ngIf="!isLoan360">
+                    <ng-container *ngIf="!isLoan360 && !disableAddbankDetailsBtn">
                       <i
                       class="fa fa-pencil"
                       (click)="routeDetails(item)"
