@@ -144,7 +144,7 @@ export class LoanStatusComponent implements OnInit {
       if (res.Error === '0' && res.ProcessVariables.error.code == '0') {
 
         this.documentId = res.ProcessVariables.csDmsId ? res.ProcessVariables.csDmsId: 0;
-        this.downloadDocsCheck(this.documentId)
+        this.downloadDocsCheck(this.documentId, data.stage)
 
       } else {
        this.toasterService.showError(res.ErrorMessage ? '' : res.ProcessVariables.error.message ,"Download E-Policy")
@@ -152,7 +152,7 @@ export class LoanStatusComponent implements OnInit {
     })
   }
 
-  async downloadDocsCheck(documentId) {
+  async downloadDocsCheck(documentId, stage) {
     let el = documentId.srcElement;
 
     if (!documentId) {
@@ -182,6 +182,8 @@ export class LoanStatusComponent implements OnInit {
       return;
     }
     const imageValue: any = await this.getBase64String(documentId);
+    imageValue.documentName = stage + ' _Report';
+
     this.getDownloadXlsFile(imageValue.imageUrl, imageValue.documentName, 'application/pdf');
     this.setContainerPosition(el);
     let showDraggableContainer = {
