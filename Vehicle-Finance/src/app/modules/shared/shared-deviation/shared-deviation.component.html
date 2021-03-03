@@ -377,7 +377,8 @@
 
           <div class="form-group col-sm-8 col-md-8">
             <app-vf-custom-select [values]="deviationLov?.approverRole" [id]="'approval_level'"
-              formControlName="approverRole" [isDisabled]="!deviationsForm.controls['isSaveEdit'].value || isLoan360 || disableSaveBtn"
+              formControlName="approverRole"
+              [isDisabled]="!deviationsForm.controls['isSaveEdit'].value || isLoan360 || disableSaveBtn"
               (change)="isCheckReferButton(deviationsForm)">
             </app-vf-custom-select>
           </div>
@@ -419,12 +420,11 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
-          {{selectDeviationId === 0 ? 'Remove ' : 'Delete '}} Deviation
-        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+        <h5 class="modal-title" id="exampleModalLabel"> {{selectDeviationId === 0 ? 'Remove ' : 'Delete '}} Deviation
+        </h5>
       </div>
       <div class="modal-body">
         Are you sure you want to {{selectDeviationId === 0 ? 'remove ' : 'delete '}} deviation?
