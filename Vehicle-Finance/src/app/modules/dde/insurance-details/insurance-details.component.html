@@ -108,11 +108,12 @@
                     </app-vf-custom-select> -->
                     <div class="ng-autocomplete" style="width:100%">
                         <ng-autocomplete [data]="rtoCentreList" [searchKeyword]="'value'"
+                        (inputCleared) = "clearRtoAgent()"
                             (inputChanged)='getRtoDetails($event)' [itemTemplate]="dealerCodeTemplate"
                             [notFoundTemplate]="notFoundTemplate" formControlName="rtoCentre"
                             [placeHolder]="'Rto Center'" [minQueryLength]="4" (selected)='selectRtoEvent($event)'>
                         </ng-autocomplete>
-                        <div class="invalid-feedback" *ngIf="!isRtoCenter">
+                        <div class="invalid-feedback" *ngIf="isDirty && !isRtoCenter">
                             <div> Rto center required.</div>
                         </div>
                         <ng-template #dealerCodeTemplate let-item>
@@ -286,12 +287,15 @@
             <!-- Nominee details Ends -->
 
             <!-- Nominee Address Starts -->
-            <div class="row" *ngIf="showCreditDetails">
-                <div class="col-lg-12">
-                    <h5 class="sub-head">{{labels?.nomineeAddress}}</h5>
+            <div class="" *ngIf="showCreditDetails">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5 class="banner-sub">{{labels?.nomineeAddress}}</h5>
+                    </div>
                 </div>
+                
 
-                <div class="">
+                <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pan">{{ labels?.addressline1 }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="addressLineOne" type="text" class="form-control" id="address1" /> -->
@@ -322,7 +326,7 @@
                         </app-custom-input>
                     </div>
                 </div>
-                <div class="">
+                <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="pincode">{{ labels?.code }} <sub class="star_red_col">*</sub></label>
                         <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
@@ -347,7 +351,7 @@
                         </app-vf-custom-select>
                     </div>
                 </div>
-                <div class="">
+                <div class="row">
                     <div class="form-group col-sm-6 col-md-4 col-lg-4">
                         <label for="passport">{{ labels?.state }} <sub class="star_red_col">*</sub></label>
 

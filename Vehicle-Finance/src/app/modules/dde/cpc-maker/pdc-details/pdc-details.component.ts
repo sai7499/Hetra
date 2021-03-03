@@ -818,7 +818,7 @@ export class PdcDetailsComponent implements OnInit {
       })
 
       setTimeout(() => {
-        if (this.searchBankNameList.length === 0) {
+        if (val && this.searchBankNameList.length === 0) {
           this.toasterService.showInfo('Please enter valid bank name', '')
         }
       }, 1000)
@@ -886,7 +886,7 @@ export class PdcDetailsComponent implements OnInit {
         });
   
         setTimeout(() => {
-          if (this.searchBranchName.length === 0) {
+          if (val && this.searchBranchName.length === 0) {
             obj.get('instrBranchName').setErrors({ incorrect: true })
             this.toasterService.showInfo('Please enter valid branch', '')
           }
