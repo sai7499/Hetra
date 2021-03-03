@@ -415,7 +415,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       documentId: new FormControl(document.documentId || 0),
       isDeferred: new FormControl(isDeferred),
       deferredDate: new FormControl(
-        this.utilityService.getDateFromString(document.deferredDate) || ''
+        {value : this.utilityService.getDateFromString(document.deferredDate) || '', disabled : !isDeferred? true : false}
+        
       ),
     });
     return controls;
@@ -498,7 +499,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       expiryDate: new FormControl(''),
       file: new FormControl(''),
       documentId: new FormControl(0),
-      deferredDate: new FormControl(''),
+      deferredDate: new FormControl({value : '', disabled : true}),
       isDeferred: new FormControl(''),
     });
     formArray.push(controls);

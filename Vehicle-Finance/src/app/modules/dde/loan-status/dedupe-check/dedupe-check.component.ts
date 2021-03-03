@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoanCreationService } from '@services/loan-creation.service';
 import { ToasterService } from '@services/toaster.service';
 import { DataRowOutlet } from '@angular/cdk/table';
+import { ApplicantService } from '@services/applicant.service';
 
 @Component({
   templateUrl: './dedupe-check.component.html',
@@ -17,12 +18,15 @@ export class DedupeCheckComponent implements OnInit {
   applicantId;
   leadId;
   dedupeParameter;
+  exactRefNo: any ={};
   constructor(
     private location: Location,
     private loanCreationService: LoanCreationService,
     private activatedRoute: ActivatedRoute,
     private toaster: ToasterService,
-    private router:Router
+    private router:Router,
+    private applicantService: ApplicantService,
+    private toasterService: ToasterService,
   ) {}
 
   async ngOnInit() {
@@ -102,5 +106,28 @@ export class DedupeCheckComponent implements OnInit {
 
   onCancel() {
     this.showModal = false;
+  }
+
+  getOriginaladhar(data, index){
+    
+      this.exactRefNo[index] = data.aadhar;
+
+    this.applicantService.retreiveAdhar(data.aadhar).subscribe((res) => {
+      if (res['ProcessVariables'].error.code == "0") {
+        const uid = res['ProcessVariables'].uid
+        this.dedupeMatch[index].aadhar = uid;
+        data.isClicked = true;
+      }
+      else {
+        this.toasterService.showError(res['ProcessVariables'].error.message, '')
+        data.isClicked = false;
+      }
+    })
+
+  }
+
+  getRefAdhar(data, index){
+    this.dedupeMatch[index].aadhar = this.exactRefNo[index] || data.aadhar;
+    data.isClicked = false;
   }
 }
