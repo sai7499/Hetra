@@ -1882,7 +1882,9 @@
     "orcStatus" : "ORC Status",
     "orcStatusChanged" : "ORC Status changed on",
     "orcRemarks" : "Remarks",
-
+    "cnfAccNumber" : "Confirm Account Number",
+    "kycIDType" : "KYC ID Type",
+    "kycIDNumber" : "KYC ID Number",
     
     "validationData": {
         "name": {

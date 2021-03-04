@@ -412,7 +412,7 @@
 
                     <label class="col-sm-2 col-lg-2 col-md-2 col-xs-12" for="tooltip">
                       <a data-tooltip="View DDE" *ngIf="leadId">
-                        <i class="fa fa-rub view-dde" (click)="viewDDE()"></i></a> </label>
+                        <i class="fa fa-window-restore view-dde" (click)="viewDDE()"></i></a> </label>
                   </div>
                 </div>
 
@@ -515,7 +515,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 text-box">
                   <div class="text-box-msg col-lg-12 col-xs-12 col-md-12 col-sm-12">
                     <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span id="cus-tooltip"
-                        class="i-span input-group-addon" style="padding:0px;" (click)="chooseFile()"
+                        class="i-span input-group-addon" (click)="chooseFile()"
                         data-tooltip="Attachment"
                         [ngClass]="queryModalForm.controls['docName'].value ? 'cus-font-size' : ''"><i
                           class="fa fa-paperclip"></i>

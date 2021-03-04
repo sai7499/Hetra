@@ -8,12 +8,12 @@ import { contains } from 'jquery';
 })
 export class CustomModalComponent implements OnInit {
   isModalOpen: boolean;
-  modal: string;
+  modal: any;
   @Input() set showModal(value : boolean){
       this.isModalOpen = value;
   }
   @Input() buttons : any;
-  @Input() set modalDetails(value : string){
+  @Input() set modalDetails(value){
     this.modal = value;
   }
 
