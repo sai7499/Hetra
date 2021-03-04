@@ -188,10 +188,15 @@
 
 
   <!-- </form> -->
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="showModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "showModal = false"
+(onButtonClick)="callDeleteApplicant()"></app-custom-modal>
 
-  <div class="modal" id="myModal" 
+  <!-- <div class="modal" id="myModal" 
   [ngStyle]="{'display': showModal ? 'block' : 'none' }">
-  <!-- [ngClass]="{ 'dis-block': showModal }" -->
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -215,7 +220,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="modal" id="myModalApplicantImage">
     <div class="modal-dialog  modal-style">
       <div class="modal-content">

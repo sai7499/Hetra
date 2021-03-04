@@ -119,6 +119,14 @@
               <td>{{ exactMatch.pan }}</td>
               <td>
                 {{ exactMatch.aadhar }}
+                <span *ngIf="!exactMatch?.isClicked && (exactMatch?.aadhar || exactMatch?.udhyogAadhar)" (click)="getOriginaladhar(exactMatch, i)" 
+                 style="cursor: pointer;">
+                  <i  class="fa fa-eye" title="Show Aadhaar number"></i>
+                </span>
+                <span *ngIf="exactMatch?.isClicked && (exactMatch?.aadhar || exactMatch?.udhyogAadhar)" (click)="getRefAdhar(exactMatch, i)" 
+                style="cursor: pointer;">
+                 <i  class="fa fa-eye-slash "></i>
+               </span>
               </td>
               <!-- <ng-container *ngIf="isIndividual"> -->
                 <td>{{ exactMatch.passport=="undefined"? '' :exactMatch.passport }}</td>
