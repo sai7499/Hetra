@@ -49,6 +49,7 @@ import { SharedUserDefinedFieldsComponent } from './shared-user-defined-fields/s
 
 import { WindowModule } from '@progress/kendo-angular-dialog';
 import { CustomModalComponent } from './custom-modal/custom-modal.component';
+import { CustomTextareaComponent } from './custom-textarea/custom-textarea.component';
 setTheme('bs4');
 
 @NgModule({
@@ -82,7 +83,8 @@ setTheme('bs4');
     WelomceLetterComponent,
     InAppcameraComponent,
     SharedUserDefinedFieldsComponent,
-    CustomModalComponent
+    CustomModalComponent,
+    CustomTextareaComponent
   ],
   imports: [
     CommonModule,

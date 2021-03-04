@@ -385,16 +385,14 @@
                                     <label for="vehicle_address"> {{ label.vehicleAddress }} <sub
                                             class="star_red_col">*</sub>
                                     </label>
-                                    <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address"
-                                        cols="1" rows="3" placeholder="Vehicle Address" formControlName="address"
-                                        maxlength="120" style="resize: none;"></textarea>
 
-                                    <div class="invalid-feedback"
-                                        *ngIf="obj.controls['address'].touched && !obj.controls['address'].valid">
-                                        <div *ngIf="obj.controls['address'].hasError('required')">
-                                            Vehicle Address Required
-                                        </div>
-                                    </div>
+                                    <app-custom-textarea formControlName="address" [className]="'form-control mandatory'"
+                                        [placeholder]="'Vehicle Address'"
+                                        [isRequired]="'Mobile Number of Vehicle Owner/Dealer/Driver Required'"
+                                        [isDirty]="isDirty"
+                                        [maxLength]="label.validationData?.textarea.maxLength">
+
+                                    </app-custom-textarea>
 
                                 </div>
 
@@ -658,8 +656,8 @@
                                         <sub class="star_red_col">*</sub>
                                     </label>
                                     <kendo-datepicker class="form-control mandatory" formControlName="invoiceDate"
-                                        [format]="'dd/MM/yyyy'" [min]="proformaMinDate" [max]="proformaMaxDate" [activeView]="'decade'"
-                                        placeholder="Proforma Invoice Date">
+                                        [format]="'dd/MM/yyyy'" [min]="proformaMinDate" [max]="proformaMaxDate"
+                                        [activeView]="'decade'" placeholder="Proforma Invoice Date">
                                     </kendo-datepicker>
 
                                     <div class="invalid-feedback"
@@ -669,8 +667,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="invalid-feedback"
-                                        *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value && 
+                                    <div class="invalid-feedback" *ngIf="obj.controls['invoiceDate'].touched && obj.controls['invoiceDate'].value && 
                                         obj.controls['invoiceDate'].errors">
                                         Invalid Date
                                     </div>
@@ -918,7 +915,7 @@
                                     <label for="body_cost">{{label.bodyCost}}</label>
 
                                     <app-custom-input formControlName="bodyCost" [className]="'form-control mandatory'"
-                                    (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
+                                        (keyup)="onChangeFinalAssetCost(obj.controls.isOrpFunding.value, obj)"
                                         [type]="label.validationData?.amountValue.type"
                                         [maxLength]="label.validationData?.amountValue.maxLength"
                                         [isRequired]="obj.controls['isOrpFunding'].value !== '1' ? '' : 'Body Cost Required'"

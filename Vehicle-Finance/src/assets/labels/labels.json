@@ -3095,6 +3095,11 @@
         },
         "remarks": {
             "maxLength": 1500
-        } 
+        },
+        "textarea": {
+            "maxLength": {
+                "rule": 1500
+            }
+        }
     }
 }
