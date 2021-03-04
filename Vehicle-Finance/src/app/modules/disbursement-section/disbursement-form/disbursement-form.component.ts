@@ -225,16 +225,16 @@ tvrStatusLOV =[
   coApplicant2: Object = {};
   coApplicant3: Object = {};
   bankdetailsformArray = ['beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch']
-  chequeDDformArray = ['beneficiaryAccountNo', 'instrumentType', 'favouringBankOfDraw', 'favouringBankBranch']
+  chequeDDformArray = ['beneficiaryAccountNo', 'instrumentType']
   //casaformArray = ['beneficiaryAccountNo']
   intTypeformArray = ['instrumentNumber', 'instrumentDate']
   bankcasaformArray = ['beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch']
 
-  commonFormArray = ['beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount']
-  thirdPartyFormArray = ['beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount', 'tvrStatus', 'kycIDNumber','kycIDType']
-  dealerformArray = ['dealerCode', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount']
-  bankerformArray = ['bankerId', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount']
-  finformArray = ['financierId', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'favouringBankOfDraw', 'favouringBankBranch', 'paymentMethod', 'disbursementAmount']
+  commonFormArray = ['beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'paymentMethod', 'disbursementAmount']
+  thirdPartyFormArray = ['beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'paymentMethod', 'disbursementAmount', 'tvrStatus', 'kycIDNumber','kycIDType']
+  dealerformArray = ['dealerCode', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'paymentMethod', 'disbursementAmount']
+  bankerformArray = ['bankerId', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'paymentMethod', 'disbursementAmount']
+  finformArray = ['financierId', 'beneficiaryName', 'beneficiaryAccountNo', 'beneficiaryBank', 'ifscCode', 'mobilePhone', 'beneficiaryBranch', 'instrumentType', 'instrumentNumber', 'instrumentDate', 'paymentMethod', 'disbursementAmount']
 
   accountTypeLov = [];
   bankerLov = [];
@@ -3522,7 +3522,20 @@ tvrStatusLOV =[
     }
   }
 
-  disburseToVal(val,fetchflag) {
+  disburseToVal(val,fetchflag,event) {
+    //newly added for 8581 starts
+    let lengthExceeds= false;
+    if(val && val.length>3 && fetchflag){
+      this.disburseTo =[];
+      val=event['source']['ngControl']['model'];
+      lengthExceeds= true;
+      this.toasterService.showError('Disburse To should not be more than three parties', '');     
+      val.forEach(ele => {
+        this.disburseTo.push(ele) // in event already Internal BT Pushed
+      });    
+      this.disburseToVal(val,false,'');  
+    }
+    ////newly added for 8581 ends
     console.log('diburseToValues', this.disburseTo)
     // console.log(val,val.length)
     this.disburseToDealer = false;
@@ -4334,8 +4347,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.dealerObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.dealerObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.dealerObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.dealerObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.dealerObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.dealerObjInfo['favouringBankBranch'] }),
       //loanNumber: new FormControl({ value: this.dealerObjInfo['loanNumber'] }, Validators.required),
       //address:new FormControl(''),
       beneficiaryAddress1: new FormControl(''),
@@ -4358,8 +4371,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.applicantObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.applicantObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.applicantObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.applicantObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.applicantObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.applicantObjInfo['favouringBankBranch'] }),
       //loanNumber: new FormControl({ value: this.applicantObjInfo['loanNumber'] }, Validators.required),
       //appAddress: new FormControl(''),
       beneficiaryAddress1: new FormControl(''),
@@ -4382,8 +4395,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.sellerObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.sellerObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.sellerObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.sellerObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.sellerObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.sellerObjInfo['favouringBankBranch'] }),
       beneficiaryAddress1: new FormControl(''),
       beneficiaryAddress2: new FormControl(''),
       beneficiaryAddress3: new FormControl(''),
@@ -4405,8 +4418,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.buyerObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.buyerObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.buyerObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.buyerObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.buyerObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.buyerObjInfo['favouringBankBranch'] }),
       beneficiaryAddress1: new FormControl(''),
       beneficiaryAddress2: new FormControl(''),
       beneficiaryAddress3: new FormControl(''),
@@ -4427,8 +4440,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.additionalTab1ObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.additionalTab1ObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.additionalTab1ObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.additionalTab1ObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.additionalTab1ObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.additionalTab1ObjInfo['favouringBankBranch'] }),
       beneficiaryAddress1: new FormControl(''),
       beneficiaryAddress2: new FormControl(''),
       beneficiaryAddress3: new FormControl(''),
@@ -4449,8 +4462,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.additionalTab2ObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.additionalTab2ObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.additionalTab2ObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.additionalTab2ObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.additionalTab2ObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.additionalTab2ObjInfo['favouringBankBranch'] }),
       beneficiaryAddress1: new FormControl(''),
       beneficiaryAddress2: new FormControl(''),
       beneficiaryAddress3: new FormControl(''),
@@ -4471,8 +4484,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.additionalTab3ObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.additionalTab3ObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.additionalTab3ObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.additionalTab3ObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.additionalTab3ObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.additionalTab3ObjInfo['favouringBankBranch'] }),
       beneficiaryAddress1: new FormControl(''),
       beneficiaryAddress2: new FormControl(''),
       beneficiaryAddress3: new FormControl(''),
@@ -4493,8 +4506,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.additionalTab4ObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.additionalTab4ObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.additionalTab4ObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.additionalTab4ObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.additionalTab4ObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.additionalTab4ObjInfo['favouringBankBranch'] }),
       beneficiaryAddress1: new FormControl(''),
       beneficiaryAddress2: new FormControl(''),
       beneficiaryAddress3: new FormControl(''),
@@ -4515,8 +4528,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.additionalTab5ObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.additionalTab5ObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.additionalTab5ObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.additionalTab5ObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.additionalTab5ObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.additionalTab5ObjInfo['favouringBankBranch'] }),
       beneficiaryAddress1: new FormControl(''),
       beneficiaryAddress2: new FormControl(''),
       beneficiaryAddress3: new FormControl(''),
@@ -4541,8 +4554,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.coApplicant1['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.coApplicant1['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.coApplicant1['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.coApplicant1['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.coApplicant1['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.coApplicant1['favouringBankBranch'] }),
       //loanNumber: new FormControl({ value: this.coApplicant1['loanNumber'] }, Validators.required),
       //appAddress: new FormControl(''),
       beneficiaryAddress1: new FormControl(''),
@@ -4566,8 +4579,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.coApplicant2['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.coApplicant2['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.coApplicant2['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.coApplicant2['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.coApplicant2['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.coApplicant2['favouringBankBranch'] }),
       //loanNumber: new FormControl({ value: this.coApplicant2['loanNumber'] }, Validators.required),
       //appAddress: new FormControl(''),
       beneficiaryAddress1: new FormControl(''),
@@ -4591,8 +4604,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.coApplicant3['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.coApplicant3['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.coApplicant3['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.coApplicant3['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.coApplicant3['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.coApplicant3['favouringBankBranch'] }),
       //loanNumber: new FormControl({ value: this.coApplicant3['loanNumber'] }, Validators.required),
       //appAddress: new FormControl(''),
       beneficiaryAddress1: new FormControl(''),
@@ -4617,8 +4630,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.bankerObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.bankerObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.bankerObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.bankerObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.bankerObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.bankerObjInfo['favouringBankBranch'] }),
       //loanNumber: new FormControl({ value: this.bankerObjInfo['loanNumber'] }, Validators.required),
       //bankerAddress: new FormControl(''),
       beneficiaryAddress1: new FormControl(''),
@@ -4642,8 +4655,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.financierObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.financierObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.financierObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.financierObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.financierObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.financierObjInfo['favouringBankBranch'] }),
       //loanNumber: new FormControl({ value: this.financierObjInfo['loanNumber'] }, Validators.required),
       //financierAddress: new FormControl(''),
       beneficiaryAddress1: new FormControl(''),
@@ -4667,8 +4680,8 @@ tvrStatusLOV =[
       instrumentType: new FormControl({ value: this.thirdPartyObjInfo['instrumentType'] }, Validators.required),
       instrumentNumber: new FormControl({ value: this.thirdPartyObjInfo['instrumentNumber'] }, Validators.required),
       instrumentDate: new FormControl('', Validators.required),
-      favouringBankOfDraw: new FormControl({ value: this.thirdPartyObjInfo['favouringBankOfDraw'] }, Validators.required),
-      favouringBankBranch: new FormControl({ value: this.thirdPartyObjInfo['favouringBankBranch'] }, Validators.required),
+      favouringBankOfDraw: new FormControl({ value: this.thirdPartyObjInfo['favouringBankOfDraw'] }),
+      favouringBankBranch: new FormControl({ value: this.thirdPartyObjInfo['favouringBankBranch'] }),
       //loanNumber: new FormControl({ value: this.thirdPartyObjInfo['loanNumber'] }, Validators.required),
       //thirdPartyAddress: new FormControl(''),
       TPdocumentJson : this.fb.group({
@@ -5383,7 +5396,7 @@ tvrStatusLOV =[
           this.flag = (this.disbursementDetailsData.ApplicantDetails) ? false : true;
           this.flagBank = (this.disbursementDetailsData.BankerDetails) ? false : true;
           this.flagFinance = (this.disbursementDetailsData.FinancierDetails) ? false : true;
-          this.disburseToVal(this.disburseTo,false);
+          this.disburseToVal(this.disburseTo,false,'');
         }
         if (this.disbursementDetailsData.DealerDetails) {
           this.dealerObjInfo = this.disbursementDetailsData.DealerDetails;
@@ -6034,7 +6047,7 @@ tvrStatusLOV =[
           this.thirdPartyDetailsForm['controls']['TPdocumentJson']['controls'].documentId.patchValue(x ? this.TPdocumentJson[0].documentId : null)
         }
       }else{
-        this.disburseToVal(this.disburseTo,false);
+        this.disburseToVal(this.disburseTo,false,'');
       }
       }
     });
