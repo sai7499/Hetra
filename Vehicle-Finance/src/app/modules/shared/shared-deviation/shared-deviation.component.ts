@@ -729,5 +729,4 @@ export class SharedDeviationComponent implements OnInit {
     return setType.length > 0 ? true : false
   }
 
-
 }

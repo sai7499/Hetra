@@ -1273,7 +1273,7 @@ div.viewport-a {
     font-size: 20px;
     line-height: 2em;
     cursor: pointer;
-    color: #b1afaf;
+    color: #f3682e;
 }
 
 .i-span:hover {
@@ -1322,6 +1322,6 @@ div.viewport-a {
     padding-top:0px!important;
     margin-top: 9px;
     cursor: pointer;
-    color:orange;
+    color:#f3682e;
   }
   

@@ -243,7 +243,6 @@ export class ValuationComponent implements OnInit {
   isInternalValuator: any;
   isModal: boolean;
   vendorName: any;
-
   showReInitiate: boolean = false;
   versionArray: any = [];
   version: any = 0;
@@ -607,7 +606,6 @@ export class ValuationComponent implements OnInit {
 
   onChangeBranchName(event) {
     console.log(event);
-
     this.getUserByBranch();
   }
 
@@ -1161,7 +1159,6 @@ export class ValuationComponent implements OnInit {
           }
         }
         console.log('after set timeout', this.disablePdfDownload);
-
       });
       console.log('after set timeout', this.isOnline);
       // console.log('after set timeout', this.disablePdfDownload);
@@ -1640,7 +1637,6 @@ export class ValuationComponent implements OnInit {
 
 
 
-
   setFormValue() {
 
     if (this.isOnline) {
@@ -1814,7 +1810,6 @@ export class ValuationComponent implements OnInit {
 
 
     })
-
     this.vehicleValuationForm.get('vehicleIdentityDetails').patchValue({
 
       assetMake: this.vehicleValuationDetails.vehicleMfrCode || '',
