@@ -12,6 +12,8 @@ import { ApplicantService } from '@services/applicant.service';
 import { map } from 'rxjs/operators';
 import { LoginStoreService } from '@services/login-store.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
+import { LoanViewService } from '@services/loan-view.service';
+import { ToggleDdeService } from '@services/toggle-dde.service';
 @Component({
   selector: 'app-reference-details',
   templateUrl: './reference-details.component.html',
@@ -57,12 +59,16 @@ export class ReferenceDetailsComponent implements OnInit {
   userDefineForm: any;
   udfGroupId: string = 'PDG001';
 
+  operationType: any;
+  disableSaveBtn: boolean;
+
   constructor(private labelsData: LabelsService, private lovDataService: LovDataService,
     private formBuilder: FormBuilder, private pdDataService: PdDataService, private applicantService: ApplicantService,
     private router: Router, private personalDiscussionService: PersonalDiscussionService,
     private aRoute: ActivatedRoute, private toasterService: ToasterService, private loginStoreService: LoginStoreService,
     private commomLovService: CommomLovService, private createLeadDataService: CreateLeadDataService,
-    private utilityService: UtilityService, private fb: FormBuilder) {
+    private utilityService: UtilityService, private fb: FormBuilder, private toggleDdeService: ToggleDdeService,
+    private loanViewService: LoanViewService) {
     this.listArray = this.fb.array([]);
   }
 
@@ -168,6 +174,16 @@ export class ReferenceDetailsComponent implements OnInit {
         if (this.refCheckDetails) {
           this.setFormValue(this.refCheckDetails);
           this.pdDataService.setCustomerProfile(this.refCheckDetails);
+        }
+        this.operationType = this.toggleDdeService.getOperationType();
+        if (this.operationType) {
+          this.referenceDetailsForm.disable();
+          this.disableSaveBtn = true;
+        }
+    
+        if (this.loanViewService.checkIsLoan360()) {
+          this.referenceDetailsForm.disable();
+          this.disableSaveBtn = true;
         }
       } else {
         this.toasterService.showError(value.ErrorMessage, '');

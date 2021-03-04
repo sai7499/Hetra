@@ -61,11 +61,11 @@
               <td class="text-left" [attr.data-label]="labels?.applicantType">{{ item.applicantType ? item.applicantType : '-' }}</td>
               <td class="pad-0" [attr.data-label]="labels?.action">
                 <div class="flex-container">
-                  <ng-container  *ngIf="isLoan360">
+                  <ng-container  *ngIf="isLoan360 || disableSaveBtn">
                     <div><a (click)="navigatePage(item.applicantId)" title="View applicant"><i
                       class="fa fa-eye icon p-0" aria-hidden="true"></i></a></div>
                   </ng-container>
-                  <ng-container *ngIf="!isLoan360">
+                  <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
                     <div><a (click)="navigatePage(item.applicantId)" title="Edit applicant"><i
                       class="fa fa-pencil icon p-0" aria-hidden="true"></i></a></div>
                 <div><a 
@@ -82,11 +82,11 @@
                     </a></div>
 
                 </div>
-                <ng-container *ngIf="isLoan360">
+                <ng-container *ngIf="isLoan360 || disableSaveBtn">
                   <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
                     class="fa fa-pencil eye" aria-hidden="true"></i></a>
                 </ng-container>
-                <ng-container *ngIf="!isLoan360">
+                <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
                   <a (click)="navigatePage(item.applicantId)" class="desktop-hide" title="Edit applicant"><i
                     class="fa fa-pencil icon" aria-hidden="true"></i></a>
                 &nbsp;<a class="desktop-hide"

@@ -1560,7 +1560,7 @@
             </div>
 
             <div class="col-sm-7 text-right">
-              <button *ngIf="!extValuator && showReInitiate" data-toggle="modal" data-target="#reInitiateModal"  class="btn btn-primary">
+              <button *ngIf="!extValuator && showReInitiate && !disableSaveBtn" data-toggle="modal" data-target="#reInitiateModal"  class="btn btn-primary">
                 <a>{{ labels.reinitiate }}</a>
               </button>
               &nbsp;

@@ -936,7 +936,7 @@
             (click)="onBack()">{{label?.back}}</button>
 
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
-        <ng-container *ngIf="!isLoan360">
+        <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
             <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
             <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
                 <p type="button" class="btn btn-primary">{{label?.submit}}</p>

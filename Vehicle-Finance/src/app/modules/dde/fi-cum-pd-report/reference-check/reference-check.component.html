@@ -342,7 +342,7 @@
     <div class="row">
       <div class="btn-sec clear-both">
         <div class="col-sm-7"></div>
-        <div class="col-sm-5 text-right" *ngIf="
+        <div class="col-sm-5 text-right" *ngIf="!disableSaveBtn && 
           roleType == '2' && version != 'undefined' && showReinitiate == true
         ">
           <ng-container *ngIf="!isLoan360">
