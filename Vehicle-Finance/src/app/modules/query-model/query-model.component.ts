@@ -486,7 +486,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
           const appiyoError = response.Error;
           const apiError = response.ProcessVariables.error.code;
           this.leadSectionData = response.ProcessVariables;
-          this.collateralId = this.leadSectionData && this.leadSectionData['vehicleCollateral'][0] ? this.leadSectionData['vehicleCollateral'][0].collateralId : '0';
+          this.collateralId = this.leadSectionData && this.leadSectionData['vehicleCollateral']? this.leadSectionData['vehicleCollateral'][0].collateralId : '0';
 
           if (appiyoError === '0' && apiError === '0') {
             this.leadId = this.leadSectionData.leadId;

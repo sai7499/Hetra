@@ -130,7 +130,7 @@
               <div class="disburse-select">
                 <mat-form-field>
                   <mat-select [(ngModel)]="disburseTo" id="disburseTo" formControlName="disburseTo" multiple
-                    (selectionChange)="disburseToVal(disburseTo,true)">
+                    (selectionChange)="disburseToVal(disburseTo,true,$event)">
                     <mat-option *ngFor="let x of disburseToLov" [value]="x.key" [disabled]="x.key == '7DISBURSETO'">{{x.value}}
                     </mat-option>
                   </mat-select>
@@ -174,7 +174,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input id="dealerBeneficiaryName" [(ngModel)]="dealerObjInfo['beneficiaryName']"
                 [isRequired]="'Dealer Name is required'" formControlName="beneficiaryName"
-                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'" name="Dealer Name"
+                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'" name="Dealer Name"
                 [className]="'form-control mandatory'" [placeholder]="'Dealer Name'" [isDirty]="isDirty">
               </app-custom-input>
             </div>
@@ -219,7 +219,7 @@
             </div>
           </div>
           <div class="form-group" *ngIf="dealercnfAccShow">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
@@ -337,8 +337,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="dealerObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                 </app-vf-custom-select>          -->
@@ -358,23 +357,14 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="dealerFavBankBranch" [(ngModel)]="dealerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input> -->
                 <select class="form-control" [(ngModel)]="dealerObjInfo['favouringBankBranch']"
                   formControlName="favouringBankBranch">
                   <option value=''>-- select one --</option>
                   <option *ngFor="let item of bankDealerFavBODDetailsData" [value]="item.externalBankCode">
                     {{item.externalBankBranch}}</option>
                 </select>
-                <div
-                  *ngIf="dealerDetailsForm.controls.favouringBankBranch.invalid && (dealerDetailsForm.controls.favouringBankBranch.dirty || dealerDetailsForm.controls.favouringBankBranch.touched)"
-                  class="invalid-feedback-disburse">
-                  Favouring Bank Branch is required
-                </div>
               </div>
             </div>
           </div>
@@ -538,7 +528,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input [(ngModel)]="applicantObjInfo['beneficiaryName']" id="appBeneficiaryName"
                 [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                 [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
                 [isDirty]="isDirty">
               </app-custom-input>
@@ -584,7 +574,7 @@
             </div>
           </div>
           <div class="form-group" *ngIf="applicantcnfAccShow">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
@@ -701,8 +691,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="applicantObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                 </app-vf-custom-select>               -->
@@ -722,23 +711,14 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="appFavBankBranch" [(ngModel)]="applicantObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input> -->
                 <select class="form-control" [(ngModel)]="applicantObjInfo['favouringBankBranch']"
                   formControlName="favouringBankBranch">
                   <option value=''>-- select one --</option>
                   <option *ngFor="let item of bankAppFavBODDetailsData" [value]="item.externalBankCode">
                     {{item.externalBankBranch}}</option>
                 </select>
-                <div
-                  *ngIf="appDetailsForm.controls.favouringBankBranch.invalid && (appDetailsForm.controls.favouringBankBranch.dirty || appDetailsForm.controls.favouringBankBranch.touched)"
-                  class="invalid-feedback-disburse">
-                  Favouring Bank Branch is required
-                </div>
               </div>
             </div>
           </div>
@@ -923,7 +903,7 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input id="coApp1BeneficiaryName" [(ngModel)]="coApplicant1['beneficiaryName']"
                     [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-                    [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                    [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                     [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
                     [isDirty]="isDirty">
                   </app-custom-input>
@@ -970,7 +950,7 @@
                 </div>
               </div>
               <div class="form-group" *ngIf="coApp1cnfAccShow">
-                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
@@ -1088,8 +1068,7 @@
                 <div class="form-group">
                   <label for="lead_number"
                     class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                    <sub class="star_red_col">*</sub>
-                  </label>
+                    </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant1['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                     </app-vf-custom-select>                -->
@@ -1110,23 +1089,19 @@
                 </div>
                 <div class="form-group">
                   <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                    <sub class="star_red_col">*</sub>
-                  </label>
+                    </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <!-- <app-custom-input id="coApp1FavBankBranch" [(ngModel)]="coApplicant1['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                      [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input>                    -->
                     <select class="form-control" [(ngModel)]="coApplicant1['favouringBankBranch']"
                       formControlName="favouringBankBranch">
                       <option value=''>-- select one --</option>
                       <option *ngFor="let item of bankCoApp1FavBODDetailsData" [value]="item.externalBankCode">
                         {{item.externalBankBranch}}</option>
                     </select>
-                    <div
+                    <!-- <div
                       *ngIf="coApp1Form.controls.favouringBankBranch.invalid && (coApp1Form.controls.favouringBankBranch.dirty || coApp1Form.controls.favouringBankBranch.touched)"
                       class="invalid-feedback-disburse">
                       Favouring Bank Branch is required
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -1294,7 +1269,7 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input id="coApp2BeneficiaryName" [(ngModel)]="coApplicant2['beneficiaryName']"
                     [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-                    [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                    [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                     [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
                     [isDirty]="isDirty">
                   </app-custom-input>
@@ -1341,7 +1316,7 @@
                 </div>
               </div>
               <div class="form-group" *ngIf="coApp2cnfAccShow">
-                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
@@ -1459,8 +1434,7 @@
                 <div class="form-group">
                   <label for="lead_number"
                     class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                    <sub class="star_red_col">*</sub>
-                  </label>
+                    </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant2['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                     </app-vf-custom-select>                    -->
@@ -1481,23 +1455,14 @@
                 </div>
                 <div class="form-group">
                   <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                    <sub class="star_red_col">*</sub>
-                  </label>
+                    </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <!-- <app-custom-input id="coApp2FavBankBranch" [(ngModel)]="coApplicant2['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                      [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input>                     -->
                     <select class="form-control" [(ngModel)]="coApplicant2['favouringBankBranch']"
                       formControlName="favouringBankBranch">
                       <option value=''>-- select one --</option>
                       <option *ngFor="let item of bankCoApp2FavBODDetailsData" [value]="item.externalBankCode">
                         {{item.externalBankBranch}}</option>
                     </select>
-                    <div
-                      *ngIf="coApp2Form.controls.favouringBankBranch.invalid && (coApp2Form.controls.favouringBankBranch.dirty || coApp2Form.controls.favouringBankBranch.touched)"
-                      class="invalid-feedback-disburse">
-                      Favouring Bank Branch is required
-                    </div>
                   </div>
                 </div>
               </div>
@@ -1664,7 +1629,7 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                   <app-custom-input id="coApp3BeneficiaryName" [(ngModel)]="coApplicant3['beneficiaryName']"
                     [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-                    [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                    [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                     [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
                     [isDirty]="isDirty">
                   </app-custom-input>
@@ -1711,7 +1676,7 @@
                 </div>
               </div>
               <div class="form-group" *ngIf="coApp3cnfAccShow">
-                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+                  <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                     <sub class="star_red_col">*</sub>
                   </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
@@ -1829,8 +1794,7 @@
                 <div class="form-group">
                   <label for="lead_number"
                     class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                    <sub class="star_red_col">*</sub>
-                  </label>
+                    </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
                     <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="coApplicant3['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                     </app-vf-custom-select>                  -->
@@ -1851,23 +1815,14 @@
                 </div>
                 <div class="form-group">
                   <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                    <sub class="star_red_col">*</sub>
-                  </label>
+                    </label>
                   <div class="col-sm-6 col-md-4 col-lg-3">
-                    <!-- <app-custom-input id="coApp3FavBankBranch" [(ngModel)]="coApplicant3['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                      [isDirty]="isDirty" [type]="'alpha'">
-                    </app-custom-input> -->
                     <select class="form-control" [(ngModel)]="coApplicant3['favouringBankBranch']"
                       formControlName="favouringBankBranch">
                       <option value=''>-- select one --</option>
                       <option *ngFor="let item of bankCoApp3FavBODDetailsData" [value]="item.externalBankCode">
                         {{item.externalBankBranch}}</option>
                     </select>
-                    <div
-                      *ngIf="coApp3Form.controls.favouringBankBranch.invalid && (coApp3Form.controls.favouringBankBranch.dirty || coApp3Form.controls.favouringBankBranch.touched)"
-                      class="invalid-feedback-disburse">
-                      Favouring Bank Branch is required
-                    </div>
                   </div>
                 </div>
               </div>
@@ -2057,7 +2012,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input id="bankerAppName" [(ngModel)]="bankerObjInfo['beneficiaryName']"
                 [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                 [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [isDirty]="isDirty"
                 [type]="'text'">
               </app-custom-input>
@@ -2103,7 +2058,7 @@
             </div>
           </div>
           <div class="form-group" *ngIf="bankercnfAccShow">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
@@ -2221,8 +2176,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="bankerObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                 </app-vf-custom-select>               -->
@@ -2242,23 +2196,14 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="bankerFavBankBranch" [(ngModel)]="bankerObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>               -->
                 <select class="form-control" [(ngModel)]="bankerObjInfo['favouringBankBranch']"
                   formControlName="favouringBankBranch">
                   <option value=''>-- select one --</option>
                   <option *ngFor="let item of bankBankerFavBODDetailsData" [value]="item.externalBankCode">
                     {{item.externalBankBranch}}</option>
                 </select>
-                <div
-                  *ngIf="bankerDetailsForm.controls.favouringBankBranch.invalid && (bankerDetailsForm.controls.favouringBankBranch.dirty || bankerDetailsForm.controls.favouringBankBranch.touched)"
-                  class="invalid-feedback-disburse">
-                  Favouring Bank Branch is required
-                </div>
               </div>
             </div>
           </div>
@@ -2432,7 +2377,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input id="finBeneficiaryName" [(ngModel)]="financierObjInfo['beneficiaryName']"
                 [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                 [placeholder]="'Beneficiary Name'" [isDirty]="isDirty" [type]="'text'">
               </app-custom-input>
             </div>
@@ -2477,7 +2422,7 @@
             </div>
           </div>
           <div class="form-group" *ngIf="fincnfAccShow">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
@@ -2595,8 +2540,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="financierObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                 </app-vf-custom-select>                -->
@@ -2616,23 +2560,14 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="finFavBankBranch" [(ngModel)]="financierObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>                 -->
                 <select class="form-control" [(ngModel)]="financierObjInfo['favouringBankBranch']"
                   formControlName="favouringBankBranch">
                   <option value=''>-- select one --</option>
                   <option *ngFor="let item of bankFinFavBODDetailsData" [value]="item.externalBankCode">
                     {{item.externalBankBranch}}</option>
                 </select>
-                <div
-                  *ngIf="financierDetailsForm.controls.favouringBankBranch.invalid && (financierDetailsForm.controls.favouringBankBranch.dirty || financierDetailsForm.controls.favouringBankBranch.touched)"
-                  class="invalid-feedback-disburse">
-                  Favouring Bank Branch is required
-                </div>
               </div>
             </div>
           </div>
@@ -2816,7 +2751,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input id="tpBeneficiaryName" [(ngModel)]="thirdPartyObjInfo['beneficiaryName']"
                 [isRequired]="'Third Party is required'" formControlName="beneficiaryName"
-                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                 [className]="'form-control mandatory'" [placeholder]="'Third Party Name'" [isDirty]="isDirty"
                 [type]="'text'">
               </app-custom-input>
@@ -2861,7 +2796,7 @@
             </div>
           </div>
           <div class="form-group" *ngIf="tpcnfAccShow">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
@@ -2979,8 +2914,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <!-- <app-vf-custom-select [values]="bankerLov" [(ngModel)]="thirdPartyObjInfo['favouringBankOfDraw']" formControlName="favouringBankOfDraw" [isRequired]="'Favouring Bank of Drawee is required'" [isDirty]="isDirty">
                 </app-vf-custom-select>            -->
@@ -3000,23 +2934,14 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
-                <!-- <app-custom-input id="tpFavBankBranch" [(ngModel)]="thirdPartyObjInfo['favouringBankBranch']" [isRequired]="'Favouring Bank Branch is required'" formControlName="favouringBankBranch" [className]="'form-control mandatory'" [placeholder]="'Favouring Bank Branch'"
-                  [isDirty]="isDirty" [type]="'alpha'">
-                </app-custom-input>                 -->
                 <select class="form-control" [(ngModel)]="thirdPartyObjInfo['favouringBankBranch']"
                   formControlName="favouringBankBranch">
                   <option value=''>-- select one --</option>
                   <option *ngFor="let item of bankTPFavBODDetailsData" [value]="item.externalBankCode">
                     {{item.externalBankBranch}}</option>
                 </select>
-                <div
-                  *ngIf="thirdPartyDetailsForm.controls.favouringBankBranch.invalid && (thirdPartyDetailsForm.controls.favouringBankBranch.dirty || thirdPartyDetailsForm.controls.favouringBankBranch.touched)"
-                  class="invalid-feedback-disburse">
-                  Favouring Bank Branch is required
-                </div>
               </div>
             </div>
           </div>
@@ -3056,7 +2981,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3"> KYC ID Type
+            <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3"> {{labels?.kycIDType}}
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
@@ -3071,7 +2996,7 @@
                 </span>
            <span class="clearfix pull-left cursor" formGroupName='TPdocumentJson'>
               <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess(i,$event)" [docsDetails]="selectedDocDetails"></app-upload-modal>
-              <input class="form-control file-input" *ngIf="thirdPartyDetailsForm['controls']['TPdocumentJson']['controls']['dmsDocumentId'].value" formControlName="dmsDocumentId" (click)="downloadDocs($event.target.value)" name="input" type="number"> 
+              <input class="form-control file-input" *ngIf="thirdPartyDetailsForm.controls.TPdocumentJson.controls.dmsDocumentId.value" formControlName="dmsDocumentId" (click)="downloadDocs($event.target.value)" name="input" type="number"> 
             </span>
                 <!-- <i class="fa fa-eye cursor-pointer" aria-hidden="true"  id="remove_Doc" (click)="downloadDocs(dmsDocumentId)"></i> &nbsp; -->
                 <i *ngIf="thirdPartyDetailsForm.controls.TPdocumentJson.controls.dmsDocumentId.value" class="fa fa-trash cursor-pointer text-danger btn" aria-hidden="true"  id="remove_Doc" data-toggle="modal" data-target="#kycmyModal"></i>
@@ -3080,7 +3005,7 @@
               
           </div>
           <div class="form-group">
-            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">KYC ID Number
+            <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3"> {{labels?.kycIDNumber}}
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
@@ -3092,7 +3017,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3"> TVR Status
+            <label for="business_division" class="control-label col-sm-5 col-md-4 col-lg-3"> {{labels?.tvrStatus}}
               <sub class="star_red_col">*</sub>
             </label>
             <div class="col-sm-6 col-md-4 col-lg-3">
@@ -3279,7 +3204,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input [(ngModel)]="sellerObjInfo['beneficiaryName']" id="sellerBeneficiaryName"
                 [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                 [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
                 [isDirty]="isDirty">
               </app-custom-input>
@@ -3325,7 +3250,7 @@
             </div>
           </div>
           <div class="form-group" *ngIf="sellercnfAccShow">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
@@ -3437,8 +3362,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <ng-autocomplete class="custom-select-box" [data]="sellerfavBODListData"
                   [(ngModel)]="sellerObjInfo['favouringBankOfDraw']" [searchKeyword]="sellerFavFavkeyword"
@@ -3456,8 +3380,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <select class="form-control" [(ngModel)]="sellerObjInfo['favouringBankBranch']"
                   formControlName="favouringBankBranch">
@@ -3465,11 +3388,6 @@
                   <option *ngFor="let item of bankSellerFavBODDetailsData" [value]="item.externalBankCode">
                     {{item.externalBankBranch}}</option>
                 </select>
-                <div
-                  *ngIf="sellerDetailsForm.controls.favouringBankBranch.invalid && (sellerDetailsForm.controls.favouringBankBranch.dirty || sellerDetailsForm.controls.favouringBankBranch.touched)"
-                  class="invalid-feedback-disburse">
-                  Favouring Bank Branch is required
-                </div>
               </div>
             </div>
           </div>
@@ -3620,7 +3538,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
               <app-custom-input [(ngModel)]="buyerObjInfo['beneficiaryName']" id="buyerBeneficiaryName"
                 [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+                [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
                 [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
                 [isDirty]="isDirty">
               </app-custom-input>
@@ -3666,7 +3584,7 @@
             </div>
           </div>
           <div class="form-group" *ngIf="buyercnfAccShow">
-              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+              <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
                 <sub class="star_red_col">*</sub>
               </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
@@ -3778,8 +3696,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <ng-autocomplete class="custom-select-box" [data]="buyerfavBODListData"
                   [(ngModel)]="buyerObjInfo['favouringBankOfDraw']" [searchKeyword]="buyerFavFavkeyword"
@@ -3797,8 +3714,7 @@
             </div>
             <div class="form-group">
               <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-                <sub class="star_red_col">*</sub>
-              </label>
+                </label>
               <div class="col-sm-6 col-md-4 col-lg-3">
                 <select class="form-control" [(ngModel)]="buyerObjInfo['favouringBankBranch']"
                   formControlName="favouringBankBranch">
@@ -3806,11 +3722,6 @@
                   <option *ngFor="let item of bankBuyerFavBODDetailsData" [value]="item.externalBankCode">
                     {{item.externalBankBranch}}</option>
                 </select>
-                <div
-                  *ngIf="buyerDetailsForm.controls.favouringBankBranch.invalid && (buyerDetailsForm.controls.favouringBankBranch.dirty || buyerDetailsForm.controls.favouringBankBranch.touched)"
-                  class="invalid-feedback-disburse">
-                  Favouring Bank Branch is required
-                </div>
               </div>
             </div>
           </div>
@@ -3961,7 +3872,7 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <app-custom-input [(ngModel)]="additionalTab1Info['beneficiaryName']" id="additionalTab1BeneficiaryName"
           [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
           [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
           [isDirty]="isDirty">
         </app-custom-input>
@@ -4007,7 +3918,7 @@
       </div>
     </div>
     <div class="form-group" *ngIf="add1cnfAccShow">
-        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
           <sub class="star_red_col">*</sub>
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
@@ -4119,8 +4030,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <ng-autocomplete class="custom-select-box" [data]="additionalTab1favBODListData"
             [(ngModel)]="additionalTab1Info['favouringBankOfDraw']" [searchKeyword]="additionalTab1FavFavkeyword"
@@ -4138,8 +4048,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <select class="form-control" [(ngModel)]="additionalTab1Info['favouringBankBranch']"
             formControlName="favouringBankBranch">
@@ -4147,11 +4056,6 @@
             <option *ngFor="let item of bankAdditionalTab1FavBODDetailsData" [value]="item.externalBankCode">
               {{item.externalBankBranch}}</option>
           </select>
-          <div
-            *ngIf="additionalTab1Form.controls.favouringBankBranch.invalid && (additionalTab1Form.controls.favouringBankBranch.dirty || additionalTab1Form.controls.favouringBankBranch.touched)"
-            class="invalid-feedback-disburse">
-            Favouring Bank Branch is required
-          </div>
         </div>
       </div>
     </div>
@@ -4302,7 +4206,7 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <app-custom-input [(ngModel)]="additionalTab2Info['beneficiaryName']" id="additionalTab2BeneficiaryName"
           [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
           [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
           [isDirty]="isDirty">
         </app-custom-input>
@@ -4348,7 +4252,7 @@
       </div>
     </div>
     <div class="form-group" *ngIf="add2cnfAccShow">
-        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
           <sub class="star_red_col">*</sub>
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
@@ -4460,8 +4364,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <ng-autocomplete class="custom-select-box" [data]="additionalTab2favBODListData"
             [(ngModel)]="additionalTab2Info['favouringBankOfDraw']" [searchKeyword]="additionalTab2FavFavkeyword"
@@ -4479,8 +4382,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <select class="form-control" [(ngModel)]="additionalTab2Info['favouringBankBranch']"
             formControlName="favouringBankBranch">
@@ -4488,11 +4390,6 @@
             <option *ngFor="let item of bankAdditionalTab2FavBODDetailsData" [value]="item.externalBankCode">
               {{item.externalBankBranch}}</option>
           </select>
-          <div
-            *ngIf="additionalTab2Form.controls.favouringBankBranch.invalid && (additionalTab2Form.controls.favouringBankBranch.dirty || additionalTab2Form.controls.favouringBankBranch.touched)"
-            class="invalid-feedback-disburse">
-            Favouring Bank Branch is required
-          </div>
         </div>
       </div>
     </div>
@@ -4643,7 +4540,7 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <app-custom-input [(ngModel)]="additionalTab3Info['beneficiaryName']" id="additionalTab3BeneficiaryName"
           [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
           [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
           [isDirty]="isDirty">
         </app-custom-input>
@@ -4689,7 +4586,7 @@
       </div>
     </div>
     <div class="form-group" *ngIf="add3cnfAccShow">
-        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
           <sub class="star_red_col">*</sub>
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
@@ -4801,8 +4698,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <ng-autocomplete class="custom-select-box" [data]="additionalTab3favBODListData"
             [(ngModel)]="additionalTab3Info['favouringBankOfDraw']" [searchKeyword]="additionalTab3FavFavkeyword"
@@ -4820,8 +4716,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <select class="form-control" [(ngModel)]="additionalTab3Info['favouringBankBranch']"
             formControlName="favouringBankBranch">
@@ -4829,11 +4724,6 @@
             <option *ngFor="let item of bankAdditionalTab3FavBODDetailsData" [value]="item.externalBankCode">
               {{item.externalBankBranch}}</option>
           </select>
-          <div
-            *ngIf="additionalTab3Form.controls.favouringBankBranch.invalid && (additionalTab3Form.controls.favouringBankBranch.dirty || additionalTab3Form.controls.favouringBankBranch.touched)"
-            class="invalid-feedback-disburse">
-            Favouring Bank Branch is required
-          </div>
         </div>
       </div>
     </div>
@@ -4984,7 +4874,7 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <app-custom-input [(ngModel)]="additionalTab4Info['beneficiaryName']" id="additionalTab4BeneficiaryName"
           [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
           [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
           [isDirty]="isDirty">
         </app-custom-input>
@@ -5030,7 +4920,7 @@
       </div>
     </div>
     <div class="form-group" *ngIf="add4cnfAccShow">
-        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
           <sub class="star_red_col">*</sub>
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
@@ -5142,8 +5032,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <ng-autocomplete class="custom-select-box" [data]="additionalTab4favBODListData"
             [(ngModel)]="additionalTab4Info['favouringBankOfDraw']" [searchKeyword]="additionalTab4FavFavkeyword"
@@ -5161,8 +5050,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <select class="form-control" [(ngModel)]="additionalTab4Info['favouringBankBranch']"
             formControlName="favouringBankBranch">
@@ -5170,11 +5058,6 @@
             <option *ngFor="let item of bankAdditionalTab4FavBODDetailsData" [value]="item.externalBankCode">
               {{item.externalBankBranch}}</option>
           </select>
-          <div
-            *ngIf="additionalTab4Form.controls.favouringBankBranch.invalid && (additionalTab4Form.controls.favouringBankBranch.dirty || additionalTab4Form.controls.favouringBankBranch.touched)"
-            class="invalid-feedback-disburse">
-            Favouring Bank Branch is required
-          </div>
         </div>
       </div>
     </div>
@@ -5325,7 +5208,7 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <app-custom-input [(ngModel)]="additionalTab5Info['beneficiaryName']" id="additionalTab5BeneficiaryName"
           [isRequired]="'Beneficiary Name is required'" formControlName="beneficiaryName"
-          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'alpha'"
+          [maxLength]="labels?.validationData?.fullName?.maxLength" [type]="'text'"
           [className]="'form-control mandatory'" [placeholder]="'Beneficiary Name'" [type]="'text'"
           [isDirty]="isDirty">
         </app-custom-input>
@@ -5371,7 +5254,7 @@
       </div>
     </div>
     <div class="form-group" *ngIf="add5cnfAccShow">
-        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">Confirm Account Number
+        <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.cnfAccNumber}}
           <sub class="star_red_col">*</sub>
         </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
@@ -5483,8 +5366,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankOfDrawee}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <ng-autocomplete class="custom-select-box" [data]="additionalTab5favBODListData"
             [(ngModel)]="additionalTab5Info['favouringBankOfDraw']" [searchKeyword]="additionalTab5FavFavkeyword"
@@ -5502,8 +5384,7 @@
       </div>
       <div class="form-group">
         <label for="lead_number" class="control-label col-sm-5 col-md-4 col-lg-3">{{labels?.favourBankBranch}}
-          <sub class="star_red_col">*</sub>
-        </label>
+          </label>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <select class="form-control" [(ngModel)]="additionalTab5Info['favouringBankBranch']"
             formControlName="favouringBankBranch">
@@ -5511,11 +5392,6 @@
             <option *ngFor="let item of bankAdditionalTab5FavBODDetailsData" [value]="item.externalBankCode">
               {{item.externalBankBranch}}</option>
           </select>
-          <div
-            *ngIf="additionalTab5Form.controls.favouringBankBranch.invalid && (additionalTab5Form.controls.favouringBankBranch.dirty || additionalTab5Form.controls.favouringBankBranch.touched)"
-            class="invalid-feedback-disburse">
-            Favouring Bank Branch is required
-          </div>
         </div>
       </div>
     </div>
@@ -5671,7 +5547,7 @@
         <button (click)="saveAndUpdate()" class="btn btn-primary " type="button"
           *ngIf="roleType != 4 && roleType != 5 && (navigationFlag==1 || navigationFlag==3)">Save </button>
 
-        <button data-toggle="modal" data-target="#myModal" class="btn btn-primary " type="button"
+        <button data-toggle="modal" data-target="#bookLoanModal" class="btn btn-primary " type="button"
           *ngIf="roleType == '5' && navigationFlag==1">Book Loan </button>
         <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
           *ngIf="roleType != 4 && roleType != 5 && roleType !== 7 && (navigationFlag==1 || navigationFlag==2)"> Next </button>
@@ -5686,7 +5562,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="bookLoanModal" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -5724,7 +5600,7 @@
             type="button"
             class="btn btn-success"
             data-dismiss="modal"
-            (click)="deleteDocument(thirdPartyDetailsForm['controls']['TPdocumentJson']['controls']['documentId'].value)"
+            (click)="deleteDocument(thirdPartyDetailsForm.controls.TPdocumentJson.controls.documentId.value)"
           >
             Yes
           </button>
