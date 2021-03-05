@@ -55,6 +55,7 @@ export class CustomTextareaComponent
   @Input() value: string;
 
   @Input() set isDirty(value) {
+    console.log(value, 'isDirty', this.isRequired)
     if (value) {
       this.checkIsFirst = false;
       this.checkValidation(this.inputValue);
@@ -63,6 +64,16 @@ export class CustomTextareaComponent
  
   onChange;
   onTouched;
+
+  validate(c?: FormControl) {
+    return !this.inputError
+      ? null
+      : {
+        customError: {
+          valid: false,
+        },
+      };
+  }
 
   writeValue( value : any ) : void {
     console.log('writeValue', value);
@@ -88,20 +99,16 @@ export class CustomTextareaComponent
   change( $event ) {
     this.onChange($event.target.value);
     this.onTouched($event.target.value);
+    this.inputError = $event.target.value ? false: true;
   }
 
   onBlurMethod(event) {
-    let newValue = event.target.value;
-  }
+      const newValue = event.target.value;
 
-  validate(c?: FormControl) {
-    return !this.inputError
-      ? null
-      : {
-        customError: {
-          valid: false,
-        }
-      };
+      if (!newValue && this.isRequired) {
+        this.displayError(this.isRequired);
+        return;
+      }
   }
 
   checkValidation(value) {
@@ -111,14 +118,13 @@ export class CustomTextareaComponent
       return;
     }
     if ((newValue === null || newValue == undefined || newValue === "") && this.isRequired) {
-      // this.displayError(this.checkIsFirst ? '' : this.isRequired);
       if (!this.checkIsFirst) {
         this.displayError(this.isRequired)
       }
       this.checkIsFirst = false;
       return;
     }
-    this.inputError = false;
+    // this.inputError = false;
   }
 
   displayError(msg) {

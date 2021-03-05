@@ -5600,7 +5600,7 @@
             type="button"
             class="btn btn-success"
             data-dismiss="modal"
-            (click)="deleteDocument(thirdPartyDetailsForm.controls.TPdocumentJson.controls.documentId.value)"
+            (click)="deleteDocument(thirdPartyDetailsForm.get('TPdocumentJson')['controls']['documentId'].value)"
           >
             Yes
           </button>
