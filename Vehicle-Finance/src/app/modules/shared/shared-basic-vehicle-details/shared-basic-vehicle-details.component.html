@@ -2821,20 +2821,9 @@
 
                     <div class="" id="insurance_detail"
                         *ngIf="!isVehicleRegNoChange && productCatoryCode !== 'NCV' && roleType !== 1">
-                        <h4 class="banner-sub">{{ label?.insuranceDetails }}</h4>
+                        <h4 class="banner-sub">Existing Insurance Details</h4>
 
                         <div class="row">
-
-                            <div class="form-group col-sm-6 col-md-4 col-lg-3"
-                                *ngIf="obj.controls['fsrdFundingReq'].value === true">
-                                <label for="frsd_amount">{{label.frsdAmount}} </label>
-                                <app-custom-input formControlName="fsrdPremiumAmount"
-                                    [type]="label.validationData?.amountValue.type" [id]="'frsd_amount'"
-                                    [className]="'form-control mandatory'" [isRequired]="'FRSD Premium Amount Required'"
-                                    [isDirty]="isDirty" [maxLength]="label.validationData?.amountValue.maxLength"
-                                    [placeholder]="'FRSD Premium Amount'">
-                                </app-custom-input>
-                            </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="company">{{ label?.company }}
@@ -2919,6 +2908,15 @@
                                     [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'IDV'">
                                 </app-custom-input>
                             </div>
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                                <label for="idv">Premium Amount</label>
+                                <app-custom-input [id]="'idv'" [type]="label.validationData?.amountValue.type"
+                                    [className]="'form-control'"
+                                    [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Premium Amount'">
+                                </app-custom-input>
+                            </div>
+
                         </div>
                     </div>
 
