@@ -235,6 +235,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
 
       if (this.isChildLoan) {
         ProductType = this.loanTypeArray.find((res: any) => res.key === this.assetProductCode)
+       
         if (ProductType) {
           this.Product = ProductType['value'];
           this.childLoanCondition = child.childLoan.isRequired[this.Product];
@@ -414,6 +415,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   getLov() {
     this.commonLovService.getLovData().subscribe((value: any) => {
       this.LOV = value.LOVS;
+      this.vehicleLov.insuranceLov = []
       this.vehicleLov.region = value.LOVS.assetRegion;
       this.vehicleLov.vechicalUsage = value.LOVS.vehicleUsage;
       this.vehicleLov.vehicleCategory = value.LOVS.vehicleCategory;
@@ -441,7 +443,41 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
       ]
     });
+    this.getInsuranceLov();
     this.getVehicleDetails(this.leadId)
+    console.log(this.vehicleLov, 'vehicleLov')
+  }
+
+  getInsuranceLov() {
+    this.vehicleDetailsService.getInsuranceLov({}).subscribe((insurance: any) => {
+      if (insurance.Error === '0' && insurance.ProcessVariables.error.code === '0') {
+        for (let i=0; i < insurance.ProcessVariables.insuranceLov.length; i++) {
+          let InsuranceLov = {
+            key: insurance.ProcessVariables.insuranceLov[i].id,
+            value: insurance.ProcessVariables.insuranceLov[i].name
+          }
+          this.vehicleLov.insuranceLov.push(InsuranceLov)
+        }
+      } else {
+        this.toasterService.showError(insurance.ErrorMessage ? insurance.ErrorMessage : insurance.ProcessVariables.error.message, 'Insurance Lov')
+      }
+    })
+
+  }
+
+  
+  insuranceValidUptoCheck(obj) {
+    console.log(' in valid upto', obj);
+    const insuranceValidFrom = new Date(obj.get('insuranceValidFrom').value)
+      ? new Date(obj.get('insuranceValidFrom').value) : null;
+    const insuranceValidUpto = new Date(obj.get('insuranceValidTo').value)
+      ? new Date(obj.get('insuranceValidTo').value) : null;
+    if (insuranceValidUpto < insuranceValidFrom) {
+      obj.get('insuranceValidFrom').setErrors({ 'incorrect': true })
+      this.toasterService.showWarning('Insurance Validity Date should be greater than insurance Start Date', '');
+    } else if (insuranceValidUpto > insuranceValidFrom) {
+      obj.get('insuranceValidFrom').setErrors(null)
+    }
   }
 
   getVehicleDetails(id: number) {
@@ -694,6 +730,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       productCatCode: VehicleDetail.productCatCode || '',
       rcOwnerName: VehicleDetail.rcOwnerName || '',
       reRegVehicle: VehicleDetail.reRegVehicle || '',
+      insuranceCompany: VehicleDetail.insuranceCompany || '',
+      insuranceValidFrom: VehicleDetail.insuranceValidFrom || '',
+      insuranceValidTo: VehicleDetail.insuranceValidTo || '',
+      insuranceName: VehicleDetail.insuranceName || '',
+      insurancePolicyNumber: VehicleDetail.insurancePolicyNumber || '',
       insuranceType: VehicleDetail.insuranceType || '',
       regMonthYear: VehicleDetail.regMonthYear ? this.utilityService.getDateFromString(VehicleDetail.regMonthYear) : '',
       region: VehicleDetail.region || '',
@@ -1287,6 +1328,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleRegDate: [''],
       grossVehicleWeight: [''],
       reRegVehicle: [''],
+      insuranceCompany: ['', Validators.required],
+      insuranceValidFrom: [''],
+      insuranceValidTo: [''],
+      insuranceName: [''],
+      insurancePolicyNumber: ['', Validators.required],
       interStateVehicle: [''],
       duplicateRC: ['1'],
       cubicCapacity: [''],
@@ -1296,6 +1342,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       idv: [''],
       isVehicleDedupe: true,
       parentLoanAccountNumber: [''],
+      insuranceType: ['', Validators.required],
       insuranceCopy: [''],
       fsrdFundingReq: [''],
       fsrdPremiumAmount: [null],
@@ -1346,6 +1393,11 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: null,
       isVehicleDedupe: false,
+      insuranceCompany: ['', Validators.required],
+      insuranceValidFrom: [''],
+      insuranceValidTo: [''],
+      insuranceName: [''],
+      insurancePolicyNumber: ['', Validators.required],
       parentLoanAccountNumber: [''],
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
       ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
@@ -1361,7 +1413,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       idv: '',
       insuranceType: ['', Validators.required],
       insuranceCopy: [''],
-      fsrdFundingReq: '',
+      fsrdFundingReq: [''],
       fsrdPremiumAmount: null,
       vehicleId: 0,
       collateralId: 0,
@@ -1372,6 +1424,19 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('insuranceValidity', this._fb.control(''))
     }
     formArray.push(controls);
+  }
+
+  onValidInsuranceName(obj, event) {
+
+    console.log(obj, 'Obhj', event)
+
+    if (event === '4') {
+      obj.get('insuranceName').setValidators(Validators.required)
+      obj.get('insuranceName').updateValueAndValidity()
+    } else {
+      obj.get('insuranceName').clearValidators();
+      obj.get('insuranceName').updateValueAndValidity()
+    }
   }
 
   onValueForCurrentDate(event) {
@@ -1734,13 +1799,9 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           data.fcExpiryDate = data.fcExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.fcExpiryDate, 'DD/MM/YYYY') : ''
         }
 
-        // if (data.firFiled) {
         data.firFiled = data.firFiled && data.firFiled === true ? '1' : '0';
-        // }
 
-        // if (data.onlineVerification) {
         data.onlineVerification = data.onlineVerification && data.onlineVerification === true ? '1' : '0';
-        // } 
 
         if (data.insuranceValidity) {
           data.insuranceValidity = data.insuranceValidity ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidity, 'DD/MM/YYYY') : '';
@@ -1951,7 +2012,5 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       this.onCredit()
     }
   }
-
-
 
 }

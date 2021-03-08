@@ -233,6 +233,24 @@ export class VehicleDetailService {
     return this.httpService.post(url, body);
   }
 
+  // 10. Insurance Lov
+
+  getInsuranceLov(data) {
+    const processId = this.apiService.api.InsuranceLov.processId;
+    const workflowId = this.apiService.api.InsuranceLov.workflowId;
+    const projectId = this.apiService.api.InsuranceLov.projectId;
+
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: data,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
   createObservableObj(labelsurl: IndivVehicleInfoDetails[]) {
     const obs = new Observable<IndivVehicleInfoDetails[]>(observer => {
       observer.next(labelsurl);
