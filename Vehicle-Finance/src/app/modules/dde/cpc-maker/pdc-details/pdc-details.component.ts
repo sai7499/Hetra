@@ -55,9 +55,11 @@ export class PdcDetailsComponent implements OnInit {
   // 
   searchBankNameList: any = [];
   getSpdcBranchDetails: any = {};
-  getPdcBranchDetails : any = {}
+  getPdcBranchDetails: any = {}
   searchBranchName: any;
   keyword: string = '';
+
+  currentDate: Date = new Date();
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -429,7 +431,7 @@ export class PdcDetailsComponent implements OnInit {
         this.addPdcUnit();
         this.showPdcButton = true;
       }
-      
+
       // tslint:disable-next-line: triple-equals
       if (spdcCount != '' && spdcCount != null) {
         for (let i = 0; i < spdcCount; i++) {
@@ -521,19 +523,19 @@ export class PdcDetailsComponent implements OnInit {
 
     //   }
     // }
-    setTimeout(()=>{
+    setTimeout(() => {
       this.removeInstAmtValidator()
     })
 
   }
 
-  removeInstAmtValidator(){
+  removeInstAmtValidator() {
     const PdcControl = this.pdcForm.controls.pdcList as FormArray;
-    if(PdcControl.controls.length >= 1){
+    if (PdcControl.controls.length >= 1) {
       PdcControl.controls[0]['controls']['instrAmount'].clearValidators();
       PdcControl.controls[0]['controls']['instrAmount'].updateValueAndValidity();
     }
-    
+
 
 
   }
@@ -726,35 +728,35 @@ export class PdcDetailsComponent implements OnInit {
             instrBranchAccountNumber: obj.get(controlName).value || null,
           })
         }
-      }else if(controlName === 'instrAmount'){
+      } else if (controlName === 'instrAmount') {
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
-          
+
           spdcArray.controls[j].patchValue({
             instrAmount: obj.get(controlName).value || null,
           })
         }
       }
-      else if(controlName === 'instrBranchName'){
-      //  const bankName = spdcArray.controls[0].get('instrBankName').value;
-      //  const issameBank = spdcArray.controls.every((data)=>{
-      //   return data.value.instrBankName == bankName
-      //  })
+      else if (controlName === 'instrBranchName') {
+        //  const bankName = spdcArray.controls[0].get('instrBankName').value;
+        //  const issameBank = spdcArray.controls.every((data)=>{
+        //   return data.value.instrBankName == bankName
+        //  })
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
-        // if (issameBank){
+          // if (issameBank){
           spdcArray.controls[j].patchValue({
             instrBranchName: obj.get(controlName).value || null,
           })
-        // }    
+          // }    
         }
       }
-      else if(controlName === 'instrBankName'){
+      else if (controlName === 'instrBankName') {
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           spdcArray.controls[j].patchValue({
             instrBankName: obj.get(controlName).value || null,
           })
         }
       }
-      else if(controlName === 'instrDate'){
+      else if (controlName === 'instrDate') {
         let getInstrDate = obj.get(controlName).value;
         for (let j = 1; j < this.pdcForm.get(formarray).length; j++) {
           const formatDate = this.addMonth(getInstrDate, j)
@@ -764,7 +766,7 @@ export class PdcDetailsComponent implements OnInit {
         }
 
       }
-      
+
 
     }
 
@@ -798,7 +800,7 @@ export class PdcDetailsComponent implements OnInit {
     return formattedDate;
   }
 
-  
+
 
 
   onBankNameSearch(val) {
@@ -834,29 +836,29 @@ export class PdcDetailsComponent implements OnInit {
 
       this.bankTransaction.getBranchDetails(data).subscribe((res: any) => {
         if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-          if(formarray === 'spdcList'){
+          if (formarray === 'spdcList') {
             this.getSpdcBranchDetails[rowIndex] = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
-          }else{
+          } else {
             this.getPdcBranchDetails[rowIndex] = res.ProcessVariables.bankDetails ? res.ProcessVariables.bankDetails : [];
           }
           this.searchBranchName = [];
           let isEnableBranch = res.ProcessVariables.bankDetails && res.ProcessVariables.bankDetails.length > 0 ? true : false;
-          if(rowIndex && !obj.getRawValue().instrBankName){
+          if (rowIndex && !obj.getRawValue().instrBankName) {
             obj.patchValue({
               instrBranchName: '',
               isEnableBranch: isEnableBranch
             })
-          }else if(obj.getRawValue().instrBankName){
-            this.onChangeBranch(obj.value.instrBranchName, obj, rowIndex,formarray)
+          } else if (obj.getRawValue().instrBankName) {
+            this.onChangeBranch(obj.value.instrBranchName, obj, rowIndex, formarray)
           }
-         
+
           // if (isString === 'isPdc') {
           //   this.changePdcList(obj, rowIndex, controlName)
           // } else if (isString === 'isSpdc') {
-            if(controlName && formarray){
-              this.changeSpdcList(obj, rowIndex, controlName,formarray)
-            }
-            
+          if (controlName && formarray) {
+            this.changeSpdcList(obj, rowIndex, controlName, formarray)
+          }
+
           // }
         } else {
           this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, '')
@@ -865,40 +867,45 @@ export class PdcDetailsComponent implements OnInit {
     }
   }
 
+  uploadDoc() {
+    this.router.navigate([`pages/document-viewupload/${this.leadId}/collateral-documents`]);
+    this.sharedService.setPdcDetails({title: 'Pdc', docId: 160})
+  }
+
   onChangeBranch(val, obj, rowIndex, formarray) {
     if (val && val.trim().length > 0) {
       val = val.toString().toLowerCase();
       let branch;
-      if(formarray === 'spdcList'){
+      if (formarray === 'spdcList') {
         branch = this.getSpdcBranchDetails[rowIndex]
-      }else{
+      } else {
         branch = this.getPdcBranchDetails[rowIndex]
       }
-      if(branch){
-      if(branch.length > 0 && val.length >= 3){
-        let searchBranchName = branch.filter(e => {
-          const eName = e.branchName.toString().toLowerCase();
-          if (eName.includes(val)) {
-            this.keyword = 'branchName';
-            this.searchBranchName.push(e.branchName)
-            return e.branchName;
-          }
-        });
-  
-        setTimeout(() => {
-          if (val && this.searchBranchName.length === 0) {
-            obj.get('instrBranchName').setErrors({ incorrect: true })
-            this.toasterService.showInfo('Please enter valid branch', '')
-          }
-        }, 1000)
-      }
-    }else if(!branch && val.length >= 2){
+      if (branch) {
+        if (branch.length > 0 && val.length >= 3) {
+          let searchBranchName = branch.filter(e => {
+            const eName = e.branchName.toString().toLowerCase();
+            if (eName.includes(val)) {
+              this.keyword = 'branchName';
+              this.searchBranchName.push(e.branchName)
+              return e.branchName;
+            }
+          });
+
+          setTimeout(() => {
+            if (val && this.searchBranchName.length === 0) {
+              obj.get('instrBranchName').setErrors({ incorrect: true })
+              this.toasterService.showInfo('Please enter valid branch', '')
+            }
+          }, 1000)
+        }
+      } else if (!branch && val.length >= 2) {
         const bankName = obj.get('instrBankName').value;
-        this.selectBankNameEvent(bankName,obj,rowIndex,'instrBankName',formarray )
-      }    
+        this.selectBankNameEvent(bankName, obj, rowIndex, 'instrBankName', formarray)
+      }
     }
   }
-  onBranchNameClear(){
+  onBranchNameClear() {
     this.searchBranchName = []
   }
 
@@ -907,7 +914,7 @@ export class PdcDetailsComponent implements OnInit {
     // if (isString === 'isPdc') {
     //   this.changePdcList(obj, rowIndex, controlName)
     // } else if (isString === 'isSpdc') {
-      this.changeSpdcList(obj, rowIndex, controlName,formarray)
+    this.changeSpdcList(obj, rowIndex, controlName, formarray)
     // }
   }
 

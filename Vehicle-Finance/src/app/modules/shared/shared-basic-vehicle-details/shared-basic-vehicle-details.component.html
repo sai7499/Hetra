@@ -1875,8 +1875,25 @@
 
                                         <input class="ml" type="checkbox" formControlName="fsrdFundingReq"
                                             (click)="onChangeFRSD($event)" />
+                                    </div>
+
+                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                        *ngIf="obj.controls['fsrdFundingReq'].value === true">
+                                        <label for="frsd_amount">{{label.frsdAmount}} </label>
+
+                                        <app-custom-input formControlName="fsrdPremiumAmount"
+                                            [type]="label.validationData?.amountValue.type" [id]="'frsd_amount'"
+                                            [className]="'form-control mandatory'"
+                                            [isRequired]="'FRSD Premium Amount Required'" [isDirty]="isDirty"
+                                            [maxLength]="label.validationData?.amountValue.maxLength"
+                                            [placeholder]="'FRSD Premium Amount'">
+                                        </app-custom-input>
 
                                     </div>
+
+                                </div>
+
+                                <div class="row">
 
                                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
 
@@ -1887,10 +1904,6 @@
                                             [id]="'loan_amount'" [isDirty]="isDirty" [isDisabled]="true">
                                         </app-custom-input>
                                     </div>
-
-                                </div>
-
-                                <div class="row">
 
                                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="body_cost">
 
@@ -2428,6 +2441,20 @@
 
                                 <div class="row">
 
+                                    <div class="form-group col-sm-6 col-md-4 col-lg-3"
+                                        *ngIf="obj.controls['fsrdFundingReq'].value === true">
+                                        <label for="frsd_amount">{{label.frsdAmount}} </label>
+
+                                        <app-custom-input formControlName="fsrdPremiumAmount"
+                                            [type]="label.validationData?.amountValue.type" [id]="'frsd_amount'"
+                                            [className]="'form-control mandatory'"
+                                            [isRequired]="'FRSD Premium Amount Required'" [isDirty]="isDirty"
+                                            [maxLength]="label.validationData?.amountValue.maxLength"
+                                            [placeholder]="'FRSD Premium Amount'">
+                                        </app-custom-input>
+
+                                    </div>
+
                                     <div class="form-group col-sm-6 col-md-4 col-lg-3" id="loan_amount">
 
                                         <label for="loan_amount">{{label.loanAmount}}</label>
@@ -2450,6 +2477,9 @@
                                         </app-custom-input>
                                     </div>
 
+                                </div>
+
+                                <div class="row">
                                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                         <label for="noc_date">{{label.expectedNOCDate}}</label>
                                         <kendo-datepicker class="form-control" [id]="'noc_date'"
@@ -2463,7 +2493,6 @@
                                         </div>
 
                                     </div>
-
                                 </div>
 
                             </ng-container>
@@ -2821,7 +2850,7 @@
 
                     <div class="" id="insurance_detail"
                         *ngIf="!isVehicleRegNoChange && productCatoryCode !== 'NCV' && roleType !== 1">
-                        <h4 class="banner-sub">Existing Insurance Details</h4>
+                        <h4 class="banner-sub">{{label?.existingInsuranceDetails}}</h4>
 
                         <div class="row">
 
@@ -2836,7 +2865,7 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3"
-                                *ngIf="obj.get('insuranceCompany').value === '4'">
+                                *ngIf="obj.get('insuranceCompany').value === '4VEHINS'">
                                 <label for="company">{{ label?.insuranceName }}
                                     <sub class="star_red_col">*</sub>
                                 </label>
@@ -2858,6 +2887,10 @@
                                     [type]="label?.validationData?.policyNumber.type" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
+
+                        </div>
+
+                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="type_of_policy">{{ label?.typeOfPolicy }}
@@ -2901,6 +2934,10 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                        <div class="row">
+
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="idv">{{label.idv}}</label>
                                 <app-custom-input [id]="'idv'" [type]="label.validationData?.amountValue.type"
@@ -2910,10 +2947,11 @@
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                                <label for="idv">Premium Amount</label>
-                                <app-custom-input [id]="'idv'" [type]="label.validationData?.amountValue.type"
+                                <label for="idv">{{label?.premiumAmount}}</label>
+                                <app-custom-input [id]="'idv'" formControlName="premiumAmount" [type]="label.validationData?.amountValue.type"
                                     [className]="'form-control'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'Premium Amount'">
+                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    [placeholder]="'Premium Amount'">
                                 </app-custom-input>
                             </div>
 

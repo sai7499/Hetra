@@ -12,6 +12,7 @@ export class SharedService {
     trancheId: any = {};
     isValuator: any;
     isReinitiate: any;
+    isPdcData: any;
     
     browserPopState(data) {
         this.popStateActivity$.next(data)
@@ -176,4 +177,11 @@ export class SharedService {
         return this.isReinitiate;
     }
 
+    setPdcDetails(data: any) {
+        this.isPdcData = data;
+    }
+
+    getIsPdcData() {
+        return this.isPdcData;
+    }
 }

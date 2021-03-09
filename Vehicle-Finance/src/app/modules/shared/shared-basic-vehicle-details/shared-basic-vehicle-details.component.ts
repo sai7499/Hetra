@@ -697,7 +697,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       insurance: VehicleDetail.insurance || null,
       insuranceValidity: VehicleDetail.insuranceValidity ? this.utilityService.getDateFromString(VehicleDetail.insuranceValidity) : '',
       interStateVehicle: VehicleDetail.interStateVehicle || null,
-      inusrancePolicyNumber: VehicleDetail.inusrancePolicyNumber || null,
+      insurancePolicyNumber: VehicleDetail.insurancePolicyNumber || null,
       invoiceAmount: VehicleDetail.invoiceAmount || null,
       invoiceDate: VehicleDetail.invoiceDate ? this.utilityService.getDateFromString(VehicleDetail.invoiceDate) : '',
       invoiceNumber: VehicleDetail.invoiceNumber || null,
@@ -731,10 +731,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       rcOwnerName: VehicleDetail.rcOwnerName || '',
       reRegVehicle: VehicleDetail.reRegVehicle || '',
       insuranceCompany: VehicleDetail.insuranceCompany || '',
-      insuranceValidFrom: VehicleDetail.insuranceValidFrom || '',
-      insuranceValidTo: VehicleDetail.insuranceValidTo || '',
+      insuranceValidFrom: VehicleDetail.insuranceValidFrom ? this.utilityService.getDateFromString(VehicleDetail.insuranceValidFrom) : '',
+      insuranceValidTo: VehicleDetail.insuranceValidTo ? this.utilityService.getDateFromString(VehicleDetail.insuranceValidTo) : '',
       insuranceName: VehicleDetail.insuranceName || '',
-      insurancePolicyNumber: VehicleDetail.insurancePolicyNumber || '',
+      premiumAmount: VehicleDetail.premiumAmount || '',
       insuranceType: VehicleDetail.insuranceType || '',
       regMonthYear: VehicleDetail.regMonthYear ? this.utilityService.getDateFromString(VehicleDetail.regMonthYear) : '',
       region: VehicleDetail.region || '',
@@ -1331,6 +1331,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       insuranceCompany: ['', Validators.required],
       insuranceValidFrom: [''],
       insuranceValidTo: [''],
+      premiumAmount: [''],
       insuranceName: [''],
       insurancePolicyNumber: ['', Validators.required],
       interStateVehicle: [''],
@@ -1396,6 +1397,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       insuranceCompany: ['', Validators.required],
       insuranceValidFrom: [''],
       insuranceValidTo: [''],
+      premiumAmount: [''],
       insuranceName: [''],
       insurancePolicyNumber: ['', Validators.required],
       parentLoanAccountNumber: [''],
@@ -1427,10 +1429,7 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
   }
 
   onValidInsuranceName(obj, event) {
-
-    console.log(obj, 'Obhj', event)
-
-    if (event === '4') {
+    if (event === '4VEHINS') {
       obj.get('insuranceName').setValidators(Validators.required)
       obj.get('insuranceName').updateValueAndValidity()
     } else {
@@ -1826,6 +1825,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
           }
         }
         if (url.includes('dde')) {
+
+          data.insuranceValidFrom = data.insuranceValidFrom ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidFrom, 'DD/MM/YYYY') : '';
+          data.insuranceValidTo = data.insuranceValidTo ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidTo, 'DD/MM/YYYY') : '';
+
           data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
           data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
           data.vehicleRegDate = data.vehicleRegDate ? this.utilityService.convertDateTimeTOUTC(data.vehicleRegDate, 'DD/MM/YYYY') : '';

@@ -28,8 +28,7 @@
                                             <div class="row clearfix">
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="ext_mobile{{i}}">
-                                                    <label for="ext_mobile">Existing as per Record <sub
-                                                            class="star_red_col">*</sub>
+                                                    <label for="ext_mobile">Existing as per Record
                                                     </label>
                                                     <input type="text" class="form-control mandatory"
                                                         value="{{applicant.extMobileNumber}}" id="ext_mob_{{i}}"
@@ -37,15 +36,14 @@
                                                 </div>
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="new_mobile{{i}}">
-                                                    <label for="new_mobile">New Number <sub class="star_red_col">*</sub>
+                                                    <label for="new_mobile">New Number
                                                     </label>
                                                     <input type="text" class="form-control mandatory"
                                                         id="new_mobile_{{i}}" placeholder="New Mobile Number">
                                                 </div>
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="first_doc_{{i}}">
-                                                    <label for="first_doc_">View Document <sub
-                                                            class="star_red_col">*</sub>
+                                                    <label for="first_doc_">View Document
                                                     </label>
                                                     <input type="text" class="form-control mandatory"
                                                         id="first_doc_{{i}}" placeholder="Document Id" name="input"
@@ -70,219 +68,160 @@
                                     </a>
                                     <div id="address{{i}}">
                                         <div class="panel-body">
-                                            <!-- <div class="row clearfix">
+                                            <div class="row clearfix">
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="ext_addr{{i}}">
-                                                    <label for="ext_addr">Existing as per Record <sub
-                                                            class="star_red_col">*</sub>
-                                                    </label>
-                                                    <textarea cols="81" placeholder="Existing Address" rows="3"
-                                                        style="resize: none;" class="form-control mandatory"
-                                                        value="{{applicant.oldAddress}}"></textarea>
+                                                    <h5>Existing as per Record</h5>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address1">Address Line 1</label>
+                                                        <app-custom-input [type]="'alpha-numeric'"
+                                                            [placeholder]="'Address Line 1'">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address2">Address Line 2</label>
+                                                        <app-custom-input [type]="'alpha-numeric'"
+                                                            [placeholder]="'Address Line 2'">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address3">Address Line 3</label>
+                                                        <app-custom-input [type]="'alpha-numeric'"
+                                                            [placeholder]="'Address Line 3'">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address1">Pincode
+                                                        </label>
+                                                        <app-custom-input [type]="'number'" [placeholder]="'Pincode'">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address2">City</label>
+                                                        <app-vf-custom-select>
+                                                        </app-vf-custom-select>
+
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address3">District</label>
+                                                        <app-vf-custom-select>
+                                                        </app-vf-custom-select>
+
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address1">State
+                                                        </label>
+                                                        <app-vf-custom-select>
+                                                        </app-vf-custom-select>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address2">Country</label>
+                                                        <app-vf-custom-select>
+                                                        </app-vf-custom-select>
+
+                                                    </div>
+
                                                 </div>
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="new_addr_{{i}}">
-                                                    <label for="new_addr_">New Address <sub class="star_red_col">*</sub>
-                                                    </label>
-                                                    <textarea cols="81" placeholder="New Address" rows="3"
-                                                        style="resize: none;" class="form-control mandatory"></textarea>
+                                                    <h5>New Address</h5>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address1">Address Line 1</label>
+                                                        <app-custom-input [type]="'alpha-numeric'"
+                                                            [placeholder]="'Address Line 1'">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address2">Address Line 2</label>
+                                                        <app-custom-input [type]="'alpha-numeric'"
+                                                            [placeholder]="'Address Line 2'">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address3">Address Line 3</label>
+                                                        <app-custom-input [type]="'alpha-numeric'"
+                                                            [placeholder]="'Address Line 3'">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address1">Pincode
+                                                        </label>
+                                                        <app-custom-input [type]="'number'" [placeholder]="'Pincode'">
+                                                        </app-custom-input>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address2">City</label>
+                                                        <app-vf-custom-select>
+                                                        </app-vf-custom-select>
+
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address3">District</label>
+                                                        <app-vf-custom-select>
+                                                        </app-vf-custom-select>
+
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address1">State
+                                                        </label>
+                                                        <app-vf-custom-select>
+                                                        </app-vf-custom-select>
+                                                    </div>
+
+                                                    <div
+                                                        class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-margin">
+                                                        <label for="address2">Country</label>
+                                                        <app-vf-custom-select>
+                                                        </app-vf-custom-select>
+
+                                                    </div>
+
                                                 </div>
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="sec_doc_{{i}}">
-                                                    <label for="sec_doc_">View Document <sub
-                                                            class="star_red_col">*</sub>
-                                                    </label>
-                                                    <input type="text" class="form-control mandatory" id="sec_doc_{{i}}"
-                                                        placeholder="Document Id" name="input" type="text"
-                                                        class="form-control file-input" readonly
-                                                        (click)="downloadDocs(FORM_ARRAY_NAME + '_' + subCat.code,i,$event)">
+
+
+                                                    <h5>View Document</h5>
+
+                                                    <div class="form-group col-sm-12 col-md-12 col-lg-12 p-0 cus-doc">
+                                                        <input type="text" class="form-control mandatory"
+                                                            id="sec_doc_{{i}}" placeholder="Document Id" name="input"
+                                                            type="text" class="form-control file-input" readonly
+                                                            (click)="downloadDocs(FORM_ARRAY_NAME + '_' + subCat.code,i,$event)">
+                                                    </div>
+
                                                 </div>
 
-                                            </div> -->
-
-                                            <div class="row container">
-
-                                                <h4>
-                                                    <a>Existing as per Record</a>
-                                                </h4>
-                                                <div class="row">
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address1">Address Line 1
-                                                            <sub class="star_red_col">*</sub></label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 1'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address2">Address Line 2</label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 2'">
-                                                        </app-custom-input>
-
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address3">Address Line 3 <sub
-                                                                class="star_red_col">*</sub></label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 3'">
-                                                        </app-custom-input>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address1">Pincode
-                                                            <sub class="star_red_col">*</sub></label>
-                                                        <app-custom-input [type]="'number'" [placeholder]="'Pincode'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address2">City</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address3">District <sub
-                                                                class="star_red_col">*</sub></label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address1">State
-                                                            <sub class="star_red_col">*</sub></label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address2">Country</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address3">LandMark</label>
-                                                        <app-custom-input [type]="'text'"
-                                                            [placeholder]="'Nearest LandMark'">
-                                                        </app-custom-input>
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row container">
-
-                                                <h4>
-                                                    <a>Current New Address</a>
-                                                </h4>
-
-                                                <div class="row">
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address1">Address Line 1
-                                                            <sub class="star_red_col">*</sub></label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 1'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address2">Address Line 2</label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 2'">
-                                                        </app-custom-input>
-
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address3">Address Line 3 <sub
-                                                                class="star_red_col">*</sub></label>
-                                                        <app-custom-input [type]="'alpha-numeric'"
-                                                            [placeholder]="'Address Line 3'">
-                                                        </app-custom-input>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address1">Pincode
-                                                            <sub class="star_red_col">*</sub></label>
-                                                        <app-custom-input [type]="'number'" [placeholder]="'Pincode'">
-                                                        </app-custom-input>
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address2">City</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address3">District <sub
-                                                                class="star_red_col">*</sub></label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address1">State
-                                                            <sub class="star_red_col">*</sub></label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address2">Country</label>
-                                                        <app-vf-custom-select>
-                                                        </app-vf-custom-select>
-
-                                                    </div>
-
-                                                    <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                                        <label for="address3">LandMark</label>
-                                                        <app-custom-input [type]="'text'"
-                                                            [placeholder]="'Nearest LandMark'">
-                                                        </app-custom-input>
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row container">
-
-                                            </div>
-
-                                            <div class="form-group col-sm-6 col-md-4 col-lg-3" id="sec_doc_{{i}}">
-                                                <label for="sec_doc_">View Document <sub
-                                                        class="star_red_col">*</sub>
-                                                </label>
-                                                <input type="text" class="form-control mandatory" id="sec_doc_{{i}}"
-                                                    placeholder="Document Id" name="input" type="text"
-                                                    class="form-control file-input" readonly
-                                                    (click)="downloadDocs(FORM_ARRAY_NAME + '_' + subCat.code,i,$event)">
                                             </div>
 
                                         </div>
@@ -304,23 +243,21 @@
                                             <div class="row clearfix">
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="ext_aadhar{{i}}">
-                                                    <label for="ext_aadhar">Existing as per Record <sub
-                                                            class="star_red_col">*</sub>
+                                                    <label for="ext_aadhar">Existing as per Record
                                                     </label>
                                                     <input type="number" class="form-control mandatory"
                                                         id="ext_aadhar_{{i}}" placeholder="Extisting Aadhar Number">
                                                 </div>
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="new_aadhar{{i}}">
-                                                    <label for="new_aadhar">New Number <sub class="star_red_col">*</sub>
+                                                    <label for="new_aadhar">New Number
                                                     </label>
                                                     <input type="number" class="form-control mandatory"
                                                         id="new_aadhar_{{i}}" placeholder="New Aadhar Number">
                                                 </div>
 
                                                 <div class="form-group col-sm-6 col-md-4 col-lg-3" id="third_doc_{{i}}">
-                                                    <label for="third_doc_">View Document <sub
-                                                            class="star_red_col">*</sub>
+                                                    <label for="third_doc_">View Document
                                                     </label>
                                                     <input type="text" class="form-control mandatory"
                                                         id="third_doc_{{i}}" placeholder="Document Id" name="input"

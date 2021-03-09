@@ -33,3 +33,11 @@
     cursor: pointer;
     font-size: 16px;
   }
+
+  .cus-margin {
+    margin-bottom: 10px !important;
+  }
+
+  .cus-doc {
+    margin-top: 21px !important;
+  }
