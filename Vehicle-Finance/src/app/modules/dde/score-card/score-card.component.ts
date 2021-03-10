@@ -7,6 +7,10 @@ import { LabelsService } from 'src/app/services/labels.service';
 
 import { LoanViewService } from '@services/loan-view.service';
 import { ToasterService } from '@services/toaster.service';
+import { ApplicantService } from '@services/applicant.service';
+import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     templateUrl: './score-card.component.html',
@@ -14,6 +18,7 @@ import { ToasterService } from '@services/toaster.service';
 })
 export class ScoreCardComponent implements OnInit {
 
+    scoreCardForm: FormGroup;
     labels: any = {};
     borrowerAttributes: any;
     borrowerAttributesLength: number;
@@ -31,11 +36,14 @@ export class ScoreCardComponent implements OnInit {
     disableSaveBtn: boolean;
     riskLevel: number;
     risk: string;
-    showError: boolean;
+    showError = false;
     errorMessage: string;
 
     result = [];
     udfScreenId: any;
+    applicantDetails = [];
+    scoreCardId: any;
+    applicantId: any;
 
     constructor(
         private labelsData: LabelsService,
@@ -44,20 +52,34 @@ export class ScoreCardComponent implements OnInit {
         private createLeadDataService: CreateLeadDataService,
         private toggleDdeService: ToggleDdeService,
         private loanViewService: LoanViewService,
-        private toasterService: ToasterService
+        private toasterService: ToasterService,
+        private applicantService: ApplicantService,
+        private sharedService: SharedService,
+        private fb: FormBuilder,
+        private route: ActivatedRoute
     ) { }
 
 
     ngOnInit() {
         const roleAndUserDetails = this.loginStoreService.getRolesAndUserDetails();
         this.userId = roleAndUserDetails.userDetails.userId;
-
+        const gotLeadData = this.route.snapshot.data.leadData;
+        console.log(gotLeadData, 'gotLeadData');
+        
         const leadData = this.createLeadDataService.getLeadSectionData();
         this.leadId = (leadData as any).leadId;
         const productCategory = (leadData as any).leadDetails.productCatCode;
         this.productCategoryFromLead = productCategory;
 
-        this.reInitiateCreditScore();
+        this.scoreCardForm = this.fb.group({
+            applicantId: ['']
+        })
+
+        // this.reInitiateCreditScore();
+        this.getLeadSectiondata();
+
+        // this.scoreCardId = this.sharedService.getScoreCardId();
+        
         const operationType = this.toggleDdeService.getOperationType();
         if (operationType) {
             this.disableSaveBtn = true;
@@ -86,9 +108,58 @@ export class ScoreCardComponent implements OnInit {
 
     }
 
+    getLeadSectiondata() {
+        const leadData: any = this.createLeadDataService.getLeadSectionData();
+        console.log(leadData, 'leadData');
+        const applicantDetails = leadData.applicantDetails;
+        for (let i=0; i<applicantDetails.length; i++) {
+              var applicants = applicantDetails.filter(ele => ele.applicantTypeKey !== 'GUARAPPRELLEAD' && ele.entityTypeKey !== 'NONINDIVENTTYP') 
+            }
+            applicants.map(ele => {
+               const applicantDetail = {
+                    key: ele.applicantId,
+                    value: ele.fullName
+                }
+                this.applicantDetails.push(applicantDetail)
+            })
+            console.log("applicantDetails", applicants, this.applicantDetails);
+            for (let i=0; i<applicantDetails.length; i++) {
+                var initialId = applicantDetails.find(ele => ele.applicantTypeKey === 'APPAPPRELLEAD' ).applicantId;
+                
+            }
+            // this.scoreCardId = leadData.leadDetails.scoreCardApplicantId || initialId;
+            // console.log(this.scoreCardId, initialId, 'InitialId');
+
+            this.scoreCardId = this.sharedService.getScoreCardId() || initialId;
+            this.onApplicantChange(this.scoreCardId);
+            console.log(this.scoreCardId);
+
+      }
+
+      onApplicantChange(event) {
+        console.log(event);
+        this.scoreCardId = event;
+        // this.sharedService.setScoreCardId(this.scoreCardId);
+        if (this.scoreCardId) {
+        this.reInitiateCreditScore();
+        } else {
+            this.showError = true;
+        }
+      }
+      getApplicantList() {
+        const data = {
+          leadId: this.leadId,
+        };
+    
+        this.applicantService.getApplicantList(data).subscribe((value: any) => {
+          const processVariables = value.ProcessVariables;
+          this.applicantDetails = processVariables.applicantListForLead;
+        });
+      }
+
     reInitiateCreditScore() {
         this.result = [];
-        this.scoreCardService.reInitiateCreditScore(this.leadId, this.userId).subscribe((res: any) => {
+        this.scoreCardService.reInitiateCreditScore(this.leadId, this.userId, Number(this.scoreCardId)).subscribe((res: any) => {
             const response = res;
             const appiyoError = response.Error;
             const apiError = response.ProcessVariables.error.code;
@@ -98,6 +169,11 @@ export class ScoreCardComponent implements OnInit {
             if (appiyoError === '0' && apiError === '0') {
                 this.scoreCard = JSON.parse(response.ProcessVariables.scoreCard);
                 console.log('ScoreCard', this.scoreCard);
+                this.showError = false;
+                this.applicantId = response.ProcessVariables.applicantId;
+                this.scoreCardForm.patchValue({
+                    applicantId : this.applicantId
+                })
                 // this.riskLevel = this.scoreCard.totalScore;
                 // this.borrowerAttributes = this.scoreCard.borrowerAttribute;
                 // this.borrowerAssessments = this.scoreCard.borrowerAssessment;
@@ -111,7 +187,7 @@ export class ScoreCardComponent implements OnInit {
                 //     this.borrowerAssessments.length +
                 //     this.fieldVerifications.length + 1;
 
-
+                this.sharedService.setScoreCardId(this.scoreCardId)
                 this.scoreCard = JSON.parse(response.ProcessVariables.scoreCard);
                 this.riskLevel = this.scoreCard.totalScore;
             } else {

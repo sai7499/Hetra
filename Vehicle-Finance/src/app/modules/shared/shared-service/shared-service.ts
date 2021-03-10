@@ -12,6 +12,7 @@ export class SharedService {
     trancheId: any = {};
     isValuator: any;
     isReinitiate: any;
+    scoreCardId: any;
     
     browserPopState(data) {
         this.popStateActivity$.next(data)
@@ -174,6 +175,13 @@ export class SharedService {
     }
     getIsReinitiate() {
         return this.isReinitiate;
+    }
+
+    setScoreCardId(data) {
+        this.scoreCardId = data;
+    }
+    getScoreCardId() {
+        return this.scoreCardId;
     }
 
 }
