@@ -146,16 +146,7 @@ export class ScoreCardComponent implements OnInit {
             this.showError = true;
         }
       }
-      getApplicantList() {
-        const data = {
-          leadId: this.leadId,
-        };
-    
-        this.applicantService.getApplicantList(data).subscribe((value: any) => {
-          const processVariables = value.ProcessVariables;
-          this.applicantDetails = processVariables.applicantListForLead;
-        });
-      }
+
 
     reInitiateCreditScore() {
         this.result = [];
