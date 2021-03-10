@@ -725,6 +725,21 @@ export class ApiService {
       processId: 'cdeef696cda111ea89bf00505695f93b',
       projectId: environment.projectIds.camProjectId
     },
+    fetchTvrDetails: {
+      processId: 'dccb64b276a011ebb6e600505695f93b',
+      workflowId: 'dcabe23676a011ebb11300505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    getTvrLOV: {
+      workflowId: 'dcabe23676a011ebb11300505695f93b',
+      processId: '63af11967ca411eb961200505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
+    saveNewTVR: {
+      workflowId: '8940e534782f11eba55900505695f93b',
+      processId: '89612e7a782f11eb8f2a00505695f93b',
+      projectId: environment.projectIds.camProjectId
+    },
     getInsuranceLOV: {
       workflowId: '7ab11904cca811eaaa1200505695f93b',
       processId: '7aca596ecca811eaa4ed00505695f93b',
