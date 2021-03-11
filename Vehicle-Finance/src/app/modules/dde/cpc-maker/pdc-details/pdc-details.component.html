@@ -7,6 +7,7 @@
                     <span class="float-right">{{udfScreenId}}</span>
                 </h3>
             </div>
+
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-5"></div>
                 <div class="col-lg-7 col-md-7 col-sm-7 text-right">
@@ -60,7 +61,7 @@
                                 <div class="row col-lg-12 test_class" id="show_1_div_identity"
                                     style="margin-bottom: 8px;"
                                     *ngFor="let item of pdcForm.get('pdcList')['controls']; let i= index "
-                                    [formGroupName]="i" >
+                                    [formGroupName]="i">
 
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-emi-wid">
 
@@ -77,8 +78,7 @@
                                         <app-custom-input formControlName="instrNo"
                                             [maxLength]="labels?.validationData?.amountValue?.maxLength"
                                             [type]="labels?.validationData?.amountValue?.type"
-                                            [isRequired]="'*required'" [isDirty]="isDirty"
-                                            [placeholder]="'Instr No'"
+                                            [isRequired]="'*required'" [isDirty]="isDirty" [placeholder]="'Instr No'"
                                             (keyup)="findUnique($event.target.value, i, 'pdcList', 'spdcList')"
                                             [id]="'instrNo'+i+i"></app-custom-input>
                                     </div>
@@ -86,13 +86,13 @@
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-date">
                                         <!-- <div class="input-group input-medium"> -->
 
-                                            <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
-                                                [format]="'dd/MM/yyyy'" [min]="toDayDate"
-                                                placeholder="Select Month" [activeView]="'decade'"
-                                                (valueChange)="findUniqueDate($event, i, 'pdcList', 'spdcList')">
-                                            </kendo-datepicker>
+                                        <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
+                                            [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Select Month"
+                                            [activeView]="'decade'"
+                                            (valueChange)="findUniqueDate($event, i, 'pdcList', 'spdcList')">
+                                        </kendo-datepicker>
                                         <!-- </div> -->
-                                       
+
                                         <div class="invalid-feedback">
                                             <span *ngIf="isDirty && !f.pdcList.controls[i].controls.instrDate.value">
                                                 Select date </span>
@@ -108,9 +108,9 @@
 
                                         <div class="ng-autopopulate" style="width: 100%;word-wrap: break-word;">
 
-                                            <ng-autocomplete class="custom-select-box" 
-                                            [ngClass]="{ 'codeDisable disableCode': repaymentMode == '4LOSREPAY' }" [data]="searchBankNameList"
-                                                [searchKeyword]="keyword"
+                                            <ng-autocomplete class="custom-select-box"
+                                                [ngClass]="{ 'codeDisable disableCode': repaymentMode == '4LOSREPAY' }"
+                                                [data]="searchBankNameList" [searchKeyword]="keyword"
                                                 (selected)="selectBankNameEvent($event, item, i, 'instrBankName', 'pdcList')"
                                                 (inputChanged)='onBankNameSearch($event)'
                                                 (inputCleared)='onBankNameClear($event, item)'
@@ -120,8 +120,7 @@
                                             </ng-autocomplete>
 
                                             <div class="invalid-feedback">
-                                                <div
-                                                    *ngIf="isDirty && item.get('instrBankName').hasError('required')">
+                                                <div *ngIf="isDirty && item.get('instrBankName').hasError('required')">
                                                     Bank name
                                                     required.</div>
                                                 <div *ngIf="item.get('instrBankName').hasError('minlength')"> Mininum 3
@@ -143,14 +142,12 @@
 
                                             <ng-autocomplete class="custom-select-box" [data]="searchBranchName"
                                                 [searchKeyword]="keyword"
-                                                
                                                 (selected)="selectIFSCCode($event, item, 'isPdc', i, 'instrBranchName', 'pdcList')"
                                                 (inputChanged)="onChangeBranch($event, item, i, 'pdcList')"
                                                 (inputCleared)='onBranchNameClear()'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
-                                                [placeHolder]="'Account Branch'" 
-                                                >
+                                                [placeHolder]="'Account Branch'">
                                             </ng-autocomplete>
                                             <!-- [disabled]="!item.get('isEnableBranch').value" -->
                                             <!-- [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }" -->
@@ -161,7 +158,8 @@
                                                     Branch
                                                     required.
                                                 </div>
-                                                <div *ngIf="item.get('instrBranchName').value && item.get('instrBranchName').value.length <= 2">
+                                                <div
+                                                    *ngIf="item.get('instrBranchName').value && item.get('instrBranchName').value.length <= 2">
                                                     Mininum 3 Charates
                                                     required</div>
                                             </div>
@@ -169,7 +167,8 @@
                                                 <a [innerHTML]="item"></a>
                                             </ng-template>
                                             <ng-template #notFoundBranch let-notFound>
-                                                <div *ngIf="item.get('instrBranchName').value.length >= 3" [innerHTML]="notFound"></div>
+                                                <div *ngIf="item.get('instrBranchName').value.length >= 3"
+                                                    [innerHTML]="notFound"></div>
                                             </ng-template>
                                         </div>
                                     </div>
@@ -204,6 +203,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-5"></div>
@@ -252,7 +252,7 @@
                                 <div class="row col-lg-12 test_class" style="margin-bottom: 8px;"
                                     id="show_1_div_identity"
                                     *ngFor="let item of pdcForm.get('spdcList')['controls']; let i= index "
-                                    [formGroupName]="i" >
+                                    [formGroupName]="i">
 
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-emi-wid">
                                         <app-custom-input formControlName="emiAmount"
@@ -274,11 +274,11 @@
                                     <div class="form-group col-lg-3 col-sm-6 col-md-3 cus-instr-date">
                                         <!-- <div class="input-group input-medium"> -->
 
-                                            <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
-                                                [format]="'dd/MM/yyyy'" [min]="toDayDate"
-                                                placeholder="Select Month" [activeView]="'decade'"
-                                                (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList'); changeSpdcList(item, i, 'instrDate', 'spdcList')">
-                                            </kendo-datepicker>
+                                        <kendo-datepicker class="form-control cus-z" formControlName="instrDate"
+                                            [format]="'dd/MM/yyyy'" [min]="toDayDate" placeholder="Select Month"
+                                            [activeView]="'decade'"
+                                            (valueChange)="findUniqueDate($event, i, 'spdcList', 'pdcList'); changeSpdcList(item, i, 'instrDate', 'spdcList')">
+                                        </kendo-datepicker>
                                         <!-- </div> -->
 
                                         <div class="invalid-feedback">
@@ -297,8 +297,8 @@
                                         <div class="ng-autopopulate" style="width: 100%;">
 
                                             <ng-autocomplete class="custom-select-box"
-                                            [ngClass]="{ 'codeDisable disableCode': repaymentMode == '4LOSREPAY' }" [data]="searchBankNameList"
-                                                [searchKeyword]="keyword"
+                                                [ngClass]="{ 'codeDisable disableCode': repaymentMode == '4LOSREPAY' }"
+                                                [data]="searchBankNameList" [searchKeyword]="keyword"
                                                 (selected)="selectBankNameEvent($event, item,i, 'instrBankName', 'spdcList')"
                                                 (inputChanged)='onBankNameSearch($event)'
                                                 (inputCleared)='onBankNameClear($event, item)'
@@ -308,8 +308,7 @@
                                             </ng-autocomplete>
 
                                             <div class="invalid-feedback">
-                                                <div
-                                                    *ngIf="isDirty && item.get('instrBankName').hasError('required')">
+                                                <div *ngIf="isDirty && item.get('instrBankName').hasError('required')">
                                                     Bank name
                                                     required.</div>
                                                 <div *ngIf="item.get('instrBankName').hasError('minlength')"> Mininum 3
@@ -332,14 +331,12 @@
 
                                             <ng-autocomplete class="custom-select-box" [data]="searchBranchName"
                                                 [searchKeyword]="keyword"
-                                                
                                                 (selected)="selectIFSCCode($event, item, 'isSpdc', i, 'instrBranchName', 'spdcList')"
                                                 (inputChanged)="onChangeBranch($event, item, i, 'spdcList')"
                                                 (inputCleared)='onBranchNameClear()'
                                                 [itemTemplate]="searchBranchTemplate"
                                                 [notFoundTemplate]="notFoundBranch" formControlName="instrBranchName"
-                                                [placeHolder]="'Account Branch'" 
-                                                >
+                                                [placeHolder]="'Account Branch'">
                                             </ng-autocomplete>
                                             <!-- [disabled]="!item.get('isEnableBranch').value" -->
                                             <!-- [ngClass]="{ 'codeDisable disableCode': !item.get('isEnableBranch').value }" -->
@@ -350,7 +347,8 @@
                                                     Branch
                                                     required.
                                                 </div>
-                                                <div *ngIf="item.get('instrBranchName').value && item.get('instrBranchName').value.length <= 2">
+                                                <div
+                                                    *ngIf="item.get('instrBranchName').value && item.get('instrBranchName').value.length <= 2">
                                                     Mininum 3 Charates
                                                     required</div>
                                             </div>
@@ -358,7 +356,8 @@
                                                 <a [innerHTML]="item"></a>
                                             </ng-template>
                                             <ng-template #notFoundBranch let-notFound>
-                                                <div *ngIf="item.get('instrBranchName').value.length >= 3" [innerHTML]="notFound"></div>
+                                                <div *ngIf="item.get('instrBranchName').value.length >= 3"
+                                                    [innerHTML]="notFound"></div>
                                             </ng-template>
                                         </div>
                                     </div>
@@ -389,6 +388,57 @@
                         </div>
                     </div>
                 </div>
+
+                <ng-container *ngIf="isDashboardField">
+                    <div style="border: 1px solid #ddd; border-radius: 4px;">
+                        <div class="row clearfix">
+
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">POD
+                                        Number</label>
+                                    <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
+                                        <app-custom-input [type]="'alpha-numeric'"
+                                            [placeholder]="'Proof Of Delivery Number'">
+                                        </app-custom-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
+                                        By</label>
+                                    <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
+                                        <app-custom-input [type]="'text'" [placeholder]="'User List'">
+                                        </app-custom-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
+                                        On</label>
+                                    <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
+                                        <kendo-datepicker class="form-control mandatory" [format]="'dd/MM/yyyy HH:mm'"
+                                            [activeView]="'decade'" [disabled]="true" [value]="currentDate">
+                                        </kendo-datepicker>
+                                    </div>
+                                    <label><i aria-hidden="true"
+                                            class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                                            id="add_more_documents_upload1a" (click)="uploadDoc()"></i></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
+                        <input class="ml" type="checkbox" (click)="isChecked = !isChecked" />
+                        <label for="frsd_required" style="margin-left: 10px;">Received Cheques </label>
+                    </div>
+                </ng-container>
+
             </div>
 
             <div>
@@ -397,7 +447,8 @@
                     (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
             </div>
-            <div class="row ">
+
+            <div class="row">
 
                 <div class="col-sm-5 text-right">
 
@@ -406,6 +457,9 @@
                     <button class="btn btn-primary dash_href marginAdd" type="button"
                         (click)="onBack()"><a>Back</a></button>
                     <button class="btn btn-primary dash_href marginAdd" (click)="onSave('save')"> Save </button>
+
+                    <button class="btn btn-primary dash_href marginAdd" *ngIf="isDashboardField"> {{isChecked ?
+                        'Acknowledge' : 'submit'}} </button>
 
                     <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a
                             data-toggle="modal" data-target="#myModal">Submit to CPC Checker</a></button>

@@ -14,6 +14,7 @@ import { DisbursementFormComponent } from '@modules/disbursement-section/disburs
 import { WelomceLetterComponent } from './welomce-letter/welomce-letter.component';
 import { DeliveryOrderComponent } from './delivery-order/delivery-order.component';
 import { RemarksComponent } from './remarks/remarks.component';
+import { AuthorizeComponent } from './authorize/authorize.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,10 @@ const routes: Routes = [
 		{
             path: 'remarks',
             component: RemarksComponent
+        },
+        {
+            path: 'authorize',
+            component: AuthorizeComponent
         },
         // {
         //     path: 'delivery-order',

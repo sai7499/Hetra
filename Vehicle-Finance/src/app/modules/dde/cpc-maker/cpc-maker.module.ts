@@ -18,12 +18,14 @@ import { DisbursementSectionModule } from '@modules/disbursement-section/disburs
 import { WelomceLetterComponent } from './welomce-letter/welomce-letter.component';
 import { DeliveryOrderComponent } from './delivery-order/delivery-order.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { AuthorizeComponent } from './authorize/authorize.component';
 // import { RemarksComponent } from './remarks/remarks.component';
 
 @NgModule({
   declarations: [
     CpcMakerDdeComponent,
     PdcDetailsComponent,
+    AuthorizeComponent,
     // RemarksComponent,
     // WelomceLetterComponent,
     // DeliveryOrderComponent
