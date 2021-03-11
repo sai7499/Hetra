@@ -71,12 +71,12 @@
                   <th role="columnheader" class="caption cus-wid">
                     {{ labels?.odDpd }}<sub class="star_blue_col">*</sub>
                   </th>
-                  <th role="columnheader" class="caption cus-wid">
+                  <!-- <th role="columnheader" class="caption cus-wid">
                     {{ labels?.highestDPDInLastSixM }}<sub class="star_blue_col">*</sub>
                   </th>
                   <th role="columnheader" class="caption cus-wid">
                     {{ labels?.highestDPDInLastTwelveM }}<sub class="star_blue_col">*</sub>
-                  </th>
+                  </th> -->
                   <th *ngIf="!disableSaveBtn" role="columnheader" class="caption">{{labels?.action}}</th>
                 </tr>
               </thead>
@@ -135,7 +135,7 @@
                       [maxLength]="labels?.validationData?.percentage?.maxLength" [isRequired]="'DPD mandatory'">
                     </app-custom-input>
                   </td>
-                  <td data-title="Highest DPD in last 6M" class="cus-wid">
+                  <!-- <td data-title="Highest DPD in last 6M" class="cus-wid">
                     <app-vf-custom-select [values]="odListLov?.highestDpd">
                     </app-vf-custom-select>
                   </td>
@@ -143,7 +143,7 @@
                   <td data-title="Highest DPD in last 12M" class="cus-wid">
                     <app-vf-custom-select [values]="odListLov?.highestDpd">
                     </app-vf-custom-select>
-                  </td>
+                  </td> -->
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
                     <!-- <i type="button" class="fa fa-trash" aria-hidden="true" id="delPOIbutton" value="Delete"
                       (click)="removeOdDetails(i)"></i> -->

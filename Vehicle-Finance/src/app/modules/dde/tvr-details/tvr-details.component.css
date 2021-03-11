@@ -1,4 +1,4 @@
-.text-underline {
+/* .text-underline {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -14,5 +14,28 @@
 @media (min-width:260px) and (max-width: 760px) {
   .mar-btm-15{
     margin-bottom:15px!important;
+  } 
+}*/
+  /* new */
+  .tvr-ucv .banner-con {
+    font-size: 15px;
+    margin:0;
+    border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
   }
-}
+  .tvr-ucv .panel-group, .tvr-ucv .form-group {
+      margin-bottom: 10px;
+  }
+  .tvr-ucv .panel-title {
+    font-size: 15px;
+  }
+  .tvr-ucv label {
+    font-size: 13px;
+      margin-top: 5px;
+  }
+  .font16{
+    font-size: 16px;
+  }
+  .db{
+    display: block;
+  }

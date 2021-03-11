@@ -12,6 +12,8 @@ export class SharedService {
     trancheId: any = {};
     isValuator: any;
     isReinitiate: any;
+    scoreCardId: any;
+
     isPdcData: any;
     
     browserPopState(data) {
@@ -177,6 +179,13 @@ export class SharedService {
         return this.isReinitiate;
     }
 
+    setScoreCardId(data) {
+        this.scoreCardId = data;
+    }
+    getScoreCardId() {
+        return this.scoreCardId;
+    }
+
     setPdcDetails(data: any) {
         this.isPdcData = data;
     }
@@ -184,4 +193,5 @@ export class SharedService {
     getIsPdcData() {
         return this.isPdcData;
     }
+
 }
