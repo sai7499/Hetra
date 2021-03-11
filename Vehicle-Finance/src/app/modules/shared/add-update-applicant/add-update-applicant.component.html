@@ -131,6 +131,7 @@
                     [isRequired]="'Mobile Number is required'" [maxLength]="validationData?.mobile?.maxLength"
                     [isDirty]="isDirty" [type]="validationData?.mobile?.type">
                   </app-custom-input>
+                  
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'NONINDIVENTTYP'">
                   <label for="mobile">{{ labels?.contactNumber }}
@@ -166,6 +167,7 @@
                     </div>
                   </div>
                 </div>
+                
 
                 <div *ngIf="applicantType == 'NONINDIVENTTYP'">
                   <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -202,7 +204,23 @@
                     [isRequired]="'Contact Person Name is Required'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
+                <!-- <div class="row col-sm-6 col-md-4 col-lg-12" *ngIf="isShowMismatch">
+                  <div class="col-sm-6 col-md-4 col-lg-6 ShowError" >
+                    Given mobile number is not matching with the number available in bank records, do you want to update with new mobile number?
+                  </div>
+                  <div class="col-sm-6 col-md-4 col-lg-6 text-left forRadio">
+                    <label class="radio-inline"> 
+                      <input type="radio" name='mobNo' 
+                      value="yes" [checked]="matchingDetails?.selectedMobYes === '1'" disabled>Yes
+                  </label>
+                  <label class="radio-inline">    
+                      <input type="radio" name='mobNo' 
+                      value="no" [checked]="matchingDetails?.selectedMobNo === '1'" disabled>No
+                  </label>
+                  </div>
+                </div> -->
               </div>
+              
               <!-- <div class="row">
                
               </div> -->
@@ -298,22 +316,32 @@
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                  <label for="aadharnumber">{{ labels?.loanTenorServiced }}
+                  <label for="aadharnumber">{{ labels?.currentEMILoan }}
                     <sub class="star_red_col">*</sub></label>
-                  <app-custom-input formControlName="loanTenorServiced"
-                    [maxLength]="validationData?.creditRiskScore.maxLength"
-                    [type]="validationData?.creditRiskScore.type" [isRequired]="'Loan Tenor Service is Required'"
+                  <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
+                    [type]="validationData?.amountValue.type" [isRequired]="labels?.currentEMILoan + ' ' + 'is Required'"
                     [isDirty]="isDirtyUcic">
                   </app-custom-input>
                 </div>
+                
               </div>
 
               <div class="row" *ngIf="productCategory == '1003' && fundingProgram == '27'">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                  <label for="aadharnumber">{{ labels?.currentEMILoan }}
+                  <label for="aadharnumber">{{ labels?.totalTenor }}
                     <sub class="star_red_col">*</sub></label>
-                  <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
-                    [type]="validationData?.amountValue.type" [isRequired]="'EMI of the Current Loan is Required'"
+                  <app-custom-input formControlName="totalTenor"
+                    [maxLength]="validationData?.creditRiskScore.maxLength"
+                    [type]="validationData?.creditRiskScore.type" [isRequired]="labels?.totalTenor + ' '+'is Required'"
+                    [isDirty]="isDirtyUcic">
+                  </app-custom-input>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                  <label for="aadharnumber">{{ labels?.loanTenorServiced }}
+                    <sub class="star_red_col">*</sub></label>
+                  <app-custom-input formControlName="loanTenorServiced"
+                    [maxLength]="validationData?.creditRiskScore.maxLength"
+                    [type]="validationData?.creditRiskScore.type" [isRequired]="labels?.loanTenorServiced + ' '+'is Required'"
                     [isDirty]="isDirtyUcic">
                   </app-custom-input>
                 </div>
@@ -397,6 +425,8 @@
                       Aadhaar Number should be 12 digits
                     </div>
                   </div>
+                  
+                  
 
 
                 </div>
@@ -459,6 +489,22 @@
 
                 </div>
               </div>
+              <!-- <div class="row" *ngIf="isShowMismatch">
+                <div class="col-sm-6 col-md-4 col-lg-5 ShowError" >
+                  Aadhaar number is not updated in bank records, do you want to update with the given Aadhaar number?
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-7 text-left forRadio">
+                  <label class="radio-inline"> 
+                    <input type="radio" name='adharNo' 
+                         value="yes" [checked]="matchingDetails?.selectedAdharYes === '1'" disabled>Yes
+                </label>
+                <label class="radio-inline">
+                    
+                    <input type="radio" name='adharNo' 
+                        value="no" [checked]="matchingDetails?.selectedAdharNo === '1'" disabled>No
+                </label>
+                </div>
+              </div> -->
               <!-- [patternCheck]="validationData?.drivingLicense?.patternCheck" -->
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
@@ -583,9 +629,8 @@
                   <app-custom-input formControlName="passportNumber" [patternCheck]="
                       validationData?.passportNumber?.patternCheck
                     " (keyup)="onPassportNumberChange()" [inputClass]="'text-uppercase'"
-                    [maxLength]="validationData?.passportNumber?.maxLength" [isRequired]="
-                      isPassportRequired ? 'Passport number is required' : ''
-                    " [isDirty]="isPassportRequired && isDirty" [type]="validationData?.passportNumber?.type">
+                    [maxLength]="validationData?.passportNumber?.maxLength" 
+                    [type]="validationData?.passportNumber?.type">
                   </app-custom-input>
                 </div>
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco"
@@ -670,9 +715,9 @@
                   <label for="mobile">{{ labels?.voterIdNumber }}</label>
                   <!-- [patternCheck]="validationData?.voterId?.patternCheck" -->
                   <app-custom-input formControlName="voterIdNumber" [maxLength]="validationData?.voterId?.maxLength"
-                    [patternCheck]="validationData?.voterId?.patternCheck" (keyup)="voterIdChange($event)"
-                    [inputClass]="'text-uppercase'" [isRequired]="isVoterRequired ? 'Voter id is required' : ''"
-                    [isDirty]="isVoterRequired && isDirty" [type]="validationData?.voterId?.type"></app-custom-input>
+                    [patternCheck]="validationData?.voterId?.patternCheck" 
+                    [inputClass]="'text-uppercase'" 
+                     [type]="validationData?.voterId?.type"></app-custom-input>
                 </div>
 
                 <div class="form-group col-sm-6 col-md-4 col-lg-4 margin-top-20" *ngIf="
@@ -1240,6 +1285,65 @@
 <app-negative-list-modal [showModal]="showNegativeListModal" [modalInput]="negativeModalInput"
   [udfScreenId]="negativeDedupeUdfScreenId" [udfGroupId]="negativeDedupeUGroupId" (onButtonClick)="negativeListModalListener($event)">
 </app-negative-list-modal>
+
+
+<!-- <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showUcicModal }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal" (click)="showUcicModal = false">&times;</button>
+        <h4 class="modal-title">
+          Existing customer mismatch details
+          <span class="float-right"></span>
+        </h4>
+        
+      </div>
+
+      <div class="modal-body">
+        <div class="row mismatch">
+          <div class="col-sm-6 col-md-4 col-lg-8 text-left">
+           <b>Mobile Number mismatch</b> 
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-4 text-left">
+            <label class="radio-inline"> 
+              <input type="radio" name='mobNo' 
+                   value="yes" (change)="checkmobileMatch($event.target.value)" >Yes
+          </label>
+          <label class="radio-inline">
+              
+              <input type="radio" name='mobNo' 
+                  value="no" (change)="checkmobileMatch($event.target.value)" >No
+          </label>
+          </div>
+        </div>
+        <div class="row mismatch">
+          <div class="col-sm-6 col-md-4 col-lg-8 text-left">
+           <b>Aadhaar Number mismatch</b>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-4 text-left">
+            <label class="radio-inline"> 
+              <input type="radio" name='adharNo' 
+                   value="yes" (change)="checkAdharMatch($event.target.value)" >Yes
+          </label>
+          <label class="radio-inline">
+              
+              <input type="radio" name='adharNo' 
+                  value="no" (change)="checkAdharMatch($event.target.value)">No
+          </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_dlead"
+          (click)="showUcicModal = false ; isShowMismatch= true" [disabled]="isdisableUcicOk">
+          
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
 
 <!-- Footer -->
 <!-- <footer class="footer pf mob-font">

@@ -146,6 +146,8 @@ export class ApplicantListComponent implements OnInit {
     this.applicantDataStoreService.setDedupeFlag(false);
     this.applicantDataStoreService.setPanValidate(false);
     this.applicantDataStoreService.setDetectvalueChange(false)
+    this.applicantDataStoreService.setDetectActivity(false)
+    this.applicantDataStoreService.setMatchingDetails(null)
 
     setTimeout(() => {
       const operationType = this.toggleDdeService.getOperationType();

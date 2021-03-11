@@ -267,6 +267,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   negativeDedupeUdfScreenId: string = '';
   negativeDedupeUGroupId: string = 'APG004';
   businessMand: boolean;
+  isCheckAdharMatch: boolean;
+  isCheckMobMatch: boolean;
+  isShowMismatch : boolean;
+  matchingDetails: any;
 
 
 
@@ -527,6 +531,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         prevLoanAmount: dedupeValues.prevLoanAmount || '',
         loanTenorServiced:
           dedupeValues.loanTenorServiced || '',
+          totalTenor : dedupeValues.totalTenor || '',
         currentEMILoan: dedupeValues.currentEMILoan || '',
         agriNoOfAcres: dedupeValues.agriNoOfAcres || '',
         agriOwnerProperty:
@@ -818,79 +823,48 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const dedupe = this.coApplicantForm.get('dedupe');
     if (this.applicantType == 'NONINDIVENTTYP') {
       if (!this.isPanDisabled) {
-        //this.panPattern = {};
         this.panRequired = false;
-        // dedupe.patchValue({
-        //   pan: null,
-        // });
         dedupe.get('pan').disable();
+        dedupe.get('pan').clearValidators();
+        dedupe.get('pan').updateValueAndValidity();
       } else {
         dedupe.get('pan').enable();
-        //this.panPattern = this.panFormPattern;
+        dedupe.get('pan').setValidators(Validators.required);
+        dedupe.get('pan').updateValueAndValidity();
+        
         this.panRequired = true;
+        setTimeout(() => {
+          dedupe.patchValue({
+            pan: null,
+          });
+        });
 
       }
-      setTimeout(() => {
-        dedupe.patchValue({
-          pan: null,
-        });
-      });
+      
     } else {
-      const passportValue = dedupe.get('passportNumber').value;
-      const voterId = dedupe.get('voterIdNumber').value;
 
       this.isVoterFirst = true;
       this.isPassportFirst = true;
       if (!this.isPanDisabled) {
-        //this.panPattern = {};
         this.panRequired = false;
         dedupe.get('pan').disable();
-        if (!voterId) {
-
-          this.isPassportRequired = true;
-          setTimeout(() => {
-            dedupe.get('passportNumber').setValue(passportValue || null);
-          })
-        }
-        if (!passportValue) {
-          this.isVoterRequired = true;
-          setTimeout(() => {
-            dedupe.get('voterIdNumber').setValue(voterId || null);
-          })
-        }
-        const dedupeFlag = this.applicantDataService.getDedupeFlag();
-
-        if (!dedupeFlag && !voterId && !passportValue) {
-          this.toasterService.showInfo(
-            'You should enter either passport or voter id',
-            ''
-          );
-        }
-        //this.voterIdListener = this.listenerVoterId();
-        //this.passportListener = this.listenerPassport();
-
-        // dedupe.get('passportNumber').setValue(passportValue || null);
+        dedupe.get('pan').clearValidators();
+        dedupe.get('pan').updateValueAndValidity();
+        
+        setTimeout(() => {
+          dedupe.patchValue({
+            pan: null,
+          });
+        });
       } else {
         dedupe.get('pan').enable();
-        //this.panPattern = this.panFormPattern;
+        dedupe.get('pan').setValidators(Validators.required);
+        dedupe.get('pan').updateValueAndValidity();
+  
         this.panRequired = true;
-        this.isPassportRequired = false;
-        this.isVoterRequired = false;
-        if (this.voterIdListener) {
-          this.voterIdListener.unsubscribe();
-        }
-        if (this.passportListener) {
-          this.passportListener.unsubscribe();
-        }
       }
 
-      setTimeout(() => {
-        dedupe.patchValue({
-          pan: null,
-          passportNumber: passportValue || null,
-          voterIdNumber: voterId || null,
-        });
-      });
+      
     }
   }
 
@@ -1058,14 +1032,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.passportMandatory['passportIssueDate'] = true;
       this.passportMandatory['passportExpiryDate'] = true;
 
-      this.isVoterRequired = false;
-      setTimeout(() => {
-        const voter = this.coApplicantForm.get('dedupe').get('voterIdNumber').value;
-        this.coApplicantForm
-          .get('dedupe')
-          .get('voterIdNumber')
-          .setValue(voter || null);
-      });
+      // this.isVoterRequired = false;
+      // setTimeout(() => {
+      //   const voter = this.coApplicantForm.get('dedupe').get('voterIdNumber').value;
+      //   this.coApplicantForm
+      //     .get('dedupe')
+      //     .get('voterIdNumber')
+      //     .setValue(voter || null);
+      // });
     } else {
 
       if (this.coApplicantForm.get('dedupe').get('passportNumber').value == ''
@@ -1085,12 +1059,12 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //this.coApplicantForm.get('dedupe').updateValueAndValidity();
       this.passportMandatory['passportIssueDate'] = false;
       this.passportMandatory['passportExpiryDate'] = false;
-      if (!this.isPanDisabled) {
-        this.isVoterRequired = true;
-        setTimeout(() => {
-          this.coApplicantForm.get('dedupe').get('voterIdNumber').updateValueAndValidity();
-        });
-      }
+      // if (!this.isPanDisabled) {
+      //   this.isVoterRequired = true;
+      //   setTimeout(() => {
+      //     this.coApplicantForm.get('dedupe').get('voterIdNumber').updateValueAndValidity();
+      //   });
+      // }
     }
 
   }
@@ -1290,6 +1264,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const applicant: Applicant = {
         ...processVariables,
       };
+      const isFromDedupe = this.applicantDataService.getDetectActivity();
+      this.matchingDetails = this.applicantDataService.getMatchingDetails();
+      console.log('selDetails', this.matchingDetails)
+
 
       if (processVariables.ucic) {
 
@@ -1306,6 +1284,10 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.coApplicantForm.get('dedupe').disable();
           this.enableUsedCarFields(applicantDetails)
         }
+        this.isShowMismatch = isFromDedupe ? true : false;
+        //this.isShowMismatch = true;
+
+
       }
       this.ekycDone = processVariables.ekycDone;
       if (!processVariables.ucic) {
@@ -1438,6 +1420,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     dedupe.get('rtrType').enable();
     dedupe.get('prevLoanAmount').enable();
     dedupe.get('loanTenorServiced').enable();
+    dedupe.get('totalTenor').enable();
+    
     dedupe.get('currentEMILoan').enable();
     dedupe.get('agriNoOfAcres').enable();
     dedupe.get('agriOwnerProperty').enable();
@@ -1482,11 +1466,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
       const houseOwner = this.coApplicantForm.get('dedupe').get('houseOwnerProperty').value;
-      const ownHouseAppRelationship = this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').value
-      this.coApplicantForm.get('dedupe').patchValue({
-        houseOwnerProperty: houseOwner,
-        ownHouseAppRelationship: ownHouseAppRelationship
-      })
+      // const ownHouseAppRelationship = this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').value
+      // this.coApplicantForm.get('dedupe').patchValue({
+      //   houseOwnerProperty: houseOwner,
+      //   ownHouseAppRelationship: ownHouseAppRelationship
+      // })
       this.enableOwnerProperty()
 
     } else {
@@ -1549,6 +1533,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
       loanTenorServiced: new FormControl(''),
+      totalTenor: new FormControl(''),
       currentEMILoan: new FormControl(''),
       agriNoOfAcres: new FormControl(''),
       agriOwnerProperty: new FormControl(''),
@@ -1765,6 +1750,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         prevLoanAmount: applicantValue.applicantDetails.prevLoanAmount || '',
         loanTenorServiced:
           applicantValue.applicantDetails.loanTenorServiced || '',
+          totalTenor : applicantValue.applicantDetails.totalTenor || '',
         currentEMILoan: applicantValue.applicantDetails.currentEMILoan || '',
         agriNoOfAcres: applicantValue.applicantDetails.agriNoOfAcres || '',
         agriOwnerProperty:
@@ -1969,6 +1955,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       }
     }
     if (this.checkedModifyCurrent) {
+      this.addDisabledCheckBox = true;
       if (!this.isDisabledCheckbox && this.isPermanantAddressSame) {
         this.disablePermanentAddress();
         this.disableCurrentAddress();
@@ -2877,6 +2864,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
 
+
   }
 
   storeNonIndividualValueInService(coApplicantModel) {
@@ -3096,6 +3084,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.applicantDetails.rtrType = coApplicantModel.dedupe.rtrType,
       this.applicantDetails.prevLoanAmount = coApplicantModel.dedupe.prevLoanAmount,
       this.applicantDetails.loanTenorServiced = Number(coApplicantModel.dedupe.loanTenorServiced),
+      this.applicantDetails.totalTenor = Number(coApplicantModel.dedupe.totalTenor),
       this.applicantDetails.currentEMILoan = coApplicantModel.dedupe.currentEMILoan,
       this.applicantDetails.agriNoOfAcres = Number(coApplicantModel.dedupe.agriNoOfAcres),
       this.applicantDetails.agriOwnerProperty = coApplicantModel.dedupe.agriOwnerProperty,
@@ -3212,6 +3201,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dedupe.get('rtrType').invalid ||
       dedupe.get('prevLoanAmount').invalid ||
       dedupe.get('loanTenorServiced').invalid ||
+      dedupe.get('totalTenor').invalid ||
       dedupe.get('currentEMILoan').invalid ||
       dedupe.get('agriNoOfAcres').invalid ||
       dedupe.get('agriOwnerProperty').invalid ||
@@ -3238,6 +3228,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dedupe.get('rtrType').invalid ||
       dedupe.get('prevLoanAmount').invalid ||
       dedupe.get('loanTenorServiced').invalid ||
+      dedupe.get('totalTenor').invalid ||
       dedupe.get('currentEMILoan').invalid ||
       dedupe.get('agriNoOfAcres').invalid ||
       dedupe.get('agriOwnerProperty').invalid ||
@@ -3367,6 +3358,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       dedupe.get('prevLoanAmount').updateValueAndValidity();
       dedupe.get('loanTenorServiced').setValidators([Validators.required]);
       dedupe.get('loanTenorServiced').updateValueAndValidity();
+      dedupe.get('totalTenor').setValidators([Validators.required]);
+      dedupe.get('totalTenor').updateValueAndValidity();
       dedupe.get('currentEMILoan').setValidators([Validators.required]);
       dedupe.get('currentEMILoan').updateValueAndValidity();
     }
@@ -3401,14 +3394,14 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   checkDedupe() {
     console.log('dedupe', this.coApplicantForm.get('dedupe'));
 
-    if (this.hideMsgForOwner) {
-      const houseOwner = this.coApplicantForm.get('dedupe').get('houseOwnerProperty').value;
-      const ownHouseAppRelationship = this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').value
-      this.coApplicantForm.get('dedupe').patchValue({
-        houseOwnerProperty: houseOwner,
-        ownHouseAppRelationship: ownHouseAppRelationship
-      })
-    }
+    // if (this.hideMsgForOwner) {
+    //   const houseOwner = this.coApplicantForm.get('dedupe').get('houseOwnerProperty').value;
+    //   const ownHouseAppRelationship = this.coApplicantForm.get('dedupe').get('ownHouseAppRelationship').value
+    //   this.coApplicantForm.get('dedupe').patchValue({
+    //     houseOwnerProperty: houseOwner,
+    //     ownHouseAppRelationship: ownHouseAppRelationship
+    //   })
+    // }
     this.applicantDataService.setDedupeFlag(false);
     this.storeAdharFlag = false;
     const dedupe = this.coApplicantForm.get('dedupe');
@@ -3429,7 +3422,6 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.toasterService.showError('There should be only one main applicant for this lead', '');
         return;
       }
-
       this.storeNonIndividualDedupeValue();
     } else {
 
@@ -3515,6 +3507,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanTenorServiced: applicantDetails.loanTenorServiced
         ? Number(applicantDetails.loanTenorServiced)
         : 0,
+        totalTenor:  applicantDetails.totalTenor
+        ? Number(applicantDetails.totalTenor)
+        : 0,
       currentEMILoan: applicantDetails.currentEMILoan || '',
       agriNoOfAcres: applicantDetails.agriNoOfAcres
         ? Number(applicantDetails.agriNoOfAcres)
@@ -3599,6 +3594,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanTenorServiced: applicantDetails.loanTenorServiced
         ? Number(applicantDetails.loanTenorServiced)
         : 0,
+        totalTenor: applicantDetails.totalTenor
+        ? Number(applicantDetails.totalTenor)
+        : 0,
       currentEMILoan: applicantDetails.currentEMILoan || '',
       agriNoOfAcres: applicantDetails.agriNoOfAcres
         ? Number(applicantDetails.agriNoOfAcres)
@@ -3663,7 +3661,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
 
-        } else {
+        } 
+        else {
           this.toasterService.showError(
             value.ProcessVariables.error.message,
             'Dedupe'

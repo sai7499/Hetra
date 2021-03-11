@@ -55,6 +55,7 @@ export class ApplicantResolveService implements Resolve<boolean> {
             ...processVariables,
           };
           this.applicantDataStoreService.setApplicant(applicant);
+          this.applicantDataStoreService.setNatureOfBorrower(applicant.natureOfBorrower)
           return true;
         }
         return false;

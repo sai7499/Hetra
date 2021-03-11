@@ -9,6 +9,7 @@ import { DetectBrowserActivityService } from '@services/detect-browser-activity.
 import { PddComponent } from '@modules/shared/pdd-screen/pdd.component';
 import { LeadUploadComponent } from '@modules/lead-upload/lead-upload.component';
 import { LabelsResolverService } from '@services/lablesresolver.service';
+import { DeferralDocumentsComponent } from '@modules/shared/deferral-documents/deferral-documents.component';
 const routes: Routes = [
   {
     path: '',
@@ -298,6 +299,11 @@ const routes: Routes = [
       {
         path: 'pdd/:leadId',
         component: PddComponent,
+        resolve: { leadData: LeadDataResolverService },
+      },
+      {
+        path: 'deferral-documents/:leadId',
+        component: DeferralDocumentsComponent,
         resolve: { leadData: LeadDataResolverService },
       }
     ],
