@@ -49,6 +49,7 @@ import { SharedUserDefinedFieldsComponent } from './shared-user-defined-fields/s
 
 import { WindowModule } from '@progress/kendo-angular-dialog';
 import { CustomModalComponent } from './custom-modal/custom-modal.component';
+import { DeferralDocumentsComponent } from './deferral-documents/deferral-documents.component';
 setTheme('bs4');
 
 @NgModule({
@@ -82,7 +83,8 @@ setTheme('bs4');
     WelomceLetterComponent,
     InAppcameraComponent,
     SharedUserDefinedFieldsComponent,
-    CustomModalComponent
+    CustomModalComponent,
+    DeferralDocumentsComponent
   ],
   imports: [
     CommonModule,

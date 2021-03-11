@@ -8,6 +8,8 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -35,7 +37,7 @@ import {
   ],
 })
 export class CustomInputComponent
-  implements ControlValueAccessor, Validator, AfterViewInit {
+  implements ControlValueAccessor, Validator, AfterViewInit, OnChanges {
   defaultMaxLength = 100;
   maxLengthValidation: {
     rule?: number;
@@ -102,8 +104,20 @@ export class CustomInputComponent
   };
 
   decimalTimeOut;
-
+  isFirstChange = true;
   constructor(private elementRef: ElementRef) { }
+
+  ngOnChanges(simpleChanges: SimpleChanges) {
+   console.log('simpleChanges',simpleChanges);
+   const isRequired = simpleChanges.isRequired || null;
+   if (isRequired) {
+     if (this.isFirstChange) {
+       return this.isFirstChange = false;
+     }
+    this.checkValidation(this.data);
+   }
+
+  }
 
   ngAfterViewInit() {
     this.htmlInputElement = this.customInput;

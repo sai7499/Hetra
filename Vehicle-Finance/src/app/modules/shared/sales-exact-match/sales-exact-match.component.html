@@ -285,38 +285,59 @@
       </div>
     </form>
 
-    <!-- <div class="text-right">
-    <a href="#">
-      <button
-        class="btn btn-primary js-btn-prev"
-        type="button"
-        data-toggle="modal"
-        data-target="#myModal"
-      >
-        Reject Lead
-      </button></a
-    >
-    <button
-      class="btn btn-primary mar-right8"
-      id="proceed_without_sumbit"
-      data-toggle="modal"
-      data-target="#newLeadModal"
-    >
-      Continue as new applicant
-    </button>
-     <a href="sales_application_details.html" ><button class="btn btn-primary mar-right8 probable_table" id="proceed_without_sumbit" > Continue as new applicant </button></a> 
-    <button
-      class="btn btn-primary"
-      type="button"
-      id="proceed_new_button"
-      data-toggle="modal"
-      data-target="#ucicModel"
-      disabled=""
-    >
-      Continue with selected UCIC
-    </button>
-  </div>-->
+    <!-- <div>
+      <h3 class="banner-sub">Mismatch in existing customer details</h3>
+      <div class="row col-sm-12 col-md-12 col-lg-12 mismatch">
+        <div class="col-sm-6 col-md-5 col-lg-8">
+          Given mobile number is not matching with the number available in bank records, do you want to update with new mobile number?
+         </div>
+         <div class="col-sm-6 col-md-5 col-lg-4">
+           <label class="radio-inline"> 
+             <input type="radio" name='mobNo' 
+                  value="yes" [disabled]="isDisableMobMatch" (change)="checkmobileMatch($event.target.value)" >Yes
+         </label>
+         <label class="radio-inline">
+             
+             <input type="radio" name='mobNo' 
+                 value="no" [disabled]="isDisableMobMatch" (change)="checkmobileMatch($event.target.value)" >No
+         </label>
+         <span class="row ShowError" *ngIf="isDirty && !isCheckMob">Please choose</span>
+         </div>
+        
+      </div>
+      <div class="row col-sm-12 col-md-12 col-lg-8 mismatch">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+         Mobile number as per records  :   {{selectedDetails?.mobile || '9123457890'}}
+         </div>
+         <div class="col-sm-6 col-md-6 col-lg-6 text-left">
+          Given Mobile number : {{dedupeParameter?.mobileNumber || '9000012345'}}
+         </div>
+      </div>
+
+      <div class="row col-sm-12 col-md-12 col-lg-12 mismatch">
+        <div class="col-sm-6 col-md-6 col-lg-8">
+          Aadhaar number is not updated in bank records, do you want to update with the given Aadhaar number?
+         </div>
+         <div class="col-sm-6 col-md-6 col-lg-4">
+           <label class="radio-inline"> 
+             <input type="radio" name='adharNo' 
+                  value="yes" [disabled]="isDisableAdharMatch" (change)="checkAdharMatch($event.target.value)" >Yes
+         </label>
+         <label class="radio-inline">
+             
+             <input type="radio" name='adharNo' 
+                 value="no" [disabled]="isDisableAdharMatch" (change)="checkAdharMatch($event.target.value)" >No
+         </label>
+          <span class="row ShowError" *ngIf="isDirty && !isCheckAdhar">Please choose</span>
+         </div>
+      </div>
+      
+    </div> -->
+    
+
+    
   </div>
+  
 </main>
 
 <div class="btn-sec clear-both row">
