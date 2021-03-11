@@ -68,7 +68,7 @@
                       }}<sub class="star_red_col">*</sub>
                     </th>
                   </ng-container>
-                  <th role="columnheader" class="caption cus-wid">
+                  <th role="columnheader" class="caption">
                     {{ labels?.odDpd }}<sub class="star_blue_col">*</sub>
                   </th>
                   <!-- <th role="columnheader" class="caption cus-wid">
@@ -129,7 +129,7 @@
                     </div>
                   </td>
                   <!-- </ng-container> -->
-                  <td data-title="DPD" class="cus-wid">
+                  <td data-title="DPD">
                     <app-custom-input formControlName="odDpd" [placeholder]="'DPD'"
                       [type]="labels?.validationData?.percentage?.type" [className]="'form-control mandatory'"
                       [maxLength]="labels?.validationData?.percentage?.maxLength" [isRequired]="'DPD mandatory'">
