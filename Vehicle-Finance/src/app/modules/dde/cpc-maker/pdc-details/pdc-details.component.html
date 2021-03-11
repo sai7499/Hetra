@@ -389,52 +389,55 @@
                     </div>
                 </div>
 
-                <div style="border: 1px solid #ddd; border-radius: 4px;">
-                    <div class="row clearfix">
+                <ng-container *ngIf="isDashboardField">
+                    <div style="border: 1px solid #ddd; border-radius: 4px;">
+                        <div class="row clearfix">
 
-                        <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
-                            <div class="form-group">
-                                <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">POD
-                                    Number</label>
-                                <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
-                                    <app-custom-input [type]="'alpha-numeric'"
-                                        [placeholder]="'Proof Of Delivery Number'">
-                                    </app-custom-input>
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">POD
+                                        Number</label>
+                                    <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
+                                        <app-custom-input [type]="'alpha-numeric'"
+                                            [placeholder]="'Proof Of Delivery Number'">
+                                        </app-custom-input>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
-                            <div class="form-group">
-                                <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
-                                    By</label>
-                                <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
-                                    <app-custom-input [type]="'text'" [placeholder]="'User List'">
-                                    </app-custom-input>
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
+                                        By</label>
+                                    <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
+                                        <app-custom-input [type]="'text'" [placeholder]="'User List'">
+                                        </app-custom-input>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
-                            <div class="form-group">
-                                <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
-                                    On</label>
-                                <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
-                                    <kendo-datepicker class="form-control mandatory" [format]="'dd/MM/yyyy HH:mm'"
-                                        [activeView]="'decade'" [disabled]="true" [value]="currentDate">
-                                    </kendo-datepicker>
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
+                                        On</label>
+                                    <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
+                                        <kendo-datepicker class="form-control mandatory" [format]="'dd/MM/yyyy HH:mm'"
+                                            [activeView]="'decade'" [disabled]="true" [value]="currentDate">
+                                        </kendo-datepicker>
+                                    </div>
+                                    <label><i aria-hidden="true"
+                                            class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                                            id="add_more_documents_upload1a" (click)="uploadDoc()"></i></label>
                                 </div>
-                                <label><i aria-hidden="true" class="fa fa-upload fa-3 custom-file-label cursor-pointer"
-                                        id="add_more_documents_upload1a" (click)="uploadDoc()"></i></label>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
-                    <input class="ml" type="checkbox"/>
-                    <label for="frsd_required" style="margin-left: 10px;">Received Cheques </label>
-                </div>
+                    <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
+                        <input class="ml" type="checkbox" (click)="isChecked = !isChecked" />
+                        <label for="frsd_required" style="margin-left: 10px;">Received Cheques </label>
+                    </div>
+                </ng-container>
 
             </div>
 
@@ -455,17 +458,17 @@
                         (click)="onBack()"><a>Back</a></button>
                     <button class="btn btn-primary dash_href marginAdd" (click)="onSave('save')"> Save </button>
 
-                    <button class="btn btn-primary dash_href marginAdd"> Submit </button>
+                    <button class="btn btn-primary dash_href marginAdd" *ngIf="isDashboardField"> {{isChecked ?
+                        'Acknowledge' : 'submit'}} </button>
 
+                    <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a
+                            data-toggle="modal" data-target="#myModal">Submit to CPC Checker</a></button>
 
-                    <!-- <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a
-                                data-toggle="modal" data-target="#myModal">Submit to CPC Checker</a></button>
+                    <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
+                        *ngIf="roleType == '4'"> Send Back To Credit </button>
 
-                        <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
-                            *ngIf="roleType == '4'"> Send Back To Credit </button>
-
-                        <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"
-                            *ngIf="roleType == '5'"><a>Next</a></button> -->
+                    <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"
+                        *ngIf="roleType == '5'"><a>Next</a></button>
                 </div>
 
             </div>

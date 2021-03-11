@@ -60,6 +60,8 @@ export class PdcDetailsComponent implements OnInit {
   keyword: string = '';
 
   currentDate: Date = new Date();
+  isChecked: boolean = false;
+  isDashboardField: boolean;
 
   constructor(
     private loginStoreService: LoginStoreService,
