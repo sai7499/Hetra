@@ -124,6 +124,9 @@ export class BasicDetailsComponent implements OnInit {
   isAppNonInd: boolean;
   islastNameReq: boolean = true;
   isUCICavail: boolean;
+  natureOfBorArray: any = [];
+  natureOfBorrow: any = [];
+  borrowProfile: any = [];
 
   constructor(
     private labelsData: LabelsService,
@@ -606,6 +609,7 @@ export class BasicDetailsComponent implements OnInit {
       rtrType: applicantDetails.rtrType || '',
       prevLoanAmount: applicantDetails.prevLoanAmount,
       loanTenorServiced: applicantDetails.loanTenorServiced,
+      totalTenor: applicantDetails.totalTenor,
       currentEMILoan: applicantDetails.currentEMILoan,
       agriNoOfAcres: applicantDetails.agriNoOfAcres,
       agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
@@ -724,6 +728,12 @@ export class BasicDetailsComponent implements OnInit {
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
         aboutIndivProspectDetails.politicallyExposedPerson || '',
+        natureOfBorrower:
+        aboutIndivProspectDetails.natureOfBorrower || '',
+        ntsHrp:
+        aboutIndivProspectDetails.ntsHrp || '',
+        
+        
       alternateMobileNumber:
         aboutIndivProspectDetails.alternateMobileNumber || '',
       minorGuardianRelation:
@@ -938,6 +948,8 @@ export class BasicDetailsComponent implements OnInit {
       alternateMobileNumber: new FormControl(''),
       preferredLanguage: new FormControl('', Validators.required),
       politicallyExposedPerson: new FormControl(null, Validators.required),
+      natureOfBorrower: new FormControl(null, Validators.required),
+      ntsHrp: new FormControl({value : '', disabled : true}),
       designation: new FormControl(''),
       employerName: new FormControl(null),
       currentEmpYears: new FormControl(null),
@@ -964,6 +976,7 @@ export class BasicDetailsComponent implements OnInit {
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
       loanTenorServiced: new FormControl(''),
+      totalTenor: new FormControl(''),
       currentEMILoan: new FormControl(''),
       agriNoOfAcres: new FormControl(''),
       agriOwnerProperty: new FormControl(''),
@@ -1037,6 +1050,7 @@ export class BasicDetailsComponent implements OnInit {
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
       loanTenorServiced: new FormControl(''),
+      totalTenor: new FormControl(''),
       currentEMILoan: new FormControl(''),
       agriNoOfAcres: new FormControl(''),
       agriOwnerProperty: new FormControl(''),
@@ -1117,6 +1131,21 @@ export class BasicDetailsComponent implements OnInit {
       this.applicant = this.applicantDataService.getApplicant(); // To get Applicant details from api
       this.isUCICavail = this.applicant.ucic ? true : false;
       this.udfDetails = this.applicant.udfDetails;
+      this.natureOfBorArray = this.applicantDataService.getNatureOfBorrower();;
+
+    this.natureOfBorArray.map((data) => {
+      const borrow = {
+        key: data.id,
+        value: data.natureOfBorrower
+      }
+      const profile = {
+        key: data.customerProfile,
+        value: data.borrowerProfile
+      }
+
+      this.natureOfBorrow.push(borrow);
+      this.borrowProfile.push(profile)
+    })
       this.setBasicData();
       if (this.applicant.ucic) {
         if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
@@ -1485,6 +1514,8 @@ export class BasicDetailsComponent implements OnInit {
       details.get('prevLoanAmount').updateValueAndValidity();
       details.get('loanTenorServiced').setValidators([Validators.required]);
       details.get('loanTenorServiced').updateValueAndValidity();
+      details.get('totalTenor').setValidators([Validators.required]);
+      details.get('totalTenor').updateValueAndValidity();
       details.get('currentEMILoan').setValidators([Validators.required]);
       details.get('currentEMILoan').updateValueAndValidity();
     }
@@ -1716,6 +1747,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.rtrType = formValue.rtrType;
     applicantDetails.prevLoanAmount = formValue.prevLoanAmount;
     applicantDetails.loanTenorServiced = Number(formValue.loanTenorServiced);
+    applicantDetails.totalTenor = Number(formValue.totalTenor);
     applicantDetails.currentEMILoan = formValue.currentEMILoan;
     applicantDetails.agriNoOfAcres = Number(formValue.agriNoOfAcres);
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
@@ -1752,6 +1784,10 @@ export class BasicDetailsComponent implements OnInit {
       : '';
     prospectDetails.politicallyExposedPerson =
       formValue.politicallyExposedPerson;
+      prospectDetails.natureOfBorrower =
+      formValue.natureOfBorrower;
+      prospectDetails.ntsHrp =
+      formValue.ntsHrp;
     prospectDetails.spouseName = aboutIndivProspectDetails.spouseName
       ? aboutIndivProspectDetails.spouseName
       : '';
@@ -1872,6 +1908,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.rtrType = formValue.rtrType;
     applicantDetails.prevLoanAmount = formValue.prevLoanAmount;
     applicantDetails.loanTenorServiced = Number(formValue.loanTenorServiced);
+    applicantDetails.totalTenor = Number(formValue.totalTenor);
     applicantDetails.currentEMILoan = formValue.currentEMILoan;
     applicantDetails.agriNoOfAcres = Number(formValue.agriNoOfAcres);
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
@@ -2033,5 +2070,17 @@ export class BasicDetailsComponent implements OnInit {
     if (value.event === 'init') {
       this.initUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     }
+  }
+
+  onChangeBorrower(value) {
+    //console.log('value', value)
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    this.natureOfBorArray.forEach((data : any) => {
+      if (value === data.id) {
+        details.get('ntsHrp').setValue(data.customerProfile);
+        return;
+      }
+    })
   }
 }

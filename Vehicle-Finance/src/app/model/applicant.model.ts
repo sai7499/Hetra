@@ -12,6 +12,7 @@ export interface Applicant {
   addressDetails?: AddressDetails[];
   directorDetails?: DirectorDetails[];
   udfDetails? : any;
+  natureOfBorrower? : any
 }
 
 export interface ApplicantList {
@@ -51,6 +52,7 @@ export interface ApplicantDetails {
   rtrType?: string;
   prevLoanAmount?: string;
   loanTenorServiced?: number;
+  totalTenor?: number,
   currentEMILoan?: string;
   agriNoOfAcres?: number;
   agriOwnerProperty?: string;
@@ -102,7 +104,8 @@ export interface IndividualProspectDetails {
   minorGuardianRelation?: string;
   alternateMobileNumber?: string;
   politicallyExposedPerson?: string;
-  
+  natureOfBorrower? : string;
+  ntsHrp? : string;
   businessType? : string;
   businessName? : string;
   businessStartDate? : string;

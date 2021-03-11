@@ -29,6 +29,9 @@ export class ApplicantDataStoreService {
   isFemaleGender: boolean;
   applicantList : any=[]
   applicantUrl: any;
+  isUcic: boolean;
+  selectedMatchDeatils: any;
+  natureOfBorrower: any;
 
   setApplicant(applicant: Applicant) {
     const aboutIndivProspectDetails = applicant.aboutIndivProspectDetails
@@ -122,6 +125,13 @@ export class ApplicantDataStoreService {
   setUdfDatas(value) {
     console.log('udfValue', value)
     this.applicant.udfDetails = value;
+  }
+
+  setNatureOfBorrower(value){
+    this.natureOfBorrower = value;
+  }
+  getNatureOfBorrower(){
+    return this.natureOfBorrower
   }
 
   setApplicantId(applicantId) {
@@ -266,6 +276,20 @@ export class ApplicantDataStoreService {
 
   getUrl(){
    return this.applicantUrl
+  }
+  setDetectActivity(value : boolean){
+    this.isUcic = value;
+  }
+
+  getDetectActivity(){
+    return this.isUcic;
+  }
+
+  setMatchingDetails(value ){
+    this.selectedMatchDeatils = value
+  } 
+  getMatchingDetails(){
+    return this.selectedMatchDeatils
   }
 
 }

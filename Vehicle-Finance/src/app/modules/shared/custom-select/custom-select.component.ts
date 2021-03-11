@@ -6,6 +6,7 @@ import {
   OnChanges,
   Output,
   EventEmitter,
+  SimpleChanges,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -46,6 +47,7 @@ export class CustomSelectComponent
 
   inputError: boolean;
   isFirst: boolean = true;
+  isFirstChange = true;
 
   onChange: any = () => {};
   onTouch: any = () => {};
@@ -66,6 +68,7 @@ export class CustomSelectComponent
     this.valueChange.emit(selectedValue);
     this.checkValidation();
   }
+
 
   getSelectedObject() {
     return this.values && Array.isArray(this.values)
@@ -97,10 +100,19 @@ export class CustomSelectComponent
     }
   }
 
-  ngOnChanges() {
+  ngOnChanges(simpleChanges: SimpleChanges) {
     if (this.selectedOption) {
       this.onChange(this.val);
     }
+    //console.log('simpleChanges',simpleChanges);
+   const isRequired = simpleChanges.isRequired || null;
+   if (isRequired) {
+    if (this.isFirstChange) {
+      return this.isFirstChange = false;
+    }
+    this.checkValidation();
+   }
+
   }
 
   writeValue(val) {
