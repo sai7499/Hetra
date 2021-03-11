@@ -12,6 +12,7 @@ import { LoanCreationService } from '@services/loan-creation.service';
 import { CreateLeadDataService } from '@modules/lead-creation/service/createLead-data.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
 import { BankTransactionsService } from '@services/bank-transactions.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-pdc-details',
@@ -70,6 +71,7 @@ export class PdcDetailsComponent implements OnInit {
     private router: Router,
     private toasterService: ToasterService,
     private labelsService: LabelsService,
+    private location: Location,
     private fb: FormBuilder, private bankTransaction: BankTransactionsService,
     private pdcService: PdcServiceService,
     private utilityService: UtilityService,
@@ -871,7 +873,12 @@ export class PdcDetailsComponent implements OnInit {
 
   uploadDoc() {
     this.router.navigate([`pages/document-viewupload/${this.leadId}/collateral-documents`]);
-    this.sharedService.setPdcDetails({title: 'Pdc', docId: 160})
+    this.sharedService.setPdcDetails({title: 'Pdc', code: 160,
+    desc: "SECURITY_PDC",
+    displayName: "SECURITY_PDC",
+    subCatCode: 43})
+    const currentUrl = this.location.path();
+    localStorage.setItem('currentUrl', currentUrl);  
   }
 
   onChangeBranch(val, obj, rowIndex, formarray) {

@@ -5,69 +5,50 @@
         <span class="float-right">{{udfScreenId}}</span>
       </h4>
       <div class="panel-group" id="accordion">
-        <div
-          class="panel panel-default"
-          *ngFor="let subCat of subCategories; let i = index"
-          
-        >
-          <div
-            class="panel-heading"
-            id="headingThree"
-            class="panel-heading"
-            id="headingThree"
-            data-toggle="collapse"
-            data-parent="#accordion"
-            [attr.data-target]="'#collapse' + subCat.code"
-          >
-            <h4 class="panel-title">
-              <a class="collapsed" aria-expanded="false">
-                <!-- <i class="fa fa-address-card"></i>&nbsp; -->
-                {{ subCat.displayName }}
-                <i class="fa fa-angle-down"></i>
-              </a>
-            </h4>
-          </div>
-          <div
-            id="collapse{{ subCat.code }}"
-            class="panel-collapse collapse"
-            aria-expanded="false"
-            style="height: 0px;"
-          >
-            <div
-              formArrayName="{{ FORM_ARRAY_NAME }}_{{ subCat.code }}"
-              *ngFor="
+        <ng-container *ngFor="let subCat of subCategories; let i = index">
+          <div class="panel panel-default" *ngIf="subCat.displayName !== 'SIGNATURE'">
+            <div class="panel-heading" id="headingThree" class="panel-heading" id="headingThree" data-toggle="collapse"
+              data-parent="#accordion" [attr.data-target]="'#collapse' + subCat.code">
+              <h4 class="panel-title">
+                <a class="collapsed" aria-expanded="false">
+                  <!-- <i class="fa fa-address-card"></i>&nbsp; -->
+                  {{ subCat.displayName === 'PHOTO' ? 'PHOTO & SIGNATURE' : subCat.displayName }}
+                  <i class="fa fa-angle-down"></i>
+                </a>
+              </h4>
+            </div>
+            <div id="collapse{{ subCat.code }}" class="panel-collapse collapse" aria-expanded="false"
+              [ngClass]="{'in': subcategotyDocsId[subCat.code]}">
+              <div formArrayName="{{ FORM_ARRAY_NAME }}_{{ subCat.code }}" *ngFor="
                 let detail of uploadForm.get(
                   FORM_ARRAY_NAME + '_' + subCat.code
                 )['controls'];
                 let i = index
-              "
-             
-            >
-              <ng-container *ngIf="subCat.code === 1">
-                <div class="panel-body" [formGroupName]="i">
-                  <div class="photo">
-                    <img
-                      [src]="
+              ">
+
+                <ng-container *ngIf="subCat.code === 1 || subCat.code === 2">
+
+                  <div class="panel-body row">
+
+                    <div class="col-sm-6 col-lg-3 col-md-3">
+                      <div [formGroupName]="i">
+                        <h4>{{ subCat.displayName }}</h4>
+                        <div class="photo">
+                          <img [src]="
                         DEFAULT_PROFILE_IMAGE ||
                         '../../../../assets/images/user.jpg'
-                      "
-                      alt="[Image: Photo]"
-                      width="100"
-                      (click)="
+                      " alt="[Image: Photo]" width="100" (click)="
                           downloadDocs(
                             FORM_ARRAY_NAME + '_' + subCat.code,
                             i,
                             $event
                           )
-                        "
-                    />
-                  </div>
-                  <div class="form-group" style="margin-top: 15px;" *ngIf="!isLoan360">
-                    <!-- <label for="file">Upload photo</label>
+                        " />
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;" *ngIf="!isLoan360">
+                          <!-- <label for="file">Upload photo</label>
                       <input type="file" id="file" /> -->
-                    <button
-                      class="btn btn-primary"
-                      (click)="
+                          <button class="btn btn-primary" (click)="
                         uploadDocument(
                           FORM_ARRAY_NAME + '_' + subCat.code,
                           i,
@@ -76,38 +57,32 @@
                           PROFILE_TYPE,
                           'profile'
                         )
-                      "
-                    >
-                      Upload photo
-                    </button>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="subCat.code === 2">
-                <div class="panel-body" [formGroupName]="i">
-                  <div class="photo">
-                    <img
-                      [src]="
+                      ">
+                            Upload photo
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3 col-md-3">
+                      <div [formGroupName]="i">
+                        <h4>{{ 'SIGNATURE' }}</h4>
+                        <div class="photo">
+                          <img [src]="
                         DEFAULT_SIGNATURE_IMAGE ||
                         '../../../../assets/images/user.jpg'
-                      "
-                      alt="[Image: Photo]"
-                      width="100"
-                      (click)="
+                      " alt="[Image: Photo]" width="100" (click)="
                           downloadDocs(
                             FORM_ARRAY_NAME + '_' + subCat.code,
                             i,
                             $event
                           )
-                        "
-                    />
-                  </div>
-                  <div class="form-group" style="margin-top: 15px;" *ngIf="!isLoan360">
-                    <!-- <label for="file">Upload photo</label>
+                        " />
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;" *ngIf="!isLoan360">
+                          <!-- <label for="file">Upload photo</label>
                       <input type="file" id="file" /> -->
-                    <button
-                      class="btn btn-primary"
-                      (click)="
+                          <button class="btn btn-primary" (click)="
                         uploadDocument(
                           FORM_ARRAY_NAME + '_' + subCat.code,
                           i,
@@ -116,121 +91,94 @@
                           PROFILE_TYPE,
                           'signature'
                         )
-                      "
-                    >
-                      Upload photo
-                    </button>
-                  </div>
-                </div>
-              </ng-container>
-
-              <ng-container *ngIf="subCat.code !== 1 && subCat.code !== 2">
-                <div class="panel-body" id="show_1st_diva" [formGroupName]="i" >
-                  <div class="row">
-                    <div class="form-group col-sm-3 col-md-2">
-                      <label for="document">Document Name</label>
-                      <app-vf-custom-select
-                        formControlName="documentName"
-                        [values]="subCat.docList"
-                        [keyField]="'code'"
-                        [valueField]="'displayName'"
-                        (valueChange)="onDocumentSelect($event, subCat.code, i)"
-                      ></app-vf-custom-select>
-                    </div>
-                    <div
-                      class="form-group col-sm-3 col-md-2"
-                      *ngIf="subCat.code !== 3"
-                    >
-                      <label for="documentnumber">Document Number</label>
-                      <input formControlName="documentNumber" [maxlength]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.maxLength || null" 
-                      class="form-control" [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null" (keyup)="onDocumentNumberPress($event, i, subCat.code)"/>
-                      <div class="invalid-feedback" *ngIf="(docsList(subCat.code)?.controls[i]?.get('documentNumber')?.touched  || docsList(subCat.code)?.controls[i]?.get('documentNumber')?.dirty)">
-                        <div *ngIf="docsList(subCat.code)?.controls[i]?.get('documentNumber').errors?.pattern">
-                          {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
+                      ">
+                            Upload photo
+                          </button>
                         </div>
                       </div>
-                      <div class="invalid-feedback" *ngIf="docNumberError&& docError[FORM_ARRAY_NAME+'_'+subCat.code+'_'+i] && !docsList(subCat.code)?.controls[i]?.get('documentNumber')?.value">
-                        Please enter document number
-                      </div>
                     </div>
-  
-                    <div
-                      class="form-group col-sm-3 col-md-2"
-                      *ngIf="subCat.code !== 3"
-                    >
-                      <label for="idate">Issue Date</label>
-                      <div class="input-group input-medium">
-                        <kendo-datepicker
-                          class="form-control mandatory"
-                          formControlName="issueDate"
-                          [format]="'dd/MM/yyyy'"
-                          [max]="toDayDate"
-                          [activeView]="'decade'"
-                          placeholder="Issue Date"
-                          formControlName="issueDate"
-                        >
-                        </kendo-datepicker>
-                        <div class="invalid-feedback">
-                          <div *ngIf="checkDate(subCat.code, i, 'issueDate')">
-                            Invalid date
+
+                  </div>
+
+                </ng-container>
+
+                <ng-container *ngIf="subCat.code !== 1 && subCat.code !== 2">
+                  <div class="panel-body" id="show_1st_diva" [formGroupName]="i">
+                    <div class="row">
+                      <div class="form-group col-sm-3 col-md-2">
+                        <label for="document">Document Name</label>
+                        <app-vf-custom-select formControlName="documentName" [values]="subCat.docList"
+                          [keyField]="'code'" [valueField]="'displayName'"
+                          (valueChange)="onDocumentSelect($event, subCat.code, i)">
+                        </app-vf-custom-select>
+                      </div>
+                      <div class="form-group col-sm-3 col-md-2" *ngIf="subCat.code !== 3">
+                        <label for="documentnumber">Document Number</label>
+                        <input formControlName="documentNumber"
+                          [maxlength]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.maxLength || null"
+                          class="form-control"
+                          [pattern]="docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.pattern || null"
+                          (keyup)="onDocumentNumberPress($event, i, subCat.code)" />
+                        <div class="invalid-feedback"
+                          *ngIf="(docsList(subCat.code)?.controls[i]?.get('documentNumber')?.touched  || docsList(subCat.code)?.controls[i]?.get('documentNumber')?.dirty)">
+                          <div *ngIf="docsList(subCat.code)?.controls[i]?.get('documentNumber').errors?.pattern">
+                            {{docsValidation[docsList(subCat.code)?.controls[i]?.get('documentName').value]?.patternMsg}}
+                          </div>
+                        </div>
+                        <div class="invalid-feedback"
+                          *ngIf="docNumberError&& docError[FORM_ARRAY_NAME+'_'+subCat.code+'_'+i] && !docsList(subCat.code)?.controls[i]?.get('documentNumber')?.value">
+                          Please enter document number
+                        </div>
+                      </div>
+
+                      <div class="form-group col-sm-3 col-md-2" *ngIf="subCat.code !== 3">
+                        <label for="idate">Issue Date</label>
+                        <div class="input-group input-medium">
+                          <kendo-datepicker class="form-control mandatory" formControlName="issueDate"
+                            [format]="'dd/MM/yyyy'" [max]="toDayDate" [activeView]="'decade'" placeholder="Issue Date"
+                            formControlName="issueDate">
+                          </kendo-datepicker>
+                          <div class="invalid-feedback">
+                            <div *ngIf="checkDate(subCat.code, i, 'issueDate')">
+                              Invalid date
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      class="form-group col-sm-3 col-md-2"
-                      *ngIf="subCat.code !== 3"
-                    >
-                      <label for="edate">Expiry Date</label>
-                      <div class="input-group input-medium">
-                        <kendo-datepicker
-                          class="form-control mandatory"
-                          formControlName="dob"
-                          [format]="'dd/MM/yyyy'"
-                          [activeView]="'decade'"
-                          placeholder="Expiry Date"
-                          formControlName="expiryDate"
-                          [min]="
+                      <div class="form-group col-sm-3 col-md-2" *ngIf="subCat.code !== 3">
+                        <label for="edate">Expiry Date</label>
+                        <div class="input-group input-medium">
+                          <kendo-datepicker class="form-control mandatory" formControlName="dob" [format]="'dd/MM/yyyy'"
+                            [activeView]="'decade'" placeholder="Expiry Date" formControlName="expiryDate" [min]="
                             (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
                               .value | docsUpload: i) || toDayDate
-                          "
-                        >
-                        </kendo-datepicker>
-                        <div class="invalid-feedback">
-                          <div *ngIf="checkDate(subCat.code, i, 'expiryDate')">
-                            Invalid date
+                          ">
+                          </kendo-datepicker>
+                          <div class="invalid-feedback">
+                            <div *ngIf="checkDate(subCat.code, i, 'expiryDate')">
+                              Invalid date
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="form-group col-sm-3 col-md-2" (click)="downloadForLoan360(FORM_ARRAY_NAME + '_' + subCat.code,
+                      <div class="form-group col-sm-3 col-md-2" (click)="downloadForLoan360(FORM_ARRAY_NAME + '_' + subCat.code,
                     i,
                     $event)">
-                      <label>File</label>
-                      <input
-                        formControlName="file"
-                        name="input"
-                        type="text"
-                        class="form-control file-input"
-                        readonly
-                        (click)="
+                        <label>File</label>
+                        <input formControlName="file" name="input" type="text" class="form-control file-input" readonly
+                          (click)="
                           downloadDocs(
                             FORM_ARRAY_NAME + '_' + subCat.code,
                             i,
                             $event
                           )
-                        "
-                      />
-                    </div>
-                    <div class="form-group col-sm-3 col-md-2" *ngIf="!isLoan360">
-                      <label>Actions </label>
-                      <p>
-                        <label
-                          ><i
-                            class="fa fa-upload fa-3 custom-file-label"
-                            aria-hidden="true"
-                            id="add_more_documents_upload1a"
-                            (click)="
+                        " />
+                      </div>
+                      <div class="form-group col-sm-3 col-md-2" *ngIf="!isLoan360">
+                        <label>Actions </label>
+                        <p>
+                          <label><i class="fa fa-upload fa-3 custom-file-label" aria-hidden="true"
+                              id="add_more_documents_upload1a" (click)="
                               uploadDocument(
                                 FORM_ARRAY_NAME + '_' + subCat.code,
                                 i,
@@ -239,122 +187,116 @@
                                 OTHER_DOCS_TYPE,
                                 subCat.code !== 3 ? '' : 'biometric'
                               )
-                            "
-                          ></i></label
-                        >&nbsp;
-                        <i
-                          class="fa fa-plus fa-3"
-                          aria-hidden="true"
-                          id="add_more_documents1a"
-                          (click)="addDocumentFormControls(subCat.code)"
-                          *ngIf="subCat.code !== 3"
-                        ></i>
-                        &nbsp;
-                        <i
-                          class="fa fa-minus fa-3"
-                          aria-hidden="true"
-                          id="add_more_documents_remove1a"
-                          (click)="
+                            "></i></label>&nbsp;
+                          <i class="fa fa-plus fa-3" aria-hidden="true" id="add_more_documents1a"
+                            (click)="addDocumentFormControls(subCat.code)" *ngIf="subCat.code !== 3"></i>
+                          &nbsp;
+                          <i class="fa fa-minus fa-3" aria-hidden="true" id="add_more_documents_remove1a" (click)="
                             removeDocumentFormControls(
                               FORM_ARRAY_NAME + '_' + subCat.code,
                               i
                             )
-                          "
-                          *ngIf="subCat.code !== 3"
-                        ></i>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div
-                    class="col-sm-3 col-md-2"
-                    *ngIf="subCat.code !== 3"
-                    style="margin-top: 15px;"
-                  >
-                    <input
-                      formControlName="isDeferred"
-                      name="isDeferred"
-                      type="checkbox"
-                      (change)="toggleDeferralDate(subCat.code, i)"
-                    />
-                    <span id="address_section_checkbox_text" class="is-deferred"
-                      >&nbsp;isDeferred
-                    </span>
-                  </div>
-                  <div
-                    class="form-group col-sm-3 col-md-2"
-                    *ngIf="subCat.code !== 3"
-                  >
-                    <label for="edate">Deferral Date</label>
-                    <div class="input-group input-medium">
-                      <kendo-datepicker
-                        class="form-control mandatory"
-                        [format]="'dd/MM/yyyy'"
-                        [activeView]="'decade'"
-                        placeholder="Deferral Date"
-                        formControlName="deferredDate"
-                        [min]="
-                          (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
-                            .value | docsUpload: i) || toDayDate
-                        "
-                        [disabled]=""
-                      >
-                      </kendo-datepicker>
-                      <div class="invalid-feedback">
-                        <div *ngIf="checkDate(subCat.code, i, 'deferredDate')">
-                          Invalid date
-                        </div>
+                          " *ngIf="subCat.code !== 3"></i>
+                        </p>
                       </div>
                     </div>
+                    <div class="row" *ngIf="subCat.code !== 3">
+                      <!-- *ngIf="subCat.code !== 3" -->
+                      <div class="col-sm-3 col-md-2" style="margin-top: 15px;">
+                        <input formControlName="isDeferred" name="isDeferred" type="checkbox"
+                          (change)="toggleDeferralDate(subCat.code, i)" />
+                        <span id="address_section_checkbox_text" class="is-deferred">&nbsp;Is Deferred ?
+                        </span>
+                      </div>
+                      <div class="form-group col-sm-3 col-md-2">
+                        <label for="edate">Deferral Date</label>
+                        <div class="input-group input-medium">
+                          <kendo-datepicker class="form-control mandatory" [format]="'dd/MM/yyyy'"
+                            [activeView]="'decade'" placeholder="Deferral Date" formControlName="deferredDate" [min]="
+                          (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
+                            .value | docsUpload: i) || toDayDate
+                        " [disabled]="">
+                          </kendo-datepicker>
+                          <div class="invalid-feedback">
+                            <div *ngIf="checkDate(subCat.code, i, 'deferredDate')">
+                              Invalid date
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <ng-container
+                        *ngIf="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value">
+                        <div class="form-group col-sm-3 col-md-2">
+                          <label for="edate">Role Name</label>
+                          <div class="ng-autopopulate" style="width: 100%;">
+
+                            <ng-autocomplete class="custom-select-box" [data]="searchRole" [searchKeyword]="keyword"
+                              (selected)='selectRoleEvent($event)' (inputChanged)='onRoleSearch($event)'
+                              (inputCleared)='onRoleClear($event)' [itemTemplate]="favRoleNameTemplate"
+                              formControlName="documentRoleId" [notFoundTemplate]="notFoundTemplate"
+                              [placeHolder]="'Role Name'" [debounceTime]="400" [minQueryLength]="3">
+                            </ng-autocomplete>
+
+                            <ng-template #favRoleNameTemplate let-item>
+                              <a [innerHTML]="item"></a>
+                            </ng-template>
+                            <ng-template #notFoundTemplate let-notFound>
+                              <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                          </div>
+
+                        </div>
+
+                        <div class="form-group col-sm-3 col-md-2">
+                          <button class="btn btn-primary dash_href cus-mar" type="button" id="request"
+                            *ngIf="!isLoan360" (click)="onApproveRequest(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
+                            Request For Approval
+                          </button>
+                        </div>
+
+                        <div class="form-group col-sm-3 col-md-2">
+                          <label for="document">Status</label>
+                          <app-vf-custom-select formControlName="documentStatus" [values]="documentStatus">
+                          </app-vf-custom-select>
+                        </div>
+
+                      </ng-container>
+
+                    </div>
                   </div>
-                  </div>
-                </div>
-              </ng-container>
+                </ng-container>
+              </div>
             </div>
           </div>
-        </div>
+        </ng-container>
       </div>
     </div>
   </form>
 
-<div class="btn-sec clear-both row">
-  <!-- class="btn btn-primary dash_href" -->
-  <div class="col-sm-5">
-    <button class="btn btn-primary dash_href hvr-sweep-to-left"
-      (click)="navigateToApplicantList()"
-    *ngIf="isApplicantDetails">
-      Back To Applicant Details
-    </button>
+  <div class="btn-sec clear-both row">
+    <!-- class="btn btn-primary dash_href" -->
+    <div class="col-sm-5">
+      <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="navigateToApplicantList()"
+        *ngIf="isApplicantDetails">
+        Back To Applicant Details
+      </button>
+    </div>
+    <div class="col-sm-7 text-right">
+      <button class="btn btn-primary js-btn-prev dash_href hvr-sweep-to-left" type="button" (click)="navigateBack()">
+        Back
+      </button>
+      <button class="btn btn-primary dash_href" type="button" id="submit" (click)="onSubmit()" *ngIf="!isLoan360">
+        Save
+      </button>
+      <br />
+      <br /><br />
+    </div>
   </div>
-  <div class="col-sm-7 text-right">
-    <button
-      class="btn btn-primary js-btn-prev dash_href hvr-sweep-to-left"
-      type="button"
-      (click)="navigateBack()"
-    >
-      Back
-    </button>
-    <button
-      class="btn btn-primary dash_href"
-      type="button"
-      id="submit"
-      (click)="onSubmit()"
-      *ngIf="!isLoan360"
-    >
-      Save
-    </button>
-    <br />
-    <br /><br />
-  </div>
-</div>
 </div>
 
-<app-upload-modal
-  [showModal]="showModal"
-  (close)="showModal = false"
-  (uploadSuccess)="onUploadSuccess($event)"
-  [docsDetails]="selectedDocDetails"
-></app-upload-modal>
+<app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
+  [docsDetails]="selectedDocDetails"></app-upload-modal>
 
 <div class="modal" id="myModal" [ngClass]="{ 'dis-block': !!selectedDocsId }">
   <div class="modal-dialog">
@@ -371,20 +313,10 @@
       </div>
 
       <div class="modal-footer text-center">
-        <button
-          type="button"
-          class="btn btn-success"
-          data-dismiss="modal"
-          (click)="deleteDocument()"
-        >
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteDocument()">
           Yes
         </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          data-dismiss="modal"
-          (click)="selectedDocsId = null"
-        >
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="selectedDocsId = null">
           Cancel
         </button>
       </div>

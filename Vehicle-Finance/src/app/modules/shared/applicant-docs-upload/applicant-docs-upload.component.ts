@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 
 import { LovDataService } from 'src/app/services/lov-data.service';
@@ -25,6 +25,7 @@ import { ToasterService } from '@services/toaster.service';
 import { Constant } from '@assets/constants/constant';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '../shared-service/shared-service';
 @Component({
   selector: 'app-applicant-docs-upload',
   templateUrl: './applicant-docs-upload.component.html',
@@ -120,13 +121,19 @@ export class ApplicantDocsUploadComponent implements OnInit {
   isProfileSignUploaded: boolean;
   isLoan360: boolean;
   docNumberError: boolean = true;
- 
+
+  searchRole: any = [];
+  keyword: any = '';
+  subcategotyDocsId: any = {};
+  documentStatus: any = []
+
   constructor(
     private lovData: LovDataService,
     private router: Router,
     private labelsData: LabelsService,
     private applicantService: ApplicantService,
     private location: Location,
+    private sharedService: SharedService,
     private lovService: CommomLovService,
     private uploadService: UploadService,
     private utilityService: UtilityService,
@@ -297,6 +304,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
           this.DEFAULT_SIGNATURE_IMAGE = 'data:image/jpeg;base64,' + signature;
         }
         console.log('this.documentArr', this.documentArr);
+        this.documentArr.forEach((value) => {
+          if (value.documentType) {
+            this.subcategotyDocsId[value.subCategoryCode] = true;
+          }
+      });
         if (!docDetails) {
           this.subCategories.forEach((subCategory) => {
             const formArray = this.uploadForm.get(
@@ -344,6 +356,17 @@ export class ApplicantDocsUploadComponent implements OnInit {
         if (this.isLoan360) {
           this.uploadForm.disable();
         }
+
+        let PdcDetailsData = this.sharedService.getIsPdcData();
+
+        if (PdcDetailsData) {
+          const formArray = this.uploadForm.get(
+            `${this.FORM_ARRAY_NAME}_${PdcDetailsData.subCatCode}`
+          ) as FormArray;
+          formArray.push(this.getDocsFormControls());
+          formArray['controls'][formArray.length-1].get('documentName').setValue(PdcDetailsData.code)
+        }
+
       });
   }
 
@@ -415,6 +438,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
         {value : this.utilityService.getDateFromString(document.deferredDate) || '', disabled : !isDeferred? true : false}
         
       ),
+      documentRoleId: new FormControl(''),
+      documentStatus: new FormControl('')
     });
     return controls;
   }
@@ -743,8 +768,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
       isDeferred: isDeferred ? '1' : '0',
     };
   }
-
-  getProfileImage() { }
 
   async downloadDocs(formArrayName: string, index: number, event) {
     
@@ -1191,5 +1214,21 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   navigateBack() {
     this.router.navigateByUrl(localStorage.getItem('currentUrl'));
+  }
+
+  onRoleSearch(val) {
+
+  }
+
+  selectRoleEvent(val) {
+    
+  }
+
+  onRoleClear(event) {
+
+  }
+
+  onApproveRequest(obj, index, categoryCode) {
+
   }
 }
