@@ -1826,8 +1826,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
         }
         if (url.includes('dde')) {
 
+        if (this.productCatoryCode !== 'NCV') {
           data.insuranceValidFrom = data.insuranceValidFrom ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidFrom, 'DD/MM/YYYY') : '';
           data.insuranceValidTo = data.insuranceValidTo ? this.utilityService.convertDateTimeTOUTC(data.insuranceValidTo, 'DD/MM/YYYY') : '';
+        }
 
           data.fitnessDate = data.fitnessDate ? this.utilityService.convertDateTimeTOUTC(data.fitnessDate, 'DD/MM/YYYY') : '';
           data.permitExpiryDate = data.permitExpiryDate ? this.utilityService.convertDateTimeTOUTC(data.permitExpiryDate, 'DD/MM/YYYY') : '';
