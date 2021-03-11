@@ -162,7 +162,7 @@
     </div>
     <!-- Filter Form Ends -->
 
-    <!-- Sales Dashboard Ends -->
+    <!-- Sales Dashboard starts -->
     <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId != '66'">
 
         <ul class="nav nav-pills nav-justified" id="background_white">
@@ -350,6 +350,9 @@
                 [ngClass]="{'active':displayTabs?.VehicleValuvator === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Vehicle Valuation</a>
                     </li>
+            <li class="btn-dash" (click)="onLeads(displayTabs?.ApprovalDashboard)"
+                [ngClass]="{'active':displayTabs?.ApprovalDashboard === activeTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Approval Dashboard</a></li>
         </ul>
     </div>
 
@@ -626,7 +629,7 @@
     <div>
         <div class="container-fluid" style="position: sticky;overflow-x: hidden!important;">
             <table
-                *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.TranchesDisburse != activeTab">
+                *ngIf="displayTabs?.PDD != activeTab && displayTabs?.ChequeTracking != activeTab && displayTabs?.LoanBooking != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.TranchesDisburse != activeTab && displayTabs?.ApprovalDashboard != activeTab">
                 <thead>
                     <tr class="table-head-bg">
                         <th *ngIf="userName || displayTabs?.ExternalUser === subActiveTab">
@@ -1013,6 +1016,54 @@
                         </tr>
                     </tbody>
                 </table>
+
+
+<!-- Approval Dashboard Starts -->
+                <table *ngIf="displayTabs?.ApprovalDashboard === activeTab">
+                    <thead>
+                        <tr class="table-head-bg">
+                            <th>{{labels?.leadID}}&nbsp;
+                            </th>
+                            <th>{{labels?.applicantName}}&nbsp;
+                            </th>
+                            <th>Defferal Type&nbsp;
+                            </th>
+                            <th>Defferal Document Name&nbsp;
+                            </th>
+                            <th>Defferal Date
+                            </th>
+                            <th>Requested On
+                            </th>
+                            <th>Requested By
+                            </th>
+                            <th>{{labels?.action}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of approvalDashboard">
+                            <td>{{item.leadId}}</td>
+                            <td>{{item.applicantName}}</td>
+                            <td>{{item.defferalType}}</td>
+                            <td>{{item.defferalDocName}}</td>
+                            <td>{{item.defferalDate}}</td>
+                            <td>{{item.requestedOn}}</td>
+                            <td>{{item.requestedBy}}</td>
+                            <td class="text-center">
+                                <!-- <div style="margin-bottom: 2px;">
+                                    <input type="button" class="btn btn-primary" value="View DDE" >
+                                </div>
+                                <div style="margin-bottom: 2px;">
+                                <button style="width: 84px;" class="btn btn-success" data-toggle="modal" data-target="#approveModal">Approve</button>
+                                </div>
+                                <div style="margin-bottom: 2px;">
+                                    <button style="width: 84px;" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal">Reject</button>
+                                </div> -->
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div class="noDataFound" *ngIf="!isLoadLead">
@@ -1103,6 +1154,66 @@
     </div>
 
     <div class="modal" id="confirmSelfAssign">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float: left">Confirmation</h4>
+                    <div class="pull-right dropdown nav">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <!-- <select class="form-control" formControlName="product">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
+          </select> -->
+                    <p>Are you sure you want to assign task to yourself?</p>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" (click)="onSupervisorAssign()" class="btn btn-success">
+                        Yes
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        No
+                    </button>
+                    <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal2>
+                        close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="approveModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="float: left">Confirmation</h4>
+                    <div class="pull-right dropdown nav">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <!-- <select class="form-control" formControlName="product">
+            <option value=''>-- select one --</option>
+            <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
+          </select> -->
+                    <p>Are you sure you want to assign task to yourself?</p>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" (click)="onSupervisorAssign()" class="btn btn-success">
+                        Yes
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        No
+                    </button>
+                    <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal2>
+                        close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="rejectModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

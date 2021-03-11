@@ -307,6 +307,8 @@ export class SourcingDetailsComponent implements OnInit {
     const data = this.leadData;
 
     this.udfDetails = this.leadSectionData.udfDetails ? this.leadSectionData.udfDetails : [];
+    const scoreId = data.leadDetails.scoreCardApplicantId;
+    this.sharedService.setScoreCardId(scoreId);
 
     this.isChildLoan = data.leadDetails.isChildLoan;
     if (this.isChildLoan === '0') {
