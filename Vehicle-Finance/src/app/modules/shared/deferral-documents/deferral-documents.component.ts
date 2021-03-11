@@ -13,6 +13,7 @@ import { UtilityService } from '@services/utility.service';
 export class DeferralDocumentsComponent implements OnInit {
   deferralForm: FormGroup;
   toDayDate : Date = new Date();
+  isLoan360 : boolean = false;
   docArray = [
     { docName: 1, defDate: '09/01/2021', view: 68123, rcvdBy: 'BM', rcvdOn: '' },
     { docName: 2, defDate: '10/01/2021', view: 68123, rcvdBy: 'AM', rcvdOn: '' },
