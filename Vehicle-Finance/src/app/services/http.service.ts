@@ -95,10 +95,11 @@ export class HttpService {
 
   postMWithoutEncryption(url, body) {
     const obs = new Observable((observer) => {
+      // localStorage.getItem('token')
       const headers = {
         'Content-Type': 'text/html',
-        'authentication-token': localStorage.getItem('token')
-          ? localStorage.getItem('token')
+        'authentication-token': sessionStorage.getItem('token')
+          ? sessionStorage.getItem('token')
           : '',
       };
 
@@ -478,8 +479,8 @@ export class HttpService {
 
     const obs = new Observable((observer) => {
       let header = {
-        'authentication-token': localStorage.getItem('token')
-          ? localStorage.getItem('token')
+        'authentication-token': sessionStorage.getItem('token')
+          ? sessionStorage.getItem('token')
           : '',
       };
       //this.httpIonic.setServerTrustMode('nocheck');

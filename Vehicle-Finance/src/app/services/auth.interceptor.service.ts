@@ -55,8 +55,8 @@ export class AuthInterceptor implements HttpInterceptor {
     if (reqBody && reqBody.headers !== undefined) {
       token = reqBody.headers;
     } else if (reqBody) {
-      token = localStorage.getItem('token')
-        ? localStorage.getItem('token')
+      token = sessionStorage.getItem('token')
+        ? sessionStorage.getItem('token')
         : ''
     }
 
@@ -98,8 +98,8 @@ export class AuthInterceptor implements HttpInterceptor {
       req = req.clone({
         setHeaders: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'authentication-token': localStorage.getItem('token')
-            ? localStorage.getItem('token')
+          'authentication-token': sessionStorage.getItem('token')
+            ? sessionStorage.getItem('token')
             : '',
         },
       });
