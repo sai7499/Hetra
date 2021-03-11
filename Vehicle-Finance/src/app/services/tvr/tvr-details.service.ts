@@ -66,6 +66,29 @@ export class TvrDetailsService {
     return this.httpService.post(url, requestEntity);
   }
 
+  fetchTvrDetails(leadId) {
+ //   const processData = data;
+    const processId = this.apiService.api.fetchTvrDetails.processId;
+    const workflowId = this.apiService.api.fetchTvrDetails.workflowId;
+    const projectId = this.apiService.api.fetchTvrDetails.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId: processId,
+      ProcessVariables: {
+        "LeadID": leadId
+      },
+      workflowId: workflowId,
+      projectId: projectId
+      // processId,
+      // ProcessVariables: processData,
+      // // ProcessVariables: {applicantId: 481},
+      // workflowId,
+      // projectId,
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, requestEntity);
+  }
   submitTvrDetails(data) {
     const processData = data;
     const processId = this.apiService.api.submitTvrDetails.processId;
@@ -82,4 +105,37 @@ export class TvrDetailsService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, requestEntity);
   }
+  saveNewTvrDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.saveNewTVR.processId;
+    const workflowId = this.apiService.api.saveNewTVR.workflowId;
+    const projectId = this.apiService.api.saveNewTVR.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId,
+    };
+
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, requestEntity);
+  }
+
+  getTvrLov(leadId) {
+    const processId = this.apiService.api.getTvrLOV.processId;
+    const workflowId = this.apiService.api.getTvrLOV.workflowId;
+    const projectId = this.apiService.api.getTvrLOV.projectId;
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: {
+        "LeadID": leadId
+      },
+      workflowId: workflowId,
+      projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
+
 }
