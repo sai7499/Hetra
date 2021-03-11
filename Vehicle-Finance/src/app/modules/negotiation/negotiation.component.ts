@@ -2161,7 +2161,7 @@ if(flag){
                     eligibleLoanTenor: [{ value: (this.AssetDetailsList[i].EligibleTenorMin && this.AssetDetailsList[i].EligibleTenorMax) ? this.AssetDetailsList[i].EligibleTenorMin + " " + "To" + " " + this.AssetDetailsList[i].EligibleTenorMax + " " + "Years" : '', disabled: true }],
                     EligibleIRR: [{ value: (this.AssetDetailsList[i].EligibleIRRMin && this.AssetDetailsList[i].EligibleIRRMax) ? this.AssetDetailsList[i].EligibleIRRMin + " " + "To" + " " + this.AssetDetailsList[i].EligibleIRRMax : '', disabled: true }],
                     negotiationformArray: this.fb.group({
-                      NegotiatedLoanAmount: [{ value: (this.view == false)?(this.AssetDetailsList[i].EligibleLoanAmnt):'', disabled: false },[Validators.required]],
+                      NegotiatedLoanAmount: [{ value: (this.view == false)?(this.LeadReferenceDetails[0].RequestLoanAmnt):'', disabled: false },[Validators.required]],//8580 , defaulted as requested loan amnount as per mail
                       NegotiatedLoanTenor: [{value:((this.view == false)?((tenorReq)?this.createNegotiationForm.controls.reqLoanTenor.value:eliTenorMax):''),disabled: false}],
                       NegotiatedIRR: [{ value: (this.view == false)?(this.AssetDetailsList[i].EligibleIRRMin):'', disabled: false }],
                       variableIRR:['',],

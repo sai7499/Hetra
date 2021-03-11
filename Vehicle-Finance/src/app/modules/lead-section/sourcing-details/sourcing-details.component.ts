@@ -307,6 +307,8 @@ export class SourcingDetailsComponent implements OnInit {
     const data = this.leadData;
 
     this.udfDetails = this.leadSectionData.udfDetails ? this.leadSectionData.udfDetails : [];
+    const scoreId = data.leadDetails.scoreCardApplicantId;
+    this.sharedService.setScoreCardId(scoreId);
 
     this.isChildLoan = data.leadDetails.isChildLoan;
     if (this.isChildLoan === '0') {
@@ -642,7 +644,6 @@ export class SourcingDetailsComponent implements OnInit {
         // this.isDealerCode = true;
         this.isDealerCode = this.dealorCodeKey ? false : true;
       }
-
     } else {
       this.sourcingDetailsForm.controls['dealerCode'].clearValidators();
       this.sourcingDetailsForm.controls['dealerCode'].updateValueAndValidity();
@@ -757,7 +758,6 @@ export class SourcingDetailsComponent implements OnInit {
   }
 
   onDealerCodeClear(event) {
-
     if (this.sourchingTypeId === '2SOURTYP' && this.productCategoryFromLead === 'UC') {
       this.dealorCodeKey = '';
       this.isDealerCode = true;

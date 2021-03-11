@@ -15,7 +15,7 @@ export class ScoreCardService {
         private httpService: HttpService
     ) { }
 
-    reInitiateCreditScore(leadId, userId) {
+    reInitiateCreditScore(leadId, userId, applicantId) {
         const processId = this.apiService.api.reInitiateCreditScore.processId;
         const workflowId = this.apiService.api.reInitiateCreditScore.workflowId;
         const projectId = environment.projectIds.salesProjectId;
@@ -24,7 +24,8 @@ export class ScoreCardService {
             processId,
             ProcessVariables: {
                 leadId,
-                userId
+                userId,
+                applicantId
             },
             workflowId,
             projectId

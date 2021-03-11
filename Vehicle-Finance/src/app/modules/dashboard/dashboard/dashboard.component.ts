@@ -86,7 +86,8 @@ export enum DisplayTabs {
   VehicleValuvatorWithMe,
   VehicleValuvatorWithBranch,
   ChequeTrackingLeadsWithMe,
-  ChequeTrackingLeadsWithBranch
+  ChequeTrackingLeadsWithBranch,
+  ApprovalDashboard
 }
 
 export enum sortingTables {
@@ -244,6 +245,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
   isExtUser: boolean;
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
+
+  approvalDashboard = [
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "RC_Copy", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "Insurance_Copy", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 5
+
+    No of PDC/SPDC Collected:2
+    `, defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 41
+
+    No of PDC/SPDC Collected:5
+    `, defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "Document Deferral", defferalDocName: "Bank_Pass_Book", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006755", applicantName: "Gomathi", defferalType: "Document Deferral", defferalDocName: "FC Details", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"}
+  ]
 
   constructor(
     private fb: FormBuilder,

@@ -1,11 +1,26 @@
 <div class="content">
-<div class="row " *ngIf="productCategoryFromLead != 'UC'">
+<div class="row " *ngIf="!showError">
     <div class="col-sm-12 col-lg-12">
         <h3 class="banner-con">Score card
             <span class="float-right">{{udfScreenId}}</span>
         </h3>
     </div>
-    <div class="form-group btn-spc col-sm-12 col-md-12 col-lg-12 col-xs-12 text-right">
+</div>
+<div *ngIf="productCategoryFromLead != 'UC'" class="row">
+    
+    <div *ngIf="applicantDetails.length !== 0" class="row col-lg-6 col-lg-offset-2">
+        <div class="form-group col-sm-6 col-md-6 col-lg-6 text-right">
+            <label>Applicant Name</label>
+        </div>
+        <div [formGroup]="scoreCardForm" class="form-group col-sm-6 col-md-6 col-lg-6">
+            <app-vf-custom-select formControlName="applicantId" [values]="applicantDetails"
+            (change)="onApplicantChange($event.target.value)"
+            >
+        </app-vf-custom-select>
+        </div>
+    </div>
+       
+    <div *ngIf="!showError" class="form-group btn-spc col-lg-4 col-xs-12 text-right">
         <button 
             [disabled]="disableSaveBtn"
             type="button" 
@@ -129,7 +144,7 @@
                 <strong>{{risk}}</strong>
             </td>
         </tr> -->
-        <tr *ngIf="productCategoryFromLead != 'UC'">
+        <tr *ngIf="!showError">
             <td class="actionTable"><strong>Action</strong></td>          
             <td 
                 class="actionTable" 
