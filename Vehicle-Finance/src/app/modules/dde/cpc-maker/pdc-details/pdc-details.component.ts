@@ -284,6 +284,8 @@ export class PdcDetailsComponent implements OnInit {
       this.pdcForm.controls.pdcList.controls[i].value.instrDate = value
         ? this.utilityService.getDateFormat(value)
         : null;
+        this.pdcForm.controls.pdcList.controls[i].value.isCollected = true;
+
     }
     for (let i = 0; i < this.pdcForm.controls.spdcList.length; i++) {
       let datevalue = this.pdcForm.controls.spdcList.controls[i]['controls']['instrDate'].value;
@@ -291,6 +293,7 @@ export class PdcDetailsComponent implements OnInit {
       this.pdcForm.controls.spdcList.controls[i].value.instrDate = datevalue
         ? this.utilityService.getDateFormat(datevalue)
         : null;
+        this.pdcForm.controls.spdcList.controls[i].value.isCollected = true;
     }
 
     const body = {
@@ -303,6 +306,8 @@ export class PdcDetailsComponent implements OnInit {
         "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
       }]
     };
+    console.log(this.pdcForm.value);
+    
     if (this.pdcForm.invalid || this.userDefineForm.udfData.invalid) {
       this.isDirty = true;
       this.toasterService.showWarning('Mandatory Fields Missing', '');

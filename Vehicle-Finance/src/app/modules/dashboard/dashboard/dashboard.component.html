@@ -181,9 +181,9 @@
             <li class="btn-dash" (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe, 'deviation')"
                 [ngClass]="{'active':displayTabs?.Deviation === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Deviation</a></li>
-            <li class="btn-dash" (click)="onLeads(displayTabs?.PDD)"
-                [ngClass]="{'active':displayTabs?.PDD === activeTab}" routerLinkActive="active"><a
-                    data-toggle="tab">PDD</a></li>
+                    <li class="btn-dash" (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)"
+                    [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a
+                       data-toggle="tab">Deferrals</a></li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.ChequeTracking)"
                 [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Cheque Tracking</a></li>
@@ -275,6 +275,28 @@
                     data-toggle="tab">Deviation With Branch</a></li>
         </ul>
         <!--  -->
+        <!-- Deferral Docs  -->
+        <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
+            <li class="btn-dash" (click)="leads(displayTabs?.PDDWithMe)"
+                [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">PDD Leads with {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.PDDWithBranch)"
+                [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">PDD Leads with Branch</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.PdcSpdcWithMe)"
+                [ngClass]="{'active':displayTabs?.PdcSpdcWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">PDC/SPDC Leads With {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.PdcSpdcWithBranch)"
+                [ngClass]="{'active':displayTabs?.PdcSpdcWithBranch === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">PDC/SPDC Leads With Branch</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.DefDocWithMe)"
+                [ngClass]="{'active':displayTabs?.DefDocWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Document Deferral Leads With {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.DefDocWithBranch)"
+                [ngClass]="{'active':displayTabs?.DefDocWithBranch === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Document Deferral Leads With Branch</a></li>
+        </ul>
+        <!--  -->
         <ul *ngIf="displayTabs?.PreDisbursementQueue === activeTab" class="nav nav-pills nav-justified"
             id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.PreDisbursementWithMe)"
@@ -345,14 +367,14 @@
                     Sheet</a></li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)"
                 [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a
-                   data-toggle="tab">PDD</a></li>
+                   data-toggle="tab">Deferrals</a></li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.VehicleValuvator, displayTabs?.VehicleValuvatorWithMe)"
                 [ngClass]="{'active':displayTabs?.VehicleValuvator === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Vehicle Valuation</a>
                     </li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.ApprovalDashboard)"
                 [ngClass]="{'active':displayTabs?.ApprovalDashboard === activeTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Approval Dashboard</a></li>
+                    data-toggle="tab">Defferal Approval</a></li>
         </ul>
     </div>
 
@@ -416,10 +438,22 @@
         <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.PDDWithMe)"
                 [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Leads with {{pendingName}}</a></li>
+                    data-toggle="tab">PDD Leads with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.PDDWithBranch)"
                 [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Leads with Branch</a></li>
+                    data-toggle="tab">PDD Leads with Branch</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.PdcSpdcWithMe)"
+                [ngClass]="{'active':displayTabs?.PdcSpdcWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">PDC/SPDC Leads With {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.PdcSpdcWithBranch)"
+                [ngClass]="{'active':displayTabs?.PdcSpdcWithBranch === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">PDC/SPDC Leads With Branch</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.DefDocWithMe)"
+                [ngClass]="{'active':displayTabs?.DefDocWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Document Deferral Leads With {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.DefDocWithBranch)"
+                [ngClass]="{'active':displayTabs?.DefDocWithBranch === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Document Deferral Leads With Branch</a></li>
         </ul>
         <ul *ngIf="displayTabs?.VehicleValuvator === activeTab" class="nav nav-pills nav-justified"
             id="background_white">
@@ -446,6 +480,9 @@
                 (click)="onLeads(displayTabs?.TranchesDisburse, displayTabs?.TrancheDisburseReversedWithMe)"
                 [ngClass]="{'active':displayTabs?.TranchesDisburse === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Tranche Disbursement</a></li>
+            <li class="btn-dash" (click)="onLeads(displayTabs?.ApprovalDashboard)"
+                [ngClass]="{'active':displayTabs?.ApprovalDashboard === activeTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Defferal Approval</a></li>
         </ul>
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '4'">
@@ -480,7 +517,7 @@
                     data-toggle="tab">Loan Booking</a></li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)"
                 [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a
-                    data-toggle="tab">PDD</a></li>
+                    data-toggle="tab">Deferrals</a></li>
             <li class="btn-dash"
                 (click)="onLeads(displayTabs?.TranchesDisburse, displayTabs?.TrancheDisburseReversedWithMe)"
                 [ngClass]="{'active':displayTabs?.TranchesDisburse === activeTab}" routerLinkActive="active"><a
@@ -488,6 +525,9 @@
             <li class="btn-dash" (click)="onLeads(displayTabs?.ChequeTracking, displayTabs?.ChequeTrackingLeadsWithMe)"
                 [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Cheque Tracking</a></li>
+            <li class="btn-dash" (click)="onLeads(displayTabs?.ApprovalDashboard)"
+                [ngClass]="{'active':displayTabs?.ApprovalDashboard === activeTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Defferal Approval</a></li>
         </ul>
     </div>
     <div class="container-fluid mar-bottom" *ngIf="roleType == '5'">
@@ -502,10 +542,16 @@
         <ul *ngIf="displayTabs?.PDDforCPC === activeTab" class="nav nav-pills nav-justified" id="background_white">
             <li class="btn-dash" (click)="leads(displayTabs?.PDDWithMe)"
                 [ngClass]="{'active':displayTabs?.PDDWithMe === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Leads with {{pendingName}}</a></li>
+                    data-toggle="tab">PDD Leads with {{pendingName}}</a></li>
             <li class="btn-dash" (click)="leads(displayTabs?.PDDWithBranch)"
                 [ngClass]="{'active':displayTabs?.PDDWithBranch === subActiveTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Leads with Branch</a></li>
+                    data-toggle="tab">PDD Leads with Branch</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.PdcSpdcWithMe)"
+                [ngClass]="{'active':displayTabs?.PdcSpdcWithMe === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">PDC/SPDC Leads With {{pendingName}}</a></li>
+            <li class="btn-dash" (click)="leads(displayTabs?.PdcSpdcWithBranch)"
+                [ngClass]="{'active':displayTabs?.PdcSpdcWithBranch === subActiveTab}" routerLinkActive="active"><a
+                    data-toggle="tab">PDC/SPDC Leads With Branch</a></li>
         </ul>
         <ul *ngIf="displayTabs?.TranchesDisburse === activeTab" class="nav nav-pills nav-justified"
             id="background_white">
@@ -894,7 +940,7 @@
                                 displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.leadId
                                     ? item.leadId : '--'}}</a> -->
                             </td>
-                            <td *ngIf="displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithBranch === subActiveTab"
+                            <td *ngIf="(displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithBranch === subActiveTab)  || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithBranch === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithBranch === subActiveTab)"
                                 [attr.data-label]="labels?.loanNumber">
                                 <a>{{item.loanNumber ? item.loanNumber : '--'}}</a>
                             </td>
@@ -908,7 +954,7 @@
                                 <a *ngIf="(displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.loanNumber
                                     ? item.loanNumber : '--'}}</a>
                             </td>
-                            <td *ngIf="displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithMe === subActiveTab"
+                            <td *ngIf="(displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithMe === subActiveTab)"
                                 [attr.data-label]="labels?.loanNumber"><a class="text-underline"
                                     style="cursor: pointer;"
                                     (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber ? item.loanNumber : '--'}}</a>
@@ -1026,11 +1072,11 @@
                             </th>
                             <th>{{labels?.applicantName}}&nbsp;
                             </th>
-                            <th>Defferal Type&nbsp;
+                            <th>Deferral Type&nbsp;
                             </th>
-                            <th>Defferal Document Name&nbsp;
+                            <th>Deferral Document Name&nbsp;
                             </th>
-                            <th>Defferal Date
+                            <th>Deferral Date
                             </th>
                             <th>Requested On
                             </th>
@@ -1041,13 +1087,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of approvalDashboard">
+                        <tr *ngFor="let item of approvalDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                             <td>{{item.leadId}}</td>
                             <td>{{item.applicantName}}</td>
                             <td>{{item.defferalType}}</td>
-                            <td>{{item.defferalDocName}}</td>
-                            <td>{{item.defferalDate}}</td>
-                            <td>{{item.requestedOn}}</td>
+                            <td>{{item.defferalDocName ? defferalDocName[i][0] : ''}}<br>{{item.defferalDocName ? defferalDocName[i][1] : ''}}</td>
+                            <td>{{item.defferalDate ? defferalDate[i][0] : ''}}<br>{{item.defferalDate ? defferalDate[i][1] : ''}}</td>
+                            <td>{{item.requestedOn ? requestedOn[i][0] : ''}}<br>{{item.requestedOn ? requestedOn[i][1] : ''}}</td>
                             <td>{{item.requestedBy}}</td>
                             <td class="text-center">
                                 <!-- <div style="margin-bottom: 2px;">
@@ -1059,7 +1105,14 @@
                                 <div style="margin-bottom: 2px;">
                                     <button style="width: 84px;" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal">Reject</button>
                                 </div> -->
-                                
+                                <div class="row" style="margin: 0 5px 0 5px;">
+                                    <a title="View DDE" style="margin: 5px;"><i
+                                        class="fa fa-eye cursor-pointer"  aria-hidden=""></i></a>
+                                    <a title="Approve" (click)="showModal = true" style="margin: 5px; color: lightgreen;"><i
+                                        class="fa fa-thumbs-up cursor-pointer" aria-hidden=""></i></a>
+                                    <a title="Reject" data-toggle="modal" data-target="#rejectModal" style="margin: 5px; color: orangered;"><i
+                                        class="fa fa-thumbs-down cursor-pointer" aria-hidden=""></i></a>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -1223,14 +1276,26 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <!-- <select class="form-control" formControlName="product">
-            <option value=''>-- select one --</option>
-            <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
-          </select> -->
-                    <p>Are you sure you want to assign task to yourself?</p>
+                    <p>Are you sure you want to reject?</p>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 text-left">
+                            <label for="valuator_remarks">{{ labels?.remark }}
+                            </label>
+                            <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3"
+                            placeholder="" formControlName=""
+                            [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
+        
+                        </div>
+                        <div class="invalid-feedback">
+                            <span>
+                                
+                            </span>
+                        </div>
+                    </div>
+                   
                 </div>
                 <div class="modal-footer text-center">
-                    <button type="button" (click)="onSupervisorAssign()" class="btn btn-success">
+                    <button type="button" (click)="onDeferralApproveOrReject('reject')" class="btn btn-success">
                         Yes
                     </button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">
@@ -1242,6 +1307,13 @@
             </div>
         </div>
     </div>
+
+    <app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="showModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "showModal = false"
+(onButtonClick)="onDeferralApproveOrReject('approve')"></app-custom-modal>
 
 
     <router-outlet></router-outlet>

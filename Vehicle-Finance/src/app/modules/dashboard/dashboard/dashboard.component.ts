@@ -87,7 +87,12 @@ export enum DisplayTabs {
   VehicleValuvatorWithBranch,
   ChequeTrackingLeadsWithMe,
   ChequeTrackingLeadsWithBranch,
-  ApprovalDashboard
+  ApprovalDashboard,
+  PdcSpdcWithMe,
+  PdcSpdcWithBranch,
+  DefDocWithMe,
+  DefDocWithBranch
+
 }
 
 export enum sortingTables {
@@ -244,22 +249,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
    isVV : false,
   };
   isExtUser: boolean;
+  modalDetails = {
+    heading: 'Approval Conformation',
+    content: 'Are you sure you want to Approve?'
+  }
+  modalButtons: any = [
+    {
+      name: 'Yes',
+      isModalClose: false,
+
+    },
+    {
+      name: 'Cancel',
+      isModalClose: true,
+    }];
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   approvalDashboard = [
-    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "RC_Copy", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "Insurance_Copy", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 5
-
-    No of PDC/SPDC Collected:2
-    `, defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 41
-
-    No of PDC/SPDC Collected:5
-    `, defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "Document Deferral", defferalDocName: "Bank_Pass_Book", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000006755", applicantName: "Gomathi", defferalType: "Document Deferral", defferalDocName: "FC Details", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"}
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "RC_Copy", defferalDate: "01-03-2021 15:00:00", requestedOn: "07-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "Insurance_Copy", defferalDate: "02-03-2021 15:00:00", requestedOn: "08-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 5, No of PDC/SPDC Collected:2`, defferalDate: "03-03-2021 15:00:00", requestedOn: "09-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 41, No of PDC/SPDC Collected:5`, defferalDate: "04-03-2021 15:00:00", requestedOn: "10-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "Document Deferral", defferalDocName: "Bank_Pass_Book", defferalDate: "05-03-2021 15:00:00", requestedOn: "11-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006755", applicantName: "Gomathi", defferalType: "Document Deferral", defferalDocName: "FC Details", defferalDate: "06-03-2021 15:00:00", requestedOn: "12-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"}
   ]
+  defferalDate = [];
+  requestedOn = [];
+  defferalDocName = [];
+  deferralStatus: any;
 
   constructor(
     private fb: FormBuilder,
@@ -292,6 +309,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    for (let i=0; i<this.approvalDashboard.length; i++) {
+       this.defferalDate[i] = this.approvalDashboard[i].defferalDate.split(' ');
+       this.requestedOn[i] = this.approvalDashboard[i].requestedOn.split(' ');
+       this.defferalDocName[i] = this.approvalDashboard[i].defferalDocName.split(',');
+    }
+    
     const thisUrl = this.router.url;
     console.log(thisUrl);
     this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
@@ -863,17 +886,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isBM = false;
         this.getExternalUserLeads(this.itemsPerPage, event);
         console.log(this.onReleaseTab);
+      case 65:
+        this.taskName = 'Deferral Approval';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
         
       default:
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55: case 61: case 63:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55: case 61: case 63: case 66: case 68:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59: case 62: case 64:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59: case 62: case 64: case 67: case 69:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -938,7 +965,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.taskName = 'Predisbursement';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 40: case 41:
+      case 40: case 41: case 66: case 67: case 68: case 69:
         if(this.roleType == '2') {
           this.taskName = 'PDD'
         } else {
@@ -990,10 +1017,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.taskName = 'Vehicle Valuation';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-        case 63: case 64:
-          this.taskName = 'CPC Cheque Tracking';
-          this.getTaskDashboardLeads(this.itemsPerPage, event);
-          break;
+      case 63: case 64:
+        this.taskName = 'CPC Cheque Tracking';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
 
       default:
         break;
@@ -1988,6 +2015,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   this.disableButton = false;
     // }
 
+  }
+
+  onDeferralApproveOrReject(type: string) {
+    if (type == 'approve') {
+      this.deferralStatus = '1'
+    } else {
+      this.deferralStatus = '2'
+    }
+    const data = {
+      documentDetail: {
+        documentId: 2036,
+        deferralStatus: this.deferralStatus,
+        deferralRemarks: ''
+      }
+    }
+    console.log(data);
+    
+    this.dashboardService.getApproveOrRejectDocumentDeferral(data).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+
+      if (appiyoError === '0' && apiError === '0') {
+        console.log(response.ProcessVariables);
+        
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, '');
+      }
+
+    })
   }
 
   assignSelectedLeads() {
