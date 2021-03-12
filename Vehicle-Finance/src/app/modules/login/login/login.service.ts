@@ -20,7 +20,7 @@ export class LoginService {
     private loginService: LoginStoreService,
     private apiService: ApiService,
   ) { 
-    this.geocoder = new google.maps.Geocoder();
+    //this.geocoder = new google.maps.Geocoder();
   }
 
   getLogin(data) {

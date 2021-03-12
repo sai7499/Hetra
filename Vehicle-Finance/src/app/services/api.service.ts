@@ -1206,6 +1206,16 @@ export class ApiService {
       workflowId: '238f7d8c750e11eb962e00505695f93b',
       processId: '2c33335c751311eb905200505695f93b',
       projectId: environment.projectIds.remarksProjectId
+    },
+    submitDefDocuments: {
+      workflowId: '79cfe90a824e11ebb42c00505695f93b',
+      processId: '8d49aefc823611ebad3400505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    }, 
+    getDeferralDocs: {
+      workflowId: '68aa178c80b811eb9fc400505695f93b',
+      processId: '98642ee880ba11eb938400505695f93b',
+      projectId: environment.projectIds.submitToCredit
     }
   };
 }

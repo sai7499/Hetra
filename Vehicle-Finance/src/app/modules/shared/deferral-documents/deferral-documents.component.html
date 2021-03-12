@@ -1,6 +1,6 @@
-<main [ngClass]="{'mar-top90': !isLoan360}">
+<main class="mar-top90">
   <app-lead-section-header></app-lead-section-header>
-  <div class="content mar-top" [formGroup]="deferralForm">
+  <div class="content mar-top" [formGroup]="deferralForm" *ngIf="deferralForm">
     <h3 class="banner-con">Deferral Document Details
     </h3>        
     <form formArrayName="defDocumentArray">
@@ -21,10 +21,10 @@
            <ng-container *ngFor="let detail of deferralForm.get('defDocumentArray')['controls']; let i = index">
             <tr [formGroupName]="i">
               <td>{{ i + 1 }}</td>
-              <td><app-vf-custom-select formControlName="docName" [values]="docName">
+              <td><app-vf-custom-select formControlName="documentType" [values]="docName">
               </app-vf-custom-select></td>
 
-              <td><kendo-datepicker class="form-control mandatory" formControlName="defDate"
+              <td><kendo-datepicker class="form-control mandatory" formControlName="deferredDate"
                 [format]="'dd/MM/yyyy'"  [activeView]="'decade'">
               </kendo-datepicker></td>
 
@@ -33,16 +33,17 @@
                   class="fa fa-upload fa-3 custom-file-label cursor-pointer"
                   aria-hidden="true"
                   id="add_more_documents_upload1a"
+                  (click)="uploadDocs(i)"
                 ></i></label></td>
 
 
-              <td class="file-input">681234 </td>
+              <td class="file-input" (click)="downloadDocs(i)">{{documentArr(i)}}</td>
 
 
-              <td><app-vf-custom-select formControlName="rcvdBy" [values]="rcvdBy">
+              <td><app-vf-custom-select formControlName="receivedBy" [values]="rcvdBy">
               </app-vf-custom-select></td>
 
-              <td><kendo-datepicker class="form-control mandatory" formControlName="rcvdOn"
+              <td><kendo-datepicker class="form-control mandatory" formControlName="receivedOn"
                 [format]="'dd/MM/yyyy HH:mm'"  [activeView]="'decade'"  >
               </kendo-datepicker>
 
@@ -59,6 +60,13 @@
     
         </div>
       </div>
+
+      <app-upload-modal
+  [showModal]="showModal"
+  (close)="showModal = false"
+  (uploadSuccess)="onUploadSuccess($event)"
+  [docsDetails]="selectedDocDetails"
+></app-upload-modal>
       
     </form>
 
