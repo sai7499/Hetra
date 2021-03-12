@@ -36,6 +36,7 @@ export class UtilityService {
 
   removeAllLocalStorage() {
     localStorage.clear();
+    sessionStorage.clear();
     // localStorage.removeItem('token');
     // localStorage.removeItem('roles');
     // localStorage.removeItem('userId');

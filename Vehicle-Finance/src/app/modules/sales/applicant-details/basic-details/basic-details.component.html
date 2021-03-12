@@ -413,24 +413,33 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4 ">
-              <label for="aadharnumber">{{labels?.loanTenorServiced}}
+              <label for="aadharnumber">{{labels?.currentEMILoan}}
                 <sub class="star_red_col">*</sub></label>
-              <app-custom-input formControlName="loanTenorServiced"
-                [maxLength]="validationData?.creditRiskScore.maxLength" [type]="validationData?.creditRiskScore.type"
-                [isRequired]="'Loan Tenor Service is Required'" [isDirty]="isDirty">
+              <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
+                [type]="validationData?.amountValue.type" [isRequired]="'EMI of the Previous Loan is Required'"
+                [isDirty]="isDirty">
               </app-custom-input>
             </div>
+            
 
 
           </div>
 
           <div class="row" *ngIf="productCategory=='1003' && fundingProgram=='27'">
             <div class="form-group col-sm-6 col-md-4 col-lg-4 ">
-              <label for="aadharnumber">{{labels?.currentEMILoan}}
+              <label for="aadharnumber">{{labels?.totalTenor}}
                 <sub class="star_red_col">*</sub></label>
-              <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
-                [type]="validationData?.amountValue.type" [isRequired]="'EMI of the Current Loan is Required'"
-                [isDirty]="isDirty">
+              <app-custom-input formControlName="totalTenor"
+                [maxLength]="validationData?.creditRiskScore.maxLength" [type]="validationData?.creditRiskScore.type"
+                [isRequired]="labels?.totalTenor + ' '+'is Required'" [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-4 ">
+              <label for="aadharnumber">{{labels?.loanTenorServiced}}
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="loanTenorServiced"
+                [maxLength]="validationData?.creditRiskScore.maxLength" [type]="validationData?.creditRiskScore.type"
+                [isRequired]="labels?.loanTenorServiced + ' ' + 'is Required'" [isDirty]="isDirty">
               </app-custom-input>
             </div>
           </div>
@@ -511,37 +520,24 @@
               <app-vf-custom-select formControlName="politicallyExposedPerson"
                 [values]="applicantLov?.politicallyExposed" [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
               </app-vf-custom-select>
-              <!-- <span class="showErrorMessage"  
-              *ngIf="validation.get('customerCategory').errors?.value !== ''
-               && validation.get('customerCategory').errors?.required">                  
-                Select customer category
-            </span> -->
             </div>
-            <!-- <div class="form-group col-sm-6 col-md-3 col-lg-3">
-              <label for="customer_category"
-                >{{ labels?.customerCategory }}
-                <sub class="star_red_col">*</sub></label
-              >
-              <app-vf-custom-select
-                formControlName="custSegment"
-                [values]="applicantLov?.customerSegment"
-                [isRequired]="'Please select one'"
-                [isDirty]="isDirty"
-              ></app-vf-custom-select>
-            </div> -->
-
-            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4">
-              <label for="customer_category"
-                >{{ labels?.customerCategory }}
-                <sub class="star_red_col">*</sub></label
-              >
-              <app-vf-custom-select
-                formControlName="customerCategory"
-                [values]="applicantLov?.customerCategory"
-                [isRequired]="'Please select one'"
-                [isDirty]="isDirty"
-              ></app-vf-custom-select>
-            </div> -->
+            <div class="form-group col-sm-6 col-md-4 col-lg-4">
+              <label for="customer_category">{{labels?.natureOfBorrower}} <sub class="star_red_col">*</sub>
+              </label>
+              <app-vf-custom-select formControlName="natureOfBorrower"
+                [values]="natureOfBorrow" 
+                (change) = "onChangeBorrower($event.target.value)"
+                [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-4">
+              <label for="customer_category">{{labels?.ntsHrp}}
+              </label>
+              <app-vf-custom-select formControlName="ntsHrp"
+                [values]="borrowProfile" >
+              </app-vf-custom-select>
+            </div>
+            
 
           </div>
           <div class="row">
@@ -695,14 +691,7 @@
 
 
           <div class="row">
-            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4 individual_section_leadco">
-
-            <label for="customer_category">{{ labels?.customerCategory }}
-              <sub class="star_red_col">*</sub></label>
-            <app-vf-custom-select formControlName="custSegment" [values]="applicantLov?.customerSegment"
-              [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
-
-          </div> -->
+            
             <div class="form-group col-sm-6 col-md-4 col-lg-4 "
               *ngIf="productCategory=='1003' && (fundingProgram=='24' || fundingProgram=='25')">
               <label for="aadharnumber">{{ labels?.monthlyIncomeAmount }}
@@ -731,6 +720,23 @@
                 [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-4 " *ngIf="productCategory=='1003' && fundingProgram=='27'">
+              <label for="aadharnumber">{{labels?.prevLoanAmount}}
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="prevLoanAmount" [maxLength]="validationData?.amountValue.maxLength"
+                [type]="validationData?.amountValue.type" [isRequired]="'Previous Loan Amount is Required'"
+                [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+            
+            <div class="form-group col-sm-6 col-md-4 col-lg-4 " *ngIf="productCategory=='1003' && fundingProgram=='27'">
+              <label for="aadharnumber">{{labels?.currentEMILoan}}
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
+                [type]="validationData?.amountValue.type" [isRequired]="'EMI of the Previous Loan is Required'"
+                [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
 
             <div class="form-group col-sm-6 col-md-4 col-lg-4 " *ngIf="productCategory=='1003' && fundingProgram=='30'">
               <label for="aadharnumber">{{labels?.grossReceipt}}
@@ -757,14 +763,15 @@
           </div>
 
 
-          <div class="row">
+          
 
+          <div class="row">
             <div class="form-group col-sm-6 col-md-4 col-lg-4 " *ngIf="productCategory=='1003' && fundingProgram=='27'">
-              <label for="aadharnumber">{{labels?.prevLoanAmount}}
+              <label for="aadharnumber">{{labels?.totalTenor}}
                 <sub class="star_red_col">*</sub></label>
-              <app-custom-input formControlName="prevLoanAmount" [maxLength]="validationData?.amountValue.maxLength"
-                [type]="validationData?.amountValue.type" [isRequired]="'Previous Loan Amount is Required'"
-                [isDirty]="isDirty">
+              <app-custom-input formControlName="totalTenor"
+                [maxLength]="validationData?.creditRiskScore.maxLength" [type]="validationData?.creditRiskScore.type"
+                [isRequired]="labels?.totalTenor + ' ' +'is Required'" [isDirty]="isDirty">
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4 " *ngIf="productCategory=='1003' && fundingProgram=='27'">
@@ -772,18 +779,9 @@
                 <sub class="star_red_col">*</sub></label>
               <app-custom-input formControlName="loanTenorServiced"
                 [maxLength]="validationData?.creditRiskScore.maxLength" [type]="validationData?.creditRiskScore.type"
-                [isRequired]="'Loan Tenor Service is Required'" [isDirty]="isDirty">
+                [isRequired]="labels?.loanTenorServiced + ' ' + 'is Required'" [isDirty]="isDirty">
               </app-custom-input>
             </div>
-            <div class="form-group col-sm-6 col-md-4 col-lg-4 " *ngIf="productCategory=='1003' && fundingProgram=='27'">
-              <label for="aadharnumber">{{labels?.currentEMILoan}}
-                <sub class="star_red_col">*</sub></label>
-              <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
-                [type]="validationData?.amountValue.type" [isRequired]="'EMI of the Current Loan is Required'"
-                [isDirty]="isDirty">
-              </app-custom-input>
-            </div>
-
           </div>
 
 

@@ -412,19 +412,31 @@
               </app-custom-input>
             </div>
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
-              <label for="aadharnumber">{{labels?.loanTenorServiced}}
-                <sub class="star_red_col">*</sub></label>
-              <app-custom-input formControlName="loanTenorServiced" [isRequired]="'Please select one'"
-                [isDirty]="isDirty">
-              </app-custom-input>
-            </div>
-          </div>
-          <div class="row" *ngIf="productCategory == '1003' && fundingProgram == '27'">
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="aadharnumber">{{labels?.currentEMILoan}}
                 <sub class="star_red_col">*</sub></label>
               <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
-                [type]="validationData?.amountValue.type" [isRequired]="'EMI of the Current Loan is Required'"
+                [type]="validationData?.amountValue.type" [isRequired]="labels?.currentEMILoan + ' ' + 'is required'"
+                [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+            
+          </div>
+          <div class="row" *ngIf="productCategory == '1003' && fundingProgram == '27'">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+              <label for="aadharnumber">{{labels?.totalTenor}}
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="totalTenor" 
+              [maxLength]="validationData?.creditRiskScore.maxLength" [type]="validationData?.creditRiskScore.type"
+               [isRequired]="labels?.totalTenor + ' ' + 'is required'"
+                [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+              <label for="aadharnumber">{{labels?.loanTenorServiced}}
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="loanTenorServiced" 
+              [maxLength]="validationData?.creditRiskScore.maxLength" [type]="validationData?.creditRiskScore.type" 
+              [isRequired]="labels?.loanTenorServiced + ' ' + 'is required'"
                 [isDirty]="isDirty">
               </app-custom-input>
             </div>
@@ -505,9 +517,33 @@
 
             </div>
 
+            <div class="form-group col-sm-6 col-md-4 col-lg-4">
+              <label for="customer_category">{{labels?.natureOfBorrower}} <sub class="star_red_col">*</sub>
+              </label>
+              <app-vf-custom-select formControlName="natureOfBorrower"
+                [values]="natureOfBorrow" 
+                (change) = "onChangeBorrower($event.target.value)"
+                [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
+              </app-vf-custom-select>
+            </div>
+            <div class="form-group col-sm-6 col-md-4 col-lg-4">
+              <label for="customer_category">{{labels?.ntsHrp}}
+              </label>
+              <app-vf-custom-select formControlName="ntsHrp"
+                [values]="borrowProfile" >
+              </app-vf-custom-select>
+            </div>
 
 
 
+
+            
+
+
+
+          </div>
+
+          <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 pad-zero">
 
 
@@ -535,25 +571,7 @@
                 </app-custom-input>
               </div>
 
-
-              <!-- <label for="no_of_yrs_res_at_pres"
-              >{{ labels?.yrsOfResidence }}
-              <sub class="star_red_col">*</sub></label
-            >
-              <app-custom-input
-                formControlName="noOfYrsResidence"
-                [maxLength]="validationData?.yearsOfResidence?.maxLength"
-                [type]="validationData?.yearsOfResidence?.type"
-                [isRequired]="'No of years residence is required'"
-                [isDirty]="isDirty"
-              ></app-custom-input> -->
             </div>
-
-
-
-          </div>
-
-          <div class="row">
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
 
@@ -572,6 +590,10 @@
 
             </div>
 
+            
+          </div>
+
+          <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
 
               <label for="isMinority">{{ labels?.isMinority }}
@@ -580,18 +602,8 @@
                 [isRequired]="!isUCICavail ?'Please Select One' : ''" [isDirty]="isDirty"></app-vf-custom-select>
 
             </div>
-          </div>
 
-          <div class="row">
-
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
-
-              <label for="residentStatus">{{ labels?.residentStatus }}
-                <sub class="star_red_col">*</sub></label>
-              <app-vf-custom-select formControlName="residentStatus" [values]="LOV.LOVS.residentStatus"
-                [isRequired]="'Please Select One'" [isDirty]="isDirty"></app-vf-custom-select>
-
-            </div>
+            
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
 
@@ -625,6 +637,14 @@
           </div>
 
           <div class="row">
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
+
+              <label for="residentStatus">{{ labels?.residentStatus }}
+                <sub class="star_red_col">*</sub></label>
+              <app-vf-custom-select formControlName="residentStatus" [values]="LOV.LOVS.residentStatus"
+                [isRequired]="'Please Select One'" [isDirty]="isDirty"></app-vf-custom-select>
+
+            </div>
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
 
@@ -644,6 +664,11 @@
                 [isDirty]="isDirty"></app-custom-input>
             </div>
 
+            
+
+          </div>
+
+          <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
               <label for="no_of_children_dependant">{{labels?.noOfChildrenDependant}}
                 <sub *ngIf="details.get('maritalStatus').value !== '1MRGSTS'" class="star_red_col">*</sub></label>
@@ -653,10 +678,6 @@
                 [isRequired]="details.get('maritalStatus').value !== '1MRGSTS' ?'No of Children Dependant is required' : ''" 
                 [isDirty]="details.get('maritalStatus').value !== '1MRGSTS' ?isDirty : ''"></app-custom-input>
             </div>
-
-          </div>
-
-          <div class="row">
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
 
@@ -1132,6 +1153,15 @@
                 [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
+            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
+              *ngIf="productCategory=='1003' && fundingProgram=='27'">
+              <label for="aadharnumber">{{labels?.prevLoanAmount}}
+                <sub class="star_red_col">*</sub></label>
+              <app-custom-input formControlName="prevLoanAmount" [maxLength]="validationData?.amountValue.maxLength"
+                [type]="validationData?.amountValue.type" [isRequired]="'Previous Loan Amount is Required'"
+                [isDirty]="isDirty">
+              </app-custom-input>
+            </div>
 
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
               *ngIf="productCategory=='1003' && fundingProgram=='30'">
@@ -1161,34 +1191,35 @@
 
 
           <div class="row">
-
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
+            *ngIf="productCategory=='1003' && fundingProgram=='27'">
+            <label for="aadharnumber">{{labels?.currentEMILoan}}
+              <sub class="star_red_col">*</sub></label>
+            <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
+              [type]="validationData?.amountValue.type" [isRequired]="labels?.currentEMILoan + ' ' + 'is required'"
+              [isDirty]="isDirty">
+            </app-custom-input>
+          </div>
+          <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
               *ngIf="productCategory=='1003' && fundingProgram=='27'">
-              <label for="aadharnumber">{{labels?.prevLoanAmount}}
+              <label for="aadharnumber">{{labels?.totalTenor}}
                 <sub class="star_red_col">*</sub></label>
-              <app-custom-input formControlName="prevLoanAmount" [maxLength]="validationData?.amountValue.maxLength"
-                [type]="validationData?.amountValue.type" [isRequired]="'Previous Loan Amount is Required'"
+              <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
+                [type]="validationData?.amountValue.type" [isRequired]="labels?.totalTenor + ' ' + 'is required'"
                 [isDirty]="isDirty">
               </app-custom-input>
             </div>
+            
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
               *ngIf="productCategory=='1003' && fundingProgram=='27'">
               <label for="aadharnumber">{{labels?.loanTenorServiced}}
                 <sub class="star_red_col">*</sub></label>
               <app-custom-input formControlName="loanTenorServiced"
                 [maxLength]="validationData?.creditRiskScore.maxLength" [type]="validationData?.creditRiskScore.type"
-                [isRequired]="'Loan Tenor Service is Required'" [isDirty]="isDirty">
+                [isRequired]="labels?.loanTenorServiced + ' ' + 'is required'" [isDirty]="isDirty">
               </app-custom-input>
             </div>
-            <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12 "
-              *ngIf="productCategory=='1003' && fundingProgram=='27'">
-              <label for="aadharnumber">{{labels?.currentEMILoan}}
-                <sub class="star_red_col">*</sub></label>
-              <app-custom-input formControlName="currentEMILoan" [maxLength]="validationData?.amountValue.maxLength"
-                [type]="validationData?.amountValue.type" [isRequired]="'EMI of the Current Loan is Required'"
-                [isDirty]="isDirty">
-              </app-custom-input>
-            </div>
+            
 
           </div>
 

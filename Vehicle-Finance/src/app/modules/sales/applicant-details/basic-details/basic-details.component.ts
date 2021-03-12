@@ -108,6 +108,9 @@ export class BasicDetailsComponent implements OnInit {
   isAppNonInd: boolean;
   islastNameReq: boolean = true;
   isUCICavail: boolean;
+  natureOfBorArray = [];
+  natureOfBorrow = [];
+  borrowProfile = [];
 
 
   constructor(
@@ -142,7 +145,7 @@ export class BasicDetailsComponent implements OnInit {
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = udfScreenId.ADE.applicantBasicDataADE ;
+      this.udfScreenId = udfScreenId.ADE.applicantBasicDataADE;
 
     })
 
@@ -173,13 +176,13 @@ export class BasicDetailsComponent implements OnInit {
     this.fundingProgram = leadData['leadDetails'].fundingProgram;
 
     this.applicantData = leadData['applicantDetails'];
-    
+
   }
-  
-  getIdentifyAppNonInd(){
-    this.isAppNonInd= this.applicantData.some((data : any)=>{
-      return data.applicantTypeKey == 'APPAPPRELLEAD' && data.entityTypeKey == 'NONINDIVENTTYP'   
-   })
+
+  getIdentifyAppNonInd() {
+    this.isAppNonInd = this.applicantData.some((data: any) => {
+      return data.applicantTypeKey == 'APPAPPRELLEAD' && data.entityTypeKey == 'NONINDIVENTTYP'
+    })
   }
 
   getAgeValidation() {
@@ -217,26 +220,26 @@ export class BasicDetailsComponent implements OnInit {
         // } 
       }
 
-    })  
+    })
     this.getRelationShip(value)
   }
 
-  getRelationShip(value){
-    if(!this.isIndividual){
+  getRelationShip(value) {
+    if (!this.isIndividual) {
       return;
     }
-    
-    if(!this.isAppNonInd){
+
+    if (!this.isAppNonInd) {
       this.relationShipLov = this.applicantLov.relationship;
-      if(value==='APPAPPRELLEAD'){
-        this.relationShipLov=  this.relationShipLov.filter((data)=>data.key === '5RELATION')  
-        this.basicForm.get('applicantRelationship').setValue(this.relationShipLov[0].key) 
-       }else{
-         this.relationShipLov=  this.relationShipLov.filter((data)=>data.key !== '5RELATION') 
-         this.basicForm.get('applicantRelationship').setValue('')  
-       }
+      if (value === 'APPAPPRELLEAD') {
+        this.relationShipLov = this.relationShipLov.filter((data) => data.key === '5RELATION')
+        this.basicForm.get('applicantRelationship').setValue(this.relationShipLov[0].key)
+      } else {
+        this.relationShipLov = this.relationShipLov.filter((data) => data.key !== '5RELATION')
+        this.basicForm.get('applicantRelationship').setValue('')
+      }
     }
-    
+
 
   }
 
@@ -301,12 +304,12 @@ export class BasicDetailsComponent implements OnInit {
       this.disableOwnerProperty(details)
     }
   }
-  enableOwnerProperty(details){
+  enableOwnerProperty(details) {
     details.get('houseOwnerProperty').enable();
     details.get('ownHouseAppRelationship').enable();
   }
 
-  disableOwnerProperty(details){
+  disableOwnerProperty(details) {
     details.get('houseOwnerProperty').disable();
     details.get('ownHouseAppRelationship').disable();
 
@@ -406,6 +409,21 @@ export class BasicDetailsComponent implements OnInit {
     this.isUCICavail = this.applicant.ucic ? true : false;
     console.log('this.applicant', this.applicant)
     this.udfDetails = this.applicant.udfDetails;
+    this.natureOfBorArray = this.applicantDataService.getNatureOfBorrower();;
+
+    this.natureOfBorArray.map((data) => {
+      const borrow = {
+        key: data.id,
+        value: data.natureOfBorrower
+      }
+      const profile = {
+        key: data.customerProfile,
+        value: data.borrowerProfile
+      }
+
+      this.natureOfBorrow.push(borrow);
+      this.borrowProfile.push(profile)
+    })
     this.setBasicData();
     if (this.applicant.ucic) {
       if (this.applicant.applicantDetails.entityTypeKey === 'INDIVENTTYP') {
@@ -447,6 +465,7 @@ export class BasicDetailsComponent implements OnInit {
     this.clearDisControls(details.get('spouseName'));
     this.clearDisControls(details.get('motherMaidenName'));
     this.clearDisControls(details.get('politicallyExposedPerson'));
+    //this.clearDisControls(details.get('natureOfBorrower'));
     this.clearDisControls(details.get('preferredLanguage'));
     this.clearDisControls(details.get('occupation'));
     this.clearDisControls(details.get('emailId'));
@@ -468,10 +487,10 @@ export class BasicDetailsComponent implements OnInit {
     this.clearDisControls(details.get('preferredLanguageCommunication'));
     this.clearDisControls(details.get('alternateEmailId'));
     this.clearDisControls(details.get('businessType'));
-    
+
   }
 
-  clearDisControls(control){
+  clearDisControls(control) {
     control.disable();
     control.setValue(control.value || null)
     control.clearValidators();
@@ -604,7 +623,7 @@ export class BasicDetailsComponent implements OnInit {
     // this.clearFormArray();
     const applicantType = this.applicant.applicantDetails.applicantTypeKey
     this.getRelationShip(applicantType);
-   
+
     this.basicForm.patchValue({
       entity: this.applicant.applicantDetails.entityTypeKey,
       applicantRelationshipWithLead:
@@ -612,25 +631,25 @@ export class BasicDetailsComponent implements OnInit {
       title: this.applicant.applicantDetails.title || '',
       bussinessEntityType:
         this.applicant.applicantDetails.bussinessEntityType || '',
-      
+
     });
-    
+
     const relationshipVal = this.applicant.aboutIndivProspectDetails.relationWithApplicant;
-    const relValue = this.relationShipLov.find((data : any)=>{
-      return data.key ===  relationshipVal;
+    const relValue = this.relationShipLov.find((data: any) => {
+      return data.key === relationshipVal;
     })
     console.log('relValue', relValue)
     const appRelationship = this.basicForm.get('applicantRelationship')
-    if(this.applicant.aboutIndivProspectDetails.relationWithApplicant){
-      appRelationship.setValue(relValue ?relationshipVal : '')
-    }else{
-      if(!this.isAppNonInd && applicantType === 'APPAPPRELLEAD'){
+    if (this.applicant.aboutIndivProspectDetails.relationWithApplicant) {
+      appRelationship.setValue(relValue ? relationshipVal : '')
+    } else {
+      if (!this.isAppNonInd && applicantType === 'APPAPPRELLEAD') {
         appRelationship.setValue(this.relationShipLov[0].key)
       }
     }
-    
-      
-    
+
+
+
 
     const applicantDetails = this.applicant.applicantDetails;
 
@@ -685,6 +704,7 @@ export class BasicDetailsComponent implements OnInit {
       rtrType: applicantDetails.rtrType || '',
       prevLoanAmount: applicantDetails.prevLoanAmount,
       loanTenorServiced: applicantDetails.loanTenorServiced,
+      totalTenor: applicantDetails.totalTenor,
       currentEMILoan: applicantDetails.currentEMILoan,
       agriNoOfAcres: applicantDetails.agriNoOfAcres,
       agriOwnerProperty: applicantDetails.agriOwnerProperty || '',
@@ -746,6 +766,10 @@ export class BasicDetailsComponent implements OnInit {
       gender: aboutIndivProspectDetails.gender || '',
       politicallyExposedPerson:
         aboutIndivProspectDetails.politicallyExposedPerson || '',
+      natureOfBorrower:
+        aboutIndivProspectDetails.natureOfBorrower || '',
+      ntsHrp:
+        aboutIndivProspectDetails.ntsHrp || '',
       alternateMobileNumber:
         aboutIndivProspectDetails.alternateMobileNumber || '',
       minorGuardianRelation:
@@ -753,11 +777,11 @@ export class BasicDetailsComponent implements OnInit {
       recommendations: aboutIndivProspectDetails.recommendations || ''
     });
 
-   if(this.applicant.ucic){
-    details.get('name3').clearValidators();
-    details.get('name3').updateValueAndValidity();
-    this.islastNameReq = false
-   }
+    if (this.applicant.ucic) {
+      details.get('name3').clearValidators();
+      details.get('name3').updateValueAndValidity();
+      this.islastNameReq = false
+    }
     // this.clearFatherOrSpouseValidation();
     // this.eitherFathOrspouse();
     this.listenerForMobilechange()
@@ -845,15 +869,15 @@ export class BasicDetailsComponent implements OnInit {
   getLovData() {
     this.lovService.getLovData().subscribe((value: LovList) => {
       this.applicantLov = value.LOVS;
-      console.log('this.applicantLov',this.applicantLov)
+      console.log('this.applicantLov', this.applicantLov)
       this.ownerPropertyRelation = this.applicantLov.applicantRelationshipWithLead.filter(data => data.value !== 'Guarantor');
       this.getIdentifyAppNonInd();
-      if(this.isAppNonInd){
+      if (this.isAppNonInd) {
         this.relationShipLov = this.applicantLov['concernType-SelfEmployed'];
-      }else{
+      } else {
         this.relationShipLov = this.applicantLov['relationship'];
       }
-      
+
 
       this.activatedRoute.params.subscribe((value) => {
         if (!value && !value.applicantId) {
@@ -896,6 +920,8 @@ export class BasicDetailsComponent implements OnInit {
       alternateEmailId: new FormControl(''),
       preferredLanguage: new FormControl('', Validators.required),
       politicallyExposedPerson: new FormControl(null, Validators.required),
+      natureOfBorrower: new FormControl('', Validators.required),
+      ntsHrp: new FormControl({ value: '', disabled: true }),
       //customerCategory: new FormControl('', Validators.required),
       custSegment: new FormControl('', Validators.required),
       monthlyIncomeAmount: new FormControl(''),
@@ -907,6 +933,7 @@ export class BasicDetailsComponent implements OnInit {
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
       loanTenorServiced: new FormControl(''),
+      totalTenor: new FormControl(''),
       currentEMILoan: new FormControl(''),
       agriNoOfAcres: new FormControl(''),
       agriOwnerProperty: new FormControl(''),
@@ -968,6 +995,7 @@ export class BasicDetailsComponent implements OnInit {
       rtrType: new FormControl(''),
       prevLoanAmount: new FormControl(''),
       loanTenorServiced: new FormControl(''),
+      totalTenor: new FormControl(''),
       currentEMILoan: new FormControl(''),
       agriNoOfAcres: new FormControl(''),
       agriOwnerProperty: new FormControl(''),
@@ -1127,6 +1155,8 @@ export class BasicDetailsComponent implements OnInit {
       details.get('prevLoanAmount').updateValueAndValidity();
       details.get('loanTenorServiced').setValidators([Validators.required]);
       details.get('loanTenorServiced').updateValueAndValidity();
+      details.get('totalTenor').setValidators([Validators.required]);
+      details.get('totalTenor').updateValueAndValidity();
       details.get('currentEMILoan').setValidators([Validators.required]);
       details.get('currentEMILoan').updateValueAndValidity();
     }
@@ -1170,6 +1200,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.rtrType = formValue.rtrType;
     applicantDetails.prevLoanAmount = formValue.prevLoanAmount;
     applicantDetails.loanTenorServiced = Number(formValue.loanTenorServiced);
+    applicantDetails.totalTenor = Number(formValue.totalTenor);
     applicantDetails.currentEMILoan = formValue.currentEMILoan;
     applicantDetails.agriNoOfAcres = Number(formValue.agriNoOfAcres);
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
@@ -1178,6 +1209,9 @@ export class BasicDetailsComponent implements OnInit {
 
 
     this.applicantDataService.setApplicantDetails(applicantDetails);
+
+    // const natureOfBorrower = this.applicant.natureOfBorrower;
+    // this.applicantDataService.setNatureOfBorrower(natureOfBorrower)
 
     prospectDetails.emailId = formValue.emailId ? formValue.emailId : '';
     prospectDetails.alternateEmailId = formValue.alternateEmailId
@@ -1210,6 +1244,10 @@ export class BasicDetailsComponent implements OnInit {
       : '';
     prospectDetails.politicallyExposedPerson =
       formValue.politicallyExposedPerson;
+    prospectDetails.natureOfBorrower =
+      formValue.natureOfBorrower;
+    prospectDetails.ntsHrp =
+      formValue.ntsHrp;
     prospectDetails.isSeniorCitizen = this.isSeniorCitizen;
     prospectDetails.isMinor = this.isMinor;
 
@@ -1246,6 +1284,7 @@ export class BasicDetailsComponent implements OnInit {
     applicantDetails.rtrType = formValue.rtrType;
     applicantDetails.prevLoanAmount = formValue.prevLoanAmount;
     applicantDetails.loanTenorServiced = Number(formValue.loanTenorServiced);
+    applicantDetails.totalTenor = Number(formValue.totalTenor);
     applicantDetails.currentEMILoan = formValue.currentEMILoan;
     applicantDetails.agriNoOfAcres = Number(formValue.agriNoOfAcres);
     applicantDetails.agriOwnerProperty = formValue.agriOwnerProperty;
@@ -1280,8 +1319,8 @@ export class BasicDetailsComponent implements OnInit {
   onSaveuserDefinedFields(value) {
     this.userDefineForm = value;
     console.log('identifyValue', value)
-    if(value.event === 'init'){
-      this.initUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    if (value.event === 'init') {
+      this.initUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
     }
   }
 
@@ -1322,9 +1361,9 @@ export class BasicDetailsComponent implements OnInit {
     // console.log(this.objectComparisonService.compare(this.apiValue, this.finalValue));
 
     const isValueCheck = this.objectComparisonService.compare(this.apiValue, this.finalValue)
-    this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
+    this.editedUDFValues = this.userDefineForm ? this.userDefineForm.udfData.getRawValue() : {};
 
-    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues , this.initUDFValues)
+    const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
 
     // console.log(JSON.stringify(this.initUDFValues));
@@ -1343,7 +1382,7 @@ export class BasicDetailsComponent implements OnInit {
 
     if (this.mobileNumberChange || !this.applicant.otpVerified) {
       const currentUrl = this.location.path();
-        this.applicantDataService.setNavigateForDedupe(true)
+      this.applicantDataService.setNavigateForDedupe(true)
       this.applicantDataService.setUrl(currentUrl);
       this.router.navigateByUrl(
         `/pages/lead-section/${this.leadId}/otp-section/${this.applicantId}`
@@ -1354,6 +1393,18 @@ export class BasicDetailsComponent implements OnInit {
         `/pages/sales-applicant-details/${this.leadId}/identity-details/${this.applicantId}`
       );
     }
+  }
+
+  onChangeBorrower(value) {
+    //console.log('value', value)
+    const formArray = this.basicForm.get('details') as FormArray;
+    const details = formArray.at(0);
+    this.natureOfBorArray.forEach((data : any) => {
+      if (value === data.id) {
+        details.get('ntsHrp').setValue(data.customerProfile);
+        return;
+      }
+    })
   }
 
 

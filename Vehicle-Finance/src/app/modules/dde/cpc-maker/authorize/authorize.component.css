@@ -1,0 +1,43 @@
+.authorize-demo {
+    margin-bottom: 15px !important;
+}
+
+.authorize-demo .panel-group{
+	margin-bottom: 10px;
+}
+.authorize-demo .panel-group .panel .panel-title{
+	font-size: 15px;
+}
+.authorize-demo .panel-group .panel a.panel-heading{
+	display: block;
+}
+
+.title {
+    background-color: #1d1a4b;
+    color: #fff;
+    font-size: 16px;
+
+}
+
+.file-input {
+    border: none;
+    border-bottom: 2px solid #0e25c7;
+    border-radius: 0px;
+  }
+  
+  .file-input:read-only {
+    background-color: #fff;
+  }
+  
+  .file-input:hover {
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .cus-margin {
+    margin-bottom: 10px !important;
+  }
+
+  .cus-doc {
+    margin-top: 21px !important;
+  }

@@ -1,0 +1,8 @@
+.mar-top{
+    margin-top: 10px !important;
+}
+
+.file-input:hover {
+    cursor: pointer;
+    /* font-size: 16px !important; */
+}

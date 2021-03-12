@@ -43,6 +43,17 @@ export class SalesExactMatchComponent implements OnInit {
   exactRefNo = {}
 
   isClicked: boolean;
+  isDisableAdharMatch : boolean = true;
+  isDisableMobMatch : boolean = true;
+  selectedMatchDetails ={
+    selectedMobYes : '0',
+    selectedMobNo : '0',
+    selectedAdharYes : '0',
+    selectedadharNo : '0'
+  }
+  isCheckMob: boolean;
+  isCheckAdhar: boolean;
+  isDirty: boolean;
 
   constructor(
     private salesDedupeService: SalesDedupeService,
@@ -63,6 +74,7 @@ export class SalesExactMatchComponent implements OnInit {
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
     this.isNavigateToApplicant = this.applicantDataStoreService.getNavigateForDedupe()
     console.log('dedupeDetails', this.dedupeDetails)
+    this.applicantDataStoreService.setDetectActivity(false)
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
@@ -80,9 +92,22 @@ export class SalesExactMatchComponent implements OnInit {
   }
 
   continueWithSelectedUCIC() {
+    // this.isDirty = true;
+    //   if(!this.isCheckMob){
+        
+    //      this.toasterService.showError('Please select YES or NO', 'Mobile Number Mismatch')
+    //      return;
+    //   }
+    //   if(!this.isCheckAdhar){
+      
+    //     this.toasterService.showError('Please select YES or NO', 'Aadhar Number is not updated in bank record')
+    //     return;
+    //   }
+      
     this.currentAction = 'ucic';
     this.modalName = 'ucicModal2';
     this.applicantDataStoreService.setDetectvalueChange(true)
+    this.applicantDataStoreService.setDetectActivity(true)
   }
 
   onProbableChange(event, value) {
@@ -93,14 +118,23 @@ export class SalesExactMatchComponent implements OnInit {
       this.isSelectedUcic = true;
       this.selectedDetails = null;
       this.selectedApplicant = null;
+      // this.isDisableMobMatch = true;
+      // this.isDisableAdharMatch = true;
       return;
     }
     this.selectedDetails = value;
+    // const mobNo = this.selectedDetails.mobile.slice(2, 12);
+    // this.isDisableMobMatch = (this.dedupeParameter.mobileNumber !== mobNo) ? false : true;
+    // this.isDisableAdharMatch = (!value.aadhar || value.aadhar === 'undefined') ? false : true;
+
     this.enableUcicButton();
   }
 
   onExactChange(event) {
     this.selectedDetails = event;
+    const mobNo = event.mobile.slice(2, 12);
+    this.isDisableMobMatch = (this.dedupeParameter.mobileNumber !== mobNo) ? false : true;
+    this.isDisableAdharMatch = (!event.aadhar || event.aadhar === 'undefined') ? false : true;
     this.enableUcicButton();
   }
 
@@ -152,6 +186,7 @@ export class SalesExactMatchComponent implements OnInit {
   }
 
   callApiForSelectedUcic() {
+    console.log('this.selected', this.selectedMatchDetails)
     this.currentAction = 'ucic';
     const leadId = this.dedupeParameter.leadId;
 
@@ -193,6 +228,7 @@ export class SalesExactMatchComponent implements OnInit {
           // this.router.navigateByUrl(
           //   `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
           // );
+          this.applicantDataStoreService.setMatchingDetails(this.selectedMatchDetails)
         } else {
           this.toasterService.showError(data.ProcessVariables.error.message, '');
         }
@@ -442,5 +478,28 @@ export class SalesExactMatchComponent implements OnInit {
       this.dedupeDetails.deduIndExctMatch[index].aadhar = this.exactRefNo[index] || data.aadhar;
     }
     data.isClicked = false;
+  }
+
+  checkmobileMatch(value){
+    if (value == 'yes'){
+      this.selectedMatchDetails.selectedMobYes = '1'
+      this.selectedMatchDetails.selectedMobNo = '0'
+
+    }else if (value == 'no'){
+      this.selectedMatchDetails.selectedMobNo = '1'
+      this.selectedMatchDetails.selectedMobYes = '0'
+    }
+    this.isCheckMob = true;
+
+  }
+  checkAdharMatch(value){
+    if (value == 'yes'){
+      this.selectedMatchDetails.selectedAdharYes = '1'
+      this.selectedMatchDetails.selectedadharNo = '0'
+    }else if (value == 'no'){
+      this.selectedMatchDetails.selectedadharNo = '1'
+      this.selectedMatchDetails.selectedAdharYes = '0'
+    }
+    this.isCheckAdhar = true;
   }
 }

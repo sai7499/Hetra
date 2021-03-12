@@ -1,0 +1,68 @@
+<main [ngClass]="{'mar-top90': !isLoan360}">
+  <app-lead-section-header></app-lead-section-header>
+  <div class="content mar-top" [formGroup]="deferralForm">
+    <h3 class="banner-con">Deferral Document Details
+    </h3>        
+    <form formArrayName="defDocumentArray">
+      <div class="table-responsive" id="exact_macth_title2_sec">
+        <table class="table">
+          <thead>
+            <tr class="table-head-bg">
+              <td>S.NO</td>
+              <td>Document Name</td>
+              <td>Deferral Date</td>
+              <td class="text-center">Upload</td>
+              <td class="text-center">View</td>
+              <td>Received By</td>
+              <td>Received On</td>
+            </tr>
+          </thead>
+          <tbody>
+           <ng-container *ngFor="let detail of deferralForm.get('defDocumentArray')['controls']; let i = index">
+            <tr [formGroupName]="i">
+              <td>{{ i + 1 }}</td>
+              <td><app-vf-custom-select formControlName="docName" [values]="docName">
+              </app-vf-custom-select></td>
+
+              <td><kendo-datepicker class="form-control mandatory" formControlName="defDate"
+                [format]="'dd/MM/yyyy'"  [activeView]="'decade'">
+              </kendo-datepicker></td>
+
+              <td class="upload-icon"><label
+                ><i
+                  class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                  aria-hidden="true"
+                  id="add_more_documents_upload1a"
+                ></i></label></td>
+
+
+              <td class="file-input">681234 </td>
+
+
+              <td><app-vf-custom-select formControlName="rcvdBy" [values]="rcvdBy">
+              </app-vf-custom-select></td>
+
+              <td><kendo-datepicker class="form-control mandatory" formControlName="rcvdOn"
+                [format]="'dd/MM/yyyy HH:mm'"  [activeView]="'decade'"  >
+              </kendo-datepicker>
+
+              
+            </tr>
+           </ng-container>
+          </tbody>
+        </table>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="text-center">
+            <button class="btn btn-primary" (click)="onSave()">Save</button>
+            <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+          </div>
+    
+        </div>
+      </div>
+      
+    </form>
+
+    
+  </div>
+ 
+</main>

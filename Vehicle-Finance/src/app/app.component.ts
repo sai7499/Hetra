@@ -289,7 +289,8 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     window.addEventListener('storage', (event) => {
       if (event.storageArea == localStorage) {
-           let token = localStorage.getItem('token');
+          //  let token = localStorage.getItem('token');
+           let token = sessionStorage.getItem('token');
            if(token == undefined) { 
              // Perform logout
              //Navigate to login/home
@@ -299,7 +300,7 @@ export class AppComponent implements OnInit, OnDestroy {
   });
 
   window.addEventListener('popstate', (event) => {
-    if(!window.location.href.includes('/login') && localStorage.getItem('token') && environment.production) {
+    if(!window.location.href.includes('/login') && sessionStorage.getItem('token') && environment.production) {
           history.go(1);
           this.sharedService.browserPopState(false);
           this.showModal = false;
