@@ -1210,7 +1210,7 @@ export class ApiService {
     approvingAuthority: {
       workflowId: '870f1640816811ebb9ba00505695f93b',
       processId: '69bdb304816c11eb8f6900505695f93b',
-      projectId: environment.projectIds.supervisorProId
+      projectId: environment.projectIds.submitToCredit
     },
     PdcSpdcApproval: {
       workflowId: '870f1640816811ebb9ba00505695f93b',

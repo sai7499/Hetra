@@ -131,6 +131,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   roleFilter = new FormControl(this.roleList);
   supervisorForm: FormGroup
   filterForm: FormGroup;
+  approveForm: FormGroup;
   showFilter;
   roleType: any;
   labels: any = {};
@@ -277,6 +278,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   requestedOn = [];
   defferalDocName = [];
   deferralStatus: any;
+  isDocument: any;
 
   constructor(
     private fb: FormBuilder,
@@ -373,6 +375,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.supervisorForm = this.fb.group({
       roles: ['', Validators.required]
+    });
+    this.approveForm = this.fb.group({
+      deferralRemarks: ['', Validators.required]
     });
 
     if (this.router.url === "/pages/supervisor/dashboard") {
@@ -2017,21 +2022,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
 
+  onApproveClick(data) {
+    this.showModal = true;
+    console.log(data);
+    
+  }
+
   onDeferralApproveOrReject(type: string) {
     if (type == 'approve') {
       this.deferralStatus = '1'
+      this.isDirty = false
     } else {
       this.deferralStatus = '2'
+      this.isDirty = true;
     }
     const data = {
       documentDetail: {
         documentId: 2036,
         deferralStatus: this.deferralStatus,
-        deferralRemarks: ''
+        deferralRemarks: '',
+        isDocument: this.isDocument
       }
     }
     console.log(data);
-    
+    if (this.approveForm.invalid) {
+      this.toasterService.showError('Please fill mandatory fields', '')
+      return;
+    }
     this.dashboardService.getApproveOrRejectDocumentDeferral(data).subscribe((res: any) => {
       const response = res;
       const appiyoError = response.Error;
@@ -2039,7 +2056,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       if (appiyoError === '0' && apiError === '0') {
         console.log(response.ProcessVariables);
-        
       } else {
         this.toasterService.showError(response.ProcessVariables.error.message, '');
       }

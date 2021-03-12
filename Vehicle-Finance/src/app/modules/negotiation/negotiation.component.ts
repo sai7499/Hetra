@@ -209,14 +209,17 @@ export class NegotiationComponent implements OnInit {
       name: 'Cancel',
       isModalClose: true,
     }];
-  showButton = true;
+  // showButton = true;
   getBranchDetails: any;
   userDetails: any;
   keyValue: any;
-  approvalStatus: any;
+  approvalStatus = [];
   collectedSPDCvalueCheck: { rule: (spdcvalue: any) => boolean; msg: string; }[];
   isCollectedSPDC: boolean;
   collectedPDCvalueCheck: { rule: (collectedpdcvalue: any) => boolean; msg: string; }[];
+  isAlreadyApproved: boolean;
+  approvedBy: any;
+  currentIndex: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -339,26 +342,32 @@ export class NegotiationComponent implements OnInit {
   onApprovePdcSpdc() {
     // this.showButton = false;
     // this.showModal = false;
+    this.createNegotiationForm.get('tickets')['controls'][this.currentIndex]['controls'].approvalForm.patchValue({
+      approvalStatus: 0
+    });
     const todayDate = new Date();
+    delete this.keyValue['Name']
     const data = {
       leadId: Number(this.leadId),
       requestedOn: this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm'),
       requestedBy: localStorage.getItem('userId'),
-      approvedBy: this.keyValue.userId,
+      approvedBy: this.keyValue,
+      approvalStatus: '0'
     }
     this.NegotiationService.approvalForPdcSpdc(data).subscribe((res: any) => {
       const response = res;
       if (response.Error == '0' && response.ProcessVariables.error.code == '0') {
         console.log('response', response);
-        this.showButton = false;
+        // this.showButton = false;
+        this.isAlreadyApproved = true;
         this.showModal = false;
       } else {
         this.toasterService.showError(response.ProcessVariables.error.message, '')
       }
-    })
+    });
   }
   
-  getApprovingAuthority() {
+  getApprovingAuthority(i?) {
     const data = {
       leadId: Number(this.leadId)
     }
@@ -368,6 +377,8 @@ export class NegotiationComponent implements OnInit {
       console.log(response, "approvingAuthority");
       this.getBranchDetails = response.ProcessVariables.approvedBy;
       const approvalStatus = response.ProcessVariables.approvalStatus;
+      this.isAlreadyApproved = response.ProcessVariables.isAlreadyApproved;
+      this.approvedBy =  response.ProcessVariables.aApprovedBy;
         approvalStatus.map(ele => {
           const status = {
             key: ele.id,
@@ -375,10 +386,13 @@ export class NegotiationComponent implements OnInit {
           }
           this.approvalStatus.push(status);
         });
+        this.createNegotiationForm.get('tickets')['controls'][this.currentIndex]['controls'].approvalForm.patchValue({
+          code: this.approvedBy.name
+        });
       } else {
         this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
-    })
+    });
   }
   onApprovalNameSearch(val) {
     if (val && val.trim().length > 0) {
@@ -421,7 +435,9 @@ export class NegotiationComponent implements OnInit {
     }
   }
   
-  onApprovalClick() {
+  onApprovalClick(index?) {
+    console.log(index, 'index');
+    this.currentIndex = index
     this.isDirty = true;
     if(this.keyValue) {
       this.showModal = true;
@@ -2320,7 +2336,8 @@ if(flag){
 
                     approvalForm: this.fb.group({
                       code: [''],
-                      approvalStatus: ['']
+                      approvalStatus: [{value: '', disabled: true}],
+                      deferralDate: ['']
                     }),
 
                     variableForm : this.fb.group({

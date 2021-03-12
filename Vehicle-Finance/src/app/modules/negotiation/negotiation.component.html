@@ -973,14 +973,24 @@
                               </div>
                             </div>
                             <div *ngIf="isPredDone == 'true'" class="clearfix col-sm-4 col-md-4 col-lg-4" formGroupName="approvalForm">
-                              <div class="form-group" style="height: 31px; margin-top: 43px;">
-                                <div *ngIf="!showButton" class="form-group">
+                              <!-- <div class="form-group" style="height: 31px; margin-top: 43px;">
+                                <div *ngIf="isAlreadyApproved" class="form-group">
                                   <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Status
                                   </label>
                                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                    <!-- <input class="form-control" disabled value="Pending"> -->
                                     <app-vf-custom-select [values]="approvalStatus" formControlName="approvalStatus">
                                     </app-vf-custom-select>
+                                  </div>
+                                </div>
+                              </div> -->
+                              <div class="form-group" style="height: 31px; margin-top: 43px;">
+                                <div class="form-group">
+                                  <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Deferral Date
+                                  </label>
+                                  <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                    <kendo-datepicker class="form-control" formControlName="deferralDate" [format]="'dd/MM/yyyy'"
+                                      placeholder="Select Deferral Date" [activeView]="'decade'">
+                                    </kendo-datepicker>
                                   </div>
                                 </div>
                               </div>
@@ -1012,7 +1022,15 @@
                               </div>
 
                               <div>
-                                <button *ngIf="showButton" (click)="onApprovalClick()" class="btn btn-primary" style="margin-right: 12px; float: right; padding: 6px 4px;">Request For Approval</button>
+                                <button *ngIf="isAlreadyApproved" (click)="onApprovalClick()" class="btn btn-primary" style="margin-right: 12px; float: right; padding: 6px 4px;">Request For Approval</button>
+                              </div>
+                                <div *ngIf="!isAlreadyApproved" class="form-group">
+                                  <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Status
+                                  </label>
+                                  <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                    <app-vf-custom-select [values]="approvalStatus" formControlName="approvalStatus">
+                                    </app-vf-custom-select>
+                                  </div>
                               </div>
                             </div>
                           </div>

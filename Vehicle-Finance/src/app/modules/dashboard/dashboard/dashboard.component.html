@@ -1108,7 +1108,7 @@
                                 <div class="row" style="margin: 0 5px 0 5px;">
                                     <a title="View DDE" style="margin: 5px;"><i
                                         class="fa fa-eye cursor-pointer"  aria-hidden=""></i></a>
-                                    <a title="Approve" (click)="showModal = true" style="margin: 5px; color: lightgreen;"><i
+                                    <a title="Approve" (click)="onApproveClick(item)" style="margin: 5px; color: lightgreen;"><i
                                         class="fa fa-thumbs-up cursor-pointer" aria-hidden=""></i></a>
                                     <a title="Reject" data-toggle="modal" data-target="#rejectModal" style="margin: 5px; color: orangered;"><i
                                         class="fa fa-thumbs-down cursor-pointer" aria-hidden=""></i></a>
@@ -1277,20 +1277,20 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to reject?</p>
-                    <div class="row">
+                    <div [formGroup]="approveForm" class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 text-left">
                             <label for="valuator_remarks">{{ labels?.remark }}
                             </label>
                             <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3"
-                            placeholder="" formControlName=""
+                            placeholder="" formControlName="deferralRemarks"
                             [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
-        
+                            <div class="invalid-feedback">
+                                <div *ngIf="!approveForm.get('deferralRemarks').value && isDirty">
+                                    Remarks is required
+                                </div>
+                            </div>
                         </div>
-                        <div class="invalid-feedback">
-                            <span>
-                                
-                            </span>
-                        </div>
+                        
                     </div>
                    
                 </div>
