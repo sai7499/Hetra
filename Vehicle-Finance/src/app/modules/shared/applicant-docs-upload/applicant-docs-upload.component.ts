@@ -127,6 +127,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   subcategotyDocsId: any = {};
   documentStatus: any = [];
   isDocumentStatus: boolean = false;
+  isPreDisEnable: boolean;
 
   constructor(
     private lovData: LovDataService,
@@ -398,7 +399,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
         new FormArray([this.getDocsFormControls()])
       );
     });
-    console.log('this.uploadForm', this.uploadForm.value);
   }
 
   toggleDeferralDate(categoryCode, index) {
@@ -411,12 +411,13 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if (isChecked) {
       formGroup.get('deferredDate').enable();
       this.docNumberError = false;
+      if (localStorage.getItem('isPreDisbursement') === 'true') {
+        this.isPreDisEnable= true;
+      }
     } else {
       formGroup.get('deferredDate').disable();
       formGroup.get('deferredDate').setValue(null);
       this.docNumberError = true;
-
-      
     }
   }
 

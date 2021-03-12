@@ -226,7 +226,7 @@
                       </div>
 
                       <ng-container
-                        *ngIf="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value">
+                        *ngIf="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value && isPreDisEnable">
                         <div class="form-group col-sm-3 col-md-2">
                           <label for="edate">Role Name</label>
                           <div class="ng-autopopulate" style="width: 100%;">
