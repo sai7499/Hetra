@@ -3053,7 +3053,7 @@
             "maxLength": {
                 "rule": 20
             },
-            "type": "special-alpha-numeric"
+            "type": "custom-comma-special-alpha-numeric"
         },
         "valuationRefNo": {
             "maxLength": {

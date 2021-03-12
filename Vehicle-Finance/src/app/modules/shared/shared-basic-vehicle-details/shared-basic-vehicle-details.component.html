@@ -2855,35 +2855,32 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="company">{{ label?.insuranceCompanyName }}
-                                    <sub class="star_red_col">*</sub>
-                                </label>
+                                <label for="company">{{ label?.insuranceCompanyName }}</label>
                                 <app-vf-custom-select formControlName="insuranceCompany" [id]="'company'"
-                                    [values]="vehicleLov?.insuranceLov" [isRequired]="'Insurance Company Name Required'"
-                                    [isDirty]="isDirty" (change)="onValidInsuranceName(obj, $event.target.value)">
+                                    [values]="vehicleLov?.insuranceLov" [isDirty]="isDirty"
+                                    (change)="onValidInsuranceName(obj, $event.target.value)">
                                 </app-vf-custom-select>
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3"
                                 *ngIf="obj.get('insuranceCompany').value === '4VEHINS'">
                                 <label for="company">{{ label?.otherInsuranceCompanyName }}
-                                    <sub class="star_red_col">*</sub>
+                                    <sub class="star_red_col"
+                                        *ngIf="obj.get('insuranceCompany').value === '4VEHINS'">*</sub>
                                 </label>
                                 <app-custom-input [className]="'form-control mandatory'" formControlName="insuranceName"
-                                    [placeholder]="'Other Insurance Company Name'" [maxLength]="label?.validationData?.name.maxLength"
+                                    [placeholder]="'Other Insurance Company Name'"
+                                    [maxLength]="label?.validationData?.name.maxLength"
                                     [isRequired]="'Other Insurance Company Name is Required'"
                                     [type]="label?.validationData?.name.type" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="policy_number">{{ label?.policyNumber }}
-                                    <sub class="star_red_col">*</sub>
-                                </label>
+                                <label for="policy_number">{{ label?.policyNumber }}</label>
                                 <app-custom-input [className]="'form-control mandatory'"
                                     formControlName="insurancePolicyNumber" [placeholder]="'Policy Number'"
                                     [maxLength]="label?.validationData?.policyNumber.maxLength"
-                                    [isRequired]="'Policy Name is Required'"
                                     [type]="label?.validationData?.policyNumber.type" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
@@ -2893,36 +2890,27 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="type_of_policy">{{ label?.policyType }}
-                                    <sub class="star_red_col">*</sub>
-                                </label>
+                                <label for="type_of_policy">{{ label?.policyType }}</label>
                                 <app-vf-custom-select [id]="'insurance_type'" [values]="vehicleLov?.insuranceType"
-                                    formControlName="insuranceType" [isRequired]="'Policy Type Required'"
-                                    [isDirty]="isDirty">
+                                    formControlName="insuranceType" [isDirty]="isDirty">
                                 </app-vf-custom-select>
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="idv">{{label?.premiumAmount}}</label>
-                                <app-custom-input [id]="'idv'" formControlName="premiumAmount" [type]="label.validationData?.amountValue.type"
-                                    [className]="'form-control'"
+                                <app-custom-input [id]="'idv'" formControlName="premiumAmount"
+                                    [type]="label.validationData?.amountValue.type" [className]="'form-control'"
                                     [maxLength]="label.validationData?.amountValue.maxLength"
                                     [placeholder]="'Premium Amount'">
                                 </app-custom-input>
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="valid_from">{{ label.validFrom }}
-                                    <sub class="star_red_col">*</sub></label>
+                                <label for="valid_from">{{ label.validFrom }}</label>
                                 <kendo-datepicker width="100%" class="form-control mandatory" [format]="'dd/MM/yyyy'"
                                     placeholder="dd/mm/yyyy" [activeView]="'decade'"
                                     (valueChange)="insuranceValidUptoCheck(obj)" formControlName="insuranceValidFrom">
                                 </kendo-datepicker>
-                                <div class="invalid-feedback">
-                                    <div *ngIf="isDirty && !obj.get('insuranceValidFrom').value">
-                                        Insurance Valid from Date is Required
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
@@ -2930,16 +2918,12 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="valid_upto">{{ label.validUpto }}
-                                    <sub class="star_red_col">*</sub></label>
+                                <label for="valid_upto">{{ label.validUpto }}</label>
                                 <kendo-datepicker width="100%" class="form-control mandatory" [format]="'dd/MM/yyyy'"
                                     placeholder="dd/mm/yyyy" [activeView]="'decade'"
                                     (valueChange)="insuranceValidUptoCheck(obj)" formControlName="insuranceValidTo">
                                 </kendo-datepicker>
                                 <div class="invalid-feedback">
-                                    <div *ngIf="isDirty && !obj.get('insuranceValidFrom').value">
-                                        Insurance valid upto Date is Required
-                                    </div>
                                     <div
                                         *ngIf="obj.get('insuranceValidFrom').value && obj.get('insuranceValidFrom').errors">
                                         Insurance valid upto Date is not greater than insurance valid from Date
