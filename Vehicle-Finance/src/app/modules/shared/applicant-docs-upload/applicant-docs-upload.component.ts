@@ -125,7 +125,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
   searchRole: any = [];
   keyword: any = '';
   subcategotyDocsId: any = {};
-  documentStatus: any = []
+  documentStatus: any = [];
+  isDocumentStatus: boolean = false;
 
   constructor(
     private lovData: LovDataService,
