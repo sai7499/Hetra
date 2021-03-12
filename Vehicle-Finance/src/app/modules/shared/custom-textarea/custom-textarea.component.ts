@@ -24,6 +24,7 @@ export class CustomTextareaComponent
 
   @Input() className: any;
   @Input() placeholder: any;
+  @Input() readonly: boolean;
 
   maxLengthValid: {
     rule?: number;

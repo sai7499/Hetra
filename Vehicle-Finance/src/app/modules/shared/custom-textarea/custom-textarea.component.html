@@ -1,7 +1,7 @@
 <textarea [class]="className" #customText style="resize: none;"
 [placeholder]="placeholder" [(ngModel)]="inputValue" [value]="value"
 (blur)="onBlurMethod($event)" (input)="change($event)"
-[maxlength]="maxLengthValid?.rule"></textarea>
+[maxlength]="maxLengthValid?.rule" [readonly]="readonly"></textarea>
 
 <div class="invalid-feedback" *ngIf="inputError">
   {{errorMsg}}

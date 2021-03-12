@@ -389,7 +389,8 @@
                                     <app-custom-textarea formControlName="address"
                                         [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'"
                                         [isRequired]="'Vehicle Address Required'" [isDirty]="isDirty"
-                                        [maxLength]="label.validationData?.textarea.maxLength">
+                                        [maxLength]="label.validationData?.textarea.maxLength"
+                                        [readonly]="false">
                                     </app-custom-textarea>
 
                                 </div>
@@ -1656,7 +1657,7 @@
                                         <app-custom-textarea formControlName="address"
                                             [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'"
                                             [isRequired]="'Vehicle Address Required'" [isDirty]="isDirty"
-                                            [maxLength]="label.validationData?.textarea.maxLength">
+                                            [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
                                             </app-custom-textarea>
 
                                     </div>
@@ -2313,7 +2314,7 @@
                                         <app-custom-textarea formControlName="address"
                                             [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'"
                                             [isRequired]="'Vehicle Address Required'" [isDirty]="isDirty"
-                                            [maxLength]="label.validationData?.textarea.maxLength">
+                                            [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
                                         </app-custom-textarea>
 
                                     </div>
