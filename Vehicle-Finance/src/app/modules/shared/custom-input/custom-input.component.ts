@@ -108,7 +108,7 @@ export class CustomInputComponent
   constructor(private elementRef: ElementRef) { }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
-   console.log('simpleChanges',simpleChanges);
+  //  console.log('simpleChanges',simpleChanges);
    const isRequired = simpleChanges.isRequired || null;
    if (isRequired) {
      if (this.isFirstChange) {

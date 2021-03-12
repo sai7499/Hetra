@@ -2855,23 +2855,23 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="company">{{ label?.company }}
+                                <label for="company">{{ label?.insuranceCompanyName }}
                                     <sub class="star_red_col">*</sub>
                                 </label>
                                 <app-vf-custom-select formControlName="insuranceCompany" [id]="'company'"
-                                    [values]="vehicleLov?.insuranceLov" [isRequired]="'Insurance Company Required'"
+                                    [values]="vehicleLov?.insuranceLov" [isRequired]="'Insurance Company Name Required'"
                                     [isDirty]="isDirty" (change)="onValidInsuranceName(obj, $event.target.value)">
                                 </app-vf-custom-select>
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3"
                                 *ngIf="obj.get('insuranceCompany').value === '4VEHINS'">
-                                <label for="company">{{ label?.insuranceName }}
+                                <label for="company">{{ label?.otherInsuranceCompanyName }}
                                     <sub class="star_red_col">*</sub>
                                 </label>
                                 <app-custom-input [className]="'form-control mandatory'" formControlName="insuranceName"
-                                    [placeholder]="'Insurance Name'" [maxLength]="label?.validationData?.name.maxLength"
-                                    [isRequired]="'Insurance Name is Required'"
+                                    [placeholder]="'Other Insurance Company Name'" [maxLength]="label?.validationData?.name.maxLength"
+                                    [isRequired]="'Other Insurance Company Name is Required'"
                                     [type]="label?.validationData?.name.type" [isDirty]="isDirty">
                                 </app-custom-input>
                             </div>
@@ -2893,13 +2893,22 @@
                         <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
-                                <label for="type_of_policy">{{ label?.typeOfPolicy }}
+                                <label for="type_of_policy">{{ label?.policyType }}
                                     <sub class="star_red_col">*</sub>
                                 </label>
                                 <app-vf-custom-select [id]="'insurance_type'" [values]="vehicleLov?.insuranceType"
-                                    formControlName="insuranceType" [isRequired]="'Insurance Type Required'"
+                                    formControlName="insuranceType" [isRequired]="'Policy Type Required'"
                                     [isDirty]="isDirty">
                                 </app-vf-custom-select>
+                            </div>
+
+                            <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
+                                <label for="idv">{{label?.premiumAmount}}</label>
+                                <app-custom-input [id]="'idv'" formControlName="premiumAmount" [type]="label.validationData?.amountValue.type"
+                                    [className]="'form-control'"
+                                    [maxLength]="label.validationData?.amountValue.maxLength"
+                                    [placeholder]="'Premium Amount'">
+                                </app-custom-input>
                             </div>
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -2915,6 +2924,10 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+
+                        <div class="row">
 
                             <div class="form-group col-sm-6 col-md-4 col-lg-3">
                                 <label for="valid_upto">{{ label.validUpto }}
@@ -2934,24 +2947,11 @@
                                 </div>
                             </div>
 
-                        </div>
-
-                        <div class="row">
-
                             <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                 <label for="idv">{{label.idv}}</label>
                                 <app-custom-input [id]="'idv'" [type]="label.validationData?.amountValue.type"
                                     [className]="'form-control'" formControlName="idv"
                                     [maxLength]="label.validationData?.amountValue.maxLength" [placeholder]="'IDV'">
-                                </app-custom-input>
-                            </div>
-
-                            <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
-                                <label for="idv">{{label?.premiumAmount}}</label>
-                                <app-custom-input [id]="'idv'" formControlName="premiumAmount" [type]="label.validationData?.amountValue.type"
-                                    [className]="'form-control'"
-                                    [maxLength]="label.validationData?.amountValue.maxLength"
-                                    [placeholder]="'Premium Amount'">
                                 </app-custom-input>
                             </div>
 

@@ -23,8 +23,7 @@
                 let detail of uploadForm.get(
                   FORM_ARRAY_NAME + '_' + subCat.code
                 )['controls'];
-                let i = index
-              ">
+                let i = index">
 
                 <ng-container *ngIf="subCat.code === 1 || subCat.code === 2">
 
@@ -229,28 +228,17 @@
                         *ngIf="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value && isPreDisEnable">
                         <div class="form-group col-sm-3 col-md-2">
                           <label for="edate">Role Name</label>
-                          <div class="ng-autopopulate" style="width: 100%;">
 
-                            <ng-autocomplete class="custom-select-box" [data]="searchRole" [searchKeyword]="keyword"
-                              (selected)='selectRoleEvent($event)' (inputChanged)='onRoleSearch($event)'
-                              (inputCleared)='onRoleClear($event)' [itemTemplate]="favRoleNameTemplate"
-                              formControlName="documentRoleId" [notFoundTemplate]="notFoundTemplate"
-                              [placeHolder]="'Role Name'" [debounceTime]="400" [minQueryLength]="3">
-                            </ng-autocomplete>
-
-                            <ng-template #favRoleNameTemplate let-item>
-                              <a [innerHTML]="item"></a>
-                            </ng-template>
-                            <ng-template #notFoundTemplate let-notFound>
-                              <div [innerHTML]="notFound"></div>
-                            </ng-template>
-                          </div>
+                          <app-vf-custom-select [values]="documentRoleArray" [id]="'document_role'"
+                            formControlName="receivedBy" [isRequired]="'Document Role Required'" [isDirty]="isDirty">
+                          </app-vf-custom-select>
 
                         </div>
 
                         <div class="form-group col-sm-3 col-md-2">
                           <button class="btn btn-primary dash_href cus-mar" type="button" id="request"
-                            *ngIf="!isLoan360" (click)="isDocumentStatus = !isDocumentStatus;onApproveRequest(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
+                            *ngIf="!isLoan360"
+                            (click)="isDocumentStatus = !isDocumentStatus;onApproveRequest(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
                             Request For Approval
                           </button>
                         </div>
