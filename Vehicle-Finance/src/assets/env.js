@@ -12,8 +12,8 @@
     window["env"]["useDEVADAuth"] = false; // for DEV
     window["env"]["useUATADAuth"] = true; // for UAT
     window["env"]["usePRDADAuth"] = true; // for production
-    window["env"]["version"] = "0.47.2"; 
-    window["env"]["buildDate"] = "09-03-2021";
+    window["env"]["version"] = "0.47.3"; 
+    window["env"]["buildDate"] = "12-03-2021";
     window["env"]["sessionTime"] = "14";
     window["env"]["expriyAlertTime"] = "30";
   })(this);
