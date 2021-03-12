@@ -1,6 +1,5 @@
-import { Component, ElementRef, forwardRef, HostListener, Input, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, HostListener, Input, OnChanges, Renderer2, ViewChild, SimpleChanges } from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator} from "@angular/forms";
-import { CustomInputComponent } from '../custom-input/custom-input.component';
 
 @Component({
   selector: 'app-custom-textarea',
@@ -19,7 +18,7 @@ import { CustomInputComponent } from '../custom-input/custom-input.component';
     },]
 })
 export class CustomTextareaComponent
- implements ControlValueAccessor, Validator {
+ implements ControlValueAccessor, Validator, OnChanges {
 
   @ViewChild('customText', {static: true}) customText;
 
@@ -53,6 +52,8 @@ export class CustomTextareaComponent
   @Input() isDisabled: boolean;
   @Input() isRequired: string;
   @Input() value: string;
+
+  isFirstChange: boolean = true;
 
   @Input() set isDirty(value) {
     console.log(value, 'isDirty', this.isRequired)
@@ -96,20 +97,32 @@ export class CustomTextareaComponent
   constructor( private renderer : Renderer2 ) {
   }
 
-  change( $event ) {
+  change($event ) {
     this.onChange($event.target.value);
     this.onTouched($event.target.value);
     this.inputError = $event.target.value ? false: true;
+    // this.inputValue = String(this.inputValue || '').toUpperCase();
   }
 
   onBlurMethod(event) {
       const newValue = event.target.value;
-
       if (!newValue && this.isRequired) {
         this.displayError(this.isRequired);
         return;
       }
   }
+
+  ngOnChanges(simpleChanges: SimpleChanges) {
+    console.log('simpleChanges',simpleChanges);
+    const isRequired = simpleChanges.isRequired || null;
+    if (isRequired) {
+      if (this.isFirstChange) {
+        return this.isFirstChange = false;
+      }
+     this.checkValidation(this.inputValue);
+    }
+ 
+   }
 
   checkValidation(value) {
     const newValue = value;
