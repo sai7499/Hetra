@@ -96,7 +96,7 @@ export class CpcMakerDdeComponent implements OnInit {
       return 6;
     } else if (url.includes('remarks') && this.roleType == '7') {
       return 7;
-    } else if (url.includes('delivery-order') ) {
+    } else if (url.includes('authorize') ) {
       return 8;
     }
 

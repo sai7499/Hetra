@@ -13,6 +13,8 @@ export class SharedService {
     isValuator: any;
     isReinitiate: any;
     scoreCardId: any;
+
+    isPdcData: any;
     
     browserPopState(data) {
         this.popStateActivity$.next(data)
@@ -182,6 +184,14 @@ export class SharedService {
     }
     getScoreCardId() {
         return this.scoreCardId;
+    }
+
+    setPdcDetails(data: any) {
+        this.isPdcData = data;
+    }
+
+    getIsPdcData() {
+        return this.isPdcData;
     }
 
 }

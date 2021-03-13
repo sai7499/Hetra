@@ -1,18 +1,23 @@
 export const storage = {
 
     getToken() {
-        let userId = localStorage.getItem('token')
-            ? localStorage.getItem('token')
+        let userId = sessionStorage.getItem('token')
+            ? sessionStorage.getItem('token')
             : '';
+        // let userId = localStorage.getItem('token')
+        //     ? localStorage.getItem('token')
+        //     : '';
         return userId;
     },
 
     setToken(token) {
-        localStorage.setItem('token', token ? token : '');
+        sessionStorage.setItem('token', token ? token : '');
+        // localStorage.setItem('token', token ? token : '');
     },
 
     removeToken() {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+        // localStorage.removeItem('token');
     },
 
 
@@ -40,7 +45,8 @@ export const storage = {
     },
 
     checkToken() {
-        if (localStorage.getItem('token')) {
+        // localStorage.getItem('token'
+        if (sessionStorage.getItem('token')) {
             return true
         }
         else {

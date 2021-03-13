@@ -1216,6 +1216,11 @@ export class ApiService {
       workflowId: '68aa178c80b811eb9fc400505695f93b',
       processId: '98642ee880ba11eb938400505695f93b',
       projectId: environment.projectIds.submitToCredit
+    },
+    InsuranceLov: {
+      workflowId: '89b4dd367fdc11ebbbdc00505695f93b',
+      processId: '89d91c467fdc11eb8b6500505695f93b',
+      projectId: environment.projectIds.camProjectId
     }
   };
 }

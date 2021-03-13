@@ -25,7 +25,6 @@ import { ToasterService } from '@services/toaster.service';
 import { Constant } from '@assets/constants/constant';
 
 import { LoanViewService } from '@services/loan-view.service';
-
 @Component({
   selector: 'app-applicant-docs-upload',
   templateUrl: './applicant-docs-upload.component.html',
@@ -127,7 +126,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
     private router: Router,
     private labelsData: LabelsService,
     private applicantService: ApplicantService,
-    private activateRoute: ActivatedRoute,
     private location: Location,
     private lovService: CommomLovService,
     private uploadService: UploadService,
@@ -167,7 +165,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const url = this.location.path();
     this.isApplicantDetails = url.includes('sales-applicant-details') ? true : false
     console.log(url, 'isApplicantDetails' ,this.isApplicantDetails)
-
   }
 
   getApplicantDetails() {

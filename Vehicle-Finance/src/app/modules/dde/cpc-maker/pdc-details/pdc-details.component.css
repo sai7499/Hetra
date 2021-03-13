@@ -242,3 +242,7 @@ p {
 :host ::ng-deep .autocomplete-container .suggestions-container{
   z-index: 10 !important;
 }
+
+.form-group label {
+  margin-top: 7px !important;
+}
