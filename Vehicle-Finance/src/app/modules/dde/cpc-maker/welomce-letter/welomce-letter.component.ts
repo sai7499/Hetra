@@ -91,6 +91,21 @@ export class WelomceLetterComponent implements OnInit {
   chequeModeMsg: string;
   isLoan360: boolean;
 
+  trancheName = [
+    {
+      key : '1',
+      value : 'Tranche_2'
+    },
+    {
+      key : '2',
+      value : 'Tranche_3'
+    },
+    {
+      key : '3',
+      value : 'Tranche_4'
+    },
+  ]
+
   constructor(private activatedRoute: ActivatedRoute,
               private labelsData: LabelsService, 
               private loginStoreService: LoginStoreService, 

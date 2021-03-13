@@ -24,11 +24,17 @@ export class DeferralDocumentsComponent implements OnInit {
   documentArray: any = [];
   selectedDocDetails: {
     docSize: number;
-    formArrayIndex: any; docsType: any;
-    docNm: any; docCtgryCd: any;
-    docTp: string; docSbCtgry: any;
-    docCatg: any; docCmnts: string;
-    docTypCd: any; docSbCtgryCd: any;
+    formArrayIndex: any; 
+    docsType: any;
+    docNm: any; 
+    docCtgryCd: any;
+    docTp: string; 
+    docSbCtgry: any;
+    docCatg: any; 
+    docCmnts: string;
+    documentId : any;
+    docTypCd: any; 
+    docSbCtgryCd: any;
     docRefId: { idTp: string; id: any; }[];
   };
   showModal: boolean;
@@ -37,6 +43,7 @@ export class DeferralDocumentsComponent implements OnInit {
   validationData: any;
   documentDetails: any = [];
   docName: any = [];
+  roleIds: any = [];
 
   constructor(
     private location: Location,
@@ -104,7 +111,12 @@ export class DeferralDocumentsComponent implements OnInit {
             key: data.documentType,
             value: data.documentTypeValue
           }
-          this.docName.push(docNames)
+          const roleIds = {
+            key : data.documentRoleId,
+            value : data.documentRoleName
+          }
+          this.docName.push(docNames);
+          this.roleIds.push(roleIds)
         })
         setTimeout(() => {
           this.initRows(this.documentDetails)
@@ -130,17 +142,11 @@ export class DeferralDocumentsComponent implements OnInit {
 
         associatedId: new FormControl(value.associatedId || ''),
         associatedWith: new FormControl(value.associatedWith || ''),
-
         categoryCode: new FormControl(value.categoryCode || ''),
-        categoryCodeValue: new FormControl(value.categoryCode || ''),
-
+        categoryCodeValue: new FormControl(value.categoryCodeValue || ''),
         dmsDocumentId: new FormControl(value.dmsDocumentId || ''),
         documentId: new FormControl(value.documentId || ''),
-        documentName: new FormControl(value.documentName || ''),
-        documentNumber: new FormControl(value.documentNumber || ''),
-        subCategoryCode: new FormControl(value.subCategoryCode || ''),
-
-
+        subCategoryCode: new FormControl(value.subCategoryCode || '')
 
       });
       formArray.push(formGroup);
@@ -164,6 +170,7 @@ export class DeferralDocumentsComponent implements OnInit {
     const docCmnts = 'Addition of document for Lead Creation';
     const docTypCd = docTyp.key;
     const docSbCtgryCd = formArray['controls'][index].get('subCategoryCode').value;
+    const documentId = formArray['controls'][index].get('documentId').value;
 
     this.showModal = true;
     this.selectedDocDetails = {
@@ -173,6 +180,7 @@ export class DeferralDocumentsComponent implements OnInit {
       docNm,
       docCtgryCd,
       docTp,
+      documentId,
       docSbCtgry,
       docCatg,
       docCmnts,
@@ -198,7 +206,56 @@ export class DeferralDocumentsComponent implements OnInit {
     console.log('onUploadSuccess', event);
     const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
     formArray['controls'][event.formArrayIndex].get('dmsDocumentId').setValue(event.dmsDocumentId);
+    let index = 0;
+    if (this.documentDetails.length === 0) {
+      this.documentDetails.push(event);
+      index = 0;
+    } else {
+      index = this.documentDetails.findIndex((value) => {
+        return (
+          value.subCategoryCode === event.subCategoryCode &&
+          value.documentId === event.documentId
+        );
+      });
+      if (index === -1) {
+        this.documentDetails.push(event);
+        index = this.documentDetails.length - 1;
+      } else {
+        this.documentDetails[index] = event;
+      }
+    }
+
+    console.log('documentDetails', this.documentDetails);
+    const toDayDate = new Date();
+    const receivedOn = this.utilityService.convertDateTimeTOUTC(toDayDate, 'YYYY-MM-DD HH:mm')
+    event.isDeferred = "1";
+    event.receivedBy = formArray['controls'][event.formArrayIndex].get('receivedBy').value;
+    //event.receivedBy= "7";
+    event.receivedOn = receivedOn;
+    event.deferredDate = 
+    this.utilityService.getDateFormat(formArray['controls'][event.formArrayIndex].get('deferredDate').value)
+    this.individualImageUpload(event, index);
   }
+
+  individualImageUpload(request, index: number) {
+    this.uploadService
+      .saveOrUpdateDocument([request])
+      .subscribe((value: any) => {  
+        const processVariables = value.ProcessVariables;
+        if (processVariables.error.code === '0'){
+          const documentId = processVariables.documentIds[0];
+          //this.documentDetails[index].documentId = documentId;
+          const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
+          formArray['controls'][index].get('documentId').setValue(documentId);
+          this.toasterService.showSuccess('Document uploaded successfully', '');
+        }else{
+          this.toasterService.showError(processVariables.error.message, '');
+        }
+        
+      });
+  }
+
+
 
   documentArr(index) {
     const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
@@ -295,7 +352,36 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
 }
 
   onSave() {
+    const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
+    const formValues = formArray.getRawValue();
+    console.log('formValues', formValues);
+    const todayDate = new Date()
+    formValues.forEach((data)=>{
+      data.deferredDate = this.utilityService.getDateFormat(data.deferredDate),
+      data.receivedOn = this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm')
+      data.isDeferred = "1"
+    })
+    this.saveDefDoc(formValues)
+  }
 
+  saveDefDoc(data) {
+    this.uploadService
+      .saveOrUpdateDocument(data)
+      .subscribe((value: any) => {
+        const processVariables = value.ProcessVariables;
+        if(processVariables.error.code === '0'){
+          this.toasterService.showSuccess('Documents saved successfully', '');
+          const documentIds = processVariables.documentIds;
+          const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
+          documentIds.forEach((id, index) => {
+            // this.documentArr[index].documentId = id;
+            formArray['controls'][index].get('documentId').setValue(id);
+          });
+        }else{
+          this.toasterService.showError(processVariables.error.message, '');
+        }
+        
+      });
   }
 
   onSubmit() {
@@ -303,8 +389,20 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
     const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
     const formValues = formArray.getRawValue();
     console.log('formValues', formValues)
-    this.deferralDocService.submitDefDocuments(formValues).subscribe((data) => {
-
+    const todayDate = new Date()
+    formValues.forEach((data)=>{
+      data.deferredDate = this.utilityService.getDateFormat(data.deferredDate),
+      data.receivedOn = this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm')
+      data.isDeferred = "1"
+    })
+    this.deferralDocService.submitDefDocuments(formValues).subscribe((data : any) => {
+      const processVariables = data.ProcessVariables;
+      if(processVariables.error.code === '0'){
+        this.toasterService.showSuccess('Documents Submitted successfully', '');
+        //this.router.navigate([`pages/dashboard`]);
+      }else{
+        this.toasterService.showError(processVariables.error.message, '');
+      }
     })
   }
 

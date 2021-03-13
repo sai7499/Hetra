@@ -926,6 +926,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     console.log('documentArr', this.documentArr);
     this.individualImageUpload(event, index);
+    console.log('event', event)
   }
 
   uploadPhotoOrSignature(data) {

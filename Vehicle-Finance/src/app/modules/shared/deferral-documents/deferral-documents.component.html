@@ -40,7 +40,7 @@
               <td class="file-input" (click)="downloadDocs(i)">{{documentArr(i)}}</td>
 
 
-              <td><app-vf-custom-select formControlName="receivedBy" [values]="rcvdBy">
+              <td><app-vf-custom-select formControlName="receivedBy" [values]="roleIds">
               </app-vf-custom-select></td>
 
               <td><kendo-datepicker class="form-control mandatory" formControlName="receivedOn"
