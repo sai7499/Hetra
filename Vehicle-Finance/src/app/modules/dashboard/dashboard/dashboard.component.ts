@@ -2104,7 +2104,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const data = {
       documentDetail: {
         deferralStatus: this.deferralStatus,
-        deferralRemarks: this.approveForm.get('deferralRemarks').value ? this.approveForm.get('deferralRemarks').value  : '',
+        deferralRemarks: this.approveForm.get('deferralRemarks').value && type != 'approve' ? this.approveForm.get('deferralRemarks').value  : '',
         documentId: this.documentId,
       },
       taskId: this.deferralTaskId,
