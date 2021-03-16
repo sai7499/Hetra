@@ -1356,6 +1356,14 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       controls.addControl('typeOfPermit', this._fb.control(''))
     }
 
+    if (this.leadDetails && this.leadDetails.typeOfLoan !== '1LOANTYP') {
+      controls.get('permitExpiryDate').setValidators(Validators.required);
+      controls.get('permitExpiryDate').updateValueAndValidity();
+    } else {
+      controls.get('permitExpiryDate').clearValidators();
+      controls.get('permitExpiryDate').updateValueAndValidity();
+    }
+
     if (this.Product !== 'TopUp') {
       controls.addControl('insuranceValidity', this._fb.control(''))
     }

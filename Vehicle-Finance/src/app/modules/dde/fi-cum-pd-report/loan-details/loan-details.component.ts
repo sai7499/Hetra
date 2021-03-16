@@ -167,7 +167,7 @@ export class LoanDetailsComponent implements OnInit {
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
-      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.loanFIcumPD : udfScreenId.DDE.loanDetailsFIcumPDDDE ;
+      this.udfScreenId = this.roleType === 1 ? udfScreenId.FICUMPD.loanFIcumPD : udfScreenId.DDE.loanDetailsFIcumPDDDE;
 
     })
   }
@@ -185,7 +185,7 @@ export class LoanDetailsComponent implements OnInit {
 
   getLOV() {
     this.commonLovService.getLovData().subscribe((lov) => (this.LOV = lov));
-   let forNA = [{
+    let forNA = [{
       key: 'Not-Applicable',
       value: 'NA'
     }]
@@ -197,10 +197,10 @@ export class LoanDetailsComponent implements OnInit {
     // this.LOV.LOVS['fi/PdEarlierVehicleApplication'].push(forNA)
     // console.log(financierLov.unshift(forNA));
     console.log(this.LOV.LOVS['customPdEarlierVehicleApplication'], 'Duplicate LOv');
-    
 
 
-    
+
+
     this.activatedRoute.params.subscribe((value) => {
       this.getLeadSectionData();
       if (!value && !value.applicantId) {
@@ -222,6 +222,16 @@ export class LoanDetailsComponent implements OnInit {
       }
     }
     const leadDetailsFromLead = data['leadDetails'];
+
+    if (data['leadDetails'] && data['leadDetails'].typeOfLoan === '1LOANTYP') {
+      this.loanDetailsForm.get('permitValidity').clearValidators();
+      this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+      this.isPermitMandatory = false;
+    } else {
+      this.loanDetailsForm.get('permitValidity').setValidators(Validators.required);
+      this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
+      this.isPermitMandatory = true;
+    }
 
     this.reqLoanAmount = leadDetailsFromLead.reqLoanAmt;
     this.productCatCode = leadDetailsFromLead.productCatCode;
@@ -284,7 +294,7 @@ export class LoanDetailsComponent implements OnInit {
     this.vehCondStatus = event ? event : event;
     const vehCondVerified = this.loanDetailsForm.get('conditionOfVehicle').value;
     console.log(vehCondVerified);
-    
+
     if (this.vehCondStatus === '1') {
       this.vehCondRequired = true;
       this.loanDetailsForm.get('conditionOfVehicle').enable();
@@ -511,17 +521,6 @@ export class LoanDetailsComponent implements OnInit {
         if (this.loanDetailsForm.get('vehiclePhsicallyVerified') != null) {
           this.vehCondVerified(this.loanDetailsForm.get('vehiclePhsicallyVerified').value);
         }
-        // setTimeout(() => {
-        //   if(this.usedVehicleDetails && this.usedVehicleDetails.type){
-        //     if(this.usedVehicleDetails.type === 'MCVVEHTYP' || this.usedVehicleDetails.type === 'SCVVEHTYP'){
-        //       this.loanDetailsForm.get('permitValidity').clearValidators();
-        //       this.loanDetailsForm.get('permitValidity').updateValueAndValidity();
-        //       this.isPermitMandatory = false;
-        //     }
-        //   }
-        // });
-        
-        
       }
     });
   }
@@ -586,7 +585,6 @@ export class LoanDetailsComponent implements OnInit {
         engineNumber: assetDetailsUsedVehicleModel.engineNumber || '',
         chasisNumber: assetDetailsUsedVehicleModel.chasisNumber || '',
 
-        // permitValidity: assetDetailsUsedVehicleModel.permitValidity,
         permitValidity: assetDetailsUsedVehicleModel.permitValidity ?
           new Date(this.getDateFormat(assetDetailsUsedVehicleModel.permitValidity)) : '',
         // fitnessValidity: assetDetailsUsedVehicleModel.fitnessValidity,

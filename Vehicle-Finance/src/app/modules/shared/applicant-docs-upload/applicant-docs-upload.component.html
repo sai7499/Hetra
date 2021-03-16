@@ -199,6 +199,7 @@
                         </p>
                       </div>
                     </div>
+                    <!-- [ngClass]="{'cus-disabled': uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value}" -->
                     <div class="row" *ngIf="subCat.code !== 3">
                       <!-- *ngIf="subCat.code !== 3" -->
                       <div class="col-sm-3 col-md-2" style="margin-top: 15px;">
@@ -213,8 +214,8 @@
                           <kendo-datepicker class="form-control mandatory" [format]="'dd/MM/yyyy'"
                             [activeView]="'decade'" placeholder="Deferral Date" formControlName="deferredDate" [min]="
                           (uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)
-                            .value | docsUpload: i) || toDayDate
-                        " [disabled]="">
+                            .value | docsUpload: i) || toDayDate"
+                            (valueChange)="onChangeRoleId(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
                           </kendo-datepicker>
                           <div class="invalid-feedback">
                             <div *ngIf="checkDate(subCat.code, i, 'deferredDate')">
@@ -225,28 +226,25 @@
                       </div>
 
                       <ng-container
-                        *ngIf="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value && isPreDisEnable">
+                        *ngIf="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('isDeferred').value && isPreDisEnable[i]">
                         <div class="form-group col-sm-3 col-md-2">
                           <label for="edate">Role Name</label>
 
-                          <app-vf-custom-select [values]="documentRoleArray" [id]="'document_role'"
-                            formControlName="receivedBy" [isRequired]="'Document Role Required'" [isDirty]="isDirty">
+                          <app-vf-custom-select [values]="documentRoleArray ? documentRoleArray[i] : ''"
+                            [id]="'document_role'" formControlName="receivedBy" [isRequired]="'Document Role Required'"
+                            [isDirty]="isDirty"
+                            (change)="onChangeRoleId(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
                           </app-vf-custom-select>
 
                         </div>
 
-                        <div class="form-group col-sm-3 col-md-2">
+                        <div class="form-group col-sm-3 col-md-2"
+                          *ngIf="isReqApprove[i] && uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('deferralStatus').value === '0'">
                           <button class="btn btn-primary dash_href cus-mar" type="button" id="request"
                             *ngIf="!isLoan360"
                             (click)="onApproveRequest(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
                             Request For Approval
                           </button>
-                        </div>
-
-                        <div class="form-group col-sm-3 col-md-2" *ngIf="isDocumentStatus">
-                          <label for="document">Status</label>
-                          <app-vf-custom-select formControlName="deferralStatus" [values]="documentStatus" [isDisabled]="true">
-                          </app-vf-custom-select>
                         </div>
 
                       </ng-container>

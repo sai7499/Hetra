@@ -1715,12 +1715,20 @@
 
                                     <div class="form-group col-sm-6 col-md-4 col-lg-3 ">
                                         <label for="permit_expire_date">{{label.permitExpireDate}}
+                                            <sub class="star_red_col" *ngIf="leadDetails?.typeOfLoan !== '1LOANTYP'">*</sub>
                                         </label>
 
                                         <kendo-datepicker class="form-control mandatory"
                                             formControlName="permitExpiryDate" [min]="toDayDate" [format]="'dd/MM/yyyy'"
                                             [activeView]="'decade'" placeholder="Permit Expire Date">
                                         </kendo-datepicker>
+
+                                        <div class="invalid-feedback"
+                                            *ngIf="obj.controls['permitExpiryDate'].touched && !obj.controls['permitExpiryDate'].valid">
+                                            <div *ngIf="obj.controls['permitExpiryDate'].hasError('required')">
+                                                Permit Expiry Date Required
+                                            </div>
+                                        </div>
 
                                         <div class="invalid-feedback"
                                             *ngIf="obj.controls['permitExpiryDate'].value && obj.controls['permitExpiryDate'].touched && obj.controls['permitExpiryDate'].value < toDayDate">

@@ -88,3 +88,8 @@ h4 {
 .cus-mar {
   margin-top: 25px !important;
 }
+
+.cus-disabled {
+  cursor: not-allowed;
+  color: #dde;
+}
