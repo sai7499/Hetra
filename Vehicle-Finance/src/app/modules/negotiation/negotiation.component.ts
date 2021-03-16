@@ -220,6 +220,11 @@ export class NegotiationComponent implements OnInit {
   isAlreadyApproved: boolean;
   approvedBy: any;
   currentIndex: any;
+  statusApproval: any;
+  deferralDate: any;
+  isNeededApproval = false;
+  minDefDate: Date;
+  isDeferral = false;
 
   constructor(
     private labelsData: LabelsService,
@@ -242,6 +247,10 @@ export class NegotiationComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleType = value.roleType;
     });
+    let todayDate = new Date();
+    todayDate = this.utilityService.setTimeForDates(todayDate);
+    this.minDefDate = todayDate;
+    this.minDefDate.setDate(this.minDefDate .getDate() + 1)
   }
   ngOnInit() {
     // const leadData = this.createLeadDataService.getLeadSectionData();
@@ -265,9 +274,11 @@ export class NegotiationComponent implements OnInit {
     // this.initForm();
     this.getLabels();
     this.getLOV();
+    this.getApprovingAuthority();
     this.getInsuranceLOV();
     this.loadForm();
-    this.getApprovingAuthority();
+    
+    
     console.log('this.roleType',this.roleType )
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
@@ -342,18 +353,25 @@ export class NegotiationComponent implements OnInit {
   onApprovePdcSpdc() {
     // this.showButton = false;
     // this.showModal = false;
-    this.createNegotiationForm.get('tickets')['controls'][this.currentIndex]['controls'].approvalForm.patchValue({
+    this.onSubmit();
+    this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.patchValue({
       approvalStatus: 0
     });
     const todayDate = new Date();
-    delete this.keyValue['Name']
+    const deferralDate = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.deferralDate;
+    console.log(this.utilityService.getDateFormat(deferralDate));
+    const approvedBy = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.approvedBy;
+    
+    // delete this.keyValue['Name']
     const data = {
       leadId: Number(this.leadId),
       requestedOn: this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm'),
       requestedBy: localStorage.getItem('userId'),
       approvedBy: this.keyValue,
-      approvalStatus: '0'
+      approvalStatus: 0,
+      deferredDate : this.utilityService.getDateFormat(deferralDate)
     }
+    console.log(data);
     this.NegotiationService.approvalForPdcSpdc(data).subscribe((res: any) => {
       const response = res;
       if (response.Error == '0' && response.ProcessVariables.error.code == '0') {
@@ -361,8 +379,12 @@ export class NegotiationComponent implements OnInit {
         // this.showButton = false;
         this.isAlreadyApproved = true;
         this.showModal = false;
+        if(this.isAlreadyApproved) {
+          this.createNegotiationForm.get('tickets')['controls'][0]['controls'].repaymentmodeArray.disable();
+          // this.createNegotiationForm.get('tickets')['controls'][0]['controls'].repaymentmodeArray;
+          }
       } else {
-        this.toasterService.showError(response.ProcessVariables.error.message, '')
+        this.toasterService.showError(response.ProcessVariables.error.message, '');
       }
     });
   }
@@ -379,6 +401,8 @@ export class NegotiationComponent implements OnInit {
       const approvalStatus = response.ProcessVariables.approvalStatus;
       this.isAlreadyApproved = response.ProcessVariables.isAlreadyApproved;
       this.approvedBy =  response.ProcessVariables.aApprovedBy;
+      this.statusApproval = response.ProcessVariables.aApprovalStatus;
+      this.deferralDate = response.ProcessVariables.deferredDate;
         approvalStatus.map(ele => {
           const status = {
             key: ele.id,
@@ -386,9 +410,7 @@ export class NegotiationComponent implements OnInit {
           }
           this.approvalStatus.push(status);
         });
-        this.createNegotiationForm.get('tickets')['controls'][this.currentIndex]['controls'].approvalForm.patchValue({
-          code: this.approvedBy.name
-        });
+        console.log(this.createNegotiationForm.get('tickets')['controls'], 'createNegotiationForm')
       } else {
         this.toasterService.showError(res.ProcessVariables.error.message, '');
       }
@@ -400,7 +422,8 @@ export class NegotiationComponent implements OnInit {
         let myVal = val.toString().toLowerCase();
         let eName = e.name.toString().toLowerCase();
         if (eName.includes(myVal)) {
-          e.Name = e.name + ' - ' + e.userId;
+          // e.Name = e.name + ' - ' + e.userId;
+          e.Name = e.name;
           return e;
         }
       });
@@ -410,38 +433,50 @@ export class NegotiationComponent implements OnInit {
     console.log(val, i, 'val')
     this.keyValue = val;
     this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.patchValue({
-      code: val['Name']
+      approvedBy: val['Name']
     });
   }
   onApprovalNameClear(val, i) {
     this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.patchValue({
-      code: ''
+      approvedBy: ''
     });
     this.userDetails = [];
   }
   collectedChequeMaxMin(value, i) {
-    let pdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value;
-    let spdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofSPDC'].value;
-    let collectedpdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].value;
-    let collectedspdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].value;
+    let pdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value
+    : this.CrossSellIns[i].repayment_dtls.no_of_pdc ;
+    let spdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofSPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofSPDC'].value
+    : this.CrossSellIns[i].repayment_dtls.no_of_spdc ;;
+    let collectedpdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].value
+    : this.CrossSellIns[i].repayment_dtls.collected_no_of_pdc ;;
+    let collectedspdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].value
+    : this.CrossSellIns[i].repayment_dtls.collected_no_of_spdc ;;
     const requiredNoofCheques = Number(pdcvalue) + Number(spdcvalue);
     const collectedNoofCheques = Number(collectedpdcvalue) + Number(collectedspdcvalue);
     console.log(requiredNoofCheques, collectedNoofCheques);
     this.collectedSPDCvalueCheck = [{ rule: collectedspdcvalue => Number(collectedspdcvalue) > Number(spdcvalue), msg: 'value should not be greater than required spdc' }];
     this.collectedPDCvalueCheck = [{ rule: collectedpdcvalue => Number(collectedpdcvalue) > Number(pdcvalue), msg: 'value should not be greater than required pdc' }];
     
-    if (requiredNoofCheques !== collectedNoofCheques) {
-      console.log('collected');
+    if (requiredNoofCheques && collectedNoofCheques && (requiredNoofCheques !== collectedNoofCheques) && (requiredNoofCheques > collectedNoofCheques)) {
+      this.isNeededApproval = true;
+    } else {
+      this.isNeededApproval = false;
     }
+    console.log('NeededApproval', this.isNeededApproval);
+    
   }
   
   onApprovalClick(index?) {
     console.log(index, 'index');
     this.currentIndex = index
-    this.isDirty = true;
-    if(this.keyValue) {
+    this.isDeferral = true;
+    const approvedBy = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm.value.approvedBy;
+    const deferralDate = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm.value.deferralDate;
+    if(approvedBy && deferralDate && !this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm['controls']['deferralDate'].invalid) {
       this.showModal = true;
-      this.isDirty = false;
+      this.isDeferral = false;
+    } else {
+      this.toasterService.showError('Please fill all mandatory fields', '')
     }
    
   }
@@ -496,6 +531,7 @@ export class NegotiationComponent implements OnInit {
       // NoofPDC: ['', [Validators.minLength(1), Validators.maxLength(1)]],
       // NoofSPDC: ['', [Validators.minLength(1), Validators.maxLength(1)]],
     })
+    
   }
 
   msInitRowsDefault(flag,objDetaills){    //nego Enhance  
@@ -553,7 +589,7 @@ export class NegotiationComponent implements OnInit {
       this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.toMonth.disable();
       this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.installmentPercent.disable();
       this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.emiAmount.disable();
-
+      
     return newObj;
    }else{
     return this.fb.group({
@@ -2335,7 +2371,7 @@ if(flag){
                     }),
 
                     approvalForm: this.fb.group({
-                      code: [''],
+                      approvedBy: [''],
                       approvalStatus: [{value: '', disabled: true}],
                       deferralDate: ['']
                     }),
@@ -2440,6 +2476,24 @@ if(flag){
                   if(!((this.AssetDetailsList[i].schemeType=='S') || (this.AssetDetailsList[i].schemeType=='SI'))){
                     this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValidators([Validators.required]);
                   }
+                  let deferralDate :any = this.utilityService.getDateFormat(this.deferralDate);
+                  deferralDate = this.utilityService.getDateFromString(deferralDate)
+                  this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.patchValue({
+                    approvedBy: this.approvedBy ? this.approvedBy.name: '',
+                    approvalStatus: this.statusApproval ? this.statusApproval.id : '',
+                    deferralDate: this.deferralDate ? deferralDate : ''
+                  });
+                  if(this.isAlreadyApproved) {
+                  this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray.disable();
+                  }
+                  console.log('approvedBy', this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.value);
+                  
+                  
+                  console.log('deferralDate', this.utilityService.getDateFormat(this.deferralDate), this.deferralDate, this.utilityService.getDateFormat(this.deferralDate));
+                  
+
+                  console.log(this.createNegotiationForm.get('tickets')['controls'][i], 'createNegotiationForm', this.approvedBy)
+
                   if (this.roleType === 5 || this.roleType === 4) {
                     this.t.disable()
                   }
@@ -3432,9 +3486,11 @@ setCrosSell(i,val){
               this.loanBookingSelected['controls'].SelectAppropriateLMSScheduleCode.setValue(this.CrossSellIns[index].loan_booking_dtls.lms_schedule_code);              
             })
           }
+          this.collectedChequeMaxMin('',0);
         }
       });
       //this.getNetDisbursementAmount(i)  //GIT Above included
+      
   }
   validateTenure(event, i) {
     this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']

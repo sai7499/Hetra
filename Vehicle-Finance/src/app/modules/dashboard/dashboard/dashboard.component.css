@@ -179,6 +179,13 @@ h3.dedupe_head {
 .modal-body {
     text-align: center;
 }
+.modal-header {
+    padding: 8px;
+}
+
+.modal-footer {
+    padding: 5px;
+}
 
 .modal-body.modal_coapp {
     text-align: left!important;

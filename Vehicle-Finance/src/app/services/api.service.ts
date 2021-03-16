@@ -1215,7 +1215,7 @@ export class ApiService {
     PdcSpdcApproval: {
       workflowId: '870f1640816811ebb9ba00505695f93b',
       processId: '872f3d80816811eb830400505695f93b',
-      projectId: environment.projectIds.supervisorProId
+      projectId: environment.projectIds.submitToCredit
     },
     approveOrRejectDocumentDeferral: {
       workflowId: '79cfe90a824e11ebb42c00505695f93b',

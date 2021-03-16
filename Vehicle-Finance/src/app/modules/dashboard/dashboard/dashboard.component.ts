@@ -20,6 +20,7 @@ import { timer } from 'rxjs';
 import { LeadHistoryService } from '@services/lead-history.service';
 import { CommonDataService } from '@services/common-data.service';
 import { SupervisorService } from '@modules/supervisor/service/supervisor.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 export enum DisplayTabs {
   Leads,
@@ -220,6 +221,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
   @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
   @ViewChild('closeModal2', { static: false }) public closeModal2: ElementRef;
+  @ViewChild('closeModal3', { static: false }) public closeModal3: ElementRef;
   userDetailsRoleId: any;
   supervisorUserId: any;
 
@@ -278,7 +280,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   requestedOn = [];
   defferalDocName = [];
   deferralStatus: any;
-  isDocument: any;
+  deferralLeadId: any;
+  documentId: any;
+  deferralTaskId: any;
+  deferralTaskName: any;
+  LOV: any;
+  deferralType: any;
+  deferralTypeList: any;
 
   constructor(
     private fb: FormBuilder,
@@ -298,7 +306,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private queryModelService: QueryModelService,
     private leadHistoryService: LeadHistoryService,
     private commonDataService: CommonDataService,
-    private supervisorService: SupervisorService
+    private supervisorService: SupervisorService,
+    private commonLovService: CommomLovService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -311,11 +320,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    for (let i=0; i<this.approvalDashboard.length; i++) {
-       this.defferalDate[i] = this.approvalDashboard[i].defferalDate.split(' ');
-       this.requestedOn[i] = this.approvalDashboard[i].requestedOn.split(' ');
-       this.defferalDocName[i] = this.approvalDashboard[i].defferalDocName.split(',');
-    }
+    // for (let i=0; i<this.approvalDashboard.length; i++) {
+    //    this.defferalDate[i] = this.approvalDashboard[i].defferalDate.split(' ');
+    //    this.requestedOn[i] = this.approvalDashboard[i].requestedOn.split(' ');
+    //    this.defferalDocName[i] = this.approvalDashboard[i].defferalDocName.split(',');
+    // }
     
     const thisUrl = this.router.url;
     console.log(thisUrl);
@@ -498,9 +507,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // disbToDate: [''],
       expectedDate: [''],
       loanMinAmt: [null],
-      loanMaxAmt: [null]
-    });
+      loanMaxAmt: [null],
+      deferralType: ['']
 
+    });
+    this.getLov();
     this.dashboardFilter();
     this.loanMaxAmtChange();
     this.loanMinAmtChange();
@@ -525,6 +536,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sharedService.getPslDataNext(false)
 
   }
+
+  getLov() {
+    this.commonLovService.getLovData().subscribe((res: any) => {
+      this.LOV = res.LOVS;
+      console.log('deferralType', this.LOV.deferralType);
+      this.deferralTypeList = this.LOV.deferralType
+    })
+}
 
   getPollCount() {
     return setInterval(() => {
@@ -892,6 +911,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getExternalUserLeads(this.itemsPerPage, event);
         console.log(this.onReleaseTab);
       case 65:
+        this.myLeads = true;
         this.taskName = 'Deferral Approval';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
@@ -970,7 +990,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.taskName = 'Predisbursement';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-      case 40: case 41: case 66: case 67: case 68: case 69:
+      case 40: case 41:
         if(this.roleType == '2') {
           this.taskName = 'PDD'
         } else {
@@ -1025,6 +1045,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 63: case 64:
         this.taskName = 'CPC Cheque Tracking';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 66: case 67:
+        this.taskName = 'PDC_SPDC Deferral';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 68: case 69:
+        this.taskName = 'Document Deferral';
+         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
 
       default:
@@ -1140,6 +1168,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return date
       ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
       : '';
+  }
+
+  onDeferrel(data) {
+    console.log('key', data);
+    this.deferralType = this.deferralTypeList.find(ele => ele.key === data).value;
+    console.log('value', this.deferralType);
+     
   }
 
   // for getting productCatagory and leadStage
@@ -1279,6 +1314,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
       disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
+      deferralType: this.filterFormDetails ? this.deferralType : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1309,6 +1345,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.newArray = [];
       }
+      if (this.activeTab === this.displayTabs.ApprovalDashboard) {
+          const deferrals = res.ProcessVariables.loanLead;
+          if(deferrals) {
+            for (let i=0; i<deferrals.length; i++) {
+
+              // this.defferalDate[i] = deferrals[i].defferalDate.split(' ');
+              this.requestedOn[i] = deferrals[i].requestedOn ? deferrals[i].requestedOn.split(' ') : '';
+              // this.defferalDocName[i] = deferrals[i].defferalDocName.split(',');
+           }
+          }
+         
+      }
     } else {
       this.toasterService.showError(res.ProcessVariables.error.message, '');
     }
@@ -1337,6 +1385,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
       disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
+      deferralType: this.filterFormDetails ? this.deferralType : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1369,7 +1418,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.toasterService.showError(res.ProcessVariables.error.message, '');
     }
-    })
+    });
   }
 
   getExternalUserLeads(perPageCount, pageNumber?) {
@@ -1609,7 +1658,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 61: case 62:
         this.router.navigate([`/pages/valuation-dashboard/${this.leadId}/vehicle-valuation`]);
         break;
-
+      case 66: case 67:
+        this.router.navigate([`/pages/pdc-details-dashboard/${this.leadId}`]);
+        break;
+        case 68: case 69:
+        this.router.navigate([`/pages/deferral-documents/${this.leadId}`]);
+        break;
       default:
         break;
     }
@@ -2025,12 +2079,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
   onApproveClick(data) {
     this.showModal = true;
     console.log(data);
-    
+    this.deferralLeadId = data.leadId;
+    this.documentId = data.documentId;
+    this.deferralTaskId = data.taskId;
+    this.deferralTaskName = data.taskName;
+  }
+
+  onRejectClick(data) {
+    console.log(data);
+    this.deferralLeadId = data.leadId;
+    this.documentId = data.documentId;
+    this.deferralTaskId = data.taskId;
+    this.deferralTaskName = data.taskName;
   }
 
   onDeferralApproveOrReject(type: string) {
     if (type == 'approve') {
-      this.deferralStatus = '1'
+      this.deferralStatus = '3'
       this.isDirty = false
     } else {
       this.deferralStatus = '2'
@@ -2038,14 +2103,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     const data = {
       documentDetail: {
-        documentId: 2036,
         deferralStatus: this.deferralStatus,
-        deferralRemarks: '',
-        isDocument: this.isDocument
-      }
+        deferralRemarks: this.approveForm.get('deferralRemarks').value ? this.approveForm.get('deferralRemarks').value  : '',
+        documentId: this.documentId,
+      },
+      taskId: this.deferralTaskId,
+      userId: localStorage.getItem('userId'),
+      taskName : this.deferralTaskName,
+      leadId: this.deferralLeadId,
     }
     console.log(data);
-    if (this.approveForm.invalid) {
+    if (this.approveForm.invalid && type !== 'approve') {
       this.toasterService.showError('Please fill mandatory fields', '')
       return;
     }
@@ -2056,6 +2124,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       if (appiyoError === '0' && apiError === '0') {
         console.log(response.ProcessVariables);
+        if(type == 'approve') {
+          this.toasterService.showSuccess('Record Approved Successfully', '')
+          } else {
+          this.toasterService.showSuccess('Record Rejected Successfully', '')
+          }
+        this.onClick();
+        this.closeModal3.nativeElement.click();
+        this.showModal = false;
+        
       } else {
         this.toasterService.showError(response.ProcessVariables.error.message, '');
       }
@@ -2070,5 +2147,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     clearInterval(this.intervalId)
   }
+
+  onViewDDE(item) {
+    this.toggleDdeService.setIsDDEClicked('0');
+    this.toggleDdeService.setOperationType('5', 'Dashboard', this.location.path());
+    this.sharedService.getQueryModel({path: this.location.path(), isQuery: false})
+    localStorage.setItem('isNeedBackButton', 'true');
+    this.router.navigate(['/pages/dde/' + item.leadId])  }
 
 }

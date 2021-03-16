@@ -51,7 +51,7 @@
                             [placeholder]="'Loan Number'" [type]="validationData?.extn.type">
                         </app-custom-input>
                     </div>
-                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div *ngIf="displayTabs?.ApprovalDashboard != activeTab" class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="productCategory">{{labels?.productCategory}}</label>
                         <!-- <app-vf-custom-select [values]="productCategoryData" formControlName="product"> </app-vf-custom-select> -->
                         <select class="form-control" formControlName="product">
@@ -59,7 +59,7 @@
                             <option *ngFor="let item of productCategoryData" [value]="item.key">{{item.value}}</option>
                         </select>
                     </div>
-                    <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
+                    <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.ApprovalDashboard != activeTab"
                         class="form-group col-sm-6 col-md-3 col-lg-3 ">
                         <label for="status">{{labels?.status}}</label>
                         <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
@@ -68,8 +68,16 @@
                             <option *ngFor="let item of stageData" [value]="item.key">{{item.value}}</option>
                         </select>
                     </div>
+                    <div *ngIf="displayTabs?.ApprovalDashboard == activeTab"
+                        class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                        <label for="status">Deferral Type</label>
+                        <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
+                        <app-vf-custom-select [values]="deferralTypeList" (change)="onDeferrel($event.target.value)" formControlName="deferralType"
+                        >
+                    </app-vf-custom-select>
+                    </div>
                 </div>
-                <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab" class="row">
+                <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.ApprovalDashboard != activeTab" class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="startDate">{{labels?.leadCreatedOnStartDate}}</label>
                         <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'"
@@ -124,7 +132,7 @@
                 </div>
                 <!--  -->
                 <div class="row">
-                    <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
+                    <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.ApprovalDashboard != activeTab"
                         class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="minAmount">{{labels.loanMinAmount}}</label>
                         <app-custom-input id="minAmount" formControlName="loanMinAmt" [className]="'form-control'"
@@ -133,7 +141,7 @@
                             [type]="validationData?.amountValue.type">
                         </app-custom-input>
                     </div>
-                    <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab"
+                    <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.ApprovalDashboard != activeTab"
                         [ngClass]="{'disablField': !filterForm.get('loanMinAmt').value}"
                         class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="maxAmount">{{labels.loanMaxAmount}}</label>
@@ -1087,14 +1095,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of approvalDashboard | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+                        <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                             <td>{{item.leadId}}</td>
                             <td>{{item.applicantName}}</td>
-                            <td>{{item.defferalType}}</td>
-                            <td>{{item.defferalDocName ? defferalDocName[i][0] : ''}}<br>{{item.defferalDocName ? defferalDocName[i][1] : ''}}</td>
-                            <td>{{item.defferalDate ? defferalDate[i][0] : ''}}<br>{{item.defferalDate ? defferalDate[i][1] : ''}}</td>
-                            <td>{{item.requestedOn ? requestedOn[i][0] : ''}}<br>{{item.requestedOn ? requestedOn[i][1] : ''}}</td>
-                            <td>{{item.requestedBy}}</td>
+                            <td>{{item.deferralType}}</td>  
+                            <td *ngIf="item.deferralType == 'Document Deferral'">{{item.defDocName}}</td>
+                            <td *ngIf="item.deferralType == 'PDC/SPDC'">
+                                No of PDC Required {{'  :' +item.pdcNum}}<br>
+                                No of PDC Collected {{':' + item.pdcCollected}}<br>
+                                No of SPDC Required {{'  :' +item.spdcNum}}<br>
+                                No of SPDC Collected  {{':' +item.spdcCollected}}<br>
+                            </td>
+                            <td>{{item.deferredDate}}</td>
+                            <td>{{item.requestedOn ? requestedOn[i][0] : '--'}}<br>{{item.requestedOn ? requestedOn[i][1] : ''}}</td>
+                            <!-- <td>{{item.requestedOn}}</td> -->
+                            <td>{{item.requestedBy ? item.requestedBy : '--'}}</td>
                             <td class="text-center">
                                 <!-- <div style="margin-bottom: 2px;">
                                     <input type="button" class="btn btn-primary" value="View DDE" >
@@ -1106,11 +1121,11 @@
                                     <button style="width: 84px;" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal">Reject</button>
                                 </div> -->
                                 <div class="row" style="margin: 0 5px 0 5px;">
-                                    <a title="View DDE" style="margin: 5px;"><i
+                                    <a title="View DDE" (click)="onViewDDE(item)" style="margin: 5px;"><i
                                         class="fa fa-eye cursor-pointer"  aria-hidden=""></i></a>
                                     <a title="Approve" (click)="onApproveClick(item)" style="margin: 5px; color: lightgreen;"><i
                                         class="fa fa-thumbs-up cursor-pointer" aria-hidden=""></i></a>
-                                    <a title="Reject" data-toggle="modal" data-target="#rejectModal" style="margin: 5px; color: orangered;"><i
+                                    <a title="Reject" data-toggle="modal" (click)="onRejectClick(item)" data-target="#rejectModal" style="margin: 5px; color: orangered;"><i
                                         class="fa fa-thumbs-down cursor-pointer" aria-hidden=""></i></a>
                                 </div>
                             </td>
@@ -1270,7 +1285,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" style="float: left">Confirmation</h4>
+                    <h4 class="modal-title" style="float: left;">Confirmation</h4>
                     <div class="pull-right dropdown nav">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
@@ -1301,7 +1316,7 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">
                         No
                     </button>
-                    <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal2>
+                    <button class="btn btn-primary" data-dismiss="modal" style="display: none;" #closeModal3>
                         close</button>
                 </div>
             </div>

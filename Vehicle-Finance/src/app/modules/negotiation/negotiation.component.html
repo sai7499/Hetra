@@ -951,7 +951,7 @@
                                 </label>
                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                   <app-custom-input formControlName="collectedNoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                                    [placeholder]="'Collected PDC Value'" (input)="collectedChequeMaxMin('',i)"
+                                    [placeholder]="'Collected PDC Value'" [isRequired]="'Collected PDC Value is Required'" (input)="collectedChequeMaxMin('',i)"
                                    [custom]="collectedPDCvalueCheck"
                                    [minLength]="labels?.validationData.NoofPDC.minLength" [maxLength]="labels?.validationData.NoofPDC.maxLength">
                                   </app-custom-input>
@@ -963,7 +963,7 @@
                                 </label>
                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                   <app-custom-input formControlName="collectedNoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                                    [placeholder]="'Collected SPDC Value'" (input)="collectedChequeMaxMin('',i)"
+                                    [placeholder]="'Collected SPDC Value'" [isRequired]="'Collected SPDC Value is Required'" (input)="collectedChequeMaxMin('',i)"
                                     [custom]="collectedSPDCvalueCheck"
                                     [minLength]="labels?.validationData.NoofSPDC.minLength" [maxLength]="labels?.validationData.NoofSPDC.maxLength">
                                   </app-custom-input>
@@ -972,7 +972,7 @@
                              
                               </div>
                             </div>
-                            <div *ngIf="isPredDone == 'true'" class="clearfix col-sm-4 col-md-4 col-lg-4" formGroupName="approvalForm">
+                            <div *ngIf="isPredDone == 'true' && isNeededApproval" class="clearfix col-sm-4 col-md-4 col-lg-4" formGroupName="approvalForm">
                               <!-- <div class="form-group" style="height: 31px; margin-top: 43px;">
                                 <div *ngIf="isAlreadyApproved" class="form-group">
                                   <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Status
@@ -989,9 +989,18 @@
                                   </label>
                                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                     <kendo-datepicker class="form-control" formControlName="deferralDate" [format]="'dd/MM/yyyy'"
-                                      placeholder="Select Deferral Date" [activeView]="'decade'">
+                                      placeholder="Select Deferral Date" [activeView]="'decade'" [min]="minDefDate">
                                     </kendo-datepicker>
+                                    <div class="invalid-feedback">
+                                      <div *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['deferralDate'].value && createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['deferralDate'].invalid">
+                                        Deferral Date should be future
+                                      </div>
+                                      <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['deferralDate'].value && isDeferral">
+                                        Deferral Date is required
+                                      </div>
+                                    </div>
                                   </div>
+                                  
                                 </div>
                               </div>
                               <div class="form-group">
@@ -1002,12 +1011,12 @@
                                   <ng-autocomplete class="custom-select-box" [data]="userDetails" [searchKeyword]="'Name'"
                                   (selected)='selectApprovalNameEvent($event, i)' (inputChanged)='onApprovalNameSearch($event, i)'
                                   (inputCleared)='onApprovalNameClear($event, i)'
-                                  [itemTemplate]="favApprovalNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="code"
+                                  [itemTemplate]="favApprovalNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="approvedBy"
                                   [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="3">
                                   </ng-autocomplete>
                                   
                 <div class="invalid-feedback">
-                  <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['code'].value && isDirty"> Please select user
+                  <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['approvedBy'].value && isDeferral"> Please select user
                   </div>
                   <!-- <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
                     required</div> -->
@@ -1022,9 +1031,9 @@
                               </div>
 
                               <div>
-                                <button *ngIf="isAlreadyApproved" (click)="onApprovalClick()" class="btn btn-primary" style="margin-right: 12px; float: right; padding: 6px 4px;">Request For Approval</button>
+                                <button *ngIf="!isAlreadyApproved" (click)="onApprovalClick(i)" class="btn btn-primary" style="margin-right: 12px; float: right; padding: 6px 4px;">Request For Approval</button>
                               </div>
-                                <div *ngIf="!isAlreadyApproved" class="form-group">
+                                <div *ngIf="isAlreadyApproved" class="form-group">
                                   <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Status
                                   </label>
                                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
@@ -1033,6 +1042,13 @@
                                   </div>
                               </div>
                             </div>
+                            <app-custom-modal
+                              [modalDetails]="modalDetails"
+                              [showModal]="showModal"
+                              [buttons] = "modalButtons"
+                              (onButtonCancel) = "showModal = false"
+                              (onButtonClick)="onApprovePdcSpdc(i)">
+                            </app-custom-modal>
                           </div>
                          
                         </div>
@@ -1071,12 +1087,7 @@
     </form>
   </div>
 </div>
-<app-custom-modal
-[modalDetails]="modalDetails"
-[showModal]="showModal"
-[buttons] = "modalButtons"
-(onButtonCancel) = "showModal = false"
-(onButtonClick)="onApprovePdcSpdc()"></app-custom-modal>
+
 <!-- Footer -->
 <footer class="footer pf mob-font">
   <div class="container-fluid">
