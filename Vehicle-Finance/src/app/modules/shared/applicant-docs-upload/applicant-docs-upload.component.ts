@@ -124,9 +124,23 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   documentRoleArray: any = [];
   subcategotyDocsId: any = {};
-  documentStatus: any = [];
   isDocumentStatus: boolean = false;
   isPreDisEnable: boolean;
+
+  documentStatus: any = [
+    {
+      key: "0",
+      value: "Pending"
+    },
+    {
+      key: "1",
+      value: "Completed"
+    },
+    {
+      key: "2",
+      value: "Rejected"
+    }
+]
 
   constructor(
     private lovData: LovDataService,
@@ -450,7 +464,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
       ),
       receivedBy: new FormControl(''),
-      documentStatus: new FormControl('')
+      deferralStatus: new FormControl('')
     });
     return controls;
   }
@@ -1228,6 +1242,22 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onApproveRequest(obj, index, categoryCode) {
+    let data = {
+      "deferralStatus": "0",
+      "deferralStatusValue": "Pending",
+      "deferredDate":  this.utilityService.getDateFormat(obj.value[0].deferredDate) ,
+      "documentId":  obj.value[0].documentId,
+      "documentRoleId": obj.value[0].receivedBy,
+      "isDeferred": obj.value[0].isDeferred ? "1": "0"
+    }
+
+    this.uploadService.requestForApproval(data).subscribe((res: any) => {
+      console.log(res, 'Array', data)
+      if(res.Error === '0') {
+        this.isDocumentStatus = true;
+        obj.get('deferralStatus').setValue('0')
+      }
+    })
 
   }
 }

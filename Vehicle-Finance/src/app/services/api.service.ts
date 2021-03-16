@@ -1211,6 +1211,11 @@ export class ApiService {
       workflowId: '89b4dd367fdc11ebbbdc00505695f93b',
       processId: '89d91c467fdc11eb8b6500505695f93b',
       projectId: environment.projectIds.camProjectId
+    },
+    requestApproval: {
+      workflowId: '77102f60831411eba70100505695f93b',
+      processId: '77301f82831411eba5b700505695f93b',
+      projectId: environment.projectIds.taskProjectId
     }
   };
 }
