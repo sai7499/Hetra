@@ -1692,6 +1692,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.router.navigate([`/pages/pdc-details-dashboard/${this.leadId}`]);
         break;
         case 68: case 69:
+          this.sharedService.setTaskIdDef(item.taskId);
         this.router.navigate([`/pages/deferral-documents/${this.leadId}`]);
         break;
       default:
@@ -1699,7 +1700,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRoute(leadId, stageCode?, taskId?) {
+  onRoute(leadId, stageCode?, taskId?, item?) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
       subActiveTab: this.subActiveTab,
@@ -1717,7 +1718,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.onRoutingTabs(this.subActiveTab)
+    this.onRoutingTabs(this.subActiveTab, item);
   }
 
   onClear() {
@@ -2136,7 +2137,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const data = {
       documentDetail: {
         deferralStatus: this.deferralStatus,
-        deferralRemarks: this.approveForm.get('deferralRemarks').value && type != 'approve' ? this.approveForm.get('deferralRemarks').value  : '',
+        approverRemarks: this.approveForm.get('deferralRemarks').value && type != 'approve' ? this.approveForm.get('deferralRemarks').value  : '',
         documentId: this.documentId,
       },
       taskId: this.deferralTaskId,
