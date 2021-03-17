@@ -15,6 +15,7 @@ export class SharedService {
     scoreCardId: any;
 
     isPdcData: any;
+    taskIdForDef: any;
     
     browserPopState(data) {
         this.popStateActivity$.next(data)
@@ -192,6 +193,14 @@ export class SharedService {
 
     getIsPdcData() {
         return this.isPdcData;
+    }
+
+    setTaskIdDef(data: any) {
+        this.taskIdForDef = data;
+    }
+
+    getTaskIdDef() {
+        return this.taskIdForDef;
     }
 
 }
