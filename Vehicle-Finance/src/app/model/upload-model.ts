@@ -65,4 +65,6 @@ export interface DocumentDetails {
   docsTypeForString?: string;
   deferredDate?: string;
   isDeferred?: string;
+  requestedBy?: string;
+  requestedOn?: string | Date;
 }

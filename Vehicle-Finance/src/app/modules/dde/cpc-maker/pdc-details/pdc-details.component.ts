@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -62,7 +62,8 @@ export class PdcDetailsComponent implements OnInit {
 
   currentDate: Date = new Date();
   isChecked: boolean = false;
-  isDashboardField: boolean;
+  isDashboardField: boolean = false;
+  @Input() isDeferral: boolean;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -110,6 +111,14 @@ export class PdcDetailsComponent implements OnInit {
       spdcList: this.spdcArray,
     });
     this.leadId = (await this.getLeadId()) as number;
+
+    if (!this.leadId) {
+      this.route.params.subscribe((value) => {
+        if (value && value.leadId) {
+          this.leadId = Number(value.leadId)
+        }
+      })
+    }
     this.labelsService.getLabelsData().subscribe((res: any) => {
       this.labels = res;
     });
@@ -205,6 +214,7 @@ export class PdcDetailsComponent implements OnInit {
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.route.parent.params.subscribe((value) => {
+        console.log(value, 'Value')
         if (value && value.leadId) {
           resolve(Number(value.leadId));
         }
@@ -290,7 +300,7 @@ export class PdcDetailsComponent implements OnInit {
       this.pdcForm.controls.pdcList.controls[i].value.instrDate = value
         ? this.utilityService.getDateFormat(value)
         : null;
-        this.pdcForm.controls.pdcList.controls[i].value.isCollected = true;
+      this.pdcForm.controls.pdcList.controls[i].value.isCollected = true;
 
     }
     for (let i = 0; i < this.pdcForm.controls.spdcList.length; i++) {
@@ -299,13 +309,14 @@ export class PdcDetailsComponent implements OnInit {
       this.pdcForm.controls.spdcList.controls[i].value.instrDate = datevalue
         ? this.utilityService.getDateFormat(datevalue)
         : null;
-        this.pdcForm.controls.spdcList.controls[i].value.isCollected = true;
+      this.pdcForm.controls.spdcList.controls[i].value.isCollected = true;
     }
 
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
       ...this.pdcForm.value,
+      isDeferral: this.isDeferral ? this.isDeferral : false,
       udfDetails: [{
         "udfGroupId": this.udfGroupId,
         // "udfScreenId": this.udfScreenId,
@@ -313,7 +324,7 @@ export class PdcDetailsComponent implements OnInit {
       }]
     };
     console.log(this.pdcForm.value);
-    
+
     if (this.pdcForm.invalid || this.userDefineForm.udfData.invalid) {
       this.isDirty = true;
       this.toasterService.showWarning('Mandatory Fields Missing', '');
@@ -376,33 +387,35 @@ export class PdcDetailsComponent implements OnInit {
         }
         if (data.pdcList != null) {
           for (let i = 0; i < pdcCount; i++) {
-            PdcControl.at(i).patchValue({
-              pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
-              instrType: data.pdcList[i].instrType
-                ? data.pdcList[i].instrType
-                : '',
-              emiAmount: data.pdcList[i].emiAmount
-                ? data.pdcList[i].emiAmount
-                : this.negotiatedEmi,
-              instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : '',
-              instrDate: data.pdcList[i].instrDate
-                ? this.utilityService.getDateFromString(
-                  data.pdcList[i].instrDate
-                )
-                : '',
-              instrBankName: data.pdcList[i].instrBankName
-                ? data.pdcList[i].instrBankName
-                : '',
-              instrBranchName: data.pdcList[i].instrBranchName
-                ? data.pdcList[i].instrBranchName
-                : '',
-              instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
-                ? data.pdcList[i].instrBranchAccountNumber
-                : '',
-              instrAmount: data.pdcList[i].instrAmount
-                ? data.pdcList[i].instrAmount
-                : '',
-            });
+            if (data.pdcList[i]) {
+              PdcControl.at(i).patchValue({
+                pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
+                instrType: data.pdcList[i].instrType
+                  ? data.pdcList[i].instrType
+                  : '',
+                emiAmount: data.pdcList[i].emiAmount
+                  ? data.pdcList[i].emiAmount
+                  : this.negotiatedEmi,
+                instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : '',
+                instrDate: data.pdcList[i].instrDate
+                  ? this.utilityService.getDateFromString(
+                    data.pdcList[i].instrDate
+                  )
+                  : '',
+                instrBankName: data.pdcList[i].instrBankName
+                  ? data.pdcList[i].instrBankName
+                  : '',
+                instrBranchName: data.pdcList[i].instrBranchName
+                  ? data.pdcList[i].instrBranchName
+                  : '',
+                instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
+                  ? data.pdcList[i].instrBranchAccountNumber
+                  : '',
+                instrAmount: data.pdcList[i].instrAmount
+                  ? data.pdcList[i].instrAmount
+                  : '',
+              });
+            }
           }
         }
         // tslint:disable-next-line: triple-equals
@@ -448,36 +461,39 @@ export class PdcDetailsComponent implements OnInit {
         }
         if (data.spdcList) {
           for (let j = 0; j < data.spdcList.length; j++) {
-            spdcControl.at(j).patchValue({
-              pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : '',
-              instrType: data.spdcList[j].instrType
-                ? data.spdcList[j].instrType
-                : '',
-              emiAmount: data.spdcList[j].emiAmount
-                ? data.spdcList[j].emiAmount
-                : this.negotiatedEmi,
-              instrNo: data.spdcList[j].instrNo
-                ? data.spdcList[j].instrNo
-                : '',
-              instrDate: data.spdcList[j].instrDate
-                ? this.utilityService.getDateFromString(
-                  data.spdcList[j].instrDate
-                )
-                : '',
-              instrBankName: data.spdcList[j].instrBankName
-                ? data.spdcList[j].instrBankName
-                : '',
-              instrBranchName: data.spdcList[j].instrBranchName
-                ? data.spdcList[j].instrBranchName
-                : '',
-              instrBranchAccountNumber: data.spdcList[j]
-                .instrBranchAccountNumber
-                ? data.spdcList[j].instrBranchAccountNumber
-                : '',
-              instrAmount: data.spdcList[j].instrAmount
-                ? data.spdcList[j].instrAmount
-                : '',
-            });
+
+            if (data.spdcList[j] && spdcControl.at(j)) {
+              spdcControl.at(j).patchValue({
+                pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : '',
+                instrType: data.spdcList[j].instrType
+                  ? data.spdcList[j].instrType
+                  : '',
+                emiAmount: data.spdcList[j].emiAmount
+                  ? data.spdcList[j].emiAmount
+                  : this.negotiatedEmi,
+                instrNo: data.spdcList[j].instrNo
+                  ? data.spdcList[j].instrNo
+                  : '',
+                instrDate: data.spdcList[j].instrDate
+                  ? this.utilityService.getDateFromString(
+                    data.spdcList[j].instrDate
+                  )
+                  : '',
+                instrBankName: data.spdcList[j].instrBankName
+                  ? data.spdcList[j].instrBankName
+                  : '',
+                instrBranchName: data.spdcList[j].instrBranchName
+                  ? data.spdcList[j].instrBranchName
+                  : '',
+                instrBranchAccountNumber: data.spdcList[j]
+                  .instrBranchAccountNumber
+                  ? data.spdcList[j].instrBranchAccountNumber
+                  : '',
+                instrAmount: data.spdcList[j].instrAmount
+                  ? data.spdcList[j].instrAmount
+                  : '',
+              });
+            }
           }
         }
 
@@ -552,6 +568,7 @@ export class PdcDetailsComponent implements OnInit {
   getPdcDetails() {
     const body = {
       leadId: this.leadId,
+      isDeferral: this.isDeferral ? this.isDeferral : false,
       // userId: localStorage.getItem('userId'),
       // ...this.pdcForm.value
       udfDetails: [
@@ -877,6 +894,7 @@ export class PdcDetailsComponent implements OnInit {
   }
 
   uploadDoc() {
+    console.log(this.leadId, 'Lead Id')
     this.router.navigate([`pages/document-viewupload/${this.leadId}/collateral-documents`]);
     this.sharedService.setPdcDetails({title: 'Pdc', code: 160,
     desc: "SECURITY_PDC",
