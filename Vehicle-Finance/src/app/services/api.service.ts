@@ -139,12 +139,12 @@ export class ApiService {
     validateFleetDetails: {
       workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
       processId: 'ae136e081a7511eb951300505695f93b',
-      projectId: environment.projectIds.salesProjectId,
+      projectId: environment.projectIds.salesProjectId
     },
     saveValidRecords: {
       workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
       processId: 'abba4d121db711eb86ca00505695f93b',
-      projectId: environment.projectIds.salesProjectId,
+      projectId: environment.projectIds.salesProjectId
     },
     saveUpdateFleetRtr: {
       processId: 'be7ff35699c911eabdcff2fa9bec3d63',
@@ -154,12 +154,12 @@ export class ApiService {
     validateLeadDetails: {
       workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
       processId: 'e64e888231f611ebac6300505695f93b',
-      projectId: environment.projectIds.camProjectId,
+      projectId: environment.projectIds.camProjectId
     },
     saveValidLeadRecords: {
       workflowId: 'e630a07e31f611eb9bb600505695f93b',
       processId: '8910dbe6338311eba9ba00505695f93b',
-      projectId: environment.projectIds.camProjectId,
+      projectId: environment.projectIds.camProjectId
     },
     getFleetRtr: {
       processId: '7e26a5b29aae11eabdd1f2fa9bec3d63',
@@ -188,15 +188,15 @@ export class ApiService {
     },
     getApplicantList: {
       workflowId: '9832e748935811eabdc6f2fa9bec3d63',
-      processId: '985198b4935811eabdc6f2fa9bec3d63',
+      processId: '985198b4935811eabdc6f2fa9bec3d63'
     },
     getApplicantDetail: {
       workflowId: 'b741eb7c7d5311eabdc2f2fa9bec3d63',
-      processId: 'b7e97e8c7d5311eabdc2f2fa9bec3d63',
+      processId: 'b7e97e8c7d5311eabdc2f2fa9bec3d63'
     },
     saveUpdateApplicant: {
       workflowId: '5566af426db211eabdc2f2fa9bec3d63',
-      processId: '55855e7e6db211eabdc2f2fa9bec3d63',
+      processId: '55855e7e6db211eabdc2f2fa9bec3d63'
     },
     softDeleteApplicant: {
       workflowId: '9832e748935811eabdc6f2fa9bec3d63',
@@ -723,7 +723,7 @@ export class ApiService {
     getmotorInsuranceLOV: {
       workflowId: '7ab11904cca811eaaa1200505695f93b',
       processId: 'cdeef696cda111ea89bf00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     fetchTvrDetails: {
       processId: 'dccb64b276a011ebb6e600505695f93b',
@@ -743,12 +743,12 @@ export class ApiService {
     getInsuranceLOV: {
       workflowId: '7ab11904cca811eaaa1200505695f93b',
       processId: '7aca596ecca811eaa4ed00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getAssetDetails: {
       workflowId: 'f98fcb80cb0e11ea961200505695f93b',
       processId: 'f9ae9f6acb0e11ea814c00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     // submitNegotiation: {
     //   workflowId: 'f98fcb80cb0e11ea961200505695f93b',
@@ -763,23 +763,23 @@ export class ApiService {
     submitNegotiation: {
       workflowId: '2ebdbf38dd7511eaad1a00505695f93b',
       processId: '5ebaf41add7c11ea908100505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getNegotiationData: {
       workflowId: '2ebdbf38dd7511eaad1a00505695f93b',
       processId: '2ed6d234dd7511eaba4a00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     // disbursementRelated starts
     disbursementLOV: {
       processId: '08a96b3ed7b811eaac0400505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     fetchCoAppDetails: {
       processId: 'ece8a13cd7f111eaa86100505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     fetchDealerDetails: {
       processId: '7a69a5b8d7cc11eab3fc00505695f93b',
@@ -789,7 +789,7 @@ export class ApiService {
     fetchApplicantDetails: {
       processId: 'b9964ac2d7d911ea827c00505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     // saveUpdateDisburseDetails: {
     //   processId: '70075eb0d7d811eaa97a00505695f93b',
@@ -799,7 +799,7 @@ export class ApiService {
     saveUpdateDisburseDetails: {
       processId: 'f9cd8ac2608e11eba1ee00505695f93b',
       workflowId: 'f9b351b6608e11eb8f4800505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     fetchDisburseDetails: {
       processId: 'a5b63fc6d97811eab99f00505695f93b',
@@ -899,7 +899,7 @@ export class ApiService {
     disbBankName: {
       processId: 'f9fcc4a6f3ef11eaaeda00505695f93b',
       workflowId: '08905702d7b811eab3fc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     disbBankDetails: {
       processId: '049cafbef3f211ea894a00505695f93b',
@@ -939,12 +939,12 @@ export class ApiService {
     applicantReference: {
       processId: '632710f2129b11eb847f00505695f93b',
       workflowId: '79f7d05c120311ebb36200505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getApplicantReference: {
       processId: '968db6ae121311eb9d2a00505695f93b',
       workflowId: '79f7d05c120311ebb36200505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     reInitiateViability: {
       processId: '050da46e0ae811eb98c300505695f93b',
@@ -954,22 +954,22 @@ export class ApiService {
     sendBackToSales: {
       processId: '7a0640be1a7911eb9ca100505695f93b',
       workflowId: '79d8aae61a7911eb9fe400505695f93b',
-      projectId: environment.projectIds.submitToCredit,
+      projectId: environment.projectIds.submitToCredit
     },
     getRcuDetails: {
       processId: '55754d6e1e7311eb857100505695f93b',
       workflowId: 'cb68bc321e5e11ebb8f300505695f93b',
-      projectId: environment.projectIds.camProjectId,
+      projectId: environment.projectIds.salesProjectId
     },
     assignRcuTask: {
       processId: 'a55088661f5011eb842c00505695f93b',
       workflowId: '403a8a12b79511ea8afff2fa9bec3d63',
-      projectId: environment.projectIds.taskProjectId,
+      projectId: environment.projectIds.taskProjectId
     },
     saveUpdateRcuDetails: {
       processId: 'cba377141e5e11eb8fb700505695f93b',
       workflowId: 'cb68bc321e5e11ebb8f300505695f93b',
-      projectId: environment.projectIds.camProjectId,
+      projectId: environment.projectIds.salesProjectId
     },
     getQueries: {
       processId: 'bc794b1c18df11eb917900505695f93b',
@@ -1009,7 +1009,7 @@ export class ApiService {
     leadHistory: {
       processId: 'f0f395d824eb11eb91b100505695f93b',
       workflowId: 'b50e63f4235b11eb937600505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     supervisorReporters: {
       processId: 'b1e4ab40234a11eba48800505695f93b',
@@ -1040,12 +1040,12 @@ export class ApiService {
     getAssetRemarks: {
       processId: 'b9de5b3828fa11eb97ad00505695f93b',
       workflowId: 'b995a56e28fa11eb8ead00505695f93b',
-      projectId: environment.projectIds.remarksProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     saveAssetRemarks: {
       processId: '124ed4e228b411eb979100505695f93b',
       workflowId: '11ffd41428b411eb85f300505695f93b',
-      projectId: environment.projectIds.remarksProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     assignCPCMaker: {
       processId: '8a5609aad32e11eaacee00505695f93b',
@@ -1070,7 +1070,7 @@ export class ApiService {
     getTDDetailsByTask: {
       processId: 'b5585406032f11ebbce000505695f93b',
       workflowId: 'b5390c54032f11eb99e500505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     viewTDDetails: {
       processId: '97b6dadef72811ea857c00505695f93b',
@@ -1085,12 +1085,12 @@ export class ApiService {
     requestTrancheDisburse: {
       processId: '2a985d4cf68d11eab5a800505695f93b',
       workflowId: '2a7931d8f68d11eab3fb00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     requestTaskTrancheDisburse: {
       processId: '63d4c01a022111eb91e600505695f93b',
       workflowId: '63b3926e022111eb9f3b00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     submitTDToMaker: {
       processId: '0a97611efe3a11eab06200505695f93b',
@@ -1100,7 +1100,7 @@ export class ApiService {
     reverseTDToMaker: {
       processId: '9c6fae38030e11ebad1a00505695f93b',
       workflowId: '9c567ef4030e11ebabf700505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     tdApprove: {
       processId: 'f007931203cc11eba91300505695f93b',
@@ -1140,12 +1140,12 @@ export class ApiService {
     saveDeclientRemards: {
       processId: 'bc5cb0782fec11eba83800505695f93b',
       workflowId: 'bbf4e6f02fec11eb934a00505695f93b',
-      projectId: environment.projectIds.remarksProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getDeclientRemards: {
       processId: 'dbf7187e2fec11eb9d9b00505695f93b',
       workflowId: 'bbf4e6f02fec11eb934a00505695f93b',
-      projectId: environment.projectIds.remarksProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     insuranceVehicleMaster: {
       processId: '62afd09c32ca11eb9d0800505695f93b',
@@ -1190,22 +1190,22 @@ export class ApiService {
     loanDetailList: {
       workflowId: 'e9e298f65a2011eb920200505695f93b',
       processId: 'ea11dc565a2011eb9de500505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     loanDetailListDisburse: {
       workflowId: 'e9e298f65a2011eb920200505695f93b',
       processId: 'a82ef970613e11eb842d00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getDisbursementData: {
       workflowId: 'e9e298f65a2011eb920200505695f93b',
       processId: '603b2d5a60ad11eb98bc00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getUserByBranch: {
       workflowId: '238f7d8c750e11eb962e00505695f93b',
       processId: '2c33335c751311eb905200505695f93b',
-      projectId: environment.projectIds.remarksProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     approvingAuthority: {
       workflowId: '870f1640816811ebb9ba00505695f93b',
@@ -1226,6 +1226,11 @@ export class ApiService {
       workflowId: '89b4dd367fdc11ebbbdc00505695f93b',
       processId: '89d91c467fdc11eb8b6500505695f93b',
       projectId: environment.projectIds.camProjectId
+    },
+    requestApproval: {
+      workflowId: '77102f60831411eba70100505695f93b',
+      processId: '77301f82831411eba5b700505695f93b',
+      projectId: environment.projectIds.taskProjectId
     }
   };
 }

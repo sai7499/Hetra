@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
 import { LovDataService } from 'src/app/services/lov-data.service';
 import { LabelsService } from 'src/app/services/labels.service';
@@ -25,6 +25,7 @@ import { ToasterService } from '@services/toaster.service';
 import { Constant } from '@assets/constants/constant';
 
 import { LoanViewService } from '@services/loan-view.service';
+import { SharedService } from '../shared-service/shared-service';
 @Component({
   selector: 'app-applicant-docs-upload',
   templateUrl: './applicant-docs-upload.component.html',
@@ -38,7 +39,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
     this.applicantId = Number(value.id);
     this.associatedWith = value.associatedWith;
-    if (this.associatedWith === 2 ) {
+    if (this.associatedWith === 2) {
       this.apiId = value.apiId;
       this.getApplicantDetails();
     }
@@ -47,12 +48,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.DEFAULT_SIGNATURE_IMAGE = '';
   }
   @Input() set docSize(value) {
-      this.OTHER_DOCUMENTS_SIZE = value;
+    this.OTHER_DOCUMENTS_SIZE = value;
   }
   associatedWith;
   PROFILE_SIZE = Constant.PROFILE_IMAGE_SIZE;
   PROFILE_TYPE = Constant.PROFILE_ALLOWED_TYPES;
-  OTHER_DOCUMENTS_SIZE: number; 
+  OTHER_DOCUMENTS_SIZE: number;
   // = Constant.OTHER_DOCUMENTS_SIZE;
   OTHER_DOCS_TYPE = Constant.OTHER_DOCUMENTS_ALLOWED_TYPES;
   DEFAULT_PROFILE_IMAGE: string;
@@ -96,12 +97,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   isApplicantDetails: boolean;
 
-    // userDefineFields
-    udfScreenId = 'RCS002';
-    udfDetails: any = [];
-    userDefineForm: any;
-    udfGroupId: string = 'RCG001';
-    jsonScreenId: any;
+  // userDefineFields
+  udfScreenId = 'RCS002';
+  udfDetails: any = [];
+  userDefineForm: any;
+  udfGroupId: string = 'RCG001';
+  jsonScreenId: any;
 
   currentlySelectedDocs: number;
   documentNumberPattern: string;
@@ -120,13 +121,19 @@ export class ApplicantDocsUploadComponent implements OnInit {
   isProfileSignUploaded: boolean;
   isLoan360: boolean;
   docNumberError: boolean = true;
- 
+
+  documentRoleArray: any = {};
+  subcategotyDocsId: any = {};
+  isPreDisEnable: any = {};
+  isReqApprove: any = {};
+
   constructor(
     private lovData: LovDataService,
     private router: Router,
     private labelsData: LabelsService,
     private applicantService: ApplicantService,
     private location: Location,
+    private sharedService: SharedService,
     private lovService: CommomLovService,
     private uploadService: UploadService,
     private utilityService: UtilityService,
@@ -164,7 +171,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     const url = this.location.path();
     this.isApplicantDetails = url.includes('sales-applicant-details') ? true : false
-    console.log(url, 'isApplicantDetails' ,this.isApplicantDetails)
+    console.log(url, 'isApplicantDetails', this.isApplicantDetails)
   }
 
   getApplicantDetails() {
@@ -185,7 +192,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         this.voterId = indivIdentityInfoDetails.voterIdNumber;
         this.drivingLicence = indivIdentityInfoDetails.drivingLicenseNumber;
         this.aadharCard = indivIdentityInfoDetails.aadhar;
-      } else if(corporateProspectDetails) {
+      } else if (corporateProspectDetails) {
         this.passport = corporateProspectDetails.passportNumber;
         this.panCard = corporateProspectDetails.panNumber;
         this.voterId = corporateProspectDetails.voterIdNumber;
@@ -248,8 +255,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
           return category.code === Number(code);
         });
         if (category) {
-            this.categories.push(category);
-          }
+          this.categories.push(category);
+        }
       }
     });
     console.log('this.categories', this.categories);
@@ -268,14 +275,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return;
     }
     this.constructFormForUpload();
-    
+
   }
 
   downloadForLoan360(formArrayName: string, index: number, event) {
     if (!this.isLoan360) {
       return;
     }
-    this.downloadDocs(formArrayName,index,event);
+    this.downloadDocs(formArrayName, index, event);
   }
 
   setDocumentDetails() {
@@ -313,8 +320,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
           const formArray = this.uploadForm.get(
             `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
           ) as FormArray;
+          this.documentRoleArray[index] = [];
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
+            this.documentRoleArray[index] = [{
+              key: docs['documentRoleId'],
+              value: docs['documentRoleName']
+            }]
+            this.toggleDeferralDate(docs.subCategoryCode, index)
+
             // if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
             //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
             //      this.DEFAULT_PROFILE_IMAGE =
@@ -332,6 +346,22 @@ export class ApplicantDocsUploadComponent implements OnInit {
         });
 
         this.setUploadDocsValue(docDetails);
+
+        let PdcDetailsData = this.sharedService.getIsPdcData();
+
+        if (PdcDetailsData) {
+          const formArray = this.uploadForm.get(
+            `${this.FORM_ARRAY_NAME}_${PdcDetailsData.subCatCode}`
+          ) as FormArray;
+          formArray.push(this.getDocsFormControls());
+          formArray['controls'][formArray.length - 1].get('documentName').setValue(PdcDetailsData.code)
+        }
+
+        this.documentArr.forEach((value) => {
+          if (value.documentType) {
+            this.subcategotyDocsId[value.subCategoryCode] = true;
+          }
+        });
 
         this.subCategories.forEach((subCategory) => {
           const formArray = this.uploadForm.get(
@@ -374,7 +404,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
         new FormArray([this.getDocsFormControls()])
       );
     });
-    console.log('this.uploadForm', this.uploadForm.value);
   }
 
   toggleDeferralDate(categoryCode, index) {
@@ -387,12 +416,19 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if (isChecked) {
       formGroup.get('deferredDate').enable();
       this.docNumberError = false;
+      if (localStorage.getItem('isPreDisbursement') === 'true') {
+        this.isPreDisEnable[index] = true;
+        formGroup.get('receivedBy').setValidators(Validators.required);
+        formGroup.get('receivedBy').updateValueAndValidity();
+      } else {
+        this.isPreDisEnable[index] = false;
+        formGroup.get('receivedBy').clearAsyncValidators();
+        formGroup.get('receivedBy').updateValueAndValidity();
+      }
     } else {
       formGroup.get('deferredDate').disable();
       formGroup.get('deferredDate').setValue(null);
       this.docNumberError = true;
-
-      
     }
   }
 
@@ -412,9 +448,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
       documentId: new FormControl(document.documentId || 0),
       isDeferred: new FormControl(isDeferred),
       deferredDate: new FormControl(
-        {value : this.utilityService.getDateFromString(document.deferredDate) || '', disabled : !isDeferred? true : false}
-        
+        { value: this.utilityService.getDateFromString(document.deferredDate) || '', disabled: !isDeferred ? true : false }
+
       ),
+      receivedBy: new FormControl(document['documentRoleId'] || ''),
+      deferralStatus: new FormControl(document['deferralStatus'] || '0')
     });
     return controls;
   }
@@ -496,8 +534,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
       expiryDate: new FormControl(''),
       file: new FormControl(''),
       documentId: new FormControl(0),
-      deferredDate: new FormControl({value : '', disabled : true}),
+      deferredDate: new FormControl({ value: '', disabled: true }),
       isDeferred: new FormControl(''),
+      receivedBy: new FormControl(''),
+      deferralStatus: new FormControl('0')
     });
     formArray.push(controls);
   }
@@ -547,7 +587,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onDocumentNumberPress(event, index, code) {
-    if (code === 11 ||code === 12 || code === 13 || code === 15 || code === 16) {
+    if (code === 11 || code === 12 || code === 13 || code === 15 || code === 16) {
       const value = event.target.value;
       const formArray = this.uploadForm.get(`${this.FORM_ARRAY_NAME}_${code}`) as FormArray;
       console.log('formArray.at[index]', formArray.at(index))
@@ -558,48 +598,48 @@ export class ApplicantDocsUploadComponent implements OnInit {
   setDocumentValidation() {
     // this.selectedCode = subCategoryCode;
     // if (subCategoryCode === 12) { // passport
-      const passportNumber = this.validationData.passportNumber;
-      this.docsValidation[12] = {
-        pattern: passportNumber.patternCheck.rule,
-        maxLength: passportNumber.maxLength.rule,
-        patternMsg: passportNumber.patternCheck.msg
-      };
+    const passportNumber = this.validationData.passportNumber;
+    this.docsValidation[12] = {
+      pattern: passportNumber.patternCheck.rule,
+      maxLength: passportNumber.maxLength.rule,
+      patternMsg: passportNumber.patternCheck.msg
+    };
     //   return;
     // }
     // if (subCategoryCode === 13) {
-      const drivingLicense = this.validationData.drivingLicense;
-      this.docsValidation[13] = {
-        pattern: drivingLicense.patternCheck.rule,
-        maxLength: drivingLicense.maxLength.rule,
-        patternMsg: drivingLicense.patternCheck.msg
-      };
+    const drivingLicense = this.validationData.drivingLicense;
+    this.docsValidation[13] = {
+      pattern: drivingLicense.patternCheck.rule,
+      maxLength: drivingLicense.maxLength.rule,
+      patternMsg: drivingLicense.patternCheck.msg
+    };
     //   return;
     // }
     // if (subCategoryCode === 14) {
-      const adhaarNumber = this.validationData.adhaarNumber;
-      this.docsValidation[14] = {
-        pattern: adhaarNumber.patternCheck.rule,
-        maxLength: adhaarNumber.maxLength.rule,
-        patternMsg: adhaarNumber.patternCheck.msg
-      };
+    const adhaarNumber = this.validationData.adhaarNumber;
+    this.docsValidation[14] = {
+      pattern: adhaarNumber.patternCheck.rule,
+      maxLength: adhaarNumber.maxLength.rule,
+      patternMsg: adhaarNumber.patternCheck.msg
+    };
     //   return;
     // }
     // if (subCategoryCode === 15) {
-      const voterId = this.validationData.voterId;
-      this.docsValidation[15] = {
-        pattern: voterId.patternCheck.rule,
-        maxLength: voterId.maxLength.rule,
-        patternMsg: voterId.patternCheck.msg
-      };
+    const voterId = this.validationData.voterId;
+    this.docsValidation[15] = {
+      pattern: voterId.patternCheck.rule,
+      maxLength: voterId.maxLength.rule,
+      patternMsg: voterId.patternCheck.msg
+    };
     //   return;
     // }
     // if (subCategoryCode === 16) {
-      const panNumber = this.validationData.panNumber;
-      this.docsValidation[16] = {
-        pattern: panNumber.patternCheck.rule,
-        maxLength: panNumber.maxLength.rule,
-        patternMsg: panNumber.patternCheck.msg
-      };
+    const panNumber = this.validationData.panNumber;
+    this.docsValidation[16] = {
+      pattern: panNumber.patternCheck.rule,
+      maxLength: panNumber.maxLength.rule,
+      patternMsg: panNumber.patternCheck.msg
+    };
     //   return;
     // }
   }
@@ -647,7 +687,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const isDeferred = formGroup.get('isDeferred').value;
     const deferredDate = formGroup.get('deferredDate').value;
 
-    
+
 
     if (!imageType) {
       if (!documentName) {
@@ -744,10 +784,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
     };
   }
 
-  getProfileImage() { }
-
   async downloadDocs(formArrayName: string, index: number, event) {
-    
+
     let el = event.srcElement;
     const formArray = this.uploadForm.get(formArrayName) as FormArray;
     const documentId = formArray.at(index).get('file').value;
@@ -801,7 +839,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const blob1 = this.base64ToBlob(base64, contentType);
     const blobUrl1 = URL.createObjectURL(blob1);
     console.log('blobUrl1', blobUrl1);
-    
+
     setTimeout(() => {
 
       const a: any = document.createElement('a');
@@ -816,22 +854,22 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   base64ToBlob(b64Data, contentType, sliceSize?: any) {
-      contentType = contentType || '';
-      sliceSize = sliceSize || 512;
-      const byteCharacters = atob(b64Data);
-      const byteArrays = [];
-      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-        const slice = byteCharacters.slice(offset, offset + sliceSize);
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-          byteNumbers[i] = slice.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
       }
-      const blob = new Blob(byteArrays, {type: contentType});
-      return blob;
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
     }
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
 
   getBase64String(documentId) {
     return new Promise((resolve, reject) => {
@@ -842,8 +880,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
           const dwnldDocumentRep = value['dwnldDocumentRep'];
 
           if (dwnldDocumentRep.msgHdr.rslt === 'ERROR') {
-             this.toasterService.showError(dwnldDocumentRep.msgHdr.error[0].rsn, '')
-             return;
+            this.toasterService.showError(dwnldDocumentRep.msgHdr.error[0].rsn, '')
+            return;
           }
 
           const imageUrl = dwnldDocumentRep.msgBdy.bsPyld;
@@ -1019,8 +1057,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
             const documentNumber = value.documentNumber;
             const isDeferred = value.isDeferred
             if (!isDeferred && !documentNumber && subCategoryCode !== 1 && subCategoryCode !== 2 && subCategoryCode !== 3) {
-                isDocNumberError = true;
-                this.docError[`${key}_${index}`] = true;
+              isDocNumberError = true;
+              this.docError[`${key}_${index}`] = true;
             } else {
               this.docError[`${key}_${index}`] = false;
             }
@@ -1077,7 +1115,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
 
 
-    if (this.documentArr.length === 0 ) {
+    if (this.documentArr.length === 0) {
       if (this.isProfileSignUploaded) {
         this.isProfileSignUploaded = false;
         return this.toasterService.showSuccess('Documents saved successfully', '');
@@ -1089,14 +1127,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const apiValue = {};
 
     this.apiRes.forEach((value) => {
-        apiValue[value.documentId] = {
-          documentName:  value.documentName || '',
-          documentNumber: value.documentNumber || '',
-          issueDate: value.issueDate || '',
-          expiryDate: value.expiryDate || '',
-          isDeferred: value.isDeferred || '',
-          deferredDate: value.deferredDate || ''
-        };
+      apiValue[value.documentId] = {
+        documentName: value.documentName || '',
+        documentNumber: value.documentNumber || '',
+        issueDate: value.issueDate || '',
+        expiryDate: value.expiryDate || '',
+        isDeferred: value.isDeferred || '',
+        deferredDate: value.deferredDate || ''
+      };
     });
 
     const isValueChange = this.documentArr.some((value) => {
@@ -1117,11 +1155,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     if (this.isNewUpload) {
       if (!isValueChange && this.isProfileSignUploaded) {
-          this.isProfileSignUploaded = false;
-          this.isNewUpload = false;
-          return this.toasterService.showSuccess('Documents saved successfully', '');
+        this.isProfileSignUploaded = false;
+        this.isNewUpload = false;
+        return this.toasterService.showSuccess('Documents saved successfully', '');
       }
-       return this.callAppiyoUploadApi();
+      return this.callAppiyoUploadApi();
     }
 
     if (!isValueChange) {
@@ -1130,10 +1168,10 @@ export class ApplicantDocsUploadComponent implements OnInit {
         return this.toasterService.showSuccess('Documents saved successfully', '');
       }
       return this.toasterService.showWarning('No changes done to save', '');
-      
+
     }
     console.log('documentArr', this.documentArr);
-    const docNotAvailable =  this.documentArr.find((doc) => {
+    const docNotAvailable = this.documentArr.find((doc) => {
       return !doc.dmsDocumentId && doc.isDeferred !== '1';
     });
     console.log('docNotAvailable', docNotAvailable);
@@ -1150,8 +1188,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       })
       return this.toasterService.showError(`Please upload document for ${docName.displayName}`, '')
     }
-    
-    
+
     this.callAppiyoUploadApi();
   }
 
@@ -1191,5 +1228,37 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
   navigateBack() {
     this.router.navigateByUrl(localStorage.getItem('currentUrl'));
+  }
+
+  onChangeRoleId(obj, index) {
+    console.log(obj, 'Obj')
+    let controlValue = obj.controls[index]
+    if (controlValue.get('deferredDate').value && controlValue.get('receivedBy').value) {
+      this.isReqApprove[index] = true;
+    } else {
+      this.isReqApprove[index] = false;
+    }
+  }
+
+  onApproveRequest(obj, index) {
+    let data = {
+      "deferralStatus": "1",
+      "deferralStatusValue": "Requested",
+      "deferredDate": this.utilityService.getDateFormat(obj.value[index].deferredDate),
+      "documentId": obj.value[index].documentId,
+      "documentRoleId": obj.value[index].receivedBy,
+      "isDeferred": obj.value[index].isDeferred ? "1" : "0"
+    }
+
+    this.uploadService.requestForApproval(data, this.leadId).subscribe((res: any) => {
+      if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.isReqApprove[index] = false;
+        let documentDetails = res.ProcessVariables.documentDetail;
+        obj.controls[index].get('deferralStatus').setValue(documentDetails.deferralStatus)
+      } else {
+        this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Request Approve Deferral')
+      }
+    })
+
   }
 }
