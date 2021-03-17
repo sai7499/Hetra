@@ -112,7 +112,7 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.sharedService.viewDDE$.subscribe(dde => {
       if (dde) {
         this.viewOrEditDde(dde)
-        this.isEnableInitiateQuery = false;
+        this.isEnableInitiateQuery = dde.isQuery ? false : true;
       }
     })
   }
@@ -211,16 +211,17 @@ export class LeadSectionHeaderComponent implements OnInit {
     this.router.navigateByUrl(url)
   }
 
-  viewOrEditDde(isString?) {
+  viewOrEditDde(data?) {
     this.toggleDdeService.setIsDDEClicked();
     this.isEnableDdeButton = false;
     this.isNeedBackButton = true;
     localStorage.setItem('isNeedBackButton', 'true');
-    if (!isString) {
+    console.log(data)
+    if (!data) {
       this.router.navigate(['/pages/dde/' + this.leadId])
       this.toggleDdeService.setCurrentPath(this.location.path())
     } else {
-      this.toggleDdeService.setCurrentPath(isString)
+      this.toggleDdeService.setCurrentPath(data.path)
       localStorage.setItem('forQueryUrl', this.location.path());
     }
     this.setDdeBackButton()

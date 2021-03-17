@@ -35,7 +35,8 @@ export class ToggleDdeService {
   getOperationType() {
     // return localStorage.getItem('ddeType');
     const operationType = localStorage.getItem('ddeType');
-    // operationType === '1' || operationType === '2' || operationType === '3' || operationType === '4'
+    //     if (operationType === '1' || operationType === '2' || operationType === '3' || operationType === '4') {
+
     if (Number(operationType) >= 1) {
       return true;
     } else {

@@ -1207,6 +1207,21 @@ export class ApiService {
       processId: '2c33335c751311eb905200505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
+    approvingAuthority: {
+      workflowId: '870f1640816811ebb9ba00505695f93b',
+      processId: '69bdb304816c11eb8f6900505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
+    PdcSpdcApproval: {
+      workflowId: '870f1640816811ebb9ba00505695f93b',
+      processId: '872f3d80816811eb830400505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
+    approveOrRejectDocumentDeferral: {
+      workflowId: '79cfe90a824e11ebb42c00505695f93b',
+      processId: '79f0701c824e11eb954000505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
     InsuranceLov: {
       workflowId: '89b4dd367fdc11ebbbdc00505695f93b',
       processId: '89d91c467fdc11eb8b6500505695f93b',

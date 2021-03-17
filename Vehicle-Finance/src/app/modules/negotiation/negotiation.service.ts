@@ -128,4 +128,32 @@ export class NegotiationService {
     const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
     return this.httpService.post(url, body); 
   }
+  approvingAuthorityLOV(data) {
+    const processData = data;
+    const processId = this.apiService.api.approvingAuthority.processId;
+    const workflowId = this.apiService.api.approvingAuthority.workflowId;
+    const projectId = this.apiService.api.approvingAuthority.projectId;
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body); 
+  }
+  approvalForPdcSpdc(data) {
+    const processData = data;
+    const processId = this.apiService.api.PdcSpdcApproval.processId;
+    const workflowId = this.apiService.api.PdcSpdcApproval.workflowId;
+    const projectId = this.apiService.api.PdcSpdcApproval.projectId;
+    const body: RequestEntity = {
+      processId: processId,
+      ProcessVariables: processData,
+      workflowId: workflowId,
+      projectId: projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body); 
+  }
 }
