@@ -50,7 +50,6 @@ import { SharedUserDefinedFieldsComponent } from './shared-user-defined-fields/s
 import { WindowModule } from '@progress/kendo-angular-dialog';
 import { CustomModalComponent } from './custom-modal/custom-modal.component';
 import { DeferralDocumentsComponent } from './deferral-documents/deferral-documents.component';
-import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 setTheme('bs4');
 
 @NgModule({
@@ -99,7 +98,6 @@ setTheme('bs4');
     MatTreeModule,
     MatIconModule,
     WindowModule,
-    AutocompleteLibModule,
     ImageCropperModule,
   ],
   exports: [
