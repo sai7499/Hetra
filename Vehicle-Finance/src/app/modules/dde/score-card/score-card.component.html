@@ -1,16 +1,20 @@
 <div class="content">
-<div class="row " *ngIf="!showError">
+<div class="row " *ngIf="productCategoryFromLead != 'UC'">
     <div class="col-sm-12 col-lg-12">
         <h3 class="banner-con">Score card
             <span class="float-right">{{udfScreenId}}</span>
         </h3>
     </div>
 </div>
-<div *ngIf="productCategoryFromLead != 'UC'" class="row">
+<div  *ngIf="applicantDetails.length == 0 && productCategoryFromLead != 'UC'" class="text-center">
+    <h3 class="banner-con">Score card</h3>
+    <p>Score card is not applicable for Non-Individual</p>
+</div>
+<div *ngIf="productCategoryFromLead != 'UC'" class="row" style="margin-top: 5px;">
     
-    <div *ngIf="applicantDetails.length !== 0" class="row col-lg-6 col-lg-offset-2">
+    <div *ngIf="applicantDetails.length > 0" class="row col-lg-6 col-lg-offset-2">
         <div class="form-group col-sm-6 col-md-6 col-lg-6 text-right">
-            <label>Applicant Name</label>
+            <label>Evaluate Score Card for:</label>
         </div>
         <div [formGroup]="scoreCardForm" class="form-group col-sm-6 col-md-6 col-lg-6">
             <app-vf-custom-select formControlName="applicantId" [values]="applicantDetails"
@@ -20,16 +24,16 @@
         </div>
     </div>
        
-    <div *ngIf="!showError" class="form-group btn-spc col-lg-4 col-xs-12 text-right">
+    <div *ngIf="showError && scoreCardId" class="form-group btn-spc col-lg-4 col-xs-12 text-right">
         <button 
             [disabled]="disableSaveBtn"
             type="button" 
             class="btn btn-primary "
-            (click)="reInitiateCreditScore()">Re-Evaluation 
+            (click)="reInitiateCreditScore()">Evaluate
         </button>
     </div>
 </div>
-<table class="table cam_table_proposed mt-3 main-table" *ngIf="!showError">
+<table class="table cam_table_proposed mt-3 main-table" *ngIf="showRiskTab">
     <thead>
         <tr class="tr_style">
             <th>S.No</th>
@@ -117,7 +121,7 @@
         </tr>
     </tbody>
 </table>
-<table *ngIf="showError">
+<table *ngIf="productCategoryFromLead == 'UC'">
     <thead>
         <tr class="tr_style">
             <th class="banner-con">Score Card</th>
@@ -125,7 +129,7 @@
     </thead>
     <tbody >
         <tr style="width: 100%;">            
-            <td >{{errorMessage}}</td>            
+            <td >{{errorMessage ? errorMessage : 'Score card is not applicable for Used Car'}}</td>            
         </tr>
     </tbody>
 </table>
@@ -144,7 +148,7 @@
                 <strong>{{risk}}</strong>
             </td>
         </tr> -->
-        <tr *ngIf="!showError">
+        <tr *ngIf="productCategoryFromLead != 'UC' && showRiskTab">
             <td class="actionTable"><strong>Action</strong></td>          
             <td 
                 class="actionTable" 
