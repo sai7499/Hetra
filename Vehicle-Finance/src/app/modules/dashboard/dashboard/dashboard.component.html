@@ -76,6 +76,32 @@
                         >
                     </app-vf-custom-select>
                     </div>
+                    <div *ngIf="displayTabs?.ApprovalDashboard == activeTab"
+                        class="form-group col-sm-6 col-md-3 col-lg-3 ">
+                        <label for="status">Deferral Document Name</label>
+                        <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
+                        <div>
+                            <ng-autocomplete class="custom-select-box" [data]="defDocNames" [searchKeyword]="'item'"
+                            (selected)='selectDocNameEvent($event)' (inputChanged)='onDocNameSearch($event)'
+                            (inputCleared)='onDocNameClear($event)'
+                            [itemTemplate]="favDocNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="deferralDocName"
+                            [placeHolder]="'Search Deferral Document'" [debounceTime]="400" [minQueryLength]="2">
+                            </ng-autocomplete>
+                            
+          <div class="invalid-feedback">
+            <!-- <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['approvedBy'].value && isDeferral"> Please select user
+            </div> -->
+            <!-- <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
+              required</div> -->
+          </div>
+                          <ng-template #favDocNameTemplate let-item>
+                            <a [innerHTML]="item"></a>
+                          </ng-template>
+                          <ng-template #notFoundTemplate let-notFound>
+                            <div [innerHTML]="notFound"></div>
+                          </ng-template>
+                          </div>
+                    </div>
                 </div>
                 <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.ApprovalDashboard != activeTab" class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">

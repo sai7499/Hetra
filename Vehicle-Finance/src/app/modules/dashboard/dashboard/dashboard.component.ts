@@ -287,6 +287,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   LOV: any;
   deferralType: any;
   deferralTypeList: any;
+  defDocs: any;
+  defDocNames: any;
+  keyValue: any;
 
   constructor(
     private fb: FormBuilder,
@@ -508,7 +511,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       expectedDate: [''],
       loanMinAmt: [null],
       loanMaxAmt: [null],
-      deferralType: ['']
+      deferralType: [''],
+      deferralDocName: ['']
 
     });
     this.getLov();
@@ -1184,6 +1188,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
     this.dashboardService.dashboardFilter(data).subscribe((res: any) => {
       this.productCategoryList = res.ProcessVariables.productCategory;
+      this.defDocs = res.ProcessVariables.defDocNames;
+      console.log('this.defDocs', this.defDocs);
+      
       this.productCategoryData = this.utilityService.getValueFromJSON(
         this.productCategoryList,
         'categoryCode',
@@ -1197,6 +1204,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
         'stageValue'
       );
     });
+  }
+
+  onDocNameSearch(val) {
+    if(val && val.trim().length > 0) {
+      this.defDocNames = this.defDocs.filter((e: any) => {
+        let myVal = val.toString().toLowerCase();
+        let doc = e.toString().toLowerCase();
+        if (doc.includes(myVal)) {
+          return e;
+        }
+      })
+      console.log('defDocNames', this.defDocNames);
+    }
+  }
+
+  selectDocNameEvent(val) {
+    this.keyValue = val;
+  }
+
+  onDocNameClear() {
+    this.defDocNames = [];
   }
 
   // getting response Data for all tabs
@@ -1315,6 +1343,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
       deferralType: this.filterFormDetails ? this.deferralType : '',
+      deferralDocName: this.filterFormDetails ? this.keyValue : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1386,6 +1415,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
       deferralType: this.filterFormDetails ? this.deferralType : '',
+      deferralDocName: this.filterFormDetails ? this.keyValue : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1692,6 +1722,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onClear() {
     this.isFilterApplied = false;
+    this.onDocNameClear();
+    this.keyValue = '';
     this.filterForm.reset();
     this.filterFormDetails = {};
     this.onTabsLoading(this.subActiveTab);
