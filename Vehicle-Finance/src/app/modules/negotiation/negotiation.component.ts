@@ -13,6 +13,7 @@ import { variable } from '@angular/compiler/src/output/output_ast';
 import { environment } from 'src/environments/environment';
 import { LoanViewService } from '@services/loan-view.service';
 import { Location } from '@angular/common';
+import { UtilityService } from '@services/utility.service';
 @Component({
   selector: 'app-negotiation',
   templateUrl: './negotiation.component.html',
@@ -190,7 +191,40 @@ export class NegotiationComponent implements OnInit {
   tempLMSScheduleLOVData = [];
   varErrToaster: boolean = true;
   fetchAssetsJson: any;
+  isPredDone: any;
+  showModal = false;
   //tempDeductionDetails: any;
+
+  modalDetails = {
+    heading: 'Request Approval',
+    content: 'Are you sure you want to Approve?'
+  }
+  modalButtons: any = [
+    {
+      name: 'Yes',
+      isModalClose: false,
+
+    },
+    {
+      name: 'Cancel',
+      isModalClose: true,
+    }];
+  // showButton = true;
+  getBranchDetails: any;
+  userDetails: any;
+  keyValue: any;
+  approvalStatus = [];
+  collectedSPDCvalueCheck: { rule: (spdcvalue: any) => boolean; msg: string; }[];
+  isCollectedSPDC: boolean;
+  collectedPDCvalueCheck: { rule: (collectedpdcvalue: any) => boolean; msg: string; }[];
+  isAlreadyApproved: boolean;
+  approvedBy: any;
+  currentIndex: any;
+  statusApproval: any;
+  deferralDate: any;
+  isNeededApproval = false;
+  minDefDate: Date;
+  isDeferral = false;
 
   constructor(
     private labelsData: LabelsService,
@@ -205,6 +239,7 @@ export class NegotiationComponent implements OnInit {
     private loginStoreService: LoginStoreService,
     private loanViewService: LoanViewService,
     private location: Location,
+    private utilityService: UtilityService
   ) {
     this.sharedData.leadData$.subscribe((value) => {
       this.leadData = value;
@@ -212,10 +247,17 @@ export class NegotiationComponent implements OnInit {
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleType = value.roleType;
     });
+    let todayDate = new Date();
+    todayDate = this.utilityService.setTimeForDates(todayDate);
+    this.minDefDate = todayDate;
+    this.minDefDate.setDate(this.minDefDate .getDate() + 1)
   }
   ngOnInit() {
     // const leadData = this.createLeadDataService.getLeadSectionData();
     // this.leadId = leadData['leadId']
+    this.isPredDone = localStorage.getItem('is_pred_done');
+    console.log(JSON.stringify(this.isPredDone));
+    
     this.userId = localStorage.getItem('userId');
     this.onChangeLanguage('English');
     this.isLoan360 = this.loanViewService.checkIsLoan360()
@@ -232,8 +274,11 @@ export class NegotiationComponent implements OnInit {
     // this.initForm();
     this.getLabels();
     this.getLOV();
+    this.getApprovingAuthority();
     this.getInsuranceLOV();
     this.loadForm();
+    
+    
     console.log('this.roleType',this.roleType )
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
@@ -304,6 +349,137 @@ export class NegotiationComponent implements OnInit {
       },
     ); ''
   }
+
+  onApprovePdcSpdc() {
+    // this.showButton = false;
+    // this.showModal = false;
+    this.onSubmit();
+    this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.patchValue({
+      approvalStatus: 0
+    });
+    const todayDate = new Date();
+    const deferralDate = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.deferralDate;
+    console.log(this.utilityService.getDateFormat(deferralDate));
+    const approvedBy = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.approvedBy;
+    
+    // delete this.keyValue['Name']
+    const data = {
+      leadId: Number(this.leadId),
+      requestedOn: this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm'),
+      requestedBy: localStorage.getItem('userId'),
+      approvedBy: this.keyValue,
+      approvalStatus: 0,
+      deferredDate : this.utilityService.getDateFormat(deferralDate)
+    }
+    console.log(data);
+    this.NegotiationService.approvalForPdcSpdc(data).subscribe((res: any) => {
+      const response = res;
+      if (response.Error == '0' && response.ProcessVariables.error.code == '0') {
+        console.log('response', response);
+        // this.showButton = false;
+        this.isAlreadyApproved = true;
+        this.showModal = false;
+        if(this.isAlreadyApproved) {
+          this.createNegotiationForm.get('tickets')['controls'][0]['controls'].repaymentmodeArray.disable();
+          // this.createNegotiationForm.get('tickets')['controls'][0]['controls'].repaymentmodeArray;
+          }
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, '');
+      }
+    });
+  }
+  
+  getApprovingAuthority(i?) {
+    const data = {
+      leadId: Number(this.leadId)
+    }
+    this.NegotiationService.approvingAuthorityLOV(data).subscribe((res: any) => {
+      const response = res;
+      if (response.Error == '0' && response.ProcessVariables.error.code == '0') {
+      console.log(response, "approvingAuthority");
+      this.getBranchDetails = response.ProcessVariables.approvedBy;
+      const approvalStatus = response.ProcessVariables.approvalStatus;
+      this.isAlreadyApproved = response.ProcessVariables.isAlreadyApproved;
+      this.approvedBy =  response.ProcessVariables.aApprovedBy;
+      this.statusApproval = response.ProcessVariables.aApprovalStatus;
+      this.deferralDate = response.ProcessVariables.deferredDate;
+        approvalStatus.map(ele => {
+          const status = {
+            key: ele.id,
+            value: ele.value
+          }
+          this.approvalStatus.push(status);
+        });
+        console.log(this.createNegotiationForm.get('tickets')['controls'], 'createNegotiationForm')
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message, '');
+      }
+    });
+  }
+  onApprovalNameSearch(val) {
+    if (val && val.trim().length > 0) {
+      this.userDetails = this.getBranchDetails.filter((e: any) => {
+        let myVal = val.toString().toLowerCase();
+        let eName = e.name.toString().toLowerCase();
+        if (eName.includes(myVal)) {
+          // e.Name = e.name + ' - ' + e.userId;
+          e.Name = e.name;
+          return e;
+        }
+      });
+    }
+  }
+  selectApprovalNameEvent(val: any, i) {
+    console.log(val, i, 'val')
+    this.keyValue = val;
+    this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.patchValue({
+      approvedBy: val['Name']
+    });
+  }
+  onApprovalNameClear(val, i) {
+    this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.patchValue({
+      approvedBy: ''
+    });
+    this.userDetails = [];
+  }
+  collectedChequeMaxMin(value, i) {
+    let pdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofPDC'].value
+    : this.CrossSellIns[i].repayment_dtls.no_of_pdc ;
+    let spdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofSPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['NoofSPDC'].value
+    : this.CrossSellIns[i].repayment_dtls.no_of_spdc ;;
+    let collectedpdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].value
+    : this.CrossSellIns[i].repayment_dtls.collected_no_of_pdc ;;
+    let collectedspdcvalue = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].value ? this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].value
+    : this.CrossSellIns[i].repayment_dtls.collected_no_of_spdc ;;
+    const requiredNoofCheques = Number(pdcvalue) + Number(spdcvalue);
+    const collectedNoofCheques = Number(collectedpdcvalue) + Number(collectedspdcvalue);
+    console.log(requiredNoofCheques, collectedNoofCheques);
+    this.collectedSPDCvalueCheck = [{ rule: collectedspdcvalue => Number(collectedspdcvalue) > Number(spdcvalue), msg: 'value should not be greater than required spdc' }];
+    this.collectedPDCvalueCheck = [{ rule: collectedpdcvalue => Number(collectedpdcvalue) > Number(pdcvalue), msg: 'value should not be greater than required pdc' }];
+    
+    if (requiredNoofCheques && collectedNoofCheques && (requiredNoofCheques !== collectedNoofCheques) && (requiredNoofCheques > collectedNoofCheques)) {
+      this.isNeededApproval = true;
+    } else {
+      this.isNeededApproval = false;
+    }
+    console.log('NeededApproval', this.isNeededApproval);
+    
+  }
+  
+  onApprovalClick(index?) {
+    console.log(index, 'index');
+    this.currentIndex = index
+    this.isDeferral = true;
+    const approvedBy = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm.value.approvedBy;
+    const deferralDate = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm.value.deferralDate;
+    if(approvedBy && deferralDate && !this.createNegotiationForm.get('tickets')['controls'][index]['controls'].approvalForm['controls']['deferralDate'].invalid) {
+      this.showModal = true;
+      this.isDeferral = false;
+    } else {
+      this.toasterService.showError('Please fill all mandatory fields', '')
+    }
+   
+  }
   loadForm() {
     this.createNegotiationForm = this.fb.group({
       tickets: new FormArray([]), // CrossSellInsurance
@@ -355,6 +531,7 @@ export class NegotiationComponent implements OnInit {
       // NoofPDC: ['', [Validators.minLength(1), Validators.maxLength(1)]],
       // NoofSPDC: ['', [Validators.minLength(1), Validators.maxLength(1)]],
     })
+    
   }
 
   msInitRowsDefault(flag,objDetaills){    //nego Enhance  
@@ -412,7 +589,7 @@ export class NegotiationComponent implements OnInit {
       this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.toMonth.disable();
       this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.installmentPercent.disable();
       this.createNegotiationForm['controls']['tickets']['controls'][i]['controls']['variableForm']['controls']['variableFormArray']['controls'][getLength].controls.emiAmount.disable();
-
+      
     return newObj;
    }else{
     return this.fb.group({
@@ -2189,6 +2366,14 @@ if(flag){
                       repaymentMode: ['',[Validators.required]],
                       NoofPDC: ['',[Validators.required]],
                       NoofSPDC: ['',[Validators.required]],
+                      collectedNoofPDC: [''],
+                      collectedNoofSPDC: [''],
+                    }),
+
+                    approvalForm: this.fb.group({
+                      approvedBy: [''],
+                      approvalStatus: [{value: '', disabled: true}],
+                      deferralDate: ['']
                     }),
 
                     variableForm : this.fb.group({
@@ -2291,6 +2476,24 @@ if(flag){
                   if(!((this.AssetDetailsList[i].schemeType=='S') || (this.AssetDetailsList[i].schemeType=='SI'))){
                     this.createNegotiationForm.get('tickets')['controls'][i]['controls'].negotiationformArray['controls']['NegotiatedIRR'].setValidators([Validators.required]);
                   }
+                  let deferralDate :any = this.utilityService.getDateFormat(this.deferralDate);
+                  deferralDate = this.utilityService.getDateFromString(deferralDate)
+                  this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.patchValue({
+                    approvedBy: this.approvedBy ? this.approvedBy.name: '',
+                    approvalStatus: this.statusApproval ? this.statusApproval.id : '',
+                    deferralDate: this.deferralDate ? deferralDate : ''
+                  });
+                  if(this.isAlreadyApproved) {
+                  this.createNegotiationForm.get('tickets')['controls'][i]['controls'].repaymentmodeArray.disable();
+                  }
+                  console.log('approvedBy', this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.value);
+                  
+                  
+                  console.log('deferralDate', this.utilityService.getDateFormat(this.deferralDate), this.deferralDate, this.utilityService.getDateFormat(this.deferralDate));
+                  
+
+                  console.log(this.createNegotiationForm.get('tickets')['controls'][i], 'createNegotiationForm', this.approvedBy)
+
                   if (this.roleType === 5 || this.roleType === 4) {
                     this.t.disable()
                   }
@@ -2865,7 +3068,9 @@ setCrosSell(i,val){
       const repaymentDetails = {
         repayment_mode: ticket.repaymentmodeArray.repaymentMode,
         no_of_pdc: ticket.repaymentmodeArray.NoofPDC,
-        no_of_spdc: ticket.repaymentmodeArray.NoofSPDC
+        no_of_spdc: ticket.repaymentmodeArray.NoofSPDC,
+        collected_no_of_pdc: ticket.repaymentmodeArray.collectedNoofPDC,
+        collected_no_of_spdc: ticket.repaymentmodeArray.collectedNoofSPDC
       }
 
       
@@ -3033,6 +3238,8 @@ setCrosSell(i,val){
               this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['repaymentMode'].setValue(this.CrossSellIns[index].repayment_dtls.repayment_mode)
               this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['NoofPDC'].setValue(this.CrossSellIns[index].repayment_dtls.no_of_pdc)
               this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['NoofSPDC'].setValue(this.CrossSellIns[index].repayment_dtls.no_of_spdc)
+              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['collectedNoofPDC'].setValue(this.CrossSellIns[index].repayment_dtls.collected_no_of_pdc)
+              this.createNegotiationForm.get('tickets')['controls'][index]['controls'].repaymentmodeArray['controls']['collectedNoofSPDC'].setValue(this.CrossSellIns[index].repayment_dtls.collected_no_of_spdc)
               // const crossSellIns = this.createNegotiationForm.controls.tickets['controls'].forEach((ticket, index) => {
                 
               this.negotiationSelected = this.createNegotiationForm.get('tickets')['controls'][index]['controls'].negotiationformArray;
@@ -3279,9 +3486,11 @@ setCrosSell(i,val){
               this.loanBookingSelected['controls'].SelectAppropriateLMSScheduleCode.setValue(this.CrossSellIns[index].loan_booking_dtls.lms_schedule_code);              
             })
           }
+          this.collectedChequeMaxMin('',0);
         }
       });
       //this.getNetDisbursementAmount(i)  //GIT Above included
+      
   }
   validateTenure(event, i) {
     this.valueSelected = this.createNegotiationForm.get('tickets')['controls'][i]['controls'].CrossSellInsurance['controls']['motor']
@@ -3627,5 +3836,10 @@ setCrosSell(i,val){
     // } else if (this.roleType == '5') {
     //   this.router.navigate([`pages/cpc-checker/${this.leadId}/pdc-details`]);
     // }
+  }
+  OnApproveRepayment() {
+    console.log('Approved');
+    
+    
   }
 }
