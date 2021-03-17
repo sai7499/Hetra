@@ -157,6 +157,13 @@ const routes: Routes = [
           ).then((m) => m.DeviationDashoardModule),
       },
       {
+        path: 'pdc-details-dashboard',
+        loadChildren: () =>
+          import(
+            './modules/dde/dashboard-pdc-details/dashboard-pdc-details.module'
+          ).then((m) => m.DashboardPdcDetailsModule),
+      },
+      {
         path: 'fi-cum-pd-dashboard',
         loadChildren: () =>
           import('./modules/dde/fi-cum-pd-report/fi-cum-pd-report.module').then(

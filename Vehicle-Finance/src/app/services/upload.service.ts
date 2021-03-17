@@ -163,4 +163,23 @@ export class UploadService {
 
     return this.httpService.docUpload(url, data);
   }
+
+  // Request for approval
+  requestForApproval(data, leadId) {
+    const processId = this.apiService.api.requestApproval.processId;
+    const workflowId = this.apiService.api.requestApproval.workflowId;
+    const projectId =  this.apiService.api.requestApproval.projectId;
+    const body = {
+      processId,
+      workflowId,
+      projectId,
+      ProcessVariables: {
+        documentDetail: data,
+        leadId: leadId,
+        userId: localStorage.getItem('userId')
+      },
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+    return this.httpService.post(url, body);
+  }
 }
