@@ -473,10 +473,10 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
     const insuranceValidUpto = new Date(obj.get('insuranceValidTo').value)
       ? new Date(obj.get('insuranceValidTo').value) : null;
     if (insuranceValidUpto < insuranceValidFrom) {
-      obj.get('insuranceValidFrom').setErrors({ 'incorrect': true })
+      obj.get('insuranceValidTo').setErrors({ 'incorrect': true })
       this.toasterService.showWarning('Insurance Validity Date should be greater than insurance Start Date', '');
     } else if (insuranceValidUpto > insuranceValidFrom) {
-      obj.get('insuranceValidFrom').setErrors(null)
+      obj.get('insuranceValidTo').setErrors(null)
     }
   }
 
@@ -1328,22 +1328,22 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehicleRegDate: [''],
       grossVehicleWeight: [''],
       reRegVehicle: [''],
-      insuranceCompany: [''],
-      insuranceValidFrom: [''],
-      insuranceValidTo: [''],
-      premiumAmount: [''],
+      insuranceCompany: ['', Validators.required],
+      insuranceValidFrom: ['', Validators.required],
+      insuranceValidTo: ['', Validators.required],
+      premiumAmount: ['', Validators.required],
       insuranceName: [''],
-      insurancePolicyNumber: [''],
+      insurancePolicyNumber: ['', Validators.required],
       interStateVehicle: [''],
       duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
       loanAmount: [0],
       bodyCost: [''],
-      idv: [''],
+      idv: ['', Validators.required],
       isVehicleDedupe: true,
       parentLoanAccountNumber: [''],
-      insuranceType: [''],
+      insuranceType: ['', Validators.required],
       insuranceCopy: [''],
       fsrdFundingReq: [''],
       fsrdPremiumAmount: [null],
@@ -1402,12 +1402,12 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       vehiclePurchasedCost: [''],
       vehicleOwnerShipNumber: null,
       isVehicleDedupe: false,
-      insuranceCompany: [''],
-      insuranceValidFrom: [''],
-      insuranceValidTo: [''],
-      premiumAmount: [''],
+      insuranceCompany: ['', Validators.required],
+      insuranceValidFrom: ['', Validators.required],
+      insuranceValidTo: ['', Validators.required],
+      premiumAmount: ['', Validators.required],
       insuranceName: [''],
-      insurancePolicyNumber: [''],
+      insurancePolicyNumber: ['', Validators.required],
       parentLoanAccountNumber: [''],
       rcOwnerName: ['', Validators.pattern('^[A-Za-z ]{0,99}$')],
       ownerMobileNo: ['', [Validators.required, Validators.pattern('[6-9]{1}[0-9]{9}')]],
@@ -1420,8 +1420,8 @@ export class SharedBasicVehicleDetailsComponent implements OnInit {
       duplicateRC: ['1'],
       cubicCapacity: [''],
       seatingCapacity: [''],
-      idv: '',
-      insuranceType: [''],
+      idv: ['', Validators.required],
+      insuranceType: ['', Validators.required],
       insuranceCopy: [''],
       fsrdFundingReq: [''],
       fsrdPremiumAmount: null,
