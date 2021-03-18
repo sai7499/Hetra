@@ -81,6 +81,7 @@ export class IdentityDetailsComponent implements OnInit {
   initUDFValues: any;
   editedUDFValues: any;
   FormValidate: any;
+  isShowAdharMismatch: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -213,7 +214,9 @@ export class IdentityDetailsComponent implements OnInit {
     this.applicant = this.applicantDataService.getApplicant();
 
     console.log('COMINGVALUES', this.applicant);
-    this.udfDetails = this.applicant.udfDetails
+    this.udfDetails = this.applicant.udfDetails;
+    this.isShowAdharMismatch = (this.applicant.isAdharUpdate == '1' || this.applicant.isAdharUpdate == '0') ? true : false;
+
   }
 
   getIndivIdentityInfoDetails() {

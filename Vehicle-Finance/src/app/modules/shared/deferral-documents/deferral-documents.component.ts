@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Component, OnInit, HostListener,  ViewChild,
+  ElementRef, } from '@angular/core';
+import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LabelsService } from "@services/labels.service";
@@ -9,6 +10,8 @@ import { UploadService } from '@services/upload.service';
 import { Constant } from '@assets/constants/constant';
 import { ToasterService } from '@services/toaster.service';
 import { DraggableContainerService } from '@services/draggable.service';
+import { ObjectComparisonService } from '@services/obj-compare.service';
+import { SharedService } from '../shared-service/shared-service';
 
 @Component({
   selector: 'app-deferral-documents',
@@ -44,6 +47,12 @@ export class DeferralDocumentsComponent implements OnInit {
   documentDetails: any = [];
   docName: any = [];
   roleIds: any = [];
+  apiValue: any[];
+  branchUsers: any = [];
+  roleIdList: any = [];
+  isDirty: boolean;
+  isRoleIdCheck = [];
+  isAllDocUpload: boolean = false;
 
   constructor(
     private location: Location,
@@ -55,6 +64,8 @@ export class DeferralDocumentsComponent implements OnInit {
     private uploadService: UploadService,
     private toasterService: ToasterService,
     private draggableContainerService: DraggableContainerService,
+    private objectComparisonService: ObjectComparisonService,
+    private sharedService: SharedService,
   ) {
     var date = this.toDayDate.getDate()
     var month = this.toDayDate.getMonth()
@@ -100,12 +111,25 @@ export class DeferralDocumentsComponent implements OnInit {
 
   }
 
+  // @HostListener('mouseover') onMouseOver(event){
+  //   console.log('event', event)
+  //   const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
+  //   const formValues = formArray.getRawValue();
+  //   this.isAllDocUpload = formValues.every((data)=>{
+  //     return !!data.dmsDocumentId
+  //   })
+  // }
+
+  
+
   getDocumentDetails() {
     this.deferralDocService.getDeferralDocs({ leadId: this.leadId }).subscribe((res) => {
       const processvariable = res['ProcessVariables'];
       if (processvariable.error.code == '0') {
         console.log('processvariable', processvariable)
         this.documentDetails = processvariable.documentDetails || [];
+      
+        this.branchUsers = processvariable.branchUsers || []
         this.documentDetails.map((data) => {
           const docNames = {
             key: data.documentType,
@@ -133,24 +157,36 @@ export class DeferralDocumentsComponent implements OnInit {
       return;
     }
     const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
-    data.forEach((value) => {
+    data.forEach((element) => {
       const formGroup = new FormGroup({
-        documentType: new FormControl(value.documentType || ''),
-        deferredDate: new FormControl(this.utilityService.getDateFromString(value.deferredDate) || ''),
-        receivedBy: new FormControl(value.receivedBy || ''),
-        receivedOn: new FormControl({ value: this.utilityService.getDateFromString(value.receivedOn) || this.rcvdOn, disabled: true }),
+        documentType: new FormControl(element.documentType || ''),
+        deferredDate: new FormControl(this.utilityService.getDateFromString(element.deferredDate) || ''),
+        receivedBy: new FormControl(element.receivedBy || '',[Validators.required]),
+        receivedOn: new FormControl({ value: this.utilityService.getDateFromString(element.receivedOn) || this.rcvdOn, disabled: true }),
 
-        associatedId: new FormControl(value.associatedId || ''),
-        associatedWith: new FormControl(value.associatedWith || ''),
-        categoryCode: new FormControl(value.categoryCode || ''),
-        categoryCodeValue: new FormControl(value.categoryCodeValue || ''),
-        dmsDocumentId: new FormControl(value.dmsDocumentId || ''),
-        documentId: new FormControl(value.documentId || ''),
-        subCategoryCode: new FormControl(value.subCategoryCode || '')
+        associatedId: new FormControl(element.associatedId || ''),
+        associatedWith: new FormControl(element.associatedWith || ''),
+        categoryCode: new FormControl(element.categoryCode || ''),
+        categoryCodeValue: new FormControl(element.categoryCodeValue || ''),
+        dmsDocumentId: new FormControl(element.dmsDocumentId || ''),
+        documentId: new FormControl(element.documentId || ''),
+        subCategoryCode: new FormControl(element.subCategoryCode || '')
 
       });
       formArray.push(formGroup);
     });
+    const formValues = formArray.getRawValue();
+    formValues.forEach((ele, index)=>{
+      if(ele.documentType){
+        formArray['controls'][index].get('documentType').disable();
+      }
+    })
+
+    this.apiValue = formValues;
+
+    // this.isAllDocUpload = formValues.every((data)=>{
+    //   return !!data.dmsDocumentId
+    // })
 
     // this.documentArray = data;
   }
@@ -226,8 +262,8 @@ export class DeferralDocumentsComponent implements OnInit {
     }
 
     console.log('documentDetails', this.documentDetails);
-    const toDayDate = new Date();
-    const receivedOn = this.utilityService.convertDateTimeTOUTC(toDayDate, 'YYYY-MM-DD HH:mm')
+    const formRecdVal = formArray['controls'][event.formArrayIndex].get('receivedOn').value;
+    const receivedOn = this.utilityService.convertDateTimeTOUTC(formRecdVal, 'DD/MM/YYYY HH:mm')
     event.isDeferred = "1";
     event.receivedBy = formArray['controls'][event.formArrayIndex].get('receivedBy').value;
     //event.receivedBy= "7";
@@ -354,13 +390,32 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
   onSave() {
     const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
     const formValues = formArray.getRawValue();
+    this.isDirty = true;
+    this.isRoleIdCheck = []
     console.log('formValues', formValues);
-    const todayDate = new Date()
+    this.checkRoleId(formValues);
+    
+    
+    //const todayDate = new Date()
     formValues.forEach((data)=>{
       data.deferredDate = this.utilityService.getDateFormat(data.deferredDate),
-      data.receivedOn = this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm')
+      data.receivedOn = this.utilityService.convertDateTimeTOUTC(data.receivedOn, 'DD/MM/YYYY HH:mm')
       data.isDeferred = "1"
     })
+
+    //const check = this.objectComparisonService.isThereAnyUnfilledObj(formValues);
+    if(this.deferralForm.invalid){
+      this.toasterService.showError('Mandatory Fields Missing', '')
+      return;
+    }
+    const isCheckRoleId = this.isRoleIdCheck.every((data)=>{
+      return data === true;
+    })
+    console.log('isCheckRoleId', isCheckRoleId)
+    if(!isCheckRoleId){
+      this.toasterService.showError('Invalid USER Please check', 'RECEIVED BY')
+      return;
+    }
     this.saveDefDoc(formValues)
   }
 
@@ -377,6 +432,7 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
             // this.documentArr[index].documentId = id;
             formArray['controls'][index].get('documentId').setValue(id);
           });
+          this.apiValue = formArray.getRawValue();
         }else{
           this.toasterService.showError(processVariables.error.message, '');
         }
@@ -388,22 +444,88 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
 
     const formArray = this.deferralForm.get('defDocumentArray') as FormArray;
     const formValues = formArray.getRawValue();
-    console.log('formValues', formValues)
+
+    const isAnyUnsaved = this.objectComparisonService.compare(this.apiValue, formValues)
+    console.log('isAnyUnsaved', this.objectComparisonService.compare(this.apiValue, formValues))
+    if(!isAnyUnsaved){
+      this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
+      return;
+    }
+    
     const todayDate = new Date()
     formValues.forEach((data)=>{
       data.deferredDate = this.utilityService.getDateFormat(data.deferredDate),
-      data.receivedOn = this.utilityService.convertDateTimeTOUTC(todayDate, 'YYYY-MM-DD HH:mm')
+      data.receivedOn = this.utilityService.convertDateTimeTOUTC(todayDate, 'DD/MM/YYYY HH:mm')
       data.isDeferred = "1"
     })
-    this.deferralDocService.submitDefDocuments(formValues).subscribe((data : any) => {
+    console.log(formValues,'this.documentDetails', this.documentDetails)
+
+
+    const isAllDocUpload = formValues.every((data)=>{
+      return !!data.dmsDocumentId
+    })
+    console.log('isAllDocUpload', isAllDocUpload)
+    if(!isAllDocUpload){
+      this.toasterService.showError('Please Upload all the documents', '')
+      return;
+    }
+    //return alert ('submitted Successfully')
+    const taskId = ''
+    //const taskId = this.sharedService.getTaskIdDef();
+    
+    const datas = {
+      leadId : this.leadId,
+      taslId : taskId,
+      taskName : 'Document Deferral',
+      documentDetails : formValues
+    }
+    this.deferralDocService.submitDefDocuments(datas).subscribe((data : any) => {
       const processVariables = data.ProcessVariables;
       if(processVariables.error.code === '0'){
         this.toasterService.showSuccess('Documents Submitted successfully', '');
-        //this.router.navigate([`pages/dashboard`]);
+          this.router.navigate([`pages/dashboard`]);
       }else{
         this.toasterService.showError(processVariables.error.message, '');
       }
     })
+  }
+
+  checkRoleId(formValues){
+    
+   formValues.forEach((ele)=>{
+     this.isRoleIdCheck.push(this.branchUsers.some((branch)=>{
+        return ele.receivedBy === branch;
+      }))
+    })
+    console.log('this.isRoleIdCheck', this.isRoleIdCheck)
+
+    
+  }
+
+
+  onRoleIdCleared(val){
+    this.roleIdList = []
+  }
+
+  onRoleIdSearch(val){
+     if(val && val.length >2){
+      this.roleIdList = this.branchUsers.filter((el)=>{
+        const enteredVal = val.toString().toLowerCase();
+        const apiVal = el.toString().toLowerCase();
+        if(apiVal.includes(enteredVal)){
+          return el;
+        }
+      })
+      console.log('this.roleIdList',this.roleIdList)
+     }
+   
+  }
+
+  selectRoleId(index){
+    console.log('index', index)
+    if(!this.isRoleIdCheck[index]){
+      this.isRoleIdCheck[index] = true;
+    }
   }
 
 }

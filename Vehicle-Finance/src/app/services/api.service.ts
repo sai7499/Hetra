@@ -1208,7 +1208,7 @@ export class ApiService {
       projectId: environment.projectIds.remarksProjectId
     },
     submitDefDocuments: {
-      workflowId: '79cfe90a824e11ebb42c00505695f93b',
+      workflowId: '68aa178c80b811eb9fc400505695f93b',
       processId: '8d49aefc823611ebad3400505695f93b',
       projectId: environment.projectIds.submitToCredit
     }, 

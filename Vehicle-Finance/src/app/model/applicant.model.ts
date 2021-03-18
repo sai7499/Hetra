@@ -12,7 +12,9 @@ export interface Applicant {
   addressDetails?: AddressDetails[];
   directorDetails?: DirectorDetails[];
   udfDetails? : any;
-  natureOfBorrower? : any
+  natureOfBorrower? : any;
+  isMobileUpdate? : any;
+  isAdharUpdate?   : any
 }
 
 export interface ApplicantList {

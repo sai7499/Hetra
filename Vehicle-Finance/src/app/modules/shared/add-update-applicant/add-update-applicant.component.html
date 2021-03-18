@@ -204,21 +204,21 @@
                     [isRequired]="'Contact Person Name is Required'" [isDirty]="isDirty">
                   </app-custom-input>
                 </div>
-                <!-- <div class="row col-sm-6 col-md-4 col-lg-12" *ngIf="isShowMismatch">
-                  <div class="col-sm-6 col-md-4 col-lg-6 ShowError" >
+                <div class="row col-sm-6 col-md-12 col-lg-12" *ngIf="isShowMobMismatch">
+                  <div class="col-sm-6 col-md-6 col-lg-6 ShowError" >
                     Given mobile number is not matching with the number available in bank records, do you want to update with new mobile number?
                   </div>
-                  <div class="col-sm-6 col-md-4 col-lg-6 text-left forRadio">
+                  <div class="col-sm-6 col-md-6 col-lg-6 text-left forRadio">
                     <label class="radio-inline"> 
                       <input type="radio" name='mobNo' 
-                      value="yes" [checked]="matchingDetails?.selectedMobYes === '1'" disabled>Yes
+                      value="yes" [checked]="applicant.isMobileUpdate == '1'" disabled>Yes
                   </label>
                   <label class="radio-inline">    
                       <input type="radio" name='mobNo' 
-                      value="no" [checked]="matchingDetails?.selectedMobNo === '1'" disabled>No
+                      value="no" [checked]="applicant.isMobileUpdate == '0'" disabled>No
                   </label>
                   </div>
-                </div> -->
+                </div>
               </div>
               
               <!-- <div class="row">
@@ -235,7 +235,7 @@
                   <label for="customer_category">{{ labels?.customerCategory }}
                     <sub class="star_red_col">*</sub></label>
                   <app-vf-custom-select formControlName="custSegment" [values]="LOV?.LOVS?.customerSegment"
-                    [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                    [isRequired]="'Please select one'" [isDirty]="isDirtyUcic"></app-vf-custom-select>
                 </div>
 
               </div>
@@ -489,22 +489,22 @@
 
                 </div>
               </div>
-              <!-- <div class="row" *ngIf="isShowMismatch">
+              <div class="row" *ngIf="isShowAdharMismatch">
                 <div class="col-sm-6 col-md-4 col-lg-5 ShowError" >
                   Aadhaar number is not updated in bank records, do you want to update with the given Aadhaar number?
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-7 text-left forRadio">
                   <label class="radio-inline"> 
                     <input type="radio" name='adharNo' 
-                         value="yes" [checked]="matchingDetails?.selectedAdharYes === '1'" disabled>Yes
+                         value="yes" [checked]="applicant.isAdharUpdate == '1'" disabled>Yes
                 </label>
                 <label class="radio-inline">
                     
                     <input type="radio" name='adharNo' 
-                        value="no" [checked]="matchingDetails?.selectedAdharNo === '1'" disabled>No
+                        value="no" [checked]="applicant.isAdharUpdate == '0'" disabled>No
                 </label>
                 </div>
-              </div> -->
+              </div>
               <!-- [patternCheck]="validationData?.drivingLicense?.patternCheck" -->
               <div class="row">
                 <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="applicantType == 'INDIVENTTYP'">
@@ -918,7 +918,7 @@
 
                    
                  
-                  <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="showSrField">
+                  <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="showSrField">
                     <label for="line1">SR Number<sub class="star_red_col">*</sub></label>
                     <app-custom-input formControlName="srNumber" (keyup)="validateSrNumber($event)"
                       [isRequired]="'SR Number is Required'" [isDirty]="isDirtyUcic"
@@ -930,7 +930,7 @@
                     coApplicantForm.get('srNumber').value !==''">
                       Invalid SR Number
                     </div>
-                  </div>
+                  </div> -->
 
                 </div>
                 <!-- <div class="row">
@@ -1113,7 +1113,16 @@
                       [checked]="isRegAddressSame" [disabled]="isDisabledCheckbox" />
                     <span id="address_section_checkbox_text">Check If It Is Same As Register Address?
                     </span>
-                  </div>
+                  </div> 
+                  
+                      <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="showModifyCurrCheckBox">
+                        <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
+                        [checked]="checkedModifyCurrent" />
+                      <span id="address_section_checkbox_text">&nbsp;<b>Modify Office Address</b>
+                      </span>
+                      </div>
+
+  
                 </div>
                 <div class="row container" formGroupName="communicationAddress">
                   <div class="row">

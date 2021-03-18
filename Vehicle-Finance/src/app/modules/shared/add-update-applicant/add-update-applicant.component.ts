@@ -269,7 +269,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   businessMand: boolean;
   isCheckAdharMatch: boolean;
   isCheckMobMatch: boolean;
-  isShowMismatch : boolean;
+  isShowMobMismatch: boolean;
+  isShowAdharMismatch: boolean;
   matchingDetails: any;
 
 
@@ -531,7 +532,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         prevLoanAmount: dedupeValues.prevLoanAmount || '',
         loanTenorServiced:
           dedupeValues.loanTenorServiced || '',
-          totalTenor : dedupeValues.totalTenor || '',
+        totalTenor: dedupeValues.totalTenor || '',
         currentEMILoan: dedupeValues.currentEMILoan || '',
         agriNoOfAcres: dedupeValues.agriNoOfAcres || '',
         agriOwnerProperty:
@@ -831,7 +832,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         dedupe.get('pan').enable();
         dedupe.get('pan').setValidators(Validators.required);
         dedupe.get('pan').updateValueAndValidity();
-        
+
         this.panRequired = true;
         setTimeout(() => {
           dedupe.patchValue({
@@ -840,7 +841,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         });
 
       }
-      
+
     } else {
 
       this.isVoterFirst = true;
@@ -850,7 +851,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         dedupe.get('pan').disable();
         dedupe.get('pan').clearValidators();
         dedupe.get('pan').updateValueAndValidity();
-        
+
         setTimeout(() => {
           dedupe.patchValue({
             pan: null,
@@ -860,11 +861,11 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         dedupe.get('pan').enable();
         dedupe.get('pan').setValidators(Validators.required);
         dedupe.get('pan').updateValueAndValidity();
-  
+
         this.panRequired = true;
       }
 
-      
+
     }
   }
 
@@ -1264,9 +1265,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       const applicant: Applicant = {
         ...processVariables,
       };
-      const isFromDedupe = this.applicantDataService.getDetectActivity();
-      this.matchingDetails = this.applicantDataService.getMatchingDetails();
-      console.log('selDetails', this.matchingDetails)
+      this.isShowMobMismatch = (applicant.isMobileUpdate == '1' || applicant.isMobileUpdate == '0') ? true : false;
+      this.isShowAdharMismatch = (applicant.isAdharUpdate == '1' || applicant.isAdharUpdate == '0') ? true : false;
 
 
       if (processVariables.ucic) {
@@ -1284,8 +1284,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.coApplicantForm.get('dedupe').disable();
           this.enableUsedCarFields(applicantDetails)
         }
-        this.isShowMismatch = isFromDedupe ? true : false;
-        //this.isShowMismatch = true;
+
 
 
       }
@@ -1421,7 +1420,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     dedupe.get('prevLoanAmount').enable();
     dedupe.get('loanTenorServiced').enable();
     dedupe.get('totalTenor').enable();
-    
+
     dedupe.get('currentEMILoan').enable();
     dedupe.get('agriNoOfAcres').enable();
     dedupe.get('agriOwnerProperty').enable();
@@ -1555,7 +1554,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     this.coApplicantForm = new FormGroup({
       dedupe: new FormGroup(this.getDedupeFormControls()),
       permentAddress: new FormGroup(this.getAddressFormControls()),
-      srNumber: new FormControl(''),
+      //srNumber: new FormControl(''),
       currentAddress: new FormGroup(this.getAddressFormControls()),
       registeredAddress: new FormGroup(this.getAddressFormControls()),
       communicationAddress: new FormGroup({
@@ -1717,6 +1716,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.showApplicantAddCheckBox = applicantType !== "APPAPPRELLEAD" ? true : false;
       this.apiAddressLeadCheckBox = applicantValue.applicantDetails.isAddrSameAsApplicant
       this.checkedAddressLead = this.apiAddressLeadCheckBox;
+      const modifyaddress = applicantValue.applicantDetails.modifyCurrentAddress
+      this.checkedModifyCurrent = modifyaddress == "1" ? true : false;
 
 
       const dedupe = this.coApplicantForm.get('dedupe');
@@ -1750,7 +1751,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         prevLoanAmount: applicantValue.applicantDetails.prevLoanAmount || '',
         loanTenorServiced:
           applicantValue.applicantDetails.loanTenorServiced || '',
-          totalTenor : applicantValue.applicantDetails.totalTenor || '',
+        totalTenor: applicantValue.applicantDetails.totalTenor || '',
         currentEMILoan: applicantValue.applicantDetails.currentEMILoan || '',
         agriNoOfAcres: applicantValue.applicantDetails.agriNoOfAcres || '',
         agriOwnerProperty:
@@ -1828,9 +1829,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     dedupe.get('bussinessEntityType').clearValidators()
     dedupe.get('bussinessEntityType').updateValueAndValidity();
 
-    const modifyaddress = applicantValue.applicantDetails.modifyCurrentAddress
-    this.checkedModifyCurrent = modifyaddress == "1" ? true : false;
-    this.showSrField = modifyaddress == "1" ? true : false;
+
+    // this.showSrField = modifyaddress == "1" ? true : false;
     let mobile = details.mobile ? details.mobile : '';
     if (mobile && mobile.length === 12) {
       mobile = mobile.slice(2, 12);
@@ -1858,9 +1858,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     }
 
 
-    this.successSrValue = applicantValue.applicantDetails.srNumber;
+    //this.successSrValue = applicantValue.applicantDetails.srNumber;
     this.validateSrBoolean = this.storeSRNumber ? true : false;
-    this.coApplicantForm.patchValue({ srNumber: applicantValue.applicantDetails.srNumber })
+    //this.coApplicantForm.patchValue({ srNumber: applicantValue.applicantDetails.srNumber })
     dedupe.patchValue({
       mobilePhone: mobile || '',
       dob: details.dob || '',
@@ -2038,7 +2038,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (!!registeredAddressObj) {
       //this.regiesterAddDatas.push(registeredAddressObj)
       this.isRegAddressSame =
-        registeredAddressObj.isCurrAddSameAsPermAdd === '1';
+        registeredAddressObj.isCurrAddSameAsPermAdd == '1' ? true : false;
       this.apiCurrentCheckBox = registeredAddressObj.isCurrAddSameAsPermAdd == '1' ? '1' : '0';
     }
     //  if (!!communicationAddressObj) {
@@ -2087,13 +2087,29 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         })
       }
     }
+    if (this.checkedModifyCurrent) {
+      this.disableRegisteredAddress();
+      if (this.isRegAddressSame) {
+        this.disableCommunicationAddress();
+      } else {
+        communicationAddress.enable();
+      }
+
+      this.isDisabledCheckbox = false
+      this.showModifyCurrCheckBox = true;
+      return;
+    }
+
+
     if (this.applicant.ucic) {
-      this.isRegAddressSame = true;
+      //this.isRegAddressSame = true;
 
       this.isDisabledCheckbox = true
       this.disableRegisteredAddress();
       this.disableCommunicationAddress();
+      this.showModifyCurrCheckBox = true;
     }
+
   }
 
   listenerForPermenantAddress() {
@@ -2356,7 +2372,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     if (type === 'button') {
       this.callAddressApi(type)
     }
-    else if(type === 'checkBox'){
+    else if (type === 'checkBox') {
       const checked = event.target.checked;
       if (checked) {
         this.checkedAddressLead = '1';
@@ -2372,7 +2388,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         //permenantAddress.reset();
       }
     }
-    
+
   }
 
   callAddressApi(type) {
@@ -2383,19 +2399,19 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (res['ProcessVariables'].error.code == '0') {
         this.leadAddressDetails = res['ProcessVariables'].addressDetails;
         if (this.leadAddressDetails !== null) {
-          if(type === 'checkBox'){
+          if (type === 'checkBox') {
             this.isPermanantAddressSame = false;
           }
-          
+
           this.setLeadAddressDetails(type);
         } else {
           this.toasterService.showInfo(
             'There is no main applicant address datas', ''
           );
-          if(type === 'checkBox'){
+          if (type === 'checkBox') {
             this.checkedAddressLead = '0';
           }
-         
+
         }
       } else {
         this.toasterService.showError(
@@ -2427,7 +2443,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     const currentAddress = this.coApplicantForm.get('currentAddress');
     const addressObj = this.getLeadAddress();
 
-   
+
     if (type === 'button') {
       const permenantAddressObj = addressObj[Constant.PERMANENT_ADDRESS];
       this.permanentPincode = this.formatPincodeData(permenantAddressObj);
@@ -2436,7 +2452,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           this.createAddressObject(permenantAddressObj)
         );
       }
-      if(this.isPermanantAddressSame){
+      if (this.isPermanantAddressSame) {
         this.currentPincode = this.permanentPincode
         currentAddress.patchValue(
           this.createAddressObject(permenantAddressObj)
@@ -2529,8 +2545,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       if (isValidateNonUcic ||
         !formValue.currentAddress.addressLineOne ||
         !formValue.currentAddress.pincode ||
-        !formValue.currentAddress.city ||
-        !this.SRNumberValidate) {
+        !formValue.currentAddress.city
+        // ||!this.SRNumberValidate
+      ) {
         this.toasterService.showInfo(
           'Please SAVE details before proceeding',
           ''
@@ -2964,9 +2981,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
           !formValue.currentAddress.addressLineOne ||
           !formValue.currentAddress.pincode ||
           !formValue.currentAddress.city ||
-          this.coApplicantForm.get('srNumber').invalid ||
+          // this.coApplicantForm.get('srNumber').invalid ||
           this.panValidate ||
-          !this.SRNumberValidate ||
+          // !this.SRNumberValidate ||
           this.showMessage['drivinglicenseIssue'] ||
           this.showMessage['passportIssue'] ||
           this.showMessage['drivingLicenseExpiry'] ||
@@ -2992,8 +3009,9 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         if (isValidateNonUcic ||
           !formValue.currentAddress.addressLineOne ||
           !formValue.currentAddress.pincode ||
-          !formValue.currentAddress.city ||
-          !this.SRNumberValidate) {
+          !formValue.currentAddress.city
+          //  ||!this.SRNumberValidate
+        ) {
           this.isDirtyUcic = true;
           this.toasterService.showError(
             'Please fill all mandatory fields.',
@@ -3091,8 +3109,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       this.applicantDetails.agriAppRelationship = coApplicantModel.dedupe.agriAppRelationship,
       this.applicantDetails.grossReceipt = coApplicantModel.dedupe.grossReceipt,
       this.applicantDetails.isAddrSameAsApplicant = this.checkedAddressLead,
-      this.applicantDetails.modifyCurrentAddress = this.checkedModifyCurrent == true ? '1' : '0',
-      this.applicantDetails.srNumber = coApplicantModel.srNumber
+      this.applicantDetails.modifyCurrentAddress = this.checkedModifyCurrent == true ? '1' : '0'
+    //this.applicantDetails.srNumber = coApplicantModel.srNumber
 
 
     // this.applicantDetails = {
@@ -3190,7 +3208,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
     let isValidateNonUcic: boolean
     const dedupe = this.coApplicantForm.get('dedupe')
 
-    if (this.coApplicantForm.get('srNumber').invalid ||
+    if (
+      // this.coApplicantForm.get('srNumber').invalid ||
       dedupe.get('loanApplicationRelation').invalid ||
       dedupe.get('custSegment').invalid ||
       dedupe.get('monthlyIncomeAmount').invalid ||
@@ -3246,39 +3265,56 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   onModCurrAddress(event) {
     const eventClicked = event.target.checked;
     if (eventClicked) {
-      this.showSrField = true;
       this.checkedModifyCurrent = true;
-      this.coApplicantForm.get('srNumber').setValue(null);
-      this.coApplicantForm.get('srNumber').setValidators([Validators.required]);
-      this.coApplicantForm.get('srNumber').updateValueAndValidity();
+      if (this.applicantType == 'INDIVENTTYP') {
+        const currentAddress = this.coApplicantForm.get('currentAddress');
+        currentAddress.enable();
+        this.isPermanantAddressSame = false;
+        this.isDisabledCheckbox = false;
+      } else {
+        const officeAddress = this.coApplicantForm.get('communicationAddress');
+        officeAddress.enable();
+        this.isRegAddressSame = false;
+        this.isDisabledCheckbox = false;
+        this.isCommAddSameAsRegAdd = '0'
+      }
 
-      const currentAddress = this.coApplicantForm.get('currentAddress');
-      currentAddress.enable();
-      this.isPermanantAddressSame = false;
-      this.isDisabledCheckbox = false;
 
     } else {
-      this.showSrField = false;
       this.checkedModifyCurrent = false;
-      this.coApplicantForm.get('srNumber').setValue(null);
-      this.coApplicantForm.get('srNumber').clearValidators();
-      this.coApplicantForm.get('srNumber').updateValueAndValidity();
 
       const address = this.applicant.addressDetails
       const addressObj = this.getAddressObj(address);
-      const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
-      const currentAddress = this.coApplicantForm.get('currentAddress');
-      this.currentPincode = this.formatPincodeData(currentAddressObj);
+      if (this.applicantType == 'INDIVENTTYP') {
+        const currentAddressObj = addressObj[Constant.CURRENT_ADDRESS];
+        const currentAddress = this.coApplicantForm.get('currentAddress');
+        this.currentPincode = this.formatPincodeData(currentAddressObj);
 
-      if (!!this.createAddressObject(currentAddressObj)) {
-        currentAddress.patchValue(
-          this.createAddressObject(currentAddressObj)
-        );
+        if (!!this.createAddressObject(currentAddressObj)) {
+          currentAddress.patchValue(
+            this.createAddressObject(currentAddressObj)
+          );
+        }
+        currentAddress.disable();
+        this.isPermanantAddressSame = true;
+        this.isDisabledCheckbox = true;
+      } else {
+        const officeAddressObj = addressObj[Constant.COMMUNICATION_ADDRESS];
+        const officeAddress = this.coApplicantForm.get('communicationAddress');
+        this.communicationPincode = this.formatPincodeData(officeAddressObj);
+
+        if (!!this.createAddressObject(officeAddressObj)) {
+          officeAddress.patchValue(
+            this.createAddressObject(officeAddressObj)
+          );
+        }
+        officeAddress.disable();
+        this.isRegAddressSame = true;
+        this.isDisabledCheckbox = true;
+        this.isCommAddSameAsRegAdd = '1';
       }
-      currentAddress.disable();
-      this.isPermanantAddressSame = true;
-      this.isDisabledCheckbox = true;
-      this.SRNumberValidate = true;
+
+      //this.SRNumberValidate = true;
     }
   }
 
@@ -3507,7 +3543,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanTenorServiced: applicantDetails.loanTenorServiced
         ? Number(applicantDetails.loanTenorServiced)
         : 0,
-        totalTenor:  applicantDetails.totalTenor
+      totalTenor: applicantDetails.totalTenor
         ? Number(applicantDetails.totalTenor)
         : 0,
       currentEMILoan: applicantDetails.currentEMILoan || '',
@@ -3594,7 +3630,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       loanTenorServiced: applicantDetails.loanTenorServiced
         ? Number(applicantDetails.loanTenorServiced)
         : 0,
-        totalTenor: applicantDetails.totalTenor
+      totalTenor: applicantDetails.totalTenor
         ? Number(applicantDetails.totalTenor)
         : 0,
       currentEMILoan: applicantDetails.currentEMILoan || '',
@@ -3661,7 +3697,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
 
 
 
-        } 
+        }
         else {
           this.toasterService.showError(
             value.ProcessVariables.error.message,

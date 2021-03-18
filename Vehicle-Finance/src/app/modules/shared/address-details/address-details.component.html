@@ -36,7 +36,7 @@
             </div> -->
             <div class="col-lg-3 text-left" *ngIf="!showAppAddressCheckBox">
                     <button class="btn btn-primary" style="font-size: small;"
-                    [disabled]="disableSameAppAddress || isLoan360"  (click)="onAddSameAsApplicant($event, 'button')">
+                    [disabled]="isDisMainAddress || isLoan360"  (click)="onAddSameAsApplicant($event, 'button')">
                       Copy Address from Main Applicant
                     </button>
                     <!-- <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event)"
@@ -158,7 +158,7 @@
             </div>
             <div class="col-lg-3 text-center" id="align_this_checkbox" *ngIf="!showAppAddressCheckBox">
               <input type="checkbox" id="address_section_checkbox" (click)="onAddSameAsApplicant($event, 'checkBox')"
-                [checked]="sameAsAppAddress" [disabled]="disableSameAppAddress || isLoan360" />
+                [checked]="sameAsAppAddress" [disabled]="isDisMainAddress || isLoan360" />
               <span id="address_section_checkbox_text"> Address From Main Applicant?
               </span>
             </div>
@@ -183,7 +183,7 @@
               </span>
             </div>
 
-            <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="showSrField">
+            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="showSrField">
               <label for="line1">SR Number</label>
               <app-custom-input formControlName="srNumber" (keyup)="validateSrNumber($event)"
                 [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
@@ -194,7 +194,7 @@
                   addressForm.get('details')['controls'][0].get('srNumber') !==''">
                 Invalid SR Number
               </div>
-            </div>
+            </div> -->
 
           </div>
         </div>
@@ -620,15 +620,21 @@
           <!-- <div *ngIf="isSalesOrCredit == 'sales'"> -->
           <div>
             <div class="btn-sec clear-both row">
-              <div class="col-sm-5">
+              <div class="col-sm-5 col-lg-3">
                 <h4 class="banner-sub">Office Address</h4>
               </div>
-              <div class="col-sm-7" id="align_this_texbox">
+              <div class="col-sm-7  col-lg-3" id="align_this_texbox">
                 <input type="checkbox" id="address_section_checkbox" (change)="onSameRegistered($event)"
                   [checked]="onRegAsCommChecked" [disabled]="disableRegister || disableSaveBtn || isLoan360" />
-                <span id="address_section_checkbox_text">Is it same as your Registered Address?
+                <span id="address_section_checkbox_text">&nbsp;Is it same as your Registered Address?
                 </span>
               </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-4" id="align_this_checkbox" *ngIf="showModCurrCheckBox">
+              <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
+                [checked]="checkedModifyCurrent" [disabled]=" disableSaveBtn || isLoan360" />
+              <span id="address_section_checkbox_text">&nbsp;Modify Office Address
+              </span>
+            </div>
             </div>
             <div class="" formGroupName="communicationAddress">
               <div class="row">

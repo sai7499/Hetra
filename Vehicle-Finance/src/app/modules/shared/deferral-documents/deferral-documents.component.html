@@ -1,76 +1,104 @@
 <main class="mar-top90">
   <app-lead-section-header></app-lead-section-header>
-  <div class="content mar-top" [formGroup]="deferralForm" *ngIf="deferralForm">
-    <h3 class="banner-con">Deferral Document Details
-    </h3>        
-    <form formArrayName="defDocumentArray">
-      <div class="table-responsive" id="exact_macth_title2_sec">
-        <table class="table">
-          <thead>
-            <tr class="table-head-bg">
-              <td>S.NO</td>
-              <td>Document Name</td>
-              <td>Deferral Date</td>
-              <td class="text-center">Upload</td>
-              <td class="text-center">View</td>
-              <td>Received By</td>
-              <td>Received On</td>
-            </tr>
-          </thead>
-          <tbody>
-           <ng-container *ngFor="let detail of deferralForm.get('defDocumentArray')['controls']; let i = index">
-            <tr [formGroupName]="i">
-              <td>{{ i + 1 }}</td>
-              <td><app-vf-custom-select formControlName="documentType" [values]="docName">
-              </app-vf-custom-select></td>
-
-              <td><kendo-datepicker class="form-control mandatory" formControlName="deferredDate"
-                [format]="'dd/MM/yyyy'"  [activeView]="'decade'">
-              </kendo-datepicker></td>
-
-              <td class="upload-icon"><label
-                ><i
-                  class="fa fa-upload fa-3 custom-file-label cursor-pointer"
-                  aria-hidden="true"
-                  id="add_more_documents_upload1a"
-                  (click)="uploadDocs(i)"
-                ></i></label></td>
-
-
-              <td class="file-input" (click)="downloadDocs(i)">{{documentArr(i)}}</td>
-
-
-              <td><app-vf-custom-select formControlName="receivedBy" [values]="roleIds">
-              </app-vf-custom-select></td>
-
-              <td><kendo-datepicker class="form-control mandatory" formControlName="receivedOn"
-                [format]="'dd/MM/yyyy HH:mm'"  [activeView]="'decade'"  >
-              </kendo-datepicker>
-
-              
-            </tr>
-           </ng-container>
-          </tbody>
-        </table>
-        <div class="col-sm-12 col-md-12 col-lg-12">
-          <div class="text-center">
-            <button class="btn btn-primary" (click)="onSave()">Save</button>
-            <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
-          </div>
-    
-        </div>
-      </div>
-
-      <app-upload-modal
-  [showModal]="showModal"
-  (close)="showModal = false"
-  (uploadSuccess)="onUploadSuccess($event)"
-  [docsDetails]="selectedDocDetails"
-></app-upload-modal>
+  <div class="content">
+    <div class=" mar-top" [formGroup]="deferralForm" *ngIf="deferralForm">
+      <h3 class="banner-con">Deferral Document Details
+      </h3>        
+      <form formArrayName="defDocumentArray">
+        <div class="" id="exact_macth_title2_sec">
+          <table class="table">
+            <thead>
+              <tr class="table-head-bg">
+                <td>S.NO</td>
+                <td>Document Name</td>
+                <td>Deferral Date</td>
+                <td class="text-center">Upload</td>
+                <td class="text-center">View</td>
+                <td>Received By</td>
+                <td>Received On</td>
+              </tr>
+            </thead>
+            <tbody>
+             <ng-container *ngFor="let detail of deferralForm.get('defDocumentArray')['controls']; let i = index">
+              <tr [formGroupName]="i">
+                <td>{{ i + 1 }}</td>
+                <td><app-vf-custom-select formControlName="documentType" [values]="docName">
+                </app-vf-custom-select></td>
+  
+                <td><kendo-datepicker class="form-control mandatory" formControlName="deferredDate"
+                  [format]="'dd/MM/yyyy'"  [activeView]="'decade'">
+                </kendo-datepicker></td>
+  
+                <td class="upload-icon"><label
+                  ><i
+                    class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                    aria-hidden="true"
+                    id="add_more_documents_upload1a"
+                    (click)="uploadDocs(i)"
+                  ></i></label></td>
+  
+  
+                <td class="file-input" (click)="downloadDocs(i)">{{documentArr(i)}}</td>
+  
+  
+                <td>
+                  <!-- <app-vf-custom-select formControlName="receivedBy" [values]="roleIds">
+                </app-vf-custom-select> -->
+                <div class="ng-autopopulate" style="width: 100%;">
+  
+                  <ng-autocomplete class="custom-select-box" [data]="roleIdList" [searchKeyword]="item"
+                    (selected)='selectRoleId(i)' (inputChanged)='onRoleIdSearch($event)'
+                    (inputCleared)='onRoleIdCleared($event)'
+                    [itemTemplate]="roleIdTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="receivedBy"
+                    [placeHolder]="'Received By'">
+                  </ng-autocomplete>
       
-    </form>
-
-    
+                  <div class="invalid-feedback">
+                    <div *ngIf="deferralForm.get('defDocumentArray').controls[i].get('receivedBy').hasError('required') && isDirty"> Received By
+                      required.</div>
+                    <div *ngIf="deferralForm.get('defDocumentArray').controls[i].get('receivedBy').value && !isRoleIdCheck[i] && isDirty"> Invalid User</div>
+                      
+                  </div>
+                  <ng-template #roleIdTemplate let-item>
+                    <a [innerHTML]="item"></a>
+                  </ng-template>
+                  <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                  </ng-template>
+                </div>
+              </td>
+  
+                <td><kendo-datepicker class="form-control mandatory" formControlName="receivedOn"
+                  [format]="'dd/MM/yyyy HH:mm'"  [activeView]="'decade'"  >
+                </kendo-datepicker>
+  
+                
+              </tr>
+             </ng-container>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="text-center">
+              <button class="btn btn-primary" (click)="onSave()">Save</button>
+              <button class="btn btn-primary" (click)="onSubmit()" >Submit</button>
+              <!-- [disabled]="!isAllDocUpload" -->
+            </div>
+      
+          </div>
+        </div>
+  
+        <app-upload-modal
+    [showModal]="showModal"
+    (close)="showModal = false"
+    (uploadSuccess)="onUploadSuccess($event)"
+    [docsDetails]="selectedDocDetails"
+  ></app-upload-modal>
+        
+      </form>
+  
+      
+    </div>
   </div>
+ 
  
 </main>
