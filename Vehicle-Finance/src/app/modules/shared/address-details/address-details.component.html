@@ -36,7 +36,7 @@
             </div> -->
             <div class="col-lg-3 text-left" *ngIf="!showAppAddressCheckBox">
                     <button class="btn btn-primary" style="font-size: small;"
-                    [disabled]="disableSameAppAddress || isLoan360"  (click)="onAddSameAsApplicant($event, 'button')">
+                    [disabled]="isDisMainAddress || isLoan360"  (click)="onAddSameAsApplicant($event, 'button')">
                       Copy Address from Main Applicant
                     </button>
                     <!-- <input type="checkbox" id="address_section_checkbox" (click)="onAddrSameAsApplicant($event)"
@@ -74,7 +74,7 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
                   [type]="validationData?.pincode?.type" [maxLength]="validationData?.pincode?.maxLength"
-                  [isRequired]="'Pincode is required'" [isDirty]="isDirty" (keyup)="inputPincode($event)"
+                  [isRequired]="'Pincode is required'" [isDirty]="isDirty" (keyup)="inputPincode($event,'permanantPincode')"
                   id="permanantPincode"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -158,7 +158,7 @@
             </div>
             <div class="col-lg-3 text-center" id="align_this_checkbox" *ngIf="!showAppAddressCheckBox">
               <input type="checkbox" id="address_section_checkbox" (click)="onAddSameAsApplicant($event, 'checkBox')"
-                [checked]="sameAsAppAddress" [disabled]="disableSameAppAddress || isLoan360" />
+                [checked]="sameAsAppAddress" [disabled]="isDisMainAddress || isLoan360" />
               <span id="address_section_checkbox_text"> Address From Main Applicant?
               </span>
             </div>
@@ -183,7 +183,7 @@
               </span>
             </div>
 
-            <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="showSrField">
+            <!-- <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="showSrField">
               <label for="line1">SR Number</label>
               <app-custom-input formControlName="srNumber" (keyup)="validateSrNumber($event)"
                 [isRequired]="'SR Number is Required'" [isDirty]="isDirty"
@@ -194,7 +194,7 @@
                   addressForm.get('details')['controls'][0].get('srNumber') !==''">
                 Invalid SR Number
               </div>
-            </div>
+            </div> -->
 
           </div>
         </div>
@@ -230,7 +230,7 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="currentPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
                   [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
-                  [isDirty]="isDirty" (keyup)="inputPincode($event)" id="currentPincode"
+                  [isDirty]="isDirty" (keyup)="inputPincode($event, 'currentPincode')" id="currentPincode"
                   [type]="validationData?.pincode?.type"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -381,7 +381,7 @@
                 <label for="passport">{{ labels.code }}</label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="officePincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
-                  [maxLength]="validationData?.pincode?.maxLength" (keyup)="inputPincode($event)" id="officePincode"
+                  [maxLength]="validationData?.pincode?.maxLength" (keyup)="inputPincode($event, 'officePincode')" id="officePincode"
                   [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Pincode is required'
@@ -537,7 +537,7 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="registeredPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
                   [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
-                  [isDirty]="isDirty" (keyup)="inputPincode($event)" id="registeredPincode"
+                  [isDirty]="isDirty" (keyup)="inputPincode($event, 'registeredPincode')" id="registeredPincode"
                   [type]="validationData?.pincode?.type"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -620,15 +620,21 @@
           <!-- <div *ngIf="isSalesOrCredit == 'sales'"> -->
           <div>
             <div class="btn-sec clear-both row">
-              <div class="col-sm-5">
+              <div class="col-sm-5 col-lg-3">
                 <h4 class="banner-sub">Office Address</h4>
               </div>
-              <div class="col-sm-7" id="align_this_texbox">
+              <div class="col-sm-7  col-lg-3" id="align_this_texbox">
                 <input type="checkbox" id="address_section_checkbox" (change)="onSameRegistered($event)"
                   [checked]="onRegAsCommChecked" [disabled]="disableRegister || disableSaveBtn || isLoan360" />
-                <span id="address_section_checkbox_text">Is it same as your Registered Address?
+                <span id="address_section_checkbox_text">&nbsp;Is it same as your Registered Address?
                 </span>
               </div>
+              <div class="form-group col-sm-6 col-md-4 col-lg-4" id="align_this_checkbox" *ngIf="showModCurrCheckBox">
+              <input type="checkbox" id="address_section_checkbox" (click)="onModCurrAddress($event)"
+                [checked]="checkedModifyCurrent" [disabled]=" disableSaveBtn || isLoan360" />
+              <span id="address_section_checkbox_text">&nbsp;Modify Office Address
+              </span>
+            </div>
             </div>
             <div class="" formGroupName="communicationAddress">
               <div class="row">
@@ -662,7 +668,7 @@
                   <!-- <input formControlName="pincode" type="text" class="form-control" id="communicationPincode" (keyup)="inputPincode($event)" /> -->
                   <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
                     [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
-                    [isDirty]="isDirty" (keyup)="inputPincode($event)" id="communicationPincode"
+                    [isDirty]="isDirty" (keyup)="inputPincode($event, 'communicationPincode')" id="communicationPincode"
                     [type]="validationData?.pincode?.type">
                   </app-custom-input>
                 </div>

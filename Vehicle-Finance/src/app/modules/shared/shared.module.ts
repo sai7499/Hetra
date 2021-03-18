@@ -29,6 +29,7 @@ import { ApplicantDocsUploadComponent } from './applicant-docs-upload/applicant-
 import { ApplicantKycDetailsComponent } from './applicant-kyc-details/applicant-kyc-details.component';
 import { PddComponent } from './pdd-screen/pdd.component';
 import { UploadDiscussionComponent } from './upload-discussion/upload-discussion.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import {
   BsDatepickerModule,
@@ -99,6 +100,7 @@ setTheme('bs4');
     MatIconModule,
     WindowModule,
     ImageCropperModule,
+    AutocompleteLibModule
   ],
   exports: [
     CustomSelectComponent,
