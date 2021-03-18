@@ -53,6 +53,7 @@ export class DeferralDocumentsComponent implements OnInit {
   isDirty: boolean;
   isRoleIdCheck = [];
   isAllDocUpload: boolean = false;
+  minDefDate : Date = new Date();
 
   constructor(
     private location: Location,
@@ -73,6 +74,8 @@ export class DeferralDocumentsComponent implements OnInit {
     var hour = this.toDayDate.getHours()
     var minute = this.toDayDate.getMinutes()
     this.rcvdOn = new Date(year, month, date, hour, minute)
+    this.minDefDate.setDate(this.minDefDate.getDate() +1)
+    this.minDefDate = this.utilityService.setTimeForDates(this.minDefDate)
   }
 
   async ngOnInit() {

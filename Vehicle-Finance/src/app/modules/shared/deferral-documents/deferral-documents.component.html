@@ -26,8 +26,15 @@
                 </app-vf-custom-select></td>
   
                 <td><kendo-datepicker class="form-control mandatory" formControlName="deferredDate"
-                  [format]="'dd/MM/yyyy'"  [activeView]="'decade'">
-                </kendo-datepicker></td>
+                  [format]="'dd/MM/yyyy'" [min]="minDefDate"  [activeView]="'decade'">
+                </kendo-datepicker>
+                <div class="invalid-feedback">
+                  <div *ngIf="this.deferralForm.get('defDocumentArray')['controls'][i].get('deferredDate').value &&
+                  this.deferralForm.get('defDocumentArray')['controls'][i].get('deferredDate').invalid">
+                     Invalid date
+                  </div>
+                </div>
+              </td>
   
                 <td class="upload-icon"><label
                   ><i
