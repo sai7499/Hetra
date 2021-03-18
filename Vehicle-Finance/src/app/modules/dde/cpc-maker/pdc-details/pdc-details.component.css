@@ -246,3 +246,17 @@ p {
 .form-group label {
   margin-top: 7px !important;
 }
+
+.cus-ml {
+  margin-left: 16px !important;
+}
+
+.ml {
+  margin-top: 10px !important;
+}
+
+@media (min-width:1300px) and (max-width:964px) {
+  .cus-ml {
+    margin-left: 0px !important;
+  }
+}

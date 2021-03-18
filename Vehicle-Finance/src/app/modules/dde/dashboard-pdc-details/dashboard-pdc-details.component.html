@@ -3,9 +3,9 @@
 <main class="mar-top90">
     <div class="container overflow-hidden">
         <app-lead-section-header></app-lead-section-header>
-        <div class="multisteps-form">
+        <div class="multisteps-form" *ngIf="roleType">
             <div class="multisteps-form__progress1 main-tab">
-                <app-pdc-details [isDeferral]="true"></app-pdc-details>
+                <app-pdc-details [isDeferral]="true" [isCpcCheque]="roleType === 5 ? true : false"></app-pdc-details>
             </div>
         </div>
     </div>

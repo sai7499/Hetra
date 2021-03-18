@@ -207,6 +207,8 @@ export class CibilOdListComponent implements OnInit {
         typeOfLoan: [''],
         otherTypeOfLoan: [''],
         odDpd: [''],
+        assetClassificationIn6Months: [''],
+        assetClassificationIn12Months: ['']
       });
     } else {
       return this.formBuilder.group({
@@ -216,6 +218,8 @@ export class CibilOdListComponent implements OnInit {
         typeOfLoan: [data.typeOfLoan ? data.typeOfLoan : ''],
         otherTypeOfLoan: [data.otherTypeOfLoan ? data.otherTypeOfLoan : ''],
         odDpd: [data.odDpd ? data.odDpd : ''],
+        assetClassificationIn6Months: [data.assetClassificationIn6Months ? data.assetClassificationIn6Months : ''],
+        assetClassificationIn12Months: [data.assetClassificationIn12Months ? data.assetClassificationIn12Months : ''], 
       });
     }
   }
