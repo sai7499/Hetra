@@ -162,7 +162,7 @@ export class DeferralDocumentsComponent implements OnInit {
         documentType: new FormControl(element.documentType || ''),
         deferredDate: new FormControl(this.utilityService.getDateFromString(element.deferredDate) || ''),
         receivedBy: new FormControl(element.receivedBy || '',[Validators.required]),
-        receivedOn: new FormControl({ value: this.utilityService.getDateFromString(element.receivedOn) || this.rcvdOn, disabled: true }),
+        receivedOn: new FormControl({ value:element.receivedOn ?  this.utilityService.getDateFromString(element.receivedOn) : this.rcvdOn, disabled: true }),
 
         associatedId: new FormControl(element.associatedId || ''),
         associatedWith: new FormControl(element.associatedWith || ''),
@@ -470,8 +470,8 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
       return;
     }
     //return alert ('submitted Successfully')
-    const taskId = ''
-    //const taskId = this.sharedService.getTaskIdDef();
+    // const taskId = ''
+    const taskId = this.sharedService.getTaskIdDef();
     
     const datas = {
       leadId : this.leadId,
@@ -479,6 +479,7 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
       taskName : 'Document Deferral',
       documentDetails : formValues
     }
+    //return console.log('datas', datas);
     this.deferralDocService.submitDefDocuments(datas).subscribe((data : any) => {
       const processVariables = data.ProcessVariables;
       if(processVariables.error.code === '0'){
