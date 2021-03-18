@@ -189,6 +189,21 @@
               <app-custom-input formControlName="age"></app-custom-input>
 
             </div>
+            <div class="row col-sm-6 col-md-12 col-lg-12" *ngIf="isShowMobMismatch">
+              <div class="col-sm-6 col-md-6 col-lg-7 ShowError" >
+                Given mobile number is not matching with the number available in bank records, do you want to update with new mobile number?
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-5 text-left forRadio">
+                <label class="radio-inline"> 
+                  <input type="radio" name='mobNo' 
+                  value="yes" [checked]="applicant.isMobileUpdate == '1'" disabled>Yes
+              </label>
+              <label class="radio-inline">    
+                  <input type="radio" name='mobNo' 
+                  value="no" [checked]="applicant.isMobileUpdate == '0'" disabled>No
+              </label>
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -1039,6 +1054,22 @@
               <app-custom-input formControlName="contactPerson" [maxLength]="validationData?.name?.maxLength"
                 [isRequired]="!isUCICavail ?'Contact Person Name is required' : ''" [isDirty]="isDirty"
                 [type]="validationData?.name?.type"></app-custom-input>
+            </div>
+
+            <div class="row col-sm-6 col-md-12 col-lg-12" *ngIf="isShowMobMismatch">
+              <div class="col-sm-6 col-md-6 col-lg-7 ShowError" >
+                Given mobile number is not matching with the number available in bank records, do you want to update with new mobile number?
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-5 text-left forRadio">
+                <label class="radio-inline"> 
+                  <input type="radio" name='mobNo' 
+                  value="yes" [checked]="applicant.isMobileUpdate == '1'" disabled>Yes
+              </label>
+              <label class="radio-inline">    
+                  <input type="radio" name='mobNo' 
+                  value="no" [checked]="applicant.isMobileUpdate == '0'" disabled>No
+              </label>
+              </div>
             </div>
 
           </div>

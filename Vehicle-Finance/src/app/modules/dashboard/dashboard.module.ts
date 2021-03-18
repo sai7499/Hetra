@@ -34,6 +34,7 @@ import { DdeBranchLeadsComponent } from './leads/dde-branch-leads/dde-branch-lea
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { SharedModule } from '@modules/shared/shared.module';
 import { MatSortModule } from '@angular/material/sort';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -46,7 +47,8 @@ import { MatSortModule } from '@angular/material/sort';
     DatePickerModule,
     ReactiveFormsModule,
     SharedModule,
-    MatSortModule
+    MatSortModule,
+    AutocompleteLibModule
   ]
 })
 export class DashboardModule { }

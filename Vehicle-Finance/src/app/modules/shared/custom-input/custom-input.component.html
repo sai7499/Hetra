@@ -4,7 +4,7 @@
   [class]="className"
 > -->
 <input #customInput name="input" type="text" [class]="className" [(ngModel)]="inputValue" [ngClass]="inputClass"
-  [id]="id" (blur)="onBlurMethod($event)" [minLength]="minLength?.rule" [maxlength]="maxLengthValidation?.rule"
+  (blur)="onBlurMethod($event)" [minLength]="minLength?.rule" [maxlength]="maxLengthValidation?.rule"
    autocomplete="off" [disabled]="isDisabled" autocomplete="off"
   autocorrect="off" autocapitalize="off" [value]="value" spellcheck="false" [placeholder]="placeholder"
   (input)="valueChange()" 

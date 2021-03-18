@@ -111,6 +111,8 @@ export class BasicDetailsComponent implements OnInit {
   natureOfBorArray = [];
   natureOfBorrow = [];
   borrowProfile = [];
+  isShowMobMismatch: boolean;
+  isShowAdharMismatch: boolean;
 
 
   constructor(
@@ -409,8 +411,9 @@ export class BasicDetailsComponent implements OnInit {
     this.isUCICavail = this.applicant.ucic ? true : false;
     console.log('this.applicant', this.applicant)
     this.udfDetails = this.applicant.udfDetails;
-    this.natureOfBorArray = this.applicantDataService.getNatureOfBorrower();;
-
+    this.natureOfBorArray = this.applicantDataService.getNatureOfBorrower();
+    this.isShowMobMismatch = (this.applicant.isMobileUpdate == '1' || this.applicant.isMobileUpdate == '0') ? true : false;
+    
     this.natureOfBorArray.map((data) => {
       const borrow = {
         key: data.id,

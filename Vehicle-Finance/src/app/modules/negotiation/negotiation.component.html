@@ -898,46 +898,163 @@
                       </a>
                       <div id="repaymentMode{{i+1}}" class="panel-collapse collapse" [formGroup]="ticket">
                         <div class="panel-body">
-                          <div class="clearfix" formGroupName="repaymentmodeArray">
-                            <div class="form-group">
-                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="repaymentMode">{{labels?.repaymentMode}}
-                                <sub class="star_red_col">*</sub>
-                              </label>
-                              <div class="col-sm-6 col-md-4 col-lg-3">
-                                <app-vf-custom-select [values]="RepaymentLOV" [isDirty]="isDirty" (change)="calculateMinMax('empty',i)" [isRequired]="'Repayment Mode is Required'"
-                                  formControlName="repaymentMode">
-                                </app-vf-custom-select>
+                          <div class="row">
+                            <div class="clearfix col-sm-4 col-md-4 col-lg-4" formGroupName="repaymentmodeArray">
+                              <div class="form-group">
+                                <label class="control-label col-sm-6 col-md-6 col-lg-6" for="repaymentMode">{{labels?.repaymentMode}}
+                                  <sub class="star_red_col">*</sub>
+                                </label>
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <app-vf-custom-select [values]="RepaymentLOV" [isDirty]="isDirty" (change)="calculateMinMax('empty',i)" [isRequired]="'Repayment Mode is Required'"
+                                    formControlName="repaymentMode">
+                                  </app-vf-custom-select>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label col-sm-6 col-md-6 col-lg-6" for="repaymentMode">Required
+                                </label>
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label col-sm-6 col-md-6 col-lg-6" for="NoofPDC">{{labels?.noOfPdc}}
+                                  <sub class="star_red_col">*</sub>
+                                </label>
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <app-custom-input formControlName="NoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                                    [isRequired]="'PDC Value is Required'" [placeholder]="'PDC Value'" (change)="calculateMinMax($event.target.value,i)"
+                                    [custom]="PDCvalueCheck" [minLength]="labels?.validationData.NoofPDC.minLength" [maxLength]="labels?.validationData.NoofPDC.maxLength">
+                                  </app-custom-input>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label col-sm-6 col-md-6 col-lg-6" for="NoofSPDC">{{labels?.NoofSPDC}}
+                                  <sub class="star_red_col">*</sub>
+                                </label>
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <app-custom-input formControlName="NoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                                    [isRequired]="'SPDC Value is Required'" [placeholder]="'SPDC Value'" (change)="calculateMinMax('',i)"
+                                    [custom]="SPDCvalueCheck" [minLength]="labels?.validationData.NoofSPDC.minLength" [maxLength]="labels?.validationData.NoofSPDC.maxLength">
+                                  </app-custom-input>
+                                </div>
                               </div>
                             </div>
-                            <div class="form-group">
-                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofPDC">{{labels?.noOfPdc}}
-                                <sub class="star_red_col">*</sub>
-                              </label>
-                              <div class="col-sm-6 col-md-4 col-lg-3">
-                                <app-custom-input formControlName="NoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                                  [isRequired]="'PDC Value is Required'" [placeholder]="'PDC Value'" (change)="calculateMinMax($event.target.value,i)"
-                                  [custom]="PDCvalueCheck" [minLength]="labels?.validationData.NoofPDC.minLength" [maxLength]="labels?.validationData.NoofPDC.maxLength">
-                                </app-custom-input>
+                            <div class="clearfix col-sm-4 col-md-4 col-lg-4" formGroupName="repaymentmodeArray">
+                              <div style="height: 49px;">
+
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label col-sm-6 col-md-6 col-lg-6" for="repaymentMode">Collected
+                                </label>
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label col-sm-6 col-md-6 col-lg-6" for="NoofPDC">{{labels?.noOfPdc}}
+                                  <sub class="star_red_col">*</sub>
+                                </label>
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <app-custom-input formControlName="collectedNoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                                    [placeholder]="'Collected PDC Value'" [isRequired]="'Collected PDC Value is Required'" (input)="collectedChequeMaxMin('',i)"
+                                   [custom]="collectedPDCvalueCheck"
+                                   [minLength]="labels?.validationData.NoofPDC.minLength" [maxLength]="labels?.validationData.NoofPDC.maxLength">
+                                  </app-custom-input>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label col-sm-6 col-md-6 col-lg-6" for="NoofSPDC">{{labels?.NoofSPDC}}
+                                  <sub class="star_red_col">*</sub>
+                                </label>
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <app-custom-input formControlName="collectedNoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
+                                    [placeholder]="'Collected SPDC Value'" [isRequired]="'Collected SPDC Value is Required'" (input)="collectedChequeMaxMin('',i)"
+                                    [custom]="collectedSPDCvalueCheck"
+                                    [minLength]="labels?.validationData.NoofSPDC.minLength" [maxLength]="labels?.validationData.NoofSPDC.maxLength">
+                                  </app-custom-input>
+                                </div>
+                                
+                             
                               </div>
                             </div>
-                            <div class="form-group">
-                              <label class="control-label col-sm-5 col-md-4 col-lg-3" for="NoofSPDC">{{labels?.NoofSPDC}}
-                                <sub class="star_red_col">*</sub>
-                              </label>
-                              <div class="col-sm-6 col-md-4 col-lg-3">
-                                <app-custom-input formControlName="NoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                                  [isRequired]="'SPDC Value is Required'" [placeholder]="'SPDC Value'" (change)="calculateMinMax('',i)"
-                                  [custom]="SPDCvalueCheck" [minLength]="labels?.validationData.NoofSPDC.minLength" [maxLength]="labels?.validationData.NoofSPDC.maxLength">
-                                </app-custom-input>
+                            <div *ngIf="isPredDone == 'true' && isNeededApproval" class="clearfix col-sm-4 col-md-4 col-lg-4" formGroupName="approvalForm">
+                              <!-- <div class="form-group" style="height: 31px; margin-top: 43px;">
+                                <div *ngIf="isAlreadyApproved" class="form-group">
+                                  <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Status
+                                  </label>
+                                  <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                    <app-vf-custom-select [values]="approvalStatus" formControlName="approvalStatus">
+                                    </app-vf-custom-select>
+                                  </div>
+                                </div>
+                              </div> -->
+                              <div class="form-group" style="height: 31px; margin-top: 43px;">
+                                <div class="form-group">
+                                  <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Deferral Date
+                                  </label>
+                                  <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                    <kendo-datepicker class="form-control" formControlName="deferralDate" [format]="'dd/MM/yyyy'"
+                                      placeholder="Select Deferral Date" [activeView]="'decade'" [min]="minDefDate">
+                                    </kendo-datepicker>
+                                    <div class="invalid-feedback">
+                                      <div *ngIf="createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['deferralDate'].value && createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['deferralDate'].invalid">
+                                        Deferral Date should be future
+                                      </div>
+                                      <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['deferralDate'].value && isDeferral">
+                                        Deferral Date is required
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;" for="NoofSPDC">Approving Authority
+                                  <sub class="star_red_col">*</sub>
+                                </label>
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <ng-autocomplete class="custom-select-box" [data]="userDetails" [searchKeyword]="'Name'"
+                                  (selected)='selectApprovalNameEvent($event, i)' (inputChanged)='onApprovalNameSearch($event, i)'
+                                  (inputCleared)='onApprovalNameClear($event, i)'
+                                  [itemTemplate]="favApprovalNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="approvedBy"
+                                  [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="3">
+                                  </ng-autocomplete>
+                                  
+                <div class="invalid-feedback">
+                  <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['approvedBy'].value && isDeferral"> Please select user
+                  </div>
+                  <!-- <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
+                    required</div> -->
+                </div>
+                                <ng-template #favApprovalNameTemplate let-item>
+                                  <a [innerHTML]="item.Name"></a>
+                                </ng-template>
+                                <ng-template #notFoundTemplate let-notFound>
+                                  <div [innerHTML]="notFound"></div>
+                                </ng-template>
+                                </div>
+                              </div>
+
+                              <div>
+                                <button *ngIf="!isAlreadyApproved" (click)="onApprovalClick(i)" class="btn btn-primary" style="margin-right: 12px; float: right; padding: 6px 4px;">Request For Approval</button>
+                              </div>
+                                <div *ngIf="isAlreadyApproved" class="form-group">
+                                  <label class="control-label col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">Status
+                                  </label>
+                                  <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                    <app-vf-custom-select [values]="approvalStatus" formControlName="approvalStatus">
+                                    </app-vf-custom-select>
+                                  </div>
                               </div>
                             </div>
+                            <app-custom-modal
+                              [modalDetails]="modalDetails"
+                              [showModal]="showModal"
+                              [buttons] = "modalButtons"
+                              (onButtonCancel) = "showModal = false"
+                              (onButtonClick)="onApprovePdcSpdc(i)">
+                            </app-custom-modal>
                           </div>
+                         
                         </div>
                       </div>
                     </div>
                   </div>
-
-
                 </div>
               </div>
             </div>
@@ -970,6 +1087,7 @@
     </form>
   </div>
 </div>
+
 <!-- Footer -->
 <footer class="footer pf mob-font">
   <div class="container-fluid">

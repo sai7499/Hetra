@@ -177,4 +177,21 @@ export class DashboardService {
     return this.httpService.post(url, body);
   }
 
+  getApproveOrRejectDocumentDeferral(data) {
+    const processId = this.apiService.api.approveOrRejectDocumentDeferral.processId;
+    const workflowId = this.apiService.api.approveOrRejectDocumentDeferral.workflowId;
+    const projectId = this.apiService.api.approveOrRejectDocumentDeferral.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+
+    return this.httpService.post(url, body);
+  }
+
 }

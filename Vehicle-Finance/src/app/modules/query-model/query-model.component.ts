@@ -1175,7 +1175,7 @@ export class QueryModelComponent implements OnInit, OnDestroy, AfterContentCheck
   viewDDE() {
     this.toggleDdeService.setIsDDEClicked('0');
     this.toggleDdeService.setOperationType('4', 'Query Model', this.location.path());
-    this.sharedService.getQueryModel(this.location.path())
+    this.sharedService.getQueryModel({path: this.location.path(), isQuery: true})
     localStorage.setItem('isNeedBackButton', 'true');
     this.router.navigate(['/pages/dde/' + this.leadId])
   }

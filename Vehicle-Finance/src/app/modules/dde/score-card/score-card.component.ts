@@ -44,6 +44,7 @@ export class ScoreCardComponent implements OnInit {
     applicantDetails = [];
     scoreCardId: any;
     applicantId: any;
+    showRiskTab: boolean;
 
     constructor(
         private labelsData: LabelsService,
@@ -122,7 +123,7 @@ export class ScoreCardComponent implements OnInit {
                 }
                 this.applicantDetails.push(applicantDetail)
             })
-            console.log("applicantDetails", applicants, this.applicantDetails);
+            console.log("applicantDetails", this.applicantDetails);
             for (let i=0; i<applicantDetails.length; i++) {
                 var initialId = applicantDetails.find(ele => ele.applicantTypeKey === 'APPAPPRELLEAD' ).applicantId;
                 
@@ -130,21 +131,24 @@ export class ScoreCardComponent implements OnInit {
             // this.scoreCardId = leadData.leadDetails.scoreCardApplicantId || initialId;
             // console.log(this.scoreCardId, initialId, 'InitialId');
 
-            this.scoreCardId = this.sharedService.getScoreCardId() || initialId;
-            this.onApplicantChange(this.scoreCardId);
+            this.scoreCardId = this.sharedService.getScoreCardId() || leadData.leadDetails.scoreCardApplicantId ;
+            if (this.scoreCardId) {
+                this.reInitiateCreditScore();
+            }
+            // this.onApplicantChange(this.scoreCardId);
             console.log(this.scoreCardId);
-
       }
 
       onApplicantChange(event) {
         console.log(event);
         this.scoreCardId = event;
+        this.showError = true;
         // this.sharedService.setScoreCardId(this.scoreCardId);
-        if (this.scoreCardId) {
-        this.reInitiateCreditScore();
-        } else {
-            this.showError = true;
-        }
+        // if (this.scoreCardId) {
+        // // this.reInitiateCreditScore();
+        // } else {
+        //     this.showError = true;
+        // }
       }
 
 
@@ -160,7 +164,7 @@ export class ScoreCardComponent implements OnInit {
             if (appiyoError === '0' && apiError === '0') {
                 this.scoreCard = JSON.parse(response.ProcessVariables.scoreCard);
                 console.log('ScoreCard', this.scoreCard);
-                this.showError = false;
+                this.showError = true;
                 this.applicantId = response.ProcessVariables.applicantId;
                 this.scoreCardForm.patchValue({
                     applicantId : this.applicantId
@@ -181,12 +185,14 @@ export class ScoreCardComponent implements OnInit {
                 this.sharedService.setScoreCardId(this.scoreCardId)
                 this.scoreCard = JSON.parse(response.ProcessVariables.scoreCard);
                 this.riskLevel = this.scoreCard.totalScore;
+                this.showRiskTab = true;
             } else {
                 this.toasterService.showError(
                     `${errorMessage}`,
                     'Score Card'
                 );
-                this.showError = true;
+                this.showError = false;
+                this.showRiskTab = true;
             }
             this.insertRow(this.scoreCard);
             this.levelOfRisk(this.riskLevel);

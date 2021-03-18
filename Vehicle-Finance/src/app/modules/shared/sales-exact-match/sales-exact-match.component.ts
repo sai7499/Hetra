@@ -45,12 +45,7 @@ export class SalesExactMatchComponent implements OnInit {
   isClicked: boolean;
   isDisableAdharMatch : boolean = true;
   isDisableMobMatch : boolean = true;
-  selectedMatchDetails ={
-    selectedMobYes : '0',
-    selectedMobNo : '0',
-    selectedAdharYes : '0',
-    selectedadharNo : '0'
-  }
+  selectedMatchDetails ={}
   isCheckMob: boolean;
   isCheckAdhar: boolean;
   isDirty: boolean;
@@ -74,7 +69,6 @@ export class SalesExactMatchComponent implements OnInit {
     this.isIndividual = this.dedupeDetails.entityType === 'INDIVENTTYP';
     this.isNavigateToApplicant = this.applicantDataStoreService.getNavigateForDedupe()
     console.log('dedupeDetails', this.dedupeDetails)
-    this.applicantDataStoreService.setDetectActivity(false)
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 
@@ -86,28 +80,42 @@ export class SalesExactMatchComponent implements OnInit {
   rejectLead() { }
 
   continueAsNewApplicant() {
+    this.isDirty = true;
+      if(!this.isDisableMobMatch && !this.isCheckMob){
+        
+         this.toasterService.showError('Please select YES or NO to Proceed', 'Mobile Number Mismatch')
+         return;
+      }
+      if(!this.isDisableAdharMatch && !this.isCheckAdhar){
+      
+        this.toasterService.showError('Please select YES or NO to Proceed', 'Aadhar Number is not updated in bank record')
+        return;
+      }
     this.currentAction = 'new';
     this.modalName = 'newLeadModal';
     this.applicantDataStoreService.setDetectvalueChange(true);
+    //this.applicantDataStoreService.setDetectActivity(true)
   }
 
   continueWithSelectedUCIC() {
-    // this.isDirty = true;
-    //   if(!this.isCheckMob){
+    this.isDirty = true;
+      if(!this.isDisableMobMatch && !this.isCheckMob){
         
-    //      this.toasterService.showError('Please select YES or NO', 'Mobile Number Mismatch')
-    //      return;
-    //   }
-    //   if(!this.isCheckAdhar){
+         this.toasterService.showError('Please select YES or NO to Proceed', 'Mobile Number Mismatch')
+         return;
+      }
+      if(!this.isDisableAdharMatch && !this.isCheckAdhar){
       
-    //     this.toasterService.showError('Please select YES or NO', 'Aadhar Number is not updated in bank record')
-    //     return;
-    //   }
+        this.toasterService.showError('Please select YES or NO to Proceed', 'Aadhar Number is not updated in bank record')
+        return;
+      }
       
     this.currentAction = 'ucic';
     this.modalName = 'ucicModal2';
     this.applicantDataStoreService.setDetectvalueChange(true)
-    this.applicantDataStoreService.setDetectActivity(true)
+    // const isEnable = {
+    //   isAdharEnabled : !this.isDisableAdharMatch ? true :
+    // }
   }
 
   onProbableChange(event, value) {
@@ -118,23 +126,33 @@ export class SalesExactMatchComponent implements OnInit {
       this.isSelectedUcic = true;
       this.selectedDetails = null;
       this.selectedApplicant = null;
-      // this.isDisableMobMatch = true;
-      // this.isDisableAdharMatch = true;
+      this.isDisableMobMatch = true;
+      this.isDisableAdharMatch = true;
+      this.selectedMatchDetails['selectedAdharYes'] = '0'
+      this.selectedMatchDetails['selectedAdharNo'] = '0'
+      this.selectedMatchDetails['selectedMobYes'] = '0'
+      this.selectedMatchDetails['selectedMobNo'] = '0'
+
       return;
     }
     this.selectedDetails = value;
-    // const mobNo = this.selectedDetails.mobile.slice(2, 12);
-    // this.isDisableMobMatch = (this.dedupeParameter.mobileNumber !== mobNo) ? false : true;
-    // this.isDisableAdharMatch = (!value.aadhar || value.aadhar === 'undefined') ? false : true;
+    const mobNo = this.selectedDetails.mobile ? this.selectedDetails.mobile.slice(2, 12) : '';
+    const dedupeNo = this.isIndividual ? this.dedupeParameter.mobileNumber : this.dedupeParameter.companyPhoneNumber;
+    const adharNo =this.isIndividual ? value.aadhar : value.udhyogAadhar;
+
+    this.isDisableMobMatch =(dedupeNo && (dedupeNo !== mobNo)) ? false : true;
+    this.isDisableAdharMatch =(this.dedupeParameter.aadhar && (!adharNo || adharNo === 'undefined')) ? false : true;
 
     this.enableUcicButton();
   }
 
   onExactChange(event) {
     this.selectedDetails = event;
-    const mobNo = event.mobile.slice(2, 12);
-    this.isDisableMobMatch = (this.dedupeParameter.mobileNumber !== mobNo) ? false : true;
-    this.isDisableAdharMatch = (!event.aadhar || event.aadhar === 'undefined') ? false : true;
+    const mobNo = event.mobile ? event.mobile.slice(2, 12) : '';
+    const dedupeNo = this.isIndividual ? this.dedupeParameter.mobileNumber : this.dedupeParameter.companyPhoneNumber;
+    const adharNo =this.isIndividual ? event.aadhar : event.udhyogAadhar;
+    this.isDisableMobMatch = (dedupeNo && (dedupeNo !== mobNo)) ? false : true;
+    this.isDisableAdharMatch = (this.dedupeParameter.aadhar && (!adharNo || adharNo === 'undefined')) ? false : true;
     this.enableUcicButton();
   }
 
@@ -150,7 +168,8 @@ export class SalesExactMatchComponent implements OnInit {
       isIndividual: !(this.dedupeDetails.entityType !== 'INDIVENTTYP'),
       loanApplicationRelation: this.dedupeDetails.loanApplicationRelation,
       custSegment: this.dedupeDetails.custSegment,
-      contactPerson: this.dedupeDetails.contactPerson
+      contactPerson: this.dedupeDetails.contactPerson,
+      
     };
     this.applicantService
       .checkSalesApplicantDedupe(data)
@@ -189,6 +208,7 @@ export class SalesExactMatchComponent implements OnInit {
     console.log('this.selected', this.selectedMatchDetails)
     this.currentAction = 'ucic';
     const leadId = this.dedupeParameter.leadId;
+    
 
     const data = {
       ucic: Number(this.selectedDetails.ucic),
@@ -199,6 +219,12 @@ export class SalesExactMatchComponent implements OnInit {
       isMobileNumberChanged: this.dedupeDetails.isMobileNumberChanged,
       custSegment: this.dedupeDetails.custSegment,
       contactPerson: this.dedupeDetails.contactPerson,
+
+      isMobileUpdate: this.selectedMatchDetails['selectedMobYes'] === '1' ? '1' : this.selectedMatchDetails['selectedMobNo'] ? '0' : null,
+      isAadharUpdate: this.selectedMatchDetails['selectedAdharYes'] === '1'? '1' :this.selectedMatchDetails['selectedAdharNo'] ? '0' : null,
+      givenMobNo : this.selectedMatchDetails['selectedMobYes'] === '1' ? 
+      this.isIndividual ? this.dedupeParameter.mobileNumber : this.dedupeParameter.companyPhoneNumber : '',
+      givenAadhar : this.selectedMatchDetails['selectedAdharYes'] === '1'? this.dedupeDetails.aadhar : ''
       //   monthlyIncomeAmount: this.dedupeDetails.monthlyIncomeAmount || '',
       //   annualIncomeAmount: this.dedupeDetails.annualIncomeAmount || '',
       //  ownHouseProofAvail:this.dedupeDetails.ownHouseProofAvail,
@@ -219,6 +245,8 @@ export class SalesExactMatchComponent implements OnInit {
       //   grossReceipt: this.dedupeDetails.grossReceipt || '',
     };
 
+    console.log('data', data)
+
     this.applicantService
       .checkSalesApplicantUcic(data)
       .subscribe((data: any) => {
@@ -228,7 +256,6 @@ export class SalesExactMatchComponent implements OnInit {
           // this.router.navigateByUrl(
           //   `/pages/lead-section/${leadId}/co-applicant/${processVariables.applicantId}`
           // );
-          this.applicantDataStoreService.setMatchingDetails(this.selectedMatchDetails)
         } else {
           this.toasterService.showError(data.ProcessVariables.error.message, '');
         }
@@ -482,23 +509,23 @@ export class SalesExactMatchComponent implements OnInit {
 
   checkmobileMatch(value){
     if (value == 'yes'){
-      this.selectedMatchDetails.selectedMobYes = '1'
-      this.selectedMatchDetails.selectedMobNo = '0'
+      this.selectedMatchDetails['selectedMobYes'] = '1'
+      this.selectedMatchDetails['selectedMobNo'] = '0'
 
     }else if (value == 'no'){
-      this.selectedMatchDetails.selectedMobNo = '1'
-      this.selectedMatchDetails.selectedMobYes = '0'
+      this.selectedMatchDetails['selectedMobNo'] = '1'
+      this.selectedMatchDetails['selectedMobYes'] = '0'
     }
     this.isCheckMob = true;
 
   }
   checkAdharMatch(value){
     if (value == 'yes'){
-      this.selectedMatchDetails.selectedAdharYes = '1'
-      this.selectedMatchDetails.selectedadharNo = '0'
+      this.selectedMatchDetails['selectedAdharYes'] = '1'
+      this.selectedMatchDetails['selectedAdharNo'] = '0'
     }else if (value == 'no'){
-      this.selectedMatchDetails.selectedadharNo = '1'
-      this.selectedMatchDetails.selectedAdharYes = '0'
+      this.selectedMatchDetails['selectedAdharNo'] = '1'
+      this.selectedMatchDetails['selectedAdharYes'] = '0'
     }
     this.isCheckAdhar = true;
   }
