@@ -108,7 +108,7 @@ export class CustomInputComponent
   constructor(private elementRef: ElementRef) { }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
-   console.log('simpleChanges',simpleChanges);
+  //  console.log('simpleChanges',simpleChanges);
    const isRequired = simpleChanges.isRequired || null;
    if (isRequired) {
      if (this.isFirstChange) {
@@ -343,6 +343,9 @@ export class CustomInputComponent
       case 'custom-special-alpha-numeric':
         this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n\-\/|:]/g);;
         break;
+        case 'custom-comma-special-alpha-numeric':
+          this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n\-\/|_]/g);;
+          break;
       case 'special-alpha-numeric':
         this.valuePatternCheck(event, /[^0-9a-zA-Z\s\r\n@!#\$\^%&*()+=\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/g);
         // this.allowSpecialAlphaNumericOnly(event);

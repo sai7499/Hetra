@@ -20,6 +20,7 @@ import { timer } from 'rxjs';
 import { LeadHistoryService } from '@services/lead-history.service';
 import { CommonDataService } from '@services/common-data.service';
 import { SupervisorService } from '@modules/supervisor/service/supervisor.service';
+import { CommomLovService } from '@services/commom-lov-service';
 
 export enum DisplayTabs {
   Leads,
@@ -87,7 +88,12 @@ export enum DisplayTabs {
   VehicleValuvatorWithBranch,
   ChequeTrackingLeadsWithMe,
   ChequeTrackingLeadsWithBranch,
-  ApprovalDashboard
+  ApprovalDashboard,
+  PdcSpdcWithMe,
+  PdcSpdcWithBranch,
+  DefDocWithMe,
+  DefDocWithBranch
+
 }
 
 export enum sortingTables {
@@ -126,6 +132,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   roleFilter = new FormControl(this.roleList);
   supervisorForm: FormGroup
   filterForm: FormGroup;
+  approveForm: FormGroup;
   showFilter;
   roleType: any;
   labels: any = {};
@@ -214,6 +221,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('closeModal', { static: false }) public closeModal: ElementRef;
   @ViewChild('closeModal1', { static: false }) public closeModal1: ElementRef;
   @ViewChild('closeModal2', { static: false }) public closeModal2: ElementRef;
+  @ViewChild('closeModal3', { static: false }) public closeModal3: ElementRef;
   userDetailsRoleId: any;
   supervisorUserId: any;
 
@@ -244,22 +252,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
    isVV : false,
   };
   isExtUser: boolean;
+  modalDetails = {
+    heading: 'Approval Conformation',
+    content: 'Are you sure you want to Approve?'
+  }
+  modalButtons: any = [
+    {
+      name: 'Yes',
+      isModalClose: false,
+
+    },
+    {
+      name: 'Cancel',
+      isModalClose: true,
+    }];
   // slectedDateNew: Date = this.filterFormDetails ? this.filterFormDetails.fromDate : '';
 
   approvalDashboard = [
-    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "RC_Copy", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "Insurance_Copy", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 5
-
-    No of PDC/SPDC Collected:2
-    `, defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 41
-
-    No of PDC/SPDC Collected:5
-    `, defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "Document Deferral", defferalDocName: "Bank_Pass_Book", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
-    {leadId : "1000006755", applicantName: "Gomathi", defferalType: "Document Deferral", defferalDocName: "FC Details", defferalDate: "05-03-2021 15:00:00", requestedOn: "05-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"}
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "RC_Copy", defferalDate: "01-03-2021 15:00:00", requestedOn: "07-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "Document Deferral", defferalDocName: "Insurance_Copy", defferalDate: "02-03-2021 15:00:00", requestedOn: "08-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000010000", applicantName: "Krishnamurthy V", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 5, No of PDC/SPDC Collected:2`, defferalDate: "03-03-2021 15:00:00", requestedOn: "09-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "PDC/SPDC", defferalDocName: `No of PDC/SPDC Required: 41, No of PDC/SPDC Collected:5`, defferalDate: "04-03-2021 15:00:00", requestedOn: "10-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006754", applicantName: "Manimarran", defferalType: "Document Deferral", defferalDocName: "Bank_Pass_Book", defferalDate: "05-03-2021 15:00:00", requestedOn: "11-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"},
+    {leadId : "1000006755", applicantName: "Gomathi", defferalType: "Document Deferral", defferalDocName: "FC Details", defferalDate: "06-03-2021 15:00:00", requestedOn: "12-03-2021 15:00:00", requestedBy: "e29005 - Manivannan"}
   ]
+  defferalDate = [];
+  requestedOn = [];
+  defferalDocName = [];
+  deferralStatus: any;
+  deferralLeadId: any;
+  documentId: any;
+  deferralTaskId: any;
+  deferralTaskName: any;
+  LOV: any;
+  deferralType: any;
+  deferralTypeList: any;
+  defDocs: any;
+  defDocNames: any;
+  keyValue: any;
 
   constructor(
     private fb: FormBuilder,
@@ -279,7 +309,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private queryModelService: QueryModelService,
     private leadHistoryService: LeadHistoryService,
     private commonDataService: CommonDataService,
-    private supervisorService: SupervisorService
+    private supervisorService: SupervisorService,
+    private commonLovService: CommomLovService
   ) {
     if (environment.isMobile === true) {
       this.itemsPerPage = '5';
@@ -292,6 +323,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    // for (let i=0; i<this.approvalDashboard.length; i++) {
+    //    this.defferalDate[i] = this.approvalDashboard[i].defferalDate.split(' ');
+    //    this.requestedOn[i] = this.approvalDashboard[i].requestedOn.split(' ');
+    //    this.defferalDocName[i] = this.approvalDashboard[i].defferalDocName.split(',');
+    // }
+    
     const thisUrl = this.router.url;
     console.log(thisUrl);
     this.sharedService.isSUpervisorUserName.subscribe((value: any) => {
@@ -350,6 +387,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.supervisorForm = this.fb.group({
       roles: ['', Validators.required]
+    });
+    this.approveForm = this.fb.group({
+      deferralRemarks: ['', Validators.required]
     });
 
     if (this.router.url === "/pages/supervisor/dashboard") {
@@ -470,9 +510,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // disbToDate: [''],
       expectedDate: [''],
       loanMinAmt: [null],
-      loanMaxAmt: [null]
-    });
+      loanMaxAmt: [null],
+      deferralType: [''],
+      deferralDocName: ['']
 
+    });
+    this.getLov();
     this.dashboardFilter();
     this.loanMaxAmtChange();
     this.loanMinAmtChange();
@@ -497,6 +540,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.sharedService.getPslDataNext(false)
 
   }
+
+  getLov() {
+    this.commonLovService.getLovData().subscribe((res: any) => {
+      this.LOV = res.LOVS;
+      console.log('deferralType', this.LOV.deferralType);
+      this.deferralTypeList = this.LOV.deferralType
+    })
+}
 
   getPollCount() {
     return setInterval(() => {
@@ -863,17 +914,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isBM = false;
         this.getExternalUserLeads(this.itemsPerPage, event);
         console.log(this.onReleaseTab);
+      case 65:
+        this.myLeads = true;
+        this.taskName = 'Deferral Approval';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
         
       default:
         break;
     }
     switch (data) {
-      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55: case 61: case 63:
+      case 4: case 6: case 8: case 10: case 13: case 21: case 23: case 25: case 28: case 31: case 34: case 37: case 40: case 42: case 45: case 48: case 52: case 55: case 61: case 63: case 66: case 68:
         this.onAssignTab = false;
         this.onReleaseTab = true;
         this.myLeads = true;
         break;
-      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59: case 62: case 64:
+      case 5: case 7: case 9: case 11: case 14: case 22: case 24: case 26: case 29: case 32: case 35: case 38: case 41: case 43: case 46: case 49: case 53: case 56: case 57: case 59: case 62: case 64: case 67: case 69:
         this.onAssignTab = true;
         this.onReleaseTab = false;
         this.myLeads = false;
@@ -990,10 +1046,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.taskName = 'Vehicle Valuation';
         this.getTaskDashboardLeads(this.itemsPerPage, event);
         break;
-        case 63: case 64:
-          this.taskName = 'CPC Cheque Tracking';
-          this.getTaskDashboardLeads(this.itemsPerPage, event);
-          break;
+      case 63: case 64:
+        this.taskName = 'CPC Cheque Tracking';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 66: case 67:
+        this.taskName = 'PDC_SPDC Deferral';
+        this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
+      case 68: case 69:
+        this.taskName = 'Document Deferral';
+         this.getTaskDashboardLeads(this.itemsPerPage, event);
+        break;
 
       default:
         break;
@@ -1110,6 +1174,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       : '';
   }
 
+  onDeferrel(data) {
+    console.log('key', data);
+    this.deferralType = this.deferralTypeList.find(ele => ele.key === data).value;
+    console.log('value', this.deferralType);
+     
+  }
+
   // for getting productCatagory and leadStage
   dashboardFilter() {
     const data = {
@@ -1117,6 +1188,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
     this.dashboardService.dashboardFilter(data).subscribe((res: any) => {
       this.productCategoryList = res.ProcessVariables.productCategory;
+      this.defDocs = res.ProcessVariables.defDocNames;
+      console.log('this.defDocs', this.defDocs);
+      
       this.productCategoryData = this.utilityService.getValueFromJSON(
         this.productCategoryList,
         'categoryCode',
@@ -1130,6 +1204,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
         'stageValue'
       );
     });
+  }
+
+  onDocNameSearch(val) {
+    if(val && val.trim().length > 0) {
+      this.defDocNames = this.defDocs.filter((e: any) => {
+        let myVal = val.toString().toLowerCase();
+        let doc = e.toString().toLowerCase();
+        if (doc.includes(myVal)) {
+          return e;
+        }
+      })
+      console.log('defDocNames', this.defDocNames);
+    }
+  }
+
+  selectDocNameEvent(val) {
+    this.keyValue = val;
+  }
+
+  onDocNameClear() {
+    this.defDocNames = [];
   }
 
   // getting response Data for all tabs
@@ -1247,6 +1342,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
       disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
+      deferralType: this.filterFormDetails ? this.deferralType : '',
+      deferralDocName: this.filterFormDetails ? this.keyValue : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1277,6 +1374,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoadLead = false;
         this.newArray = [];
       }
+      if (this.activeTab === this.displayTabs.ApprovalDashboard) {
+          const deferrals = res.ProcessVariables.loanLead;
+          if(deferrals) {
+            for (let i=0; i<deferrals.length; i++) {
+
+              // this.defferalDate[i] = deferrals[i].defferalDate.split(' ');
+              this.requestedOn[i] = deferrals[i].requestedOn ? deferrals[i].requestedOn.split(' ') : '';
+              // this.defferalDocName[i] = deferrals[i].defferalDocName.split(',');
+           }
+          }
+         
+      }
     } else {
       this.toasterService.showError(res.ProcessVariables.error.message, '');
     }
@@ -1305,6 +1414,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
       disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
+      deferralType: this.filterFormDetails ? this.deferralType : '',
+      deferralDocName: this.filterFormDetails ? this.keyValue : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1337,7 +1448,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.toasterService.showError(res.ProcessVariables.error.message, '');
     }
-    })
+    });
   }
 
   getExternalUserLeads(perPageCount, pageNumber?) {
@@ -1577,13 +1688,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 61: case 62:
         this.router.navigate([`/pages/valuation-dashboard/${this.leadId}/vehicle-valuation`]);
         break;
-
+      case 66: case 67:
+        this.router.navigate([`/pages/pdc-details-dashboard/${this.leadId}`]);
+        break;
+        case 68: case 69:
+          this.sharedService.setTaskIdDef(item.taskId);
+        this.router.navigate([`/pages/deferral-documents/${this.leadId}`]);
+        break;
       default:
         break;
     }
   }
 
-  onRoute(leadId, stageCode?, taskId?) {
+  onRoute(leadId, stageCode?, taskId?, item?) {
     this.dashboardService.routingData = {
       activeTab: this.activeTab,
       subActiveTab: this.subActiveTab,
@@ -1601,11 +1718,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.onRoutingTabs(this.subActiveTab)
+    this.onRoutingTabs(this.subActiveTab, item);
   }
 
   onClear() {
     this.isFilterApplied = false;
+    this.onDocNameClear();
+    this.keyValue = '';
     this.filterForm.reset();
     this.filterFormDetails = {};
     this.onTabsLoading(this.subActiveTab);
@@ -1990,6 +2109,70 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   }
 
+  onApproveClick(data) {
+    this.showModal = true;
+    console.log(data);
+    this.deferralLeadId = data.leadId;
+    this.documentId = data.documentId;
+    this.deferralTaskId = data.taskId;
+    this.deferralTaskName = data.taskName;
+  }
+
+  onRejectClick(data) {
+    console.log(data);
+    this.deferralLeadId = data.leadId;
+    this.documentId = data.documentId;
+    this.deferralTaskId = data.taskId;
+    this.deferralTaskName = data.taskName;
+  }
+
+  onDeferralApproveOrReject(type: string) {
+    if (type == 'approve') {
+      this.deferralStatus = '3'
+      this.isDirty = false
+    } else {
+      this.deferralStatus = '2'
+      this.isDirty = true;
+    }
+    const data = {
+      documentDetail: {
+        deferralStatus: this.deferralStatus,
+        approverRemarks: this.approveForm.get('deferralRemarks').value && type != 'approve' ? this.approveForm.get('deferralRemarks').value  : '',
+        documentId: this.documentId,
+      },
+      taskId: this.deferralTaskId,
+      userId: localStorage.getItem('userId'),
+      taskName : this.deferralTaskName,
+      leadId: this.deferralLeadId,
+    }
+    console.log(data);
+    if (this.approveForm.invalid && type !== 'approve') {
+      this.toasterService.showError('Please fill mandatory fields', '')
+      return;
+    }
+    this.dashboardService.getApproveOrRejectDocumentDeferral(data).subscribe((res: any) => {
+      const response = res;
+      const appiyoError = response.Error;
+      const apiError = response.ProcessVariables.error.code;
+
+      if (appiyoError === '0' && apiError === '0') {
+        console.log(response.ProcessVariables);
+        if(type == 'approve') {
+          this.toasterService.showSuccess('Record Approved Successfully', '')
+          } else {
+          this.toasterService.showSuccess('Record Rejected Successfully', '')
+          }
+        this.onClick();
+        this.closeModal3.nativeElement.click();
+        this.showModal = false;
+        
+      } else {
+        this.toasterService.showError(response.ProcessVariables.error.message, '');
+      }
+
+    })
+  }
+
   assignSelectedLeads() {
     this.getSupervisorUserDetails();
   }
@@ -1997,5 +2180,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     clearInterval(this.intervalId)
   }
+
+  onViewDDE(item) {
+    this.toggleDdeService.setIsDDEClicked('0');
+    this.toggleDdeService.setOperationType('5', 'Dashboard', this.location.path());
+    this.sharedService.getQueryModel({path: this.location.path(), isQuery: false})
+    localStorage.setItem('isNeedBackButton', 'true');
+    this.router.navigate(['/pages/dde/' + item.leadId])  }
 
 }

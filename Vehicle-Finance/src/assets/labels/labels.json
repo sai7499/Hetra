@@ -787,6 +787,7 @@
     "passengerTitle": "VIABILITY/NET CASH FLOW",
     "creditShieldApplicable": "Credit Shield Applicable",
     "insuranceCompanyName": "Insurance Company Name",
+    "otherInsuranceCompanyName": "Other Insurance Company Name",
     "creditShieldCoverageAmount": "Credit Shield Coverage Amount",
     "creditShieldPremium": "Credit Shield Premium",
     "creditShieldNominee": "Credit Shield Nominee",
@@ -1782,6 +1783,7 @@
     "validFrom": "Valid From",
     "validUpto": "Valid up to",
     "typeOfPolicy": "Type of policy",
+    "policyType": "Policy Type",
     "isModelInProduction": "Is the Model Currently under Production ?",
     "anyAccidentsInPast": "Any accidents in the past ? If yes, mention in remarks",
     "originalInvoice": "Original Invoice Value(Ex-show)",
@@ -3051,7 +3053,7 @@
             "maxLength": {
                 "rule": 20
             },
-            "type": "special-alpha-numeric"
+            "type": "custom-comma-special-alpha-numeric"
         },
         "valuationRefNo": {
             "maxLength": {
