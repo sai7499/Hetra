@@ -480,6 +480,7 @@ base64ToBlob(b64Data, contentType, sliceSize?: any) {
       leadId : this.leadId,
       taslId : taskId,
       taskName : 'Document Deferral',
+      isPdc : false,
       documentDetails : formValues
     }
     //return console.log('datas', datas);
