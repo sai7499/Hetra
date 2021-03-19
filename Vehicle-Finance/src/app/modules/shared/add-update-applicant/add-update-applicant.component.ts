@@ -1071,8 +1071,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
 
-  getPincode(pincode) {
-    const id = pincode.id;
+  getPincode(pincode, type : string) {
+    const id = type;
     const pincodeValue = pincode.value;
     if (pincodeValue.length === 6) {
       const pincodeNumber = Number(pincodeValue);

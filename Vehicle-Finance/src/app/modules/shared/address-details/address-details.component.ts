@@ -318,9 +318,9 @@ export class AddressDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/pages/dde/${this.leadId}/applicant-list`);
   }
 
-  inputPincode(event) {
+  inputPincode(event, type : string) {
     const value = event.target.value;
-    const id = event.target.id;
+    const id = type;
 
     if (value.length == 6) {
 

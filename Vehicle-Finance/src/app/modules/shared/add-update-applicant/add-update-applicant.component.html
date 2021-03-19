@@ -824,7 +824,7 @@
                         <sub class="star_red_col">*</sub>
                       </label>
                       <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
-                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
+                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target, 'permanentPincode')"
                         [id]="'permanentPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"
                         [type]="validationData?.pincode?.type"></app-custom-input>
                     </div>
@@ -962,7 +962,7 @@
                       <label for="current_pincode">{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label>
                       <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
-                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
+                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target, 'currentPincode')"
                         [id]="'currentPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirtyUcic"
                         [type]="validationData?.pincode?.type"></app-custom-input>
                     </div>
@@ -1051,7 +1051,7 @@
                       <label for="registered_pincode">{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label>
                       <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
-                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
+                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target, 'registerPincode')"
                         [id]="'registerPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"
                         [type]="validationData?.pincode?.type"></app-custom-input>
                     </div>
@@ -1154,7 +1154,7 @@
                       <label for="registered_pincode">{{ labels?.code
                         }}<sub class="star_red_col">*</sub></label>
                       <app-custom-input formControlName="pincode" [maxLength]="validationData?.pincode?.maxLength"
-                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target)"
+                        [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="getPincode($event.target, 'communicationPincode')"
                         [id]="'communicationPincode'" [isRequired]="'Pincode is required'" [isDirty]="isDirty"
                         [type]="validationData?.pincode?.type"></app-custom-input>
                     </div>

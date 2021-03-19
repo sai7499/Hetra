@@ -74,7 +74,7 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="permanantPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
                   [type]="validationData?.pincode?.type" [maxLength]="validationData?.pincode?.maxLength"
-                  [isRequired]="'Pincode is required'" [isDirty]="isDirty" (keyup)="inputPincode($event)"
+                  [isRequired]="'Pincode is required'" [isDirty]="isDirty" (keyup)="inputPincode($event,'permanantPincode')"
                   id="permanantPincode"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -230,7 +230,7 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="currentPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
                   [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
-                  [isDirty]="isDirty" (keyup)="inputPincode($event)" id="currentPincode"
+                  [isDirty]="isDirty" (keyup)="inputPincode($event, 'currentPincode')" id="currentPincode"
                   [type]="validationData?.pincode?.type"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -381,7 +381,7 @@
                 <label for="passport">{{ labels.code }}</label>
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="officePincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
-                  [maxLength]="validationData?.pincode?.maxLength" (keyup)="inputPincode($event)" id="officePincode"
+                  [maxLength]="validationData?.pincode?.maxLength" (keyup)="inputPincode($event, 'officePincode')" id="officePincode"
                   [isRequired]="
                     isDirty && isOfficeAddressMandatory
                       ? 'Pincode is required'
@@ -537,7 +537,7 @@
                 <!-- <input formControlName="pincode" type="text" class="form-control" id="registeredPincode" (keyup)="inputPincode($event)" /> -->
                 <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
                   [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
-                  [isDirty]="isDirty" (keyup)="inputPincode($event)" id="registeredPincode"
+                  [isDirty]="isDirty" (keyup)="inputPincode($event, 'registeredPincode')" id="registeredPincode"
                   [type]="validationData?.pincode?.type"></app-custom-input>
               </div>
               <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -668,7 +668,7 @@
                   <!-- <input formControlName="pincode" type="text" class="form-control" id="communicationPincode" (keyup)="inputPincode($event)" /> -->
                   <app-custom-input formControlName="pincode" [patternCheck]="validationData?.pincode?.patternCheck"
                     [maxLength]="validationData?.pincode?.maxLength" [isRequired]="'Pincode is required'"
-                    [isDirty]="isDirty" (keyup)="inputPincode($event)" id="communicationPincode"
+                    [isDirty]="isDirty" (keyup)="inputPincode($event, 'communicationPincode')" id="communicationPincode"
                     [type]="validationData?.pincode?.type">
                   </app-custom-input>
                 </div>
