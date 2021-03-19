@@ -1237,6 +1237,16 @@ export class ApiService {
       processId: '79f0701c824e11eb954000505695f93b',
       projectId: environment.projectIds.submitToCredit
     },
+    submitDefDocuments: {
+      workflowId: '68aa178c80b811eb9fc400505695f93b',
+      processId: '8d49aefc823611ebad3400505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    }, 
+    getDeferralDocs: {
+      workflowId: '68aa178c80b811eb9fc400505695f93b',
+      processId: '98642ee880ba11eb938400505695f93b',
+      projectId: environment.projectIds.submitToCredit
+    },
     InsuranceLov: {
       workflowId: '89b4dd367fdc11ebbbdc00505695f93b',
       processId: '89d91c467fdc11eb8b6500505695f93b',

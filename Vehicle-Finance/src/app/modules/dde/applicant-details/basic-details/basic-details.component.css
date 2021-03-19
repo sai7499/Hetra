@@ -40,7 +40,7 @@ kendo-datepicker{
   font-family: zurich-bold;
   letter-spacing: 0.5px;
   color: red;
-  padding-top: 0.5vw;
+  /* padding-top: 0.5vw; */
 }
 
 .mar-btn-bot{

@@ -71,7 +71,9 @@ export class ApplicantDataStoreService {
       otpVerified: applicant.otpVerified,
       ucic: applicant.ucic,
       ekycDone: applicant.ekycDone,
-      udfDetails
+      udfDetails,
+      isMobileUpdate : applicant.isMobileUpdate,
+      isAdharUpdate : applicant.isAdharUpdate,
     };
   }
 
@@ -277,19 +279,6 @@ export class ApplicantDataStoreService {
   getUrl(){
    return this.applicantUrl
   }
-  setDetectActivity(value : boolean){
-    this.isUcic = value;
-  }
-
-  getDetectActivity(){
-    return this.isUcic;
-  }
-
-  setMatchingDetails(value ){
-    this.selectedMatchDeatils = value
-  } 
-  getMatchingDetails(){
-    return this.selectedMatchDeatils
-  }
+  
 
 }

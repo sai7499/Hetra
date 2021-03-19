@@ -97,7 +97,7 @@
                 }}
               </td>
               <td>{{ dedupeParameter?.pan }}</td>
-              <td>{{ dedupeParameter?.aadhar }}</td>
+              <td>{{ dedupeDetails?.aadhar }}</td>
               <ng-container *ngIf="isIndividual">
                 <td>{{ dedupeParameter?.passportNumber }}</td>
                 <td>{{ dedupeParameter?.voterIdNumber }}</td>
@@ -285,11 +285,11 @@
       </div>
     </form>
 
-    <!-- <div>
+    <div>
       <h3 class="banner-sub">Mismatch in existing customer details</h3>
       <div class="row col-sm-12 col-md-12 col-lg-12 mismatch">
         <div class="col-sm-6 col-md-5 col-lg-8">
-          Given mobile number is not matching with the number available in bank records, do you want to update with new mobile number?
+         <b> Given mobile number is not matching with the number available in bank records, do you want to update with new mobile number?</b>
          </div>
          <div class="col-sm-6 col-md-5 col-lg-4">
            <label class="radio-inline"> 
@@ -301,22 +301,42 @@
              <input type="radio" name='mobNo' 
                  value="no" [disabled]="isDisableMobMatch" (change)="checkmobileMatch($event.target.value)" >No
          </label>
-         <span class="row ShowError" *ngIf="isDirty && !isCheckMob">Please choose</span>
+         <span class="row ShowError" *ngIf="isDirty && !isDisableMobMatch && !isCheckMob">Please choose</span>
          </div>
         
       </div>
       <div class="row col-sm-12 col-md-12 col-lg-8 mismatch">
         <div class="col-sm-6 col-md-6 col-lg-6">
-         Mobile number as per records  :   {{selectedDetails?.mobile || '9123457890'}}
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            Mobile number as per records
+          </div>
+          <div class="col-sm-6 col-md-2 col-lg-2">
+            :
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-4 text-left">
+            {{selectedDetails?.mobile || '-'}}
+          </div>
+              
          </div>
-         <div class="col-sm-6 col-md-6 col-lg-6 text-left">
-          Given Mobile number : {{dedupeParameter?.mobileNumber || '9000012345'}}
+      </div>
+      <div class="row col-sm-12 col-md-12 col-lg-8 mismatch">
+        <div class="col-sm-6 col-md-6 col-lg-6 ">
+          <div class="col-sm-6 col-md-6 col-lg-6 ">
+            Given Mobile number
+          </div>
+          <div class="col-sm-6 col-md-2 col-lg-2 ">
+            :
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-4 text-left ">
+            {{ isIndividual ? '91' + dedupeParameter?.mobileNumber : '91' + dedupeParameter?.companyPhoneNumber || '-'}}
+          </div>
+            
          </div>
       </div>
 
       <div class="row col-sm-12 col-md-12 col-lg-12 mismatch">
         <div class="col-sm-6 col-md-6 col-lg-8">
-          Aadhaar number is not updated in bank records, do you want to update with the given Aadhaar number?
+         <b>Aadhaar number is not updated in bank records, do you want to update with the given Aadhaar number?</b> 
          </div>
          <div class="col-sm-6 col-md-6 col-lg-4">
            <label class="radio-inline"> 
@@ -328,11 +348,11 @@
              <input type="radio" name='adharNo' 
                  value="no" [disabled]="isDisableAdharMatch" (change)="checkAdharMatch($event.target.value)" >No
          </label>
-          <span class="row ShowError" *ngIf="isDirty && !isCheckAdhar">Please choose</span>
+          <span class="row ShowError" *ngIf="isDirty && !isDisableAdharMatch&& !isCheckAdhar">Please choose</span>
          </div>
       </div>
       
-    </div> -->
+    </div>
     
 
     

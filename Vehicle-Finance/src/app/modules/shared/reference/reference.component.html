@@ -84,7 +84,7 @@
           </label>
           <app-custom-input id="refOnePincode_id" formControlName="refOnePincode" [className]="'form-control mandatory'"
             [placeholder]="'Pincode'" [isRequired]="'Pincode Required'" [maxLength]="validationData?.pincode?.maxLength"
-            [patternCheck]="validationData?.pincode?.patternCheck" (keyup)='inputPincode($event)' [isDirty]="isDirty"
+            [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="inputPincode($event, 'refOnePincode_id')" [isDirty]="isDirty"
             autocomplete="off" [type]="'number'">
           </app-custom-input>
         </div>
@@ -229,7 +229,7 @@
           </label>
           <app-custom-input id="refTwoPincode_id" formControlName="refTwoPincode" [className]="'form-control mandatory'"
             [placeholder]="'Pincode'" [isRequired]="'Pincode Required'" [maxLength]="validationData?.pincode?.maxLength"
-            [patternCheck]="validationData?.pincode?.patternCheck" (keyup)='inputPincode($event)' [isDirty]="isDirty"
+            [patternCheck]="validationData?.pincode?.patternCheck" (keyup)="inputPincode($event, 'refTwoPincode_id')" [isDirty]="isDirty"
             [type]="'number'">
           </app-custom-input>
         </div>

@@ -906,6 +906,7 @@ export class PddComponent implements OnInit {
     async downloadDocs(index) {
         const formArray = this.pddForm.get('pddDocumentDetails') as FormArray;
         const documentId = formArray['controls'][index].get('dmsDocId').value;
+        
         if (!documentId) {
             return;
         }

@@ -127,6 +127,7 @@ export class BasicDetailsComponent implements OnInit {
   natureOfBorArray: any = [];
   natureOfBorrow: any = [];
   borrowProfile: any = [];
+  isShowMobMismatch: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -1129,6 +1130,7 @@ export class BasicDetailsComponent implements OnInit {
       })
 
       this.applicant = this.applicantDataService.getApplicant(); // To get Applicant details from api
+      this.isShowMobMismatch = (this.applicant.isMobileUpdate == '1' || this.applicant.isMobileUpdate == '0') ? true : false;
       this.isUCICavail = this.applicant.ucic ? true : false;
       this.udfDetails = this.applicant.udfDetails;
       this.natureOfBorArray = this.applicantDataService.getNatureOfBorrower();;
