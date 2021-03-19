@@ -68,6 +68,7 @@ export class PdcDetailsComponent implements OnInit {
 
   searchUserNameList: any = [];
   isValiduserName: boolean;
+  documentId: number;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -632,6 +633,7 @@ export class PdcDetailsComponent implements OnInit {
           this.getData(res.ProcessVariables, this.pdcCount, this.spdcCount);
           this.isDeferral = res.ProcessVariables.isDeferral;
           this.isValiduserName = res.ProcessVariables.receivedBy ? false : true;
+          this.documentId = res.ProcessVariables.documentId;
           if (res.ProcessVariables.isDeferral) {
             this.pdcForm.patchValue({
               podNo: res.ProcessVariables.podNo,
@@ -937,7 +939,6 @@ export class PdcDetailsComponent implements OnInit {
   }
 
   uploadDoc() {
-    console.log(this.leadId, 'Lead Id')
     this.router.navigate([`pages/document-viewupload/${this.leadId}/collateral-documents`]);
     this.sharedService.setPdcDetails({
       title: 'Pdc', code: 160,
@@ -1033,7 +1034,6 @@ export class PdcDetailsComponent implements OnInit {
 
   selectUserNameEvent(val) {
     this.isValiduserName = false;
-    // this.pdcForm.get('receivedBy').setValue(val)
   }
 
   onSubmit() {
@@ -1049,9 +1049,11 @@ export class PdcDetailsComponent implements OnInit {
       }
 
       this.pdcService.acknowledgeDeferral(data).subscribe((res: any) => {
-        console.log(res,'acknowledgeDeferral')
-        this.router.navigateByUrl(`/pages/dashboard`);
-
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.router.navigateByUrl(`/pages/dashboard`);
+          } else {
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :  res.ProcessVariables.error.message, 'Acknowledge PDC_SPDC Deferral')
+          }
       })
 
     } else {
@@ -1063,11 +1065,11 @@ export class PdcDetailsComponent implements OnInit {
         "stopTaskName": "PDC_SPDC Deferral"
       }
       this.pdcService.submitDeferral(data).subscribe((res: any) => {
-        // if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.router.navigateByUrl(`/pages/dashboard`);
-        // } else {
-        //   this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :  res.ProcessVariables.error.message, 'Submit PDC_SPDC Deferral')
-        // }
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :  res.ProcessVariables.error.message, 'Submit PDC_SPDC Deferral')
+        }
       })
     }
   }

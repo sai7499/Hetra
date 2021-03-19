@@ -260,3 +260,13 @@ p {
     margin-left: 0px !important;
   }
 }
+
+.fa-3 {
+  color: #f3682de0 !important;
+}
+
+.cus-class {
+  float: right;
+  margin-top: -15px;
+  margin-right: 26px !important;
+}

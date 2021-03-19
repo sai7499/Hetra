@@ -355,6 +355,14 @@ export class ApplicantDocsUploadComponent implements OnInit {
           }
         });
 
+        this.setUploadDocsValue(docDetails);
+
+        this.documentArr.forEach((value) => {
+          if (value.documentType) {
+            this.subcategotyDocsId[value.subCategoryCode] = true;
+          }
+        });
+
         let PdcDetailsData = this.sharedService.getIsPdcData();
 
         if (PdcDetailsData) {
@@ -364,14 +372,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
           formArray.push(this.getDocsFormControls());
           formArray['controls'][formArray.length - 1].get('documentName').setValue(PdcDetailsData.code)
         }
-
-        this.setUploadDocsValue(docDetails);
-
-        this.documentArr.forEach((value) => {
-          if (value.documentType) {
-            this.subcategotyDocsId[value.subCategoryCode] = true;
-          }
-        });
 
         this.subCategories.forEach((subCategory) => {
           const formArray = this.uploadForm.get(
@@ -385,6 +385,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           this.uploadForm.disable();
         }
       });
+
   }
 
   setUploadDocsValue(docDetails: DocumentDetails[]) {
@@ -428,7 +429,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       if (isChecked) {
         formGroup.get('deferredDate').enable();
         this.docNumberError = false;
-        if (localStorage.getItem('isPreDisbursement') === 'true' && formGroup.get('documentId').value) {
+        if (localStorage.getItem('is_pred_done') === 'true' && formGroup.get('documentId').value) {
           this.isPreDisEnable[index] = true;
           this.onChangeRoleId(formArray, index)
           formGroup.get('receivedBy').setValidators(Validators.required);
@@ -466,7 +467,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
         { value: this.utilityService.getDateFromString(document.deferredDate) || '', disabled: !isDeferred ? true : false }
       ),
       receivedBy: new FormControl(document['documentRoleId'] || ''),
-      requestedOn: new FormControl(this.utilityService.convertDateTimeTOUTC(document['requestedOn'] ? document['requestedOn'] : new Date(), 'YYYY-MM-DD HH:mm')),
       requestedBy: new FormControl(document['requestedBy'] || localStorage.getItem('userId')),
       deferralStatus: new FormControl(document['deferralStatus'] || '0')
     });
@@ -553,7 +553,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
       deferredDate: new FormControl({ value: '', disabled: true }),
       isDeferred: new FormControl(''),
       receivedBy: new FormControl(''),
-      requestedOn: new FormControl(this.utilityService.convertDateTimeTOUTC(new Date, 'YYYY-MM-DD HH:mm')),
       requestedBy: new FormControl(localStorage.getItem('userId')),
       deferralStatus: new FormControl('0')
     });
@@ -1101,8 +1100,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
               associatedId: String(this.applicantId),
               associatedWith: String(this.associatedWith),
               requestedBy: value.requestedBy || localStorage.getItem('userId'),
-              deferralRemarks : this.modalForm.get('deferralRemarks').value,
-              requestedOn: this.utilityService.convertDateTimeTOUTC(value.requestedOn ? value.requestedOn : new Date(), 'YYYY-MM-DD HH:mm'),
+              deferralRemarks : this.modalForm.get('deferralRemarks').value
             });
           }
         });

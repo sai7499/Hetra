@@ -66,5 +66,4 @@ export interface DocumentDetails {
   deferredDate?: string;
   isDeferred?: string;
   requestedBy?: string;
-  requestedOn?: string | Date;
 }
