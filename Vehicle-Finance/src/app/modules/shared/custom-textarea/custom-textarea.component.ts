@@ -102,7 +102,7 @@ export class CustomTextareaComponent
     this.onChange($event.target.value);
     this.onTouched($event.target.value);
     this.inputError = $event.target.value ? false: true;
-    // this.inputValue = String(this.inputValue || '').toUpperCase();
+    this.inputValue = String($event.target.value || '').toUpperCase();
   }
 
   onBlurMethod(event) {

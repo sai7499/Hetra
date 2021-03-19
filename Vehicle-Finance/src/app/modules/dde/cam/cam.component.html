@@ -1,7 +1,7 @@
 <div class="content">
     <div style="text-align: center;">
-        <a><button class="btn btn-primary btn-div " *ngIf="isCamDetails && !isLoan360 && !disableSaveBtn" (click)="showCamDetails()"
-                type="button">{{labels?.generateCam}}</button></a>
+        <a><button class="btn btn-primary btn-div " *ngIf="isCamDetails && !isLoan360 && !disableSaveBtn"
+                (click)="showCamDetails()" type="button">{{labels?.generateCam}}</button></a>
     </div>
     <form class="multisteps-form__form" [formGroup]="camDetailsForm">
         <div [id]="pdfId" class="overflow-hidden" *ngIf="usedCarCam && !isCamDetails  && showCamHtml == true">
@@ -654,9 +654,15 @@ labels?.strengthsOrMitigates
                 <tbody>
 
                     <tr>
-                        <td rowspan="6"><textarea class="form-control form-control-sm textKey" 
-                            [maxlength]="labels?.validationData.remarks.maxLength" placeholder=""
-                                formControlName="concernsAndRisks"></textarea>
+                        <td rowspan="6">
+                            <app-custom-textarea formControlName="concernsAndRisks"
+                                [className]="'form-control form-control-sm textKey'" [placeholder]="'Concerns Or Risks'"
+                                [isRequired]="'Concerns Or Risks Required'" [isDirty]="submitted"
+                                [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm textKey"
+                                [maxlength]="labels?.validationData.remarks.maxLength" placeholder=""
+                                formControlName="concernsAndRisks"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && submitted == true"
                     class="invalid-feedback">
                     <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
@@ -674,8 +680,16 @@ labels?.strengthsOrMitigates
                                 </div>
                             </div> -->
                         </td>
-                        <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                                formControlName="strengthAndMitigates"></textarea>
+                        <td rowspan="6">
+                            <app-custom-textarea formControlName="strengthAndMitigates"
+                                [className]="'form-control form-control-sm textKey'"
+                                [placeholder]="'Strength And Mitigates'"
+                                [isRequired]="'Strength And Mitigates Required'" [isDirty]="submitted"
+                                [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm textKey" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="strengthAndMitigates"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
                     class="invalid-feedback">
                     <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
@@ -900,8 +914,16 @@ labels?.strengthsOrMitigates
                     </tr>
                     <tr>
                         <td colspan="2" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
-                        <td colspan="10"><textarea class="form-control form-control-sm" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                                formControlName="proposedVehicleRemarks"></textarea>
+                        <td colspan="10">
+                            <app-custom-textarea formControlName="proposedVehicleRemarks"
+                                [className]="'form-control form-control-sm textKey'"
+                                [placeholder]="'Proposed Vehicle Remarks'"
+                                [isRequired]="'Proposed Vehicle Remarks Required'" [isDirty]="submitted"
+                                [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="proposedVehicleRemarks"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('proposedVehicleRemarks').errors.required">
@@ -991,15 +1013,23 @@ labels?.strengthsOrMitigates
 
                     <tr>
                         <td colspan="1" class="bank_name">{{ labels?.anyOtherRemarks }}</td>
-                        <td colspan="7" class=""><textarea class="form-control form-control-sm" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                                formControlName="cibilSynopsisRemarks"></textarea>
+                        <td colspan="7" class="">
+                            <app-custom-textarea formControlName="cibilSynopsisRemarks"
+                                [className]="'form-control form-control-sm textKey'"
+                                [placeholder]="'Cibil Synopsis Remarks'"
+                                [isRequired]="'Cibil Synopsis Remarks Required'" [isDirty]="submitted"
+                                [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="cibilSynopsisRemarks"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
                                 cibile synopsis Remarks is required
                             </div>
                         </div>  -->
-                        <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').errors.required">
                                 cibilSynopsisRemarks is required.
                             </div> -->
                             <!-- <div *ngIf="camDetailsForm.get('cibilSynopsisRemarks').invalid && (camDetailsForm.get('cibilSynopsisRemarks').dirty || camDetailsForm.get('cibilSynopsisRemarks').touched)"
@@ -1177,15 +1207,22 @@ labels?.strengthsOrMitigates
 
                     <tr>
                         <td class="bank_name">{{ labels?.anyOtherRemarks }}</td>
-                        <td colspan="9"><textarea class="form-control form-control-sm" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                                formControlName="fleetRemarks"></textarea>
+                        <td colspan="9">
+                            <app-custom-textarea formControlName="fleetRemarks"
+                                [className]="'form-control form-control-sm textKey'" [placeholder]="'Fleet Remarks'"
+                                [isRequired]="'Fleet Remarks Required'" [isDirty]="submitted"
+                                [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="fleetRemarks"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
                                 Fleet Remarks is required
                             </div>
                         </div> -->
-                         <!-- <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('fleetRemarks').errors.required">
                                 fleetRemarks is required.
                             </div> -->
                             <!-- <div *ngIf="camDetailsForm.get('fleetRemarks').invalid && (camDetailsForm.get('fleetRemarks').dirty || camDetailsForm.get('fleetRemarks').touched)"
@@ -1292,15 +1329,23 @@ labels?.strengthsOrMitigates
                         <td>
                             {{ labels?.anyOtherRemarks }}
                         </td>
-                        <td colspan="11"><textarea class="form-control form-control-sm" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                                formControlName="trackValidationRemarks"></textarea>
+                        <td colspan="11">
+                            <app-custom-textarea formControlName="trackValidationRemarks"
+                                [className]="'form-control form-control-sm textKey'"
+                                [placeholder]="'Track Validation Remarks'"
+                                [isRequired]="'Track Validation Remarks Required'" [isDirty]="submitted"
+                                [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="trackValidationRemarks"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
                                 Track validation Remarks is required
                             </div>
                         </div> -->
-                        <!-- <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('trackValidationRemarks').errors.required">
                                 trackValidationRemarks is required.
                             </div> -->
                             <!-- <div *ngIf="camDetailsForm.get('trackValidationRemarks').invalid && (camDetailsForm.get('trackValidationRemarks').dirty || camDetailsForm.get('trackValidationRemarks').touched)"
@@ -1461,15 +1506,23 @@ labels?.strengthsOrMitigates
                 <tbody>
 
                     <tr>
-                        <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                                formControlName="concernsAndRisks"></textarea>
+                        <td rowspan="6">
+                            <app-custom-textarea formControlName="concernsAndRisks"
+                                [className]="'form-control form-control-sm textKey'"
+                                [placeholder]="'Concerns And Risks'" [isRequired]="'Concerns And Risks Required'"
+                                [isDirty]="submitted" [maxLength]="label.validationData?.textarea.maxLength"
+                                [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm textKey" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="concernsAndRisks"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                                 Concern and risks Remarks is required
                             </div>
                         </div> -->
-                        <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').errors.required">
                                 Concerns or Risks is required.
                             </div> -->
                             <!-- <div *ngIf="camDetailsForm.get('concernsAndRisks').invalid && (camDetailsForm.get('concernsAndRisks').dirty || camDetailsForm.get('concernsAndRisks').touched)"
@@ -1484,15 +1537,23 @@ labels?.strengthsOrMitigates
                                 </div>
                             </div> -->
                         </td>
-                        <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                                formControlName="strengthAndMitigates"></textarea>
+                        <td rowspan="6">
+                            <app-custom-textarea formControlName="strengthAndMitigates"
+                                [className]="'form-control form-control-sm textKey'"
+                                [placeholder]="'Strength And Mitigates'" [isRequired]="'Concerns And Risks Required'"
+                                [isDirty]="submitted" [maxLength]="label.validationData?.textarea.maxLength"
+                                [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm textKey" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="strengthAndMitigates"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
                                 Strength And Mitigates Remarks is required
                             </div>
                         </div> -->
-                        <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').errors.required">
                                 Strengths or Mitigates is required.
                             </div> -->
                             <!-- <div *ngIf="camDetailsForm.get('strengthAndMitigates').invalid && (camDetailsForm.get('strengthAndMitigates').dirty || camDetailsForm.get('strengthAndMitigates').touched)"
@@ -1532,15 +1593,23 @@ labels?.strengthsOrMitigates
                         <td class="bank_name">{{ labels?.turnOver }}</td>
 
                         <td *ngFor="let keyFinancial of keyFinancial">{{keyFinancial?.turnOver}}</td>
-                        <td rowspan="6"><textarea class="form-control form-control-sm textKey" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                                formControlName="keyFinancialRemarks"></textarea>
+                        <td rowspan="6">
+                            <app-custom-textarea formControlName="keyFinancialRemarks"
+                                [className]="'form-control form-control-sm textKey'"
+                                [placeholder]="'KeyFinancial Remarks'" [isRequired]="'KeyFinancial Remarks Required'"
+                                [isDirty]="submitted" [maxLength]="label.validationData?.textarea.maxLength"
+                                [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm textKey" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="keyFinancialRemarks"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
                                 Key Financial Remarks is required
                             </div>
                         </div> -->
-                        <!-- <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
+                            <!-- <div *ngIf="camDetailsForm.get('keyFinancialRemarks').errors.required">
                                 keyFinancialRemarks is required.
                             </div> -->
                             <!-- <div *ngIf="camDetailsForm.get('keyFinancialRemarks').invalid && (camDetailsForm.get('keyFinancialRemarks').dirty || camDetailsForm.get('keyFinancialRemarks').touched)"
@@ -2258,7 +2327,15 @@ labels?.strengthsOrMitigates
                     </tr>
                     <tr>
                         <td class="bank_name">{{ labels?.commentsOnRtrIfAny }}</td>
-                        <td colspan="9"><textarea class="form-control form-control-sm" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"  formControlName="commentsOnRtr"></textarea>
+                        <td colspan="9">
+                            <app-custom-textarea formControlName="commentsOnRtr"
+                                [className]="'form-control form-control-sm textKey'" [placeholder]="'Comments On Rtr'"
+                                [isRequired]="'Comments On Rtr Required'" [isDirty]="submitted"
+                                [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control form-control-sm" placeholder=""
+                                [maxlength]="labels?.validationData.remarks.maxLength"
+                                formControlName="commentsOnRtr"></textarea> -->
                             <!-- <div *ngIf="camDetailsForm.get('commentsOnRtr').invalid && submitted == true"
                             class="invalid-feedback">
                             <div *ngIf="camDetailsForm.get('commentsOnRtr').errors.required">
@@ -2420,8 +2497,16 @@ labels?.strengthsOrMitigates
                 </tr>
                 <tr>
                     <td colspan="2" class="bank_name">{{ labels?.commentsOnBankingIfAny }}</td>
-                    <td colspan="10"><textarea class="form-control form-control-sm" placeholder="" [maxlength]="labels?.validationData.remarks.maxLength"
-                            formControlName="commentsOnBankingIfAny"></textarea>
+                    <td colspan="10">
+                        <app-custom-textarea formControlName="commentsOnBankingIfAny"
+                            [className]="'form-control form-control-sm textKey'"
+                            [placeholder]="'Comments On Banking If Any'"
+                            [isRequired]="'Comments On Banking If Any Required'" [isDirty]="submitted"
+                            [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                        </app-custom-textarea>
+                        <!-- <textarea class="form-control form-control-sm" placeholder=""
+                            [maxlength]="labels?.validationData.remarks.maxLength"
+                            formControlName="commentsOnBankingIfAny"></textarea> -->
                         <!-- <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').invalid && submitted == true"
                         class="invalid-feedback">
                         <div *ngIf="camDetailsForm.get('commentsOnBankingIfAny').errors.required">
@@ -2963,8 +3048,8 @@ labels?.strengthsOrMitigates
                             class="btn btn-primary dash_href" type="button">
                             {{ labels?.sendBackToSales }}
                         </button>
-                        <button *ngIf="!isCamDetails && isShowDownloadDoc" (click)="downloadpdf()" class="btn btn-primary dash_href"
-                            type="button">
+                        <button *ngIf="!isCamDetails && isShowDownloadDoc" (click)="downloadpdf()"
+                            class="btn btn-primary dash_href" type="button">
                             {{ 'Download' }}
                         </button>
                     </ng-container>
