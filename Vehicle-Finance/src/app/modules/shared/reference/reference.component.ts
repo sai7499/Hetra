@@ -294,9 +294,9 @@ export class ReferenceComponent implements OnInit {
     }
   }
 
-  inputPincode(event) {
+  inputPincode(event, type : string) {
     const value = event.target.value;
-    const id = event.target.id;
+    const id = type;
     if (value.length === 6) {
       const ref = (id === 'refOnePincode_id') ? this.refOnePincodeDummy : this.refTwoPincodeDummy;
       if (ref !== value) {
