@@ -265,8 +265,11 @@ export class VehicleValuationComponent implements OnInit {
       this.userDetails = this.getBranchDetails.filter(e => {
         let myVal = val.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
-        if (eName.includes(myVal)) {
+        const eValue = e.key.toString().toLowerCase();
+        if (eName.includes(myVal) || eValue.includes(myVal)) {
           e.Name = e.value + ' - ' + e.key;
+          console.log('onSearch', e);
+          
           return e;
         }
       });
