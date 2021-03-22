@@ -379,13 +379,12 @@ export class ReferenceDetailsComponent implements OnInit {
     });
   }
 
-  getPincode(val) {
-    const id = val.id;
+  getPincode(val, inputId) {
     const pincodeValue = val.value;
     this.isValidPincode = false;
     if (pincodeValue.length === 6) {
       const pincodeNumber = Number(pincodeValue);
-      this.getPincodeResult(pincodeNumber, id);
+      this.getPincodeResult(pincodeNumber, inputId);
     }
   }
 
