@@ -1,4 +1,4 @@
-<form class="form multisteps-form__form" style="height: auto" [formGroup]="pdcForm">
+<form class="form multisteps-form__form" style="height: auto" [formGroup]="pdcForm" *ngIf="labels">
     <div class="container overflow-hidden">
 
         <div class="content">
@@ -389,7 +389,7 @@
                     </div>
                 </div>
 
-                <ng-container *ngIf="isDashboardField">
+                <ng-container *ngIf="isDeferral">
                     <div style="border: 1px solid #ddd; border-radius: 4px;">
                         <div class="row clearfix">
 
@@ -398,8 +398,9 @@
                                     <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">POD
                                         Number</label>
                                     <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
-                                        <app-custom-input [type]="'alpha-numeric'"
-                                            [placeholder]="'Proof Of Delivery Number'">
+                                        <app-custom-input [type]="'alpha-numeric'" formControlName="podNo"
+                                            [placeholder]="'Proof Of Delivery Number'"
+                                            [isRequired]="'Proof Of Delivery Number Required'" [isDirty]="isDirty">
                                         </app-custom-input>
                                     </div>
                                 </div>
@@ -410,8 +411,35 @@
                                     <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
                                         By</label>
                                     <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
-                                        <app-custom-input [type]="'text'" [placeholder]="'User List'">
-                                        </app-custom-input>
+
+                                        <div class="ng-autopopulate" style="width: 100%;">
+
+                                            <ng-autocomplete class="custom-select-box" [data]="searchUserNameList"
+                                                [searchKeyword]="'user'" (selected)='selectUserNameEvent($event)'
+                                                (inputChanged)='getUsersFilter($event)'
+                                                (inputCleared)='onUserNameClear($event)'
+                                                [itemTemplate]="favUserTemplate" [notFoundTemplate]="notFoundTemplate"
+                                                formControlName="receivedBy" [placeHolder]="'Received By'"
+                                                [debounceTime]="600" [minQueryLength]="3">
+                                            </ng-autocomplete>
+
+                                            <div class="invalid-feedback">
+                                                <div *ngIf="pdcForm.get('receivedBy').hasError('required') && isDirty">
+                                                    User Name
+                                                    required.</div>
+                                                <div *ngIf="pdcForm.get('receivedBy').hasError('minlength')"> Mininum 3
+                                                    Charates
+                                                    required</div>
+                                                <div *ngIf="pdcForm.get('receivedBy').value && isValiduserName"> Enter
+                                                    valid received by</div>
+                                            </div>
+                                            <ng-template #favUserTemplate let-item>
+                                                <a [innerHTML]="item.user"></a>
+                                            </ng-template>
+                                            <ng-template #notFoundTemplate let-notFound>
+                                                <div [innerHTML]="notFound"></div>
+                                            </ng-template>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -420,22 +448,68 @@
                                 <div class="form-group">
                                     <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received
                                         On</label>
+
                                     <div class="form-group col-sm-6 col-lg-6 col-md-6 col-xs-12">
                                         <kendo-datepicker class="form-control mandatory" [format]="'dd/MM/yyyy HH:mm'"
-                                            [activeView]="'decade'" [disabled]="true" [value]="currentDate">
+                                            [activeView]="'decade'" [disabled]="true" formControlName="receivedOn">
                                         </kendo-datepicker>
                                     </div>
-                                    <label><i aria-hidden="true"
-                                            class="fa fa-upload fa-3 custom-file-label cursor-pointer"
-                                            id="add_more_documents_upload1a" (click)="uploadDoc()"></i></label>
+
+
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group col-sm-6 col-md-4 col-lg-3 mt">
-                        <input class="ml" type="checkbox" (click)="isChecked = !isChecked" />
-                        <label for="frsd_required" style="margin-left: 10px;">Received Cheques </label>
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12 cus-ml" *ngIf="isCpcCheque">
+                                <div class="form-group">
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12"
+                                        for="cod">Received
+                                        Cheques</label>
+                                    <div class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12">
+                                        <input class="ml" type="checkbox" formControlName="isChequeReceived" />
+
+                                        <div class="invalid-feedback"
+                                            *ngIf="pdcForm.get('isChequeReceived').hasError('required') || pdcForm.get('isChequeReceived').errors">
+                                            Received Cheque Required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12 cus-class">
+                                <div class="form-group">
+
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">
+                                        <i aria-hidden="true"
+                                            class="fa fa-upload fa-3 custom-file-label cursor-pointer"
+                                            id="add_more_documents_upload1a" (click)="uploadDoc()"></i>
+                                    </label>
+
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod"
+                                        *ngIf="documentId">
+                                        <i aria-hidden="true"
+                                            class="fa fa-eye fa-3 custom-file-label cursor-pointer"
+                                            id="add_more_documents_upload1a"
+                                            (click)="uploadDoc()"></i>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <div class="row clearfix" *ngIf="isCpcCheque">
+                            <div class="form-group col-lg-4 col-sm-4 col-md-4 col-xs-12 cus-ml">
+                                <div class="form-group">
+                                    <label class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12" for="cod">Received Cheques</label>
+                                    <div class="form-group col-sm-4 col-lg-4 col-md-4 col-xs-12">
+                                        <input class="ml" type="checkbox" formControlName="isChequeReceived" />
+
+                                        <div class="invalid-feedback" *ngIf="pdcForm.get('isChequeReceived').hasError('required') || pdcForm.get('isChequeReceived').errors">
+                                            Received Cheque Required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
                     </div>
                 </ng-container>
 
@@ -445,7 +519,6 @@
                 <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId"
                     [udfGroupId]="udfGroupId" [udfDetails]="udfDetails"
                     (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-
             </div>
 
             <div class="row">
@@ -458,8 +531,9 @@
                         (click)="onBack()"><a>Back</a></button>
                     <button class="btn btn-primary dash_href marginAdd" (click)="onSave('save')"> Save </button>
 
-                    <button class="btn btn-primary dash_href marginAdd" *ngIf="isDashboardField"> {{isChecked ?
-                        'Acknowledge' : 'submit'}} </button>
+                    <button class="btn btn-primary dash_href marginAdd" *ngIf="isDeferral"
+                        (click)="onSave('isDeferral')"> {{ isCpcCheque ?
+                        'Acknowledge' : 'Submit'}} </button>
 
                     <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a
                             data-toggle="modal" data-target="#myModal">Submit to CPC Checker</a></button>
@@ -468,7 +542,7 @@
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
 
                     <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"
-                        *ngIf="roleType == '5'"><a>Next</a></button>
+                        *ngIf="roleType == '5' && !isCpcCheque"><a>Next</a></button>
                 </div>
 
             </div>

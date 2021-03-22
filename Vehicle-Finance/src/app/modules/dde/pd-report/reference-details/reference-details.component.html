@@ -124,7 +124,7 @@
         </label>
         <app-custom-input [id]="'refererPincode'" formControlName="refererPincode"
           [className]="'form-control mandatory'" [placeholder]="'Pincode'" [isRequired]="'Pincode is required'"
-          (keyup)="getPincode($event.target)" [type]="labels?.validationData?.pincode?.type"
+          (keyup)="getPincode($event.target, 'refererPincode')" [type]="labels?.validationData?.pincode?.type"
           [maxLength]="labels?.validationData?.pincode?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
         <div class="invalid-feedback" *ngIf="isValidPincode">
@@ -281,7 +281,7 @@
           <sub class="star_red_col">*</sub>
         </label>
         <app-custom-input [id]="'referencePincode'" formControlName="referencePincode"
-          [className]="'form-control mandatory'" [placeholder]="'Pincode'" (keyup)="getPincode($event.target)"
+          [className]="'form-control mandatory'" [placeholder]="'Pincode'" (keyup)="getPincode($event.target, 'referencePincode')"
           [isRequired]="'Pincode is required'" [type]="labels?.validationData?.pincode?.type"
           [maxLength]="labels?.validationData?.pincode?.maxLength" [isDirty]="isDirty">
         </app-custom-input>
