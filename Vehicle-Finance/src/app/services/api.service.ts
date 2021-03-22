@@ -856,6 +856,21 @@ export class ApiService {
       workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
       projectId: environment.projectIds.salesProjectId
     },
+    getUsersFilter: {
+      processId: '874cf3ba87a911eb946000505695f93b',
+      workflowId: 'cf14db1cdd4111eaba8c00505695f93b',
+      projectId: environment.projectIds.salesProjectId
+    },
+    submitDeferral: {
+      processId: '06618834864a11eb965500505695f93b',
+      workflowId: '2a5fdc9c858a11eb82d000505695f93b',
+      projectId: environment.projectIds.taskProjectId
+    },
+    acknowledgeDeferral: {
+      processId: 'db73b676861511eb96a600505695f93b',
+      workflowId: 'db427d72861511eb8b4400505695f93b',
+      projectId: environment.projectIds.taskProjectId
+    },
     loanCreationWrapper: {
       processId: 'bafeada0e13911eabda900505695f93b',
       workflowId: 'd53d6b40d92b11eaaf9700505695f93b',

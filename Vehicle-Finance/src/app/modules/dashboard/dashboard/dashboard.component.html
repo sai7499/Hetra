@@ -986,7 +986,7 @@
 
                                 <a *ngIf="displayTabs?.PDD === activeTab || (displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch !== subActiveTab)" class="text-underline"
                                     style="cursor: pointer;"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); getLoanNumber(item.loanNumber)">{{item.loanNumber ? item.loanNumber : '--'}}</a>
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); assignTaskId(item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber ? item.loanNumber : '--'}}</a>
 
                                 <a *ngIf="(displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.loanNumber
                                     ? item.loanNumber : '--'}}</a>
@@ -994,7 +994,7 @@
                             <td [ngClass]="[item.loanNumber ? 'text-underline' : 'disabled']" *ngIf="(displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithMe === subActiveTab)"
                                 [attr.data-label]="labels?.loanNumber"><a
                                     style="cursor: pointer;"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); getLoanNumber(item.loanNumber)">{{item.loanNumber ? item.loanNumber : '--'}}</a>
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); assignTaskId(item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber ? item.loanNumber : '--'}}</a>
                             </td>
                             <!-- <td *ngIf="displayTabs?.PDDforCPC === activeTab" [attr.data-label]="labels?.loanNumber"
                 class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)"><a
