@@ -408,7 +408,7 @@
                     </li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.ApprovalDashboard)"
                 [ngClass]="{'active':displayTabs?.ApprovalDashboard === activeTab}" routerLinkActive="active"><a
-                    data-toggle="tab">Defferal Approval</a></li>
+                    data-toggle="tab">Deferral Approval</a></li>
         </ul>
     </div>
 
@@ -1100,24 +1100,38 @@
                     </tbody>
                 </table>
 
-
 <!-- Approval Dashboard Starts -->
                 <table *ngIf="displayTabs?.ApprovalDashboard === activeTab">
                     <thead>
                         <tr class="table-head-bg">
-                            <th>{{labels?.leadID}}&nbsp;
+                            <th>{{labels?.leadID}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
+                                (click)="onSort(sortTables?.ByLeadId)"> </i> 
                             </th>
-                            <th>{{labels?.applicantName}}&nbsp;
+                            <th>{{labels?.applicantName}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                [ngClass]="{'active':sortTables?.ByName === sortTab}"
+                                (click)="onSort(sortTables?.ByName)"> </i>
                             </th>
-                            <th>Deferral Type&nbsp;
+                            <th>
+                                Deferral Type&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                [ngClass]="{'active':sortTables?.ByDefType === sortTab}"
+                                (click)="onSort(sortTables?.ByDefType)"> </i> 
                             </th>
-                            <th>Deferral Document Name&nbsp;
+                            <th>Deferral Document Name&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                [ngClass]="{'active':sortTables?.ByDefDocName === sortTab}"
+                                (click)="onSort(sortTables?.ByDefDocName)"> </i> 
                             </th>
-                            <th>Deferral Date
+                            <th>Deferral Date&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                [ngClass]="{'active':sortTables?.ByDefDate === sortTab}"
+                                (click)="onSort(sortTables?.ByDefDate)"> </i> 
                             </th>
-                            <th>Requested On
+                            <th>Requested On&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                [ngClass]="{'active':sortTables?.ByReqOn === sortTab}"
+                                (click)="onSort(sortTables?.ByReqOn)"> </i> 
                             </th>
-                            <th>Requested By
+                            <th>Requested By&nbsp;<i style="cursor: pointer" class="fa fa-sort"
+                                [ngClass]="{'active':sortTables?.ByReqBy === sortTab}"
+                                (click)="onSort(sortTables?.ByReqBy)"> </i> 
                             </th>
                             <th>{{labels?.action}}
                             </th>
@@ -1125,10 +1139,10 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
-                            <td>{{item.leadId}}</td>
-                            <td>{{item.applicantName}}</td>
-                            <td>{{item.deferralType}}</td>  
-                            <td *ngIf="item.deferralType == 'Document Deferral'">{{item.defDocName}}</td>
+                            <td>{{item.leadId ? item.leadId : '--'}}</td>
+                            <td>{{item.applicantName ? item.applicantName : '--'}}</td>
+                            <td>{{item.deferralType ? item.deferralType : '--'}}</td>  
+                            <td *ngIf="item.deferralType == 'Document Deferral'">{{item.defDocName ? item.defDocName : '--'}}</td>
                             <td *ngIf="item.deferralType == 'PDC/SPDC'">
                                 No of PDC Required {{'  :' +item.pdcNum}}<br>
                                 No of PDC Collected {{':' + item.pdcCollected}}<br>
