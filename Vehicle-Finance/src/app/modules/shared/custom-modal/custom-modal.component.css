@@ -2,4 +2,21 @@
     font-size: 13px!important;
     color: #fff!important;
     background-color:#f3682d;
+    padding: 8px 8px;
+}
+.heading{
+    font-size: 16px !important;
+}
+
+/* .modal-body p{
+    margin: 5px 0px 5px;
+} */
+
+.modal-header button{
+    opacity: .9 !important;
+    margin-top: 1px !important;
+}
+
+.alignCenter {
+    text-align: center !important;
 }

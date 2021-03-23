@@ -73,6 +73,8 @@ export class PSLdataComponent implements OnInit {
   isChildLoan: any;
   productId: any;
   applicantDetails: any = [];
+  isUrMandatory: boolean;
+  isAgriMand: boolean;
 
   constructor(private formBuilder: FormBuilder,
     private labelsData: LabelsService,
@@ -168,7 +170,7 @@ export class PSLdataComponent implements OnInit {
     this.pslDataForm = this.formBuilder.group({
       activity: ['', Validators.required],
 
-      agriculture: this.formBuilder.group({
+      agriculture: this.formBuilder.group({              //If activity === Agriculture
         activity: [''],
         detailActivity: ['', Validators.required],
         purposeOfLoan: ['', Validators.required],
@@ -187,7 +189,7 @@ export class PSLdataComponent implements OnInit {
         weakerSection: [''],
       }),
 
-      nonAgriculture: this.formBuilder.group({
+      nonAgriculture: this.formBuilder.group({          //If activity === expansion of business && Work capital needs
         activity: [''],
         detailActivity: ['', Validators.required],
         goodsManufactured: [''],
@@ -205,7 +207,7 @@ export class PSLdataComponent implements OnInit {
         uCertificateId: [''],
       }),
 
-      otherOption: this.formBuilder.group({
+      otherOption: this.formBuilder.group({             //If activity === others
         propertyType: [''],
         activity: [''],
         detailActivity: [''],
@@ -256,6 +258,7 @@ export class PSLdataComponent implements OnInit {
     });
   }
   onActivityChange(event) {
+    this.isDirty = false;
     const changeEvent = event;
     console.log('activity event', changeEvent);
     this.activityChange = changeEvent;
@@ -296,16 +299,15 @@ export class PSLdataComponent implements OnInit {
     this.detailActivityValues = [];
     this.detailActivityChangeValues = [];
     if (activity !== '7PSLACTVTY') {
+
       this.pslDependentLOVSData.map((element) => {
         if (element.activityId === activity) {
-          // console.log("RELATED_DETAILACTIVITY_NAME----", element.dltActivityName);
           const data = {
             key: element.dltActivityId,
             value: element.dltActivityName,
           };
           this.detailActivityValues.push(data);
         }
-        // console.log("DETAIL_ACTIVITY_VALUES---", this.detailActivityValues);
       });
       // To filter unique value from Array
       let detailActivityObject = {};
@@ -316,22 +318,19 @@ export class PSLdataComponent implements OnInit {
           detailActivityData.push(element);
         }
       });
-      // console.log("DETAILACTIVITY_DATA", detailActivityData);
       this.detailActivityChangeValues = detailActivityData;
       this.pslDataForm.controls.nonAgriculture.enable();
       this.pslDataForm.controls.nonAgriculture.patchValue({
-        loanAmount: this.loanAmount
+        loanAmount: this.loanAmount,
+        typeOfService : '',
+        detailActivity : ''
       });
       this.pslDataForm.controls.nonAgriculture.controls.loanAmount.disable();
-      // this.applyMandatoryToActivity(activity);
     } else if (activity === '7PSLACTVTY') {
       this.onChangeDetailActivity(null);
       const resetControl = this.pslDataForm.get('nonAgriculture') as FormGroup;
       resetControl.controls.loanAmount.reset();
       const control = this.pslDataForm.get('nonAgriculture').controls as FormGroup;
-      console.log('controls in non-agriculture', control);
-      // control['detailActivity'].disable();
-      // tslint:disable-next-line: forin
       for (const key in control) {
         console.log('key in controls', key);
         if (key !== 'activity' && key !== 'purposeOfLoan' && key !== 'pslCategory' && key !== 'pslSubCategory') {
@@ -345,6 +344,7 @@ export class PSLdataComponent implements OnInit {
     }
   }
   onChangeDetailActivity(event2) {
+    console.log('event2', event2)
     if (event2 != null) {
 
       let detailActivityChange = event2;
@@ -759,6 +759,8 @@ export class PSLdataComponent implements OnInit {
   }
 
   getLovForDetailActivity(event) {
+
+    this.isDirty =  false;
     this.detailActivityChange = event;
     // CLEAR_PREVIOUS_VALUES_OF_FORMCONTROLS_IF_DETAIL-ACTIVITY_CHANGES
     this.pslDataForm.get('agriculture').patchValue({
@@ -1340,16 +1342,25 @@ export class PSLdataComponent implements OnInit {
   }
 
   applyMandatoryToActivity(event: any) {
+    const control = this.pslDataForm.get('nonAgriculture') as FormGroup;
+    //this.applyMandForAgriculture(event)
     if (event === '5PSLACTVTY' || event === '6PSLACTVTY') {
-      const control = this.pslDataForm.get('nonAgriculture') as FormGroup;
-      //  control.clearValidators();
-      //  control.updateValueAndValidity();
+     
       control.get('uRecessionNo').setValidators(Validators.required);
       control.get('uRecessionNo').updateValueAndValidity();
       control.get('uRegisteredMobileNo').setValidators(Validators.required);
       control.get('uRegisteredMobileNo').updateValueAndValidity();
       control.get('uRegisteredEmailId').setValidators(Validators.required);
       control.get('uRegisteredEmailId').updateValueAndValidity();
+      this.isUrMandatory = true;
+    }else{
+      control.get('uRecessionNo').clearValidators();
+      control.get('uRecessionNo').updateValueAndValidity();
+      control.get('uRegisteredMobileNo').clearValidators();
+      control.get('uRegisteredMobileNo').updateValueAndValidity();
+      control.get('uRegisteredEmailId').clearValidators();
+      control.get('uRegisteredEmailId').updateValueAndValidity();
+      this.isUrMandatory = false;
     }
   }
   get f() {
