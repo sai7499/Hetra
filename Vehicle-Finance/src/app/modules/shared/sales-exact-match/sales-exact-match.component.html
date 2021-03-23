@@ -285,9 +285,10 @@
       </div>
     </form>
 
-    <div>
+    <div  *ngIf="!isDisableMobMatch || !isDisableAdharMatch">
       <h3 class="banner-sub">Mismatch in existing customer details</h3>
-      <div class="row col-sm-12 col-md-12 col-lg-12 mismatch">
+      <ng-container *ngIf="!isDisableMobMatch">
+      <div class="row col-sm-12 col-md-12 col-lg-12 mismatch" >
         <div class="col-sm-6 col-md-5 col-lg-8">
          <b> Given mobile number is not matching with the number available in bank records, do you want to update with new mobile number?</b>
          </div>
@@ -305,7 +306,8 @@
          </div>
         
       </div>
-      <div class="row col-sm-12 col-md-12 col-lg-8 mismatch">
+      <div class="row col-sm-12 col-md-12 col-lg-8 mismatch" 
+      >
         <div class="col-sm-6 col-md-6 col-lg-6">
           <div class="col-sm-6 col-md-6 col-lg-6">
             Mobile number as per records
@@ -333,7 +335,8 @@
             
          </div>
       </div>
-
+    </ng-container>
+    <ng-container *ngIf="!isDisableAdharMatch" >
       <div class="row col-sm-12 col-md-12 col-lg-12 mismatch">
         <div class="col-sm-6 col-md-6 col-lg-8">
          <b>Aadhaar number is not updated in bank records, do you want to update with the given Aadhaar number?</b> 
@@ -351,6 +354,7 @@
           <span class="row ShowError" *ngIf="isDirty && !isDisableAdharMatch&& !isCheckAdhar">Please choose</span>
          </div>
       </div>
+    </ng-container>
       
     </div>
     
