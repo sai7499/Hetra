@@ -9,7 +9,7 @@ import { contains } from 'jquery';
 export class CustomModalComponent implements OnInit {
   isModalOpen: boolean;
   modal: any;
-  modalButtons: boolean;
+  modalButtons: any;
   @Input() set showModal(value : boolean){
       this.isModalOpen = value;
   }
