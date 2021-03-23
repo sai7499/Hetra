@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
@@ -127,6 +127,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
   isPreDisEnable: any = {};
   isReqApprove: any = {};
 
+  modalForm: FormGroup;
+  @ViewChild('closebutton', { static: true }) closebutton;
+
   constructor(
     private lovData: LovDataService,
     private router: Router,
@@ -168,6 +171,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
     this.lovData.getLovData().subscribe((res: any) => {
       this.values = res[0].applicantDocument[0];
     });
+
+    this.modalForm = new FormGroup({
+      deferralRemarks: new FormControl('', Validators.required),
+      selectedObj: new FormControl(''),
+      index: new FormControl('')
+    })
 
     const url = this.location.path();
     this.isApplicantDetails = url.includes('sales-applicant-details') ? true : false
@@ -316,6 +325,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           }
           return;
         }
+
         docDetails.forEach((docs, index) => {
           const formArray = this.uploadForm.get(
             `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
@@ -323,12 +333,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
           this.documentRoleArray[index] = [];
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
+            this.toggleDeferralDate(docs.subCategoryCode, index)
+
             this.documentRoleArray[index] = [{
               key: docs['documentRoleId'],
               value: docs['documentRoleName']
             }]
-            this.toggleDeferralDate(docs.subCategoryCode, index)
-
             // if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
             //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
             //      this.DEFAULT_PROFILE_IMAGE =
@@ -347,6 +357,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
         this.setUploadDocsValue(docDetails);
 
+        this.documentArr.forEach((value) => {
+          if (value.documentType) {
+            this.subcategotyDocsId[value.subCategoryCode] = true;
+          }
+        });
+
         let PdcDetailsData = this.sharedService.getIsPdcData();
 
         if (PdcDetailsData) {
@@ -356,12 +372,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
           formArray.push(this.getDocsFormControls());
           formArray['controls'][formArray.length - 1].get('documentName').setValue(PdcDetailsData.code)
         }
-
-        this.documentArr.forEach((value) => {
-          if (value.documentType) {
-            this.subcategotyDocsId[value.subCategoryCode] = true;
-          }
-        });
 
         this.subCategories.forEach((subCategory) => {
           const formArray = this.uploadForm.get(
@@ -375,6 +385,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           this.uploadForm.disable();
         }
       });
+
   }
 
   setUploadDocsValue(docDetails: DocumentDetails[]) {
@@ -410,26 +421,31 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const formArray = this.uploadForm.get(
       `${this.FORM_ARRAY_NAME}_${categoryCode}`
     ) as FormArray;
-    const formGroup = formArray.at(index);
-    console.log('checked value', formGroup.get('isDeferred').value);
-    const isChecked = formGroup.get('isDeferred').value;
-    if (isChecked) {
-      formGroup.get('deferredDate').enable();
-      this.docNumberError = false;
-      if (localStorage.getItem('isPreDisbursement') === 'true') {
-        this.isPreDisEnable[index] = true;
-        formGroup.get('receivedBy').setValidators(Validators.required);
-        formGroup.get('receivedBy').updateValueAndValidity();
+
+    if (formArray.at(index)) {
+      const formGroup = formArray.at(index);
+      const isChecked = formGroup.get('isDeferred').value;
+
+      if (isChecked) {
+        formGroup.get('deferredDate').enable();
+        this.docNumberError = false;
+        if (localStorage.getItem('is_pred_done') === 'true' && formGroup.get('documentId').value) {
+          this.isPreDisEnable[index] = true;
+          this.onChangeRoleId(formArray, index)
+          formGroup.get('receivedBy').setValidators(Validators.required);
+          formGroup.get('receivedBy').updateValueAndValidity();
+        } else {
+          this.isPreDisEnable[index] = false;
+          formGroup.get('receivedBy').clearAsyncValidators();
+          formGroup.get('receivedBy').updateValueAndValidity();
+        }
       } else {
-        this.isPreDisEnable[index] = false;
-        formGroup.get('receivedBy').clearAsyncValidators();
-        formGroup.get('receivedBy').updateValueAndValidity();
+        formGroup.get('deferredDate').disable();
+        formGroup.get('deferredDate').setValue(null);
+        this.docNumberError = true;
       }
-    } else {
-      formGroup.get('deferredDate').disable();
-      formGroup.get('deferredDate').setValue(null);
-      this.docNumberError = true;
     }
+
   }
 
   getDocsFormControls(data?: DocumentDetails) {
@@ -449,9 +465,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
       isDeferred: new FormControl(isDeferred),
       deferredDate: new FormControl(
         { value: this.utilityService.getDateFromString(document.deferredDate) || '', disabled: !isDeferred ? true : false }
-
       ),
       receivedBy: new FormControl(document['documentRoleId'] || ''),
+      requestedBy: new FormControl(document['requestedBy'] || localStorage.getItem('userId')),
       deferralStatus: new FormControl(document['deferralStatus'] || '0')
     });
     return controls;
@@ -537,6 +553,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       deferredDate: new FormControl({ value: '', disabled: true }),
       isDeferred: new FormControl(''),
       receivedBy: new FormControl(''),
+      requestedBy: new FormControl(localStorage.getItem('userId')),
       deferralStatus: new FormControl('0')
     });
     formArray.push(controls);
@@ -1026,7 +1043,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       .setValue('ID:' + event.docIndx);
   }
 
-  onSubmit() {
+  onSubmit(isRequested?) {
     if (this.uploadForm.invalid) {
       return this.toasterService.showError('Please fill mandatory fields', '');
     }
@@ -1082,12 +1099,15 @@ export class ApplicantDocsUploadComponent implements OnInit {
               formArrayIndex: index,
               associatedId: String(this.applicantId),
               associatedWith: String(this.associatedWith),
+              requestedBy: value.requestedBy || localStorage.getItem('userId'),
+              deferralRemarks : this.modalForm.get('deferralRemarks').value
             });
           }
         });
       }
     }
     this.documentArr = requestArr;
+
     // }
 
     // check defer past date
@@ -1114,7 +1134,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
     if (checkDeferralDate) {
       return this.toasterService.showError('Please enter deferral date', '');
     }
-
 
     if (this.documentArr.length === 0) {
       if (this.isProfileSignUploaded) {
@@ -1163,7 +1182,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.callAppiyoUploadApi();
     }
 
-    if (!isValueChange) {
+    if (!isValueChange && !isRequested) {
       if (this.isProfileSignUploaded) {
         this.isProfileSignUploaded = false;
         return this.toasterService.showSuccess('Documents saved successfully', '');
@@ -1171,7 +1190,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.toasterService.showWarning('No changes done to save', '');
 
     }
-    console.log('documentArr', this.documentArr);
     const docNotAvailable = this.documentArr.find((doc) => {
       return !doc.dmsDocumentId && doc.isDeferred !== '1';
     });
@@ -1191,9 +1209,12 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }
 
     this.callAppiyoUploadApi();
+    setTimeout(() => {
+      if (isRequested) {
+        this.onApproveRequest()
+      }
+    }, 1000)
   }
-
-
 
   callAppiyoUploadApi() {
     this.uploadService
@@ -1232,26 +1253,43 @@ export class ApplicantDocsUploadComponent implements OnInit {
   }
 
   onChangeRoleId(obj, index) {
-    console.log(obj, 'Obj')
     let controlValue = obj.controls[index]
-    if (controlValue.get('deferredDate').value && controlValue.get('receivedBy').value) {
+    if (controlValue.get('deferredDate').value && controlValue.get('receivedBy').value && controlValue.get('deferralStatus').value === '0') {
       this.isReqApprove[index] = true;
     } else {
       this.isReqApprove[index] = false;
     }
   }
 
-  onApproveRequest(obj, index) {
+  onPatchDeferralRemarks(obj, index) {
+    this.modalForm.patchValue({
+      index: index,
+      selectedObj: obj
+    })
+  }
+
+  onDeferralRemarks() {
+    if (this.modalForm.valid) {
+      this.onSubmit(true)
+    }
+  }
+
+  onApproveRequest() {
+    let index = this.modalForm.get('index').value;
+    let obj = this.modalForm.get('selectedObj').value;
+
     let data = {
       "deferralStatus": "1",
       "deferralStatusValue": "Requested",
       "deferredDate": this.utilityService.getDateFormat(obj.value[index].deferredDate),
       "documentId": obj.value[index].documentId,
       "documentRoleId": obj.value[index].receivedBy,
-      "isDeferred": obj.value[index].isDeferred ? "1" : "0"
+      "isDeferred": obj.value[index].isDeferred ? "1" : "0",
+      "deferralRemarks": this.modalForm.get('deferralRemarks').value
     }
 
     this.uploadService.requestForApproval(data, this.leadId).subscribe((res: any) => {
+      this.closebutton.nativeElement.click();
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.isReqApprove[index] = false;
         let documentDetails = res.ProcessVariables.documentDetail;
@@ -1260,6 +1298,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Request Approve Deferral')
       }
     })
-
   }
+
+
 }

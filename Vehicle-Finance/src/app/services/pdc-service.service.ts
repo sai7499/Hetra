@@ -10,65 +10,119 @@ import { environment } from 'src/environments/environment';
 export class PdcServiceService {
 
   constructor(private apiService: ApiService,
-              private httpService: HttpService, ) { }
+    private httpService: HttpService,) { }
 
-              savePdcDetails(data) {
-                const processData = data;
-                const processId = this.apiService.api.savePdcDetails.processId;
-                const workflowId = this.apiService.api.savePdcDetails.workflowId;
-                const projectId = this.apiService.api.savePdcDetails.projectId;
+  savePdcDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.savePdcDetails.processId;
+    const workflowId = this.apiService.api.savePdcDetails.workflowId;
+    const projectId = this.apiService.api.savePdcDetails.projectId;
 
-                const userId = localStorage.getItem('userId');
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
 
-                const requestEntity: RequestEntity = {
-                  processId,
-                  ProcessVariables: processData,
-                  workflowId,
-                  projectId
-                };
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 
-                // tslint:disable-next-line: max-line-length
-                const url =  environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-                return this.httpService.post(url, requestEntity);
-              }
+  getPdcDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.getPdcDetails.processId;
+    const workflowId = this.apiService.api.getPdcDetails.workflowId;
+    const projectId = this.apiService.api.getPdcDetails.projectId;
 
-              getPdcDetails(data) {
-                const processData = data;
-                const processId = this.apiService.api.getPdcDetails.processId;
-                const workflowId = this.apiService.api.getPdcDetails.workflowId;
-                const projectId = this.apiService.api.getPdcDetails.projectId;
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
 
-                const userId = localStorage.getItem('userId');
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 
-                const requestEntity: RequestEntity = {
-                  processId,
-                  ProcessVariables: processData,
-                  workflowId,
-                  projectId
-                };
+  deletePdcDetails(data) {
+    const processData = data;
+    const processId = this.apiService.api.deletePdcDetails.processId;
+    const workflowId = this.apiService.api.deletePdcDetails.workflowId;
+    const projectId = this.apiService.api.deletePdcDetails.projectId;
 
-                // tslint:disable-next-line: max-line-length
-                const url =  environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-                return this.httpService.post(url, requestEntity);
-              }
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: processData,
+      workflowId,
+      projectId
+    };
 
-              deletePdcDetails(data) {
-                const processData = data;
-                const processId = this.apiService.api.deletePdcDetails.processId;
-                const workflowId = this.apiService.api.deletePdcDetails.workflowId;
-                const projectId = this.apiService.api.deletePdcDetails.projectId;
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
 
-                const userId = localStorage.getItem('userId');
+  // 4. Get Users for receiving Cheque
 
-                const requestEntity: RequestEntity = {
-                  processId,
-                  ProcessVariables: processData,
-                  workflowId,
-                  projectId
-                };
+  getUsersFilter(data) {
+    const processId = this.apiService.api.getUsersFilter.processId;
+    const workflowId = this.apiService.api.getUsersFilter.workflowId;
+    const projectId = this.apiService.api.getUsersFilter.projectId;
 
-                // tslint:disable-next-line: max-line-length
-                const url =  environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
-                return this.httpService.post(url, requestEntity);
-              }
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+
+  // 5. Submit Defferral PDC/SPDC
+
+  submitDeferral(data) {
+    const processId = this.apiService.api.submitDeferral.processId;
+    const workflowId = this.apiService.api.submitDeferral.workflowId;
+    const projectId = this.apiService.api.submitDeferral.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+
+
+  // 6. Acknowledge Defferral PDC/SPDC
+
+  acknowledgeDeferral(data) {
+    const processId = this.apiService.api.acknowledgeDeferral.processId;
+    const workflowId = this.apiService.api.acknowledgeDeferral.workflowId;
+    const projectId = this.apiService.api.acknowledgeDeferral.projectId;
+
+    const requestEntity: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+
+    // tslint:disable-next-line: max-line-length
+    const url = environment.host + 'd/workflows/' + workflowId + '/' + environment.apiVersion.api + 'execute?projectId=' + projectId;
+    return this.httpService.post(url, requestEntity);
+  }
+
+
 }

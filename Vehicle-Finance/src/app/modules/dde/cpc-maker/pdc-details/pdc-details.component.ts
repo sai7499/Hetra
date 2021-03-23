@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LoginStoreService } from '@services/login-store.service';
 import { CpcRolesService } from '@services/cpc-roles.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -62,7 +62,13 @@ export class PdcDetailsComponent implements OnInit {
 
   currentDate: Date = new Date();
   isChecked: boolean = false;
-  isDashboardField: boolean;
+  isDashboardField: boolean = false;
+  @Input() isDeferral: boolean;
+  @Input() isCpcCheque: boolean;
+
+  searchUserNameList: any = [];
+  isValiduserName: boolean;
+  documentId: number;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -96,37 +102,52 @@ export class PdcDetailsComponent implements OnInit {
         this.utilityService.getDateFormat(this.toDayDate)
       );
     }
-    console.log(this.toDayDate, ' lead Data onit');
 
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleId = value.roleId;
       this.roleType = value.roleType;
-      console.log('role Type', this.roleType);
     });
+    console.log(this.roleId, 'roleType', this.roleType)
     this.pdcForm = this.fb.group({
       pdcList: this.pdcArray,
       spdcList: this.spdcArray,
     });
-    this.leadId = (await this.getLeadId()) as number;
-    this.labelsService.getLabelsData().subscribe((res: any) => {
-      this.labels = res;
-    });
 
-    this.getPdcDetails();
+    if (this.isDeferral) {
+      this.pdcForm.addControl('podNo', this.fb.control('', Validators.required));
+      this.pdcForm.addControl('receivedBy', this.fb.control('', Validators.compose([Validators.required, Validators.minLength(3)])));
+      this.pdcForm.addControl('receivedOn', this.fb.control(new Date()))
+      if (this.isCpcCheque) {
+        this.pdcForm.addControl('isChequeReceived', this.fb.control(false, Validators.required))
+      }
+    }
+
+    this.leadId = (await this.getLeadId()) as number;
+
+    if (!this.leadId) {
+      this.route.params.subscribe((value) => {
+        if (value && value.leadId) {
+          this.leadId = Number(value.leadId)
+        }
+      })
+    }
 
     this.lovService.getLovData().subscribe((res: any) => {
       this.lovData = res.LOVS;
+      this.getPdcDetails();
     });
 
     this.labelsService.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
-
       this.udfScreenId = this.roleType == '5' ? udfScreenId.CPCChecker.pdcDetailsCPCChecker : udfScreenId.CPCMaker.pdcDetailsCPCMaker;
-
     })
-    console.log(this.pdcForm, 'pdcData')
+
+    this.labelsService.getLabelsData().subscribe((res: any) => {
+      this.labels = res;
+    });
+
   }
   get f() {
     return this.pdcForm.controls;
@@ -141,7 +162,8 @@ export class PdcDetailsComponent implements OnInit {
       instrBranchName: [null, Validators.required],
       instrBranchAccountNumber: [null, Validators.required],
       instrAmount: [null, Validators.required],
-      isEnableBranch: false
+      isEnableBranch: false,
+      isDeferral: this.isDeferral
     });
   }
   private initSpdcRows() {
@@ -154,7 +176,8 @@ export class PdcDetailsComponent implements OnInit {
       instrBranchName: [null, Validators.required],
       instrBranchAccountNumber: [null, Validators.required],
       instrAmount: [null, Validators.required],
-      isEnableBranch: false
+      isEnableBranch: false,
+      isDeferral: this.isDeferral
     });
   }
   addPdcUnit(data?: any) {
@@ -205,6 +228,7 @@ export class PdcDetailsComponent implements OnInit {
   getLeadId() {
     return new Promise((resolve, reject) => {
       this.route.parent.params.subscribe((value) => {
+        console.log(value, 'Value')
         if (value && value.leadId) {
           resolve(Number(value.leadId));
         }
@@ -283,6 +307,7 @@ export class PdcDetailsComponent implements OnInit {
   }
 
   onSave(dataString: string) {
+
     for (let i = 0; i < this.pdcForm.controls.pdcList.length; i++) {
 
       // tslint:disable-next-line: prefer-const
@@ -290,7 +315,7 @@ export class PdcDetailsComponent implements OnInit {
       this.pdcForm.controls.pdcList.controls[i].value.instrDate = value
         ? this.utilityService.getDateFormat(value)
         : null;
-        this.pdcForm.controls.pdcList.controls[i].value.isCollected = true;
+      this.pdcForm.controls.pdcList.controls[i].value.isCollected = true;
 
     }
     for (let i = 0; i < this.pdcForm.controls.spdcList.length; i++) {
@@ -299,38 +324,55 @@ export class PdcDetailsComponent implements OnInit {
       this.pdcForm.controls.spdcList.controls[i].value.instrDate = datevalue
         ? this.utilityService.getDateFormat(datevalue)
         : null;
-        this.pdcForm.controls.spdcList.controls[i].value.isCollected = true;
+      this.pdcForm.controls.spdcList.controls[i].value.isCollected = true;
     }
+    //       ...this.pdcForm.value,
 
     const body = {
       leadId: this.leadId,
       userId: localStorage.getItem('userId'),
-      ...this.pdcForm.value,
+      isDeferral: this.isDeferral ? this.isDeferral : false,
+      pdcList: this.pdcForm.controls.pdcList.value,
+      spdcList: this.pdcForm.controls.spdcList.value,
       udfDetails: [{
         "udfGroupId": this.udfGroupId,
         // "udfScreenId": this.udfScreenId,
         "udfData": JSON.stringify(this.userDefineForm.udfData.getRawValue())
       }]
     };
-    console.log(this.pdcForm.value);
-    
-    if (this.pdcForm.invalid || this.userDefineForm.udfData.invalid) {
+
+    if (this.isDeferral) {
+      body['podNo'] = this.pdcForm.get('podNo').value;
+      body['receivedBy'] = this.pdcForm.get('receivedBy').value ? this.pdcForm.get('receivedBy').value['id'] : '';
+      body['receivedOn'] = this.utilityService.convertDateTimeTOUTC(this.pdcForm.get('receivedOn').value, 'YYYY-MM-DD HH:mm');
+
+      if (this.isCpcCheque) {
+        body['isChequeReceived'] = this.pdcForm.get('isChequeReceived').value;
+      }
+    }
+
+    console.log()
+
+    if ((this.pdcForm.invalid || this.userDefineForm.udfData.invalid) && this.isValiduserName) {
       this.isDirty = true;
       this.toasterService.showWarning('Mandatory Fields Missing', '');
       return;
     }
+
+    if (this.isCpcCheque && this.pdcForm.get('isChequeReceived').value === false) {
+      this.pdcForm.get('isChequeReceived').setErrors({incorrect: true})
+      return
+    }
+
     this.pdcService.savePdcDetails(body).subscribe((res: any) => {
-      console.log(res);
-      // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
-        // this.getData(res.ProcessVariables);
         this.toasterService.showSuccess('Record Saved Successfully', '');
-        // tslint:disable-next-line: triple-equals
         if (dataString == 'save') {
           this.getPdcDetails();
-          // tslint:disable-next-line: triple-equals
         } else if (dataString == 'cpc') {
           this.submitTocpc();
+        } else if (dataString === 'isDeferral') {
+          this.onSubmit()
         }
       } else {
         this.toasterService.showError(res.ProcessVariables.error.message, '');
@@ -340,14 +382,19 @@ export class PdcDetailsComponent implements OnInit {
 
   onBack() {
     // tslint:disable-next-line: triple-equals
-    if (this.roleType == '4') {
-      this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
-      // tslint:disable-next-line: triple-equals
-    } else if (this.roleType == '5') {
-      this.router.navigate([
-        `pages/cpc-checker/${this.leadId}/sanction-details`,
-      ]);
+    if (this.isDeferral) {
+      this.router.navigateByUrl(`/pages/dashboard`);
+    } else {
+      if (this.roleType == '4') {
+        this.router.navigate([`pages/cpc-maker/${this.leadId}/check-list`]);
+        // tslint:disable-next-line: triple-equals
+      } else if (this.roleType == '5') {
+        this.router.navigate([
+          `pages/cpc-checker/${this.leadId}/sanction-details`,
+        ]);
+      }
     }
+
   }
   onNext() {
     // tslint:disable-next-line: triple-equals
@@ -376,33 +423,36 @@ export class PdcDetailsComponent implements OnInit {
         }
         if (data.pdcList != null) {
           for (let i = 0; i < pdcCount; i++) {
-            PdcControl.at(i).patchValue({
-              pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
-              instrType: data.pdcList[i].instrType
-                ? data.pdcList[i].instrType
-                : '',
-              emiAmount: data.pdcList[i].emiAmount
-                ? data.pdcList[i].emiAmount
-                : this.negotiatedEmi,
-              instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : '',
-              instrDate: data.pdcList[i].instrDate
-                ? this.utilityService.getDateFromString(
-                  data.pdcList[i].instrDate
-                )
-                : '',
-              instrBankName: data.pdcList[i].instrBankName
-                ? data.pdcList[i].instrBankName
-                : '',
-              instrBranchName: data.pdcList[i].instrBranchName
-                ? data.pdcList[i].instrBranchName
-                : '',
-              instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
-                ? data.pdcList[i].instrBranchAccountNumber
-                : '',
-              instrAmount: data.pdcList[i].instrAmount
-                ? data.pdcList[i].instrAmount
-                : '',
-            });
+            if (data.pdcList[i]) {
+              PdcControl.at(i).patchValue({
+                pdcId: data.pdcList[i].pdcId ? data.pdcList[i].pdcId : '',
+                instrType: data.pdcList[i].instrType
+                  ? data.pdcList[i].instrType
+                  : '',
+                emiAmount: data.pdcList[i].emiAmount
+                  ? data.pdcList[i].emiAmount
+                  : this.negotiatedEmi,
+                instrNo: data.pdcList[i].instrNo ? data.pdcList[i].instrNo : '',
+                instrDate: data.pdcList[i].instrDate
+                  ? this.utilityService.getDateFromString(
+                    data.pdcList[i].instrDate
+                  )
+                  : '',
+                instrBankName: data.pdcList[i].instrBankName
+                  ? data.pdcList[i].instrBankName
+                  : '',
+                instrBranchName: data.pdcList[i].instrBranchName
+                  ? data.pdcList[i].instrBranchName
+                  : '',
+                instrBranchAccountNumber: data.pdcList[i].instrBranchAccountNumber
+                  ? data.pdcList[i].instrBranchAccountNumber
+                  : '',
+                instrAmount: data.pdcList[i].instrAmount
+                  ? data.pdcList[i].instrAmount
+                  : '',
+                isDeferral: this.isDeferral
+              });
+            }
           }
         }
         // tslint:disable-next-line: triple-equals
@@ -434,6 +484,7 @@ export class PdcDetailsComponent implements OnInit {
             instrAmount: data.pdcList[i].instrAmount
               ? data.pdcList[i].instrAmount
               : '',
+            isDeferral: this.isDeferral
           });
         }
       } else {
@@ -448,36 +499,40 @@ export class PdcDetailsComponent implements OnInit {
         }
         if (data.spdcList) {
           for (let j = 0; j < data.spdcList.length; j++) {
-            spdcControl.at(j).patchValue({
-              pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : '',
-              instrType: data.spdcList[j].instrType
-                ? data.spdcList[j].instrType
-                : '',
-              emiAmount: data.spdcList[j].emiAmount
-                ? data.spdcList[j].emiAmount
-                : this.negotiatedEmi,
-              instrNo: data.spdcList[j].instrNo
-                ? data.spdcList[j].instrNo
-                : '',
-              instrDate: data.spdcList[j].instrDate
-                ? this.utilityService.getDateFromString(
-                  data.spdcList[j].instrDate
-                )
-                : '',
-              instrBankName: data.spdcList[j].instrBankName
-                ? data.spdcList[j].instrBankName
-                : '',
-              instrBranchName: data.spdcList[j].instrBranchName
-                ? data.spdcList[j].instrBranchName
-                : '',
-              instrBranchAccountNumber: data.spdcList[j]
-                .instrBranchAccountNumber
-                ? data.spdcList[j].instrBranchAccountNumber
-                : '',
-              instrAmount: data.spdcList[j].instrAmount
-                ? data.spdcList[j].instrAmount
-                : '',
-            });
+
+            if (data.spdcList[j] && spdcControl.at(j)) {
+              spdcControl.at(j).patchValue({
+                pdcId: data.spdcList[j].pdcId ? data.spdcList[j].pdcId : '',
+                instrType: data.spdcList[j].instrType
+                  ? data.spdcList[j].instrType
+                  : '',
+                emiAmount: data.spdcList[j].emiAmount
+                  ? data.spdcList[j].emiAmount
+                  : this.negotiatedEmi,
+                instrNo: data.spdcList[j].instrNo
+                  ? data.spdcList[j].instrNo
+                  : '',
+                instrDate: data.spdcList[j].instrDate
+                  ? this.utilityService.getDateFromString(
+                    data.spdcList[j].instrDate
+                  )
+                  : '',
+                instrBankName: data.spdcList[j].instrBankName
+                  ? data.spdcList[j].instrBankName
+                  : '',
+                instrBranchName: data.spdcList[j].instrBranchName
+                  ? data.spdcList[j].instrBranchName
+                  : '',
+                instrBranchAccountNumber: data.spdcList[j]
+                  .instrBranchAccountNumber
+                  ? data.spdcList[j].instrBranchAccountNumber
+                  : '',
+                instrAmount: data.spdcList[j].instrAmount
+                  ? data.spdcList[j].instrAmount
+                  : '',
+                isDeferral: this.isDeferral
+              });
+            }
           }
         }
 
@@ -512,6 +567,7 @@ export class PdcDetailsComponent implements OnInit {
             instrAmount: data.spdcList[j].instrAmount
               ? data.spdcList[j].instrAmount
               : '',
+            isDeferral: this.isDeferral
           });
         }
       } else {
@@ -544,14 +600,12 @@ export class PdcDetailsComponent implements OnInit {
       PdcControl.controls[0]['controls']['instrAmount'].clearValidators();
       PdcControl.controls[0]['controls']['instrAmount'].updateValueAndValidity();
     }
-
-
-
   }
 
   getPdcDetails() {
     const body = {
       leadId: this.leadId,
+      isDeferral: this.isDeferral,
       // userId: localStorage.getItem('userId'),
       // ...this.pdcForm.value
       udfDetails: [
@@ -562,7 +616,6 @@ export class PdcDetailsComponent implements OnInit {
       ],
     };
     this.pdcService.getPdcDetails(body).subscribe((res: any) => {
-      console.log(res, 'after pdcData');
       this.udfDetails = res.ProcessVariables.udfDetails;
       // tslint:disable-next-line: triple-equals
       if (res.ProcessVariables.error.code == '0') {
@@ -578,6 +631,20 @@ export class PdcDetailsComponent implements OnInit {
 
         if (res.ProcessVariables) {
           this.getData(res.ProcessVariables, this.pdcCount, this.spdcCount);
+          this.isDeferral = res.ProcessVariables.isDeferral;
+          this.isValiduserName = res.ProcessVariables.receivedBy ? false : true;
+          this.documentId = res.ProcessVariables.documentId;
+          if (res.ProcessVariables.isDeferral) {
+            this.pdcForm.patchValue({
+              podNo: res.ProcessVariables.podNo,
+              receivedBy: res.ProcessVariables.receivedBy,
+              receivedOn: res.ProcessVariables.receivedOn ? this.utilityService.getDateFromString(res.ProcessVariables.receivedOn) : new Date()
+            })
+
+            if (res.ProcessVariables.isChequeReceived && this.isCpcCheque) {
+              this.pdcForm.get('isChequeReceived').setValue(res.ProcessVariables.isChequeReceived);
+            }
+          }
         }
 
         if (pdcList == null && spdcList == null) {
@@ -724,8 +791,6 @@ export class PdcDetailsComponent implements OnInit {
     this.userDefineForm = value;
   }
 
-
-
   changeSpdcList(obj, i, controlName, formarray) {
 
 
@@ -809,9 +874,6 @@ export class PdcDetailsComponent implements OnInit {
     return formattedDate;
   }
 
-
-
-
   onBankNameSearch(val) {
     if (val && val.trim().length > 0) {
 
@@ -878,12 +940,14 @@ export class PdcDetailsComponent implements OnInit {
 
   uploadDoc() {
     this.router.navigate([`pages/document-viewupload/${this.leadId}/collateral-documents`]);
-    this.sharedService.setPdcDetails({title: 'Pdc', code: 160,
-    desc: "SECURITY_PDC",
-    displayName: "SECURITY_PDC",
-    subCatCode: 43})
+    this.sharedService.setPdcDetails({
+      title: 'Pdc', code: 160,
+      desc: "SECURITY_PDC",
+      displayName: "SECURITY_PDC",
+      subCatCode: 43
+    })
     const currentUrl = this.location.path();
-    localStorage.setItem('currentUrl', currentUrl);  
+    localStorage.setItem('currentUrl', currentUrl);
   }
 
   onChangeBranch(val, obj, rowIndex, formarray) {
@@ -937,6 +1001,77 @@ export class PdcDetailsComponent implements OnInit {
       instrBankName: '',
       instrBranchName: ''
     })
+  }
+
+  getUsersFilter(inputString: any) {
+    this.isValiduserName = true;
+    if (inputString.trim().length > 0) {
+
+      let data =
+      {
+        "branchId": this.leadData['leadDetails'] ? this.leadData['leadDetails'].branchId : '',
+        "code": inputString.trim()
+      }
+
+      this.pdcService.getUsersFilter(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          if (res.ProcessVariables.userList && res.ProcessVariables.userList.length > 0) {
+            this.searchUserNameList = res.ProcessVariables.userList.filter((filter) => {
+              filter.user = filter.id + ' - ' + filter.name;
+              return filter
+            })
+          }
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Get Users')
+        }
+      })
+    }
+  }
+
+  onUserNameClear(val) {
+    this.pdcForm.get('receivedBy').setValue(val)
+  }
+
+  selectUserNameEvent(val) {
+    this.isValiduserName = false;
+  }
+
+  onSubmit() {
+
+    if (this.isCpcCheque) {
+
+      let data = {
+        "leadId": this.leadId,
+        "userId": localStorage.getItem('userId'),
+        "taskId": this.taskId,
+        "taskName": "PDC_SPDC Deferral",
+        "isPdc":true
+      }
+
+      this.pdcService.acknowledgeDeferral(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+          this.router.navigateByUrl(`/pages/dashboard`);
+          } else {
+            this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :  res.ProcessVariables.error.message, 'Acknowledge PDC_SPDC Deferral')
+          }
+      })
+
+    } else {
+      let data =
+      {
+        "leadId": this.leadId,
+        "userId": localStorage.getItem('userId'),
+        "taskId": this.taskId,
+        "stopTaskName": "PDC_SPDC Deferral"
+      }
+      this.pdcService.submitDeferral(data).subscribe((res: any) => {
+        if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
+        this.router.navigateByUrl(`/pages/dashboard`);
+        } else {
+          this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage :  res.ProcessVariables.error.message, 'Submit PDC_SPDC Deferral')
+        }
+      })
+    }
   }
 
 }

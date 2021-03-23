@@ -560,12 +560,18 @@ export class SharedDeviationComponent implements OnInit {
 
         if (localStorage.getItem('salesResponse') === 'false' || localStorage.getItem('is_pred_done') === 'true') {
           this.deviationsForm.disable();
+          this.deviationsForm.patchValue({
+            isSaveEdit: false
+          })
         }
 
         if (localStorage.getItem('salesResponse') === 'true' && localStorage.getItem('is_pred_done') === 'false' &&
           localStorage.getItem('isPreDisbursement') === 'false') {
           this.isSendBacktoCredit = true;
           this.isWaiverTrigger = true;
+          this.deviationsForm.patchValue({
+            isSaveEdit: true
+          })
 
           setTimeout(() => {
             this.disableInputs();
@@ -577,13 +583,16 @@ export class SharedDeviationComponent implements OnInit {
           localStorage.getItem('isPreDisbursement') === 'true') {
           this.isWaiverTrigger = false;
           this.deviationsForm.disable();
+          this.deviationsForm.patchValue({
+            isSaveEdit: false
+          })
         }
 
+      } else {
+        this.deviationsForm.patchValue({
+          isSaveEdit: true
+        })
       }
-    })
-
-    this.deviationsForm.patchValue({
-      isSaveEdit: true
     })
 
     this.sharedService.getFormValidation(this.deviationsForm)

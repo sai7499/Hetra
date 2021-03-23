@@ -241,8 +241,8 @@
                         <div class="form-group col-sm-3 col-md-2"
                           *ngIf="isReqApprove[i] && uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('deferralStatus').value === '0'">
                           <button class="btn btn-primary dash_href cus-mar" type="button" id="request"
-                            *ngIf="!isLoan360"
-                            (click)="onApproveRequest(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
+                            *ngIf="!isLoan360" data-toggle="modal" data-target="#approvalDefferal"
+                            (click)="onPatchDeferralRemarks(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
                             Request For Approval
                           </button>
                         </div>
@@ -307,5 +307,37 @@
         </button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Request Approval Modal -->
+<div class="modal" id="approvalDefferal">
+  <div class="modal-dialog">
+    <form class="multisteps-form__form p-0" [formGroup]="modalForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">
+            Deferral Remarks
+          </h4>
+        </div>
+        <div class="modal-body">
+          <textarea class="form-control" rows="10" cols="5" [maxlength]="labels?.validationData.remarks.maxLength"
+            formControlName="deferralRemarks" placeholder="Deferral Remarks"></textarea>
+
+          <div class="invalid-feedback"
+            *ngIf="modalForm.controls['deferralRemarks'].touched && !modalForm.controls['deferralRemarks'].valid">
+            <div *ngIf="modalForm.controls['deferralRemarks'].hasError('required')">
+              Deferral Remarks is Required
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="closeModal"
+            (click)="onDeferralRemarks()">{{labels?.ok}}</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{labels?.close}}</button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
