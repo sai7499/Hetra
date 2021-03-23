@@ -16,3 +16,7 @@
     opacity: .9 !important;
     margin-top: 1px !important;
 }
+
+.alignCenter {
+    text-align: center !important;
+}

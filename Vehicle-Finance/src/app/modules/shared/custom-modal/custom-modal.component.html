@@ -31,22 +31,22 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                  <button type="button" style="color: white;"  class="close" data-dismiss="modal" (click)="onCancel()">
+                  <button *ngIf="modalButtons?.length !== 1" type="button" style="color: white;"  class="close" data-dismiss="modal" (click)="onCancel()">
                   &times;
                 </button>
-                <h4 class="modal-title heading">{{modal.heading}}</h4>
+                <h4 class="modal-title heading">{{modal?.heading}}</h4>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body text-center">
                 <p id="">
-                    {{modal.content}}
+                    {{modal?.content}}
                 </p>
             </div>
 
             <!-- Modal footer -->
-            <div class="modal-footer text-center">
-              <ng-container *ngFor =" let item of buttons">
+            <div class="modal-footer" [ngClass]="{alignCenter : modalButtons?.length === 1}">
+              <ng-container *ngFor =" let item of modalButtons">
                 <button type="button" [class]="item?.class || 'btn btn-primary'" data-dismiss="modal"
                 (click)="onYes(item)" id="ucic_lead">
               
