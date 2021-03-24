@@ -194,4 +194,21 @@ export class DashboardService {
     return this.httpService.post(url, body);
   }
 
+  fetchDashboardTabs(data) {
+    const processId = this.apiService.api.fetchDashboardTabs.processId;
+    const workflowId = this.apiService.api.fetchDashboardTabs.workflowId;
+    const projectId = this.apiService.api.fetchDashboardTabs.projectId;
+
+
+    const body: RequestEntity = {
+      processId,
+      ProcessVariables: data,
+      workflowId,
+      projectId
+    };
+    const url = `${environment.host}d/workflows/${workflowId}/${environment.apiVersion.api}execute?projectId=${projectId}`;
+
+    return this.httpService.post(url, body);
+  }
+
 }

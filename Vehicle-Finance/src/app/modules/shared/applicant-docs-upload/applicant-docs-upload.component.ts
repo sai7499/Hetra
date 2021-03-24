@@ -122,7 +122,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
   isLoan360: boolean;
   docNumberError: boolean = true;
 
-  documentRoleArray: any = {};
   subcategotyDocsId: any = {};
   isPreDisEnable: any = {};
   isReqApprove: any = {};
@@ -330,15 +329,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
           const formArray = this.uploadForm.get(
             `${this.FORM_ARRAY_NAME}_${docs.subCategoryCode}`
           ) as FormArray;
-          this.documentRoleArray[index] = [];
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
             this.toggleDeferralDate(docs.subCategoryCode, index, 'isUpdate')
-
-            this.documentRoleArray[index] = [{
-              key: docs['documentRoleId'],
-              value: docs['documentRoleName']
-            }]
             // if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
             //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
             //      this.DEFAULT_PROFILE_IMAGE =
@@ -459,6 +452,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
   getDocsFormControls(data?: DocumentDetails) {
     const document = data || {};
     const isDeferred = document.isDeferred === '1';
+    let documentRoleArray = document['documentRoleId'] ? [{
+      key: data['documentRoleId'],
+      value: data['documentRoleName']
+    }] : []
+
     const controls = new FormGroup({
       documentName: new FormControl(document.documentName || ''),
       documentNumber: new FormControl(document.documentNumber || ''),
@@ -476,7 +474,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       ),
       receivedBy: new FormControl(document['documentRoleId'] || ''),
       requestedBy: new FormControl(document['requestedBy'] || localStorage.getItem('userId')),
-      deferralStatus: new FormControl(document['deferralStatus'] || '0')
+      deferralStatus: new FormControl(document['deferralStatus'] || '0'),
+      documentRoleArray: new FormControl(documentRoleArray || '')
     });
     return controls;
   }
@@ -1127,10 +1126,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
       const now = new Date();
       now.setHours(0, 0, 0, 0);
       // const deferDate = new Date(docs.deferredDate);
+      // deferDate.setHours(0, 0, 0, 0);
 
       const deferDate = this.utilityService.getDateFromString(docs.deferredDate);
-      deferDate.setHours(0, 0, 0, 0);
-
       return docs.isDeferred === '1' && deferDate < now;
     });
 
@@ -1310,6 +1308,4 @@ export class ApplicantDocsUploadComponent implements OnInit {
       }
     })
   }
-
-
 }

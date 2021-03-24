@@ -197,7 +197,7 @@ export class NegotiationComponent implements OnInit {
 
   modalDetails = {
     heading: 'Request Approval',
-    content: 'Are you sure you want to Approve?'
+    content: 'Are you sure you want to submit the record for Approval?'
   }
   modalButtons: any = [
     {
@@ -225,6 +225,7 @@ export class NegotiationComponent implements OnInit {
   isNeededApproval = false;
   minDefDate: Date;
   isDeferral = false;
+  showErrorCollected: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -287,10 +288,13 @@ export class NegotiationComponent implements OnInit {
       } else if (this.roleType == '2') {
         this.udfScreenId = udfScreenId.creditDecision.negotiationDetailsCreditDecision;
       } else if (this.roleType == '4') {
+        this.showErrorCollected = true;
         this.udfScreenId = udfScreenId.CPCMaker.negotiationsCPCMaker;
       } else if (this.roleType == '5') {
+        this.showErrorCollected = true;
         this.udfScreenId = udfScreenId.CPCChecker.negotiationsCPCChecker;      
       } else if (this.roleType == '7') {
+        this.showErrorCollected = true;
         this.udfScreenId = udfScreenId.CAD.negotiationsCAD;
       }
       
