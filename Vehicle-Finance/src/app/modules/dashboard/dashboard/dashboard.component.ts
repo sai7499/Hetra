@@ -527,6 +527,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loanMaxAmtChange();
     this.loanMinAmtChange();
     this.onFromDateChange();
+    this.onFetchDashboardTabs();
     const currentUrl = this.location.path();
     const value = localStorage.getItem('ddePath');
     const currentLabel = JSON.parse(value);
@@ -1089,6 +1090,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
         'stageValue'
       );
     });
+  }
+
+  // Fetch Dashboard Tab Names API
+  onFetchDashboardTabs() {
+    const data = {
+      roleId: this.userDetailsRoleId
+    }
+    this.dashboardService.fetchDashboardTabs(data).subscribe((res: any) => {
+      const tabList = res.ProcessVariables.tabList;
+      const apiError = parseInt(res.Error);
+      const apiErrorCode = parseInt(res.ProcessVariables.error.code);
+      if(apiError === 0 && apiErrorCode === 0) {
+      console.log('dashboardTabs', tabList);
+
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message ,'')
+      }
+    })
   }
 
   onDocNameSearch(val) {
