@@ -1129,7 +1129,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       // const deferDate = new Date(docs.deferredDate);
 
       const deferDate = this.utilityService.getDateFromString(docs.deferredDate);
-      deferDate.setHours(0, 0, 0, 0);
+      // deferDate.setHours(0, 0, 0, 0);
 
       return docs.isDeferred === '1' && deferDate < now;
     });
