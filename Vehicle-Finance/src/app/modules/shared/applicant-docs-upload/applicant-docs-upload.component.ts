@@ -333,7 +333,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
           this.documentRoleArray[index] = [];
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
-            this.toggleDeferralDate(docs.subCategoryCode, index)
+            this.toggleDeferralDate(docs.subCategoryCode, index, 'isUpdate')
 
             this.documentRoleArray[index] = [{
               key: docs['documentRoleId'],
@@ -417,15 +417,24 @@ export class ApplicantDocsUploadComponent implements OnInit {
     });
   }
 
-  toggleDeferralDate(categoryCode, index) {
+  toggleDeferralDate(categoryCode, index, isUpdate?) {
     const formArray = this.uploadForm.get(
       `${this.FORM_ARRAY_NAME}_${categoryCode}`
     ) as FormArray;
 
+    if (isUpdate) {
+      formArray.controls.forEach((control, i) => {
+        this.deferralDateToggle(formArray, i)
+      })
+    } else {
+      this.deferralDateToggle(formArray, index)
+    }
+  }
+
+  deferralDateToggle(formArray, index) {
     if (formArray.at(index)) {
       const formGroup = formArray.at(index);
       const isChecked = formGroup.get('isDeferred').value;
-
       if (isChecked) {
         formGroup.get('deferredDate').enable();
         this.docNumberError = false;
@@ -445,7 +454,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
         this.docNumberError = true;
       }
     }
-
   }
 
   getDocsFormControls(data?: DocumentDetails) {
@@ -1100,7 +1108,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
               associatedId: String(this.applicantId),
               associatedWith: String(this.associatedWith),
               requestedBy: value.requestedBy || localStorage.getItem('userId'),
-              deferralRemarks : this.modalForm.get('deferralRemarks').value
+              deferralRemarks: this.modalForm.get('deferralRemarks').value
             });
           }
         });
@@ -1118,8 +1126,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
     const checkAnyPast = this.documentArr.some((docs) => {
       const now = new Date();
       now.setHours(0, 0, 0, 0);
-      const deferDate = new Date(docs.deferredDate);
+      // const deferDate = new Date(docs.deferredDate);
+
+      const deferDate = this.utilityService.getDateFromString(docs.deferredDate);
       deferDate.setHours(0, 0, 0, 0);
+
       return docs.isDeferred === '1' && deferDate < now;
     });
 
