@@ -621,13 +621,16 @@ export class ValuationComponent implements OnInit {
     })
   }
 
-  onBankNameSearch(val) {
+  onValuatorNameSearch(val) {
     if (val && val.trim().length > 0) {
       this.userDetails = this.getBranchDetails.filter(e => {
         let myVal = val.toString().toLowerCase();
         const eName = e.value.toString().toLowerCase();
-        if (eName.includes(myVal)) {
+        const eValue = e.key.toString().toLowerCase();
+        if (eName.includes(myVal) || eValue.includes(myVal)) {
           e.Name = e.value + ' - ' + e.key;
+          console.log('onSearch', e);
+          
           return e;
         }
       });
@@ -2460,6 +2463,12 @@ export class ValuationComponent implements OnInit {
     console.log(this.modalDataForm);
 
     if (!this.isInternalValuator) {
+    this.modalDataForm.get('internalValuationUser').setValue('');
+    this.modalDataForm.get('branchName').setValue('');
+    this.modalDataForm.get('branchName').clearValidators();
+    this.modalDataForm.get('branchName').updateValueAndValidity();
+    this.modalDataForm.get('internalValuationUser').clearValidators();
+    this.modalDataForm.get('internalValuationUser').updateValueAndValidity();
       this.modalDataForm.get('isInternalValuation').clearValidators();
       this.modalDataForm.get('isInternalValuation').updateValueAndValidity();
       this.modalDataForm.get('valuatorCode').setValidators(Validators.required);
@@ -2475,7 +2484,7 @@ export class ValuationComponent implements OnInit {
     }
   }
 
-  selectBankNameEvent(val: any) {
+  selectValuatorNameEvent(val: any) {
     console.log(val, 'val')
     this.keyValue = val;
     this.modalDataForm.patchValue({
@@ -2493,7 +2502,7 @@ export class ValuationComponent implements OnInit {
     });
   }
 
-  onBankNameClear(val) {
+  onValuatorNameClear(val) {
     this.modalDataForm.patchValue({
       internalValuationUser: '',
     })

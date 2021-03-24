@@ -951,7 +951,7 @@
                                 </label>
                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                   <app-custom-input formControlName="collectedNoofPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                                    [placeholder]="'Collected PDC Value'" [isRequired]="'Collected PDC Value is Required'" (input)="collectedChequeMaxMin('',i)"
+                                    [placeholder]="'Collected PDC Value'" [isRequired]="!showErrorCollected ? 'Collected PDC Value is Required' : ''" (input)="collectedChequeMaxMin('',i)"
                                    [custom]="collectedPDCvalueCheck"
                                    [minLength]="labels?.validationData.NoofPDC.minLength" [maxLength]="labels?.validationData.NoofPDC.maxLength">
                                   </app-custom-input>
@@ -963,7 +963,7 @@
                                 </label>
                                 <div class="col-sm-6 col-md-6 col-lg-6">
                                   <app-custom-input formControlName="collectedNoofSPDC" [isDirty]="isDirty" [className]="'form-control mandatory'" [type]="'number'"
-                                    [placeholder]="'Collected SPDC Value'" [isRequired]="'Collected SPDC Value is Required'" (input)="collectedChequeMaxMin('',i)"
+                                    [placeholder]="'Collected SPDC Value'" [isRequired]="!showErrorCollected ? 'Collected SPDC Value is Required' : ''" (input)="collectedChequeMaxMin('',i)"
                                     [custom]="collectedSPDCvalueCheck"
                                     [minLength]="labels?.validationData.NoofSPDC.minLength" [maxLength]="labels?.validationData.NoofSPDC.maxLength">
                                   </app-custom-input>
