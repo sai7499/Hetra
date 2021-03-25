@@ -1256,6 +1256,11 @@ export class ApiService {
       workflowId: '77102f60831411eba70100505695f93b',
       processId: '77301f82831411eba5b700505695f93b',
       projectId: environment.projectIds.taskProjectId
+    },
+    fetchDashboardTabs: {
+      workflowId: '0632570676b111ebad3e00505695f93b',
+      processId: '0666923276b111eb9dfa00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }

@@ -1726,8 +1726,8 @@
                     <sub class="star_red_col">*</sub>
                   </label>
                   <ng-autocomplete class="custom-select-box" [data]="userDetails" [searchKeyword]="'value'"
-                  (selected)='selectBankNameEvent($event)' (inputChanged)='onBankNameSearch($event)'
-                  (inputCleared)='onBankNameClear($event)'
+                  (selected)='selectValuatorNameEvent($event)' (inputChanged)='onValuatorNameSearch($event)'
+                  (inputCleared)='onValuatorNameClear($event)'
                   [itemTemplate]="favBankNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="internalValuationUser"
                   [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="3">
                 </ng-autocomplete>
