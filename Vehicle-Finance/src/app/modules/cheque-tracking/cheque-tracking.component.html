@@ -388,7 +388,7 @@
   <div class="col-sm-5"></div>
   <div class="col-sm-2">
     <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBack()">{{labels.back}}</button>
-    <button class="btn btn-primary dash_href hvr-sweep-to-right" (click)="showModal = true">{{labels?.disburse}}</button>
+    <button class="btn btn-primary dash_href hvr-sweep-to-right" (click)="onDisburse()">{{labels?.disburse}}</button>
   </div>
       
           
@@ -428,8 +428,15 @@
       </div>
     </div>
   </div> -->
+
+  <app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="showModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "showModal = false"
+(onButtonClick)="onUpdate() ; showModal= false"></app-custom-modal>
   
-  <div class="modal" id="myModal" role="dialog" [ngClass]="{ 'dis-block': showModal }">
+  <!-- <div class="modal" id="myModal" role="dialog" [ngClass]="{ 'dis-block': showModal }">
     <div class="modal-dialog">
 
 
@@ -449,4 +456,4 @@
         </div>
 
     </div>
-</div>
+</div> -->

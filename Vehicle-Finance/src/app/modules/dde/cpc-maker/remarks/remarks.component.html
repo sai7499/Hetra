@@ -44,12 +44,25 @@
         </div>    
 </div>
 
+<!--send to credit-->
+<app-custom-modal
+[modalDetails]="sendCreModalDetails"
+[showModal]="showSendCredit"
+[buttons] = "sendCreModalButtons"
+(onButtonCancel) = "showSendCredit = false"
+(onButtonClick)="callSendBackToCredit() ; showSendCredit= false"></app-custom-modal>
 
+<!--Approve/Re-Appeal-->
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="showModalApprove"
+[buttons] = "modalButtons"
+(onButtonCancel) = "showModalApprove = false"
+(onButtonClick)="callApproval() ; showModalApprove= false"></app-custom-modal>
 
-<div class="modal" id="approveModal" [ngClass]="{ 'dis-block': showModalApprove }">
+<!-- <div class="modal" id="approveModal" [ngClass]="{ 'dis-block': showModalApprove }">
   <div class="modal-dialog">
       <div class="modal-content">
-          <!-- Modal Header -->
           <div class="modal-header">
               <h4 class="modal-title"></h4>
               <button type="button" class="close" data-dismiss="modal"
@@ -58,12 +71,10 @@
               </button>
           </div>
 
-          <!-- Modal body -->
           <div class="modal-body" style="text-align: center;">
               <label>Are you sure you want to {{isDeclinedFlow ? 'Re-Appeal': 'Approve'}} the Lead</label>
           </div>
 
-          <!-- Modal footer -->
           <div class="modal-footer text-center">
               <button type="button" class="btn btn-success" id="reject_yes_val" value="Yes"
                    data-dismiss="modal" (click)="callApproval()">
@@ -77,12 +88,11 @@
           </div>
       </div>
   </div>
-</div>
+</div> -->
 
-<div class="modal" id="approveModal" [ngClass]="{ 'dis-block': showSendCredit }">
+<!-- <div class="modal" id="approveModal" [ngClass]="{ 'dis-block': showSendCredit }">
   <div class="modal-dialog">
       <div class="modal-content">
-          <!-- Modal Header -->
           <div class="modal-header">
               <h4 class="modal-title"></h4>
               <button type="button" class="close" data-dismiss="modal"
@@ -91,12 +101,10 @@
               </button>
           </div>
 
-          <!-- Modal body -->
           <div class="modal-body" style="text-align: center;">
               <label>Are you sure you want to Send Back To Credit</label>
           </div>
 
-          <!-- Modal footer -->
           <div class="modal-footer text-center">
               <button type="button" class="btn btn-success" id="reject_yes_val" value="Yes"
                    data-dismiss="modal" (click)="callSendBackToCredit()">
@@ -110,6 +118,6 @@
           </div>
       </div>
   </div>
-</div>
+</div> -->
 <app-reject-reason-modal [data]="rejectData" [showModalPopup]="showRejectModal" *ngIf="showRejectModal" (okay)="onOkay($event)" (cancel)="onCancelReject()"></app-reject-reason-modal>
 

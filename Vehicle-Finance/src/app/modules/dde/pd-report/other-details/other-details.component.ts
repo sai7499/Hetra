@@ -93,6 +93,9 @@ export class OtherDetailsComponent implements OnInit {
 
   disableSaveBtn: boolean;
   operationType: any;
+  myModalCredit : boolean;
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -178,6 +181,13 @@ export class OtherDetailsComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = this.roleType === 1 ? udfScreenId.PD.otherPD : udfScreenId.DDE.otherPDDDE ;
+
+    })
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.extPd.submitToCredit;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
 
     })
     this.entityType = this.pdDataService.getFiCumPdApplicantType();
@@ -427,6 +437,7 @@ export class OtherDetailsComponent implements OnInit {
   }
 
   submitToCredit() {
+    this.myModalCredit = false;
     if (this.otherDetailsForm.valid) {
       const data = {
         taskName: Constant.PDTASKNAME,

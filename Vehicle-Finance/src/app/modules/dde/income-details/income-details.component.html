@@ -1325,7 +1325,39 @@
     </div>
   </form>
 
-  <div id="overlay" *ngIf="isbusinessIncomeShow">
+<!--Remove Business Income details-->
+<app-custom-modal
+[modalDetails]="busModalDetails"
+[showModal]="isbusinessIncomeShow"
+[buttons] = "busModalButtons"
+(onButtonCancel) = "isbusinessIncomeShow = false"
+(onButtonClick)="removeBusinessIncomeIndex(rowIndex); isbusinessIncomeShow= false"></app-custom-modal>
+
+<!--Remove other Income details-->
+<app-custom-modal
+[modalDetails]="otherModalDetails"
+[showModal]="isOtherIncomeShow"
+[buttons] = "otherModalButtons"
+(onButtonCancel) = "isOtherIncomeShow = false"
+(onButtonClick)="removeOtherIncomeIndex(rowIndex); isOtherIncomeShow= false"></app-custom-modal>
+
+<!--Remove obligation details-->
+<app-custom-modal
+[modalDetails]="oblModalDetails"
+[showModal]="isObligationIncomeShow"
+[buttons] = "oblModalButtons"
+(onButtonCancel) = "isObligationIncomeShow = false"
+(onButtonClick)="removeObligationIndex(rowIndex); isObligationIncomeShow= false"></app-custom-modal>
+
+<!--Remove key Financial details-->
+<app-custom-modal
+[modalDetails]="keyModalDetails"
+[showModal]="isKeyFinancialShow"
+[buttons] = "keyModalButtons"
+(onButtonCancel) = "isKeyFinancialShow = false"
+(onButtonClick)="removeKeyFinancialDetails(rowIndex); isKeyFinancialShow= false"></app-custom-modal>
+
+  <!-- <div id="overlay" *ngIf="isbusinessIncomeShow">
     <div id="text">
       <div class="panel">
         <div class="panel-body">
@@ -1406,4 +1438,4 @@
     </div>
   </div>
 
-</div>
+</div> -->

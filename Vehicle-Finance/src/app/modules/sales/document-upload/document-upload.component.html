@@ -831,7 +831,7 @@
         <a [routerLink]="['../reference']">Back</a>
       </button>
       <!-- <button class="btn btn-primary" id="submit">Save</button> -->
-      <button class="btn btn-primary dash_href" type="button" data-toggle="modal" data-target="#sumbitModal"
+      <button class="btn btn-primary dash_href" type="button" (click)="showModal = true"
         *ngIf="!isLoan360">
         Submit To Credit
       </button>
@@ -841,10 +841,16 @@
 
 <!-- Sumbit to credit modal -->
 
-<div class="modal" id="sumbitModal">
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="showModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "showModal = false"
+(onButtonClick)="submitToCredit(); showModal = false"></app-custom-modal>
+
+<!-- <div class="modal" id="sumbitModal">
   <div class="modal-dialog modal-center">
     <div class="modal-content" style="text-align: center">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal">
@@ -852,12 +858,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body">
         <p>Are you sure you want to submit to credit?</p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer" style="text-align: center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
           (click)="submitToCredit()">
@@ -869,9 +873,8 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
-<!-- Success Modal -->
 
 <div id="overlay" *ngIf="isModelShow">
   <div id="text">

@@ -5547,8 +5547,9 @@
         <button (click)="saveAndUpdate()" class="btn btn-primary " type="button"
           *ngIf="roleType != 4 && roleType != 5 && (navigationFlag==1 || navigationFlag==3)">Save </button>
 
-        <button data-toggle="modal" data-target="#bookLoanModal" class="btn btn-primary " type="button"
+        <button  class="btn btn-primary " type="button" (click)="bookLoanModal = true"
           *ngIf="roleType == '5' && navigationFlag==1">Book Loan </button>
+          <!-- data-toggle="modal" data-target="#bookLoanModal" -->
         <button (click)="saveAndUpdate('next')" class="btn btn-primary js-btn-next hvr-sweep-to-right" type="button"
           *ngIf="roleType != 4 && roleType != 5 && roleType !== 7 && (navigationFlag==1 || navigationFlag==2)"> Next </button>
       </ng-container>
@@ -5562,10 +5563,17 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="bookLoanModal" role="dialog">
+<!--Book Loan-->
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="bookLoanModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "bookLoanModal = false"
+(onButtonClick)="sendLoanCreationWrapper() ; bookLoanModal= false"></app-custom-modal>
+
+<!-- <div class="modal fade" id="bookLoanModal" role="dialog">
   <div class="modal-dialog">
 
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -5574,9 +5582,7 @@
       <div class="modal-body">
         <p>Record will be submitted for loan booking. Are you sure?</p>
       </div>
-      <!-- <div class="modal-body" *ngIf = "roleType == '5'">
-          <p>Are you sure you want to move lead to CPC maker?</p>
-      </div> -->
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-primary " (click)="sendLoanCreationWrapper()"
           data-dismiss="modal">Yes</button> &nbsp;
@@ -5585,7 +5591,7 @@
     </div>
 
   </div>
-</div>
+</div> -->
 <div class="modal" id="kycmyModal">
     <div class="modal-dialog">
       <div class="modal-content">

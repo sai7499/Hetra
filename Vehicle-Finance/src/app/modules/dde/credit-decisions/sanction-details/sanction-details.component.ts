@@ -55,7 +55,15 @@ export class SanctionDetailsComponent implements OnInit {
   disbursementDetails: any = [];
 
   isShowDownloadDoc: boolean = false;
-
+  sendBackModalDetails : any;
+  sendBackModalButtons : any;
+  appModalDetails: any;
+  appModalButtons: any;
+  myModalForApproval : boolean;
+  myModal : boolean;
+  myModalSubmitToCD : boolean;
+  subModalDetails: any;
+  subModalButtons: any;
   constructor(
     private labelsData: LabelsService,
     private router: Router,
@@ -105,6 +113,20 @@ export class SanctionDetailsComponent implements OnInit {
       (data) => (this.labels = data),
       // (error) => console.log("Sanction-Details Label Error", error)
     );
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.sanctionDetails;
+      this.sendBackModalDetails = details.sendBackToSales.modalDetails,
+      this.sendBackModalButtons = details.sendBackToSales.modalButtons,
+
+      this.appModalDetails = details.approve.modalDetails,
+      this.appModalButtons = details.approve.modalButtons, 
+
+      this.subModalDetails = details.submit.modalDetails,
+      this.subModalButtons = details.submit.modalButtons
+
+
+    })
   }
 
   getLeadId() {

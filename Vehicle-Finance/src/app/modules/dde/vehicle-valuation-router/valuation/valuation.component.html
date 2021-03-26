@@ -1581,11 +1581,12 @@
                 >
                   {{ labels.submit }}
                 </button> -->
-              <a data-toggle="modal" data-target="#mySubmitModel" id="reject_credit" *ngIf="extValuator">
+              <a (click)="mySubmitModel = true"  id="reject_credit" *ngIf="extValuator">
                 <p type="button" class="btn btn-primary">
                   {{ labels.submit }}
                 </p>
               </a>
+              <!-- data-toggle="modal" data-target="#mySubmitModel" -->
             </div>
           </div>
         </div>
@@ -1593,10 +1594,17 @@
     </div>
   </div>
 </main>
-<div class="modal" id="mySubmitModel">
+<!--For Submit Task-->
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="mySubmitModel"
+[buttons] = "modalButtons"
+(onButtonCancel) = "mySubmitModel = false"
+(onButtonClick)="submitValuationTask() ; mySubmitModel= false"></app-custom-modal>
+
+<!-- <div class="modal" id="mySubmitModel">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal">
@@ -1604,12 +1612,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body" style="text-align: center">
         <p>{{ labels.submitValuation }}</p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
           (click)="submitValuationTask()">
@@ -1621,7 +1627,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="modal" id="reInitiateModal">
   <div class="modal-dialog">

@@ -71,6 +71,9 @@ export class TermSheetComponent implements OnInit {
   deductionCharges = [];
 
   isShowDownloadDoc: boolean;
+  approveModal : boolean;
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(
     public labelsService: LabelsService,
@@ -91,6 +94,12 @@ export class TermSheetComponent implements OnInit {
       this.labels = labelsData;
       console.log(this.labels);
     });
+    this.labelsService.getModalDetails().subscribe((data)=>{
+      const details = data.termsheet.approval;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
+
+    })
   }
   getLeadId() {
     // console.log("in getleadID")
@@ -185,7 +194,7 @@ export class TermSheetComponent implements OnInit {
           // const message = res['ProcessVariables'].rctaMessage;
           this.errorMessage = res['ProcessVariables'].rctaMessage;
         } else {
-          this.toasterService.showSuccess("Record Assigned Successfuly", '');
+          this.toasterService.showSuccess("Record Approved Successfuly", '');
           this.router.navigateByUrl("/pages/dashboard");
         }
 

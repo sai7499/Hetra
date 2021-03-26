@@ -21,6 +21,7 @@ import mChildLoanLabels from '../../assets/jsonData/child-loan.json';
 import commonLables from '../../assets/jsonData/common-fields.json';
 
 import screenIdLabels from '../../assets/jsonData/screenId-udf.json';
+import modalDetails from '../../assets/jsonData/modal-content.json';
 
 
 @Injectable({
@@ -143,6 +144,14 @@ export class LabelsService {
   getScreenId() : Observable<any> {
     try {
       return this.createObservableObj(screenIdLabels);
+    } catch (error) {
+      
+    }
+  }
+
+  getModalDetails() : Observable<any> {
+    try {
+      return this.createObservableObj(modalDetails);
     } catch (error) {
       
     }

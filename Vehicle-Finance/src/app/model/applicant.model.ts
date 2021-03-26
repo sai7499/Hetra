@@ -14,7 +14,7 @@ export interface Applicant {
   udfDetails? : any;
   natureOfBorrower? : any;
   isMobileUpdate? : any;
-  isAdharUpdate?   : any
+  isAadharUpdate?   : any
 }
 
 export interface ApplicantList {

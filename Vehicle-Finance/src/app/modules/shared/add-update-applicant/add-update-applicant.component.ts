@@ -272,6 +272,8 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   isShowMobMismatch: boolean;
   isShowAdharMismatch: boolean;
   matchingDetails: any;
+  modalDetails: any;
+  modalButtons: any;
 
 
 
@@ -367,6 +369,13 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         this.negativeDedupeUdfScreenId = currentUrl.includes('sales') ? udfScreenId.ADE.negativeListdedupeADE : udfScreenId.QDE.negativeListdedupeQDE;
 
       })
+      this.labelsData.getModalDetails().subscribe((data) => {
+        const details = data.addUpdateapplicant.noDedupe;
+        this.modalDetails = details.modalDetails,
+          this.modalButtons = details.modalButtons
+        console.log('this.modalButtons', this.modalButtons)
+      })
+
 
     })
     this.isExtCustValueChange = this.applicantDataService.getDetectvalueChange();
@@ -688,19 +697,25 @@ export class AddOrUpdateApplicantComponent implements OnInit {
       //this.namePattern = this.namePatternNonIdv;
       this.addIndFormControls();
       this.removeNonIndFormControls();
+      dedupe.get('name3').setValidators([Validators.required]);
+      dedupe.get('name3').updateValueAndValidity();
       dedupe.get('bussinessEntityType').clearValidators();
       dedupe.get('bussinessEntityType').updateValueAndValidity()
     } else {
       const dedupe = this.coApplicantForm.get('dedupe');
-      // dedupe.patchValue({
-      //   title: 'M/SSALUTATION',
-      // });
-      dedupe.get('aadhar').clearValidators();
-      dedupe.get('bussinessEntityType').setValidators([Validators.required]);
-      dedupe.get('bussinessEntityType').updateValueAndValidity()
+
       //this.namePattern = { ...this.namePatternIdv };
       this.addNonIndFormControls();
       this.removeIndFormControls();
+
+      dedupe.get('aadhar').clearValidators();
+      dedupe.get('bussinessEntityType').setValidators([Validators.required]);
+      dedupe.get('bussinessEntityType').updateValueAndValidity();
+
+      if (dedupe.get('name3').invalid) {
+        dedupe.get('name3').clearValidators()
+        dedupe.get('name3').updateValueAndValidity();
+      }
     }
   }
   addIndFormControls() {
@@ -1071,7 +1086,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
   }
 
 
-  getPincode(pincode, type : string) {
+  getPincode(pincode, type: string) {
     const id = type;
     const pincodeValue = pincode.value;
     if (pincodeValue.length === 6) {
@@ -1266,7 +1281,7 @@ export class AddOrUpdateApplicantComponent implements OnInit {
         ...processVariables,
       };
       this.isShowMobMismatch = (applicant.isMobileUpdate == '1' || applicant.isMobileUpdate == '0') ? true : false;
-      this.isShowAdharMismatch = (applicant.isAdharUpdate == '1' || applicant.isAdharUpdate == '0') ? true : false;
+      this.isShowAdharMismatch = (applicant.isAadharUpdate == '1' || applicant.isAadharUpdate == '0') ? true : false;
 
 
       if (processVariables.ucic) {

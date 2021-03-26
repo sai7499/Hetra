@@ -16,6 +16,13 @@
   text-align: center;
   font-size: 14px;
   font-weight: bold;
+  
+}
+.modal-header{
+  font-size: 13px !important;
+  text-align: left !important;
+  background-color: #f3682d !important;
+  padding: 8px 8px !important;
 }
 .showModal {
   display: block;

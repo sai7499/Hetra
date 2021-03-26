@@ -42,6 +42,12 @@ export class CheckListComponent implements OnInit {
   isDirty;
   initUDFValues: any;
   editedUDFValues: any;
+  myModal : boolean;
+  subModalDetails: any;
+  subModalButtons: any;
+  sendMakModalButtons: any;
+  sendMakModalDetails: any;
+  isSendToMaker: boolean;
 
   constructor(
     private commonLovService: CommomLovService,
@@ -123,6 +129,14 @@ export class CheckListComponent implements OnInit {
         this.udfScreenId = udfScreenId.CPCChecker.checkListCPCChecker;
       }
 
+    })
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.checkList;
+      this.subModalDetails = details.submitToCpc.modalDetails,
+      this.subModalButtons = details.submitToCpc.modalButtons,  
+      this.sendMakModalDetails = details.sendToMaker.modalDetails,
+      this.sendMakModalButtons = details.sendToMaker.modalButtons
     })
 
     // tslint:disable-next-line: prefer-const

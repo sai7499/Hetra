@@ -68,6 +68,9 @@ export class SharedDeviationComponent implements OnInit {
   isShowReferModal: boolean;
 
   isAllowReferBut: boolean;
+  delModal: boolean;
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(private labelsData: LabelsService, private _fb: FormBuilder, private createLeadDataService: CreateLeadDataService,
     private deviationService: DeviationService, private toasterService: ToasterService, private sharedService: SharedService,
@@ -90,6 +93,13 @@ export class SharedDeviationComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.deviation.removeDev;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
+
+    })
 
     this.initForms();
 
@@ -337,7 +347,10 @@ export class SharedDeviationComponent implements OnInit {
 
   softDeleteDeviation(index: number, id) {
     this.findIndex = index;
-    this.selectDeviationId = Number(id)
+    this.selectDeviationId = Number(id);
+    this.delModal = true;
+    // this.modalDetails.heading = `${this.selectDeviationId === 0 ? 'Remove ' : 'Delete '} Deviation`
+    // this.modalDetails.content = `Are you sure you want to ${this.selectDeviationId === 0 ? 'Remove ' : 'Delete '} deviation ?`
   }
 
   onPatchRecommendationModal(value: string) {

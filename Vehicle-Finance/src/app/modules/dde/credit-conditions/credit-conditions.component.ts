@@ -19,7 +19,6 @@ interface dataObject {
   isDocReq: string;
   creditAction: string;
   defferedDate: Date;
-
 }
 @Component({
   selector: 'app-credit-conditions',
@@ -80,6 +79,16 @@ export class CreditConditionsComponent implements OnInit {
   udfGroupId: string = 'CCG001';
   isDirty: boolean;
   jsonScreenId: any;
+  isShowModal : boolean
+  approveModalDetails: any;
+  approveModalButtons: any;
+  declineModalDetails: any;
+  declineModalButtons: any;
+  sendDDEModalDetails: any;
+  sendDDEModalButtons: any;
+
+  modalDetails : any;
+  modalButtons : any;
 
   constructor(
     public labelsService: LabelsService,
@@ -148,6 +157,16 @@ export class CreditConditionsComponent implements OnInit {
       // this.getLeadRejectReason();
     }
     this.alertMsg = data
+    if(this.alertMsg == 'Approve'){
+      this.modalDetails = this.approveModalDetails;
+      this.modalButtons = this.approveModalButtons;
+    }else if(this.alertMsg == 'Decline'){
+      this.modalDetails = this.declineModalDetails;
+      this.modalButtons = this.declineModalButtons;
+    }else if(this.alertMsg == 'Send Back to DDE'){
+      this.modalDetails = this.sendDDEModalDetails;
+      this.modalButtons = this.sendDDEModalButtons;
+    }
   }
   dateCheck(event, i) {
     // alert(event.target.value)
@@ -533,6 +552,18 @@ export class CreditConditionsComponent implements OnInit {
 
       this.labelsService.getScreenId().subscribe((data: any) => {
         this.jsonScreenId = data.ScreenIDS;
+      })
+
+      this.labelsService.getModalDetails().subscribe((data)=>{
+        const details = data.creditCond;
+        this.approveModalDetails = details.approve.modalDetails,
+        this.approveModalButtons = details.approve.modalButtons,
+        this.declineModalDetails = details.decline.modalDetails,
+        this.declineModalButtons = details.decline.modalButtons,
+        this.sendDDEModalDetails = details.sendToDDE.modalDetails,
+        this.sendDDEModalButtons = details.sendToDDE.modalButtons
+
+  
       })
 
     if (this.roleAndUserDetails) {
