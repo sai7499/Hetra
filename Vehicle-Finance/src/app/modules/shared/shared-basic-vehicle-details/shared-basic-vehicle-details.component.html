@@ -385,16 +385,12 @@
                                     <label for="vehicle_address"> {{ label.vehicleAddress }} <sub
                                             class="star_red_col">*</sub>
                                     </label>
-                                    <textarea class="form-control mandatory" name="vehicle_address" id="vehicle_address"
-                                        cols="1" rows="3" placeholder="Vehicle Address" formControlName="address"
-                                        maxlength="120" style="resize: none;"></textarea>
 
-                                    <div class="invalid-feedback"
-                                        *ngIf="obj.controls['address'].touched && !obj.controls['address'].valid">
-                                        <div *ngIf="obj.controls['address'].hasError('required')">
-                                            Vehicle Address Required
-                                        </div>
-                                    </div>
+                                    <app-custom-textarea formControlName="address"
+                                        [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'"
+                                        [isRequired]="'Vehicle Address Required'" [isDirty]="isDirty"
+                                        [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                                    </app-custom-textarea>
 
                                 </div>
 
@@ -1643,7 +1639,7 @@
                                         <label for="vehicle_address"> {{ label.vehicleAddress }} <sub
                                                 class="star_red_col">*</sub>
                                         </label>
-                                        <textarea class="form-control mandatory" name="vehicle_address"
+                                        <!-- <textarea class="form-control mandatory" name="vehicle_address"
                                             id="vehicle_address" cols="1" rows="3" placeholder="Vehicle Address"
                                             formControlName="address" maxlength="120" style="resize: none;"></textarea>
 
@@ -1652,7 +1648,13 @@
                                             <div *ngIf="obj.controls['address'].hasError('required')">
                                                 Vehicle Address Required
                                             </div>
-                                        </div>
+                                        </div> -->
+
+                                        <app-custom-textarea formControlName="address"
+                                            [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'"
+                                            [isRequired]="'Vehicle Address Required'" [isDirty]="isDirty"
+                                            [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                                        </app-custom-textarea>
 
                                     </div>
 
@@ -2272,7 +2274,7 @@
                                         <label for="vehicle_address"> {{ label.vehicleAddress }} <sub
                                                 class="star_red_col">*</sub>
                                         </label>
-                                        <textarea class="form-control mandatory" name="vehicle_address"
+                                        <!-- <textarea class="form-control mandatory" name="vehicle_address"
                                             id="vehicle_address" cols="1" rows="3" placeholder="Vehicle Address"
                                             formControlName="address" maxlength="120" style="resize: none;"></textarea>
 
@@ -2281,7 +2283,13 @@
                                             <div *ngIf="obj.controls['address'].hasError('required')">
                                                 Vehicle Address Required
                                             </div>
-                                        </div>
+                                        </div> -->
+
+                                        <app-custom-textarea formControlName="address"
+                                            [className]="'form-control mandatory'" [placeholder]="'Vehicle Address'"
+                                            [isRequired]="'Vehicle Address Required'" [isDirty]="isDirty"
+                                            [maxLength]="label.validationData?.textarea.maxLength" [readonly]="false">
+                                        </app-custom-textarea>
 
                                     </div>
 

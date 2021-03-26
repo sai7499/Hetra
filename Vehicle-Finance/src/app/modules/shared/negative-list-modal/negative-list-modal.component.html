@@ -69,8 +69,12 @@
       <div class="modal-footer text-center">
         <div class="form-group" style="margin-top: 10px;">
           <p for="Vechical Type" style="text-align: left;">Remarks</p>
-          <textarea [(ngModel)]="remarks" [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
-            style="width: 100%;"></textarea>
+          <!-- <textarea [(ngModel)]="remarks" [disabled]="!modalInput?.isNLTRFound && !modalInput?.isNLFound"
+            style="width: 100%;"></textarea> -->
+          <app-custom-textarea [className]="'form-control'" [placeholder]="'Remarks'"
+            [maxlength]="textarea.maxLength" [(ngModel)]="remarks"
+            [readonly]="modalInput?.isNLTRFound && !modalInput?.isNLFound">
+          </app-custom-textarea>
         </div>
         <!-- <button
           type="button"

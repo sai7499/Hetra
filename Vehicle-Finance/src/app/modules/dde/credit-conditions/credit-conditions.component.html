@@ -1,8 +1,9 @@
-<div class="content" >
+<div class="content">
   <div class="row">
     <div class="col-xs-12">
       <div *ngIf="userType === 2" id="get_role_details_btn">
-        <button style="float:right" *ngIf="!isLoan360" (click)="addOtherUnit()" class="btn btn-primary text-right" type="button"  >Add new
+        <button style="float:right" *ngIf="!isLoan360" (click)="addOtherUnit()" class="btn btn-primary text-right"
+          type="button">Add new
           row</button>
 
       </div>
@@ -26,7 +27,7 @@
       <label class="action"> {{labels.action}} </label>
     </div>
   </div>
- 
+
   <form class="multisteps-form__form" [formGroup]="creditConditionForm" *ngIf="this.creditConditionForm">
     <div formArrayName="Rows">
 
@@ -34,15 +35,24 @@
         [formGroupName]="i">
         <div class="col-xs-6 col-sm-3 c">
 
-          <textarea class="form-control" 
+          <!-- <textarea class="form-control" 
           [maxlength]="labels?.validationData.remarks.maxLength" formControlName="creditCondition"
-            placeholder="Content Goes here......"></textarea>
+            placeholder="Content Goes here......"></textarea> -->
+
+          <app-custom-textarea [className]="'form-control'" [placeholder]="'Content Goes here......'"
+            [maxlength]="labels?.validationData.textarea.maxLength" formControlName="creditCondition" [readonly]="false">
+          </app-custom-textarea>
 
         </div>
         <div class="col-xs-6 col-sm-3 ">
-          <textarea class="form-control" 
+
+          <app-custom-textarea [className]="'form-control'" [placeholder]="'Content Goes here......'"
+            [maxlength]="labels?.validationData.textarea.maxLength" formControlName="salesResponse" [readonly]="false">
+          </app-custom-textarea>
+
+          <!-- <textarea class="form-control" 
           [maxlength]="labels?.validationData.remarks.maxLength" formControlName="salesResponse"
-            placeholder="Content Goes here......"></textarea>
+            placeholder="Content Goes here......"></textarea> -->
         </div>
         <div class="col-xs-6 col-sm-3 ">
           <div class="row m-0">
@@ -103,7 +113,7 @@
   </form>
 
   <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-  [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
 
   <div class="btn-sec clear-both mar-30">
     <div class="col-sm-4">
@@ -111,12 +121,12 @@
     <div class="col-sm-8 text-right">
       <button class="btn btn-primary hvr-sweep-to-left" (click)="onBack()" type="button">Back</button>
       <ng-container *ngIf="!isLoan360 && !isDeclinedFlow">
-      <button  class="btn btn-primary" (click)="saveUpdate('save')" type="button" *ngIf="!isLoan360">Save</button>
-      <!-- <button class="btn btn-primary"
+        <button class="btn btn-primary" (click)="saveUpdate('save')" type="button" *ngIf="!isLoan360">Save</button>
+        <!-- <button class="btn btn-primary"
        *ngIf="userType !== 2" 
        (click)="assignCDTaskFromSales()"
         type="button">Submit</button> -->
-      <!-- <button class="btn btn-primary"
+        <!-- <button class="btn btn-primary"
        *ngIf="userType == 2" 
        (click)="creditConditionActions('submited')"
         type="button">Submit</button> -->
@@ -129,11 +139,10 @@
       (click)="alertMessage('Reject')" data-toggle="modal"
       data-target="#approveModal"  [disabled]="!isRejectEnable"
         >Reject</button> -->
-        
-        <button  class="btn btn-primary" *ngIf="userType === 2" type="button" 
-        (click)="reject()"  [disabled]="!isRejectEnable"
-          >Reject</button>
-        </ng-container> 
+
+        <button class="btn btn-primary" *ngIf="userType === 2" type="button" (click)="reject()"
+          [disabled]="!isRejectEnable">Reject</button>
+      </ng-container>
       <!-- <button class="btn btn-primary" *ngIf="userType === 2" 
         (click)="creditConditionActions('approved')" type="button" [disabled] ="disableControl">Approve</button>
       <button class="btn btn-primary"
@@ -145,18 +154,18 @@
          >Refer</button>
       <button class="btn btn-primary" *ngIf="userType === 2" 
         (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
-  
+
       <ng-container *ngIf="!isLoan360">
         <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline') ; isShowModal = true"  type="button" [disabled]="!isDeclineEnable">Decline</button>
       <button class="btn btn-primary hvr-sweep-to-left" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE') ; isShowModal = true"
          type="button">Send Back to DDE </button>
       </ng-container>
-  
+
       <button class="btn btn-primary hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
     </div>
   </div>
   <div class="bottom_20"></div>
- 
+
 </div>
 
 <!-- modal popup -->
@@ -189,7 +198,7 @@
 
       <!-- Modal footer -->
       <div class="modal-footer text-center">
-        <button type="button"  data-dismiss="modal" class="btn btn-success" id="reject_yes_val" value="Yes"
+        <button type="button" data-dismiss="modal" class="btn btn-success" id="reject_yes_val" value="Yes"
           (click)="creditConditionActions('refered')">
           {{ labels.yes }}
         </button>
@@ -259,20 +268,20 @@ isShowModal= false"></app-custom-modal>
 <div id="overlay" *ngIf="errorGenerated">
   <div id="text">
     <div class="panel">
-      <div class="panel-body">        
-        <button type="button" class="close" aria-label="Close" (click)="errorGenerated = false" >
+      <div class="panel-body">
+        <button type="button" class="close" aria-label="Close" (click)="errorGenerated = false">
           <span aria-hidden="true">&times;</span>
         </button>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
           <div class="modal-body" style="text-align:center;">
             <!-- <p *ngFor="let item of errorMessage">{{item}}</p> -->
-            <div  class="errHead">
+            <div class="errHead">
               <h3 class="m-0">RC and TA Limit Check</h3>
             </div>
             <div class="row" *ngFor="let item of errorMessage; let i = index ;">
-                <div class="col-md-12">                
-                      <div class="errText" ><strong>*</strong>{{' '+item}}</div>
-                </div>
+              <div class="col-md-12">
+                <div class="errText"><strong>*</strong>{{' '+item}}</div>
+              </div>
             </div>
             <div class="btn-wrap">
               <button class="btn btn-danger" (click)="errorGenerated = false">OK</button>
@@ -284,4 +293,5 @@ isShowModal= false"></app-custom-modal>
   </div>
 </div>
 
-<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModal" *ngIf="showModal" (okay)="onOkay($event)" (cancel)="onCancel()"></app-reject-reason-modal>
+<app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModal" *ngIf="showModal" (okay)="onOkay($event)"
+  (cancel)="onCancel()"></app-reject-reason-modal>

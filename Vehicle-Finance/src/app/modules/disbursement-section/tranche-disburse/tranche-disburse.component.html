@@ -667,7 +667,10 @@
         </div>
         <div class="modal-body">
             <label>Remarks</label>
-            <textarea type="text" [(ngModel)]="remarks" class="form-control" rows="4"></textarea>
+            <!-- <textarea type="text" [(ngModel)]="remarks" class="form-control" rows="4"></textarea> -->
+            <app-custom-textarea [className]="'form-control'" [placeholder]="'Remarks'"
+            [maxlength]="labels?.validationData.textarea.maxLength" [(ngModel)]="remarks" [readonly]="true">
+          </app-custom-textarea>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
