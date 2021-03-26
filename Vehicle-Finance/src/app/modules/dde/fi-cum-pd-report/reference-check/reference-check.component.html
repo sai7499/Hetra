@@ -25,8 +25,8 @@
 
           <app-custom-input id="contact_number" placeholder="contact number"
             [type]="labels?.validationData?.mobileNumber?.type" formControlName="referenceMobile"
-            [patternCheck]="labels?.validationData?.mobileNumber?.pattern" 
-            [maxLength]="labels?.validationData?.mobileNumber?.maxLength" >
+            [patternCheck]="labels?.validationData?.mobileNumber?.pattern"
+            [maxLength]="labels?.validationData?.mobileNumber?.maxLength">
             <!-- [isRequired]="'Mobile number is required'"
             [isDirty]="isDirty" -->
           </app-custom-input>
@@ -35,7 +35,7 @@
       <div class="row">
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="mobile">{{ labels.negativeProfile }} <sub class="star_red_col">*</sub></label>
-          <app-vf-custom-select [isRequired]="'Overall Report is required'"  [isDirty]="isDirty" [values]="[
+          <app-vf-custom-select [isRequired]="'Overall Report is required'" [isDirty]="isDirty" [values]="[
             { key: '0', value: 'Yes' },
             { key: '1', value: 'No' }
           ]" formControlName="negativeProfile">
@@ -45,7 +45,7 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="overall_report">{{ labels.overallReport }} <sub class="star_red_col">*</sub></label>
 
-          <app-vf-custom-select [isRequired]="'Overall Report is required'"  [isDirty]="isDirty" [values]="[
+          <app-vf-custom-select [isRequired]="'Overall Report is required'" [isDirty]="isDirty" [values]="[
             { key: '0', value: 'Positive' },
             { key: '1', value: 'Negative' }
           ]" formControlName="overallFiReport">
@@ -57,7 +57,12 @@
           <label for="remarks">{{ labels.referenceRemarks }}
             <sub class="star_red_col">*</sub></label>
 
-          <textarea class="form-control mandatory" name="pdRemarks" id="pdRemarks" cols="1" rows="3"
+          <app-custom-textarea [className]="'form-control mandatory'" [placeholder]="'Remarks'"
+            [isRequired]="'Remarks are required'" [maxlength]="labels?.validationData.textarea.maxLength"
+            formControlName="pdRemarks" [readonly]="false" [isDirty]="isDirty">
+          </app-custom-textarea>
+
+          <!-- <textarea class="form-control mandatory" name="pdRemarks" id="pdRemarks" cols="1" rows="3"
             placeholder="remarks" formControlName="pdRemarks" [maxlength]="labels?.validationData.remarks.maxLength"  style="resize: none"></textarea>
 
           <div class="invalid-feedback" *ngIf="
@@ -70,10 +75,7 @@
               Remarks are required
             </div>
 
-            <!-- <div *ngIf="referenceCheckForm.controls['pdRemarks'].hasError('pattern')">
-              special characters are not allowed
-            </div> -->
-          </div>
+        </div> -->
         </div>
       </div>
       <h4 class="banner-sub" *ngIf="productCatCode === 'NCV' && applicantType == 'APPAPPRELLEAD'">
@@ -160,12 +162,13 @@
                 <td>
                   <button class="fa fa-plus mar-1" aria-hidden="true" id="addmorePOIbutton" value="Add"
                     [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
-                 
 
-                 
-                    <button type="button" data-toggle="modal" data-target="#myDeleteModel" id="reject_credit" class="fa fa-minus mar-1" aria-hidden="true" value="Delete" (click)="delete(i)">
-                    </button>
-                 
+
+
+                  <button type="button" data-toggle="modal" data-target="#myDeleteModel" id="reject_credit"
+                    class="fa fa-minus mar-1" aria-hidden="true" value="Delete" (click)="delete(i)">
+                  </button>
+
                 </td>
               </tr>
             </tbody>
@@ -249,8 +252,7 @@
             <!-- <sub class="star_red_col">*</sub> -->
           </label>
           <app-custom-input formControlName="area" [className]="'form-control mandatory'" [placeholder]="'Area'"
-             [type]="labels?.validationData?.area?.type"
-            [maxLength]="labels?.validationData?.area?.maxLength" >
+            [type]="labels?.validationData?.area?.type" [maxLength]="labels?.validationData?.area?.maxLength">
           </app-custom-input>
           <!-- [isDirty]="isDirty"
           [isRequired]="' Area is required'" -->
@@ -288,11 +290,11 @@
           </app-custom-input>
         </div>
       </div>
-        &nbsp; &nbsp;
-        <h4 class="banner-sub">{{ labels.pdDoneAt }}</h4>
+      &nbsp; &nbsp;
+      <h4 class="banner-sub">{{ labels.pdDoneAt }}</h4>
       <div class="row">
 
-        
+
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="captured_latitude">Latitude
           </label>
@@ -316,7 +318,7 @@
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
           <label for="sourceOf_margin_money">{{!isNonInd ? labels.selfieImageTitle : labels.selfieTitleForNonInd }}
           </label>
-          
+
           <div class="photo">
             <img [src]="SELFIE_IMAGE || 'assets/images/user.jpg'" alt="[Image: Photo]" width="100" />
           </div>

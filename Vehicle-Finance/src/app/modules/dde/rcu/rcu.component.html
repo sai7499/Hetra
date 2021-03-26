@@ -368,8 +368,14 @@
         <div class="form-group row">
           <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12"><label>{{labels?.remark}}</label></div>
           <div class="form-group col-lg-11 col-md-11 col-sm-11 col-xs-12">
-            <textarea class="form-control form-control-sm" [maxlength]="labels?.validationData.remarks.maxLength"
-              placeholder="Remarks" formControlName="remarks"></textarea>
+
+            <!-- <textarea class="form-control form-control-sm" [maxlength]="labels?.validationData.remarks.maxLength"
+              placeholder="Remarks" formControlName="remarks"></textarea> -->
+
+            <app-custom-textarea [className]="'form-control form-control-sm'" [placeholder]="'Remarks'"
+              [maxlength]="labels?.validationData.textarea.maxLength" formControlName="remarks" [readonly]="false">
+            </app-custom-textarea>
+
           </div>
 
         </div>
@@ -384,7 +390,7 @@
   <div class="btn-sec clear-both row cst_btm_btns mar-bot-btn">
     <div class="col-sm-5"></div>
     <div class="col-sm-7 text-right">
-      
+
       <button *ngIf="roleType == '2' && !isRcuDetails && isErr == true && isReInitiate == true"
         class="btn btn-primary dash_href hvr-sweep-to-left" type="button" data-toggle="modal"
         data-target="#myModalReinitiate">

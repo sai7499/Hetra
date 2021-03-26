@@ -129,6 +129,7 @@ setTheme('bs4');
     PddComponent,
     UploadDiscussionComponent,
     WelomceLetterComponent,
+    CustomTextareaComponent,
     CustomModalComponent
   ]
 })

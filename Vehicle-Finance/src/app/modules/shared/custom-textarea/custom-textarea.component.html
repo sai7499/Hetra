@@ -3,6 +3,8 @@
 (blur)="onBlurMethod($event)" (input)="change($event)"
 [maxlength]="maxLengthValid?.rule" [readonly]="readonly"></textarea>
 
+<!-- cols="1" rows="3" -->
+
 <div class="invalid-feedback" *ngIf="inputError">
   {{errorMsg}}
 </div>

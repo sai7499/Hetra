@@ -1,50 +1,44 @@
-
-<div class="content" >
-    <form [formGroup]="chequeForm">
+<div class="content">
+  <form [formGroup]="chequeForm">
     <div class="table-responsive application" id="cheque_results_section">
-                        <h3 class="banner-con">{{labels?.chequeTracking}} 
-                          <span class="float-right">{{udfScreenId}}</span>
-                        </h3>
-                                <table class="table">
-                                    <thead>
-                                      <tr class="table-head-bg">
-                                        <th *ngIf="isSales">  </th>
-                                        <th>{{labels?.chequeMode}}<i class="fa fa-sort"></i> </th>
-                                        <th>{{labels?.chequeNumber}}<i class="fa fa-sort"></i> </th>
-                                        <th>{{labels?.chequeDate}}<i class="fa fa-sort"></i> </th>
-                                        <th>{{labels?.chequeAmount}}<i class="fa fa-sort"></i> </th>
-                                        <th>{{labels?.chequestatus}}<i class="fa fa-sort"></i> </th>
-                                        <!-- <th>{{labels?.statusUpdatedOn}}<i class="fa fa-sort"></i> </th> -->
-                                        <th>{{labels?.payableTo}}<i class="fa fa-sort"></i> </th>
-                                        <th>{{labels?.favouringTo}}<i class="fa fa-sort"></i> </th>
-                                      </tr>
-                                    </thead>
-                                    <!-- <tbody  formArrayName='details'> -->
-                                    <tbody  >
-                                      <tr
-                                      *ngFor="let data of chequeData ; let i =index ">
-                                        
-                                        <td *ngIf="isSales"><input type="radio"
-                                           name="cheque_radio" 
-                                           id="cheque_radio_1"
-                                            (click)="onGetChequeData(data, i, $event)"
-                                           
-                                            ></td>
-                                           
-                                            
-                                        <td>{{data?.mode || '-'}}</td>
-                                        <td>
-                                          <!-- <app-custom-input
+      <h3 class="banner-con">{{labels?.chequeTracking}}
+        <span class="float-right">{{udfScreenId}}</span>
+      </h3>
+      <table class="table">
+        <thead>
+          <tr class="table-head-bg">
+            <th *ngIf="isSales"> </th>
+            <th>{{labels?.chequeMode}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.chequeNumber}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.chequeDate}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.chequeAmount}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.chequestatus}}<i class="fa fa-sort"></i> </th>
+            <!-- <th>{{labels?.statusUpdatedOn}}<i class="fa fa-sort"></i> </th> -->
+            <th>{{labels?.payableTo}}<i class="fa fa-sort"></i> </th>
+            <th>{{labels?.favouringTo}}<i class="fa fa-sort"></i> </th>
+          </tr>
+        </thead>
+        <!-- <tbody  formArrayName='details'> -->
+        <tbody>
+          <tr *ngFor="let data of chequeData ; let i =index ">
+
+            <td *ngIf="isSales"><input type="radio" name="cheque_radio" id="cheque_radio_1"
+                (click)="onGetChequeData(data, i, $event)"></td>
+
+
+            <td>{{data?.mode || '-'}}</td>
+            <td>
+              <!-- <app-custom-input
                                               formControlName="chequeNum"
                                               [maxLength]=""
                                               (ngModelChange)="onChangeCheque(i, $event)"
                                               
                                               [type]=""
                                             ></app-custom-input> -->
-                                            {{data?.chequeNum || '-'}}
-                                        </td>
-                                        <td>
-                                          <!-- <kendo-datepicker
+              {{data?.chequeNum || '-'}}
+            </td>
+            <td>
+              <!-- <kendo-datepicker
                                           class="form-control"
                                           formControlName="chequeDate"
                                           [format]="'dd/MM/yyyy'"
@@ -53,12 +47,12 @@
                                           (ngModelChange)="chequeDateChange($event, i)"
                                           
                                         ></kendo-datepicker> -->
-                                        {{data?.chequeDate || '-'}}
-                                        
-                                        </td>
-                                        <td>{{data?.chequeAmt|| '-'}}</td>
-                                        <td>{{data?.chequeStatusDesc|| '-'}}</td>
-                                        <!-- <td>
+              {{data?.chequeDate || '-'}}
+
+            </td>
+            <td>{{data?.chequeAmt|| '-'}}</td>
+            <td>{{data?.chequeStatusDesc|| '-'}}</td>
+            <!-- <td>
                                           <kendo-datepicker
                                           class="form-control"
                                           (ngModelChange)="statusDateChange($event, i)"
@@ -70,12 +64,12 @@
 
                                         
                                         </td> -->
-                                        <!-- <td>{{data?.statusUpdatedOn|| '-'}}</td> -->
-                                        <td>{{data?.payableTo|| '-'}}</td>
-                                        <td>{{data?.favTo|| '-'}}</td>
-                                        
-                                      </tr>
-                                       <!-- <tr>
+            <!-- <td>{{data?.statusUpdatedOn|| '-'}}</td> -->
+            <td>{{data?.payableTo|| '-'}}</td>
+            <td>{{data?.favTo|| '-'}}</td>
+
+          </tr>
+          <!-- <tr>
                                         <td><input type="radio" name="cheque_radio" id="cheque_radio_2"></td>
                                         <td>Cheque</td>
                                         <td>123823</td>
@@ -86,313 +80,262 @@
                                         <td>Dealer</td>
                                         <td>Dealer 1</td>
                                       </tr> -->
-                                      
-                                    </tbody>
-                                </table>
-                                <div id="cheque_results_1" *ngIf="isSales">
-                                    <div class="row" style="margin-right:0px;margin-left:0px;">
-                                        <div class="col-lg-6 col-sm-4 col-md-3">
-                                            <div class="row">
-                                        <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeNumber}}</div>
-                                        <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeNum || '-'}}</strong></div>
-                                    </div>
-                                    &nbsp;
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeDate}}</div>
-                                        <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeDate || '-'}}</strong></div>
-                                    </div>
-                                    &nbsp;
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeAmount}}</div>
-                                        <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeAmt || '-'}}</strong></div>
-                                    </div>
-                                    &nbsp;
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.payableTo}}</div>
-                                        <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.payableTo || '-'}}</strong></div>
-                                    </div>
-                                    &nbsp;
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.favouringTo}}</div>
-                                        <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.favTo || '-'}}</strong></div>
-                                    </div>
-                                    &nbsp;
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-4 col-md-3">{{labels.customerName}}</div>
-                                        <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{chequeCollctedBy || '-'}}</strong></div>
-                                    </div>
-                                    &nbsp;
-                                    <div class="row" 
-                                    *ngIf="showRemark">
-                                      <div class="col-lg-3 col-sm-4 col-md-3">Remarks</div>
-                                      <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.remarks || '-'}}</strong></div>
-                                  </div>
 
-                                        </div>
-                                        <div class="col-lg-6 col-sm-4 col-md-3" >
-                                          
-                                            <div class="row"
-                                            >
-                                                <div class="col-lgg-3 col-sm-4 col-md-3">{{labels.status}}</div>
-                                                <div class="col-lg-4 col-sm-4 col-md-3">
-                                                    <!-- <select id="" class="form-control" >
+        </tbody>
+      </table>
+      <div id="cheque_results_1" *ngIf="isSales">
+        <div class="row" style="margin-right:0px;margin-left:0px;">
+          <div class="col-lg-6 col-sm-4 col-md-3">
+            <div class="row">
+              <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeNumber}}</div>
+              <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeNum || '-'}}</strong></div>
+            </div>
+            &nbsp;
+            <div class="row">
+              <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeDate}}</div>
+              <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeDate || '-'}}</strong></div>
+            </div>
+            &nbsp;
+            <div class="row">
+              <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.chequeAmount}}</div>
+              <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.chequeAmt || '-'}}</strong></div>
+            </div>
+            &nbsp;
+            <div class="row">
+              <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.payableTo}}</div>
+              <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.payableTo || '-'}}</strong></div>
+            </div>
+            &nbsp;
+            <div class="row">
+              <div class="col-lg-3 col-sm-4 col-md-3">{{labels?.favouringTo}}</div>
+              <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.favTo || '-'}}</strong></div>
+            </div>
+            &nbsp;
+            <div class="row">
+              <div class="col-lg-3 col-sm-4 col-md-3">{{labels.customerName}}</div>
+              <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{chequeCollctedBy || '-'}}</strong></div>
+            </div>
+            &nbsp;
+            <div class="row" *ngIf="showRemark">
+              <div class="col-lg-3 col-sm-4 col-md-3">Remarks</div>
+              <div class="col-lg-4 col-sm-4 col-md-3"><strong>{{selectedData?.remarks || '-'}}</strong></div>
+            </div>
+
+          </div>
+          <div class="col-lg-6 col-sm-4 col-md-3">
+
+            <div class="row">
+              <div class="col-lgg-3 col-sm-4 col-md-3">{{labels.status}}</div>
+              <div class="col-lg-4 col-sm-4 col-md-3">
+                <!-- <select id="" class="form-control" >
                                                         <option value="Handed Over">Handed Over</option>
                                                         <option value="On-Hold">On-Hold</option>
                                                         <option value="Branch Received">Branch Received</option>
                                                         
                                                     </select> -->
-                                                    <app-vf-custom-select
-                                                        formControlName="status"
-                                                        [isDisabled]="disableUpdate"
-                                                        [values]="LOV.LOVS.chequeStatus"
-                                                        (change)="onChangeStatus($event)"
-                                                        [isRequired]="statusMsg"
-                                                        [isDirty]="isDirty"
-                                                    ></app-vf-custom-select>
-                                                </div>
-                                            </div>
-                                            &nbsp;
-                                            <div *ngIf="showChequeNum">
+                <app-vf-custom-select formControlName="status" [isDisabled]="disableUpdate"
+                  [values]="LOV.LOVS.chequeStatus" (change)="onChangeStatus($event)" [isRequired]="statusMsg"
+                  [isDirty]="isDirty"></app-vf-custom-select>
+              </div>
+            </div>
+            &nbsp;
+            <div *ngIf="showChequeNum">
 
-                                            
-                                            <div class="row"
-                                            >
-                                              <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">Cheque Number</p></div>
-                                              <!-- <div class="col-lg-4 col-sm-4 col-md-3">
-                                                  <textarea class="form-control" cols="2"
-                                                  formControlName='remarks'></textarea>
-                                              </div> -->
-                                              <div class="col-lg-4 col-sm-4 col-md-3">
-                                                <app-custom-input
-                                                formControlName="chequeNum"
-                                                [maxLength]="validationData?.chequeNumber?.maxLength"
-                                                [patternCheck]="validationData?.chequeNumber?.patternCheck"
-                                                [isRequired]="'Cheque Number Is Required'"
-                                                [isDirty]="isDirty"
-                                                (ngModelChange)="onChangeCheque( $event)"
-                                                
-                                                [type]="validationData?.chequeNumber?.type"
-                                              ></app-custom-input>
-                                              <div class="invalid-feedback ShowError" 
-                                              *ngIf="chequeForm.get('chequeNum').value && chequeForm.get('chequeNum').valid && this.isInvalidChequeNum">
-                                                   Invalid Number
-                                                   
-                                              </div>
-                                              </div>
 
-                                              
+              <div class="row">
+                <div class="col-lgg-3 col-sm-4 col-md-3">
+                  <p id="remarks_place">Cheque Number</p>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-md-3">
+                  <app-custom-input formControlName="chequeNum" [maxLength]="validationData?.chequeNumber?.maxLength"
+                    [patternCheck]="validationData?.chequeNumber?.patternCheck"
+                    [isRequired]="'Cheque Number Is Required'" [isDirty]="isDirty"
+                    (ngModelChange)="onChangeCheque( $event)" [type]="validationData?.chequeNumber?.type">
+                  </app-custom-input>
+                  <div class="invalid-feedback ShowError"
+                    *ngIf="chequeForm.get('chequeNum').value && chequeForm.get('chequeNum').valid && this.isInvalidChequeNum">
+                    Invalid Number
 
-                                              
-                                              
-                                          </div>
-                                          &nbsp;
-                                          <div class="row">
-                                            <div class="col-lgg-3 col-sm-4 col-md-3">Cheque Date</div>
-                                            <div class="col-lg-4 col-sm-4 col-md-3">
-                                             <kendo-datepicker
-                                             class="form-control"
-                                             formControlName="chequeDate"
-                                             [format]="'dd/MM/yyyy'"
-                                             [min]="disburseDate"
-                                             [max]="toDayDate"
+                  </div>
+                </div>
 
-                                             placeholder="Cheque Date"
-                                             [activeView]="'decade'"
-                                             [disabled]="disableUpdate"
-                                             (valueChange)="onChequeDateChange($event)"
-                                            
-                                           ></kendo-datepicker>
-                                           <!-- (valueChange)="updateStatusDate($event)" -->
-                                           <div class="invalid-feedback ShowError">
-                                            <div 
-                                            *ngIf="isDirty">
-                                              <div *ngIf="!chequeForm.get('chequeDate').value && chequeForm.get('chequeDate').invalid">
-                                                  Select Date
-                                              </div>
-                                            </div>
-                                            <div 
-                                            *ngIf="chequeForm.get('chequeDate').value && 
+
+
+
+
+              </div>
+              &nbsp;
+              <div class="row">
+                <div class="col-lgg-3 col-sm-4 col-md-3">Cheque Date</div>
+                <div class="col-lg-4 col-sm-4 col-md-3">
+                  <kendo-datepicker class="form-control" formControlName="chequeDate" [format]="'dd/MM/yyyy'"
+                    [min]="disburseDate" [max]="toDayDate" placeholder="Cheque Date" [activeView]="'decade'"
+                    [disabled]="disableUpdate" (valueChange)="onChequeDateChange($event)"></kendo-datepicker>
+                  <!-- (valueChange)="updateStatusDate($event)" -->
+                  <div class="invalid-feedback ShowError">
+                    <div *ngIf="isDirty">
+                      <div *ngIf="!chequeForm.get('chequeDate').value && chequeForm.get('chequeDate').invalid">
+                        Select Date
+                      </div>
+                    </div>
+                    <div *ngIf="chequeForm.get('chequeDate').value && 
                                             chequeForm.get('chequeDate').invalid">
-                                             
-                                                  Invalid Date
-                                            </div>
-                                            
-                                           </div>
-                                          
 
-                                            </div>
+                      Invalid Date
+                    </div>
 
-                                          </div>
-                                        </div>
-                                            &nbsp;
-                                            <div *ngIf="showStatusDate">
+                  </div>
 
-                                            
-                                            <div class="row" >
-                                               <div class="col-lgg-3 col-sm-4 col-md-3">Handed Over Date</div>
-                                               <div class="col-lg-4 col-sm-4 col-md-3">
-                                                <kendo-datepicker
-                                                class="form-control"
-                                                formControlName="statusUpdatedOn"
-                                                [format]="'dd/MM/yyyy'"
-                                                [min]="minHandoverDate"
-                                                placeholder="Status Updated On"
-                                                [activeView]="'decade'"
-                                                [disabled]="disableUpdate"
-                                               
-                                              ></kendo-datepicker>
-                                              <!-- (valueChange)="updateStatusDate($event)" -->
-                                              <div class="invalid-feedback ShowError"
-                                              >
 
-                                                <div *ngIf="isDirty && !chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">
-                                                    Select Date
-                                                </div>
-                                               <div *ngIf="chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">
-                                                   Invalid Date
-                                               </div>
-                                              </div>
+                </div>
 
-                                               </div>
-                                            </div>
-                                            &nbsp;
-                                            <div class="row"
-                                            >
-                                              <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">Cheque Collected By</p></div>
-                                              <!-- <div class="col-lg-4 col-sm-4 col-md-3">
-                                                  <textarea class="form-control" cols="2"
-                                                  formControlName='remarks'></textarea>
-                                              </div> -->
-                                              <div class="col-lg-4 col-sm-4 col-md-3">
-                                                <app-vf-custom-select
-                                                formControlName="chequeCollectedBy"
-                                                [values]="applicantList"
-                                                (change)="onChangeChequeCollected($event)"
-                                                [isDisabled]="disableUpdate"
-                                                [isRequired]="'Please select one'"
-                                                [isDirty]="isDirty"
-                                                
-                                            ></app-vf-custom-select>
-                                              </div>
-                                              
-                                              
-                                          </div>
-                                          &nbsp;
-                                          <div class="row"
-                                          >
-                                            <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">ID Proof</p></div>
-                                            <!-- <div class="col-lg-4 col-sm-4 col-md-3">
-                                                <textarea class="form-control" cols="2"
-                                                formControlName='remarks'></textarea>
-                                            </div> -->
-                                            <div class="col-lg-4 col-sm-4 col-md-3">
-                                              <app-vf-custom-select
-                                              formControlName="idProof"
-                                              [values]="idProofValues"
-                                              [isDisabled]="disableUpdate"
-                                              [isRequired]="'Please select one'"
-                                              [isDirty]="isDirty"
-                                              
-                                          ></app-vf-custom-select>
-                                            </div>
-                                            
-                                            
-                                        </div>
-                                        </div>
-                                            &nbsp;
-                                            <div class="row"
-                                            *ngIf="showRemark">
-                                                <div class="col-lgg-3 col-sm-4 col-md-3"><p id="remarks_place">{{labels?.chequeRemark}}</p></div>
-                                                <div class="col-lg-4 col-sm-4 col-md-3">
-                                                    <textarea class="form-control" cols="4" 
-                                                    (ngModelChange)="onRemarkValue($event)"
-                                                    formControlName='remarks'></textarea>
+              </div>
+            </div>
+            &nbsp;
+            <div *ngIf="showStatusDate">
 
-                                                    <div class="invalid-feedback ShowError"
-                                              *ngIf="chequeForm.get('remarks').touched || isDirty">
-                                                <div *ngIf="chequeForm.get('remarks').invalid">
-                                                    Remarks Is Required
-                                                </div>
-                                              </div>
-                                                </div>
-                                                
-                                                
-                                            </div>
-                                         
-                                            
-                                            &nbsp;
-                                            <!-- <div class="row">
+
+              <div class="row">
+                <div class="col-lgg-3 col-sm-4 col-md-3">Handed Over Date</div>
+                <div class="col-lg-4 col-sm-4 col-md-3">
+                  <kendo-datepicker class="form-control" formControlName="statusUpdatedOn" [format]="'dd/MM/yyyy'"
+                    [min]="minHandoverDate" placeholder="Status Updated On" [activeView]="'decade'"
+                    [disabled]="disableUpdate"></kendo-datepicker>
+                  <!-- (valueChange)="updateStatusDate($event)" -->
+                  <div class="invalid-feedback ShowError">
+
+                    <div
+                      *ngIf="isDirty && !chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">
+                      Select Date
+                    </div>
+                    <div *ngIf="chequeForm.get('statusUpdatedOn').value && chequeForm.get('statusUpdatedOn').invalid">
+                      Invalid Date
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              &nbsp;
+              <div class="row">
+                <div class="col-lgg-3 col-sm-4 col-md-3">
+                  <p id="remarks_place">Cheque Collected By</p>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-md-3">
+                  <app-vf-custom-select formControlName="chequeCollectedBy" [values]="applicantList"
+                    (change)="onChangeChequeCollected($event)" [isDisabled]="disableUpdate"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                </div>
+
+
+              </div>
+              &nbsp;
+              <div class="row">
+                <div class="col-lgg-3 col-sm-4 col-md-3">
+                  <p id="remarks_place">ID Proof</p>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-md-3">
+                  <app-vf-custom-select formControlName="idProof" [values]="idProofValues" [isDisabled]="disableUpdate"
+                    [isRequired]="'Please select one'" [isDirty]="isDirty"></app-vf-custom-select>
+                </div>
+
+
+              </div>
+            </div>
+            &nbsp;
+            <div class="row" *ngIf="showRemark">
+              <div class="col-lgg-3 col-sm-4 col-md-3">
+                <p id="remarks_place">{{labels?.chequeRemark}}</p>
+              </div>
+              <div class="col-lg-4 col-sm-4 col-md-3">
+                <app-custom-textarea [className]="'form-control'" [placeholder]="'Remarks'" [isRequired]="'Remarks Is Required'"
+                  [maxlength]="labels?.validationData.textarea.maxLength" formControlName="remarks" [readonly]="false"
+                  (ngModelChange)="onRemarkValue($event)" [isDirty]="isDirty">
+                </app-custom-textarea>
+                <!-- <textarea class="form-control" cols="4"
+                   (ngModelChange)="onRemarkValue($event)" 
+                  formControlName='remarks'></textarea> -->
+
+                <!-- <div class="invalid-feedback ShowError" *ngIf="chequeForm.get('remarks').touched || isDirty">
+                  <div *ngIf="chequeForm.get('remarks').invalid">
+                    Remarks Is Required
+                  </div>
+                </div> -->
+              </div>
+
+
+            </div>
+
+
+            &nbsp;
+            <!-- <div class="row">
                                                 <div class="col-lg-2 col-sm-4 col-md-3"></div>
                                                 <div class="col-lg-4 col-sm-4 col-md-3">
                                                     
                                                     <button class="btn btn-primary" disabled>{{labels.initialDisbursement}}</button>
                                                 </div>
                                             </div> -->
-                                        </div>
-                                    </div>
-                                </div>
+          </div>
+        </div>
+      </div>
 
-                                <ng-container *ngIf="!isSales && statusHistory.length >= 1">
-                                  <form action="" method="POST">
-                                    <div class="table-responsive" id="exact_macth_title2_sec">
-                                      <table class="table">
-                                        <thead>
-                                          <tr class="table-head-bg">
-                                            <td>Cheque status</td>
-                                            <td>Status updated on</td>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr *ngFor = "let status of statusHistory; let i = index">
-                                            <td>{{status.chequeStatus}}</td>
-                                            <td>{{status.statusUpdatedOn}}</td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </form>
-                                </ng-container>
-                               
-                    </div>               
-</form>
-<app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
-[udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
-<!-- <div class="for_space"></div>
+      <ng-container *ngIf="!isSales && statusHistory.length >= 1">
+        <form action="" method="POST">
+          <div class="table-responsive" id="exact_macth_title2_sec">
+            <table class="table">
+              <thead>
+                <tr class="table-head-bg">
+                  <td>Cheque status</td>
+                  <td>Status updated on</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let status of statusHistory; let i = index">
+                  <td>{{status.chequeStatus}}</td>
+                  <td>{{status.statusUpdatedOn}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </ng-container>
+
+    </div>
+  </form>
+  <app-shared-user-defined-fields [isDirty]="isDirty" [udfScreenId]="udfScreenId" [udfGroupId]="udfGroupId"
+    [udfDetails]="udfDetails" (saveUserdefined)="onSaveuserDefinedFields($event)"></app-shared-user-defined-fields>
+  <!-- <div class="for_space"></div>
 
 </div>
 <div class="for_space"></div> -->
 
-<div class="row btn-sec clear-both mar-bot" *ngIf="isSales">
-                
+  <div class="row btn-sec clear-both mar-bot" *ngIf="isSales">
+
     <div class="col-sm-5"></div>
-    <div class="col-sm-7 "
-    >
-        <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBack()">{{labels.back}}</button>
-        <button  class="btn btn-primary dash_href "
-        [disabled]="disableUpdate"
-        
-        (click)="checkFormUpdate('update')"
-        >Update</button>
-        <button  class="btn btn-primary dash_href hvr-sweep-to-right" (click)="onNext()">Next</button>
-        <button  class="btn btn-primary dash_href hvr-sweep-to-right"
-        [disabled]="isDisableCpcSubmit" (click)="checkFormUpdate('submitToCpc')">Submit to CPC</button>
+    <div class="col-sm-7 ">
+      <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBack()">{{labels.back}}</button>
+      <button class="btn btn-primary dash_href " [disabled]="disableUpdate"
+        (click)="checkFormUpdate('update')">Update</button>
+      <button class="btn btn-primary dash_href hvr-sweep-to-right" (click)="onNext()">Next</button>
+      <button class="btn btn-primary dash_href hvr-sweep-to-right" [disabled]="isDisableCpcSubmit"
+        (click)="checkFormUpdate('submitToCpc')">Submit to CPC</button>
     </div>
     <!-- data-toggle="modal"
         data-target="#myModal" -->
-            
-</div>
 
-<div class="row btn-sec clear-both mar-bot" *ngIf="!isSales">
-                
-  <div class="col-sm-5"></div>
-  <div class="col-sm-5"></div>
-  <div class="col-sm-2">
-    <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBack()">{{labels.back}}</button>
-    <button class="btn btn-primary dash_href hvr-sweep-to-right" (click)="showModal = true">{{labels?.disburse}}</button>
   </div>
-      
-          
-</div>
+
+  <div class="row btn-sec clear-both mar-bot" *ngIf="!isSales">
+
+    <div class="col-sm-5"></div>
+    <div class="col-sm-5"></div>
+    <div class="col-sm-2">
+      <button class="btn btn-primary dash_href hvr-sweep-to-left" (click)="onBack()">{{labels.back}}</button>
+      <button class="btn btn-primary dash_href hvr-sweep-to-right"
+        (click)="showModal = true">{{labels?.disburse}}</button>
+    </div>
+
+
+  </div>
 </div>
 <!-- <div class="modal" id="myModal">
     <div class="modal-dialog">
@@ -428,25 +371,24 @@
       </div>
     </div>
   </div> -->
-  
-  <div class="modal" id="myModal" role="dialog" [ngClass]="{ 'dis-block': showModal }">
-    <div class="modal-dialog">
+
+<div class="modal" id="myModal" role="dialog" [ngClass]="{ 'dis-block': showModal }">
+  <div class="modal-dialog">
 
 
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" (click)="showModal=false">&times;</button>
-            </div>
-            <div class="modal-body" >
-                <p>Are you Sure you want to {{isSales ? isUpdateForm?  'Update' : 'Submit' : 'Disburse' }} Record?</p>
-            </div>
-           
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary " (click)="onUpdate()" 
-                    data-dismiss="modal">Yes</button> &nbsp;
-                <button type="button" class="btn btn-primary " data-dismiss="modal" (click)="showModal=false">Close</button>
-            </div>
-        </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="showModal=false">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you Sure you want to {{isSales ? isUpdateForm? 'Update' : 'Submit' : 'Disburse' }} Record?</p>
+      </div>
 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary " (click)="onUpdate()" data-dismiss="modal">Yes</button> &nbsp;
+        <button type="button" class="btn btn-primary " data-dismiss="modal" (click)="showModal=false">Close</button>
+      </div>
     </div>
+
+  </div>
 </div>

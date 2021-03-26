@@ -52,12 +52,11 @@ export class CustomTextareaComponent
   errorMsg: any;
   @Input() isDisabled: boolean;
   @Input() isRequired: string;
-  @Input() value: string;
+  @Input() value: any;
 
   isFirstChange: boolean = true;
 
   @Input() set isDirty(value) {
-    console.log(value, 'isDirty', this.isRequired)
     if (value) {
       this.checkIsFirst = false;
       this.checkValidation(this.inputValue);
@@ -78,27 +77,26 @@ export class CustomTextareaComponent
   }
 
   writeValue( value : any ) : void {
-    console.log('writeValue', value);
-    const limit = this.customText.nativeElement;
+    if (value) {
+      const limit = this.customText.nativeElement;
 
-    this.inputValue = value;
-    this.renderer.setProperty(limit, 'textContent', value);
+      this.inputValue = value;
+      this.renderer.setProperty(limit, 'textContent', value);
+    }
   }
 
   registerOnChange( fn : any ) : void {
-    console.log('registerOnChange');
     this.onChange = fn;
   }
 
   registerOnTouched( fn : any ) : void {
-    console.log('registerOnTouched');
     this.onTouched = fn;
   }
 
   constructor( private renderer : Renderer2 ) {
   }
 
-  change($event ) {
+  change($event) {
     this.onChange($event.target.value);
     this.onTouched($event.target.value);
     this.inputError = $event.target.value ? false: true;
@@ -114,7 +112,6 @@ export class CustomTextareaComponent
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
-    console.log('simpleChanges',simpleChanges);
     const isRequired = simpleChanges.isRequired || null;
     if (isRequired) {
       if (this.isFirstChange) {

@@ -469,18 +469,24 @@
           </h4>
         </div>
         <div class="modal-body">
-          <textarea class="form-control" rows="10" cols="5" [maxlength]="labels?.validationData.remarks.maxLength"
+          <!-- <textarea class="form-control" rows="10" cols="5" [maxlength]="labels?.validationData.remarks.maxLength"
             formControlName="recommendation"
-            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' : 'Comments'}}"></textarea>
+            placeholder="{{modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' :
+             'Comments'}}"></textarea> -->
 
-          <div class="invalid-feedback"
+          <app-custom-textarea [className]="'form-control'" [placeholder]="modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks' :
+             'Comments'" [maxlength]="labels?.validationData.textarea.maxLength" formControlName="recommendation"
+            [readonly]="false" [isRequired]="modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks ' : 'Comments' + 'Required'">
+          </app-custom-textarea>
+
+          <!-- <div class="invalid-feedback"
             *ngIf="modalForm.controls['recommendation'].touched && !modalForm.controls['recommendation'].valid">
             <div *ngIf="modalForm.controls['recommendation'].hasError('required')">
               {{ modalForm.controls['typeOfModal'].value === 'Recommendation' ? 'Recommendations / Remarks ' : 'Comments
               '}}
               Required
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="closeModal"
