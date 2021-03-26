@@ -1191,18 +1191,19 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.callAppiyoUploadApi();
     }
 
-    if (!isValueChange && !isRequested) {
-      if (this.isProfileSignUploaded) {
-        this.isProfileSignUploaded = false;
-        return this.toasterService.showSuccess('Documents saved successfully', '');
+    if (!isRequested) {
+      if (!isValueChange) {
+        if (this.isProfileSignUploaded) {
+          this.isProfileSignUploaded = false;
+          return this.toasterService.showSuccess('Documents saved successfully', '');
+        }
+        return this.toasterService.showWarning('No changes done to save', '');
       }
-      return this.toasterService.showWarning('No changes done to save', '');
-
     }
+
     const docNotAvailable = this.documentArr.find((doc) => {
       return !doc.dmsDocumentId && doc.isDeferred !== '1';
     });
-    console.log('docNotAvailable', docNotAvailable);
     if (docNotAvailable) {
       const category = this.categories.find((category) => {
         return category.code === Number(docNotAvailable.categoryCode)
@@ -1303,6 +1304,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
         this.isReqApprove[index] = false;
         let documentDetails = res.ProcessVariables.documentDetail;
         obj.controls[index].get('deferralStatus').setValue(documentDetails.deferralStatus)
+        this.toasterService.showSuccess('Requested Deferral Approval Sucessfully', '')
+        this.setDocumentDetails()
       } else {
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Request Approve Deferral')
       }
