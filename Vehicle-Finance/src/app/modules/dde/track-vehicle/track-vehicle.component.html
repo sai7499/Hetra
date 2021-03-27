@@ -471,7 +471,7 @@
 [showModal]="showNoOfEmisAccruedModal"
 [buttons] = "emiAccModalButtons"
 (onButtonCancel) = "showNoOfEmisAccruedModal = false"
-(onButtonClick)="changeAccrued() ; showNoOfEmisAccruedModal= false"></app-custom-modal>
+(onButtonClick)="changeAccrued($event) ; showNoOfEmisAccruedModal= false"></app-custom-modal>
 
 <!-- change emi date -->
 <app-custom-modal
@@ -479,7 +479,7 @@
 [showModal]="showEmiStartDateModal"
 [buttons] = "emiDateModalButtons"
 (onButtonCancel) = "showEmiStartDateModal = false"
-(onButtonClick)="loanStartDate() ; showEmiStartDateModal= false"></app-custom-modal>
+(onButtonClick)="loanStartDate($event) ; showEmiStartDateModal= false"></app-custom-modal>
 
 
 <!-- <div class="modal" id="emiAmountModal" [style.display]="showEmiAmountModal ? 'block' : 'none'">
