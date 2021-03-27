@@ -5,926 +5,1303 @@
 				<div class="panel panel-default">
 					<div class="" id="headingTwo1">
 						<h4 class="banner-con">
-							<a style="color:#fff;" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo1">
-                             TVR Details
-                             <i class="fa fa-angle-down"></i>
+							<a style="color:#fff;" class="collapsed" data-toggle="collapse" data-parent="#accordion"
+								href="#collapseTwo1">
+								TVR Details
+								<i class="fa fa-angle-down"></i>
 							</a>
-                      </h4>
+						</h4>
 					</div>
 					<div id="collapseTwo1" class="panel-collapse collapse in">
-						<form [formGroup]="tvrForm" class="form-horizontal" autocomplete="off" style="padding-bottom: 0;">
-						<div class="panel-body">
-							<div class="col-xs-12">
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.applicationNumber}} <sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" formControlName="applicationNumber" placeholder="" >
-										<input type="hidden" class="form-control" formControlName="applicantID" placeholder="" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="application_numberVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.entityType}} <sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" formControlName="entityTypeDesc" placeholder="" >
-										<input type="hidden" class="form-control" formControlName="entityType" placeholder="" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="entityTypeVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.customerName}} <sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" formControlName="customerName" placeholder="" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="applicantNameVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.mobileNumber}} <sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="mobileNumber" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="mobileNumberVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div> 
-							<div class="row">
-								<div class="form-group clearfix">
-                                    <label class="col-sm-4 col-md-3" *ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">{{labels?.dob}} <sub class="star_red_col">*</sub> </label>
-                                    <label class="col-sm-4 col-md-3" *ngIf="tvrForm['controls']['entityType']['value'] == 'NONINDIVENTTYP'">{{labels?.doi}} <sub class="star_red_col">*</sub> </label>                                   
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="dob" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="dobVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.soEmpIDName}}<sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="soEmpIdName" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="soEmpIdNameVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.leadreferredby}}</label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="sourcingTypeDesc" >
-										<input type="hidden" class="form-control" placeholder="" formControlName="sourcingType" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="sourcingTypeVerified"  [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.productCategory}}<sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="productCategory" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="productCategoryVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-									</app-vf-custom-select>
-									</div>
-								</div>
-							</div> 	
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.product}} <sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="productName" >
-										<input type="hidden" class="form-control" placeholder="" formControlName="productID" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="productIdVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row" *ngIf="ncvProduct">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.mmPaidTowardsVehicle}} <sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="marginMoney" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="marginMoneyVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row" *ngIf="ncvProduct">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.dealerName}} <sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="dealerName" >
-									</div>
-									<div class="col-sm-4 col-md-2">
-										<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="dealerNameVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-										</app-vf-custom-select>
-									</div>
-								</div>
-							</div>
-							<div class="row" *ngIf="ncvProduct">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.discountOfferedByDealer}}  <sub class="star_red_col">*</sub> </label>
-									<div class="col-sm-4 col-md-3">
-										<textarea type="text" class="form-control" placeholder="" formControlName="discountOfferByDealer" ></textarea>
-									</div>
-								</div>
-							</div>
-							
-							<br/>
-							
-							<!-- Applicant Residence Start -->
-							<div class="panel-group">
-								<div class="panel panel-default">
-									<a class="panel-heading db" data-parent="" data-toggle="collapse" href="#applicantResidence">
-										<h4 class="panel-title">{{labels?.applicantResidence}} <i class="fa fa-angle-down"></i></h4>
-									</a>
-									<div class="panel-collapse collapse" id="applicantResidence">
-										<div class="panel-body">
-											<div class="col-xs-12">
-												<div class="clearfix">
-													<h4 class="font16" *ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">{{labels?.applicantAddress}}</h4>
-													<h4 class="font16" *ngIf="tvrForm['controls']['entityType']['value'] == 'NONINDIVENTTYP'">{{labels?.companyAddress}}</h4>	
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.currentAddress}} <sub class="star_red_col">*</sub> </label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="currentAddress" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="currentAddressVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.landlineNumberCurrent}}</label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="currentAddLandline" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="currentAddLandlineVerified" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
+						<form [formGroup]="tvrForm" class="form-horizontal" autocomplete="off"
+							style="padding-bottom: 0;">
+							<div class="panel-body">
+								<div class="col-xs-12">
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.applicationNumber}} <sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control"
+													formControlName="applicationNumber" placeholder="">
+												<input type="hidden" class="form-control" formControlName="applicantID"
+													placeholder="">
 											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.permanentAddressAny}} <sub class="star_red_col">*</sub> </label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="permanentAddress" disabled>
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="permanentAddressVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.landlineNumberPermanent}}</label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="permanentAddLandline" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="permanentAddLandlineVerified" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="application_numberVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
 											</div>
 										</div>
-											<div class="clearfix" *ngIf="tvrForm['controls']['isOfcAddApplicable']['value']">
-												<h4 class="font16">{{labels?.businessOfficeAddress}}</h4>											
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.officeAddress}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="officeAddress" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="officeAddressVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.landlineNumberOffice}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="officeAddLandline" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="officeAddLandlineVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div> 
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.alternateContactNumber1}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="alternateContactNumber" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="alternateContactNumberVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div> 
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.entityType}} <sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" formControlName="entityTypeDesc"
+													placeholder="">
+												<input type="hidden" class="form-control" formControlName="entityType"
+													placeholder="">
 											</div>
-											<div class="clearfix">
-												<h4 class="font16">{{labels?.designation}}</h4>											
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.designation}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="designation" >
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="entityTypeVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.customerName}} <sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" formControlName="customerName"
+													placeholder="">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="applicantNameVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.mobileNumber}} <sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="mobileNumber">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="mobileNumberVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3"
+												*ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">{{labels?.dob}}
+												<sub class="star_red_col">*</sub> </label>
+											<label class="col-sm-4 col-md-3"
+												*ngIf="tvrForm['controls']['entityType']['value'] == 'NONINDIVENTTYP'">{{labels?.doi}}
+												<sub class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="dob">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="dobVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.soEmpIDName}}<sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="soEmpIdName">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="soEmpIdNameVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.leadreferredby}}</label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="sourcingTypeDesc">
+												<input type="hidden" class="form-control" placeholder=""
+													formControlName="sourcingType">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="sourcingTypeVerified" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.productCategory}}<sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="productCategory">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="productCategoryVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.product}} <sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="productName">
+												<input type="hidden" class="form-control" placeholder=""
+													formControlName="productID">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="productIdVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row" *ngIf="ncvProduct">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.mmPaidTowardsVehicle}} <sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="marginMoney">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="marginMoneyVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row" *ngIf="ncvProduct">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.dealerName}} <sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="dealerName">
+											</div>
+											<div class="col-sm-4 col-md-2">
+												<app-vf-custom-select [values]="tvrVerfiedLov"
+													formControlName="dealerNameVerified"
+													[isRequired]="'Selection is mandatory'" [isDirty]="isDirty">
+												</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<div class="row" *ngIf="ncvProduct">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.discountOfferedByDealer}} <sub
+													class="star_red_col">*</sub> </label>
+											<div class="col-sm-4 col-md-3">
+
+												<app-custom-textarea [className]="'form-control'"
+													[placeholder]="labels?.discountOfferedByDealer"
+													[maxlength]="labels?.validationData.textarea.maxLength"
+													formControlName="discountOfferByDealer" [readonly]="false">
+												</app-custom-textarea>
+
+												<!-- <textarea type="text" class="form-control" placeholder="" 
+											formControlName="discountOfferByDealer" ></textarea> -->
+											</div>
+										</div>
+									</div>
+
+									<br />
+
+									<!-- Applicant Residence Start -->
+									<div class="panel-group">
+										<div class="panel panel-default">
+											<a class="panel-heading db" data-parent="" data-toggle="collapse"
+												href="#applicantResidence">
+												<h4 class="panel-title">{{labels?.applicantResidence}} <i
+														class="fa fa-angle-down"></i></h4>
+											</a>
+											<div class="panel-collapse collapse" id="applicantResidence">
+												<div class="panel-body">
+													<div class="col-xs-12">
+														<div class="clearfix">
+															<h4 class="font16"
+																*ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">
+																{{labels?.applicantAddress}}</h4>
+															<h4 class="font16"
+																*ngIf="tvrForm['controls']['entityType']['value'] == 'NONINDIVENTTYP'">
+																{{labels?.companyAddress}}</h4>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.currentAddress}}
+																		<sub class="star_red_col">*</sub> </label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="currentAddress">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select [values]="tvrVerfiedLov"
+																			formControlName="currentAddressVerified"
+																			[isRequired]="'Selection is mandatory'"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.landlineNumberCurrent}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="currentAddLandline">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select [values]="tvrVerfiedLov"
+																			formControlName="currentAddLandlineVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.permanentAddressAny}}
+																		<sub class="star_red_col">*</sub> </label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="permanentAddress" disabled>
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select [values]="tvrVerfiedLov"
+																			formControlName="permanentAddressVerified"
+																			[isRequired]="'Selection is mandatory'"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.landlineNumberPermanent}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="permanentAddLandline">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="permanentAddLandlineVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
 														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="designationVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
+														<div class="clearfix"
+															*ngIf="tvrForm['controls']['isOfcAddApplicable']['value']">
+															<h4 class="font16">{{labels?.businessOfficeAddress}}</h4>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.officeAddress}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="officeAddress">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="officeAddressVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.landlineNumberOffice}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="officeAddLandline">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="officeAddLandlineVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.alternateContactNumber1}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="alternateContactNumber">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="alternateContactNumberVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
 														</div>
-													</div>
-												</div>
-												<div class="row" *ngIf="tvrForm['controls']['entityType']['value'] == 'NONINDIVENTTYP'">
-													<div class="form-group clearfix" >
-														<label class="col-sm-4 col-md-3">{{labels?.industryType}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="natureOfBusiness" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="natureOfBusinessVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div> 
-												<div class="row" *ngIf="tvrForm['controls']['entityType']['value'] == 'NONINDIVENTTYP'">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.numOfEmployees}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="noOfWorkingEmployees" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="noOfWorkingEmployeesVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div>  
-												<div class="row" *ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.monthlySalary}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="monthlyIncomeAmount" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="monthlyIncomeAmountVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div> 
-												<div class="row" *ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.employerName}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="employerName">
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<!-- <app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="employerNameVerified" [isDirty]="isDirty"> 											
+														<div class="clearfix">
+															<h4 class="font16">{{labels?.designation}}</h4>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.designation}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="designation">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="designationVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row"
+																*ngIf="tvrForm['controls']['entityType']['value'] == 'NONINDIVENTTYP'">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.industryType}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="natureOfBusiness">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="natureOfBusinessVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row"
+																*ngIf="tvrForm['controls']['entityType']['value'] == 'NONINDIVENTTYP'">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.numOfEmployees}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="noOfWorkingEmployees">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="noOfWorkingEmployeesVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row"
+																*ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.monthlySalary}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="monthlyIncomeAmount">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="monthlyIncomeAmountVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row"
+																*ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.employerName}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="employerName">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<!-- <app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="employerNameVerified" [isDirty]="isDirty"> 											
 															</app-vf-custom-select> -->
-														</div>
-													</div>
-												</div> 
-												<div class="row" *ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.employerType}}</label>
-														<div class="col-sm-4 col-md-3">
-															<app-vf-custom-select [values]="EmployeeTypeLOV" formControlName="employerType" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<!-- <app-vf-custom-select [values]="" formControlName="employerTypeVerified" [isDirty]="isDirty"> 											
+																	</div>
+																</div>
+															</div>
+															<div class="row"
+																*ngIf="tvrForm['controls']['entityType']['value'] == 'INDIVENTTYP'">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.employerType}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<app-vf-custom-select [values]="EmployeeTypeLOV"
+																			formControlName="employerType"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<!-- <app-vf-custom-select [values]="" formControlName="employerTypeVerified" [isDirty]="isDirty"> 											
 															</app-vf-custom-select> -->
-														</div>
-													</div>
-												</div> 
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.customerProfileMatching}} </label>
-														<div class="col-sm-4 col-md-3">
-															<!--<input type="text" class="form-control" placeholder="" >-->
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="customerProfileMatching" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div> 
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.propertyDetails}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="houseOwnership" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="houseOwnershipVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.customerProfileMatching}}
+																	</label>
+																	<div class="col-sm-4 col-md-3">
+																		<!--<input type="text" class="form-control" placeholder="" >-->
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select [values]="tvrVerfiedLov"
+																			formControlName="customerProfileMatching"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.propertyDetails}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="houseOwnership">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="houseOwnershipVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row" *ngIf="tcrProduct">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.landHoldingDetails}}</label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="landHoldingDetails">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select
+																			[values]="tvrVerfiedAddLov"
+																			formControlName="landHoldingDetailsVerified"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="form-group clearfix">
+																	<label
+																		class="col-sm-4 col-md-3">{{labels?.residenceStability2}}
+																		<sub class="star_red_col">*</sub> </label>
+																	<div class="col-sm-4 col-md-3">
+																		<input type="text" class="form-control"
+																			placeholder=""
+																			formControlName="residenceDesc">
+																		<input type="hidden" class="form-control"
+																			placeholder=""
+																			formControlName="residentStatus">
+																	</div>
+																	<div class="col-sm-4 col-md-2">
+																		<app-vf-custom-select [values]="tvrVerfiedLov"
+																			formControlName="residentStatusVerified"
+																			[isRequired]="'Selection is mandatory'"
+																			[isDirty]="isDirty">
+																		</app-vf-custom-select>
+																	</div>
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>
-												<div class="row" *ngIf="tcrProduct">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.landHoldingDetails}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="landHoldingDetails" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="landHoldingDetailsVerified" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div> 
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.residenceStability2}} <sub class="star_red_col">*</sub> </label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="residenceDesc" >
-															<input type="hidden" class="form-control" placeholder="" formControlName="residentStatus" >
-														</div>
-														<div class="col-sm-4 col-md-2">
-															<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="residentStatusVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div> 
 											</div>
-										</div>
 										</div>
 									</div>
-								</div>
-							</div>
-							<!-- Applicant Residence End -->
-							
-							<!-- Asset Details Start -->
-							<div class="panel-group">
-								<div class="panel panel-default" *ngFor="let assetDetails of tvrAssetDetails.controls; let i = index">
-									<a class="panel-heading panel-primary title collapsed db" data-toggle="collapse"  href="#assetDetails{{i+1}}">
-										<h4 *ngIf="tvrAssetDetails.controls.length >=1" class="panel-title">
-										  <a> {{labels?.assetDetails}} - {{i +1}} <i class="fa fa-angle-down"></i> </a>
-										</h4>
-									  </a>
-									<div class="panel-collapse collapse" id="assetDetails{{i+1}}">
-										<div class="panel-body">
-											<div [formGroup]="assetDetails" class="col-xs-12">
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.assetCost}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="assetCost" >
-														<input type="hidden" class="form-control" placeholder="" formControlName="collateralID" >													
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="assetCostVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.requestedAmount}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="requestedLoanAmount" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="requestedLoanAmountVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.tenureMonths}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="tenureMonths" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="tenureMonthsVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.vehicleType}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="vehicleTypeCode" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="vehicleTypeCodeVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.vehicleMake}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="vehicleMfrCode" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="vehicleMfrCodeVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.vehicleModel}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="vehicleModel" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="vehicleModelVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.requestedEMI}}  </label>
-													<div class="col-sm-4 col-md-3">
-                                                        <app-custom-input formControlName="requestedEmi" type="number"> </app-custom-input>                                                        
-														<!-- <input type="text" class="form-control" placeholder="" formControlName="requestedEmi" > -->
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="requestedEmiVerified" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.requestedEMICycledate}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<app-vf-custom-select [values]="EMICycleLOV" formControlName="requestedEmiCycle" [isRequired]="'Requested EMI Cycle date is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.vehiclePurchasedPrice}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="purchasePrice" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="purchasePriceVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.deploymentUsageOfProposedVehicle}}</label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="usageOfProposedVehicle" >
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.refinanceEnd}}</label>
-													<div class="col-sm-4 col-md-3">
-														<app-vf-custom-select [values]="RefinanceLOV" formControlName="refinance" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>														
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.proposedVehiclePurchased}}</label>
-													<div class="col-sm-4 col-md-3">
-														<app-vf-custom-select [values]="VehiclePurchasedFromLOV" formControlName="vehiclePurchasedFrom" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.otherVehiclesOwned}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="otherAssetsOwned" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="otherAssetsOwnedVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.anyOtherLoans}}</label>
-													<div class="col-sm-4 col-md-3">
-														<!-- (selectionChange)="selectAnyOtherLoan($event,i)" -->
-														<mat-form-field>
-															<mat-select formControlName="anyOtherLoans" multiple>
-															  <mat-option *ngFor="let x of AnyOtherLoanLOV" [value]="x.key"
-															  >{{x.value}}
-															  </mat-option>
-															</mat-select>
-														  </mat-form-field>
-														<!-- <app-vf-custom-select [values]="AnyOtherLoanLOV" formControlName="anyOtherLoans" [isDirty]="isDirty"> 											
+									<!-- Applicant Residence End -->
+
+									<!-- Asset Details Start -->
+									<div class="panel-group">
+										<div class="panel panel-default"
+											*ngFor="let assetDetails of tvrAssetDetails.controls; let i = index">
+											<a class="panel-heading panel-primary title collapsed db"
+												data-toggle="collapse" href="#assetDetails{{i+1}}">
+												<h4 *ngIf="tvrAssetDetails.controls.length >=1" class="panel-title">
+													<a> {{labels?.assetDetails}} - {{i +1}} <i
+															class="fa fa-angle-down"></i> </a>
+												</h4>
+											</a>
+											<div class="panel-collapse collapse" id="assetDetails{{i+1}}">
+												<div class="panel-body">
+													<div [formGroup]="assetDetails" class="col-xs-12">
+														<div class="row">
+															<div class="form-group clearfix">
+																<label class="col-sm-4 col-md-3">{{labels?.assetCost}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="assetCost">
+																	<input type="hidden" class="form-control"
+																		placeholder="" formControlName="collateralID">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="assetCostVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.requestedAmount}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="requestedLoanAmount">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="requestedLoanAmountVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.tenureMonths}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="tenureMonths">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="tenureMonthsVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label class="col-sm-4 col-md-3">{{labels?.vehicleType}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="vehicleTypeCode">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="vehicleTypeCodeVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label class="col-sm-4 col-md-3">{{labels?.vehicleMake}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="vehicleMfrCode">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="vehicleMfrCodeVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.vehicleModel}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="vehicleModel">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="vehicleModelVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.requestedEMI}}
+																</label>
+																<div class="col-sm-4 col-md-3">
+																	<app-custom-input formControlName="requestedEmi"
+																		type="number"> </app-custom-input>
+																	<!-- <input type="text" class="form-control" placeholder="" formControlName="requestedEmi" > -->
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="requestedEmiVerified"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.requestedEMICycledate}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<app-vf-custom-select [values]="EMICycleLOV"
+																		formControlName="requestedEmiCycle"
+																		[isRequired]="'Requested EMI Cycle date is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.vehiclePurchasedPrice}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="purchasePrice">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="purchasePriceVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.deploymentUsageOfProposedVehicle}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="usageOfProposedVehicle">
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.refinanceEnd}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<app-vf-custom-select [values]="RefinanceLOV"
+																		formControlName="refinance" [isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.proposedVehiclePurchased}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<app-vf-custom-select
+																		[values]="VehiclePurchasedFromLOV"
+																		formControlName="vehiclePurchasedFrom"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.otherVehiclesOwned}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="otherAssetsOwned">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="otherAssetsOwnedVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.anyOtherLoans}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<!-- (selectionChange)="selectAnyOtherLoan($event,i)" -->
+																	<mat-form-field>
+																		<mat-select formControlName="anyOtherLoans"
+																			multiple>
+																			<mat-option
+																				*ngFor="let x of AnyOtherLoanLOV"
+																				[value]="x.key">{{x.value}}
+																			</mat-option>
+																		</mat-select>
+																	</mat-form-field>
+																	<!-- <app-vf-custom-select [values]="AnyOtherLoanLOV" formControlName="anyOtherLoans" [isDirty]="isDirty"> 											
 														</app-vf-custom-select> -->
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedAddLov" formControlName="anyOtherLoansVerified" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedAddLov"
+																		formControlName="anyOtherLoansVerified"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label class="col-sm-4 col-md-3">{{labels?.spokenTo1}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<app-vf-custom-select [values]="SpokenToLOV"
+																		formControlName="spokenTo"
+																		(change)="spokenToCall($event.target.value,i)"
+																		[isRequired]="'Spoken To is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="spokenToVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.relationWithApplicant}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="relationWithApplicant"
+																		disabled>
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="relationWithApplicantVerified"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
-											</div>		
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.spokenTo1}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<app-vf-custom-select [values]="SpokenToLOV" formControlName="spokenTo" (change)="spokenToCall($event.target.value,i)" [isRequired]="'Spoken To is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="spokenToVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<!-- Asset Details End -->
+
+									<!-- Co Applicant Details Start -->
+									<div class="panel-group">
+										<div class="panel panel-default"
+											*ngFor="let coAppList of tvrCoApplicants.controls; let i = index">
+											<a class="panel-heading panel-primary title collapsed db"
+												data-toggle="collapse" href="#coAppList{{i+1}}">
+												<h4 *ngIf="tvrCoApplicants.controls.length >=1" class="panel-title">
+													<a> {{labels?.coAppDetails}} - {{i +1}} <i
+															class="fa fa-angle-down"></i> </a>
+												</h4>
+											</a>
+											<div class="panel-collapse collapse" id="coAppList{{i+1}}">
+												<div class="panel-body">
+													<div [formGroup]="coAppList" class="col-xs-12">
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.coApplicantName}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="applicantName">
+																	<input type="hidden" class="form-control"
+																		placeholder="" formControlName="applicantID">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="applicantNameVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.relationshipWithApplicant}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="relationshipWithApplicant">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="relationshipWithApplicantVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.coapplicantMobileNo}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="mobileNo">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="mobileNoVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.whetherCoAppSignedDocs}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<!--<input type="text" class="form-control" placeholder="" >-->
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="applicantSignedDocs"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.whetherCoAppStayingWithApplicant}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<!--<input type="text" class="form-control" placeholder="" >-->
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="stayedWithApplicant"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
-											</div>		
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.relationWithApplicant}}</label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="relationWithApplicant" disabled>
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="relationWithApplicantVerified"  [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
+											</div>
+										</div>
+									</div>
+									<!-- Co Applicant Details End -->
+
+									<!-- Guarantor Details Start -->
+									<div class="panel-group">
+										<div class="panel panel-default"
+											*ngFor="let gurantorList of tvrGurantors.controls; let i = index">
+											<a class="panel-heading panel-primary title collapsed db"
+												data-toggle="collapse" href="#gurantorList{{i+1}}">
+												<h4 *ngIf="tvrGurantors.controls.length >=1" class="panel-title">
+													<a>{{labels?.guarantorDetails}} - {{i +1}} <i
+															class="fa fa-angle-down"></i> </a>
+												</h4>
+											</a>
+											<div class="panel-collapse collapse" id="gurantorList{{i+1}}">
+												<div class="panel-body">
+													<div [formGroup]="gurantorList" class="col-xs-12">
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.guarantorName}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="applicantName">
+																	<input type="hidden" class="form-control"
+																		placeholder="" formControlName="applicantID">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="applicantNameVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.gurantorMobileno}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="mobileNo">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="mobileNoVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.anyRelationshipWithApplicantCoapplicant}}<sub
+																		class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="relationshipWithApplicant">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="relationshipWithApplicantVerified"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.whetherGurantorSignedDocs}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<!--<input type="text" class="form-control" placeholder="" >-->
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="applicantSignedDocs"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.whetherVehicleMaintainedByCustomer}}
+																	<sub class="star_red_col">*</sub></label>
+																<div class="col-sm-4 col-md-3">
+																	<!--<input type="text" class="form-control" placeholder="" >-->
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="vehicleMaintainedByCustomer"
+																		[isRequired]="'Selection is mandatory'"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.existingCustomerOfEquitas}}
+																</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="existingCustomer">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="existingCustomerVerified"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.existingRelationshipWithAnyOtherProductAndBranch}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="existingRelationshipAnyOther">
+																</div>
+																<div class="col-sm-4 col-md-2">
+																	<app-vf-custom-select [values]="tvrVerfiedLov"
+																		formControlName="existingRelationshipAnyOtherVerified"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
-											</div>													
-										 </div>																				
+											</div>
+										</div>
+									</div>
+									<!-- Guarantor Details End -->
+
+									<!-- Reference Details Start -->
+									<div class="panel-group">
+										<div class="panel panel-default">
+											<a class="panel-heading db" data-parent="" data-toggle="collapse"
+												href="#referenceDetails">
+												<h4 class="panel-title">{{labels?.refereanceDetails}} <i
+														class="fa fa-angle-down"></i></h4>
+											</a>
+											<div class="panel-collapse collapse" id="referenceDetails">
+												<div class="panel-body">
+													<div class="clearfix col-xs-12">
+														<h4 class="font16">{{labels?.refer1}}</h4>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.name}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="referenceName1">
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.address}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="referenceAddress1">
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.contactNo}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="referenceContactNo1">
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.status}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<app-vf-custom-select [values]="ReferenceStatusLOV"
+																		formControlName="referenceStatus1"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="clearfix col-xs-12">
+														<h4 class="font16">{{labels?.refer2}}</h4>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.name}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder="" formControlName="referenceName2">
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.address}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="referenceAddress2">
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.contactNo}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<input type="text" class="form-control"
+																		placeholder=""
+																		formControlName="referenceContactNo2">
+																</div>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group clearfix">
+																<label
+																	class="col-sm-4 col-md-3">{{labels?.status}}</label>
+																<div class="col-sm-4 col-md-3">
+																	<app-vf-custom-select [values]="ReferenceStatusLOV"
+																		formControlName="referenceStatus2"
+																		[isDirty]="isDirty">
+																	</app-vf-custom-select>
+																</div>
+															</div>
+														</div>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Reference Details End -->
+
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.remark}}</label>
+											<div class="col-sm-4 col-md-3">
+												<!-- <textarea class="form-control" rows="3"
+													formControlName="remarks"></textarea> -->
+												<app-custom-textarea [className]="'form-control'"
+													[placeholder]="labels?.remark"
+													[maxlength]="labels?.validationData.textarea.maxLength"
+													formControlName="remarks" [readonly]="false">
+												</app-custom-textarea>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.date}} <sub
+													class="star_red_col">*</sub></label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="tvrDoneDate">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.tvrDonebyName}} <sub
+													class="star_red_col">*</sub></label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="tvrDoneByName">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group clearfix">
+											<label class="col-sm-4 col-md-3">{{labels?.eCode1}} <sub
+													class="star_red_col">*</sub></label>
+											<div class="col-sm-4 col-md-3">
+												<input type="text" class="form-control" placeholder=""
+													formControlName="tvrDoneEmpID">
+												<input type="hidden" class="form-control" placeholder=""
+													formControlName="tvrID">
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<!-- Asset Details End -->
-							
-							<!-- Co Applicant Details Start -->
-							<div class="panel-group">
-								<div class="panel panel-default" *ngFor="let coAppList of tvrCoApplicants.controls; let i = index">
-									<a class="panel-heading panel-primary title collapsed db" data-toggle="collapse" href="#coAppList{{i+1}}">
-										<h4 *ngIf="tvrCoApplicants.controls.length >=1" class="panel-title">
-										  <a> {{labels?.coAppDetails}}  - {{i +1}} <i class="fa fa-angle-down"></i> </a>
-										</h4>
-									  </a>
-									<div class="panel-collapse collapse" id="coAppList{{i+1}}">
-										<div class="panel-body">
-											<div [formGroup]="coAppList" class="col-xs-12">
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.coApplicantName}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="applicantName" >
-														<input type="hidden" class="form-control" placeholder="" formControlName="applicantID" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="applicantNameVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.relationshipWithApplicant}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="relationshipWithApplicant" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="relationshipWithApplicantVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.coapplicantMobileNo}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="mobileNo" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="mobileNoVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.whetherCoAppSignedDocs}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<!--<input type="text" class="form-control" placeholder="" >-->
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="applicantSignedDocs" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.whetherCoAppStayingWithApplicant}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<!--<input type="text" class="form-control" placeholder="" >-->
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="stayedWithApplicant" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-										</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Co Applicant Details End -->
-							
-							<!-- Guarantor Details Start -->
-							<div class="panel-group">
-								<div class="panel panel-default" *ngFor="let gurantorList of tvrGurantors.controls; let i = index">
-								<a class="panel-heading panel-primary title collapsed db" data-toggle="collapse"  href="#gurantorList{{i+1}}">
-									<h4 *ngIf="tvrGurantors.controls.length >=1" class="panel-title">
-									  <a>{{labels?.guarantorDetails}} - {{i +1}} <i class="fa fa-angle-down"></i> </a>
-									</h4>
-								  </a>	
-									<div class="panel-collapse collapse" id="gurantorList{{i+1}}">
-										<div class="panel-body">
-											<div [formGroup]="gurantorList" class="col-xs-12">
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.guarantorName}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="applicantName" >
-														<input type="hidden" class="form-control" placeholder="" formControlName="applicantID" >														
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="applicantNameVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.gurantorMobileno}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="mobileNo" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="mobileNoVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.anyRelationshipWithApplicantCoapplicant}}<sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="relationshipWithApplicant" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="relationshipWithApplicantVerified" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.whetherGurantorSignedDocs}}  <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<!--<input type="text" class="form-control" placeholder="" >-->
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="applicantSignedDocs" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.whetherVehicleMaintainedByCustomer}} <sub class="star_red_col">*</sub></label>
-													<div class="col-sm-4 col-md-3">
-														<!--<input type="text" class="form-control" placeholder="" >-->
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="vehicleMaintainedByCustomer" [isRequired]="'Selection is mandatory'" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.existingCustomerOfEquitas}} </label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="existingCustomer" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="existingCustomerVerified" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-											<div class="row">
-												<div class="form-group clearfix">
-													<label class="col-sm-4 col-md-3">{{labels?.existingRelationshipWithAnyOtherProductAndBranch}}</label>
-													<div class="col-sm-4 col-md-3">
-														<input type="text" class="form-control" placeholder="" formControlName="existingRelationshipAnyOther" >
-													</div>
-													<div class="col-sm-4 col-md-2">
-														<app-vf-custom-select [values]="tvrVerfiedLov" formControlName="existingRelationshipAnyOtherVerified" [isDirty]="isDirty"> 											
-														</app-vf-custom-select>
-													</div>
-												</div>
-											</div> 
-										</div>
-									</div>
-									</div>
-								</div>
-							</div>
-							<!-- Guarantor Details End -->
-							
-							<!-- Reference Details Start -->
-							<div class="panel-group">
-								<div class="panel panel-default">
-									<a class="panel-heading db" data-parent="" data-toggle="collapse" href="#referenceDetails">
-										<h4 class="panel-title">{{labels?.refereanceDetails}} <i class="fa fa-angle-down"></i></h4>
-									</a>
-									<div class="panel-collapse collapse" id="referenceDetails">
-										<div class="panel-body">
-											<div class="clearfix col-xs-12">
-												<h4 class="font16">{{labels?.refer1}}</h4>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.name}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="referenceName1"  >
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.address}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="referenceAddress1" >
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.contactNo}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="referenceContactNo1" >
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.status}}</label>
-														<div class="col-sm-4 col-md-3">
-															<app-vf-custom-select [values]="ReferenceStatusLOV" formControlName="referenceStatus1" [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div>  												
-											</div>
-											<div class="clearfix col-xs-12">
-												<h4 class="font16">{{labels?.refer2}}</h4>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.name}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="referenceName2" >
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.address}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="referenceAddress2" >
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.contactNo}}</label>
-														<div class="col-sm-4 col-md-3">
-															<input type="text" class="form-control" placeholder="" formControlName="referenceContactNo2" >
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="form-group clearfix">
-														<label class="col-sm-4 col-md-3">{{labels?.status}}</label>
-														<div class="col-sm-4 col-md-3">
-															<app-vf-custom-select [values]="ReferenceStatusLOV" formControlName="referenceStatus2"  [isDirty]="isDirty"> 											
-															</app-vf-custom-select>
-														</div>
-													</div>
-												</div>  												
-											</div>
-											
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Reference Details End -->
-							
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.remark}}</label>
-									<div class="col-sm-4 col-md-3">
-										<textarea class="form-control" rows="3" formControlName="remarks"></textarea>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.date}} <sub class="star_red_col">*</sub></label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="tvrDoneDate"  >
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.tvrDonebyName}} <sub class="star_red_col">*</sub></label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="tvrDoneByName" >
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group clearfix">
-									<label class="col-sm-4 col-md-3">{{labels?.eCode1}} <sub class="star_red_col">*</sub></label>
-									<div class="col-sm-4 col-md-3">
-										<input type="text" class="form-control" placeholder="" formControlName="tvrDoneEmpID" >
-										<input type="hidden" class="form-control" placeholder="" formControlName="tvrID" >
-									</div>
-								</div>
-							</div>
-							</div>
-						</div>
 						</form>
 					</div>
 				</div>
-              
-			  <br/>
+
+				<br />
 				<div class="row buttonsAdjust">
 					<div class="col-sm-5 text-right"></div>
 					<div class="col-sm-7 text-right">
-                        <button class="btn btn-primary hvr-sweep-to-left" type="button" (click)=onBack()> {{labels.back}} </button>
-						<button class="btn btn-primary dash_href adjustMargins" (click)="onSubmit()"> {{labels.save}} </button>
-                        <button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()"> {{labels.next}} </button>
-                    </div>
-              </div> <br/>
-			  
-          </div>
-      </div>
-  </div>
+						<button class="btn btn-primary hvr-sweep-to-left" type="button" (click)=onBack()>
+							{{labels.back}} </button>
+						<button class="btn btn-primary dash_href adjustMargins" (click)="onSubmit()"> {{labels.save}}
+						</button>
+						<button class="btn btn-primary hvr-sweep-to-right" type="button" (click)="onNext()">
+							{{labels.next}} </button>
+					</div>
+				</div> <br />
+
+			</div>
+		</div>
+	</div>
 </form>
 
 <!--
