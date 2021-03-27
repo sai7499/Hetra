@@ -230,12 +230,11 @@
                         <div class="form-group col-sm-3 col-md-2">
                           <label for="edate">Role Name</label>
 
-                          <app-vf-custom-select [values]="documentRoleArray ? documentRoleArray[i] : ''"
+                          <app-vf-custom-select [values]="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('documentRoleArray').value ? uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('documentRoleArray').value : ''"
                             [id]="'document_role'" formControlName="receivedBy" [isRequired]="'Document Role Required'"
                             [isDirty]="isDirty"
                             (change)="onChangeRoleId(uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code), i, subCat.code)">
                           </app-vf-custom-select>
-
                         </div>
 
                         <div class="form-group col-sm-3 col-md-2"

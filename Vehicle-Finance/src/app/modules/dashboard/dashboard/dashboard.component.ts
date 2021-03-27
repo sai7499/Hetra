@@ -109,9 +109,13 @@ export enum sortingTables {
   ByApplicants,
   ByCreated,
   ByPriority,
+  ByDefType,
+  ByDefDocName,
+  ByDefDate,
+  ByReqOn,
+  ByReqBy,
   SortAsc,
-  SortDesc
-
+  SortDesc,
 }
 
 @Component({
@@ -175,6 +179,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   sortByApplicants = false;
   sortByCreatedBy = false;
   sortByPriority = false;
+  sortByDefType: boolean;
+  sortByDefDocName: boolean;
+  sortByDefDate: boolean;
+  sortByReqOn: boolean;
+  sortByReqBy: boolean;
   sortAsc = false;
   sortDesc = true;
   salesResponse;
@@ -224,8 +233,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('closeModal3', { static: false }) public closeModal3: ElementRef;
   userDetailsRoleId: any;
   supervisorUserId: any;
-
-
   TrancheDisbList: any[];
   trancheDetails: any[];
   TrancheDisbTaskList: any[];
@@ -520,6 +527,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loanMaxAmtChange();
     this.loanMinAmtChange();
     this.onFromDateChange();
+    this.onFetchDashboardTabs();
     const currentUrl = this.location.path();
     const value = localStorage.getItem('ddePath');
     const currentLabel = JSON.parse(value);
@@ -584,206 +592,104 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/pages/query-model`)
   }
 
+  sortData() {
+    this.sortByLead = false;
+    this.sortByDate = false;
+    this.sortByProduct = false;
+    this.sortByLoanAmt = false;
+    this.sortByStage = false;
+    this.sortByLoanAccNo = false;
+    this.sortByDisburDate = false;
+    this.sortByExpectedDate = false;
+    this.sortByName = false;
+    this.sortByApplicants = false;
+    this.sortByCreatedBy = false;
+    this.sortByPriority = false;
+    this.sortByDefType = false;
+    this.sortByDefDocName = false;
+    this.sortByDefDate = false;
+    this.sortByReqOn = false;
+    this.sortByReqBy = false;
+  }
+
   onSort(data) {
     this.sortTab = data;
+    this.sortData();
     switch (data) {
       case 0:
         this.sortByLead = true;
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByStage = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
       case 1:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
         this.sortByProduct = true;
-        this.sortByLoanAmt = false;
-        this.sortByStage = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
       case 2:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
         this.sortByLoanAmt = true;
-        this.sortByStage = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
       case 3:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
         this.sortByDate = true;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByStage = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
       case 4:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
         this.sortByStage = true;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
       case 5:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
         this.sortByLoanAccNo = true;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByStage = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
       case 6:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByLoanAccNo = false;
         this.sortByDisburDate = true;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByStage = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
       case 7:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
         this.sortByExpectedDate = true;
-        this.sortByName = false;
-        this.sortByStage = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
       case 8:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
         this.sortByName = true;
-        this.sortByStage = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
-        case 9:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByStage = false;
+      case 9:
         this.sortByApplicants = true;
-        this.sortByCreatedBy = false;
-        this.sortByPriority = false;
         break;
-        case 10:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByStage = false;
-        this.sortByApplicants = false;
+      case 10:
         this.sortByCreatedBy = true;
-        this.sortByPriority = false;
         break;
-        case 11:
-        this.sortAsc = this.sortAsc === true ? false : true;
-        this.sortDesc = this.sortDesc === false ? true : false;
-        this.sortByLead = false;
-        this.sortByDate = false;
-        this.sortByProduct = false;
-        this.sortByLoanAmt = false;
-        this.sortByLoanAccNo = false;
-        this.sortByDisburDate = false;
-        this.sortByExpectedDate = false;
-        this.sortByName = false;
-        this.sortByStage = false;
-        this.sortByApplicants = false;
-        this.sortByCreatedBy = false;
+      case 11:
         this.sortByPriority = true;
         break;
-
-
+      case 12:
+        this.sortByDefType = true;
+        break;
+      case 13:
+        this.sortByDefDocName = true;
+        break;
+      case 14:
+        this.sortByDefDate = true;
+        break;
+      case 15:
+        this.sortByReqOn = true;
+        break;
+      case 16:
+        this.sortByReqBy = true;
+        break;
       default:
         break;
     }
+
+    this.sortByLead = this.sortByLead;
+    this.sortAsc = this.sortAsc === true ? false : true;
+    this.sortDesc = this.sortDesc === false ? true : false;
+    this.sortByDate = this.sortByDate;
+    this.sortByProduct = this.sortByProduct;
+    this.sortByLoanAmt = this.sortByLoanAmt;
+    this.sortByStage = this.sortByStage;
+    this.sortByLoanAccNo = this.sortByLoanAccNo;
+    this.sortByDisburDate = this.sortByDisburDate;
+    this.sortByExpectedDate = this.sortByExpectedDate;
+    this.sortByName = this.sortByName;
+    this.sortByApplicants = this.sortByApplicants;
+    this.sortByCreatedBy = this.sortByCreatedBy;
+    this.sortByPriority = this.sortByPriority;
+    this.sortByDefType = this.sortByDefType;
+    this.sortByDefDocName = this.sortByDefDocName;
+    this.sortByDefDate = this.sortByDefDate;
+    this.sortByReqOn = this.sortByReqOn;
+    this.sortByReqBy = this.sortByReqBy;
     this.onTabsLoading(this.subActiveTab);
   }
 
@@ -1076,7 +982,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       subActiveTab: this.subActiveTab,
     };
     console.log(this.activeTab, 'activeTab', this.subActiveTab, 'subActiveTab');
-    
+    this.sortData();
     if (this.sortTab === '') {
       if (this.activeTab === this.displayTabs.PDD || this.activeTab === this.displayTabs.ChequeTracking) {
         this.sortByLead = false;
@@ -1085,16 +991,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.sortByLead = true;
         this.sortByLoanAccNo = false;
       }
-      this.sortByDate = false;
-      this.sortByProduct = false;
-      this.sortByLoanAmt = false;
-      this.sortByStage = false;
-      this.sortByDisburDate = false;
-      this.sortByExpectedDate = false;
-      this.sortByName = false;
-      this.sortByApplicants = false;
-      this.sortByCreatedBy = false;
-      this.sortByPriority = false;
       this.sortAsc = false;
       this.sortDesc = true;
       this.onTabsLoading(this.subActiveTab);
@@ -1149,19 +1045,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log(this.activeTab, 'activeTab', this.subActiveTab, 'subActiveTab');
 
     // this.onTabsLoading(this.subActiveTab);
+    this.sortData();
     if (this.sortTab === '') {
       this.sortByLead = true;
-      this.sortByDate = false;
-      this.sortByProduct = false;
-      this.sortByLoanAmt = false;
-      this.sortByStage = false;
-      this.sortByLoanAccNo = false;
-      this.sortByDisburDate = false;
-      this.sortByExpectedDate = false;
-      this.sortByName = false;
-      this.sortByApplicants = false;
-      this.sortByCreatedBy = false;
-      this.sortByPriority = false;
       this.sortAsc = false;
       this.sortDesc = true;
       this.onTabsLoading(this.subActiveTab);
@@ -1204,6 +1090,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
         'stageValue'
       );
     });
+  }
+
+  // Fetch Dashboard Tab Names API
+  onFetchDashboardTabs() {
+    const data = {
+      roleId: this.userDetailsRoleId
+    }
+    this.dashboardService.fetchDashboardTabs(data).subscribe((res: any) => {
+      const tabList = res.ProcessVariables.tabList;
+      const apiError = parseInt(res.Error);
+      const apiErrorCode = parseInt(res.ProcessVariables.error.code);
+      if(apiError === 0 && apiErrorCode === 0) {
+      console.log('dashboardTabs', tabList);
+
+      } else {
+        this.toasterService.showError(res.ProcessVariables.error.message ,'')
+      }
+    })
   }
 
   onDocNameSearch(val) {
@@ -1353,9 +1257,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByDisburDate: this.sortByDisburDate,
       sortByExpectedDate: this.sortByExpectedDate,
       sortByName: this.sortByName,
-      sortByApplicants : this.sortByApplicants,
-      sortByCreatedBy : this.sortByCreatedBy,
-      sortByPriority : this.sortByPriority,
+      sortByApplicants: this.sortByApplicants,
+      sortByCreatedBy: this.sortByCreatedBy,
+      sortByPriority: this.sortByPriority,
+      sortByDefType: this.sortByDefType,
+      sortByDefDocName: this.sortByDefDocName,
+      sortByDefDate: this.sortByDefDate,
+      sortByReqOn: this.sortByReqOn,
+      sortByReqBy: this.sortByReqBy,
       sortAsc: this.sortAsc,
       sortDesc: this.sortDesc
     };
@@ -1425,6 +1334,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByApplicants : this.sortByApplicants,
       sortByCreatedBy : this.sortByCreatedBy,
       sortByPriority : this.sortByPriority,
+      sortByDefType: this.sortByDefType,
+      sortByDefDocName: this.sortByDefDocName,
+      sortByDefDate: this.sortByDefDate,
+      sortByReqOn: this.sortByReqOn,
+      sortByReqBy: this.sortByReqBy,
       sortAsc: this.sortAsc,
       sortDesc: this.sortDesc
     };
@@ -1481,6 +1395,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByApplicants : this.sortByApplicants,
       sortByCreatedBy : this.sortByCreatedBy,
       sortByPriority : this.sortByPriority,
+      sortByDefType: this.sortByDefType,
+      sortByDefDocName: this.sortByDefDocName,
+      sortByDefDate: this.sortByDefDate,
+      sortByReqOn: this.sortByReqOn,
+      sortByReqBy: this.sortByReqBy,
       sortAsc: this.sortAsc,
       sortDesc: this.sortDesc,
       isBM: this.isBM
@@ -1510,6 +1429,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
       sortByProduct: this.sortByProduct,
+      sortByDefType: this.sortByDefType,
+      sortByDefDocName: this.sortByDefDocName,
+      sortByDefDate: this.sortByDefDate,
+      sortByReqOn: this.sortByReqOn,
+      sortByReqBy: this.sortByReqBy,
       sortByStage: this.sortByStage
     };
     if (data.taskName == 'TrancheDisbursement')

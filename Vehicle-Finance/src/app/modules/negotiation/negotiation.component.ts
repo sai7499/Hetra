@@ -197,7 +197,7 @@ export class NegotiationComponent implements OnInit {
 
   modalDetails = {
     heading: 'Request Approval',
-    content: 'Are you sure you want to Approve?'
+    content: 'Are you sure you want to submit the record for Approval?'
   }
   modalButtons: any = [
     {
@@ -225,6 +225,7 @@ export class NegotiationComponent implements OnInit {
   isNeededApproval = false;
   minDefDate: Date;
   isDeferral = false;
+  showErrorCollected: boolean;
 
   constructor(
     private labelsData: LabelsService,
@@ -287,10 +288,13 @@ export class NegotiationComponent implements OnInit {
       } else if (this.roleType == '2') {
         this.udfScreenId = udfScreenId.creditDecision.negotiationDetailsCreditDecision;
       } else if (this.roleType == '4') {
+        this.showErrorCollected = true;
         this.udfScreenId = udfScreenId.CPCMaker.negotiationsCPCMaker;
       } else if (this.roleType == '5') {
+        this.showErrorCollected = true;
         this.udfScreenId = udfScreenId.CPCChecker.negotiationsCPCChecker;      
       } else if (this.roleType == '7') {
+        this.showErrorCollected = true;
         this.udfScreenId = udfScreenId.CAD.negotiationsCAD;
       }
       
@@ -421,9 +425,10 @@ export class NegotiationComponent implements OnInit {
       this.userDetails = this.getBranchDetails.filter((e: any) => {
         let myVal = val.toString().toLowerCase();
         let eName = e.name.toString().toLowerCase();
-        if (eName.includes(myVal)) {
-          // e.Name = e.name + ' - ' + e.userId;
-          e.Name = e.name;
+        let eUserId = e.userId.toString().toLowerCase();
+        if (eName.includes(myVal) || eUserId.includes(myVal)) {
+          e.Name = e.name + ' - ' + e.userId;
+          // e.Name = e.name;
           return e;
         }
       });
@@ -2479,7 +2484,7 @@ if(flag){
                   let deferralDate :any = this.utilityService.getDateFormat(this.deferralDate);
                   deferralDate = this.utilityService.getDateFromString(deferralDate)
                   this.createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm.patchValue({
-                    approvedBy: this.approvedBy ? this.approvedBy.name: '',
+                    approvedBy: this.approvedBy ? this.approvedBy.name + ' - ' + this.approvedBy.userId : '',
                     approvalStatus: this.statusApproval ? this.statusApproval.id : '',
                     deferralDate: this.deferralDate ? deferralDate : ''
                   });

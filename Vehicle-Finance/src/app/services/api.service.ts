@@ -74,7 +74,7 @@ export class ApiService {
     getVehicleMasterFromVehicleType: {
       workflowId: 'b0a9ef02939d11eabdc6f2fa9bec3d63',
       processId: '3bed6af898f311eabdcff2fa9bec3d63',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getDeleteVehicleDetails: {
       workflowId: '385f090a957e11eabdcff2fa9bec3d63',
@@ -152,14 +152,14 @@ export class ApiService {
       projectId: environment.projectIds.salesProjectId
     },
     validateLeadDetails: {
-      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
+      workflowId: 'e630a07e31f611eb9bb600505695f93b',
       processId: 'e64e888231f611ebac6300505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     saveValidLeadRecords: {
       workflowId: 'e630a07e31f611eb9bb600505695f93b',
       processId: '8910dbe6338311eba9ba00505695f93b',
-      projectId: environment.projectIds.camProjectId
+      projectId: environment.projectIds.salesProjectId
     },
     getFleetRtr: {
       processId: '7e26a5b29aae11eabdd1f2fa9bec3d63',
@@ -1049,8 +1049,8 @@ export class ApiService {
     },
     saveInsuranceService: {
       processId: 'fd023ccc281411eb857200505695f93b',
-      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
-      projectId: environment.projectIds.camProjectId
+      workflowId: 'e79847a0281411ebb49a00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     },
     getAssetRemarks: {
       processId: 'b9de5b3828fa11eb97ad00505695f93b',
@@ -1069,8 +1069,8 @@ export class ApiService {
     },
     getInsuranceDetails: {
       processId: 'e7bb8364281411eb9f0f00505695f93b',
-      workflowId: '8bfa8dba945b11eabdcaf2fa9bec3d63',
-      projectId: environment.projectIds.camProjectId
+      workflowId: 'e7bb8364281411eb9f0f00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     },
     childLoanSearch: {
       processId: '920538fa2a2811eba1e500505695f93b',
@@ -1256,6 +1256,11 @@ export class ApiService {
       workflowId: '77102f60831411eba70100505695f93b',
       processId: '77301f82831411eba5b700505695f93b',
       projectId: environment.projectIds.taskProjectId
+    },
+    fetchDashboardTabs: {
+      workflowId: '0632570676b111ebad3e00505695f93b',
+      processId: '0666923276b111eb9dfa00505695f93b',
+      projectId: environment.projectIds.salesProjectId
     }
   };
 }
