@@ -60,11 +60,12 @@
                                 <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
                                     <a title="Edit collateral" (click)="editCollateralDetails(obj.collateralId)"><i
                                             class="fa fa-pencil cursor-pointer" aria-hidden="true"></i></a>
-                                    <a data-toggle="modal" data-target="#exampleModal"
+                                    <a  (click)="isDeleteModal = true"
                                         [ngClass]="{'pointer_non': disableSaveBtn }"
                                         (click)="softDeleteCollateral(i, obj.collateralId, 'Additional Collateral')"
                                         title="Delete collateral"><i class="fa fa-trash cursor-pointer"
                                             aria-hidden="true"></i></a>
+                                            <!-- data-toggle="modal" data-target="#exampleModal" -->
                                 </ng-container>
                             </td>
                         </tr>
@@ -87,8 +88,15 @@
 
 </div>
 
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="isDeleteModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "isDeleteModal = false"
+(onButtonClick)="DeleteVehicleDetails() ; isDeleteModal= false"></app-custom-modal>
+
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
 
     <div class="modal-dialog" role="document">
@@ -113,4 +121,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

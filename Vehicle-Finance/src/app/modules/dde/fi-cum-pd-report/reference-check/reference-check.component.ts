@@ -123,6 +123,12 @@ export class ReferenceCheckComponent implements OnInit {
   editedUDFValues: any;
   entityType: any;
   isNonInd: boolean;
+  showCustomModal : boolean;
+  submitModalDetails: any;
+  submitModalButtons: any;
+  delModalDetails : any;
+  delModalButtons: any;
+  myDeleteModel : boolean
 
   constructor(
     private labelsData: LabelsService, // service to access labels
@@ -204,6 +210,16 @@ export class ReferenceCheckComponent implements OnInit {
       error => {
         this.errorMsg = error;
       });
+
+      this.labelsData.getModalDetails().subscribe((data)=>{
+        const details = data.extFiCumPd.submitToCredit;
+        const deleteDetails = data.extFiCumPd.deleteRefDetails;
+        this.submitModalDetails = details.modalDetails,
+        this.submitModalButtons = details.modalButtons
+        this.delModalDetails = deleteDetails.modalDetails,
+        this.delModalButtons = deleteDetails.modalButtons
+  
+      })
     this.initForm();             // for initializing the form
     this.removeReferenceControls();
 
@@ -492,10 +508,13 @@ export class ReferenceCheckComponent implements OnInit {
       } else if (referenceId === 0) {
         control.removeAt(index);
         this.toasterService.showSuccess('Reference details deleted successfully', '');
+        
       }
     } else if (referenceId !== 0 && (i === 1 && j === 1)) {
       this.toasterService.showError('atleast one market and finance reference required', '');
     }
+
+    this.myDeleteModel = false;
   }
 
   delete(index: number) {
@@ -711,6 +730,7 @@ export class ReferenceCheckComponent implements OnInit {
     this.editedUDFValues = this.userDefineForm? this.userDefineForm.udfData.getRawValue() : {};
     const isUDFCheck = this.objectComparisonService.compare(this.editedUDFValues, this.initUDFValues)
     const isUDFInvalid = this.userDefineForm ? this.userDefineForm.udfData.invalid : false
+    this.showCustomModal = false;
     this.isDirty = true;
     if (this.referenceCheckForm.invalid || isUDFInvalid) {
       this.toasterService.showWarning('please enter required details', '');
@@ -720,6 +740,7 @@ export class ReferenceCheckComponent implements OnInit {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
+    
 
     const data = {
       taskName: Constant.PDTASKNAME,
@@ -746,6 +767,7 @@ export class ReferenceCheckComponent implements OnInit {
       } else {
         this.toasterService.showError(processVariables.error.message, '');
       }
+      
     });
   }
 

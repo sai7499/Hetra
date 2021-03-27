@@ -659,16 +659,25 @@
       >
         {{ labels.submit }}
       </button> -->
-      <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="showSubmit && !disableSaveBtn">
-        <p type="button" class="btn btn-primary">{{ labels.submit }}</p>
+      <a  id="reject_credit" *ngIf="showSubmit && !disableSaveBtn">
+        <p type="button" (click)="myModalCredit = true" class="btn btn-primary">{{ labels.submit }}</p>
+        <!-- data-toggle="modal" data-target="#myModalCredit" -->
       </a>
     </div>
   </div>
 </form>
-<div class="modal" id="myModalCredit">
+
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="myModalCredit"
+[buttons] = "modalButtons"
+(onButtonCancel) = "myModalCredit = false"
+(onButtonClick)="submitFiReportDetails() ; myModalCredit= false"></app-custom-modal>
+
+
+<!-- <div class="modal" id="myModalCredit">
   <div class="modal-dialog modal-center">
     <div class="modal-content" style="text-align: center">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal">
@@ -676,12 +685,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body">
         <p>{{ labels.submitToCredit }}</p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer" style="text-align: center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
           (click)="submitFiReportDetails()">
@@ -693,4 +700,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

@@ -2,9 +2,10 @@
     <div class="container overflow-hidden content ">
     <div class=" align-center text-center ">
     <h5 class="">Is Customer Accepted Offer ?</h5> &nbsp;
-    <button class="btn btn-success" data-toggle="modal" data-target="#acceptedModal" 
+    <button class="btn btn-success" (click)="acceptedModal = true"
         >Accepted
     </button> &nbsp;
+    <!-- data-toggle="modal" data-target="#acceptedModal"  -->
     <!-- (click)="customerAcceptance('accepted')" -->
     <!-- <button class= "btn btn-danger" data-toggle="modal" data-target="#myModal">Declined</button> -->
     <button class= "btn btn-danger" (click)="reject()">Declined</button>
@@ -34,9 +35,16 @@
     </div>
 </div>
 
-<div class="modal fade" id="acceptedModal" role="dialog">
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="acceptedModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "acceptedModal = false"
+(onButtonClick)="customerAcceptance('accepted'); acceptedModal= false"></app-custom-modal>
+
+<!-- <div class="modal fade" id="acceptedModal" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content-->
+        
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -53,6 +61,6 @@
         </div>
 
     </div>
-</div>
+</div> -->
 
 <app-reject-reason-modal [data]="rejectData" [showModalPopup]="showModal" *ngIf="showModal" (okay)="onOkay($event)" (cancel)="onCancel()"></app-reject-reason-modal>

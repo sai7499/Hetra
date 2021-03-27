@@ -289,8 +289,9 @@
                                 <button class="fa fa-plus" aria-hidden="true" id="addmorePOIbutton_{{i}}" value="Add"
                                     [disabled]="disableSaveBtn" (click)="addNewRow()"></button>
                                 <button type="button" class="fa fa-minus" aria-hidden="true" id="delPOIbutton"
-                                    data-toggle="modal" data-target="#deleteModal" [disabled]="disableSaveBtn"
+                                    (click)="deleteModal = true" [disabled]="disableSaveBtn"
                                     value="Delete" (click)="deleteRow(i,fleetForm.value.Rows)"></button>
+                                    <!-- data-toggle="modal" data-target="#deleteModal" -->
                             </td>
                         </tr>
                     </tbody>
@@ -394,7 +395,14 @@
         <input #fileInput type="file" style="visibility: hidden;" (input)="onFileSelect($event)" />
     </div>
 
-    <div class="modal" id="deleteModal">
+    <app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="deleteModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "deleteModal = false"
+(onButtonClick)="callDeleteRecord() ; deleteModal= false"></app-custom-modal>
+
+    <!-- <div class="modal" id="deleteModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -418,7 +426,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 </form>
 

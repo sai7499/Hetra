@@ -43,6 +43,9 @@ export class LeadDedupeComponent implements OnInit {
 
   @ViewChild('radioSelect', { static: true }) radioButtonSelected: ElementRef;
   udfScreenId: any;
+  modalDetails: any;
+  modalButtons: any;
+  showCustomModal: boolean;
 
   constructor(
     private route: Router,
@@ -75,6 +78,13 @@ export class LeadDedupeComponent implements OnInit {
       },
       (error) => console.log(error)
     );
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.leadDedupe.asNewLead;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
+
+    })
   }
 
   getUserDetails() {
@@ -103,7 +113,9 @@ export class LeadDedupeComponent implements OnInit {
     this.isSubmit = false;
     this.isWithLead = false;
     this.showModal = 'proceedModal_with';
-    this.modalMessage = `Are you sure you want to proceed with lead - ${this.leadId} ?`;
+    this.showCustomModal = true;
+    this.modalDetails.content = `Are you sure you want to proceed with lead - ${this.leadId} ?`
+    //this.modalMessage = `Are you sure you want to proceed with lead - ${this.leadId} ?`;
   }
 
   OnReject() {
@@ -129,7 +141,9 @@ export class LeadDedupeComponent implements OnInit {
   OnCreateNew() {
     this.isWithLead = true;
     this.showModal = 'proceedModal_without';
-    this.modalMessage = 'Are you sure you want to create a new lead ?';
+    this.showCustomModal = true;
+    this.modalDetails.content = 'Are you sure you want to create a new lead ?'
+    //this.modalMessage = 'Are you sure you want to create a new lead ?';
   }
 
   proceedAsNewLead() {

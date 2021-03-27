@@ -301,9 +301,10 @@
                   <div class="col-sm-12 col-md-12 col-lg-12">
                     <label class="image-upload" for="upload_files">
                       <i></i> &nbsp;
-                      <a data-toggle="modal" data-target="#exampleModal"
+                      <a 
                         (click)="softDeleteDeviation(j, item.controls['devRuleId'].value)"><i class="fa fa-trash"
                           aria-hidden="true"></i></a>
+                          <!-- data-toggle="modal" data-target="#exampleModal" -->
                     </label>
                   </div>
                 </div>
@@ -413,8 +414,14 @@
 </form>
 
 <!-- Delete Modal Open -->
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="delModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "delModal = false"
+(onButtonClick)="removeDeviationIndex(selectDeviationId, findIndex); delModal= false"></app-custom-modal>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
 
   <div class="modal-dialog" role="document">
@@ -440,7 +447,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Delete Modal Ends -->
 

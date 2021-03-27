@@ -230,7 +230,14 @@
       aria-hidden="true">&times;</span></button> Souring Details saved Successfully.
 </div> -->
 
-<div id="overlay" *ngIf="isModelShow">
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="isModelShow"
+[buttons] = "modalButtons"
+(onButtonCancel) = "isModelShow = false"
+(onButtonClick)="removeIndex(rowIndex); isModelShow= false"></app-custom-modal>
+
+<!-- <div id="overlay" *ngIf="isModelShow">
   <div id="text">
     <div class="panel">
       <div class="panel-body">
@@ -249,4 +256,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

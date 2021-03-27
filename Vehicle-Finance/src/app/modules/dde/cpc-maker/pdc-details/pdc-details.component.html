@@ -536,9 +536,10 @@
                         'Acknowledge' : 'Submit'}} </button>
 
                     <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '4'"><a
-                            data-toggle="modal" data-target="#myModal">Submit to CPC Checker</a></button>
+                           (click)="myModal = true" >Submit to CPC Checker</a></button>
+                            <!-- data-toggle="modal" data-target="#myModal" -->
 
-                    <button class="btn btn-primary dash_href marginAdd" (click)="sendBackToCredit()"
+                    <button class="btn btn-primary dash_href marginAdd" (click)="isSendCredit = true"
                         *ngIf="roleType == '4'"> Send Back To Credit </button>
 
                     <button class="btn btn-primary dash_href marginAdd " type="button" (click)="onNext()"
@@ -550,12 +551,24 @@
     </div>
 </form>
 
-<!-- Model Content -->
+<!-- Submit Record -->
+<app-custom-modal
+[modalDetails]="subModalDetails"
+[showModal]="myModal"
+[buttons] = "subModalButtons"
+(onButtonCancel) = "myModal = false"
+(onButtonClick)="roleType == '4' ? onSave('cpc') : roleType == '5' ? sendLoanCreationWrapper() : ''; myModal= false"></app-custom-modal>
 
-<div class="modal fade" id="myModal" role="dialog">
+<!--Send back to credit-->
+<app-custom-modal
+[modalDetails]="sendCreModalDetails"
+[showModal]="isSendCredit"
+[buttons] = "sendCreModalButtons"
+(onButtonCancel) = "isSendCredit = false"
+(onButtonClick)="sendBackToCredit(); isSendCredit= false"></app-custom-modal>
+<!-- <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
 
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -578,7 +591,7 @@
         </div>
 
     </div>
-</div>
+</div> -->
 
 <div class="modal fade" id="myModaltwo" role="dialog">
     <div class="modal-dialog">

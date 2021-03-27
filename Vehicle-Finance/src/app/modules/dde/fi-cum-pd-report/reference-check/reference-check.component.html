@@ -163,7 +163,7 @@
                  
 
                  
-                    <button type="button" data-toggle="modal" data-target="#myDeleteModel" id="reject_credit" class="fa fa-minus mar-1" aria-hidden="true" value="Delete" (click)="delete(i)">
+                    <button type="button" (click)="myDeleteModel = true" id="reject_credit" class="fa fa-minus mar-1" aria-hidden="true" value="Delete" (click)="delete(i)">
                     </button>
                  
                 </td>
@@ -368,7 +368,7 @@
             {{ labels.save }}
           </p>
 
-          <a data-toggle="modal" data-target="#mySubmitModel" id="reject_credit" *ngIf="showSubmit">
+          <a (click)="showCustomModal = true" id="reject_credit" *ngIf="showSubmit">
             <p type="button" class="btn btn-primary">{{ labels.submit }}</p>
           </a>
         </div>
@@ -380,10 +380,25 @@
 
 <!-- Submit Model -->
 
-<div class="modal" id="mySubmitModel">
+<app-custom-modal
+[modalDetails]="submitModalDetails"
+[showModal]="showCustomModal"
+[buttons] = "submitModalButtons"
+(onButtonCancel) = "showCustomModal = false"
+(onButtonClick)="submitToCredit()"></app-custom-modal>
+
+
+<!-- For Delete -->
+<app-custom-modal
+[modalDetails]="delModalDetails"
+[showModal]="myDeleteModel"
+[buttons] = "delModalButtons"
+(onButtonCancel) = "myDeleteModel = false"
+(onButtonClick)="deleteRow(indexFromHtml, referenceCheckForm.value.marketFinRefData)"></app-custom-modal>
+
+<!-- <div class="modal" id="mySubmitModel">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal">
@@ -391,12 +406,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body" style="text-align: center">
         <p>{{ labels.submitToCredit }}</p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
           (click)="submitToCredit()">
@@ -408,14 +421,13 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Delete Modal -->
 
-<div class="modal" id="myDeleteModel">
+<!-- <div class="modal" id="myDeleteModel">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal">
@@ -423,12 +435,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body" style="text-align: center">
         <p>{{ labels.deleteReference }}</p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
           (click)="deleteRow(indexFromHtml, referenceCheckForm.value.marketFinRefData)">
@@ -440,4 +450,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

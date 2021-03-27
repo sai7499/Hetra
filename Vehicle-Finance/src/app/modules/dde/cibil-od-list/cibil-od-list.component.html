@@ -480,7 +480,31 @@
   </div>
 </form>
 
-<div id="overlay" *ngIf="isODModelShow">
+<!--Remove OD details-->
+<app-custom-modal
+[modalDetails]="odModalDetails"
+[showModal]="isODModelShow"
+[buttons] = "odModalButtons"
+(onButtonCancel) = "isODModelShow = false"
+(onButtonClick)="removeOdDetails(rowIndex); isODModelShow= false"></app-custom-modal>
+
+<!--Remove loan enquires 30 days details-->
+<app-custom-modal
+[modalDetails]="loan30ModalDetails"
+[showModal]="isThirtyModelShow"
+[buttons] = "loan30ModalButtons"
+(onButtonCancel) = "isThirtyModelShow = false"
+(onButtonClick)="removeLastThirtyDaysLoan(rowIndex); isThirtyModelShow= false"></app-custom-modal>
+
+<!--Remove loan enquires 60 days details-->
+<app-custom-modal
+[modalDetails]="loan60ModalDetails"
+[showModal]="isSixtyModelShow"
+[buttons] = "loan60ModalButtons"
+(onButtonCancel) = "isSixtyModelShow = false"
+(onButtonClick)="removeLastSixtyDaysLoan(rowIndex); isSixtyModelShow= false"></app-custom-modal>
+
+<!-- <div id="overlay" *ngIf="isODModelShow">
   <div id="text">
     <div class="panel">
       <div class="panel-body">
@@ -539,7 +563,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- modal popup for cibil response screen -->
 <div class="modal" id="myModalApplicantImage">

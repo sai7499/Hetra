@@ -938,30 +938,46 @@
         <!-- <button class="btn btn-primary cus-btn-sty" type="button" (click)="submitViability()">{{label.submit}}</button>&nbsp; -->
         <ng-container *ngIf="!isLoan360 && !disableSaveBtn">
             <p class="btn btn-primary save cus-btn-sty" (click)="onSave()"> {{label?.save}} </p>
-            <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="hideSubmit">
+            <a  id="reject_credit" *ngIf="hideSubmit" (click)="myModalCredit = true">
                 <p type="button" class="btn btn-primary">{{label?.submit}}</p>
             </a>
-            <button class="btn btn-primary cus-btn-sty" type="button" data-toggle="modal"
-                data-target="#myModalReinitiate" *ngIf="showReinitiate">{{label?.reinitiate}}</button>
+            <!-- data-toggle="modal" data-target="#myModalCredit" -->
+            <button class="btn btn-primary cus-btn-sty" type="button" (click)="myModalReinitiate = true"  *ngIf="showReinitiate">{{label?.reinitiate}}</button>
+
+            <!-- data-toggle="modal"
+                data-target="#myModalReinitiate" -->
         </ng-container>
     </div>
 </div>
-<div class="modal" id="myModalCredit">
+<!--For submit to credit-->
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="myModalCredit"
+[buttons] = "modalButtons"
+(onButtonCancel) = "myModalCredit = false"
+(onButtonClick)="submitViability() ; myModalCredit= false"></app-custom-modal>
+
+<!--For Re-initiate-->
+<app-custom-modal
+[modalDetails]="reInitModalDetails"
+[showModal]="myModalReinitiate"
+[buttons] = "reInitModalButtons"
+(onButtonCancel) = "myModalReinitiate = false"
+(onButtonClick)="reInitiateViability() ; myModalReinitiate= false"></app-custom-modal>
+
+<!-- <div class="modal" id="myModalCredit">
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
-            <!-- Modal body -->
             <div class="modal-body" style="text-align: center;">
                 <p>{{label?.submitToCredit}}</p>
             </div>
 
-            <!-- Modal footer -->
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
                     (click)="submitViability()">{{label?.yes}}</button>
@@ -972,23 +988,21 @@
     </div>
 
 
-</div>
-<div class="modal" id="myModalReinitiate">
+</div> -->
+
+<!-- <div class="modal" id="myModalReinitiate">
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
-            <!-- Modal body -->
             <div class="modal-body" style="text-align: center;">
                 <p>Are you sure want to Re-Initiate Viability ?</p>
             </div>
 
-            <!-- Modal footer -->
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
                     (click)="reInitiateViability()">{{label?.yes}}</button>
@@ -999,6 +1013,6 @@
     </div>
 
 
-</div>
+</div> -->
 <app-upload-modal [showModal]="showModal" (close)="showModal = false" (uploadSuccess)="onUploadSuccess($event)"
     [docsDetails]="selectedDocDetails"></app-upload-modal>

@@ -1,0 +1,930 @@
+{
+    "leadCreation": {
+        "createLead": {
+            "modalDetails": {
+                "heading": "Lead Creation",
+                "content": ""
+            },
+            "modalButtons": [
+                {
+                    "name": "OK",
+                    "isModalClose": false,
+                    "class" : "btn btn-success"
+                }
+            ]
+        }
+    },
+    "leadDedupe": {
+        "asNewLead": {
+            "modalDetails": {
+                "heading": "Decision on Dedupe Results",
+                "content": "Are you sure you want to create a new lead ?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+    },
+    "applicantlist": {
+        "deleteApp": {
+            "modalDetails": {
+                "heading": "Delete Applicant",
+                "content": "Are you sure you want to delete?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    }, 
+    "addUpdateapplicant": {
+        "noDedupe": {
+            "modalDetails": {
+                "heading": "Decision on Dedupe Results",
+                "content": "Customer Dedupe not found, continuing as new applicant"
+            },
+            "modalButtons": [
+                {
+                    "name": "OK",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                }
+            ]
+        }
+    }, 
+    "salesExactMatch": {
+        "asNewLead": {
+            "modalDetails": {
+                "heading": "Customer Dedupe Match Found",
+                "content": "You have chosen to ignore dedupe results. This will go for credit review"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        },
+        "selectedLead": {
+            "modalDetails": {
+                "heading": "Customer Dedupe Match Found",
+                "content": ""
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+
+    },
+    "afterEligibility": {
+        "submitToCredit": {
+            "modalDetails": {
+                "heading": "Submit to Credit",
+                "content": "Are you sure you want to submit to credit?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+    },
+    "extFiCumPd": {
+        "submitToCredit": {
+            "modalDetails": {
+                "heading": "Submit to Credit",
+                "content": "Are you sure you want to submit to credit?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        },
+        "deleteRefDetails": {
+            "modalDetails": {
+                "heading": "Delete Reference Details",
+                "content": "Are you sure you want to Delete the Reference Details?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+
+    },
+    "extPd": {
+        "submitToCredit": {
+            "modalDetails": {
+                "heading": "Submit to Credit",
+                "content": "Are you sure you want to submit to credit?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+    },
+    "viability": {
+        "submitToCredit": {
+            "modalDetails": {
+                "heading": "Submit to Credit",
+                "content": "Are you sure you want to submit to credit?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        },
+        "reInitiate": {
+            "modalDetails": {
+                "heading": "Re-Initiate Viability Details",
+                "content": "Are you sure you want to Re-Initiate Viability Details ?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+
+    },
+    "extFI": {
+        "submitToCredit": {
+            "modalDetails": {
+                "heading": "Submit to Credit",
+                "content": "Are you sure you want to submit to credit?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+    },
+    "addCollateral": {
+        "deleteCollDetails": {
+            "modalDetails": {
+                "heading": "Delete Collateral Details",
+                "content": "Are you sure you want to Delete Additional collateral details?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+    "fleetDetails": {
+        "deleteRow": {
+            "modalDetails": {
+                "heading": "Delete Fleet Details",
+                "content": "Are you sure you want to Delete Fleet details?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+    "extvaluation": {
+        "submitTask": {
+            "modalDetails": {
+                "heading": "Submit to Credit",
+                "content": "Are you sure you want to submit task?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+    },
+    "rcu": {
+        "initRcu": {
+            "modalDetails": {
+                "heading": "Initiate RCU",
+                "content": "Are you sure you want to initiate RCU ?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }, 
+        "reInitRcu": {
+            "modalDetails": {
+                "heading": "Re-Initiate RCU",
+                "content": "Are you sure want to Re-Initiate RCU ?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+
+    },
+    "exposure": {
+        "deleteRow": {
+            "modalDetails": {
+                "heading": "Delete Exposure Details",
+                "content": "Are you sure you want to remove this row?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+    "incomeDetials": {
+        "BusinessIncome": {
+            "modalDetails": {
+                "heading": "Delete Business Income Details",
+                "content": "Are you sure you want to remove this row?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }, 
+        "otherIncome": {
+            "modalDetails": {
+                "heading": "Delete other Income Details",
+                "content": "Are you sure you want to remove this row?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        },
+        "obligation": {
+            "modalDetails": {
+                "heading": "Delete Obligation Details",
+                "content": "Are you sure you want to remove this row?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }, 
+        "keyFinancial": {
+            "modalDetails": {
+                "heading": "Delete Key Financial Details",
+                "content": "Are you sure you want to remove this row?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+
+    },
+    "bureauDetails": {
+        "odDetails": {
+            "modalDetails": {
+                "heading": "Delete Details",
+                "content": "Are you sure you want to remove this row?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }, 
+        "loan30": {
+            "modalDetails": {
+                "heading": "Delete Details",
+                "content": "Are you sure you want to remove this row?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        },
+        "loan60": {
+            "modalDetails": {
+                "heading": "Delete Details",
+                "content": "Are you sure you want to remove this row?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+
+    },
+    "deviation": {
+        "removeDev": {
+            "modalDetails": {
+                "heading": "Remove Deviation",
+                "content": "Are you sure you want to remove deviation?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+    "creditCond": {
+        "approve": {
+            "modalDetails": {
+                "heading": "Approval",
+                "content": "Are you sure you want to approve the record?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }, 
+        "decline": {
+            "modalDetails": {
+                "heading": "Decline",
+                "content": "Are you sure you want to decline the record?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        },
+        "sendToDDE": {
+            "modalDetails": {
+                "heading": "Send Back to DDE",
+                "content": "Are you sure you want to send back to DDE?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+
+    },
+    "sanctionDetails": {
+        "sendBackToSales": {
+            "modalDetails": {
+                "heading": "Send Back to sales",
+                "content": "Lead will be moved to sales. Do you want to continue?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }, 
+        "approve": {
+            "modalDetails": {
+                "heading": "Submit For Approval",
+                "content": "Are you sure you want to Submit for approval?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        },
+        "submit": {
+            "modalDetails": {
+                "heading": "Submit Record",
+                "content": "Are you sure you want to Submit the Record?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+
+    },
+    "customerAcceptedOffer": {
+        "custAcptOffer": {
+            "modalDetails": {
+                "heading": "Customer Acceptance",
+                "content": "Are you sure customer accepted offer?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+    },
+    "termsheet": {
+        "approval": {
+            "modalDetails": {
+                "heading": "Approval",
+                "content": "Are you sure you want to Approve the termsheet?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+    "checkList": {
+        "submitToCpc": {
+            "modalDetails": {
+                "heading": "Submit to CPC",
+                "content": "Are you sure you want to Submit to CPC?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        },
+        "sendToMaker": {
+            "modalDetails": {
+                "heading": "Send Back to CPC Maker",
+                "content": "Are you sure you want to send back to CPC Maker?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+    },
+    "pdcDetials": {
+        "submit": {
+            "modalDetails": {
+                "heading": "Submit Record",
+                "content": "Are you sure you want to Submit the Record?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        },
+        "sendToCredit": {
+            "modalDetails": {
+                "heading": "Send Back to Credit",
+                "content": "Are you sure you want to send back to Credit?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+    "disbursement": {
+        "loanCreation": {
+            "modalDetails": {
+                "heading": "Submit to loan creation",
+                "content": "Record will be submitted for loan-booking. Are you sure?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true
+                }
+            ]
+        }
+    }, 
+    "cadRemarks": {
+        "approve": {
+            "modalDetails": {
+                "heading": "Approval",
+                "content": "Are you sure you want to Approve the Lead?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }, 
+        "reAppeal": {
+            "modalDetails": {
+                "heading": "Approval",
+                "content": "Are you sure you want to Re-Appeal the Lead?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        },
+        "sendToCredit": {
+            "modalDetails": {
+                "heading": "Send Back to Credit",
+                "content": "Are you sure you want to send back to Credit?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+
+    "PDD": {
+        "submit": {
+            "modalDetails": {
+                "heading": "Submit the Record",
+                "content": "Are you sure you want to submit?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+    "chequeTracking": {
+        "disburse": {
+            "modalDetails": {
+                "heading": "Disburse the Record",
+                "content": "Are you sure want to disburse record?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }, 
+        "update": {
+            "modalDetails": {
+                "heading": "Update the Record",
+                "content": "Are you sure want to update record?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        },
+        "submitToCpc": {
+            "modalDetails": {
+                "heading": "Submit to CPC",
+                "content": "Are you sure want to submit record?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    },
+    "rtr": {
+        "changeEmis": {
+            "modalDetails": {
+                "heading": "Change the No of EMI's Accrued",
+                "content": "Are you sure you want to change the No of Emis accrued?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }, 
+        "changeEmiDate": {
+            "modalDetails": {
+                "heading": "Change the EMI start Date",
+                "content": "Are you sure you want to change the Emi start date?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        },
+        "changeEmiAmnt": {
+            "modalDetails": {
+                "heading": "Change the EMI Amount",
+                "content": "Are you sure you want to change the Emi amount?"
+            },
+            "modalButtons": [
+                {
+                    "name": "Yes",
+                    "isModalClose": false,
+                    "class": "btn btn-success"
+                },
+                {
+                    "name": "Cancel",
+                    "isModalClose": true,
+                    "class": "btn btn-danger"
+                }
+            ]
+        }
+    }
+    
+}

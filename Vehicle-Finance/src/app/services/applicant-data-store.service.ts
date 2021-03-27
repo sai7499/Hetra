@@ -73,7 +73,7 @@ export class ApplicantDataStoreService {
       ekycDone: applicant.ekycDone,
       udfDetails,
       isMobileUpdate : applicant.isMobileUpdate,
-      isAdharUpdate : applicant.isAdharUpdate,
+      isAadharUpdate : applicant.isAadharUpdate,
     };
   }
 

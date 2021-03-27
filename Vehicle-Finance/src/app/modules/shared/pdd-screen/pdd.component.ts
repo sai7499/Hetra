@@ -73,6 +73,8 @@ export class PddComponent implements OnInit {
     editedUDFValues: any;
     productCatCode: string;
     label: any;
+    modalDetails: any;
+    modalButtons: any;
 
     constructor(
         private location: Location,
@@ -149,6 +151,13 @@ export class PddComponent implements OnInit {
         error => {
           console.log(error, 'error');
         });
+
+        this.labelsData.getModalDetails().subscribe((data)=>{
+            const details = data.PDD.submit;
+            this.modalDetails = details.modalDetails,
+            this.modalButtons = details.modalButtons
+      
+          })
 
     }
 

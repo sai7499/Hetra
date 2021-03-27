@@ -248,6 +248,9 @@ export class ValuationComponent implements OnInit {
   version: any = 0;
   url: any;
   path: any;
+  mySubmitModel : boolean;
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -402,6 +405,13 @@ export class ValuationComponent implements OnInit {
       (data: any) => (this.labels = data),
       // (error) => console.log("Vehicle Valuation Label Error", error)
     );
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.extvaluation.submitTask;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
+
+    })
   }
 
   getLeadId() {

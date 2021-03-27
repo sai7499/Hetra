@@ -4,6 +4,7 @@ import { DocumentUploadService } from '@services/document-upload.service';
 import { ToasterService } from '@services/toaster.service';
 import { LoanViewService } from '@services/loan-view.service';
 import { SharedService } from '@modules/shared/shared-service/shared-service';
+import { LabelsService } from '@services/labels.service';
 
 @Component({
   templateUrl: './document-upload.component.html',
@@ -13,6 +14,9 @@ export class DocumentUploadComponent implements OnInit {
 
   isLoan360: boolean;
   taskId: any;
+  showModal : boolean;
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(
     private aRoute: ActivatedRoute,
@@ -20,7 +24,8 @@ export class DocumentUploadComponent implements OnInit {
     private doucmentUploadService: DocumentUploadService,
     private toStarService: ToasterService,
     private loanViewService: LoanViewService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private labelsData: LabelsService,
   ) {}
   leadId;
   isModelShow = false;
@@ -29,6 +34,12 @@ export class DocumentUploadComponent implements OnInit {
     this.isLoan360 = this.loanViewService.checkIsLoan360();
     this.aRoute.parent.params.subscribe((val) => (this.leadId = val.leadId));
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.afterEligibility.submitToCredit;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
+
+    })
   }
 
   submitToCredit() {

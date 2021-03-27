@@ -120,8 +120,7 @@
        *ngIf="userType == 2" 
        (click)="creditConditionActions('submited')"
         type="button">Submit</button> -->
-      <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Approve')" data-toggle="modal"
-        data-target="#approveModal" [disabled]="!isApproveEnable" type="button">Approve</button>
+      <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Approve')  ; isShowModal = true" [disabled]="!isApproveEnable" type="button">Approve</button>
   
       <button class="btn btn-primary" *ngIf="userType === 2" type="button"
        data-toggle="modal" data-target="#myModal"
@@ -148,10 +147,9 @@
         (click) ="creditConditionActions('declined')" type="button" [disabled] ="disableControl">Decline</button> -->
   
       <ng-container *ngIf="!isLoan360">
-        <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline')" data-toggle="modal"
-        data-target="#approveModal" type="button" [disabled]="!isDeclineEnable">Decline</button>
-      <button class="btn btn-primary hvr-sweep-to-left" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE')"
-        data-toggle="modal" data-target="#approveModal" type="button">Send Back to DDE </button>
+        <button class="btn btn-primary" *ngIf="userType === 2" (click)="alertMessage('Decline') ; isShowModal = true"  type="button" [disabled]="!isDeclineEnable">Decline</button>
+      <button class="btn btn-primary hvr-sweep-to-left" *ngIf="userType === 2" (click)="alertMessage('Send Back to DDE') ; isShowModal = true"
+         type="button">Send Back to DDE </button>
       </ng-container>
   
       <button class="btn btn-primary hvr-sweep-to-right" (click)="onNext()" type="button">Next</button>
@@ -203,6 +201,18 @@
   </div>
 </div>
 
+<!--Remove Business Income details-->
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="isShowModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "isShowModal = false"
+(onButtonClick)=" alertMsg == 'Approve'? approveCreditCondition() : 
+                  alertMsg == 'Decline'? creditConditionActions('declined') : creditConditionActions('Send Back to DDE'); 
+isShowModal= false"></app-custom-modal>
+
+
+
 
 <div class="modal" id="approveModal">
   <div class="modal-dialog">
@@ -218,24 +228,11 @@
       <!-- Modal body -->
       <div class="modal-body" style="text-align: center;">
         <label>Are you sure you want to {{alertMsg}} the Record</label>
-        <!-- <div *ngIf="alertMsg == 'Reject'">
-          <form [formGroup]="rejectReasonForm" *ngIf="rejectReasonForm">
-            <label>
-              Please Select Reason :
-            </label>
-            <app-vf-custom-select [values]="submitReferLov" formControlName="rejectReason"
-              [isRequired]="'Please select alteast one '">
-            </app-vf-custom-select>
-            <span *ngIf="submitRefer && rejectReasonF.rejectReason.errors" style="color:red;" class="invalid-feedback">
-              <span *ngIf="rejectReasonF.rejectReason.errors.required">Please select atleast one role</span>
-            </span>
-          </form>
-        </div> -->
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer text-center">
-        <button type="button" class="btn btn-success" id="reject_yes_val" *ngIf="alertMsg == 'Approve'" value="Yes"
+        <!-- <button type="button" class="btn btn-success" id="reject_yes_val" *ngIf="alertMsg == 'Approve'" value="Yes"
           (click)="approveCreditCondition()" data-dismiss="modal">
           {{ labels.yes }}
         </button>
@@ -246,7 +243,7 @@
         <button type="button" class="btn btn-success" id="reject_yes_val" *ngIf="alertMsg == 'Send Back to DDE'"
           value="Yes" data-dismiss="modal" (click)="creditConditionActions('Send Back to DDE')">
           {{ labels.yes }}
-        </button>
+        </button> -->
         <button type="button" class="btn btn-success" id="reject_yes_val" *ngIf="alertMsg == 'Reject'"
           value="Yes" data-dismiss="modal" (click)="rejectCreditiCondition()">
           {{ labels.yes }}

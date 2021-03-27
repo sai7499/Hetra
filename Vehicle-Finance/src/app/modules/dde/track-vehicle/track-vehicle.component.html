@@ -456,12 +456,35 @@
 
 
 <!-- modal popup -->
-<!-- Emi Amount Modal -->
 
-<div class="modal" id="emiAmountModal" [style.display]="showEmiAmountModal ? 'block' : 'none'">
+<!-- change emi amnt -->
+<app-custom-modal
+[modalDetails]="emiAmntModalDetails"
+[showModal]="showEmiAmountModal"
+[buttons] = "emiAmntModalButtons"
+(onButtonCancel) = "showEmiAmountModal = false"
+(onButtonClick)="changeEmiAmount() ; showEmiAmountModal= false"></app-custom-modal>
+
+<!-- change emi accrued -->
+<app-custom-modal
+[modalDetails]="emiAccModalDetails"
+[showModal]="showNoOfEmisAccruedModal"
+[buttons] = "emiAccModalButtons"
+(onButtonCancel) = "showNoOfEmisAccruedModal = false"
+(onButtonClick)="changeAccrued() ; showNoOfEmisAccruedModal= false"></app-custom-modal>
+
+<!-- change emi date -->
+<app-custom-modal
+[modalDetails]="emiDateModalDetails"
+[showModal]="showEmiStartDateModal"
+[buttons] = "emiDateModalButtons"
+(onButtonCancel) = "showEmiStartDateModal = false"
+(onButtonClick)="loanStartDate() ; showEmiStartDateModal= false"></app-custom-modal>
+
+
+<!-- <div class="modal" id="emiAmountModal" [style.display]="showEmiAmountModal ? 'block' : 'none'">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal" (click)="hideModal('emiAmountModal')">
@@ -469,12 +492,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body" style="text-align: center;">
         <label>Are you sure you want to Change the Emi Amount</label>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
 
         <button type="button" class="btn btn-success" id="reject_yes_val" (click)="changeEmiAmount()">
@@ -487,11 +508,9 @@
     </div>
   </div>
 </div>
-<!-- NoOfEmisAccruedModal Modal -->
 <div class="modal" id="noOfEmisPaidModal" [style.display]="showNoOfEmisAccruedModal ? 'block' : 'none'">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal" (click)="hideModal('noOfEmisAccruedModal')">
@@ -499,12 +518,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body" style="text-align: center;">
         <label>Are you sure you want to Change the No of Emis Accrued</label>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
 
         <button type="button" class="btn btn-success" id="reject_yes_val" (click)="changeAccrued($event)">
@@ -519,11 +536,9 @@
 </div>
 
 
-<!-- showEmiStartDateModal Modal -->
 <div class="modal" id="emiStartDateModal" [style.display]="showEmiStartDateModal ? 'block' : 'none'">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal" (click)="hideModal('emiStartDateModal')">
@@ -531,12 +546,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body" style="text-align: center;">
         <label>Are you sure you want to Change the Emi Start Date</label>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
 
         <button type="button" class="btn btn-success" id="reject_yes_val" (click)="loanStartDate($event)">
@@ -548,4 +561,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
