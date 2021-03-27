@@ -515,17 +515,20 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 text-box">
                   <div class="text-box-msg col-lg-12 col-xs-12 col-md-12 col-sm-12">
                     <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span id="cus-tooltip"
-                        class="i-span input-group-addon" (click)="chooseFile()"
-                        data-tooltip="Attachment"
+                        class="i-span input-group-addon" (click)="chooseFile()" data-tooltip="Attachment"
                         [ngClass]="queryModalForm.controls['docName'].value ? 'cus-font-size' : ''"><i
                           class="fa fa-paperclip"></i>
                       </span>
                       <span *ngIf="queryModalForm.controls['docName'].value" style="font-size: 11px;">
                         {{queryModalForm.controls['docName'].value}}</span>
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 p-0"> <textarea class="form-control cus-chat"
-                        style="height:50px;" formControlName="query" (keyup.enter)="onFormSubmit(queryModalForm)"
-                        placeholder="Type your message here"></textarea>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 p-0">
+                      <!-- <textarea class="form-control cus-chat" style="height:50px;" formControlName="query"
+                        (keyup.enter)="onFormSubmit(queryModalForm)" placeholder="Type your message here"></textarea> -->
+                      <app-custom-textarea formControlName="query" [className]="'form-control cus-chat'"
+                        (keyup.enter)="onFormSubmit(queryModalForm)" [placeholder]="'Type your message here'"
+                        [maxLength]="labels?.validationData.textarea.maxLength" [readonly]="false">
+                      </app-custom-textarea>
                     </div>
                     <div class="font-msg text-center col-lg-1 col-md-1 col-sm-1 col-xs-1 p-0"><span data-tooltip="Send"
                         class="i-span input-group-addon" (click)="onFormSubmit(queryModalForm)"><i

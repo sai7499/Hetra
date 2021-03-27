@@ -29,8 +29,8 @@
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
       <label for="cpv_date">{{ labels?.cpvIntiatedDate }}
         <sub class="star_red_col">*</sub></label>
-        <app-custom-input id="cpv_date"  formControlName="cpvInitiatedDate">
-            </app-custom-input>
+      <app-custom-input id="cpv_date" formControlName="cpvInitiatedDate">
+      </app-custom-input>
       <!-- <kendo-datepicker id="cpv_date" class="form-control mandatory" formControlName="cpvInitiatedDate"
         [format]="'dd/MM/yyyy'" [placeholder]="'Enter initiated date'" [activeView]="'decade'"
         [min]="leadCreatedDateFromLead" [max]="toDayDate"></kendo-datepicker> -->
@@ -58,7 +58,7 @@
       <input type="time" class="form-control mandatory" placeholder="'cpv initiated time'"
         formControlName="cpvInitiatedTime" /> -->
 
-      <!-- <app-custom-input
+    <!-- <app-custom-input
           id="cpv_time"
           [placeholder]="'Enter initiated time'"
           [type]="labels?.validationData?.cubicCapacity?.type"
@@ -68,8 +68,8 @@
           [isDirty]="isDirty"
         >
         </app-custom-input> -->
-        
-      <!-- <div class="invalid-feedback" *ngIf="!fieldReportForm.controls['cpvInitiatedTime'].valid">
+
+    <!-- <div class="invalid-feedback" *ngIf="!fieldReportForm.controls['cpvInitiatedTime'].valid">
         <div *ngIf="
           fieldReportForm.controls['cpvInitiatedTime'].hasError('required')">
           CPV initiated time is required
@@ -77,7 +77,7 @@
       </div>
     </div> -->
 
-      <!-- <div
+    <!-- <div
           class="invalid-feedback"
           *ngIf="
           fieldReportForm.controls['cpvInitiatedTime'].touched &&
@@ -149,16 +149,14 @@
       <label for="residenceAddressline2">{{ labels?.addressline2 }}</label>
       <app-custom-input id="residenceAddressline2" [placeholder]="'Enter address'"
         [type]="labels?.validationData?.address?.type" formControlName="addressLine2"
-        [maxLength]="labels?.validationData?.address?.maxLength"
-        >
+        [maxLength]="labels?.validationData?.address?.maxLength">
       </app-custom-input>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
       <label for="residenceAddressline3">{{ labels?.addressline3 }}</label>
       <app-custom-input id="residenceAddressline3" [placeholder]="'Enter address'"
         [type]="labels?.validationData?.address?.type" formControlName="addressLine3"
-        [maxLength]="labels?.validationData?.address?.maxLength"
-        >
+        [maxLength]="labels?.validationData?.address?.maxLength">
       </app-custom-input>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -188,7 +186,7 @@
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
       <label for="landmark">{{ labels?.landmark }} </label>
       <app-custom-input formControlName="landmark" [maxLength]="labels?.validationData?.landmark?.maxLength"
-        [id]="'landmark'"[isDirty]="isDirty"></app-custom-input>
+        [id]="'landmark'" [isDirty]="isDirty"></app-custom-input>
     </div>
     <div class="form-group col-sm-6 col-md-4 col-lg-4">
       <label for="designation">{{ labels?.designation }} <sub class="star_red_col">*</sub></label>
@@ -599,7 +597,8 @@
           placeholder="Enter Date" [activeView]="'decade'"></kendo-datepicker>
       </div>
       <div class="form-group col-sm-6 col-md-4 col-lg-4">
-        <label for="">{{ roleType == '2' ? labels.receivedTime : labels.submitTime }} <sub class="star_red_col">*</sub></label>
+        <label for="">{{ roleType == '2' ? labels.receivedTime : labels.submitTime }} <sub
+            class="star_red_col">*</sub></label>
         <input type="text" class="form-control mandatory" placeholder="Enter time" formControlName="fiTime"
           disabled="true" />
       </div>
@@ -616,14 +615,18 @@
       <div class="form-group col-sm-12 col-md-12 col-lg-12">
         <label for="comments">{{ labels?.commentsAndRecommendations }}
           <sub class="star_red_col">*</sub></label>
-        <textarea type="text" class="form-control text_area mar-5" maxlength="1500" formControlName="fiComments"
+        <app-custom-textarea [className]="'form-control text_area mar-5'" [placeholder]="'Comments'"
+          [isRequired]="'Comments are required'" [maxlength]="labels?.validationData.textarea.maxLength"
+          formControlName="fiComments" [readonly]="false" [isDirty]="isDirty">
+        </app-custom-textarea>
+        <!-- <textarea type="text" class="form-control text_area mar-5" maxlength="1500" formControlName="fiComments"
           required></textarea>
         <div class="invalid-feedback" *ngIf="isDirty || fieldReportForm.get('fiComments').touched">
 
           <div *ngIf="!fieldReportForm.get('fiComments').value">
             Comments are required
           </div>
-        </div>
+      </div> -->
       </div>
     </div>
   </div>
@@ -659,16 +662,25 @@
       >
         {{ labels.submit }}
       </button> -->
-      <a data-toggle="modal" data-target="#myModalCredit" id="reject_credit" *ngIf="showSubmit && !disableSaveBtn">
-        <p type="button" class="btn btn-primary">{{ labels.submit }}</p>
+      <a  id="reject_credit" *ngIf="showSubmit && !disableSaveBtn">
+        <p type="button" (click)="myModalCredit = true" class="btn btn-primary">{{ labels.submit }}</p>
+        <!-- data-toggle="modal" data-target="#myModalCredit" -->
       </a>
     </div>
   </div>
 </form>
-<div class="modal" id="myModalCredit">
+
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="myModalCredit"
+[buttons] = "modalButtons"
+(onButtonCancel) = "myModalCredit = false"
+(onButtonClick)="submitFiReportDetails() ; myModalCredit= false"></app-custom-modal>
+
+
+<!-- <div class="modal" id="myModalCredit">
   <div class="modal-dialog modal-center">
     <div class="modal-content" style="text-align: center">
-      <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal">
@@ -676,12 +688,10 @@
         </button>
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body">
         <p>{{ labels.submitToCredit }}</p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer" style="text-align: center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_yes_val" value="Yes"
           (click)="submitFiReportDetails()">
@@ -693,4 +703,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

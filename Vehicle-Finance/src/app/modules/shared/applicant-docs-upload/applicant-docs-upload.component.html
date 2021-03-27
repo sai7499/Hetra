@@ -321,15 +321,21 @@
           </h4>
         </div>
         <div class="modal-body">
-          <textarea class="form-control" rows="10" cols="5" [maxlength]="labels?.validationData.remarks.maxLength"
-            formControlName="deferralRemarks" placeholder="Deferral Remarks"></textarea>
+          <!-- <textarea class="form-control" rows="10" cols="5" [maxlength]="labels?.validationData.remarks.maxLength"
+            formControlName="deferralRemarks" placeholder="Deferral Remarks"></textarea> -->
 
-          <div class="invalid-feedback"
+            <app-custom-textarea [className]="'form-control'" [placeholder]="'Deferral Remarks'"
+            [maxlength]="labels?.validationData.textarea.maxLength"
+            formControlName="deferralRemarks" [isRequired]="'Deferral Remarks is required'"
+            [readonly]="false">
+        </app-custom-textarea>
+
+          <!-- <div class="invalid-feedback"
             *ngIf="modalForm.controls['deferralRemarks'].touched && !modalForm.controls['deferralRemarks'].valid">
             <div *ngIf="modalForm.controls['deferralRemarks'].hasError('required')">
               Deferral Remarks is Required
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="closeModal"

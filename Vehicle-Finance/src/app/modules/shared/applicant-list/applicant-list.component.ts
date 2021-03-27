@@ -62,21 +62,8 @@ export class ApplicantListComponent implements OnInit {
   udfGroupId: string = 'APG001';
   cbScreenId: string;
   erScreenId: string;
-  modalDetails = {
-    heading: 'Delete Applicant',
-    content: 'Are you sure you want to Delete?'
-  }
-  modalButtons: any = [
-    {
-      name: 'Yes',
-      isModalClose: false,
-      class: 'btn btn-success' //if button to be a primary, dont need to include
-    },
-    {
-      name: 'Cancel',
-      isModalClose: true,
-      class: 'btn btn-danger'
-    }];
+  modalDetails : any;
+  modalButtons: any = [];
 
   constructor(
     private labelsData: LabelsService,
@@ -105,7 +92,13 @@ export class ApplicantListComponent implements OnInit {
     } else {
       this.locationPath = 'lead-section'
     }
+    
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.applicantlist.deleteApp;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
 
+    })
     this.labelsData.getScreenId().subscribe((data) => {
       let udfScreenId = data.ScreenIDS;
 

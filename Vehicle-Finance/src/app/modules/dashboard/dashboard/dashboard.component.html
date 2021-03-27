@@ -6,8 +6,8 @@
         <div class="pull-right dropdown nav">
             <div class="pull-right dropdown nav">
 
-                <button
-                    class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i class="fa fa-filter"></i>
+                <button class="btn btn-default mar-bottom" (click)="showFilter=!showFilter"> <i
+                        class="fa fa-filter"></i>
                     {{!isFilterApplied ? "Filter" : "Filter Applied"}} </button>
             </div>
             <!-- <div *ngIf="isFilterApplied" class="pull-right dropdown nav">
@@ -32,8 +32,7 @@
     </div>
 
     <!-- Filter Form Starts -->
-    <div class="filter-block container-fluid mar-bottom"
-        *ngIf="showFilter">
+    <div class="filter-block container-fluid mar-bottom" *ngIf="showFilter">
         <div>
             <form [formGroup]="filterForm">
                 <div class="row">
@@ -51,7 +50,8 @@
                             [placeholder]="'Loan Number'" [type]="validationData?.extn.type">
                         </app-custom-input>
                     </div>
-                    <div *ngIf="displayTabs?.ApprovalDashboard != activeTab" class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div *ngIf="displayTabs?.ApprovalDashboard != activeTab"
+                        class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="productCategory">{{labels?.productCategory}}</label>
                         <!-- <app-vf-custom-select [values]="productCategoryData" formControlName="product"> </app-vf-custom-select> -->
                         <select class="form-control" formControlName="product">
@@ -72,9 +72,9 @@
                         class="form-group col-sm-6 col-md-3 col-lg-3 ">
                         <label for="status">Deferral Type</label>
                         <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
-                        <app-vf-custom-select [values]="deferralTypeList" (change)="onDeferrel($event.target.value)" formControlName="deferralType"
-                        >
-                    </app-vf-custom-select>
+                        <app-vf-custom-select [values]="deferralTypeList" (change)="onDeferrel($event.target.value)"
+                            formControlName="deferralType">
+                        </app-vf-custom-select>
                     </div>
                     <div *ngIf="displayTabs?.ApprovalDashboard == activeTab"
                         class="form-group col-sm-6 col-md-3 col-lg-3 ">
@@ -82,28 +82,29 @@
                         <!-- <app-vf-custom-select [values]="stageData" formControlName="leadStage"> </app-vf-custom-select> -->
                         <div>
                             <ng-autocomplete class="custom-select-box" [data]="defDocNames" [searchKeyword]="'item'"
-                            (selected)='selectDocNameEvent($event)' (inputChanged)='onDocNameSearch($event)'
-                            (inputCleared)='onDocNameClear($event)'
-                            [itemTemplate]="favDocNameTemplate" [notFoundTemplate]="notFoundTemplate" formControlName="deferralDocName"
-                            [placeHolder]="'Search Deferral Document'" [debounceTime]="400" [minQueryLength]="2">
+                                (selected)='selectDocNameEvent($event)' (inputChanged)='onDocNameSearch($event)'
+                                (inputCleared)='onDocNameClear($event)' [itemTemplate]="favDocNameTemplate"
+                                [notFoundTemplate]="notFoundTemplate" formControlName="deferralDocName"
+                                [placeHolder]="'Search Deferral Document'" [debounceTime]="400" [minQueryLength]="2">
                             </ng-autocomplete>
-                            
-          <div class="invalid-feedback">
-            <!-- <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['approvedBy'].value && isDeferral"> Please select user
+
+                            <div class="invalid-feedback">
+                                <!-- <div *ngIf="!createNegotiationForm.get('tickets')['controls'][i]['controls'].approvalForm['controls']['approvedBy'].value && isDeferral"> Please select user
             </div> -->
-            <!-- <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
+                                <!-- <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
               required</div> -->
-          </div>
-                          <ng-template #favDocNameTemplate let-item>
-                            <a [innerHTML]="item"></a>
-                          </ng-template>
-                          <ng-template #notFoundTemplate let-notFound>
-                            <div [innerHTML]="notFound"></div>
-                          </ng-template>
-                          </div>
+                            </div>
+                            <ng-template #favDocNameTemplate let-item>
+                                <a [innerHTML]="item"></a>
+                            </ng-template>
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                        </div>
                     </div>
                 </div>
-                <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.ApprovalDashboard != activeTab" class="row">
+                <div *ngIf="displayTabs?.PDD != activeTab && displayTabs?.PDDforCPC != activeTab && displayTabs?.ApprovalDashboard != activeTab"
+                    class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="startDate">{{labels?.leadCreatedOnStartDate}}</label>
                         <kendo-datepicker class="form-control" formControlName="fromDate" [format]="'dd/MM/yyyy'"
@@ -133,18 +134,16 @@
                 <div *ngIf="displayTabs?.PDD === activeTab || displayTabs?.PDDforCPC === activeTab" class="row">
                     <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="startDate">{{labels?.disbursementStartDate}}</label>
-                        <kendo-datepicker class="form-control" formControlName="disbursementDate" [format]="'dd/MM/yyyy'"
-                            [max]="toDayDate" placeholder="Start Date" (ngModelChange)="onChangeDisbFromDate($event)"
-                            [activeView]="'decade'">
+                        <kendo-datepicker class="form-control" formControlName="disbursementDate"
+                            [format]="'dd/MM/yyyy'" [max]="toDayDate" placeholder="Start Date"
+                            (ngModelChange)="onChangeDisbFromDate($event)" [activeView]="'decade'">
                         </kendo-datepicker>
 
                     </div>
-                    <div
-                        class="form-group col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group col-sm-6 col-md-3 col-lg-3">
                         <label for="endDate">Expected Date</label>
                         <kendo-datepicker class="form-control" formControlName="expectedDate" [format]="'dd/MM/yyyy'"
-                             (ngModelChange)="onChangeDisbToDate($event)"
-                             placeholder="End Date" [activeView]="'decade'">
+                            (ngModelChange)="onChangeDisbToDate($event)" placeholder="End Date" [activeView]="'decade'">
                         </kendo-datepicker>
                         <!-- <div *ngIf="isFromDate">
                 End Date is required
@@ -215,9 +214,9 @@
             <li class="btn-dash" (click)="onLeads(displayTabs?.Deviation, displayTabs?.DeviationWithMe, 'deviation')"
                 [ngClass]="{'active':displayTabs?.Deviation === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Deviation</a></li>
-                    <li class="btn-dash" (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)"
-                    [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a
-                       data-toggle="tab">Deferrals</a></li>
+            <li class="btn-dash" (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)"
+                [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a
+                    data-toggle="tab">Deferrals</a></li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.ChequeTracking)"
                 [ngClass]="{'active':displayTabs?.ChequeTracking === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Cheque Tracking</a></li>
@@ -235,7 +234,7 @@
             <li class="btn-dash" (click)="onLeads(displayTabs?.VehicleValuvator, displayTabs?.VehicleValuvatorWithMe)"
                 [ngClass]="{'active':displayTabs?.VehicleValuvator === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Vehicle Valuation</a>
-                        </li>
+            </li>
 
         </ul>
     </div>
@@ -401,11 +400,11 @@
                     Sheet</a></li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.PDDforCPC, displayTabs?.PDDWithMe)"
                 [ngClass]="{'active':displayTabs?.PDDforCPC === activeTab}" routerLinkActive="active"><a
-                   data-toggle="tab">Deferrals</a></li>
+                    data-toggle="tab">Deferrals</a></li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.VehicleValuvator, displayTabs?.VehicleValuvatorWithMe)"
                 [ngClass]="{'active':displayTabs?.VehicleValuvator === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Vehicle Valuation</a>
-                    </li>
+            </li>
             <li class="btn-dash" (click)="onLeads(displayTabs?.ApprovalDashboard)"
                 [ngClass]="{'active':displayTabs?.ApprovalDashboard === activeTab}" routerLinkActive="active"><a
                     data-toggle="tab">Deferral Approval</a></li>
@@ -747,8 +746,7 @@
                                 (click)="onSort(sortTables?.ByPriority)"> </i> </th>
                         <th *ngIf="!isExtUser">{{labels?.promoCode}}
                         </th>
-                        <th *ngIf="!isExtUser">{{labels?.status}} <i
-                                style="cursor: pointer" class="fa fa-sort"
+                        <th *ngIf="!isExtUser">{{labels?.status}} <i style="cursor: pointer" class="fa fa-sort"
                                 [ngClass]="{'active':sortTables?.ByStage === sortTab}"
                                 (click)="onSort(sortTables?.ByStage)"> </i> </th>
                         <th *ngIf="!isExtUser">{{labels?.history}}
@@ -855,25 +853,24 @@
                         </td>
                         <td class="text-left" [attr.data-label]="labels?.product">{{item.product ? item.product : '--'}}
                         </td>
-                        <td *ngIf="!isExtUser" class="txt-rgt"
-                            [attr.data-label]="labels?.loanAmount">{{item.loanAmt ? item.loanAmt : '--'}}</td>
-                        <td *ngIf="!isExtUser"
-                            [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants : '--'}}</td>
+                        <td *ngIf="!isExtUser" class="txt-rgt" [attr.data-label]="labels?.loanAmount">{{item.loanAmt ?
+                            item.loanAmt : '--'}}</td>
+                        <td *ngIf="!isExtUser" [attr.data-label]="labels?.applicant">{{item.applicants ? item.applicants
+                            : '--'}}</td>
                         <td [attr.data-label]="labels?.createdOn">{{item.createdOn ? item.createdOn : '--'}}</td>
-                        <td *ngIf="!isExtUser" class="text-left"
-                            [attr.data-label]="labels?.createdBy">{{item.createdBy ? item.createdBy : '--'}}</td>
+                        <td *ngIf="!isExtUser" class="text-left" [attr.data-label]="labels?.createdBy">{{item.createdBy
+                            ? item.createdBy : '--'}}</td>
                         <ng-container *ngIf="!isExtUser">
                             <td [attr.data-label]="labels?.priority" *ngIf="item.priority == '1'">Yes</td>
                             <td [attr.data-label]="labels?.priority"
                                 *ngIf="item.priority == '0' || item.priority == null">
                                 No</td>
                         </ng-container>
-                        <td *ngIf="!isExtUser"
-                            [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode : '--'}}</td>
-                        <td *ngIf="!isExtUser" class="text-left"
-                            [attr.data-label]="labels?.status">{{item.stage ? item.stage : '--'}}</td>
-                        <td *ngIf="!isExtUser"
-                            [attr.data-label]="labels?.history">
+                        <td *ngIf="!isExtUser" [attr.data-label]="labels?.promoCode">{{item.promoCode ? item.promoCode :
+                            '--'}}</td>
+                        <td *ngIf="!isExtUser" class="text-left" [attr.data-label]="labels?.status">{{item.stage ?
+                            item.stage : '--'}}</td>
+                        <td *ngIf="!isExtUser" [attr.data-label]="labels?.history">
                             <a data-toggle="modal" data-target="#leadHistoryModal" data-tooltip="Lead History"
                                 data-placement="bottom" (click)="onLeadHistory(item.leadId)"> <i
                                     class="fa fa-history"></i></a>
@@ -892,8 +889,7 @@
                                 *ngIf="(onReleaseTab || onAssignTab) && displayTabs?.PDDforCPC === activeTab || (displayTabs?.ChequeTracking === activeTab &&
                             displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab || displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">
                                 {{labels?.action}}</th>
-                                <th
-                                *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.PDDforCPC === activeTab">
+                            <th *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.PDDforCPC === activeTab">
                                 {{labels?.leadID}}</th>
                             <!-- <th
                                 *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
@@ -955,15 +951,16 @@
                             </td>
                             <td *ngIf="displayTabs?.LoanBooking === activeTab || displayTabs?.PDDforCPC === activeTab"
                                 [attr.data-label]="labels?.leadID">
-                            <!-- <td *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
+                                <!-- <td *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.ChequeTracking === activeTab &&
                             displayTabs?.ChequeTrackingLeadsWithMe === subActiveTab || displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)"
                                 [attr.data-label]="labels?.leadID"> -->
 
-                                <a *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithMe === subActiveTab)" class="text-underline"
-                                    style="cursor: pointer;"
+                                <a *ngIf="displayTabs?.LoanBooking === activeTab || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithMe === subActiveTab)"
+                                    class="text-underline" style="cursor: pointer;"
                                     (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); getLoanNumber(item.loanNumber)">{{item.leadId
                                     ? item.leadId : '--'}}</a>
-                                <a *ngIf="(displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithBranch === subActiveTab)  || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithBranch === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithBranch === subActiveTab)">
+                                <a
+                                    *ngIf="(displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithBranch === subActiveTab)  || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithBranch === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithBranch === subActiveTab)">
                                     {{item.leadId ? item.leadId : '--'}}
                                 </a>
 
@@ -981,20 +978,24 @@
                                 [attr.data-label]="labels?.loanNumber">
                                 <a>{{item.loanNumber ? item.loanNumber : '--'}}</a>
                             </td>
-                            <td [ngClass]="[item.loanNumber ? 'text-underline' : 'disabled']"  *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab"
+                            <td [ngClass]="[item.loanNumber ? 'text-underline' : 'disabled']"
+                                *ngIf="displayTabs?.PDD === activeTab || displayTabs?.ChequeTracking === activeTab"
                                 [attr.data-label]="labels?.loanNumber">
 
-                                <a *ngIf="displayTabs?.PDD === activeTab || (displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch !== subActiveTab)" class="text-underline"
-                                    style="cursor: pointer;"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); assignTaskId(item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber ? item.loanNumber : '--'}}</a>
+                                <a *ngIf="displayTabs?.PDD === activeTab || (displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch !== subActiveTab)"
+                                    class="text-underline" style="cursor: pointer;"
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); assignTaskId(item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber
+                                    ? item.loanNumber : '--'}}</a>
 
-                                <a *ngIf="(displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.loanNumber
+                                <a
+                                    *ngIf="(displayTabs?.ChequeTracking === activeTab && displayTabs?.ChequeTrackingLeadsWithBranch === subActiveTab)">{{item.loanNumber
                                     ? item.loanNumber : '--'}}</a>
                             </td>
-                            <td [ngClass]="[item.loanNumber ? 'text-underline' : 'disabled']" *ngIf="(displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithMe === subActiveTab)"
-                                [attr.data-label]="labels?.loanNumber"><a
-                                    style="cursor: pointer;"
-                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); assignTaskId(item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber ? item.loanNumber : '--'}}</a>
+                            <td [ngClass]="[item.loanNumber ? 'text-underline' : 'disabled']"
+                                *ngIf="(displayTabs?.PDDforCPC === activeTab && displayTabs?.PDDWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.PdcSpdcWithMe === subActiveTab) || (displayTabs?.PDDforCPC === activeTab && displayTabs?.DefDocWithMe === subActiveTab)"
+                                [attr.data-label]="labels?.loanNumber"><a style="cursor: pointer;"
+                                    (click)="onRoute(item.leadId,item.stageCode,item.taskId, item); assignTaskId(item.taskId); getLoanNumber(item.loanNumber)">{{item.loanNumber
+                                    ? item.loanNumber : '--'}}</a>
                             </td>
                             <!-- <td *ngIf="displayTabs?.PDDforCPC === activeTab" [attr.data-label]="labels?.loanNumber"
                 class="text-underline" (click)="onRoute(item.leadId,item.stageCode,item.taskId); getLoanNumber(item.loanNumber)"><a
@@ -1100,57 +1101,60 @@
                     </tbody>
                 </table>
 
-<!-- Approval Dashboard Starts -->
+                <!-- Approval Dashboard Starts -->
                 <table *ngIf="displayTabs?.ApprovalDashboard === activeTab">
                     <thead>
                         <tr class="table-head-bg">
                             <th>{{labels?.leadID}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
-                                [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
-                                (click)="onSort(sortTables?.ByLeadId)"> </i> 
+                                    [ngClass]="{'active':sortTables?.ByLeadId === sortTab}"
+                                    (click)="onSort(sortTables?.ByLeadId)"> </i>
                             </th>
                             <th>{{labels?.applicantName}}&nbsp;<i style="cursor: pointer" class="fa fa-sort"
-                                [ngClass]="{'active':sortTables?.ByName === sortTab}"
-                                (click)="onSort(sortTables?.ByName)"> </i>
+                                    [ngClass]="{'active':sortTables?.ByName === sortTab}"
+                                    (click)="onSort(sortTables?.ByName)"> </i>
                             </th>
                             <th>
                                 Deferral Type&nbsp;<i style="cursor: pointer" class="fa fa-sort"
-                                [ngClass]="{'active':sortTables?.ByDefType === sortTab}"
-                                (click)="onSort(sortTables?.ByDefType)"> </i> 
+                                    [ngClass]="{'active':sortTables?.ByDefType === sortTab}"
+                                    (click)="onSort(sortTables?.ByDefType)"> </i>
                             </th>
                             <th>Deferral Document Name&nbsp;<i style="cursor: pointer" class="fa fa-sort"
-                                [ngClass]="{'active':sortTables?.ByDefDocName === sortTab}"
-                                (click)="onSort(sortTables?.ByDefDocName)"> </i> 
+                                    [ngClass]="{'active':sortTables?.ByDefDocName === sortTab}"
+                                    (click)="onSort(sortTables?.ByDefDocName)"> </i>
                             </th>
                             <th>Deferral Date&nbsp;<i style="cursor: pointer" class="fa fa-sort"
-                                [ngClass]="{'active':sortTables?.ByDefDate === sortTab}"
-                                (click)="onSort(sortTables?.ByDefDate)"> </i> 
+                                    [ngClass]="{'active':sortTables?.ByDefDate === sortTab}"
+                                    (click)="onSort(sortTables?.ByDefDate)"> </i>
                             </th>
                             <th>Requested On&nbsp;<i style="cursor: pointer" class="fa fa-sort"
-                                [ngClass]="{'active':sortTables?.ByReqOn === sortTab}"
-                                (click)="onSort(sortTables?.ByReqOn)"> </i> 
+                                    [ngClass]="{'active':sortTables?.ByReqOn === sortTab}"
+                                    (click)="onSort(sortTables?.ByReqOn)"> </i>
                             </th>
                             <th>Requested By&nbsp;<i style="cursor: pointer" class="fa fa-sort"
-                                [ngClass]="{'active':sortTables?.ByReqBy === sortTab}"
-                                (click)="onSort(sortTables?.ByReqBy)"> </i> 
+                                    [ngClass]="{'active':sortTables?.ByReqBy === sortTab}"
+                                    (click)="onSort(sortTables?.ByReqBy)"> </i>
                             </th>
                             <th>{{labels?.action}}
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
+                        <tr
+                            *ngFor="let item of newArray | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: count } let i = index">
                             <td>{{item.leadId ? item.leadId : '--'}}</td>
                             <td>{{item.applicantName ? item.applicantName : '--'}}</td>
-                            <td>{{item.deferralType ? item.deferralType : '--'}}</td>  
-                            <td *ngIf="item.deferralType == 'Document Deferral'">{{item.defDocName ? item.defDocName : '--'}}</td>
+                            <td>{{item.deferralType ? item.deferralType : '--'}}</td>
+                            <td *ngIf="item.deferralType == 'Document Deferral'">{{item.defDocName ? item.defDocName :
+                                '--'}}</td>
                             <td *ngIf="item.deferralType == 'PDC/SPDC'">
-                                No of PDC Required {{'  :' +item.pdcNum}}<br>
+                                No of PDC Required {{' :' +item.pdcNum}}<br>
                                 No of PDC Collected {{':' + item.pdcCollected}}<br>
-                                No of SPDC Required {{'  :' +item.spdcNum}}<br>
-                                No of SPDC Collected  {{':' +item.spdcCollected}}<br>
+                                No of SPDC Required {{' :' +item.spdcNum}}<br>
+                                No of SPDC Collected {{':' +item.spdcCollected}}<br>
                             </td>
                             <td>{{item.deferredDate}}</td>
-                            <td>{{item.requestedOn ? requestedOn[i][0] : '--'}}<br>{{item.requestedOn ? requestedOn[i][1] : ''}}</td>
+                            <td>{{item.requestedOn ? requestedOn[i][0] : '--'}}<br>{{item.requestedOn ?
+                                requestedOn[i][1] : ''}}</td>
                             <!-- <td>{{item.requestedOn}}</td> -->
                             <td>{{item.requestedBy ? item.requestedBy : '--'}}</td>
                             <td class="text-center">
@@ -1165,11 +1169,13 @@
                                 </div> -->
                                 <div class="row" style="margin: 0 5px 0 5px;">
                                     <a title="View DDE" (click)="onViewDDE(item)" style="margin: 5px;"><i
-                                        class="fa fa-eye cursor-pointer"  aria-hidden=""></i></a>
-                                    <a title="Approve" (click)="onApproveClick(item)" style="margin: 5px; color: lightgreen;"><i
-                                        class="fa fa-thumbs-up cursor-pointer" aria-hidden=""></i></a>
-                                    <a title="Reject" data-toggle="modal" (click)="onRejectClick(item)" data-target="#rejectModal" style="margin: 5px; color: orangered;"><i
-                                        class="fa fa-thumbs-down cursor-pointer" aria-hidden=""></i></a>
+                                            class="fa fa-eye cursor-pointer" aria-hidden=""></i></a>
+                                    <a title="Approve" (click)="onApproveClick(item)"
+                                        style="margin: 5px; color: lightgreen;"><i
+                                            class="fa fa-thumbs-up cursor-pointer" aria-hidden=""></i></a>
+                                    <a title="Reject" data-toggle="modal" (click)="onRejectClick(item)"
+                                        data-target="#rejectModal" style="margin: 5px; color: orangered;"><i
+                                            class="fa fa-thumbs-down cursor-pointer" aria-hidden=""></i></a>
                                 </div>
                             </td>
                         </tr>
@@ -1339,18 +1345,23 @@
                         <div class="col-sm-12 col-md-12 col-lg-12 text-left">
                             <label for="valuator_remarks">{{ labels?.remark }}
                             </label>
-                            <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3"
+                            <app-custom-textarea [className]="'form-control'" [placeholder]="labels?.remark"
+                                [maxlength]="labels?.validationData.textarea.maxLength"
+                                formControlName="deferralRemarks" [isRequired]="'Remarks is required'"
+                                [readonly]="false" [isDirty]="isDirty">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3"
                             placeholder="" formControlName="deferralRemarks"
                             [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
                             <div class="invalid-feedback">
                                 <div *ngIf="!approveForm.get('deferralRemarks').value && isDirty">
                                     Remarks is required
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
-                        
+
                     </div>
-                   
+
                 </div>
                 <div class="modal-footer text-center">
                     <button type="button" (click)="onDeferralApproveOrReject('reject')" class="btn btn-success">
@@ -1366,12 +1377,8 @@
         </div>
     </div>
 
-    <app-custom-modal
-[modalDetails]="modalDetails"
-[showModal]="showModal"
-[buttons] = "modalButtons"
-(onButtonCancel) = "showModal = false"
-(onButtonClick)="onDeferralApproveOrReject('approve')"></app-custom-modal>
+    <app-custom-modal [modalDetails]="modalDetails" [showModal]="showModal" [buttons]="modalButtons"
+        (onButtonCancel)="showModal = false" (onButtonClick)="onDeferralApproveOrReject('approve')"></app-custom-modal>
 
 
     <router-outlet></router-outlet>

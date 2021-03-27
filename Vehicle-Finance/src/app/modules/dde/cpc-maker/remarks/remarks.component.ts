@@ -39,6 +39,15 @@ export class RemarksComponent implements OnInit {
   roleAndUserDetails: any;
   labels: any;
   validationData: any;
+  sendCreModalDetails: any;
+  sendCreModalButtons: any;
+  approveModalDetails: any;
+  approveModalButtons: any;
+  reAppealModalDetails: any;
+  reAppealModalButtons: any;
+
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(
     private router: Router,
@@ -65,6 +74,19 @@ export class RemarksComponent implements OnInit {
       this.labels = res;
       this.validationData = res.validationData;
     });
+
+    this.labelService.getModalDetails().subscribe((data)=>{
+      const details = data.cadRemarks;
+      this.sendCreModalDetails = details.sendToCredit.modalDetails,
+      this.sendCreModalButtons = details.sendToCredit.modalButtons,
+
+      this.approveModalDetails = details.approve.modalDetails,
+      this.approveModalButtons = details.approve.modalButtons,
+
+      this.reAppealModalDetails = details.reAppeal.modalDetails,
+      this.reAppealModalButtons = details.reAppeal.modalButtons
+
+    })
 
     this.loginStoreService.isCreditDashboard.subscribe((value: any) => {
       this.roleType = value.roleType;
@@ -211,6 +233,8 @@ export class RemarksComponent implements OnInit {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
+    this.modalDetails = this.approveModalDetails;
+    this.modalButtons = this.approveModalButtons;
     this.showModalApprove = true;
 
   }
@@ -307,6 +331,8 @@ export class RemarksComponent implements OnInit {
       this.toasterService.showInfo('Entered details are not Saved. Please SAVE details before proceeding', '');
       return;
     }
+    this.modalDetails = this.reAppealModalDetails;
+    this.modalButtons = this.reAppealModalButtons;
     this.showModalApprove = true;
   }
 

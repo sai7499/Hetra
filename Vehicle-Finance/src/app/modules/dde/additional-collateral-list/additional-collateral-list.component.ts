@@ -31,6 +31,9 @@ export class AdditionalCollateralListComponent {
 
     udfScreenId: string = '';
     userId: any;
+    isDeleteModal : boolean;
+  modalDetails: any;
+  modalButtons: any;
 
     constructor(private labelsData: LabelsService,
         private createLeadDataService: CreateLeadDataService,
@@ -42,7 +45,8 @@ export class AdditionalCollateralListComponent {
         private toggleDdeService: ToggleDdeService,
         private loanViewService: LoanViewService,
         private collateralDataStoreService: CollateralDataStoreService,
-        private applicantDataStoreService: ApplicantDataStoreService) { }
+        private applicantDataStoreService: ApplicantDataStoreService,
+        private labelService: LabelsService) { }
 
     ngOnInit() {
         this.labelsData.getLabelsData().subscribe(data => {
@@ -57,6 +61,13 @@ export class AdditionalCollateralListComponent {
         this.getLov();
 
         this.userId = localStorage.getItem('userId')
+
+        this.labelService.getModalDetails().subscribe((data)=>{
+          const details = data.addCollateral.deleteCollDetails;
+          this.modalDetails = details.modalDetails,
+          this.modalButtons = details.modalButtons
+    
+        })
 
         const operationType = this.toggleDdeService.getOperationType();
         if (operationType) {
@@ -139,10 +150,10 @@ export class AdditionalCollateralListComponent {
             let apiError = res.ProcessVariables.error.message;
     
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-              this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
+              this.toasterService.showSuccess(apiError, 'Delete Additional Collateral Details');
               this.getVehicleDetails(this.leadId)
             } else {
-              this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : apiError, 'Delete Vehicle Details')
+              this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : apiError, 'Delete Additional Collateral Details')
             }
           }, error => {
             console.log('error', error);
@@ -153,10 +164,10 @@ export class AdditionalCollateralListComponent {
             const apiError = res.ProcessVariables.error.message;
     
             if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
-              this.toasterService.showSuccess(apiError, 'Delete Vehicle Details');
+              this.toasterService.showSuccess(apiError, 'Delete Additional Collateral Details');
               this.getVehicleDetails(this.leadId)
             } else {
-              this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : apiError, 'Delete Vehicle Details')
+              this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : apiError, 'Delete Additional Collateral Details')
             }
           }, error => {
             console.log('error', error);

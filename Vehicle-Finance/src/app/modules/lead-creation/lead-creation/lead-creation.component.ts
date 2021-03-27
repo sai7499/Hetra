@@ -143,6 +143,8 @@ export class LeadCreationComponent implements OnInit {
 
   directSourcingCode: any;
   isShowRcLimit: boolean;
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(
     private router: Router,
@@ -278,6 +280,14 @@ export class LeadCreationComponent implements OnInit {
       },
       (error) => console.log('Lead Creation Label Error', error)
     );
+
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.leadCreation.createLead;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
+
+    })
   }
 
   getAgeValidation() {
@@ -840,7 +850,7 @@ export class LeadCreationComponent implements OnInit {
                 response.ProcessVariables.isDedupeAvailable;
               const leadSectionData = response.ProcessVariables;
               this.leadId = leadSectionData.leadId;
-
+              this.modalDetails.content = `Lead created successfully ! Lead ID : ${this.leadId}`
               if (isDedupeAvailable) {
                 const leadDedupeData =
                   response.ProcessVariables;

@@ -107,6 +107,12 @@ export class ViabilityDetailsComponent implements OnInit {
   roleType: any;
   ddeViability = {};
   dashboardViability = {};
+  myModalCredit : boolean;
+  myModalReinitiate : boolean;
+  modalDetails: any;
+  modalButtons: any;
+  reInitModalDetails: any;
+  reInitModalButtons: any;
 
   constructor(private fb: FormBuilder, private labelsData: LabelsService,
     private viabilityService: ViabilityServiceService,
@@ -323,6 +329,16 @@ export class ViabilityDetailsComponent implements OnInit {
         goods: vialbility.goodsViability,
         passenger: vialbility.passengerViability
       }
+
+    })
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.viability.submitToCredit;
+      const initiate = data.viability.reInitiate;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons,
+      this.reInitModalDetails = initiate.modalDetails,
+      this.reInitModalButtons = initiate.modalButtons
 
     })
 

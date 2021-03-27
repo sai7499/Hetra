@@ -140,15 +140,18 @@
                         <button class="btn btn-primary dash_href adjustMargins " type="button" (click)="onBack()"><a>Back</a></button>
                         <button *ngIf="roleType != '7'" class="btn btn-primary dash_href adjustMargins" (click)="onSave('save')"> Save </button>
                         
-                        <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a data-toggle="modal"
-                            data-target="#myModalfour">Send Back to CPC Maker</a></button>
+                        <button class="btn btn-primary dash_href marginAdd" type="button" *ngIf="roleType == '5'"><a (click) = "isSendToMaker = true"
+                            >Send Back to CPC Maker</a></button>
+                        <!-- data-toggle="modal"
+                            data-target="#myModalfour" -->
                         <button class="btn btn-primary dash_href adjustMargins" 
                             type="button" (click)="onNext()" *ngIf="roleType != '2'"><a>Next</a>
                         </button>
                         <!-- <button class="btn btn-primary dash_href adjustMargins" type="button" *ngIf="roleType == '2'"><a
                                 data-toggle="modal" data-target="#myModaltwo">Submit for Approval</a></button> -->
                         <button class="btn btn-primary dash_href adjustMargins" type="button" *ngIf="roleType == '2'"><a
-                        data-toggle="modal" data-target="#myModal">Submit To CPC</a></button>
+                        (click)="myModal = true">Submit To CPC</a></button>
+                        <!-- data-toggle="modal" data-target="#myModal" -->
                     </div>
 
                 </div>
@@ -157,21 +160,35 @@
     </div>
 
 </form>
+<!--Submit to cpc-->
+<app-custom-modal
+[modalDetails]="subModalDetails"
+[showModal]="myModal"
+[buttons] = "subModalButtons"
+(onButtonCancel) = "myModal = false"
+(onButtonClick)="onSave('submitTocpc'); myModal= false"></app-custom-modal>
 
-<div class="modal fade" id="myModal" role="dialog">
+<!--Send to maker-->
+<app-custom-modal
+[modalDetails]="sendMakModalDetails"
+[showModal]="isSendToMaker"
+[buttons] = "sendMakModalButtons"
+(onButtonCancel) = "isSendToMaker = false"
+(onButtonClick)="sendBackToMaker(); isSendToMaker= false"></app-custom-modal>
+
+
+
+<!-- <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
 
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <!-- <h4 class="modal-title">Submit Record</h4> -->
             </div>
             <div class="modal-body">
                 <p>Do you want to submit record ?</p>
             </div>
             <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-primary" (click)="submitTocpc()" data-dismiss="modal">Yes</button> -->
                 <button type="button" class="btn btn-primary" (click)="onSave('submitTocpc')"
                      data-dismiss="modal">Yes</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -179,7 +196,7 @@
         </div>
 
     </div>
-</div>
+</div> -->
 <div class="modal fade" id="myModaltwo" role="dialog">
     <div class="modal-dialog">
 
@@ -200,10 +217,9 @@
 
     </div>
 </div>
-<div class="modal fade" id="myModalfour" role="dialog">
+<!-- <div class="modal fade" id="myModalfour" role="dialog">
     <div class="modal-dialog">
 
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -219,4 +235,4 @@
         </div>
 
     </div>
-</div>
+</div> -->

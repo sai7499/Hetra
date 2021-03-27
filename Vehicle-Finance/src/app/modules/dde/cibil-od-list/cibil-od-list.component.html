@@ -136,12 +136,14 @@
                     </app-custom-input>
                   </td>
                   <td data-title="Highest DPD in last 6M" class="cus-wid">
-                    <app-vf-custom-select formControlName="assetClassificationIn6Months" [values]="odListLov?.highestDpd">
+                    <app-vf-custom-select formControlName="assetClassificationIn6Months"
+                      [values]="odListLov?.highestDpd">
                     </app-vf-custom-select>
                   </td>
 
                   <td data-title="Highest DPD in last 12M" class="cus-wid">
-                    <app-vf-custom-select formControlName="assetClassificationIn12Months" [values]="odListLov?.highestDpd">
+                    <app-vf-custom-select formControlName="assetClassificationIn12Months"
+                      [values]="odListLov?.highestDpd">
                     </app-vf-custom-select>
                   </td>
                   <td data-title="Actions" *ngIf="!disableSaveBtn">
@@ -263,8 +265,6 @@
               <div class="col-md-2"><label>{{labels?.cibilODDPDJustification}}</label></div>
               <div class="col-md-10">
 
-                <textarea class="form-control form-control-sm" [maxlength]="labels?.validationData.remarks.maxLength"
-                  placeholder="Text Area" formControlName="justification"></textarea>
                 <!-- <div *ngIf="odDetailsForm.get('justification').invalid && submitted == true"
                   class="invalid-feedback">
                   <div *ngIf="odDetailsForm.get('justification').errors.required">
@@ -279,11 +279,15 @@
                   </div>
                   <div *ngIf="odDetailsForm.get('justification').errors.pattern">
                     Invalid Message / Special Characters not allowed
+                 <textarea class="form-control form-control-sm" 
+                [maxlength]="labels?.validationData.remarks.maxLength" placeholder="Text Area"
+                  formControlName="justification"></textarea> -->
+                <app-custom-textarea [className]="'form-control form-control-sm'"
+                  [placeholder]="labels?.cibilODDPDJustification"
+                  [maxlength]="labels?.validationData.textarea.maxLength" formControlName="justification"
+                  [readonly]="false">
+                </app-custom-textarea>
 
-                  </div>
-                 
-                  
-              </div> -->
               </div>
               <div class="clearfix"></div>
             </div>
@@ -480,7 +484,22 @@
   </div>
 </form>
 
-<div id="overlay" *ngIf="isODModelShow">
+<!--Remove OD details-->
+<app-custom-modal [modalDetails]="odModalDetails" [showModal]="isODModelShow" [buttons]="odModalButtons"
+  (onButtonCancel)="isODModelShow = false" (onButtonClick)="removeOdDetails(rowIndex); isODModelShow= false">
+</app-custom-modal>
+
+<!--Remove loan enquires 30 days details-->
+<app-custom-modal [modalDetails]="loan30ModalDetails" [showModal]="isThirtyModelShow" [buttons]="loan30ModalButtons"
+  (onButtonCancel)="isThirtyModelShow = false"
+  (onButtonClick)="removeLastThirtyDaysLoan(rowIndex); isThirtyModelShow= false"></app-custom-modal>
+
+<!--Remove loan enquires 60 days details-->
+<app-custom-modal [modalDetails]="loan60ModalDetails" [showModal]="isSixtyModelShow" [buttons]="loan60ModalButtons"
+  (onButtonCancel)="isSixtyModelShow = false"
+  (onButtonClick)="removeLastSixtyDaysLoan(rowIndex); isSixtyModelShow= false"></app-custom-modal>
+
+<!-- <div id="overlay" *ngIf="isODModelShow">
   <div id="text">
     <div class="panel">
       <div class="panel-body">
@@ -539,7 +558,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- modal popup for cibil response screen -->
 <div class="modal" id="myModalApplicantImage">

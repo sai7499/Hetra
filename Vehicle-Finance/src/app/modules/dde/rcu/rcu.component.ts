@@ -107,6 +107,11 @@ export class RcuComponent implements OnInit {
 
   operationType: any;
   disableSaveBtn: boolean;
+  myModalReinitiate : boolean;
+  initModalDetails: any;
+  initModalButtons: any;
+  reInitModalDetails: any;
+  reInitModalButtons: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -340,6 +345,17 @@ export class RcuComponent implements OnInit {
       },
       (error) => { }
     );
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const initDetails = data.rcu.initRcu;
+      const reInitDetails = data.rcu.reInitRcu;
+      this.initModalDetails = initDetails.modalDetails,
+      this.initModalButtons = initDetails.modalButtons,
+
+      this.reInitModalDetails = reInitDetails.modalDetails,
+      this.reInitModalButtons = reInitDetails.modalButtons
+
+    })
   }
 
   //getting leadID from Pdd Dashboard

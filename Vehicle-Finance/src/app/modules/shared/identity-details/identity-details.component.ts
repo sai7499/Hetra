@@ -215,7 +215,7 @@ export class IdentityDetailsComponent implements OnInit {
 
     console.log('COMINGVALUES', this.applicant);
     this.udfDetails = this.applicant.udfDetails;
-    this.isShowAdharMismatch = (this.applicant.isAdharUpdate == '1' || this.applicant.isAdharUpdate == '0') ? true : false;
+    this.isShowAdharMismatch = (this.applicant.isAadharUpdate == '1' || this.applicant.isAadharUpdate == '0') ? true : false;
 
   }
 

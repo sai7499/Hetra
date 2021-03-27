@@ -470,6 +470,10 @@ tvrStatusLOV =[
   KYCIdentityLOV: any;
   TPdocumentJson=[];
 
+  bookLoanModal : boolean;
+  modalDetails: any;
+  modalButtons: any;
+
 
   constructor(
     private fb: FormBuilder,
@@ -521,6 +525,13 @@ tvrStatusLOV =[
         this.udfScreenId = udfScreenId.CAD.disbursementCAD;
       }
       
+
+    })
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.disbursement.loanCreation;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
 
     })
   }
