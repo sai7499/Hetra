@@ -194,6 +194,12 @@
         </div>
     </div>
     <!-- Filter Form Ends -->
+    <!-- <ul class="nav nav-pills nav-justified" id="background_white">
+        <li *ngFor="let tab of dashboardTabs" class="btn-dash" (click)="onLeads(displayTabs?.Leads, displayTabs?.NewLeads)"
+                [ngClass]="{'active':displayTabs?.Leads === activeTab}" routerLinkActive="active" id="leads"><a
+                    data-toggle="tab">{{tab.tabName}}</a></li>
+    </ul> -->
+    
 
     <!-- Sales Dashboard starts -->
     <div class="container-fluid mar-bottom" *ngIf="roleType == '1' && userDetailsRoleId != '66'">

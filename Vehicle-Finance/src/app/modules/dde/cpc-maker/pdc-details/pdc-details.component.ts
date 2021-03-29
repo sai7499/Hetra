@@ -472,7 +472,7 @@ export class PdcDetailsComponent implements OnInit {
           }
         }
         // tslint:disable-next-line: triple-equals
-      } else if (pdcCount == '' && data.pdcList) {
+      } else if (pdcCount === '' && data.pdcList) {
         this.showPdcButton = true;
         for (let i = 0; i < data.pdcList.length; i++) {
           this.addPdcUnit();
@@ -504,7 +504,7 @@ export class PdcDetailsComponent implements OnInit {
           });
         }
       } else {
-        this.addPdcUnit();
+        //this.addPdcUnit();
         this.showPdcButton = true;
       }
 
@@ -553,7 +553,7 @@ export class PdcDetailsComponent implements OnInit {
         }
 
         // tslint:disable-next-line: triple-equals
-      } else if (data.spdcList && spdcCount == '') {
+      } else if (data.spdcList && spdcCount === '') {
         // tslint:disable-next-line: prefer-for-of
         for (let j = 0; j < data.spdcList.length; j++) {
           this.addSPdcUnit();
@@ -588,22 +588,10 @@ export class PdcDetailsComponent implements OnInit {
         }
       } else {
         this.showspdcButton = true;
-        this.addSPdcUnit();
+        //this.addSPdcUnit();
       }
     }
 
-    // if (this.pdcForm.get('pdcList').value.length >= 1) {
-    //   for (let i = 1; i < this.pdcForm.get('pdcList').length; i++) {
-    //     this.pdcForm.get('pdcList').controls[i].disable()
-    //   }
-    // }
-
-    // if (this.pdcForm.get('spdcList').value.length >= 1) {
-    //   for (let j = 1; j < this.pdcForm.get('spdcList').length; j++) {
-    //     this.pdcForm.get('spdcList').controls[j].disable();
-
-    //   }
-    // }
     setTimeout(() => {
       this.removeInstAmtValidator()
     })
