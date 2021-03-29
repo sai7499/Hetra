@@ -246,6 +246,15 @@
                           </button>
                         </div>
 
+                        <div class="form-group col-sm-3 col-md-2" *ngIf="isShowStatus[i]">
+                          <label for="document_status">Deferral Status</label>
+
+                          <app-vf-custom-select [values]="uploadForm.get(FORM_ARRAY_NAME + '_' + subCat.code)['controls'][i].get('deferralStatusArr').value"
+                          [id]="'document_role'" formControlName="deferralStatus" [isDisabled]="true">
+                        </app-vf-custom-select>
+
+                        </div>
+
                       </ng-container>
 
                     </div>
