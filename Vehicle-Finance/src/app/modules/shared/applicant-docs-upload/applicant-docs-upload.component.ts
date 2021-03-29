@@ -96,6 +96,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
   apiRes: any[];
 
   isApplicantDetails: boolean;
+  isShowStatus: any = {}
 
   // userDefineFields
   udfScreenId = 'RCS002';
@@ -179,7 +180,6 @@ export class ApplicantDocsUploadComponent implements OnInit {
 
     const url = this.location.path();
     this.isApplicantDetails = url.includes('sales-applicant-details') ? true : false
-    console.log(url, 'isApplicantDetails', this.isApplicantDetails)
   }
 
   getApplicantDetails() {
@@ -331,6 +331,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
           ) as FormArray;
           if (formArray) {
             formArray.push(this.getDocsFormControls(docs));
+            
+            this.isShowStatus[index] = docs['deferralStatusValue'] ? true : false;
+
             this.toggleDeferralDate(docs.subCategoryCode, index, 'isUpdate')
             // if (docs.categoryCode === '50' && docs.subCategoryCode === '1') {
             //   this.getBase64String(docs.dmsDocumentId).then((value: any) => {
@@ -346,6 +349,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
             //   });
             // }
           }
+
         });
 
         this.setUploadDocsValue(docDetails);
@@ -457,6 +461,11 @@ export class ApplicantDocsUploadComponent implements OnInit {
       value: data['documentRoleName']
     }] : []
 
+    let deferralStatusArr = document['deferralStatus'] ? [{
+      key: data['deferralStatus'],
+      value: data['deferralStatusValue']
+    }] : []
+
     const controls = new FormGroup({
       documentName: new FormControl(document.documentName || ''),
       documentNumber: new FormControl(document.documentNumber || ''),
@@ -474,7 +483,8 @@ export class ApplicantDocsUploadComponent implements OnInit {
       ),
       receivedBy: new FormControl(document['documentRoleId'] || ''),
       requestedBy: new FormControl(document['requestedBy'] || localStorage.getItem('userId')),
-      deferralStatus: new FormControl(document['deferralStatus'] || '0'),
+      deferralStatusArr: new FormControl(deferralStatusArr || ''),
+      deferralStatus: new FormControl(document['deferralStatus'] || ''),
       documentRoleArray: new FormControl(documentRoleArray || '')
     });
     return controls;
@@ -1218,7 +1228,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
       return this.toasterService.showError(`Please upload document for ${docName.displayName}`, '')
     }
 
-    this.callAppiyoUploadApi();
+    this.callAppiyoUploadApi(true);
     setTimeout(() => {
       if (isRequested) {
         this.onApproveRequest()
@@ -1226,7 +1236,7 @@ export class ApplicantDocsUploadComponent implements OnInit {
     }, 1000)
   }
 
-  callAppiyoUploadApi() {
+  callAppiyoUploadApi(isNoMsg?) {
     this.uploadService
       .saveOrUpdateDocument(this.documentArr)
       .subscribe((value: any) => {
@@ -1234,7 +1244,9 @@ export class ApplicantDocsUploadComponent implements OnInit {
           return;
         }
         this.isProfileSignUploaded = false;
-        this.toasterService.showSuccess('Documents saved successfully', '');
+        if (!isNoMsg) {
+          this.toasterService.showSuccess('Documents saved successfully', '');
+        }
         this.isNewUpload = false;
         this.apiRes = [...this.documentArr];
         console.log('saveOrUpdateDocument', value);
@@ -1302,11 +1314,21 @@ export class ApplicantDocsUploadComponent implements OnInit {
       this.closebutton.nativeElement.click();
       if (res.Error === '0' && res.ProcessVariables.error.code === '0') {
         this.isReqApprove[index] = false;
+        this.isShowStatus[index] = true;
         let documentDetails = res.ProcessVariables.documentDetail;
+
+        let deferralStatusArr = documentDetails['deferralStatus'] ? [{
+          value: documentDetails['deferralStatusValue']
+        }] : []
+
         obj.controls[index].get('deferralStatus').setValue(documentDetails.deferralStatus)
+        obj.controls[index].get('deferralStatus').setValue(deferralStatusArr)
+
         this.toasterService.showSuccess('Requested Deferral Approval Sucessfully', '')
-        this.setDocumentDetails()
+
       } else {
+        this.isShowStatus[index] = false;
+        this.isReqApprove[index] = true;
         this.toasterService.showError(res.ErrorMessage ? res.ErrorMessage : res.ProcessVariables.error.message, 'Request Approve Deferral')
       }
     })
