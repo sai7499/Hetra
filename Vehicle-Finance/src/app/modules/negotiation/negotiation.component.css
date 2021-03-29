@@ -328,3 +328,8 @@ label{
         width: 100%;
     }
 }
+:host ::ng-deep .autocomplete-container .input-container .x i{
+    background-color: #eeeeee !important;
+    margin-right: -8px !important;
+    border-radius: 4px !important;
+  }
