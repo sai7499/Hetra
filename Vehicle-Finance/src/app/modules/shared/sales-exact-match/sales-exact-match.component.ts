@@ -49,6 +49,12 @@ export class SalesExactMatchComponent implements OnInit {
   isCheckMob: boolean;
   isCheckAdhar: boolean;
   isDirty: boolean;
+  showNewLeadModal : boolean;
+  showSelUCICModal : boolean;
+  newModalDetails : any;
+  newModalButtons : any;
+  selModalDetails : any;
+  selModalButtons : any;
 
   constructor(
     private salesDedupeService: SalesDedupeService,
@@ -75,6 +81,14 @@ export class SalesExactMatchComponent implements OnInit {
       this.udfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.leadtoCustomerDedupeADE : udfScreenId.QDE.leadCustomerDedupeQDE
       this.negativeDedupeUdfScreenId = this.isNavigateToApplicant ? udfScreenId.ADE.negativeListdedupeADE : udfScreenId.QDE.negativeListdedupeQDE;
     })
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.salesExactMatch
+      this.newModalDetails = details.asNewLead.modalDetails,
+      this.newModalButtons = details.asNewLead.modalButtons,
+      this.selModalDetails = details.selectedLead.modalDetails,
+      this.selModalButtons = details.selectedLead.modalButtons
+    })
   }
 
   rejectLead() { }
@@ -93,6 +107,7 @@ export class SalesExactMatchComponent implements OnInit {
       }
     this.currentAction = 'new';
     this.modalName = 'newLeadModal';
+    this.showNewLeadModal = true;
     this.applicantDataStoreService.setDetectvalueChange(true);
     //this.applicantDataStoreService.setDetectActivity(true)
   }
@@ -112,6 +127,12 @@ export class SalesExactMatchComponent implements OnInit {
       
     this.currentAction = 'ucic';
     this.modalName = 'ucicModal2';
+    this.selModalDetails.content = `You have selected ${this.selectedDetails.ucic}  -
+    ${this.selectedDetails.fullName} as an applicant for this lead. Please
+    confirm.`
+
+    // `Are you sure you want to proceed with lead - ${this.leadId} ?`
+    this.showSelUCICModal = true;
     this.applicantDataStoreService.setDetectvalueChange(true)
     // const isEnable = {
     //   isAdharEnabled : !this.isDisableAdharMatch ? true :

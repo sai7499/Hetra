@@ -74,6 +74,13 @@ export class CibilOdListComponent implements OnInit {
   apiValue: any;
   finalValue: any;
 
+  odModalDetails : any;
+  odModalButtons : any;
+  loan30ModalDetails : any;
+  loan30ModalButtons : any;
+  loan60ModalDetails : any;
+  loan60ModalButtons : any;
+
   constructor(
     private labelService: LabelsService,
     private formBuilder: FormBuilder,
@@ -101,6 +108,23 @@ export class CibilOdListComponent implements OnInit {
     this.labelService.getLabelsData().subscribe((res) => {
       this.labels = res;
     });
+
+    this.labelService.getModalDetails().subscribe((data)=>{
+      const odDetails = data.bureauDetails.odDetails;
+      const loan30Details = data.bureauDetails.loan30;
+      const loan60Details = data.bureauDetails.loan60;
+
+      this.odModalDetails = odDetails.modalDetails,
+      this.odModalButtons = odDetails.modalButtons,
+
+      this.loan30ModalDetails = loan30Details.modalDetails,
+      this.loan30ModalButtons = loan30Details.modalButtons,
+
+      this.loan60ModalDetails = loan60Details.modalDetails,
+      this.loan60ModalButtons = loan60Details.modalButtons
+
+
+    })
     this.getLeadId();
     this.userId = localStorage.getItem('userId');
 

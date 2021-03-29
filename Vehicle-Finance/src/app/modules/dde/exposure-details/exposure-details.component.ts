@@ -43,6 +43,8 @@ export class ExposureDetailsComponent implements OnInit {
   grandTotal: any;
   totalLoanAmount: any;
   loanAmountGrandTotal: any;
+  modalDetails: any;
+  modalButtons: any;
   constructor(private formBuilder: FormBuilder, private labelService: LabelsService,
               private exposureservice: ExposureService,
               private commonservice: CommomLovService,
@@ -99,6 +101,13 @@ export class ExposureDetailsComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = udfScreenId.DDE.exposureDDE ;
+
+    })
+
+    this.labelService.getModalDetails().subscribe((data)=>{
+      const details = data.exposure.deleteRow;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
 
     })
     }

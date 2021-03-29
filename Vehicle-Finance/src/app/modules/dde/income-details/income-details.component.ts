@@ -128,6 +128,15 @@ export class IncomeDetailsComponent implements OnInit {
   userDefineForm: any;
   udfScreenId: any;
   udfGroupId: any;
+  busModalDetails : any;
+  busModalButtons : any;
+  otherModalDetails : any;
+  otherModalButtons : any;
+  oblModalDetails : any;
+  oblModalButtons : any;
+  keyModalDetails : any;
+  keyModalButtons : any;
+
 
   maxDate = new Date();
 
@@ -175,6 +184,26 @@ export class IncomeDetailsComponent implements OnInit {
       },
       (error) => { }
     );
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const busDetails = data.incomeDetials.BusinessIncome;
+      const otherDetails = data.incomeDetials.otherIncome;
+      const oblDetails = data.incomeDetials.obligation;
+      const keydetails = data.incomeDetials.keyFinancial;
+
+      this.busModalDetails = busDetails.modalDetails,
+      this.busModalButtons = busDetails.modalButtons,
+
+      this.otherModalDetails = otherDetails.modalDetails,
+      this.otherModalButtons = otherDetails.modalButtons,
+
+      this.oblModalDetails = oblDetails.modalDetails,
+      this.oblModalButtons = oblDetails.modalButtons,
+
+      this.keyModalDetails = keydetails.modalDetails,
+      this.keyModalButtons = keydetails.modalButtons
+
+    })
 
     this.getLov();
     this.getLeadId();

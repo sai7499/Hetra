@@ -3,6 +3,7 @@ import { CustomerAcceptanceServiceService } from '@services/customer-acceptance-
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@services/toaster.service';
 import { SharedService } from '../../../shared/shared-service/shared-service'
+import { LabelsService } from '@services/labels.service';
 
 
 @Component({
@@ -23,13 +24,23 @@ export class CustomerFeedbackComponent implements OnInit {
 
   showModal: boolean;
   taskId: any;
+  modalDetails: any;
+  modalButtons: any;
+  acceptedModal : boolean;
 
   constructor(private customerService: CustomerAcceptanceServiceService, private route: ActivatedRoute,
-              private router: Router, private toasterService: ToasterService, private sharedService: SharedService) { }
+              private router: Router, private toasterService: ToasterService, private sharedService: SharedService,
+              private labelsData: LabelsService,) { }
 
   async ngOnInit() {
     this.leadId = (await this.getLeadId()) as number;
     this.sharedService.taskId$.subscribe((val: any) => (this.taskId = val ? val : ''));
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.customerAcceptedOffer.custAcptOffer;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
+
+    })
   }
   getLeadId() {
     return new Promise((resolve, reject) => {

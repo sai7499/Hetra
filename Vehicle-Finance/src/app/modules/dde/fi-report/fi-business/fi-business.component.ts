@@ -73,6 +73,9 @@ export class FiBusinessComponent implements OnInit {
   taskId: any;
   operationType: any;
   disableSaveBtn: boolean;
+  myModalCredit: boolean
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(
     private labelService: LabelsService,
@@ -131,6 +134,13 @@ export class FiBusinessComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = this.roleType === 2 ? udfScreenId.DDE.businessFIDDE : udfScreenId.FI.businessFI ;
+
+    })
+
+    this.labelService.getModalDetails().subscribe((data)=>{
+      const details = data.extFI.submitToCredit;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
 
     })
     this.operationType = this.toggleDdeService.getOperationType();

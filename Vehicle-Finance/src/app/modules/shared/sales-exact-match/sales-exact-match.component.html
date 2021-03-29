@@ -446,16 +446,30 @@
     </div>
   </div>
 </div>
-<div class="modal" id="ucicModel2" [ngClass]="{ 'dis-block': modalName === 'ucicModal2' }">
+<!--For New Lead-->
+<app-custom-modal
+[modalDetails]="newModalDetails"
+[showModal]="showNewLeadModal"
+[buttons] = "newModalButtons"
+(onButtonCancel) = "showNewLeadModal = false"
+(onButtonClick)="callApiForNewApplicant()"></app-custom-modal>
+
+
+<!--For selected UCIC-->
+<app-custom-modal
+[modalDetails]="selModalDetails"
+[showModal]="showSelUCICModal"
+[buttons] = "selModalButtons"
+(onButtonCancel) = "showSelUCICModal = false"
+(onButtonClick)="callApiForSelectedUcic()"></app-custom-modal>
+
+<!-- <div class="modal" id="ucicModel2" [ngClass]="{ 'dis-block': modalName === 'ucicModal2' }">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header text-center">
         <h4 class="modal-title">Customer Dedupe Match Found</h4>
-        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body">
         <p id="">
           You have selected "{{ selectedDetails?.ucic }} -
@@ -464,11 +478,9 @@
         </p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="ucic_lead"
           (click)="callApiForSelectedUcic()">
-          <!-- (click)="checkNegativeList()" -->
 
           Yes
         </button>
@@ -482,13 +494,10 @@
 <div class="modal in" id="newLeadModal" [ngClass]="{ 'dis-block': modalName === 'newLeadModal' }">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header text-center">
         <h4 class="modal-title">Customer Dedupe Match Found</h4>
-        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body">
         <p id="">
           You have chosen to ignore Dedupe results. This will go for Credit
@@ -496,11 +505,9 @@
         </p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="cnew_lead"
           (click)="callApiForNewApplicant()">
-          <!-- (click)="checkNegativeList()" -->
 
           Yes
         </button>
@@ -510,7 +517,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <app-negative-list-modal [showModal]="showNegativeListModal" [modalInput]="negativeModalInput"
   [udfScreenId]="negativeDedupeUdfScreenId" [udfGroupId]="negativeDedupeUGroupId"

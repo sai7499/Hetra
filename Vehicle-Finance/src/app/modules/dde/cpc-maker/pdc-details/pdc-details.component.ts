@@ -69,6 +69,12 @@ export class PdcDetailsComponent implements OnInit {
   searchUserNameList: any = [];
   isValiduserName: boolean;
   documentId: number;
+  myModal : boolean;
+  subModalDetails: any;
+  subModalButtons: any;
+  sendCreModalDetails: any;
+  sendCreModalButtons: any;
+  isSendCredit : boolean;
 
   constructor(
     private loginStoreService: LoginStoreService,
@@ -147,6 +153,16 @@ export class PdcDetailsComponent implements OnInit {
     this.labelsService.getLabelsData().subscribe((res: any) => {
       this.labels = res;
     });
+
+    this.labelsService.getModalDetails().subscribe((data)=>{
+      const details = data.pdcDetials;
+      this.subModalDetails = details.submit.modalDetails,
+      this.subModalButtons = details.submit.modalButtons, 
+
+      this.sendCreModalDetails = details.sendToCredit.modalDetails,
+      this.sendCreModalButtons = details.sendToCredit.modalButtons
+
+    })
 
   }
   get f() {

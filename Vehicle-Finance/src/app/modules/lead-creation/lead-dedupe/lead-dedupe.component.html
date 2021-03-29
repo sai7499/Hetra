@@ -100,8 +100,15 @@
   </div>
 </main>
 
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="showCustomModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "showCustomModal = false"
+(onButtonClick)="navigateToLeadSection()"></app-custom-modal>
 
-<div class="modal fade" [id]="showModal">
+
+<!-- <div class="modal fade" [id]="showModal">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header ">
@@ -126,6 +133,6 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="modal-backdrop fade" *ngIf="isModal" [ngClass]="{ in: isModal }"></div>

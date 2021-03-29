@@ -60,6 +60,14 @@ export class ChequeTrackingComponent implements OnInit {
   isUpdateForm: boolean = true;
   isDisableCpcSubmit: boolean = true;
   isSubmitCpc: any;
+  modalDetails: any;
+  modalButtons: any;
+  updModalDetails: any;
+  UpdModalButtons: any;
+  disModalDetails: any;
+  disModalButtons: any;
+  subModalDetails: any;
+  subModalButtons: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -112,6 +120,21 @@ export class ChequeTrackingComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = udfScreenId.sales.chequeTrackingSales;
+
+    })
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.chequeTracking;
+
+
+      this.updModalDetails = details.update.modalDetails,
+      this.UpdModalButtons = details.update.modalButtons,
+
+      this.disModalDetails = details.disburse.modalDetails,
+      this.disModalButtons = details.disburse.modalButtons,
+
+      this.subModalDetails = details.submitToCpc.modalDetails,
+      this.subModalButtons = details.submitToCpc.modalButtons
 
     })
   }
@@ -479,6 +502,12 @@ export class ChequeTrackingComponent implements OnInit {
     this.selectedData.remarks = event;
   }
 
+  onDisburse(){
+    this.modalDetails = this.disModalDetails;
+    this.modalButtons = this.disModalButtons;
+    this.showModal = true;
+  }
+
   checkFormUpdate(type? : string) {
     const value = this.chequeForm.value;
     console.log('value', value);
@@ -490,8 +519,12 @@ export class ChequeTrackingComponent implements OnInit {
       return;
     }
     if(type === 'update'){
+      this.modalDetails = this.updModalDetails;
+      this.modalButtons = this.UpdModalButtons;
        this.isUpdateForm = true;
-    }else{
+    }else if('submitToCpc'){
+      this.modalDetails = this.subModalDetails;
+      this.modalButtons = this.subModalButtons;
       this.isUpdateForm = false
     }
     this.showModal = true

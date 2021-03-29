@@ -397,12 +397,18 @@
   </div>
 </main>
 
-<div class="modal" id="modal" [ngClass]="{ 'dis-block': showModal }">
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="showModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "showModal = false"
+(onButtonClick)="navgiateToNextPage() ; showModal= false"></app-custom-modal>
+
+<!-- <div class="modal" id="modal" [ngClass]="{ 'dis-block': showModal }">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header text-center">
+      <div class="modal-header">
         <h4 class="modal-title">Lead Creation</h4>
-        <!-- <button type="button" class="close" data-dismiss="modal" (click)="showModal = false">×</button> -->
       </div>
       <div class="modal-body">
         <p id="">Lead created successfully ! <strong>Lead ID:</strong> {{leadId}}</p>
@@ -417,13 +423,10 @@
         >
           OK
         </button>
-        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
-          Cancel
-        </button> -->
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="modal" id="modal" [ngClass]="{ 'dis-block': isLoanModal }">
   <div class="modal-dialog">

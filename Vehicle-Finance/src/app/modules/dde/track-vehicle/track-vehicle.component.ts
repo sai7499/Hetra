@@ -56,6 +56,12 @@ export class TrackVehicleComponent implements OnInit {
   userDefineForm: any;
   udfScreenId = '';
   udfGroupId = 'RTG001';
+  emiAccModalDetails: any;
+  emiAccModalButtons: any;
+  emiDateModalDetails: any;
+  emiDateModalButtons: any;
+  emiAmntModalDetails: any;
+  emiAmntModalButtons: any;
   // regexPattern = {
   //   amount: {
   //     rule: "^[1-9][0-9]*$",
@@ -246,6 +252,21 @@ export class TrackVehicleComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = udfScreenId.DDE.repaymentTrackRecordDDE ;
+
+    })
+
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.rtr;
+
+
+      this.emiAccModalDetails = details.changeEmis.modalDetails,
+      this.emiAccModalButtons = details.changeEmis.modalButtons,
+
+      this.emiDateModalDetails = details.changeEmiDate.modalDetails,
+      this.emiDateModalButtons = details.changeEmiDate.modalButtons,
+
+      this.emiAmntModalDetails = details.changeEmiAmnt.modalDetails,
+      this.emiAmntModalButtons = details.changeEmiAmnt.modalButtons
 
     })
 

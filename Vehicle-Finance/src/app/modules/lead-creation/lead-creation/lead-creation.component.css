@@ -223,6 +223,13 @@ label{
 .side-pad{
     padding: 0px 25px;
 }
+
+.modal-header {
+    font-size: 13px!important;
+    color: #fff!important;
+    background-color:#f3682d;
+    padding: 8px 8px;
+}
   
 /* 
 ::placeholder {

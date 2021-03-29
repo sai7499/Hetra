@@ -1351,14 +1351,19 @@
                         <div class="col-sm-12 col-md-12 col-lg-12 text-left">
                             <label for="valuator_remarks">{{ labels?.remark }}
                             </label>
-                            <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3"
-                                placeholder="" formControlName="deferralRemarks"
-                                [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
+                            <app-custom-textarea [className]="'form-control'" [placeholder]="labels?.remark"
+                                [maxlength]="labels?.validationData.textarea.maxLength"
+                                formControlName="deferralRemarks" [isRequired]="'Remarks is required'"
+                                [readonly]="false" [isDirty]="isDirty">
+                            </app-custom-textarea>
+                            <!-- <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3"
+                            placeholder="" formControlName="deferralRemarks"
+                            [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
                             <div class="invalid-feedback">
                                 <div *ngIf="!approveForm.get('deferralRemarks').value && isDirty">
                                     Remarks is required
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>

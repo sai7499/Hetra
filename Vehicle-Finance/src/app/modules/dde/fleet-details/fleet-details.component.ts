@@ -109,6 +109,8 @@ export class FleetDetailsComponent implements OnInit {
   applicantList = [];
   financeRequired = true;
   initalZeroCheck: any = [];
+  modalDetails: any;
+  modalButtons: any;
 
   constructor(
     private labelsData: LabelsService,
@@ -190,6 +192,12 @@ export class FleetDetailsComponent implements OnInit {
       let udfScreenId = data.ScreenIDS;
 
       this.udfScreenId = udfScreenId.DDE.fleetListDDE;
+    })
+    this.labelsData.getModalDetails().subscribe((data)=>{
+      const details = data.fleetDetails.deleteRow;
+      this.modalDetails = details.modalDetails,
+      this.modalButtons = details.modalButtons
+
     })
 
     console.log(this.fleetForm, 'fleetForm')

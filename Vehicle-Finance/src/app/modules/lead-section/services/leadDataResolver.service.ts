@@ -47,6 +47,7 @@ export class LeadDataResolverService implements Resolve<any> {
    
       data = {
         leadId: Number(this.leadId),
+        userId: localStorage.getItem('userId'),
         udfDetails: [{
           "udfGroupId": this.udfGroupId,
           // "udfScreenId": this.udfScreenId.udfScreenId

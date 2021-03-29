@@ -496,12 +496,12 @@
                 <div class="col-sm-6 col-md-4 col-lg-7 text-left forRadio">
                   <label class="radio-inline"> 
                     <input type="radio" name='adharNo' 
-                         value="yes" [checked]="applicant.isAdharUpdate == '1'" disabled>Yes
+                         value="yes" [checked]="applicant.isAadharUpdate == '1'" disabled>Yes
                 </label>
                 <label class="radio-inline">
                     
                     <input type="radio" name='adharNo' 
-                        value="no" [checked]="applicant.isAdharUpdate == '0'" disabled>No
+                        value="no" [checked]="applicant.isAadharUpdate == '0'" disabled>No
                 </label>
                 </div>
               </div>
@@ -1259,37 +1259,37 @@
 
 </main>
 
-<div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showDedupeModal }">
+<app-custom-modal
+[modalDetails]="modalDetails"
+[showModal]="showDedupeModal"
+[buttons] = "modalButtons"
+(onButtonCancel) = "showDedupeModal = false"
+(onButtonClick)="navigateToSamePage()"></app-custom-modal>
+
+<!-- <div class="modal" data-dismiss="modal" id="myModal" [ngClass]="{ 'dis-block': showDedupeModal }">
   <div class="modal-dialog">
     <div class="modal-content">
-      <!-- Modal Header -->
       <div class="modal-header text-center">
         <h4 class="modal-title">
           {{ labels?.applicantDedupe }}
           <span class="float-right"></span>
         </h4>
-        <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
       </div>
 
-      <!-- Modal body -->
       <div class="modal-body">
         <p id="">Customer dedupe not found, continuing as new applicant.</p>
       </div>
 
-      <!-- Modal footer -->
       <div class="modal-footer text-center">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="reject_dlead"
           (click)="navigateToSamePage()">
-          <!-- [routerLink]="['/pages/lead-section/',leadId,'/co-applicant/',applicantId]" -->
           OK
         </button>
-        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">
-          Cancel
-        </button> -->
+      
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <app-negative-list-modal [showModal]="showNegativeListModal" [modalInput]="negativeModalInput"
   [udfScreenId]="negativeDedupeUdfScreenId" [udfGroupId]="negativeDedupeUGroupId" (onButtonClick)="negativeListModalListener($event)">

@@ -220,7 +220,7 @@
       </div>
 
       <div class="row">
-        
+
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="earlier_driving">{{ labels.earlierDriving }} <sub class="star_red_col">*</sub></label>
 
@@ -255,7 +255,12 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
           <label for="remarks_others">{{ labels.remarksOthers }} <sub class="star_red_col">*</sub></label>
 
-          <textarea class="form-control mandatory" name="othersRemarks" id="othersRemarks" cols="1" rows="3"
+          <app-custom-textarea [className]="'form-control mandatory'" [placeholder]="'Other Remarks'"
+            [isRequired]="'Remarks are required'" [maxlength]="labels?.validationData.textarea.maxLength"
+            formControlName="othersRemarks" [readonly]="false" [isDirty]="isDirty">
+          </app-custom-textarea>
+
+          <!-- <textarea class="form-control mandatory" name="othersRemarks" id="othersRemarks" cols="1" rows="3"
             placeholder="other remarks" formControlName="othersRemarks" [maxlength]="labels?.validationData.remarks.maxLength"  style="resize: none"></textarea>
 
           <div class="invalid-feedback">
@@ -268,17 +273,11 @@
                 ">
                 Remarks are required
               </div>
+        </div>
+      </div> -->
+        </div>
+      </div>
 
-              <!-- <div *ngIf="
-                  loanDetailsForm.controls['othersRemarks'].hasError('pattern')
-                ">
-                special characters are not allowed
-              </div> -->
-            </div>
-          </div>
-      </div>
-      </div>
-      
 
       <h3 class="banner-con">
         {{ labels.assetDetailsForUsedVehicleTitle }}
@@ -354,7 +353,7 @@
             ">
               Validity date should not be past date
             </div>
-            
+
           </div>
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -420,7 +419,7 @@
           <kendo-datepicker width="100%" class="form-control mandatory" formControlName="insuranceValidity"
             [format]="'dd/MM/yyyy'" placeholder="dd/mm/yyyy" [activeView]="'decade'" [min]="toDayDate">
           </kendo-datepicker>
-          
+
           <div class="invalid-feedback" *ngIf="insRequired">
             <div *ngIf="
             isDirty &&
@@ -442,7 +441,7 @@
         </div>
         <div class="form-group col-sm-6 col-md-3 col-lg-3">
           <label for="hpa_with_nbfc">{{ labels.hpaNbfc }} <sub class="star_red_col">*</sub></label>
-      
+
           <app-vf-custom-select [values]="loanDetailsLov?.commonLov" formControlName="vehicleHpaNbfc"
             [isRequired]="'Please select one'" [isDirty]="isDirty">
           </app-vf-custom-select>
@@ -512,9 +511,16 @@
       <div class="row">
         <div class="form-group col-sm-12 col-md-12 col-lg-12">
           <label for="remarks">{{ labels.remarks }} <sub class="star_red_col">*</sub></label>
-          <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3" placeholder="remarks"
-            formControlName="remarks" [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none"></textarea>
-  
+
+          <app-custom-textarea [className]="'form-control mandatory'" [placeholder]="'Remarks'"
+            [isRequired]="'Remarks are required'" [maxlength]="labels?.validationData.textarea.maxLength"
+            formControlName="remarks" [readonly]="false" [isDirty]="isDirty">
+          </app-custom-textarea>
+
+          <!-- <textarea class="form-control mandatory" name="remarks" id="remarks" cols="1" rows="3" placeholder="remarks"
+            formControlName="remarks" [maxlength]="labels?.validationData.remarks.maxLength"
+            style="resize: none"></textarea>
+
           <div class="invalid-feedback" *ngIf="
             isDirty &&
             !loanDetailsForm.controls['remarks'].valid
@@ -522,11 +528,7 @@
             <div *ngIf="loanDetailsForm.controls['remarks'].hasError('required')">
               remarks are required
             </div>
-  
-            <!-- <div *ngIf="loanDetailsForm.controls['remarks'].hasError('pattern')">
-              special characters are not allowed
-            </div> -->
-          </div>
+          </div> -->
         </div>
       </div>
 

@@ -25,12 +25,12 @@ export class LoanDetailsComponent implements OnInit {
   ngOnInit() {
     const leadSectionData: any = this.leadService.getLeadSectionData();
     const applicantList = leadSectionData.applicantDetails;
-    if(applicantList){
+    if (applicantList) {
       this.customerDetails = applicantList.find((value) => {
         return value.applicantTypeKey === 'APPAPPRELLEAD';
       });
     }
-   
+
 
     // if (this.customerDetails && this.customerDetails.dob) {
     //   const date = new Date(this.customerDetails.dob);
@@ -48,8 +48,14 @@ export class LoanDetailsComponent implements OnInit {
     });
     this.loanAccountDetails = this.loanViewService.getLoanAccountDetails();
     this.address = this.loanViewService.getLoanAccountAddress();
-    if(this.address){
+    if (this.address) {
       this.addressDetails = this.address[0];
+      //       {{addressDetails?.line1 || 'NA'}}
+      // {{addressDetails?.line2}}
+      // {{addressDetails?.line3}}
+      // {{addressDetails?.city}}
+      // {{addressDetails?.state}} - {{addressDetails?.zip}}
+      // {{addressDetails?.country}}
     }
     console.log('this.loanAccountDetails', this.loanAccountDetails);
     console.log('this.addressDetails', this.addressDetails);
