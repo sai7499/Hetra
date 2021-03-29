@@ -549,7 +549,7 @@
               <app-vf-custom-select formControlName="natureOfBorrower"
                 [values]="natureOfBorrow" 
                 (change) = "onChangeBorrower($event.target.value)"
-                [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
+                [isRequired]="'Please select one'" [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
