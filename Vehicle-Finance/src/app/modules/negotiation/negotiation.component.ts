@@ -227,6 +227,7 @@ export class NegotiationComponent implements OnInit {
   isDeferral = false;
   showErrorCollected: boolean;
   invalidPDC: boolean;
+  onApproveOrSave: string;
 
   constructor(
     private labelsData: LabelsService,
@@ -357,18 +358,20 @@ export class NegotiationComponent implements OnInit {
 
   onApprovePdcSpdc(type?: string) {
     let reqForApproval;
+    this.onApproveOrSave = type;
     if(type == 'approval') {
       reqForApproval = true;
+      this.onSubmit();
+      this.onApproveOrSave = '';
     } else {
       reqForApproval = false;
     }
-    this.onSubmit();
     this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.patchValue({
       approvalStatus: 0
     });
     const todayDate = new Date();
     const deferralDate = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.deferralDate;
-    console.log(this.utilityService.getDateFormat(deferralDate));
+    // console.log(this.utilityService.getDateFormat(deferralDate));
     const approvedBy = this.createNegotiationForm.get('tickets')['controls'][0]['controls'].approvalForm.value.approvedBy;
     // delete this.keyValue['Name']
     
@@ -389,7 +392,7 @@ export class NegotiationComponent implements OnInit {
         // this.showButton = false;
         this.isAlreadyApproved = true;
         this.showModal = false;
-        if(this.isAlreadyApproved) {
+        if(this.isAlreadyApproved && this.roleType == '2') {
           this.createNegotiationForm.get('tickets')['controls'][0]['controls'].repaymentmodeArray.disable();
           }
       } else {
@@ -2815,7 +2818,9 @@ setCrosSell(i,val){
   }
 
   onSubmit() {
-  this.onApprovePdcSpdc();
+    if(this.onApproveOrSave != 'approval') {
+      this.onApprovePdcSpdc();
+    }
     // this.getLeadId();
     this.isDirty = true;
     this.onformsubmit = true;
