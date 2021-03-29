@@ -1,9 +1,7 @@
 
 .col-sm-7.text-right.mb-low{margin-top:15px !important;}
 .cam-title{margin-top:0px !important;}
-.row.top_bar {
-    /* padding: 0px; */
-}
+
 .form-group.mb-0 {
     margin-bottom: 0px;
 }
@@ -44,9 +42,7 @@ th{border:1px solid #d6d0d0f5;}
         }
 
 /***PDF DESIGN***/
-.navbar-brand img {
-    /* max-width: 70px !important; */
-}
+
 .caption{
 	color: #fff;
 text-align: center;

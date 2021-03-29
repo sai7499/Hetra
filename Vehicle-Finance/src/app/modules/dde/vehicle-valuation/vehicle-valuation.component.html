@@ -195,18 +195,25 @@
           </div>
           <div class="form-group col-sm-12 col-md-12 col-lg-12 housing">
             <label for="registration_cost">{{ labels.address }}</label>
-            <!-- <input type="text" class="form-control" name="address" id="address" required="required" [value]="address"
-              disabled /> -->
+
             <textarea class="form-control" name="address" [value]="address" disabled>
               </textarea>
+
+            <!-- <app-custom-textarea [className]="'form-control'" [placeholder]="labels?.address"
+              [maxlength]="labels?.validationData.remarks.maxLength" [value]="address" [readonly]="true">
+            </app-custom-textarea> -->
+
           </div>
           <form class="multisteps-form__form" [formGroup]="modalDataForm">
             <div style="padding: 0;" class="form-group col-sm-12 col-md-12 col-lg-12 housing">
               <label for="remarks">{{ labels.referenceRemarks }}
               </label>
-              <textarea class="form-control" [maxlength]="labels?.validationData.remarks.maxLength"
+              <app-custom-textarea [className]="'form-control'" [placeholder]="labels?.referenceRemarks"
+                [maxlength]="labels?.validationData.textarea.maxLength" formControlName="remarks" [readonly]="false">
+              </app-custom-textarea>
+              <!-- <textarea class="form-control" [maxlength]="labels?.validationData.remarks.maxLength"
                 formControlName="remarks">
-              </textarea>
+              </textarea> -->
               <!-- <div class="invalid-feedback">
                 <div *ngIf="isDirty && !modalDataForm.controls['remarks'].value">
                   Remarks is required
@@ -216,7 +223,7 @@
                 </div>
               </div> -->
             </div>
-            <div  class="col-sm-12 col-md-12 col-lg-12 row">
+            <div class="col-sm-12 col-md-12 col-lg-12 row">
               <div>
                 <div style="padding: 0;" *ngIf="isInternalValuator" class="col-sm-3 col-md-3 col-lg-3">
                   <label style="margin-right: 10px;">
@@ -228,72 +235,73 @@
                       formControlName="isInternalValuation" value="0"> External
                   </label>
                 </div>
-                <div class="invalid-feedback col-lg-12 col-md-12 col-sm-12" *ngIf="isDirty && !modalDataForm.get('isInternalValuation').value && isInternalValuator">
+                <div class="invalid-feedback col-lg-12 col-md-12 col-sm-12"
+                  *ngIf="isDirty && !modalDataForm.get('isInternalValuation').value && isInternalValuator">
                   Please select any one valuator
                 </div>
               </div>
               <div *ngIf="modalDataForm.get('isInternalValuation').value == '0' || !isInternalValuator"
-              class="form-group col-sm-6 col-md-4 col-lg-3 housing">
-              <label for="property_located_city">
-                {{ labels.chooseValuator }}
-                <sub class="star_red_col">*</sub>
-              </label>
-              <app-vf-custom-select [values]="vendorDetailsData" formControlName="valuatorCode"
-                (change)="onChangeVendorName($event)">
-              </app-vf-custom-select>
-              <div class="invalid-feedback">
-                <div *ngIf="!modalDataForm.get('valuatorCode').value && isDirty"> Please select any one
-                </div>
-                <!-- <div *ngIf="modalDataForm.get('branchName').hasError('minlength')"> Mininum 3 Charates
+                class="form-group col-sm-6 col-md-4 col-lg-3 housing">
+                <label for="property_located_city">
+                  {{ labels.chooseValuator }}
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="vendorDetailsData" formControlName="valuatorCode"
+                  (change)="onChangeVendorName($event)">
+                </app-vf-custom-select>
+                <div class="invalid-feedback">
+                  <div *ngIf="!modalDataForm.get('valuatorCode').value && isDirty"> Please select any one
+                  </div>
+                  <!-- <div *ngIf="modalDataForm.get('branchName').hasError('minlength')"> Mininum 3 Charates
                   required</div> -->
-              </div>
-            </div>
-            <!--  -->
-            <div *ngIf="modalDataForm.get('isInternalValuation').value == '1' "
-              class="form-group col-sm-4 col-md-4 col-lg-3 housing">
-
-
-              <label for="property_located_city">
-                Select Branch
-                <sub class="star_red_col">*</sub>
-              </label>
-              <app-vf-custom-select [values]="branchDetails" formControlName="branchName"
-                 (change)="onChangeBranchName($event.target.value)">
-              </app-vf-custom-select>
-              <div class="invalid-feedback">
-                <div *ngIf="!modalDataForm.get('branchName').value && isDirty"> Please select any one
                 </div>
-                <!-- <div *ngIf="modalDataForm.get('branchName').hasError('minlength')"> Mininum 3 Charates
-                  required</div> -->
               </div>
-            </div>
-            <div *ngIf="modalDataForm.get('isInternalValuation').value == '1' "
-              class="form-group col-sm-4 col-md-4 col-lg-3 housing">
+              <!--  -->
+              <div *ngIf="modalDataForm.get('isInternalValuation').value == '1' "
+                class="form-group col-sm-4 col-md-4 col-lg-3 housing">
 
-              <label for="property_located_city">
-                Select User
-                <sub class="star_red_col">*</sub>
-              </label>
-              <ng-autocomplete class="custom-select-box" [data]="userDetails" [searchKeyword]="'value'"
-                (selected)='selectBankNameEvent($event)' (inputChanged)='onBankNameSearch($event)'
-                (inputCleared)='onBankNameClear($event)' [itemTemplate]="favBankNameTemplate"
-                [notFoundTemplate]="notFoundTemplate" formControlName="internalValuationUser"
-                [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="3">
-              </ng-autocomplete>
-              <div class="invalid-feedback">
-                <div *ngIf="modalDataForm.get('internalValuationUser').hasError('required') && isDirty"> User name
-                  required.</div>
-                <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
-                  required</div>
+
+                <label for="property_located_city">
+                  Select Branch
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <app-vf-custom-select [values]="branchDetails" formControlName="branchName"
+                  (change)="onChangeBranchName($event.target.value)">
+                </app-vf-custom-select>
+                <div class="invalid-feedback">
+                  <div *ngIf="!modalDataForm.get('branchName').value && isDirty"> Please select any one
+                  </div>
+                  <!-- <div *ngIf="modalDataForm.get('branchName').hasError('minlength')"> Mininum 3 Charates
+                  required</div> -->
+                </div>
               </div>
-              <ng-template #favBankNameTemplate let-item>
-                <a [innerHTML]="item.Name"></a>
-              </ng-template>
-              <ng-template #notFoundTemplate let-notFound>
-                <div [innerHTML]="notFound"></div>
-              </ng-template>
-            </div>
-           
+              <div *ngIf="modalDataForm.get('isInternalValuation').value == '1' "
+                class="form-group col-sm-4 col-md-4 col-lg-3 housing">
+
+                <label for="property_located_city">
+                  Select User
+                  <sub class="star_red_col">*</sub>
+                </label>
+                <ng-autocomplete class="custom-select-box" [data]="userDetails" [searchKeyword]="'value'"
+                  (selected)='selectBankNameEvent($event)' (inputChanged)='onBankNameSearch($event)'
+                  (inputCleared)='onBankNameClear($event)' [itemTemplate]="favBankNameTemplate"
+                  [notFoundTemplate]="notFoundTemplate" formControlName="internalValuationUser"
+                  [placeHolder]="'Search users'" [debounceTime]="400" [minQueryLength]="3">
+                </ng-autocomplete>
+                <div class="invalid-feedback">
+                  <div *ngIf="modalDataForm.get('internalValuationUser').hasError('required') && isDirty"> User name
+                    required.</div>
+                  <div *ngIf="modalDataForm.get('internalValuationUser').hasError('minlength')"> Mininum 3 Charates
+                    required</div>
+                </div>
+                <ng-template #favBankNameTemplate let-item>
+                  <a [innerHTML]="item.Name"></a>
+                </ng-template>
+                <ng-template #notFoundTemplate let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+              </div>
+
             </div>
             <div class="row text-right">
               <button type="button" class="btn btn-primary table-head-bg" data-target="#myModal_one" (click)="okModal()"
@@ -307,14 +315,14 @@
               </button>
             </div>
 
-            
 
-            
+
+
             <!--  -->
           </form>
         </div>
       </div>
-     
+
     </div>
   </div>
 </div>

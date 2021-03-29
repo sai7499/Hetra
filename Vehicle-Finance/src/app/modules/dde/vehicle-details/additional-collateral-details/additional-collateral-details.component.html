@@ -485,7 +485,13 @@
                                     <sub class="star_red_col">*</sub>
                                 </label>
 
-                                <textarea class="form-control mandatory" name="property_address" id="property_address"
+                                <app-custom-textarea [className]="'form-control mandatory'"
+                                    [placeholder]="label?.propertyAddress"
+                                    [maxlength]="label?.validationData.textarea.maxLength" formControlName="propertyAddress"
+                                    [isRequired]="'Property Address Required'" [isDirty]="isDirty" [readonly]="false">
+                                </app-custom-textarea>
+
+                                <!-- <textarea class="form-control mandatory" name="property_address" id="property_address"
                                     cols="1" rows="3" placeholder="Property Address" formControlName="propertyAddress"
                                     maxlength="300" style="resize: none;"></textarea>
 
@@ -494,7 +500,7 @@
                                     <div *ngIf="obj.controls['propertyAddress'].hasError('required')">
                                         Property Address Required
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                         </div>

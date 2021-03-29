@@ -1,14 +1,14 @@
 <div class="content">
   <form class="multisteps-form__form" method="POST" [formGroup]="basicForm">
     <div class="multisteps-form__panel js-active js-active" id="form-class" data-animation="scaleIn">
-  <div class="row">
-    <h3 class="banner-con">
-      Basic Applicant Details 
-      <span style="float: right;">{{udfScreenId}}</span>
-    </h3>
-  </div>
+      <div class="row">
+        <h3 class="banner-con">
+          Basic Applicant Details
+          <span style="float: right;">{{udfScreenId}}</span>
+        </h3>
+      </div>
 
-      
+
 
       <div class="btn-sec clear-both row">
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -19,8 +19,9 @@
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-4" *ngIf="!isIndividual">
           <label for="Vechical Type">Business Entity Type <sub class="star_red_col">*</sub></label>
-          <app-vf-custom-select [values]="applicantLov?.bussinessEntityType" [isRequired]="!isUCICavail ? 'Please select one' : ''"
-            [isDirty]="isDirty" formControlName="bussinessEntityType"></app-vf-custom-select>
+          <app-vf-custom-select [values]="applicantLov?.bussinessEntityType"
+            [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty"
+            formControlName="bussinessEntityType"></app-vf-custom-select>
         </div>
 
         <div class="col-sm-4 col-md-4 col-lg-4 col-xs-12">
@@ -39,7 +40,7 @@
           <label for="Vechical Type">{{ labels?.relationWithApplicant }}
             <sub class="star_red_col">*</sub></label>
           <app-vf-custom-select formControlName="applicantRelationship" [values]="relationShipLov"
-           [isRequired]="'Please select one'" [isDirty]="isDirty">
+            [isRequired]="'Please select one'" [isDirty]="isDirty">
           </app-vf-custom-select>
         </div>
         <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -82,7 +83,8 @@
                 formControlName="name1"
               /> -->
               <app-custom-input formControlName="name1" [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="' First Name is required'" [isDirty]="isDirty" [type]="validationData?.nameWithoutSpace?.type">
+                [isRequired]="' First Name is required'" [isDirty]="isDirty"
+                [type]="validationData?.nameWithoutSpace?.type">
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-3">
@@ -105,7 +107,8 @@
                 formControlName="name3"
               /> -->
               <app-custom-input formControlName="name3" [maxLength]="validationData?.name?.maxLength"
-                [isRequired]="islastNameReq ? 'Last Name is required' : ''" [isDirty]="isDirty" [type]="validationData?.nameWithoutSpace?.type">
+                [isRequired]="islastNameReq ? 'Last Name is required' : ''" [isDirty]="isDirty"
+                [type]="validationData?.nameWithoutSpace?.type">
               </app-custom-input>
             </div>
           </div>
@@ -123,8 +126,9 @@
                 formControlName="mobilePhone"
               /> -->
               <app-custom-input formControlName="mobilePhone" [patternCheck]="validationData?.mobile?.patternCheck"
-                [isRequired]="!isUCICavail ? 'Mobile Number is required' : ''" [maxLength]="validationData?.mobile?.maxLength"
-                [isDirty]="isDirty" [type]="validationData?.mobile?.type"></app-custom-input>
+                [isRequired]="!isUCICavail ? 'Mobile Number is required' : ''"
+                [maxLength]="validationData?.mobile?.maxLength" [isDirty]="isDirty"
+                [type]="validationData?.mobile?.type"></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
               <label for="date_of_birth">{{ labels?.dateOfBirth }}
@@ -299,7 +303,8 @@
                 formControlName="motherMaidenName"
               /> -->
               <app-custom-input formControlName="motherMaidenName" [maxLength]="validationData?.name?.maxLength"
-                [isDirty]="isDirty" [isRequired]="!isUCICavail ?'Mother name is Required' : ''" [type]="validationData?.name?.type">
+                [isDirty]="isDirty" [isRequired]="!isUCICavail ?'Mother name is Required' : ''"
+                [type]="validationData?.name?.type">
               </app-custom-input>
             </div>
           </div>
@@ -343,7 +348,8 @@
                 name="alternate_email_id"
                 formControlName="alternateEmailId"
               /> -->
-              <app-custom-input formControlName="alternateEmailId" [patternCheck]="validationData?.emailPattern?.patternCheck"
+              <app-custom-input formControlName="alternateEmailId"
+                [patternCheck]="validationData?.emailPattern?.patternCheck"
                 [maxLength]="validationData?.emailPattern?.maxLength"></app-custom-input>
             </div>
           </div>
@@ -533,7 +539,8 @@
               <label for="customer_category">{{labels?.politicallyExposedPerson}} <sub class="star_red_col">*</sub>
               </label>
               <app-vf-custom-select formControlName="politicallyExposedPerson"
-                [values]="applicantLov?.politicallyExposed" [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
+                [values]="applicantLov?.politicallyExposed" [isRequired]="!isUCICavail ? 'Please select one' : ''"
+                [isDirty]="isDirty">
               </app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -560,9 +567,13 @@
 
               <label for="recommendations">{{ labels?.recommendations }}
               </label>
-              <textarea class="form-control" id="recommendations" cols="1" rows="3" placeholder="Recommendations"
+              <app-custom-textarea formControlName="recommendations" [className]="'form-control'"
+                [placeholder]="'Recommendations'" [maxLength]="labels?.validationData.textarea.maxLength"
+                [readonly]="false">
+              </app-custom-textarea>
+              <!--  <textarea class="form-control" id="recommendations" cols="1" rows="3" placeholder="Recommendations"
                 formControlName="recommendations" 
-                [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none;"></textarea>
+                [maxlength]="labels?.validationData.remarks.maxLength" style="resize: none;"></textarea> -->
 
             </div>
           </div>
@@ -629,9 +640,10 @@
               <label for="contact_person_mobile_number">{{ labels?.contactNumber }}
                 <sub class="star_red_col">*</sub></label>
 
-              <app-custom-input formControlName="companyPhoneNumber" [isRequired]="!isUCICavail ? 'Contact Number is required' : ''"
-                [isDirty]="isDirty" [maxLength]="validationData?.mobileNumber?.maxLength"
-                [type]="validationData?.mobileNumber?.type" [patternCheck]="validationData?.mobileNumber?.patternCheck">
+              <app-custom-input formControlName="companyPhoneNumber"
+                [isRequired]="!isUCICavail ? 'Contact Number is required' : ''" [isDirty]="isDirty"
+                [maxLength]="validationData?.mobileNumber?.maxLength" [type]="validationData?.mobileNumber?.type"
+                [patternCheck]="validationData?.mobileNumber?.patternCheck">
               </app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -878,7 +890,8 @@
                 class="form-control"
                 id="amount"
               /> -->
-              <app-custom-input formControlName="companyEmailId" [patternCheck]="validationData?.emailPattern?.patternCheck"
+              <app-custom-input formControlName="companyEmailId"
+                [patternCheck]="validationData?.emailPattern?.patternCheck"
                 [maxLength]="validationData?.emailPattern?.maxLength"></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -891,7 +904,8 @@
                 class="form-control"
                 id="amount"
               /> -->
-              <app-custom-input formControlName="alternateEmailId" [patternCheck]="validationData?.emailPattern?.patternCheck"
+              <app-custom-input formControlName="alternateEmailId"
+                [patternCheck]="validationData?.emailPattern?.patternCheck"
                 [maxLength]="validationData?.emailPattern?.maxLength"></app-custom-input>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">
@@ -911,7 +925,8 @@
                                 <option>Select</option>
                             </select> -->
               <app-vf-custom-select formControlName="preferredLanguageCommunication"
-                [values]="applicantLov?.preferredLanguage" [isRequired]="!isUCICavail ? 'Please select one' : ''" [isDirty]="isDirty">
+                [values]="applicantLov?.preferredLanguage" [isRequired]="!isUCICavail ? 'Please select one' : ''"
+                [isDirty]="isDirty">
                 ></app-vf-custom-select>
             </div>
             <div class="form-group col-sm-6 col-md-4 col-lg-4">

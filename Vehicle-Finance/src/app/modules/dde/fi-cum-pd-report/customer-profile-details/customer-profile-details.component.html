@@ -80,11 +80,14 @@
       <div class="form-group col-sm-6 col-md-3 col-lg-3">
         <label for="mismatch_address">{{ labels.mismatchOfficeBusinsessAddress }}
           <sub class="star_blue_col">*</sub></label>
-        <textarea class="form-control mandatory" name="mismatchInAddress" id="mismatchInAddress" cols="1" rows="3"
+        <app-custom-textarea [className]="'form-control mandatory'" [placeholder]="'Content Goes here......'"
+          [isRequired]="'mismatch in address is Required'" [maxlength]="labels?.validationData.textarea.maxLength"
+          formControlName="mismatchInAddress" [readonly]="false" [isDirty]="isDirty">
+        </app-custom-textarea>
+        <!-- <textarea class="form-control mandatory" name="mismatchInAddress" id="mismatchInAddress" cols="1" rows="3"
           placeholder="mismatch in Address" formControlName="mismatchInAddress" maxlength="200"
-          style="resize: none"></textarea>
-
-        <div class="invalid-feedback" *ngIf=" isDirty && 
+          style="resize: none"></textarea> 
+           <div class="invalid-feedback" *ngIf=" isDirty && 
             !customerProfileForm.controls['mismatchInAddress'].vaild
           ">
           <div *ngIf="
@@ -94,7 +97,7 @@
             ">
             mismatch in address is Required
           </div>
-        </div>
+        </div> -->
         <div *ngIf="
         customerProfileForm.controls['mismatchInAddress'].hasError(
           'pattern'

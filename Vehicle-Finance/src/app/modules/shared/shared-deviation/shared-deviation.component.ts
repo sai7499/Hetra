@@ -403,8 +403,6 @@ export class SharedDeviationComponent implements OnInit {
         const operationType = this.toggleDdeService.getOperationType();
         let isViewDde = localStorage.getItem('isNeedBackButton') && localStorage.getItem('isNeedBackButton') === 'true' ? true : false;
 
-        console.log(operationType, 'operationType', isViewDde)
-
         if (isViewDde) {
           this.disableSaveBtn = true;
           this.deviationsForm.disable()

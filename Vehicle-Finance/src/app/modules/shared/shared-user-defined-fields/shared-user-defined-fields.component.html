@@ -28,9 +28,16 @@
                     [isDirty]="isDirty">
                 </app-vf-custom-select>
 
-                <textarea *ngIf="arrayItem.contorlType === 'textarea'" class="form-control mandatory" cols="1" rows="3"
+                <!-- <textarea *ngIf="arrayItem.contorlType === 'textarea'" class="form-control mandatory" cols="1" rows="3"
                     [placeholder]="arrayItem.placeholder" [formControl]="dynamicForm.controls[arrayItem.name]"
-                    maxlength="120" style="resize: none;"></textarea>
+                    maxlength="120" style="resize: none;"></textarea> -->
+
+                <app-custom-textarea *ngIf="arrayItem.contorlType === 'textarea'"
+                    [isRequired]="arrayItem.mandatory ? arrayItem.placeholder + ' is Required' : ''"
+                    [formControl]="dynamicForm.controls[arrayItem.name]" [className]="'form-control mandatory'"
+                    [placeholder]="arrayItem.placeholder" [maxLength]="arrayItem.maxLength"
+                    [readonly]="arrayItem.disable">
+                </app-custom-textarea>
 
                 <input class="ml" type="checkbox" [formControl]="dynamicForm.controls[arrayItem.name]"
                     *ngIf="arrayItem.contorlType === 'checkbox'" />
