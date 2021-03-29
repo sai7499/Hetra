@@ -297,6 +297,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   defDocs: any;
   defDocNames: any;
   keyValue: any;
+  tabId = [];
+  ddeTab: boolean;
+  dashboardTabs: any;
 
   constructor(
     private fb: FormBuilder,
@@ -527,7 +530,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loanMaxAmtChange();
     this.loanMinAmtChange();
     this.onFromDateChange();
-    this.onFetchDashboardTabs();
+    // this.onFetchDashboardTabs();
     const currentUrl = this.location.path();
     const value = localStorage.getItem('ddePath');
     const currentLabel = JSON.parse(value);
@@ -1103,7 +1106,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       const apiErrorCode = parseInt(res.ProcessVariables.error.code);
       if(apiError === 0 && apiErrorCode === 0) {
       console.log('dashboardTabs', tabList);
-
+        this.dashboardTabs = tabList;
+      // tabList.forEach(e => {
+      //   this.tabId = e.tabID;
+      // })
+      console.log(this.tabId);
+      for (let i = 0; i < tabList.length; i++) {
+        const tabId  = tabList[i].tabID;
+        this.tabId.push(tabId);
+      }
+      console.log('tabId', this.tabId);
       } else {
         this.toasterService.showError(res.ProcessVariables.error.message ,'')
       }
@@ -1266,7 +1278,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByReqOn: this.sortByReqOn,
       sortByReqBy: this.sortByReqBy,
       sortAsc: this.sortAsc,
-      sortDesc: this.sortDesc
+      sortDesc: this.sortDesc,
+      loggedInUserId:  localStorage.getItem('userId')
     };
 
     this.responseForSales(data);
@@ -1340,7 +1353,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByReqOn: this.sortByReqOn,
       sortByReqBy: this.sortByReqBy,
       sortAsc: this.sortAsc,
-      sortDesc: this.sortDesc
+      sortDesc: this.sortDesc,
+      loggedInUserId:  localStorage.getItem('userId')
     };
 
     this.responseForCredit(data);
@@ -1402,7 +1416,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByReqBy: this.sortByReqBy,
       sortAsc: this.sortAsc,
       sortDesc: this.sortDesc,
-      isBM: this.isBM
+      isBM: this.isBM,
+      loggedInUserId: localStorage.getItem('userId')
     };
     this.responseForEcxternalUser(data);
   }
@@ -1434,7 +1449,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortByDefDate: this.sortByDefDate,
       sortByReqOn: this.sortByReqOn,
       sortByReqBy: this.sortByReqBy,
-      sortByStage: this.sortByStage
+      sortByStage: this.sortByStage,
+      loggedInUserId:  localStorage.getItem('userId')
     };
     if (data.taskName == 'TrancheDisbursement')
       this.responseForTrancheDisburse(data);
