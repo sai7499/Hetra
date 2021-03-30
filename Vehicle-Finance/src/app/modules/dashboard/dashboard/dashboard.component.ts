@@ -522,7 +522,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       loanMinAmt: [null],
       loanMaxAmt: [null],
       deferralType: [''],
-      deferralDocName: ['']
+      deferralDocName: [''],
+      deferralDate: ['']
 
     });
     this.getLov();
@@ -1260,6 +1261,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
       deferralType: this.filterFormDetails ? this.deferralType : '',
       deferralDocName: this.filterFormDetails ? this.keyValue : '',
+      deferralDate: this.filterFormDetails ? this.filterFormDetails.deferralDate : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1338,6 +1340,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
       deferralType: this.filterFormDetails ? this.deferralType : '',
       deferralDocName: this.filterFormDetails ? this.keyValue : '',
+      deferralDate: this.filterFormDetails ? this.filterFormDetails.deferralDate : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1397,6 +1400,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       loanNumber: this.filterFormDetails ? this.filterFormDetails.loanNumber : '',
       disbursementDate: this.filterFormDetails ? this.filterFormDetails.disbursementDate : '',
       expectedDate: this.filterFormDetails ? this.filterFormDetails.expectedDate : '',
+      deferralType: this.filterFormDetails ? this.deferralType : '',
+      deferralDocName: this.filterFormDetails ? this.keyValue : '',
+      deferralDate: this.filterFormDetails ? this.filterFormDetails.deferralDate : '',
       sortByDate: this.sortByDate,
       sortByLead: this.sortByLead,
       sortByLoanAmt: this.sortByLoanAmt,
@@ -1667,6 +1673,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.keyValue = '';
     this.filterForm.reset();
     this.filterFormDetails = {};
+    this.deferralType = '';
     this.onTabsLoading(this.subActiveTab);
   }
 
@@ -1684,6 +1691,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       );
       this.filterFormDetails.disbursementDate = this.utilityService.getDateFormat(this.filterFormDetails.disbursementDate);
       this.filterFormDetails.expectedDate = this.utilityService.getDateFormat(this.filterFormDetails.expectedDate);
+      this.filterFormDetails.deferralDate = this.utilityService.getDateFormat(this.filterFormDetails.deferralDate);
       this.onTabsLoading(this.subActiveTab);
     } else {
       this.toasterService.showError('Please fill atleast one field.', 'Filter Details');

@@ -729,12 +729,19 @@ export class ValuationComponent implements OnInit {
   validateDateOfReg() {
     const regDate = new Date(this.vehicleValuationForm.get('registerationDetails').value.dateofReg)
       ? new Date(this.vehicleValuationForm.get('registerationDetails').value.dateofReg) : null;
-    console.log('reg date', regDate);
+    console.log('reg date',regDate);
     const mfctrDate = new Date(this.vehicleValuationForm.get('registerationDetails').value.yearOfManufacturer)
       ? new Date(this.vehicleValuationForm.get('registerationDetails').value.yearOfManufacturer) : null;
-    console.log('mfctr date', mfctrDate);
+    const dateFormat: Date = mfctrDate;
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = '01';
+    const newMfctrDate :any = day + '/' + month1 + '/' + year;
+    // const newRegDate = this.utilityService.getDateFormat(regDate);
+      console.log('mfctr date', newMfctrDate);
     if (regDate !== null && mfctrDate !== null) {
-      if (regDate < mfctrDate) {
+      if (regDate < new Date(newMfctrDate)) {
         this.invalidRegDate = true;
         this.toasterService.showWarning('Registration Date should be greater than Month and Year Of Manufacture', '');
       } else {
@@ -2199,7 +2206,13 @@ export class ValuationComponent implements OnInit {
 
     recomendationDetails.valuationDate = this.utilityService.convertDateTimeTOUTC(recomendationDetails.valuationDate, 'DD/MM/YYYY');
     // insuranceDetails.idvValidityDate = this.utilityService.convertDateTimeTOUTC(insuranceDetails.idvValidityDate, 'DD/MM/YYYY');
-    registerationDetails.yearOfManufacturer = this.utilityService.convertDateTimeTOUTC(registerationDetails.yearOfManufacturer, 'DD/MM/YYYY');
+    const dateFormat: Date = registerationDetails.yearOfManufacturer;
+    const year = dateFormat.getFullYear();
+    const month = Number(dateFormat.getMonth()) + 1;
+    const month1 = month < 10 ? '0' + month.toString() : '' + month.toString(); // ('' + month) for string result
+    let day = '01';
+    const newMfctrDate :any = day + '/' + month1 + '/' + year;
+    registerationDetails.yearOfManufacturer = newMfctrDate;
     registerationDetails.dateofReg = this.utilityService.convertDateTimeTOUTC(registerationDetails.dateofReg, 'DD/MM/YYYY');
     inspectionDetails.inspectionDate = this.utilityService.convertDateTimeTOUTC(inspectionDetails.inspectionDate, 'DD/MM/YYYY');
     permitAndTaxDetails.permitValidUpto = permitAndTaxDetails.permitValidUpto ? this.utilityService.convertDateTimeTOUTC(permitAndTaxDetails.permitValidUpto, 'DD/MM/YYYY') : '';
